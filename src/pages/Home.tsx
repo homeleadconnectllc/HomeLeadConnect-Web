@@ -1,19 +1,114 @@
-export default function Home() {
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+
+const features = [
+  "Website",
+  "CRM",
+  "SaaS",
+  "Mobile App",
+  "API",
+  "Database",
+  "AI",
+  "Automations",
+];
+
+export default function HomePage() {
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        background: "#0f172a",
-        color: "white",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <h1>🏠 HomeLead Connect</h1>
-      <h2>One Platform. Every Home Service.</h2>
-      <p>Website • CRM • SaaS • Mobile • AI</p>
-    </main>
+    <>
+      <Navbar />
+
+      <main
+        style={{
+          minHeight: "100vh",
+          background: "#0f172a",
+          color: "white",
+          textAlign: "center",
+          padding: "100px 20px",
+        }}
+      >
+        <h1
+          style={{
+            fontSize: "64px",
+            lineHeight: "1.2",
+            marginBottom: "24px",
+          }}
+        >
+          HomeLead Connect
+          <br />
+          One Platform. Every Home Service.
+        </h1>
+
+        <p
+          style={{
+            maxWidth: "700px",
+            margin: "0 auto 40px",
+            lineHeight: "1.6",
+            fontSize: "20px",
+          }}
+        >
+          Connecting homeowners, contractors, subcontractors, and businesses
+          through one modern platform.
+        </p>
+
+        <div
+          style={{
+            display: "flex",
+            gap: "20px",
+            justifyContent: "center",
+            flexWrap: "wrap",
+            marginBottom: "60px",
+          }}
+        >
+          <button
+            style={{
+              padding: "14px 28px",
+              borderRadius: "8px",
+              border: "none",
+              cursor: "pointer",
+            }}
+          >
+            Get Started
+          </button>
+
+          <button
+            style={{
+              padding: "14px 28px",
+              borderRadius: "8px",
+              border: "1px solid white",
+              background: "transparent",
+              color: "white",
+              cursor: "pointer",
+            }}
+          >
+            Learn More
+          </button>
+        </div>
+
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+            gap: "20px",
+            maxWidth: "1000px",
+            margin: "0 auto",
+          }}
+        >
+          {features.map((feature) => (
+            <div
+              key={feature}
+              style={{
+                background: "#1e293b",
+                padding: "30px",
+                borderRadius: "12px",
+              }}
+            >
+              <h3>{feature}</h3>
+            </div>
+          ))}
+        </div>
+      </main>
+
+      <Footer />
+    </>
   );
 }
