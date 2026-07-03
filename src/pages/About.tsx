@@ -1,8 +1,17 @@
-export default function About() {
+export default function AboutPage() {
   return (
-    <div style={{ padding: 40 }}>
-      <h1>About</h1>
-      <p>HomeLead Connect is building the future of home services.</p>
+    <div
+      style={{
+        padding: "80px",
+        textAlign: "center",
+      }}
+    >
+      <h1>About HomeLead Connect</h1>
+
+      <p>
+        HomeLead Connect is building one platform for homeowners,
+        contractors, subcontractors, and businesses.
+      </p>
     </div>
   );
 }
