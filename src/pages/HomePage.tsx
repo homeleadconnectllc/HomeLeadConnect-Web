@@ -1,4 +1,13 @@
-import { features } from "./FeaturesPage";
+const features = [
+  "Website",
+  "CRM",
+  "SaaS",
+  "Mobile App",
+  "API",
+  "Database",
+  "AI",
+  "Automations",
+];
 
 export default function HomePage() {
   return (
