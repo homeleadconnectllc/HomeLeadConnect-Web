@@ -1,11 +1,11 @@
+import type { ReactNode } from "react";
 import {
   createContext,
   useContext,
   useEffect,
   useState,
-  ReactNode,
 } from "react";
-import { Session } from "@supabase/supabase-js";
+import type { Session } from "@supabase/supabase-js";
 import { supabase } from "../lib/supabase";
 
 type AuthContextType = {

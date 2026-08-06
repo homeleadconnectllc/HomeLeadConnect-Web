@@ -1,4 +1,6 @@
-const logo = "/logo.png";
+import { Link } from "react-router-dom";
+
+const logo = "/branding/hlc-logo-full.png";
 
 export default function Navbar() {
   return (
@@ -24,7 +26,7 @@ export default function Navbar() {
           alt="HomeLead Connect LLC"
           style={{
             height: "50px",
-            width: "50px",
+            width: "auto",
             objectFit: "contain",
           }}
         />
@@ -33,24 +35,26 @@ export default function Navbar() {
       </div>
 
       <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
-        <a href="/" style={{ color: "white", textDecoration: "none" }}>
+        <Link to="/" style={{ color: "white", textDecoration: "none" }}>
           Home
-        </a>
+        </Link>
 
-        <a href="/contact" style={{ color: "white", textDecoration: "none" }}>
+        <Link to="/contact" style={{ color: "white", textDecoration: "none" }}>
           Contact
-        </a>
+        </Link>
 
-        <button
-          style={{
-            padding: "10px 18px",
-            borderRadius: "8px",
-            border: "none",
-            cursor: "pointer",
-          }}
-        >
-          CRM Login
-        </button>
+        <Link to="/login">
+          <button
+            style={{
+              padding: "10px 18px",
+              borderRadius: "8px",
+              border: "none",
+              cursor: "pointer",
+            }}
+          >
+            CRM Login
+          </button>
+        </Link>
       </div>
     </nav>
   );
