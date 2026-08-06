@@ -21,15 +21,25 @@ export default function Navbar() {
           gap: "12px",
         }}
       >
-        <img
-          src={logo}
-          alt="HomeLead Connect LLC"
+        <div
           style={{
-            height: "50px",
-            width: "auto",
-            objectFit: "contain",
+            background: "white",
+            padding: "8px 14px",
+            borderRadius: "10px",
+            display: "flex",
+            alignItems: "center",
           }}
-        />
+        >
+          <img
+            src={logo}
+            alt="HomeLead Connect LLC"
+            style={{
+              height: "72px",
+              width: "auto",
+              objectFit: "contain",
+            }}
+          />
+        </div>
 
         <h2 style={{ margin: 0 }}>HomeLead Connect</h2>
       </div>
