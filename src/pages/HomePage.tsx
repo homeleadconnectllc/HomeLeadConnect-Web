@@ -3,19 +3,19 @@ import Footer from "../components/Footer";
 const features = [
   {
     title: "CRM Platform",
-    text: "Manage customers, leads, jobs, and growth from one command center."
+    text: "Manage leads, customers, jobs, and revenue from one connected command center."
   },
   {
     title: "AI Automation",
-    text: "Automate follow-ups, communication, and business workflows."
+    text: "Automate follow-ups, workflows, and customer communication."
   },
   {
     title: "Contractor Network",
-    text: "Connect homeowners and service professionals efficiently."
+    text: "Connect homeowners with trusted service professionals."
   },
   {
-    title: "Websites & Leads",
-    text: "Generate leads with integrated digital tools."
+    title: "Growth Engine",
+    text: "Websites, leads, analytics, and tools built into one ecosystem."
   }
 ];
 
@@ -24,219 +24,187 @@ export default function HomePage() {
     <>
       <main
         style={{
+          minHeight: "100vh",
           background:
-            "linear-gradient(180deg,#ffffff 0%,#f8fafc 100%)",
-          color:"#111827",
-          minHeight:"100vh",
-          padding:"40px 24px"
+            "radial-gradient(circle at top,#dbeafe 0%,#ffffff 45%,#f8fafc 100%)",
+          color: "#0f172a",
+          padding: "40px 24px"
         }}
       >
-
         <section
           style={{
-            maxWidth:"1200px",
-            margin:"0 auto",
-            textAlign:"center",
-            padding:"80px 0"
+            maxWidth: 1200,
+            margin: "0 auto",
+            textAlign: "center",
+            padding: "90px 0 50px"
           }}
         >
-
-          <img
-            src="/hlc-icon.jpeg"
-            alt="HomeLead Connect"
+          <div
             style={{
-              width:120,
-              height:120,
-              objectFit:"contain",
-              background:"#fff",
-              borderRadius:24,
-              marginBottom:35
+              display: "inline-flex",
+              background: "#fff",
+              padding: 18,
+              borderRadius: 30,
+              boxShadow: "0 25px 70px rgba(15,23,42,.12)"
             }}
-          />
+          >
+            <img
+              src="/hlc-icon.jpeg"
+              alt="HomeLead Connect"
+              style={{
+                width: 110,
+                height: 110,
+                objectFit: "contain"
+              }}
+            />
+          </div>
 
           <h1
             style={{
-              fontSize:"clamp(48px,7vw,84px)",
-              lineHeight:1,
-              letterSpacing:"-3px",
-              margin:"0 auto 30px",
-              maxWidth:900,
-              fontWeight:900
+              fontSize: "clamp(52px,8vw,96px)",
+              lineHeight: .95,
+              letterSpacing: "-4px",
+              fontWeight: 900,
+              margin: "45px auto 25px",
+              maxWidth: 950
             }}
           >
-            The Future Of<br/>Home Services
+            The Future Of
+            <br />
+            Home Services
           </h1>
 
           <p
             style={{
-              maxWidth:750,
-              margin:"0 auto 45px",
-              fontSize:22,
-              lineHeight:1.6,
-              color:"#475569"
+              maxWidth: 760,
+              margin: "0 auto",
+              fontSize: 22,
+              lineHeight: 1.6,
+              color: "#475569"
             }}
           >
-            One connected platform for CRM, leads, websites, AI automation, contractors, and business growth.
+            One connected platform for CRM, leads, websites, AI automation,
+            contractors, and business growth.
           </p>
-
 
           <div
             style={{
-              display:"flex",
-              justifyContent:"center",
-              gap:18,
-              flexWrap:"wrap"
+              marginTop: 40,
+              display: "flex",
+              justifyContent: "center",
+              gap: 18,
+              flexWrap: "wrap"
             }}
           >
-
             <button
               style={{
-                background:"#111827",
-                color:"#fff",
-                border:0,
-                borderRadius:14,
-                padding:"18px 36px",
-                fontSize:18,
-                fontWeight:800
+                background: "#2563eb",
+                color: "white",
+                border: 0,
+                borderRadius: 16,
+                padding: "18px 38px",
+                fontSize: 18,
+                fontWeight: 800
               }}
             >
               Launch Platform
             </button>
 
-
             <button
               style={{
-                background:"#fff",
-                color:"#111827",
-                border:"1px solid #cbd5e1",
-                borderRadius:14,
-                padding:"18px 36px",
-                fontSize:18,
-                fontWeight:800
+                background: "white",
+                border: "1px solid #cbd5e1",
+                borderRadius: 16,
+                padding: "18px 38px",
+                fontSize: 18,
+                fontWeight: 800
               }}
             >
-              View Features
+              Explore Features
             </button>
-
           </div>
-
         </section>
-
-
 
         <section
           style={{
-            maxWidth:1100,
-            margin:"0 auto",
-            background:"#ffffff",
-            borderRadius:30,
-            padding:35,
-            boxShadow:"0 30px 80px rgba(0,0,0,.08)",
-            border:"1px solid #e5e7eb"
+            maxWidth: 1100,
+            margin: "30px auto",
+            background: "#0f172a",
+            borderRadius: 32,
+            padding: 35,
+            color: "white",
+            boxShadow: "0 40px 100px rgba(15,23,42,.25)"
           }}
         >
+          <h2 style={{fontSize:42}}>
+            HomeLead Command Center
+          </h2>
+
+          <p
+            style={{
+              color:"#cbd5e1",
+              fontSize:20
+            }}
+          >
+            Your complete business operating system.
+          </p>
 
           <div
             style={{
-              background:"#0f172a",
-              borderRadius:22,
-              minHeight:360,
-              padding:35,
-              color:"#fff",
-              display:"flex",
-              flexDirection:"column",
-              justifyContent:"center"
+              marginTop:35,
+              display:"grid",
+              gridTemplateColumns:"repeat(auto-fit,minmax(180px,1fr))",
+              gap:20
             }}
           >
-
-            <h2
-              style={{
-                fontSize:40,
-                marginBottom:15
-              }}
-            >
-              HomeLead Command Center
-            </h2>
-
-            <p
-              style={{
-                fontSize:20,
-                color:"#cbd5e1",
-                maxWidth:650
-              }}
-            >
-              Your CRM dashboard, customer pipeline, contractor
-              management, and business intelligence in one place.
-            </p>
-
-
-            <div
-              style={{
-                display:"grid",
-                gridTemplateColumns:
-                "repeat(auto-fit,minmax(150px,1fr))",
-                gap:18,
-                marginTop:35
-              }}
-            >
-
-              {["Leads","Customers","Jobs","Revenue"].map(item=>(
-                <div
-                  key={item}
-                  style={{
-                    background:"rgba(255,255,255,.1)",
-                    padding:20,
-                    borderRadius:15
-                  }}
-                >
-                  <strong>{item}</strong>
-                  <br/>
+            {["Leads","Customers","Jobs","Revenue"].map(item => (
+              <div
+                key={item}
+                style={{
+                  background:"rgba(255,255,255,.12)",
+                  borderRadius:18,
+                  padding:25
+                }}
+              >
+                <strong>{item}</strong>
+                <div style={{color:"#93c5fd"}}>
                   Active
                 </div>
-              ))}
-
-            </div>
-
+              </div>
+            ))}
           </div>
-
         </section>
-
-
 
         <section
           style={{
             maxWidth:1100,
             margin:"80px auto",
             display:"grid",
-            gridTemplateColumns:
-            "repeat(auto-fit,minmax(240px,1fr))",
-            gap:25
+            gridTemplateColumns:"repeat(auto-fit,minmax(240px,1fr))",
+            gap:24
           }}
         >
-
-        {features.map(feature=>(
-          <div
-            key={feature.title}
-            style={{
-              background:"#fff",
-              border:"1px solid #e2e8f0",
-              borderRadius:22,
-              padding:30,
-              boxShadow:"0 15px 35px rgba(0,0,0,.05)"
-            }}
-          >
-            <h3>{feature.title}</h3>
-            <p style={{color:"#64748b"}}>
-              {feature.text}
-            </p>
-          </div>
-        ))}
-
+          {features.map(feature => (
+            <div
+              key={feature.title}
+              style={{
+                background:"#fff",
+                borderRadius:24,
+                padding:30,
+                boxShadow:"0 20px 50px rgba(15,23,42,.08)"
+              }}
+            >
+              <h3>{feature.title}</h3>
+              <p style={{color:"#64748b"}}>
+                {feature.text}
+              </p>
+            </div>
+          ))}
         </section>
 
       </main>
 
-      <Footer/>
+      <Footer />
     </>
   );
 }
