@@ -39,7 +39,7 @@ export default function HomePage() {
             }}
           >
             <img
-              src="/hlc-icon.jpeg"
+              src="/hlc-logo-final.png"
               alt="HomeLead Connect"
               style={{
                 width:120,
