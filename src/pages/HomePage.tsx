@@ -64,9 +64,7 @@ export default function HomePage() {
               fontWeight:900
             }}
           >
-            The Operating System
-            <br/>
-            For Home Services
+            The Future Of<br/>Home Services
           </h1>
 
           <p
@@ -78,9 +76,7 @@ export default function HomePage() {
               color:"#475569"
             }}
           >
-            HomeLead Connect combines CRM, websites, AI automation,
-            contractors, and customer management into one powerful
-            ecosystem.
+            One connected platform for CRM, leads, websites, AI automation, contractors, and business growth.
           </p>
 
 
