@@ -1,12 +1,22 @@
 import Footer from "../components/Footer";
 
 const features = [
-  "CRM",
-  "Websites",
-  "Mobile App",
-  "AI Automation",
-  "Contractor Network",
-  "Lead Management",
+  {
+    title: "CRM Platform",
+    text: "Manage customers, leads, jobs, and growth from one command center."
+  },
+  {
+    title: "AI Automation",
+    text: "Automate follow-ups, communication, and business workflows."
+  },
+  {
+    title: "Contractor Network",
+    text: "Connect homeowners and service professionals efficiently."
+  },
+  {
+    title: "Websites & Leads",
+    text: "Generate leads with integrated digital tools."
+  }
 ];
 
 export default function HomePage() {
@@ -14,142 +24,223 @@ export default function HomePage() {
     <>
       <main
         style={{
-          minHeight: "100vh",
-          background: "#ffffff",
-          color: "#111827",
-          padding: "80px 24px",
+          background:
+            "linear-gradient(180deg,#ffffff 0%,#f8fafc 100%)",
+          color:"#111827",
+          minHeight:"100vh",
+          padding:"40px 24px"
         }}
       >
+
         <section
           style={{
-            maxWidth: "1100px",
-            margin: "0 auto",
-            textAlign: "center",
+            maxWidth:"1200px",
+            margin:"0 auto",
+            textAlign:"center",
+            padding:"80px 0"
           }}
         >
+
           <img
-            src="/hlc-trans-logo.jpeg"
+            src="/hlc-icon.jpeg"
             alt="HomeLead Connect"
             style={{
-              width: 280,
-              maxWidth: "90%",
-              background: "#fff",
-              objectFit: "contain",
-              marginBottom: 40,
+              width:120,
+              height:120,
+              objectFit:"contain",
+              background:"#fff",
+              borderRadius:24,
+              marginBottom:35
             }}
           />
 
           <h1
             style={{
-              fontSize: "clamp(42px, 6vw, 72px)",
-              lineHeight: 1.05,
-              letterSpacing: "-2px",
-              marginBottom: 24,
-              fontWeight: 800,
+              fontSize:"clamp(48px,7vw,84px)",
+              lineHeight:1,
+              letterSpacing:"-3px",
+              margin:"0 auto 30px",
+              maxWidth:900,
+              fontWeight:900
             }}
           >
-            One Platform.
-            <br />
-            Every Home Service.
+            The Operating System
+            <br/>
+            For Home Services
           </h1>
 
           <p
             style={{
-              maxWidth: 720,
-              margin: "0 auto 40px",
-              fontSize: 22,
-              lineHeight: 1.6,
-              color: "#4b5563",
+              maxWidth:750,
+              margin:"0 auto 45px",
+              fontSize:22,
+              lineHeight:1.6,
+              color:"#475569"
             }}
           >
-            HomeLead Connect brings homeowners, contractors, leads,
-            websites, CRM, AI tools, and business automation together
-            in one powerful ecosystem.
+            HomeLead Connect combines CRM, websites, AI automation,
+            contractors, and customer management into one powerful
+            ecosystem.
           </p>
+
 
           <div
             style={{
-              display: "flex",
-              justifyContent: "center",
-              gap: 16,
-              flexWrap: "wrap",
+              display:"flex",
+              justifyContent:"center",
+              gap:18,
+              flexWrap:"wrap"
             }}
           >
-            <button
-              style={{
-                background: "#111827",
-                color: "white",
-                padding: "16px 34px",
-                borderRadius: 12,
-                border: "none",
-                fontSize: 18,
-                fontWeight: 700,
-              }}
-            >
-              Get Started
-            </button>
 
             <button
               style={{
-                background: "white",
-                color: "#111827",
-                padding: "16px 34px",
-                borderRadius: 12,
-                border: "1px solid #d1d5db",
-                fontSize: 18,
-                fontWeight: 700,
+                background:"#111827",
+                color:"#fff",
+                border:0,
+                borderRadius:14,
+                padding:"18px 36px",
+                fontSize:18,
+                fontWeight:800
               }}
             >
-              Explore Platform
+              Launch Platform
             </button>
+
+
+            <button
+              style={{
+                background:"#fff",
+                color:"#111827",
+                border:"1px solid #cbd5e1",
+                borderRadius:14,
+                padding:"18px 36px",
+                fontSize:18,
+                fontWeight:800
+              }}
+            >
+              View Features
+            </button>
+
           </div>
+
         </section>
+
 
 
         <section
           style={{
-            maxWidth: 1100,
-            margin: "90px auto 0",
-            display: "grid",
-            gridTemplateColumns:
-              "repeat(auto-fit,minmax(220px,1fr))",
-            gap: 24,
+            maxWidth:1100,
+            margin:"0 auto",
+            background:"#ffffff",
+            borderRadius:30,
+            padding:35,
+            boxShadow:"0 30px 80px rgba(0,0,0,.08)",
+            border:"1px solid #e5e7eb"
           }}
         >
-          {features.map((feature) => (
-            <div
-              key={feature}
+
+          <div
+            style={{
+              background:"#0f172a",
+              borderRadius:22,
+              minHeight:360,
+              padding:35,
+              color:"#fff",
+              display:"flex",
+              flexDirection:"column",
+              justifyContent:"center"
+            }}
+          >
+
+            <h2
               style={{
-                background: "#ffffff",
-                border: "1px solid #e5e7eb",
-                borderRadius: 20,
-                padding: 32,
-                boxShadow:
-                  "0 20px 40px rgba(0,0,0,.06)",
+                fontSize:40,
+                marginBottom:15
               }}
             >
-              <h3
-                style={{
-                  margin: 0,
-                  fontSize: 22,
-                }}
-              >
-                {feature}
-              </h3>
-              <p
-                style={{
-                  marginTop: 12,
-                  color: "#6b7280",
-                }}
-              >
-                Built into the HomeLead Connect ecosystem.
-              </p>
+              HomeLead Command Center
+            </h2>
+
+            <p
+              style={{
+                fontSize:20,
+                color:"#cbd5e1",
+                maxWidth:650
+              }}
+            >
+              Your CRM dashboard, customer pipeline, contractor
+              management, and business intelligence in one place.
+            </p>
+
+
+            <div
+              style={{
+                display:"grid",
+                gridTemplateColumns:
+                "repeat(auto-fit,minmax(150px,1fr))",
+                gap:18,
+                marginTop:35
+              }}
+            >
+
+              {["Leads","Customers","Jobs","Revenue"].map(item=>(
+                <div
+                  key={item}
+                  style={{
+                    background:"rgba(255,255,255,.1)",
+                    padding:20,
+                    borderRadius:15
+                  }}
+                >
+                  <strong>{item}</strong>
+                  <br/>
+                  Active
+                </div>
+              ))}
+
             </div>
-          ))}
+
+          </div>
+
         </section>
+
+
+
+        <section
+          style={{
+            maxWidth:1100,
+            margin:"80px auto",
+            display:"grid",
+            gridTemplateColumns:
+            "repeat(auto-fit,minmax(240px,1fr))",
+            gap:25
+          }}
+        >
+
+        {features.map(feature=>(
+          <div
+            key={feature.title}
+            style={{
+              background:"#fff",
+              border:"1px solid #e2e8f0",
+              borderRadius:22,
+              padding:30,
+              boxShadow:"0 15px 35px rgba(0,0,0,.05)"
+            }}
+          >
+            <h3>{feature.title}</h3>
+            <p style={{color:"#64748b"}}>
+              {feature.text}
+            </p>
+          </div>
+        ))}
+
+        </section>
+
       </main>
 
-      <Footer />
+      <Footer/>
     </>
   );
 }
