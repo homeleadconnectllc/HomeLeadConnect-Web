@@ -110,60 +110,79 @@ export default function HomePage() {
               Launch Platform
             </button>
 
-            <button
-              style={{
-                background: "white",
-                border: "1px solid #cbd5e1",
-                borderRadius: 16,
-                padding: "18px 38px",
-                fontSize: 18,
-                fontWeight: 800
-              }}
-            >
-              Explore Features
-            </button>
-          </div>
-        </section>
 
-        <section
-          style={{
-            maxWidth: 1100,
-            margin: "30px auto",
-            background: "#0f172a",
-            borderRadius: 32,
-            padding: 35,
-            color: "white",
-            boxShadow: "0 40px 100px rgba(15,23,42,.25)"
-          }}
-        >
-          <h2 style={{fontSize:42}}>
-            HomeLead Command Center
-          </h2>
+    <section
+      style={{
+        maxWidth:1100,
+        margin:"30px auto",
+        background:"linear-gradient(135deg,#0f172a,#2563eb)",
+        borderRadius:32,
+        padding:35,
+        color:"#fff",
+        boxShadow:"0 40px 100px rgba(15,23,42,.25)"
+      }}
+    >
 
-          <p
-            style={{
-              color:"#cbd5e1",
-              fontSize:20
-            }}
-          >
-            Your complete business operating system.
-          </p>
+      <h2 style={{fontSize:42}}>
+        HomeLead Command Center
+      </h2>
 
+      <p style={{color:"#cbd5e1",fontSize:20}}>
+        Your complete business operating system.
+      </p>
+
+      <div
+        style={{
+          marginTop:35,
+          background:"#fff",
+          color:"#0f172a",
+          borderRadius:24,
+          padding:25,
+          display:"grid",
+          gridTemplateColumns:"repeat(auto-fit,minmax(180px,1fr))",
+          gap:18
+        }}
+      >
+        {[
+          ["Leads","248 Active"],
+          ["Customers","1,420 Total"],
+          ["Jobs","86 Running"],
+          ["Revenue","$94.5K"]
+        ].map(item=>(
           <div
+            key={item[0]}
             style={{
-              marginTop:35,
-              display:"grid",
-              gridTemplateColumns:"repeat(auto-fit,minmax(180px,1fr))",
-              gap:20
+              background:"#f8fafc",
+              borderRadius:18,
+              padding:22
             }}
           >
-            {["Leads","Customers","Jobs","Revenue"].map(item => (
-              <div
-                key={item}
-                style={{
-                  background:"rgba(255,255,255,.12)",
-                  borderRadius:18,
-                  padding:25
+            <strong>{item[0]}</strong>
+            <div style={{
+              color:"#2563eb",
+              fontWeight:900,
+              fontSize:24
+            }}>
+              {item[1]}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div
+        style={{
+          marginTop:25,
+          background:"rgba(255,255,255,.12)",
+          borderRadius:20,
+          padding:22
+        }}
+      >
+        🤖 AI Automation Active
+        <br/>
+        Follow-ups, scheduling, and customer communication running automatically.
+      </div>
+
+    </section>
                 }}
               >
                 <strong>{item}</strong>
