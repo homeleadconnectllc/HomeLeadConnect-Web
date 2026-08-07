@@ -1,39 +1,77 @@
-export default function App() {
+import Navbar from "./components/Navbar";
+
+function App() {
   return (
     <div
       style={{
         minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#111827",
-        color: "#ffffff",
-        textAlign: "center",
-        padding: "2rem",
+        background: "#0f172a",
+        color: "white",
+        fontFamily: "Arial, sans-serif",
       }}
     >
-      <img
-        src="/logo.png"
-        alt="HomeLead Connect"
+      <Navbar />
+
+      <main
         style={{
-          width: "220px",
-          marginBottom: "2rem",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "70px 40px",
+          textAlign: "center",
         }}
-      />
+      >
+        <img
+          src="/hlc-trans-logo.jpeg"
+          alt="HomeLead Connect"
+          style={{
+            width: "420px",
+            maxWidth: "90%",
+            height: "auto",
+            objectFit: "contain",
+            marginBottom: "40px",
+          }}
+        />
 
-      <h1 style={{ fontSize: "3rem", marginBottom: "1rem" }}>
-        HomeLead Connect
-      </h1>
+        <h1
+          style={{
+            fontSize: "52px",
+            margin: "0 0 20px",
+          }}
+        >
+          HomeLead Connect CRM
+        </h1>
 
-      <h2 style={{ color: "#60a5fa", marginBottom: "1rem" }}>
-        One Platform. Every Home Service.
-      </h2>
+        <p
+          style={{
+            maxWidth: "700px",
+            fontSize: "22px",
+            color: "#cbd5e1",
+            lineHeight: 1.6,
+          }}
+        >
+          The all-in-one platform connecting homeowners, contractors,
+          leads, websites, and AI-powered business tools.
+        </p>
 
-      <p style={{ maxWidth: "700px", fontSize: "1.2rem", color: "#d1d5db" }}>
-        Connecting homeowners, contractors, subcontractors, and businesses
-        through one modern platform.
-      </p>
+        <div
+          style={{
+            display: "flex",
+            gap: "20px",
+            marginTop: "50px",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+        >
+          <button>Customers</button>
+          <button>Leads</button>
+          <button>Contractors</button>
+          <button>Dashboard</button>
+        </div>
+      </main>
     </div>
   );
 }
+
+export default App;
