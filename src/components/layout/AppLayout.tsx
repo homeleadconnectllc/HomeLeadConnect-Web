@@ -1,5 +1,11 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
+import { supabase } from "../../lib/supabase";
+
+async function handleLogout() {
+  await supabase.auth.signOut();
+  window.location.href = "/login";
+}
 
 export default function AppLayout({
   children
@@ -44,6 +50,22 @@ marginTop:"35px"
 <Link to="/profile">👤 Profile</Link>
 <Link to="/messages">💬 Messages</Link>
 <Link to="/calendar">📅 Calendar</Link>
+
+<button
+  type="button"
+  onClick={handleLogout}
+  style={{
+    marginTop: "20px",
+    padding: "10px 12px",
+    borderRadius: "8px",
+    border: "1px solid #334155",
+    background: "#1e293b",
+    color: "#fff",
+    cursor: "pointer"
+  }}
+>
+  Log out
+</button>
 
 </nav>
 

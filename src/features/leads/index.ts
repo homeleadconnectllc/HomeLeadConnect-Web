@@ -1,5 +1,11 @@
-export const leadModule = {
-  name:"Leads",
-  status:"ready",
-  description:"Homeowner requests and opportunities"
-};
+export { default as LeadTable } from "./components/LeadTable";
+export { default as LeadFilters } from "./components/LeadFilters";
+export { default as LeadSearch } from "./components/LeadSearch";
+export { default as LeadDetail } from "./components/LeadDetail";
+export { default as LeadForm } from "./components/LeadForm";
+export { default as LeadStatusBadge } from "./components/LeadStatusBadge";
+export { default as LeadPriorityBadge } from "./components/LeadPriorityBadge";
+export { default as LeadEmptyState } from "./components/LeadEmptyState";
+export { default as LeadLoadingState } from "./components/LeadLoadingState";
+export { useLeads } from "./hooks/useLeads";
+export type { Lead } from "./types/lead";

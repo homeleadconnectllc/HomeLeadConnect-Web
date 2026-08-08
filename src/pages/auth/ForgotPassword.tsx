@@ -8,7 +8,7 @@ const[email,setEmail]=useState("");
 async function send(e:any){
 e.preventDefault();
 
-const {error}=await supabase.auth.resetPasswordForEmail(email);
+const {error}=await supabase.auth.resetPasswordForEmail(email, { redirectTo: `${window.location.origin}/update-password` });
 
 if(error){
 alert(error.message);
