@@ -253,7 +253,7 @@ export function useLeads() {
       .eq("archived", filters.archived);
 
     if (sanitizedSearch) {
-      const pattern = `*${sanitizedSearch}*`;
+      const pattern = `%${sanitizedSearch}%`;
       query = query.or(
         [
           `full_name.ilike.${pattern}`,
