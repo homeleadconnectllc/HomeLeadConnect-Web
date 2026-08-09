@@ -4,12 +4,36 @@ export type EvidenceState =
   | "assumption"
   | "unverifiable";
 
+export class EvidenceContractError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "EvidenceContractError";
+  }
+}
+
 export type PropertyEvidence<T = unknown> = {
   value: T | null;
   state: EvidenceState;
   source?: string;
   note?: string;
 };
+
+function validateEvidence(evidence: PropertyEvidence): void {
+  if (evidence.state === "known" && evidence.value === null) {
+    throw new EvidenceContractError(
+      "Known evidence must contain a non-null value.",
+    );
+  }
+
+  if (
+    (evidence.state === "unknown" || evidence.state === "unverifiable") &&
+    evidence.value !== null
+  ) {
+    throw new EvidenceContractError(
+      `${evidence.state} evidence must have a null value.`,
+    );
+  }
+}
 
 export type EvidenceQuality = {
   total: number;
@@ -50,11 +74,15 @@ export function createEvidence<T>(
     note?: string;
   },
 ): PropertyEvidence<T> {
-  return {
+  const evidence = {
     value,
     state,
     ...options,
   };
+
+  validateEvidence(evidence);
+
+  return evidence;
 }
 
 export function calculateEvidenceQuality(
@@ -63,6 +91,8 @@ export function calculateEvidenceQuality(
   const assessed = evidence.filter(
     (item): item is PropertyEvidence => item !== undefined,
   );
+
+  assessed.forEach(validateEvidence);
 
   const total = assessed.length;
   const known = assessed.filter((item) => item.state === "known").length;
@@ -91,6 +121,8 @@ export function determineSiteAssessment(
     (item): item is PropertyEvidence => item !== undefined,
   );
 
+  assessed.forEach(validateEvidence);
+
   if (assessed.length === 0) {
     return "undetermined";
   }
@@ -114,6 +146,8 @@ export function determineQualificationReadiness(
   const assessed = evidence.filter(
     (item): item is PropertyEvidence => item !== undefined,
   );
+
+  assessed.forEach(validateEvidence);
 
   if (assessed.length === 0) {
     return "undetermined";
@@ -152,6 +186,8 @@ export function createPropertyIntelligenceProfile(input: {
     input.siteConditions,
     input.scopeDescription,
   ];
+
+  evidence.forEach(validateEvidence);
 
   return {
     ...input,

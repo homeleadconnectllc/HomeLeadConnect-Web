@@ -7,6 +7,7 @@ import {
   createPropertyIntelligenceProfile,
   determineQualificationReadiness,
   determineSiteAssessment,
+  EvidenceContractError,
 } from "./domain.ts";
 
 test("known evidence", () => {
@@ -134,6 +135,115 @@ test("property intelligence profile derives states", () => {
 
   assert.equal(profile.leadId, "lead-1");
   assert.equal(profile.workspaceId, "workspace-1");
+  assert.equal(profile.siteAssessment, "supported");
+  assert.equal(
+    profile.qualificationReadiness,
+    "ready_for_domain_review",
+  );
+});
+
+
+test("assumption evidence may contain a value", () => {
+  const result = createEvidence("residential renovation", "assumption");
+
+  assert.equal(result.value, "residential renovation");
+  assert.equal(result.state, "assumption");
+});
+
+test("known evidence cannot contain null", () => {
+  assert.throws(
+    () =>
+      createPropertyIntelligenceProfile({
+        leadId: "lead-invalid-known",
+        workspaceId: "workspace-invalid-known",
+        propertyAddress: {
+          value: null,
+          state: "known",
+        },
+        propertyType: createEvidence("Residential", "known"),
+        measurements: createEvidence(
+          { livingAreaSqFt: 1800 },
+          "known",
+        ),
+        siteConditions: createEvidence("Observed", "known"),
+        scopeDescription: createEvidence("Roof replacement", "known"),
+      }),
+    EvidenceContractError,
+  );
+});
+
+test("unknown evidence must contain null", () => {
+  assert.throws(
+    () =>
+      createPropertyIntelligenceProfile({
+        leadId: "lead-invalid-unknown",
+        workspaceId: "workspace-invalid-unknown",
+        propertyAddress: createEvidence(
+          "123 Main St",
+          "unknown",
+        ),
+        propertyType: createEvidence("Residential", "known"),
+        measurements: createEvidence(
+          { livingAreaSqFt: 1800 },
+          "known",
+        ),
+        siteConditions: createEvidence("Observed", "known"),
+        scopeDescription: createEvidence("Roof replacement", "known"),
+      }),
+    EvidenceContractError,
+  );
+});
+
+test("unverifiable evidence must contain null", () => {
+  assert.throws(
+    () =>
+      createPropertyIntelligenceProfile({
+        leadId: "lead-invalid-unverifiable",
+        workspaceId: "workspace-invalid-unverifiable",
+        propertyAddress: createEvidence(
+          "123 Main St",
+          "unverifiable",
+        ),
+        propertyType: createEvidence("Residential", "known"),
+        measurements: createEvidence(
+          { livingAreaSqFt: 1800 },
+          "known",
+        ),
+        siteConditions: createEvidence("Observed", "known"),
+        scopeDescription: createEvidence("Roof replacement", "known"),
+      }),
+    EvidenceContractError,
+  );
+});
+
+test("profile preserves assumption evidence without treating it as known", () => {
+  const profile = createPropertyIntelligenceProfile({
+    leadId: "lead-assumption",
+    workspaceId: "workspace-assumption",
+    propertyAddress: createEvidence(
+      "123 Main St",
+      "known",
+    ),
+    propertyType: createEvidence(
+      "Residential renovation",
+      "assumption",
+    ),
+    measurements: createEvidence(
+      { livingAreaSqFt: 1800 },
+      "known",
+    ),
+    siteConditions: createEvidence(
+      "Observed",
+      "assumption",
+    ),
+    scopeDescription: createEvidence(
+      "Interior renovation",
+      "known",
+    ),
+  });
+
+  assert.equal(profile.propertyType.state, "assumption");
+  assert.equal(profile.siteConditions.state, "assumption");
   assert.equal(profile.siteAssessment, "supported");
   assert.equal(
     profile.qualificationReadiness,
