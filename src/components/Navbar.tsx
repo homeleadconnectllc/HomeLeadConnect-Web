@@ -55,18 +55,24 @@ export default function Navbar() {
           alignItems: "center",
         }}
       >
-        <Link to="/">Home</Link>
-        <Link to="/contact">Contact</Link>
-        {!session && <Link to="/request-service">Request Service</Link>}
         {!loading && session ? <>
           <Link to="/dashboard">Dashboard</Link>
           <Link to="/leads">Leads</Link>
+          <Link to="/estimator">LeadScope</Link>
           <Link to="/jobs">Jobs</Link>
           <Link to="/calendar">Schedule</Link>
           <Link to="/follow-ups">Follow-ups</Link>
           <Link to="/settings">Settings</Link>
           <button type="button" onClick={logout}>Log out</button>
-        </> : !loading && <Link to="/login">CRM Login</Link>}
+        </> : !loading && <>
+          <Link to="/">Home</Link>
+          <Link to="/homeowners">Homeowners</Link>
+          <Link to="/contractors">Contractors</Link>
+          <Link to="/how-it-works">How It Works</Link>
+          <Link to="/contact">Contact</Link>
+          <Link to="/request-service">Request Service</Link>
+          <Link to="/login">CRM Login</Link>
+        </>}
       </div>
     </nav>
   );
