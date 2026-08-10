@@ -66,6 +66,46 @@ body {
   margin: 0;
 }
 
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  min-height: 44px;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+}
+
+input,
+select,
+textarea {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline: 3px solid #0ea5e9;
+  outline-offset: 2px;
+}
+
+@media (max-width: 720px) {
+  .estimate-layout,
+  .estimate-line {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .responsive-record-card {
+    align-items: stretch !important;
+    flex-direction: column;
+  }
+}
+
 h1,
 h2 {
   font-family: var(--heading);
@@ -142,4 +182,3 @@ code {
     opacity: 1;
   }
 }
-

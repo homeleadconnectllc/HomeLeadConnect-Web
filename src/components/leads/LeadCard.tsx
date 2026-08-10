@@ -3,7 +3,7 @@ import type { Lead } from "../../lib/types/database";
 
 export default function LeadCard({ lead }: { lead: Lead }) {
   return (
-    <article style={cardStyle}>
+    <article className="responsive-record-card" style={cardStyle}>
       <div>
         <h3 style={{ margin: 0 }}>{lead.full_name || `Lead #${lead.id}`}</h3>
         <p style={{ margin: "8px 0", color: "#64748b" }}>

@@ -14,7 +14,7 @@ export default function JobCard({
   disabled?: boolean;
 }) {
   return (
-    <article style={cardStyle}>
+    <article className="responsive-record-card" style={cardStyle}>
       <div>
         <h3 style={{ margin: 0 }}>{job.name}</h3>
         <p style={{ margin: "8px 0", color: "#475569" }}>

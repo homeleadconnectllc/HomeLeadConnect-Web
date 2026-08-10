@@ -14,6 +14,7 @@ import {
   type EstimateLine,
 } from "../lib/estimator/calculations";
 import type { EstimateStatus, Lead } from "../lib/types/database";
+import { errorMessage } from "../lib/errorMessage";
 
 const initialLines: EstimateLine[] = [
   { id: "line-1", description: "Labor", quantity: 1, unitCost: 0 },
@@ -35,6 +36,7 @@ export default function Estimator() {
   const leadId = leadParam && /^\d+$/.test(leadParam) ? Number(leadParam) : null;
   const [lead, setLead] = useState<Lead | null>(null);
   const [estimateId, setEstimateId] = useState<string | null>(estimateParam);
+  const [jobId, setJobId] = useState<string | null>(null);
   const [lines, setLines] = useState<EstimateLine[]>(initialLines);
   const [markupPercent, setMarkupPercent] = useState(20);
   const [status, setStatus] = useState<EstimateStatus>("draft");
@@ -51,7 +53,7 @@ export default function Estimator() {
     if (!session || leadId === null) return;
 
     getLead(leadId).then(setLead).catch((reason: unknown) => {
-      setError(reason instanceof Error ? reason.message : "Unable to load lead.");
+      setError(errorMessage(reason, "Unable to load lead."));
     });
   }, [leadId, session]);
 
@@ -73,7 +75,7 @@ export default function Estimator() {
         );
       })
       .catch((reason: unknown) => {
-        setError(reason instanceof Error ? reason.message : "Unable to load estimate.");
+        setError(errorMessage(reason, "Unable to load estimate."));
       });
   }, [estimateParam, session]);
 
@@ -135,7 +137,7 @@ export default function Estimator() {
       setSearchParams(nextParams, { replace: true });
       setMessage("Estimate saved.");
     } catch (reason) {
-      setError(reason instanceof Error ? reason.message : "Unable to save estimate.");
+      setError(errorMessage(reason, "Unable to save estimate."));
     } finally {
       setBusy(false);
     }
@@ -149,9 +151,10 @@ export default function Estimator() {
     try {
       const job = await convertEstimateToJob(estimateId);
       setStatus("converted");
+      setJobId(job.id);
       setMessage(`Job created: ${job.name}`);
     } catch (reason) {
-      setError(reason instanceof Error ? reason.message : "Unable to convert estimate.");
+      setError(errorMessage(reason, "Unable to convert estimate."));
     } finally {
       setBusy(false);
     }
@@ -165,7 +168,7 @@ export default function Estimator() {
         <header style={{ marginBottom: 32 }}>
           <p style={eyebrowStyle}>HomeLead Connect</p>
           <h1 style={{ margin: "8px 0", fontSize: "clamp(36px, 6vw, 64px)", letterSpacing: "-2px" }}>
-            Estimator
+            LeadScope
           </h1>
           <p style={{ margin: 0, maxWidth: 700, color: "#475569", lineHeight: 1.6 }}>
             Build, save, send, accept, and convert an estimate without changing the verified calculation contract.
@@ -174,7 +177,7 @@ export default function Estimator() {
           {leadParam && leadId === null && <p role="alert" style={errorStyle}>Invalid lead ID.</p>}
         </header>
 
-        <section style={layoutStyle}>
+        <section className="estimate-layout" style={layoutStyle}>
           <div style={panelStyle}>
             <div style={panelHeaderStyle}>
               <div>
@@ -186,7 +189,7 @@ export default function Estimator() {
 
             <div style={{ display: "grid", gap: 12 }}>
               {lines.map((line) => (
-                <div key={line.id} style={lineStyle}>
+                <div className="estimate-line" key={line.id} style={lineStyle}>
                   <input aria-label="Item description" value={line.description} disabled={locked}
                     onChange={(event) => updateLine(line.id, "description", event.target.value)} placeholder="Description" style={inputStyle} />
                   <input aria-label="Quantity" type="number" min="0" step="0.01" value={line.quantity} disabled={locked}
@@ -210,8 +213,8 @@ export default function Estimator() {
             <label style={{ display: "grid", gap: 8, color: "#cbd5e1", marginBottom: 24 }}>
               Status
               <select value={status} disabled={locked} onChange={(event) => setStatus(event.target.value as EstimateStatus)} style={summaryInputStyle}>
-                {status === "converted" && <option value="converted">converted</option>}
-                {editableStatuses.map((value) => <option key={value} value={value}>{value}</option>)}
+                {status === "converted" && <option value="converted">Converted</option>}
+                {editableStatuses.map((value) => <option key={value} value={value}>{value[0].toUpperCase() + value.slice(1)}</option>)}
               </select>
             </label>
             <div style={{ display: "grid", gap: 14 }}>
@@ -234,7 +237,9 @@ export default function Estimator() {
               {message && <p role="status" style={{ color: "#86efac", margin: 0 }}>{message}</p>}
               {error && <p role="alert" style={{ color: "#fca5a5", margin: 0 }}>{error}</p>}
               {estimateId && <small style={{ color: "#94a3b8" }}>Estimate ID: {estimateId}</small>}
-              {status === "converted" && <Link to="/jobs" style={{ color: "#93c5fd" }}>View jobs</Link>}
+              {status === "converted" && <Link to={jobId ? `/jobs/${jobId}` : "/jobs"} style={{ color: "#93c5fd" }}>
+                {jobId ? "Open created job" : "View jobs"}
+              </Link>}
             </div>
           </aside>
         </section>

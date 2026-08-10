@@ -75,7 +75,7 @@ export default function Calendar() {
       {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
       <div style={{ display: "grid", gap: 12 }}>
         {appointments.map((appointment) => (
-          <article key={appointment.id} style={cardStyle}>
+          <article className="responsive-record-card" key={appointment.id} style={cardStyle}>
             <div>
               <strong>{new Date(appointment.appointment_date).toLocaleString()}</strong>
               <div><Link to={`/jobs/${appointment.job_id}`}>{appointment.job?.name || `Job ${appointment.job_id}`}</Link></div>

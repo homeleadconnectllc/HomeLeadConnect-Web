@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { listLeads } from "../../api/leads";
 import LeadCard from "../../components/leads/LeadCard";
 import type { Lead } from "../../lib/types/database";
+import { errorMessage } from "../../lib/errorMessage";
 
 export default function Leads() {
   const [leads, setLeads] = useState<Lead[]>([]);
@@ -12,7 +13,7 @@ export default function Leads() {
     listLeads()
       .then(setLeads)
       .catch((reason: unknown) =>
-        setError(reason instanceof Error ? reason.message : "Unable to load leads."),
+        setError(errorMessage(reason, "Unable to load leads.")),
       )
       .finally(() => setLoading(false));
   }, []);
