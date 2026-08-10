@@ -48,6 +48,7 @@ export default function JobDetail() {
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
 
   const load = useCallback(async () => {
     if (!jobId) return;
@@ -109,12 +110,14 @@ export default function JobDetail() {
     });
   }, [contractors, location, specialty]);
 
-  async function run(action: () => Promise<unknown>) {
+  async function run(action: () => Promise<unknown>, successMessage?: string) {
     setBusy(true);
     setError("");
+    setMessage("");
     try {
       await action();
       await load();
+      if (successMessage) setMessage(successMessage);
     } catch (reason) {
       setError(messageFor(reason));
     } finally {
@@ -124,7 +127,11 @@ export default function JobDetail() {
 
   async function offer(contractor: Contractor) {
     if (!jobId) return;
-    await run(() => offerJobToContractor(jobId, contractor.id));
+    const contractorName = contractor.company_name || contractor.contact_name || `Contractor #${contractor.id}`;
+    await run(
+      () => offerJobToContractor(jobId, contractor.id),
+      `Job offered to ${contractorName}.`,
+    );
   }
 
   async function addContractor(event: FormEvent<HTMLFormElement>) {
@@ -260,6 +267,7 @@ export default function JobDetail() {
           <input value={specialty} onChange={(event) => setSpecialty(event.target.value)} placeholder="Exact specialty" />
           <input value={location} onChange={(event) => setLocation(event.target.value)} placeholder="City, state, or ZIP" />
         </div>
+        {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
         <div style={{ display: "grid", gap: 10, marginTop: 14 }}>
           {candidates.map((contractor) => (
             <ContractorCard key={contractor.id} contractor={contractor}
