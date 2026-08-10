@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import AppLayout from "./AppLayout";
 import ProtectedLayout from "../layouts/ProtectedLayout";
+import WorkspaceLayout from "../layouts/WorkspaceLayout";
 
 import HomePage from "../pages/HomePage";
 import ContactPage from "../pages/ContactPage";
@@ -13,6 +14,9 @@ import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import ForgotPassword from "../pages/auth/ForgotPassword";
 import ResetPassword from "../pages/auth/ResetPassword";
+import AcceptInvitation from "../pages/portal/AcceptInvitation";
+import HomeownerPortal from "../pages/portal/HomeownerPortal";
+import ContractorPortal from "../pages/portal/ContractorPortal";
 
 import Dashboard from "../pages/dashboard/Dashboard";
 import Leads from "../pages/dashboard/Leads";
@@ -41,15 +45,20 @@ export default function AppRouter() {
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/portal/accept" element={<AcceptInvitation />} />
 
           <Route element={<ProtectedLayout />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/leads" element={<Leads />} />
-            <Route path="/jobs" element={<Jobs />} />
-            <Route path="/jobs/:jobId" element={<JobDetail />} />
-            <Route path="/calendar" element={<Calendar />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/follow-ups" element={<FollowUps />} />
+            <Route path="/homeowner-portal" element={<HomeownerPortal />} />
+            <Route path="/contractor-portal" element={<ContractorPortal />} />
+            <Route element={<WorkspaceLayout />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/leads" element={<Leads />} />
+              <Route path="/jobs" element={<Jobs />} />
+              <Route path="/jobs/:jobId" element={<JobDetail />} />
+              <Route path="/calendar" element={<Calendar />} />
+              <Route path="/settings" element={<Settings />} />
+              <Route path="/follow-ups" element={<FollowUps />} />
+            </Route>
           </Route>
           <Route path="*" element={<NotFound />} />
         </Route>

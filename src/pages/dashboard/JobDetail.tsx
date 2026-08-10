@@ -18,6 +18,7 @@ import {
 } from "../../api/jobAssignments";
 import { getJob, type JobDetailRecord } from "../../api/jobs";
 import ContractorCard from "../../components/contractors/ContractorCard";
+import PortalInviteButton from "../../components/portal/PortalInviteButton";
 import { formatCurrency } from "../../lib/estimator/calculations";
 import { errorMessage } from "../../lib/errorMessage";
 import type {
@@ -283,8 +284,12 @@ export default function JobDetail() {
         {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
         <div style={{ display: "grid", gap: 10, marginTop: 14 }}>
           {candidates.map((contractor) => (
-            <ContractorCard key={contractor.id} contractor={contractor}
-              disabled={busy || Boolean(currentAssignment)} onOffer={offer} />
+            <div key={contractor.id}>
+              <ContractorCard contractor={contractor}
+                disabled={busy || Boolean(currentAssignment)} onOffer={offer} />
+              <PortalInviteButton role="contractor" targetId={contractor.id} email={contractor.email}
+                label="Invite to contractor portal" />
+            </div>
           ))}
           {contractors.length === 0
             ? <p>No workspace contractors yet. Add one above to continue.</p>

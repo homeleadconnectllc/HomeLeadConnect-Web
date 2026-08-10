@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import type { Lead } from "../../lib/types/database";
+import PortalInviteButton from "../portal/PortalInviteButton";
 
 export default function LeadCard({ lead }: { lead: Lead }) {
   return (
@@ -11,9 +12,10 @@ export default function LeadCard({ lead }: { lead: Lead }) {
         </p>
         <small>Status: {lead.status || "new"}</small>
       </div>
-      <Link to={`/estimator?lead=${lead.id}`} style={actionStyle}>
-        Create Estimate
-      </Link>
+      <div style={{ display: "grid", gap: 8 }}>
+        <Link to={`/estimator?lead=${lead.id}`} style={actionStyle}>Create Estimate</Link>
+        <PortalInviteButton role="homeowner" targetId={lead.id} email={lead.email} label="Invite to homeowner portal" />
+      </div>
     </article>
   );
 }

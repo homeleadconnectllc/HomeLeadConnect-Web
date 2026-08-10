@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { supabase } from "../lib/supabase";
@@ -6,6 +7,25 @@ const logo = "/hlc-logo-final.png";
 
 export default function Navbar() {
   const { session, loading } = useAuth();
+  const [access, setAccess] = useState({ business: false, homeowner: false, contractor: false });
+
+  useEffect(() => {
+    if (!session) return;
+    let active = true;
+    Promise.all([
+      supabase.from("workspace_members").select("workspace_id").eq("user_id", session.user.id).limit(1),
+      supabase.from("homeowner_portal_links").select("id").eq("user_id", session.user.id).is("revoked_at", null).limit(1),
+      supabase.from("contractor_portal_links").select("id").eq("user_id", session.user.id).is("revoked_at", null).limit(1),
+    ]).then(([business, homeowner, contractor]) => {
+      if (!active) return;
+      setAccess({
+        business: !business.error && Boolean(business.data?.length),
+        homeowner: !homeowner.error && Boolean(homeowner.data?.length),
+        contractor: !contractor.error && Boolean(contractor.data?.length),
+      });
+    });
+    return () => { active = false; };
+  }, [session]);
 
   async function logout() {
     await supabase.auth.signOut();
@@ -56,13 +76,17 @@ export default function Navbar() {
         }}
       >
         {!loading && session ? <>
-          <Link to="/dashboard">Dashboard</Link>
-          <Link to="/leads">Leads</Link>
-          <Link to="/estimator">LeadScope</Link>
-          <Link to="/jobs">Jobs</Link>
-          <Link to="/calendar">Schedule</Link>
-          <Link to="/follow-ups">Follow-ups</Link>
-          <Link to="/settings">Settings</Link>
+          {access.business && <>
+            <Link to="/dashboard">Dashboard</Link>
+            <Link to="/leads">Leads</Link>
+            <Link to="/estimator">LeadScope</Link>
+            <Link to="/jobs">Jobs</Link>
+            <Link to="/calendar">Schedule</Link>
+            <Link to="/follow-ups">Follow-ups</Link>
+            <Link to="/settings">Settings</Link>
+          </>}
+          {access.homeowner && <Link to="/homeowner-portal">Homeowner portal</Link>}
+          {access.contractor && <Link to="/contractor-portal">Contractor portal</Link>}
           <button type="button" onClick={logout}>Log out</button>
         </> : !loading && <>
           <Link to="/">Home</Link>
