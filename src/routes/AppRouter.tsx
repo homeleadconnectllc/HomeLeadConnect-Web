@@ -12,6 +12,7 @@ import PublicInfo from "../pages/PublicInfo";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import ForgotPassword from "../pages/auth/ForgotPassword";
+import ResetPassword from "../pages/auth/ResetPassword";
 
 import Dashboard from "../pages/dashboard/Dashboard";
 import Leads from "../pages/dashboard/Leads";
@@ -39,6 +40,7 @@ export default function AppRouter() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
 
           <Route element={<ProtectedLayout />}>
             <Route path="/dashboard" element={<Dashboard />} />

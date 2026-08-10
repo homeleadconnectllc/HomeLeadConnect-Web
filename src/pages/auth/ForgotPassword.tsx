@@ -1,45 +1,35 @@
-import { useState } from "react";
-import type { FormEvent } from "react";
+import { useState, type FormEvent } from "react";
+import { Link } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
+import { errorMessage } from "../../lib/errorMessage";
 
-export default function ForgotPassword(){
+export default function ForgotPassword() {
+  const [email, setEmail] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
 
-const[email,setEmail]=useState("");
+  async function send(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault(); setBusy(true); setError(""); setMessage("");
+    const { error: authError } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setBusy(false);
+    if (authError) { setError(errorMessage(authError, "Unable to request a reset email.")); return; }
+    setMessage("If an account exists for that email, a password reset link has been sent.");
+  }
 
-async function send(e: FormEvent<HTMLFormElement>){
-e.preventDefault();
-
-const {error}=await supabase.auth.resetPasswordForEmail(email);
-
-if(error){
-alert(error.message);
-return;
+  return <main style={pageStyle}>
+    <h1>Reset password</h1>
+    {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
+    {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
+    <form onSubmit={send} style={formStyle}>
+      <label>Email<input required autoComplete="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} /></label>
+      <button disabled={busy} type="submit">{busy ? "Sending…" : "Send reset email"}</button>
+    </form>
+    <p><Link to="/login">Return to login</Link></p>
+  </main>;
 }
 
-alert("Password reset email sent.");
-}
-
-return(
-<div style={{maxWidth:420,margin:"80px auto"}}>
-
-<h1>Forgot Password</h1>
-
-<form onSubmit={send}>
-
-<input
-type="email"
-placeholder="Email"
-value={email}
-onChange={e=>setEmail(e.target.value)}
-/>
-
-<br/><br/>
-
-<button>Send Reset Email</button>
-
-</form>
-
-</div>
-);
-
-}
+const pageStyle = { width: "min(420px, calc(100% - 32px))", margin: "64px auto" };
+const formStyle = { display: "grid", gap: 16 };
