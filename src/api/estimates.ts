@@ -56,7 +56,6 @@ export async function saveEstimate(input: SaveEstimateInput): Promise<Estimate> 
     subtotal: input.subtotal,
     markup_amount: input.markupAmount,
     total: input.total,
-    updated_at: new Date().toISOString(),
   };
 
   const query = input.id
@@ -101,7 +100,7 @@ export async function updateEstimateStatus(
   const workspaceId = await getCurrentWorkspaceId();
   const { data, error } = await supabase
     .from("estimates")
-    .update({ status, updated_at: new Date().toISOString() })
+    .update({ status })
     .eq("workspace_id", workspaceId)
     .eq("id", id)
     .neq("status", "converted")

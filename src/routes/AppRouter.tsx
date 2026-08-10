@@ -14,6 +14,8 @@ import ForgotPassword from "../pages/auth/ForgotPassword";
 import Dashboard from "../pages/dashboard/Dashboard";
 import Leads from "../pages/dashboard/Leads";
 import Jobs from "../pages/dashboard/Jobs";
+import JobDetail from "../pages/dashboard/JobDetail";
+import Calendar from "../pages/dashboard/Calendar";
 
 export default function AppRouter() {
   return (
@@ -32,6 +34,8 @@ export default function AppRouter() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/leads" element={<Leads />} />
             <Route path="/jobs" element={<Jobs />} />
+            <Route path="/jobs/:jobId" element={<JobDetail />} />
+            <Route path="/calendar" element={<Calendar />} />
           </Route>
         </Route>
       </Routes>

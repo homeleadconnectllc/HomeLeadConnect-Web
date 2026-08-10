@@ -6,6 +6,8 @@ export type EstimateStatus =
   | "converted";
 
 export type CrmJobStatus = "pending" | "active" | "completed" | "cancelled";
+export type JobAssignmentStatus = "offered" | "accepted" | "rejected" | "cancelled";
+export type AppointmentStatus = "scheduled" | "completed" | "cancelled" | "no_show";
 
 export type Lead = {
   id: number;
@@ -53,4 +55,52 @@ export type CrmJob = {
   created_by: string;
   created_at: string;
   updated_at: string;
+};
+
+export type Contractor = {
+  id: number;
+  workspace_id: string;
+  company_name: string | null;
+  contact_name: string | null;
+  phone: string | null;
+  email: string | null;
+  website: string | null;
+  address: string | null;
+  city: string | null;
+  state: string | null;
+  zip: string | null;
+  status: string | null;
+  specialty: string | null;
+  license_number: string | null;
+  created_at: string;
+  updated_at: string | null;
+};
+
+export type JobAssignment = {
+  id: string;
+  workspace_id: string;
+  job_id: string;
+  contractor_id: number;
+  status: JobAssignmentStatus;
+  created_by: string;
+  created_at: string;
+  updated_at: string;
+  contractor?: Pick<Contractor, "id" | "company_name" | "contact_name" | "specialty">;
+};
+
+export type JobAppointment = {
+  id: number;
+  workspace_id: string;
+  job_id: string;
+  lead_id: number | null;
+  contractor_id: number;
+  organization_id: string | null;
+  appointment_date: string;
+  status: AppointmentStatus;
+  notes: string | null;
+  created_by: string;
+  created_at: string;
+  updated_at: string;
+  contractor?: Pick<Contractor, "id" | "company_name" | "contact_name">;
+  job?: Pick<CrmJob, "id" | "name">;
 };

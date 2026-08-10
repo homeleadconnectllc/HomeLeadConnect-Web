@@ -18,6 +18,7 @@ export default function Dashboard() {
         <Link to="/leads">Leads</Link>
         <Link to="/estimator">Estimator</Link>
         <Link to="/jobs">Jobs</Link>
+        <Link to="/calendar">Schedule</Link>
       </nav>
 
       <button onClick={logout}>

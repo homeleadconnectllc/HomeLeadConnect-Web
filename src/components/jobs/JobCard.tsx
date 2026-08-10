@@ -1,5 +1,6 @@
 import { formatCurrency } from "../../lib/estimator/calculations";
 import type { CrmJob, CrmJobStatus } from "../../lib/types/database";
+import { Link } from "react-router-dom";
 
 const statuses: CrmJobStatus[] = ["pending", "active", "completed", "cancelled"];
 
@@ -32,6 +33,7 @@ export default function JobCard({
           </option>
         ))}
       </select>
+      <Link to={`/jobs/${job.id}`}>Open job</Link>
     </article>
   );
 }
