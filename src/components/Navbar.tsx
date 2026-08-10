@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const logo = "/hlc-logo-final.png";
 
 export default function Navbar() {
@@ -47,7 +49,7 @@ export default function Navbar() {
         <a href="/">Home</a>
         <a href="/contact">Contact</a>
 
-        <button>CRM Login</button>
+        <Link to="/login">CRM Login</Link>
       </div>
     </nav>
   );
