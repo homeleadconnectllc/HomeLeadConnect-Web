@@ -7,9 +7,11 @@ const statuses: CrmJobStatus[] = ["pending", "active", "completed", "cancelled"]
 export default function JobCard({
   job,
   onStatusChange,
+  disabled,
 }: {
   job: CrmJob;
   onStatusChange: (job: CrmJob, status: CrmJobStatus) => void;
+  disabled?: boolean;
 }) {
   return (
     <article style={cardStyle}>
@@ -21,6 +23,7 @@ export default function JobCard({
         <small>Estimate: {job.source_estimate_id}</small>
       </div>
       <select
+        disabled={disabled}
         aria-label={`Status for ${job.name}`}
         value={job.status}
         onChange={(event) =>
@@ -29,7 +32,7 @@ export default function JobCard({
       >
         {statuses.map((status) => (
           <option key={status} value={status}>
-            {status}
+            {status[0].toUpperCase() + status.slice(1)}
           </option>
         ))}
       </select>

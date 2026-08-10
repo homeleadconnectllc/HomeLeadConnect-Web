@@ -19,6 +19,7 @@ import {
 import { getJob, type JobDetailRecord } from "../../api/jobs";
 import ContractorCard from "../../components/contractors/ContractorCard";
 import { formatCurrency } from "../../lib/estimator/calculations";
+import { errorMessage } from "../../lib/errorMessage";
 import type {
   Contractor,
   JobAppointment,
@@ -66,7 +67,7 @@ export default function JobDetail() {
       setAssignments(assignmentData);
       setAppointments(appointmentData);
     } catch (reason) {
-      setError(messageFor(reason));
+      setError(errorMessage(reason, "Unable to load this job."));
     } finally {
       setLoading(false);
     }
@@ -86,7 +87,7 @@ export default function JobDetail() {
         setAssignments(assignmentData);
         setAppointments(appointmentData);
       })
-      .catch((reason: unknown) => setError(messageFor(reason)))
+      .catch((reason: unknown) => setError(errorMessage(reason, "Unable to load this job.")))
       .finally(() => setLoading(false));
   }, [jobId]);
 
@@ -119,7 +120,7 @@ export default function JobDetail() {
       await load();
       if (successMessage) setMessage(successMessage);
     } catch (reason) {
-      setError(messageFor(reason));
+      setError(errorMessage(reason, "The operation could not be completed."));
     } finally {
       setBusy(false);
     }
@@ -152,7 +153,7 @@ export default function JobDetail() {
       });
       await load();
     } catch (reason) {
-      setError(messageFor(reason));
+      setError(errorMessage(reason, "Unable to add the contractor."));
     } finally {
       setBusy(false);
     }
@@ -168,7 +169,7 @@ export default function JobDetail() {
       });
       setAppointmentDate("");
       setNotes("");
-    });
+    }, "Appointment scheduled.");
   }
 
   async function reschedule(appointment: JobAppointment) {
@@ -182,7 +183,10 @@ export default function JobDetail() {
       setError("Enter a valid replacement date and time.");
       return;
     }
-    await run(() => rescheduleAppointment(appointment.id, parsed.toISOString()));
+    await run(
+      () => rescheduleAppointment(appointment.id, parsed.toISOString()),
+      "Appointment rescheduled. The original remains in history as cancelled.",
+    );
   }
 
   if (loading) return <main style={pageStyle}><p>Loading job…</p></main>;
@@ -215,12 +219,21 @@ export default function JobDetail() {
             <p><strong>{assignmentName(currentAssignment)}</strong> · {currentAssignment.status}</p>
             <div style={actionsStyle}>
               {currentAssignment.status === "offered" && <>
-                <button disabled={busy} onClick={() => run(() => acceptAssignment(currentAssignment.id))}>
+                <button disabled={busy} onClick={() => run(
+                  () => acceptAssignment(currentAssignment.id),
+                  `${assignmentName(currentAssignment)} marked accepted.`,
+                )}>
                   Operationally mark accepted (v1 admin)
                 </button>
-                <button disabled={busy} onClick={() => run(() => rejectAssignment(currentAssignment.id))}>Mark rejected</button>
+                <button disabled={busy} onClick={() => run(
+                  () => rejectAssignment(currentAssignment.id),
+                  `${assignmentName(currentAssignment)} marked rejected.`,
+                )}>Mark rejected</button>
               </>}
-              <button disabled={busy} onClick={() => run(() => cancelAssignment(currentAssignment.id))}>Cancel assignment</button>
+              <button disabled={busy} onClick={() => run(
+                () => cancelAssignment(currentAssignment.id),
+                `Assignment for ${assignmentName(currentAssignment)} cancelled.`,
+              )}>Cancel assignment</button>
             </div>
           </div>
         )}
@@ -236,7 +249,7 @@ export default function JobDetail() {
       </section>
 
       <section style={sectionStyle}>
-        <h2>Deterministic contractor candidates</h2>
+        <h2>Contractor candidates</h2>
         <p style={{ color: "#64748b" }}>
           Workspace contractors only. Filters use exact specialty and recorded city/state/ZIP; no score or availability is inferred.
         </p>
@@ -298,9 +311,9 @@ export default function JobDetail() {
               </div>
               {appointment.status === "scheduled" && <div style={actionsStyle}>
                 <button disabled={busy} onClick={() => reschedule(appointment)}>Reschedule</button>
-                <button disabled={busy} onClick={() => run(() => completeAppointment(appointment.id))}>Complete</button>
-                <button disabled={busy} onClick={() => run(() => cancelAppointment(appointment.id))}>Cancel</button>
-                <button disabled={busy} onClick={() => run(() => markNoShow(appointment.id))}>No-show</button>
+                <button disabled={busy} onClick={() => run(() => completeAppointment(appointment.id), "Appointment completed.")}>Complete</button>
+                <button disabled={busy} onClick={() => run(() => cancelAppointment(appointment.id), "Appointment cancelled.")}>Cancel</button>
+                <button disabled={busy} onClick={() => run(() => markNoShow(appointment.id), "Appointment marked no-show.")}>No-show</button>
               </div>}
             </article>
           ))}
@@ -315,10 +328,6 @@ function assignmentName(assignment: JobAssignment) {
   return assignment.contractor?.company_name
     || assignment.contractor?.contact_name
     || `Contractor #${assignment.contractor_id}`;
-}
-
-function messageFor(reason: unknown) {
-  return reason instanceof Error ? reason.message : "The operation could not be completed.";
 }
 
 function toLocalInputValue(value: string) {

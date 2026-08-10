@@ -8,18 +8,20 @@ import {
   rescheduleAppointment,
 } from "../../api/appointments";
 import type { JobAppointment } from "../../lib/types/database";
+import { errorMessage } from "../../lib/errorMessage";
 
 export default function Calendar() {
   const [appointments, setAppointments] = useState<JobAppointment[]>([]);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
 
   const load = useCallback(async () => {
     try {
       setAppointments(await listWorkspaceAppointments());
     } catch (reason) {
-      setError(reason instanceof Error ? reason.message : "Unable to load schedule.");
+      setError(errorMessage(reason, "Unable to load schedule."));
     } finally {
       setLoading(false);
     }
@@ -29,19 +31,21 @@ export default function Calendar() {
     listWorkspaceAppointments()
       .then(setAppointments)
       .catch((reason: unknown) =>
-        setError(reason instanceof Error ? reason.message : "Unable to load schedule."),
+        setError(errorMessage(reason, "Unable to load schedule.")),
       )
       .finally(() => setLoading(false));
   }, []);
 
-  async function run(action: () => Promise<unknown>) {
+  async function run(action: () => Promise<unknown>, successMessage: string) {
     setBusy(true);
     setError("");
+    setMessage("");
     try {
       await action();
       await load();
+      setMessage(successMessage);
     } catch (reason) {
-      setError(reason instanceof Error ? reason.message : "Unable to update appointment.");
+      setError(errorMessage(reason, "Unable to update appointment."));
     } finally {
       setBusy(false);
     }
@@ -55,7 +59,10 @@ export default function Calendar() {
       setError("Enter a valid replacement date and time.");
       return;
     }
-    await run(() => rescheduleAppointment(appointment.id, date.toISOString()));
+    await run(
+      () => rescheduleAppointment(appointment.id, date.toISOString()),
+      "Appointment rescheduled. The original remains in history as cancelled.",
+    );
   }
 
   return (
@@ -65,6 +72,7 @@ export default function Calendar() {
       <p style={{ color: "#64748b" }}>Workspace job appointments in chronological order.</p>
       {loading && <p>Loading schedule…</p>}
       {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
+      {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
       <div style={{ display: "grid", gap: 12 }}>
         {appointments.map((appointment) => (
           <article key={appointment.id} style={cardStyle}>
@@ -76,9 +84,9 @@ export default function Calendar() {
             </div>
             {appointment.status === "scheduled" && <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
               <button disabled={busy} onClick={() => reschedule(appointment)}>Reschedule</button>
-              <button disabled={busy} onClick={() => run(() => completeAppointment(appointment.id))}>Complete</button>
-              <button disabled={busy} onClick={() => run(() => cancelAppointment(appointment.id))}>Cancel</button>
-              <button disabled={busy} onClick={() => run(() => markNoShow(appointment.id))}>No-show</button>
+              <button disabled={busy} onClick={() => run(() => completeAppointment(appointment.id), "Appointment completed.")}>Complete</button>
+              <button disabled={busy} onClick={() => run(() => cancelAppointment(appointment.id), "Appointment cancelled.")}>Cancel</button>
+              <button disabled={busy} onClick={() => run(() => markNoShow(appointment.id), "Appointment marked no-show.")}>No-show</button>
             </div>}
           </article>
         ))}
