@@ -1,11 +1,12 @@
 import { useState } from "react";
+import type { FormEvent } from "react";
 import { supabase } from "../../lib/supabase";
 
 export default function Login() {
   const [email,setEmail]=useState("");
   const [password,setPassword]=useState("");
 
-  async function login(e:any){
+  async function login(e: FormEvent<HTMLFormElement>){
     e.preventDefault();
 
     const {error}=await supabase.auth.signInWithPassword({

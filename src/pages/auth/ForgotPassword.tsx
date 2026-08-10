@@ -1,11 +1,12 @@
 import { useState } from "react";
+import type { FormEvent } from "react";
 import { supabase } from "../../lib/supabase";
 
 export default function ForgotPassword(){
 
 const[email,setEmail]=useState("");
 
-async function send(e:any){
+async function send(e: FormEvent<HTMLFormElement>){
 e.preventDefault();
 
 const {error}=await supabase.auth.resetPasswordForEmail(email);

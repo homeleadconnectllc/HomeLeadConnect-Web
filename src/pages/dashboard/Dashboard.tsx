@@ -1,4 +1,5 @@
 import { supabase } from "../../lib/supabase";
+import { Link } from "react-router-dom";
 
 export default function Dashboard() {
   async function logout() {
@@ -12,6 +13,12 @@ export default function Dashboard() {
       <p>✅ Authentication Connected</p>
       <p>✅ Supabase Connected</p>
       <p>✅ Protected Route Ready</p>
+
+      <nav style={{ display: "flex", gap: 16, margin: "24px 0" }}>
+        <Link to="/leads">Leads</Link>
+        <Link to="/estimator">Estimator</Link>
+        <Link to="/jobs">Jobs</Link>
+      </nav>
 
       <button onClick={logout}>
         Logout
