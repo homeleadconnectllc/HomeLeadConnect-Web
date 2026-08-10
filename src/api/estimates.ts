@@ -49,7 +49,6 @@ export async function getEstimate(id: string): Promise<Estimate> {
 export async function saveEstimate(input: SaveEstimateInput): Promise<Estimate> {
   const workspaceId = await getCurrentWorkspaceId();
   const estimateValues = {
-    workspace_id: workspaceId,
     lead_id: input.leadId,
     status: input.status,
     markup_percent: input.markupPercent,
@@ -64,7 +63,10 @@ export async function saveEstimate(input: SaveEstimateInput): Promise<Estimate> 
         .update(estimateValues)
         .eq("workspace_id", workspaceId)
         .eq("id", input.id)
-    : supabase.from("estimates").insert(estimateValues);
+    : supabase.from("estimates").insert({
+        ...estimateValues,
+        workspace_id: workspaceId,
+      });
 
   const { data, error } = await query.select(estimateColumns).single();
   if (error) throw error;
