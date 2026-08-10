@@ -36,12 +36,26 @@ export type BusinessProfile = {
 
 export type Lead = {
   id: number;
+  id_uuid: string;
   workspace_id: string;
   full_name: string | null;
   email: string | null;
   phone: string;
   status: string | null;
   created_at: string;
+};
+
+export type FollowUp = {
+  id: number;
+  created_at: string;
+  lead_id: string;
+  assigned_user_id: string | null;
+  status: "pending" | "completed";
+  scheduled_for: string | null;
+  completed_at: string | null;
+  notes: string | null;
+  follow_up_type: string | null;
+  lead?: Pick<Lead, "id" | "id_uuid" | "full_name" | "phone">;
 };
 
 export type EstimateLineRow = {

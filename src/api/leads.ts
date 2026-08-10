@@ -1,7 +1,7 @@
 import { getCurrentWorkspaceId, supabase } from "./client";
 import type { Lead } from "../lib/types/database";
 
-const leadColumns = "id,workspace_id,full_name,email,phone,status,created_at";
+const leadColumns = "id,id_uuid,workspace_id,full_name,email,phone,status,created_at";
 
 export async function listLeads(): Promise<Lead[]> {
   const workspaceId = await getCurrentWorkspaceId();
