@@ -11,6 +11,17 @@ export type ContractorFilters = {
   status?: string;
 };
 
+export type CreateContractorInput = {
+  companyName?: string;
+  contactName?: string;
+  phone?: string;
+  email?: string;
+  specialty?: string;
+  city?: string;
+  state?: string;
+  zip?: string;
+};
+
 export async function listContractors(
   filters: ContractorFilters = {},
 ): Promise<Contractor[]> {
@@ -46,6 +57,37 @@ export async function getContractor(id: number): Promise<Contractor> {
     .select(contractorColumns)
     .eq("workspace_id", workspaceId)
     .eq("id", id)
+    .single();
+
+  if (error) throw error;
+  return data as Contractor;
+}
+
+export async function createContractor(
+  input: CreateContractorInput,
+): Promise<Contractor> {
+  const workspaceId = await getCurrentWorkspaceId();
+  const companyName = input.companyName?.trim() || null;
+  const contactName = input.contactName?.trim() || null;
+
+  if (!companyName && !contactName) {
+    throw new Error("Enter a company name or contact name.");
+  }
+
+  const { data, error } = await supabase
+    .from("contractors")
+    .insert({
+      workspace_id: workspaceId,
+      company_name: companyName,
+      contact_name: contactName,
+      phone: input.phone?.trim() || null,
+      email: input.email?.trim() || null,
+      specialty: input.specialty?.trim() || null,
+      city: input.city?.trim() || null,
+      state: input.state?.trim() || null,
+      zip: input.zip?.trim() || null,
+    })
+    .select(contractorColumns)
     .single();
 
   if (error) throw error;

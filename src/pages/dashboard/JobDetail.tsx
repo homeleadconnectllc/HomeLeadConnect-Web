@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   cancelAppointment,
@@ -8,7 +8,7 @@ import {
   rescheduleAppointment,
   scheduleAppointment,
 } from "../../api/appointments";
-import { listContractors } from "../../api/contractors";
+import { createContractor, listContractors } from "../../api/contractors";
 import {
   acceptAssignment,
   cancelAssignment,
@@ -33,6 +33,16 @@ export default function JobDetail() {
   const [appointments, setAppointments] = useState<JobAppointment[]>([]);
   const [specialty, setSpecialty] = useState("");
   const [location, setLocation] = useState("");
+  const [newContractor, setNewContractor] = useState({
+    companyName: "",
+    contactName: "",
+    phone: "",
+    email: "",
+    specialty: "",
+    city: "",
+    state: "",
+    zip: "",
+  });
   const [appointmentDate, setAppointmentDate] = useState("");
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(true);
@@ -117,6 +127,30 @@ export default function JobDetail() {
     await run(() => offerJobToContractor(jobId, contractor.id));
   }
 
+  async function addContractor(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setBusy(true);
+    setError("");
+    try {
+      await createContractor(newContractor);
+      setNewContractor({
+        companyName: "",
+        contactName: "",
+        phone: "",
+        email: "",
+        specialty: "",
+        city: "",
+        state: "",
+        zip: "",
+      });
+      await load();
+    } catch (reason) {
+      setError(messageFor(reason));
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function schedule() {
     if (!jobId || !appointmentDate) return;
     await run(async () => {
@@ -199,6 +233,29 @@ export default function JobDetail() {
         <p style={{ color: "#64748b" }}>
           Workspace contractors only. Filters use exact specialty and recorded city/state/ZIP; no score or availability is inferred.
         </p>
+        <form onSubmit={addContractor} style={createFormStyle}>
+          <fieldset disabled={busy} style={fieldsetStyle}>
+            <legend>Add a workspace contractor</legend>
+            <label>Company name<input value={newContractor.companyName}
+              onChange={(event) => setNewContractor((current) => ({ ...current, companyName: event.target.value }))} /></label>
+            <label>Contact name<input value={newContractor.contactName}
+              onChange={(event) => setNewContractor((current) => ({ ...current, contactName: event.target.value }))} /></label>
+            <label>Specialty<input value={newContractor.specialty}
+              onChange={(event) => setNewContractor((current) => ({ ...current, specialty: event.target.value }))} /></label>
+            <label>Phone<input type="tel" value={newContractor.phone}
+              onChange={(event) => setNewContractor((current) => ({ ...current, phone: event.target.value }))} /></label>
+            <label>Email<input type="email" value={newContractor.email}
+              onChange={(event) => setNewContractor((current) => ({ ...current, email: event.target.value }))} /></label>
+            <label>City<input value={newContractor.city}
+              onChange={(event) => setNewContractor((current) => ({ ...current, city: event.target.value }))} /></label>
+            <label>State<input value={newContractor.state}
+              onChange={(event) => setNewContractor((current) => ({ ...current, state: event.target.value }))} /></label>
+            <label>ZIP<input inputMode="numeric" value={newContractor.zip}
+              onChange={(event) => setNewContractor((current) => ({ ...current, zip: event.target.value }))} /></label>
+            <button type="submit">Add contractor</button>
+          </fieldset>
+        </form>
+        <h3>Candidate filters</h3>
         <div style={filtersStyle}>
           <input value={specialty} onChange={(event) => setSpecialty(event.target.value)} placeholder="Exact specialty" />
           <input value={location} onChange={(event) => setLocation(event.target.value)} placeholder="City, state, or ZIP" />
@@ -208,7 +265,9 @@ export default function JobDetail() {
             <ContractorCard key={contractor.id} contractor={contractor}
               disabled={busy || Boolean(currentAssignment)} onOffer={offer} />
           ))}
-          {candidates.length === 0 && <p>No contractors match these explicit filters.</p>}
+          {contractors.length === 0
+            ? <p>No workspace contractors yet. Add one above to continue.</p>
+            : candidates.length === 0 && <p>No contractors match these explicit filters.</p>}
         </div>
       </section>
 
@@ -264,6 +323,7 @@ const pageStyle = { width: "min(1100px, calc(100% - 48px))", margin: "40px auto"
 const headerStyle = { display: "flex", justifyContent: "space-between", gap: 24, padding: 20, background: "#f8fafc", borderRadius: 16 };
 const sectionStyle = { marginTop: 24, padding: 20, border: "1px solid #e2e8f0", borderRadius: 16 };
 const filtersStyle = { display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 10 };
+const createFormStyle = { margin: "16px 0 24px" };
 const actionsStyle = { display: "flex", flexWrap: "wrap" as const, gap: 8 };
 const fieldsetStyle = { display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 10, border: "1px solid #cbd5e1", borderRadius: 10 };
 const appointmentStyle = { display: "flex", justifyContent: "space-between", gap: 16, padding: 14, background: "#f8fafc", borderRadius: 10 };
