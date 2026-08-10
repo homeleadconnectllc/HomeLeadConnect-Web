@@ -9,6 +9,31 @@ export type CrmJobStatus = "pending" | "active" | "completed" | "cancelled";
 export type JobAssignmentStatus = "offered" | "accepted" | "rejected" | "cancelled";
 export type AppointmentStatus = "scheduled" | "completed" | "cancelled" | "no_show";
 
+export type UserProfile = {
+  id: string;
+  user_id: string;
+  workspace_id: string;
+  full_name: string | null;
+  avatar_url: string | null;
+  role: string;
+  onboarding_completed: boolean | null;
+  onboarding_step: string | null;
+};
+
+export type BusinessProfile = {
+  id: string;
+  workspace_id: string;
+  business_name: string | null;
+  owner_name: string | null;
+  phone: string | null;
+  email: string | null;
+  website: string | null;
+  address: string | null;
+  city: string | null;
+  state: string | null;
+  zip: string | null;
+};
+
 export type Lead = {
   id: number;
   workspace_id: string;

@@ -1,8 +1,17 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+import { supabase } from "../lib/supabase";
 
 const logo = "/hlc-logo-final.png";
 
 export default function Navbar() {
+  const { session, loading } = useAuth();
+
+  async function logout() {
+    await supabase.auth.signOut();
+    window.location.href = "/";
+  }
+
   return (
     <nav
       style={{
@@ -46,10 +55,16 @@ export default function Navbar() {
           alignItems: "center",
         }}
       >
-        <a href="/">Home</a>
-        <a href="/contact">Contact</a>
-
-        <Link to="/login">CRM Login</Link>
+        <Link to="/">Home</Link>
+        <Link to="/contact">Contact</Link>
+        {!loading && session ? <>
+          <Link to="/dashboard">Dashboard</Link>
+          <Link to="/leads">Leads</Link>
+          <Link to="/jobs">Jobs</Link>
+          <Link to="/calendar">Schedule</Link>
+          <Link to="/settings">Settings</Link>
+          <button type="button" onClick={logout}>Log out</button>
+        </> : !loading && <Link to="/login">CRM Login</Link>}
       </div>
     </nav>
   );

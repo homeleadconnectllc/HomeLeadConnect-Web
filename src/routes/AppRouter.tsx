@@ -16,6 +16,8 @@ import Leads from "../pages/dashboard/Leads";
 import Jobs from "../pages/dashboard/Jobs";
 import JobDetail from "../pages/dashboard/JobDetail";
 import Calendar from "../pages/dashboard/Calendar";
+import Settings from "../pages/dashboard/Settings";
+import NotFound from "../pages/errors/404";
 
 export default function AppRouter() {
   return (
@@ -36,7 +38,9 @@ export default function AppRouter() {
             <Route path="/jobs" element={<Jobs />} />
             <Route path="/jobs/:jobId" element={<JobDetail />} />
             <Route path="/calendar" element={<Calendar />} />
+            <Route path="/settings" element={<Settings />} />
           </Route>
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>
