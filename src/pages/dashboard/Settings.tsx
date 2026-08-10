@@ -1,5 +1,13 @@
 import { useEffect, useState, type FormEvent } from "react";
-import { getBusinessProfile, getMyProfile, saveBusinessProfile, updateMyProfile } from "../../api/settings";
+import {
+  getBusinessProfile,
+  getMyProfile,
+  listMyWorkspaces,
+  saveBusinessProfile,
+  switchCurrentWorkspace,
+  updateMyProfile,
+  type WorkspaceOption,
+} from "../../api/settings";
 import { errorMessage } from "../../lib/errorMessage";
 
 const blankBusiness = {
@@ -8,20 +16,23 @@ const blankBusiness = {
 };
 
 export default function Settings() {
-  const [personal, setPersonal] = useState({ fullName: "", avatarUrl: "", email: "", role: "" });
+  const [personal, setPersonal] = useState({ fullName: "", avatarUrl: "", role: "" });
   const [business, setBusiness] = useState(blankBusiness);
+  const [workspaces, setWorkspaces] = useState<WorkspaceOption[]>([]);
+  const [workspaceId, setWorkspaceId] = useState("");
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState<"personal" | "business" | null>(null);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    Promise.all([getMyProfile(), getBusinessProfile()])
-      .then(([profile, businessProfile]) => {
+    Promise.all([getMyProfile(), getBusinessProfile(), listMyWorkspaces()])
+      .then(([profile, businessProfile, workspaceOptions]) => {
+        setWorkspaceId(profile.workspace_id);
+        setWorkspaces(workspaceOptions);
         setPersonal({
           fullName: profile.full_name || "",
           avatarUrl: profile.avatar_url || "",
-          email: "",
           role: profile.role,
         });
         if (businessProfile) {
@@ -50,6 +61,14 @@ export default function Settings() {
     }, "Personal profile saved.");
   }
 
+  async function changeWorkspace(event: FormEvent) {
+    event.preventDefault();
+    await run("personal", async () => {
+      await switchCurrentWorkspace(workspaceId);
+      window.location.assign("/dashboard");
+    }, "Workspace switched.");
+  }
+
   async function saveBusiness(event: FormEvent) {
     event.preventDefault();
     await run("business", async () => {
@@ -76,6 +95,15 @@ export default function Settings() {
     <p>Manage the profile fields already supported by your HLC workspace.</p>
     {error && <p role="alert" style={errorStyle}>{error}</p>}
     {message && <p role="status" style={successStyle}>{message}</p>}
+
+    <form onSubmit={changeWorkspace} style={cardStyle}>
+      <h2>Current workspace</h2>
+      <label>Workspace<select value={workspaceId} onChange={(event) => setWorkspaceId(event.target.value)}>
+        {workspaces.map((workspace) => <option key={workspace.id} value={workspace.id}>{workspace.name}</option>)}
+      </select></label>
+      <button disabled={busy !== null || !workspaceId} type="submit">Switch workspace</button>
+      <p>Only workspaces linked to your authenticated membership are listed.</p>
+    </form>
 
     <form onSubmit={savePersonal} style={cardStyle}>
       <h2>Personal profile</h2>

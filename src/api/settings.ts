@@ -4,6 +4,20 @@ import type { BusinessProfile, UserProfile } from "../lib/types/database";
 const profileColumns = "id,user_id,workspace_id,full_name,avatar_url,role,onboarding_completed,onboarding_step";
 const businessColumns = "id,workspace_id,business_name,owner_name,phone,email,website,address,city,state,zip";
 
+export type WorkspaceOption = { id: string; name: string };
+
+export async function listMyWorkspaces(): Promise<WorkspaceOption[]> {
+  const { data, error } = await supabase.from("workspaces").select("id,name").order("name");
+  if (error) throw error;
+  return (data ?? []) as WorkspaceOption[];
+}
+
+export async function switchCurrentWorkspace(workspaceId: string) {
+  const { data, error } = await supabase.rpc("switch_current_workspace", { p_workspace_id: workspaceId });
+  if (error) throw error;
+  return data as string;
+}
+
 export async function getMyProfile(): Promise<UserProfile> {
   const { data: authData, error: authError } = await supabase.auth.getUser();
   if (authError) throw authError;
