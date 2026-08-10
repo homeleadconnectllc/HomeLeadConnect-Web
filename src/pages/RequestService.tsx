@@ -1,0 +1,47 @@
+import { useState, type FormEvent } from "react";
+import { submitServiceRequest } from "../api/publicIntake";
+import { errorMessage } from "../lib/errorMessage";
+
+export default function RequestService() {
+  const [form, setForm] = useState({ fullName: "", phone: "", email: "", projectDetails: "" });
+  const [requestId] = useState(() => crypto.randomUUID());
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+
+  async function submit(event: FormEvent) {
+    event.preventDefault(); setBusy(true); setError("");
+    try {
+      const result = await submitServiceRequest({ requestId, ...form });
+      if (!result?.accepted) throw new Error("The request could not be accepted.");
+      setSubmitted(true);
+    } catch (reason) {
+      setError(errorMessage(reason, "Unable to submit your request."));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  if (submitted) return <main style={pageStyle}>
+    <h1>Request received</h1>
+    <p>Your service request was saved. HomeLead Connect can now review it in the CRM.</p>
+    <p>This confirmation does not mean a contractor has been assigned or an appointment has been scheduled.</p>
+  </main>;
+
+  return <main style={pageStyle}>
+    <h1>Request service</h1>
+    <p>Tell us what you need. Submitting this form creates a service request for review.</p>
+    {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
+    <form onSubmit={submit} style={formStyle}>
+      <label>Full name<input required minLength={2} autoComplete="name" value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} /></label>
+      <label>Phone<input required type="tel" autoComplete="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} /></label>
+      <label>Email (optional)<input type="email" autoComplete="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></label>
+      <label>What service do you need?<textarea required minLength={10} rows={6} value={form.projectDetails} onChange={(e) => setForm({ ...form, projectDetails: e.target.value })} /></label>
+      <p style={{ color: "#475569" }}>We will use your information to review and respond to this service request. This form does not enroll you in marketing messages.</p>
+      <button disabled={busy} type="submit">{busy ? "Submitting…" : "Submit service request"}</button>
+    </form>
+  </main>;
+}
+
+const pageStyle = { width: "min(700px, calc(100% - 32px))", margin: "40px auto", fontFamily: "system-ui, sans-serif" };
+const formStyle = { display: "grid", gap: 14, padding: 20, border: "1px solid #e2e8f0", borderRadius: 14 };

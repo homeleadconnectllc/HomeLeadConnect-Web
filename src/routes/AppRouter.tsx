@@ -6,6 +6,7 @@ import ProtectedLayout from "../layouts/ProtectedLayout";
 import HomePage from "../pages/HomePage";
 import ContactPage from "../pages/ContactPage";
 import Estimator from "../pages/Estimator";
+import RequestService from "../pages/RequestService";
 
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
@@ -27,6 +28,7 @@ export default function AppRouter() {
           <Route path="/" element={<HomePage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/estimator" element={<Estimator />} />
+          <Route path="/request-service" element={<RequestService />} />
 
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />

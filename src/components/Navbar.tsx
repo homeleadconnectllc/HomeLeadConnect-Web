@@ -57,6 +57,7 @@ export default function Navbar() {
       >
         <Link to="/">Home</Link>
         <Link to="/contact">Contact</Link>
+        {!session && <Link to="/request-service">Request Service</Link>}
         {!loading && session ? <>
           <Link to="/dashboard">Dashboard</Link>
           <Link to="/leads">Leads</Link>
