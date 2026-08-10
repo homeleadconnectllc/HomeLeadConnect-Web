@@ -1,10 +1,10 @@
 import Footer from "../components/Footer";
 
 const features = [
-  ["CRM Platform","Leads, customers, jobs, and revenue in one command center."],
-  ["AI Automation","Automated follow-ups and business workflows."],
-  ["Contractor Network","Connect homeowners with service professionals."],
-  ["Growth Engine","Websites, analytics, and lead generation tools."]
+  ["CRM Platform", "Manage leads, estimates, jobs, contractor assignments, and appointments."],
+  ["LeadScope", "Create itemized estimates with clear quantities, costs, markup, and totals."],
+  ["Contractor Operations", "Record contractor offers, acceptance, assignment history, and scheduled work."],
+  ["Workspace Security", "Keep operational records scoped to an authenticated business workspace."]
 ];
 
 export default function HomePage() {
@@ -97,7 +97,7 @@ export default function HomePage() {
           </h2>
 
           <p style={{color:"#cbd5e1",fontSize:20}}>
-            Your complete business operating system.
+            One place to move service work from lead to scheduled job.
           </p>
 
 
@@ -110,7 +110,7 @@ export default function HomePage() {
             }}
           >
 
-          {["Leads","Customers","Jobs","Revenue"].map(item=>(
+          {["Leads", "Estimates", "Jobs", "Schedule"].map(item=>(
             <div
               key={item}
               style={{
@@ -121,9 +121,7 @@ export default function HomePage() {
             >
               <strong>{item}</strong>
               <br/>
-              <span style={{color:"#93c5fd"}}>
-                Active
-              </span>
+              <span style={{color:"#93c5fd"}}>Workspace tools</span>
             </div>
           ))}
 
@@ -187,7 +185,7 @@ export default function HomePage() {
             }}
           >
             <h2 style={{margin:0}}>
-              Live Platform Preview
+              Product workflow
             </h2>
 
             <span
@@ -199,7 +197,7 @@ export default function HomePage() {
                 fontWeight:800
               }}
             >
-              ● System Online
+              Available after CRM login
             </span>
           </div>
 
@@ -213,10 +211,10 @@ export default function HomePage() {
           >
 
             {[
-              ["New Leads","+42 Today"],
-              ["Automation","Running"],
-              ["Appointments","18 Scheduled"],
-              ["Revenue","Growing"]
+              ["Request", "Capture a service need"],
+              ["Estimate", "Prepare itemized scope and pricing"],
+              ["Contractor", "Offer and record acceptance"],
+              ["Schedule", "Create a job appointment"]
             ].map(card=>(
               <div
                 className="hlc-card"
