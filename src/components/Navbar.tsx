@@ -83,6 +83,7 @@ export default function Navbar() {
             <Link to="/jobs">Jobs</Link>
             <Link to="/calendar">Schedule</Link>
             <Link to="/follow-ups">Follow-ups</Link>
+            <Link to="/manual-communications">Calls &amp; texts</Link>
             <Link to="/settings">Settings</Link>
           </>}
           {access.homeowner && <Link to="/homeowner-portal">Homeowner portal</Link>}

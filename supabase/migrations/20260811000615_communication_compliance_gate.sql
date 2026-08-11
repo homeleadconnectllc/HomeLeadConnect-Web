@@ -48,12 +48,12 @@ create index communication_dnc_screenings_lookup_idx on public.communication_dnc
 create table public.communication_provider_connections (
   workspace_id uuid not null references public.workspaces(id) on delete cascade,
   channel text not null check(channel in ('sms','email','call','voice_note')),
-  status text not null check(status in ('not_connected','configured','connected','disabled')) default 'not_connected',
-  provider_name text,
+  status text not null check(status in ('not_connected','configured','manual_available','connected','disabled')) default 'not_connected',
+  provider_name text not null,
   sender_identity text,
   verified_at timestamptz,
   updated_at timestamptz not null default now(),
-  primary key(workspace_id,channel),
+  primary key(workspace_id,channel,provider_name),
   check(status<>'connected' or (provider_name is not null and sender_identity is not null and verified_at is not null))
 );
 
@@ -64,6 +64,7 @@ create table public.communication_compliance_checks (
   subject_type text not null,
   subject_id text not null,
   channel text not null,
+  provider_name text not null,
   purpose text not null,
   direction text not null,
   decision text not null check(decision in ('ALLOW','BLOCK','REVIEW')),
@@ -152,10 +153,10 @@ end; $$;
 create or replace function public.evaluate_communication_compliance(
   p_subject_type text,p_subject_id text,p_channel text,p_purpose text,p_direction text,
   p_requested_automated boolean default false,p_requested_prerecorded_or_ai_voice boolean default false,
-  p_requested_recording boolean default false
+  p_requested_recording boolean default false,p_provider_name text default null
 )
 returns jsonb language plpgsql security definer set search_path='' as $$
-declare v_workspace_id uuid; v_destination text; v_state text; v_reasons jsonb:='[]'::jsonb; v_decision text:='ALLOW';
+declare v_workspace_id uuid; v_destination text; v_state text; v_provider_name text; v_check_id uuid; v_reasons jsonb:='[]'::jsonb; v_decision text:='ALLOW';
 begin
   if auth.uid() is null then raise exception 'Authentication is required.' using errcode='42501'; end if;
   select p.workspace_id into v_workspace_id from public.profiles p where p.user_id=auth.uid();
@@ -165,13 +166,17 @@ begin
     select case when lower(p_channel)='email' then lower(l.email) else regexp_replace(l.phone,'[() .-]','','g') end,
       null::text
     into v_destination,v_state from public.leads l where l.id=p_subject_id::bigint and l.workspace_id=v_workspace_id;
+    if not found then raise exception 'Lead is not in the current workspace.' using errcode='42501'; end if;
   elsif lower(p_subject_type)='contractor' then
     select case when lower(p_channel)='email' then lower(c.email) else regexp_replace(c.phone,'[() .-]','','g') end,upper(c.state)
     into v_destination,v_state from public.contractors c where c.id=p_subject_id::bigint and c.workspace_id=v_workspace_id;
+    if not found then raise exception 'Contractor is not in the current workspace.' using errcode='42501'; end if;
   else raise exception 'Invalid subject type.' using errcode='22023'; end if;
+  v_provider_name:=coalesce(nullif(lower(btrim(p_provider_name)),''),case when lower(p_channel) in ('sms','call') then 'twilio' else 'email_unconfigured' end);
   if v_destination is null or v_destination='' then v_decision:='BLOCK'; v_reasons:=v_reasons||'["destination_missing"]'::jsonb; end if;
   if not exists(select 1 from public.communication_provider_connections pc where pc.workspace_id=v_workspace_id
-    and pc.channel=lower(p_channel) and pc.status='connected') then
+    and pc.channel=lower(p_channel) and pc.provider_name=v_provider_name
+    and (pc.status='connected' or (v_provider_name='google_voice' and pc.status='manual_available'))) then
     v_decision:='BLOCK'; v_reasons:=v_reasons||'["provider_not_connected"]'::jsonb;
   end if;
   if exists(select 1 from public.communication_suppressions s where s.workspace_id=v_workspace_id
@@ -201,16 +206,17 @@ begin
     and c.status='granted' and c.revoked_at is null) then
     v_decision:='BLOCK'; v_reasons:=v_reasons||'["recording_consent_not_proven"]'::jsonb;
   end if;
-  insert into public.communication_compliance_checks(workspace_id,actor_user_id,subject_type,subject_id,channel,purpose,direction,
+  insert into public.communication_compliance_checks(workspace_id,actor_user_id,subject_type,subject_id,channel,provider_name,purpose,direction,
     decision,reasons,requested_automated,requested_prerecorded_or_ai_voice,requested_recording)
-  values(v_workspace_id,auth.uid(),lower(p_subject_type),p_subject_id,lower(p_channel),lower(p_purpose),lower(p_direction),
-    v_decision,v_reasons,p_requested_automated,p_requested_prerecorded_or_ai_voice,p_requested_recording);
-  return jsonb_build_object('decision',v_decision,'reasons',v_reasons,'provider_ready',not(v_reasons?'provider_not_connected'));
+  values(v_workspace_id,auth.uid(),lower(p_subject_type),p_subject_id,lower(p_channel),v_provider_name,lower(p_purpose),lower(p_direction),
+    v_decision,v_reasons,p_requested_automated,p_requested_prerecorded_or_ai_voice,p_requested_recording)
+  returning id into v_check_id;
+  return jsonb_build_object('id',v_check_id,'decision',v_decision,'reasons',v_reasons,'provider_ready',not(v_reasons?'provider_not_connected'));
 end; $$;
 
 revoke all on function public.record_communication_consent(text,text,text,text,text,text) from public,anon;
 revoke all on function public.suppress_communication_destination(text,text,text,text) from public,anon;
-revoke all on function public.evaluate_communication_compliance(text,text,text,text,text,boolean,boolean,boolean) from public,anon;
+revoke all on function public.evaluate_communication_compliance(text,text,text,text,text,boolean,boolean,boolean,text) from public,anon;
 grant execute on function public.record_communication_consent(text,text,text,text,text,text) to authenticated,service_role;
 grant execute on function public.suppress_communication_destination(text,text,text,text) to authenticated,service_role;
-grant execute on function public.evaluate_communication_compliance(text,text,text,text,text,boolean,boolean,boolean) to authenticated,service_role;
+grant execute on function public.evaluate_communication_compliance(text,text,text,text,text,boolean,boolean,boolean,text) to authenticated,service_role;

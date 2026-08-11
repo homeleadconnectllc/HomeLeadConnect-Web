@@ -28,6 +28,7 @@ import Settings from "../pages/dashboard/Settings";
 import FollowUps from "../pages/dashboard/FollowUps";
 import Messages from "../pages/dashboard/Messages";
 import Notifications from "../pages/dashboard/Notifications";
+import ManualCommunications from "../pages/dashboard/ManualCommunications";
 import NotFound from "../pages/errors/404";
 
 export default function AppRouter() {
@@ -68,6 +69,7 @@ export default function AppRouter() {
               <Route path="/calendar" element={<Calendar />} />
               <Route path="/settings" element={<Settings />} />
               <Route path="/follow-ups" element={<FollowUps />} />
+              <Route path="/manual-communications" element={<ManualCommunications />} />
             </Route>
           </Route>
           <Route path="*" element={<NotFound />} />
