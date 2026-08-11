@@ -1,0 +1,52 @@
+# Pennsylvania V1 migration release plan
+
+Status: production application is intentionally blocked until an isolated Supabase branch or clone proves the chain below.
+
+## History reconciliation
+
+The linked `homeconnect` project contains historical migration versions that are not present in this repository. Its latest recorded remote version is `20260810231636`. Local launch migrations begin at `20260810204523`, overlap the remote timeline, and remain unapplied remotely.
+
+Do not run `supabase db push --linked` against production until a clone has proved both the migration order and the intended reconciliation of remote-only history. Do not mark remote-only versions reverted; they describe real production history.
+
+## Ordered pending chain
+
+1. `20260810204523_job_operations_assignment_scheduling.sql`
+2. `20260810205049_atomic_job_appointment_reschedule.sql`
+3. `20260810210000_allow_appointment_close_after_assignment_end.sql`
+4. `20260810233000_profile_business_settings.sql`
+5. `20260810234500_public_service_intake.sql`
+6. `20260810235900_harden_public_ingest_and_worker_functions.sql`
+7. `20260811000500_repair_causal_lead_ingest.sql`
+8. `20260811000615_communication_compliance_gate.sql`
+9. `20260811001014_hlc_v1_subscription_billing.sql`
+10. `20260811002000_pin_existing_function_search_paths.sql`
+11. `20260811003000_secure_workspace_switch.sql`
+12. `20260811003512_billing_enrollment_consent.sql`
+13. `20260811010000_portal_invitation_and_access.sql`
+14. `20260811010546_hlc_agent_runtime.sql`
+15. `20260811011000_canonical_messenger.sql`
+16. `20260811011802_unify_contractor_assignment_authority.sql`
+17. `20260811012000_restrict_legacy_dashboard_actions.sql`
+18. `20260811012500_restrict_legacy_lead_automation.sql`
+19. `20260811013000_communication_transports.sql`
+20. `20260811013213_launch_completion_foundations.sql`
+21. `20260811013500_google_voice_manual_channel.sql`
+22. `20260811014000_canonical_notifications.sql`
+23. `20260811015430_explicit_appointment_end_times.sql`
+24. `20260811021550_unified_telephony_routing.sql`
+25. `20260811023142_document_view_audit.sql`
+
+## Isolated verification gate
+
+1. Create a Supabase branch/clone from production without changing production.
+2. Capture its project reference and link a clean working copy to the clone.
+3. Reconcile remote-only migration history from database truth; never fabricate SQL bodies for missing historical migrations.
+4. Apply the pending chain in order.
+5. Run positive, cross-workspace, invalid-transition, invitation, communications, document/storage, billing-webhook, AI, appointment, and telephony transactional tests.
+6. Run database security and performance advisors. Treat RLS-without-policy tables as deny-by-default unless an established product contract requires access.
+7. Verify Edge Function environment names and deploy functions only to the clone.
+8. Exercise rollback by restoring the clone snapshot or discarding the branch; production rollback requires a separately captured pre-release restore point.
+
+## Production gate
+
+Production application requires explicit deployment authorization, a verified backup/restore point, successful clone evidence, provider secrets configured through approved secret stores, and the consolidated browser/mobile/security acceptance run.
