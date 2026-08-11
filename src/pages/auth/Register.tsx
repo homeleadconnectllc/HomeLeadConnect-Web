@@ -27,11 +27,11 @@ export default function Register() {
     setMessage("Account created. Check your email for the confirmation link before signing in.");
   }
 
-  return <main style={pageStyle}>
+  return <main className="hlc-auth-page" style={pageStyle}>
     <h1>Create account</h1>
     {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
     {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
-    <form onSubmit={register} style={formStyle}>
+    <form className="hlc-auth-form" onSubmit={register} style={formStyle}>
       <label>Email<input required autoComplete="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} /></label>
       <label>Password<input required minLength={8} autoComplete="new-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} /></label>
       <AuthTurnstile onToken={setCaptchaToken} resetSignal={captchaReset} />
