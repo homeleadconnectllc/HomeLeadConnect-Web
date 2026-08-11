@@ -10,11 +10,9 @@ import {
 } from "../../api/appointments";
 import { createContractor, listContractors } from "../../api/contractors";
 import {
-  acceptAssignment,
   cancelAssignment,
   listJobAssignments,
   offerJobToContractor,
-  rejectAssignment,
 } from "../../api/jobAssignments";
 import { getJob, type JobDetailRecord } from "../../api/jobs";
 import ContractorCard from "../../components/contractors/ContractorCard";
@@ -203,7 +201,7 @@ export default function JobDetail() {
             {formatCurrency(Number(job.contract_value))} · {job.status} · Created {new Date(job.created_at).toLocaleDateString()}
           </p>
           <p>Lead: {job.lead?.full_name || job.lead_id || "None"}</p>
-          <p>Source estimate: {job.source_estimate_id} ({job.source_estimate?.status || "unknown"})</p>
+          <p>Source LeadScope estimate: <Link to={`/estimator?estimate=${job.source_estimate_id}`}>{job.source_estimate_id}</Link> ({job.source_estimate?.status || "unknown"})</p>
         </div>
         <strong style={{ color: scheduledWork ? "#166534" : "#92400e" }}>
           {scheduledWork ? "Scheduled Work" : "Not Scheduled Work"}
@@ -219,18 +217,7 @@ export default function JobDetail() {
           <div>
             <p><strong>{assignmentName(currentAssignment)}</strong> · {currentAssignment.status}</p>
             <div style={actionsStyle}>
-              {currentAssignment.status === "offered" && <>
-                <button disabled={busy} onClick={() => run(
-                  () => acceptAssignment(currentAssignment.id),
-                  `${assignmentName(currentAssignment)} marked accepted.`,
-                )}>
-                  Operationally mark accepted (v1 admin)
-                </button>
-                <button disabled={busy} onClick={() => run(
-                  () => rejectAssignment(currentAssignment.id),
-                  `${assignmentName(currentAssignment)} marked rejected.`,
-                )}>Mark rejected</button>
-              </>}
+              {currentAssignment.status === "offered" && <p>The linked contractor must accept or reject this offer in the contractor portal.</p>}
               <button disabled={busy} onClick={() => run(
                 () => cancelAssignment(currentAssignment.id),
                 `Assignment for ${assignmentName(currentAssignment)} cancelled.`,

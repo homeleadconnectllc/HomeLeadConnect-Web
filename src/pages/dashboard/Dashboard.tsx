@@ -8,7 +8,7 @@ export default function Dashboard() {
 
       <nav style={{ display: "flex", gap: 16, margin: "24px 0" }}>
         <Link to="/leads">Leads</Link>
-        <Link to="/estimator">Estimator</Link>
+        <Link to="/estimator">LeadScope</Link>
         <Link to="/jobs">Jobs</Link>
         <Link to="/calendar">Schedule</Link>
         <Link to="/follow-ups">Follow-ups</Link>

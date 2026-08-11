@@ -1,13 +1,15 @@
 import { useEffect, useState, type FormEvent } from "react";
+import { useSearchParams } from "react-router-dom";
 import { createFollowUp, completeFollowUp, listFollowUps } from "../../api/followUps";
 import { listLeads } from "../../api/leads";
 import { errorMessage } from "../../lib/errorMessage";
 import type { FollowUp, Lead } from "../../lib/types/database";
 
 export default function FollowUps() {
+  const [searchParams] = useSearchParams();
   const [items, setItems] = useState<FollowUp[]>([]);
   const [leads, setLeads] = useState<Lead[]>([]);
-  const [leadId, setLeadId] = useState("");
+  const [leadId, setLeadId] = useState(() => searchParams.get("lead") || "");
   const [scheduledFor, setScheduledFor] = useState("");
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(true);
