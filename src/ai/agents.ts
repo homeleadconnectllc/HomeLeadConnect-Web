@@ -17,6 +17,7 @@ export type AgentManifest = {
 export const agents: Record<AgentId, AgentManifest> = {
   kendrell: {
     id: "kendrell", name: "Kendrell", role: "Executive Command", question: "What does the owner need to know, decide, or approve?", accent: "#F59E0B", route: "/hq",
+    image: "/brand/avatars/Kendrell_Locked_HLC.png",
     pageTitle: "HQ",
     introduction: "Hi, I’m Kendrell. I help with executive visibility, launch readiness, priorities, and decisions that need owner attention.",
     guidance: [
@@ -29,6 +30,7 @@ export const agents: Record<AgentId, AgentManifest> = {
   },
   dion: {
     id: "dion", name: "Dion", role: "Operations & Business Intelligence", question: "What is happening now, what needs attention, and where is work stuck?", accent: "#6366F1", route: "/operations", pageTitle: "Operations",
+    image: "/brand/avatars/Dion_Locked_HLC.png",
     introduction: "Hi, I’m Dion. I can help you understand what’s happening in operations, what needs attention, and what should happen next.",
     guidance: [
       "There’s no active operational data here yet. Once leads, jobs, assignments, or appointments are available, I can help you work through them.",
@@ -40,6 +42,7 @@ export const agents: Record<AgentId, AgentManifest> = {
   },
   diamond: {
     id: "diamond", name: "Diamond", role: "Customer Experience & Community", question: "What does this person need next, and how do we make the experience clear and welcoming?", accent: "#10B981", route: "/customer-experience", pageTitle: "Customer Experience",
+    image: "/brand/avatars/Diamond_Locked_HLC.png",
     introduction: "Hi, I’m Diamond. I can help guide the customer experience, explain what happens next, and make the process easier to understand.",
     guidance: [
       "If you’re not sure where to start, I can walk you through the next step.",
