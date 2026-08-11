@@ -2,6 +2,7 @@ import { getCurrentWorkspaceId, supabase } from "./client";
 import { getCurrentJobAssignment } from "./jobAssignments";
 import { getJob } from "./jobs";
 import type { AppointmentStatus, JobAppointment } from "../lib/types/database";
+import { requireAppointmentTimeRange } from "../lib/appointments/timeRange";
 
 const appointmentColumns =
   "id,workspace_id,job_id,lead_id,contractor_id,organization_id,appointment_date,appointment_end_at,status,notes,created_by,created_at,updated_at,contractor:contractors(id,company_name,contact_name),job:crm_jobs(id,name)";
@@ -37,6 +38,7 @@ export async function scheduleAppointment(input: {
   appointmentEndAt: string;
   notes?: string;
 }): Promise<JobAppointment> {
+  const range = requireAppointmentTimeRange(input.appointmentDate, input.appointmentEndAt);
   const [workspaceId, assignment, job] = await Promise.all([
     getCurrentWorkspaceId(),
     getCurrentJobAssignment(input.jobId),
@@ -54,8 +56,8 @@ export async function scheduleAppointment(input: {
       job_id: input.jobId,
       lead_id: job.lead_id,
       contractor_id: assignment.contractor_id,
-      appointment_date: input.appointmentDate,
-      appointment_end_at: input.appointmentEndAt,
+      appointment_date: range.start,
+      appointment_end_at: range.end,
       status: "scheduled" satisfies AppointmentStatus,
       notes: input.notes?.trim() || null,
     })
@@ -72,10 +74,11 @@ export async function rescheduleAppointment(
   appointmentEndAt: string,
   notes?: string,
 ): Promise<JobAppointment> {
+  const range = requireAppointmentTimeRange(appointmentDate, appointmentEndAt);
   const { data, error } = await supabase.rpc("reschedule_job_appointment", {
     p_appointment_id: appointmentId,
-    p_appointment_date: appointmentDate,
-    p_appointment_end_at: appointmentEndAt,
+    p_appointment_date: range.start,
+    p_appointment_end_at: range.end,
     p_notes: notes?.trim() || null,
   });
 

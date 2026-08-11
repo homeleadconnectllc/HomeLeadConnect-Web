@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { requireAppointmentTimeRange } from "../../lib/appointments/timeRange";
 
 type Props = {
   initialStart: string;
@@ -14,14 +15,15 @@ export default function RescheduleDialog({ initialStart, initialEnd, busy, onCan
   const [error, setError] = useState("");
 
   async function confirm() {
-    const parsedStart = new Date(start);
-    const parsedEnd = new Date(end);
-    if (!start || !end || Number.isNaN(parsedStart.getTime()) || Number.isNaN(parsedEnd.getTime()) || parsedEnd <= parsedStart) {
+    let range: ReturnType<typeof requireAppointmentTimeRange>;
+    try {
+      range = requireAppointmentTimeRange(start, end);
+    } catch {
       setError("Enter valid replacement times with the end strictly after the start.");
       return;
     }
     setError("");
-    await onConfirm(parsedStart.toISOString(), parsedEnd.toISOString());
+    await onConfirm(range.start, range.end);
   }
 
   return <section role="dialog" aria-modal="true" aria-labelledby="reschedule-heading" style={dialogStyle}>
