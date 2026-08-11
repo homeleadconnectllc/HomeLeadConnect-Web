@@ -15,3 +15,8 @@ Required server-only secrets:
 Deploy with JWT verification enabled. Until all four values are configured the
 function returns `Google Calendar Setup Required` and does not create a second
 scheduling truth.
+
+Google Calendar requires an end after the event start. Canonical HLC appointments
+currently store only `appointment_date`; the adapter therefore fails closed rather
+than inventing a duration. Add the approved end-time/duration contract to HLC
+appointments before enabling synchronization.
