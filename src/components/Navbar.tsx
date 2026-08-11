@@ -84,6 +84,7 @@ export default function Navbar() {
             <Link to="/calendar">Schedule</Link>
             <Link to="/follow-ups">Follow-ups</Link>
             <Link to="/manual-communications">Calls &amp; texts</Link>
+            <Link to="/documents">Documents</Link>
             <Link to="/hq">HQ</Link>
             <Link to="/operations">Operations</Link>
             <Link to="/customer-experience">Customer experience</Link>

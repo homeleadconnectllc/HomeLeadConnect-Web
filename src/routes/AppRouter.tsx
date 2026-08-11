@@ -30,6 +30,7 @@ import Messages from "../pages/dashboard/Messages";
 import Notifications from "../pages/dashboard/Notifications";
 import ManualCommunications from "../pages/dashboard/ManualCommunications";
 import AgentWorkspace from "../pages/dashboard/AgentWorkspace";
+import Documents from "../pages/dashboard/Documents";
 import NotFound from "../pages/errors/404";
 
 export default function AppRouter() {
@@ -71,6 +72,7 @@ export default function AppRouter() {
               <Route path="/settings" element={<Settings />} />
               <Route path="/follow-ups" element={<FollowUps />} />
               <Route path="/manual-communications" element={<ManualCommunications />} />
+              <Route path="/documents" element={<Documents />} />
               <Route path="/hq" element={<AgentWorkspace agentId="kendrell" />} />
               <Route path="/operations" element={<AgentWorkspace agentId="dion" />} />
               <Route path="/customer-experience" element={<AgentWorkspace agentId="diamond" />} />
