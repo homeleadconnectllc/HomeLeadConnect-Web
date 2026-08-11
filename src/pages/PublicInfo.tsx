@@ -17,6 +17,14 @@ const content = {
     title: "How it works",
     body: "The current service workflow is Request → Estimate → Contractor Assignment → Schedule → Work. Each step is recorded separately; submitting a request does not skip later review or acceptance steps.",
   },
+  leadscope: {
+    title: "LeadScope",
+    body: "LeadScope is HomeLead Connect's itemized estimating and scoping workflow. It records quantities, unit costs, estimate-level markup, status, and an explicit conversion from an accepted estimate to a CRM job. It does not invent pricing or guarantee a final project price.",
+  },
+  community: {
+    title: "HLC Community",
+    body: "Community and the HLC Network Directory have a preserved place in the HLC ecosystem but are not operational Pennsylvania V1 services yet. No member counts, ratings, rankings, reviews, or verified-provider claims are presented here.",
+  },
 } as const;
 
 export default function PublicInfo({ page }: { page: keyof typeof content }) {
@@ -25,6 +33,6 @@ export default function PublicInfo({ page }: { page: keyof typeof content }) {
     <h1>{item.title}</h1>
     <p>{item.body}</p>
     {page === "homeowners" && <Link to="/request-service">Request service</Link>}
-    {page === "contractors" && <p>Contractor account access and self-service acceptance will appear only after the contractor identity policy is implemented.</p>}
+    {page === "contractors" && <p>Contractor access uses explicit workspace invitations and email magic-link authentication. It will be enabled only after production invitation delivery and contractor acceptance testing pass.</p>}
   </main>;
 }

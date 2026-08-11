@@ -15,7 +15,12 @@ export default function Footer() {
         <Link to="/how-it-works">How It Works</Link>
         <Link to="/homeowners">Homeowners</Link>
         <Link to="/contractors">Contractors</Link>
+        <Link to="/leadscope">LeadScope</Link>
+        <Link to="/community">Community</Link>
         <Link to="/contact">Contact</Link>
+        <Link to="/privacy">Privacy</Link>
+        <Link to="/terms">Terms</Link>
+        <Link to="/platform-disclosure">Platform disclosure</Link>
       </nav>
       © {new Date().getFullYear()} HomeLead Connect LLC
     </footer>

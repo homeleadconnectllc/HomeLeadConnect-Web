@@ -9,6 +9,7 @@ import ContactPage from "../pages/ContactPage";
 import Estimator from "../pages/Estimator";
 import RequestService from "../pages/RequestService";
 import PublicInfo from "../pages/PublicInfo";
+import Legal from "../pages/Legal";
 
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
@@ -41,6 +42,11 @@ export default function AppRouter() {
           <Route path="/homeowners" element={<PublicInfo page="homeowners" />} />
           <Route path="/contractors" element={<PublicInfo page="contractors" />} />
           <Route path="/how-it-works" element={<PublicInfo page="how" />} />
+          <Route path="/leadscope" element={<PublicInfo page="leadscope" />} />
+          <Route path="/community" element={<PublicInfo page="community" />} />
+          <Route path="/privacy" element={<Legal page="privacy" />} />
+          <Route path="/terms" element={<Legal page="terms" />} />
+          <Route path="/platform-disclosure" element={<Legal page="platform" />} />
 
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
