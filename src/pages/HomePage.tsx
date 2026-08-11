@@ -11,6 +11,7 @@ export default function HomePage() {
   return (
     <>
       <main
+        className="hlc-home"
         style={{
           minHeight:"100vh",
           padding:"40px 24px",
@@ -21,6 +22,7 @@ export default function HomePage() {
       >
 
         <section
+          className="hlc-home-hero"
           style={{
             maxWidth:1200,
             margin:"0 auto",
@@ -81,6 +83,7 @@ export default function HomePage() {
 
 
         <section
+          className="hlc-home-command"
           style={{
             maxWidth:1100,
             margin:"0 auto",
@@ -131,6 +134,7 @@ export default function HomePage() {
 
 
         <section
+          className="hlc-home-features"
           style={{
             maxWidth:1100,
             margin:"80px auto",
@@ -162,6 +166,7 @@ export default function HomePage() {
   
 
         <section
+          className="hlc-home-workflow"
           style={{
             maxWidth:1050,
             margin:"40px auto 0",

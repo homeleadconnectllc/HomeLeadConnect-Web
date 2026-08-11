@@ -29,10 +29,10 @@ export default function Login() {
     navigate(requested || "/dashboard", { replace: true });
   }
 
-  return <main style={pageStyle}>
+  return <main className="hlc-auth-page" style={pageStyle}>
     <h1>CRM login</h1>
     {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
-    <form onSubmit={login} style={formStyle}>
+    <form className="hlc-auth-form" onSubmit={login} style={formStyle}>
       <label>Email<input required autoComplete="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} /></label>
       <label>Password<input required autoComplete="current-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} /></label>
       <AuthTurnstile onToken={setCaptchaToken} resetSignal={captchaReset} />

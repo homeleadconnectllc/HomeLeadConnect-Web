@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 export default function ContactPage() {
   return (
     <main
+      className="hlc-contact-page"
       style={{
         minHeight: "100vh",
         background: "#0f172a",
@@ -15,7 +16,7 @@ export default function ContactPage() {
 
       <p>HomeLead Connect LLC is preparing its Pennsylvania-first launch.</p>
 
-      <section aria-label="HomeLead Connect business contact" style={{ width: "min(620px, 100%)", margin: "32px auto", padding: 24, border: "1px solid #334155", borderRadius: 18, background: "#111827" }}>
+      <section className="hlc-contact-card" aria-label="HomeLead Connect business contact" style={{ width: "min(620px, 100%)", margin: "32px auto", padding: 24, border: "1px solid #334155", borderRadius: 18, background: "#111827" }}>
         <h2>Business contact</h2>
         <p><strong>HomeLead Connect LLC</strong></p>
         <p>Founder / Owner: Antoine Washington</p>

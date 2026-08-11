@@ -17,11 +17,11 @@ export default function ResetPassword() {
     setMessage("Password updated. You can now continue to the dashboard.");
   }
 
-  return <main style={pageStyle}>
+  return <main className="hlc-auth-page" style={pageStyle}>
     <h1>Choose a new password</h1>
     {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
     {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
-    <form onSubmit={update} style={formStyle}>
+    <form className="hlc-auth-form" onSubmit={update} style={formStyle}>
       <label>New password<input required minLength={8} autoComplete="new-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} /></label>
       <button disabled={busy} type="submit">{busy ? "Updating…" : "Update password"}</button>
     </form>

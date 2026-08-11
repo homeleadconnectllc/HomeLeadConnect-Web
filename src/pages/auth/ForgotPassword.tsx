@@ -25,11 +25,11 @@ export default function ForgotPassword() {
     setMessage("If an account exists for that email, a password reset link has been sent.");
   }
 
-  return <main style={pageStyle}>
+  return <main className="hlc-auth-page" style={pageStyle}>
     <h1>Reset password</h1>
     {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
     {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
-    <form onSubmit={send} style={formStyle}>
+    <form className="hlc-auth-form" onSubmit={send} style={formStyle}>
       <label>Email<input required autoComplete="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} /></label>
       <AuthTurnstile onToken={setCaptchaToken} resetSignal={captchaReset} />
       <button disabled={busy || (turnstileEnabled && !captchaToken)} type="submit">{busy ? "Sending…" : "Send reset email"}</button>

@@ -3,9 +3,11 @@ import Navbar from "../components/Navbar";
 
 export default function AppLayout() {
   return (
-    <>
+    <div className="hlc-app-shell">
       <Navbar />
-      <Outlet />
-    </>
+      <div className="hlc-route-content">
+        <Outlet />
+      </div>
+    </div>
   );
 }
