@@ -17,7 +17,7 @@ export type AgentManifest = {
 export const agents: Record<AgentId, AgentManifest> = {
   kendrell: {
     id: "kendrell", name: "Kendrell", role: "Executive Command", question: "What does the owner need to know, decide, or approve?", accent: "#F59E0B", route: "/hq",
-    image: "/brand/avatars/Kendrell_Official_Reference.webp", pageTitle: "HQ",
+    pageTitle: "HQ",
     introduction: "Hi, I’m Kendrell. I help with executive visibility, launch readiness, priorities, and decisions that need owner attention.",
     guidance: [
       "Here’s the current launch picture: what’s complete, what remains blocked, and what still needs attention before go-live.",
