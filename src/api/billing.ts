@@ -20,7 +20,11 @@ export async function getBillingStatus(): Promise<BillingStatus | null> {
 }
 
 export async function startSubscriptionCheckout() {
-  const { data, error } = await supabase.functions.invoke("stripe-checkout-session", { body: {} });
+  const { data, error } = await supabase.functions.invoke("stripe-checkout-session", { body: {
+    acceptedTerms: true,
+    disclosureVersion: "pa-v1-2026-08-10",
+    clientRequestId: crypto.randomUUID(),
+  } });
   if (error) throw error;
   if (!data?.url) throw new Error("Stripe Checkout is unavailable.");
   window.location.assign(data.url as string);

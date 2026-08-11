@@ -8,7 +8,7 @@ Deno.serve(async (request) => {
   if (request.method !== "POST") return json({ error: "Method not allowed." }, 405);
   const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
   const signingSecret = Deno.env.get("STRIPE_WEBHOOK_SIGNING_SECRET");
-  const priceId = Deno.env.get("STRIPE_PRICE_HLC_V1");
+  const priceId = Deno.env.get("STRIPE_PRICE_HLC_MONTHLY");
   const url = Deno.env.get("SUPABASE_URL");
   const service = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   if (!stripeKey || !signingSecret || !priceId || !url || !service) return json({ error: "Webhook setup is incomplete." }, 503);
@@ -76,12 +76,26 @@ Deno.serve(async (request) => {
       if (typeof session.subscription === "string") await syncSubscription(await stripe.subscriptions.retrieve(session.subscription));
     } else if (event.type === "customer.subscription.created" || event.type === "customer.subscription.updated"
       || event.type === "customer.subscription.deleted" || event.type === "customer.subscription.trial_will_end") {
-      await syncSubscription(event.data.object as Stripe.Subscription);
+      const subscription = event.data.object as Stripe.Subscription;
+      await syncSubscription(subscription);
+      if (event.type === "customer.subscription.trial_will_end") {
+        const { error: noticeError } = await admin.from("billing_notice_events").upsert({ workspace_id: subscription.metadata.workspace_id,
+          stripe_subscription_id: subscription.id, source_stripe_event_id: event.id, notice_type: "trial_ending",
+          delivery_status: "email_not_connected" }, { onConflict: "source_stripe_event_id,notice_type", ignoreDuplicates: true });
+        if (noticeError) throw noticeError;
+      }
     } else if (event.type === "invoice.payment_failed") {
       const invoice = event.data.object as Stripe.Invoice;
       const invoiceSubscription = (invoice as unknown as { subscription?: string | { id: string } }).subscription;
       const subscriptionId = typeof invoiceSubscription === "string" ? invoiceSubscription : invoiceSubscription?.id;
-      if (subscriptionId) await syncSubscription(await stripe.subscriptions.retrieve(subscriptionId));
+      if (subscriptionId) {
+        const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+        await syncSubscription(subscription);
+        const { error: noticeError } = await admin.from("billing_notice_events").upsert({ workspace_id: subscription.metadata.workspace_id,
+          stripe_subscription_id: subscription.id, source_stripe_event_id: event.id, notice_type: "payment_failed",
+          delivery_status: "email_not_connected" }, { onConflict: "source_stripe_event_id,notice_type", ignoreDuplicates: true });
+        if (noticeError) throw noticeError;
+      }
     }
     await admin.from("stripe_webhook_events").update({ status: "processed", processed_at: new Date().toISOString() }).eq("event_id", event.id);
     return json({ received: true });

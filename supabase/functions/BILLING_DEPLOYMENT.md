@@ -6,7 +6,7 @@ Required server-side secrets:
 
 - `STRIPE_SECRET_KEY`
 - `STRIPE_WEBHOOK_SIGNING_SECRET`
-- `STRIPE_PRICE_HLC_V1` — the recurring $99 USD monthly Price created for the single launch plan
+- `STRIPE_PRICE_HLC_MONTHLY` — the recurring $99 USD monthly Price created for the single launch plan
 - `APP_URL` — canonical production application origin; no `example.com` or localhost fallback
 - Supabase-provided `SUPABASE_URL`, `SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY`
 
@@ -26,3 +26,9 @@ Required webhook events:
 - `invoice.payment_failed`
 
 Enable `VITE_BILLING_ENABLED=true` only after an end-to-end Stripe test proves Checkout, signed webhook receipt, `subscriptions`, `workspace_plan_status`, trial state, entitlement, billing portal, cancellation, and failure/grace behavior.
+
+The Checkout function requires disclosure version `pa-v1-2026-08-10` and stores
+the authenticated user's affirmative enrollment evidence before creating a
+session. Trial-ending and payment-failure webhooks persist notice obligations as
+`email_not_connected` until the approved transactional email provider is wired;
+that state is not proof a notice was delivered.

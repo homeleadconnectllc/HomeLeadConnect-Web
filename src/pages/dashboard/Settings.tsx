@@ -27,6 +27,7 @@ export default function Settings() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [billing, setBilling] = useState<BillingStatus | null>(null);
+  const [billingConsent, setBillingConsent] = useState(false);
 
   useEffect(() => {
     Promise.all([getMyProfile(), getBusinessProfile(), listMyWorkspaces(), billingEnabled ? getBillingStatus() : Promise.resolve(null)])
@@ -139,10 +140,11 @@ export default function Settings() {
       <h2>Billing</h2>
       <p><strong>HomeLead Connect V1:</strong> $99 per month after a 14-day free trial.</p>
       <p>A payment method is required to begin the trial. No charge is made until the trial ends. Cancellation of a paid subscription takes effect at the end of the current billing period.</p>
+      {!billing?.is_active && billingEnabled && <label><input type="checkbox" checked={billingConsent} onChange={(event) => setBillingConsent(event.target.checked)} /> I agree to begin a 14-day free trial with a payment method. Unless cancelled before the trial ends, the workspace will be charged $99 USD monthly. I can cancel online through the Stripe billing portal.</label>}
       {billing ? <p>Workspace billing state: <strong>{billing.status}</strong>{billing.trial_end ? ` · Trial ends ${new Date(billing.trial_end).toLocaleDateString()}` : ""}{billing.current_period_end ? ` · Current period ends ${new Date(billing.current_period_end).toLocaleDateString()}` : ""}</p>
         : <p>No authoritative Stripe subscription is recorded for this workspace.</p>}
       {billingEnabled ? <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-        {!billing?.is_active && <button type="button" onClick={() => billingAction(startSubscriptionCheckout)}>Start 14-day trial</button>}
+        {!billing?.is_active && <button disabled={!billingConsent} type="button" onClick={() => billingAction(startSubscriptionCheckout)}>Start 14-day trial</button>}
         {billing && <button type="button" onClick={() => billingAction(openBillingPortal)}>Manage billing with Stripe</button>}
       </div> : <p><strong>Setup required:</strong> Stripe launch billing is not enabled in this environment.</p>}
     </section>
