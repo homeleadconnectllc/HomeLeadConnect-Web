@@ -16,6 +16,7 @@ import {
 } from "../../api/manualCommunications";
 import type { Contractor, Lead } from "../../lib/types/database";
 import { errorMessage } from "../../lib/errorMessage";
+import { listConversations, type Conversation } from "../../api/messages";
 
 type ContactOption = { key: string; type: ManualCommunicationSubject; id: string; label: string; phone: string; followUpLeadId?: string };
 
@@ -35,6 +36,8 @@ export default function ManualCommunications() {
   const [leads, setLeads] = useState<Lead[]>([]);
   const [contractors, setContractors] = useState<Contractor[]>([]);
   const [history, setHistory] = useState<GoogleVoiceActivity[]>([]);
+  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [conversationId, setConversationId] = useState("");
   const [configuredNumber, setConfiguredNumber] = useState("");
   const [numberInput, setNumberInput] = useState("");
   const [contactKey, setContactKey] = useState("");
@@ -60,10 +63,11 @@ export default function ManualCommunications() {
   const load = useCallback(async () => {
     setError("");
     try {
-      const [leadRows, contractorRows, activityRows, configuration] = await Promise.all([
-        listLeads(), listContractors(), listGoogleVoiceActivity(), getGoogleVoiceConfiguration(),
+      const [leadRows, contractorRows, activityRows, configuration, conversationRows] = await Promise.all([
+        listLeads(), listContractors(), listGoogleVoiceActivity(), getGoogleVoiceConfiguration(), listConversations(),
       ]);
       setLeads(leadRows); setContractors(contractorRows); setHistory(activityRows);
+      setConversations(conversationRows);
       setConfiguredNumber(configuration?.sender_identity || "");
       setNumberInput(configuration?.sender_identity || "");
     } catch (reason) { setError(errorMessage(reason, "Unable to load manual communications.")); }
@@ -72,10 +76,11 @@ export default function ManualCommunications() {
 
   useEffect(() => {
     let active = true;
-    Promise.all([listLeads(), listContractors(), listGoogleVoiceActivity(), getGoogleVoiceConfiguration()])
-      .then(([leadRows, contractorRows, activityRows, configuration]) => {
+    Promise.all([listLeads(), listContractors(), listGoogleVoiceActivity(), getGoogleVoiceConfiguration(), listConversations()])
+      .then(([leadRows, contractorRows, activityRows, configuration, conversationRows]) => {
         if (!active) return;
         setLeads(leadRows); setContractors(contractorRows); setHistory(activityRows);
+        setConversations(conversationRows);
         setConfiguredNumber(configuration?.sender_identity || "");
         setNumberInput(configuration?.sender_identity || "");
       })
@@ -106,7 +111,7 @@ export default function ManualCommunications() {
     if (!selected || (direction === "outbound" && check?.decision !== "ALLOW")) return;
     setBusy(true); setError(""); setMessage("");
     try {
-      await logGoogleVoiceActivity({ subjectType: selected.type, subjectId: selected.id, channel, direction, purpose, outcome, notes, complianceCheckId: check?.id, requestId });
+      await logGoogleVoiceActivity({ subjectType: selected.type, subjectId: selected.id, channel, direction, purpose, outcome, notes, complianceCheckId: check?.id, conversationId: conversationId || undefined, requestId });
       if (followUpAt && selected.followUpLeadId) await createFollowUp({ leadId: selected.followUpLeadId, scheduledFor: new Date(followUpAt).toISOString(), notes: `Follow up after Google Voice ${channel === "call" ? "call" : "text"}: ${outcome}` });
       setOutcome(""); setNotes(""); setFollowUpAt(""); setCheck(null); setRequestId(crypto.randomUUID());
       await load(); setMessage("Operator-reported Google Voice activity saved to HLC history.");
@@ -132,6 +137,7 @@ export default function ManualCommunications() {
       <form onSubmit={saveActivity} style={{ ...panelStyle, marginTop: 20 }}>
         <h2>Record an outcome</h2>
         <label>Contact<select required value={contactKey} onChange={(event) => { setContactKey(event.target.value); resetCheck(); }}><option value="">Select a lead or contractor</option>{contacts.map((contact) => <option key={contact.key} value={contact.key}>{contact.label} · {contact.phone}</option>)}</select></label>
+        <label>Related HLC conversation<select value={conversationId} onChange={(event) => setConversationId(event.target.value)}><option value="">No conversation selected</option>{conversations.map((conversation) => <option key={conversation.id} value={conversation.id}>{conversation.subject}</option>)}</select></label>
         <div style={twoColumnStyle}><label>Channel<select value={channel} onChange={(event) => { setChannel(event.target.value as ManualCommunicationChannel); resetCheck(); }}><option value="call">Call</option><option value="sms">Interactive text</option></select></label><label>Direction<select value={direction} onChange={(event) => { setDirection(event.target.value as "inbound" | "outbound"); resetCheck(); }}><option value="outbound">Outbound</option><option value="inbound">Inbound</option></select></label></div>
         <label>Purpose<select value={purpose} onChange={(event) => { setPurpose(event.target.value as CommunicationPurpose); resetCheck(); }}><option value="service">Service communication</option><option value="appointment">Appointment</option><option value="lead_follow_up">Lead follow-up</option><option value="marketing">Marketing</option></select></label>
         {direction === "outbound" && <button disabled={busy || !selected} type="button" onClick={checkAction}>{busy ? "Checking…" : "Check before contacting"}</button>}

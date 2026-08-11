@@ -51,8 +51,27 @@ Deno.serve(async (request) => {
   if (loadError || !transmission) return json(500, { error: "Queued communication could not be loaded." });
 
   if (channel === "email") {
-    await admin.from("communication_transmissions").update({ status: "failed", failure_code: "EMAIL_NOT_CONNECTED", failure_message: "Email Setup Required / Not Connected", attempt_count: 1 }).eq("id", transmission.id);
-    return json(503, { id: transmission.id, status: "failed", error: "Email Setup Required / Not Connected" });
+    const resendKey = Deno.env.get("RESEND_API_KEY");
+    const resendFrom = Deno.env.get("RESEND_FROM_EMAIL");
+    if (!resendKey || !resendFrom) {
+      await admin.from("communication_transmissions").update({ status: "failed", failure_code: "EMAIL_NOT_CONNECTED", failure_message: "Email Setup Required / Not Connected", attempt_count: 1 }).eq("id", transmission.id);
+      return json(503, { id: transmission.id, status: "failed", error: "Email Setup Required / Not Connected" });
+    }
+    if (!transmission.content) return json(400, { error: "Email content is required." });
+    await admin.from("communication_transmissions").update({ status: "sending", attempt_count: 1 }).eq("id", transmission.id).eq("status", "queued");
+    const providerResponse = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${resendKey}`, "Content-Type": "application/json", "Idempotency-Key": requestId },
+      body: JSON.stringify({ from: resendFrom, to: [transmission.destination], subject: `HomeLead Connect — ${String(body.purpose || "service").replaceAll("_", " ")}`, text: transmission.content }),
+    });
+    const providerBody = await providerResponse.json().catch(() => ({}));
+    if (!providerResponse.ok || typeof providerBody.id !== "string") {
+      const failure = typeof providerBody.message === "string" ? providerBody.message : "Email provider request failed.";
+      await admin.from("communication_transmissions").update({ status: "failed", failure_code: String(providerResponse.status), failure_message: failure }).eq("id", transmission.id);
+      return json(502, { id: transmission.id, status: "failed", error: failure });
+    }
+    await admin.from("communication_transmissions").update({ status: "sent", provider_name: "resend", provider_reference: providerBody.id, sent_at: new Date().toISOString(), failure_code: null, failure_message: null }).eq("id", transmission.id);
+    return json(200, { id: transmission.id, status: "sent" });
   }
 
   const accountSid = Deno.env.get("TWILIO_ACCOUNT_SID");

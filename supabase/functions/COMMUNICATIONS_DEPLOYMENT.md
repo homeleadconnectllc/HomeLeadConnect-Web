@@ -24,12 +24,15 @@ Production SMS remains blocked until toll-free verification is approved. Only a
 trusted server process may mark the workspace `sms`/`call` provider connection as
 `connected`, using the exact normalized Twilio sender identity.
 
-## Email
+## Resend email
 
-No transactional provider is selected. The canonical queue records an honest
-`Email Setup Required / Not Connected` failure and sends nothing. Add a provider
-adapter only after its account, sender domain, secret, webhook signature, delivery
-events, unsubscribe behavior, and retention contract are approved.
+- `RESEND_API_KEY` — server-only API credential
+- `RESEND_FROM_EMAIL` — verified sender, for example `HomeLead Connect <notifications@updates.homeleadconnect.org>`
+
+The canonical queue sends through Resend with the transmission request ID as the
+provider idempotency key and stores the provider message ID. Until the account,
+sending domain, and both secrets are configured, it records and returns
+`Email Setup Required / Not Connected`; it never reports a fake send.
 
 ## Acceptance
 

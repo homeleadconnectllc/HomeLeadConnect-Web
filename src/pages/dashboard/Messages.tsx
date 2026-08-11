@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react
 import { listConversations, listPortalRecipients, postInternalMessage, startPortalConversation, type Conversation, type PortalRecipient } from "../../api/messages";
 import { useAuth } from "../../hooks/useAuth";
 import { errorMessage } from "../../lib/errorMessage";
+import { getVoiceNoteUrl, listVoiceNotes, uploadVoiceNote, type VoiceNote } from "../../api/voiceNotes";
 
 export default function Messages() {
   const { session } = useAuth();
@@ -16,6 +17,7 @@ export default function Messages() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [voiceNotes, setVoiceNotes] = useState<VoiceNote[]>([]);
 
   const load = useCallback(async () => {
     setError("");
@@ -42,6 +44,11 @@ export default function Messages() {
 
   const selected = useMemo(() => conversations.find((item) => item.id === selectedId) ?? null, [conversations, selectedId]);
 
+  useEffect(() => {
+    if(!selectedId) return;
+    listVoiceNotes(selectedId).then(setVoiceNotes).catch((reason:unknown)=>setError(errorMessage(reason,"Unable to load voice notes.")));
+  },[selectedId]);
+
   async function start(event: FormEvent) {
     event.preventDefault();
     const recipient = recipients.find((item) => item.linkId === recipientId);
@@ -62,6 +69,21 @@ export default function Messages() {
     try { await postInternalMessage(selected.id, reply); setReply(""); await load(); setMessage("Internal message posted."); }
     catch (reason) { setError(errorMessage(reason, "Unable to post the message.")); }
     finally { setBusy(false); }
+  }
+
+  async function addVoiceNote(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault(); if(!selected) return; const formElement=event.currentTarget;
+    const form=new FormData(formElement); const file=form.get("voice-note");
+    if(!(file instanceof File) || !file.size) return;
+    setBusy(true); setError(""); setMessage("");
+    try { await uploadVoiceNote(selected.id,file); setVoiceNotes(await listVoiceNotes(selected.id)); formElement.reset(); setMessage("Voice note stored in this conversation."); }
+    catch(reason){ setError(errorMessage(reason,"Unable to store the voice note.")); }
+    finally{ setBusy(false); }
+  }
+
+  async function playVoiceNote(note:VoiceNote){
+    try{ const url=await getVoiceNoteUrl(note.storage_path); window.open(url,"_blank","noopener,noreferrer"); }
+    catch(reason){ setError(errorMessage(reason,"Unable to open the voice note.")); }
   }
 
   return <main style={pageStyle}>
@@ -86,6 +108,7 @@ export default function Messages() {
             <p>{item.body}</p><small>{item.sender_user_id === session?.user.id ? "You" : "Participant"} · {new Date(item.created_at).toLocaleString()} · persisted</small>
           </article>)}</div>
           <form onSubmit={send} style={formStyle}><label>Reply<textarea required maxLength={5000} value={reply} onChange={(event) => setReply(event.target.value)} /></label><button disabled={busy} type="submit">{busy ? "Posting…" : "Post internal message"}</button></form>
+          <section><h3>Voice notes</h3><p>Voice notes are deliberate audio messages, not telephone-call recordings.</p>{voiceNotes.length===0&&<p>No voice notes in this conversation.</p>}{voiceNotes.map((note)=><button key={note.id} type="button" onClick={()=>playVoiceNote(note)}>Play voice note from {new Date(note.created_at).toLocaleString()}</button>)}<form onSubmit={addVoiceNote} style={formStyle}><label>Select or record an audio file<input name="voice-note" type="file" accept="audio/*" capture="user" required /></label><button disabled={busy} type="submit">{busy?"Uploading…":"Add voice note"}</button></form></section>
         </> : <p>Select a conversation.</p>}
       </section>
     </div>}

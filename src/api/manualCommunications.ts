@@ -70,6 +70,7 @@ export async function logGoogleVoiceActivity(input: {
   outcome: string;
   notes: string;
   complianceCheckId?: string;
+  conversationId?: string;
   requestId: string;
 }) {
   const { data, error } = await supabase.rpc("log_google_voice_activity", {
@@ -82,7 +83,7 @@ export async function logGoogleVoiceActivity(input: {
     p_notes: input.notes.trim() || null,
     p_client_request_id: input.requestId,
     p_compliance_check_id: input.complianceCheckId || null,
-    p_conversation_id: null,
+    p_conversation_id: input.conversationId || null,
   });
   if (error) throw error;
   return data as string;
