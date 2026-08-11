@@ -51,7 +51,7 @@ export default function ContractorPortal() {
       </div>}
       {assignment.job.customer && <p>Customer: {assignment.job.customer.name || "Not specified"} · {[assignment.job.customer.phone, assignment.job.customer.email].filter(Boolean).join(" · ")}</p>}
       <h3>Appointments</h3>
-      {assignment.appointments.length === 0 ? <p>No appointments.</p> : <ul>{assignment.appointments.map((appointment) => <li key={appointment.id}>{new Date(appointment.appointment_date).toLocaleString()} · {appointment.status}</li>)}</ul>}
+      {assignment.appointments.length === 0 ? <p>No appointments.</p> : <ul>{assignment.appointments.map((appointment) => <li key={appointment.id}>{new Date(appointment.appointment_date).toLocaleString()} – {appointment.appointment_end_at?new Date(appointment.appointment_end_at).toLocaleString():"End time unavailable"} · {appointment.status}</li>)}</ul>}
     </article>)}
   </main>;
 }

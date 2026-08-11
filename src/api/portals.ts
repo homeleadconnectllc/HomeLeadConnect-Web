@@ -18,7 +18,7 @@ export type HomeownerPortalJob = {
   status: string;
   contract_value: number;
   created_at: string;
-  appointments: Array<{ id: number; appointment_date: string; status: string }>;
+  appointments: Array<{ id: number; appointment_date: string; appointment_end_at: string | null; status: string }>;
 };
 
 export type HomeownerPortalRelationship = {
@@ -41,7 +41,7 @@ export type ContractorPortalAssignment = {
     status: string;
     customer: { name: string | null; phone: string | null; email: string | null } | null;
   };
-  appointments: Array<{ id: number; appointment_date: string; status: string }>;
+  appointments: Array<{ id: number; appointment_date: string; appointment_end_at: string | null; status: string }>;
 };
 
 export type ContractorPortalData = {

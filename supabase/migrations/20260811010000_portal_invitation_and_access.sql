@@ -223,7 +223,7 @@ returns jsonb language sql security definer set search_path = '' stable as $$
     'jobs',(select coalesce(jsonb_agg(jsonb_build_object(
       'id',j.id,'name',j.name,'status',j.status,'contract_value',j.contract_value,'created_at',j.created_at,
       'appointments',(select coalesce(jsonb_agg(jsonb_build_object(
-        'id',a.id,'appointment_date',a.appointment_date,'status',a.status
+        'id',a.id,'appointment_date',a.appointment_date,'appointment_end_at',to_jsonb(a)->'appointment_end_at','status',a.status
       ) order by a.appointment_date),'[]'::jsonb) from public.appointments a where a.job_id=j.id)
     ) order by j.created_at desc),'[]'::jsonb) from public.crm_jobs j where j.workspace_id=h.workspace_id and j.lead_id=h.lead_id)
   )),'[]'::jsonb)
@@ -259,7 +259,7 @@ returns jsonb language sql security definer set search_path = '' stable as $$
       'id',ja.id,'workspace_id',ja.workspace_id,'contractor_id',ja.contractor_id,'status',ja.status,'created_at',ja.created_at,
       'job',jsonb_build_object('id',j.id,'name',j.name,'status',j.status,
         'customer',case when ja.status='accepted' then jsonb_build_object('name',l.full_name,'phone',l.phone,'email',l.email) else null end),
-      'appointments',(select coalesce(jsonb_agg(jsonb_build_object('id',a.id,'appointment_date',a.appointment_date,'status',a.status)
+      'appointments',(select coalesce(jsonb_agg(jsonb_build_object('id',a.id,'appointment_date',a.appointment_date,'appointment_end_at',to_jsonb(a)->'appointment_end_at','status',a.status)
         order by a.appointment_date),'[]'::jsonb) from public.appointments a where a.job_id=ja.job_id and a.contractor_id=ja.contractor_id)
     ) order by ja.created_at desc)
       from public.job_assignments ja join public.crm_jobs j on j.id=ja.job_id left join public.leads l on l.id=j.lead_id

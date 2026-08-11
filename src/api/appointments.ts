@@ -4,7 +4,7 @@ import { getJob } from "./jobs";
 import type { AppointmentStatus, JobAppointment } from "../lib/types/database";
 
 const appointmentColumns =
-  "id,workspace_id,job_id,lead_id,contractor_id,organization_id,appointment_date,status,notes,created_by,created_at,updated_at,contractor:contractors(id,company_name,contact_name),job:crm_jobs(id,name)";
+  "id,workspace_id,job_id,lead_id,contractor_id,organization_id,appointment_date,appointment_end_at,status,notes,created_by,created_at,updated_at,contractor:contractors(id,company_name,contact_name),job:crm_jobs(id,name)";
 
 export async function listJobAppointments(jobId: string): Promise<JobAppointment[]> {
   const workspaceId = await getCurrentWorkspaceId();
@@ -34,6 +34,7 @@ export async function listWorkspaceAppointments(): Promise<JobAppointment[]> {
 export async function scheduleAppointment(input: {
   jobId: string;
   appointmentDate: string;
+  appointmentEndAt: string;
   notes?: string;
 }): Promise<JobAppointment> {
   const [workspaceId, assignment, job] = await Promise.all([
@@ -54,6 +55,7 @@ export async function scheduleAppointment(input: {
       lead_id: job.lead_id,
       contractor_id: assignment.contractor_id,
       appointment_date: input.appointmentDate,
+      appointment_end_at: input.appointmentEndAt,
       status: "scheduled" satisfies AppointmentStatus,
       notes: input.notes?.trim() || null,
     })
@@ -67,11 +69,13 @@ export async function scheduleAppointment(input: {
 export async function rescheduleAppointment(
   appointmentId: number,
   appointmentDate: string,
+  appointmentEndAt: string,
   notes?: string,
 ): Promise<JobAppointment> {
   const { data, error } = await supabase.rpc("reschedule_job_appointment", {
     p_appointment_id: appointmentId,
     p_appointment_date: appointmentDate,
+    p_appointment_end_at: appointmentEndAt,
     p_notes: notes?.trim() || null,
   });
 

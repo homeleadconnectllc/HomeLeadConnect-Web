@@ -57,7 +57,7 @@ export default function HomeownerPortal() {
       {relationship.jobs.length === 0 && <p>No jobs created yet.</p>}
       {relationship.jobs.map((job) => <article key={job.id} style={itemStyle}>
         <strong>{job.name}</strong> · {job.status} · {formatCurrency(Number(job.contract_value))}
-        {job.appointments.length === 0 ? <p>No appointments scheduled.</p> : <ul>{job.appointments.map((appointment) => <li key={appointment.id}>{new Date(appointment.appointment_date).toLocaleString()} · {appointment.status}</li>)}</ul>}
+        {job.appointments.length === 0 ? <p>No appointments scheduled.</p> : <ul>{job.appointments.map((appointment) => <li key={appointment.id}>{new Date(appointment.appointment_date).toLocaleString()} – {appointment.appointment_end_at?new Date(appointment.appointment_end_at).toLocaleString():"End time unavailable"} · {appointment.status}</li>)}</ul>}
       </article>)}
     </section>)}
   </main>;

@@ -44,6 +44,7 @@ export default function JobDetail() {
     zip: "",
   });
   const [appointmentDate, setAppointmentDate] = useState("");
+  const [appointmentEndAt, setAppointmentEndAt] = useState("");
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
@@ -159,31 +160,38 @@ export default function JobDetail() {
   }
 
   async function schedule() {
-    if (!jobId || !appointmentDate) return;
+    if (!jobId || !appointmentDate || !appointmentEndAt) return;
+    if(new Date(appointmentEndAt)<=new Date(appointmentDate)){setError("Appointment end must be after its start.");return;}
     await run(async () => {
       await scheduleAppointment({
         jobId,
         appointmentDate: new Date(appointmentDate).toISOString(),
+        appointmentEndAt: new Date(appointmentEndAt).toISOString(),
         notes,
       });
       setAppointmentDate("");
+      setAppointmentEndAt("");
       setNotes("");
     }, "Appointment scheduled.");
   }
 
   async function reschedule(appointment: JobAppointment) {
+    if(!appointment.appointment_end_at){setError("This appointment has no persisted end time and cannot be rescheduled.");return;}
     const replacement = window.prompt(
       "Replacement date/time (YYYY-MM-DDTHH:mm)",
       toLocalInputValue(appointment.appointment_date),
     );
     if (!replacement) return;
+    const replacementEnd = window.prompt("Replacement end date/time (YYYY-MM-DDTHH:mm)",toLocalInputValue(appointment.appointment_end_at));
+    if(!replacementEnd)return;
     const parsed = new Date(replacement);
-    if (Number.isNaN(parsed.getTime())) {
-      setError("Enter a valid replacement date and time.");
+    const parsedEnd=new Date(replacementEnd);
+    if (Number.isNaN(parsed.getTime())||Number.isNaN(parsedEnd.getTime())||parsedEnd<=parsed) {
+      setError("Enter valid replacement times with the end after the start.");
       return;
     }
     await run(
-      () => rescheduleAppointment(appointment.id, parsed.toISOString()),
+      () => rescheduleAppointment(appointment.id, parsed.toISOString(),parsedEnd.toISOString()),
       "Appointment rescheduled. The original remains in history as cancelled.",
     );
   }
@@ -288,17 +296,19 @@ export default function JobDetail() {
         <h2>Appointments</h2>
         <fieldset disabled={busy || currentAssignment?.status !== "accepted"} style={fieldsetStyle}>
           <legend>Schedule work</legend>
-          <input type="datetime-local" value={appointmentDate}
+          <label>Start<input type="datetime-local" value={appointmentDate}
             onChange={(event) => setAppointmentDate(event.target.value)} />
+          </label><label>End<input type="datetime-local" value={appointmentEndAt} min={appointmentDate}
+            onChange={(event) => setAppointmentEndAt(event.target.value)} /></label>
           <input value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Notes (optional)" />
-          <button type="button" onClick={schedule} disabled={!appointmentDate}>Schedule appointment</button>
+          <button type="button" onClick={schedule} disabled={!appointmentDate||!appointmentEndAt}>Schedule appointment</button>
         </fieldset>
         {currentAssignment?.status !== "accepted" && <p>Accept the contractor assignment before scheduling.</p>}
         <div style={{ display: "grid", gap: 10, marginTop: 16 }}>
           {appointments.map((appointment) => (
             <article key={appointment.id} style={appointmentStyle}>
               <div>
-                <strong>{new Date(appointment.appointment_date).toLocaleString()}</strong>
+                <strong>{formatAppointmentRange(appointment)}</strong>
                 <div>{appointment.contractor?.company_name || `Contractor #${appointment.contractor_id}`} · {appointment.status}</div>
               </div>
               {appointment.status === "scheduled" && <div style={actionsStyle}>
@@ -327,6 +337,7 @@ function toLocalInputValue(value: string) {
   const offset = date.getTimezoneOffset() * 60_000;
   return new Date(date.getTime() - offset).toISOString().slice(0, 16);
 }
+function formatAppointmentRange(appointment:JobAppointment){return `${new Date(appointment.appointment_date).toLocaleString()} – ${appointment.appointment_end_at?new Date(appointment.appointment_end_at).toLocaleString():"End time unavailable"}`;}
 
 const pageStyle = { width: "min(1100px, calc(100% - 48px))", margin: "40px auto", fontFamily: "system-ui, sans-serif" };
 const headerStyle = { display: "flex", justifyContent: "space-between", gap: 24, padding: 20, background: "#f8fafc", borderRadius: 16 };

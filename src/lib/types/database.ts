@@ -135,6 +135,7 @@ export type JobAppointment = {
   contractor_id: number;
   organization_id: string | null;
   appointment_date: string;
+  appointment_end_at: string | null;
   status: AppointmentStatus;
   notes: string | null;
   created_by: string;
