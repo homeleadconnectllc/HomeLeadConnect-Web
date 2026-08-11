@@ -27,6 +27,7 @@ import Calendar from "../pages/dashboard/Calendar";
 import Settings from "../pages/dashboard/Settings";
 import FollowUps from "../pages/dashboard/FollowUps";
 import Messages from "../pages/dashboard/Messages";
+import Notifications from "../pages/dashboard/Notifications";
 import NotFound from "../pages/errors/404";
 
 export default function AppRouter() {
@@ -58,6 +59,7 @@ export default function AppRouter() {
             <Route path="/homeowner-portal" element={<HomeownerPortal />} />
             <Route path="/contractor-portal" element={<ContractorPortal />} />
             <Route path="/messages" element={<Messages />} />
+            <Route path="/notifications" element={<Notifications />} />
             <Route element={<WorkspaceLayout />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/leads" element={<Leads />} />
