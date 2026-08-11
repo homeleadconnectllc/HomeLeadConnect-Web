@@ -34,7 +34,10 @@ production environment.
   performance advisors. RLS tables with no policies remain deny-by-default unless
   an approved capability requires access.
 - Enable leaked-password protection in Supabase Auth. Decide and configure
-  CAPTCHA/bot protection for public auth and intake before launch.
+  Cloudflare Turnstile in Auth > Bot and Abuse Protection, place the Turnstile
+  secret only in Supabase, and configure `VITE_TURNSTILE_SITE_KEY` in the hosting
+  environment. Login, signup, and password reset pass the resulting token to
+  Supabase Auth. Verify all three after activation.
 - Deploy the Stripe webhook without JWT verification; Stripe authenticates with
   its webhook signature. Keep JWT verification enabled for user-invoked billing
   functions.

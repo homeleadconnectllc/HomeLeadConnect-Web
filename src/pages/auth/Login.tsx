@@ -3,6 +3,8 @@ import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "../../lib/supabase";
 import { useAuth } from "../../hooks/useAuth";
 import { errorMessage } from "../../lib/errorMessage";
+import AuthTurnstile from "../../components/auth/AuthTurnstile";
+import { turnstileEnabled } from "../../lib/turnstile";
 
 export default function Login() {
   const { session, loading } = useAuth();
@@ -12,12 +14,15 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [captchaToken, setCaptchaToken] = useState("");
+  const [captchaReset, setCaptchaReset] = useState(0);
 
   if (!loading && session) return <Navigate to="/dashboard" replace />;
 
   async function login(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); setBusy(true); setError("");
-    const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
+    const { error: authError } = await supabase.auth.signInWithPassword({ email, password, options: { captchaToken: captchaToken || undefined } });
+    setCaptchaToken(""); setCaptchaReset((value) => value + 1);
     setBusy(false);
     if (authError) { setError(errorMessage(authError, "Unable to sign in.")); return; }
     const requested = (location.state as { from?: string } | null)?.from;
@@ -30,7 +35,8 @@ export default function Login() {
     <form onSubmit={login} style={formStyle}>
       <label>Email<input required autoComplete="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} /></label>
       <label>Password<input required autoComplete="current-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} /></label>
-      <button disabled={busy} type="submit">{busy ? "Signing in…" : "Sign in"}</button>
+      <AuthTurnstile onToken={setCaptchaToken} resetSignal={captchaReset} />
+      <button disabled={busy || (turnstileEnabled && !captchaToken)} type="submit">{busy ? "Signing in…" : "Sign in"}</button>
     </form>
     <p><Link to="/forgot-password">Forgot password?</Link></p>
     <p>Need an account? <Link to="/register">Create one</Link>.</p>
