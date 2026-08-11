@@ -73,8 +73,8 @@ export default function HomePage() {
               lineHeight:1.6
             }}
           >
-            One connected platform for CRM, leads, websites,
-            AI automation, contractors, and business growth.
+            One connected platform for service requests, LeadScope estimates,
+            CRM operations, contractor assignments, scheduling, and communication history.
           </p>
 
         </section>
@@ -214,7 +214,8 @@ export default function HomePage() {
               ["Request", "Capture a service need"],
               ["Estimate", "Prepare itemized scope and pricing"],
               ["Contractor", "Offer and record acceptance"],
-              ["Schedule", "Create a job appointment"]
+              ["Schedule", "Create a job appointment"],
+              ["Work", "Track the job through completion"]
             ].map(card=>(
               <div
                 className="hlc-card"

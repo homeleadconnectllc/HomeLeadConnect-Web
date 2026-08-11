@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const content = {
   about: {
     title: "About HomeLead Connect",
-    body: "HomeLead Connect provides software for organizing service requests, estimates, jobs, contractor assignments, and appointments.",
+    body: "HomeLead Connect LLC is a Pennsylvania-first software platform founded and owned by Antoine Washington. HLC helps participating businesses organize service requests, LeadScope estimates, jobs, contractor assignments, appointments, communications, and related history in one workspace.",
   },
   homeowners: {
     title: "For homeowners",
