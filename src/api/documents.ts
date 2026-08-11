@@ -10,4 +10,7 @@ export async function uploadDocument(input:{entityType:string;entityId:string;sh
  const {data,error}=await supabase.rpc("register_document",{p_entity_type:input.entityType,p_entity_id:input.entityId,p_filename:input.file.name,p_storage_path:path,p_mime_type:input.file.type,p_byte_size:input.file.size,p_sharing_scope:input.sharingScope});
  if(error){await supabase.storage.from("hlc-documents").remove([path]);throw error;}return data as string;
 }
-export async function getDocumentUrl(path:string){const{data,error}=await supabase.storage.from("hlc-documents").createSignedUrl(path,300);if(error)throw error;return data.signedUrl;}
+export async function getDocumentUrl(documentId:string,path:string){
+ const {error:auditError}=await supabase.rpc("record_document_view",{p_document_id:documentId});if(auditError)throw auditError;
+ const{data,error}=await supabase.storage.from("hlc-documents").createSignedUrl(path,300);if(error)throw error;return data.signedUrl;
+}

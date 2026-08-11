@@ -10,6 +10,8 @@ import {
 } from "../../api/settings";
 import { errorMessage } from "../../lib/errorMessage";
 import { getBillingStatus, openBillingPortal, startSubscriptionCheckout, type BillingStatus } from "../../api/billing";
+import { listBusinessPhones, type BusinessPhone } from "../../api/telephony";
+import { Link } from "react-router-dom";
 
 const blankBusiness = {
   business_name: "", owner_name: "", phone: "", email: "", website: "",
@@ -28,11 +30,13 @@ export default function Settings() {
   const [message, setMessage] = useState("");
   const [billing, setBilling] = useState<BillingStatus | null>(null);
   const [billingConsent, setBillingConsent] = useState(false);
+  const [businessPhones, setBusinessPhones] = useState<BusinessPhone[]>([]);
 
   useEffect(() => {
-    Promise.all([getMyProfile(), getBusinessProfile(), listMyWorkspaces(), billingEnabled ? getBillingStatus() : Promise.resolve(null)])
-      .then(([profile, businessProfile, workspaceOptions, billingStatus]) => {
+    Promise.all([getMyProfile(), getBusinessProfile(), listMyWorkspaces(), billingEnabled ? getBillingStatus() : Promise.resolve(null), listBusinessPhones().catch(() => [])])
+      .then(([profile, businessProfile, workspaceOptions, billingStatus, phoneRows]) => {
         setBilling(billingStatus);
+        setBusinessPhones(phoneRows);
         setWorkspaceId(profile.workspace_id);
         setWorkspaces(workspaceOptions);
         setPersonal({
@@ -135,6 +139,23 @@ export default function Settings() {
       )}
       <button disabled={busy !== null} type="submit">{busy === "business" ? "Saving…" : "Save business profile"}</button>
     </form>
+
+    <section style={cardStyle} aria-labelledby="phone-settings-heading">
+      <h2 id="phone-settings-heading">Business phone numbers</h2>
+      <p>Phone numbers belong to this workspace. Provider readiness determines which calling and messaging actions are available.</p>
+      {businessPhones.length === 0 ? <p><strong>Phone provider setup required.</strong></p> : businessPhones.map((phone) => <article key={phone.id}>
+        <strong>{phone.display_name}: {phone.phone_number}</strong>
+        <p>{phone.provider_type} · {phone.readiness_state} · {phone.verification_state}{phone.is_primary ? " · Primary" : ""}</p>
+        <small>
+          {phone.inbound_enabled ? "Inbound enabled" : "Inbound unavailable"} · {phone.outbound_enabled ? "Outbound enabled" : "Outbound unavailable"} · {phone.sms_enabled ? "SMS enabled" : "SMS unavailable"} · {phone.browser_calling_enabled ? "Browser calling enabled" : "Browser calling unavailable"}
+        </small>
+      </article>)}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+        <Link to="/manual-communications">Google Voice manual logging</Link>
+        <Link to="/call-center">Open call center</Link>
+      </div>
+      <p><small>Provider credentials are configured only in the trusted server environment, never in workspace settings.</small></p>
+    </section>
 
     <section style={cardStyle}>
       <h2>Billing</h2>

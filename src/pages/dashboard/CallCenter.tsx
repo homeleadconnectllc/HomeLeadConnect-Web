@@ -13,6 +13,10 @@ export default function CallCenter() {
   const [calls, setCalls] = useState<CallSession[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [editingCallId, setEditingCallId] = useState<string | null>(null);
+  const [disposition, setDisposition] = useState("");
+  const [notes, setNotes] = useState("");
 
   async function loadCalls() {
     setCalls(await listCallSessions());
@@ -28,16 +32,25 @@ export default function CallCenter() {
       .finally(() => setLoading(false));
   }, []);
 
-  async function saveDisposition(id: string) {
-    const value = window.prompt("Call disposition");
-    if (!value) return;
+  function beginDisposition(call: CallSession) {
+    setEditingCallId(call.id);
+    setDisposition(call.disposition || "");
+    setNotes("");
+  }
+
+  async function saveDisposition() {
+    if (!editingCallId || !disposition.trim()) return;
     try {
+      setSaving(true);
       setError("");
-      await recordCallDisposition(id, value);
+      await recordCallDisposition(editingCallId, disposition, notes);
       await loadCalls();
+      setEditingCallId(null);
+      setDisposition("");
+      setNotes("");
     } catch (reason) {
       setError(errorMessage(reason, "Unable to save disposition."));
-    }
+    } finally { setSaving(false); }
   }
 
   return (
@@ -46,6 +59,15 @@ export default function CallCenter() {
       <p>One operational view of manual and programmable calls. Provider evidence controls call state.</p>
       {loading && <p role="status">Loading calls…</p>}
       {error && <p role="alert">{error}</p>}
+      {editingCallId && <section role="dialog" aria-modal="true" aria-labelledby="call-disposition-heading" style={{ padding: 16, border: "2px solid #0f172a", borderRadius: 12 }}>
+        <h2 id="call-disposition-heading">Record call disposition</h2>
+        <label>Disposition<input autoFocus required maxLength={80} value={disposition} onChange={(event) => setDisposition(event.target.value)} /></label>
+        <label>Notes<textarea maxLength={2000} value={notes} onChange={(event) => setNotes(event.target.value)} /></label>
+        <div style={{ display: "flex", gap: 8 }}>
+          <button type="button" disabled={saving || !disposition.trim()} onClick={saveDisposition}>{saving ? "Saving…" : "Save disposition"}</button>
+          <button type="button" disabled={saving} onClick={() => setEditingCallId(null)}>Cancel</button>
+        </div>
+      </section>}
 
       <section aria-labelledby="business-numbers-heading">
         <h2 id="business-numbers-heading">Business numbers</h2>
@@ -70,7 +92,7 @@ export default function CallCenter() {
               {` · ${new Date(call.started_at).toLocaleString()}`}
               {call.subject_type ? ` · ${call.subject_type} ${call.subject_id}` : " · Unknown caller"}
               {call.disposition ? ` · ${call.disposition}` : ""}
-              <button type="button" onClick={() => saveDisposition(call.id)}>Record disposition</button>
+              <button type="button" onClick={() => beginDisposition(call)}>Record disposition</button>
             </article>
           ))}
       </section>

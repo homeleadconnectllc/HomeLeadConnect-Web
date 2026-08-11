@@ -41,7 +41,6 @@ export default function AppRouter() {
         <Route element={<AppLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/estimator" element={<Estimator />} />
           <Route path="/request-service" element={<RequestService />} />
           <Route path="/about" element={<PublicInfo page="about" />} />
           <Route path="/homeowners" element={<PublicInfo page="homeowners" />} />
@@ -67,6 +66,7 @@ export default function AppRouter() {
             <Route element={<WorkspaceLayout />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/leads" element={<Leads />} />
+              <Route path="/estimator" element={<Estimator />} />
               <Route path="/jobs" element={<Jobs />} />
               <Route path="/jobs/:jobId" element={<JobDetail />} />
               <Route path="/calendar" element={<Calendar />} />

@@ -3,6 +3,7 @@ import { listConversations, listPortalRecipients, postInternalMessage, startPort
 import { useAuth } from "../../hooks/useAuth";
 import { errorMessage } from "../../lib/errorMessage";
 import { getVoiceNoteUrl, listVoiceNotes, uploadVoiceNote, type VoiceNote } from "../../api/voiceNotes";
+import VoiceNoteRecorder from "../../components/messages/VoiceNoteRecorder";
 
 export default function Messages() {
   const { session } = useAuth();
@@ -71,12 +72,10 @@ export default function Messages() {
     finally { setBusy(false); }
   }
 
-  async function addVoiceNote(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault(); if(!selected) return; const formElement=event.currentTarget;
-    const form=new FormData(formElement); const file=form.get("voice-note");
-    if(!(file instanceof File) || !file.size) return;
+  async function addVoiceNote(file: File, durationSeconds?: number) {
+    if (!selected) return;
     setBusy(true); setError(""); setMessage("");
-    try { await uploadVoiceNote(selected.id,file); setVoiceNotes(await listVoiceNotes(selected.id)); formElement.reset(); setMessage("Voice note stored in this conversation."); }
+    try { await uploadVoiceNote(selected.id, file, durationSeconds); setVoiceNotes(await listVoiceNotes(selected.id)); setMessage("Voice note stored in this conversation."); }
     catch(reason){ setError(errorMessage(reason,"Unable to store the voice note.")); }
     finally{ setBusy(false); }
   }
@@ -108,7 +107,7 @@ export default function Messages() {
             <p>{item.body}</p><small>{item.sender_user_id === session?.user.id ? "You" : "Participant"} · {new Date(item.created_at).toLocaleString()} · persisted</small>
           </article>)}</div>
           <form onSubmit={send} style={formStyle}><label>Reply<textarea required maxLength={5000} value={reply} onChange={(event) => setReply(event.target.value)} /></label><button disabled={busy} type="submit">{busy ? "Posting…" : "Post internal message"}</button></form>
-          <section><h3>Voice notes</h3><p>Voice notes are deliberate audio messages, not telephone-call recordings.</p>{voiceNotes.length===0&&<p>No voice notes in this conversation.</p>}{voiceNotes.map((note)=><button key={note.id} type="button" onClick={()=>playVoiceNote(note)}>Play voice note from {new Date(note.created_at).toLocaleString()}</button>)}<form onSubmit={addVoiceNote} style={formStyle}><label>Select or record an audio file<input name="voice-note" type="file" accept="audio/*" capture="user" required /></label><button disabled={busy} type="submit">{busy?"Uploading…":"Add voice note"}</button></form></section>
+          <section><h3>Voice notes</h3><p>Voice notes are deliberate audio messages, not telephone-call recordings.</p>{voiceNotes.length===0&&<p>No voice notes in this conversation.</p>}{voiceNotes.map((note)=><button key={note.id} type="button" onClick={()=>playVoiceNote(note)}>Play voice note from {new Date(note.created_at).toLocaleString()}</button>)}<VoiceNoteRecorder busy={busy} onUpload={addVoiceNote} /></section>
         </> : <p>Select a conversation.</p>}
       </section>
     </div>}

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { decideContractorAssignment, getContractorPortalData, type ContractorPortalData } from "../../api/portals";
 import { errorMessage } from "../../lib/errorMessage";
+import { getDocumentUrl, listDocuments, type DocumentRecord } from "../../api/documents";
 
 export default function ContractorPortal() {
   const [data, setData] = useState<ContractorPortalData>({ links: [], assignments: [] });
@@ -8,16 +9,21 @@ export default function ContractorPortal() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [documents, setDocuments] = useState<DocumentRecord[]>([]);
   const load = useCallback(async () => {
     setError("");
-    try { setData(await getContractorPortalData()); }
+    try {
+      const [portalData, documentRows] = await Promise.all([getContractorPortalData(), listDocuments()]);
+      setData(portalData);
+      setDocuments(documentRows);
+    }
     catch (reason) { setError(errorMessage(reason, "Unable to load contractor work.")); }
     finally { setLoading(false); }
   }, []);
   useEffect(() => {
     let active = true;
-    getContractorPortalData()
-      .then((result) => { if (active) setData(result); })
+    Promise.all([getContractorPortalData(), listDocuments()])
+      .then(([result, documentRows]) => { if (active) { setData(result); setDocuments(documentRows); } })
       .catch((reason: unknown) => { if (active) setError(errorMessage(reason, "Unable to load contractor work.")); })
       .finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
@@ -31,6 +37,11 @@ export default function ContractorPortal() {
       setMessage(`Offer ${decision}.`);
     } catch (reason) { setError(errorMessage(reason, "Unable to update this offer.")); }
     finally { setBusy(false); }
+  }
+
+  async function openDocument(document: DocumentRecord) {
+    try { window.open(await getDocumentUrl(document.id, document.storage_path), "_blank", "noopener,noreferrer"); }
+    catch (reason) { setError(errorMessage(reason, "Unable to open this document.")); }
   }
 
   return <main style={pageStyle}>
@@ -53,6 +64,13 @@ export default function ContractorPortal() {
       <h3>Appointments</h3>
       {assignment.appointments.length === 0 ? <p>No appointments.</p> : <ul>{assignment.appointments.map((appointment) => <li key={appointment.id}>{new Date(appointment.appointment_date).toLocaleString()} – {appointment.appointment_end_at?new Date(appointment.appointment_end_at).toLocaleString():"End time unavailable"} · {appointment.status}</li>)}</ul>}
     </article>)}
+    {!loading && <section style={cardStyle}>
+      <h2>Shared documents</h2>
+      {documents.length === 0 ? <p>No documents have been shared with your contractor account.</p> : documents.map((document) => <article key={document.id}>
+        <button type="button" onClick={() => openDocument(document)}>{document.filename}</button>
+        {` · ${document.entity_type}`}
+      </article>)}
+    </section>}
   </main>;
 }
 

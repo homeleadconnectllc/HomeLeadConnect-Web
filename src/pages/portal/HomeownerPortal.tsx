@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { decideHomeownerEstimate, getHomeownerPortalData, type HomeownerPortalRelationship } from "../../api/portals";
 import { errorMessage } from "../../lib/errorMessage";
 import { formatCurrency } from "../../lib/estimator/calculations";
+import { getDocumentUrl, listDocuments, type DocumentRecord } from "../../api/documents";
 
 export default function HomeownerPortal() {
   const [relationships, setRelationships] = useState<HomeownerPortalRelationship[]>([]);
@@ -9,16 +10,21 @@ export default function HomeownerPortal() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [documents, setDocuments] = useState<DocumentRecord[]>([]);
   const load = useCallback(async () => {
     setError("");
-    try { setRelationships(await getHomeownerPortalData()); }
+    try {
+      const [relationshipRows, documentRows] = await Promise.all([getHomeownerPortalData(), listDocuments()]);
+      setRelationships(relationshipRows);
+      setDocuments(documentRows);
+    }
     catch (reason) { setError(errorMessage(reason, "Unable to load your projects.")); }
     finally { setLoading(false); }
   }, []);
   useEffect(() => {
     let active = true;
-    getHomeownerPortalData()
-      .then((result) => { if (active) setRelationships(result); })
+    Promise.all([getHomeownerPortalData(), listDocuments()])
+      .then(([result, documentRows]) => { if (active) { setRelationships(result); setDocuments(documentRows); } })
       .catch((reason: unknown) => { if (active) setError(errorMessage(reason, "Unable to load your projects.")); })
       .finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
@@ -32,6 +38,11 @@ export default function HomeownerPortal() {
       setMessage(`Estimate ${decision}.`);
     } catch (reason) { setError(errorMessage(reason, "Unable to update the estimate.")); }
     finally { setBusy(false); }
+  }
+
+  async function openDocument(document: DocumentRecord) {
+    try { window.open(await getDocumentUrl(document.id, document.storage_path), "_blank", "noopener,noreferrer"); }
+    catch (reason) { setError(errorMessage(reason, "Unable to open this document.")); }
   }
 
   return <main style={pageStyle}>
@@ -60,6 +71,13 @@ export default function HomeownerPortal() {
         {job.appointments.length === 0 ? <p>No appointments scheduled.</p> : <ul>{job.appointments.map((appointment) => <li key={appointment.id}>{new Date(appointment.appointment_date).toLocaleString()} – {appointment.appointment_end_at?new Date(appointment.appointment_end_at).toLocaleString():"End time unavailable"} · {appointment.status}</li>)}</ul>}
       </article>)}
     </section>)}
+    {!loading && <section style={cardStyle}>
+      <h2>Shared documents and media</h2>
+      {documents.length === 0 ? <p>No documents have been shared with you.</p> : documents.map((document) => <article key={document.id} style={itemStyle}>
+        <button type="button" onClick={() => openDocument(document)}>{document.filename}</button>
+        {` · ${document.entity_type}`}
+      </article>)}
+    </section>}
   </main>;
 }
 
