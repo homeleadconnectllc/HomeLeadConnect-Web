@@ -182,3 +182,263 @@ code {
     opacity: 1;
   }
 }
+
+/* Shared responsive application shell */
+.hlc-app-shell,
+.hlc-route-content {
+  width: 100%;
+  min-width: 0;
+}
+
+.hlc-app-shell {
+  min-height: 100svh;
+}
+
+.hlc-route-content > main {
+  box-sizing: border-box;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+img,
+svg,
+video {
+  max-width: 100%;
+}
+
+/* Primary navigation */
+.hlc-navbar {
+  position: relative;
+  z-index: 20;
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px clamp(18px, 4vw, 40px);
+  background: #111827;
+  color: #fff;
+  text-align: left;
+}
+
+.hlc-navbar-brand,
+.hlc-navbar-links {
+  display: flex;
+  align-items: center;
+}
+
+.hlc-navbar-brand {
+  min-width: 0;
+  flex: 0 0 auto;
+  gap: 12px;
+}
+
+.hlc-navbar-logo {
+  display: grid;
+  width: 50px;
+  height: 50px;
+  flex: 0 0 50px;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.hlc-navbar-logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.hlc-navbar-brand h2 {
+  margin: 0;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.hlc-navbar-links {
+  min-width: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px 18px;
+}
+
+.hlc-navbar-links a,
+.hlc-navbar-links button {
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.hlc-navbar-links a {
+  padding-block: 10px;
+}
+
+.hlc-navbar-links button,
+.hlc-navbar-toggle {
+  border: 1px solid #475569;
+  border-radius: 10px;
+  padding: 8px 14px;
+  background: #1e293b;
+  cursor: pointer;
+}
+
+.hlc-navbar-toggle {
+  display: none;
+  flex: 0 0 auto;
+  color: #fff;
+  font-weight: 800;
+}
+
+/* Public, contact, and authentication surfaces */
+.hlc-home > section,
+.hlc-contact-card {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.hlc-auth-page {
+  box-sizing: border-box;
+  max-width: 420px;
+  padding: 0;
+  text-align: left;
+}
+
+.hlc-auth-form,
+.hlc-auth-form label {
+  min-width: 0;
+}
+
+.hlc-auth-form input,
+.hlc-auth-form select,
+.hlc-auth-form textarea,
+.hlc-auth-form button {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  box-sizing: border-box;
+}
+
+.hlc-auth-form input,
+.hlc-auth-form select,
+.hlc-auth-form textarea {
+  padding: 10px 12px;
+}
+
+.hlc-contact-page a {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 1024px) {
+  .hlc-navbar-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hlc-navbar-links {
+    position: absolute;
+    inset: 100% 0 auto;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    padding: 12px 18px 20px;
+    border-top: 1px solid #334155;
+    background: #111827;
+    box-shadow: 0 18px 28px rgba(15, 23, 42, .28);
+  }
+
+  .hlc-navbar-links.mobile-hidden {
+    display: none;
+  }
+
+  .hlc-navbar-links.mobile-open {
+    display: flex;
+  }
+
+  .hlc-navbar-links a,
+  .hlc-navbar-links button {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: left;
+  }
+}
+
+@media (max-width: 600px) {
+  .hlc-navbar {
+    padding: 12px 16px;
+  }
+
+  .hlc-navbar-brand {
+    gap: 9px;
+  }
+
+  .hlc-navbar-logo {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+  }
+
+  .hlc-navbar-brand h2 {
+    font-size: clamp(16px, 5vw, 19px);
+  }
+
+  .hlc-home {
+    padding: 28px 16px !important;
+  }
+
+  .hlc-home-hero {
+    padding: 40px 0 !important;
+  }
+
+  .hlc-home-hero h1 {
+    font-size: clamp(40px, 14vw, 56px) !important;
+    line-height: 1 !important;
+    letter-spacing: -2px !important;
+    overflow-wrap: normal;
+  }
+
+  .hlc-home-hero p {
+    font-size: 18px !important;
+  }
+
+  .hlc-home-command,
+  .hlc-home-workflow {
+    padding: 24px 18px !important;
+    border-radius: 24px !important;
+  }
+
+  .hlc-home-command h2 {
+    font-size: 30px !important;
+  }
+
+  .hlc-home-command > div,
+  .hlc-home-features,
+  .hlc-home-workflow > div:last-child {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .hlc-home-features {
+    margin: 48px auto !important;
+  }
+
+  .hlc-auth-page {
+    width: calc(100% - 16px) !important;
+    margin: 36px auto !important;
+  }
+
+  .hlc-contact-page {
+    padding: 40px 16px !important;
+  }
+
+  .hlc-contact-card {
+    padding: 20px 16px !important;
+  }
+
+  .hlc-card:hover,
+  .hlc-button:hover {
+    transform: none;
+  }
+}
