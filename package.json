@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "test:acceptance": "node --test src/lib/leadscope/domain.test.ts src/lib/estimator/calculations.test.ts src/lib/appointments/timeRange.test.ts src/ai/agents.test.ts",
+    "test:acceptance": "node --test src/lib/leadscope/domain.test.ts src/lib/estimator/calculations.test.ts src/lib/appointments/timeRange.test.ts src/lib/billing/entitlement.test.ts src/ai/agents.test.ts src/routes/routes.test.ts supabase/migrations/migrationChain.test.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
