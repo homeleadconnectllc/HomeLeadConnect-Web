@@ -19,6 +19,7 @@ import ContractorCard from "../../components/contractors/ContractorCard";
 import PortalInviteButton from "../../components/portal/PortalInviteButton";
 import { formatCurrency } from "../../lib/estimator/calculations";
 import { errorMessage } from "../../lib/errorMessage";
+import RescheduleDialog from "../../components/scheduling/RescheduleDialog";
 import type {
   Contractor,
   JobAppointment,
@@ -50,6 +51,7 @@ export default function JobDetail() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [rescheduling, setRescheduling] = useState<JobAppointment | null>(null);
 
   const load = useCallback(async () => {
     if (!jobId) return;
@@ -119,8 +121,10 @@ export default function JobDetail() {
       await action();
       await load();
       if (successMessage) setMessage(successMessage);
+      return true;
     } catch (reason) {
       setError(errorMessage(reason, "The operation could not be completed."));
+      return false;
     } finally {
       setBusy(false);
     }
@@ -175,25 +179,13 @@ export default function JobDetail() {
     }, "Appointment scheduled.");
   }
 
-  async function reschedule(appointment: JobAppointment) {
-    if(!appointment.appointment_end_at){setError("This appointment has no persisted end time and cannot be rescheduled.");return;}
-    const replacement = window.prompt(
-      "Replacement date/time (YYYY-MM-DDTHH:mm)",
-      toLocalInputValue(appointment.appointment_date),
-    );
-    if (!replacement) return;
-    const replacementEnd = window.prompt("Replacement end date/time (YYYY-MM-DDTHH:mm)",toLocalInputValue(appointment.appointment_end_at));
-    if(!replacementEnd)return;
-    const parsed = new Date(replacement);
-    const parsedEnd=new Date(replacementEnd);
-    if (Number.isNaN(parsed.getTime())||Number.isNaN(parsedEnd.getTime())||parsedEnd<=parsed) {
-      setError("Enter valid replacement times with the end after the start.");
-      return;
-    }
-    await run(
-      () => rescheduleAppointment(appointment.id, parsed.toISOString(),parsedEnd.toISOString()),
+  async function reschedule(start: string, end: string) {
+    if (!rescheduling) return;
+    const succeeded = await run(
+      () => rescheduleAppointment(rescheduling.id, start, end),
       "Appointment rescheduled. The original remains in history as cancelled.",
     );
+    if (succeeded) setRescheduling(null);
   }
 
   if (loading) return <main style={pageStyle}><p>Loading job…</p></main>;
@@ -217,6 +209,7 @@ export default function JobDetail() {
       </header>
 
       {error && <p role="alert" style={errorStyle}>{error}</p>}
+      {rescheduling?.appointment_end_at && <RescheduleDialog initialStart={rescheduling.appointment_date} initialEnd={rescheduling.appointment_end_at} busy={busy} onCancel={() => setRescheduling(null)} onConfirm={reschedule} />}
 
       <section style={sectionStyle}>
         <h2>Current contractor assignment</h2>
@@ -312,7 +305,7 @@ export default function JobDetail() {
                 <div>{appointment.contractor?.company_name || `Contractor #${appointment.contractor_id}`} · {appointment.status}</div>
               </div>
               {appointment.status === "scheduled" && <div style={actionsStyle}>
-                <button disabled={busy} onClick={() => reschedule(appointment)}>Reschedule</button>
+                <button disabled={busy || !appointment.appointment_end_at} title={!appointment.appointment_end_at ? "This historical appointment has no persisted end time." : undefined} onClick={() => setRescheduling(appointment)}>Reschedule</button>
                 <button disabled={busy} onClick={() => run(() => completeAppointment(appointment.id), "Appointment completed.")}>Complete</button>
                 <button disabled={busy} onClick={() => run(() => cancelAppointment(appointment.id), "Appointment cancelled.")}>Cancel</button>
                 <button disabled={busy} onClick={() => run(() => markNoShow(appointment.id), "Appointment marked no-show.")}>No-show</button>
@@ -332,11 +325,6 @@ function assignmentName(assignment: JobAssignment) {
     || `Contractor #${assignment.contractor_id}`;
 }
 
-function toLocalInputValue(value: string) {
-  const date = new Date(value);
-  const offset = date.getTimezoneOffset() * 60_000;
-  return new Date(date.getTime() - offset).toISOString().slice(0, 16);
-}
 function formatAppointmentRange(appointment:JobAppointment){return `${new Date(appointment.appointment_date).toLocaleString()} – ${appointment.appointment_end_at?new Date(appointment.appointment_end_at).toLocaleString():"End time unavailable"}`;}
 
 const pageStyle = { width: "min(1100px, calc(100% - 48px))", margin: "40px auto", fontFamily: "system-ui, sans-serif" };

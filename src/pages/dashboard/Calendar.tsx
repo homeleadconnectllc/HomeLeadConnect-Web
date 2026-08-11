@@ -9,6 +9,7 @@ import {
 } from "../../api/appointments";
 import type { JobAppointment } from "../../lib/types/database";
 import { errorMessage } from "../../lib/errorMessage";
+import RescheduleDialog from "../../components/scheduling/RescheduleDialog";
 
 export default function Calendar() {
   const [appointments, setAppointments] = useState<JobAppointment[]>([]);
@@ -16,6 +17,7 @@ export default function Calendar() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [rescheduling, setRescheduling] = useState<JobAppointment | null>(null);
 
   const load = useCallback(async () => {
     try {
@@ -44,28 +46,22 @@ export default function Calendar() {
       await action();
       await load();
       setMessage(successMessage);
+      return true;
     } catch (reason) {
       setError(errorMessage(reason, "Unable to update appointment."));
+      return false;
     } finally {
       setBusy(false);
     }
   }
 
-  async function reschedule(appointment: JobAppointment) {
-    if(!appointment.appointment_end_at){setError("This appointment has no persisted end time and cannot be rescheduled.");return;}
-    const replacement = window.prompt("Replacement start (YYYY-MM-DDTHH:mm)",toLocalInputValue(appointment.appointment_date));
-    if (!replacement) return;
-    const replacementEnd=window.prompt("Replacement end (YYYY-MM-DDTHH:mm)",toLocalInputValue(appointment.appointment_end_at));if(!replacementEnd)return;
-    const date = new Date(replacement);
-    const end=new Date(replacementEnd);
-    if (Number.isNaN(date.getTime())||Number.isNaN(end.getTime())||end<=date) {
-      setError("Enter valid replacement times with the end after the start.");
-      return;
-    }
-    await run(
-      () => rescheduleAppointment(appointment.id, date.toISOString(),end.toISOString()),
+  async function reschedule(start: string, end: string) {
+    if (!rescheduling) return;
+    const succeeded = await run(
+      () => rescheduleAppointment(rescheduling.id, start, end),
       "Appointment rescheduled. The original remains in history as cancelled.",
     );
+    if (succeeded) setRescheduling(null);
   }
 
   return (
@@ -76,6 +72,7 @@ export default function Calendar() {
       {loading && <p>Loading schedule…</p>}
       {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
       {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
+      {rescheduling?.appointment_end_at && <RescheduleDialog initialStart={rescheduling.appointment_date} initialEnd={rescheduling.appointment_end_at} busy={busy} onCancel={() => setRescheduling(null)} onConfirm={reschedule} />}
       <div style={{ display: "grid", gap: 12 }}>
         {appointments.map((appointment) => (
           <article className="responsive-record-card" key={appointment.id} style={cardStyle}>
@@ -86,7 +83,7 @@ export default function Calendar() {
               <small>{appointment.status}</small>
             </div>
             {appointment.status === "scheduled" && <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-              <button disabled={busy} onClick={() => reschedule(appointment)}>Reschedule</button>
+              <button disabled={busy || !appointment.appointment_end_at} title={!appointment.appointment_end_at ? "This historical appointment has no persisted end time." : undefined} onClick={() => setRescheduling(appointment)}>Reschedule</button>
               <button disabled={busy} onClick={() => run(() => completeAppointment(appointment.id), "Appointment completed.")}>Complete</button>
               <button disabled={busy} onClick={() => run(() => cancelAppointment(appointment.id), "Appointment cancelled.")}>Cancel</button>
               <button disabled={busy} onClick={() => run(() => markNoShow(appointment.id), "Appointment marked no-show.")}>No-show</button>
@@ -101,4 +98,3 @@ export default function Calendar() {
 
 const pageStyle = { width: "min(1000px, calc(100% - 48px))", margin: "40px auto", fontFamily: "system-ui, sans-serif" };
 const cardStyle = { display: "flex", justifyContent: "space-between", gap: 20, padding: 18, border: "1px solid #e2e8f0", borderRadius: 12 };
-function toLocalInputValue(value:string){const date=new Date(value);const offset=date.getTimezoneOffset()*60_000;return new Date(date.getTime()-offset).toISOString().slice(0,16);}
