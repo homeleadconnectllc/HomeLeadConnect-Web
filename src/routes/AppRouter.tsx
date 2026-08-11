@@ -1,42 +1,42 @@
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import AppLayout from "./AppLayout";
 import ProtectedLayout from "../layouts/ProtectedLayout";
 import WorkspaceLayout from "../layouts/WorkspaceLayout";
 
-import HomePage from "../pages/HomePage";
-import ContactPage from "../pages/ContactPage";
-import Estimator from "../pages/Estimator";
-import RequestService from "../pages/RequestService";
-import PublicInfo from "../pages/PublicInfo";
-import Legal from "../pages/Legal";
-
-import Login from "../pages/auth/Login";
-import Register from "../pages/auth/Register";
-import ForgotPassword from "../pages/auth/ForgotPassword";
-import ResetPassword from "../pages/auth/ResetPassword";
-import AcceptInvitation from "../pages/portal/AcceptInvitation";
-import HomeownerPortal from "../pages/portal/HomeownerPortal";
-import ContractorPortal from "../pages/portal/ContractorPortal";
-
-import Dashboard from "../pages/dashboard/Dashboard";
-import Leads from "../pages/dashboard/Leads";
-import Jobs from "../pages/dashboard/Jobs";
-import JobDetail from "../pages/dashboard/JobDetail";
-import Calendar from "../pages/dashboard/Calendar";
-import Settings from "../pages/dashboard/Settings";
-import FollowUps from "../pages/dashboard/FollowUps";
-import Messages from "../pages/dashboard/Messages";
-import Notifications from "../pages/dashboard/Notifications";
-import ManualCommunications from "../pages/dashboard/ManualCommunications";
-import AgentWorkspace from "../pages/dashboard/AgentWorkspace";
-import Documents from "../pages/dashboard/Documents";
-import CallCenter from "../pages/dashboard/CallCenter";
-import NotFound from "../pages/errors/404";
+const HomePage = lazy(() => import("../pages/HomePage"));
+const ContactPage = lazy(() => import("../pages/ContactPage"));
+const Estimator = lazy(() => import("../pages/Estimator"));
+const RequestService = lazy(() => import("../pages/RequestService"));
+const PublicInfo = lazy(() => import("../pages/PublicInfo"));
+const Legal = lazy(() => import("../pages/Legal"));
+const Login = lazy(() => import("../pages/auth/Login"));
+const Register = lazy(() => import("../pages/auth/Register"));
+const ForgotPassword = lazy(() => import("../pages/auth/ForgotPassword"));
+const ResetPassword = lazy(() => import("../pages/auth/ResetPassword"));
+const AcceptInvitation = lazy(() => import("../pages/portal/AcceptInvitation"));
+const HomeownerPortal = lazy(() => import("../pages/portal/HomeownerPortal"));
+const ContractorPortal = lazy(() => import("../pages/portal/ContractorPortal"));
+const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"));
+const Leads = lazy(() => import("../pages/dashboard/Leads"));
+const Jobs = lazy(() => import("../pages/dashboard/Jobs"));
+const JobDetail = lazy(() => import("../pages/dashboard/JobDetail"));
+const Calendar = lazy(() => import("../pages/dashboard/Calendar"));
+const Settings = lazy(() => import("../pages/dashboard/Settings"));
+const FollowUps = lazy(() => import("../pages/dashboard/FollowUps"));
+const Messages = lazy(() => import("../pages/dashboard/Messages"));
+const Notifications = lazy(() => import("../pages/dashboard/Notifications"));
+const ManualCommunications = lazy(() => import("../pages/dashboard/ManualCommunications"));
+const AgentWorkspace = lazy(() => import("../pages/dashboard/AgentWorkspace"));
+const Documents = lazy(() => import("../pages/dashboard/Documents"));
+const CallCenter = lazy(() => import("../pages/dashboard/CallCenter"));
+const NotFound = lazy(() => import("../pages/errors/404"));
 
 export default function AppRouter() {
   return (
     <BrowserRouter>
+      <Suspense fallback={<main style={{ padding: 32 }}><p role="status">Loading page…</p></main>}>
       <Routes>
         <Route element={<AppLayout />}>
           <Route path="/" element={<HomePage />} />
@@ -83,6 +83,7 @@ export default function AppRouter() {
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
+      </Suspense>
     </BrowserRouter>
   );
 }
