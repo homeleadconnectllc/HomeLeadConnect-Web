@@ -36,6 +36,7 @@ Do not run `supabase db push --linked` against production until a clone has prov
 24. `20260811021550_unified_telephony_routing.sql`
 25. `20260811023142_document_view_audit.sql`
 26. `20260811024203_launch_notification_events.sql`
+27. `20260811110214_normalize_launch_table_privileges.sql`
 
 ## Isolated verification gate
 
