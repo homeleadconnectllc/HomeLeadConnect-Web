@@ -9,6 +9,7 @@ import {
   type WorkspaceOption,
 } from "../../api/settings";
 import { errorMessage } from "../../lib/errorMessage";
+import { getBillingStatus, openBillingPortal, startSubscriptionCheckout, type BillingStatus } from "../../api/billing";
 
 const blankBusiness = {
   business_name: "", owner_name: "", phone: "", email: "", website: "",
@@ -16,6 +17,7 @@ const blankBusiness = {
 };
 
 export default function Settings() {
+  const billingEnabled = import.meta.env.VITE_BILLING_ENABLED === "true";
   const [personal, setPersonal] = useState({ fullName: "", avatarUrl: "", role: "" });
   const [business, setBusiness] = useState(blankBusiness);
   const [workspaces, setWorkspaces] = useState<WorkspaceOption[]>([]);
@@ -24,10 +26,12 @@ export default function Settings() {
   const [busy, setBusy] = useState<"personal" | "business" | null>(null);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [billing, setBilling] = useState<BillingStatus | null>(null);
 
   useEffect(() => {
-    Promise.all([getMyProfile(), getBusinessProfile(), listMyWorkspaces()])
-      .then(([profile, businessProfile, workspaceOptions]) => {
+    Promise.all([getMyProfile(), getBusinessProfile(), listMyWorkspaces(), billingEnabled ? getBillingStatus() : Promise.resolve(null)])
+      .then(([profile, businessProfile, workspaceOptions, billingStatus]) => {
+        setBilling(billingStatus);
         setWorkspaceId(profile.workspace_id);
         setWorkspaces(workspaceOptions);
         setPersonal({
@@ -51,7 +55,7 @@ export default function Settings() {
       })
       .catch((reason: unknown) => setError(errorMessage(reason, "Unable to load settings.")))
       .finally(() => setLoading(false));
-  }, []);
+  }, [billingEnabled]);
 
   async function savePersonal(event: FormEvent) {
     event.preventDefault();
@@ -86,6 +90,12 @@ export default function Settings() {
     try { await action(); setMessage(success); }
     catch (reason) { setError(errorMessage(reason, "Unable to save settings.")); }
     finally { setBusy(null); }
+  }
+
+  async function billingAction(action: () => Promise<void>) {
+    setError(""); setMessage("");
+    try { await action(); }
+    catch (reason) { setError(errorMessage(reason, "Billing is currently unavailable.")); }
   }
 
   if (loading) return <main style={pageStyle}><p>Loading settings…</p></main>;
@@ -124,6 +134,18 @@ export default function Settings() {
       )}
       <button disabled={busy !== null} type="submit">{busy === "business" ? "Saving…" : "Save business profile"}</button>
     </form>
+
+    <section style={cardStyle}>
+      <h2>Billing</h2>
+      <p><strong>HomeLead Connect V1:</strong> $99 per month after a 14-day free trial.</p>
+      <p>A payment method is required to begin the trial. No charge is made until the trial ends. Cancellation of a paid subscription takes effect at the end of the current billing period.</p>
+      {billing ? <p>Workspace billing state: <strong>{billing.status}</strong>{billing.trial_end ? ` · Trial ends ${new Date(billing.trial_end).toLocaleDateString()}` : ""}{billing.current_period_end ? ` · Current period ends ${new Date(billing.current_period_end).toLocaleDateString()}` : ""}</p>
+        : <p>No authoritative Stripe subscription is recorded for this workspace.</p>}
+      {billingEnabled ? <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+        {!billing?.is_active && <button type="button" onClick={() => billingAction(startSubscriptionCheckout)}>Start 14-day trial</button>}
+        {billing && <button type="button" onClick={() => billingAction(openBillingPortal)}>Manage billing with Stripe</button>}
+      </div> : <p><strong>Setup required:</strong> Stripe launch billing is not enabled in this environment.</p>}
+    </section>
   </main>;
 }
 
