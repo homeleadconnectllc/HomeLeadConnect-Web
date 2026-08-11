@@ -1,0 +1,44 @@
+alter table public.communication_provider_connections
+  add column if not exists id uuid default gen_random_uuid();
+update public.communication_provider_connections set id=gen_random_uuid() where id is null;
+alter table public.communication_provider_connections alter column id set not null;
+create unique index if not exists communication_provider_connections_id_idx
+  on public.communication_provider_connections(id);
+
+create table public.business_phone_numbers(
+ id uuid primary key default gen_random_uuid(),workspace_id uuid not null references public.workspaces(id) on delete cascade,
+ phone_number text not null,display_name text not null,provider_type text not null check(provider_type in('google_voice','twilio')),
+ provider_connection_id uuid references public.communication_provider_connections(id) on delete set null,is_primary boolean not null default false,
+ inbound_enabled boolean not null default false,outbound_enabled boolean not null default false,browser_calling_enabled boolean not null default false,
+ sms_enabled boolean not null default false,readiness_state text not null default 'setup_required' check(readiness_state in('setup_required','manual_available','connected','blocked')),
+ verification_state text not null default 'unverified' check(verification_state in('unverified','pending','verified','failed')),
+ created_at timestamptz not null default now(),updated_at timestamptz not null default now(),unique(provider_type,phone_number)
+);
+create unique index business_phone_primary_idx on public.business_phone_numbers(workspace_id) where is_primary;
+create index business_phone_workspace_idx on public.business_phone_numbers(workspace_id,readiness_state);
+alter table public.business_phone_numbers enable row level security;
+create policy business_phone_member_select on public.business_phone_numbers for select to authenticated using(exists(select 1 from public.workspace_members wm where wm.workspace_id=business_phone_numbers.workspace_id and wm.user_id=(select auth.uid())));
+grant select on public.business_phone_numbers to authenticated;grant all on public.business_phone_numbers to service_role;
+
+alter table public.call_sessions add column if not exists business_phone_id uuid references public.business_phone_numbers(id),add column if not exists provider_connection_id uuid references public.communication_provider_connections(id),add column if not exists provider_call_id text,add column if not exists direction text,add column if not exists normalized_state text,add column if not exists provider_raw_state text,add column if not exists subject_type text,add column if not exists subject_id text,add column if not exists conversation_id uuid references public.conversations(id),add column if not exists compliance_check_id uuid references public.communication_compliance_checks(id),add column if not exists requested_by uuid references auth.users(id),add column if not exists ended_at timestamptz,add column if not exists disposition text,add column if not exists notes text;
+alter table public.communication_provider_events add column if not exists call_session_id uuid references public.call_sessions(id) on delete set null;
+create unique index call_sessions_provider_call_idx on public.call_sessions(provider_connection_id,provider_call_id) where provider_call_id is not null;
+create index call_sessions_workspace_recent_idx on public.call_sessions(workspace_id,started_at desc);
+alter table public.call_sessions enable row level security;
+drop policy if exists telephony_call_sessions_member_select on public.call_sessions;
+create policy telephony_call_sessions_member_select on public.call_sessions for select to authenticated using(exists(select 1 from public.workspace_members wm where wm.workspace_id=call_sessions.workspace_id and wm.user_id=(select auth.uid())));
+grant select on public.call_sessions to authenticated;grant all on public.call_sessions to service_role;
+
+create or replace function public.hlc_validate_normalized_call_state()returns trigger language plpgsql set search_path='' as $$begin if old.normalized_state in('completed','failed','busy','no_answer','cancelled','voicemail') and new.normalized_state is distinct from old.normalized_state then raise exception 'Terminal call state cannot transition from % to %',old.normalized_state,new.normalized_state;end if;return new;end$$;
+drop trigger if exists call_sessions_validate_normalized_state on public.call_sessions;create trigger call_sessions_validate_normalized_state before update of normalized_state on public.call_sessions for each row execute function public.hlc_validate_normalized_call_state();
+revoke all on function public.hlc_validate_normalized_call_state() from public,anon,authenticated;
+
+create or replace function public.record_call_disposition(p_call_session_id uuid,p_disposition text,p_notes text default null)returns uuid language plpgsql security definer set search_path='' as $$declare v_workspace uuid;begin if nullif(btrim(p_disposition),'') is null then raise exception 'Disposition is required';end if;select cs.workspace_id into v_workspace from public.call_sessions cs where cs.id=p_call_session_id;if v_workspace is null or not exists(select 1 from public.workspace_members wm where wm.workspace_id=v_workspace and wm.user_id=auth.uid())then raise exception 'Call session access denied' using errcode='42501';end if;update public.call_sessions set disposition=btrim(p_disposition),notes=nullif(btrim(p_notes),'') where id=p_call_session_id;return p_call_session_id;end$$;
+revoke all on function public.record_call_disposition(uuid,text,text) from public,anon;grant execute on function public.record_call_disposition(uuid,text,text) to authenticated,service_role;
+
+create or replace function public.configure_business_phone_number(p_phone_number text,p_display_name text,p_provider_type text,p_provider_connection_id uuid,p_is_primary boolean,p_inbound_enabled boolean,p_outbound_enabled boolean,p_browser_calling_enabled boolean,p_sms_enabled boolean,p_readiness_state text,p_verification_state text)
+returns uuid language plpgsql security definer set search_path='' as $$declare v_workspace uuid;v_id uuid;begin select p.workspace_id into v_workspace from public.profiles p where p.user_id=auth.uid();if not exists(select 1 from public.workspace_members wm where wm.workspace_id=v_workspace and wm.user_id=auth.uid())then raise exception 'Workspace membership is required' using errcode='42501';end if;if p_provider_connection_id is not null and not exists(select 1 from public.communication_provider_connections pc where pc.id=p_provider_connection_id and pc.workspace_id=v_workspace and pc.provider_name=lower(p_provider_type))then raise exception 'Provider connection is outside the workspace' using errcode='42501';end if;if p_is_primary then update public.business_phone_numbers set is_primary=false where workspace_id=v_workspace;end if;insert into public.business_phone_numbers(workspace_id,phone_number,display_name,provider_type,provider_connection_id,is_primary,inbound_enabled,outbound_enabled,browser_calling_enabled,sms_enabled,readiness_state,verification_state)values(v_workspace,p_phone_number,btrim(p_display_name),lower(p_provider_type),p_provider_connection_id,p_is_primary,p_inbound_enabled,p_outbound_enabled,p_browser_calling_enabled,p_sms_enabled,p_readiness_state,p_verification_state)on conflict(provider_type,phone_number)do update set display_name=excluded.display_name,provider_connection_id=excluded.provider_connection_id,is_primary=excluded.is_primary,inbound_enabled=excluded.inbound_enabled,outbound_enabled=excluded.outbound_enabled,browser_calling_enabled=excluded.browser_calling_enabled,sms_enabled=excluded.sms_enabled,readiness_state=excluded.readiness_state,verification_state=excluded.verification_state,updated_at=now() where business_phone_numbers.workspace_id=v_workspace returning id into v_id;return v_id;end$$;
+revoke all on function public.configure_business_phone_number(text,text,text,uuid,boolean,boolean,boolean,boolean,boolean,text,text) from public,anon;grant execute on function public.configure_business_phone_number(text,text,text,uuid,boolean,boolean,boolean,boolean,boolean,text,text) to authenticated,service_role;
+
+insert into public.business_phone_numbers(workspace_id,phone_number,display_name,provider_type,provider_connection_id,is_primary,inbound_enabled,outbound_enabled,browser_calling_enabled,sms_enabled,readiness_state,verification_state)
+select pc.workspace_id,'+17172881785','HomeLead Connect LLC','google_voice',pc.id,true,false,true,false,true,'manual_available','verified' from public.communication_provider_connections pc where pc.provider_name='google_voice' and not exists(select 1 from public.business_phone_numbers b where b.workspace_id=pc.workspace_id and b.phone_number='+17172881785');

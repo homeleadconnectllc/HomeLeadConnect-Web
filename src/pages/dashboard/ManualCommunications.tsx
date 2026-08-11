@@ -17,6 +17,7 @@ import {
 import type { Contractor, Lead } from "../../lib/types/database";
 import { errorMessage } from "../../lib/errorMessage";
 import { listConversations, type Conversation } from "../../api/messages";
+import { useSearchParams } from "react-router-dom";
 
 type ContactOption = { key: string; type: ManualCommunicationSubject; id: string; label: string; phone: string; followUpLeadId?: string };
 
@@ -33,6 +34,7 @@ const reasonLabels: Record<string, string> = {
 };
 
 export default function ManualCommunications() {
+  const [searchParams] = useSearchParams();
   const [leads, setLeads] = useState<Lead[]>([]);
   const [contractors, setContractors] = useState<Contractor[]>([]);
   const [history, setHistory] = useState<GoogleVoiceActivity[]>([]);
@@ -40,8 +42,8 @@ export default function ManualCommunications() {
   const [conversationId, setConversationId] = useState("");
   const [configuredNumber, setConfiguredNumber] = useState("");
   const [numberInput, setNumberInput] = useState("");
-  const [contactKey, setContactKey] = useState("");
-  const [channel, setChannel] = useState<ManualCommunicationChannel>("call");
+  const [contactKey, setContactKey] = useState(() => searchParams.get("contact") || "");
+  const [channel, setChannel] = useState<ManualCommunicationChannel>(() => searchParams.get("channel") === "sms" ? "sms" : "call");
   const [direction, setDirection] = useState<"inbound" | "outbound">("outbound");
   const [purpose, setPurpose] = useState<CommunicationPurpose>("service");
   const [outcome, setOutcome] = useState("");

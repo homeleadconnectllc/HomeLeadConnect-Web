@@ -15,6 +15,7 @@ export default function LeadCard({ lead }: { lead: Lead }) {
       <div style={{ display: "grid", gap: 8 }}>
         <Link to={`/estimator?lead=${lead.id}`} style={actionStyle}>Create Estimate</Link>
         <Link to={`/follow-ups?lead=${lead.id_uuid}`}>Schedule follow-up</Link>
+        {lead.phone && <Link to={`/manual-communications?contact=lead:${lead.id}&channel=call`}>Call</Link>}
         <PortalInviteButton role="homeowner" targetId={lead.id} email={lead.email} label="Invite to homeowner portal" />
       </div>
     </article>

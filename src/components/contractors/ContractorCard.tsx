@@ -1,4 +1,5 @@
 import type { Contractor } from "../../lib/types/database";
+import { Link } from "react-router-dom";
 
 export default function ContractorCard({
   contractor,
@@ -22,9 +23,12 @@ export default function ContractorCard({
         </p>
         <small>Status: {contractor.status || "not specified"}</small>
       </div>
-      <button type="button" disabled={disabled} onClick={() => onOffer(contractor)}>
-        Offer job
-      </button>
+      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        {contractor.phone && <Link to={`/manual-communications?contact=contractor:${contractor.id}&channel=call`}>Call</Link>}
+        <button type="button" disabled={disabled} onClick={() => onOffer(contractor)}>
+          Offer job
+        </button>
+      </div>
     </article>
   );
 }

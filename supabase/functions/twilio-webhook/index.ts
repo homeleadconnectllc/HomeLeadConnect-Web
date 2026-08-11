@@ -44,6 +44,7 @@ Deno.serve(async (request) => {
     .eq("provider_name", "twilio").eq("sender_identity", to).eq("status", "connected").maybeSingle();
 
   let transmissionId: string | null = null;
+  let callSessionId: string | null = null;
   let eventWorkspaceId: string | null = connection?.workspace_id || null;
   if (params.get("Body") && connection?.workspace_id) {
     const { data: subject } = await admin.rpc("resolve_communication_subject", {
@@ -64,6 +65,26 @@ Deno.serve(async (request) => {
         if (!existing) await admin.from("communication_suppressions").insert({ workspace_id: connection.workspace_id, channel: "sms", destination: from, reason: "Recipient opt-out keyword", source: "twilio_inbound" });
       }
     }
+  } else if (sid && params.get("CallStatus") === "ringing") {
+    const { data: businessNumber } = await admin.from("business_phone_numbers").select("id,workspace_id,provider_connection_id")
+      .eq("provider_type","twilio").eq("phone_number",to).eq("inbound_enabled",true).eq("readiness_state","connected").maybeSingle();
+    if (businessNumber) {
+      const { data: subject } = await admin.rpc("resolve_communication_subject",{p_workspace_id:businessNumber.workspace_id,p_channel:"call",p_destination:from});
+      const callPayload = {workspace_id:businessNumber.workspace_id,status:"active",lock_owner:"twilio",current_lead_id:subject?.subject_type==="lead"?Number(subject.subject_id):null,dial_state:"dialing",last_action_at:new Date().toISOString(),business_phone_id:businessNumber.id,provider_connection_id:businessNumber.provider_connection_id,provider_call_id:sid,direction:"inbound",normalized_state:"ringing",provider_raw_state:params.get("CallStatus"),subject_type:subject?.subject_type||null,subject_id:subject?.subject_id?String(subject.subject_id):null};
+      const { data: existingCall } = await admin.from("call_sessions").select("id").eq("provider_connection_id",businessNumber.provider_connection_id).eq("provider_call_id",sid).maybeSingle();
+      if (existingCall) {
+        await admin.from("call_sessions").update(callPayload).eq("id",existingCall.id);
+        callSessionId=existingCall.id;
+      } else {
+        const { data: createdCall } = await admin.from("call_sessions").insert({...callPayload,started_at:new Date().toISOString()}).select("id").single();
+        callSessionId=createdCall?.id||null;
+      }
+      if(subject?.subject_type&&subject?.subject_id){
+        const {data:inboundCall}=await admin.from("communication_transmissions").insert({workspace_id:businessNumber.workspace_id,subject_type:subject.subject_type,subject_id:String(subject.subject_id),channel:"call",direction:"inbound",purpose:"service",destination:from,provider_name:"twilio",provider_reference:sid,client_request_id:crypto.randomUUID(),status:"received"}).select("id").single();
+        transmissionId=inboundCall?.id||null;
+      }
+      eventWorkspaceId=businessNumber.workspace_id;
+    }
   } else if (sid) {
     const update: Record<string, unknown> = { status: ["delivered","completed"].includes(status) ? "delivered" : ["failed","undelivered","canceled","busy","no-answer"].includes(status) ? "failed" : "sent" };
     if (update.status === "delivered") update.delivered_at = new Date().toISOString();
@@ -71,9 +92,15 @@ Deno.serve(async (request) => {
     const { data: transmission } = await admin.from("communication_transmissions").update(update).eq("provider_name", "twilio").eq("provider_reference", sid).select("id,workspace_id").maybeSingle();
     transmissionId = transmission?.id || null;
     eventWorkspaceId = transmission?.workspace_id || null;
+    const normalized=["in-progress","answered"].includes(status)?"answered":status==="completed"?"completed":["busy"].includes(status)?"busy":["no-answer"].includes(status)?"no_answer":["failed"].includes(status)?"failed":["canceled"].includes(status)?"cancelled":"requested";
+    const terminal=["completed","busy","no_answer","failed","cancelled"].includes(normalized);
+    const legacyDialState=terminal?"ended":normalized==="answered"?"in_call":"dialing";
+    const {data:callSession}=await admin.from("call_sessions").update({status:terminal?"ended":"active",normalized_state:normalized,provider_raw_state:status,dial_state:legacyDialState,last_action_at:new Date().toISOString(),ended_at:terminal?new Date().toISOString():null}).eq("provider_call_id",sid).select("id,workspace_id").maybeSingle();
+    callSessionId=callSession?.id||null;
+    eventWorkspaceId=eventWorkspaceId||callSession?.workspace_id||null;
   }
 
-  await admin.from("communication_provider_events").update({ workspace_id: eventWorkspaceId, transmission_id: transmissionId, processing_status: transmissionId ? "processed" : "ignored", processed_at: new Date().toISOString() })
+  await admin.from("communication_provider_events").update({ workspace_id: eventWorkspaceId, transmission_id: transmissionId, call_session_id: callSessionId, processing_status: transmissionId || callSessionId ? "processed" : "ignored", processed_at: new Date().toISOString() })
     .eq("provider_name", "twilio").eq("provider_event_key", eventKey);
   return new Response("ok", { status: 200 });
 });
