@@ -87,6 +87,7 @@ export default function Navbar() {
           </>}
           {access.homeowner && <Link to="/homeowner-portal">Homeowner portal</Link>}
           {access.contractor && <Link to="/contractor-portal">Contractor portal</Link>}
+          {(access.business || access.homeowner || access.contractor) && <Link to="/messages">Messages</Link>}
           <button type="button" onClick={logout}>Log out</button>
         </> : !loading && <>
           <Link to="/">Home</Link>
