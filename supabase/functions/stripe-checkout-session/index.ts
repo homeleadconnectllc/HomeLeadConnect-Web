@@ -38,14 +38,19 @@ Deno.serve(async (request) => {
   const { data: existing } = await admin.from("subscriptions").select("stripe_customer_id,status").eq("workspace_id", profile.workspace_id).maybeSingle();
   if (existing?.status === "active" || existing?.status === "trialing") return json({ error: "This workspace already has an active subscription." }, 409);
 
+  const stripe = new Stripe(stripeKey);
+  const price = await stripe.prices.retrieve(priceId);
+  if (!price.active || price.type !== "recurring" || price.currency !== "usd" || !price.unit_amount) {
+    return json({ error: "Configured subscription price is invalid." }, 503);
+  }
+
   const { error: consentError } = await admin.from("billing_enrollment_consents").upsert({
     workspace_id: profile.workspace_id, user_id: userData.user.id, disclosure_version: enrollment.disclosureVersion,
-    trial_days: 14, recurring_amount_cents: 9900, currency: "usd", billing_interval: "month",
+    trial_days: 14, recurring_amount_cents: price.unit_amount, currency: price.currency, billing_interval: price.recurring?.interval ?? "month",
     cancellation_method: "stripe_billing_portal", client_request_id: enrollment.clientRequestId,
   }, { onConflict: "workspace_id,client_request_id", ignoreDuplicates: true });
   if (consentError) return json({ error: "Unable to preserve enrollment consent." }, 500);
 
-  const stripe = new Stripe(stripeKey);
   const session = await stripe.checkout.sessions.create({
     mode: "subscription",
     customer: existing?.stripe_customer_id || undefined,
