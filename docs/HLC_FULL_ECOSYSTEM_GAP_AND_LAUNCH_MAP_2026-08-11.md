@@ -43,7 +43,7 @@ The first release should preserve Carrd and use the available homepage plus nine
 | 6 | How It Works | Everyone | `Request → Lead → LeadScope → eligible provider offer → acceptance → schedule → work → review/referral` | Start | Persona-appropriate intake | **MISSING** as a public Carrd page |
 | 7 | About & Trust | Everyone | Company, mission, contact, platform role, safety/due diligence, brand attribution | Contact HLC | Contact | **WORKING** as isolated Carrd page; navigation integration **BROKEN** |
 | 8 | Pricing & Offers | Businesses | Approved plans, trial, entitlement, cancellation; separate any `5 Confirmed Appointments = $250` acquisition offer from SaaS | Subscribe or talk to HLC | Stripe Checkout only after offer approval; otherwise contact | **UNDEFINED** because current source material conflicts on offer and $99/month plan |
-| 9 | Demo, Contact & Help | Everyone | Demo form, contact form, phone `717-288-1785`, verified email, FAQ, response expectations, accessibility/support path | Submit | Canonical CRM intake plus receipt | **UNPROVEN**; live contact page exists but form-to-CRM receipt is unverified |
+| 9 | Demo, Contact & Help | Everyone | Demo form, contact form, phone `717-288-1785`, canonical public email `info@homeleadconnect.org`, FAQ, response expectations, accessibility/support path | Submit | Canonical CRM intake plus receipt | **UNPROVEN**; the published identity is established, but mailbox delivery and form-to-CRM receipt require operational tests |
 | 10 | Legal, Privacy & Safety | Everyone | Terms, privacy, platform disclosure, communications consent, cookies, accessibility, community rules, provider disclosure, deletion/export request | Manage request / contact | Verified privacy workflow | **UNPROVEN** and attorney review required |
 
 ### Public navigation
@@ -103,7 +103,7 @@ Every assistant needs a real conversation thread, composer, history, scoped cont
 
 1. **Public routing is fragmented.** Same-domain public pages are not implemented; primary CTAs are not persona-specific.
 2. **Forms are not proven end to end.** Demo, contact, resident request and professional application need canonical CRM records, attribution, idempotency and receipts.
-3. **Business identity conflicts.** `info@homeleadconnect.org` is the intended public email, while application tests contain `homeleadconnect@gmail.com`; the domain mailbox must be verified before changing production copy.
+3. **Business identity reconciliation.** `info@homeleadconnect.org` is the canonical public HLC email. Any `homeleadconnect@gmail.com` reference is legacy/internal unless explicitly retained for provider administration. Before launch, send and receive a real message through `info@homeleadconnect.org` and record the evidence; do not use public page text as proof of mailbox delivery.
 4. **Brand asset equivalence is unproven.** Required locked logo/seal/emblem filenames are absent from the repository, although agent avatars exist.
 5. **Auth matrix is unproven.** Email/password, recovery, invitations, homeowner links, contractor links, workspace membership and cross-tenant denial need complete tests. Phone/passkey/social login are not approved merely because they are desirable.
 6. **Workflow transitions are unproven.** Request-to-lead, LeadScope-to-job, offer acceptance, one-active-assignment and scheduling must be verified through UI, persistence and authorization.
