@@ -49,7 +49,8 @@ Do not run `supabase db push --linked` against production until a clone has prov
 37. `20260812133800_ecosystem_surface_performance_hardening.sql`
 38. `20260812191000_reconcile_leads_workspace_foreign_key.sql`
 39. `20260812191500_reconciliation_billing_rls_and_appointment_trigger_cleanup.sql`
-40. `20260812195500_reconciliation_automation_job_visibility.sql`
+40. `20260812194900_persisted_automation_runtime.sql`
+41. `20260812195500_reconciliation_automation_job_visibility.sql`
 
 ## Isolated verification gate
 
@@ -84,7 +85,9 @@ Migration `20260812191000_reconcile_leads_workspace_foreign_key.sql` corrects th
 
 Migration `20260812191500_reconciliation_billing_rls_and_appointment_trigger_cleanup.sql` restores authenticated workspace-member read access to `workspace_plan_status`, keeps subscription mutation backend-only, and removes the duplicate appointment validation trigger while preserving the canonical validator.
 
-Migration `20260812195500_reconciliation_automation_job_visibility.sql` makes persisted automation-job history readable to authenticated members of the owning workspace while keeping job creation and state mutation backend-only. The `/automations` surface now reads this history instead of presenting configuration alone; worker execution remains a separate backend capability and is not implied by the UI.
+Migration `20260812194900_persisted_automation_runtime.sql` adds persisted execution state and the deterministic `run_hlc_automation` RPC for workflow health, follow-up, and owner-attention scans. The RPC derives workspace identity from the authenticated profile, enforces membership, supports idempotency, records results, and writes an activity audit event.
+
+Migration `20260812195500_reconciliation_automation_job_visibility.sql` keeps persisted automation-job history readable only to authenticated members of the owning workspace while leaving job creation and state mutation backend-controlled. The `/automations` surface reads this history instead of presenting configuration alone.
 
 The three prepared Stripe billing Edge Functions were deployed to the reconciliation project with the intended verification boundaries: checkout and billing portal require JWTs; the webhook does not require a Supabase JWT and instead independently verifies `Stripe-Signature`. Billing remains disabled until server-side Stripe secrets, one approved recurring Price mapping, a Stripe webhook endpoint, and end-to-end signed webhook evidence are configured. The checkout function now derives the recorded recurring amount and interval from the configured Stripe Price instead of hardcoding a stale amount.
 
