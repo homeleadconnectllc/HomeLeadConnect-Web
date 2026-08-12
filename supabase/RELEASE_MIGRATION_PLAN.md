@@ -42,7 +42,8 @@ Do not run `supabase db push --linked` against production until a clone has prov
 30. `20260812110500_reconcile_convert_estimate_to_job.sql`
 31. `20260812111000_reconciliation_operational_write_policies.sql`
 32. `20260812111200_reconciliation_follow_up_policies.sql`
-33. `20260812111500_manual_communication_transport_logging.sql`
+33. `20260812111300_reconciliation_public_intake_fidelity.sql`
+34. `20260812111500_manual_communication_transport_logging.sql`
 
 ## Isolated verification gate
 
@@ -65,7 +66,9 @@ Production already contained the canonical `convert_estimate_to_job(uuid)` contr
 
 The reconciliation baseline also lacked authenticated operational writes for CRM jobs, job assignments, and appointments. Migration `20260812111000_reconciliation_operational_write_policies.sql` restores the existing client contract while preserving workspace membership and actor checks. The complete rolled-back golden workflow then passed with the correct authority handoff: Workspace A owner created an accepted estimate, converted it to a pending job, offered that job to the linked contractor, the contractor accepted through `contractor_decide_assignment`, and the owner scheduled a valid appointment.
 
-The security advisor then exposed `follow_ups` as a user-facing RLS table with no policies even though the launch UI directly reads, creates, and completes follow-ups. Migration `20260812111200_reconciliation_follow_up_policies.sql` scopes those operations through the linked lead workspace and requires the authenticated user to own new follow-ups. A rolled-back Workspace A test successfully created and read its own follow-up. These are reconciliation tests only; they do not authorize a production migration.
+The security advisor then exposed `follow_ups` as a user-facing RLS table with no policies even though the launch UI directly reads, creates, and completes follow-ups. Migration `20260812111200_reconciliation_follow_up_policies.sql` scopes those operations through the linked lead workspace and requires the authenticated user to own new follow-ups. A rolled-back Workspace A test successfully created and read its own follow-up.
+
+The reconciliation database also lacked the causal lead-state internals and `submit_public_service_request` RPC required by the public request form. Migration `20260812111300_reconciliation_public_intake_fidelity.sql` restores that established intake contract. A test-only `request-service` form mapping to Workspace A was seeded in the reconciliation project, and an anonymous rolled-back request returned `accepted=true` with a lead id. The `send-portal-invitation` Edge Function was also deployed to the reconciliation project with JWT verification enabled; invitation email delivery still requires its `PORTAL_SITE_URL` runtime secret. These are reconciliation tests only; they do not authorize a production migration.
 
 ## Production gate
 
