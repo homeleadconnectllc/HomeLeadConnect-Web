@@ -28,6 +28,18 @@ async function countRows(
   return count ?? 0;
 }
 
+async function countPublicRequests(workspaceId: string) {
+  const { count, error } = await supabase
+    .from("leads")
+    .select("id", { count: "exact", head: true })
+    .eq("workspace_id", workspaceId)
+    .eq("archived", false)
+    .not("request_id", "is", null);
+
+  if (error) throw error;
+  return count ?? 0;
+}
+
 export async function getWorkflowSnapshot(): Promise<WorkflowSnapshot> {
   const workspaceId = await getCurrentWorkspaceId();
   const [
@@ -41,7 +53,7 @@ export async function getWorkflowSnapshot(): Promise<WorkflowSnapshot> {
     conversations,
     completedJobs,
   ] = await Promise.all([
-    countRows("leads", workspaceId, [["archived", false]]),
+    countPublicRequests(workspaceId),
     countRows("leads", workspaceId, [["archived", false]]),
     countRows("estimates", workspaceId),
     countRows("crm_jobs", workspaceId),
