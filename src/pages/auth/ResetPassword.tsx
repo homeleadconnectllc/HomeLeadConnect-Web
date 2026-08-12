@@ -1,7 +1,8 @@
 import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
-import { supabase } from "../../lib/supabase";
+import AuthShell from "../../components/auth/AuthShell";
 import { errorMessage } from "../../lib/errorMessage";
+import { supabase } from "../../lib/supabase";
 
 export default function ResetPassword() {
   const [password, setPassword] = useState("");
@@ -14,20 +15,21 @@ export default function ResetPassword() {
     const { error: authError } = await supabase.auth.updateUser({ password });
     setBusy(false);
     if (authError) { setError(errorMessage(authError, "Unable to update the password.")); return; }
-    setMessage("Password updated. You can now continue to the dashboard.");
+    setMessage("Password updated. Your same HLC account is ready.");
   }
 
-  return <main className="hlc-auth-page" style={pageStyle}>
-    <h1>Choose a new password</h1>
+  const status = <>
     {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
     {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
-    <form className="hlc-auth-form" onSubmit={update} style={formStyle}>
-      <label>New password<input required minLength={8} autoComplete="new-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} /></label>
-      <button disabled={busy} type="submit">{busy ? "Updating…" : "Update password"}</button>
-    </form>
-    {message && <p><Link to="/dashboard">Continue to dashboard</Link></p>}
-  </main>;
-}
+  </>;
+  const footer = message
+    ? <p><Link to="/dashboard">Continue to your HLC dashboard</Link></p>
+    : <p><Link to="/login">Return to sign in</Link></p>;
 
-const pageStyle = { width: "min(420px, calc(100% - 32px))", margin: "64px auto" };
-const formStyle = { display: "grid", gap: 16 };
+  return <AuthShell title="Choose a new password" description="Update the password for your existing HomeLead Connect account." status={status} footer={footer}>
+    <form className="hlc-auth-form" onSubmit={update}>
+      <label>New password<input required minLength={8} autoComplete="new-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} /></label>
+      <button disabled={busy} type="submit">{busy ? "Updating…" : "Update HLC password"}</button>
+    </form>
+  </AuthShell>;
+}
