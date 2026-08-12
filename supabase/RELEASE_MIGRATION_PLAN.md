@@ -40,7 +40,8 @@ Do not run `supabase db push --linked` against production until a clone has prov
 28. `20260812104540_reconciliation_positive_access_policies.sql`
 29. `20260812110000_device_native_compliance_transport.sql`
 30. `20260812110500_reconcile_convert_estimate_to_job.sql`
-31. `20260812111500_manual_communication_transport_logging.sql`
+31. `20260812111000_reconciliation_operational_write_policies.sql`
+32. `20260812111500_manual_communication_transport_logging.sql`
 
 ## Isolated verification gate
 
@@ -59,7 +60,9 @@ The `hlc-reconciliation-test` project has the expanded launch schema and include
 
 Device-native calling/texting now uses the same communication compliance function as connected providers, with `device_native` exempt only from the provider-connection requirement. A transactional Workspace A service-call test returned `ALLOW` with no compliance reasons. A second transaction proved that an allowed device-native call can be written to `communication_transmissions` as operator-reported evidence and the transaction was rolled back after verification.
 
-Production already contained the canonical `convert_estimate_to_job(uuid)` contract used by the frontend, but the reconciliation project did not. Migration `20260812110500_reconcile_convert_estimate_to_job.sql` restores that contract in the launch chain. A transactional authenticated test created an accepted Workspace A estimate, converted it to a pending CRM job with the same lead/workspace/contract value and source estimate, then rolled the transaction back. These are reconciliation tests only; they do not authorize a production migration.
+Production already contained the canonical `convert_estimate_to_job(uuid)` contract used by the frontend, but the reconciliation project did not. Migration `20260812110500_reconcile_convert_estimate_to_job.sql` restores that contract in the launch chain. A transactional authenticated test created an accepted Workspace A estimate and converted it to a pending CRM job with the same lead/workspace/contract value and source estimate.
+
+The reconciliation baseline also lacked authenticated operational writes for CRM jobs, job assignments, and appointments. Migration `20260812111000_reconciliation_operational_write_policies.sql` restores the existing client contract while preserving workspace membership and actor checks. The complete rolled-back golden workflow then passed with the correct authority handoff: Workspace A owner created an accepted estimate, converted it to a pending job, offered that job to the linked contractor, the contractor accepted through `contractor_decide_assignment`, and the owner scheduled a valid appointment. These are reconciliation tests only; they do not authorize a production migration.
 
 ## Production gate
 
