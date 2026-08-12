@@ -1,6 +1,19 @@
 export type EcosystemStatus = "WORKING" | "BROKEN" | "MISSING" | "UNDEFINED" | "UNPROVEN";
 export type EcosystemOwner = "Kendrell" | "Dion" | "Diamond" | "Shared";
 
+export type AgentPlacement = {
+  id: "kendrell" | "dion" | "diamond";
+  name: string;
+  title: string;
+  avatar: string;
+  route: string;
+  owns: string[];
+  presentOn: string[];
+  handoff: string;
+  status: EcosystemStatus;
+  nextGate: string;
+};
+
 export type EcosystemArea = {
   id: string;
   label: string;
@@ -10,6 +23,45 @@ export type EcosystemArea = {
   status: EcosystemStatus;
   nextGate: string;
 };
+
+export const agentTeam: AgentPlacement[] = [
+  {
+    id: "kendrell",
+    name: "Kendrell",
+    title: "Owner Command · Master Orchestrator",
+    avatar: "/brand/avatars/Kendrell_Locked_HLC.png",
+    route: "/hq",
+    owns: ["Executive dashboard", "Approvals", "Risk", "System health", "Billing oversight", "Cross-agent handoffs"],
+    presentOn: ["HQ", "Dashboard", "Ecosystem", "Settings", "Alerts"],
+    handoff: "Routes operational work to Dion and customer/community work to Diamond; receives escalations from both.",
+    status: "UNPROVEN",
+    nextGate: "Add persistent contextual chat, approval previews, audited actions and verified cross-agent handoffs.",
+  },
+  {
+    id: "dion",
+    name: "Dion",
+    title: "Operations & Business Intelligence",
+    avatar: "/brand/avatars/Dion_Locked_HLC.png",
+    route: "/operations",
+    owns: ["Leads", "LeadScope", "Jobs", "Provider matching", "Calendar", "Call Center", "Operational reporting"],
+    presentOn: ["Dashboard", "Leads", "LeadScope", "Jobs", "Contractors", "Calendar", "Call Center"],
+    handoff: "Escalates approvals and risk to Kendrell; sends onboarding, message, review and recovery work to Diamond.",
+    status: "UNPROVEN",
+    nextGate: "Add Ask Dion chat across operational records with safe action previews, outcomes and handoff evidence.",
+  },
+  {
+    id: "diamond",
+    name: "Diamond",
+    title: "Customer Experience & Community",
+    avatar: "/brand/avatars/Diamond_Locked_HLC.png",
+    route: "/customer-experience",
+    owns: ["Onboarding", "Help", "Messages", "Community", "Reviews", "Referrals", "Brand experience", "Customer recovery"],
+    presentOn: ["Public website", "Portals", "Messages", "Community", "Network/Map", "Help", "Notifications"],
+    handoff: "Escalates operational blockers to Dion and policy, risk or executive decisions to Kendrell.",
+    status: "UNPROVEN",
+    nextGate: "Add Ask Diamond chat across customer and community surfaces with moderation and recovery workflows.",
+  },
+];
 
 export const ecosystemAreas: EcosystemArea[] = [
   { id: "public-front-door", label: "Public Website & Acquisition", summary: "homeleadconnect.org, persona journeys, service taxonomy, public trust, campaign attribution and canonical intake.", owner: "Diamond", routes: ["/", "/homeowners", "/contractors", "/how-it-works", "/request-service", "/contact"], status: "BROKEN", nextGate: "Consolidate the Carrd page family, split resident/professional/partner CTAs and prove every form reaches one canonical CRM intake." },
