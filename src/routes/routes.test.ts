@@ -8,6 +8,7 @@ const footer = readFileSync("src/components/Footer.tsx", "utf8");
 const publicCopy = ["src/pages/HomePage.tsx", "src/pages/PublicInfo.tsx", "src/pages/ContactPage.tsx", "src/pages/Legal.tsx"]
   .map((path) => readFileSync(path, "utf8"))
   .join("\n");
+const pageMap = readFileSync("src/config/pageMap.ts", "utf8");
 
 const definedRoutes = new Set([...router.matchAll(/path="([^"]+)"/g)].map((match) => match[1]));
 
@@ -30,6 +31,12 @@ test("canonical golden workflow route remains declared once", () => {
 
 test("shared HLC automation control plane remains declared once", () => {
   assert.equal([...router.matchAll(/path="\/automations"/g)].length, 1);
+});
+
+test("canonical page map contains every top-level HLC experience", () => {
+  for (const area of ["Public Website", "Homeowners & Renters", "Professionals", "Network & Map", "Community", "HQ", "Shared System"]) {
+    assert.match(pageMap, new RegExp(area.replace(/[&]/g, "&")));
+  }
 });
 
 test("every canonical ecosystem destination has one declared route", () => {

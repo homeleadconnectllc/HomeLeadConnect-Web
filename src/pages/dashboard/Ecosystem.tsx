@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { agentTeam, ecosystemAreas, ecosystemNavigation, statusPriority, workflowSpine, type EcosystemStatus } from "../../config/ecosystem";
+import { canonicalPageMap } from "../../config/pageMap";
 
 const colors: Record<EcosystemStatus, string> = {
   WORKING: "#166534",
@@ -76,6 +77,20 @@ export default function Ecosystem() {
             <p style={{ margin: "5px 0", fontSize: 14, lineHeight: 1.45 }}>{page.purpose}</p>
             <p style={{ margin: 0, color: "#64748b", fontSize: 12 }}>{page.owner} · {page.audiences.join(" · ")}</p>
           </div>
+          <strong style={{ ...badgeStyle, color: colors[page.status], borderColor: colors[page.status] }}>{page.status}</strong>
+        </div>)}</div>
+      </article>)}</div>
+    </section>
+
+    <section aria-labelledby="entire-page-map-title">
+      <div style={sectionHeadingStyle}>
+        <div><p style={eyebrowDarkStyle}>Everything inside one HLC project</p><h2 id="entire-page-map-title" style={{ margin: "4px 0" }}>Canonical page map</h2></div>
+        <p style={{ margin: 0, maxWidth: 640, lineHeight: 1.55 }}>Public, resident, professional, Network, Community, HQ and shared-system destinations are shown together. Reserved destinations stay visible until built, without becoming duplicate systems.</p>
+      </div>
+      <div style={navigationGridStyle}>{canonicalPageMap.map((area) => <article key={area.id} style={navigationGroupStyle}>
+        <h3 style={{ margin: 0 }}>{area.label}</h3><p style={{ margin: "6px 0 14px", color: "#64748b" }}>Canonical home: <code>{area.home}</code></p>
+        <div style={pageStackStyle}>{area.pages.map((page) => <div key={`${area.id}-${page.route}-${page.label}`} style={pageRowStyle}>
+          <div style={{ minWidth: 0 }}><div style={pageTitleStyle}>{page.built ? <Link to={page.route}><strong>{page.label}</strong></Link> : <strong>{page.label}</strong>}<code style={routeCodeStyle}>{page.route}</code></div><p style={{ margin: "5px 0 0", color: "#64748b", fontSize: 12 }}>{page.owner} · {page.audience}{!page.built ? " · Reserved destination" : ""}</p></div>
           <strong style={{ ...badgeStyle, color: colors[page.status], borderColor: colors[page.status] }}>{page.status}</strong>
         </div>)}</div>
       </article>)}</div>
