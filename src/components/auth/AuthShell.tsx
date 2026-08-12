@@ -1,6 +1,4 @@
 import type { ReactNode } from "react";
-import { Link } from "react-router-dom";
-
 type AuthShellProps = {
   title: string;
   description: string;
@@ -21,10 +19,10 @@ export default function AuthShell({
   return (
     <main className="hlc-auth-shell">
       <section className="hlc-auth-brand" aria-label="HomeLead Connect">
-        <Link className="hlc-auth-logo-link" to="/" aria-label="Return to HomeLead Connect home">
+        <a className="hlc-auth-logo-link" href="https://homeleadconnect.org" aria-label="Return to HomeLead Connect home">
           <img src="/hlc-logo-final.png" alt="" />
           <span>HomeLead Connect</span>
-        </Link>
+        </a>
         <p className="hlc-auth-eyebrow">{eyebrow}</p>
         <h1>{title}</h1>
         <p className="hlc-auth-description">{description}</p>
