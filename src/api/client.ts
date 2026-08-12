@@ -1,8 +1,9 @@
-import { supabase } from "../lib/supabase";
+import { requireSupabaseConfig, supabase } from "../lib/supabase";
 
 export { supabase };
 
 export async function getCurrentWorkspaceId(): Promise<string> {
+  requireSupabaseConfig();
   const { data: authData, error: authError } = await supabase.auth.getUser();
 
   if (authError) throw authError;

@@ -6,7 +6,7 @@ import {
 import type { ReactNode } from "react";
 import type { Session } from "@supabase/supabase-js";
 
-import { supabase } from "../lib/supabase";
+import { isSupabaseConfigured, supabase } from "../lib/supabase";
 import { AuthContext } from "./auth-context";
 
 export function AuthProvider({
@@ -15,9 +15,11 @@ export function AuthProvider({
   children: ReactNode;
 }) {
   const [session, setSession] = useState<Session | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => isSupabaseConfigured());
 
   useEffect(() => {
+    if (!isSupabaseConfigured()) return;
+
     supabase.auth.getSession().then(({ data }) => {
       setSession(data.session);
       setLoading(false);

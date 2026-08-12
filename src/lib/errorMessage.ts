@@ -21,6 +21,9 @@ export function errorMessage(reason: unknown, fallback: string) {
 
 function cleanMessage(message: string, fallback: string) {
   const normalized = message.toLowerCase();
+  if (normalized.includes("invalid api key")) {
+    return "HLC auth is not connected to the correct Supabase public configuration. Verify VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY for this deploy context, then redeploy.";
+  }
   if (normalized.includes("duplicate key")) return "A matching active record already exists.";
   if (normalized.includes("row-level security") || normalized.includes("permission denied")) {
     return "You do not have permission to perform this action.";

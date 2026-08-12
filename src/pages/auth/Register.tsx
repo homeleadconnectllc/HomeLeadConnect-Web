@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import AuthShell from "../../components/auth/AuthShell";
 import AuthTurnstile from "../../components/auth/AuthTurnstile";
 import { errorMessage } from "../../lib/errorMessage";
-import { supabase } from "../../lib/supabase";
+import { isSupabaseConfigured, supabase, supabaseConfigMessage } from "../../lib/supabase";
 import { turnstileEnabled } from "../../lib/turnstile";
 
 export default function Register() {
@@ -17,6 +17,11 @@ export default function Register() {
 
   async function register(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); setBusy(true); setError(""); setMessage("");
+    if (!isSupabaseConfigured()) {
+      setError(supabaseConfigMessage);
+      setBusy(false);
+      return;
+    }
     const { error: authError } = await supabase.auth.signUp({
       email,
       password,
@@ -29,7 +34,7 @@ export default function Register() {
   }
 
   const status = <>
-    {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
+    {(error || !isSupabaseConfigured()) && <p role="alert" style={{ color: "#b91c1c" }}>{error || supabaseConfigMessage}</p>}
     {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
   </>;
   const footer = <>
@@ -42,7 +47,7 @@ export default function Register() {
       <label>Email<input required autoComplete="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} /></label>
       <label>Password<input required minLength={8} autoComplete="new-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} /></label>
       <AuthTurnstile onToken={setCaptchaToken} resetSignal={captchaReset} />
-      <button disabled={busy || (turnstileEnabled && !captchaToken)} type="submit">{busy ? "Creating account…" : "Create HLC account"}</button>
+      <button disabled={busy || !isSupabaseConfigured() || (turnstileEnabled && !captchaToken)} type="submit">{busy ? "Creating account…" : "Create HLC account"}</button>
     </form>
   </AuthShell>;
 }

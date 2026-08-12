@@ -1,4 +1,4 @@
-import { supabase } from "../lib/supabase";
+import { requireSupabaseConfig, supabase } from "../lib/supabase";
 
 export async function submitServiceRequest(input: {
   requestId: string;
@@ -7,6 +7,7 @@ export async function submitServiceRequest(input: {
   email: string;
   projectDetails: string;
 }) {
+  requireSupabaseConfig();
   const { data, error } = await supabase.rpc("submit_public_service_request", {
     p_form_slug: "request-service",
     p_request_id: input.requestId,
