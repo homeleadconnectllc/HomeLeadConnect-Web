@@ -33,4 +33,14 @@ jobs:
         run: npm audit --omit=dev --audit-level=high
 
       - name: Verify launch candidate
-        run: npm run verify:launch
+        shell: bash
+        run: |
+          set -o pipefail
+          npm run verify:launch 2>&1 | tee verify.log
+
+      - name: Upload verification log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verify-log
+          path: verify.log
