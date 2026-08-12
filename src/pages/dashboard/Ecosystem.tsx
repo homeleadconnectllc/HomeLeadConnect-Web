@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { agentTeam, ecosystemAreas, statusPriority, workflowSpine, type EcosystemStatus } from "../../config/ecosystem";
+import { agentTeam, ecosystemAreas, ecosystemNavigation, statusPriority, workflowSpine, type EcosystemStatus } from "../../config/ecosystem";
 
 const colors: Record<EcosystemStatus, string> = {
   WORKING: "#166534",
@@ -54,6 +54,33 @@ export default function Ecosystem() {
       </article>)}</div>
     </section>
 
+    <section aria-labelledby="application-map-title">
+      <div style={sectionHeadingStyle}>
+        <div>
+          <p style={eyebrowDarkStyle}>Locked signed-in architecture</p>
+          <h2 id="application-map-title" style={{ margin: "4px 0" }}>Application pages and subpages</h2>
+        </div>
+        <p style={{ margin: 0, maxWidth: 620, lineHeight: 1.55 }}>Every capability has one canonical home. Existing routes remain clickable; missing routes are named and reserved without pretending they are built.</p>
+      </div>
+      <div style={navigationGridStyle}>{ecosystemNavigation.map((group) => <article key={group.id} style={navigationGroupStyle}>
+        <h3 style={{ margin: 0 }}>{group.label}</h3>
+        <p style={{ margin: "6px 0 14px", color: "#64748b", lineHeight: 1.5 }}>{group.purpose}</p>
+        <div style={pageStackStyle}>{group.pages.map((page) => <div key={page.route} style={pageRowStyle}>
+          <div style={{ minWidth: 0 }}>
+            <div style={pageTitleStyle}>
+              {page.status === "MISSING"
+                ? <strong>{page.label}</strong>
+                : <Link to={page.route}><strong>{page.label}</strong></Link>}
+              <code style={routeCodeStyle}>{page.route}</code>
+            </div>
+            <p style={{ margin: "5px 0", fontSize: 14, lineHeight: 1.45 }}>{page.purpose}</p>
+            <p style={{ margin: 0, color: "#64748b", fontSize: 12 }}>{page.owner} · {page.audiences.join(" · ")}</p>
+          </div>
+          <strong style={{ ...badgeStyle, color: colors[page.status], borderColor: colors[page.status] }}>{page.status}</strong>
+        </div>)}</div>
+      </article>)}</div>
+    </section>
+
     <section aria-labelledby="areas-title">
       <h2 id="areas-title">System areas</h2>
       <div style={gridStyle}>{areas.map((area) => <article key={area.id} style={cardStyle}>
@@ -93,3 +120,10 @@ const compactListStyle = { margin: 0, paddingLeft: 20, display: "grid", gap: 5 }
 const tagListStyle = { display: "flex", flexWrap: "wrap" as const, gap: 7 };
 const tagStyle = { padding: "5px 9px", borderRadius: 999, color: "#dbeafe", background: "rgba(59,130,246,.18)", fontSize: 13 };
 const agentLinkStyle = { justifySelf: "start", padding: "10px 14px", borderRadius: 10, color: "#081426", background: "#93c5fd", fontWeight: 800, textDecoration: "none" };
+
+const navigationGridStyle = { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 430px), 1fr))", gap: 16 };
+const navigationGroupStyle = { padding: 20, border: "1px solid #cbd5e1", borderRadius: 16, background: "#f8fafc" };
+const pageStackStyle = { display: "grid", gap: 10 };
+const pageRowStyle = { display: "flex", justifyContent: "space-between", alignItems: "start", gap: 14, padding: 13, border: "1px solid #e2e8f0", borderRadius: 12, background: "#fff" };
+const pageTitleStyle = { display: "flex", alignItems: "center", flexWrap: "wrap" as const, gap: 8 };
+const routeCodeStyle = { padding: "2px 6px", fontSize: 11, background: "#e2e8f0" };
