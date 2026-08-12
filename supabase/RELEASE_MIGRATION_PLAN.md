@@ -44,6 +44,8 @@ Do not run `supabase db push --linked` against production until a clone has prov
 32. `20260812111200_reconciliation_follow_up_policies.sql`
 33. `20260812111300_reconciliation_public_intake_fidelity.sql`
 34. `20260812111500_manual_communication_transport_logging.sql`
+35. `20260812131415_ecosystem_launch_surfaces.sql`
+36. `20260812132000_ecosystem_participant_surfaces.sql`
 
 ## Isolated verification gate
 
@@ -51,7 +53,7 @@ Do not run `supabase db push --linked` against production until a clone has prov
 2. Capture its project reference and link a clean working copy to the clone.
 3. Reconcile remote-only migration history from database truth; never fabricate SQL bodies for missing historical migrations.
 4. Apply the pending chain in order.
-5. Run positive, cross-workspace, invalid-transition, invitation, communications, document/storage, billing-webhook, AI, appointment, and telephony transactional tests.
+5. Run positive, cross-workspace, invalid-transition, invitation, communications, document/storage, billing-webhook, AI, appointment, telephony, Community, network, profile, and participant-surface transactional tests.
 6. Run database security and performance advisors. Treat RLS-without-policy tables as deny-by-default unless an established product contract requires access.
 7. Verify Edge Function environment names and deploy functions only to the clone.
 8. Exercise rollback by restoring the clone snapshot or discarding the branch; production rollback requires a separately captured pre-release restore point.
@@ -69,6 +71,8 @@ The reconciliation baseline also lacked authenticated operational writes for CRM
 The security advisor then exposed `follow_ups` as a user-facing RLS table with no policies even though the launch UI directly reads, creates, and completes follow-ups. Migration `20260812111200_reconciliation_follow_up_policies.sql` scopes those operations through the linked lead workspace and requires the authenticated user to own new follow-ups. A rolled-back Workspace A test successfully created and read its own follow-up.
 
 The reconciliation database also lacked the causal lead-state internals and `submit_public_service_request` RPC required by the public request form. Migration `20260812111300_reconciliation_public_intake_fidelity.sql` restores that established intake contract. A test-only `request-service` form mapping to Workspace A was seeded in the reconciliation project, and an anonymous rolled-back request returned `accepted=true` with a lead id. The `send-portal-invitation` Edge Function was also deployed to the reconciliation project with JWT verification enabled; invitation email delivery still requires its `PORTAL_SITE_URL` runtime secret. These are reconciliation tests only; they do not authorize a production migration.
+
+Migrations `20260812131415_ecosystem_launch_surfaces.sql` and `20260812132000_ecosystem_participant_surfaces.sql` add tenant-scoped Community, review/referral/moderation, provider service-area/availability/saved-provider, participant-preference, resident-property, provider-service, and Community-group records. RLS remains enabled on every added table; completed-job review eligibility and workspace/member boundaries are enforced in database policies rather than UI-only checks.
 
 ## Production gate
 
