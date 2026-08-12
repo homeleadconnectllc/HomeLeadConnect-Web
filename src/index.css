@@ -294,6 +294,95 @@ video {
   font-weight: 800;
 }
 
+.hlc-navbar-groups {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.hlc-nav-group {
+  position: relative;
+  min-width: 0;
+}
+
+.hlc-nav-group summary {
+  min-height: 44px;
+  box-sizing: border-box;
+  border: 1px solid #334155;
+  border-radius: 999px;
+  padding: 10px 14px;
+  color: #fff;
+  background: #1e293b;
+  font-weight: 800;
+  cursor: pointer;
+  list-style: none;
+}
+
+.hlc-nav-group summary::-webkit-details-marker {
+  display: none;
+}
+
+.hlc-nav-group summary::after {
+  content: "▾";
+  margin-left: 8px;
+  color: #93c5fd;
+}
+
+.hlc-nav-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  display: grid;
+  width: min(340px, calc(100vw - 32px));
+  gap: 6px;
+  border: 1px solid #334155;
+  border-radius: 16px;
+  padding: 12px;
+  background: #0f172a;
+  box-shadow: 0 24px 50px rgba(15, 23, 42, .34);
+}
+
+.hlc-nav-menu p {
+  margin: 0 0 6px;
+  color: #cbd5e1;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.hlc-nav-menu a,
+.hlc-nav-reserved {
+  display: grid;
+  gap: 3px;
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.hlc-nav-menu a {
+  color: #f8fafc;
+}
+
+.hlc-nav-menu a:hover,
+.hlc-nav-menu a[aria-current="page"] {
+  background: #1e3a8a;
+}
+
+.hlc-nav-menu small,
+.hlc-nav-reserved small {
+  color: #bfdbfe;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.hlc-nav-reserved {
+  color: #94a3b8;
+  background: rgba(148, 163, 184, .12);
+  cursor: not-allowed;
+}
+
 /* Public, contact, and authentication surfaces */
 .hlc-home > section,
 .hlc-contact-card {
@@ -350,6 +439,23 @@ video {
     border-top: 1px solid #334155;
     background: #111827;
     box-shadow: 0 18px 28px rgba(15, 23, 42, .28);
+  }
+
+  .hlc-navbar-groups {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hlc-nav-group summary {
+    border-radius: 12px;
+  }
+
+  .hlc-nav-menu {
+    position: static;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 6px;
+    box-shadow: none;
   }
 
   .hlc-navbar-links.mobile-hidden {

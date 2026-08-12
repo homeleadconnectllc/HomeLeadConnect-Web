@@ -1,9 +1,37 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { ecosystemNavigation, type EcosystemOwner, type EcosystemPage } from "../config/ecosystem";
 import { useAuth } from "../hooks/useAuth";
 import { supabase } from "../lib/supabase";
 
 const logo = "/hlc-logo-final.png";
+const declaredWorkspaceRoutes = new Set([
+  "/dashboard",
+  "/ecosystem",
+  "/hq",
+  "/notifications",
+  "/leads",
+  "/estimator",
+  "/jobs",
+  "/calendar",
+  "/follow-ups",
+  "/operations",
+  "/call-center",
+  "/messages",
+  "/manual-communications",
+  "/customer-experience",
+  "/documents",
+  "/settings",
+  "/homeowner-portal",
+  "/contractor-portal",
+]);
+
+const ownerLabels: Record<EcosystemOwner, string> = {
+  Kendrell: "Ken",
+  Dion: "Dion",
+  Diamond: "Diamond",
+  Shared: "Shared",
+};
 
 export default function Navbar() {
   const { session, loading } = useAuth();
@@ -29,15 +57,25 @@ export default function Navbar() {
     return () => { active = false; };
   }, [session]);
 
-  // Close mobile menu automatically after navigation
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [location.pathname]);
-
   async function logout() {
     await supabase.auth.signOut();
     window.location.href = "/";
   }
+
+  function hasPageAccess(page: EcosystemPage) {
+    if (page.route === "/homeowner-portal") return access.homeowner;
+    if (page.route === "/contractor-portal") return access.contractor;
+    if (page.route === "/messages") return access.business || access.homeowner || access.contractor;
+    if (page.route === "/notifications") return import.meta.env.VITE_NOTIFICATIONS_ENABLED === "true" && (access.business || access.homeowner || access.contractor);
+    return access.business;
+  }
+
+  const signedInGroups = ecosystemNavigation
+    .map((group) => ({
+      ...group,
+      pages: group.pages.filter((page) => hasPageAccess(page)),
+    }))
+    .filter((group) => group.pages.length > 0);
 
   return (
     <nav className="hlc-navbar" role="navigation" aria-label="Main navigation">
@@ -65,30 +103,43 @@ export default function Navbar() {
       >
         {!loading && session ? (
           <>
-            {access.business && (
-              <>
-                <Link to="/dashboard">Dashboard</Link>
-                <Link to="/ecosystem">Ecosystem</Link>
-                <Link to="/leads">Leads</Link>
-                <Link to="/estimator">LeadScope</Link>
-                <Link to="/jobs">Jobs</Link>
-                <Link to="/calendar">Schedule</Link>
-                <Link to="/follow-ups">Follow-ups</Link>
-                <Link to="/manual-communications">Calls &amp; texts</Link>
-                <Link to="/call-center">Call center</Link>
-                <Link to="/documents">Documents</Link>
-                <Link to="/hq">HQ</Link>
-                <Link to="/operations">Operations</Link>
-                <Link to="/customer-experience">Customer experience</Link>
-                <Link to="/settings">Settings</Link>
-              </>
-            )}
-            {access.homeowner && <Link to="/homeowner-portal">Homeowner portal</Link>}
-            {access.contractor && <Link to="/contractor-portal">Contractor portal</Link>}
-            {(access.business || access.homeowner || access.contractor) && <Link to="/messages">Messages</Link>}
-            {(access.business || access.homeowner || access.contractor) && import.meta.env.VITE_NOTIFICATIONS_ENABLED === "true" && (
-              <Link to="/notifications">Notifications</Link>
-            )}
+            <div className="hlc-navbar-groups" aria-label="Signed-in HLC areas">
+              {signedInGroups.map((group) => (
+                <details
+                  className="hlc-nav-group"
+                  key={group.id}
+                  open={group.pages.some((page) => page.route === location.pathname)}
+                >
+                  <summary>{group.label}</summary>
+                  <div className="hlc-nav-menu">
+                    <p>{group.purpose}</p>
+                    {group.pages.map((page) => {
+                      const isDeclared = declaredWorkspaceRoutes.has(page.route);
+                      return isDeclared ? (
+                        <Link
+                          aria-current={location.pathname === page.route ? "page" : undefined}
+                          key={page.route}
+                          onClick={() => setMobileOpen(false)}
+                          to={page.route}
+                        >
+                          <span>{page.label}</span>
+                          <small>{ownerLabels[page.owner]} · {page.status}</small>
+                        </Link>
+                      ) : (
+                        <span
+                          className="hlc-nav-reserved"
+                          key={page.route}
+                          title={`${page.route} is reserved in the ecosystem map but not built yet.`}
+                        >
+                          <span>{page.label}</span>
+                          <small>{ownerLabels[page.owner]} · {page.status}</small>
+                        </span>
+                      );
+                    })}
+                  </div>
+                </details>
+              ))}
+            </div>
             <button type="button" onClick={logout}>
               Log out
             </button>
@@ -97,9 +148,9 @@ export default function Navbar() {
           !loading && (
             <>
               <a href="https://homeleadconnect.org">Public Home</a>
-              <Link to="/request-service">Request Service</Link>
-              <Link to="/contact">Contact</Link>
-              <Link to="/login">Sign In</Link>
+              <Link to="/request-service" onClick={() => setMobileOpen(false)}>Request Service</Link>
+              <Link to="/contact" onClick={() => setMobileOpen(false)}>Contact</Link>
+              <Link to="/login" onClick={() => setMobileOpen(false)}>Sign In</Link>
             </>
           )
         )}
