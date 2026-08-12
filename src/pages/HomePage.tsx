@@ -1,262 +1,46 @@
+import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 
 const features = [
-  ["CRM Platform", "Manage leads, estimates, jobs, contractor assignments, and appointments."],
-  ["LeadScope", "Create itemized estimates with clear quantities, costs, markup, and totals."],
-  ["Contractor Operations", "Record contractor offers, acceptance, assignment history, and scheduled work."],
-  ["Workspace Security", "Keep operational records scoped to an authenticated business workspace."]
+  ["Get Home Help", "Renters and homeowners can submit a service request and follow the work from one HLC account."],
+  ["Find Providers", "Use the HLC network, matching, availability, profiles, and service-area tools."],
+  ["Community", "Discussions, events, referrals, reviews, groups, and moderation live in the same ecosystem."],
+  ["HLC Workspace", "Leads, LeadScope estimates, jobs, scheduling, messages, documents, workflows, analytics, and AI agents stay connected."],
 ];
 
 export default function HomePage() {
-  return (
-    <>
-      <main
-        className="hlc-home"
-        style={{
-          minHeight:"100vh",
-          padding:"40px 24px",
-          background:
-          "linear-gradient(135deg,#ffffff 0%,#eff6ff 45%,#dbeafe 100%)",
-          color:"#0f172a"
-        }}
-      >
+  return <>
+    <main className="hlc-home" style={{minHeight:"100vh",padding:"40px 24px",background:"linear-gradient(135deg,#ffffff 0%,#eff6ff 45%,#dbeafe 100%)",color:"#0f172a"}}>
+      <section style={{maxWidth:1100,margin:"0 auto",textAlign:"center",padding:"72px 0 48px"}}>
+        <img src="/hlc-logo-final.png" alt="HomeLead Connect LLC" style={{width:120,height:120,objectFit:"contain",borderRadius:24,background:"#fff",padding:14,boxShadow:"0 20px 60px rgba(15,23,42,.14)"}} />
+        <p style={{fontWeight:800,color:"#2563eb",marginTop:28}}>HOMELEAD CONNECT</p>
+        <h1 style={{fontSize:"clamp(44px,8vw,84px)",lineHeight:1,letterSpacing:"-3px",margin:"14px auto 22px"}}>One front door.<br/>One connected home-services ecosystem.</h1>
+        <p style={{maxWidth:760,margin:"0 auto",fontSize:21,lineHeight:1.6,color:"#475569"}}>Request help, connect with providers, join the community, manage work, and reach the HomeLead Connect workspace from one identity.</p>
+        <div style={{display:"flex",gap:14,justifyContent:"center",flexWrap:"wrap",marginTop:32}}>
+          <Link to="/request-service" style={{padding:"14px 22px",borderRadius:999,background:"#2563eb",color:"#fff",fontWeight:800,textDecoration:"none"}}>Get Help Now</Link>
+          <Link to="/app" style={{padding:"14px 22px",borderRadius:999,background:"#0f172a",color:"#fff",fontWeight:800,textDecoration:"none"}}>Open HomeLead Connect</Link>
+          <Link to="/community" style={{padding:"14px 22px",borderRadius:999,background:"#fff",color:"#0f172a",fontWeight:800,textDecoration:"none",border:"1px solid #cbd5e1"}}>Explore Community</Link>
+        </div>
+      </section>
 
-        <section
-          className="hlc-home-hero"
-          style={{
-            maxWidth:1200,
-            margin:"0 auto",
-            textAlign:"center",
-            padding:"80px 0"
-          }}
-        >
+      <section style={{maxWidth:1100,margin:"20px auto 72px",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(230px,1fr))",gap:20}}>
+        {features.map(([title,text]) => <article key={title} style={{background:"#fff",borderRadius:24,padding:28,boxShadow:"0 18px 50px rgba(15,23,42,.08)"}}>
+          <h2 style={{fontSize:22,marginTop:0}}>{title}</h2>
+          <p style={{color:"#64748b",lineHeight:1.6}}>{text}</p>
+        </article>)}
+      </section>
 
-          <div
-            style={{
-              display:"inline-flex",
-              padding:20,
-              background:"#fff",
-              borderRadius:32,
-              boxShadow:"0 25px 80px rgba(0,0,0,.12)"
-            }}
-          >
-            <img
-              src="/hlc-logo-final.png"
-              alt="HomeLead Connect"
-              style={{
-                width:120,
-                height:120,
-                objectFit:"contain",
-                borderRadius:24
-              }}
-            />
-          </div>
-
-          <h1
-            style={{
-              fontSize:"clamp(50px,8vw,92px)",
-              lineHeight:.95,
-              letterSpacing:"-4px",
-              fontWeight:900,
-              margin:"45px auto 25px"
-            }}
-          >
-            The Future Of
-            <br/>
-            Home Services
-          </h1>
-
-          <p
-            style={{
-              maxWidth:760,
-              margin:"0 auto",
-              fontSize:22,
-              color:"#475569",
-              lineHeight:1.6
-            }}
-          >
-            One connected platform for service requests, LeadScope estimates,
-            CRM operations, contractor assignments, scheduling, and communication history.
-          </p>
-
-        </section>
-
-
-        <section
-          className="hlc-home-command"
-          style={{
-            maxWidth:1100,
-            margin:"0 auto",
-            background:"#0f172a",
-            borderRadius:35,
-            padding:45,
-            color:"#fff",
-            boxShadow:"0 40px 100px rgba(15,23,42,.25)"
-          }}
-        >
-
-          <h2 style={{fontSize:42}}>
-            HomeLead Command Center
-          </h2>
-
-          <p style={{color:"#cbd5e1",fontSize:20}}>
-            One place to move service work from lead to scheduled job.
-          </p>
-
-
-          <div
-            style={{
-              marginTop:35,
-              display:"grid",
-              gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))",
-              gap:20
-            }}
-          >
-
-          {["Leads", "Estimates", "Jobs", "Schedule"].map(item=>(
-            <div
-              key={item}
-              style={{
-                padding:25,
-                borderRadius:20,
-                background:"rgba(255,255,255,.12)"
-              }}
-            >
-              <strong>{item}</strong>
-              <br/>
-              <span style={{color:"#93c5fd"}}>Workspace tools</span>
-            </div>
-          ))}
-
-          </div>
-
-        </section>
-
-
-        <section
-          className="hlc-home-features"
-          style={{
-            maxWidth:1100,
-            margin:"80px auto",
-            display:"grid",
-            gridTemplateColumns:"repeat(auto-fit,minmax(240px,1fr))",
-            gap:24
-          }}
-        >
-
-        {features.map(([title,text])=>(
-          <div
-            key={title}
-            style={{
-              background:"#fff",
-              borderRadius:24,
-              padding:30,
-              boxShadow:"0 20px 50px rgba(0,0,0,.08)"
-            }}
-          >
-            <h3>{title}</h3>
-            <p style={{color:"#64748b"}}>
-              {text}
-            </p>
-          </div>
-        ))}
-
-        </section>
-
-  
-
-        <section
-          className="hlc-home-workflow"
-          style={{
-            maxWidth:1050,
-            margin:"40px auto 0",
-            background:"rgba(255,255,255,.85)",
-            backdropFilter:"blur(20px)",
-            borderRadius:32,
-            padding:30,
-            boxShadow:"0 40px 100px rgba(15,23,42,.18)",
-            border:"1px solid rgba(255,255,255,.8)"
-          }}
-        >
-
-          <div
-            style={{
-              display:"flex",
-              justifyContent:"space-between",
-              alignItems:"center",
-              marginBottom:25,
-              flexWrap:"wrap",
-              gap:15
-            }}
-          >
-            <h2 style={{margin:0}}>
-              Product workflow
-            </h2>
-
-            <span
-              style={{
-                background:"#dcfce7",
-                color:"#166534",
-                padding:"8px 16px",
-                borderRadius:999,
-                fontWeight:800
-              }}
-            >
-              Available after CRM login
-            </span>
-          </div>
-
-
-          <div
-            style={{
-              display:"grid",
-              gridTemplateColumns:"repeat(auto-fit,minmax(220px,1fr))",
-              gap:20
-            }}
-          >
-
-            {[
-              ["Request", "Capture a service need"],
-              ["Estimate", "Prepare itemized scope and pricing"],
-              ["Contractor", "Offer and record acceptance"],
-              ["Schedule", "Create a job appointment"],
-              ["Work", "Track the job through completion"]
-            ].map(card=>(
-              <div
-                className="hlc-card"
-                key={card[0]}
-                style={{
-                  background:"#f8fafc",
-                  borderRadius:20,
-                  padding:25
-                }}
-              >
-                <strong>
-                  {card[0]}
-                </strong>
-
-                <div
-                  style={{
-                    marginTop:12,
-                    fontSize:24,
-                    fontWeight:900,
-                    color:"#2563eb"
-                  }}
-                >
-                  {card[1]}
-                </div>
-
-              </div>
-            ))}
-
-          </div>
-
-        </section>
-
-
+      <section style={{maxWidth:1100,margin:"0 auto 60px",background:"#0f172a",color:"#fff",borderRadius:32,padding:34}}>
+        <h2 style={{marginTop:0}}>Everything branches from HomeLeadConnect.org</h2>
+        <p style={{color:"#cbd5e1",lineHeight:1.6}}>Public information, service requests, authentication, homeowner and contractor portals, Community, Network & Map, CRM operations, scheduling, communications, documents, billing, workflows, analytics, and Kendrell, Dion, and Diamond all belong to the same HLC route tree and Supabase-backed system.</p>
+        <div style={{display:"flex",gap:12,flexWrap:"wrap",marginTop:22}}>
+          <Link to="/how-it-works" style={{color:"#93c5fd"}}>How it works</Link>
+          <Link to="/professionals" style={{color:"#93c5fd"}}>For professionals</Link>
+          <Link to="/trust" style={{color:"#93c5fd"}}>Trust & safety</Link>
+          <Link to="/contact" style={{color:"#93c5fd"}}>Contact</Link>
+        </div>
+      </section>
     </main>
-
-      <Footer/>
-    </>
-  );
+    <Footer/>
+  </>;
 }
