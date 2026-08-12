@@ -38,6 +38,8 @@ Do not run `supabase db push --linked` against production until a clone has prov
 26. `20260811024203_launch_notification_events.sql`
 27. `20260811110214_normalize_launch_table_privileges.sql`
 28. `20260812104540_reconciliation_positive_access_policies.sql`
+29. `20260812110000_device_native_compliance_transport.sql`
+30. `20260812111500_manual_communication_transport_logging.sql`
 
 ## Isolated verification gate
 
@@ -52,7 +54,9 @@ Do not run `supabase db push --linked` against production until a clone has prov
 
 ### Reconciliation evidence recorded 2026-08-12
 
-The `hlc-reconciliation-test` project has the expanded launch schema and now includes migration `20260812104540_reconciliation_positive_access_policies`. Simulated authenticated access proved that a Workspace A member can read Workspace A lead/estimate/job/assignment/appointment records while a Workspace B member receives zero Workspace A rows. Estimate insertion succeeds for the member's own workspace and is rejected by RLS for a cross-workspace insert. This is reconciliation evidence only; it is not production authorization.
+The `hlc-reconciliation-test` project has the expanded launch schema and includes migration `20260812104540_reconciliation_positive_access_policies`. Simulated authenticated access proved that a Workspace A member can read Workspace A lead/estimate/job/assignment/appointment records while a Workspace B member receives zero Workspace A rows. Estimate insertion succeeds for the member's own workspace and is rejected by RLS for a cross-workspace insert.
+
+Device-native calling/texting now uses the same communication compliance function as connected providers, with `device_native` exempt only from the provider-connection requirement. A transactional Workspace A service-call test returned `ALLOW` with no compliance reasons. A second transaction proved that an allowed device-native call can be written to `communication_transmissions` as operator-reported evidence and the transaction was rolled back after verification. These are reconciliation tests only; they do not authorize a production migration.
 
 ## Production gate
 
