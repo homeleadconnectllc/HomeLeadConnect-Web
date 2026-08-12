@@ -28,6 +28,10 @@ test("canonical golden workflow route remains declared once", () => {
   assert.equal([...router.matchAll(/path="\/workflow"/g)].length, 1);
 });
 
+test("shared HLC automation control plane remains declared once", () => {
+  assert.equal([...router.matchAll(/path="\/automations"/g)].length, 1);
+});
+
 test("every canonical ecosystem destination has one declared route", () => {
   const routes = [
     "/network", "/map", "/profiles", "/providers", "/matching", "/community-hub",

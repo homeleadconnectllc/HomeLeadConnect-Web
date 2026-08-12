@@ -9,6 +9,7 @@ const declaredWorkspaceRoutes = new Set([
   "/dashboard",
   "/ecosystem",
   "/workflow",
+  "/automations",
   "/hq",
   "/notifications",
   "/leads",

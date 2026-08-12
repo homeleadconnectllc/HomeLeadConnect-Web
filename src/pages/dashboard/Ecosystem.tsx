@@ -16,11 +16,13 @@ export default function Ecosystem() {
       <p style={eyebrowStyle}>HomeLead Connect · Integration control plane</p>
       <h1 style={{ margin: 0 }}>Entire ecosystem</h1>
       <p style={{ margin: 0, maxWidth: 760, lineHeight: 1.6 }}>One honest view of how acquisition, identity, CRM, operations, providers, communications, agents, Community, alerts, protection and subscription billing connect. Status changes only after end-to-end evidence.</p>
+      <p style={{ margin: 0, maxWidth: 860, lineHeight: 1.6 }}><strong>One-project rule:</strong> every page below is a module of one HomeLead Connect product using canonical identities, records, permissions, events and audit. Kendrell also operates in a separately secured private owner environment, but his in-HLC command role remains part of this ecosystem.</p>
     </header>
 
     <section aria-labelledby="workflow-title" style={panelStyle}>
       <h2 id="workflow-title">Canonical workflow</h2>
       <ol style={spineStyle}>{workflowSpine.map((step) => <li key={step} style={stepStyle}>{step}</li>)}</ol>
+      <Link to="/automations">View automation across every stage →</Link>
     </section>
 
     <section aria-labelledby="agents-title">

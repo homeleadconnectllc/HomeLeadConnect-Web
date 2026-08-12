@@ -8,6 +8,7 @@ export default function Dashboard() {
 
       <nav style={{ display: "flex", flexWrap: "wrap", gap: 16, margin: "24px 0" }}>
         <Link to="/workflow">Golden Workflow</Link>
+        <Link to="/automations">Automations</Link>
         <Link to="/leads">Leads</Link>
         <Link to="/estimator">LeadScope</Link>
         <Link to="/jobs">Jobs</Link>
