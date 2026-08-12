@@ -18,7 +18,7 @@ export default function Login() {
   const [captchaToken, setCaptchaToken] = useState("");
   const [captchaReset, setCaptchaReset] = useState(0);
 
-  if (!loading && session) return <Navigate to="/" replace />;
+  if (!loading && session) return <Navigate to="/app" replace />;
 
   async function login(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); setBusy(true); setError("");
@@ -32,7 +32,7 @@ export default function Login() {
     setBusy(false);
     if (authError) { setError(errorMessage(authError, "Unable to sign in.")); return; }
     const requested = (location.state as { from?: string } | null)?.from;
-    navigate(requested || "/", { replace: true });
+    navigate(requested || "/app", { replace: true });
   }
 
   const status = error ? <p role="alert" style={{ color: "#b91c1c" }}>{error}</p> : !isSupabaseConfigured() ? <p role="alert" style={{ color: "#b91c1c" }}>{supabaseConfigMessage}</p> : undefined;
