@@ -46,6 +46,7 @@ Do not run `supabase db push --linked` against production until a clone has prov
 34. `20260812111500_manual_communication_transport_logging.sql`
 35. `20260812131415_ecosystem_launch_surfaces.sql`
 36. `20260812132000_ecosystem_participant_surfaces.sql`
+37. `20260812133800_ecosystem_surface_performance_hardening.sql`
 
 ## Isolated verification gate
 
@@ -73,6 +74,8 @@ The security advisor then exposed `follow_ups` as a user-facing RLS table with n
 The reconciliation database also lacked the causal lead-state internals and `submit_public_service_request` RPC required by the public request form. Migration `20260812111300_reconciliation_public_intake_fidelity.sql` restores that established intake contract. A test-only `request-service` form mapping to Workspace A was seeded in the reconciliation project, and an anonymous rolled-back request returned `accepted=true` with a lead id. The `send-portal-invitation` Edge Function was also deployed to the reconciliation project with JWT verification enabled; invitation email delivery still requires its `PORTAL_SITE_URL` runtime secret. These are reconciliation tests only; they do not authorize a production migration.
 
 Migrations `20260812131415_ecosystem_launch_surfaces.sql` and `20260812132000_ecosystem_participant_surfaces.sql` add tenant-scoped Community, review/referral/moderation, provider service-area/availability/saved-provider, participant-preference, resident-property, provider-service, and Community-group records. RLS remains enabled on every added table; completed-job review eligibility and workspace/member boundaries are enforced in database policies rather than UI-only checks.
+
+Migration `20260812133800_ecosystem_surface_performance_hardening.sql` adds covering indexes for new foreign keys and rewrites new user-scoped RLS predicates to use stable `select auth.uid()` evaluation. This addresses advisor findings introduced by the new ecosystem surfaces without weakening authorization.
 
 ## Production gate
 
