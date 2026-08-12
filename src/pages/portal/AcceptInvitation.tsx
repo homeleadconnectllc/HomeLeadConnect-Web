@@ -47,7 +47,7 @@ export default function AcceptInvitation() {
 
   const footer = !session && !authLoading
     ? <p><Link to="/login">Sign in to your HLC account</Link></p>
-    : <p><Link to="/">Return to HomeLead Connect</Link></p>;
+    : <p><a href="https://homeleadconnect.org">Return to HomeLead Connect</a></p>;
 
   return <AuthShell
     eyebrow="HomeLead Connect invitation"
