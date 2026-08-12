@@ -175,7 +175,11 @@ The current long flat authenticated navbar is therefore **BROKEN against the int
 9. **Preview acceptance:** phone and desktop, all public links, every role, empty/error/loading/offline/denied states.
 10. **Controlled launch:** merge to release first, then promote only after evidence review; production smoke test and rollback watch.
 
-## 11. Definition of launch-ready
+## 11. Deployment verification checkpoint
+
+Netlify branch deployments are enabled for `sprint/ecosystem-integration`. The branch must produce a successful deployment candidate before any merge. Required acceptance includes direct SPA routing to `/ecosystem`, authenticated access, all three locked agent cards, workspace links, phone/desktop layout, empty/error/denied states and confirmation that production remains on `main`.
+
+## 12. Definition of launch-ready
 
 HLC is launch-ready only when every P0 row has an accountable owner, an executable acceptance test, evidence from the deployment candidate, and no unresolved **BROKEN**, **MISSING** or **UNDEFINED** state. **UNPROVEN** becomes **WORKING** only after browser, authorization, persistence, provider and mobile evidence agree.
 
