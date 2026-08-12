@@ -39,6 +39,12 @@ test("canonical page map contains every top-level HLC experience", () => {
   }
 });
 
+test("previously reserved page-map destinations now resolve inside the app", () => {
+  for (const route of ["/accessibility", "/homeowner-portal/profile", "/homeowner-portal/properties", "/homeowner-portal/requests", "/homeowner-portal/matches", "/homeowner-portal/appointments", "/homeowner-portal/jobs", "/contractor-portal/profile", "/contractor-portal/team", "/contractor-portal/services", "/analytics", "/network/service-areas", "/providers/:providerId", "/network/availability", "/network/eligibility", "/network/saved", "/community/groups", "/hq/approvals", "/hq/system-health"]) {
+    assert.equal([...router.matchAll(new RegExp(`path="${route}"`, "g"))].length, 1, `Missing routed capability ${route}`);
+  }
+});
+
 test("every canonical ecosystem destination has one declared route", () => {
   const routes = [
     "/network", "/map", "/profiles", "/providers", "/matching", "/community-hub",

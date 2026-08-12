@@ -12,6 +12,7 @@ const RequestService = lazy(() => import("../pages/RequestService"));
 const PublicInfo = lazy(() => import("../pages/PublicInfo"));
 const PublicJourney = lazy(() => import("../pages/PublicJourney"));
 const ProfessionalApplication = lazy(() => import("../pages/ProfessionalApplication"));
+const Accessibility = lazy(() => import("../pages/Accessibility"));
 const Legal = lazy(() => import("../pages/Legal"));
 const Login = lazy(() => import("../pages/auth/Login"));
 const Register = lazy(() => import("../pages/auth/Register"));
@@ -25,6 +26,8 @@ const Ecosystem = lazy(() => import("../pages/dashboard/Ecosystem"));
 const Workflow = lazy(() => import("../pages/dashboard/Workflow"));
 const Automations = lazy(() => import("../pages/dashboard/Automations"));
 const EcosystemAreaPage = lazy(() => import("../pages/dashboard/EcosystemAreaPage"));
+const MyProfile = lazy(() => import("../pages/dashboard/MyProfile"));
+const ReservedCapability = lazy(() => import("../pages/dashboard/ReservedCapability"));
 const Leads = lazy(() => import("../pages/dashboard/Leads"));
 const Jobs = lazy(() => import("../pages/dashboard/Jobs"));
 const JobDetail = lazy(() => import("../pages/dashboard/JobDetail"));
@@ -60,6 +63,7 @@ export default function AppRouter() {
           <Route path="/professionals" element={<PublicJourney page="professionals" />} />
           <Route path="/demo" element={<PublicJourney page="demo" />} />
           <Route path="/professional-application" element={<ProfessionalApplication />} />
+          <Route path="/accessibility" element={<Accessibility />} />
           <Route path="/privacy" element={<Legal page="privacy" />} />
           <Route path="/terms" element={<Legal page="terms" />} />
           <Route path="/platform-disclosure" element={<Legal page="platform" />} />
@@ -94,8 +98,26 @@ export default function AppRouter() {
               <Route path="/help" element={<EcosystemAreaPage page="help" />} />
               <Route path="/tutorials" element={<EcosystemAreaPage page="tutorials" />} />
               <Route path="/rules" element={<EcosystemAreaPage page="rules" />} />
-              <Route path="/profile" element={<EcosystemAreaPage page="profile" />} />
+              <Route path="/profile" element={<MyProfile />} />
               <Route path="/settings/billing" element={<EcosystemAreaPage page="billing" />} />
+              <Route path="/homeowner-portal/profile" element={<ReservedCapability />} />
+              <Route path="/homeowner-portal/properties" element={<ReservedCapability />} />
+              <Route path="/homeowner-portal/requests" element={<ReservedCapability />} />
+              <Route path="/homeowner-portal/matches" element={<ReservedCapability />} />
+              <Route path="/homeowner-portal/appointments" element={<ReservedCapability />} />
+              <Route path="/homeowner-portal/jobs" element={<ReservedCapability />} />
+              <Route path="/contractor-portal/profile" element={<ReservedCapability />} />
+              <Route path="/contractor-portal/team" element={<ReservedCapability />} />
+              <Route path="/contractor-portal/services" element={<ReservedCapability />} />
+              <Route path="/analytics" element={<ReservedCapability />} />
+              <Route path="/network/service-areas" element={<ReservedCapability />} />
+              <Route path="/providers/:providerId" element={<ReservedCapability />} />
+              <Route path="/network/availability" element={<ReservedCapability />} />
+              <Route path="/network/eligibility" element={<ReservedCapability />} />
+              <Route path="/network/saved" element={<ReservedCapability />} />
+              <Route path="/community/groups" element={<ReservedCapability />} />
+              <Route path="/hq/approvals" element={<ReservedCapability />} />
+              <Route path="/hq/system-health" element={<ReservedCapability />} />
               <Route path="/leads" element={<Leads />} />
               <Route path="/estimator" element={<Estimator />} />
               <Route path="/jobs" element={<Jobs />} />
