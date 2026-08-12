@@ -96,15 +96,10 @@ export default function Navbar() {
         ) : (
           !loading && (
             <>
-              <Link to="/">Home</Link>
-              <Link to="/homeowners">Homeowners</Link>
-              <Link to="/contractors">Contractors</Link>
-              <Link to="/how-it-works">How It Works</Link>
-              <Link to="/leadscope">LeadScope</Link>
-              <Link to="/community">Community</Link>
-              <Link to="/contact">Contact</Link>
+              <a href="https://homeleadconnect.org">Public Home</a>
               <Link to="/request-service">Request Service</Link>
-              <Link to="/login">CRM Login</Link>
+              <Link to="/contact">Contact</Link>
+              <Link to="/login">Sign In</Link>
             </>
           )
         )}
