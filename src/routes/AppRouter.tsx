@@ -5,7 +5,7 @@ import AppLayout from "./AppLayout";
 import ProtectedLayout from "../layouts/ProtectedLayout";
 import WorkspaceLayout from "../layouts/WorkspaceLayout";
 
-const HomePage = lazy(() => import("../pages/HomePage"));
+const AppEntry = lazy(() => import("../pages/AppEntry"));
 const ContactPage = lazy(() => import("../pages/ContactPage"));
 const Estimator = lazy(() => import("../pages/Estimator"));
 const RequestService = lazy(() => import("../pages/RequestService"));
@@ -40,7 +40,7 @@ export default function AppRouter() {
       <Suspense fallback={<main style={{ padding: 32 }}><p role="status">Loading page…</p></main>}>
       <Routes>
         <Route element={<AppLayout />}>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<AppEntry />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/request-service" element={<RequestService />} />
           <Route path="/about" element={<PublicInfo page="about" />} />
