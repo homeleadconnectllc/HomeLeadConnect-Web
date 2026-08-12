@@ -1,8 +1,9 @@
 import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
-import { supabase } from "../../lib/supabase";
-import { errorMessage } from "../../lib/errorMessage";
+import AuthShell from "../../components/auth/AuthShell";
 import AuthTurnstile from "../../components/auth/AuthTurnstile";
+import { errorMessage } from "../../lib/errorMessage";
+import { supabase } from "../../lib/supabase";
 import { turnstileEnabled } from "../../lib/turnstile";
 
 export default function Register() {
@@ -27,19 +28,21 @@ export default function Register() {
     setMessage("Account created. Check your email for the confirmation link before signing in.");
   }
 
-  return <main className="hlc-auth-page" style={pageStyle}>
-    <h1>Create account</h1>
+  const status = <>
     {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
     {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
-    <form className="hlc-auth-form" onSubmit={register} style={formStyle}>
+  </>;
+  const footer = <>
+    <p>Already registered? <Link to="/login">Sign in</Link>.</p>
+    <p><Link to="/">Return to HomeLead Connect</Link></p>
+  </>;
+
+  return <AuthShell title="Create your account" description="Create one HLC identity. Workspace and portal access are assigned separately after your email is verified." status={status} footer={footer}>
+    <form className="hlc-auth-form" onSubmit={register}>
       <label>Email<input required autoComplete="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} /></label>
       <label>Password<input required minLength={8} autoComplete="new-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} /></label>
       <AuthTurnstile onToken={setCaptchaToken} resetSignal={captchaReset} />
-      <button disabled={busy || (turnstileEnabled && !captchaToken)} type="submit">{busy ? "Creating account…" : "Create account"}</button>
+      <button disabled={busy || (turnstileEnabled && !captchaToken)} type="submit">{busy ? "Creating account…" : "Create HLC account"}</button>
     </form>
-    <p>Already registered? <Link to="/login">Sign in</Link>.</p>
-  </main>;
+  </AuthShell>;
 }
-
-const pageStyle = { width: "min(420px, calc(100% - 32px))", margin: "64px auto" };
-const formStyle = { display: "grid", gap: 16 };
