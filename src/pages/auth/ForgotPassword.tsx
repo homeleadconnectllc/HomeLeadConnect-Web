@@ -32,7 +32,7 @@ export default function ForgotPassword() {
   </>;
   const footer = <>
     <p><Link to="/login">Return to sign in</Link></p>
-    <p><Link to="/">Return to HomeLead Connect</Link></p>
+    <p><a href="https://homeleadconnect.org">Return to HomeLead Connect</a></p>
   </>;
 
   return <AuthShell title="Recover your account" description="Enter the email for your HLC account. We will send one secure recovery link when that account exists." status={status} footer={footer}>
