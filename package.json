@@ -8,6 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "test:acceptance": "node --test src/lib/leadscope/domain.test.ts src/lib/estimator/calculations.test.ts src/lib/appointments/timeRange.test.ts src/lib/billing/entitlement.test.ts src/ai/agents.test.ts src/routes/routes.test.ts supabase/migrations/migrationChain.test.mjs",
+    "launch:audit": "node scripts/launch-static-audit.mjs",
+    "verify:launch": "npm run lint && npm run test:acceptance && npm run launch:audit && npm run build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -29,12 +31,7 @@
     "@eslint/js": "^10.0.1",
     "@types/node": "^24.13.2",
     "@types/react": "^19.2.17",
-    "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^6.0.3",
-    "eslint": "^10.6.0",
-    "eslint-plugin-react-hooks": "^7.1.1",
-    "eslint-plugin-react-refresh": "^0.5.3",
-    "globals": "^17.7.0",
+    "@types/react-dom": "^19.2.17",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.62.0",
     "vite": "^8.1.1"
