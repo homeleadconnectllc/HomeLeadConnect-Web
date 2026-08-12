@@ -34,7 +34,7 @@ export default function Register() {
   </>;
   const footer = <>
     <p>Already registered? <Link to="/login">Sign in</Link>.</p>
-    <p><Link to="/">Return to HomeLead Connect</Link></p>
+    <p><a href="https://homeleadconnect.org">Return to HomeLead Connect</a></p>
   </>;
 
   return <AuthShell title="Create your account" description="Create one HLC identity. Workspace and portal access are assigned separately after your email is verified." status={status} footer={footer}>
