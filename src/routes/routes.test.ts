@@ -47,14 +47,29 @@ test("previously reserved page-map destinations now resolve inside the app", () 
 
 test("portal record subroutes use canonical data-backed views", () => {
   for (const route of ["/homeowner-portal/requests", "/homeowner-portal/appointments", "/homeowner-portal/jobs"]) {
-    const declaration = router.match(new RegExp(`<Route path="${route}" element=\\{<([^ ]+)`));
+    const declaration = router.match(new RegExp(`<Route path="${route}" element=\\{<([^ />]+)`));
     assert.equal(declaration?.[1], "HomeownerPortalSection", `${route} must use the homeowner portal RPC view`);
   }
-  assert.match(router, /path="\/contractor-portal\/profile" element=\{<ContractorProfile \/>\}/);
-  assert.match(router, /path="\/contractor-portal\/services" element=\{<ReservedCapability \/>\}/);
-  const workspaceStart = router.indexOf('<Route element={<WorkspaceLayout />}>');
+  assert.match(router, /path="\/contractor-portal\/profile" element=\{<ContractorProfile\s*\/>\}/);
+  assert.match(router, /path="\/contractor-portal\/services" element=\{<LaunchSurface page="services"\/>\}/);
+  const workspaceMatch = router.match(/<Route element=\{<WorkspaceLayout\s*\/>\}>/);
+  assert.ok(workspaceMatch?.index !== undefined, "WorkspaceLayout route boundary must exist");
+  const workspaceStart = workspaceMatch.index;
   for (const route of ["/homeowner-portal/requests", "/homeowner-portal/appointments", "/homeowner-portal/jobs", "/contractor-portal/profile"]) {
     assert.ok(router.indexOf(`path="${route}"`) < workspaceStart, `${route} must remain accessible to explicitly linked portal users without workspace membership`);
+  }
+});
+
+test("implemented ecosystem destinations use data-backed launch surfaces", () => {
+  const expected: Array<[string,string]> = [
+    ["/network","network"], ["/map","map"], ["/profiles","profiles"], ["/providers","providers"], ["/matching","matching"],
+    ["/community-hub","community"], ["/community/discussions","discussions"], ["/community/reviews","reviews"], ["/community/referrals","referrals"],
+    ["/community/events","events"], ["/community/moderation","moderation"], ["/community/groups","groups"], ["/network/service-areas","serviceAreas"],
+    ["/network/availability","availability"], ["/network/saved","saved"], ["/homeowner-portal/properties","properties"], ["/contractor-portal/team","team"],
+    ["/contractor-portal/services","services"], ["/analytics","analytics"], ["/hq/approvals","approvals"], ["/hq/system-health","systemHealth"],
+  ];
+  for (const [route,page] of expected) {
+    assert.match(router, new RegExp(`path="${route.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}" element=\\{<LaunchSurface page="${page}"\\/>\\}`));
   }
 });
 
