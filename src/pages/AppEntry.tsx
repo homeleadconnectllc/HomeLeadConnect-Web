@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
-import { supabase } from "../lib/supabase";
 import { errorMessage } from "../lib/errorMessage";
+import { resolveUserDestination, type HlcDestination } from "../lib/accessDestination";
 
 export default function AppEntry() {
   const { session, loading } = useAuth();
-  const [target, setTarget] = useState<string | null>(null);
+  const [target, setTarget] = useState<HlcDestination | "/login" | null>(null);
   const [resolving, setResolving] = useState(false);
   const [error, setError] = useState("");
 
@@ -21,18 +21,9 @@ export default function AppEntry() {
     setResolving(true);
     setError("");
 
-    Promise.all([
-      supabase.from("workspace_members").select("workspace_id").eq("user_id", session.user.id).limit(1),
-      supabase.from("homeowner_portal_links").select("id").eq("user_id", session.user.id).is("revoked_at", null).limit(1),
-      supabase.from("contractor_portal_links").select("id").eq("user_id", session.user.id).is("revoked_at", null).limit(1),
-    ])
-      .then(([membership, homeowner, contractor]) => {
-        if (!active) return;
-        if (membership.error) throw membership.error;
-        if (membership.data?.length) setTarget("/dashboard");
-        else if (!homeowner.error && homeowner.data?.length) setTarget("/homeowner-portal");
-        else if (!contractor.error && contractor.data?.length) setTarget("/contractor-portal");
-        else setTarget("/portal/accept");
+    resolveUserDestination(session.user.id)
+      .then((destination) => {
+        if (active) setTarget(destination);
       })
       .catch((reason: unknown) => {
         if (!active) return;
