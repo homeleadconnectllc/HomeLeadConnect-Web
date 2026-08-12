@@ -51,6 +51,7 @@ Do not run `supabase db push --linked` against production until a clone has prov
 39. `20260812191500_reconciliation_billing_rls_and_appointment_trigger_cleanup.sql`
 40. `20260812194900_persisted_automation_runtime.sql`
 41. `20260812195500_reconciliation_automation_job_visibility.sql`
+42. `20260812200000_dynamic_billing_enrollment_consent.sql`
 
 ## Isolated verification gate
 
@@ -58,7 +59,7 @@ Do not run `supabase db push --linked` against production until a clone has prov
 2. Capture its project reference and link a clean working copy to the clone.
 3. Reconcile remote-only migration history from database truth; never fabricate SQL bodies for missing historical migrations.
 4. Apply the pending chain in order.
-5. Run positive, cross-workspace, invalid-transition, invitation, communications, document/storage, billing-webhook, AI, appointment, telephony, Community, network, profile, and participant-surface transactional tests.
+5. Run positive, cross-workspace, invalid-transition, invitation, communications, document/storage, billing-webhook, AI, appointment, telephony, Community, network, profile, participant-surface, and automation-runtime transactional tests.
 6. Run database security and performance advisors. Treat RLS-without-policy tables as deny-by-default unless an established product contract requires access.
 7. Verify Edge Function environment names and deploy functions only to the clone.
 8. Exercise rollback by restoring the clone snapshot or discarding the branch; production rollback requires a separately captured pre-release restore point.
@@ -89,7 +90,9 @@ Migration `20260812194900_persisted_automation_runtime.sql` adds persisted execu
 
 Migration `20260812195500_reconciliation_automation_job_visibility.sql` keeps persisted automation-job history readable only to authenticated members of the owning workspace while leaving job creation and state mutation backend-controlled. The `/automations` surface reads this history instead of presenting configuration alone.
 
-The three prepared Stripe billing Edge Functions were deployed to the reconciliation project with the intended verification boundaries: checkout and billing portal require JWTs; the webhook does not require a Supabase JWT and instead independently verifies `Stripe-Signature`. Billing remains disabled until server-side Stripe secrets, one approved recurring Price mapping, a Stripe webhook endpoint, and end-to-end signed webhook evidence are configured. The checkout function now derives the recorded recurring amount and interval from the configured Stripe Price instead of hardcoding a stale amount.
+Migration `20260812200000_dynamic_billing_enrollment_consent.sql` removes the stale fixed $99/month enrollment constraint and instead requires a positive recurring amount with an approved monthly or yearly interval. Checkout records the configured Stripe Price server-side, while the existing 14-day trial, USD currency, and Stripe Billing Portal cancellation contract remain enforced.
+
+The three prepared Stripe billing Edge Functions were deployed to the reconciliation project with the intended verification boundaries: checkout and billing portal require JWTs; the webhook does not require a Supabase JWT and instead independently verifies `Stripe-Signature`. Billing remains blocked until server-side Stripe secrets, one approved recurring Price mapping, a Stripe webhook endpoint, and end-to-end signed webhook evidence are configured. The checkout function derives the recorded recurring amount and interval from the configured Stripe Price rather than trusting browser input.
 
 ## Production gate
 
