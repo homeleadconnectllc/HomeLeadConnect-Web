@@ -1,13 +1,27 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { listAutomationJobs, type AutomationJobRecord } from "../../api/automations";
+import { listAutomationJobs, runAutomation, type AutomationJobRecord } from "../../api/automations";
 import { automationRegistry, type AutomationMode } from "../../config/automation";
 
 const colors: Record<AutomationMode, string> = { AUTOMATIC: "#166534", RECOMMEND: "#1d4ed8", CONFIRM: "#92400e", BLOCKED: "#b91c1c" };
+type SafeAutomation = "workflow_health_check" | "followup_scan" | "owner_attention_scan";
+const safeRuns: Array<{ id: SafeAutomation; label: string; description: string }> = [
+  { id: "workflow_health_check", label: "Run workflow health check", description: "Counts live leads, jobs, assignments and scheduled appointments without changing workflow state." },
+  { id: "followup_scan", label: "Scan follow-ups", description: "Checks overdue and upcoming follow-ups for the authenticated workspace." },
+  { id: "owner_attention_scan", label: "Scan owner attention", description: "Checks open Kendrell handoffs and owner-attention items." },
+];
 
 export default function Automations() {
   const [jobs, setJobs] = useState<AutomationJobRecord[]>([]);
   const [historyState, setHistoryState] = useState<"loading" | "ready" | "error">("loading");
+  const [busy, setBusy] = useState<SafeAutomation | null>(null);
+  const [runtimeMessage, setRuntimeMessage] = useState("");
+
+  const refresh = useCallback(async () => {
+    const rows = await listAutomationJobs();
+    setJobs(rows);
+    setHistoryState("ready");
+  }, []);
 
   useEffect(() => {
     let active = true;
@@ -23,6 +37,20 @@ export default function Automations() {
     return () => { active = false; };
   }, []);
 
+  async function execute(jobType: SafeAutomation) {
+    setBusy(jobType);
+    setRuntimeMessage("");
+    try {
+      const response = await runAutomation(jobType);
+      setRuntimeMessage(`${response.job_type} ${response.status}.`);
+      await refresh();
+    } catch (reason) {
+      setRuntimeMessage(reason instanceof Error ? reason.message : "Automation run failed.");
+    } finally {
+      setBusy(null);
+    }
+  }
+
   return <main style={pageStyle}>
     <header style={heroStyle}>
       <p style={eyebrowStyle}>One HLC system · shared automation layer</p>
@@ -37,6 +65,20 @@ export default function Automations() {
       <strong>BLOCKED:</strong><span>provider, rule, persistence or approval is missing</span>
     </section>
 
+    <section style={runtimeStyle} aria-labelledby="automation-runtime-title">
+      <div>
+        <p style={eyebrowDarkStyle}>Active persisted runtime</p>
+        <h2 id="automation-runtime-title" style={{ margin: "4px 0 8px" }}>Safe deterministic runs</h2>
+        <p style={{ margin: 0, lineHeight: 1.55 }}>These controls execute authenticated, tenant-scoped checks through the database runtime and preserve each result in automation history. They do not send messages, assign providers, schedule appointments or change billing.</p>
+      </div>
+      <div style={runtimeGridStyle}>{safeRuns.map((run) => <article key={run.id} style={historyCardStyle}>
+        <strong>{run.label}</strong>
+        <span>{run.description}</span>
+        <button type="button" disabled={busy !== null} onClick={() => execute(run.id)}>{busy === run.id ? "Running…" : "Run now"}</button>
+      </article>)}</div>
+      {runtimeMessage && <p role="status" style={{ margin: 0 }}>{runtimeMessage}</p>}
+    </section>
+
     <div style={gridStyle}>{automationRegistry.map((item) => <article key={`${item.stage}-${item.name}`} style={cardStyle}>
       <div style={headingStyle}><div><p style={stageStyle}>{item.stage} · {item.owner}</p><h2 style={{ margin: "4px 0" }}>{item.name}</h2></div><strong style={{ ...badgeStyle, color: colors[item.mode], borderColor: colors[item.mode] }}>{item.mode}</strong></div>
       <p><strong>Trigger:</strong> {item.trigger}</p>
@@ -48,7 +90,7 @@ export default function Automations() {
       <div>
         <p style={eyebrowDarkStyle}>Persisted execution evidence</p>
         <h2 id="automation-history-title" style={{ margin: "4px 0 8px" }}>Recent automation jobs</h2>
-        <p style={{ margin: 0, lineHeight: 1.55 }}>This history is read-only in the browser. Workers and trusted backend processes own job creation and state changes.</p>
+        <p style={{ margin: 0, lineHeight: 1.55 }}>Runtime writes are server-controlled. Browser users may read their workspace history and invoke only the safe allowlisted checks above.</p>
       </div>
       {historyState === "loading" && <p>Loading automation history…</p>}
       {historyState === "error" && <p role="alert">Automation history is unavailable. No job state has been guessed.</p>}
@@ -57,6 +99,8 @@ export default function Automations() {
         <div style={headingStyle}><strong>{job.job_type}</strong><span style={statusStyle}>{job.status}</span></div>
         <small>Attempts {job.retry_count} / {job.max_attempts}</small>
         <small>Created {new Date(job.created_at).toLocaleString()}</small>
+        {job.result && <pre style={resultStyle}>{JSON.stringify(job.result, null, 2)}</pre>}
+        {job.last_error && <small role="alert">{job.last_error}</small>}
       </article>)}</div>}
     </section>
 
@@ -69,6 +113,8 @@ const heroStyle = { display: "grid", gap: 12, padding: "clamp(22px,5vw,44px)", b
 const eyebrowStyle = { margin: 0, color: "#60a5fa", fontWeight: 900, letterSpacing: ".08em", textTransform: "uppercase" as const };
 const eyebrowDarkStyle = { ...eyebrowStyle, color: "#1d4ed8" };
 const legendStyle = { display: "grid", gridTemplateColumns: "auto 1fr", gap: "8px 12px", padding: 18, border: "1px solid #cbd5e1", borderRadius: 14, background: "#f8fafc" };
+const runtimeStyle = { display: "grid", gap: 14, padding: 22, border: "1px solid #86efac", borderRadius: 16, background: "#f0fdf4" };
+const runtimeGridStyle = { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,260px),1fr))", gap: 10 };
 const gridStyle = { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,350px),1fr))", gap: 14 };
 const cardStyle = { padding: 20, border: "1px solid #cbd5e1", borderRadius: 16, background: "#fff", lineHeight: 1.55 };
 const headingStyle = { display: "flex", justifyContent: "space-between", gap: 14, alignItems: "start" };
@@ -78,4 +124,5 @@ const historyStyle = { display: "grid", gap: 14, padding: 22, border: "1px solid
 const historyGridStyle = { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,260px),1fr))", gap: 10 };
 const historyCardStyle = { display: "grid", gap: 8, padding: 14, border: "1px solid #cbd5e1", borderRadius: 12, background: "#fff" };
 const statusStyle = { border: "1px solid #94a3b8", borderRadius: 999, padding: "3px 7px", fontSize: 11, textTransform: "uppercase" as const };
+const resultStyle = { margin: 0, padding: 10, overflow: "auto", whiteSpace: "pre-wrap" as const, borderRadius: 8, background: "#0f172a", color: "#e2e8f0", fontSize: 12 };
 const boundaryStyle = { padding: 22, border: "1px solid #60a5fa", borderRadius: 16, background: "#eff6ff", lineHeight: 1.6 };
