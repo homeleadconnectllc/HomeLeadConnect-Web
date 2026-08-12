@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - sprint/ecosystem-integration
+      - sprint/ecosystem-launch-completion
   pull_request:
     branches:
       - main
