@@ -31,8 +31,10 @@ function requireText(rel, text) {
 
 for (const file of [
   'src/lib/supabase.ts',
+  'src/lib/accessDestination.ts',
   'src/routes/AppRouter.tsx',
   'src/context/AuthContext.tsx',
+  'src/pages/AppEntry.tsx',
   'src/pages/auth/Login.tsx',
   'src/pages/auth/ForgotPassword.tsx',
   'src/pages/auth/ResetPassword.tsx',
@@ -61,9 +63,25 @@ requireText('.env.example', 'VITE_BILLING_ENABLED=false');
 requireText('.env.example', 'VITE_PORTAL_INVITATIONS_ENABLED=false');
 requireText('public/_redirects', '/* /index.html 200');
 requireText('netlify.toml', 'publish = "dist"');
+requireText('src/pages/AppEntry.tsx', 'resolveUserDestination');
+requireText('src/layouts/WorkspaceLayout.tsx', 'resolveUserDestination');
+requireText('src/routes/AppRouter.tsx', '<Route path="/" element={<AppEntry/>}/>');
+requireText('src/routes/AppRouter.tsx', '<Route path="/app" element={<AppEntry/>}/>');
+requireText('src/routes/AppRouter.tsx', '<Route path="/portal" element={<AppEntry/>}/>');
+requireText('src/pages/auth/Login.tsx', 'navigate(requested || "/"');
+requireText('src/pages/auth/Login.tsx', 'https://homeleadconnect.org');
 
 if (fs.existsSync(path.join(root, 'vercel.json'))) {
   failures.push('Stale vercel.json is present; Netlify is the canonical application host.');
+}
+
+const routerPath = path.join(root, 'src/routes/AppRouter.tsx');
+if (fs.existsSync(routerPath)) {
+  const router = fs.readFileSync(routerPath, 'utf8');
+  const rootDeclarations = [...router.matchAll(/<Route path="\/" element=\{<([^/>\s]+)\s*\/>\}\/>/g)];
+  if (rootDeclarations.length !== 1 || rootDeclarations[0]?.[1] !== 'AppEntry') {
+    failures.push('The application must have exactly one root front door and it must resolve through AppEntry.');
+  } else checks.push('ok single calibrated app root');
 }
 
 const forbidden = [/service_role/i, /sb_secret_[A-Za-z0-9_-]+/];
