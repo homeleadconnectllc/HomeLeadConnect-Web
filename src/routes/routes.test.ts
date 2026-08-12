@@ -24,6 +24,10 @@ test("canonical protected AI routes remain declared once", () => {
   }
 });
 
+test("canonical golden workflow route remains declared once", () => {
+  assert.equal([...router.matchAll(/path="\/workflow"/g)].length, 1);
+});
+
 test("public production copy uses the locked company contact identity", () => {
   assert.match(publicCopy, /HomeLead Connect LLC/);
   assert.match(publicCopy, /Antoine Washington/);

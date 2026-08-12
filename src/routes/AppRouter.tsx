@@ -20,6 +20,7 @@ const HomeownerPortal = lazy(() => import("../pages/portal/HomeownerPortal"));
 const ContractorPortal = lazy(() => import("../pages/portal/ContractorPortal"));
 const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"));
 const Ecosystem = lazy(() => import("../pages/dashboard/Ecosystem"));
+const Workflow = lazy(() => import("../pages/dashboard/Workflow"));
 const Leads = lazy(() => import("../pages/dashboard/Leads"));
 const Jobs = lazy(() => import("../pages/dashboard/Jobs"));
 const JobDetail = lazy(() => import("../pages/dashboard/JobDetail"));
@@ -67,6 +68,7 @@ export default function AppRouter() {
             <Route element={<WorkspaceLayout />}>
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/ecosystem" element={<Ecosystem />} />
+              <Route path="/workflow" element={<Workflow />} />
               <Route path="/leads" element={<Leads />} />
               <Route path="/estimator" element={<Estimator />} />
               <Route path="/jobs" element={<Jobs />} />

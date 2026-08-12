@@ -87,6 +87,7 @@ export const ecosystemNavigation: EcosystemNavigationGroup[] = [
     pages: [
       { label: "Dashboard", route: "/dashboard", owner: "Kendrell", audiences: ["Business", "Owner"], purpose: "KPIs, queues, alerts, upcoming work and quick actions.", status: "UNPROVEN" },
       { label: "Ecosystem", route: "/ecosystem", owner: "Kendrell", audiences: ["Owner", "Admin"], purpose: "Canonical map, status register, ownership and launch gates.", status: "WORKING" },
+      { label: "Golden Workflow", route: "/workflow", owner: "Kendrell", audiences: ["Owner", "Admin", "Operations"], purpose: "Live Request-to-Community lineage, record counts, stage ownership and blockers.", status: "UNPROVEN" },
       { label: "HQ", route: "/hq", owner: "Kendrell", audiences: ["Owner"], purpose: "Approvals, risk, summaries and cross-agent orchestration.", status: "UNPROVEN" },
       { label: "Notifications", route: "/notifications", owner: "Shared", audiences: ["All signed-in roles"], purpose: "Security, workflow, messages, community and billing alerts.", status: "UNPROVEN" },
     ],
@@ -184,15 +185,17 @@ export const ecosystemAreas: EcosystemArea[] = [
 export const workflowSpine = [
   "Request",
   "Lead",
-  "LeadScope / Estimate",
+  "LeadScope",
+  "Match",
+  "Provider Offer",
+  "Assignment",
+  "Schedule",
   "Job",
-  "Eligible providers",
-  "Offer",
-  "Accepted assignment",
-  "Appointment",
-  "Work",
+  "Communication",
   "Completion",
-  "Review / Community",
+  "Review",
+  "Referral",
+  "Community",
 ] as const;
 
 export function statusPriority(status: EcosystemStatus) {

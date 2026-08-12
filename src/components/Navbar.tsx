@@ -8,6 +8,7 @@ const logo = "/hlc-logo-final.png";
 const declaredWorkspaceRoutes = new Set([
   "/dashboard",
   "/ecosystem",
+  "/workflow",
   "/hq",
   "/notifications",
   "/leads",

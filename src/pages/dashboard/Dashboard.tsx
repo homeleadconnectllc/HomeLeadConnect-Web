@@ -6,7 +6,8 @@ export default function Dashboard() {
       <h1>HomeLead Connect Dashboard</h1>
       <p>Open a workspace tool to continue.</p>
 
-      <nav style={{ display: "flex", gap: 16, margin: "24px 0" }}>
+      <nav style={{ display: "flex", flexWrap: "wrap", gap: 16, margin: "24px 0" }}>
+        <Link to="/workflow">Golden Workflow</Link>
         <Link to="/leads">Leads</Link>
         <Link to="/estimator">LeadScope</Link>
         <Link to="/jobs">Jobs</Link>
