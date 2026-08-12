@@ -91,16 +91,12 @@ export default function ManualCommunications() {
   const load = useCallback(async () => {
     try {
       const [leadRows, contractorRows, activityRows, conversationRows] = await Promise.all([
-        listLeads(),
-        listContractors(),
-        listManualCommunicationActivity(),
-        listConversations(),
+        listLeads(), listContractors(), listManualCommunicationActivity(), listConversations(),
       ]);
       setLeads(leadRows);
       setContractors(contractorRows);
       setHistory(activityRows);
       setConversations(conversationRows);
-
       try {
         const configuration = await getGoogleVoiceConfiguration();
         setConfiguredNumber(configuration?.sender_identity || "");
@@ -116,8 +112,27 @@ export default function ManualCommunications() {
   }, []);
 
   useEffect(() => {
-    void load();
-  }, [load]);
+    let active = true;
+    Promise.all([listLeads(), listContractors(), listManualCommunicationActivity(), listConversations()])
+      .then(async ([leadRows, contractorRows, activityRows, conversationRows]) => {
+        if (!active) return;
+        setLeads(leadRows);
+        setContractors(contractorRows);
+        setHistory(activityRows);
+        setConversations(conversationRows);
+        try {
+          const configuration = await getGoogleVoiceConfiguration();
+          if (!active) return;
+          setConfiguredNumber(configuration?.sender_identity || "");
+          setNumberInput(configuration?.sender_identity || "");
+        } catch {
+          if (active) setConfiguredNumber("");
+        }
+      })
+      .catch((reason: unknown) => { if (active) setError(errorMessage(reason, "Unable to load manual communications.")); })
+      .finally(() => { if (active) setLoading(false); });
+    return () => { active = false; };
+  }, []);
 
   function resetCheck() {
     setCheck(null);
@@ -148,9 +163,7 @@ export default function ManualCommunications() {
     setCheck(null);
     try {
       const input = { subjectType: selected.type, subjectId: selected.id, channel, purpose };
-      const result = transport === "device_native"
-        ? await checkNativeDeviceAction(input)
-        : await checkGoogleVoiceAction(input);
+      const result = transport === "device_native" ? await checkNativeDeviceAction(input) : await checkGoogleVoiceAction(input);
       setCheck(result);
     } catch (reason) {
       setError(errorMessage(reason, "Unable to check this communication."));
@@ -226,76 +239,25 @@ export default function ManualCommunications() {
 
     {!loading && <form onSubmit={saveActivity} style={{ ...panelStyle, marginTop: 20 }}>
       <h2>Contact and record outcome</h2>
-
-      <label>Contact
-        <select required value={contactKey} onChange={(event) => { setContactKey(event.target.value); resetCheck(); }}>
-          <option value="">Select a lead or contractor</option>
-          {contacts.map((contact) => <option key={contact.key} value={contact.key}>{contact.label} · {contact.phone}</option>)}
-        </select>
-      </label>
-
-      <label>Related HLC conversation
-        <select value={conversationId} onChange={(event) => setConversationId(event.target.value)}>
-          <option value="">No conversation selected</option>
-          {conversations.map((conversation) => <option key={conversation.id} value={conversation.id}>{conversation.subject}</option>)}
-        </select>
-      </label>
-
+      <label>Contact<select required value={contactKey} onChange={(event) => { setContactKey(event.target.value); resetCheck(); }}><option value="">Select a lead or contractor</option>{contacts.map((contact) => <option key={contact.key} value={contact.key}>{contact.label} · {contact.phone}</option>)}</select></label>
+      <label>Related HLC conversation<select value={conversationId} onChange={(event) => setConversationId(event.target.value)}><option value="">No conversation selected</option>{conversations.map((conversation) => <option key={conversation.id} value={conversation.id}>{conversation.subject}</option>)}</select></label>
       <div style={twoColumnStyle}>
-        <label>Transport
-          <select value={transport} onChange={(event) => { setTransport(event.target.value as ManualCommunicationTransport); resetCheck(); }}>
-            <option value="device_native">This device</option>
-            <option value="google_voice" disabled={!configuredNumber}>Google Voice{configuredNumber ? "" : " — not configured"}</option>
-          </select>
-        </label>
-        <label>Channel
-          <select value={channel} onChange={(event) => { setChannel(event.target.value as ManualCommunicationChannel); resetCheck(); }}>
-            <option value="call">Call</option>
-            <option value="sms">Interactive text</option>
-          </select>
-        </label>
+        <label>Transport<select value={transport} onChange={(event) => { setTransport(event.target.value as ManualCommunicationTransport); resetCheck(); }}><option value="device_native">This device</option><option value="google_voice" disabled={!configuredNumber}>Google Voice{configuredNumber ? "" : " — not configured"}</option></select></label>
+        <label>Channel<select value={channel} onChange={(event) => { setChannel(event.target.value as ManualCommunicationChannel); resetCheck(); }}><option value="call">Call</option><option value="sms">Interactive text</option></select></label>
       </div>
-
       <div style={twoColumnStyle}>
-        <label>Direction
-          <select value={direction} onChange={(event) => { setDirection(event.target.value as "inbound" | "outbound"); resetCheck(); }}>
-            <option value="outbound">Outbound</option>
-            <option value="inbound">Inbound</option>
-          </select>
-        </label>
-        <label>Purpose
-          <select value={purpose} onChange={(event) => { setPurpose(event.target.value as CommunicationPurpose); resetCheck(); }}>
-            <option value="service">Service communication</option>
-            <option value="appointment">Appointment</option>
-            <option value="lead_follow_up">Lead follow-up</option>
-            <option value="marketing">Marketing</option>
-          </select>
-        </label>
+        <label>Direction<select value={direction} onChange={(event) => { setDirection(event.target.value as "inbound" | "outbound"); resetCheck(); }}><option value="outbound">Outbound</option><option value="inbound">Inbound</option></select></label>
+        <label>Purpose<select value={purpose} onChange={(event) => { setPurpose(event.target.value as CommunicationPurpose); resetCheck(); }}><option value="service">Service communication</option><option value="appointment">Appointment</option><option value="lead_follow_up">Lead follow-up</option><option value="marketing">Marketing</option></select></label>
       </div>
-
       {direction === "outbound" && <button disabled={busy || !selected} type="button" onClick={checkAction}>{busy ? "Checking…" : "Check before contacting"}</button>}
-
       {direction === "outbound" && check && <div role="status" style={check.decision === "ALLOW" ? allowedStyle : blockedStyle}>
         <strong>{check.decision}</strong>
         {check.reasons.length > 0 && <ul>{check.reasons.map((reason) => <li key={reason}>{reasonLabels[reason] || reason}</li>)}</ul>}
         {check.decision === "ALLOW" && transport === "device_native" && <p>The compliance gate is clear. Use the native handoff below, then return to record the actual outcome.</p>}
         {check.decision === "ALLOW" && transport === "google_voice" && <p>The compliance gate is clear. Open Google Voice, perform the manual action, then return to record the actual outcome.</p>}
       </div>}
-
-      {canHandoff && transport === "device_native" && (
-        <a
-          href={`${channel === "call" ? "tel" : "sms"}:${nativeTarget}`}
-          style={handoffStyle}
-          aria-label={`${channel === "call" ? "Call" : "Text"} ${selected?.label || "selected contact"} with this device`}
-        >
-          {channel === "call" ? `Call ${selected?.phone}` : `Text ${selected?.phone}`} with this device
-        </a>
-      )}
-
-      {direction === "outbound" && check?.decision === "ALLOW" && transport === "google_voice" && (
-        <a href="https://voice.google.com/" target="_blank" rel="noreferrer" style={handoffStyle}>Open Google Voice</a>
-      )}
-
+      {canHandoff && transport === "device_native" && <a href={`${channel === "call" ? "tel" : "sms"}:${nativeTarget}`} style={handoffStyle} aria-label={`${channel === "call" ? "Call" : "Text"} ${selected?.label || "selected contact"} with this device`}>{channel === "call" ? `Call ${selected?.phone}` : `Text ${selected?.phone}`} with this device</a>}
+      {direction === "outbound" && check?.decision === "ALLOW" && transport === "google_voice" && <a href="https://voice.google.com/" target="_blank" rel="noreferrer" style={handoffStyle}>Open Google Voice</a>}
       <label>Outcome<input required maxLength={80} value={outcome} onChange={(event) => setOutcome(event.target.value)} placeholder="For example: spoke with homeowner" /></label>
       <label>Notes<textarea maxLength={2000} value={notes} onChange={(event) => setNotes(event.target.value)} /></label>
       {selected?.type === "lead" && <label>Optional follow-up date and time<input type="datetime-local" value={followUpAt} onChange={(event) => setFollowUpAt(event.target.value)} /></label>}
@@ -304,14 +266,7 @@ export default function ManualCommunications() {
 
     {!loading && <section style={{ ...panelStyle, marginTop: 20 }}>
       <h2>Recent manual history</h2>
-      {history.length === 0
-        ? <p>No manual call or text activity has been logged yet.</p>
-        : history.map((item) => <article key={item.id} style={historyStyle}>
-          <strong>{item.channel === "call" ? "Call" : "Text"} · {item.manual_outcome}</strong>
-          <p>{item.direction} · {item.destination} · {item.provider_name === "device_native" ? "device" : "Google Voice"} · operator reported</p>
-          {item.operator_notes && <p>{item.operator_notes}</p>}
-          <small>{new Date(item.created_at).toLocaleString()}</small>
-        </article>)}
+      {history.length === 0 ? <p>No manual call or text activity has been logged yet.</p> : history.map((item) => <article key={item.id} style={historyStyle}><strong>{item.channel === "call" ? "Call" : "Text"} · {item.manual_outcome}</strong><p>{item.direction} · {item.destination} · {item.provider_name === "device_native" ? "device" : "Google Voice"} · operator reported</p>{item.operator_notes && <p>{item.operator_notes}</p>}<small>{new Date(item.created_at).toLocaleString()}</small></article>)}
     </section>}
   </main>;
 }
