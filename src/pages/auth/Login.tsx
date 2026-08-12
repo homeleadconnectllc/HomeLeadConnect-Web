@@ -34,7 +34,7 @@ export default function Login() {
   const footer = <>
     <p><Link to="/forgot-password">Forgot your password?</Link></p>
     <p>New to HLC? <Link to="/register">Create your account</Link>.</p>
-    <p><Link to="/">Return to HomeLead Connect</Link></p>
+    <p><a href="https://homeleadconnect.org">Return to HomeLead Connect</a></p>
   </>;
 
   return <AuthShell title="Sign in" description="Use your one HomeLead Connect account to reach the workspace or portal assigned to you." status={status} footer={footer}>
