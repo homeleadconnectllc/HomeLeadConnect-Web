@@ -89,7 +89,6 @@ export default function ManualCommunications() {
   const nativeTarget = selected ? normalizeNativePhoneTarget(selected.phone) : "";
 
   const load = useCallback(async () => {
-    setError("");
     try {
       const [leadRows, contractorRows, activityRows, conversationRows] = await Promise.all([
         listLeads(),
