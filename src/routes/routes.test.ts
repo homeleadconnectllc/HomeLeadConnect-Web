@@ -28,6 +28,18 @@ test("canonical golden workflow route remains declared once", () => {
   assert.equal([...router.matchAll(/path="\/workflow"/g)].length, 1);
 });
 
+test("every canonical ecosystem destination has one declared route", () => {
+  const routes = [
+    "/network", "/map", "/profiles", "/providers", "/matching", "/community-hub",
+    "/community/discussions", "/community/reviews", "/community/referrals",
+    "/community/events", "/community/moderation", "/help", "/tutorials", "/rules",
+    "/profile", "/settings/billing",
+  ];
+  for (const route of routes) {
+    assert.equal([...router.matchAll(new RegExp(`path="${route}"`, "g"))].length, 1, `Expected one route for ${route}`);
+  }
+});
+
 test("public production copy uses the locked company contact identity", () => {
   assert.match(publicCopy, /HomeLead Connect LLC/);
   assert.match(publicCopy, /Antoine Washington/);

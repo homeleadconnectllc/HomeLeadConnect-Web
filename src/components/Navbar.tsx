@@ -25,6 +25,22 @@ const declaredWorkspaceRoutes = new Set([
   "/settings",
   "/homeowner-portal",
   "/contractor-portal",
+  "/network",
+  "/map",
+  "/profiles",
+  "/providers",
+  "/matching",
+  "/community-hub",
+  "/community/discussions",
+  "/community/reviews",
+  "/community/referrals",
+  "/community/events",
+  "/community/moderation",
+  "/help",
+  "/tutorials",
+  "/rules",
+  "/profile",
+  "/settings/billing",
 ]);
 
 const ownerLabels: Record<EcosystemOwner, string> = {

@@ -68,9 +68,7 @@ export default function Ecosystem() {
         <div style={pageStackStyle}>{group.pages.map((page) => <div key={page.route} style={pageRowStyle}>
           <div style={{ minWidth: 0 }}>
             <div style={pageTitleStyle}>
-              {page.status === "MISSING"
-                ? <strong>{page.label}</strong>
-                : <Link to={page.route}><strong>{page.label}</strong></Link>}
+              <Link to={page.route}><strong>{page.label}</strong></Link>
               <code style={routeCodeStyle}>{page.route}</code>
             </div>
             <p style={{ margin: "5px 0", fontSize: 14, lineHeight: 1.45 }}>{page.purpose}</p>

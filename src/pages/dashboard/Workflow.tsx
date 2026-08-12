@@ -13,19 +13,19 @@ type Stage = {
 };
 
 const stages: Stage[] = [
-  { label: "Request", description: "Public service intake creates one canonical CRM record.", route: "/request-service", countKey: "requests", status: "CONNECTED", owner: "Diamond" },
-  { label: "Lead", description: "Workspace pipeline, customer identity and next action.", route: "/leads", countKey: "leads", status: "CONNECTED", owner: "Dion" },
-  { label: "LeadScope", description: "Evidence, quantities, pricing and customer acceptance.", route: "/estimator", countKey: "leadScopes", status: "CONNECTED", owner: "Dion" },
-  { label: "Match", description: "Explicit workspace provider filters; ranking rules remain undefined.", route: "/jobs", countKey: "jobs", status: "PARTIAL", owner: "Dion" },
-  { label: "Provider Offer", description: "A job opportunity offered to an eligible workspace provider.", route: "/jobs", countKey: "providerOffers", status: "CONNECTED", owner: "Dion" },
-  { label: "Assignment", description: "Provider acceptance establishes one active assignment.", route: "/jobs", countKey: "acceptedAssignments", status: "CONNECTED", owner: "Dion" },
-  { label: "Schedule", description: "Accepted assignments unlock appointment scheduling.", route: "/calendar", countKey: "appointments", status: "CONNECTED", owner: "Dion" },
-  { label: "Job", description: "Canonical work record connected to its lead and LeadScope estimate.", route: "/jobs", countKey: "jobs", status: "CONNECTED", owner: "Dion" },
-  { label: "Communication", description: "Record-linked conversations plus consent-aware phone, text and email handoffs.", route: "/messages", countKey: "conversations", status: "PARTIAL", owner: "Diamond" },
-  { label: "Completion", description: "Job and appointment outcomes are recorded separately.", route: "/jobs", countKey: "completedJobs", status: "PARTIAL", owner: "Dion" },
-  { label: "Review", description: "Completion-linked review records and moderation are not built.", status: "MISSING", owner: "Diamond" },
-  { label: "Referral", description: "Consent, attribution and referral status records are not built.", status: "MISSING", owner: "Diamond" },
-  { label: "Community", description: "Operational discussions, events and moderation are not built.", status: "MISSING", owner: "Diamond" },
+  { label: "Request", description: "Homeowner or renter submits a service need.", route: "/request-service", countKey: "requests", status: "CONNECTED", owner: "Diamond" },
+  { label: "Lead", description: "CRM creates one traceable lead without duplication.", route: "/leads", countKey: "leads", status: "CONNECTED", owner: "Dion" },
+  { label: "LeadScope", description: "Service details, property, urgency, scope, photos and notes are organized.", route: "/estimator", countKey: "leadScopes", status: "PARTIAL", owner: "Dion" },
+  { label: "Match", description: "Eligible providers are ranked using approved rules.", route: "/matching", countKey: "jobs", status: "MISSING", owner: "Dion" },
+  { label: "Provider Offer", description: "Qualified providers receive and accept or decline an opportunity.", route: "/jobs", countKey: "providerOffers", status: "CONNECTED", owner: "Dion" },
+  { label: "Assignment", description: "One provider becomes responsible for the request.", route: "/jobs", countKey: "acceptedAssignments", status: "CONNECTED", owner: "Dion" },
+  { label: "Schedule", description: "Appointment is confirmed with participants and calendar records.", route: "/calendar", countKey: "appointments", status: "PARTIAL", owner: "Dion" },
+  { label: "Job", description: "Assignment becomes an active, trackable service job.", route: "/jobs", countKey: "jobs", status: "PARTIAL", owner: "Dion" },
+  { label: "Communication", description: "Calls, texts, emails, messages, files and history remain attached.", route: "/messages", countKey: "conversations", status: "PARTIAL", owner: "Diamond" },
+  { label: "Completion", description: "Work outcome, documentation and final status are recorded.", route: "/jobs", countKey: "completedJobs", status: "PARTIAL", owner: "Dion" },
+  { label: "Review", description: "Customer submits verified feedback.", route: "/community/reviews", status: "MISSING", owner: "Diamond" },
+  { label: "Referral", description: "Eligible referral is tracked with consent and attribution.", route: "/community/referrals", status: "MISSING", owner: "Diamond" },
+  { label: "Community", description: "Approved outcomes contribute to discussions, reputation and engagement.", route: "/community-hub", status: "MISSING", owner: "Diamond" },
 ];
 
 const statusColor = { CONNECTED: "#166534", PARTIAL: "#92400e", MISSING: "#b91c1c" };
