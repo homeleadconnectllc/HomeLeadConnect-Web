@@ -37,6 +37,7 @@ Do not run `supabase db push --linked` against production until a clone has prov
 25. `20260811023142_document_view_audit.sql`
 26. `20260811024203_launch_notification_events.sql`
 27. `20260811110214_normalize_launch_table_privileges.sql`
+28. `20260812104540_reconciliation_positive_access_policies.sql`
 
 ## Isolated verification gate
 
@@ -48,6 +49,10 @@ Do not run `supabase db push --linked` against production until a clone has prov
 6. Run database security and performance advisors. Treat RLS-without-policy tables as deny-by-default unless an established product contract requires access.
 7. Verify Edge Function environment names and deploy functions only to the clone.
 8. Exercise rollback by restoring the clone snapshot or discarding the branch; production rollback requires a separately captured pre-release restore point.
+
+### Reconciliation evidence recorded 2026-08-12
+
+The `hlc-reconciliation-test` project has the expanded launch schema and now includes migration `20260812104540_reconciliation_positive_access_policies`. Simulated authenticated access proved that a Workspace A member can read Workspace A lead/estimate/job/assignment/appointment records while a Workspace B member receives zero Workspace A rows. Estimate insertion succeeds for the member's own workspace and is rejected by RLS for a cross-workspace insert. This is reconciliation evidence only; it is not production authorization.
 
 ## Production gate
 
