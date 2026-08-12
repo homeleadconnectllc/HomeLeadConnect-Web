@@ -68,6 +68,7 @@ export default function Navbar() {
             {access.business && (
               <>
                 <Link to="/dashboard">Dashboard</Link>
+                <Link to="/ecosystem">Ecosystem</Link>
                 <Link to="/leads">Leads</Link>
                 <Link to="/estimator">LeadScope</Link>
                 <Link to="/jobs">Jobs</Link>
