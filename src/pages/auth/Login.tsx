@@ -1,9 +1,10 @@
 import { useState, type FormEvent } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
-import { supabase } from "../../lib/supabase";
+import AuthShell from "../../components/auth/AuthShell";
+import AuthTurnstile from "../../components/auth/AuthTurnstile";
 import { useAuth } from "../../hooks/useAuth";
 import { errorMessage } from "../../lib/errorMessage";
-import AuthTurnstile from "../../components/auth/AuthTurnstile";
+import { supabase } from "../../lib/supabase";
 import { turnstileEnabled } from "../../lib/turnstile";
 
 export default function Login() {
@@ -29,19 +30,19 @@ export default function Login() {
     navigate(requested || "/dashboard", { replace: true });
   }
 
-  return <main className="hlc-auth-page" style={pageStyle}>
-    <h1>CRM login</h1>
-    {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
-    <form className="hlc-auth-form" onSubmit={login} style={formStyle}>
+  const status = error ? <p role="alert" style={{ color: "#b91c1c" }}>{error}</p> : undefined;
+  const footer = <>
+    <p><Link to="/forgot-password">Forgot your password?</Link></p>
+    <p>New to HLC? <Link to="/register">Create your account</Link>.</p>
+    <p><Link to="/">Return to HomeLead Connect</Link></p>
+  </>;
+
+  return <AuthShell title="Sign in" description="Use your one HomeLead Connect account to reach the workspace or portal assigned to you." status={status} footer={footer}>
+    <form className="hlc-auth-form" onSubmit={login}>
       <label>Email<input required autoComplete="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} /></label>
       <label>Password<input required autoComplete="current-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} /></label>
       <AuthTurnstile onToken={setCaptchaToken} resetSignal={captchaReset} />
-      <button disabled={busy || (turnstileEnabled && !captchaToken)} type="submit">{busy ? "Signing in…" : "Sign in"}</button>
+      <button disabled={busy || (turnstileEnabled && !captchaToken)} type="submit">{busy ? "Signing in…" : "Sign in to HLC"}</button>
     </form>
-    <p><Link to="/forgot-password">Forgot password?</Link></p>
-    <p>Need an account? <Link to="/register">Create one</Link>.</p>
-  </main>;
+  </AuthShell>;
 }
-
-const pageStyle = { width: "min(420px, calc(100% - 32px))", margin: "64px auto" };
-const formStyle = { display: "grid", gap: 16 };
