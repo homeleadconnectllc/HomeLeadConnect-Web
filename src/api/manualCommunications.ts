@@ -24,6 +24,34 @@ export type GoogleVoiceActivity = {
   created_at: string;
 };
 
+export function normalizeNativePhoneTarget(phone: string) {
+  const trimmed = phone.trim();
+  const digits = trimmed.replace(/\D/g, "");
+  return `${trimmed.startsWith("+") ? "+" : ""}${digits}`;
+}
+
+async function evaluateManualAction(input: {
+  subjectType: ManualCommunicationSubject;
+  subjectId: string;
+  channel: ManualCommunicationChannel;
+  purpose: CommunicationPurpose;
+  providerName: "google_voice" | "device_native";
+}): Promise<ComplianceResult> {
+  const { data, error } = await supabase.rpc("evaluate_communication_compliance", {
+    p_subject_type: input.subjectType,
+    p_subject_id: input.subjectId,
+    p_channel: input.channel,
+    p_purpose: input.purpose,
+    p_direction: "outbound",
+    p_requested_automated: false,
+    p_requested_prerecorded_or_ai_voice: false,
+    p_requested_recording: false,
+    p_provider_name: input.providerName,
+  });
+  if (error) throw error;
+  return data as ComplianceResult;
+}
+
 export async function configureGoogleVoice(number: string) {
   const { error } = await supabase.rpc("configure_google_voice_manual_channel", { p_sender_identity: number.trim() });
   if (error) throw error;
@@ -45,20 +73,17 @@ export async function checkGoogleVoiceAction(input: {
   subjectId: string;
   channel: ManualCommunicationChannel;
   purpose: CommunicationPurpose;
-}): Promise<ComplianceResult> {
-  const { data, error } = await supabase.rpc("evaluate_communication_compliance", {
-    p_subject_type: input.subjectType,
-    p_subject_id: input.subjectId,
-    p_channel: input.channel,
-    p_purpose: input.purpose,
-    p_direction: "outbound",
-    p_requested_automated: false,
-    p_requested_prerecorded_or_ai_voice: false,
-    p_requested_recording: false,
-    p_provider_name: "google_voice",
-  });
-  if (error) throw error;
-  return data as ComplianceResult;
+}) {
+  return evaluateManualAction({ ...input, providerName: "google_voice" });
+}
+
+export async function checkNativeDeviceAction(input: {
+  subjectType: ManualCommunicationSubject;
+  subjectId: string;
+  channel: ManualCommunicationChannel;
+  purpose: CommunicationPurpose;
+}) {
+  return evaluateManualAction({ ...input, providerName: "device_native" });
 }
 
 export async function logGoogleVoiceActivity(input: {
