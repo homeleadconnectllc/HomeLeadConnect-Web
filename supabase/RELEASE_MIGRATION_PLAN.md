@@ -47,6 +47,8 @@ Do not run `supabase db push --linked` against production until a clone has prov
 35. `20260812131415_ecosystem_launch_surfaces.sql`
 36. `20260812132000_ecosystem_participant_surfaces.sql`
 37. `20260812133800_ecosystem_surface_performance_hardening.sql`
+38. `20260812191000_reconcile_leads_workspace_foreign_key.sql`
+39. `20260812191500_reconciliation_billing_rls_and_appointment_trigger_cleanup.sql`
 
 ## Isolated verification gate
 
@@ -76,6 +78,10 @@ The reconciliation database also lacked the causal lead-state internals and `sub
 Migrations `20260812131415_ecosystem_launch_surfaces.sql` and `20260812132000_ecosystem_participant_surfaces.sql` add tenant-scoped Community, review/referral/moderation, provider service-area/availability/saved-provider, participant-preference, resident-property, provider-service, and Community-group records. RLS remains enabled on every added table; completed-job review eligibility and workspace/member boundaries are enforced in database policies rather than UI-only checks.
 
 Migration `20260812133800_ecosystem_surface_performance_hardening.sql` adds covering indexes for new foreign keys and rewrites new user-scoped RLS predicates to use stable `select auth.uid()` evaluation. This addresses advisor findings introduced by the new ecosystem surfaces without weakening authorization.
+
+Migration `20260812191000_reconcile_leads_workspace_foreign_key.sql` corrects the reconciliation-only `leads.workspace_id` foreign key so canonical HLC intake can reference `workspaces(id)` instead of the legacy organizations domain. A public-intake transactional probe returned `accepted=true` against the canonical HLC workspace after the repair.
+
+Migration `20260812191500_reconciliation_billing_rls_and_appointment_trigger_cleanup.sql` restores authenticated workspace-member read access to `workspace_plan_status`, keeps subscription mutation backend-only, and removes the duplicate appointment validation trigger while preserving the canonical validator.
 
 ## Production gate
 
