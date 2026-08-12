@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ecosystemAreas, statusPriority, workflowSpine, type EcosystemStatus } from "../../config/ecosystem";
+import { agentTeam, ecosystemAreas, statusPriority, workflowSpine, type EcosystemStatus } from "../../config/ecosystem";
 
 const colors: Record<EcosystemStatus, string> = {
   WORKING: "#166534",
@@ -21,6 +21,37 @@ export default function Ecosystem() {
     <section aria-labelledby="workflow-title" style={panelStyle}>
       <h2 id="workflow-title">Canonical workflow</h2>
       <ol style={spineStyle}>{workflowSpine.map((step) => <li key={step} style={stepStyle}>{step}</li>)}</ol>
+    </section>
+
+    <section aria-labelledby="agents-title">
+      <div style={sectionHeadingStyle}>
+        <div>
+          <p style={eyebrowDarkStyle}>Your HLC agent team</p>
+          <h2 id="agents-title" style={{ margin: "4px 0" }}>Kendrell · Dion · Diamond</h2>
+        </div>
+        <p style={{ margin: 0, maxWidth: 600, lineHeight: 1.55 }}>Each agent has a dedicated workspace today. Contextual chat across the pages listed below remains a required implementation gate.</p>
+      </div>
+      <div style={agentGridStyle}>{agentTeam.map((agent) => <article key={agent.id} style={agentCardStyle}>
+        <div style={agentIdentityStyle}>
+          <img src={agent.avatar} alt={`${agent.name}, ${agent.title}`} style={avatarStyle} />
+          <div>
+            <p style={ownerStyle}>{agent.title}</p>
+            <h3 style={{ margin: "4px 0 8px", fontSize: 26 }}>{agent.name}</h3>
+            <strong style={{ ...badgeStyle, color: colors[agent.status], borderColor: colors[agent.status] }}>{agent.status}</strong>
+          </div>
+        </div>
+        <div>
+          <h4 style={smallHeadingStyle}>Owns</h4>
+          <ul style={compactListStyle}>{agent.owns.map((item) => <li key={item}>{item}</li>)}</ul>
+        </div>
+        <div>
+          <h4 style={smallHeadingStyle}>Must appear on</h4>
+          <div style={tagListStyle}>{agent.presentOn.map((page) => <span key={page} style={tagStyle}>{page}</span>)}</div>
+        </div>
+        <p style={{ lineHeight: 1.55 }}><strong>Handoff:</strong> {agent.handoff}</p>
+        <p style={{ lineHeight: 1.55 }}><strong>Next gate:</strong> {agent.nextGate}</p>
+        <Link to={agent.route} style={agentLinkStyle}>Open {agent.name} workspace →</Link>
+      </article>)}</div>
     </section>
 
     <section aria-labelledby="areas-title">
@@ -50,3 +81,15 @@ const ownerStyle = { margin: 0, color: "#2563eb", fontSize: 13, fontWeight: 800,
 const badgeStyle = { flex: "0 0 auto", border: "1px solid", borderRadius: 999, padding: "5px 8px", fontSize: 12 };
 const routeListStyle = { display: "flex", flexWrap: "wrap" as const, gap: 8, marginTop: 8 };
 const noticeStyle = { padding: 18, border: "1px solid #f59e0b", borderRadius: 14, background: "#fffbeb", lineHeight: 1.5 };
+
+const sectionHeadingStyle = { display: "flex", justifyContent: "space-between", alignItems: "end", flexWrap: "wrap" as const, gap: 16, marginBottom: 14 };
+const eyebrowDarkStyle = { margin: 0, color: "#1d4ed8", fontWeight: 800, letterSpacing: ".08em", textTransform: "uppercase" as const };
+const agentGridStyle = { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 330px), 1fr))", gap: 16 };
+const agentCardStyle = { display: "grid", alignContent: "start", gap: 16, padding: 22, borderRadius: 18, color: "#e2e8f0", background: "linear-gradient(145deg, #081426, #102b4c)", boxShadow: "0 16px 42px rgba(8,20,38,.18)" };
+const agentIdentityStyle = { display: "flex", alignItems: "center", gap: 16 };
+const avatarStyle = { width: 88, height: 88, borderRadius: 18, objectFit: "cover" as const, border: "2px solid #60a5fa", background: "#fff" };
+const smallHeadingStyle = { margin: "0 0 8px", color: "#93c5fd" };
+const compactListStyle = { margin: 0, paddingLeft: 20, display: "grid", gap: 5 };
+const tagListStyle = { display: "flex", flexWrap: "wrap" as const, gap: 7 };
+const tagStyle = { padding: "5px 9px", borderRadius: 999, color: "#dbeafe", background: "rgba(59,130,246,.18)", fontSize: 13 };
+const agentLinkStyle = { justifySelf: "start", padding: "10px 14px", borderRadius: 10, color: "#081426", background: "#93c5fd", fontWeight: 800, textDecoration: "none" };
