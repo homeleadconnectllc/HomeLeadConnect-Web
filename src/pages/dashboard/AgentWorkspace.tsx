@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react
 import { agents, agentHandoffCopy, capabilityCatalog, type AgentId } from "../../ai/agents";
 import { createAgentHandoff, listAgentHandoffs, listAgentRuns, runAgentCapability, type AgentHandoff, type AgentRun } from "../../api/agents";
 import { listLeads } from "../../api/leads";
+import AgentChatPanel from "../../components/agents/AgentChatPanel";
 import type { Lead } from "../../lib/types/database";
 import { errorMessage } from "../../lib/errorMessage";
 
@@ -96,7 +97,8 @@ export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
         <span style={{ ...presenceStyle, background: agent.accent }}>Workspace ready</span>
       </div>
     </header>
-    <p style={noticeStyle}>Deterministic workspace capabilities are active. Conversational model output: <strong>AI Provider Setup Required</strong>. No model or browser prompt can bypass HLC permissions or lifecycle rules.</p>
+    <p style={noticeStyle}>Deterministic workspace capabilities are active. The secured conversational provider endpoint is wired separately and remains advisory-only; if its server credential is not configured, it reports <strong>AI Provider Setup Required</strong>. No model or browser prompt can bypass HLC permissions or lifecycle rules.</p>
+    <AgentChatPanel agentId={agentId} agentName={agent.name} accent={agent.accent} />
     {showNudge && <aside aria-label={`${agent.name} guidance`} style={{ ...nudgeStyle, borderColor: agent.accent }}><div><strong>{agent.name} can help here.</strong><p style={{ marginBottom: 0 }}>{error ? "I can explain the failure and the safest available next step." : agent.guidance[0]}</p></div><div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}><button type="button" onClick={() => { setGuidanceOpen(true); setShowNudge(false); }}>Show guidance</button><button type="button" onClick={() => setShowNudge(false)}>Dismiss</button></div></aside>}
     {loading && <p>Loading authenticated workspace context…</p>}
     {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
@@ -128,7 +130,7 @@ export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
   </main>;
 }
 
-const pageStyle = { width: "min(1100px, calc(100% - 48px))", margin: "40px auto", fontFamily: "system-ui, sans-serif" };
+const pageStyle = { width: "min(1100px, calc(100% - 48px))", margin: "40px auto", fontFamily: "system-ui, sans-serif", display: "grid", gap: 20 };
 const gridStyle = { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 };
 const panelStyle = { display: "grid", gap: 12, padding: 20, border: "1px solid #e2e8f0", borderRadius: 14 };
 const noticeStyle = { padding: 14, background: "#f8fafc", border: "1px solid #cbd5e1", borderRadius: 10 };
