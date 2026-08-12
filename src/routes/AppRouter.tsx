@@ -21,6 +21,8 @@ const ResetPassword = lazy(() => import("../pages/auth/ResetPassword"));
 const AcceptInvitation = lazy(() => import("../pages/portal/AcceptInvitation"));
 const HomeownerPortal = lazy(() => import("../pages/portal/HomeownerPortal"));
 const ContractorPortal = lazy(() => import("../pages/portal/ContractorPortal"));
+const HomeownerPortalSection = lazy(() => import("../pages/portal/HomeownerPortalSection"));
+const ContractorProfile = lazy(() => import("../pages/portal/ContractorProfile"));
 const Dashboard = lazy(() => import("../pages/dashboard/Dashboard"));
 const Ecosystem = lazy(() => import("../pages/dashboard/Ecosystem"));
 const Workflow = lazy(() => import("../pages/dashboard/Workflow"));
@@ -77,6 +79,10 @@ export default function AppRouter() {
           <Route element={<ProtectedLayout />}>
             <Route path="/homeowner-portal" element={<HomeownerPortal />} />
             <Route path="/contractor-portal" element={<ContractorPortal />} />
+            <Route path="/homeowner-portal/requests" element={<HomeownerPortalSection section="requests" />} />
+            <Route path="/homeowner-portal/appointments" element={<HomeownerPortalSection section="appointments" />} />
+            <Route path="/homeowner-portal/jobs" element={<HomeownerPortalSection section="jobs" />} />
+            <Route path="/contractor-portal/profile" element={<ContractorProfile />} />
             <Route path="/messages" element={<Messages />} />
             <Route path="/notifications" element={<Notifications />} />
             <Route element={<WorkspaceLayout />}>
@@ -102,11 +108,7 @@ export default function AppRouter() {
               <Route path="/settings/billing" element={<EcosystemAreaPage page="billing" />} />
               <Route path="/homeowner-portal/profile" element={<ReservedCapability />} />
               <Route path="/homeowner-portal/properties" element={<ReservedCapability />} />
-              <Route path="/homeowner-portal/requests" element={<ReservedCapability />} />
               <Route path="/homeowner-portal/matches" element={<ReservedCapability />} />
-              <Route path="/homeowner-portal/appointments" element={<ReservedCapability />} />
-              <Route path="/homeowner-portal/jobs" element={<ReservedCapability />} />
-              <Route path="/contractor-portal/profile" element={<ReservedCapability />} />
               <Route path="/contractor-portal/team" element={<ReservedCapability />} />
               <Route path="/contractor-portal/services" element={<ReservedCapability />} />
               <Route path="/analytics" element={<ReservedCapability />} />

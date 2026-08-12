@@ -1,0 +1,101 @@
+import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+
+import { getHomeownerPortalData, type HomeownerPortalRelationship } from "../../api/portals";
+import { formatCurrency } from "../../lib/estimator/calculations";
+import { errorMessage } from "../../lib/errorMessage";
+
+type PortalSection = "requests" | "appointments" | "jobs";
+
+export default function HomeownerPortalSection({ section }: { section: PortalSection }) {
+  const [relationships, setRelationships] = useState<HomeownerPortalRelationship[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    let active = true;
+    getHomeownerPortalData()
+      .then((rows) => { if (active) setRelationships(rows); })
+      .catch((reason: unknown) => { if (active) setError(errorMessage(reason, "Unable to load your portal records.")); })
+      .finally(() => { if (active) setLoading(false); });
+    return () => { active = false; };
+  }, []);
+
+  const appointments = useMemo(() => relationships.flatMap((relationship) =>
+    relationship.jobs.flatMap((job) => job.appointments.map((appointment) => ({ relationship, job, appointment })))), [relationships]);
+  const jobs = useMemo(() => relationships.flatMap((relationship) =>
+    relationship.jobs.map((job) => ({ relationship, job }))), [relationships]);
+
+  const copy = {
+    requests: ["Service requests", "Requests explicitly linked to your signed-in account, with their current LeadScope and job progress."],
+    appointments: ["Appointments", "Scheduled visits attached to your linked HLC jobs."],
+    jobs: ["Jobs", "Active and completed work created from your linked service requests."],
+  }[section];
+
+  return <main style={pageStyle}>
+    <header style={heroStyle}>
+      <p style={eyebrowStyle}>Homeowners and renters</p>
+      <h1 style={{ margin: 0 }}>{copy[0]}</h1>
+      <p>{copy[1]}</p>
+    </header>
+    <nav aria-label="Resident portal sections" style={navStyle}>
+      <Link to="/homeowner-portal">Overview</Link>
+      <Link to="/homeowner-portal/requests">Requests</Link>
+      <Link to="/homeowner-portal/appointments">Appointments</Link>
+      <Link to="/homeowner-portal/jobs">Jobs</Link>
+      <Link to="/messages">Messages</Link>
+      <Link to="/documents">Documents</Link>
+    </nav>
+    {loading && <p role="status">Loading your {section}…</p>}
+    {error && <p role="alert" style={errorStyle}>{error}</p>}
+    {!loading && !error && section === "requests" && <RequestList relationships={relationships} />}
+    {!loading && !error && section === "appointments" && (appointments.length === 0
+      ? <EmptyState title="No appointments yet" detail="Confirmed visits will appear here after an HLC job is scheduled." />
+      : appointments.map(({ relationship, job, appointment }) => <article key={appointment.id} style={cardStyle}>
+        <p style={eyebrowStyle}>{relationship.homeowner_name || "Your project"}</p>
+        <h2 style={{ marginTop: 4 }}>{job.name}</h2>
+        <p><strong>{new Date(appointment.appointment_date).toLocaleString()}</strong></p>
+        <p>Ends: {appointment.appointment_end_at ? new Date(appointment.appointment_end_at).toLocaleString() : "Not provided"}</p>
+        <p>Status: {appointment.status}</p>
+      </article>))}
+    {!loading && !error && section === "jobs" && (jobs.length === 0
+      ? <EmptyState title="No jobs yet" detail="A job will appear after a linked request and accepted scope advance into active work." />
+      : jobs.map(({ relationship, job }) => <article key={job.id} style={cardStyle}>
+        <p style={eyebrowStyle}>{relationship.homeowner_name || "Your project"}</p>
+        <h2 style={{ marginTop: 4 }}>{job.name}</h2>
+        <p>Status: <strong>{job.status}</strong></p>
+        <p>Contract value: {formatCurrency(Number(job.contract_value))}</p>
+        <p>{job.appointments.length} linked appointment{job.appointments.length === 1 ? "" : "s"}</p>
+        <div style={navStyle}><Link to="/messages">Open messages</Link><Link to="/documents">Open documents</Link></div>
+      </article>))}
+  </main>;
+}
+
+function RequestList({ relationships }: { relationships: HomeownerPortalRelationship[] }) {
+  if (relationships.length === 0) return <EmptyState title="No linked requests" detail="Submit a service request or accept a portal invitation to connect an existing request to this account." action="/request-service" />;
+  return relationships.map((relationship) => <article key={`${relationship.workspace_id}:${relationship.lead_id}`} style={cardStyle}>
+    <p style={eyebrowStyle}>Request #{relationship.lead_id}</p>
+    <h2 style={{ marginTop: 4 }}>{relationship.homeowner_name || "Service request"}</h2>
+    <dl style={factsStyle}>
+      <div><dt>LeadScope estimates</dt><dd>{relationship.estimates.length}</dd></div>
+      <div><dt>Jobs</dt><dd>{relationship.jobs.length}</dd></div>
+      <div><dt>Latest stage</dt><dd>{relationship.jobs.length > 0 ? "Job" : relationship.estimates.length > 0 ? "LeadScope" : "Request"}</dd></div>
+    </dl>
+    {relationship.estimates.length === 0
+      ? <p>LeadScope details have not been shared yet.</p>
+      : <ul>{relationship.estimates.map((estimate) => <li key={estimate.id}>{formatCurrency(Number(estimate.total))} estimate · {estimate.status}</li>)}</ul>}
+  </article>);
+}
+
+function EmptyState({ title, detail, action }: { title: string; detail: string; action?: string }) {
+  return <section style={emptyStyle}><h2>{title}</h2><p>{detail}</p>{action && <Link to={action}>Request service</Link>}</section>;
+}
+
+const pageStyle = { width: "min(960px, calc(100% - 32px))", margin: "40px auto", display: "grid", gap: 18 };
+const heroStyle = { padding: "clamp(22px, 5vw, 40px)", borderRadius: 22, color: "#f8fafc", background: "linear-gradient(135deg,#081426,#12365f)" };
+const eyebrowStyle = { margin: 0, color: "#2563eb", fontWeight: 900, textTransform: "uppercase" as const, letterSpacing: ".04em" };
+const navStyle = { display: "flex", flexWrap: "wrap" as const, gap: 14 };
+const cardStyle = { padding: 20, border: "1px solid #dbeafe", borderRadius: 16, background: "#fff" };
+const emptyStyle = { padding: 24, border: "1px dashed #94a3b8", borderRadius: 16, background: "#f8fafc" };
+const factsStyle = { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(140px,1fr))", gap: 12 };
+const errorStyle = { color: "#b91c1c", padding: 16, border: "1px solid #fecaca", borderRadius: 12 };

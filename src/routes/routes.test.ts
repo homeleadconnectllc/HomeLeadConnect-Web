@@ -45,6 +45,19 @@ test("previously reserved page-map destinations now resolve inside the app", () 
   }
 });
 
+test("portal record subroutes use canonical data-backed views", () => {
+  for (const route of ["/homeowner-portal/requests", "/homeowner-portal/appointments", "/homeowner-portal/jobs"]) {
+    const declaration = router.match(new RegExp(`<Route path="${route}" element=\\{<([^ ]+)`));
+    assert.equal(declaration?.[1], "HomeownerPortalSection", `${route} must use the homeowner portal RPC view`);
+  }
+  assert.match(router, /path="\/contractor-portal\/profile" element=\{<ContractorProfile \/>\}/);
+  assert.match(router, /path="\/contractor-portal\/services" element=\{<ReservedCapability \/>\}/);
+  const workspaceStart = router.indexOf('<Route element={<WorkspaceLayout />}>');
+  for (const route of ["/homeowner-portal/requests", "/homeowner-portal/appointments", "/homeowner-portal/jobs", "/contractor-portal/profile"]) {
+    assert.ok(router.indexOf(`path="${route}"`) < workspaceStart, `${route} must remain accessible to explicitly linked portal users without workspace membership`);
+  }
+});
+
 test("every canonical ecosystem destination has one declared route", () => {
   const routes = [
     "/network", "/map", "/profiles", "/providers", "/matching", "/community-hub",
