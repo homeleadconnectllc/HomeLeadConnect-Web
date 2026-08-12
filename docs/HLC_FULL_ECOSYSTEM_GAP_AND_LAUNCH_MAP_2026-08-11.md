@@ -179,7 +179,23 @@ The current long flat authenticated navbar is therefore **BROKEN against the int
 
 Netlify branch deployments are enabled for `sprint/ecosystem-integration`. The branch must produce a successful deployment candidate before any merge. Required acceptance includes direct SPA routing to `/ecosystem`, authenticated access, all three locked agent cards, workspace links, phone/desktop layout, empty/error/denied states and confirmation that production remains on `main`.
 
-## 12. Definition of launch-ready
+## 12. Locked signed-in ecosystem architecture
+
+After authentication, HLC is organized into seven canonical main areas. A feature must extend its assigned area and may not create a parallel navigation system, duplicate record truth or second implementation.
+
+| Main area | Canonical contents | Primary agent |
+|---|---|---|
+| Command | Dashboard, Ecosystem, HQ, Notifications | Kendrell |
+| Work | Leads, LeadScope, Jobs, Calendar, Follow-ups, Operations | Dion |
+| Network & Map | Network Home, Map, Profiles, Provider Directory, Matching | Diamond + Dion |
+| Community | Community Home, Discussions, Reviews, Referrals, Events, Moderation | Diamond |
+| Communications | Call Center, Messages, Calls & Texts, Customer Experience | Dion + Diamond |
+| Resources | Documents, Help Center, Tutorials, Rules & Safety | Diamond + Kendrell |
+| Account & Portals | Settings, Homeowner/Renter Portal, Professional Portal, My Profile, Subscription & Billing | Shared |
+
+Profiles are canonical participant records for homeowners, renters, businesses, contractors, subcontractors, individual trades, partners and staff. Map, Community, matching, portals and communications link back to those records rather than creating their own profile copies.
+
+## 13. Definition of launch-ready
 
 HLC is launch-ready only when every P0 row has an accountable owner, an executable acceptance test, evidence from the deployment candidate, and no unresolved **BROKEN**, **MISSING** or **UNDEFINED** state. **UNPROVEN** becomes **WORKING** only after browser, authorization, persistence, provider and mobile evidence agree.
 
