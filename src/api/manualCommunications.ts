@@ -3,6 +3,7 @@ import { supabase } from "./client";
 export type ManualCommunicationSubject = "lead" | "contractor";
 export type ManualCommunicationChannel = "call" | "sms";
 export type CommunicationPurpose = "service" | "appointment" | "lead_follow_up" | "marketing";
+export type ManualCommunicationTransport = "device_native" | "google_voice";
 
 export type ComplianceResult = {
   id: string;
@@ -11,7 +12,7 @@ export type ComplianceResult = {
   provider_ready: boolean;
 };
 
-export type GoogleVoiceActivity = {
+export type ManualCommunicationActivity = {
   id: string;
   subject_type: ManualCommunicationSubject;
   subject_id: string;
@@ -19,6 +20,7 @@ export type GoogleVoiceActivity = {
   direction: "inbound" | "outbound";
   purpose: CommunicationPurpose;
   destination: string;
+  provider_name: ManualCommunicationTransport;
   manual_outcome: string;
   operator_notes: string | null;
   created_at: string;
@@ -35,7 +37,7 @@ async function evaluateManualAction(input: {
   subjectId: string;
   channel: ManualCommunicationChannel;
   purpose: CommunicationPurpose;
-  providerName: "google_voice" | "device_native";
+  providerName: ManualCommunicationTransport;
 }): Promise<ComplianceResult> {
   const { data, error } = await supabase.rpc("evaluate_communication_compliance", {
     p_subject_type: input.subjectType,
@@ -86,6 +88,36 @@ export async function checkNativeDeviceAction(input: {
   return evaluateManualAction({ ...input, providerName: "device_native" });
 }
 
+export async function logManualCommunicationActivity(input: {
+  subjectType: ManualCommunicationSubject;
+  subjectId: string;
+  channel: ManualCommunicationChannel;
+  direction: "inbound" | "outbound";
+  purpose: CommunicationPurpose;
+  providerName: ManualCommunicationTransport;
+  outcome: string;
+  notes: string;
+  complianceCheckId?: string;
+  conversationId?: string;
+  requestId: string;
+}) {
+  const { data, error } = await supabase.rpc("log_manual_communication_activity", {
+    p_subject_type: input.subjectType,
+    p_subject_id: input.subjectId,
+    p_channel: input.channel,
+    p_direction: input.direction,
+    p_purpose: input.purpose,
+    p_provider_name: input.providerName,
+    p_outcome: input.outcome.trim(),
+    p_notes: input.notes.trim() || null,
+    p_client_request_id: input.requestId,
+    p_compliance_check_id: input.complianceCheckId || null,
+    p_conversation_id: input.conversationId || null,
+  });
+  if (error) throw error;
+  return data as string;
+}
+
 export async function logGoogleVoiceActivity(input: {
   subjectType: ManualCommunicationSubject;
   subjectId: string;
@@ -98,30 +130,22 @@ export async function logGoogleVoiceActivity(input: {
   conversationId?: string;
   requestId: string;
 }) {
-  const { data, error } = await supabase.rpc("log_google_voice_activity", {
-    p_subject_type: input.subjectType,
-    p_subject_id: input.subjectId,
-    p_channel: input.channel,
-    p_direction: input.direction,
-    p_purpose: input.purpose,
-    p_outcome: input.outcome.trim(),
-    p_notes: input.notes.trim() || null,
-    p_client_request_id: input.requestId,
-    p_compliance_check_id: input.complianceCheckId || null,
-    p_conversation_id: input.conversationId || null,
-  });
-  if (error) throw error;
-  return data as string;
+  return logManualCommunicationActivity({ ...input, providerName: "google_voice" });
 }
 
-export async function listGoogleVoiceActivity(): Promise<GoogleVoiceActivity[]> {
+export async function listManualCommunicationActivity(): Promise<ManualCommunicationActivity[]> {
   const { data, error } = await supabase
     .from("communication_transmissions")
-    .select("id,subject_type,subject_id,channel,direction,purpose,destination,manual_outcome,operator_notes,created_at")
-    .eq("provider_name", "google_voice")
+    .select("id,subject_type,subject_id,channel,direction,purpose,destination,provider_name,manual_outcome,operator_notes,created_at")
+    .in("provider_name", ["google_voice", "device_native"])
     .eq("evidence_source", "operator_reported")
     .order("created_at", { ascending: false })
     .limit(50);
   if (error) throw error;
-  return (data ?? []) as GoogleVoiceActivity[];
+  return (data ?? []) as ManualCommunicationActivity[];
+}
+
+export async function listGoogleVoiceActivity() {
+  const rows = await listManualCommunicationActivity();
+  return rows.filter((row) => row.provider_name === "google_voice");
 }
