@@ -54,6 +54,7 @@ Do not run `supabase db push --linked` against production until a clone has prov
 42. `20260812200000_dynamic_billing_enrollment_consent.sql`
 43. `20260812200500_harden_automation_rpc_grants.sql`
 44. `20260813114500_reconcile_hlc_plan_with_live_stripe.sql`
+45. `20260813125000_harden_leads_api_privileges.sql`
 
 ## Isolated verification gate
 
@@ -98,7 +99,17 @@ Migration `20260812200500_harden_automation_rpc_grants.sql` is the final launch-
 
 Migration `20260813114500_reconcile_hlc_plan_with_live_stripe.sql` reconciles the published `hlc_v1` plan row with the approved live Stripe Pro product and active Price `price_1Tdo5cLE7v3WdqBuj7Jgt3T1` at $49.99 USD per month. The checkout function now cross-checks the published HLC plan against Stripe and refuses enrollment on any amount, currency, or interval mismatch. This migration remains pending and must not be applied to production outside the production migration gate.
 
+Migration `20260813125000_harden_leads_api_privileges.sql` adds defense in depth to the single-writer lead model by revoking API-role mutation privileges on `public.leads`, revoking anonymous SELECT, and preserving authenticated SELECT. RLS already limits the reconciliation project to one workspace-member SELECT policy; the privilege hardening prevents a future policy mistake from silently re-opening browser writes.
+
 The three prepared Stripe billing Edge Functions were deployed to the reconciliation project with the intended verification boundaries: checkout and billing portal require JWTs; the webhook does not require a Supabase JWT and instead independently verifies `Stripe-Signature`. The approved live recurring Price, enabled Stripe webhook endpoint, and active customer portal configuration are now present. Billing remains blocked until the required server-side secrets are confirmed in the target environment and the full Checkout → signed webhook → entitlement → billing portal transaction is proven end to end. The checkout function derives the recorded recurring amount and interval from the configured Stripe Price rather than trusting browser input.
+
+### Reconciliation evidence recorded 2026-08-13
+
+Read-only database inspection confirms `public.leads` currently has exactly one authenticated RLS policy in the reconciliation project and that policy is SELECT-only through `workspace_members`. The legacy high-risk lead mutation RPCs probed (`perform_dashboard_action`, `create_lead_if_under_limit`, `claim_next_lead_balanced`, `call_lead`, `change_lead_stage`, and `route_lead`) are not exposed there. Broad inherited table grants remain present underneath RLS, which is why migration `20260813125000_harden_leads_api_privileges.sql` was added before promotion.
+
+Reconciliation Edge Functions are active for portal invitations, Stripe checkout, Stripe billing portal, Stripe webhook, and HLC agent chat. Checkout and portal require Supabase JWTs; Stripe webhook correctly disables Supabase JWT verification and verifies `Stripe-Signature` itself. Auth logs show successful `200` user/session reads from the Netlify sprint branch origin on 2026-08-13, proving the branch origin was successfully wired to the reconciliation auth project before the later Netlify branch-deploy availability failure.
+
+The connected live Stripe account currently has no subscriptions. Its enabled webhook endpoint targets the reconciliation project's `stripe-webhook` function and listens for the six required HLC billing events. This is appropriate only for isolated launch testing; production promotion must intentionally deploy the production webhook with custom Stripe signature verification and move the Stripe endpoint only after production secrets/schema are ready.
 
 ## Production gate
 
