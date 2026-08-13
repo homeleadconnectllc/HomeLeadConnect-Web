@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import "./styles/workspace-nav.css";
 import "./styles/agent-team.css";
+import "./styles/launch-hardening.css";
 import App from "./App.tsx";
 import { AuthProvider } from "./context/AuthContext";
 
