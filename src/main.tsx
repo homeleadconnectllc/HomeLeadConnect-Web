@@ -4,6 +4,7 @@ import "./index.css";
 import "./styles/workspace-nav.css";
 import "./styles/agent-team.css";
 import "./styles/launch-hardening.css";
+import "./styles/launch-mobile.css";
 import App from "./App.tsx";
 import { AuthProvider } from "./context/AuthContext";
 
