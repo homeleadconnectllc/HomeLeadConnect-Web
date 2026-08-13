@@ -8,11 +8,13 @@ const features = [
   ["HLC Workspace", "Leads, LeadScope estimates, jobs, scheduling, messages, documents, workflows, analytics, and AI agents stay connected."],
 ];
 
+const logo = `${import.meta.env.BASE_URL}hlc-logo-final.png`;
+
 export default function HomePage() {
   return <>
     <main className="hlc-home" style={{minHeight:"100vh",padding:"40px 24px",background:"linear-gradient(135deg,#ffffff 0%,#eff6ff 45%,#dbeafe 100%)",color:"#0f172a"}}>
       <section style={{maxWidth:1100,margin:"0 auto",textAlign:"center",padding:"72px 0 48px"}}>
-        <img src="/hlc-logo-final.png" alt="HomeLead Connect LLC" style={{width:120,height:120,objectFit:"contain",borderRadius:24,background:"#fff",padding:14,boxShadow:"0 20px 60px rgba(15,23,42,.14)"}} />
+        <img src={logo} alt="HomeLead Connect LLC" style={{width:120,height:120,objectFit:"contain",borderRadius:24,background:"#fff",padding:14,boxShadow:"0 20px 60px rgba(15,23,42,.14)"}} />
         <p style={{fontWeight:800,color:"#2563eb",marginTop:28}}>HOMELEAD CONNECT</p>
         <h1 style={{fontSize:"clamp(44px,8vw,84px)",lineHeight:1,letterSpacing:"-3px",margin:"14px auto 22px",color:"#0f172a",textShadow:"0 1px 0 rgba(255,255,255,.35)"}}>One front door.<br/>One connected home-services ecosystem.</h1>
         <p style={{maxWidth:760,margin:"0 auto",fontSize:21,lineHeight:1.6,color:"#475569"}}>Request help, connect with providers, join the community, manage work, and reach the HomeLead Connect workspace from one identity.</p>
