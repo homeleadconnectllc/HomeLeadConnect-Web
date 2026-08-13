@@ -1,21 +1,32 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { listAutomationJobs, runAutomation, type AutomationJobRecord } from "../../api/automations";
+import { listAutomationJobs, runAutomation, type AutomationJobRecord, type AutomationJobStatus } from "../../api/automations";
 import { automationRegistry, type AutomationMode } from "../../config/automation";
 
 const colors: Record<AutomationMode, string> = { AUTOMATIC: "#166534", RECOMMEND: "#1d4ed8", CONFIRM: "#92400e", BLOCKED: "#b91c1c" };
 type SafeAutomation = "workflow_health_check" | "followup_scan" | "owner_attention_scan";
+type RuntimeMessage = { tone: "success" | "error"; text: string };
 const safeRuns: Array<{ id: SafeAutomation; label: string; description: string }> = [
   { id: "workflow_health_check", label: "Run workflow health check", description: "Counts live leads, jobs, assignments and scheduled appointments without changing workflow state." },
   { id: "followup_scan", label: "Scan follow-ups", description: "Checks overdue and upcoming follow-ups for the authenticated workspace." },
   { id: "owner_attention_scan", label: "Scan owner attention", description: "Checks open Kendrell handoffs and owner-attention items." },
 ];
 
+const statusLabels: Record<AutomationJobStatus, string> = {
+  queued: "Queued",
+  processing: "Processing",
+  success: "Success",
+  failed: "Failed",
+  running: "Processing",
+  succeeded: "Success",
+  blocked: "Blocked",
+};
+
 export default function Automations() {
   const [jobs, setJobs] = useState<AutomationJobRecord[]>([]);
   const [historyState, setHistoryState] = useState<"loading" | "ready" | "error">("loading");
-  const [busy, setBusy] = useState<SafeAutomation | null>(null);
-  const [runtimeMessage, setRuntimeMessage] = useState("");
+  const [busy, setBusy] = useState<Partial<Record<SafeAutomation, boolean>>>({});
+  const [runtimeMessages, setRuntimeMessages] = useState<Partial<Record<SafeAutomation, RuntimeMessage>>>({});
 
   const refresh = useCallback(async () => {
     const rows = await listAutomationJobs();
@@ -38,16 +49,26 @@ export default function Automations() {
   }, []);
 
   async function execute(jobType: SafeAutomation) {
-    setBusy(jobType);
-    setRuntimeMessage("");
+    if (busy[jobType]) return;
+
+    setBusy((current) => ({ ...current, [jobType]: true }));
+    setRuntimeMessages((current) => ({ ...current, [jobType]: undefined }));
+
     try {
       const response = await runAutomation(jobType);
-      setRuntimeMessage(`${response.job_type} ${response.status}.`);
+      const label = statusLabels[response.status] ?? response.status;
+      setRuntimeMessages((current) => ({
+        ...current,
+        [jobType]: { tone: response.status === "failed" || response.status === "blocked" ? "error" : "success", text: `${response.job_type} ${label.toLowerCase()}.` },
+      }));
       await refresh();
     } catch (reason) {
-      setRuntimeMessage(reason instanceof Error ? reason.message : "Automation run failed.");
+      setRuntimeMessages((current) => ({
+        ...current,
+        [jobType]: { tone: "error", text: reason instanceof Error ? reason.message : "Automation run failed." },
+      }));
     } finally {
-      setBusy(null);
+      setBusy((current) => ({ ...current, [jobType]: false }));
     }
   }
 
@@ -71,12 +92,16 @@ export default function Automations() {
         <h2 id="automation-runtime-title" style={{ margin: "4px 0 8px" }}>Safe deterministic runs</h2>
         <p style={{ margin: 0, lineHeight: 1.55 }}>These controls execute authenticated, tenant-scoped checks through the database runtime and preserve each result in automation history. They do not send messages, assign providers, schedule appointments or change billing.</p>
       </div>
-      <div style={runtimeGridStyle}>{safeRuns.map((run) => <article key={run.id} style={historyCardStyle}>
-        <strong>{run.label}</strong>
-        <span>{run.description}</span>
-        <button type="button" disabled={busy !== null} onClick={() => execute(run.id)}>{busy === run.id ? "Running…" : "Run now"}</button>
-      </article>)}</div>
-      {runtimeMessage && <p role="status" style={{ margin: 0 }}>{runtimeMessage}</p>}
+      <div style={runtimeGridStyle}>{safeRuns.map((run) => {
+        const isRunning = Boolean(busy[run.id]);
+        const message = runtimeMessages[run.id];
+        return <article key={run.id} style={historyCardStyle}>
+          <strong>{run.label}</strong>
+          <span>{run.description}</span>
+          <button type="button" aria-busy={isRunning} disabled={isRunning} onClick={() => execute(run.id)}>{isRunning ? "Running…" : "Run now"}</button>
+          {message && <small role="status" style={message.tone === "error" ? errorMessageStyle : successMessageStyle}>{message.text}</small>}
+        </article>;
+      })}</div>
     </section>
 
     <div style={gridStyle}>{automationRegistry.map((item) => <article key={`${item.stage}-${item.name}`} style={cardStyle}>
@@ -96,7 +121,7 @@ export default function Automations() {
       {historyState === "error" && <p role="alert">Automation history is unavailable. No job state has been guessed.</p>}
       {historyState === "ready" && jobs.length === 0 && <p>No persisted automation jobs exist for this workspace yet.</p>}
       {historyState === "ready" && jobs.length > 0 && <div style={historyGridStyle}>{jobs.map((job) => <article key={job.id} style={historyCardStyle}>
-        <div style={headingStyle}><strong>{job.job_type}</strong><span style={statusStyle}>{job.status}</span></div>
+        <div style={headingStyle}><strong>{job.job_type}</strong><span style={statusStyle}>{statusLabels[job.status] ?? job.status}</span></div>
         <small>Attempts {job.retry_count} / {job.max_attempts}</small>
         <small>Created {new Date(job.created_at).toLocaleString()}</small>
         {job.result && <pre style={resultStyle}>{JSON.stringify(job.result, null, 2)}</pre>}
@@ -124,5 +149,7 @@ const historyStyle = { display: "grid", gap: 14, padding: 22, border: "1px solid
 const historyGridStyle = { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,260px),1fr))", gap: 10 };
 const historyCardStyle = { display: "grid", gap: 8, padding: 14, border: "1px solid #cbd5e1", borderRadius: 12, background: "#fff", color: "#334155", lineHeight: 1.45 };
 const statusStyle = { border: "1px solid #94a3b8", borderRadius: 999, padding: "3px 7px", fontSize: 11, textTransform: "uppercase" as const, whiteSpace: "nowrap" as const };
+const successMessageStyle = { color: "#166534", fontWeight: 800 };
+const errorMessageStyle = { color: "#b91c1c", fontWeight: 800 };
 const resultStyle = { margin: 0, padding: 10, overflow: "auto", whiteSpace: "pre-wrap" as const, borderRadius: 8, background: "#0f172a", color: "#e2e8f0", fontSize: 12 };
 const boundaryStyle = { padding: 22, border: "1px solid #60a5fa", borderRadius: 16, background: "#eff6ff", color: "#334155", lineHeight: 1.6 };
