@@ -1,0 +1,97 @@
+/* Final mobile launch safety layer. CSS only; no route, auth, data, or business-logic changes. */
+
+.hlc-route-content,
+.hlc-route-content > main,
+.hlc-route-content section,
+.hlc-route-content article,
+.hlc-route-content form,
+.hlc-route-content div,
+.hlc-route-content label {
+  min-width: 0;
+}
+
+.hlc-route-content input,
+.hlc-route-content select,
+.hlc-route-content textarea,
+.hlc-route-content button {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.hlc-route-content input,
+.hlc-route-content select,
+.hlc-route-content textarea {
+  min-height: 44px;
+}
+
+.hlc-route-content textarea {
+  resize: vertical;
+}
+
+.hlc-route-content pre,
+.hlc-route-content code {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.responsive-record-card {
+  min-width: 0;
+}
+
+@media (max-width: 700px) {
+  .hlc-route-content > main {
+    width: calc(100% - 28px) !important;
+    margin: 24px auto !important;
+  }
+
+  .hlc-route-content > main h1 {
+    overflow-wrap: anywhere;
+  }
+
+  .hlc-route-content form,
+  .hlc-route-content section,
+  .hlc-route-content article {
+    max-width: 100%;
+  }
+
+  .hlc-route-content label {
+    display: grid;
+    gap: 6px;
+  }
+
+  .hlc-route-content label > input,
+  .hlc-route-content label > select,
+  .hlc-route-content label > textarea {
+    width: 100%;
+  }
+
+  .hlc-route-content button,
+  .hlc-route-content a {
+    touch-action: manipulation;
+  }
+
+  .hlc-route-content pre {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .responsive-record-card {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 14px !important;
+  }
+
+  .responsive-record-card > div:last-child {
+    width: 100%;
+  }
+
+  .responsive-record-card button {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 390px) {
+  .hlc-route-content > main {
+    width: calc(100% - 22px) !important;
+  }
+}
