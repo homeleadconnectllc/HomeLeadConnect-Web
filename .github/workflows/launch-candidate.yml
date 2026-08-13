@@ -32,6 +32,10 @@ jobs:
       - name: Audit production dependencies
         run: npm audit --omit=dev --audit-level=high
 
+      - name: Audit development dependencies (informational)
+        continue-on-error: true
+        run: npm audit --audit-level=high
+
       - name: Verify launch candidate
         shell: bash
         run: |
