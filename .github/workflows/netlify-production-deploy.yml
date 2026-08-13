@@ -29,9 +29,14 @@ jobs:
             echo 'NETLIFY_AUTH_TOKEN is valid but cannot access the configured HLC Netlify site.'
             exit 12
           }
+      - name: Link HLC site in CI
+        run: |
+          mkdir -p .netlify
+          printf '%s\n' '{"siteId":"641b807e-cb0e-4132-9075-a057481bee32"}' > .netlify/state.json
+          cat .netlify/state.json
       - name: Deploy current main to Netlify production
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: 641b807e-cb0e-4132-9075-a057481bee32
         run: |
-          NETLIFY_SITE_ID="641b807e-cb0e-4132-9075-a057481bee32"
-          npx --yes netlify-cli@latest deploy --prod --dir=dist --site "$NETLIFY_SITE_ID" --auth "$NETLIFY_AUTH_TOKEN" --message "HLC production $GITHUB_SHA"
+          npx --yes netlify-cli@latest deploy --prod --dir=dist --auth "$NETLIFY_AUTH_TOKEN" --message "HLC production $GITHUB_SHA"
