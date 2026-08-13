@@ -4,13 +4,13 @@ Run this once against the fully migrated/configured production candidate. Record
 the hostname, deployed Git SHA, user role, workspace, viewport, persisted record
 IDs, expected result, actual result, and screenshot/error artifact for each case.
 
-## Verified preflight evidence — 2026-08-13
+## Machine-verified preflight
 
-- `sprint/ecosystem-integration` passes the HLC Launch Candidate workflow: production dependency audit, lint, 47 acceptance tests, static launch audit, TypeScript compilation, and Vite production build.
-- Route acceptance proves every launch navigation destination resolves, canonical AI routes are unique, portal record subroutes use data-backed views, and launch navigation contains no placeholder href targets.
-- iPhone branch-deploy screenshots prove the signed-in dashboard renders Kendrell, Dion, and Diamond; `/operations`, `/hq`, and `/customer-experience` render authenticated agent workspaces; Dion capability, advisory conversation, persisted-history, and handoff surfaces render on mobile.
-- Mobile agent guidance contrast and the compact edge help control are locked by static launch-audit checks. Visual browser acceptance still requires a final deployed screenshot after Netlify serves the latest verified SHA.
-- These preflight checks do not substitute for the transactional, provider, cross-workspace, billing, or final responsive/accessibility cases below.
+The current launch-candidate branch has passed the automated preflight for lint,
+acceptance tests, static launch wiring, production dependency audit, and production
+build. Mobile regression coverage now includes the agent workspace guidance surface
+and compact help control. These checks reduce browser risk but do not replace the
+provider, tenant-isolation, or end-to-end browser cases below.
 
 ## Public and authentication
 
@@ -41,8 +41,8 @@ IDs, expected result, actual result, and screenshot/error artifact for each case
 
 ## Billing and resilience
 
-- Consent is required and persists the exact configured recurring amount, approved monthly or yearly interval, trial terms, currency, and cancellation disclosure before Checkout.
-- Stripe Checkout uses the server-configured approved Price; signed webhook—not redirect—creates or updates entitlement.
+- Consent is required and persists the exact approved recurring amount and interval disclosure before Checkout.
+- Stripe Checkout requires a payment method; signed webhook—not redirect—creates trial entitlement.
 - Trial-ending and payment-failure notice obligations persist; email delivery is not claimed while disconnected.
 - Billing portal payment-method/cancellation action → webhook → HLC status/entitlement update; configured failed-payment grace behavior.
 - Reload, browser back, expired session, duplicate clicks, invalid transitions, failed network requests, and understandable errors.
