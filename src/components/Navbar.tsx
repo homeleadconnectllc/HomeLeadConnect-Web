@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import { Link, useLocation } from "react-router-dom";
 import { ecosystemNavigation, type EcosystemPage } from "../config/ecosystem";
 import { useAuth } from "../hooks/useAuth";
@@ -94,78 +95,101 @@ export default function Navbar() {
   const signedIn = !loading && Boolean(session);
   const showBusinessTools = access.business || (!accessResolved && signedIn);
 
-  return (
-    <nav className={`hlc-navbar ${mobileOpen ? "menu-is-open" : ""}`} role="navigation" aria-label="Main navigation">
-      <div className="hlc-navbar-brand">
-        <div className="hlc-navbar-logo"><img src={logo} alt="HomeLead Connect LLC" /></div>
-        <div className="hlc-navbar-brand-copy">
-          <h2>HomeLead Connect</h2>
-          <span>{signedIn ? "Owner workspace" : "Home services network"}</span>
+  function renderMenuContents() {
+    if (loading) {
+      return <p className="hlc-nav-access-note" role="status">Loading navigation…</p>;
+    }
+
+    if (!signedIn) {
+      return (
+        <>
+          <div className="hlc-mobile-menu-heading"><span>HomeLead Connect</span><strong>How can we help?</strong></div>
+          <a href="https://homeleadconnect.org">Public Home</a>
+          <Link to="/request-service" onClick={() => setMobileOpen(false)}>Request Service</Link>
+          <Link to="/contact" onClick={() => setMobileOpen(false)}>Contact</Link>
+          <Link to="/login" onClick={() => setMobileOpen(false)}>Sign In</Link>
+        </>
+      );
+    }
+
+    return (
+      <>
+        <div className="hlc-mobile-menu-heading">
+          <span>Owner workspace</span>
+          <strong>Run HomeLead Connect.</strong>
         </div>
-      </div>
 
-      <button type="button" className="hlc-navbar-toggle" aria-expanded={mobileOpen} aria-controls="hlc-primary-navigation" aria-label={mobileOpen ? "Close menu" : "Open menu"} onClick={() => setMobileOpen((value) => !value)}>
-        {mobileOpen ? "Close" : "Menu"}
-      </button>
+        <Link className="hlc-owner-home-link" to="/app" onClick={() => setMobileOpen(false)}>
+          <span><strong>Open Command Center</strong><small>Dashboard, live work and priorities</small></span>
+          <b aria-hidden="true">→</b>
+        </Link>
 
-      <div id="hlc-primary-navigation" className={`hlc-navbar-links ${mobileOpen ? "mobile-open" : "mobile-hidden"}`}>
-        {signedIn ? (
-          <>
-            <div className="hlc-mobile-menu-heading">
-              <span>Owner workspace</span>
-              <strong>Run HomeLead Connect.</strong>
-            </div>
+        <div className="hlc-navbar-groups" aria-label="Signed-in HLC areas">
+          {showBusinessTools && (
+            <details className="hlc-nav-group hlc-nav-agent-group" open={openGroup === "ai-team"}>
+              <summary onClick={(event) => { event.preventDefault(); setOpenGroup(openGroup === "ai-team" ? "" : "ai-team"); }}>
+                <span>AI Team</span><small>3</small>
+              </summary>
+              <div className="hlc-nav-menu hlc-agent-nav-menu">
+                {agentNavigation.map((agent) => (
+                  <Link className="hlc-agent-nav-link" aria-current={location.pathname === agent.route ? "page" : undefined} key={agent.route} onClick={() => setMobileOpen(false)} to={agent.route}>
+                    <img src={agent.avatar} alt="" aria-hidden="true" />
+                    <span className="hlc-agent-nav-copy"><strong>{agent.label}</strong><small>{agent.purpose}</small></span>
+                  </Link>
+                ))}
+              </div>
+            </details>
+          )}
 
-            <Link className="hlc-owner-home-link" to="/app" onClick={() => setMobileOpen(false)}>
-              <span><strong>Open Command Center</strong><small>Dashboard, live work and priorities</small></span>
-              <b aria-hidden="true">→</b>
-            </Link>
+          {signedInGroups.map((group) => (
+            <details className="hlc-nav-group" key={group.id} open={openGroup === group.id}>
+              <summary onClick={(event) => { event.preventDefault(); setOpenGroup(openGroup === group.id ? "" : group.id); }}>
+                <span>{group.label}</span><small>{group.pages.length}</small>
+              </summary>
+              <div className="hlc-nav-menu">
+                {group.pages.map((page) => (
+                  <Link aria-current={location.pathname === page.route ? "page" : undefined} key={page.route} onClick={() => setMobileOpen(false)} to={page.route}>
+                    <span>{page.label}</span><small>{page.purpose}</small>
+                  </Link>
+                ))}
+              </div>
+            </details>
+          ))}
+        </div>
 
-            <div className="hlc-navbar-groups" aria-label="Signed-in HLC areas">
-              {showBusinessTools && (
-                <details className="hlc-nav-group hlc-nav-agent-group" open={openGroup === "ai-team"}>
-                  <summary onClick={(event) => { event.preventDefault(); setOpenGroup(openGroup === "ai-team" ? "" : "ai-team"); }}>
-                    <span>AI Team</span><small>3</small>
-                  </summary>
-                  <div className="hlc-nav-menu hlc-agent-nav-menu">
-                    {agentNavigation.map((agent) => (
-                      <Link className="hlc-agent-nav-link" aria-current={location.pathname === agent.route ? "page" : undefined} key={agent.route} onClick={() => setMobileOpen(false)} to={agent.route}>
-                        <img src={agent.avatar} alt="" aria-hidden="true" />
-                        <span className="hlc-agent-nav-copy"><strong>{agent.label}</strong><small>{agent.purpose}</small></span>
-                      </Link>
-                    ))}
-                  </div>
-                </details>
-              )}
+        {!accessResolved && <p className="hlc-nav-access-note">Loading workspace access…</p>}
+        <button className="hlc-nav-logout" type="button" onClick={logout}>Log out</button>
+      </>
+    );
+  }
 
-              {signedInGroups.map((group) => (
-                <details className="hlc-nav-group" key={group.id} open={openGroup === group.id}>
-                  <summary onClick={(event) => { event.preventDefault(); setOpenGroup(openGroup === group.id ? "" : group.id); }}>
-                    <span>{group.label}</span><small>{group.pages.length}</small>
-                  </summary>
-                  <div className="hlc-nav-menu">
-                    {group.pages.map((page) => (
-                      <Link aria-current={location.pathname === page.route ? "page" : undefined} key={page.route} onClick={() => setMobileOpen(false)} to={page.route}>
-                        <span>{page.label}</span><small>{page.purpose}</small>
-                      </Link>
-                    ))}
-                  </div>
-                </details>
-              ))}
-            </div>
+  const mobileDrawer = mobileOpen && typeof document !== "undefined"
+    ? createPortal(
+        <div className="hlc-mobile-portal" role="dialog" aria-modal="true" aria-label="HomeLead Connect navigation">
+          <div className="hlc-mobile-portal-scroll">{renderMenuContents()}</div>
+        </div>,
+        document.body,
+      )
+    : null;
 
-            {!accessResolved && <p className="hlc-nav-access-note">Loading workspace access…</p>}
-            <button className="hlc-nav-logout" type="button" onClick={logout}>Log out</button>
-          </>
-        ) : !loading ? (
-          <>
-            <a href="https://homeleadconnect.org">Public Home</a>
-            <Link to="/request-service" onClick={() => setMobileOpen(false)}>Request Service</Link>
-            <Link to="/contact" onClick={() => setMobileOpen(false)}>Contact</Link>
-            <Link to="/login" onClick={() => setMobileOpen(false)}>Sign In</Link>
-          </>
-        ) : null}
-      </div>
-    </nav>
+  return (
+    <>
+      <nav className={`hlc-navbar ${mobileOpen ? "menu-is-open" : ""}`} role="navigation" aria-label="Main navigation">
+        <div className="hlc-navbar-brand">
+          <div className="hlc-navbar-logo"><img src={logo} alt="HomeLead Connect LLC" /></div>
+          <div className="hlc-navbar-brand-copy">
+            <h2>HomeLead Connect</h2>
+            <span>{signedIn ? "Owner workspace" : "Home services network"}</span>
+          </div>
+        </div>
+
+        <button type="button" className="hlc-navbar-toggle" aria-expanded={mobileOpen} aria-label={mobileOpen ? "Close menu" : "Open menu"} onClick={() => setMobileOpen((value) => !value)}>
+          {mobileOpen ? "Close" : "Menu"}
+        </button>
+
+        <div className="hlc-navbar-links hlc-desktop-navigation">{renderMenuContents()}</div>
+      </nav>
+      {mobileDrawer}
+    </>
   );
 }
