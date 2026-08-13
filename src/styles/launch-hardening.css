@@ -205,6 +205,27 @@ main:has(> button[aria-label^="Open "][aria-label$=" help"]) > header + p + sect
   border-color: #334155 !important;
 }
 
+main:has(> button[aria-label^="Open "][aria-label$=" help"]) > aside[aria-label$=" guidance"] {
+  background: #101827 !important;
+  color: #e5edf8 !important;
+  border-color: #475569 !important;
+  box-shadow: none !important;
+}
+
+main:has(> button[aria-label^="Open "][aria-label$=" help"]) > aside[aria-label$=" guidance"] p {
+  color: #b7c5d8 !important;
+}
+
+main:has(> button[aria-label^="Open "][aria-label$=" help"]) > aside[aria-label$=" guidance"] strong {
+  color: #f8fafc !important;
+}
+
+main:has(> button[aria-label^="Open "][aria-label$=" help"]) > aside[aria-label$=" guidance"] button {
+  background: #1f2937 !important;
+  color: #f8fafc !important;
+  border-color: #475569 !important;
+}
+
 main:has(> button[aria-label^="Open "][aria-label$=" help"]) > button[aria-label^="Open "][aria-label$=" help"] {
   right: 14px !important;
   bottom: calc(82px + env(safe-area-inset-bottom)) !important;
@@ -267,15 +288,17 @@ main:has(> button[aria-label^="Open "][aria-label$=" help"]) > button[aria-label
 
   main:has(> button[aria-label^="Open "][aria-label$=" help"]) > button[aria-label^="Open "][aria-label$=" help"] {
     display: grid !important;
-    width: 50px !important;
-    height: 50px !important;
-    min-height: 50px !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
     place-items: center;
-    right: 12px !important;
-    bottom: calc(104px + env(safe-area-inset-bottom)) !important;
+    right: 4px !important;
+    bottom: calc(132px + env(safe-area-inset-bottom)) !important;
     padding: 0 !important;
     border-radius: 50% !important;
-    font-size: 20px !important;
+    font-size: 18px !important;
+    box-shadow: 0 10px 24px rgba(15,23,42,.28) !important;
   }
 
   main:has(> button[aria-label^="Open "][aria-label$=" help"]) > button[aria-label^="Open "][aria-label$=" help"] > span:last-child {
