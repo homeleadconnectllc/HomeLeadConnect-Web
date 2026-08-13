@@ -55,7 +55,7 @@ export default function Settings() {
       listMyWorkspaces(),
       billingEnabled ? getBillingStatus() : Promise.resolve(null),
       listBusinessPhones().catch(() => []),
-      billingEnabled ? getBillingOffer() : Promise.resolve(null),
+      billingEnabled ? getBillingOffer().catch(() => null) : Promise.resolve(null),
     ])
       .then(([profile, businessProfile, workspaceOptions, billingStatus, phoneRows, offer]) => {
         setBilling(billingStatus);
