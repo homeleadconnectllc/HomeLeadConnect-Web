@@ -26,7 +26,7 @@ for (const file of [
   'src/pages/auth/ForgotPassword.tsx','src/pages/auth/ResetPassword.tsx','src/pages/RequestService.tsx',
   'src/api/publicIntake.ts','src/api/leads.ts','src/api/estimates.ts','src/api/jobs.ts','src/api/jobAssignments.ts',
   'src/api/appointments.ts','src/pages/dashboard/CallCenter.tsx','src/api/telephony.ts','src/pages/portal/HomeownerPortal.tsx',
-  'src/pages/portal/ContractorPortal.tsx','src/ai/agents.ts','public/brand/avatars/Kendrell_Locked_HLC.png',
+  'src/pages/portal/ContractorPortal.tsx','src/ai/agents.ts','src/styles/launch-hardening.css','public/brand/avatars/Kendrell_Locked_HLC.png',
   'public/brand/avatars/Dion_Locked_HLC.png','public/brand/avatars/Diamond_Locked_HLC.png','public/_redirects','netlify.toml',
 ]) requireFile(file);
 
@@ -49,6 +49,9 @@ requireText('src/pages/auth/Login.tsx', '<Navigate to="/app" replace />');
 requireText('src/pages/HomePage.tsx', 'to="/request-service"');
 requireText('src/pages/HomePage.tsx', 'to="/app"');
 requireText('src/pages/HomePage.tsx', 'to="/community"');
+requireText('src/styles/launch-hardening.css', 'aside[aria-label$=" guidance"]');
+requireText('src/styles/launch-hardening.css', 'width: 44px !important;');
+requireText('src/styles/launch-hardening.css', 'bottom: calc(132px + env(safe-area-inset-bottom)) !important;');
 
 if (fs.existsSync(path.join(root, 'vercel.json'))) failures.push('Stale vercel.json is present; Netlify is the canonical application host.');
 
