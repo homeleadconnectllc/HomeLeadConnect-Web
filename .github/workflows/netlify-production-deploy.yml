@@ -18,10 +18,20 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      - name: Deploy current main to Netlify production
+      - name: Verify Netlify token can access HLC site
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         run: |
           test -n "$NETLIFY_AUTH_TOKEN" || { echo 'NETLIFY_AUTH_TOKEN is not configured'; exit 10; }
+          NETLIFY_SITE_ID="641b807e-cb0e-4132-9075-a057481bee32"
+          curl -fsS -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" https://api.netlify.com/api/v1/sites > /tmp/netlify-sites.json
+          jq -e --arg id "$NETLIFY_SITE_ID" 'any(.[]; .id == $id)' /tmp/netlify-sites.json >/dev/null || {
+            echo 'NETLIFY_AUTH_TOKEN is valid but cannot access the configured HLC Netlify site.'
+            exit 12
+          }
+      - name: Deploy current main to Netlify production
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: |
           NETLIFY_SITE_ID="641b807e-cb0e-4132-9075-a057481bee32"
           npx --yes netlify-cli@latest deploy --prod --dir=dist --site "$NETLIFY_SITE_ID" --auth "$NETLIFY_AUTH_TOKEN" --message "HLC production $GITHUB_SHA"
