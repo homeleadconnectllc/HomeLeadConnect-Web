@@ -44,6 +44,28 @@ const declaredWorkspaceRoutes = new Set([
   "/settings/billing",
 ]);
 
+const agentRoutes = new Set(["/hq", "/operations", "/customer-experience"]);
+const agentNavigation = [
+  {
+    label: "Kendrell",
+    route: "/hq",
+    purpose: "Command · approvals, risk and orchestration",
+    avatar: "/brand/avatars/Kendrell_Locked_HLC.png",
+  },
+  {
+    label: "Dion",
+    route: "/operations",
+    purpose: "Operations & BI · leads, jobs and scheduling",
+    avatar: "/brand/avatars/Dion_Locked_HLC.png",
+  },
+  {
+    label: "Diamond",
+    route: "/customer-experience",
+    purpose: "Customer Experience · community and recovery",
+    avatar: "/brand/avatars/Diamond_Locked_HLC.png",
+  },
+];
+
 export default function Navbar() {
   const { session, loading } = useAuth();
   const [access, setAccess] = useState({ business: false, homeowner: false, contractor: false });
@@ -95,11 +117,15 @@ export default function Navbar() {
   const signedInGroups = useMemo(() => ecosystemNavigation
     .map((group) => ({
       ...group,
-      pages: group.pages.filter((page) => hasPageAccess(page) && declaredWorkspaceRoutes.has(page.route)),
+      pages: group.pages.filter((page) =>
+        hasPageAccess(page) && declaredWorkspaceRoutes.has(page.route) && !agentRoutes.has(page.route),
+      ),
     }))
     .filter((group) => group.pages.length > 0), [access]);
 
-  const currentGroup = signedInGroups.find((group) => group.pages.some((page) => page.route === location.pathname))?.id ?? "command";
+  const currentGroup = agentRoutes.has(location.pathname)
+    ? "ai-team"
+    : signedInGroups.find((group) => group.pages.some((page) => page.route === location.pathname))?.id ?? "command";
   const [openGroup, setOpenGroup] = useState(currentGroup);
 
   useEffect(() => {
@@ -140,6 +166,35 @@ export default function Navbar() {
               <strong>Go where you need to work.</strong>
             </div>
             <div className="hlc-navbar-groups" aria-label="Signed-in HLC areas">
+              {access.business && (
+                <details className="hlc-nav-group hlc-nav-agent-group" open={openGroup === "ai-team"}>
+                  <summary onClick={(event) => {
+                    event.preventDefault();
+                    setOpenGroup(openGroup === "ai-team" ? "" : "ai-team");
+                  }}>
+                    <span>AI Team</span>
+                    <small>3</small>
+                  </summary>
+                  <div className="hlc-nav-menu hlc-agent-nav-menu">
+                    {agentNavigation.map((agent) => (
+                      <Link
+                        className="hlc-agent-nav-link"
+                        aria-current={location.pathname === agent.route ? "page" : undefined}
+                        key={agent.route}
+                        onClick={() => setMobileOpen(false)}
+                        to={agent.route}
+                      >
+                        <img src={agent.avatar} alt="" aria-hidden="true" />
+                        <span className="hlc-agent-nav-copy">
+                          <strong>{agent.label}</strong>
+                          <small>{agent.purpose}</small>
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
+                </details>
+              )}
+
               {signedInGroups.map((group) => (
                 <details
                   className="hlc-nav-group"
