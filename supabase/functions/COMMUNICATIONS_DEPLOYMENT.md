@@ -1,52 +1,35 @@
 # Communications deployment contract
 
-External communications remain unavailable until the migration, functions,
-provider verification, and end-to-end acceptance all pass in the same environment.
+HomeLead Connect launches with provider-agnostic communications. The canonical communication history, consent, suppression, compliance decision, and audit records stay inside HLC; the transport may be swapped without changing those records.
 
-## Twilio secrets
+## Launch transport: device native
 
-- `TWILIO_ACCOUNT_SID`
-- `TWILIO_AUTH_TOKEN`
-- `TWILIO_PHONE_NUMBER`
-- `TWILIO_MESSAGING_SERVICE_SID` when Messaging Services are used
-- `TWILIO_WEBHOOK_BASE_URL` — the public Supabase Functions origin, without a trailing slash
-- `TWILIO_VOICE_URL` — reviewed TwiML/application URL for permitted outbound calls
+The launch path uses the phone and messaging applications already available on the operator's device through explicit `tel:` / `sms:` handoff. HLC must never claim that a call or text was delivered merely because the device handoff opened successfully.
 
-Deploy `send-communication` with JWT verification enabled. Deploy
-`twilio-webhook` without JWT verification because Twilio authenticates callbacks
-with `X-Twilio-Signature`; the function validates that signature before writes.
+Before a device-native call or text is offered, the same communication-compliance gate used by connected providers must run. `BLOCK` and `REVIEW` decisions must not be presented as successful sends. Operator-reported outcomes may be recorded only through the audited manual/device-native communication contract.
 
-Configure Twilio inbound message, message status, inbound voice, and call status
-callbacks to the exact `twilio-webhook` URL. The configured URL must exactly match
-`TWILIO_WEBHOOK_BASE_URL + /twilio-webhook` for signature verification.
+No Twilio account, Twilio phone number, paid telephony provider, or provider-specific verification is required for the HLC V1 launch gate.
 
-Production SMS remains blocked until toll-free verification is approved. Only a
-trusted server process may mark the workspace `sms`/`call` provider connection as
-`connected`, using the exact normalized Twilio sender identity.
+## Optional provider integrations
 
-## Resend email
+Provider integrations may be enabled later without replacing the canonical HLC communication model.
 
-- `RESEND_API_KEY` — server-only API credential
-- `RESEND_FROM_EMAIL` — verified sender, for example `HomeLead Connect <notifications@updates.homeleadconnect.org>`
-- `RESEND_WEBHOOK_SECRET` — signing secret for the deployed `resend-webhook` endpoint
+### Twilio (optional future connector)
 
-The canonical queue sends through Resend with the transmission request ID as the
-provider idempotency key and stores the provider message ID. Until the account,
-sending domain, and required server values are configured, it records and returns
-`Email Setup Required / Not Connected`; it never reports a fake send.
+If Twilio is intentionally enabled in a future environment, its server-only values may include `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, sender identity, webhook base URL, and reviewed voice application URL. `send-communication` requires JWT verification. `twilio-webhook` must not require a Supabase JWT because callbacks are authenticated with `X-Twilio-Signature`; the function must validate that signature before any write.
 
-Deploy `resend-webhook` without Supabase JWT verification. Register its exact
-public HTTPS URL for delivered, delayed, failed, bounced, and complained events.
-The function validates the raw request with the Svix headers, rejects timestamps
-outside five minutes, deduplicates `svix-id`, persists delivery/failure state,
-and suppresses bounced or complained recipient addresses.
+Twilio verification, sender registration, and paid-provider readiness are connector-specific gates only. They are not HLC launch prerequisites while device-native transport is the selected launch path.
+
+### Email provider (optional connector)
+
+Email transport remains disabled until a real provider and verified sender are configured. When a provider such as Resend is connected, credentials stay server-side and delivery callbacks must be authenticated, deduplicated, and persisted. Until then HLC must show `Email Setup Required / Not Connected` rather than reporting a fake send.
 
 ## Acceptance
 
-- Prove compliance BLOCK/REVIEW records never reach Twilio.
-- Prove the same client request ID creates one transmission.
-- Prove Twilio signatures, duplicate callbacks, sent/delivered/failed states, and
-  inbound STOP suppression.
-- Prove cross-workspace reads and sends fail.
-- Do not log credentials, authorization headers, message bodies, or invitation
-  tokens.
+- Prove compliance `BLOCK` / `REVIEW` results cannot be logged as completed outbound communication.
+- Prove the same client request ID does not create duplicate communication history.
+- Prove device-native handoff never fabricates provider delivery or receipt state.
+- Prove cross-workspace communication reads and writes fail.
+- Prove suppression/consent rules are applied before any enabled transport.
+- Do not log credentials, authorization headers, sensitive message bodies, or invitation tokens.
+- Test each optional provider independently before marking that connector `Connected`.
