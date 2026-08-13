@@ -52,6 +52,7 @@ Do not run `supabase db push --linked` against production until a clone has prov
 40. `20260812194900_persisted_automation_runtime.sql`
 41. `20260812195500_reconciliation_automation_job_visibility.sql`
 42. `20260812200000_dynamic_billing_enrollment_consent.sql`
+43. `20260812200500_harden_automation_rpc_grants.sql`
 
 ## Isolated verification gate
 
@@ -91,6 +92,8 @@ Migration `20260812194900_persisted_automation_runtime.sql` adds persisted execu
 Migration `20260812195500_reconciliation_automation_job_visibility.sql` keeps persisted automation-job history readable only to authenticated members of the owning workspace while leaving job creation and state mutation backend-controlled. The `/automations` surface reads this history instead of presenting configuration alone.
 
 Migration `20260812200000_dynamic_billing_enrollment_consent.sql` removes the stale fixed $99/month enrollment constraint and instead requires a positive recurring amount with an approved monthly or yearly interval. Checkout records the configured Stripe Price server-side, while the existing 14-day trial, USD currency, and Stripe Billing Portal cancellation contract remain enforced.
+
+Migration `20260812200500_harden_automation_rpc_grants.sql` is the final launch-chain grant hardening step for the automation RPC surface. It is listed explicitly so the release plan remains a complete, ordered mirror of the local migration chain; this documentation update does not apply the migration to any Supabase project.
 
 The three prepared Stripe billing Edge Functions were deployed to the reconciliation project with the intended verification boundaries: checkout and billing portal require JWTs; the webhook does not require a Supabase JWT and instead independently verifies `Stripe-Signature`. Billing remains blocked until server-side Stripe secrets, one approved recurring Price mapping, a Stripe webhook endpoint, and end-to-end signed webhook evidence are configured. The checkout function derives the recorded recurring amount and interval from the configured Stripe Price rather than trusting browser input.
 
