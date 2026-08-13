@@ -94,6 +94,7 @@ export default function Dashboard() {
   const [data, setData] = useState<DashboardData>(emptyData);
   const [loading, setLoading] = useState(true);
   const [partialError, setPartialError] = useState(false);
+  const [snapshotAt, setSnapshotAt] = useState(0);
 
   useEffect(() => {
     let active = true;
@@ -114,6 +115,7 @@ export default function Dashboard() {
         jobs: results[2].status === "fulfilled" ? results[2].value : [],
         appointments: results[3].status === "fulfilled" ? results[3].value : [],
       });
+      setSnapshotAt(Date.now());
       setPartialError(results.some((result) => result.status === "rejected"));
       setLoading(false);
     }
@@ -157,13 +159,12 @@ export default function Dashboard() {
   }, [data]);
 
   const priorities = useMemo(() => {
-    const now = Date.now();
     const overdue = data.followUps
       .filter(
         (item) =>
           item.status === "pending" &&
           item.scheduled_for &&
-          new Date(item.scheduled_for).getTime() <= now,
+          new Date(item.scheduled_for).getTime() <= snapshotAt,
       )
       .slice(0, 2)
       .map((item) => ({
@@ -201,7 +202,7 @@ export default function Dashboard() {
       : [];
 
     return [...overdue, ...todayAppointments, ...recentLead].slice(0, 4);
-  }, [data]);
+  }, [data, snapshotAt]);
 
   return (
     <main className="hlc-command-center">
