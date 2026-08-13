@@ -1,5 +1,6 @@
 name: One-time audited lockfile fix
 
+# Registered one-shot workflow; the exact commit-message guard prevents reuse.
 on:
   push:
     branches:
