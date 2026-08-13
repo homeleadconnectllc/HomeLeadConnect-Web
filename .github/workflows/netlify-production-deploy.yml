@@ -29,14 +29,38 @@ jobs:
             echo 'NETLIFY_AUTH_TOKEN is valid but cannot access the configured HLC Netlify site.'
             exit 12
           }
-      - name: Link HLC site in CI
+      - name: Deploy current main to Netlify production via API
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         run: |
-          npx --yes netlify-cli@latest link --id 641b807e-cb0e-4132-9075-a057481bee32 --auth "$NETLIFY_AUTH_TOKEN"
-      - name: Deploy current main to Netlify production
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: 641b807e-cb0e-4132-9075-a057481bee32
-        run: |
-          npx --yes netlify-cli@latest deploy --prod --dir=dist --site "$NETLIFY_SITE_ID" --auth "$NETLIFY_AUTH_TOKEN" --message "HLC production $GITHUB_SHA"
+          NETLIFY_SITE_ID="641b807e-cb0e-4132-9075-a057481bee32"
+          (cd dist && zip -qr /tmp/hlc-deploy.zip .)
+          curl -fsS \
+            -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
+            -H "Content-Type: application/zip" \
+            --data-binary @/tmp/hlc-deploy.zip \
+            "https://api.netlify.com/api/v1/sites/$NETLIFY_SITE_ID/deploys" \
+            > /tmp/netlify-deploy.json
+          DEPLOY_ID="$(jq -r '.id // empty' /tmp/netlify-deploy.json)"
+          test -n "$DEPLOY_ID" || { echo 'Netlify API did not return a deploy id'; cat /tmp/netlify-deploy.json; exit 13; }
+          echo "Netlify deploy created: $DEPLOY_ID"
+          for attempt in $(seq 1 30); do
+            curl -fsS \
+              -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
+              "https://api.netlify.com/api/v1/deploys/$DEPLOY_ID" \
+              > /tmp/netlify-deploy-status.json
+            STATE="$(jq -r '.state // empty' /tmp/netlify-deploy-status.json)"
+            echo "Netlify deploy state: $STATE"
+            if [ "$STATE" = "ready" ]; then
+              echo "HLC production deploy is live."
+              exit 0
+            fi
+            if [ "$STATE" = "error" ]; then
+              cat /tmp/netlify-deploy-status.json
+              exit 14
+            fi
+            sleep 4
+          done
+          echo 'Timed out waiting for Netlify deploy to become ready.'
+          cat /tmp/netlify-deploy-status.json
+          exit 15
