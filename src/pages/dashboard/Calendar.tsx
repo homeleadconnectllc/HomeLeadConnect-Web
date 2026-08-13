@@ -20,6 +20,7 @@ export default function Calendar() {
   const [rescheduling, setRescheduling] = useState<JobAppointment | null>(null);
 
   const load = useCallback(async () => {
+    setError("");
     try {
       setAppointments(await listWorkspaceAppointments());
     } catch (reason) {
@@ -30,13 +31,8 @@ export default function Calendar() {
   }, []);
 
   useEffect(() => {
-    listWorkspaceAppointments()
-      .then(setAppointments)
-      .catch((reason: unknown) =>
-        setError(errorMessage(reason, "Unable to load schedule.")),
-      )
-      .finally(() => setLoading(false));
-  }, []);
+    void load();
+  }, [load]);
 
   async function run(action: () => Promise<unknown>, successMessage: string) {
     setBusy(true);
@@ -77,7 +73,7 @@ export default function Calendar() {
         {appointments.map((appointment) => (
           <article className="responsive-record-card" key={appointment.id} style={cardStyle}>
             <div>
-              <strong>{new Date(appointment.appointment_date).toLocaleString()} – {appointment.appointment_end_at?new Date(appointment.appointment_end_at).toLocaleString():"End time unavailable"}</strong>
+              <strong>{new Date(appointment.appointment_date).toLocaleString()} – {appointment.appointment_end_at ? new Date(appointment.appointment_end_at).toLocaleString() : "End time unavailable"}</strong>
               <div><Link to={`/jobs/${appointment.job_id}`}>{appointment.job?.name || `Job ${appointment.job_id}`}</Link></div>
               <div>{appointment.contractor?.company_name || `Contractor #${appointment.contractor_id}`}</div>
               <small>{appointment.status}</small>
@@ -90,7 +86,7 @@ export default function Calendar() {
             </div>}
           </article>
         ))}
-        {!loading && appointments.length === 0 && <p>No job appointments scheduled.</p>}
+        {!loading && !error && appointments.length === 0 && <p>No job appointments scheduled.</p>}
       </div>
     </main>
   );
