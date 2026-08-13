@@ -1,0 +1,30 @@
+name: HLC Direct Netlify Production Deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/netlify-production-deploy.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy-production:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Deploy current main to Netlify production
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: |
+          test -n "$NETLIFY_AUTH_TOKEN" || { echo 'NETLIFY_AUTH_TOKEN is not configured'; exit 10; }
+          test -n "$NETLIFY_SITE_ID" || { echo 'NETLIFY_SITE_ID is not configured'; exit 11; }
+          npx --yes netlify-cli@latest deploy --prod --dir=dist --site "$NETLIFY_SITE_ID" --auth "$NETLIFY_AUTH_TOKEN" --message "HLC production $GITHUB_SHA"
