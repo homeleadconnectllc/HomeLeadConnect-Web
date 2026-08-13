@@ -1,0 +1,1 @@
+import{a as e,r as t,t as n}from"./jsx-runtime-DnSnBe1J.js";import"./portals-Czh_9YVd.js";var r=e(t(),1);n();function i({role:e,targetId:t,email:n,label:i}){let[a,o]=(0,r.useState)(!1),[s,c]=(0,r.useState)(``),[l,u]=(0,r.useState)(``);return null}export{i as t};

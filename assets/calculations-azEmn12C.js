@@ -1,0 +1,1 @@
+function e(e,t){let n=e.reduce((e,t)=>e+t.quantity*t.unitCost,0),r=Math.max(0,t)/100*n;return{subtotal:n,markupAmount:r,total:n+r}}function t(e){return new Intl.NumberFormat(`en-US`,{style:`currency`,currency:`USD`}).format(e)}export{t as n,e as t};

@@ -1,0 +1,1 @@
+import{t as e}from"./jsx-runtime-DnSnBe1J.js";e();function t({onToken:e,resetSignal:t}){return null}var n=!1;export{t as n,n as t};
