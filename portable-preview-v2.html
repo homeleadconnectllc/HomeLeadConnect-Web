@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HomeLead Connect Preview</title>
+    <script>history.replaceState({}, '', '/');</script>
+    <script>
+      (() => {
+        const assetRoot = 'https://raw.githack.com/homeleadconnectllc/HomeLeadConnect-Web/preview-static';
+        const rewrite = (node) => {
+          if (!(node instanceof Element)) return;
+          const items = node.matches('img[src]') ? [node] : [...node.querySelectorAll('img[src]')];
+          for (const img of items) {
+            const src = img.getAttribute('src');
+            if (src && src.startsWith('/')) img.setAttribute('src', assetRoot + src);
+          }
+        };
+        const observer = new MutationObserver((records) => {
+          for (const record of records) {
+            if (record.type === 'attributes') rewrite(record.target);
+            for (const node of record.addedNodes) rewrite(node);
+          }
+        });
+        window.addEventListener('DOMContentLoaded', () => {
+          rewrite(document.documentElement);
+          observer.observe(document.documentElement, { subtree: true, childList: true, attributes: true, attributeFilter: ['src'] });
+        });
+      })();
+    </script>
+    <link rel="icon" type="image/svg+xml" href="https://raw.githack.com/homeleadconnectllc/HomeLeadConnect-Web/preview-static/favicon.svg" />
+    <link rel="modulepreload" crossorigin href="https://raw.githack.com/homeleadconnectllc/HomeLeadConnect-Web/preview-static/assets/jsx-runtime-DnSnBe1J.js">
+    <link rel="modulepreload" crossorigin href="https://raw.githack.com/homeleadconnectllc/HomeLeadConnect-Web/preview-static/assets/supabase-cac3xzhF.js">
+    <link rel="stylesheet" crossorigin href="https://raw.githack.com/homeleadconnectllc/HomeLeadConnect-Web/preview-static/assets/index-BaEhU1am.css">
+    <script type="module" crossorigin src="https://raw.githack.com/homeleadconnectllc/HomeLeadConnect-Web/preview-static/assets/index-Bi2yOsBp.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
