@@ -1,9 +1,23 @@
 .hlc-agent-team-section {
   position: relative;
+  margin-top: 24px;
 }
 
 .hlc-agent-team-heading {
   align-items: end;
+  margin-bottom: 10px;
+}
+
+.hlc-agent-team-heading > div {
+  min-width: 0;
+}
+
+.hlc-agent-team-intro {
+  max-width: 650px;
+  margin: 6px 0 0;
+  color: #8fa2ba;
+  font-size: .74rem;
+  line-height: 1.4;
 }
 
 .hlc-agent-team-chip {
@@ -22,7 +36,7 @@
 .hlc-agent-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
+  gap: 12px;
 }
 
 .hlc-agent-card {
@@ -97,11 +111,27 @@
   box-shadow: 0 0 0 3px rgba(34, 197, 94, .12);
 }
 
+.hlc-agent-status {
+  position: absolute;
+  right: 33px;
+  bottom: 10px;
+  padding: 4px 7px;
+  border: 1px solid rgba(34, 197, 94, .26);
+  border-radius: 999px;
+  background: rgba(6, 78, 59, .76);
+  color: #bbf7d0;
+  font-size: .58rem;
+  font-weight: 800;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  backdrop-filter: blur(6px);
+}
+
 .hlc-agent-card-body {
   display: grid;
   align-content: start;
   gap: 7px;
-  padding: 16px;
+  padding: 15px;
 }
 
 .hlc-agent-role {
@@ -135,10 +165,14 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  margin-top: 4px;
+  margin-top: 3px;
   color: #dbeafe;
   font-size: .72rem;
   font-weight: 800;
+}
+
+.hlc-dashboard-section-tight {
+  margin-top: 20px !important;
 }
 
 .hlc-agent-nav-menu {
@@ -198,14 +232,14 @@
   }
 
   .hlc-agent-card {
-    grid-template-columns: 122px minmax(0, 1fr);
-    min-height: 154px;
+    grid-template-columns: 116px minmax(0, 1fr);
+    min-height: 146px;
   }
 
   .hlc-agent-portrait-wrap {
     aspect-ratio: auto;
     height: 100%;
-    min-height: 154px;
+    min-height: 146px;
   }
 
   .hlc-agent-portrait {
@@ -214,48 +248,81 @@
 
   .hlc-agent-card-body {
     align-content: center;
-    padding: 15px 14px;
+    padding: 13px 14px;
   }
 }
 
 @media (max-width: 460px) {
+  .hlc-agent-team-section {
+    margin-top: 20px;
+  }
+
   .hlc-agent-team-heading {
     align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .hlc-agent-team-intro {
+    max-width: 92%;
+    margin-top: 5px;
+    font-size: .68rem;
   }
 
   .hlc-agent-team-chip {
-    font-size: .6rem;
+    font-size: .58rem;
+    padding: 6px 8px;
+  }
+
+  .hlc-agent-grid {
+    gap: 9px;
   }
 
   .hlc-agent-card {
-    grid-template-columns: 104px minmax(0, 1fr);
-    min-height: 142px;
+    grid-template-columns: 98px minmax(0, 1fr);
+    min-height: 132px;
     border-radius: 18px;
   }
 
   .hlc-agent-portrait-wrap {
-    min-height: 142px;
+    min-height: 132px;
+  }
+
+  .hlc-agent-presence {
+    right: 10px;
+    bottom: 10px;
+  }
+
+  .hlc-agent-status {
+    right: 29px;
+    bottom: 7px;
+    padding: 3px 6px;
+    font-size: .52rem;
   }
 
   .hlc-agent-card-body {
-    gap: 5px;
-    padding: 13px 12px;
+    gap: 4px;
+    padding: 11px 11px;
   }
 
   .hlc-agent-card h3 {
-    font-size: 1rem;
+    font-size: .98rem;
   }
 
   .hlc-agent-card p {
     display: -webkit-box;
     overflow: hidden;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    font-size: .68rem;
+    -webkit-line-clamp: 2;
+    font-size: .66rem;
   }
 
   .hlc-agent-open {
-    font-size: .68rem;
+    margin-top: 2px;
+    font-size: .67rem;
+  }
+
+  .hlc-dashboard-section-tight {
+    margin-top: 16px !important;
   }
 
   .hlc-nav-menu .hlc-agent-nav-link {
