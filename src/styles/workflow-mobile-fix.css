@@ -1,0 +1,56 @@
+.hlc-route-content > main > ol > li > div:nth-child(2) h2 {
+  color: #0f172a !important;
+}
+
+.hlc-route-content > main > ol > li > div:nth-child(2) p {
+  text-align: left !important;
+}
+
+.hlc-route-content > main > aside {
+  color: #334155;
+}
+
+@media (max-width: 700px) {
+  .hlc-route-content > main > ol > li {
+    grid-template-columns: 40px minmax(0, 1fr) !important;
+    align-items: start !important;
+    gap: 10px 12px !important;
+    padding: 14px !important;
+  }
+
+  .hlc-route-content > main > ol > li > div:first-child {
+    width: 36px !important;
+    height: 36px !important;
+    align-self: start;
+  }
+
+  .hlc-route-content > main > ol > li > div:nth-child(2) h2 {
+    font-size: 18px !important;
+    line-height: 1.2 !important;
+  }
+
+  .hlc-route-content > main > ol > li > div:nth-child(2) p {
+    margin-top: 6px !important;
+    margin-bottom: 6px !important;
+    line-height: 1.4 !important;
+  }
+
+  .hlc-route-content > main > ol > li > div:nth-child(3) {
+    grid-column: 2;
+    width: 100%;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    text-align: left !important;
+  }
+
+  .hlc-route-content > main > ol > li > div:nth-child(3) a {
+    margin-left: auto;
+  }
+
+  .hlc-route-content > main > aside {
+    padding: 14px !important;
+    line-height: 1.45 !important;
+  }
+}
