@@ -9,7 +9,14 @@ import {
   type WorkspaceOption,
 } from "../../api/settings";
 import { errorMessage } from "../../lib/errorMessage";
-import { getBillingStatus, openBillingPortal, startSubscriptionCheckout, type BillingStatus } from "../../api/billing";
+import {
+  getBillingOffer,
+  getBillingStatus,
+  openBillingPortal,
+  startSubscriptionCheckout,
+  type BillingOffer,
+  type BillingStatus,
+} from "../../api/billing";
 import { listBusinessPhones, type BusinessPhone } from "../../api/telephony";
 import { Link } from "react-router-dom";
 
@@ -17,6 +24,14 @@ const blankBusiness = {
   business_name: "", owner_name: "", phone: "", email: "", website: "",
   address: "", city: "", state: "", zip: "",
 };
+
+function formatBillingOffer(offer: BillingOffer) {
+  const amount = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: offer.currency.toUpperCase(),
+  }).format(offer.price_cents / 100);
+  return `${amount} per ${offer.interval}`;
+}
 
 export default function Settings() {
   const billingEnabled = import.meta.env.VITE_BILLING_ENABLED === "true";
@@ -29,13 +44,22 @@ export default function Settings() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [billing, setBilling] = useState<BillingStatus | null>(null);
+  const [billingOffer, setBillingOffer] = useState<BillingOffer | null>(null);
   const [billingConsent, setBillingConsent] = useState(false);
   const [businessPhones, setBusinessPhones] = useState<BusinessPhone[]>([]);
 
   useEffect(() => {
-    Promise.all([getMyProfile(), getBusinessProfile(), listMyWorkspaces(), billingEnabled ? getBillingStatus() : Promise.resolve(null), listBusinessPhones().catch(() => [])])
-      .then(([profile, businessProfile, workspaceOptions, billingStatus, phoneRows]) => {
+    Promise.all([
+      getMyProfile(),
+      getBusinessProfile(),
+      listMyWorkspaces(),
+      billingEnabled ? getBillingStatus() : Promise.resolve(null),
+      listBusinessPhones().catch(() => []),
+      billingEnabled ? getBillingOffer() : Promise.resolve(null),
+    ])
+      .then(([profile, businessProfile, workspaceOptions, billingStatus, phoneRows, offer]) => {
         setBilling(billingStatus);
+        setBillingOffer(offer);
         setBusinessPhones(phoneRows);
         setWorkspaceId(profile.workspace_id);
         setWorkspaces(workspaceOptions);
@@ -105,6 +129,8 @@ export default function Settings() {
 
   if (loading) return <main style={pageStyle}><p>Loading settings…</p></main>;
 
+  const billingOfferLabel = billingOffer ? formatBillingOffer(billingOffer) : null;
+
   return <main style={pageStyle}>
     <h1>Profile and business settings</h1>
     <p>Manage the profile fields already supported by your HLC workspace.</p>
@@ -159,13 +185,15 @@ export default function Settings() {
 
     <section style={cardStyle}>
       <h2>Billing</h2>
-      <p><strong>HomeLead Connect V1:</strong> $99 per month after a 14-day free trial.</p>
-      <p>A payment method is required to begin the trial. No charge is made until the trial ends. Cancellation of a paid subscription takes effect at the end of the current billing period.</p>
-      {!billing?.is_active && billingEnabled && <label><input type="checkbox" checked={billingConsent} onChange={(event) => setBillingConsent(event.target.checked)} /> I agree to begin a 14-day free trial with a payment method. Unless cancelled before the trial ends, the workspace will be charged $99 USD monthly. I can cancel online through the Stripe billing portal.</label>}
+      {billingEnabled && billingOfferLabel ? <>
+        <p><strong>{billingOffer?.name}:</strong> {billingOfferLabel} after a 14-day free trial.</p>
+        <p>A payment method is required to begin the trial. No charge is made until the trial ends. Cancellation of a paid subscription takes effect at the end of the current billing period.</p>
+      </> : billingEnabled ? <p><strong>Setup required:</strong> The authoritative HLC billing offer is unavailable, so enrollment is disabled.</p> : null}
+      {!billing?.is_active && billingEnabled && billingOfferLabel && <label><input type="checkbox" checked={billingConsent} onChange={(event) => setBillingConsent(event.target.checked)} /> I agree to begin a 14-day free trial with a payment method. Unless cancelled before the trial ends, the workspace will be charged {billingOfferLabel}. I can cancel online through the Stripe billing portal.</label>}
       {billing ? <p>Workspace billing state: <strong>{billing.status}</strong>{billing.trial_end ? ` · Trial ends ${new Date(billing.trial_end).toLocaleDateString()}` : ""}{billing.current_period_end ? ` · Current period ends ${new Date(billing.current_period_end).toLocaleDateString()}` : ""}</p>
         : <p>No authoritative Stripe subscription is recorded for this workspace.</p>}
       {billingEnabled ? <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-        {!billing?.is_active && <button disabled={!billingConsent} type="button" onClick={() => billingAction(startSubscriptionCheckout)}>Start 14-day trial</button>}
+        {!billing?.is_active && <button disabled={!billingConsent || !billingOfferLabel} type="button" onClick={() => billingAction(startSubscriptionCheckout)}>Start 14-day trial</button>}
         {billing && <button type="button" onClick={() => billingAction(openBillingPortal)}>Manage billing with Stripe</button>}
       </div> : <p><strong>Setup required:</strong> Stripe launch billing is not enabled in this environment.</p>}
     </section>
