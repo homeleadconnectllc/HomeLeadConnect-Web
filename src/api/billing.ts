@@ -10,6 +10,14 @@ export type BillingStatus = {
   cancel_at_period_end: boolean;
 };
 
+export type BillingOffer = {
+  key: string;
+  name: string;
+  price_cents: number;
+  currency: string;
+  interval: "month" | "year";
+};
+
 export async function getBillingStatus(): Promise<BillingStatus | null> {
   const workspaceId = await getCurrentWorkspaceId();
   const { data, error } = await supabase.from("workspace_plan_status")
@@ -17,6 +25,22 @@ export async function getBillingStatus(): Promise<BillingStatus | null> {
     .eq("workspace_id", workspaceId).maybeSingle();
   if (error) throw error;
   return data as BillingStatus | null;
+}
+
+export async function getBillingOffer(): Promise<BillingOffer> {
+  const { data, error } = await supabase.from("plans")
+    .select("key,name,price_cents,currency,interval")
+    .eq("key", "hlc_v1")
+    .eq("is_active", true)
+    .single();
+  if (error) throw error;
+  if (!data || typeof data.price_cents !== "number" || data.price_cents <= 0) {
+    throw new Error("The HLC billing offer is not configured.");
+  }
+  if (data.interval !== "month" && data.interval !== "year") {
+    throw new Error("The HLC billing interval is invalid.");
+  }
+  return data as BillingOffer;
 }
 
 export async function startSubscriptionCheckout() {
