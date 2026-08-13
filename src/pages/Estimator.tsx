@@ -110,7 +110,7 @@ export default function Estimator() {
 
   async function handleSave() {
     if (!session) {
-      setError("Sign in to save this estimate.");
+      setError("Sign in to save this LeadScope estimate.");
       return;
     }
     if (status === "converted") return;
@@ -135,9 +135,9 @@ export default function Estimator() {
       const nextParams = new URLSearchParams(searchParams);
       nextParams.set("estimate", saved.id);
       setSearchParams(nextParams, { replace: true });
-      setMessage("Estimate saved.");
+      setMessage("LeadScope estimate saved.");
     } catch (reason) {
-      setError(errorMessage(reason, "Unable to save estimate."));
+      setError(errorMessage(reason, "Unable to save LeadScope estimate."));
     } finally {
       setBusy(false);
     }
@@ -154,7 +154,7 @@ export default function Estimator() {
       setJobId(job.id);
       setMessage(`Job created: ${job.name}`);
     } catch (reason) {
-      setError(errorMessage(reason, "Unable to convert estimate."));
+      setError(errorMessage(reason, "Unable to convert LeadScope estimate."));
     } finally {
       setBusy(false);
     }
@@ -167,13 +167,13 @@ export default function Estimator() {
       <div style={{ width: "min(1100px, 100%)", margin: "0 auto" }}>
         <header style={{ marginBottom: 32 }}>
           <p style={eyebrowStyle}>HomeLead Connect</p>
-          <h1 style={{ margin: "8px 0", fontSize: "clamp(36px, 6vw, 64px)", letterSpacing: "-2px" }}>
+          <h1 style={{ margin: "8px 0", fontSize: "clamp(36px, 6vw, 64px)", letterSpacing: "-2px", color: "#0f172a" }}>
             LeadScope
           </h1>
           <p style={{ margin: 0, maxWidth: 700, color: "#475569", lineHeight: 1.6 }}>
-            Build, save, send, accept, and convert an estimate without changing the verified calculation contract.
+            Build the customer estimate, review the total, save it, and convert an accepted estimate into a job.
           </p>
-          {leadId !== null && lead && <p><strong>Lead:</strong> {lead.full_name || `Lead #${lead.id}`} · {lead.email || lead.phone}</p>}
+          {leadId !== null && lead && <p style={{ color: "#334155" }}><strong>Lead:</strong> {lead.full_name || `Lead #${lead.id}`} · {lead.email || lead.phone}</p>}
           {leadParam && leadId === null && <p role="alert" style={errorStyle}>Invalid lead ID.</p>}
         </header>
 
@@ -181,62 +181,134 @@ export default function Estimator() {
           <div style={panelStyle}>
             <div style={panelHeaderStyle}>
               <div>
-                <h2 style={{ margin: 0 }}>Estimate items</h2>
-                <p style={{ color: "#64748b", margin: "6px 0 0" }}>Add the work and materials included in the project.</p>
+                <h2 style={{ margin: 0, color: "#0f172a" }}>Work and materials</h2>
+                <p style={{ color: "#64748b", margin: "6px 0 0" }}>
+                  Enter each part of the project, how many are needed, and the cost for one unit.
+                </p>
               </div>
-              <button type="button" onClick={addLine} disabled={locked}>Add item</button>
+              <button type="button" onClick={addLine} disabled={locked}>Add another item</button>
             </div>
 
-            <div style={{ display: "grid", gap: 12 }}>
-              {lines.map((line) => (
+            <div style={{ display: "grid", gap: 16 }}>
+              {lines.map((line, index) => (
                 <div className="estimate-line" key={line.id} style={lineStyle}>
-                  <input aria-label="Item description" value={line.description} disabled={locked}
-                    onChange={(event) => updateLine(line.id, "description", event.target.value)} placeholder="Description" style={inputStyle} />
-                  <input aria-label="Quantity" type="number" min="0" step="0.01" value={line.quantity} disabled={locked}
-                    onChange={(event) => updateLine(line.id, "quantity", event.target.value)} style={inputStyle} />
-                  <input aria-label="Unit cost" type="number" min="0" step="0.01" value={line.unitCost} disabled={locked}
-                    onChange={(event) => updateLine(line.id, "unitCost", event.target.value)} placeholder="Unit cost" style={inputStyle} />
-                  <button type="button" onClick={() => removeLine(line.id)} disabled={locked || lines.length === 1}
-                    aria-label={`Remove ${line.description || "item"}`}>Remove</button>
+                  <div style={itemNumberStyle}>Item {index + 1}</div>
+
+                  <label style={fieldStyle}>
+                    <span style={labelStyle}>What is this item?</span>
+                    <span style={helpStyle}>Example: Labor, drywall, faucet, paint</span>
+                    <input
+                      aria-label={`Item ${index + 1} description`}
+                      value={line.description}
+                      disabled={locked}
+                      onChange={(event) => updateLine(line.id, "description", event.target.value)}
+                      placeholder="Enter work or material"
+                      style={inputStyle}
+                    />
+                  </label>
+
+                  <label style={fieldStyle}>
+                    <span style={labelStyle}>Quantity</span>
+                    <span style={helpStyle}>How many?</span>
+                    <input
+                      aria-label={`Item ${index + 1} quantity`}
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value={line.quantity}
+                      disabled={locked}
+                      onChange={(event) => updateLine(line.id, "quantity", event.target.value)}
+                      style={inputStyle}
+                    />
+                  </label>
+
+                  <label style={fieldStyle}>
+                    <span style={labelStyle}>Cost per item ($)</span>
+                    <span style={helpStyle}>Enter the price for one unit</span>
+                    <input
+                      aria-label={`Item ${index + 1} cost per item`}
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value={line.unitCost}
+                      disabled={locked}
+                      onChange={(event) => updateLine(line.id, "unitCost", event.target.value)}
+                      placeholder="0.00"
+                      style={inputStyle}
+                    />
+                  </label>
+
+                  <button
+                    type="button"
+                    onClick={() => removeLine(line.id)}
+                    disabled={locked || lines.length === 1}
+                    aria-label={`Remove ${line.description || `item ${index + 1}`}`}
+                    style={removeButtonStyle}
+                  >
+                    Remove item
+                  </button>
                 </div>
               ))}
             </div>
           </div>
 
           <aside style={summaryStyle}>
-            <h2 style={{ marginTop: 0 }}>Estimate summary</h2>
-            <label style={{ display: "grid", gap: 8, color: "#cbd5e1", marginBottom: 16 }}>
-              Markup %
-              <input type="number" min="0" step="1" value={markupPercent} disabled={locked}
-                onChange={(event) => setMarkupPercent(Math.max(0, Number(event.target.value)))} style={summaryInputStyle} />
+            <h2 style={{ marginTop: 0 }}>LeadScope summary</h2>
+            <label style={summaryFieldStyle}>
+              <span style={summaryLabelStyle}>Markup percentage</span>
+              <span style={summaryHelpStyle}>Amount added above the item subtotal</span>
+              <input
+                type="number"
+                min="0"
+                step="1"
+                value={markupPercent}
+                disabled={locked}
+                onChange={(event) => setMarkupPercent(Math.max(0, Number(event.target.value)))}
+                style={summaryInputStyle}
+              />
             </label>
-            <label style={{ display: "grid", gap: 8, color: "#cbd5e1", marginBottom: 24 }}>
-              Status
-              <select value={status} disabled={locked} onChange={(event) => setStatus(event.target.value as EstimateStatus)} style={summaryInputStyle}>
-                {status === "converted" && <option value="converted">Converted</option>}
-                {editableStatuses.map((value) => <option key={value} value={value}>{value[0].toUpperCase() + value.slice(1)}</option>)}
+
+            <label style={summaryFieldStyle}>
+              <span style={summaryLabelStyle}>Estimate status</span>
+              <span style={summaryHelpStyle}>Draft until it is sent or accepted</span>
+              <select
+                value={status}
+                disabled={locked}
+                onChange={(event) => setStatus(event.target.value as EstimateStatus)}
+                style={summaryInputStyle}
+              >
+                {status === "converted" && <option value="converted">Converted to job</option>}
+                {editableStatuses.map((value) => (
+                  <option key={value} value={value}>
+                    {value === "draft" ? "Draft — still being prepared" :
+                      value === "sent" ? "Sent — customer has received it" :
+                      value === "accepted" ? "Accepted — ready to create job" :
+                      "Rejected — customer declined"}
+                  </option>
+                ))}
               </select>
             </label>
+
             <div style={{ display: "grid", gap: 14 }}>
-              <SummaryRow label="Subtotal" value={summary.subtotal} />
+              <SummaryRow label="Items subtotal" value={summary.subtotal} />
               <SummaryRow label={`Markup (${markupPercent}%)`} value={summary.markupAmount} />
               <div style={{ height: 1, background: "#334155", margin: "4px 0" }} />
               <div style={{ display: "flex", justifyContent: "space-between", gap: 16, fontSize: 22, fontWeight: 800 }}>
-                <span>Total</span><span>{formatCurrency(summary.total)}</span>
+                <span>Customer total</span><span>{formatCurrency(summary.total)}</span>
               </div>
             </div>
 
             <div style={{ display: "grid", gap: 10, marginTop: 24 }}>
               {!authLoading && !session && <Link to="/login" style={{ color: "#93c5fd" }}>Sign in to save</Link>}
               <button type="button" onClick={handleSave} disabled={busy || locked || !session}>
-                {busy ? "Working…" : estimateId ? "Update estimate" : "Save estimate"}
+                {busy ? "Working…" : estimateId ? "Update LeadScope estimate" : "Save LeadScope estimate"}
               </button>
               <button type="button" onClick={handleConvert} disabled={busy || !estimateId || status !== "accepted"}>
-                Convert accepted estimate to job
+                Create job from accepted estimate
               </button>
               {message && <p role="status" style={{ color: "#86efac", margin: 0 }}>{message}</p>}
               {error && <p role="alert" style={{ color: "#fca5a5", margin: 0 }}>{error}</p>}
-              {estimateId && <small style={{ color: "#94a3b8" }}>Estimate ID: {estimateId}</small>}
+              {estimateId && <small style={{ color: "#94a3b8" }}>LeadScope estimate ID: {estimateId}</small>}
               {status === "converted" && <Link to={jobId ? `/jobs/${jobId}` : "/jobs"} style={{ color: "#93c5fd" }}>
                 {jobId ? "Open created job" : "View jobs"}
               </Link>}
@@ -254,13 +326,21 @@ function SummaryRow({ label, value }: { label: string; value: number }) {
   </div>;
 }
 
-const pageStyle = { minHeight: "100vh", background: "#f8fafc", padding: "48px 24px", fontFamily: "system-ui, sans-serif" };
+const pageStyle = { minHeight: "100vh", background: "#f8fafc", padding: "48px 24px", fontFamily: "system-ui, sans-serif", color: "#0f172a" };
 const eyebrowStyle = { margin: 0, color: "#2563eb", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase" as const, fontSize: 13 };
 const layoutStyle = { display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(280px, 320px)", gap: 24, alignItems: "start" };
-const panelStyle = { background: "#fff", border: "1px solid #e2e8f0", borderRadius: 20, padding: 24, boxShadow: "0 12px 40px rgba(15,23,42,.06)" };
-const panelHeaderStyle = { display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16, marginBottom: 20 };
-const lineStyle = { display: "grid", gridTemplateColumns: "minmax(160px, 1fr) 110px 140px auto", gap: 10, alignItems: "center" };
-const inputStyle = { padding: "11px 12px", minWidth: 0 };
+const panelStyle = { background: "#fff", color: "#0f172a", border: "1px solid #e2e8f0", borderRadius: 20, padding: 24, boxShadow: "0 12px 40px rgba(15,23,42,.06)" };
+const panelHeaderStyle = { display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16, marginBottom: 20, flexWrap: "wrap" as const };
+const lineStyle = { display: "grid", gap: 14, padding: 16, border: "1px solid #e2e8f0", borderRadius: 14, background: "#f8fafc" };
+const itemNumberStyle = { fontSize: 13, fontWeight: 800, color: "#2563eb", textTransform: "uppercase" as const, letterSpacing: ".06em" };
+const fieldStyle = { display: "grid", gap: 5 };
+const labelStyle = { color: "#0f172a", fontWeight: 750, fontSize: 15 };
+const helpStyle = { color: "#64748b", fontSize: 13, lineHeight: 1.4 };
+const inputStyle = { padding: "12px 13px", minWidth: 0, width: "100%", boxSizing: "border-box" as const, borderRadius: 9, border: "1px solid #cbd5e1", background: "#fff", color: "#0f172a", fontSize: 16 };
+const removeButtonStyle = { justifySelf: "start", padding: "9px 14px" };
 const summaryStyle = { background: "#111827", color: "#fff", borderRadius: 20, padding: 24, boxShadow: "0 20px 50px rgba(15,23,42,.18)" };
-const summaryInputStyle = { padding: "11px 12px", borderRadius: 8, border: 0 };
+const summaryFieldStyle = { display: "grid", gap: 6, color: "#cbd5e1", marginBottom: 18 };
+const summaryLabelStyle = { color: "#fff", fontWeight: 750 };
+const summaryHelpStyle = { color: "#94a3b8", fontSize: 13, lineHeight: 1.4 };
+const summaryInputStyle = { padding: "12px 13px", borderRadius: 8, border: "1px solid #475569", background: "#fff", color: "#0f172a", fontSize: 16, width: "100%", boxSizing: "border-box" as const };
 const errorStyle = { color: "#b91c1c" };
