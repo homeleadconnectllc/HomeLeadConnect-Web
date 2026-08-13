@@ -6,75 +6,37 @@ import { supabase } from "../lib/supabase";
 
 const logo = "/hlc-logo-final.png";
 const declaredWorkspaceRoutes = new Set([
-  "/dashboard",
-  "/ecosystem",
-  "/workflow",
-  "/automations",
-  "/hq",
-  "/notifications",
-  "/leads",
-  "/estimator",
-  "/jobs",
-  "/calendar",
-  "/follow-ups",
-  "/operations",
-  "/call-center",
-  "/messages",
-  "/manual-communications",
-  "/customer-experience",
-  "/documents",
-  "/settings",
-  "/homeowner-portal",
-  "/contractor-portal",
-  "/network",
-  "/map",
-  "/profiles",
-  "/providers",
-  "/matching",
-  "/community-hub",
-  "/community/discussions",
-  "/community/reviews",
-  "/community/referrals",
-  "/community/events",
-  "/community/moderation",
-  "/help",
-  "/tutorials",
-  "/rules",
-  "/profile",
-  "/settings/billing",
+  "/dashboard", "/ecosystem", "/workflow", "/automations", "/hq", "/notifications",
+  "/leads", "/estimator", "/jobs", "/calendar", "/follow-ups", "/operations",
+  "/call-center", "/messages", "/manual-communications", "/customer-experience",
+  "/documents", "/settings", "/homeowner-portal", "/contractor-portal", "/network",
+  "/map", "/profiles", "/providers", "/matching", "/community-hub",
+  "/community/discussions", "/community/reviews", "/community/referrals",
+  "/community/events", "/community/moderation", "/help", "/tutorials", "/rules",
+  "/profile", "/settings/billing",
 ]);
 
 const agentRoutes = new Set(["/hq", "/operations", "/customer-experience"]);
 const agentNavigation = [
-  {
-    label: "Kendrell",
-    route: "/hq",
-    purpose: "Command · approvals, risk and orchestration",
-    avatar: "/brand/avatars/Kendrell_Locked_HLC.png",
-  },
-  {
-    label: "Dion",
-    route: "/operations",
-    purpose: "Operations & BI · leads, jobs and scheduling",
-    avatar: "/brand/avatars/Dion_Locked_HLC.png",
-  },
-  {
-    label: "Diamond",
-    route: "/customer-experience",
-    purpose: "Customer Experience · community and recovery",
-    avatar: "/brand/avatars/Diamond_Locked_HLC.png",
-  },
+  { label: "Kendrell", route: "/hq", purpose: "Command · approvals, risk and orchestration", avatar: "/brand/avatars/Kendrell_Locked_HLC.png" },
+  { label: "Dion", route: "/operations", purpose: "Operations & BI · leads, jobs and scheduling", avatar: "/brand/avatars/Dion_Locked_HLC.png" },
+  { label: "Diamond", route: "/customer-experience", purpose: "Customer Experience · community and recovery", avatar: "/brand/avatars/Diamond_Locked_HLC.png" },
 ];
 
 export default function Navbar() {
   const { session, loading } = useAuth();
   const [access, setAccess] = useState({ business: false, homeowner: false, contractor: false });
+  const [accessResolved, setAccessResolved] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
-    if (!session) return;
+    if (!session) {
+      setAccessResolved(true);
+      return;
+    }
     let active = true;
+    setAccessResolved(false);
     Promise.all([
       supabase.from("workspace_members").select("workspace_id").eq("user_id", session.user.id).limit(1),
       supabase.from("homeowner_portal_links").select("id").eq("user_id", session.user.id).is("revoked_at", null).limit(1),
@@ -86,13 +48,14 @@ export default function Navbar() {
         homeowner: !homeowner.error && Boolean(homeowner.data?.length),
         contractor: !contractor.error && Boolean(contractor.data?.length),
       });
+      setAccessResolved(true);
+    }).catch(() => {
+      if (active) setAccessResolved(true);
     });
     return () => { active = false; };
   }, [session]);
 
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [location.pathname]);
+  useEffect(() => { setMobileOpen(false); }, [location.pathname]);
 
   useEffect(() => {
     if (!mobileOpen) return;
@@ -117,9 +80,7 @@ export default function Navbar() {
   const signedInGroups = useMemo(() => ecosystemNavigation
     .map((group) => ({
       ...group,
-      pages: group.pages.filter((page) =>
-        hasPageAccess(page) && declaredWorkspaceRoutes.has(page.route) && !agentRoutes.has(page.route),
-      ),
+      pages: group.pages.filter((page) => hasPageAccess(page) && declaredWorkspaceRoutes.has(page.route) && !agentRoutes.has(page.route)),
     }))
     .filter((group) => group.pages.length > 0), [access]);
 
@@ -128,67 +89,49 @@ export default function Navbar() {
     : signedInGroups.find((group) => group.pages.some((page) => page.route === location.pathname))?.id ?? "command";
   const [openGroup, setOpenGroup] = useState(currentGroup);
 
-  useEffect(() => {
-    setOpenGroup(currentGroup);
-  }, [currentGroup]);
+  useEffect(() => { setOpenGroup(currentGroup); }, [currentGroup]);
+
+  const signedIn = !loading && Boolean(session);
+  const showBusinessTools = access.business || (!accessResolved && signedIn);
 
   return (
     <nav className={`hlc-navbar ${mobileOpen ? "menu-is-open" : ""}`} role="navigation" aria-label="Main navigation">
       <div className="hlc-navbar-brand">
-        <div className="hlc-navbar-logo">
-          <img src={logo} alt="HomeLead Connect LLC" />
-        </div>
+        <div className="hlc-navbar-logo"><img src={logo} alt="HomeLead Connect LLC" /></div>
         <div className="hlc-navbar-brand-copy">
           <h2>HomeLead Connect</h2>
-          <span>Command workspace</span>
+          <span>{signedIn ? "Owner workspace" : "Home services network"}</span>
         </div>
       </div>
 
-      <button
-        type="button"
-        className="hlc-navbar-toggle"
-        aria-expanded={mobileOpen}
-        aria-controls="hlc-primary-navigation"
-        aria-label={mobileOpen ? "Close menu" : "Open menu"}
-        onClick={() => setMobileOpen(!mobileOpen)}
-      >
+      <button type="button" className="hlc-navbar-toggle" aria-expanded={mobileOpen} aria-controls="hlc-primary-navigation" aria-label={mobileOpen ? "Close menu" : "Open menu"} onClick={() => setMobileOpen((value) => !value)}>
         {mobileOpen ? "Close" : "Menu"}
       </button>
 
-      <div
-        id="hlc-primary-navigation"
-        className={`hlc-navbar-links ${mobileOpen ? "mobile-open" : "mobile-hidden"}`}
-      >
-        {!loading && session ? (
+      <div id="hlc-primary-navigation" className={`hlc-navbar-links ${mobileOpen ? "mobile-open" : "mobile-hidden"}`}>
+        {signedIn ? (
           <>
             <div className="hlc-mobile-menu-heading">
-              <span>Workspace</span>
-              <strong>Go where you need to work.</strong>
+              <span>Owner workspace</span>
+              <strong>Run HomeLead Connect.</strong>
             </div>
+
+            <Link className="hlc-owner-home-link" to="/app" onClick={() => setMobileOpen(false)}>
+              <span><strong>Open Command Center</strong><small>Dashboard, live work and priorities</small></span>
+              <b aria-hidden="true">→</b>
+            </Link>
+
             <div className="hlc-navbar-groups" aria-label="Signed-in HLC areas">
-              {access.business && (
+              {showBusinessTools && (
                 <details className="hlc-nav-group hlc-nav-agent-group" open={openGroup === "ai-team"}>
-                  <summary onClick={(event) => {
-                    event.preventDefault();
-                    setOpenGroup(openGroup === "ai-team" ? "" : "ai-team");
-                  }}>
-                    <span>AI Team</span>
-                    <small>3</small>
+                  <summary onClick={(event) => { event.preventDefault(); setOpenGroup(openGroup === "ai-team" ? "" : "ai-team"); }}>
+                    <span>AI Team</span><small>3</small>
                   </summary>
                   <div className="hlc-nav-menu hlc-agent-nav-menu">
                     {agentNavigation.map((agent) => (
-                      <Link
-                        className="hlc-agent-nav-link"
-                        aria-current={location.pathname === agent.route ? "page" : undefined}
-                        key={agent.route}
-                        onClick={() => setMobileOpen(false)}
-                        to={agent.route}
-                      >
+                      <Link className="hlc-agent-nav-link" aria-current={location.pathname === agent.route ? "page" : undefined} key={agent.route} onClick={() => setMobileOpen(false)} to={agent.route}>
                         <img src={agent.avatar} alt="" aria-hidden="true" />
-                        <span className="hlc-agent-nav-copy">
-                          <strong>{agent.label}</strong>
-                          <small>{agent.purpose}</small>
-                        </span>
+                        <span className="hlc-agent-nav-copy"><strong>{agent.label}</strong><small>{agent.purpose}</small></span>
                       </Link>
                     ))}
                   </div>
@@ -196,48 +139,32 @@ export default function Navbar() {
               )}
 
               {signedInGroups.map((group) => (
-                <details
-                  className="hlc-nav-group"
-                  key={group.id}
-                  open={openGroup === group.id}
-                >
-                  <summary onClick={(event) => {
-                    event.preventDefault();
-                    setOpenGroup(openGroup === group.id ? "" : group.id);
-                  }}>
-                    <span>{group.label}</span>
-                    <small>{group.pages.length}</small>
+                <details className="hlc-nav-group" key={group.id} open={openGroup === group.id}>
+                  <summary onClick={(event) => { event.preventDefault(); setOpenGroup(openGroup === group.id ? "" : group.id); }}>
+                    <span>{group.label}</span><small>{group.pages.length}</small>
                   </summary>
                   <div className="hlc-nav-menu">
                     {group.pages.map((page) => (
-                      <Link
-                        aria-current={location.pathname === page.route ? "page" : undefined}
-                        key={page.route}
-                        onClick={() => setMobileOpen(false)}
-                        to={page.route}
-                      >
-                        <span>{page.label}</span>
-                        <small>{page.purpose}</small>
+                      <Link aria-current={location.pathname === page.route ? "page" : undefined} key={page.route} onClick={() => setMobileOpen(false)} to={page.route}>
+                        <span>{page.label}</span><small>{page.purpose}</small>
                       </Link>
                     ))}
                   </div>
                 </details>
               ))}
             </div>
-            <button className="hlc-nav-logout" type="button" onClick={logout}>
-              Log out
-            </button>
+
+            {!accessResolved && <p className="hlc-nav-access-note">Loading workspace access…</p>}
+            <button className="hlc-nav-logout" type="button" onClick={logout}>Log out</button>
           </>
-        ) : (
-          !loading && (
-            <>
-              <a href="https://homeleadconnect.org">Public Home</a>
-              <Link to="/request-service" onClick={() => setMobileOpen(false)}>Request Service</Link>
-              <Link to="/contact" onClick={() => setMobileOpen(false)}>Contact</Link>
-              <Link to="/login" onClick={() => setMobileOpen(false)}>Sign In</Link>
-            </>
-          )
-        )}
+        ) : !loading ? (
+          <>
+            <a href="https://homeleadconnect.org">Public Home</a>
+            <Link to="/request-service" onClick={() => setMobileOpen(false)}>Request Service</Link>
+            <Link to="/contact" onClick={() => setMobileOpen(false)}>Contact</Link>
+            <Link to="/login" onClick={() => setMobileOpen(false)}>Sign In</Link>
+          </>
+        ) : null}
       </div>
     </nav>
   );
