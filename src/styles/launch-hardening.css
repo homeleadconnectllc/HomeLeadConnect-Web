@@ -222,27 +222,27 @@ main:has(> button[aria-label^="Open "][aria-label$=" help"]) > button[aria-label
   }
 
   main:has(> button[aria-label^="Open "][aria-label$=" help"]) > header {
-    gap: 18px !important;
-    padding: 20px !important;
+    gap: 16px !important;
+    padding: 18px !important;
     border-radius: 18px !important;
   }
 
   main:has(> button[aria-label^="Open "][aria-label$=" help"]) > header h1 {
-    font-size: 2.25rem !important;
+    font-size: 2.1rem !important;
   }
 
   main:has(> button[aria-label^="Open "][aria-label$=" help"]) > header p {
-    line-height: 1.45 !important;
+    line-height: 1.4 !important;
   }
 
   main:has(> button[aria-label^="Open "][aria-label$=" help"]) > header > div:last-child {
-    min-height: 230px !important;
-    max-height: 340px;
+    min-height: 210px !important;
+    max-height: 280px !important;
   }
 
   main:has(> button[aria-label^="Open "][aria-label$=" help"]) > header > div:last-child img {
-    min-height: 230px !important;
-    max-height: 340px;
+    min-height: 210px !important;
+    max-height: 280px !important;
     object-position: center 18% !important;
   }
 
@@ -263,5 +263,22 @@ main:has(> button[aria-label^="Open "][aria-label$=" help"]) > button[aria-label
   main:has(> button[aria-label^="Open "][aria-label$=" help"]) button {
     max-width: 100%;
     box-sizing: border-box;
+  }
+
+  main:has(> button[aria-label^="Open "][aria-label$=" help"]) > button[aria-label^="Open "][aria-label$=" help"] {
+    display: grid !important;
+    width: 50px !important;
+    height: 50px !important;
+    min-height: 50px !important;
+    place-items: center;
+    right: 12px !important;
+    bottom: calc(104px + env(safe-area-inset-bottom)) !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    font-size: 20px !important;
+  }
+
+  main:has(> button[aria-label^="Open "][aria-label$=" help"]) > button[aria-label^="Open "][aria-label$=" help"] > span:last-child {
+    display: none !important;
   }
 }
