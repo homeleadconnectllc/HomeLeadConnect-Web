@@ -241,6 +241,7 @@ export default function Dashboard() {
           <div>
             <span className="hlc-section-eyebrow">Your AI team</span>
             <h2>Kendrell · Dion · Diamond</h2>
+            <p className="hlc-agent-team-intro">Three dedicated HLC workspaces, each responsible for a different part of the business.</p>
           </div>
           <span className="hlc-agent-team-chip">3 workspaces</span>
         </div>
@@ -252,7 +253,8 @@ export default function Dashboard() {
               <Link className={`hlc-agent-card hlc-agent-card-${agent.id}`} to={agent.route} key={agent.id}>
                 <div className="hlc-agent-portrait-wrap">
                   <img className="hlc-agent-portrait" src={agent.avatar} alt={`${agent.name}, ${role.label}`} />
-                  <span className="hlc-agent-presence" aria-label="Workspace available" />
+                  <span className="hlc-agent-presence" aria-hidden="true" />
+                  <span className="hlc-agent-status">Online</span>
                 </div>
                 <div className="hlc-agent-card-body">
                   <span className="hlc-agent-role">{role.label}</span>
@@ -268,7 +270,7 @@ export default function Dashboard() {
         </div>
       </section>
 
-      <section className="hlc-dashboard-section">
+      <section className="hlc-dashboard-section hlc-dashboard-section-tight">
         <div className="hlc-section-heading">
           <div>
             <span className="hlc-section-eyebrow">Move fast</span>
