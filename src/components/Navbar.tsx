@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ecosystemNavigation, type EcosystemOwner, type EcosystemPage } from "../config/ecosystem";
+import { ecosystemNavigation, type EcosystemPage } from "../config/ecosystem";
 import { useAuth } from "../hooks/useAuth";
 import { supabase } from "../lib/supabase";
 
@@ -44,13 +44,6 @@ const declaredWorkspaceRoutes = new Set([
   "/settings/billing",
 ]);
 
-const ownerLabels: Record<EcosystemOwner, string> = {
-  Kendrell: "Ken",
-  Dion: "Dion",
-  Diamond: "Diamond",
-  Shared: "Shared",
-};
-
 export default function Navbar() {
   const { session, loading } = useAuth();
   const [access, setAccess] = useState({ business: false, homeowner: false, contractor: false });
@@ -75,6 +68,17 @@ export default function Navbar() {
     return () => { active = false; };
   }, [session]);
 
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = previous; };
+  }, [mobileOpen]);
+
   async function logout() {
     await supabase.auth.signOut();
     window.location.href = "/";
@@ -88,20 +92,30 @@ export default function Navbar() {
     return access.business;
   }
 
-  const signedInGroups = ecosystemNavigation
+  const signedInGroups = useMemo(() => ecosystemNavigation
     .map((group) => ({
       ...group,
-      pages: group.pages.filter((page) => hasPageAccess(page)),
+      pages: group.pages.filter((page) => hasPageAccess(page) && declaredWorkspaceRoutes.has(page.route)),
     }))
-    .filter((group) => group.pages.length > 0);
+    .filter((group) => group.pages.length > 0), [access]);
+
+  const currentGroup = signedInGroups.find((group) => group.pages.some((page) => page.route === location.pathname))?.id ?? "command";
+  const [openGroup, setOpenGroup] = useState(currentGroup);
+
+  useEffect(() => {
+    setOpenGroup(currentGroup);
+  }, [currentGroup]);
 
   return (
-    <nav className="hlc-navbar" role="navigation" aria-label="Main navigation">
+    <nav className={`hlc-navbar ${mobileOpen ? "menu-is-open" : ""}`} role="navigation" aria-label="Main navigation">
       <div className="hlc-navbar-brand">
         <div className="hlc-navbar-logo">
           <img src={logo} alt="HomeLead Connect LLC" />
         </div>
-        <h2>HomeLead Connect</h2>
+        <div className="hlc-navbar-brand-copy">
+          <h2>HomeLead Connect</h2>
+          <span>Command workspace</span>
+        </div>
       </div>
 
       <button
@@ -121,44 +135,41 @@ export default function Navbar() {
       >
         {!loading && session ? (
           <>
+            <div className="hlc-mobile-menu-heading">
+              <span>Workspace</span>
+              <strong>Go where you need to work.</strong>
+            </div>
             <div className="hlc-navbar-groups" aria-label="Signed-in HLC areas">
               {signedInGroups.map((group) => (
                 <details
                   className="hlc-nav-group"
                   key={group.id}
-                  open={group.pages.some((page) => page.route === location.pathname)}
+                  open={openGroup === group.id}
                 >
-                  <summary>{group.label}</summary>
+                  <summary onClick={(event) => {
+                    event.preventDefault();
+                    setOpenGroup(openGroup === group.id ? "" : group.id);
+                  }}>
+                    <span>{group.label}</span>
+                    <small>{group.pages.length}</small>
+                  </summary>
                   <div className="hlc-nav-menu">
-                    <p>{group.purpose}</p>
-                    {group.pages.map((page) => {
-                      const isDeclared = declaredWorkspaceRoutes.has(page.route);
-                      return isDeclared ? (
-                        <Link
-                          aria-current={location.pathname === page.route ? "page" : undefined}
-                          key={page.route}
-                          onClick={() => setMobileOpen(false)}
-                          to={page.route}
-                        >
-                          <span>{page.label}</span>
-                          <small>{ownerLabels[page.owner]} · {page.status}</small>
-                        </Link>
-                      ) : (
-                        <span
-                          className="hlc-nav-reserved"
-                          key={page.route}
-                          title={`${page.route} is reserved in the ecosystem map but not built yet.`}
-                        >
-                          <span>{page.label}</span>
-                          <small>{ownerLabels[page.owner]} · {page.status}</small>
-                        </span>
-                      );
-                    })}
+                    {group.pages.map((page) => (
+                      <Link
+                        aria-current={location.pathname === page.route ? "page" : undefined}
+                        key={page.route}
+                        onClick={() => setMobileOpen(false)}
+                        to={page.route}
+                      >
+                        <span>{page.label}</span>
+                        <small>{page.purpose}</small>
+                      </Link>
+                    ))}
                   </div>
                 </details>
               ))}
             </div>
-            <button type="button" onClick={logout}>
+            <button className="hlc-nav-logout" type="button" onClick={logout}>
               Log out
             </button>
           </>
