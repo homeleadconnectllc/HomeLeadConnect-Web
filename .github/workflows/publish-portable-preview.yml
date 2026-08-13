@@ -1,0 +1,38 @@
+name: Publish HLC Portable Preview
+
+on:
+  push:
+    branches:
+      - netlify/launch-preview-refresh
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish-preview-static:
+    runs-on: ubuntu-latest
+    env:
+      VITE_SUPABASE_URL: https://agfwqnirspmptjiqrrtk.supabase.co
+      VITE_SUPABASE_ANON_KEY: sb_publishable_oe-fZIb14XWNWgk5-0pPfw_Xqb0dqYv
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run build -- --base=./
+      - name: Publish isolated static preview branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp -R dist /tmp/hlc-preview-dist
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan preview-static
+          git rm -rf .
+          cp -R /tmp/hlc-preview-dist/. .
+          git add -A
+          git commit -m "preview: publish portable launch candidate"
+          git push --force origin HEAD:preview-static
