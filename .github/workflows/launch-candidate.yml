@@ -36,6 +36,18 @@ jobs:
         continue-on-error: true
         run: npm audit --audit-level=high
 
+      - name: Generate audited lockfile candidate
+        run: npm audit fix --package-lock-only
+
+      - name: Verify audited dependency graph
+        run: npm audit --audit-level=high
+
+      - name: Upload audited lockfile candidate
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: audited-package-lock
+          path: package-lock.json
+
       - name: Verify launch candidate
         shell: bash
         run: |
