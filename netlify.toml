@@ -1,4 +1,5 @@
 # HLC launch-candidate branch deploy config. This comment also provides a safe branch-only deploy trigger.
+# Production cutover trigger: comment-only commit; no runtime behavior change.
 [build]
   command = "npm run build"
   publish = "dist"
