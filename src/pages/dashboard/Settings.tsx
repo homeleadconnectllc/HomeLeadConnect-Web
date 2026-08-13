@@ -45,22 +45,23 @@ export default function Settings() {
   const [message, setMessage] = useState("");
   const [billing, setBilling] = useState<BillingStatus | null>(null);
   const [billingOffer, setBillingOffer] = useState<BillingOffer | null>(null);
+  const [billingSetupError, setBillingSetupError] = useState("");
   const [billingConsent, setBillingConsent] = useState(false);
   const [businessPhones, setBusinessPhones] = useState<BusinessPhone[]>([]);
+  const [phoneSetupError, setPhoneSetupError] = useState("");
 
   useEffect(() => {
-    Promise.all([
-      getMyProfile(),
-      getBusinessProfile(),
-      listMyWorkspaces(),
-      billingEnabled ? getBillingStatus() : Promise.resolve(null),
-      listBusinessPhones().catch(() => []),
-      billingEnabled ? getBillingOffer().catch(() => null) : Promise.resolve(null),
-    ])
-      .then(([profile, businessProfile, workspaceOptions, billingStatus, phoneRows, offer]) => {
-        setBilling(billingStatus);
-        setBillingOffer(offer);
-        setBusinessPhones(phoneRows);
+    let active = true;
+
+    async function loadSettings() {
+      try {
+        const [profile, businessProfile, workspaceOptions] = await Promise.all([
+          getMyProfile(),
+          getBusinessProfile(),
+          listMyWorkspaces(),
+        ]);
+        if (!active) return;
+
         setWorkspaceId(profile.workspace_id);
         setWorkspaces(workspaceOptions);
         setPersonal({
@@ -81,9 +82,37 @@ export default function Settings() {
             zip: businessProfile.zip || "",
           });
         }
-      })
-      .catch((reason: unknown) => setError(errorMessage(reason, "Unable to load settings.")))
-      .finally(() => setLoading(false));
+
+        const phoneResult = await Promise.allSettled([listBusinessPhones()]);
+        if (!active) return;
+        if (phoneResult[0].status === "fulfilled") {
+          setBusinessPhones(phoneResult[0].value);
+          setPhoneSetupError("");
+        } else {
+          setBusinessPhones([]);
+          setPhoneSetupError(errorMessage(phoneResult[0].reason, "Unable to verify phone provider status."));
+        }
+
+        if (billingEnabled) {
+          const [statusResult, offerResult] = await Promise.allSettled([
+            getBillingStatus(),
+            getBillingOffer(),
+          ]);
+          if (!active) return;
+          if (statusResult.status === "fulfilled") setBilling(statusResult.value);
+          else setBillingSetupError(errorMessage(statusResult.reason, "Unable to verify workspace billing status."));
+          if (offerResult.status === "fulfilled") setBillingOffer(offerResult.value);
+          else setBillingSetupError((current) => current || errorMessage(offerResult.reason, "Unable to verify the HLC billing offer."));
+        }
+      } catch (reason) {
+        if (active) setError(errorMessage(reason, "Unable to load settings."));
+      } finally {
+        if (active) setLoading(false);
+      }
+    }
+
+    void loadSettings();
+    return () => { active = false; };
   }, [billingEnabled]);
 
   async function savePersonal(event: FormEvent) {
@@ -130,6 +159,7 @@ export default function Settings() {
   if (loading) return <main style={pageStyle}><p>Loading settings…</p></main>;
 
   const billingOfferLabel = billingOffer ? formatBillingOffer(billingOffer) : null;
+  const billingReady = billingEnabled && billingOfferLabel && !billingSetupError;
 
   return <main style={pageStyle}>
     <h1>Profile and business settings</h1>
@@ -169,7 +199,7 @@ export default function Settings() {
     <section style={cardStyle} aria-labelledby="phone-settings-heading">
       <h2 id="phone-settings-heading">Business phone numbers</h2>
       <p>Phone numbers belong to this workspace. Provider readiness determines which calling and messaging actions are available.</p>
-      {businessPhones.length === 0 ? <p><strong>Phone provider setup required.</strong></p> : businessPhones.map((phone) => <article key={phone.id}>
+      {phoneSetupError ? <p role="alert" style={errorStyle}>{phoneSetupError}</p> : businessPhones.length === 0 ? <p><strong>Phone provider setup required.</strong></p> : businessPhones.map((phone) => <article key={phone.id}>
         <strong>{phone.display_name}: {phone.phone_number}</strong>
         <p>{phone.provider_type} · {phone.readiness_state} · {phone.verification_state}{phone.is_primary ? " · Primary" : ""}</p>
         <small>
@@ -185,15 +215,16 @@ export default function Settings() {
 
     <section style={cardStyle}>
       <h2>Billing</h2>
-      {billingEnabled && billingOfferLabel ? <>
+      {billingSetupError && <p role="alert" style={errorStyle}>{billingSetupError}</p>}
+      {billingReady ? <>
         <p><strong>{billingOffer?.name}:</strong> {billingOfferLabel} after a 14-day free trial.</p>
         <p>A payment method is required to begin the trial. No charge is made until the trial ends. Cancellation of a paid subscription takes effect at the end of the current billing period.</p>
-      </> : billingEnabled ? <p><strong>Setup required:</strong> The authoritative HLC billing offer is unavailable, so enrollment is disabled.</p> : null}
-      {!billing?.is_active && billingEnabled && billingOfferLabel && <label><input type="checkbox" checked={billingConsent} onChange={(event) => setBillingConsent(event.target.checked)} /> I agree to begin a 14-day free trial with a payment method. Unless cancelled before the trial ends, the workspace will be charged {billingOfferLabel}. I can cancel online through the Stripe billing portal.</label>}
+      </> : billingEnabled && !billingSetupError ? <p><strong>Setup required:</strong> The authoritative HLC billing offer is unavailable, so enrollment is disabled.</p> : null}
+      {!billing?.is_active && billingReady && <label><input type="checkbox" checked={billingConsent} onChange={(event) => setBillingConsent(event.target.checked)} /> I agree to begin a 14-day free trial with a payment method. Unless cancelled before the trial ends, the workspace will be charged {billingOfferLabel}. I can cancel online through the Stripe billing portal.</label>}
       {billing ? <p>Workspace billing state: <strong>{billing.status}</strong>{billing.trial_end ? ` · Trial ends ${new Date(billing.trial_end).toLocaleDateString()}` : ""}{billing.current_period_end ? ` · Current period ends ${new Date(billing.current_period_end).toLocaleDateString()}` : ""}</p>
-        : <p>No authoritative Stripe subscription is recorded for this workspace.</p>}
+        : billingEnabled && !billingSetupError ? <p>No authoritative Stripe subscription is recorded for this workspace.</p> : null}
       {billingEnabled ? <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-        {!billing?.is_active && <button disabled={!billingConsent || !billingOfferLabel} type="button" onClick={() => billingAction(startSubscriptionCheckout)}>Start 14-day trial</button>}
+        {!billing?.is_active && <button disabled={!billingConsent || !billingReady} type="button" onClick={() => billingAction(startSubscriptionCheckout)}>Start 14-day trial</button>}
         {billing && <button type="button" onClick={() => billingAction(openBillingPortal)}>Manage billing with Stripe</button>}
       </div> : <p><strong>Setup required:</strong> Stripe launch billing is not enabled in this environment.</p>}
     </section>
