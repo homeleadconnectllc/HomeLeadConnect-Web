@@ -1,4 +1,5 @@
 # HLC launch-candidate branch deploy config. This comment also provides a safe branch-only deploy trigger.
+# Netlify preview refresh: distinct recovery branch commit for isolated preview allocation.
 [build]
   command = "npm run build"
   publish = "dist"
