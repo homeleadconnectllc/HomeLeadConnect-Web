@@ -8,7 +8,7 @@ Deno.serve(async (request) => {
   if (request.method !== "POST") return json({ error: "Method not allowed." }, 405);
   const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
   const signingSecret = Deno.env.get("STRIPE_WEBHOOK_SIGNING_SECRET");
-  const priceId = Deno.env.get("STRIPE_PRICE_HLC_MONTHLY");
+  const priceId = Deno.env.get("STRIPE_PRICE_HLC") || Deno.env.get("STRIPE_PRICE_HLC_MONTHLY");
   const url = Deno.env.get("SUPABASE_URL");
   const service = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   if (!stripeKey || !signingSecret || !priceId || !url || !service) return json({ error: "Webhook setup is incomplete." }, 503);
