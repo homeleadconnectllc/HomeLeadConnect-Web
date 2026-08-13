@@ -1,0 +1,46 @@
+name: One-time audited lockfile fix
+
+on:
+  push:
+    branches:
+      - sprint/ecosystem-integration
+
+permissions:
+  contents: write
+
+jobs:
+  lockfix:
+    if: github.event.head_commit.message == 'ci: one-time apply audited lockfile'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout sprint branch
+        uses: actions/checkout@v7.0.1
+        with:
+          ref: sprint/ecosystem-integration
+
+      - name: Setup Node
+        uses: actions/setup-node@v7.0.0
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Generate audited lockfile
+        run: npm audit fix --package-lock-only
+
+      - name: Verify full dependency audit
+        run: npm audit --audit-level=high
+
+      - name: Commit only audited lockfile
+        shell: bash
+        run: |
+          if git diff --quiet -- package-lock.json; then
+            echo "No lockfile changes required."
+            exit 0
+          fi
+          git config user.name "homeleadconnectllc"
+          git config user.email "285241474+homeleadconnectllc@users.noreply.github.com"
+          git add package-lock.json
+          git diff --cached --name-only | grep -qx 'package-lock.json'
+          git commit -m "chore: apply audited lockfile"
+          git push origin HEAD:sprint/ecosystem-integration
