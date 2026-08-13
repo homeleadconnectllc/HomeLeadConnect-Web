@@ -11,7 +11,7 @@ Deno.serve(async (request) => {
   const anon = Deno.env.get("SUPABASE_ANON_KEY");
   const service = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
-  const priceId = Deno.env.get("STRIPE_PRICE_HLC_MONTHLY");
+  const priceId = Deno.env.get("STRIPE_PRICE_HLC") || Deno.env.get("STRIPE_PRICE_HLC_MONTHLY");
   const appUrl = Deno.env.get("APP_URL");
   const authorization = request.headers.get("Authorization");
   if (!url || !anon || !service || !stripeKey || !priceId || !appUrl) return json({ error: "Billing setup is incomplete." }, 503);
