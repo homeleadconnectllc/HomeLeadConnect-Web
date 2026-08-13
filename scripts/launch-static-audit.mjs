@@ -20,14 +20,23 @@ function requireText(rel, text) {
   else checks.push(`ok ${rel} contains ${text}`);
 }
 
+function forbidText(rel, text) {
+  const full = path.join(root, rel);
+  if (!fs.existsSync(full)) { failures.push(`Missing required file: ${rel}`); return; }
+  const content = fs.readFileSync(full, 'utf8');
+  if (content.includes(text)) failures.push(`${rel} contains forbidden stale text: ${text}`);
+  else checks.push(`ok ${rel} excludes ${text}`);
+}
+
 for (const file of [
   'src/lib/supabase.ts','src/lib/accessDestination.ts','src/routes/AppRouter.tsx','src/context/AuthContext.tsx',
   'src/pages/HostEntry.tsx','src/pages/HomePage.tsx','src/pages/AppEntry.tsx','src/pages/auth/Login.tsx',
   'src/pages/auth/ForgotPassword.tsx','src/pages/auth/ResetPassword.tsx','src/pages/RequestService.tsx',
   'src/api/publicIntake.ts','src/api/leads.ts','src/api/estimates.ts','src/api/jobs.ts','src/api/jobAssignments.ts',
-  'src/api/appointments.ts','src/pages/dashboard/CallCenter.tsx','src/api/telephony.ts','src/pages/portal/HomeownerPortal.tsx',
+  'src/api/appointments.ts','src/api/billing.ts','src/pages/dashboard/Settings.tsx','src/pages/dashboard/CallCenter.tsx','src/api/telephony.ts','src/pages/portal/HomeownerPortal.tsx',
   'src/pages/portal/ContractorPortal.tsx','src/ai/agents.ts','src/styles/launch-hardening.css','public/brand/avatars/Kendrell_Locked_HLC.png',
   'public/brand/avatars/Dion_Locked_HLC.png','public/brand/avatars/Diamond_Locked_HLC.png','public/_redirects','netlify.toml',
+  'supabase/functions/stripe-checkout-session/index.ts',
 ]) requireFile(file);
 
 requireText('.env.example', 'VITE_SUPABASE_URL=');
@@ -52,6 +61,11 @@ requireText('src/pages/HomePage.tsx', 'to="/community"');
 requireText('src/styles/launch-hardening.css', 'aside[aria-label$=" guidance"]');
 requireText('src/styles/launch-hardening.css', 'width: 44px !important;');
 requireText('src/styles/launch-hardening.css', 'bottom: calc(132px + env(safe-area-inset-bottom)) !important;');
+requireText('src/api/billing.ts', 'getBillingOffer');
+requireText('src/api/billing.ts', '.from("plans")');
+requireText('src/pages/dashboard/Settings.tsx', 'formatBillingOffer');
+requireText('supabase/functions/stripe-checkout-session/index.ts', 'Stripe billing does not match the published HLC plan.');
+forbidText('src/pages/dashboard/Settings.tsx', '$99');
 
 if (fs.existsSync(path.join(root, 'vercel.json'))) failures.push('Stale vercel.json is present; Netlify is the canonical application host.');
 
