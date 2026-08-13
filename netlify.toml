@@ -1,3 +1,4 @@
+# HLC launch-candidate branch deploy config. This comment also provides a safe branch-only deploy trigger.
 [build]
   command = "npm run build"
   publish = "dist"
