@@ -38,15 +38,30 @@ Deno.serve(async (request) => {
   const { data: existing } = await admin.from("subscriptions").select("stripe_customer_id,status").eq("workspace_id", profile.workspace_id).maybeSingle();
   if (existing?.status === "active" || existing?.status === "trialing") return json({ error: "This workspace already has an active subscription." }, 409);
 
+  const { data: plan, error: planError } = await admin.from("plans")
+    .select("key,price_cents,currency,interval,is_active")
+    .eq("key", "hlc_v1")
+    .maybeSingle();
+  if (planError || !plan?.is_active || !plan.price_cents || !plan.currency || !plan.interval) {
+    return json({ error: "The published HLC billing offer is unavailable." }, 503);
+  }
+
   const stripe = new Stripe(stripeKey);
   const price = await stripe.prices.retrieve(priceId);
-  if (!price.active || price.type !== "recurring" || price.currency !== "usd" || !price.unit_amount) {
+  if (!price.active || price.type !== "recurring" || price.currency !== "usd" || !price.unit_amount || !price.recurring?.interval) {
     return json({ error: "Configured subscription price is invalid." }, 503);
+  }
+  if (
+    price.unit_amount !== plan.price_cents
+    || price.currency !== plan.currency
+    || price.recurring.interval !== plan.interval
+  ) {
+    return json({ error: "Stripe billing does not match the published HLC plan. Enrollment is disabled until configuration is reconciled." }, 503);
   }
 
   const { error: consentError } = await admin.from("billing_enrollment_consents").upsert({
     workspace_id: profile.workspace_id, user_id: userData.user.id, disclosure_version: enrollment.disclosureVersion,
-    trial_days: 14, recurring_amount_cents: price.unit_amount, currency: price.currency, billing_interval: price.recurring?.interval ?? "month",
+    trial_days: 14, recurring_amount_cents: price.unit_amount, currency: price.currency, billing_interval: price.recurring.interval,
     cancellation_method: "stripe_billing_portal", client_request_id: enrollment.clientRequestId,
   }, { onConflict: "workspace_id,client_request_id", ignoreDuplicates: true });
   if (consentError) return json({ error: "Unable to preserve enrollment consent." }, 500);
