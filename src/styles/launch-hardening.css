@@ -173,3 +173,95 @@
     height: calc(100dvh - 70px);
   }
 }
+
+/* Agent workspace visual hardening. Structural selectors avoid React or runtime changes. */
+main:has(> button[aria-label^="Open "][aria-label$=" help"]) {
+  color: #e5edf8;
+}
+
+main:has(> button[aria-label^="Open "][aria-label$=" help"]) > header + p,
+main:has(> button[aria-label^="Open "][aria-label$=" help"]) > header + p + section {
+  background: #101827 !important;
+  color: #dbe7f5 !important;
+  border-color: #334155 !important;
+  box-shadow: none !important;
+}
+
+main:has(> button[aria-label^="Open "][aria-label$=" help"]) > header + p {
+  line-height: 1.55;
+}
+
+main:has(> button[aria-label^="Open "][aria-label$=" help"]) > header + p + section p {
+  color: #b7c5d8 !important;
+}
+
+main:has(> button[aria-label^="Open "][aria-label$=" help"]) > header + p + section > div:nth-child(2) {
+  background: #0b1220 !important;
+  border-color: #334155 !important;
+}
+
+main:has(> button[aria-label^="Open "][aria-label$=" help"]) > header + p + section article {
+  color: #e5edf8 !important;
+  border-color: #334155 !important;
+}
+
+main:has(> button[aria-label^="Open "][aria-label$=" help"]) > button[aria-label^="Open "][aria-label$=" help"] {
+  right: 14px !important;
+  bottom: calc(82px + env(safe-area-inset-bottom)) !important;
+  min-height: 46px;
+  padding: 8px 13px !important;
+  background: rgba(15, 23, 42, .96) !important;
+  backdrop-filter: blur(12px);
+}
+
+@media (max-width: 700px) {
+  main:has(> button[aria-label^="Open "][aria-label$=" help"]) {
+    width: calc(100% - 28px) !important;
+    margin: 22px auto calc(110px + env(safe-area-inset-bottom)) !important;
+    gap: 16px !important;
+  }
+
+  main:has(> button[aria-label^="Open "][aria-label$=" help"]) > header {
+    gap: 18px !important;
+    padding: 20px !important;
+    border-radius: 18px !important;
+  }
+
+  main:has(> button[aria-label^="Open "][aria-label$=" help"]) > header h1 {
+    font-size: 2.25rem !important;
+  }
+
+  main:has(> button[aria-label^="Open "][aria-label$=" help"]) > header p {
+    line-height: 1.45 !important;
+  }
+
+  main:has(> button[aria-label^="Open "][aria-label$=" help"]) > header > div:last-child {
+    min-height: 230px !important;
+    max-height: 340px;
+  }
+
+  main:has(> button[aria-label^="Open "][aria-label$=" help"]) > header > div:last-child img {
+    min-height: 230px !important;
+    max-height: 340px;
+    object-position: center 18% !important;
+  }
+
+  main:has(> button[aria-label^="Open "][aria-label$=" help"]) > header + p,
+  main:has(> button[aria-label^="Open "][aria-label$=" help"]) > header + p + section {
+    padding: 16px !important;
+    border-radius: 16px !important;
+  }
+
+  main:has(> button[aria-label^="Open "][aria-label$=" help"]) > header + p + section h2 {
+    font-size: 1.55rem !important;
+  }
+
+  main:has(> button[aria-label^="Open "][aria-label$=" help"]) > header + p + section textarea,
+  main:has(> button[aria-label^="Open "][aria-label$=" help"]) select,
+  main:has(> button[aria-label^="Open "][aria-label$=" help"]) input,
+  main:has(> button[aria-label^="Open "][aria-label$=" help"]) textarea,
+  main:has(> button[aria-label^="Open "][aria-label$=" help"]) button {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+}
