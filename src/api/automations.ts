@@ -1,9 +1,18 @@
 import { getCurrentWorkspaceId, supabase } from "./client";
 
+export type AutomationJobStatus =
+  | "queued"
+  | "processing"
+  | "success"
+  | "failed"
+  | "running"
+  | "succeeded"
+  | "blocked";
+
 export type AutomationJobRecord = {
   id: string;
   job_type: string;
-  status: "queued" | "running" | "succeeded" | "failed" | "blocked";
+  status: AutomationJobStatus;
   retry_count: number;
   max_attempts: number;
   payload: Record<string, unknown>;
@@ -17,7 +26,7 @@ export type AutomationJobRecord = {
 export type AutomationRunResult = {
   id: string;
   job_type: string;
-  status: AutomationJobRecord["status"];
+  status: AutomationJobStatus;
   result: Record<string, unknown> | null;
   duplicate: boolean;
 };
