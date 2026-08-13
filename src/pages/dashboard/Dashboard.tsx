@@ -22,6 +22,7 @@ import { listLeads } from "../../api/leads";
 import { listFollowUps } from "../../api/followUps";
 import { listJobs } from "../../api/jobs";
 import { listWorkspaceAppointments } from "../../api/appointments";
+import { agentTeam } from "../../config/ecosystem";
 import type { CrmJob, FollowUp, JobAppointment, Lead } from "../../lib/types/database";
 import "../../styles/dashboard.css";
 
@@ -47,6 +48,21 @@ const workspaceLinks = [
   { to: "/automations", label: "Automations", detail: "Keep follow-through moving", icon: Zap },
   { to: "/calendar", label: "Schedule", detail: "See appointments and timing", icon: CalendarDays },
 ];
+
+const agentRoleCopy: Record<string, { label: string; responsibility: string }> = {
+  kendrell: {
+    label: "Command",
+    responsibility: "Executive priorities, approvals, risk and cross-agent coordination.",
+  },
+  dion: {
+    label: "Operations & BI",
+    responsibility: "Leads, LeadScope, jobs, matching, scheduling and operational intelligence.",
+  },
+  diamond: {
+    label: "Customer Experience",
+    responsibility: "Onboarding, messages, community, reviews, recovery and brand experience.",
+  },
+};
 
 function getGreeting() {
   const hour = new Date().getHours();
@@ -218,6 +234,38 @@ export default function Dashboard() {
             <span>{label}</span>
           </Link>
         ))}
+      </section>
+
+      <section className="hlc-dashboard-section hlc-agent-team-section">
+        <div className="hlc-section-heading hlc-agent-team-heading">
+          <div>
+            <span className="hlc-section-eyebrow">Your AI team</span>
+            <h2>Kendrell · Dion · Diamond</h2>
+          </div>
+          <span className="hlc-agent-team-chip">3 workspaces</span>
+        </div>
+
+        <div className="hlc-agent-grid">
+          {agentTeam.map((agent) => {
+            const role = agentRoleCopy[agent.id];
+            return (
+              <Link className={`hlc-agent-card hlc-agent-card-${agent.id}`} to={agent.route} key={agent.id}>
+                <div className="hlc-agent-portrait-wrap">
+                  <img className="hlc-agent-portrait" src={agent.avatar} alt={`${agent.name}, ${role.label}`} />
+                  <span className="hlc-agent-presence" aria-label="Workspace available" />
+                </div>
+                <div className="hlc-agent-card-body">
+                  <span className="hlc-agent-role">{role.label}</span>
+                  <h3>{agent.name}</h3>
+                  <p>{role.responsibility}</p>
+                  <span className="hlc-agent-open">
+                    Open workspace <ArrowRight size={16} />
+                  </span>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
       </section>
 
       <section className="hlc-dashboard-section">
