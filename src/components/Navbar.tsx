@@ -70,7 +70,7 @@ export default function Navbar() {
 
   async function logout() {
     await supabase.auth.signOut();
-    window.location.href = "/";
+    window.location.href = "/login";
   }
 
   const signedInGroups = useMemo(() => {
@@ -97,6 +97,7 @@ export default function Navbar() {
   const signedIn = !loading && Boolean(session);
   const accessResolved = !session || access.userId === session.user.id;
   const showBusinessTools = access.business || (!accessResolved && signedIn);
+  const brandDestination = signedIn ? "/dashboard" : "/login";
 
   function closeMobileMenu() {
     setMobileOpenAt(null);
@@ -126,11 +127,11 @@ export default function Navbar() {
     return (
       <>
         <div className="hlc-mobile-menu-heading">
-          <span>Owner workspace</span>
+          <span>HLC workspace</span>
           <strong>Run HomeLead Connect.</strong>
         </div>
 
-        <Link className="hlc-owner-home-link" to="/app" onClick={closeMobileMenu}>
+        <Link className="hlc-owner-home-link" to="/dashboard" onClick={closeMobileMenu}>
           <span><strong>Open Command Center</strong><small>Dashboard, live work and priorities</small></span>
           <b aria-hidden="true">→</b>
         </Link>
@@ -169,7 +170,7 @@ export default function Navbar() {
         </div>
 
         {!accessResolved && <p className="hlc-nav-access-note">Loading workspace access…</p>}
-        <button className="hlc-nav-logout" type="button" onClick={logout}>Log out</button>
+        <button className="hlc-nav-logout" type="button" onClick={logout}>Sign out</button>
       </>
     );
   }
@@ -186,13 +187,13 @@ export default function Navbar() {
   return (
     <>
       <nav className={`hlc-navbar ${mobileOpen ? "menu-is-open" : ""}`} role="navigation" aria-label="Main navigation">
-        <div className="hlc-navbar-brand">
+        <Link className="hlc-navbar-brand" to={brandDestination} onClick={closeMobileMenu} aria-label={signedIn ? "HomeLead Connect dashboard" : "HomeLead Connect sign in"}>
           <div className="hlc-navbar-logo"><img src={logo} alt="HomeLead Connect LLC" /></div>
           <div className="hlc-navbar-brand-copy">
             <h2>HomeLead Connect</h2>
-            <span>{signedIn ? "Owner workspace" : "Home services network"}</span>
+            <span>{signedIn ? "HLC workspace" : "Home services network"}</span>
           </div>
-        </div>
+        </Link>
 
         <button
           type="button"
