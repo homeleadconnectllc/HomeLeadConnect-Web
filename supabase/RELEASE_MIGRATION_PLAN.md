@@ -129,6 +129,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - Launch portal SELECT policies were consolidated without changing authorization semantics and rewritten to use init-plan-safe `(select auth.uid())`; authenticated provider and resident portal RPCs were retested successfully afterward.
 - Covering indexes were added for the professional-application reviewer FK and launch-critical provider/public-form workspace FKs.
 - Security and performance advisors were rerun after launch DDL. Existing linter findings remain tracked; broad legacy rewrites are not made as a shortcut when a warning reflects an intentional public RPC or a larger legacy policy surface.
+- PR #7's Netlify deploy-preview status reports success, and the preview has rendered on iPhone at least once, but a subsequent iPhone Safari attempt failed to resolve the preview hostname. The physical-device acceptance gate therefore remains open until a stable preview/branch/permalink is confirmed on both iPhone and Mac.
 
 ## Change procedure after launch
 
