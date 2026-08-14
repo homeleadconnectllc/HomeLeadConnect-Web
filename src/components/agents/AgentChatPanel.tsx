@@ -1,6 +1,6 @@
 import { useRef, useState, type FormEvent } from "react";
 import { chatWithAgent, type AgentChatMessage } from "../../api/agentChat";
-import type { AgentId } from "../../ai/agents";
+import { agents, type AgentId } from "../../ai/agents";
 import { errorMessage } from "../../lib/errorMessage";
 import {
   getAgentVoicePreferences,
@@ -42,6 +42,7 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
   const recognitionSupported = typeof window !== "undefined" && Boolean(getRecognitionConstructor());
   const speechOutputSupported = typeof window !== "undefined" && "speechSynthesis" in window;
   const sendDisabled = busy || draft.trim().length === 0;
+  const voicePersona = agents[agentId].voicePersona;
 
   function updateVoicePreferences(next: AgentVoicePreferences) {
     setVoicePreferences(next);
@@ -126,7 +127,9 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
       >
         Auto-speak {voicePreferences.autoSpeak ? "on" : "off"}
       </button>
-      <small style={{ color: "#64748b" }}>{agentName}'s voice profile is selected automatically from the agent identity.</small>
+      <small style={{ color: "#475569", flexBasis: "100%" }}>
+        <strong>{agentName} voice:</strong> {voicePersona.genderPresentation} · {voicePersona.tone}. {voicePersona.pacing}.
+      </small>
     </div>}
 
     <div aria-live="polite" style={transcriptStyle}>
@@ -134,7 +137,7 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
       {messages.map((item, index) => <article key={`${item.role}-${index}`} style={{ ...bubbleStyle, marginLeft: item.role === "user" ? "auto" : 0, background: item.role === "user" ? "#eff6ff" : "#f8fafc" }}>
         <strong>{item.role === "user" ? "You" : agentName}</strong>
         <p style={{ margin: "5px 0 0", whiteSpace: "pre-wrap" }}>{item.text}</p>
-        {item.role === "model" && speechOutputSupported && voicePreferences.enabled && <button type="button" onClick={() => speak(item.text)} style={listenButtonStyle}>Replay voice</button>}
+        {item.role === "model" && speechOutputSupported && voicePreferences.enabled && <button type="button" onClick={() => speak(item.text)} style={listenButtonStyle}>Replay {agentName}</button>}
       </article>)}
       {busy && <p role="status">{agentName} is responding…</p>}
     </div>
