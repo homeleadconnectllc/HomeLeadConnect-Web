@@ -75,6 +75,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 67. `20260814145520_linked_provider_profile_read.sql`
 68. `20260814150142_professional_portal_services_contract.sql`
 69. `20260814150206_fix_professional_portal_availability_upsert.sql`
+70. `20260814163950_professional_application_intake.sql`
 
 ## Current production rules
 
