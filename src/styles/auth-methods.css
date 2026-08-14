@@ -1,0 +1,67 @@
+.hlc-auth-method-tabs,
+.hlc-auth-provider-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.hlc-auth-method-tabs button,
+.hlc-auth-provider-grid button {
+  min-height: 48px;
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  background: #fff;
+  color: #0f172a;
+  font-weight: 800;
+}
+
+.hlc-auth-method-tabs button[aria-pressed="true"] {
+  border-color: #2563eb;
+  background: #eff6ff;
+  color: #1d4ed8;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, .1);
+}
+
+.hlc-auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 20px 0 14px;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+
+.hlc-auth-divider::before,
+.hlc-auth-divider::after {
+  content: "";
+  height: 1px;
+  flex: 1 1 auto;
+  background: #e2e8f0;
+}
+
+.hlc-navbar-logo-home {
+  cursor: pointer;
+}
+
+.hlc-navbar-logo-home:focus-visible {
+  outline: 3px solid #60a5fa;
+  outline-offset: 3px;
+}
+
+@media (max-width: 720px) {
+  .hlc-auth-method-tabs,
+  .hlc-auth-provider-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hlc-auth-method-tabs button,
+  .hlc-auth-provider-grid button {
+    width: 100%;
+  }
+}
