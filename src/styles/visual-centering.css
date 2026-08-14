@@ -1,0 +1,26 @@
+/* Consistent visual centering without reducing desktop information density. */
+.hlc-route-content > main {
+  margin-inline: auto;
+}
+
+@media (min-width: 1025px) {
+  .hlc-signed-in-shell > .hlc-route-content {
+    display: block;
+    box-sizing: border-box;
+    padding-inline: clamp(20px, 2.4vw, 44px);
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content > main {
+    width: min(100%, 1480px);
+    max-width: 1480px;
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 1024px) {
+  .hlc-route-content > main {
+    width: min(100%, 1120px);
+    max-width: 100%;
+    margin-inline: auto;
+  }
+}
