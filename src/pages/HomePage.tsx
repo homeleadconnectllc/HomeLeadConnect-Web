@@ -30,10 +30,10 @@ export default function HomePage() {
         </article>)}
       </section>
 
-      <section style={{maxWidth:1100,margin:"0 auto 60px",background:"#0f172a",color:"#fff",borderRadius:32,padding:34}}>
-        <h2 style={{marginTop:0}}>Everything branches from HomeLeadConnect.org</h2>
-        <p style={{color:"#cbd5e1",lineHeight:1.6}}>Public information, service requests, authentication, homeowner and contractor portals, Community, Network & Map, CRM operations, scheduling, communications, documents, billing, workflows, analytics, and Kendrell, Dion, and Diamond all belong to the same HLC route tree and Supabase-backed system.</p>
-        <div style={{display:"flex",gap:12,flexWrap:"wrap",marginTop:22}}>
+      <section style={{maxWidth:1100,margin:"0 auto 60px",background:"#0f172a",color:"#fff",borderRadius:32,padding:34,textAlign:"center"}}>
+        <h2 style={{margin:"0 auto 14px"}}>Everything branches from HomeLeadConnect.org</h2>
+        <p style={{color:"#cbd5e1",lineHeight:1.6,maxWidth:860,margin:"0 auto"}}>Public information, service requests, authentication, homeowner and contractor portals, Community, Network & Map, CRM operations, scheduling, communications, documents, billing, workflows, analytics, and Kendrell, Dion, and Diamond all belong to the same HLC route tree and Supabase-backed system.</p>
+        <div style={{display:"flex",gap:16,justifyContent:"center",alignItems:"center",flexWrap:"wrap",marginTop:22}}>
           <Link to="/how-it-works" style={{color:"#93c5fd"}}>How it works</Link>
           <Link to="/professionals" style={{color:"#93c5fd"}}>For professionals</Link>
           <Link to="/trust" style={{color:"#93c5fd"}}>Trust & safety</Link>
