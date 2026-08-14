@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import AnalyticsKpis from "../components/analytics/AnalyticsKpis";
 import AnalyticsTracker from "../components/analytics/AnalyticsTracker";
 import AudioDeviceCenter from "../components/audio/AudioDeviceCenter";
 import MaterialShopLinks from "../components/estimator/MaterialShopLinks";
@@ -12,6 +13,7 @@ export default function AppLayout() {
   const navigate = useNavigate();
   const showLeadScopeShopping = Boolean(session) && location.pathname === "/estimator";
   const showAudioDevices = Boolean(session) && (location.pathname === "/settings" || location.pathname === "/call-center");
+  const showAnalytics = Boolean(session) && location.pathname === "/dashboard";
 
   useEffect(() => {
     const logo = document.querySelector<HTMLElement>(".hlc-navbar-logo");
@@ -46,6 +48,7 @@ export default function AppLayout() {
       <Navbar />
       <div className="hlc-route-content">
         <Outlet />
+        {showAnalytics && <AnalyticsKpis />}
         {showLeadScopeShopping && <MaterialShopLinks />}
         {showAudioDevices && <AudioDeviceCenter />}
       </div>
