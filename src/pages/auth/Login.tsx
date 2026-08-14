@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react";
 import type { Provider } from "@supabase/supabase-js";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { trackAnalyticsEvent } from "../../api/analytics";
 import AuthShell from "../../components/auth/AuthShell";
 import AuthTurnstile from "../../components/auth/AuthTurnstile";
 import { useAuth } from "../../hooks/useAuth";
@@ -46,6 +47,7 @@ export default function Login() {
 
   async function login(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    trackAnalyticsEvent("sign_in_started", { method: "password" });
     setBusy(true);
     resetStatus();
     if (!isSupabaseConfigured()) {
@@ -65,12 +67,14 @@ export default function Login() {
       setError(errorMessage(authError, "Unable to sign in."));
       return;
     }
+    trackAnalyticsEvent("sign_in_completed", { method: "password" });
     const requested = (location.state as { from?: string } | null)?.from;
     navigate(requested || "/app", { replace: true });
   }
 
   async function sendMagicLink(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    trackAnalyticsEvent("sign_in_started", { method: "email_link" });
     setBusy(true);
     resetStatus();
     const { error: authError } = await supabase.auth.signInWithOtp({
@@ -92,6 +96,7 @@ export default function Login() {
 
   async function sendPhoneOtp(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    trackAnalyticsEvent("sign_in_started", { method: "phone_otp" });
     setBusy(true);
     resetStatus();
     const normalized = phone.trim();
@@ -124,10 +129,12 @@ export default function Login() {
       setError(errorMessage(authError, "Unable to verify that code."));
       return;
     }
+    trackAnalyticsEvent("sign_in_completed", { method: "phone_otp" });
     navigate("/app", { replace: true });
   }
 
   async function oauth(provider: Provider) {
+    trackAnalyticsEvent("sign_in_started", { method: provider });
     setBusy(true);
     resetStatus();
     const { error: authError } = await supabase.auth.signInWithOAuth({
