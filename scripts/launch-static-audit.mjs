@@ -32,6 +32,7 @@ for (const file of [
   'src/lib/supabase.ts','src/lib/accessDestination.ts','src/lib/accessPolicy.ts','src/lib/accessPolicy.test.ts','src/routes/AppRouter.tsx','src/context/AuthContext.tsx',
   'src/pages/HostEntry.tsx','src/pages/HomePage.tsx','src/pages/AppEntry.tsx','src/pages/auth/Login.tsx',
   'src/pages/auth/ForgotPassword.tsx','src/pages/auth/ResetPassword.tsx','src/pages/RequestService.tsx',
+  'src/pages/ProfessionalApplication.tsx','src/api/professionalApplications.ts',
   'src/api/publicIntake.ts','src/api/leads.ts','src/api/estimates.ts','src/api/jobs.ts','src/api/jobAssignments.ts',
   'src/api/appointments.ts','src/api/billing.ts','src/api/automations.ts','src/pages/dashboard/Automations.tsx','src/pages/dashboard/Workflow.tsx',
   'src/pages/dashboard/Settings.tsx','src/pages/dashboard/CallCenter.tsx','src/api/telephony.ts','src/pages/portal/HomeownerPortal.tsx',
@@ -56,6 +57,7 @@ for (const file of [
   'supabase/migrations/20260814145520_linked_provider_profile_read.sql',
   'supabase/migrations/20260814150142_professional_portal_services_contract.sql',
   'supabase/migrations/20260814150206_fix_professional_portal_availability_upsert.sql',
+  'supabase/migrations/20260814163950_professional_application_intake.sql',
 ]) requireFile(file);
 
 requireText('.env.example', 'VITE_SUPABASE_URL=');
@@ -132,6 +134,15 @@ requireText('src/pages/auth/Login.tsx', '<Navigate to="/app" replace />');
 requireText('src/pages/HomePage.tsx', 'to="/request-service"');
 requireText('src/pages/HomePage.tsx', 'to="/app"');
 requireText('src/pages/HomePage.tsx', 'to="/community"');
+requireText('src/pages/ProfessionalApplication.tsx', 'submitProfessionalApplication');
+requireText('src/api/professionalApplications.ts', 'submit_professional_application');
+requireText('supabase/migrations/20260814163950_professional_application_intake.sql', 'enable row level security');
+requireText('supabase/migrations/20260814163950_professional_application_intake.sql', 'security definer');
+requireText('supabase/migrations/20260814163950_professional_application_intake.sql', 'revoke all on table public.professional_applications from public, anon, authenticated');
+requireText('supabase/migrations/20260814163950_professional_application_intake.sql', "'professional-application'");
+forbidText('src/pages/ProfessionalApplication.tsx', 'Status: MISSING');
+forbidText('src/pages/dashboard/Workflow.tsx', 'status: "MISSING"');
+forbidText('src/pages/Accessibility.tsx', 'UNPROVEN');
 requireText('src/styles/launch-hardening.css', 'aside[aria-label$=" guidance"]');
 requireText('src/styles/launch-hardening.css', 'width: 44px !important;');
 requireText('src/styles/launch-hardening.css', 'bottom: calc(132px + env(safe-area-inset-bottom)) !important;');
