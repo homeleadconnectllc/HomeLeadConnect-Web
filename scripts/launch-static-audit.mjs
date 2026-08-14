@@ -35,9 +35,9 @@ for (const file of [
   'src/api/publicIntake.ts','src/api/leads.ts','src/api/estimates.ts','src/api/jobs.ts','src/api/jobAssignments.ts',
   'src/api/appointments.ts','src/api/billing.ts','src/api/automations.ts','src/pages/dashboard/Automations.tsx','src/pages/dashboard/Workflow.tsx',
   'src/pages/dashboard/Settings.tsx','src/pages/dashboard/CallCenter.tsx','src/api/telephony.ts','src/pages/portal/HomeownerPortal.tsx',
-  'src/pages/portal/HomeownerPortalDocuments.tsx','src/pages/portal/HomeownerPortalProfile.tsx','src/pages/portal/ContractorPortal.tsx',
-  'src/pages/portal/ContractorProfile.tsx','src/pages/portal/ContractorServices.tsx','src/pages/portal/ContractorPortalDocuments.tsx',
-  'src/pages/dashboard/ProviderMap.tsx','src/pages/dashboard/Activity.tsx','src/components/agents/ContextualAgentDock.tsx','src/components/agents/AgentChatPanel.tsx',
+  'src/pages/portal/HomeownerPortalDocuments.tsx','src/pages/portal/ResidentProfile.tsx','src/pages/portal/ContractorPortal.tsx',
+  'src/pages/portal/ContractorProfile.tsx','src/pages/portal/ContractorPortalServices.tsx','src/pages/portal/ContractorPortalDocuments.tsx',
+  'src/pages/dashboard/ProviderMap.tsx','src/pages/dashboard/WorkspaceActivity.tsx','src/components/agents/ContextualAgentDock.tsx','src/components/agents/AgentChatPanel.tsx',
   'src/ai/agents.ts','src/styles/launch-hardening.css','public/brand/avatars/Kendrell_Locked_HLC.png',
   'public/brand/avatars/Dion_Locked_HLC.png','public/brand/avatars/Diamond_Locked_HLC.png','public/_redirects','netlify.toml',
   'supabase/functions/stripe-checkout-session/index.ts','supabase/functions/hlc-agent-chat/index.ts',
@@ -123,7 +123,7 @@ requireText('src/pages/portal/HomeownerPortalDocuments.tsx', 'Only files explici
 requireText('src/pages/dashboard/ProviderMap.tsx', 'latitude');
 requireText('src/pages/dashboard/ProviderMap.tsx', 'longitude');
 requireText('src/pages/dashboard/ProviderMap.tsx', 'not mapped');
-requireText('src/pages/dashboard/Activity.tsx', 'activity');
+requireText('src/pages/dashboard/WorkspaceActivity.tsx', 'activity');
 requireText('src/components/agents/ContextualAgentDock.tsx', '#F59E0B');
 requireText('src/components/agents/ContextualAgentDock.tsx', '#6366F1');
 requireText('src/components/agents/ContextualAgentDock.tsx', '#10B981');
