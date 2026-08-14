@@ -29,7 +29,7 @@ function forbidText(rel, text) {
 }
 
 for (const file of [
-  'src/lib/supabase.ts','src/lib/accessDestination.ts','src/lib/accessPolicy.ts','src/routes/AppRouter.tsx','src/context/AuthContext.tsx',
+  'src/lib/supabase.ts','src/lib/accessDestination.ts','src/lib/accessPolicy.ts','src/lib/accessPolicy.test.ts','src/routes/AppRouter.tsx','src/context/AuthContext.tsx',
   'src/pages/HostEntry.tsx','src/pages/HomePage.tsx','src/pages/AppEntry.tsx','src/pages/auth/Login.tsx',
   'src/pages/auth/ForgotPassword.tsx','src/pages/auth/ResetPassword.tsx','src/pages/RequestService.tsx',
   'src/api/publicIntake.ts','src/api/leads.ts','src/api/estimates.ts','src/api/jobs.ts','src/api/jobAssignments.ts',
@@ -38,6 +38,7 @@ for (const file of [
   'src/pages/portal/ContractorPortal.tsx','src/ai/agents.ts','src/styles/launch-hardening.css','public/brand/avatars/Kendrell_Locked_HLC.png',
   'public/brand/avatars/Dion_Locked_HLC.png','public/brand/avatars/Diamond_Locked_HLC.png','public/_redirects','netlify.toml',
   'supabase/functions/stripe-checkout-session/index.ts','supabase/migrations/20260814134500_harden_internal_automation_access.sql',
+  'supabase/migrations/20260814135500_enable_hourly_workflow_automation.sql',
 ]) requireFile(file);
 
 requireText('.env.example', 'VITE_SUPABASE_URL=');
@@ -54,10 +55,16 @@ requireText('src/components/Navbar.tsx', 'canAccessWorkspacePath');
 requireText('src/lib/accessPolicy.ts', '"owner" | "manager" | "technician"');
 requireText('src/lib/accessPolicy.ts', 'ownerOnlyPrefixes');
 requireText('src/lib/accessPolicy.ts', 'managerPrefixes');
+requireText('src/lib/accessPolicy.test.ts', 'customer and provider identity labels never unlock internal workspace routes');
+requireText('src/lib/accessPolicy.test.ts', 'automation execution is management-only');
 requireText('src/pages/dashboard/Automations.tsx', 'Safe deterministic runs');
 requireText('src/api/automations.ts', 'run_hlc_automation');
 requireText('supabase/migrations/20260814134500_harden_internal_automation_access.sql', "IN ('owner', 'manager')");
 requireText('supabase/migrations/20260814134500_harden_internal_automation_access.sql', 'REVOKE ALL ON FUNCTION public.run_hlc_automation');
+requireText('supabase/migrations/20260814135500_enable_hourly_workflow_automation.sql', 'run_hlc_scheduled_workflow_scan');
+requireText('supabase/migrations/20260814135500_enable_hourly_workflow_automation.sql', "'hlc-workflow-automation-hourly'");
+requireText('supabase/migrations/20260814135500_enable_hourly_workflow_automation.sql', "'7 * * * *'");
+requireText('supabase/migrations/20260814135500_enable_hourly_workflow_automation.sql', 'REVOKE ALL ON FUNCTION public.run_hlc_scheduled_workflow_scan() FROM authenticated');
 requireText('src/pages/HostEntry.tsx', 'app.homeleadconnect.org');
 requireText('src/pages/HostEntry.tsx', '<HomePage />');
 requireText('src/pages/HostEntry.tsx', '<AppEntry />');
