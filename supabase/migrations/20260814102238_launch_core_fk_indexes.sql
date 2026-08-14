@@ -1,0 +1,11 @@
+create index if not exists portal_invitations_contractor_id_idx on public.portal_invitations(contractor_id);
+create index if not exists portal_invitations_lead_id_idx on public.portal_invitations(lead_id);
+create index if not exists portal_invitations_issued_by_idx on public.portal_invitations(issued_by);
+create index if not exists portal_invitations_accepted_by_idx on public.portal_invitations(accepted_by);
+create index if not exists contractor_portal_links_contractor_id_idx on public.contractor_portal_links(contractor_id);
+create index if not exists contractor_portal_links_workspace_id_idx on public.contractor_portal_links(workspace_id);
+create index if not exists homeowner_portal_links_lead_id_idx on public.homeowner_portal_links(lead_id);
+create index if not exists homeowner_portal_links_workspace_id_idx on public.homeowner_portal_links(workspace_id);
+create index if not exists documents_uploaded_by_idx on public.documents(uploaded_by);
+create index if not exists calendar_event_mappings_appointment_id_idx on public.calendar_event_mappings(appointment_id);
+create index if not exists calendar_event_mappings_workspace_id_idx on public.calendar_event_mappings(workspace_id);
