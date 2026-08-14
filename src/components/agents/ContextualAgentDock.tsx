@@ -47,19 +47,17 @@ function greeting(agent: AgentConfig, pathname: string) {
 export default function ContextualAgentDock() {
   const location = useLocation();
   const [openFor, setOpenFor] = useState<string | null>(null);
-  const [greetingVisible, setGreetingVisible] = useState(false);
+  const [greetingFor, setGreetingFor] = useState<AgentId | null>(null);
   const agent = useMemo(() => resolveAgent(location.pathname), [location.pathname]);
   const open = openFor === location.pathname;
+  const greetingVisible = greetingFor === agent.id;
 
   useEffect(() => {
     if (hiddenRoutes.has(location.pathname)) return;
     const key = `hlc-agent-greeted-${agent.id}`;
-    if (sessionStorage.getItem(key)) {
-      setGreetingVisible(false);
-      return;
-    }
+    if (sessionStorage.getItem(key)) return;
     const timer = window.setTimeout(() => {
-      setGreetingVisible(true);
+      setGreetingFor(agent.id);
       sessionStorage.setItem(key, "1");
       trackAnalyticsEvent("agent_greeting_shown", { agent: agent.id });
     }, 900);
@@ -72,7 +70,7 @@ export default function ContextualAgentDock() {
     <aside className={`hlc-agent-dock ${open ? "is-open" : ""}`} aria-label={`${agent.name} contextual assistant`}>
       {!open && greetingVisible && (
         <div className="hlc-agent-greeting" role="status">
-          <button type="button" onClick={() => setGreetingVisible(false)} aria-label={`Dismiss ${agent.name} greeting`}>×</button>
+          <button type="button" onClick={() => setGreetingFor(null)} aria-label={`Dismiss ${agent.name} greeting`}>×</button>
           <strong>{agent.name}</strong>
           <span>{greeting(agent, location.pathname)}</span>
         </div>
@@ -95,7 +93,7 @@ export default function ContextualAgentDock() {
         onClick={() => {
           const nextOpen = !open;
           setOpenFor(nextOpen ? location.pathname : null);
-          setGreetingVisible(false);
+          setGreetingFor(null);
           if (nextOpen) trackAnalyticsEvent("agent_chat_opened", { agent: agent.id });
         }}
       >
