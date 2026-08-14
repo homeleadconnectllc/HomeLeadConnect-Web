@@ -67,6 +67,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 59. `20260814143000_remove_browser_admin_table_privileges.sql`
 60. `20260814143500_remove_browser_view_admin_privileges.sql`
 61. `20260814144000_reconcile_voice_access_to_workspace_members.sql`
+62. `20260814144347_harden_community_review_workspace_linkage.sql`
 
 ## Current production rules
 
@@ -81,6 +82,8 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - Browser roles must never retain database-administration privileges such as TRUNCATE, TRIGGER, or REFERENCES on public relations. Normal app behavior is limited to explicitly granted CRUD operations plus RLS/RPC enforcement.
 - Profile self-service updates must not permit changes to `role`, `workspace_id`, `user_id`, or identity keys. Internal authority fields are server/admin controlled.
 - Voice messages and legacy voice-audio storage use canonical `workspace_members` tenancy; the obsolete `org_members` path is not an authorization source.
+- Community review eligibility must validate that the referenced completed job belongs to the same workspace as the review; a completed job ID from another workspace can never satisfy the review policy.
+- Resident portal documents must be shown only through the resident portal route and must remain limited to files explicitly shared with `sharing_scope = 'homeowner'` and authorized by portal linkage/RLS.
 - Anonymous/public callers must never receive direct execution access to internal automation, billing, owner approval, system-health, or staff-only functions.
 - UI hiding is not an authorization boundary. Direct-route, RLS/RPC, storage, and server-side checks must continue to enforce the same access rules.
 
@@ -92,7 +95,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - Unverified phone/Google/Apple/Facebook sign-in methods are hidden unless explicitly enabled after end-to-end provider verification.
 - Production API logs showed authenticated `200` responses for user/session reads, workspace membership, leads, jobs, appointments, follow-ups, KPI/analytics RPCs, and analytics-event ingestion during launch acceptance.
 - Web Push dispatch returned `200` in production.
-- `hlc-agent-chat` version 2 is active and uses an authenticated workspace-aware deterministic fallback when the external AI provider is unavailable.
+- `hlc-agent-chat` version 2 is active and uses an authenticated workspace-aware deterministic fallback when the external AI provider is unavailable. A fresh authenticated Kendrell production invocation returned `POST 200` on version 2.
 - Migration `20260814134500_harden_internal_automation_access.sql` was applied to production and verified: automation history is owner/manager scoped and `run_hlc_automation` is executable by authenticated/service roles rather than PUBLIC, while the function itself enforces owner/manager authorization.
 - Migration `20260814135500_enable_hourly_workflow_automation.sql` was applied to production. Cron job `hlc-workflow-automation-hourly` is active on `7 * * * *`. A manual verification run created a successful read-only `workflow_automation_scan` record with live workflow/follow-up/owner-attention counts.
 - Legacy SECURITY DEFINER RPCs were hardened so cross-workspace IDs and unauthorized staff actions fail closed.
@@ -100,6 +103,8 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - Public browser database-administration grants were removed and verified at `browser_admin_grants_remaining = 0` across public tables/views.
 - Authenticated profile UPDATE privileges are column-scoped to safe self-service fields; role/workspace/identity fields cannot be browser-updated directly.
 - Voice message and `voice-audio` policies were reconciled to `workspace_members` and verified in production.
+- Resident documents now have a dedicated portal route so homeowner/renter users are not sent to the internal workspace Documents surface.
+- Community review insert authorization was hardened to require the completed job and review to share the same `workspace_id`.
 - Security and performance advisors were rerun after launch DDL. Existing linter findings remain tracked; no broad index rewrites were made as a launch-day shortcut.
 
 ## Change procedure after launch
