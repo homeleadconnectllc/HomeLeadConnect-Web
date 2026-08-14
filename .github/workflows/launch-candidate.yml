@@ -5,6 +5,7 @@ on:
     branches:
       - sprint/ecosystem-integration
       - sprint/ecosystem-launch-completion
+      - launch/full-hlc-hardening-2026-08-14
   pull_request:
     branches:
       - main
