@@ -60,6 +60,7 @@ Do not run `supabase db push --linked` against production until a clone has prov
 48. `20260814104000_widen_business_phone_provider_support.sql`
 49. `20260814110000_hlc_first_party_analytics.sql`
 50. `20260814112000_hlc_web_push_subscriptions.sql`
+51. `20260814114000_hlc_business_kpis.sql`
 
 ## Isolated verification gate
 
@@ -123,6 +124,8 @@ Migration `20260814102238_launch_core_fk_indexes.sql` adds launch-path foreign-k
 Migration `20260814110000_hlc_first_party_analytics.sql` introduces privacy-minimized first-party traffic and conversion events, hostname-to-workspace attribution, a restricted event-ingest RPC, and a workspace-authorized aggregate KPI RPC. Raw analytics tables remain unavailable to browser roles.
 
 Migration `20260814112000_hlc_web_push_subscriptions.sql` adds authenticated push-subscription registration, server-only VAPID configuration, and notification-triggered background dispatch through `pg_net`. Per-environment private VAPID key material and the dispatch token are deliberately provisioned outside GitHub source control.
+
+Migration `20260814114000_hlc_business_kpis.sql` adds an authenticated, workspace-scoped KPI contract derived from canonical leads, LeadScope estimates, jobs, provider assignments, appointments, follow-ups, and call sessions. It reports conversion rates and workflow values without making browser-side tables an analytics authority.
 
 ## Production gate
 
