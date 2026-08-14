@@ -1,17 +1,9 @@
 import type { AgentId } from "../ai/agents";
+import { supabase } from "./supabase";
 
 export type AgentVoicePreferences = {
   enabled: boolean;
   autoSpeak: boolean;
-};
-
-type VoiceProfile = {
-  rate: number;
-  pitch: number;
-  volume: number;
-  preferredNames: string[];
-  avoidNames?: string[];
-  preferredLangPrefix: string;
 };
 
 const STORAGE_KEY = "hlc.agentVoicePreferences.v1";
@@ -21,35 +13,8 @@ const DEFAULT_PREFERENCES: AgentVoicePreferences = {
   autoSpeak: false,
 };
 
-// These profiles are intentionally conservative. Browser speech is a fallback-only
-// path; the app should not try to infer "premium" quality from arbitrary OS labels.
-// Prefer known, stable voices in a fixed order and preserve native pitch.
-const PROFILES: Record<AgentId, VoiceProfile> = {
-  kendrell: {
-    rate: 0.98,
-    pitch: 1,
-    volume: 1,
-    preferredLangPrefix: "en",
-    preferredNames: ["Alex", "Daniel", "Evan", "Nathan", "Tom"],
-    avoidNames: ["Fred", "Aaron", "Google US English", "compact", "legacy", "espeak"],
-  },
-  dion: {
-    rate: 1,
-    pitch: 1,
-    volume: 1,
-    preferredLangPrefix: "en",
-    preferredNames: ["Daniel", "Alex", "Evan", "Nathan", "Tom"],
-    avoidNames: ["Fred", "Aaron", "Google US English", "compact", "legacy", "espeak"],
-  },
-  diamond: {
-    rate: 0.98,
-    pitch: 1,
-    volume: 1,
-    preferredLangPrefix: "en",
-    preferredNames: ["Samantha", "Victoria", "Ava", "Karen", "Tessa", "Moira"],
-    avoidNames: ["Google US English", "compact", "legacy", "espeak"],
-  },
-};
+let activeAudio: HTMLAudioElement | null = null;
+let activeObjectUrl: string | null = null;
 
 export function getAgentVoicePreferences(): AgentVoicePreferences {
   if (typeof window === "undefined") return DEFAULT_PREFERENCES;
@@ -71,86 +36,63 @@ export function saveAgentVoicePreferences(preferences: AgentVoicePreferences) {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(preferences));
 }
 
-function includesIgnoreCase(value: string, needle: string) {
-  return value.toLowerCase().includes(needle.toLowerCase());
-}
-
-function chooseVoice(agentId: AgentId, voices: SpeechSynthesisVoice[]) {
-  const profile = PROFILES[agentId];
-  const localeVoices = voices.filter((voice) =>
-    voice.lang.toLowerCase().startsWith(profile.preferredLangPrefix),
-  );
-  const pool = localeVoices.length ? localeVoices : voices;
-  const avoided = profile.avoidNames ?? [];
-
-  for (const preferredName of profile.preferredNames) {
-    const preferred = pool.find((voice) =>
-      (includesIgnoreCase(voice.name || "", preferredName) ||
-        includesIgnoreCase(voice.voiceURI || "", preferredName)) &&
-      !avoided.some((name) =>
-        includesIgnoreCase(voice.name || "", name) || includesIgnoreCase(voice.voiceURI || "", name),
-      ),
-    );
-    if (preferred) return preferred;
+function cleanupAudio() {
+  if (activeAudio) {
+    activeAudio.pause();
+    activeAudio.src = "";
+    activeAudio = null;
   }
-
-  const safeDefault = pool.find((voice) =>
-    voice.default &&
-    !avoided.some((name) =>
-      includesIgnoreCase(voice.name || "", name) || includesIgnoreCase(voice.voiceURI || "", name),
-    ),
-  );
-  if (safeDefault) return safeDefault;
-
-  return pool.find((voice) =>
-    !avoided.some((name) =>
-      includesIgnoreCase(voice.name || "", name) || includesIgnoreCase(voice.voiceURI || "", name),
-    ),
-  ) || pool[0] || null;
+  if (activeObjectUrl) {
+    URL.revokeObjectURL(activeObjectUrl);
+    activeObjectUrl = null;
+  }
 }
 
-function speakWithAvailableVoices(agentId: AgentId, cleanText: string) {
-  const profile = PROFILES[agentId];
-  const utterance = new SpeechSynthesisUtterance(cleanText);
-  const voices = window.speechSynthesis.getVoices();
-  const voice = chooseVoice(agentId, voices);
-
-  if (voice) utterance.voice = voice;
-  utterance.lang = voice?.lang || navigator.language || "en-US";
-  utterance.rate = profile.rate;
-  utterance.pitch = profile.pitch;
-  utterance.volume = profile.volume;
-
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(utterance);
+function base64ToBlob(base64: string, mimeType: string) {
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
+  return new Blob([bytes], { type: mimeType });
 }
 
-export function speakAgentText(agentId: AgentId, text: string) {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return false;
-
+export async function speakAgentText(agentId: AgentId, text: string) {
+  if (typeof window === "undefined") throw new Error("Spoken replies are unavailable in this browser.");
   const cleanText = text.trim();
   if (!cleanText) return false;
 
-  const voices = window.speechSynthesis.getVoices();
-  if (voices.length > 0) {
-    speakWithAvailableVoices(agentId, cleanText);
-    return true;
+  cleanupAudio();
+
+  const { data, error } = await supabase.functions.invoke("hlc-agent-voice", {
+    body: { agentId, text: cleanText },
+  });
+
+  if (error) {
+    const contextBody = (error as { context?: { json?: () => Promise<unknown> } }).context;
+    if (contextBody?.json) {
+      try {
+        const payload = await contextBody.json() as { error?: string };
+        if (payload?.error) throw new Error(payload.error);
+      } catch (reason) {
+        if (reason instanceof Error && reason.message) throw reason;
+      }
+    }
+    throw new Error(error.message || "Neural voice generation failed.");
   }
 
-  let spoken = false;
-  const speakOnce = () => {
-    if (spoken) return;
-    spoken = true;
-    window.speechSynthesis.removeEventListener("voiceschanged", speakOnce);
-    speakWithAvailableVoices(agentId, cleanText);
-  };
+  const payload = data as { audioBase64?: string; mimeType?: string; voice?: string } | null;
+  if (!payload?.audioBase64) throw new Error("Neural voice returned no playable audio.");
 
-  window.speechSynthesis.addEventListener("voiceschanged", speakOnce, { once: true });
-  window.setTimeout(speakOnce, 500);
+  const blob = base64ToBlob(payload.audioBase64, payload.mimeType || "audio/wav");
+  activeObjectUrl = URL.createObjectURL(blob);
+  activeAudio = new Audio(activeObjectUrl);
+  activeAudio.preload = "auto";
+  activeAudio.onended = cleanupAudio;
+  activeAudio.onerror = cleanupAudio;
+  await activeAudio.play();
   return true;
 }
 
 export function stopAgentSpeech() {
-  if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
-  window.speechSynthesis.cancel();
+  if (typeof window === "undefined") return;
+  cleanupAudio();
 }
