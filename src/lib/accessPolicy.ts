@@ -13,6 +13,7 @@ const managerPrefixes = [
   "/automations",
   "/analytics",
   "/settings",
+  "/team",
   "/operations",
   "/customer-experience",
   "/community/moderation",
