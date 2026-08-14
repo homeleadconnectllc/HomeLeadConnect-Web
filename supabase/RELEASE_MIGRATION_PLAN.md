@@ -55,6 +55,9 @@ Do not run `supabase db push --linked` against production until a clone has prov
 43. `20260812200500_harden_automation_rpc_grants.sql`
 44. `20260813114500_reconcile_hlc_plan_with_live_stripe.sql`
 45. `20260813125000_harden_leads_api_privileges.sql`
+46. `20260814102238_launch_core_fk_indexes.sql`
+47. `20260814103000_telephony_realtime_notification_spine.sql`
+48. `20260814104000_widen_business_phone_provider_support.sql`
 
 ## Isolated verification gate
 
