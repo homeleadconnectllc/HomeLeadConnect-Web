@@ -4,7 +4,7 @@ export type BusinessPhone = {
   id: string;
   phone_number: string;
   display_name: string;
-  provider_type: "google_voice" | "twilio";
+  provider_type: string;
   is_primary: boolean;
   inbound_enabled: boolean;
   outbound_enabled: boolean;
