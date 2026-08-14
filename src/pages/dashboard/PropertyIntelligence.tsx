@@ -37,6 +37,7 @@ export default function PropertyIntelligence() {
   const [selectedPropertyId, setSelectedPropertyId] = useState("");
   const [selectedAssetId, setSelectedAssetId] = useState("");
   const [serviceEvents, setServiceEvents] = useState<PropertyAssetServiceEvent[]>([]);
+  const [serviceEventsForAssetId, setServiceEventsForAssetId] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
@@ -45,27 +46,38 @@ export default function PropertyIntelligence() {
   const [assetForm, setAssetForm] = useState({ category: "hvac" as PropertyAssetCategory, label: "", manufacturer: "", modelNumber: "", serialNumber: "", installedOn: "", warrantyExpiresOn: "", lastServicedOn: "", nextServiceOn: "", condition: "unknown" as PropertyAssetCondition, notes: "" });
   const [serviceForm, setServiceForm] = useState({ eventType: "maintenance" as PropertyAssetServiceType, occurredOn: new Date().toISOString().slice(0, 10), providerName: "", cost: "", notes: "" });
 
-  async function load() {
-    setError("");
-    try {
-      const [propertyRows, assetRows] = await Promise.all([listResidentProperties(), listPropertyAssets()]);
-      setProperties(propertyRows);
-      setAssets(assetRows);
-      if (!selectedPropertyId && propertyRows[0]) setSelectedPropertyId(propertyRows[0].id);
-    } catch (reason) {
-      setError(errorMessage(reason, "Unable to load property intelligence."));
-    } finally { setLoading(false); }
-  }
-
-  useEffect(() => { void load(); }, []);
   useEffect(() => {
-    if (!selectedAssetId) { setServiceEvents([]); return; }
-    void listPropertyAssetServiceEvents(selectedAssetId).then(setServiceEvents).catch((reason) => setError(errorMessage(reason, "Unable to load service history.")));
+    let active = true;
+    Promise.all([listResidentProperties(), listPropertyAssets()])
+      .then(([propertyRows, assetRows]) => {
+        if (!active) return;
+        setProperties(propertyRows);
+        setAssets(assetRows);
+        if (propertyRows[0]) setSelectedPropertyId(propertyRows[0].id);
+      })
+      .catch((reason) => { if (active) setError(errorMessage(reason, "Unable to load property intelligence.")); })
+      .finally(() => { if (active) setLoading(false); });
+    return () => { active = false; };
+  }, []);
+
+  useEffect(() => {
+    if (!selectedAssetId) return;
+    let active = true;
+    const assetId = selectedAssetId;
+    listPropertyAssetServiceEvents(assetId)
+      .then((rows) => {
+        if (!active) return;
+        setServiceEvents(rows);
+        setServiceEventsForAssetId(assetId);
+      })
+      .catch((reason) => { if (active) setError(errorMessage(reason, "Unable to load service history.")); });
+    return () => { active = false; };
   }, [selectedAssetId]);
 
   const selectedProperty = useMemo(() => properties.find((property) => property.id === selectedPropertyId) ?? null, [properties, selectedPropertyId]);
   const visibleAssets = useMemo(() => assets.filter((asset) => !selectedPropertyId || asset.property_id === selectedPropertyId), [assets, selectedPropertyId]);
   const selectedAsset = useMemo(() => assets.find((asset) => asset.id === selectedAssetId) ?? null, [assets, selectedAssetId]);
+  const visibleServiceEvents = selectedAssetId && serviceEventsForAssetId === selectedAssetId ? serviceEvents : [];
 
   async function addProperty(event: FormEvent) {
     event.preventDefault(); setError(""); setMessage("");
@@ -73,6 +85,7 @@ export default function PropertyIntelligence() {
       const created = await createResidentProperty({ label: propertyForm.label, address: propertyForm.address || null, city: propertyForm.city || null, state: propertyForm.state || null, zip: propertyForm.zip || null });
       setProperties((current) => [created, ...current]);
       setSelectedPropertyId(created.id);
+      setSelectedAssetId("");
       setPropertyForm({ label: "", address: "", city: "", state: "PA", zip: "" });
       setMessage("Property added.");
     } catch (reason) { setError(errorMessage(reason, "Unable to add property.")); }
@@ -93,7 +106,8 @@ export default function PropertyIntelligence() {
     event.preventDefault(); if (!selectedAssetId) return; setError(""); setMessage("");
     try {
       const created = await createPropertyAssetServiceEvent({ assetId: selectedAssetId, eventType: serviceForm.eventType, occurredOn: serviceForm.occurredOn, providerName: serviceForm.providerName, cost: serviceForm.cost ? Number(serviceForm.cost) : null, notes: serviceForm.notes });
-      setServiceEvents((current) => [created, ...current]);
+      setServiceEvents((current) => serviceEventsForAssetId === selectedAssetId ? [created, ...current] : [created]);
+      setServiceEventsForAssetId(selectedAssetId);
       setServiceForm({ eventType: "maintenance", occurredOn: new Date().toISOString().slice(0, 10), providerName: "", cost: "", notes: "" });
       setMessage("Service history recorded.");
     } catch (reason) { setError(errorMessage(reason, "Unable to record service history.")); }
@@ -174,8 +188,8 @@ export default function PropertyIntelligence() {
             <button type="submit">Record service event</button>
           </form>
           <div className="hlc-activity-list" style={{ marginTop: 18 }}>
-            {serviceEvents.map((item) => <article key={item.id} className="hlc-activity-item"><strong>{serviceTypes.find((type) => type.value === item.event_type)?.label || item.event_type}</strong><span>{new Date(`${item.occurred_on}T12:00:00`).toLocaleDateString()}{item.provider_name ? ` · ${item.provider_name}` : ""}{item.cost != null ? ` · ${new Intl.NumberFormat(undefined, { style: "currency", currency: "USD" }).format(item.cost)}` : ""}</span>{item.notes && <p>{item.notes}</p>}</article>)}
-            {!serviceEvents.length && <p>No service history recorded yet.</p>}
+            {visibleServiceEvents.map((item) => <article key={item.id} className="hlc-activity-item"><strong>{serviceTypes.find((type) => type.value === item.event_type)?.label || item.event_type}</strong><span>{new Date(`${item.occurred_on}T12:00:00`).toLocaleDateString()}{item.provider_name ? ` · ${item.provider_name}` : ""}{item.cost != null ? ` · ${new Intl.NumberFormat(undefined, { style: "currency", currency: "USD" }).format(item.cost)}` : ""}</span>{item.notes && <p>{item.notes}</p>}</article>)}
+            {!visibleServiceEvents.length && <p>No service history recorded yet.</p>}
           </div>
         </section>
       )}
