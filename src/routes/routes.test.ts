@@ -60,17 +60,19 @@ test("portal record subroutes use canonical data-backed views", () => {
   }
 });
 
-test("implemented ecosystem destinations use data-backed launch surfaces", () => {
-  const expected: Array<[string,string]> = [
+test("implemented ecosystem destinations use data-backed surfaces", () => {
+  const generic: Array<[string,string]> = [
     ["/network","network"], ["/map","map"], ["/profiles","profiles"], ["/providers","providers"], ["/matching","matching"],
     ["/community-hub","community"], ["/community/discussions","discussions"], ["/community/reviews","reviews"], ["/community/referrals","referrals"],
     ["/community/events","events"], ["/community/moderation","moderation"], ["/community/groups","groups"], ["/network/service-areas","serviceAreas"],
-    ["/network/availability","availability"], ["/network/saved","saved"], ["/homeowner-portal/properties","properties"], ["/contractor-portal/team","team"],
-    ["/contractor-portal/services","services"], ["/analytics","analytics"], ["/hq/approvals","approvals"], ["/hq/system-health","systemHealth"],
+    ["/network/availability","availability"], ["/network/saved","saved"], ["/contractor-portal/team","team"],
+    ["/contractor-portal/services","services"], ["/hq/approvals","approvals"], ["/hq/system-health","systemHealth"],
   ];
-  for (const [route,page] of expected) {
+  for (const [route,page] of generic) {
     assert.match(router, new RegExp(`path="${route.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}" element=\\{<LaunchSurface page="${page}"\\/>\\}`));
   }
+  assert.match(router, /path="\/homeowner-portal\/properties" element=\{<PropertyIntelligence\s*\/>\}/);
+  assert.match(router, /path="\/analytics" element=\{<Analytics\s*\/>\}/);
 });
 
 test("every canonical ecosystem destination has one declared route", () => {
