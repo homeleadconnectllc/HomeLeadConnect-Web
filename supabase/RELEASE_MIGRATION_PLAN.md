@@ -85,6 +85,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 77. `20260814210500_workspace_team_roles_and_invitations.sql`
 78. `20260814211500_support_workspace_invitee_signup.sql`
 79. `20260814212000_fix_workspace_team_rpc_result_types.sql`
+80. `20260814212500_tighten_workspace_members_browser_surface.sql`
 
 ## Current production rules
 
@@ -93,6 +94,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - `workspace_members` establishes business-workspace membership and now stores the authoritative per-workspace internal role. `profiles.role` mirrors the active workspace role for backward-compatible UI/runtime checks. Customer/renter and contractor access is resolved through their dedicated portal links.
 - Company-owner signup creates an isolated workspace, owner profile, and owner membership atomically. Workspace invitees create only an identity until an email-bound invitation is accepted, preventing orphan personal workspaces for invited staff.
 - Internal workspace team invitations are hashed, email-bound, single-use, expiring, and role-limited. Owners may invite managers or technicians; managers may invite technicians. Team membership mutations run through role-checked RPCs rather than direct browser writes.
+- Browser access to `workspace_members` is authenticated read-only for the caller's own membership. Anonymous SELECT and legacy direct membership-management policies are removed; role changes and membership mutation use audited RPCs/server paths.
 - Internal workspace route policy recognizes `owner`, `manager`, and `technician`. Owner-only surfaces include HQ/command authority and subscription billing. Manager-level surfaces include workflow, automation, analytics, settings, team administration, operations, CX control, and moderation. Technicians receive operational workspace access but not manager/owner control planes.
 - `public.leads` is a server-only write surface. Browser roles do not receive direct INSERT access; canonical lead creation must use the approved server/RPC ingestion boundary.
 - `run_hlc_automation` and `automation_jobs` history are owner/manager control-plane capabilities. The production database enforces that rule in addition to the browser UI.
@@ -132,6 +134,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - Resident identity/provider profile types, linked-provider profile reads, professional portal services/availability contracts, and append-only activity history are applied in production.
 - The auth-user onboarding trigger creates isolated company workspaces atomically and supports invite-only staff identities without creating throwaway owner workspaces.
 - Per-workspace owner/manager/technician roles and secure company-team invitation RPCs are applied in production. A real owner-context test successfully listed the team and created a disposable technician invitation inside a rolled-back transaction; the RPC result-type defect found by that test was fixed in migration 79.
+- A technician-context production test verified that technicians cannot list the company team or create workspace invitations. Membership grants were tightened afterward to remove anonymous SELECT and obsolete browser INSERT/DELETE policy paths.
 - Dedicated provider, resident, manager, and technician E2E identities were created. Provider/resident identities have no internal workspace membership; manager/technician identities are explicitly scoped to the HomeLead Connect workspace.
 - The live provider identity accepted the existing offered assignment through `contractor_decide_assignment`. That runtime attempt exposed and then verified a notification-type constraint defect; assignment accepted/rejected/cancelled events are now allowed by the canonical notification constraint.
 - The manager runtime identity scheduled appointment `15` for the accepted provider assignment, and both contractor and resident portal RPCs returned the linked job and scheduled appointment under their own authenticated identities.
