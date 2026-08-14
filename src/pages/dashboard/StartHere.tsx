@@ -38,6 +38,11 @@ export default function StartHere() {
     </section>
 
     <section style={card}>
+      <h2 style={{ margin: 0 }}>External launch gates</h2>
+      <p style={{ margin: 0 }}>HLC can validate its software, database, permissions, automation, QA runtime, and provider-readiness automatically. Physical-device voice acceptance, the Supabase leaked-password-protection account toggle, and activation of a programmable WebRTC/SIP carrier for embedded live calling remain external controls.</p>
+    </section>
+
+    <section style={card}>
       <h2 style={{ margin: 0 }}>Safety, privacy, and compliance</h2>
       <p style={{ margin: 0 }}>Keep customer, provider, employee, document, and communication data inside the authorized workspace or portal. Do not bypass consent, suppression, role, sharing, or provider restrictions.</p>
       <div style={row}><Link to="/rules">Rules & safety</Link><Link to="/privacy">Privacy</Link><Link to="/terms">Terms</Link><Link to="/platform-disclosure">Platform disclosure</Link></div>
