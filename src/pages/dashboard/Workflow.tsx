@@ -40,7 +40,7 @@ export default function Workflow() {
       .catch((reason: unknown) => setError(errorMessage(reason, "Unable to load workflow records.")));
   }, []);
 
-  return <main style={pageStyle}>
+  return <main className="hlc-workflow-page" style={pageStyle}>
     <header style={heroStyle}>
       <p style={eyebrowStyle}>HLC golden service workflow</p>
       <h1 style={{ margin: 0 }}>Request to Community</h1>
@@ -51,9 +51,9 @@ export default function Workflow() {
     {!snapshot && !error && <p role="status">Loading workflow records…</p>}
 
     <ol style={stageListStyle}>
-      {stages.map((stage, index) => <li key={stage.label} style={stageStyle}>
-        <div style={numberStyle}>{index + 1}</div>
-        <div style={{ minWidth: 0 }}>
+      {stages.map((stage, index) => <li className="hlc-workflow-stage" key={stage.label} style={stageStyle}>
+        <div className="hlc-workflow-stage-number" style={numberStyle}>{index + 1}</div>
+        <div className="hlc-workflow-stage-copy" style={{ minWidth: 0 }}>
           <div style={titleRowStyle}>
             <h2 style={{ margin: 0, fontSize: 20 }}>{stage.label}</h2>
             <strong style={{ ...badgeStyle, color: statusColor[stage.status], borderColor: statusColor[stage.status] }}>{stage.status}</strong>
@@ -61,7 +61,7 @@ export default function Workflow() {
           <p style={{ margin: "8px 0", color: "#475569", lineHeight: 1.5 }}>{stage.description}</p>
           <p style={{ margin: 0, fontSize: 13, color: "#64748b" }}>Owner: {stage.owner}</p>
         </div>
-        <div style={actionStyle}>
+        <div className="hlc-workflow-stage-action" style={actionStyle}>
           {stage.countKey && <strong style={countStyle}>{snapshot ? snapshot[stage.countKey] : "—"}</strong>}
           {stage.route ? <Link to={stage.route}>Open stage →</Link> : <span style={{ color: "#64748b" }}>Build required</span>}
         </div>
