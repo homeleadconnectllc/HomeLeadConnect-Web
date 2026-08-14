@@ -1,0 +1,211 @@
+.hlc-job-detail {
+  width: min(1180px, calc(100% - 48px));
+  margin: 40px auto;
+  font-family: system-ui, sans-serif;
+  text-align: left;
+}
+
+.hlc-job-detail__crumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.hlc-job-detail__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+}
+
+.hlc-job-detail__header h1 {
+  margin: 0 0 8px;
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1.05;
+}
+
+.hlc-job-detail__meta {
+  color: #475569;
+}
+
+.hlc-job-detail__status {
+  flex: 0 0 auto;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  white-space: nowrap;
+}
+
+.hlc-job-detail__section {
+  margin-top: 24px;
+  padding: 22px;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  background: #fff;
+}
+
+.hlc-job-detail__section h2 {
+  margin-bottom: 12px;
+}
+
+.hlc-job-detail__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.hlc-job-detail__actions button,
+.hlc-job-detail__form button,
+.hlc-job-detail__filters input,
+.hlc-job-detail__form input {
+  min-height: 44px;
+}
+
+.hlc-job-detail__form {
+  margin: 16px 0 24px;
+}
+
+.hlc-job-detail__fieldset {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.hlc-job-detail__fieldset label {
+  min-width: 0;
+}
+
+.hlc-job-detail__fieldset input,
+.hlc-job-detail__filters input,
+.hlc-job-detail__fieldset button {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 10px 12px;
+}
+
+.hlc-job-detail__filters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.hlc-job-detail__candidate-list,
+.hlc-job-detail__appointment-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.hlc-job-detail__candidate {
+  min-width: 0;
+}
+
+.hlc-job-detail__appointment {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.hlc-job-detail__history {
+  margin: 10px 0 0;
+  padding-left: 20px;
+}
+
+.hlc-job-detail__error {
+  margin-top: 16px;
+  color: #b91c1c;
+}
+
+@media (max-width: 900px) {
+  .hlc-job-detail {
+    width: min(100% - 32px, 920px);
+    margin: 28px auto;
+  }
+
+  .hlc-job-detail__fieldset {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hlc-job-detail__header {
+    gap: 16px;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .hlc-job-detail {
+    width: calc(100% - 24px);
+    margin: 18px auto 32px;
+  }
+
+  .hlc-job-detail__crumbs {
+    margin-bottom: 12px;
+  }
+
+  .hlc-job-detail__header {
+    flex-direction: column;
+    padding: 18px 16px;
+    border-radius: 14px;
+  }
+
+  .hlc-job-detail__header h1 {
+    font-size: clamp(28px, 9vw, 38px);
+  }
+
+  .hlc-job-detail__status {
+    white-space: normal;
+  }
+
+  .hlc-job-detail__section {
+    margin-top: 16px;
+    padding: 18px 14px;
+    border-radius: 14px;
+  }
+
+  .hlc-job-detail__fieldset,
+  .hlc-job-detail__filters {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hlc-job-detail__fieldset {
+    padding: 14px;
+  }
+
+  .hlc-job-detail__actions,
+  .hlc-job-detail__appointment {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .hlc-job-detail__actions button,
+  .hlc-job-detail__fieldset button,
+  .hlc-job-detail__candidate button,
+  .hlc-job-detail__appointment button {
+    width: 100%;
+  }
+
+  .hlc-job-detail__appointment {
+    padding: 14px;
+  }
+
+  .hlc-job-detail__history {
+    padding-left: 18px;
+  }
+}
