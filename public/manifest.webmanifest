@@ -1,0 +1,25 @@
+{
+  "name": "HomeLead Connect",
+  "short_name": "HLC",
+  "description": "HomeLead Connect workspace for leads, LeadScope estimates, jobs, scheduling, communications, providers, community, and AI guidance.",
+  "start_url": "/app",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0b1220",
+  "theme_color": "#0f172a",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/hlc-logo-final.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/hlc-logo-final.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
