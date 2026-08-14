@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import AnalyticsKpis from "../components/analytics/AnalyticsKpis";
 import AnalyticsTracker from "../components/analytics/AnalyticsTracker";
 import AudioDeviceCenter from "../components/audio/AudioDeviceCenter";
+import FieldDeviceCenter from "../components/device/FieldDeviceCenter";
 import MaterialShopLinks from "../components/estimator/MaterialShopLinks";
 import { useAuth } from "../hooks/useAuth";
 
@@ -13,6 +14,7 @@ export default function AppLayout() {
   const navigate = useNavigate();
   const showLeadScopeShopping = Boolean(session) && location.pathname === "/estimator";
   const showAudioDevices = Boolean(session) && (location.pathname === "/settings" || location.pathname === "/call-center");
+  const showFieldDevices = Boolean(session) && location.pathname === "/settings";
   const showAnalytics = Boolean(session) && location.pathname === "/dashboard";
 
   useEffect(() => {
@@ -51,6 +53,7 @@ export default function AppLayout() {
         {showAnalytics && <AnalyticsKpis />}
         {showLeadScopeShopping && <MaterialShopLinks />}
         {showAudioDevices && <AudioDeviceCenter />}
+        {showFieldDevices && <FieldDeviceCenter />}
       </div>
     </div>
   );
