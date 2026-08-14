@@ -7,6 +7,8 @@ const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
 const footer = readFileSync("src/components/Footer.tsx", "utf8");
 const startHere = readFileSync("src/pages/dashboard/StartHere.tsx", "utf8");
 const operationalGuide = readFileSync("src/pages/dashboard/OperationalGuide.tsx", "utf8");
+const communityHub = readFileSync("src/pages/dashboard/CommunityHub.tsx", "utf8");
+const publicInfo = readFileSync("src/pages/PublicInfo.tsx", "utf8");
 const mainEntry = readFileSync("src/main.tsx", "utf8");
 const responsiveContract = readFileSync("src/styles/responsive-page-contract.css", "utf8");
 const publicCopy = ["src/pages/HomePage.tsx", "src/pages/PublicInfo.tsx", "src/pages/ContactPage.tsx", "src/pages/Legal.tsx"]
@@ -66,6 +68,17 @@ test("global responsive page contract is loaded last and covers desktop tablet a
   assert.match(responsiveContract, /:has\(table\)/);
 });
 
+test("Community is a unified public and authenticated Network front door", () => {
+  assert.match(router, /path="\/community-hub" element=\{<CommunityHub\s*\/>\}/);
+  for (const label of ["Provider Directory", "Provider Map", "Matching", "Service Areas", "Availability", "Saved Providers", "Discussions", "Groups", "Events & Updates", "Completion-linked Reviews", "Referrals", "Rules & Safety"]) {
+    assert.match(communityHub, new RegExp(label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  }
+  for (const route of ["/providers", "/map", "/matching", "/network/service-areas", "/network/availability", "/network/saved", "/community/discussions", "/community/reviews", "/community/referrals", "/community/events", "/community-hub"]) {
+    assert.match(publicInfo, new RegExp(route.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  }
+  assert.doesNotMatch(publicInfo, /not operational Pennsylvania V1 services yet/);
+});
+
 test("canonical page map contains every top-level HLC experience", () => {
   for (const area of ["Public Website", "Homeowners & Renters", "Professionals", "Network & Map", "Community", "HQ", "Shared System"]) {
     assert.match(pageMap, new RegExp(area.replace(/[&]/g, "&")));
@@ -100,7 +113,7 @@ test("portal record subroutes use canonical data-backed views", () => {
 test("implemented ecosystem destinations use data-backed surfaces", () => {
   const generic: Array<[string,string]> = [
     ["/network","network"], ["/profiles","profiles"], ["/providers","providers"], ["/matching","matching"],
-    ["/community-hub","community"], ["/community/discussions","discussions"], ["/community/reviews","reviews"], ["/community/referrals","referrals"],
+    ["/community/discussions","discussions"], ["/community/reviews","reviews"], ["/community/referrals","referrals"],
     ["/community/events","events"], ["/community/moderation","moderation"], ["/community/groups","groups"], ["/network/service-areas","serviceAreas"],
     ["/network/availability","availability"], ["/network/saved","saved"], ["/contractor-portal/team","team"],
     ["/hq/approvals","approvals"], ["/hq/system-health","systemHealth"],
