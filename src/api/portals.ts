@@ -1,6 +1,7 @@
 import { supabase } from "./client";
 
 export type PortalRole = "homeowner" | "contractor";
+export type ProviderType = "contractor" | "subcontractor" | "remodeling_company" | "real_estate" | "mover" | "cleaner" | "painter" | "roofer" | "hvac" | "service_business" | "other";
 
 export type HomeownerPortalEstimate = {
   id: string;
@@ -49,6 +50,21 @@ export type ContractorPortalData = {
   assignments: ContractorPortalAssignment[];
 };
 
+export type LinkedProviderProfile = {
+  id: number;
+  company_name: string | null;
+  contact_name: string | null;
+  phone: string | null;
+  email: string | null;
+  website: string | null;
+  address: string | null;
+  city: string | null;
+  state: string | null;
+  zip: string | null;
+  specialty: string | null;
+  provider_type: ProviderType;
+};
+
 export async function acceptPortalInvitation(token: string) {
   const { data, error } = await supabase.rpc("accept_portal_invitation", {
     p_invitation_token: token,
@@ -76,6 +92,32 @@ export async function getContractorPortalData(): Promise<ContractorPortalData> {
   const { data, error } = await supabase.rpc("get_contractor_portal_data");
   if (error) throw error;
   return (data ?? { links: [], assignments: [] }) as ContractorPortalData;
+}
+
+export async function getLinkedProviderProfile(contractorId: number): Promise<LinkedProviderProfile> {
+  const { data, error } = await supabase.rpc("get_linked_provider_profile", { p_contractor_id: contractorId });
+  if (error) throw error;
+  const row = Array.isArray(data) ? data[0] : data;
+  if (!row) throw new Error("Linked provider profile was not found.");
+  return row as LinkedProviderProfile;
+}
+
+export async function updateLinkedProviderProfile(profile: LinkedProviderProfile) {
+  const { error } = await supabase.rpc("update_linked_provider_profile", {
+    p_contractor_id: profile.id,
+    p_company_name: profile.company_name || "",
+    p_contact_name: profile.contact_name || "",
+    p_phone: profile.phone || "",
+    p_email: profile.email || "",
+    p_website: profile.website || "",
+    p_address: profile.address || "",
+    p_city: profile.city || "",
+    p_state: profile.state || "",
+    p_zip: profile.zip || "",
+    p_specialty: profile.specialty || "",
+    p_provider_type: profile.provider_type,
+  });
+  if (error) throw error;
 }
 
 export async function decideContractorAssignment(assignmentId: string, decision: "accepted" | "rejected") {
