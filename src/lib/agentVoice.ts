@@ -23,14 +23,13 @@ const DEFAULT_PREFERENCES: AgentVoicePreferences = {
 
 const PROFILES: Record<AgentId, VoiceProfile> = {
   kendrell: {
-    // Keep Kendrell close to the system voice's native prosody. Heavy pitch/rate
-    // manipulation makes Apple's compact Safari voices sound noticeably robotic.
+    // Keep Kendrell close to the voice engine's native prosody. Large pitch/rate
+    // changes make compact Safari voices noticeably synthetic.
     rate: 0.98,
     pitch: 1,
     volume: 1,
     preferredLangPrefix: "en",
-    preferredNames: ["Evan", "Nathan", "Daniel", "Alex", "Tom", "Reed", "Rishi"],
-    // These voices are valid fallbacks but commonly sound more synthetic on iOS.
+    preferredNames: ["Siri", "Reed", "Evan", "Nathan", "Daniel", "Alex", "Tom", "Rishi"],
     avoidNames: ["Fred", "Aaron", "Google US English"],
   },
   dion: {
@@ -38,14 +37,14 @@ const PROFILES: Record<AgentId, VoiceProfile> = {
     pitch: 1,
     volume: 1,
     preferredLangPrefix: "en",
-    preferredNames: ["Daniel", "Alex", "Evan", "Nathan", "Microsoft Mark", "Microsoft David"],
+    preferredNames: ["Siri", "Daniel", "Alex", "Evan", "Nathan", "Microsoft Mark", "Microsoft David"],
   },
   diamond: {
     rate: 0.98,
     pitch: 1,
     volume: 1,
     preferredLangPrefix: "en",
-    preferredNames: ["Samantha", "Ava", "Victoria", "Karen", "Moira", "Tessa", "Microsoft Zira"],
+    preferredNames: ["Siri", "Samantha", "Ava", "Victoria", "Karen", "Moira", "Tessa", "Microsoft Zira"],
   },
 };
 
@@ -69,8 +68,39 @@ export function saveAgentVoicePreferences(preferences: AgentVoicePreferences) {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(preferences));
 }
 
-function voiceMatchesName(voice: SpeechSynthesisVoice, name: string) {
-  return voice.name.toLowerCase().includes(name.toLowerCase());
+function includesIgnoreCase(value: string, needle: string) {
+  return value.toLowerCase().includes(needle.toLowerCase());
+}
+
+function scoreVoice(agentId: AgentId, voice: SpeechSynthesisVoice) {
+  const profile = PROFILES[agentId];
+  const name = voice.name || "";
+  const uri = voice.voiceURI || "";
+  const qualityText = `${name} ${uri}`.toLowerCase();
+  let score = 0;
+
+  if (voice.lang.toLowerCase() === "en-us") score += 18;
+  else if (voice.lang.toLowerCase().startsWith(profile.preferredLangPrefix)) score += 10;
+
+  if (voice.localService) score += 8;
+  if (voice.default) score += 5;
+
+  // Browsers/OSes commonly expose quality hints in the voice name or URI.
+  if (/(premium|enhanced|neural|natural)/.test(qualityText)) score += 90;
+  if (/siri/.test(qualityText)) score += 75;
+  if (/(compact|legacy|espeak)/.test(qualityText)) score -= 100;
+
+  profile.preferredNames.forEach((preferredName, index) => {
+    if (includesIgnoreCase(name, preferredName) || includesIgnoreCase(uri, preferredName)) {
+      score += 60 - index * 4;
+    }
+  });
+
+  for (const avoidedName of profile.avoidNames ?? []) {
+    if (includesIgnoreCase(name, avoidedName) || includesIgnoreCase(uri, avoidedName)) score -= 120;
+  }
+
+  return score;
 }
 
 function chooseVoice(agentId: AgentId, voices: SpeechSynthesisVoice[]) {
@@ -78,21 +108,7 @@ function chooseVoice(agentId: AgentId, voices: SpeechSynthesisVoice[]) {
   const localeVoices = voices.filter((voice) => voice.lang.toLowerCase().startsWith(profile.preferredLangPrefix));
   const pool = localeVoices.length ? localeVoices : voices;
 
-  for (const preferredName of profile.preferredNames) {
-    const match = pool.find((voice) => voiceMatchesName(voice, preferredName));
-    if (match) return match;
-  }
-
-  const avoided = profile.avoidNames ?? [];
-  const naturalFallback = pool.find(
-    (voice) => voice.default && !avoided.some((name) => voiceMatchesName(voice, name)),
-  ) || pool.find(
-    (voice) => voice.localService && !avoided.some((name) => voiceMatchesName(voice, name)),
-  ) || pool.find(
-    (voice) => !avoided.some((name) => voiceMatchesName(voice, name)),
-  );
-
-  return naturalFallback || pool.find((voice) => voice.default) || pool[0] || null;
+  return [...pool].sort((a, b) => scoreVoice(agentId, b) - scoreVoice(agentId, a))[0] || null;
 }
 
 function speakWithAvailableVoices(agentId: AgentId, cleanText: string) {
@@ -123,8 +139,8 @@ export function speakAgentText(agentId: AgentId, text: string) {
     return true;
   }
 
-  // Safari can expose an empty voice list on the first call. Waiting briefly for
-  // voiceschanged prevents it from silently falling back to a low-quality default.
+  // Safari can expose an empty list on first use. Waiting for voiceschanged avoids
+  // immediately falling through to the browser's lowest-quality default voice.
   let spoken = false;
   const speakOnce = () => {
     if (spoken) return;
@@ -134,7 +150,7 @@ export function speakAgentText(agentId: AgentId, text: string) {
   };
 
   window.speechSynthesis.addEventListener("voiceschanged", speakOnce, { once: true });
-  window.setTimeout(speakOnce, 350);
+  window.setTimeout(speakOnce, 500);
   return true;
 }
 
