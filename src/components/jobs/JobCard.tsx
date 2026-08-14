@@ -14,29 +14,31 @@ export default function JobCard({
   disabled?: boolean;
 }) {
   return (
-    <article className="responsive-record-card" style={cardStyle}>
-      <div>
+    <article className="responsive-record-card hlc-job-card" style={cardStyle}>
+      <div className="hlc-job-card-copy">
         <h3 style={{ margin: 0 }}>{job.name}</h3>
         <p style={{ margin: "8px 0", color: "#475569" }}>
           {formatCurrency(Number(job.contract_value))}
         </p>
         <small>Estimate: {job.source_estimate_id}</small>
       </div>
-      <select
-        disabled={disabled}
-        aria-label={`Status for ${job.name}`}
-        value={job.status}
-        onChange={(event) =>
-          onStatusChange(job, event.target.value as CrmJobStatus)
-        }
-      >
-        {statuses.map((status) => (
-          <option key={status} value={status}>
-            {status[0].toUpperCase() + status.slice(1)}
-          </option>
-        ))}
-      </select>
-      <Link to={`/jobs/${job.id}`}>Open job</Link>
+      <div className="hlc-job-card-actions">
+        <select
+          disabled={disabled}
+          aria-label={`Status for ${job.name}`}
+          value={job.status}
+          onChange={(event) =>
+            onStatusChange(job, event.target.value as CrmJobStatus)
+          }
+        >
+          {statuses.map((status) => (
+            <option key={status} value={status}>
+              {status[0].toUpperCase() + status.slice(1)}
+            </option>
+          ))}
+        </select>
+        <Link className="hlc-job-open" to={`/jobs/${job.id}`}>Open job</Link>
+      </div>
     </article>
   );
 }
