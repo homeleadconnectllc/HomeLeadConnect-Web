@@ -8,6 +8,18 @@ import {
 } from "../../api/telephony";
 import { errorMessage } from "../../lib/errorMessage";
 
+function formatPhoneNumber(value: string) {
+  const digits = value.replace(/\D/g, "");
+  const local = digits.length === 11 && digits.startsWith("1") ? digits.slice(1) : digits;
+  if (local.length !== 10) return value;
+  return `${local.slice(0, 3)}-${local.slice(3, 6)}-${local.slice(6)}`;
+}
+
+function providerLabel(providerType: string) {
+  if (providerType === "google_voice") return "Google Voice";
+  return providerType.replaceAll("_", " ");
+}
+
 export default function CallCenter() {
   const [phones, setPhones] = useState<BusinessPhone[]>([]);
   const [calls, setCalls] = useState<CallSession[]>([]);
@@ -75,9 +87,25 @@ export default function CallCenter() {
           {!loading && phones.length === 0
             ? <p>No connected phone line yet. HLC can use a supported provider or device-native/manual communication path once configured.</p>
             : phones.map((phone) => (
-              <article className="hlc-call-center-record" key={phone.id}>
-                <strong>{phone.display_name}: {phone.phone_number}</strong>
-                <span>{` · ${phone.provider_type} · ${phone.readiness_state}`}{phone.browser_calling_enabled ? " · browser calling" : ""}</span>
+              <article className="hlc-call-center-record" key={phone.id} style={{ display: "grid", gap: 8 }}>
+                <div>
+                  <strong>{phone.display_name}: {formatPhoneNumber(phone.phone_number)}</strong>
+                  {phone.is_primary && <span> · Primary HLC number</span>}
+                </div>
+                <span>{providerLabel(phone.provider_type)} · {phone.readiness_state.replaceAll("_", " ")}{phone.browser_calling_enabled ? " · in-app calling enabled" : ""}</span>
+                {phone.provider_type === "google_voice" && !phone.browser_calling_enabled && (
+                  <p style={{ margin: 0, color: "#475569" }}>
+                    Google Voice remains the current carrier. HLC records the line and call workflow; live browser answer controls activate only after a programmable WebRTC/SIP provider is connected.
+                  </p>
+                )}
+                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                  <a href={`tel:${phone.phone_number}`} style={{ display: "inline-flex", minHeight: 40, alignItems: "center", padding: "8px 12px", border: "1px solid #0f172a", borderRadius: 10, fontWeight: 800, textDecoration: "none", color: "#0f172a" }}>
+                    Call from this device
+                  </a>
+                  {phone.browser_calling_enabled
+                    ? <span role="status" style={{ alignSelf: "center", fontWeight: 700 }}>Embedded phone ready</span>
+                    : <span style={{ alignSelf: "center", color: "#64748b" }}>Embedded phone awaiting programmable carrier</span>}
+                </div>
               </article>
             ))}
         </div>
