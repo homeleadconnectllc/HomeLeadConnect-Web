@@ -36,14 +36,14 @@ export default function Jobs() {
   }
 
   return (
-    <main style={pageStyle}>
+    <main className="hlc-jobs-page" style={pageStyle}>
       <h1>Jobs</h1>
       <p style={{ color: "#64748b" }}>Jobs created from accepted estimates.</p>
       {loading && <p>Loading jobs…</p>}
       {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
       {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
       {!loading && !error && jobs.length === 0 && <p>No jobs yet.</p>}
-      <div style={{ display: "grid", gap: 12 }}>
+      <div className="hlc-jobs-list" style={{ display: "grid", gap: 12 }}>
         {jobs.map((job) => <JobCard key={job.id} job={job} disabled={busyJobId === job.id} onStatusChange={changeStatus} />)}
       </div>
     </main>
