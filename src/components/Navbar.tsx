@@ -11,12 +11,21 @@ const declaredWorkspaceRoutes = new Set([
   "/dashboard", "/workflow", "/automations", "/hq", "/notifications",
   "/leads", "/estimator", "/jobs", "/calendar", "/follow-ups", "/operations",
   "/call-center", "/messages", "/manual-communications", "/customer-experience",
-  "/documents", "/settings", "/homeowner-portal", "/contractor-portal", "/network",
+  "/documents", "/settings", "/team", "/homeowner-portal", "/contractor-portal", "/network",
   "/map", "/profiles", "/providers", "/matching", "/community-hub",
   "/community/discussions", "/community/reviews", "/community/referrals",
   "/community/events", "/community/moderation", "/help", "/tutorials", "/rules",
   "/profile", "/settings/billing",
 ]);
+
+const companyTeamPage: EcosystemPage = {
+  label: "Company Team",
+  route: "/team",
+  owner: "Kendrell",
+  audiences: ["Business", "Owner", "Manager"],
+  purpose: "Invite managers and technicians, review membership and revoke access.",
+  status: "WORKING",
+};
 
 const agentRoutes = new Set(["/hq", "/operations", "/customer-experience"]);
 const agentNavigation = [
@@ -88,10 +97,13 @@ export default function Navbar() {
     };
 
     return ecosystemNavigation
-      .map((group) => ({
-        ...group,
-        pages: group.pages.filter((page) => hasPageAccess(page) && declaredWorkspaceRoutes.has(page.route) && !agentRoutes.has(page.route)),
-      }))
+      .map((group) => {
+        const candidatePages = group.id === "account" ? [...group.pages, companyTeamPage] : group.pages;
+        return {
+          ...group,
+          pages: candidatePages.filter((page) => hasPageAccess(page) && declaredWorkspaceRoutes.has(page.route) && !agentRoutes.has(page.route)),
+        };
+      })
       .filter((group) => group.pages.length > 0);
   }, [access]);
 
