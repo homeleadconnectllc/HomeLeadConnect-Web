@@ -14,6 +14,30 @@ export type HlcAnalyticsSummary = {
   events: Array<{ event: string; count: number }>;
 };
 
+export type HlcBusinessKpis = {
+  days: number;
+  leads: number;
+  estimates: number;
+  accepted_estimates: number;
+  converted_estimates: number;
+  lead_to_estimate_rate: number;
+  estimate_acceptance_rate: number;
+  estimate_to_job_rate: number;
+  jobs: number;
+  job_value: number;
+  open_estimate_value: number;
+  assignments: number;
+  accepted_assignments: number;
+  assignment_acceptance_rate: number;
+  appointments: number;
+  completed_appointments: number;
+  pending_followups: number;
+  overdue_followups: number;
+  calls: number;
+  missed_calls: number;
+  voicemails: number;
+};
+
 type AnalyticsMetadata = Record<string, string | number | boolean | null>;
 
 const SESSION_KEY = "hlc-analytics-session-id";
@@ -54,4 +78,10 @@ export async function getAnalyticsSummary(days = 30) {
   const { data, error } = await supabase.rpc("get_hlc_analytics_summary", { p_days: days });
   if (error) throw error;
   return (data ?? {}) as HlcAnalyticsSummary;
+}
+
+export async function getBusinessKpis(days = 30) {
+  const { data, error } = await supabase.rpc("get_hlc_business_kpis", { p_days: days });
+  if (error) throw error;
+  return (data ?? {}) as HlcBusinessKpis;
 }
