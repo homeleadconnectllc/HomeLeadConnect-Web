@@ -118,6 +118,96 @@
   white-space: nowrap;
 }
 
+/* Messages */
+.hlc-messages-layout {
+  min-width: 0;
+}
+
+.hlc-messages-conversations,
+.hlc-messages-thread,
+.hlc-message-start {
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.hlc-messages-conversations {
+  max-height: 72vh;
+  overflow: auto;
+}
+
+.hlc-message-stream {
+  min-width: 0;
+}
+
+.hlc-message-bubble {
+  max-width: 85%;
+  overflow-wrap: anywhere;
+}
+
+.hlc-message-bubble-self {
+  margin-left: 15% !important;
+}
+
+.hlc-message-reply textarea,
+.hlc-message-start input,
+.hlc-message-start select,
+.hlc-message-start textarea,
+.hlc-message-reply button,
+.hlc-message-start button,
+.hlc-voice-notes button {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.hlc-voice-notes {
+  display: grid;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+/* Documents */
+.hlc-documents-form input,
+.hlc-documents-form select,
+.hlc-documents-form button {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.hlc-documents-list {
+  margin-top: 24px;
+}
+
+.hlc-document-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 0;
+  border-top: 1px solid #e2e8f0;
+}
+
+.hlc-document-card button {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  text-align: left;
+}
+
+/* Follow-ups */
+.hlc-followup-form input,
+.hlc-followup-form select,
+.hlc-followup-form textarea,
+.hlc-followup-form button {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.hlc-followup-card {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
 @media (max-width: 1024px) {
   .estimate-layout {
     grid-template-columns: minmax(0, 1fr) minmax(250px, 300px) !important;
@@ -136,6 +226,11 @@
   .hlc-calendar-card,
   .hlc-job-card {
     align-items: flex-start !important;
+  }
+
+  .hlc-messages-layout {
+    grid-template-columns: minmax(190px, .65fr) minmax(0, 1.7fr) !important;
+    gap: 16px !important;
   }
 }
 
@@ -208,6 +303,44 @@
   .hlc-job-open {
     width: 100%;
   }
+
+  .hlc-messages-layout {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .hlc-messages-conversations {
+    max-height: 260px;
+  }
+
+  .hlc-message-bubble,
+  .hlc-message-bubble-self {
+    max-width: 100%;
+    margin-left: 0 !important;
+  }
+
+  .hlc-message-reply textarea,
+  .hlc-message-start input,
+  .hlc-message-start select,
+  .hlc-message-start textarea,
+  .hlc-message-reply button,
+  .hlc-message-start button,
+  .hlc-voice-notes button {
+    width: 100%;
+  }
+
+  .hlc-document-card {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: stretch;
+  }
+
+  .hlc-document-card button {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .hlc-followup-card button {
+    width: 100%;
+  }
 }
 
 @media (max-width: 600px) {
@@ -239,14 +372,20 @@
 
   .hlc-leads-page,
   .hlc-calendar-page,
-  .hlc-jobs-page {
+  .hlc-jobs-page,
+  .hlc-messages-page,
+  .hlc-documents-page,
+  .hlc-followups-page {
     width: calc(100% - 24px) !important;
     margin: 24px auto !important;
   }
 
   .hlc-leads-page h1,
   .hlc-calendar-page h1,
-  .hlc-jobs-page h1 {
+  .hlc-jobs-page h1,
+  .hlc-messages-page h1,
+  .hlc-documents-page h1,
+  .hlc-followups-page h1 {
     margin-top: 0;
   }
 
@@ -261,12 +400,41 @@
   .hlc-lead-card-actions > div > button,
   .hlc-calendar-actions button,
   .hlc-job-card-actions select,
-  .hlc-job-open {
+  .hlc-job-open,
+  .hlc-message-reply button,
+  .hlc-message-start button,
+  .hlc-voice-notes button,
+  .hlc-documents-form button,
+  .hlc-document-card button,
+  .hlc-followup-form button,
+  .hlc-followup-card button {
     min-height: 48px;
     font-size: 16px;
   }
 
   .hlc-calendar-actions {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hlc-messages-conversations,
+  .hlc-messages-thread,
+  .hlc-message-start,
+  .hlc-documents-form,
+  .hlc-followup-form,
+  .hlc-followup-card {
+    padding: 16px !important;
+  }
+
+  .hlc-message-reply textarea,
+  .hlc-message-start input,
+  .hlc-message-start select,
+  .hlc-message-start textarea,
+  .hlc-documents-form input,
+  .hlc-documents-form select,
+  .hlc-followup-form input,
+  .hlc-followup-form select,
+  .hlc-followup-form textarea {
+    min-height: 48px;
+    font-size: 16px;
   }
 }
