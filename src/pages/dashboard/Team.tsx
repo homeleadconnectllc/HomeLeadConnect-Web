@@ -35,7 +35,20 @@ export default function Team() {
   }
 
   useEffect(() => {
-    load().catch((reason) => setError(errorMessage(reason, "Unable to load company team settings."))).finally(() => setLoading(false));
+    let active = true;
+    Promise.all([getWorkspaceTeam(), listWorkspaceInvitations()])
+      .then(([teamRows, invitationRows]) => {
+        if (!active) return;
+        setMembers(teamRows);
+        setInvitations(invitationRows);
+      })
+      .catch((reason) => {
+        if (active) setError(errorMessage(reason, "Unable to load company team settings."));
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+    return () => { active = false; };
   }, []);
 
   async function invite(event: FormEvent) {
