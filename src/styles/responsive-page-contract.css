@@ -119,10 +119,10 @@
 .hlc-route-content select,
 .hlc-route-content textarea {
   max-width: 100%;
-  text-align: left;
+  text-align: center;
 }
 
-/* Tables keep business data readable while headings and surrounding wording stay centered. */
+/* Tables keep business data aligned with the rest of the centered interface. */
 .hlc-route-content th,
 .hlc-route-content td {
   text-align: center;
@@ -231,4 +231,69 @@
   .hlc-route-content > main {
     width: calc(100% - 20px) !important;
   }
+}
+
+/*
+ * Absolute HLC centering contract.
+ * The product direction is intentionally centered across every routed page and every device.
+ * This final layer closes nested-component loopholes left by legacy inline/page-specific styles.
+ */
+.hlc-route-content > main,
+.hlc-route-content > main * {
+  text-align: center !important;
+}
+
+.hlc-route-content > main :is(
+  nav,
+  form,
+  fieldset,
+  section,
+  article,
+  header,
+  footer,
+  [role="group"],
+  [role="toolbar"],
+  [class*="actions"],
+  [class*="buttons"],
+  [class*="links"],
+  [class*="tabs"],
+  [class*="row"]
+) {
+  margin-inline: auto;
+}
+
+.hlc-route-content > main :is(
+  nav,
+  [role="group"],
+  [role="toolbar"],
+  [class*="actions"],
+  [class*="buttons"],
+  [class*="links"],
+  [class*="tabs"]
+) {
+  justify-content: center !important;
+  align-items: center;
+}
+
+.hlc-route-content > main :is(a, button) {
+  text-align: center !important;
+}
+
+.hlc-route-content > main :is(input, select, textarea, option) {
+  text-align: center !important;
+  text-align-last: center;
+}
+
+.hlc-route-content > main :is(ul, ol) {
+  list-style-position: inside;
+  padding-inline-start: 0;
+  margin-inline: auto;
+}
+
+.hlc-route-content > main :is(table) {
+  margin-inline: auto;
+}
+
+.hlc-route-content > main :is(img, svg, canvas, video) {
+  margin-inline: auto;
 }
