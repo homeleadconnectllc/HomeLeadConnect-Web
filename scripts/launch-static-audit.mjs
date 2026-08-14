@@ -39,6 +39,11 @@ for (const file of [
   'public/brand/avatars/Dion_Locked_HLC.png','public/brand/avatars/Diamond_Locked_HLC.png','public/_redirects','netlify.toml',
   'supabase/functions/stripe-checkout-session/index.ts','supabase/migrations/20260814134500_harden_internal_automation_access.sql',
   'supabase/migrations/20260814135500_enable_hourly_workflow_automation.sql',
+  'supabase/migrations/20260814141000_harden_legacy_security_definer_rpcs.sql',
+  'supabase/migrations/20260814142000_align_management_rpc_roles.sql',
+  'supabase/migrations/20260814143000_remove_browser_admin_table_privileges.sql',
+  'supabase/migrations/20260814143500_remove_browser_view_admin_privileges.sql',
+  'supabase/migrations/20260814144000_reconcile_voice_access_to_workspace_members.sql',
 ]) requireFile(file);
 
 requireText('.env.example', 'VITE_SUPABASE_URL=');
@@ -65,6 +70,15 @@ requireText('supabase/migrations/20260814135500_enable_hourly_workflow_automatio
 requireText('supabase/migrations/20260814135500_enable_hourly_workflow_automation.sql', "'hlc-workflow-automation-hourly'");
 requireText('supabase/migrations/20260814135500_enable_hourly_workflow_automation.sql', "'7 * * * *'");
 requireText('supabase/migrations/20260814135500_enable_hourly_workflow_automation.sql', 'REVOKE ALL ON FUNCTION public.run_hlc_scheduled_workflow_scan() FROM authenticated');
+requireText('supabase/migrations/20260814141000_harden_legacy_security_definer_rpcs.sql', 'perform_dashboard_action');
+requireText('supabase/migrations/20260814141000_harden_legacy_security_definer_rpcs.sql', "IN ('owner','manager','technician')");
+requireText('supabase/migrations/20260814142000_align_management_rpc_roles.sql', "IN ('owner','manager')");
+requireText('supabase/migrations/20260814142000_align_management_rpc_roles.sql', 'get_hlc_business_kpis');
+requireText('supabase/migrations/20260814143000_remove_browser_admin_table_privileges.sql', 'TRUNCATE');
+requireText('supabase/migrations/20260814143000_remove_browser_admin_table_privileges.sql', 'UPDATE(full_name, avatar_url, onboarding_completed, onboarding_step, updated_at)');
+requireText('supabase/migrations/20260814143500_remove_browser_view_admin_privileges.sql', 'TRUNCATE');
+requireText('supabase/migrations/20260814144000_reconcile_voice_access_to_workspace_members.sql', 'voice_audio_select_workspace_members');
+requireText('supabase/migrations/20260814144000_reconcile_voice_access_to_workspace_members.sql', 'workspace_members');
 requireText('src/pages/HostEntry.tsx', 'app.homeleadconnect.org');
 requireText('src/pages/HostEntry.tsx', '<HomePage />');
 requireText('src/pages/HostEntry.tsx', '<AppEntry />');
