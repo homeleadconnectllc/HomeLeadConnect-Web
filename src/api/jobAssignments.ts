@@ -72,11 +72,5 @@ async function transitionAssignment(
   return data as unknown as JobAssignment;
 }
 
-export const acceptAssignment = (id: string) =>
-  transitionAssignment(id, ["offered"], "accepted");
-
-export const rejectAssignment = (id: string) =>
-  transitionAssignment(id, ["offered"], "rejected");
-
 export const cancelAssignment = (id: string) =>
   transitionAssignment(id, ["offered", "accepted"], "cancelled");
