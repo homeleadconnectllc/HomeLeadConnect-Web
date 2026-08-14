@@ -37,10 +37,11 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
   const [busy, setBusy] = useState(false);
   const [listening, setListening] = useState(false);
   const [error, setError] = useState("");
+  const [voiceBusy, setVoiceBusy] = useState(false);
   const [voicePreferences, setVoicePreferences] = useState<AgentVoicePreferences>(() => getAgentVoicePreferences());
   const recognitionRef = useRef<RecognitionLike | null>(null);
   const recognitionSupported = typeof window !== "undefined" && Boolean(getRecognitionConstructor());
-  const speechOutputSupported = typeof window !== "undefined" && "speechSynthesis" in window;
+  const speechOutputSupported = typeof window !== "undefined" && typeof window.Audio !== "undefined";
   const sendDisabled = busy || draft.trim().length === 0;
   const voicePersona = agents[agentId].voicePersona;
 
@@ -50,9 +51,17 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
     if (!next.enabled) stopAgentSpeech();
   }
 
-  function speak(text: string) {
-    if (!speechOutputSupported || !voicePreferences.enabled) return;
-    speakAgentText(agentId, text);
+  async function speak(text: string) {
+    if (!speechOutputSupported || !voicePreferences.enabled || voiceBusy) return;
+    setVoiceBusy(true);
+    setError("");
+    try {
+      await speakAgentText(agentId, text);
+    } catch (reason) {
+      setError(errorMessage(reason, `${agentName}'s neural voice is temporarily unavailable.`));
+    } finally {
+      setVoiceBusy(false);
+    }
   }
 
   async function submit(event: FormEvent) {
@@ -65,7 +74,9 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
     try {
       const response = await chatWithAgent(agentId, text, prior);
       setMessages((current) => [...current, { role: "model", text: response.reply }]);
-      if (voicePreferences.enabled && voicePreferences.autoSpeak) speakAgentText(agentId, response.reply);
+      if (voicePreferences.enabled && voicePreferences.autoSpeak) {
+        await speak(response.reply);
+      }
     } catch (reason) {
       setError(errorMessage(reason, `${agentName} is temporarily unavailable. Try again in a moment.`));
     } finally {
@@ -128,8 +139,9 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
         Auto-speak {voicePreferences.autoSpeak ? "on" : "off"}
       </button>
       <small style={{ color: "#475569", flexBasis: "100%" }}>
-        <strong>{agentName} voice:</strong> {voicePersona.genderPresentation} · {voicePersona.tone}. {voicePersona.pacing}.
+        <strong>{agentName} neural voice:</strong> {voicePersona.genderPresentation} · {voicePersona.tone}. {voicePersona.pacing}.
       </small>
+      <small style={{ color: "#64748b", flexBasis: "100%" }}>Browser system voices are disabled for agent replies.</small>
     </div>}
 
     <div aria-live="polite" style={transcriptStyle}>
@@ -137,7 +149,7 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
       {messages.map((item, index) => <article key={`${item.role}-${index}`} style={{ ...bubbleStyle, marginLeft: item.role === "user" ? "auto" : 0, background: item.role === "user" ? "#eff6ff" : "#f8fafc" }}>
         <strong>{item.role === "user" ? "You" : agentName}</strong>
         <p style={{ margin: "5px 0 0", whiteSpace: "pre-wrap" }}>{item.text}</p>
-        {item.role === "model" && speechOutputSupported && voicePreferences.enabled && <button type="button" onClick={() => speak(item.text)} style={listenButtonStyle}>Replay {agentName}</button>}
+        {item.role === "model" && speechOutputSupported && voicePreferences.enabled && <button type="button" disabled={voiceBusy} onClick={() => void speak(item.text)} style={listenButtonStyle}>{voiceBusy ? "Generating voice…" : `Replay ${agentName}`}</button>}
       </article>)}
       {busy && <p role="status">{agentName} is responding…</p>}
     </div>
