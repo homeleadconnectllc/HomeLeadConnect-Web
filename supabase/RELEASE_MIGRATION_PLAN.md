@@ -84,6 +84,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 76. `20260814205500_complete_company_signup_workspace_membership.sql`
 77. `20260814210500_workspace_team_roles_and_invitations.sql`
 78. `20260814211500_support_workspace_invitee_signup.sql`
+79. `20260814212000_fix_workspace_team_rpc_result_types.sql`
 
 ## Current production rules
 
@@ -130,7 +131,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - Provider Map coordinate columns, validation, and management-only update controls are applied in production.
 - Resident identity/provider profile types, linked-provider profile reads, professional portal services/availability contracts, and append-only activity history are applied in production.
 - The auth-user onboarding trigger creates isolated company workspaces atomically and supports invite-only staff identities without creating throwaway owner workspaces.
-- Per-workspace owner/manager/technician roles and secure company-team invitation RPCs are applied in production.
+- Per-workspace owner/manager/technician roles and secure company-team invitation RPCs are applied in production. A real owner-context test successfully listed the team and created a disposable technician invitation inside a rolled-back transaction; the RPC result-type defect found by that test was fixed in migration 79.
 - Dedicated provider, resident, manager, and technician E2E identities were created. Provider/resident identities have no internal workspace membership; manager/technician identities are explicitly scoped to the HomeLead Connect workspace.
 - The live provider identity accepted the existing offered assignment through `contractor_decide_assignment`. That runtime attempt exposed and then verified a notification-type constraint defect; assignment accepted/rejected/cancelled events are now allowed by the canonical notification constraint.
 - The manager runtime identity scheduled appointment `15` for the accepted provider assignment, and both contractor and resident portal RPCs returned the linked job and scheduled appointment under their own authenticated identities.
