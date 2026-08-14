@@ -19,13 +19,13 @@ export default function Leads() {
   }, []);
 
   return (
-    <main style={pageStyle}>
+    <main className="hlc-leads-page" style={pageStyle}>
       <h1>Leads</h1>
       <p style={{ color: "#64748b" }}>Start an estimate from an existing CRM lead.</p>
       {loading && <p>Loading leads…</p>}
       {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
       {!loading && !error && leads.length === 0 && <p>No leads found.</p>}
-      <div style={{ display: "grid", gap: 12 }}>
+      <div className="hlc-leads-list" style={{ display: "grid", gap: 12 }}>
         {leads.map((lead) => <LeadCard key={lead.id} lead={lead} />)}
       </div>
     </main>
