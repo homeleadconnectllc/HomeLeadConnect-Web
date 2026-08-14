@@ -4,6 +4,8 @@ import { agents, type AgentId } from "../../ai/agents";
 import { errorMessage } from "../../lib/errorMessage";
 import {
   getAgentVoicePreferences,
+  isAgentAudioSupported,
+  prepareAgentAudio,
   saveAgentVoicePreferences,
   speakAgentText,
   stopAgentSpeech,
@@ -41,14 +43,20 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
   const [voicePreferences, setVoicePreferences] = useState<AgentVoicePreferences>(() => getAgentVoicePreferences());
   const recognitionRef = useRef<RecognitionLike | null>(null);
   const recognitionSupported = typeof window !== "undefined" && Boolean(getRecognitionConstructor());
-  const speechOutputSupported = typeof window !== "undefined" && typeof window.Audio !== "undefined";
+  const speechOutputSupported = isAgentAudioSupported();
   const sendDisabled = busy || draft.trim().length === 0;
   const voicePersona = agents[agentId].voicePersona;
 
   function updateVoicePreferences(next: AgentVoicePreferences) {
     setVoicePreferences(next);
     saveAgentVoicePreferences(next);
-    if (!next.enabled) stopAgentSpeech();
+    if (!next.enabled) {
+      stopAgentSpeech();
+      return;
+    }
+    void prepareAgentAudio().catch((reason) => {
+      setError(errorMessage(reason, "Tap the voice control again to enable audio on this device."));
+    });
   }
 
   async function speak(text: string) {
@@ -56,6 +64,7 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
     setVoiceBusy(true);
     setError("");
     try {
+      await prepareAgentAudio();
       await speakAgentText(agentId, text);
     } catch (reason) {
       setError(errorMessage(reason, `${agentName}'s neural voice is temporarily unavailable.`));
@@ -68,6 +77,15 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
     event.preventDefault();
     const text = draft.trim();
     if (!text || busy) return;
+
+    if (voicePreferences.enabled && voicePreferences.autoSpeak && speechOutputSupported) {
+      try {
+        await prepareAgentAudio();
+      } catch {
+        // Chat still proceeds. Replay can re-enable audio with a fresh user tap.
+      }
+    }
+
     setBusy(true); setError(""); setDraft("");
     const prior = messages;
     setMessages([...prior, { role: "user", text }]);
@@ -141,7 +159,7 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
       <small style={{ color: "#475569", flexBasis: "100%" }}>
         <strong>{agentName} neural voice:</strong> {voicePersona.genderPresentation} · {voicePersona.tone}. {voicePersona.pacing}.
       </small>
-      <small style={{ color: "#64748b", flexBasis: "100%" }}>Browser system voices are disabled for agent replies.</small>
+      <small style={{ color: "#64748b", flexBasis: "100%" }}>Neural replies use HLC audio playback; browser system voices are disabled.</small>
     </div>}
 
     <div aria-live="polite" style={transcriptStyle}>
@@ -149,9 +167,10 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
       {messages.map((item, index) => <article key={`${item.role}-${index}`} style={{ ...bubbleStyle, marginLeft: item.role === "user" ? "auto" : 0, background: item.role === "user" ? "#eff6ff" : "#f8fafc" }}>
         <strong>{item.role === "user" ? "You" : agentName}</strong>
         <p style={{ margin: "5px 0 0", whiteSpace: "pre-wrap" }}>{item.text}</p>
-        {item.role === "model" && speechOutputSupported && voicePreferences.enabled && <button type="button" disabled={voiceBusy} onClick={() => void speak(item.text)} style={listenButtonStyle}>{voiceBusy ? "Generating voice…" : `Replay ${agentName}`}</button>}
+        {item.role === "model" && speechOutputSupported && voicePreferences.enabled && <button type="button" disabled={voiceBusy} onClick={() => void speak(item.text)} style={listenButtonStyle}>{voiceBusy ? `Generating ${agentName}…` : `Replay ${agentName}`}</button>}
       </article>)}
       {busy && <p role="status">{agentName} is responding…</p>}
+      {voiceBusy && <p role="status">Generating {agentName}'s neural voice…</p>}
     </div>
     {error && <p role="alert" style={{ color: "#b91c1c", margin: 0 }}>{error}</p>}
     <form onSubmit={submit} style={{ display: "grid", gap: 8 }}>
