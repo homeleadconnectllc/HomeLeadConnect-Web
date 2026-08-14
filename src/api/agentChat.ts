@@ -7,11 +7,14 @@ export type AgentChatResponse = {
   model: string;
   reply: string;
   advisoryOnly: boolean;
+  fallback?: boolean;
+  contextKind?: "internal" | "resident_portal" | "professional_portal";
 };
 
 export async function chatWithAgent(agentId: AgentId, message: string, history: AgentChatMessage[] = []) {
+  const pagePath = typeof window !== "undefined" ? window.location.pathname : "/";
   const { data, error } = await supabase.functions.invoke("hlc-agent-chat", {
-    body: { agentId, message, history: history.slice(-8) },
+    body: { agentId, message, history: history.slice(-8), pagePath },
   });
   if (error) {
     const context = (error as { context?: { json?: () => Promise<unknown> } }).context;
