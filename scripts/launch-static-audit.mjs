@@ -29,14 +29,15 @@ function forbidText(rel, text) {
 }
 
 for (const file of [
-  'src/lib/supabase.ts','src/lib/accessDestination.ts','src/routes/AppRouter.tsx','src/context/AuthContext.tsx',
+  'src/lib/supabase.ts','src/lib/accessDestination.ts','src/lib/accessPolicy.ts','src/routes/AppRouter.tsx','src/context/AuthContext.tsx',
   'src/pages/HostEntry.tsx','src/pages/HomePage.tsx','src/pages/AppEntry.tsx','src/pages/auth/Login.tsx',
   'src/pages/auth/ForgotPassword.tsx','src/pages/auth/ResetPassword.tsx','src/pages/RequestService.tsx',
   'src/api/publicIntake.ts','src/api/leads.ts','src/api/estimates.ts','src/api/jobs.ts','src/api/jobAssignments.ts',
-  'src/api/appointments.ts','src/api/billing.ts','src/pages/dashboard/Settings.tsx','src/pages/dashboard/CallCenter.tsx','src/api/telephony.ts','src/pages/portal/HomeownerPortal.tsx',
+  'src/api/appointments.ts','src/api/billing.ts','src/api/automations.ts','src/pages/dashboard/Automations.tsx','src/pages/dashboard/Workflow.tsx',
+  'src/pages/dashboard/Settings.tsx','src/pages/dashboard/CallCenter.tsx','src/api/telephony.ts','src/pages/portal/HomeownerPortal.tsx',
   'src/pages/portal/ContractorPortal.tsx','src/ai/agents.ts','src/styles/launch-hardening.css','public/brand/avatars/Kendrell_Locked_HLC.png',
   'public/brand/avatars/Dion_Locked_HLC.png','public/brand/avatars/Diamond_Locked_HLC.png','public/_redirects','netlify.toml',
-  'supabase/functions/stripe-checkout-session/index.ts',
+  'supabase/functions/stripe-checkout-session/index.ts','supabase/migrations/20260814134500_harden_internal_automation_access.sql',
 ]) requireFile(file);
 
 requireText('.env.example', 'VITE_SUPABASE_URL=');
@@ -47,6 +48,16 @@ requireText('public/_redirects', '/* /index.html 200');
 requireText('netlify.toml', 'publish = "dist"');
 requireText('src/pages/AppEntry.tsx', 'resolveUserDestination');
 requireText('src/layouts/WorkspaceLayout.tsx', 'resolveUserDestination');
+requireText('src/layouts/WorkspaceLayout.tsx', 'canAccessWorkspacePath');
+requireText('src/layouts/WorkspaceLayout.tsx', 'Internal access not assigned');
+requireText('src/components/Navbar.tsx', 'canAccessWorkspacePath');
+requireText('src/lib/accessPolicy.ts', '"owner" | "manager" | "technician"');
+requireText('src/lib/accessPolicy.ts', 'ownerOnlyPrefixes');
+requireText('src/lib/accessPolicy.ts', 'managerPrefixes');
+requireText('src/pages/dashboard/Automations.tsx', 'Safe deterministic runs');
+requireText('src/api/automations.ts', 'run_hlc_automation');
+requireText('supabase/migrations/20260814134500_harden_internal_automation_access.sql', "IN ('owner', 'manager')");
+requireText('supabase/migrations/20260814134500_harden_internal_automation_access.sql', 'REVOKE ALL ON FUNCTION public.run_hlc_automation');
 requireText('src/pages/HostEntry.tsx', 'app.homeleadconnect.org');
 requireText('src/pages/HostEntry.tsx', '<HomePage />');
 requireText('src/pages/HostEntry.tsx', '<AppEntry />');
@@ -87,6 +98,12 @@ const legacyHomeFiles = [
 for (const rel of legacyHomeFiles) if (fs.existsSync(path.join(root, rel))) failures.push(`Legacy competing home-page source must be removed: ${rel}`);
 
 const forbidden = [/service_role/i, /sb_secret_[A-Za-z0-9_-]+/];
+const suspiciousControlPatterns = [
+  { pattern: /href\s*=\s*["']#["']/g, label: 'placeholder href="#"' },
+  { pattern: /javascript:void\s*\(\s*0\s*\)/gi, label: 'javascript:void(0)' },
+  { pattern: /onClick\s*=\s*\{\s*\(\s*\)\s*=>\s*\{\s*\}\s*\}/g, label: 'empty click handler' },
+  { pattern: /onClick\s*=\s*\{\s*function\s*\(\s*\)\s*\{\s*\}\s*\}/g, label: 'empty click function' },
+];
 const scanRoots = ['src', '.env.example'];
 function scan(rel) {
   const full = path.join(root, rel);
@@ -96,6 +113,12 @@ function scan(rel) {
   if (!/\.(ts|tsx|js|jsx|mjs|env|example)$/.test(rel)) return;
   const content = fs.readFileSync(full, 'utf8');
   for (const pattern of forbidden) if (pattern.test(content)) failures.push(`Forbidden elevated-key reference found in public/client source: ${rel}`);
+  if (/\.(tsx|jsx)$/.test(rel)) {
+    for (const { pattern, label } of suspiciousControlPatterns) {
+      pattern.lastIndex = 0;
+      if (pattern.test(content)) failures.push(`Obvious inert control (${label}) found in ${rel}`);
+    }
+  }
 }
 for (const rel of scanRoots) scan(rel);
 
