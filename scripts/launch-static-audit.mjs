@@ -35,7 +35,7 @@ for (const file of [
   'src/api/publicIntake.ts','src/api/leads.ts','src/api/estimates.ts','src/api/jobs.ts','src/api/jobAssignments.ts',
   'src/api/appointments.ts','src/api/billing.ts','src/api/automations.ts','src/pages/dashboard/Automations.tsx','src/pages/dashboard/Workflow.tsx',
   'src/pages/dashboard/Settings.tsx','src/pages/dashboard/CallCenter.tsx','src/api/telephony.ts','src/pages/portal/HomeownerPortal.tsx',
-  'src/pages/portal/ContractorPortal.tsx','src/ai/agents.ts','src/styles/launch-hardening.css','public/brand/avatars/Kendrell_Locked_HLC.png',
+  'src/pages/portal/HomeownerPortalDocuments.tsx','src/pages/portal/ContractorPortal.tsx','src/ai/agents.ts','src/styles/launch-hardening.css','public/brand/avatars/Kendrell_Locked_HLC.png',
   'public/brand/avatars/Dion_Locked_HLC.png','public/brand/avatars/Diamond_Locked_HLC.png','public/_redirects','netlify.toml',
   'supabase/functions/stripe-checkout-session/index.ts','supabase/migrations/20260814134500_harden_internal_automation_access.sql',
   'supabase/migrations/20260814135500_enable_hourly_workflow_automation.sql',
@@ -44,6 +44,7 @@ for (const file of [
   'supabase/migrations/20260814143000_remove_browser_admin_table_privileges.sql',
   'supabase/migrations/20260814143500_remove_browser_view_admin_privileges.sql',
   'supabase/migrations/20260814144000_reconcile_voice_access_to_workspace_members.sql',
+  'supabase/migrations/20260814144347_harden_community_review_workspace_linkage.sql',
 ]) requireFile(file);
 
 requireText('.env.example', 'VITE_SUPABASE_URL=');
@@ -79,12 +80,16 @@ requireText('supabase/migrations/20260814143000_remove_browser_admin_table_privi
 requireText('supabase/migrations/20260814143500_remove_browser_view_admin_privileges.sql', 'TRUNCATE');
 requireText('supabase/migrations/20260814144000_reconcile_voice_access_to_workspace_members.sql', 'voice_audio_select_workspace_members');
 requireText('supabase/migrations/20260814144000_reconcile_voice_access_to_workspace_members.sql', 'workspace_members');
+requireText('supabase/migrations/20260814144347_harden_community_review_workspace_linkage.sql', 'j.workspace_id = community_reviews.workspace_id');
 requireText('src/pages/HostEntry.tsx', 'app.homeleadconnect.org');
 requireText('src/pages/HostEntry.tsx', '<HomePage />');
 requireText('src/pages/HostEntry.tsx', '<AppEntry />');
 requireText('src/routes/AppRouter.tsx', '<Route path="/" element={<HostEntry/>}/>');
 requireText('src/routes/AppRouter.tsx', '<Route path="/app" element={<AppEntry/>}/>');
 requireText('src/routes/AppRouter.tsx', '<Route path="/portal" element={<AppEntry/>}/>');
+requireText('src/routes/AppRouter.tsx', '<Route path="/homeowner-portal/documents" element={<HomeownerPortalDocuments/>}/>');
+requireText('src/pages/portal/HomeownerPortalDocuments.tsx', 'sharing_scope === "homeowner"');
+requireText('src/pages/portal/HomeownerPortalDocuments.tsx', 'Only files explicitly shared with your resident portal are shown here.');
 requireText('src/pages/auth/Login.tsx', 'navigate(requested || "/app"');
 requireText('src/pages/auth/Login.tsx', '<Navigate to="/app" replace />');
 requireText('src/pages/HomePage.tsx', 'to="/request-service"');
