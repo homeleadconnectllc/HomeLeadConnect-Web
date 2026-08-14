@@ -14,6 +14,7 @@ import "./styles/responsive-workflows.css";
 import "./styles/responsive-ecosystem.css";
 import "./styles/visual-centering.css";
 import "./styles/property-intelligence.css";
+import "./styles/heading-contrast.css";
 import App from "./App.tsx";
 import { AuthProvider } from "./context/AuthContext";
 
