@@ -61,8 +61,9 @@ Do not run `supabase db push --linked` against production until a clone has prov
 49. `20260814110000_hlc_first_party_analytics.sql`
 50. `20260814112000_hlc_web_push_subscriptions.sql`
 51. `20260814114000_hlc_business_kpis.sql`
-52. `20260814115000_reconcile_telephony_notification_constraints.sql`
-53. `20260814120000_property_mechanical_intelligence.sql`
+52. `20260814115000_harden_hlc_analytics_ingest.sql`
+53. `20260814115000_reconcile_telephony_notification_constraints.sql`
+54. `20260814120000_property_mechanical_intelligence.sql`
 
 ## Isolated verification gate
 
