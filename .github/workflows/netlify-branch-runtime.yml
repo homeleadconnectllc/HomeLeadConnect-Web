@@ -42,12 +42,13 @@ jobs:
             > /tmp/netlify-build.json
           jq '{id, deploy_id, sha, done, error, created_at}' /tmp/netlify-build.json
 
-      - name: Wait for exact branch deploy and verify public runtime
+      - name: Wait for exact branch deploy and verify immutable permalink
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         run: |
           set -euo pipefail
           SITE_ID="641b807e-cb0e-4132-9075-a057481bee32"
+          SITE_NAME="glittery-pavlova-0f33bd"
           BRANCH="agent/functional-completion"
           for attempt in $(seq 1 90); do
             curl -fsS -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
@@ -57,23 +58,22 @@ jobs:
             MATCH="$(jq -c --arg branch "$BRANCH" --arg sha "$GITHUB_SHA" '
               .[]
               | select((.branch // "") == $branch and (.commit_ref // "") == $sha and (.context // "") == "branch-deploy")
-              | {id,state,url,ssl_url,deploy_url,deploy_ssl_url,admin_url,branch,context,commit_ref,published_at}
+              | {id,state,branch,context,commit_ref}
             ' /tmp/netlify-deploys.json | head -n 1)"
 
             if [ -n "$MATCH" ]; then
               STATE="$(printf '%s' "$MATCH" | jq -r '.state')"
+              DEPLOY_ID="$(printf '%s' "$MATCH" | jq -r '.id')"
               echo "$MATCH" | jq .
               if [ "$STATE" = "ready" ]; then
-                DEPLOY_URL="$(printf '%s' "$MATCH" | jq -r '.deploy_ssl_url // .deploy_url // .ssl_url // .url')"
-                test -n "$DEPLOY_URL" && test "$DEPLOY_URL" != "null"
-                DEPLOY_URL="${DEPLOY_URL/http:/https:}"
-                echo "NETLIFY_RUNTIME_URL=$DEPLOY_URL" | tee -a "$GITHUB_ENV"
-                curl -fsSL --retry 5 --retry-delay 2 "$DEPLOY_URL" -o /tmp/hlc-runtime.html
+                IMMUTABLE_URL="https://${DEPLOY_ID}--${SITE_NAME}.netlify.app"
+                echo "NETLIFY_RUNTIME_URL=$IMMUTABLE_URL" | tee -a "$GITHUB_ENV"
+                curl -fsSL --retry 5 --retry-delay 2 "$IMMUTABLE_URL" -o /tmp/hlc-runtime.html
                 grep -qi 'HomeLead Connect' /tmp/hlc-runtime.html || {
-                  echo 'Runtime responded but expected HLC marker was not found.'
+                  echo 'Immutable runtime responded but expected HLC marker was not found.'
                   exit 21
                 }
-                echo "Verified exact-SHA branch runtime: $DEPLOY_URL"
+                echo "Verified immutable exact-SHA Netlify runtime: $IMMUTABLE_URL"
                 exit 0
               fi
               if [ "$STATE" = "error" ]; then
@@ -84,7 +84,6 @@ jobs:
             sleep 5
           done
           echo 'Timed out waiting for exact-SHA branch deploy.'
-          jq -r '.[:10] | .[] | [.commit_ref,.branch,.context,.state,.deploy_url,.admin_url] | @tsv' /tmp/netlify-deploys.json || true
           exit 22
 
       - name: Runtime summary
