@@ -65,6 +65,11 @@ export type LinkedProviderProfile = {
   provider_type: ProviderType;
 };
 
+export type LinkedProviderService = { id: string; workspace_id: string; contractor_id: number; service_name: string; active: boolean; created_at: string };
+export type LinkedProviderServiceArea = { id: string; workspace_id: string; contractor_id: number; city: string | null; state: string | null; zip: string | null; radius_miles: number | null; latitude: number | null; longitude: number | null; created_at: string };
+export type LinkedProviderAvailability = { id: string; workspace_id: string; contractor_id: number; available: boolean; note: string | null; next_available_at: string | null; updated_at: string };
+export type LinkedProviderSetup = { services: LinkedProviderService[]; service_areas: LinkedProviderServiceArea[]; availability: LinkedProviderAvailability | null };
+
 export async function acceptPortalInvitation(token: string) {
   const { data, error } = await supabase.rpc("accept_portal_invitation", {
     p_invitation_token: token,
@@ -116,6 +121,48 @@ export async function updateLinkedProviderProfile(profile: LinkedProviderProfile
     p_zip: profile.zip || "",
     p_specialty: profile.specialty || "",
     p_provider_type: profile.provider_type,
+  });
+  if (error) throw error;
+}
+
+export async function getLinkedProviderSetup(contractorId: number): Promise<LinkedProviderSetup> {
+  const { data, error } = await supabase.rpc("get_linked_provider_setup", { p_contractor_id: contractorId });
+  if (error) throw error;
+  return (data ?? { services: [], service_areas: [], availability: null }) as LinkedProviderSetup;
+}
+
+export async function addLinkedProviderService(contractorId: number, serviceName: string) {
+  const { error } = await supabase.rpc("add_linked_provider_service", { p_contractor_id: contractorId, p_service_name: serviceName });
+  if (error) throw error;
+}
+
+export async function removeLinkedProviderService(contractorId: number, serviceId: string) {
+  const { error } = await supabase.rpc("remove_linked_provider_service", { p_contractor_id: contractorId, p_service_id: serviceId });
+  if (error) throw error;
+}
+
+export async function addLinkedProviderServiceArea(contractorId: number, input: { city: string; state: string; zip: string; radiusMiles: number }) {
+  const { error } = await supabase.rpc("add_linked_provider_service_area", {
+    p_contractor_id: contractorId,
+    p_city: input.city,
+    p_state: input.state,
+    p_zip: input.zip,
+    p_radius_miles: input.radiusMiles,
+  });
+  if (error) throw error;
+}
+
+export async function removeLinkedProviderServiceArea(contractorId: number, areaId: string) {
+  const { error } = await supabase.rpc("remove_linked_provider_service_area", { p_contractor_id: contractorId, p_area_id: areaId });
+  if (error) throw error;
+}
+
+export async function setLinkedProviderAvailability(contractorId: number, input: { available: boolean; note: string; nextAvailableAt: string }) {
+  const { error } = await supabase.rpc("set_linked_provider_availability", {
+    p_contractor_id: contractorId,
+    p_available: input.available,
+    p_note: input.note,
+    p_next_available_at: input.nextAvailableAt ? new Date(input.nextAvailableAt).toISOString() : null,
   });
   if (error) throw error;
 }
