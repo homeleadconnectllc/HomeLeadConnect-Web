@@ -7,6 +7,8 @@ const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
 const footer = readFileSync("src/components/Footer.tsx", "utf8");
 const startHere = readFileSync("src/pages/dashboard/StartHere.tsx", "utf8");
 const operationalGuide = readFileSync("src/pages/dashboard/OperationalGuide.tsx", "utf8");
+const mainEntry = readFileSync("src/main.tsx", "utf8");
+const responsiveContract = readFileSync("src/styles/responsive-page-contract.css", "utf8");
 const publicCopy = ["src/pages/HomePage.tsx", "src/pages/PublicInfo.tsx", "src/pages/ContactPage.tsx", "src/pages/Legal.tsx"]
   .map((path) => readFileSync(path, "utf8"))
   .join("\n");
@@ -48,6 +50,20 @@ test("company rollout operating guides remain declared and actionable", () => {
   assert.match(operationalGuide, /Cannot sign in/);
   assert.match(operationalGuide, /Company owner/);
   assert.match(operationalGuide, /Incident response/);
+});
+
+test("global responsive page contract is loaded last and covers desktop tablet and phone", () => {
+  const importLines = [...mainEntry.matchAll(/import "\.\/styles\/([^"]+\.css)";/g)].map((match) => match[1]);
+  assert.equal(importLines.at(-1), "responsive-page-contract.css");
+  assert.match(responsiveContract, /\.hlc-route-content > main/);
+  assert.match(responsiveContract, /margin-inline: auto !important/);
+  assert.match(responsiveContract, /--hlc-page-max: 1440px/);
+  assert.match(responsiveContract, /@media \(min-width: 1600px\)/);
+  assert.match(responsiveContract, /@media \(max-width: 1024px\)/);
+  assert.match(responsiveContract, /@media \(max-width: 700px\)/);
+  assert.match(responsiveContract, /@media \(max-width: 390px\)/);
+  assert.match(responsiveContract, /Provider coordinate map/);
+  assert.match(responsiveContract, /:has\(table\)/);
 });
 
 test("canonical page map contains every top-level HLC experience", () => {
