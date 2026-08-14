@@ -7,7 +7,7 @@ import { supabase } from "../lib/supabase";
 
 const logo = "/hlc-logo-final.png";
 const declaredWorkspaceRoutes = new Set([
-  "/dashboard", "/ecosystem", "/workflow", "/automations", "/hq", "/notifications",
+  "/dashboard", "/workflow", "/automations", "/hq", "/notifications",
   "/leads", "/estimator", "/jobs", "/calendar", "/follow-ups", "/operations",
   "/call-center", "/messages", "/manual-communications", "/customer-experience",
   "/documents", "/settings", "/homeowner-portal", "/contractor-portal", "/network",
