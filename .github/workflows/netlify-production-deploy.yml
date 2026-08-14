@@ -1,4 +1,4 @@
-name: HLC Direct Netlify Production Deploy
+name: HLC Production Verification
 
 on:
   push:
@@ -6,19 +6,33 @@ on:
       - main
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
-  deploy-production:
+  verify-production-source:
     runs-on: ubuntu-latest
     environment: production
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
           node-version: '24'
           cache: npm
-      - run: npm ci
-      - run: npm run build
-      - name: Verify Netlify token can access HLC site
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify production source
+        run: npm run verify:launch
+
+      - name: Build production source
+        run: npm run build
+
+      - name: Confirm Netlify site access
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         run: |
@@ -26,41 +40,7 @@ jobs:
           NETLIFY_SITE_ID="641b807e-cb0e-4132-9075-a057481bee32"
           curl -fsS -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" https://api.netlify.com/api/v1/sites > /tmp/netlify-sites.json
           jq -e --arg id "$NETLIFY_SITE_ID" 'any(.[]; .id == $id)' /tmp/netlify-sites.json >/dev/null || {
-            echo 'NETLIFY_AUTH_TOKEN is valid but cannot access the configured HLC Netlify site.'
+            echo 'NETLIFY_AUTH_TOKEN cannot access the configured HLC Netlify site.'
             exit 12
           }
-      - name: Deploy current main to Netlify production via API
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        run: |
-          NETLIFY_SITE_ID="641b807e-cb0e-4132-9075-a057481bee32"
-          (cd dist && zip -qr /tmp/hlc-deploy.zip .)
-          curl -fsS \
-            -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
-            -H "Content-Type: application/zip" \
-            --data-binary @/tmp/hlc-deploy.zip \
-            "https://api.netlify.com/api/v1/sites/$NETLIFY_SITE_ID/deploys" \
-            > /tmp/netlify-deploy.json
-          DEPLOY_ID="$(jq -r '.id // empty' /tmp/netlify-deploy.json)"
-          test -n "$DEPLOY_ID" || { echo 'Netlify API did not return a deploy id'; cat /tmp/netlify-deploy.json; exit 13; }
-          echo "Netlify deploy created: $DEPLOY_ID"
-          for attempt in $(seq 1 30); do
-            curl -fsS \
-              -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
-              "https://api.netlify.com/api/v1/deploys/$DEPLOY_ID" \
-              > /tmp/netlify-deploy-status.json
-            STATE="$(jq -r '.state // empty' /tmp/netlify-deploy-status.json)"
-            echo "Netlify deploy state: $STATE"
-            if [ "$STATE" = "ready" ]; then
-              echo "HLC production deploy is live."
-              exit 0
-            fi
-            if [ "$STATE" = "error" ]; then
-              cat /tmp/netlify-deploy-status.json
-              exit 14
-            fi
-            sleep 4
-          done
-          echo 'Timed out waiting for Netlify deploy to become ready.'
-          cat /tmp/netlify-deploy-status.json
-          exit 15
+          echo 'Production source verified. Netlify Git integration owns the production build/deploy so Netlify can inject production VITE_* environment variables.'
