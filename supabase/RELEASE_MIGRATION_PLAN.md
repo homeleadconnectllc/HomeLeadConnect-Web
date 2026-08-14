@@ -58,6 +58,8 @@ Do not run `supabase db push --linked` against production until a clone has prov
 46. `20260814102238_launch_core_fk_indexes.sql`
 47. `20260814103000_telephony_realtime_notification_spine.sql`
 48. `20260814104000_widen_business_phone_provider_support.sql`
+49. `20260814110000_hlc_first_party_analytics.sql`
+50. `20260814112000_hlc_web_push_subscriptions.sql`
 
 ## Isolated verification gate
 
@@ -65,7 +67,7 @@ Do not run `supabase db push --linked` against production until a clone has prov
 2. Capture its project reference and link a clean working copy to the clone.
 3. Reconcile remote-only migration history from database truth; never fabricate SQL bodies for missing historical migrations.
 4. Apply the pending chain in order.
-5. Run positive, cross-workspace, invalid-transition, invitation, communications, document/storage, billing-webhook, AI, appointment, telephony, Community, network, profile, participant-surface, and automation-runtime transactional tests.
+5. Run positive, cross-workspace, invalid-transition, invitation, communications, document/storage, billing-webhook, AI, appointment, telephony, Community, network, profile, participant-surface, analytics, Web Push and automation-runtime transactional tests.
 6. Run database security and performance advisors. Treat RLS-without-policy tables as deny-by-default unless an established product contract requires access.
 7. Verify Edge Function environment names and deploy functions only to the clone.
 8. Exercise rollback by restoring the clone snapshot or discarding the branch; production rollback requires a separately captured pre-release restore point.
@@ -113,6 +115,14 @@ Read-only database inspection confirms `public.leads` currently has exactly one 
 Reconciliation Edge Functions are active for portal invitations, Stripe checkout, Stripe billing portal, Stripe webhook, and HLC agent chat. Checkout and portal require Supabase JWTs; Stripe webhook correctly disables Supabase JWT verification and verifies `Stripe-Signature` itself. Auth logs show successful `200` user/session reads from the Netlify sprint branch origin on 2026-08-13, proving the branch origin was successfully wired to the reconciliation auth project before the later Netlify branch-deploy availability failure.
 
 The connected live Stripe account currently has no subscriptions. Its enabled webhook endpoint targets the reconciliation project's `stripe-webhook` function and listens for the six required HLC billing events. This is appropriate only for isolated launch testing; production promotion must intentionally deploy the production webhook with custom Stripe signature verification and move the Stripe endpoint only after production secrets/schema are ready.
+
+### Production hardening evidence recorded 2026-08-14
+
+Migration `20260814102238_launch_core_fk_indexes.sql` adds launch-path foreign-key indexes for portal links/invitations, documents, and calendar mappings without changing RLS semantics. Migration `20260814103000_telephony_realtime_notification_spine.sql` converts provider-backed call state changes into canonical HLC notifications and enables the notifications table for Realtime delivery. Migration `20260814104000_widen_business_phone_provider_support.sql` removes the artificial Google Voice/Twilio-only provider constraint while preserving readiness and verification state controls.
+
+Migration `20260814110000_hlc_first_party_analytics.sql` introduces privacy-minimized first-party traffic and conversion events, hostname-to-workspace attribution, a restricted event-ingest RPC, and a workspace-authorized aggregate KPI RPC. Raw analytics tables remain unavailable to browser roles.
+
+Migration `20260814112000_hlc_web_push_subscriptions.sql` adds authenticated push-subscription registration, server-only VAPID configuration, and notification-triggered background dispatch through `pg_net`. Per-environment private VAPID key material and the dispatch token are deliberately provisioned outside GitHub source control.
 
 ## Production gate
 
