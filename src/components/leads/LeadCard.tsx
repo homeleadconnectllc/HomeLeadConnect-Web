@@ -4,15 +4,15 @@ import PortalInviteButton from "../portal/PortalInviteButton";
 
 export default function LeadCard({ lead }: { lead: Lead }) {
   return (
-    <article className="responsive-record-card" style={cardStyle}>
-      <div>
+    <article className="responsive-record-card hlc-lead-card" style={cardStyle}>
+      <div className="hlc-lead-card-copy">
         <h3 style={{ margin: 0 }}>{lead.full_name || `Lead #${lead.id}`}</h3>
         <p style={{ margin: "8px 0", color: "#64748b" }}>
           {[lead.email, lead.phone].filter(Boolean).join(" · ")}
         </p>
         <small>Status: {lead.status || "new"}</small>
       </div>
-      <div style={{ display: "grid", gap: 8 }}>
+      <div className="hlc-lead-card-actions" style={{ display: "grid", gap: 8 }}>
         <Link to={`/estimator?lead=${lead.id}`} style={actionStyle}>Create Estimate</Link>
         <Link to={`/follow-ups?lead=${lead.id_uuid}`}>Schedule follow-up</Link>
         {lead.phone && <Link to={`/manual-communications?contact=lead:${lead.id}&channel=call`}>Call</Link>}
