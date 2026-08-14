@@ -13,7 +13,7 @@ test("normalizes only recognized internal HLC roles", () => {
 });
 
 test("owner can open command, billing, management and operational routes", () => {
-  for (const path of ["/hq", "/hq/system-health", "/settings/billing", "/workflow", "/automations", "/analytics", "/leads", "/jobs", "/calendar"]) {
+  for (const path of ["/hq", "/hq/system-health", "/settings/billing", "/workflow", "/automations", "/analytics", "/team", "/leads", "/jobs", "/calendar"]) {
     assert.equal(canAccessWorkspacePath("owner", path), true, path);
   }
 });
@@ -25,6 +25,7 @@ test("manager cannot open owner-only command or billing authority", () => {
   assert.equal(canAccessWorkspacePath("manager", "/workflow"), true);
   assert.equal(canAccessWorkspacePath("manager", "/automations"), true);
   assert.equal(canAccessWorkspacePath("manager", "/analytics"), true);
+  assert.equal(canAccessWorkspacePath("manager", "/team"), true);
   assert.equal(canAccessWorkspacePath("manager", "/leads"), true);
 });
 
@@ -32,7 +33,7 @@ test("technician gets operational work but not management control planes", () =>
   for (const path of ["/leads", "/jobs", "/calendar", "/documents", "/call-center", "/manual-communications", "/network", "/providers"]) {
     assert.equal(canAccessWorkspacePath("technician", path), true, path);
   }
-  for (const path of ["/hq", "/settings/billing", "/workflow", "/automations", "/analytics", "/settings", "/operations", "/customer-experience", "/community/moderation"]) {
+  for (const path of ["/hq", "/settings/billing", "/workflow", "/automations", "/analytics", "/settings", "/team", "/operations", "/customer-experience", "/community/moderation"]) {
     assert.equal(canAccessWorkspacePath("technician", path), false, path);
   }
 });
@@ -41,6 +42,7 @@ test("customer and provider identity labels never unlock internal workspace rout
   for (const role of ["customer", "homeowner", "renter", "contractor", "provider", "subcontractor", "moderator", undefined]) {
     assert.equal(canAccessWorkspacePath(role, "/dashboard"), false, String(role));
     assert.equal(canAccessWorkspacePath(role, "/leads"), false, String(role));
+    assert.equal(canAccessWorkspacePath(role, "/team"), false, String(role));
     assert.equal(canRunAutomation(role), false, String(role));
   }
 });
