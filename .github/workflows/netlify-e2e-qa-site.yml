@@ -60,32 +60,42 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         run: |
           set -euo pipefail
-          npx --yes netlify-cli@latest deploy \
-            --prod \
-            --dir=dist \
-            --site="$QA_SITE_ID" \
-            --auth="$NETLIFY_AUTH_TOKEN" \
-            --message="HLC E2E QA $GITHUB_SHA" \
-            --json > /tmp/qa-deploy.json
-          cat /tmp/qa-deploy.json
-          QA_URL="$(jq -r '.url // .deploy_url' /tmp/qa-deploy.json)"
-          test -n "$QA_URL" && test "$QA_URL" != "null"
-          echo "QA_URL=$QA_URL" >> "$GITHUB_ENV"
+          cd dist
+          zip -qr /tmp/hlc-qa.zip .
+          cd ..
+          curl -fsS -X POST \
+            -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
+            -H "Content-Type: application/zip" \
+            --data-binary @/tmp/hlc-qa.zip \
+            "https://api.netlify.com/api/v1/sites/$QA_SITE_ID/deploys" \
+            > /tmp/qa-deploy.json
+          jq '{id,state,url,ssl_url,deploy_url,deploy_ssl_url,site_id,created_at,published_at}' /tmp/qa-deploy.json
+          QA_DEPLOY_ID="$(jq -r '.id' /tmp/qa-deploy.json)"
+          test -n "$QA_DEPLOY_ID" && test "$QA_DEPLOY_ID" != "null"
+          echo "QA_DEPLOY_ID=$QA_DEPLOY_ID" >> "$GITHUB_ENV"
 
       - name: Verify QA runtime publicly
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
         run: |
           set -euo pipefail
           EXPECTED="https://${QA_NAME}.netlify.app"
           echo "expected=$EXPECTED"
-          echo "reported=$QA_URL"
-          for attempt in $(seq 1 24); do
+          for attempt in $(seq 1 36); do
+            curl -fsS -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
+              "https://api.netlify.com/api/v1/deploys/$QA_DEPLOY_ID" > /tmp/qa-deploy-state.json
+            STATE="$(jq -r '.state' /tmp/qa-deploy-state.json)"
             CODE="$(curl -sS -L -o /tmp/qa.html -w '%{http_code}' "$EXPECTED" || true)"
-            if [ "$CODE" = "200" ] && grep -qi 'HomeLead Connect' /tmp/qa.html; then
+            echo "Attempt $attempt: deploy=$STATE http=$CODE"
+            if [ "$STATE" = "ready" ] && [ "$CODE" = "200" ] && grep -qi 'HomeLead Connect' /tmp/qa.html; then
               echo "Verified public QA runtime: $EXPECTED"
               echo "HLC_E2E_QA_URL=$EXPECTED" >> "$GITHUB_ENV"
               exit 0
             fi
-            echo "Attempt $attempt: HTTP $CODE"
+            if [ "$STATE" = "error" ]; then
+              jq '{id,state,error_message}' /tmp/qa-deploy-state.json
+              exit 31
+            fi
             sleep 5
           done
           echo 'QA runtime did not become publicly usable.'
