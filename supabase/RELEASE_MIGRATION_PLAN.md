@@ -79,6 +79,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 71. `20260814182529_repair_auth_user_signup_profile_trigger.sql`
 72. `20260814182821_align_assignment_notification_types.sql`
 73. `20260814183500_fix_auth_signup_profile_trigger.sql`
+74. `20260814184422_launch_portal_policy_and_fk_performance_hardening.sql`
 
 ## Current production rules
 
@@ -125,7 +126,9 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - The live provider identity accepted the existing offered assignment through `contractor_decide_assignment`. That runtime attempt exposed and then verified a notification-type constraint defect; assignment accepted/rejected/cancelled events are now allowed by the canonical notification constraint.
 - The manager runtime identity scheduled appointment `15` for the accepted provider assignment, and both contractor and resident portal RPCs returned the linked job and scheduled appointment under their own authenticated identities.
 - The manager runtime identity then completed appointment `15` and the linked CRM job. The live golden chain now has persisted accepted assignment, completed appointment, and completed job evidence.
-- Security and performance advisors were rerun after launch DDL. Existing linter findings remain tracked; no broad index/RLS rewrites are made as a shortcut.
+- Launch portal SELECT policies were consolidated without changing authorization semantics and rewritten to use init-plan-safe `(select auth.uid())`; authenticated provider and resident portal RPCs were retested successfully afterward.
+- Covering indexes were added for the professional-application reviewer FK and launch-critical provider/public-form workspace FKs.
+- Security and performance advisors were rerun after launch DDL. Existing linter findings remain tracked; broad legacy rewrites are not made as a shortcut when a warning reflects an intentional public RPC or a larger legacy policy surface.
 
 ## Change procedure after launch
 
