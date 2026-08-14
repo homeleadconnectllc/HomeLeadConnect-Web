@@ -1,0 +1,75 @@
+/* Responsive hardening for ecosystem and reserved-area surfaces. */
+
+.hlc-ecosystem-page-row,
+.hlc-ecosystem-card-header,
+.hlc-ecosystem-agent-identity,
+.hlc-ecosystem-area-agent {
+  min-width: 0;
+}
+
+.hlc-ecosystem-page-row code,
+.hlc-ecosystem-page-row p,
+.hlc-ecosystem-page-row a,
+.hlc-ecosystem-area-agent p,
+.hlc-ecosystem-area-agent a {
+  overflow-wrap: anywhere;
+}
+
+.hlc-ecosystem-status {
+  flex: 0 0 auto;
+}
+
+@media (max-width: 720px) {
+  .hlc-ecosystem-page-row {
+    align-items: stretch !important;
+    flex-direction: column;
+  }
+
+  .hlc-ecosystem-status {
+    align-self: flex-start;
+  }
+
+  .hlc-ecosystem-card-header {
+    align-items: flex-start !important;
+    flex-wrap: wrap;
+  }
+
+  .hlc-ecosystem-area-agent {
+    align-items: flex-start !important;
+  }
+
+  .hlc-ecosystem-area-links a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .hlc-ecosystem-page,
+  .hlc-ecosystem-area-page {
+    width: calc(100% - 24px) !important;
+    margin: 24px auto !important;
+  }
+
+  .hlc-ecosystem-agent-identity,
+  .hlc-ecosystem-area-agent {
+    flex-direction: column;
+  }
+
+  .hlc-ecosystem-area-agent img {
+    width: 64px !important;
+    height: 64px !important;
+  }
+
+  .hlc-ecosystem-area-links {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px !important;
+    padding: 14px !important;
+  }
+
+  .hlc-ecosystem-area-links a {
+    min-height: 48px;
+  }
+}
