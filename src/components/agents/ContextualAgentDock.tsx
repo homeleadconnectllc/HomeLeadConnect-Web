@@ -3,6 +3,9 @@ import { useLocation } from "react-router-dom";
 import { trackAnalyticsEvent } from "../../api/analytics";
 import AgentChatPanel from "./AgentChatPanel";
 import type { AgentId } from "../../ai/agents";
+import { useAuth } from "../../hooks/useAuth";
+import { normalizeInternalRole, type InternalRole } from "../../lib/accessPolicy";
+import { supabase } from "../../lib/supabase";
 
 type AgentConfig = {
   id: AgentId;
@@ -12,59 +15,104 @@ type AgentConfig = {
   avatar: string;
 };
 
-const agents: Record<"kendrell" | "dion" | "diamond", AgentConfig> = {
-  kendrell: { id: "kendrell", name: "Kendrell", role: "Command", accent: "#2563eb", avatar: "/brand/avatars/Kendrell_Locked_HLC.png" },
-  dion: { id: "dion", name: "Dion", role: "Operations & BI", accent: "#0f766e", avatar: "/brand/avatars/Dion_Locked_HLC.png" },
-  diamond: { id: "diamond", name: "Diamond", role: "Customer Experience", accent: "#b45309", avatar: "/brand/avatars/Diamond_Locked_HLC.png" },
+type AccessContext = {
+  kind: "internal" | "resident" | "professional" | null;
+  role: InternalRole | null;
+  userId: string | null;
+};
+
+const agents: Record<AgentId, AgentConfig> = {
+  kendrell: { id: "kendrell", name: "Kendrell", role: "Command", accent: "#F59E0B", avatar: "/brand/avatars/Kendrell_Locked_HLC.png" },
+  dion: { id: "dion", name: "Dion", role: "Operations & BI", accent: "#6366F1", avatar: "/brand/avatars/Dion_Locked_HLC.png" },
+  diamond: { id: "diamond", name: "Diamond", role: "Customer Experience", accent: "#10B981", avatar: "/brand/avatars/Diamond_Locked_HLC.png" },
 };
 
 const hiddenRoutes = new Set(["/hq", "/operations", "/customer-experience"]);
 
-function resolveAgent(pathname: string): AgentConfig {
+function resolveAgent(pathname: string, access: AccessContext): AgentConfig | null {
+  if (access.kind === "resident") return agents.diamond;
+  if (access.kind === "professional") return agents.dion;
+  if (access.kind !== "internal") return null;
+
   if (
     pathname.startsWith("/leads") || pathname.startsWith("/estimator") || pathname.startsWith("/jobs") ||
     pathname.startsWith("/calendar") || pathname.startsWith("/follow-ups") || pathname.startsWith("/call-center") ||
-    pathname.startsWith("/manual-communications") || pathname.startsWith("/documents") || pathname.startsWith("/workflow")
+    pathname.startsWith("/manual-communications") || pathname.startsWith("/documents") || pathname.startsWith("/workflow") ||
+    pathname.startsWith("/network") || pathname.startsWith("/map") || pathname.startsWith("/providers") ||
+    pathname.startsWith("/matching") || pathname.startsWith("/operations")
   ) return agents.dion;
+
   if (
     pathname.startsWith("/messages") || pathname.startsWith("/notifications") || pathname.startsWith("/community") ||
-    pathname.startsWith("/network") || pathname.startsWith("/map") || pathname.startsWith("/providers") ||
-    pathname.startsWith("/profiles") || pathname.startsWith("/matching") || pathname.startsWith("/homeowner-portal") ||
-    pathname.startsWith("/contractor-portal")
+    pathname.startsWith("/customer-experience")
   ) return agents.diamond;
-  return agents.kendrell;
+
+  if (access.role === "owner") return agents.kendrell;
+  return agents.dion;
 }
 
 function greeting(agent: AgentConfig, pathname: string) {
   if (agent.id === "dion" && pathname.startsWith("/estimator")) return "I’m here if you want help checking the LeadScope numbers, materials, or next workflow step.";
   if (agent.id === "dion" && pathname.startsWith("/jobs")) return "I can help spot what is blocking this job, assignment, or schedule.";
+  if (agent.id === "dion" && (pathname.startsWith("/map") || pathname.startsWith("/network") || pathname.startsWith("/providers"))) return "I can help interpret provider records, service areas, map coverage, availability, and the next operational step without inventing ranking or distance.";
+  if (agent.id === "dion" && pathname.startsWith("/contractor-portal")) return "I can help explain offers, assigned work, profile setup, schedules, and the next professional-portal step.";
   if (agent.id === "diamond" && pathname.startsWith("/messages")) return "I can help draft a clear customer or provider response before anything is sent.";
   if (agent.id === "diamond" && pathname.startsWith("/community")) return "I can help keep the community experience useful, welcoming, and on-brand.";
+  if (agent.id === "diamond" && pathname.startsWith("/homeowner-portal")) return "I can help explain your request, appointment, document, profile, or next resident-portal step.";
   if (agent.id === "kendrell" && pathname === "/dashboard") return "Command Center is ready. I can summarize risks, priorities, KPIs, and the next decision that matters.";
   return `${agent.name} is available for guidance on this HLC area.`;
 }
 
 export default function ContextualAgentDock() {
+  const { session } = useAuth();
   const location = useLocation();
+  const [access, setAccess] = useState<AccessContext>({ kind: null, role: null, userId: null });
   const [openFor, setOpenFor] = useState<string | null>(null);
   const [greetingFor, setGreetingFor] = useState<AgentId | null>(null);
-  const agent = useMemo(() => resolveAgent(location.pathname), [location.pathname]);
-  const open = openFor === location.pathname;
-  const greetingVisible = greetingFor === agent.id;
 
   useEffect(() => {
-    if (hiddenRoutes.has(location.pathname)) return;
+    if (!session) return;
+    let active = true;
+    const userId = session.user.id;
+    Promise.all([
+      supabase.from("workspace_members").select("workspace_id").eq("user_id", userId).limit(1),
+      supabase.from("profiles").select("role").eq("user_id", userId).maybeSingle(),
+      supabase.from("homeowner_portal_links").select("id").eq("user_id", userId).is("revoked_at", null).limit(1),
+      supabase.from("contractor_portal_links").select("id").eq("user_id", userId).is("revoked_at", null).limit(1),
+    ]).then(([workspace, profile, resident, professional]) => {
+      if (!active) return;
+      const internal = !workspace.error && Boolean(workspace.data?.length);
+      const role = profile.error ? null : normalizeInternalRole(profile.data?.role);
+      const residentAccess = !resident.error && Boolean(resident.data?.length);
+      const professionalAccess = !professional.error && Boolean(professional.data?.length);
+      setAccess({
+        kind: internal && role ? "internal" : professionalAccess ? "professional" : residentAccess ? "resident" : null,
+        role,
+        userId,
+      });
+    }).catch(() => {
+      if (active) setAccess({ kind: null, role: null, userId });
+    });
+    return () => { active = false; };
+  }, [session]);
+
+  const agent = useMemo(() => resolveAgent(location.pathname, access), [location.pathname, access]);
+  const open = Boolean(agent && openFor === location.pathname);
+  const greetingVisible = Boolean(agent && greetingFor === agent.id);
+
+  useEffect(() => {
+    if (!agent || hiddenRoutes.has(location.pathname)) return;
     const key = `hlc-agent-greeted-${agent.id}`;
     if (sessionStorage.getItem(key)) return;
     const timer = window.setTimeout(() => {
       setGreetingFor(agent.id);
       sessionStorage.setItem(key, "1");
-      trackAnalyticsEvent("agent_greeting_shown", { agent: agent.id });
+      void trackAnalyticsEvent("agent_greeting_shown", { agent: agent.id, page: location.pathname });
     }, 900);
     return () => window.clearTimeout(timer);
-  }, [agent.id, location.pathname]);
+  }, [agent, location.pathname]);
 
-  if (hiddenRoutes.has(location.pathname)) return null;
+  if (!agent || hiddenRoutes.has(location.pathname)) return null;
 
   return (
     <aside className={`hlc-agent-dock ${open ? "is-open" : ""}`} aria-label={`${agent.name} contextual assistant`}>
@@ -94,7 +142,7 @@ export default function ContextualAgentDock() {
           const nextOpen = !open;
           setOpenFor(nextOpen ? location.pathname : null);
           setGreetingFor(null);
-          if (nextOpen) trackAnalyticsEvent("agent_chat_opened", { agent: agent.id });
+          if (nextOpen) void trackAnalyticsEvent("agent_chat_opened", { agent: agent.id, page: location.pathname, access: access.kind });
         }}
       >
         <img src={agent.avatar} alt="" aria-hidden="true" />
