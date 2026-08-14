@@ -1,0 +1,82 @@
+name: HLC Netlify Branch Runtime
+
+on:
+  push:
+    branches:
+      - agent/functional-completion
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  branch-runtime:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Trigger isolated Netlify branch build
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: |
+          set -euo pipefail
+          test -n "$NETLIFY_AUTH_TOKEN" || { echo 'NETLIFY_AUTH_TOKEN is not configured'; exit 10; }
+          SITE_ID="641b807e-cb0e-4132-9075-a057481bee32"
+          BRANCH="agent/functional-completion"
+          curl -fsS -X POST \
+            -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
+            --get \
+            --data-urlencode "branch=$BRANCH" \
+            --data-urlencode "clear_cache=true" \
+            --data-urlencode "title=HLC functional completion runtime $GITHUB_SHA" \
+            "https://api.netlify.com/api/v1/sites/$SITE_ID/builds" \
+            > /tmp/netlify-build.json
+          jq '{id, deploy_id, sha, done, error, created_at}' /tmp/netlify-build.json
+
+      - name: Wait for exact branch deploy and verify public runtime
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: |
+          set -euo pipefail
+          SITE_ID="641b807e-cb0e-4132-9075-a057481bee32"
+          BRANCH="agent/functional-completion"
+          for attempt in $(seq 1 90); do
+            curl -fsS -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
+              "https://api.netlify.com/api/v1/sites/$SITE_ID/deploys?per_page=50" \
+              > /tmp/netlify-deploys.json
+
+            MATCH="$(jq -c --arg branch "$BRANCH" --arg sha "$GITHUB_SHA" '
+              .[]
+              | select((.branch // "") == $branch and (.commit_ref // "") == $sha and (.context // "") == "branch-deploy")
+              | {id,state,url,ssl_url,deploy_url,admin_url,branch,context,commit_ref,published_at}
+            ' /tmp/netlify-deploys.json | head -n 1)"
+
+            if [ -n "$MATCH" ]; then
+              STATE="$(printf '%s' "$MATCH" | jq -r '.state')"
+              echo "$MATCH" | jq .
+              if [ "$STATE" = "ready" ]; then
+                DEPLOY_URL="$(printf '%s' "$MATCH" | jq -r '.deploy_url // .ssl_url // .url')"
+                test -n "$DEPLOY_URL" && test "$DEPLOY_URL" != "null"
+                echo "NETLIFY_RUNTIME_URL=$DEPLOY_URL" | tee -a "$GITHUB_ENV"
+                curl -fsSL --retry 5 --retry-delay 2 "$DEPLOY_URL" -o /tmp/hlc-runtime.html
+                grep -qi 'HomeLead Connect' /tmp/hlc-runtime.html || {
+                  echo 'Runtime responded but expected HLC marker was not found.'
+                  exit 21
+                }
+                echo "Verified exact-SHA branch runtime: $DEPLOY_URL"
+                exit 0
+              fi
+              if [ "$STATE" = "error" ]; then
+                echo 'Netlify branch deploy failed.'
+                exit 20
+              fi
+            fi
+            sleep 5
+          done
+          echo 'Timed out waiting for exact-SHA branch deploy.'
+          jq -r '.[:10] | .[] | [.commit_ref,.branch,.context,.state,.deploy_url,.admin_url] | @tsv' /tmp/netlify-deploys.json || true
+          exit 22
+
+      - name: Runtime summary
+        run: |
+          echo "Branch runtime verified for $GITHUB_SHA"
+          echo "$NETLIFY_RUNTIME_URL"
