@@ -54,6 +54,70 @@
   min-height: 44px;
 }
 
+/* Calendar */
+.hlc-calendar-list {
+  margin-top: 18px;
+}
+
+.hlc-calendar-card-copy {
+  min-width: 0;
+  display: grid;
+  gap: 5px;
+}
+
+.hlc-calendar-card-copy strong,
+.hlc-calendar-card-copy a,
+.hlc-calendar-card-copy div {
+  overflow-wrap: anywhere;
+}
+
+.hlc-calendar-actions {
+  justify-content: flex-end;
+  align-self: center;
+}
+
+.hlc-calendar-actions button {
+  min-height: 44px;
+}
+
+/* Jobs */
+.hlc-jobs-list {
+  margin-top: 18px;
+}
+
+.hlc-job-card-copy {
+  min-width: 0;
+}
+
+.hlc-job-card-copy h3,
+.hlc-job-card-copy small {
+  overflow-wrap: anywhere;
+}
+
+.hlc-job-card-actions {
+  display: grid;
+  grid-template-columns: minmax(150px, auto) auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.hlc-job-card-actions select,
+.hlc-job-open {
+  box-sizing: border-box;
+  min-height: 44px;
+}
+
+.hlc-job-open {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 9px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
 @media (max-width: 1024px) {
   .estimate-layout {
     grid-template-columns: minmax(0, 1fr) minmax(250px, 300px) !important;
@@ -67,6 +131,11 @@
   .estimate-line > div:first-child,
   .estimate-line > button {
     grid-column: 1 / -1;
+  }
+
+  .hlc-calendar-card,
+  .hlc-job-card {
+    align-items: flex-start !important;
   }
 }
 
@@ -98,7 +167,9 @@
     width: 100% !important;
   }
 
-  .hlc-lead-card-actions {
+  .hlc-lead-card-actions,
+  .hlc-calendar-actions,
+  .hlc-job-card-actions {
     width: 100%;
     min-width: 0;
   }
@@ -118,6 +189,24 @@
     border: 1px solid #cbd5e1;
     border-radius: 9px;
     text-decoration: none;
+  }
+
+  .hlc-calendar-actions {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hlc-calendar-actions button {
+    width: 100%;
+  }
+
+  .hlc-job-card-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hlc-job-card-actions select,
+  .hlc-job-open {
+    width: 100%;
   }
 }
 
@@ -148,23 +237,36 @@
     box-shadow: 0 14px 30px rgba(15, 23, 42, .16) !important;
   }
 
-  .hlc-leads-page {
+  .hlc-leads-page,
+  .hlc-calendar-page,
+  .hlc-jobs-page {
     width: calc(100% - 24px) !important;
     margin: 24px auto !important;
   }
 
-  .hlc-leads-page h1 {
+  .hlc-leads-page h1,
+  .hlc-calendar-page h1,
+  .hlc-jobs-page h1 {
     margin-top: 0;
   }
 
-  .hlc-lead-card {
+  .hlc-lead-card,
+  .hlc-calendar-card,
+  .hlc-job-card {
     padding: 16px !important;
     gap: 16px !important;
   }
 
   .hlc-lead-card-actions > a,
-  .hlc-lead-card-actions > div > button {
+  .hlc-lead-card-actions > div > button,
+  .hlc-calendar-actions button,
+  .hlc-job-card-actions select,
+  .hlc-job-open {
     min-height: 48px;
     font-size: 16px;
+  }
+
+  .hlc-calendar-actions {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
