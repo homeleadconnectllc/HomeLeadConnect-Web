@@ -97,8 +97,8 @@ requireText('supabase/migrations/20260814144749_provider_map_coordinates_foundat
 requireText('supabase/migrations/20260814144914_secure_provider_map_coordinate_updates.sql', 'owner');
 requireText('supabase/migrations/20260814144914_secure_provider_map_coordinate_updates.sql', 'manager');
 requireText('supabase/migrations/20260814145407_portal_identity_and_provider_profile_types.sql', 'provider_type');
-requireText('supabase/migrations/20260814145501_harden_activity_log_as_append_only.sql', 'DELETE');
-requireText('supabase/migrations/20260814145501_harden_activity_log_as_append_only.sql', 'UPDATE');
+requireText('supabase/migrations/20260814145501_harden_activity_log_as_append_only.sql', 'revoke update, delete on public.activity_log from authenticated');
+requireText('supabase/migrations/20260814145501_harden_activity_log_as_append_only.sql', 'activity_log_delete_workspace');
 requireText('supabase/migrations/20260814145520_linked_provider_profile_read.sql', 'contractor_portal_links');
 requireText('supabase/migrations/20260814150142_professional_portal_services_contract.sql', 'provider_services');
 requireText('supabase/migrations/20260814150142_professional_portal_services_contract.sql', 'provider_service_areas');
