@@ -1,0 +1,104 @@
+/* Responsive workflow hardening: desktop dense, tablet reduced, mobile action-first. */
+
+/* LeadScope */
+.estimate-layout {
+  align-items: start;
+}
+
+.estimate-layout > aside {
+  position: sticky;
+  top: 20px;
+}
+
+.estimate-line {
+  grid-template-columns: minmax(0, 2fr) minmax(120px, .7fr) minmax(140px, .9fr) auto !important;
+  align-items: end;
+}
+
+.estimate-line > div:first-child {
+  grid-column: 1 / -1;
+}
+
+.estimate-line > label,
+.estimate-line input,
+.estimate-layout select,
+.estimate-layout button {
+  min-width: 0;
+}
+
+.estimate-layout button {
+  min-height: 44px;
+}
+
+@media (max-width: 1024px) {
+  .estimate-layout {
+    grid-template-columns: minmax(0, 1fr) minmax(250px, 300px) !important;
+    gap: 18px !important;
+  }
+
+  .estimate-line {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .estimate-line > div:first-child,
+  .estimate-line > button {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 720px) {
+  .estimate-layout {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 16px !important;
+  }
+
+  .estimate-layout > aside {
+    position: static;
+    order: 2;
+  }
+
+  .estimate-line {
+    grid-template-columns: minmax(0, 1fr) !important;
+    padding: 16px !important;
+  }
+
+  .estimate-line > div:first-child,
+  .estimate-line > button {
+    grid-column: auto;
+  }
+
+  .estimate-line > button,
+  .estimate-layout > aside button,
+  .estimate-layout > aside input,
+  .estimate-layout > aside select {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .estimate-layout {
+    gap: 14px !important;
+  }
+
+  .estimate-layout > div,
+  .estimate-layout > aside {
+    border-radius: 16px !important;
+    padding: 16px !important;
+  }
+
+  .estimate-line {
+    gap: 12px !important;
+    border-radius: 12px !important;
+  }
+
+  .estimate-line input,
+  .estimate-layout select,
+  .estimate-layout button {
+    min-height: 48px;
+    font-size: 16px !important;
+  }
+
+  .estimate-layout > aside {
+    box-shadow: 0 14px 30px rgba(15, 23, 42, .16) !important;
+  }
+}
