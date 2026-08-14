@@ -30,6 +30,30 @@
   min-height: 44px;
 }
 
+/* Leads */
+.hlc-leads-list {
+  margin-top: 18px;
+}
+
+.hlc-lead-card-copy {
+  min-width: 0;
+}
+
+.hlc-lead-card-copy p {
+  overflow-wrap: anywhere;
+}
+
+.hlc-lead-card-actions {
+  min-width: 180px;
+  justify-items: stretch;
+}
+
+.hlc-lead-card-actions > a,
+.hlc-lead-card-actions > div > button {
+  box-sizing: border-box;
+  min-height: 44px;
+}
+
 @media (max-width: 1024px) {
   .estimate-layout {
     grid-template-columns: minmax(0, 1fr) minmax(250px, 300px) !important;
@@ -73,6 +97,28 @@
   .estimate-layout > aside select {
     width: 100% !important;
   }
+
+  .hlc-lead-card-actions {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .hlc-lead-card-actions > a,
+  .hlc-lead-card-actions > div,
+  .hlc-lead-card-actions > div > button {
+    width: 100%;
+  }
+
+  .hlc-lead-card-actions > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 11px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    text-decoration: none;
+  }
 }
 
 @media (max-width: 600px) {
@@ -100,5 +146,25 @@
 
   .estimate-layout > aside {
     box-shadow: 0 14px 30px rgba(15, 23, 42, .16) !important;
+  }
+
+  .hlc-leads-page {
+    width: calc(100% - 24px) !important;
+    margin: 24px auto !important;
+  }
+
+  .hlc-leads-page h1 {
+    margin-top: 0;
+  }
+
+  .hlc-lead-card {
+    padding: 16px !important;
+    gap: 16px !important;
+  }
+
+  .hlc-lead-card-actions > a,
+  .hlc-lead-card-actions > div > button {
+    min-height: 48px;
+    font-size: 16px;
   }
 }
