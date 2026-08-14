@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { listAutomationJobs, runAutomation, type AutomationJobRecord, type AutomationJobStatus } from "../../api/automations";
 import { automationRegistry, type AutomationMode } from "../../config/automation";
@@ -22,11 +22,19 @@ const statusLabels: Record<AutomationJobStatus, string> = {
   blocked: "Blocked",
 };
 
+const jobLabels: Record<string, string> = {
+  workflow_health_check: "Manual workflow health check",
+  followup_scan: "Manual follow-up scan",
+  owner_attention_scan: "Manual owner-attention scan",
+  workflow_automation_scan: "Automatic hourly workflow scan",
+};
+
 export default function Automations() {
   const [jobs, setJobs] = useState<AutomationJobRecord[]>([]);
   const [historyState, setHistoryState] = useState<"loading" | "ready" | "error">("loading");
   const [busy, setBusy] = useState<Partial<Record<SafeAutomation, boolean>>>({});
   const [runtimeMessages, setRuntimeMessages] = useState<Partial<Record<SafeAutomation, RuntimeMessage>>>({});
+  const latestAutomaticScan = useMemo(() => jobs.find((job) => job.job_type === "workflow_automation_scan"), [jobs]);
 
   const refresh = useCallback(async () => {
     const rows = await listAutomationJobs();
@@ -86,11 +94,29 @@ export default function Automations() {
       <strong>BLOCKED:</strong><span>provider, rule, persistence or approval is missing</span>
     </section>
 
+    <section style={scheduledStyle} aria-labelledby="scheduled-workflow-title">
+      <div>
+        <p style={eyebrowDarkStyle}>Scheduled workflow automation</p>
+        <h2 id="scheduled-workflow-title" style={{ margin: "4px 0 8px" }}>Hourly workflow monitor <span style={activeBadgeStyle}>ACTIVE</span></h2>
+        <p style={{ margin: 0, lineHeight: 1.55 }}>HLC automatically records a read-only workflow snapshot every hour at minute 7. It checks workflow health, follow-up pressure and owner-attention conditions. It never messages customers, assigns providers, changes appointments, changes lead/job state or changes billing.</p>
+      </div>
+      <div style={scheduledEvidenceStyle}>
+        <strong>Latest automatic evidence</strong>
+        {historyState === "loading" && <span>Loading latest scheduled scan…</span>}
+        {historyState === "error" && <span role="alert">Scheduled scan history is temporarily unavailable.</span>}
+        {historyState === "ready" && !latestAutomaticScan && <span>No automatic scan has been recorded yet.</span>}
+        {latestAutomaticScan && <>
+          <span>{statusLabels[latestAutomaticScan.status] ?? latestAutomaticScan.status} · {new Date(latestAutomaticScan.created_at).toLocaleString()}</span>
+          {latestAutomaticScan.result && <pre style={resultStyle}>{JSON.stringify(latestAutomaticScan.result, null, 2)}</pre>}
+        </>}
+      </div>
+    </section>
+
     <section style={runtimeStyle} aria-labelledby="automation-runtime-title">
       <div>
-        <p style={eyebrowDarkStyle}>Active persisted runtime</p>
+        <p style={eyebrowDarkStyle}>On-demand management checks</p>
         <h2 id="automation-runtime-title" style={{ margin: "4px 0 8px" }}>Safe deterministic runs</h2>
-        <p style={{ margin: 0, lineHeight: 1.55 }}>These controls execute authenticated, tenant-scoped checks through the database runtime and preserve each result in automation history. They do not send messages, assign providers, schedule appointments or change billing.</p>
+        <p style={{ margin: 0, lineHeight: 1.55 }}>Owner and manager controls execute authenticated, tenant-scoped checks through the database runtime and preserve each result in automation history. They do not send messages, assign providers, schedule appointments or change billing.</p>
       </div>
       <div style={runtimeGridStyle}>{safeRuns.map((run) => {
         const isRunning = Boolean(busy[run.id]);
@@ -115,13 +141,13 @@ export default function Automations() {
       <div>
         <p style={eyebrowDarkStyle}>Persisted execution evidence</p>
         <h2 id="automation-history-title" style={{ margin: "4px 0 8px" }}>Recent automation jobs</h2>
-        <p style={{ margin: 0, lineHeight: 1.55 }}>Runtime writes are server-controlled. Browser users may read their workspace history and invoke only the safe allowlisted checks above.</p>
+        <p style={{ margin: 0, lineHeight: 1.55 }}>Automation history is management-only. System-scheduled and owner/manager-initiated checks share the same auditable workspace history.</p>
       </div>
       {historyState === "loading" && <p>Loading automation history…</p>}
       {historyState === "error" && <p role="alert">Automation history is unavailable. No job state has been guessed.</p>}
       {historyState === "ready" && jobs.length === 0 && <p>No persisted automation jobs exist for this workspace yet.</p>}
       {historyState === "ready" && jobs.length > 0 && <div style={historyGridStyle}>{jobs.map((job) => <article key={job.id} style={historyCardStyle}>
-        <div style={headingStyle}><strong>{job.job_type}</strong><span style={statusStyle}>{statusLabels[job.status] ?? job.status}</span></div>
+        <div style={headingStyle}><strong>{jobLabels[job.job_type] ?? job.job_type}</strong><span style={statusStyle}>{statusLabels[job.status] ?? job.status}</span></div>
         <small>Attempts {job.retry_count} / {job.max_attempts}</small>
         <small>Created {new Date(job.created_at).toLocaleString()}</small>
         {job.result && <pre style={resultStyle}>{JSON.stringify(job.result, null, 2)}</pre>}
@@ -138,6 +164,9 @@ const heroStyle = { display: "grid", gap: 12, padding: "clamp(22px,5vw,44px)", b
 const eyebrowStyle = { margin: 0, color: "#60a5fa", fontWeight: 900, letterSpacing: ".08em", textTransform: "uppercase" as const };
 const eyebrowDarkStyle = { ...eyebrowStyle, color: "#1d4ed8" };
 const legendStyle = { display: "grid", gridTemplateColumns: "minmax(100px,auto) minmax(0,1fr)", gap: "8px 12px", padding: 18, border: "1px solid #cbd5e1", borderRadius: 14, background: "#f8fafc", color: "#334155", lineHeight: 1.45 };
+const scheduledStyle = { display: "grid", gap: 14, padding: 22, border: "1px solid #60a5fa", borderRadius: 16, background: "#eff6ff", color: "#334155" };
+const scheduledEvidenceStyle = { display: "grid", gap: 8, padding: 14, border: "1px solid #bfdbfe", borderRadius: 12, background: "#fff" };
+const activeBadgeStyle = { display: "inline-block", marginLeft: 8, padding: "3px 8px", border: "1px solid #16a34a", borderRadius: 999, color: "#166534", background: "#f0fdf4", fontSize: 11, verticalAlign: "middle" };
 const runtimeStyle = { display: "grid", gap: 14, padding: 22, border: "1px solid #86efac", borderRadius: 16, background: "#f0fdf4", color: "#334155" };
 const runtimeGridStyle = { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,260px),1fr))", gap: 10 };
 const gridStyle = { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,350px),1fr))", gap: 14 };
