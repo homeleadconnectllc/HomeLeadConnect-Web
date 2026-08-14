@@ -1,4 +1,9 @@
 /* Consistent visual centering without reducing desktop information density. */
+a.hlc-navbar-brand {
+  color: inherit;
+  text-decoration: none;
+}
+
 .hlc-route-content > main {
   margin-inline: auto;
 }
