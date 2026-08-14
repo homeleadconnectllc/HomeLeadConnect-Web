@@ -6,6 +6,10 @@ export type AgentVoicePreferences = {
   autoSpeak: boolean;
 };
 
+type AudioContextWindow = typeof window & {
+  webkitAudioContext?: typeof AudioContext;
+};
+
 const STORAGE_KEY = "hlc.agentVoicePreferences.v1";
 
 const DEFAULT_PREFERENCES: AgentVoicePreferences = {
@@ -13,8 +17,8 @@ const DEFAULT_PREFERENCES: AgentVoicePreferences = {
   autoSpeak: false,
 };
 
-let activeAudio: HTMLAudioElement | null = null;
-let activeObjectUrl: string | null = null;
+let audioContext: AudioContext | null = null;
+let activeSource: AudioBufferSourceNode | null = null;
 
 export function getAgentVoicePreferences(): AgentVoicePreferences {
   if (typeof window === "undefined") return DEFAULT_PREFERENCES;
@@ -36,23 +40,60 @@ export function saveAgentVoicePreferences(preferences: AgentVoicePreferences) {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(preferences));
 }
 
-function cleanupAudio() {
-  if (activeAudio) {
-    activeAudio.pause();
-    activeAudio.src = "";
-    activeAudio = null;
-  }
-  if (activeObjectUrl) {
-    URL.revokeObjectURL(activeObjectUrl);
-    activeObjectUrl = null;
-  }
+function getAudioContext() {
+  if (typeof window === "undefined") return null;
+  if (audioContext) return audioContext;
+  const audioWindow = window as AudioContextWindow;
+  const Constructor = window.AudioContext || audioWindow.webkitAudioContext;
+  if (!Constructor) return null;
+  audioContext = new Constructor();
+  return audioContext;
 }
 
-function base64ToBlob(base64: string, mimeType: string) {
+export function isAgentAudioSupported() {
+  if (typeof window === "undefined") return false;
+  const audioWindow = window as AudioContextWindow;
+  return Boolean(window.AudioContext || audioWindow.webkitAudioContext);
+}
+
+/**
+ * Must be called from a user gesture on iOS/Safari before an async TTS request.
+ * It resumes Web Audio and plays a one-frame silent buffer so later neural audio
+ * can start after the network round-trip without invoking HTMLMediaElement autoplay.
+ */
+export async function prepareAgentAudio() {
+  const context = getAudioContext();
+  if (!context) throw new Error("Spoken replies are unavailable in this browser.");
+
+  if (context.state === "suspended") await context.resume();
+  if (context.state !== "running") {
+    throw new Error("Tap the voice control again to enable audio playback.");
+  }
+
+  const silentBuffer = context.createBuffer(1, 1, context.sampleRate);
+  const silentSource = context.createBufferSource();
+  silentSource.buffer = silentBuffer;
+  silentSource.connect(context.destination);
+  silentSource.start(0);
+  return true;
+}
+
+function stopActiveSource() {
+  if (!activeSource) return;
+  try {
+    activeSource.stop();
+  } catch {
+    // Source may already have ended.
+  }
+  activeSource.disconnect();
+  activeSource = null;
+}
+
+function base64ToArrayBuffer(base64: string) {
   const binary = atob(base64);
   const bytes = new Uint8Array(binary.length);
   for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
-  return new Blob([bytes], { type: mimeType });
+  return bytes.buffer;
 }
 
 export async function speakAgentText(agentId: AgentId, text: string) {
@@ -60,7 +101,9 @@ export async function speakAgentText(agentId: AgentId, text: string) {
   const cleanText = text.trim();
   if (!cleanText) return false;
 
-  cleanupAudio();
+  const context = getAudioContext();
+  if (!context) throw new Error("Spoken replies are unavailable in this browser.");
+  stopActiveSource();
 
   const { data, error } = await supabase.functions.invoke("hlc-agent-voice", {
     body: { agentId, text: cleanText },
@@ -82,17 +125,26 @@ export async function speakAgentText(agentId: AgentId, text: string) {
   const payload = data as { audioBase64?: string; mimeType?: string; voice?: string } | null;
   if (!payload?.audioBase64) throw new Error("Neural voice returned no playable audio.");
 
-  const blob = base64ToBlob(payload.audioBase64, payload.mimeType || "audio/wav");
-  activeObjectUrl = URL.createObjectURL(blob);
-  activeAudio = new Audio(activeObjectUrl);
-  activeAudio.preload = "auto";
-  activeAudio.onended = cleanupAudio;
-  activeAudio.onerror = cleanupAudio;
-  await activeAudio.play();
+  if (context.state === "suspended") await context.resume();
+  if (context.state !== "running") {
+    throw new Error("Audio is ready. Tap Replay again to play it on this device.");
+  }
+
+  const encodedAudio = base64ToArrayBuffer(payload.audioBase64);
+  const decodedAudio = await context.decodeAudioData(encodedAudio.slice(0));
+  const source = context.createBufferSource();
+  source.buffer = decodedAudio;
+  source.connect(context.destination);
+  source.onended = () => {
+    if (activeSource === source) activeSource = null;
+    source.disconnect();
+  };
+  activeSource = source;
+  source.start(0);
   return true;
 }
 
 export function stopAgentSpeech() {
   if (typeof window === "undefined") return;
-  cleanupAudio();
+  stopActiveSource();
 }
