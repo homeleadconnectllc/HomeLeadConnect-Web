@@ -41,12 +41,12 @@ export default function EcosystemAreaPage({ page }: { page: EcosystemAreaKey }) 
     listContractors({}).then(setProviders).catch((reason: unknown) => setProviderError(errorMessage(reason, "Provider records are unavailable.")));
   }, [area.providers]);
 
-  return <main style={pageStyle}>
+  return <main className="hlc-ecosystem-area-page" style={pageStyle}>
     <header style={heroStyle}><p style={eyebrowStyle}>{area.owner} ownership</p><h1 style={{ margin: 0 }}>{area.title}</h1><p style={{ margin: 0, lineHeight: 1.6 }}>{area.intro}</p><strong style={{ ...badgeStyle, color: colors[area.status], borderColor: colors[area.status] }}>{area.status}</strong></header>
     <section style={gridStyle}>{area.sections.map(([title, body]) => <article key={title} style={cardStyle}><h2>{title}</h2><p>{body}</p></article>)}</section>
     {area.providers && <section style={cardStyle}><h2>Current workspace provider records</h2>{providerError && <p role="alert">{providerError}</p>}{!providerError && providers.length === 0 && <p>No authorized provider records are visible in this workspace.</p>}<div style={gridStyle}>{providers.map((provider) => <article key={provider.id} style={providerStyle}><strong>{provider.company_name || provider.contact_name || `Provider ${provider.id}`}</strong><span>{provider.specialty || "Trade not recorded"}</span><span>{[provider.city, provider.state, provider.zip].filter(Boolean).join(", ") || "Service location not recorded"}</span><small>Status: {provider.status || "not recorded"}</small></article>)}</div></section>}
-    <nav aria-label={`${area.title} destinations`} style={linksStyle}>{area.links.map(([label, route]) => <Link key={route} to={route}>{label} →</Link>)}</nav>
-    {agent && <aside style={agentStyle}><img src={agent.avatar} alt="" style={avatarStyle}/><div><strong>{agent.name} · {agent.title}</strong><p style={{ margin: "6px 0" }}>Contextual chat on this page remains {agent.status}. Use the dedicated workspace until the shared chat system is built.</p><Link to={agent.route}>Open {agent.name} workspace →</Link></div></aside>}
+    <nav className="hlc-ecosystem-area-links" aria-label={`${area.title} destinations`} style={linksStyle}>{area.links.map(([label, route]) => <Link key={route} to={route}>{label} →</Link>)}</nav>
+    {agent && <aside className="hlc-ecosystem-area-agent" style={agentStyle}><img src={agent.avatar} alt="" style={avatarStyle}/><div><strong>{agent.name} · {agent.title}</strong><p style={{ margin: "6px 0" }}>Contextual chat on this page remains {agent.status}. Use the dedicated workspace until the shared chat system is built.</p><Link to={agent.route}>Open {agent.name} workspace →</Link></div></aside>}
   </main>;
 }
 
