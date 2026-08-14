@@ -1,0 +1,97 @@
+name: HLC Netlify E2E QA Site
+
+on:
+  push:
+    branches:
+      - agent/functional-completion
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy-qa:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout exact branch source
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify launch candidate
+        run: npm run verify:launch
+
+      - name: Build exact SHA
+        run: npm run build
+
+      - name: Create or reuse isolated Netlify QA site
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: |
+          set -euo pipefail
+          test -n "$NETLIFY_AUTH_TOKEN" || { echo 'NETLIFY_AUTH_TOKEN is not configured'; exit 10; }
+          QA_NAME="hlc-functional-e2e-641b807e"
+          curl -fsS -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
+            "https://api.netlify.com/api/v1/sites?per_page=100" > /tmp/sites.json
+          QA_SITE_ID="$(jq -r --arg n "$QA_NAME" '.[] | select(.name == $n) | .id' /tmp/sites.json | head -n 1)"
+          if [ -z "$QA_SITE_ID" ]; then
+            curl -fsS -X POST \
+              -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
+              -H "Content-Type: application/json" \
+              -d "{\"name\":\"$QA_NAME\"}" \
+              "https://api.netlify.com/api/v1/sites" > /tmp/qa-site.json
+            QA_SITE_ID="$(jq -r '.id' /tmp/qa-site.json)"
+          fi
+          test -n "$QA_SITE_ID" && test "$QA_SITE_ID" != "null"
+          echo "QA_SITE_ID=$QA_SITE_ID" >> "$GITHUB_ENV"
+          echo "QA_NAME=$QA_NAME" >> "$GITHUB_ENV"
+          echo "Isolated QA site ready: $QA_NAME ($QA_SITE_ID)"
+
+      - name: Deploy exact SHA to isolated QA site
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: |
+          set -euo pipefail
+          npx --yes netlify-cli@latest deploy \
+            --prod \
+            --dir=dist \
+            --site="$QA_SITE_ID" \
+            --auth="$NETLIFY_AUTH_TOKEN" \
+            --message="HLC E2E QA $GITHUB_SHA" \
+            --json > /tmp/qa-deploy.json
+          cat /tmp/qa-deploy.json
+          QA_URL="$(jq -r '.url // .deploy_url' /tmp/qa-deploy.json)"
+          test -n "$QA_URL" && test "$QA_URL" != "null"
+          echo "QA_URL=$QA_URL" >> "$GITHUB_ENV"
+
+      - name: Verify QA runtime publicly
+        run: |
+          set -euo pipefail
+          EXPECTED="https://${QA_NAME}.netlify.app"
+          echo "expected=$EXPECTED"
+          echo "reported=$QA_URL"
+          for attempt in $(seq 1 24); do
+            CODE="$(curl -sS -L -o /tmp/qa.html -w '%{http_code}' "$EXPECTED" || true)"
+            if [ "$CODE" = "200" ] && grep -qi 'HomeLead Connect' /tmp/qa.html; then
+              echo "Verified public QA runtime: $EXPECTED"
+              echo "HLC_E2E_QA_URL=$EXPECTED" >> "$GITHUB_ENV"
+              exit 0
+            fi
+            echo "Attempt $attempt: HTTP $CODE"
+            sleep 5
+          done
+          echo 'QA runtime did not become publicly usable.'
+          exit 30
+
+      - name: Runtime summary
+        run: |
+          echo "Exact SHA: $GITHUB_SHA"
+          echo "QA URL: $HLC_E2E_QA_URL"
