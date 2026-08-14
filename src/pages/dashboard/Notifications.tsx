@@ -4,19 +4,17 @@ import { listNotifications, markNotificationRead, type NotificationRecord } from
 import { errorMessage } from "../../lib/errorMessage";
 
 export default function Notifications() {
-  const enabled = import.meta.env.VITE_NOTIFICATIONS_ENABLED === "true";
   const [items,setItems] = useState<NotificationRecord[]>([]);
-  const [loading,setLoading] = useState(enabled);
+  const [loading,setLoading] = useState(true);
   const [error,setError] = useState("");
 
   useEffect(() => {
-    if (!enabled) return;
     let active=true;
     listNotifications().then((rows) => { if(active) setItems(rows); })
       .catch((reason:unknown) => { if(active) setError(errorMessage(reason,"Unable to load notifications.")); })
       .finally(() => { if(active) setLoading(false); });
     return () => { active=false; };
-  }, [enabled]);
+  }, []);
 
   async function read(item: NotificationRecord) {
     if (!item.read_at) {
@@ -25,15 +23,14 @@ export default function Notifications() {
     }
   }
 
-  if (!enabled) return <main style={pageStyle}><h1>Notifications</h1><p><strong>Setup required:</strong> persistent event notifications are not enabled in this environment.</p></main>;
   return <main style={pageStyle}><h1>Notifications</h1>
-    <p>Only real assignment, appointment, and conversation events appear here.</p>
-    {loading && <p>Loading notifications…</p>}
+    <p>Real assignment, appointment, conversation, and telephony events appear here when HLC receives their canonical event records.</p>
+    {loading && <p role="status">Loading notifications…</p>}
     {error && <p role="alert" style={{color:"#b91c1c"}}>{error}</p>}
     {!loading && !error && items.length===0 && <p>No notifications yet.</p>}
     <div aria-live="polite">{items.map((item) => <article key={item.id} style={{...cardStyle,background:item.read_at?"#fff":"#eff6ff"}}>
       <h2 style={{fontSize:18}}>{item.title}</h2><p>{item.body}</p><small>{new Date(item.created_at).toLocaleString()}</small><br />
-      <Link to={item.deep_link} onClick={() => void read(item)}>Open related record</Link>
+      <Link to={item.deep_link || "/notifications"} onClick={() => void read(item)}>Open related record</Link>
     </article>)}</div>
   </main>;
 }
