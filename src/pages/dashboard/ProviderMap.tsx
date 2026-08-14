@@ -56,7 +56,8 @@ export default function ProviderMap() {
   useEffect(() => {
     if (!session) return;
     let active = true;
-    void supabase.from("profiles").select("role").eq("user_id", session.user.id).maybeSingle()
+    const roleRequest = supabase.from("profiles").select("role").eq("user_id", session.user.id).maybeSingle();
+    void Promise.resolve(roleRequest)
       .then(({ data, error: profileError }) => {
         if (!active) return;
         if (profileError) throw profileError;
