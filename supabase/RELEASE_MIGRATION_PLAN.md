@@ -78,6 +78,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 70. `20260814163950_professional_application_intake.sql`
 71. `20260814182529_repair_auth_user_signup_profile_trigger.sql`
 72. `20260814182821_align_assignment_notification_types.sql`
+73. `20260814183500_fix_auth_signup_profile_trigger.sql`
 
 ## Current production rules
 
@@ -119,7 +120,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - Community review insert authorization requires the completed job and review to share the same `workspace_id`.
 - Provider Map coordinate columns, validation, and management-only update controls are applied in production.
 - Resident identity/provider profile types, linked-provider profile reads, professional portal services/availability contracts, and append-only activity history are applied in production.
-- The stale duplicate auth-user trigger was repaired after live signup testing exposed a database-save failure; the canonical onboarding trigger remains responsible for normal internal-account initialization.
+- The stale duplicate auth-user trigger was repaired after live signup testing exposed a database-save failure; the canonical onboarding trigger remains responsible for normal internal-account initialization. The obsolete `on_auth_user_created` trigger is removed in the final repair migration.
 - Dedicated provider, resident, manager, and technician E2E identities were created. Provider/resident identities have no internal workspace membership; manager/technician identities are explicitly scoped to the HomeLead Connect workspace.
 - The live provider identity accepted the existing offered assignment through `contractor_decide_assignment`. That runtime attempt exposed and then verified a notification-type constraint defect; assignment accepted/rejected/cancelled events are now allowed by the canonical notification constraint.
 - The manager runtime identity scheduled appointment `15` for the accepted provider assignment, and both contractor and resident portal RPCs returned the linked job and scheduled appointment under their own authenticated identities.
