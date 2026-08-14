@@ -11,6 +11,9 @@ import { turnstileEnabled } from "../../lib/turnstile";
 
 type AuthMode = "password" | "magic" | "phone";
 
+const phoneAuthEnabled = import.meta.env.VITE_PHONE_AUTH_ENABLED === "true";
+const socialAuthEnabled = import.meta.env.VITE_SOCIAL_AUTH_ENABLED === "true";
+
 const oauthProviders: Array<{ provider: Provider; label: string }> = [
   { provider: "google", label: "Continue with Google" },
   { provider: "apple", label: "Continue with Apple" },
@@ -96,6 +99,7 @@ export default function Login() {
 
   async function sendPhoneOtp(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (!phoneAuthEnabled) return;
     trackAnalyticsEvent("sign_in_started", { method: "phone_otp" });
     setBusy(true);
     resetStatus();
@@ -121,6 +125,7 @@ export default function Login() {
 
   async function verifyPhoneOtp(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (!phoneAuthEnabled) return;
     setBusy(true);
     resetStatus();
     const { error: authError } = await supabase.auth.verifyOtp({ phone: phone.trim(), token: otp.trim(), type: "sms" });
@@ -134,6 +139,7 @@ export default function Login() {
   }
 
   async function oauth(provider: Provider) {
+    if (!socialAuthEnabled) return;
     trackAnalyticsEvent("sign_in_started", { method: provider });
     setBusy(true);
     resetStatus();
@@ -161,7 +167,7 @@ export default function Login() {
     <div className="hlc-auth-method-tabs" role="tablist" aria-label="Sign-in method">
       <button type="button" onClick={() => { setMode("password"); resetStatus(); }} aria-pressed={mode === "password"}>Email + password</button>
       <button type="button" onClick={() => { setMode("magic"); resetStatus(); }} aria-pressed={mode === "magic"}>Email link</button>
-      <button type="button" onClick={() => { setMode("phone"); resetStatus(); }} aria-pressed={mode === "phone"}>Phone</button>
+      {phoneAuthEnabled && <button type="button" onClick={() => { setMode("phone"); resetStatus(); }} aria-pressed={mode === "phone"}>Phone</button>}
     </div>
 
     {mode === "password" && <form className="hlc-auth-form" onSubmit={login}>
@@ -177,22 +183,23 @@ export default function Login() {
       <button disabled={busy || !isSupabaseConfigured() || (turnstileEnabled && !captchaToken)} type="submit">{busy ? "Sending…" : "Email me a secure sign-in link"}</button>
     </form>}
 
-    {mode === "phone" && !otpSent && <form className="hlc-auth-form" onSubmit={sendPhoneOtp}>
+    {phoneAuthEnabled && mode === "phone" && !otpSent && <form className="hlc-auth-form" onSubmit={sendPhoneOtp}>
       <label>Mobile number<input required autoComplete="tel" inputMode="tel" type="tel" placeholder="+17175550123" value={phone} onChange={(event) => setPhone(event.target.value)} /></label>
       <AuthTurnstile onToken={setCaptchaToken} resetSignal={captchaReset} />
       <button disabled={busy || !isSupabaseConfigured() || (turnstileEnabled && !captchaToken)} type="submit">{busy ? "Sending code…" : "Text me a sign-in code"}</button>
-      <small>SMS sign-in activates when an HLC SMS authentication provider is configured in Supabase.</small>
     </form>}
 
-    {mode === "phone" && otpSent && <form className="hlc-auth-form" onSubmit={verifyPhoneOtp}>
+    {phoneAuthEnabled && mode === "phone" && otpSent && <form className="hlc-auth-form" onSubmit={verifyPhoneOtp}>
       <label>Verification code<input required inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]*" value={otp} onChange={(event) => setOtp(event.target.value)} /></label>
       <button disabled={busy || otp.trim().length < 6} type="submit">{busy ? "Verifying…" : "Verify and continue"}</button>
       <button type="button" onClick={() => { setOtpSent(false); setOtp(""); resetStatus(); }}>Use another number</button>
     </form>}
 
-    <div className="hlc-auth-divider"><span>or continue with</span></div>
-    <div className="hlc-auth-provider-grid">
-      {oauthProviders.map(({ provider, label }) => <button type="button" key={provider} disabled={busy || !isSupabaseConfigured()} onClick={() => void oauth(provider)}>{label}</button>)}
-    </div>
+    {socialAuthEnabled && <>
+      <div className="hlc-auth-divider"><span>or continue with</span></div>
+      <div className="hlc-auth-provider-grid">
+        {oauthProviders.map(({ provider, label }) => <button type="button" key={provider} disabled={busy || !isSupabaseConfigured()} onClick={() => void oauth(provider)}>{label}</button>)}
+      </div>
+    </>}
   </AuthShell>;
 }
