@@ -13,6 +13,7 @@ import "./styles/workflow-mobile-fix.css";
 import "./styles/responsive-workflows.css";
 import "./styles/responsive-ecosystem.css";
 import "./styles/visual-centering.css";
+import "./styles/property-intelligence.css";
 import App from "./App.tsx";
 import { AuthProvider } from "./context/AuthContext";
 
