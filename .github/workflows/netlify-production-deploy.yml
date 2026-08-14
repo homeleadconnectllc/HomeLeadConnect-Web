@@ -44,3 +44,5 @@ jobs:
             exit 12
           }
           echo 'Production source verified. Netlify Git integration owns the production build/deploy so Netlify can inject production VITE_* environment variables.'
+
+# Production deploy retriggered after Netlify team upgrade on 2026-08-14.
