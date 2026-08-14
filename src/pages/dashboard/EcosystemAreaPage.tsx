@@ -1,62 +1,31 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { listContractors } from "../../api/contractors";
-import { agentTeam, type EcosystemOwner, type EcosystemStatus } from "../../config/ecosystem";
-import { errorMessage } from "../../lib/errorMessage";
-import type { Contractor } from "../../lib/types/database";
+import { Navigate } from "react-router-dom";
 
-export type EcosystemAreaKey = "network" | "map" | "profiles" | "providers" | "matching" | "community" | "discussions" | "reviews" | "referrals" | "events" | "moderation" | "help" | "tutorials" | "rules" | "profile" | "billing";
+export type EcosystemAreaKey =
+  | "network" | "map" | "profiles" | "providers" | "matching"
+  | "community" | "discussions" | "reviews" | "referrals" | "events"
+  | "moderation" | "help" | "tutorials" | "rules" | "profile" | "billing";
 
-type Area = { title: string; owner: EcosystemOwner; status: EcosystemStatus; intro: string; sections: Array<[string, string]>; links: Array<[string, string]>; providers?: boolean };
-
-const areas: Record<EcosystemAreaKey, Area> = {
-  network: { title: "HLC Network", owner: "Diamond", status: "MISSING", intro: "The shared entrance to participant profiles, provider discovery, connections, service areas and saved providers.", providers: true, sections: [["Participant network", "Homeowners, renters, businesses, contractors, subcontractors, painters, roofers, HVAC, cleaners, movers and approved partners use canonical profiles."],["Privacy boundary", "Public, network, workspace and private fields must be separated before directory publication."]], links: [["Provider directory","/providers"],["Map and list","/map"],["Profiles","/profiles"]] },
-  map: { title: "Network map and list", owner: "Diamond", status: "MISSING", intro: "A privacy-safe geographic view of approved providers, service areas and canonical record cards.", providers: true, sections: [["Map provider gate", "Provider, licensing, geocoding precision and retention remain undefined."],["Safe launch mode", "The list view may use city, state, ZIP and declared service areas without exposing private addresses."]], links: [["Provider directory","/providers"],["Matching","/matching"]] },
-  profiles: { title: "Participant profiles", owner: "Diamond", status: "MISSING", intro: "One profile model with role-specific sections and visibility for every HLC participant.", sections: [["Residents", "Homeowner and renter identity, properties, requests, preferences, consent and visibility."],["Organizations", "Business identity, owner, team, services, territories, subscription and integrations."],["Providers and trades", "Contractor, subcontractor, painter, roofer, HVAC, cleaner, mover and other trade capabilities with evidence and availability."],["Partners", "Referral, property, community and approved ecosystem relationships without mixing tenant access."]], links: [["My profile","/profile"],["Provider directory","/providers"]] },
-  providers: { title: "Provider directory", owner: "Diamond", status: "MISSING", intro: "Workspace provider records with truthful trade and location filters. Public visibility and verification claims are not enabled.", providers: true, sections: [["Canonical records", "Directory cards reuse provider records instead of creating a second provider database."],["Evidence", "No rating, rank, availability or verified badge is invented from missing data."]], links: [["Map and list","/map"],["Matching","/matching"]] },
-  matching: { title: "Matching and offers", owner: "Dion", status: "MISSING", intro: "Eligibility evidence leads to an explicit provider offer, acceptance and one active assignment.", sections: [["Eligibility", "Trade, territory, status, evidence and workspace access must pass approved rules."],["No automatic award", "The current job workflow uses explicit filters and human-controlled offers; ranking remains undefined."],["Assignment gate", "Scheduling stays blocked until the selected provider accepts the offer."]], links: [["Jobs and offers","/jobs"],["Golden workflow","/workflow"],["Provider directory","/providers"]] },
-  community: { title: "HLC Community", owner: "Diamond", status: "MISSING", intro: "The future signed-in home for trusted discussions, updates, events, completion-linked reviews, referrals and Diamond assistance.", sections: [["Audience and visibility", "Role-aware feeds must prevent workspace or private record exposure."],["Safety", "Reporting, moderation, appeals, rate limits and audit must exist before posting opens."],["Canonical outcomes", "Reviews and referrals must originate from eligible workflow records rather than free-floating claims."]], links: [["Discussions","/community/discussions"],["Reviews","/community/reviews"],["Referrals","/community/referrals"],["Events and updates","/community/events"]] },
-  discussions: { title: "Community discussions", owner: "Diamond", status: "MISSING", intro: "Topics, replies, saves and reports with role-aware visibility.", sections: [["Posting gate", "Discussion persistence, membership rules, rate limits and moderation are not deployed."],["Diamond placement", "Diamond will guide onboarding, recovery, reporting and safe handoffs without silently moderating users."]], links: [["Community home","/community-hub"],["Moderation","/community/moderation"]] },
-  reviews: { title: "Completion-linked reviews", owner: "Diamond", status: "MISSING", intro: "Verified feedback tied to an eligible completed HLC job.", sections: [["Eligibility", "One authorized participant, one eligible completion and one review lifecycle."],["Fair process", "Provider response, dispute, moderation and audit states are required before launch."]], links: [["Golden workflow","/workflow"],["Community home","/community-hub"]] },
-  referrals: { title: "Referrals", owner: "Diamond", status: "MISSING", intro: "Consent-aware invitations with source attribution and status history.", sections: [["Consent", "The referring participant cannot enroll another person into marketing."],["Attribution", "Referral source, invitation outcome and any approved reward decision remain auditable."]], links: [["Community home","/community-hub"],["Rules and safety","/rules"]] },
-  events: { title: "Events and updates", owner: "Diamond", status: "MISSING", intro: "HLC announcements, service education and approved local events.", sections: [["Publishing", "Author roles, visibility, scheduling, cancellation and notification behavior require implementation."],["Mobile", "Cards and event details must work without horizontal overflow and expose calendar handoff truthfully."]], links: [["Community home","/community-hub"],["Notifications","/notifications"]] },
-  moderation: { title: "Community moderation", owner: "Diamond", status: "MISSING", intro: "Reports, decisions, appeals, safety escalation and audit for authorized moderators.", sections: [["Decision boundary", "Diamond may summarize and recommend; authorized humans own removals, restrictions and appeals."],["Audit", "Every moderation action needs actor, rule, evidence, outcome and timestamp."]], links: [["Rules and safety","/rules"],["Kendrell HQ","/hq"]] },
-  help: { title: "Help Center", owner: "Diamond", status: "MISSING", intro: "Role-based answers, recovery guidance and support escalation in one searchable home.", sections: [["Residents", "Requests, portal access, appointments, messages, privacy, reviews and referrals."],["Professionals", "Applications, profiles, offers, assignments, scheduling, documents and subscriptions."],["Workspace teams", "CRM, LeadScope, Call Center, integrations, permissions, agents and incident recovery."]], links: [["Tutorials","/tutorials"],["Contact support","/contact"],["Rules and safety","/rules"]] },
-  tutorials: { title: "Tutorials", owner: "Diamond", status: "MISSING", intro: "First-run and contextual guidance for every HLC role and workflow stage.", sections: [["Start here", "Choose resident, professional, workspace operator or owner to receive the correct path."],["Contextual learning", "Short guidance belongs inside the page where an action occurs, with this center as the full reference."],["Accessibility", "Tutorials require text alternatives, keyboard operation, captions for media and mobile acceptance."]], links: [["Help Center","/help"],["Golden workflow","/workflow"]] },
-  rules: { title: "Rules and safety", owner: "Kendrell", status: "MISSING", intro: "A readable operating layer for accounts, communications, providers, Community, AI assistance and enforcement.", sections: [["Account and access", "One person identity, authorized roles, no credential sharing and least-privilege workspace access."],["Communications", "Consent, suppression, quiet-hours and provider outcome controls apply before automated outreach."],["Community", "No harassment, fraud, fabricated reviews, private-data disclosure or unsafe service claims."],["AI agents", "Agents disclose uncertainty, respect tool allowlists and require confirmation for consequential actions."]], links: [["Privacy","/privacy"],["Terms","/terms"],["Platform disclosure","/platform-disclosure"]] },
-  profile: { title: "My profile", owner: "Diamond", status: "MISSING", intro: "The canonical participant identity, preferences, visibility and consent center.", sections: [["Identity", "Name, contact methods, role relationships and avatar belong to one authenticated user profile."],["Visibility", "Each field requires explicit private, workspace, network or public treatment."],["Preferences", "Notifications, communications consent, accessibility and language choices require persisted controls."]], links: [["Participant profiles","/profiles"],["Settings","/settings"]] },
-  billing: { title: "Subscription and billing", owner: "Kendrell", status: "UNPROVEN", intro: "HLC SaaS plan, trial, invoices, customer portal and database-backed entitlement for participating businesses.", sections: [["Activation gate", "Billing stays unavailable until the approved Stripe price, server-created sessions and signed webhooks pass."],["Entitlement truth", "A return URL never grants access; verified persisted webhook state controls paid capabilities."],["Service-payment boundary", "Contractor-to-customer service payments remain outside HLC at Pennsylvania V1 launch."]], links: [["Workspace settings","/settings"],["Pricing","/pricing"],["Kendrell HQ","/hq"]] },
-};
-
-const colors: Record<EcosystemStatus, string> = { WORKING: "#166534", BROKEN: "#b91c1c", MISSING: "#9a3412", UNDEFINED: "#7e22ce", UNPROVEN: "#92400e" };
-
+/**
+ * Legacy ecosystem-readiness cards are no longer a production product surface.
+ * Every live area now routes to its real working destination instead of exposing
+ * internal MISSING / UNPROVEN engineering labels to customers.
+ */
 export default function EcosystemAreaPage({ page }: { page: EcosystemAreaKey }) {
-  const area = areas[page];
-  const [providers, setProviders] = useState<Contractor[]>([]);
-  const [providerError, setProviderError] = useState("");
-  const agent = agentTeam.find((item) => item.name === area.owner);
-
-  useEffect(() => {
-    if (!area.providers) return;
-    listContractors({}).then(setProviders).catch((reason: unknown) => setProviderError(errorMessage(reason, "Provider records are unavailable.")));
-  }, [area.providers]);
-
-  return <main className="hlc-ecosystem-area-page" style={pageStyle}>
-    <header style={heroStyle}><p style={eyebrowStyle}>{area.owner} ownership</p><h1 style={{ margin: 0 }}>{area.title}</h1><p style={{ margin: 0, lineHeight: 1.6 }}>{area.intro}</p><strong style={{ ...badgeStyle, color: colors[area.status], borderColor: colors[area.status] }}>{area.status}</strong></header>
-    <section style={gridStyle}>{area.sections.map(([title, body]) => <article key={title} style={cardStyle}><h2>{title}</h2><p>{body}</p></article>)}</section>
-    {area.providers && <section style={cardStyle}><h2>Current workspace provider records</h2>{providerError && <p role="alert">{providerError}</p>}{!providerError && providers.length === 0 && <p>No authorized provider records are visible in this workspace.</p>}<div style={gridStyle}>{providers.map((provider) => <article key={provider.id} style={providerStyle}><strong>{provider.company_name || provider.contact_name || `Provider ${provider.id}`}</strong><span>{provider.specialty || "Trade not recorded"}</span><span>{[provider.city, provider.state, provider.zip].filter(Boolean).join(", ") || "Service location not recorded"}</span><small>Status: {provider.status || "not recorded"}</small></article>)}</div></section>}
-    <nav className="hlc-ecosystem-area-links" aria-label={`${area.title} destinations`} style={linksStyle}>{area.links.map(([label, route]) => <Link key={route} to={route}>{label} →</Link>)}</nav>
-    {agent && <aside className="hlc-ecosystem-area-agent" style={agentStyle}><img src={agent.avatar} alt="" style={avatarStyle}/><div><strong>{agent.name} · {agent.title}</strong><p style={{ margin: "6px 0" }}>Contextual chat on this page remains {agent.status}. Use the dedicated workspace until the shared chat system is built.</p><Link to={agent.route}>Open {agent.name} workspace →</Link></div></aside>}
-  </main>;
+  if (page === "billing") return <Navigate to="/settings" replace />;
+  if (page === "network") return <Navigate to="/network" replace />;
+  if (page === "map") return <Navigate to="/map" replace />;
+  if (page === "profiles") return <Navigate to="/profiles" replace />;
+  if (page === "providers") return <Navigate to="/providers" replace />;
+  if (page === "matching") return <Navigate to="/matching" replace />;
+  if (page === "community") return <Navigate to="/community-hub" replace />;
+  if (page === "discussions") return <Navigate to="/community/discussions" replace />;
+  if (page === "reviews") return <Navigate to="/community/reviews" replace />;
+  if (page === "referrals") return <Navigate to="/community/referrals" replace />;
+  if (page === "events") return <Navigate to="/community/events" replace />;
+  if (page === "moderation") return <Navigate to="/community/moderation" replace />;
+  if (page === "help") return <Navigate to="/help" replace />;
+  if (page === "tutorials") return <Navigate to="/tutorials" replace />;
+  if (page === "rules") return <Navigate to="/rules" replace />;
+  if (page === "profile") return <Navigate to="/profile" replace />;
+  return <Navigate to="/dashboard" replace />;
 }
-
-const pageStyle = { width: "min(1120px, calc(100% - 32px))", margin: "40px auto", display: "grid", gap: 22 };
-const heroStyle = { display: "grid", gap: 12, padding: "clamp(22px,5vw,42px)", borderRadius: 22, color: "#f8fafc", background: "linear-gradient(135deg,#081426,#12365f)" };
-const eyebrowStyle = { margin: 0, color: "#60a5fa", fontWeight: 900, letterSpacing: ".08em", textTransform: "uppercase" as const };
-const badgeStyle = { justifySelf: "start", border: "1px solid", borderRadius: 999, padding: "5px 8px", fontSize: 12 };
-const gridStyle = { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,260px),1fr))", gap: 14 };
-const cardStyle = { padding: 20, border: "1px solid #cbd5e1", borderRadius: 16, background: "#fff", lineHeight: 1.55 };
-const providerStyle = { display: "grid", gap: 5, padding: 14, border: "1px solid #e2e8f0", borderRadius: 12, background: "#f8fafc" };
-const linksStyle = { display: "flex", flexWrap: "wrap" as const, gap: 14, padding: 18, borderRadius: 14, background: "#eff6ff" };
-const agentStyle = { display: "flex", alignItems: "center", gap: 16, padding: 18, borderRadius: 16, color: "#e2e8f0", background: "#081426" };
-const avatarStyle = { width: 72, height: 72, borderRadius: 14, objectFit: "cover" as const };
