@@ -78,7 +78,7 @@ export default function Navbar() {
       if (page.route === "/homeowner-portal") return access.homeowner;
       if (page.route === "/contractor-portal") return access.contractor;
       if (page.route === "/messages") return access.business || access.homeowner || access.contractor;
-      if (page.route === "/notifications") return import.meta.env.VITE_NOTIFICATIONS_ENABLED === "true" && (access.business || access.homeowner || access.contractor);
+      if (page.route === "/notifications") return access.business || access.homeowner || access.contractor;
       return access.business;
     };
 
