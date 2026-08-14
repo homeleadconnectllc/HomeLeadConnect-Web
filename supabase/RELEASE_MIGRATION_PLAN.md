@@ -62,6 +62,11 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 54. `20260814120000_property_mechanical_intelligence.sql`
 55. `20260814134500_harden_internal_automation_access.sql`
 56. `20260814135500_enable_hourly_workflow_automation.sql`
+57. `20260814141000_harden_legacy_security_definer_rpcs.sql`
+58. `20260814142000_align_management_rpc_roles.sql`
+59. `20260814143000_remove_browser_admin_table_privileges.sql`
+60. `20260814143500_remove_browser_view_admin_privileges.sql`
+61. `20260814144000_reconcile_voice_access_to_workspace_members.sql`
 
 ## Current production rules
 
@@ -71,8 +76,13 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - Internal workspace route policy recognizes `owner`, `manager`, and `technician`. Owner-only surfaces include HQ/command authority and subscription billing. Manager-level surfaces include workflow, automation, analytics, settings, operations, CX control, and moderation. Technicians receive operational workspace access but not manager/owner control planes.
 - `run_hlc_automation` and `automation_jobs` history are owner/manager control-plane capabilities. The production database enforces that rule in addition to the browser UI.
 - `run_hlc_scheduled_workflow_scan()` is a system-only recurring read-only monitor. Normal browser roles cannot invoke it. It records workflow health, follow-up pressure, and owner-attention evidence without messaging customers, assigning providers, scheduling appointments, changing workflow state, or changing billing.
+- Legacy SECURITY DEFINER operational/billing helpers must verify authenticated identity, canonical workspace membership, and internal role where the operation is staff-only.
+- Management RPCs for analytics/KPIs, provider configuration, and portal administration must enforce owner/manager authorization server-side rather than relying on route hiding.
+- Browser roles must never retain database-administration privileges such as TRUNCATE, TRIGGER, or REFERENCES on public relations. Normal app behavior is limited to explicitly granted CRUD operations plus RLS/RPC enforcement.
+- Profile self-service updates must not permit changes to `role`, `workspace_id`, `user_id`, or identity keys. Internal authority fields are server/admin controlled.
+- Voice messages and legacy voice-audio storage use canonical `workspace_members` tenancy; the obsolete `org_members` path is not an authorization source.
 - Anonymous/public callers must never receive direct execution access to internal automation, billing, owner approval, system-health, or staff-only functions.
-- UI hiding is not an authorization boundary. Direct-route, RLS/RPC, and server-side checks must continue to enforce the same access rules.
+- UI hiding is not an authorization boundary. Direct-route, RLS/RPC, storage, and server-side checks must continue to enforce the same access rules.
 
 ## Production verification evidence — 2026-08-14
 
@@ -85,14 +95,19 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - `hlc-agent-chat` version 2 is active and uses an authenticated workspace-aware deterministic fallback when the external AI provider is unavailable.
 - Migration `20260814134500_harden_internal_automation_access.sql` was applied to production and verified: automation history is owner/manager scoped and `run_hlc_automation` is executable by authenticated/service roles rather than PUBLIC, while the function itself enforces owner/manager authorization.
 - Migration `20260814135500_enable_hourly_workflow_automation.sql` was applied to production. Cron job `hlc-workflow-automation-hourly` is active on `7 * * * *`. A manual verification run created a successful read-only `workflow_automation_scan` record with live workflow/follow-up/owner-attention counts.
-- Security and performance advisors were rerun after launch DDL. Existing linter findings remain tracked; no broad privilege/index rewrites were made as a launch-day shortcut.
+- Legacy SECURITY DEFINER RPCs were hardened so cross-workspace IDs and unauthorized staff actions fail closed.
+- Management-only analytics/KPI, communications-provider configuration, and portal-revocation RPCs now enforce owner/manager role checks at the database boundary.
+- Public browser database-administration grants were removed and verified at `browser_admin_grants_remaining = 0` across public tables/views.
+- Authenticated profile UPDATE privileges are column-scoped to safe self-service fields; role/workspace/identity fields cannot be browser-updated directly.
+- Voice message and `voice-audio` policies were reconciled to `workspace_members` and verified in production.
+- Security and performance advisors were rerun after launch DDL. Existing linter findings remain tracked; no broad index rewrites were made as a launch-day shortcut.
 
 ## Change procedure after launch
 
 1. Make the smallest coherent source change on `main` or a verified release branch as appropriate.
 2. Add every DDL change as a new timestamped migration; never edit already-applied production history to disguise a new change.
 3. Keep this ordered list synchronized with `supabase/migrations`.
-4. Verify RLS, function grants, tenant predicates, and role checks for any changed data surface.
+4. Verify RLS, function grants, tenant predicates, role checks, storage policies, and column privileges for any changed data surface.
 5. Run `npm run verify:launch`.
 6. Let Netlify build with production environment variables.
 7. Require the exact-SHA-live production gate to pass.
