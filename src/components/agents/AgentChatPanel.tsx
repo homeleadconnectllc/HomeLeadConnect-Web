@@ -33,6 +33,7 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
   const recognitionRef = useRef<RecognitionLike | null>(null);
   const recognitionSupported = typeof window !== "undefined" && Boolean(getRecognitionConstructor());
   const speechOutputSupported = typeof window !== "undefined" && "speechSynthesis" in window;
+  const sendDisabled = busy || draft.trim().length === 0;
 
   async function submit(event: FormEvent) {
     event.preventDefault();
@@ -108,8 +109,8 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
       <label htmlFor={`${agentId}-chat-input`}><strong>Message</strong></label>
       <textarea id={`${agentId}-chat-input`} maxLength={4000} rows={4} value={draft} onChange={(event) => setDraft(event.target.value)} placeholder={`Ask ${agentName}…`} />
       <div style={composerActionsStyle}>
-        {recognitionSupported && <button type="button" aria-pressed={listening} onClick={toggleDictation}>{listening ? "Stop listening" : "Voice input"}</button>}
-        <button type="submit" disabled={busy || draft.trim().length === 0}>Send to {agentName}</button>
+        {recognitionSupported && <button type="button" aria-pressed={listening} onClick={toggleDictation} style={{ ...voiceButtonStyle, ...(listening ? listeningButtonStyle : {}) }}>{listening ? "Stop listening" : "Voice input"}</button>}
+        <button type="submit" disabled={sendDisabled} style={{ ...sendButtonStyle, borderColor: sendDisabled ? "#94a3b8" : accent, ...(sendDisabled ? disabledSendButtonStyle : {}) }}>Send to {agentName}</button>
       </div>
       {!recognitionSupported && <small style={{ color: "#64748b" }}>Voice dictation is unavailable in this browser; typed chat remains available.</small>}
     </form>
@@ -120,4 +121,8 @@ const panelStyle = { display: "grid", gap: 14, padding: 20, border: "1px solid",
 const transcriptStyle = { display: "grid", gap: 10, maxHeight: 420, overflowY: "auto" as const, padding: 12, border: "1px solid #e2e8f0", borderRadius: 12, background: "#fff" };
 const bubbleStyle = { width: "min(88%, 700px)", boxSizing: "border-box" as const, padding: 12, border: "1px solid #e2e8f0", borderRadius: 12, lineHeight: 1.5 };
 const listenButtonStyle = { marginTop: 8, minHeight: 36, padding: "6px 10px" };
-const composerActionsStyle = { display: "flex", flexWrap: "wrap" as const, gap: 8, alignItems: "center" };
+const composerActionsStyle = { display: "flex", flexWrap: "wrap" as const, gap: 10, alignItems: "center" };
+const voiceButtonStyle = { minHeight: 44, padding: "10px 16px", border: "2px solid #0f172a", borderRadius: 10, background: "#ffffff", color: "#0f172a", fontWeight: 800, cursor: "pointer", boxShadow: "0 1px 2px rgba(15, 23, 42, 0.12)" };
+const listeningButtonStyle = { background: "#b91c1c", borderColor: "#991b1b", color: "#ffffff" };
+const sendButtonStyle = { minHeight: 44, padding: "10px 18px", border: "2px solid", borderRadius: 10, background: "#0f172a", color: "#ffffff", fontWeight: 900, cursor: "pointer", boxShadow: "0 2px 5px rgba(15, 23, 42, 0.22)" };
+const disabledSendButtonStyle = { background: "#e2e8f0", color: "#475569", cursor: "not-allowed", boxShadow: "none", opacity: 1 };
