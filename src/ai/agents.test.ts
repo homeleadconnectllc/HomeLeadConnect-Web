@@ -32,3 +32,21 @@ test("agent capabilities remain role-scoped and deterministic", () => {
   assert.ok(capabilityCatalog.dion.some((item) => item.id === "create_followup" && item.level === "EXECUTE"));
   assert.ok(!capabilityCatalog.kendrell.some((item) => item.id === "send_customer_communication"));
 });
+
+test("agent voice personas stay distinct and locked", () => {
+  assert.equal(agents.kendrell.voicePersona.genderPresentation, "male");
+  assert.match(agents.kendrell.voicePersona.tone, /steady/i);
+  assert.match(agents.kendrell.voicePersona.tone, /lower-key/i);
+
+  assert.equal(agents.dion.voicePersona.genderPresentation, "male");
+  assert.match(agents.dion.voicePersona.tone, /analytical/i);
+  assert.match(agents.dion.voicePersona.tone, /masculine/i);
+
+  assert.equal(agents.diamond.voicePersona.genderPresentation, "female");
+  assert.match(agents.diamond.voicePersona.tone, /polished/i);
+  assert.match(agents.diamond.voicePersona.tone, /feminine/i);
+
+  for (const agent of Object.values(agents)) {
+    assert.ok(agent.voicePersona.avoid.some((item) => /robotic/i.test(item)));
+  }
+});
