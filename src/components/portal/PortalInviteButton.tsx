@@ -12,8 +12,6 @@ export default function PortalInviteButton({ role, targetId, email, label }: {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
-  if (import.meta.env.VITE_PORTAL_INVITATIONS_ENABLED !== "true") return null;
-
   async function invite() {
     if (!email) return;
     setBusy(true); setError(""); setMessage("");
