@@ -66,7 +66,7 @@ export default function Calendar() {
   }
 
   return (
-    <main style={pageStyle}>
+    <main className="hlc-calendar-page" style={pageStyle}>
       <p><Link to="/jobs">← Jobs</Link></p>
       <h1>Schedule</h1>
       <p style={{ color: "#64748b" }}>Workspace job appointments in chronological order.</p>
@@ -74,16 +74,16 @@ export default function Calendar() {
       {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
       {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
       {rescheduling?.appointment_end_at && <RescheduleDialog initialStart={rescheduling.appointment_date} initialEnd={rescheduling.appointment_end_at} busy={busy} onCancel={() => setRescheduling(null)} onConfirm={reschedule} />}
-      <div style={{ display: "grid", gap: 12 }}>
+      <div className="hlc-calendar-list" style={{ display: "grid", gap: 12 }}>
         {appointments.map((appointment) => (
-          <article className="responsive-record-card" key={appointment.id} style={cardStyle}>
-            <div>
+          <article className="responsive-record-card hlc-calendar-card" key={appointment.id} style={cardStyle}>
+            <div className="hlc-calendar-card-copy">
               <strong>{new Date(appointment.appointment_date).toLocaleString()} – {appointment.appointment_end_at ? new Date(appointment.appointment_end_at).toLocaleString() : "End time unavailable"}</strong>
               <div><Link to={`/jobs/${appointment.job_id}`}>{appointment.job?.name || `Job ${appointment.job_id}`}</Link></div>
               <div>{appointment.contractor?.company_name || `Contractor #${appointment.contractor_id}`}</div>
               <small>{appointment.status}</small>
             </div>
-            {appointment.status === "scheduled" && <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            {appointment.status === "scheduled" && <div className="hlc-calendar-actions" style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
               <button disabled={busy || !appointment.appointment_end_at} title={!appointment.appointment_end_at ? "This historical appointment has no persisted end time." : undefined} onClick={() => setRescheduling(appointment)}>Reschedule</button>
               <button disabled={busy} onClick={() => run(() => completeAppointment(appointment.id), "Appointment completed.")}>Complete</button>
               <button disabled={busy} onClick={() => run(() => cancelAppointment(appointment.id), "Appointment cancelled.")}>Cancel</button>
