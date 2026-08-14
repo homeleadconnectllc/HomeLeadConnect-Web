@@ -1,0 +1,89 @@
+.hlc-property-form,
+.hlc-property-asset-form,
+.hlc-property-service-form {
+  display: grid;
+  gap: 14px;
+}
+
+.hlc-property-asset-form,
+.hlc-property-service-form {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.hlc-property-form label,
+.hlc-property-asset-form label,
+.hlc-property-service-form label {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  font-weight: 750;
+}
+
+.hlc-property-form input,
+.hlc-property-form select,
+.hlc-property-form textarea,
+.hlc-property-asset-form input,
+.hlc-property-asset-form select,
+.hlc-property-asset-form textarea,
+.hlc-property-service-form input,
+.hlc-property-service-form select,
+.hlc-property-service-form textarea {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.hlc-inline-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.hlc-form-span-all {
+  grid-column: 1 / -1;
+}
+
+.hlc-property-asset-form > button,
+.hlc-property-service-form > button {
+  justify-self: start;
+  min-height: 44px;
+}
+
+.hlc-property-asset-card {
+  width: 100%;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+
+.hlc-property-asset-card[aria-pressed="true"] {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+@media (max-width: 720px) {
+  .hlc-property-asset-form,
+  .hlc-property-service-form,
+  .hlc-inline-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hlc-property-asset-form > button,
+  .hlc-property-service-form > button,
+  .hlc-property-form > button {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .hlc-property-form input,
+  .hlc-property-form select,
+  .hlc-property-form textarea,
+  .hlc-property-asset-form input,
+  .hlc-property-asset-form select,
+  .hlc-property-asset-form textarea,
+  .hlc-property-service-form input,
+  .hlc-property-service-form select,
+  .hlc-property-service-form textarea {
+    font-size: 16px;
+  }
+}
