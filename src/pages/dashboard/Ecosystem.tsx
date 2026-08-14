@@ -12,7 +12,7 @@ const colors: Record<EcosystemStatus, string> = {
 
 export default function Ecosystem() {
   const areas = [...ecosystemAreas].sort((a, b) => statusPriority(a.status) - statusPriority(b.status));
-  return <main style={pageStyle}>
+  return <main className="hlc-ecosystem-page" style={pageStyle}>
     <header style={heroStyle}>
       <p style={eyebrowStyle}>HomeLead Connect · Integration control plane</p>
       <h1 style={{ margin: 0 }}>Entire ecosystem</h1>
@@ -35,7 +35,7 @@ export default function Ecosystem() {
         <p style={{ margin: 0, maxWidth: 600, lineHeight: 1.55 }}>Each agent has a dedicated workspace today. Contextual chat across the pages listed below remains a required implementation gate.</p>
       </div>
       <div style={agentGridStyle}>{agentTeam.map((agent) => <article key={agent.id} style={agentCardStyle}>
-        <div style={agentIdentityStyle}>
+        <div className="hlc-ecosystem-agent-identity" style={agentIdentityStyle}>
           <img src={agent.avatar} alt={`${agent.name}, ${agent.title}`} style={avatarStyle} />
           <div>
             <p style={ownerStyle}>{agent.title}</p>
@@ -68,7 +68,7 @@ export default function Ecosystem() {
       <div style={navigationGridStyle}>{ecosystemNavigation.map((group) => <article key={group.id} style={navigationGroupStyle}>
         <h3 style={{ margin: 0 }}>{group.label}</h3>
         <p style={{ margin: "6px 0 14px", color: "#64748b", lineHeight: 1.5 }}>{group.purpose}</p>
-        <div style={pageStackStyle}>{group.pages.map((page) => <div key={page.route} style={pageRowStyle}>
+        <div style={pageStackStyle}>{group.pages.map((page) => <div className="hlc-ecosystem-page-row" key={page.route} style={pageRowStyle}>
           <div style={{ minWidth: 0 }}>
             <div style={pageTitleStyle}>
               <Link to={page.route}><strong>{page.label}</strong></Link>
@@ -77,7 +77,7 @@ export default function Ecosystem() {
             <p style={{ margin: "5px 0", fontSize: 14, lineHeight: 1.45 }}>{page.purpose}</p>
             <p style={{ margin: 0, color: "#64748b", fontSize: 12 }}>{page.owner} · {page.audiences.join(" · ")}</p>
           </div>
-          <strong style={{ ...badgeStyle, color: colors[page.status], borderColor: colors[page.status] }}>{page.status}</strong>
+          <strong className="hlc-ecosystem-status" style={{ ...badgeStyle, color: colors[page.status], borderColor: colors[page.status] }}>{page.status}</strong>
         </div>)}</div>
       </article>)}</div>
     </section>
@@ -89,9 +89,9 @@ export default function Ecosystem() {
       </div>
       <div style={navigationGridStyle}>{canonicalPageMap.map((area) => <article key={area.id} style={navigationGroupStyle}>
         <h3 style={{ margin: 0 }}>{area.label}</h3><p style={{ margin: "6px 0 14px", color: "#64748b" }}>Canonical home: <code>{area.home}</code></p>
-        <div style={pageStackStyle}>{area.pages.map((page) => <div key={`${area.id}-${page.route}-${page.label}`} style={pageRowStyle}>
+        <div style={pageStackStyle}>{area.pages.map((page) => <div className="hlc-ecosystem-page-row" key={`${area.id}-${page.route}-${page.label}`} style={pageRowStyle}>
           <div style={{ minWidth: 0 }}><div style={pageTitleStyle}>{page.built ? <Link to={page.route}><strong>{page.label}</strong></Link> : <strong>{page.label}</strong>}<code style={routeCodeStyle}>{page.route}</code></div><p style={{ margin: "5px 0 0", color: "#64748b", fontSize: 12 }}>{page.owner} · {page.audience}{!page.built ? " · Reserved destination" : ""}</p></div>
-          <strong style={{ ...badgeStyle, color: colors[page.status], borderColor: colors[page.status] }}>{page.status}</strong>
+          <strong className="hlc-ecosystem-status" style={{ ...badgeStyle, color: colors[page.status], borderColor: colors[page.status] }}>{page.status}</strong>
         </div>)}</div>
       </article>)}</div>
     </section>
@@ -99,7 +99,7 @@ export default function Ecosystem() {
     <section aria-labelledby="areas-title">
       <h2 id="areas-title">System areas</h2>
       <div style={gridStyle}>{areas.map((area) => <article key={area.id} style={cardStyle}>
-        <div style={cardHeaderStyle}><div><p style={ownerStyle}>{area.owner}</p><h3 style={{ margin: "4px 0 0" }}>{area.label}</h3></div><strong style={{ ...badgeStyle, color: colors[area.status], borderColor: colors[area.status] }}>{area.status}</strong></div>
+        <div className="hlc-ecosystem-card-header" style={cardHeaderStyle}><div><p style={ownerStyle}>{area.owner}</p><h3 style={{ margin: "4px 0 0" }}>{area.label}</h3></div><strong style={{ ...badgeStyle, color: colors[area.status], borderColor: colors[area.status] }}>{area.status}</strong></div>
         <p style={{ lineHeight: 1.55 }}>{area.summary}</p>
         <p><strong>Next gate:</strong> {area.nextGate}</p>
         <div style={routeListStyle}>{area.routes.map((route) => <Link key={route} to={route}>{route}</Link>)}</div>
