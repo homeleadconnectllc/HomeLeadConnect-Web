@@ -61,6 +61,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 53. `20260814115000_reconcile_telephony_notification_constraints.sql`
 54. `20260814120000_property_mechanical_intelligence.sql`
 55. `20260814134500_harden_internal_automation_access.sql`
+56. `20260814135500_enable_hourly_workflow_automation.sql`
 
 ## Current production rules
 
@@ -69,6 +70,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - `workspace_members` establishes business-workspace membership. `profiles.role` is the internal role signal. Customer/renter and contractor access is resolved through their dedicated portal links.
 - Internal workspace route policy recognizes `owner`, `manager`, and `technician`. Owner-only surfaces include HQ/command authority and subscription billing. Manager-level surfaces include workflow, automation, analytics, settings, operations, CX control, and moderation. Technicians receive operational workspace access but not manager/owner control planes.
 - `run_hlc_automation` and `automation_jobs` history are owner/manager control-plane capabilities. The production database enforces that rule in addition to the browser UI.
+- `run_hlc_scheduled_workflow_scan()` is a system-only recurring read-only monitor. Normal browser roles cannot invoke it. It records workflow health, follow-up pressure, and owner-attention evidence without messaging customers, assigning providers, scheduling appointments, changing workflow state, or changing billing.
 - Anonymous/public callers must never receive direct execution access to internal automation, billing, owner approval, system-health, or staff-only functions.
 - UI hiding is not an authorization boundary. Direct-route, RLS/RPC, and server-side checks must continue to enforce the same access rules.
 
@@ -82,6 +84,8 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - Web Push dispatch returned `200` in production.
 - `hlc-agent-chat` version 2 is active and uses an authenticated workspace-aware deterministic fallback when the external AI provider is unavailable.
 - Migration `20260814134500_harden_internal_automation_access.sql` was applied to production and verified: automation history is owner/manager scoped and `run_hlc_automation` is executable by authenticated/service roles rather than PUBLIC, while the function itself enforces owner/manager authorization.
+- Migration `20260814135500_enable_hourly_workflow_automation.sql` was applied to production. Cron job `hlc-workflow-automation-hourly` is active on `7 * * * *`. A manual verification run created a successful read-only `workflow_automation_scan` record with live workflow/follow-up/owner-attention counts.
+- Security and performance advisors were rerun after launch DDL. Existing linter findings remain tracked; no broad privilege/index rewrites were made as a launch-day shortcut.
 
 ## Change procedure after launch
 
@@ -92,5 +96,5 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 5. Run `npm run verify:launch`.
 6. Let Netlify build with production environment variables.
 7. Require the exact-SHA-live production gate to pass.
-8. Review fresh production auth/API/Edge logs for regressions.
+8. Review fresh production auth/API/Edge/Cron logs for regressions.
 9. Do not expose secrets, service-role credentials, VAPID private material, Stripe secret keys, or provider tokens to browser code or documentation.
