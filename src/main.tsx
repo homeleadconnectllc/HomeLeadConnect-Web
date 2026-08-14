@@ -5,6 +5,7 @@ import "./styles/workspace-nav.css";
 import "./styles/desktop-workspace-shell.css";
 import "./styles/agent-team.css";
 import "./styles/contextual-agent-dock.css";
+import "./styles/auth-methods.css";
 import "./styles/launch-hardening.css";
 import "./styles/launch-mobile.css";
 import "./styles/workflow-mobile-fix.css";
