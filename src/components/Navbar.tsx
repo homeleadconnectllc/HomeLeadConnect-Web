@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { Link, useLocation } from "react-router-dom";
 import { ecosystemNavigation, type EcosystemPage } from "../config/ecosystem";
 import { useAuth } from "../hooks/useAuth";
+import { canAccessWorkspacePath, normalizeInternalRole, type InternalRole } from "../lib/accessPolicy";
 import { supabase } from "../lib/supabase";
 
 const logo = "/hlc-logo-final.png";
@@ -28,12 +29,13 @@ type AccessState = {
   business: boolean;
   homeowner: boolean;
   contractor: boolean;
+  role: InternalRole | null;
   userId: string | null;
 };
 
 export default function Navbar() {
   const { session, loading } = useAuth();
-  const [access, setAccess] = useState<AccessState>({ business: false, homeowner: false, contractor: false, userId: null });
+  const [access, setAccess] = useState<AccessState>({ business: false, homeowner: false, contractor: false, role: null, userId: null });
   const [mobileOpenAt, setMobileOpenAt] = useState<string | null>(null);
   const [openGroupState, setOpenGroupState] = useState<{ pathname: string; id: string } | null>(null);
   const location = useLocation();
@@ -47,16 +49,18 @@ export default function Navbar() {
       supabase.from("workspace_members").select("workspace_id").eq("user_id", userId).limit(1),
       supabase.from("homeowner_portal_links").select("id").eq("user_id", userId).is("revoked_at", null).limit(1),
       supabase.from("contractor_portal_links").select("id").eq("user_id", userId).is("revoked_at", null).limit(1),
-    ]).then(([business, homeowner, contractor]) => {
+      supabase.from("profiles").select("role").eq("user_id", userId).maybeSingle(),
+    ]).then(([business, homeowner, contractor, profile]) => {
       if (!active) return;
       setAccess({
         business: !business.error && Boolean(business.data?.length),
         homeowner: !homeowner.error && Boolean(homeowner.data?.length),
         contractor: !contractor.error && Boolean(contractor.data?.length),
+        role: profile.error ? null : normalizeInternalRole(profile.data?.role),
         userId,
       });
     }).catch(() => {
-      if (active) setAccess({ business: false, homeowner: false, contractor: false, userId });
+      if (active) setAccess({ business: false, homeowner: false, contractor: false, role: null, userId });
     });
     return () => { active = false; };
   }, [session]);
@@ -79,7 +83,8 @@ export default function Navbar() {
       if (page.route === "/contractor-portal") return access.contractor;
       if (page.route === "/messages") return access.business || access.homeowner || access.contractor;
       if (page.route === "/notifications") return access.business || access.homeowner || access.contractor;
-      return access.business;
+      if (!access.business || !access.role) return false;
+      return canAccessWorkspacePath(access.role, page.route);
     };
 
     return ecosystemNavigation
@@ -96,8 +101,8 @@ export default function Navbar() {
   const openGroup = openGroupState?.pathname === location.pathname ? openGroupState.id : currentGroup;
   const signedIn = !loading && Boolean(session);
   const accessResolved = !session || access.userId === session.user.id;
-  const showBusinessTools = access.business || (!accessResolved && signedIn);
-  const brandDestination = signedIn ? "/dashboard" : "/login";
+  const showBusinessTools = access.business && Boolean(access.role);
+  const brandDestination = signedIn ? (access.business ? "/dashboard" : access.homeowner ? "/homeowner-portal" : access.contractor ? "/contractor-portal" : "/portal/accept") : "/login";
 
   function closeMobileMenu() {
     setMobileOpenAt(null);
@@ -127,23 +132,23 @@ export default function Navbar() {
     return (
       <>
         <div className="hlc-mobile-menu-heading">
-          <span>HLC workspace</span>
-          <strong>Run HomeLead Connect.</strong>
+          <span>{showBusinessTools ? "HLC workspace" : access.homeowner ? "Resident portal" : access.contractor ? "Professional portal" : "HLC account"}</span>
+          <strong>{showBusinessTools ? "Run HomeLead Connect." : "Your HomeLead Connect access."}</strong>
         </div>
 
-        <Link className="hlc-owner-home-link" to="/dashboard" onClick={closeMobileMenu}>
+        {showBusinessTools && <Link className="hlc-owner-home-link" to="/dashboard" onClick={closeMobileMenu}>
           <span><strong>Open Command Center</strong><small>Dashboard, live work and priorities</small></span>
           <b aria-hidden="true">→</b>
-        </Link>
+        </Link>}
 
         <div className="hlc-navbar-groups" aria-label="Signed-in HLC areas">
           {showBusinessTools && (
             <details className="hlc-nav-group hlc-nav-agent-group" open={openGroup === "ai-team"}>
               <summary onClick={(event) => { event.preventDefault(); toggleGroup("ai-team"); }}>
-                <span>AI Team</span><small>3</small>
+                <span>AI Team</span><small>{agentNavigation.filter((agent) => canAccessWorkspacePath(access.role, agent.route)).length}</small>
               </summary>
               <div className="hlc-nav-menu hlc-agent-nav-menu">
-                {agentNavigation.map((agent) => (
+                {agentNavigation.filter((agent) => canAccessWorkspacePath(access.role, agent.route)).map((agent) => (
                   <Link className="hlc-agent-nav-link" aria-current={location.pathname === agent.route ? "page" : undefined} key={agent.route} onClick={closeMobileMenu} to={agent.route}>
                     <img src={agent.avatar} alt="" aria-hidden="true" />
                     <span className="hlc-agent-nav-copy"><strong>{agent.label}</strong><small>{agent.purpose}</small></span>
@@ -169,7 +174,8 @@ export default function Navbar() {
           ))}
         </div>
 
-        {!accessResolved && <p className="hlc-nav-access-note">Loading workspace access…</p>}
+        {!accessResolved && <p className="hlc-nav-access-note">Loading account access…</p>}
+        {accessResolved && access.business && !access.role && <p className="hlc-nav-access-note">Internal role not assigned. Workspace control surfaces are hidden.</p>}
         <button className="hlc-nav-logout" type="button" onClick={logout}>Sign out</button>
       </>
     );
@@ -187,11 +193,11 @@ export default function Navbar() {
   return (
     <>
       <nav className={`hlc-navbar ${mobileOpen ? "menu-is-open" : ""}`} role="navigation" aria-label="Main navigation">
-        <Link className="hlc-navbar-brand" to={brandDestination} onClick={closeMobileMenu} aria-label={signedIn ? "HomeLead Connect dashboard" : "HomeLead Connect sign in"}>
+        <Link className="hlc-navbar-brand" to={brandDestination} onClick={closeMobileMenu} aria-label="HomeLead Connect home">
           <div className="hlc-navbar-logo"><img src={logo} alt="HomeLead Connect LLC" /></div>
           <div className="hlc-navbar-brand-copy">
             <h2>HomeLead Connect</h2>
-            <span>{signedIn ? "HLC workspace" : "Home services network"}</span>
+            <span>{signedIn ? (showBusinessTools ? "HLC workspace" : access.homeowner ? "Resident portal" : access.contractor ? "Professional portal" : "HLC account") : "Home services network"}</span>
           </div>
         </Link>
 
