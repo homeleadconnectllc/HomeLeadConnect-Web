@@ -44,7 +44,7 @@ export default function HomeownerPortalSection({ section }: { section: PortalSec
       <Link to="/homeowner-portal/appointments">Appointments</Link>
       <Link to="/homeowner-portal/jobs">Jobs</Link>
       <Link to="/messages">Messages</Link>
-      <Link to="/documents">Documents</Link>
+      <Link to="/homeowner-portal/documents">Documents</Link>
     </nav>
     {loading && <p role="status">Loading your {section}…</p>}
     {error && <p role="alert" style={errorStyle}>{error}</p>}
@@ -66,7 +66,7 @@ export default function HomeownerPortalSection({ section }: { section: PortalSec
         <p>Status: <strong>{job.status}</strong></p>
         <p>Contract value: {formatCurrency(Number(job.contract_value))}</p>
         <p>{job.appointments.length} linked appointment{job.appointments.length === 1 ? "" : "s"}</p>
-        <div style={navStyle}><Link to="/messages">Open messages</Link><Link to="/documents">Open documents</Link></div>
+        <div style={navStyle}><Link to="/messages">Open messages</Link><Link to="/homeowner-portal/documents">Open documents</Link></div>
       </article>))}
   </main>;
 }
