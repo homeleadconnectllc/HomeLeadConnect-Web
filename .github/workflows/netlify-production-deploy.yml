@@ -45,4 +45,43 @@ jobs:
           }
           echo 'Production source verified. Netlify Git integration owns the production build/deploy so Netlify can inject production VITE_* environment variables.'
 
-# Production deploy retriggered after Netlify team upgrade on 2026-08-14.
+      - name: Verify exact Git SHA is live on Netlify production
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: |
+          NETLIFY_SITE_ID="641b807e-cb0e-4132-9075-a057481bee32"
+          echo "Waiting for Netlify native Git deploy for $GITHUB_SHA"
+          for attempt in $(seq 1 60); do
+            curl -fsS \
+              -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
+              "https://api.netlify.com/api/v1/sites/$NETLIFY_SITE_ID/deploys?per_page=20" \
+              > /tmp/netlify-deploys.json
+
+            MATCH="$(jq -r --arg sha "$GITHUB_SHA" '
+              .[]
+              | select((.context // "") == "production" and (.commit_ref // "") == $sha)
+              | [.id, .state, (.published_at // "")]
+              | @tsv
+            ' /tmp/netlify-deploys.json | head -n 1)"
+
+            if [ -n "$MATCH" ]; then
+              DEPLOY_ID="$(printf '%s' "$MATCH" | cut -f1)"
+              STATE="$(printf '%s' "$MATCH" | cut -f2)"
+              PUBLISHED_AT="$(printf '%s' "$MATCH" | cut -f3)"
+              echo "Netlify production deploy $DEPLOY_ID state: $STATE"
+              if [ "$STATE" = "ready" ]; then
+                echo "Verified: $GITHUB_SHA is live on Netlify production at $PUBLISHED_AT."
+                exit 0
+              fi
+              if [ "$STATE" = "error" ]; then
+                echo "Netlify production deploy for $GITHUB_SHA failed."
+                exit 14
+              fi
+            fi
+
+            sleep 5
+          done
+
+          echo "Timed out waiting for Netlify production to publish $GITHUB_SHA."
+          jq -r '.[:5] | .[] | [.commit_ref, .context, .state, .published_at] | @tsv' /tmp/netlify-deploys.json || true
+          exit 15
