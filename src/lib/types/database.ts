@@ -108,6 +108,8 @@ export type Contractor = {
   city: string | null;
   state: string | null;
   zip: string | null;
+  latitude: number | null;
+  longitude: number | null;
   status: string | null;
   specialty: string | null;
   license_number: string | null;
