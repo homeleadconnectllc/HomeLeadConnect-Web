@@ -29,7 +29,7 @@
   margin-top: var(--hlc-page-top) !important;
   margin-bottom: var(--hlc-page-bottom) !important;
   padding-inline: 0 !important;
-  text-align: left;
+  text-align: center;
 }
 
 /* Pages that behave as operational canvases can use more desktop width without touching the edges. */
@@ -67,11 +67,26 @@
   margin-top: var(--hlc-page-block-gap);
 }
 
-/* Center page-level headings/copy when the page is informational or public-facing. */
+/* Keep public and route-level headings/copy centered everywhere. */
 .hlc-public-shell .hlc-route-content > main > header,
-.hlc-route-content > main > header[style*="text-align: center"],
-.hlc-route-content > main > header[style*="textAlign: center"] {
+.hlc-route-content > main > header,
+.hlc-route-content > main > section,
+.hlc-route-content > main > article,
+.hlc-route-content > main > form,
+.hlc-route-content > main > div[role="region"] {
   margin-inline: auto;
+  text-align: center;
+}
+
+.hlc-route-content > main p,
+.hlc-route-content > main h1,
+.hlc-route-content > main h2,
+.hlc-route-content > main h3,
+.hlc-route-content > main h4,
+.hlc-route-content > main small,
+.hlc-route-content > main strong,
+.hlc-route-content > main li,
+.hlc-route-content > main label {
   text-align: center;
 }
 
@@ -81,7 +96,8 @@
 }
 
 /* Navigation strips should read as one centered, wrapped control group. */
-.hlc-route-content > main > nav {
+.hlc-route-content > main > nav,
+.hlc-route-content nav {
   justify-content: center;
   row-gap: 10px;
   column-gap: clamp(10px, 1.5vw, 18px);
@@ -103,6 +119,13 @@
 .hlc-route-content select,
 .hlc-route-content textarea {
   max-width: 100%;
+  text-align: left;
+}
+
+/* Tables keep business data readable while headings and surrounding wording stay centered. */
+.hlc-route-content th,
+.hlc-route-content td {
+  text-align: center;
 }
 
 /* Card/list collections get predictable gaps without forcing a specific visual system. */
@@ -126,7 +149,7 @@
   }
 }
 
-/* Tablet: reduce outer chrome, preserve readable card spacing, and stack fragile split layouts. */
+/* Tablet: reduce outer chrome and preserve centered alignment. */
 @media (max-width: 1024px) {
   :root {
     --hlc-page-gutter: clamp(16px, 3vw, 28px);
@@ -139,12 +162,13 @@
     width: calc(100% - (2 * var(--hlc-page-gutter))) !important;
   }
 
-  .hlc-route-content > main > nav {
-    justify-content: flex-start;
+  .hlc-route-content > main > nav,
+  .hlc-route-content nav {
+    justify-content: center;
   }
 }
 
-/* Phones: nearly full width, safe-area aware, compact rhythm, no accidental desktop gutters. */
+/* Phones: nearly full width, safe-area aware, compact rhythm, centered wording. */
 @media (max-width: 700px) {
   :root {
     --hlc-page-gutter: max(12px, env(safe-area-inset-left));
@@ -158,6 +182,7 @@
     max-width: none !important;
     margin-top: var(--hlc-page-top) !important;
     margin-bottom: var(--hlc-page-bottom) !important;
+    text-align: center;
   }
 
   .hlc-route-content > main > header,
@@ -166,11 +191,13 @@
   .hlc-route-content > main > form {
     width: 100%;
     min-width: 0;
+    text-align: center;
   }
 
-  .hlc-route-content > main > nav {
+  .hlc-route-content > main > nav,
+  .hlc-route-content nav {
     width: 100%;
-    justify-content: flex-start;
+    justify-content: center;
     overflow-wrap: normal;
   }
 
@@ -179,6 +206,7 @@
     min-height: 40px;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
   }
 
   .hlc-route-content h1 {
