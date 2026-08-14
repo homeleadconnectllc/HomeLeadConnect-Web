@@ -1,0 +1,206 @@
+/*
+ * HLC system-wide responsive page contract.
+ * Loaded last. This normalizes page centering, gutters, vertical rhythm, and device sizing
+ * across the public site, workspace, portals, CRM, network, community, and agent surfaces.
+ */
+
+:root {
+  --hlc-page-max: 1440px;
+  --hlc-page-gutter: clamp(18px, 3vw, 48px);
+  --hlc-page-block-gap: clamp(18px, 2.4vw, 32px);
+  --hlc-page-top: clamp(24px, 3vw, 44px);
+  --hlc-page-bottom: clamp(40px, 5vw, 72px);
+  --hlc-readable-max: 860px;
+}
+
+.hlc-route-content {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+}
+
+/* Every route gets a centered, business-grade content shell. */
+.hlc-route-content > main {
+  box-sizing: border-box !important;
+  width: min(var(--hlc-page-max), calc(100% - (2 * var(--hlc-page-gutter)))) !important;
+  max-width: var(--hlc-page-max) !important;
+  min-width: 0 !important;
+  margin-inline: auto !important;
+  margin-top: var(--hlc-page-top) !important;
+  margin-bottom: var(--hlc-page-bottom) !important;
+  padding-inline: 0 !important;
+  text-align: left;
+}
+
+/* Pages that behave as operational canvases can use more desktop width without touching the edges. */
+.hlc-route-content > main:has(section[aria-label="Provider coordinate map"]),
+.hlc-route-content > main:has(.hlc-workflow-page),
+.hlc-route-content > main.hlc-workflow-page,
+.hlc-route-content > main:has(table),
+.hlc-route-content > main:has([role="grid"]) {
+  --hlc-page-max: 1560px;
+}
+
+/* Preserve intentionally compact account/auth experiences while still centering them. */
+.hlc-route-content > main.hlc-auth-page,
+.hlc-route-content > main:has(.hlc-auth-shell) {
+  --hlc-page-max: 1180px;
+}
+
+/* Consistent vertical rhythm for direct page sections/cards. */
+.hlc-route-content > main > header,
+.hlc-route-content > main > nav,
+.hlc-route-content > main > section,
+.hlc-route-content > main > article,
+.hlc-route-content > main > form,
+.hlc-route-content > main > div[role="region"] {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.hlc-route-content > main > header + *,
+.hlc-route-content > main > nav + *,
+.hlc-route-content > main > section + section,
+.hlc-route-content > main > article + article,
+.hlc-route-content > main > form + section,
+.hlc-route-content > main > section + form {
+  margin-top: var(--hlc-page-block-gap);
+}
+
+/* Center page-level headings/copy when the page is informational or public-facing. */
+.hlc-public-shell .hlc-route-content > main > header,
+.hlc-route-content > main > header[style*="text-align: center"],
+.hlc-route-content > main > header[style*="textAlign: center"] {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.hlc-public-shell .hlc-route-content > main > header > p {
+  max-width: var(--hlc-readable-max);
+  margin-inline: auto;
+}
+
+/* Navigation strips should read as one centered, wrapped control group. */
+.hlc-route-content > main > nav {
+  justify-content: center;
+  row-gap: 10px;
+  column-gap: clamp(10px, 1.5vw, 18px);
+}
+
+/* Forms and controls must never create horizontal overflow. */
+.hlc-route-content form,
+.hlc-route-content fieldset,
+.hlc-route-content label,
+.hlc-route-content input,
+.hlc-route-content select,
+.hlc-route-content textarea,
+.hlc-route-content button {
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.hlc-route-content input:not([type="checkbox"]):not([type="radio"]),
+.hlc-route-content select,
+.hlc-route-content textarea {
+  max-width: 100%;
+}
+
+/* Card/list collections get predictable gaps without forcing a specific visual system. */
+.hlc-route-content [class*="grid"],
+.hlc-route-content [class*="list"] {
+  min-width: 0;
+}
+
+/* Large desktop: let the workspace breathe while keeping content centered. */
+@media (min-width: 1600px) {
+  :root {
+    --hlc-page-max: 1520px;
+    --hlc-page-gutter: clamp(32px, 3.2vw, 64px);
+  }
+
+  .hlc-route-content > main:has(section[aria-label="Provider coordinate map"]),
+  .hlc-route-content > main.hlc-workflow-page,
+  .hlc-route-content > main:has(table),
+  .hlc-route-content > main:has([role="grid"]) {
+    --hlc-page-max: 1680px;
+  }
+}
+
+/* Tablet: reduce outer chrome, preserve readable card spacing, and stack fragile split layouts. */
+@media (max-width: 1024px) {
+  :root {
+    --hlc-page-gutter: clamp(16px, 3vw, 28px);
+    --hlc-page-top: clamp(20px, 3vw, 32px);
+    --hlc-page-bottom: 48px;
+    --hlc-page-block-gap: 18px;
+  }
+
+  .hlc-route-content > main {
+    width: calc(100% - (2 * var(--hlc-page-gutter))) !important;
+  }
+
+  .hlc-route-content > main > nav {
+    justify-content: flex-start;
+  }
+}
+
+/* Phones: nearly full width, safe-area aware, compact rhythm, no accidental desktop gutters. */
+@media (max-width: 700px) {
+  :root {
+    --hlc-page-gutter: max(12px, env(safe-area-inset-left));
+    --hlc-page-top: 16px;
+    --hlc-page-bottom: calc(92px + env(safe-area-inset-bottom));
+    --hlc-page-block-gap: 14px;
+  }
+
+  .hlc-route-content > main {
+    width: calc(100% - 24px) !important;
+    max-width: none !important;
+    margin-top: var(--hlc-page-top) !important;
+    margin-bottom: var(--hlc-page-bottom) !important;
+  }
+
+  .hlc-route-content > main > header,
+  .hlc-route-content > main > section,
+  .hlc-route-content > main > article,
+  .hlc-route-content > main > form {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .hlc-route-content > main > nav {
+    width: 100%;
+    justify-content: flex-start;
+    overflow-wrap: normal;
+  }
+
+  .hlc-route-content > main > nav a,
+  .hlc-route-content > main > nav button {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .hlc-route-content h1 {
+    max-width: 100%;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .hlc-route-content p,
+  .hlc-route-content li,
+  .hlc-route-content label,
+  .hlc-route-content a,
+  .hlc-route-content span,
+  .hlc-route-content strong {
+    word-break: normal;
+    overflow-wrap: break-word;
+  }
+}
+
+/* Very small phones: retain a minimum usable edge gutter without squeezing content. */
+@media (max-width: 390px) {
+  .hlc-route-content > main {
+    width: calc(100% - 20px) !important;
+  }
+}
