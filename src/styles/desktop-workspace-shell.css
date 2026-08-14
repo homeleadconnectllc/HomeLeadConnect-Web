@@ -1,0 +1,218 @@
+/* Authenticated desktop workspace shell. Public pages keep the existing top navigation. */
+@media (min-width: 1025px) {
+  .hlc-signed-in-shell {
+    display: grid;
+    grid-template-columns: 300px minmax(0, 1fr);
+    width: 100%;
+    min-height: 100svh;
+    align-items: start;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 80;
+    display: flex;
+    width: 300px;
+    height: 100svh;
+    min-height: 100svh;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 18px;
+    overflow: hidden;
+    padding: 22px 16px 18px;
+    border-right: 1px solid rgba(148, 163, 184, .16);
+    background:
+      radial-gradient(circle at 20% 0%, rgba(37, 99, 235, .24), transparent 30%),
+      linear-gradient(180deg, #0b1220 0%, #111827 54%, #0b1220 100%);
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-brand {
+    width: 100%;
+    padding: 2px 4px 14px;
+    border-bottom: 1px solid rgba(148, 163, 184, .14);
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-logo {
+    width: 54px;
+    height: 54px;
+    flex-basis: 54px;
+    border-radius: 14px;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-brand-copy h2 {
+    font-size: 18px;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-links {
+    display: flex;
+    width: 100%;
+    min-height: 0;
+    flex: 1 1 auto;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 10px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 0 3px 4px 0;
+    scrollbar-width: thin;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-mobile-menu-heading {
+    display: grid;
+    gap: 2px;
+    padding: 0 4px 2px;
+    text-align: left;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-mobile-menu-heading span {
+    color: #93c5fd;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-mobile-menu-heading strong {
+    color: #f8fafc;
+    font-size: 15px;
+    line-height: 1.3;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-owner-home-link {
+    display: flex;
+    min-height: 58px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    box-sizing: border-box;
+    padding: 11px 12px;
+    border: 1px solid rgba(96, 165, 250, .34);
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(37, 99, 235, .34), rgba(30, 64, 175, .16));
+    text-decoration: none;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-owner-home-link span {
+    display: grid;
+    gap: 2px;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-owner-home-link strong {
+    color: #fff;
+    font-size: 14px;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-owner-home-link small {
+    color: #bfdbfe;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-owner-home-link b {
+    color: #93c5fd;
+    font-size: 18px;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-groups {
+    display: grid;
+    width: 100%;
+    gap: 8px;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-nav-group {
+    width: 100%;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-nav-group summary {
+    width: 100%;
+    min-height: 46px;
+    border-radius: 12px;
+    padding: 10px 12px;
+    background: rgba(30, 41, 59, .78);
+    font-size: 14px;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-nav-group[open] summary {
+    border-color: rgba(96, 165, 250, .42);
+    background: rgba(30, 58, 138, .45);
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-nav-menu {
+    position: static;
+    display: grid;
+    width: 100%;
+    gap: 3px;
+    box-sizing: border-box;
+    margin-top: 5px;
+    padding: 5px;
+    border: 1px solid rgba(51, 65, 85, .72);
+    border-radius: 13px;
+    background: rgba(2, 6, 23, .46);
+    box-shadow: none;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-nav-menu a {
+    display: grid;
+    gap: 2px;
+    min-height: 44px;
+    box-sizing: border-box;
+    padding: 8px 10px;
+    border-radius: 10px;
+    color: #e5edf9;
+    text-align: left;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-nav-menu a > small {
+    display: block;
+    color: #93a8c8;
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: .01em;
+    text-transform: none;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-agent-nav-link {
+    grid-template-columns: 34px minmax(0, 1fr);
+    align-items: center;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-agent-nav-link img {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-agent-nav-copy {
+    display: grid;
+    min-width: 0;
+    gap: 1px;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-nav-logout {
+    width: 100%;
+    min-height: 44px;
+    margin-top: auto;
+    border-color: rgba(248, 113, 113, .22);
+    background: rgba(127, 29, 29, .12);
+    color: #fecaca;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content {
+    grid-column: 2;
+    width: 100%;
+    min-width: 0;
+    min-height: 100svh;
+    overflow-x: clip;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content > main {
+    max-width: none;
+  }
+}
