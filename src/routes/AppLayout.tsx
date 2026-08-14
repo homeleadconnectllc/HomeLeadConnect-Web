@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import AnalyticsTracker from "../components/analytics/AnalyticsTracker";
 import AudioDeviceCenter from "../components/audio/AudioDeviceCenter";
 import MaterialShopLinks from "../components/estimator/MaterialShopLinks";
 import { useAuth } from "../hooks/useAuth";
@@ -41,6 +42,7 @@ export default function AppLayout() {
 
   return (
     <div className={`hlc-app-shell ${session ? "hlc-signed-in-shell" : "hlc-public-shell"}`}>
+      <AnalyticsTracker />
       <Navbar />
       <div className="hlc-route-content">
         <Outlet />
