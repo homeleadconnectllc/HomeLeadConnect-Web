@@ -62,6 +62,7 @@ Do not run `supabase db push --linked` against production until a clone has prov
 50. `20260814112000_hlc_web_push_subscriptions.sql`
 51. `20260814114000_hlc_business_kpis.sql`
 52. `20260814115000_reconcile_telephony_notification_constraints.sql`
+53. `20260814120000_property_mechanical_intelligence.sql`
 
 ## Isolated verification gate
 
@@ -69,7 +70,7 @@ Do not run `supabase db push --linked` against production until a clone has prov
 2. Capture its project reference and link a clean working copy to the clone.
 3. Reconcile remote-only migration history from database truth; never fabricate SQL bodies for missing historical migrations.
 4. Apply the pending chain in order.
-5. Run positive, cross-workspace, invalid-transition, invitation, communications, document/storage, billing-webhook, AI, appointment, telephony, Community, network, profile, participant-surface, analytics, Web Push and automation-runtime transactional tests.
+5. Run positive, cross-workspace, invalid-transition, invitation, communications, document/storage, billing-webhook, AI, appointment, telephony, Community, network, profile, participant-surface, analytics, Web Push, property/mechanical and automation-runtime transactional tests.
 6. Run database security and performance advisors. Treat RLS-without-policy tables as deny-by-default unless an established product contract requires access.
 7. Verify Edge Function environment names and deploy functions only to the clone.
 8. Exercise rollback by restoring the clone snapshot or discarding the branch; production rollback requires a separately captured pre-release restore point.
