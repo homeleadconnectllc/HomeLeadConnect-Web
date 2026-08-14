@@ -2,7 +2,7 @@ import { getCurrentWorkspaceId, supabase } from "./client";
 import type { Contractor } from "../lib/types/database";
 
 const contractorColumns =
-  "id,workspace_id,company_name,contact_name,phone,email,website,address,city,state,zip,status,specialty,license_number,created_at,updated_at";
+  "id,workspace_id,company_name,contact_name,phone,email,website,address,city,state,zip,latitude,longitude,status,specialty,license_number,created_at,updated_at";
 
 export type ContractorFilters = {
   specialty?: string;
@@ -92,4 +92,15 @@ export async function createContractor(
 
   if (error) throw error;
   return data as Contractor;
+}
+
+export async function setProviderMapCoordinates(contractorId: number, latitude: number, longitude: number) {
+  if (!Number.isFinite(latitude) || latitude < -90 || latitude > 90) throw new Error("Latitude must be between -90 and 90.");
+  if (!Number.isFinite(longitude) || longitude < -180 || longitude > 180) throw new Error("Longitude must be between -180 and 180.");
+  const { error } = await supabase.rpc("set_provider_map_coordinates", {
+    p_contractor_id: contractorId,
+    p_latitude: latitude,
+    p_longitude: longitude,
+  });
+  if (error) throw error;
 }
