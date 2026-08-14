@@ -45,7 +45,7 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
       const response = await chatWithAgent(agentId, text, prior);
       setMessages((current) => [...current, { role: "model", text: response.reply }]);
     } catch (reason) {
-      setError(errorMessage(reason, "AI Provider Setup Required"));
+      setError(errorMessage(reason, `${agentName} is temporarily unavailable. Try again in a moment.`));
     } finally {
       setBusy(false);
     }
@@ -92,7 +92,7 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
     <div>
       <p style={{ margin: 0, color: accent, fontWeight: 900, letterSpacing: ".06em", textTransform: "uppercase" }}>Advisory conversation</p>
       <h2 id={`${agentId}-chat-title`} style={{ margin: "4px 0 8px" }}>Talk with {agentName}</h2>
-      <p style={{ margin: 0, color: "#475569" }}>Gemini-backed conversation is advisory only. Actions still run through HLC's deterministic authorized controls.</p>
+      <p style={{ margin: 0, color: "#475569" }}>HLC keeps this advisory chat available with a safe workspace-aware fallback if the live AI provider is unavailable. Actions still run through HLC's deterministic authorized controls.</p>
     </div>
     <div aria-live="polite" style={transcriptStyle}>
       {messages.length === 0 && <p style={{ color: "#64748b" }}>Ask about the current HLC workspace, next steps, or what needs attention.</p>}
