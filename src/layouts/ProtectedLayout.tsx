@@ -1,4 +1,5 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
+import ContextualAgentDock from "../components/agents/ContextualAgentDock";
 import { useAuth } from "../hooks/useAuth";
 
 export default function ProtectedLayout() {
@@ -9,5 +10,8 @@ export default function ProtectedLayout() {
 
   if (!session) return <Navigate to="/login" replace state={{ from: `${location.pathname}${location.search}` }} />;
 
-  return <Outlet />;
+  return <>
+    <Outlet />
+    <ContextualAgentDock />
+  </>;
 }
