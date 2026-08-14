@@ -25,6 +25,7 @@ import type {
   JobAppointment,
   JobAssignment,
 } from "../../lib/types/database";
+import "./JobDetail.css";
 
 export default function JobDetail() {
   const { jobId } = useParams();
@@ -57,13 +58,12 @@ export default function JobDetail() {
     if (!jobId) return;
     setError("");
     try {
-      const [jobData, contractorData, assignmentData, appointmentData] =
-        await Promise.all([
-          getJob(jobId),
-          listContractors(),
-          listJobAssignments(jobId),
-          listJobAppointments(jobId),
-        ]);
+      const [jobData, contractorData, assignmentData, appointmentData] = await Promise.all([
+        getJob(jobId),
+        listContractors(),
+        listJobAssignments(jobId),
+        listJobAppointments(jobId),
+      ]);
       setJob(jobData);
       setContractors(contractorData);
       setAssignments(assignmentData);
@@ -105,8 +105,7 @@ export default function JobDetail() {
     const specialtyNeedle = specialty.trim().toLowerCase();
     const locationNeedle = location.trim().toLowerCase();
     return contractors.filter((contractor) => {
-      const specialtyMatches = !specialtyNeedle
-        || contractor.specialty?.toLowerCase() === specialtyNeedle;
+      const specialtyMatches = !specialtyNeedle || contractor.specialty?.toLowerCase() === specialtyNeedle;
       const locationText = [contractor.city, contractor.state, contractor.zip]
         .filter(Boolean).join(" ").toLowerCase();
       return specialtyMatches && (!locationNeedle || locationText.includes(locationNeedle));
@@ -165,7 +164,10 @@ export default function JobDetail() {
 
   async function schedule() {
     if (!jobId || !appointmentDate || !appointmentEndAt) return;
-    if(new Date(appointmentEndAt)<=new Date(appointmentDate)){setError("Appointment end must be after its start.");return;}
+    if (new Date(appointmentEndAt) <= new Date(appointmentDate)) {
+      setError("Appointment end must be after its start.");
+      return;
+    }
     await run(async () => {
       await scheduleAppointment({
         jobId,
@@ -188,36 +190,41 @@ export default function JobDetail() {
     if (succeeded) setRescheduling(null);
   }
 
-  if (loading) return <main style={pageStyle}><p>Loading job…</p></main>;
-  if (!job) return <main style={pageStyle}><p role="alert">{error || "Job not found."}</p></main>;
+  if (loading) return <main className="hlc-job-detail"><p>Loading job…</p></main>;
+  if (!job) return <main className="hlc-job-detail"><p role="alert">{error || "Job not found."}</p></main>;
 
   return (
-    <main style={pageStyle}>
-      <p><Link to="/jobs">← Jobs</Link> · <Link to="/calendar">Schedule</Link></p>
-      <header style={headerStyle}>
+    <main className="hlc-job-detail">
+      <nav className="hlc-job-detail__crumbs" aria-label="Job navigation">
+        <Link to="/jobs">← Jobs</Link>
+        <span aria-hidden="true">·</span>
+        <Link to="/calendar">Schedule</Link>
+      </nav>
+
+      <header className="hlc-job-detail__header">
         <div>
-          <h1 style={{ marginBottom: 6 }}>{job.name}</h1>
-          <p style={{ margin: 0, color: "#475569" }}>
+          <h1>{job.name}</h1>
+          <p className="hlc-job-detail__meta">
             {formatCurrency(Number(job.contract_value))} · {job.status} · Created {new Date(job.created_at).toLocaleDateString()}
           </p>
           <p>Lead: {job.lead?.full_name || job.lead_id || "None"}</p>
           <p>Source LeadScope estimate: <Link to={`/estimator?estimate=${job.source_estimate_id}`}>{job.source_estimate_id}</Link> ({job.source_estimate?.status || "unknown"})</p>
         </div>
-        <strong style={{ color: scheduledWork ? "#166534" : "#92400e" }}>
+        <strong className="hlc-job-detail__status" style={{ color: scheduledWork ? "#166534" : "#92400e" }}>
           {scheduledWork ? "Scheduled Work" : "Not Scheduled Work"}
         </strong>
       </header>
 
-      {error && <p role="alert" style={errorStyle}>{error}</p>}
+      {error && <p role="alert" className="hlc-job-detail__error">{error}</p>}
       {rescheduling?.appointment_end_at && <RescheduleDialog initialStart={rescheduling.appointment_date} initialEnd={rescheduling.appointment_end_at} busy={busy} onCancel={() => setRescheduling(null)} onConfirm={reschedule} />}
 
-      <section style={sectionStyle}>
+      <section className="hlc-job-detail__section">
         <h2>Current contractor assignment</h2>
         {!currentAssignment && <p>No active assignment.</p>}
         {currentAssignment && (
           <div>
             <p><strong>{assignmentName(currentAssignment)}</strong> · {currentAssignment.status}</p>
-            <div style={actionsStyle}>
+            <div className="hlc-job-detail__actions">
               {currentAssignment.status === "offered" && <p>The linked contractor must accept or reject this offer in the contractor portal.</p>}
               <button disabled={busy} onClick={() => run(
                 () => cancelAssignment(currentAssignment.id),
@@ -229,7 +236,7 @@ export default function JobDetail() {
 
         <h3>Assignment history</h3>
         {assignments.length === 0 ? <p>No assignment history.</p> : (
-          <ul>{assignments.map((assignment) => (
+          <ul className="hlc-job-detail__history">{assignments.map((assignment) => (
             <li key={assignment.id}>
               {assignmentName(assignment)} · {assignment.status} · {new Date(assignment.created_at).toLocaleString()}
             </li>
@@ -237,13 +244,13 @@ export default function JobDetail() {
         )}
       </section>
 
-      <section style={sectionStyle}>
+      <section className="hlc-job-detail__section">
         <h2>Contractor candidates</h2>
         <p style={{ color: "#64748b" }}>
           Workspace contractors only. Filters use exact specialty and recorded city/state/ZIP; no score or availability is inferred.
         </p>
-        <form onSubmit={addContractor} style={createFormStyle}>
-          <fieldset disabled={busy} style={fieldsetStyle}>
+        <form onSubmit={addContractor} className="hlc-job-detail__form">
+          <fieldset disabled={busy} className="hlc-job-detail__fieldset">
             <legend>Add a workspace contractor</legend>
             <label>Company name<input value={newContractor.companyName}
               onChange={(event) => setNewContractor((current) => ({ ...current, companyName: event.target.value }))} /></label>
@@ -264,15 +271,16 @@ export default function JobDetail() {
             <button type="submit">Add contractor</button>
           </fieldset>
         </form>
+
         <h3>Candidate filters</h3>
-        <div style={filtersStyle}>
+        <div className="hlc-job-detail__filters">
           <input value={specialty} onChange={(event) => setSpecialty(event.target.value)} placeholder="Exact specialty" />
           <input value={location} onChange={(event) => setLocation(event.target.value)} placeholder="City, state, or ZIP" />
         </div>
         {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
-        <div style={{ display: "grid", gap: 10, marginTop: 14 }}>
+        <div className="hlc-job-detail__candidate-list">
           {candidates.map((contractor) => (
-            <div key={contractor.id}>
+            <div key={contractor.id} className="hlc-job-detail__candidate">
               <ContractorCard contractor={contractor}
                 disabled={busy || Boolean(currentAssignment)} onOffer={offer} />
               <PortalInviteButton role="contractor" targetId={contractor.id} email={contractor.email}
@@ -285,26 +293,26 @@ export default function JobDetail() {
         </div>
       </section>
 
-      <section style={sectionStyle}>
+      <section className="hlc-job-detail__section">
         <h2>Appointments</h2>
-        <fieldset disabled={busy || currentAssignment?.status !== "accepted"} style={fieldsetStyle}>
+        <fieldset disabled={busy || currentAssignment?.status !== "accepted"} className="hlc-job-detail__fieldset">
           <legend>Schedule work</legend>
           <label>Start<input type="datetime-local" value={appointmentDate}
-            onChange={(event) => setAppointmentDate(event.target.value)} />
-          </label><label>End<input type="datetime-local" value={appointmentEndAt} min={appointmentDate}
+            onChange={(event) => setAppointmentDate(event.target.value)} /></label>
+          <label>End<input type="datetime-local" value={appointmentEndAt} min={appointmentDate}
             onChange={(event) => setAppointmentEndAt(event.target.value)} /></label>
-          <input value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Notes (optional)" />
-          <button type="button" onClick={schedule} disabled={!appointmentDate||!appointmentEndAt}>Schedule appointment</button>
+          <label>Notes<input value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Notes (optional)" /></label>
+          <button type="button" onClick={schedule} disabled={!appointmentDate || !appointmentEndAt}>Schedule appointment</button>
         </fieldset>
         {currentAssignment?.status !== "accepted" && <p>Accept the contractor assignment before scheduling.</p>}
-        <div style={{ display: "grid", gap: 10, marginTop: 16 }}>
+        <div className="hlc-job-detail__appointment-list">
           {appointments.map((appointment) => (
-            <article key={appointment.id} style={appointmentStyle}>
+            <article key={appointment.id} className="hlc-job-detail__appointment">
               <div>
                 <strong>{formatAppointmentRange(appointment)}</strong>
                 <div>{appointment.contractor?.company_name || `Contractor #${appointment.contractor_id}`} · {appointment.status}</div>
               </div>
-              {appointment.status === "scheduled" && <div style={actionsStyle}>
+              {appointment.status === "scheduled" && <div className="hlc-job-detail__actions">
                 <button disabled={busy || !appointment.appointment_end_at} title={!appointment.appointment_end_at ? "This historical appointment has no persisted end time." : undefined} onClick={() => setRescheduling(appointment)}>Reschedule</button>
                 <button disabled={busy} onClick={() => run(() => completeAppointment(appointment.id), "Appointment completed.")}>Complete</button>
                 <button disabled={busy} onClick={() => run(() => cancelAppointment(appointment.id), "Appointment cancelled.")}>Cancel</button>
@@ -325,14 +333,6 @@ function assignmentName(assignment: JobAssignment) {
     || `Contractor #${assignment.contractor_id}`;
 }
 
-function formatAppointmentRange(appointment:JobAppointment){return `${new Date(appointment.appointment_date).toLocaleString()} – ${appointment.appointment_end_at?new Date(appointment.appointment_end_at).toLocaleString():"End time unavailable"}`;}
-
-const pageStyle = { width: "min(1100px, calc(100% - 48px))", margin: "40px auto", fontFamily: "system-ui, sans-serif" };
-const headerStyle = { display: "flex", justifyContent: "space-between", gap: 24, padding: 20, background: "#f8fafc", borderRadius: 16 };
-const sectionStyle = { marginTop: 24, padding: 20, border: "1px solid #e2e8f0", borderRadius: 16 };
-const filtersStyle = { display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 10 };
-const createFormStyle = { margin: "16px 0 24px" };
-const actionsStyle = { display: "flex", flexWrap: "wrap" as const, gap: 8 };
-const fieldsetStyle = { display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: 10, border: "1px solid #cbd5e1", borderRadius: 10 };
-const appointmentStyle = { display: "flex", justifyContent: "space-between", gap: 16, padding: 14, background: "#f8fafc", borderRadius: 10 };
-const errorStyle = { color: "#b91c1c" };
+function formatAppointmentRange(appointment: JobAppointment) {
+  return `${new Date(appointment.appointment_date).toLocaleString()} – ${appointment.appointment_end_at ? new Date(appointment.appointment_end_at).toLocaleString() : "End time unavailable"}`;
+}
