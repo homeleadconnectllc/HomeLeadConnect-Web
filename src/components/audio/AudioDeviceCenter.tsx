@@ -30,11 +30,27 @@ export default function AudioDeviceCenter() {
   }
 
   useEffect(() => {
-    void refreshDevices(false);
     if (!supported) return;
-    const changed = () => void refreshDevices(false);
-    navigator.mediaDevices.addEventListener?.("devicechange", changed);
-    return () => navigator.mediaDevices.removeEventListener?.("devicechange", changed);
+    let active = true;
+
+    const loadSnapshot = () => {
+      navigator.mediaDevices.enumerateDevices()
+        .then((devices) => {
+          if (!active) return;
+          setInputs(devices.filter((device) => device.kind === "audioinput"));
+          setOutputs(devices.filter((device) => device.kind === "audiooutput"));
+        })
+        .catch(() => {
+          // Device labels may remain unavailable until the user grants microphone permission.
+        });
+    };
+
+    void Promise.resolve().then(loadSnapshot);
+    navigator.mediaDevices.addEventListener?.("devicechange", loadSnapshot);
+    return () => {
+      active = false;
+      navigator.mediaDevices.removeEventListener?.("devicechange", loadSnapshot);
+    };
   }, [supported]);
 
   function chooseInput(value: string) {
