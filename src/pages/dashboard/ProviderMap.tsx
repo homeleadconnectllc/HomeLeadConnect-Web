@@ -24,15 +24,30 @@ export default function ProviderMap() {
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
 
-  async function loadProviders() {
+  function selectProvider(provider: Contractor | null) {
+    setSelectedId(provider?.id ?? null);
+    setLatitude(provider?.latitude == null ? "" : String(provider.latitude));
+    setLongitude(provider?.longitude == null ? "" : String(provider.longitude));
+  }
+
+  async function reloadProviders(preferredId?: number | null) {
     const rows = await listContractors({});
     setProviders(rows);
-    setSelectedId((current) => current && rows.some((provider) => provider.id === current) ? current : rows[0]?.id ?? null);
+    const preferred = rows.find((provider) => provider.id === preferredId) ?? rows[0] ?? null;
+    selectProvider(preferred);
   }
 
   useEffect(() => {
     let active = true;
-    loadProviders()
+    void listContractors({})
+      .then((rows) => {
+        if (!active) return;
+        setProviders(rows);
+        const first = rows[0] ?? null;
+        setSelectedId(first?.id ?? null);
+        setLatitude(first?.latitude == null ? "" : String(first.latitude));
+        setLongitude(first?.longitude == null ? "" : String(first.longitude));
+      })
       .catch((reason: unknown) => { if (active) setError(errorMessage(reason, "Unable to load the provider map.")); })
       .finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
@@ -41,7 +56,7 @@ export default function ProviderMap() {
   useEffect(() => {
     if (!session) return;
     let active = true;
-    supabase.from("profiles").select("role").eq("user_id", session.user.id).maybeSingle()
+    void supabase.from("profiles").select("role").eq("user_id", session.user.id).maybeSingle()
       .then(({ data, error: profileError }) => {
         if (!active) return;
         if (profileError) throw profileError;
@@ -68,12 +83,6 @@ export default function ProviderMap() {
   const selected = providers.find((provider) => provider.id === selectedId) ?? null;
   const canManageCoordinates = role === "owner" || role === "manager";
 
-  useEffect(() => {
-    if (!selected) { setLatitude(""); setLongitude(""); return; }
-    setLatitude(selected.latitude == null ? "" : String(selected.latitude));
-    setLongitude(selected.longitude == null ? "" : String(selected.longitude));
-  }, [selected]);
-
   async function saveCoordinates(event: FormEvent) {
     event.preventDefault();
     if (!selected) return;
@@ -82,7 +91,7 @@ export default function ProviderMap() {
     setBusy(true); setError(""); setMessage("");
     try {
       await setProviderMapCoordinates(selected.id, lat, lng);
-      await loadProviders();
+      await reloadProviders(selected.id);
       setMessage("Provider map coordinates saved through the management-only HLC control.");
     } catch (reason) {
       setError(errorMessage(reason, "Unable to save provider map coordinates."));
@@ -132,7 +141,7 @@ export default function ProviderMap() {
             aria-label={`Select ${providerName(provider)} on map`}
             aria-pressed={selectedId === provider.id}
             title={`${providerName(provider)} · ${place(provider) || "location recorded by coordinates"}`}
-            onClick={() => setSelectedId(provider.id)}
+            onClick={() => selectProvider(provider)}
             style={{ ...pinStyle, left: `${x}%`, top: `${y}%`, ...(selectedId === provider.id ? selectedPinStyle : {}) }}
           >
             <span aria-hidden="true">●</span>
@@ -151,7 +160,7 @@ export default function ProviderMap() {
           {filtered.map((provider) => <button
             type="button"
             key={provider.id}
-            onClick={() => setSelectedId(provider.id)}
+            onClick={() => selectProvider(provider)}
             aria-pressed={selectedId === provider.id}
             style={{ ...providerButtonStyle, ...(selectedId === provider.id ? selectedProviderStyle : {}) }}
           >
@@ -172,13 +181,13 @@ export default function ProviderMap() {
         <p>{selected.specialty || "Trade not recorded"} · {place(selected) || "Location not recorded"}</p>
         <div style={navStyle}>
           <Link to={`/providers/${selected.id}`}>Open provider record</Link>
-          {hasCoordinates(selected) && <a target="_blank" rel="noreferrer" href={osmPageUrl(selected.latitude!, selected.longitude!)}>Open in OpenStreetMap</a>}
+          {hasCoordinates(selected) && <a target="_blank" rel="noreferrer" href={osmPageUrl(selected.latitude, selected.longitude)}>Open in OpenStreetMap</a>}
         </div>
       </div>
 
       {hasCoordinates(selected) ? <iframe
         title={`OpenStreetMap preview for ${providerName(selected)}`}
-        src={osmEmbedUrl(selected.latitude!, selected.longitude!)}
+        src={osmEmbedUrl(selected.latitude, selected.longitude)}
         loading="lazy"
         referrerPolicy="no-referrer"
         style={iframeStyle}
