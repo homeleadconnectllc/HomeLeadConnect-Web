@@ -35,9 +35,13 @@ for (const file of [
   'src/api/publicIntake.ts','src/api/leads.ts','src/api/estimates.ts','src/api/jobs.ts','src/api/jobAssignments.ts',
   'src/api/appointments.ts','src/api/billing.ts','src/api/automations.ts','src/pages/dashboard/Automations.tsx','src/pages/dashboard/Workflow.tsx',
   'src/pages/dashboard/Settings.tsx','src/pages/dashboard/CallCenter.tsx','src/api/telephony.ts','src/pages/portal/HomeownerPortal.tsx',
-  'src/pages/portal/HomeownerPortalDocuments.tsx','src/pages/portal/ContractorPortal.tsx','src/ai/agents.ts','src/styles/launch-hardening.css','public/brand/avatars/Kendrell_Locked_HLC.png',
+  'src/pages/portal/HomeownerPortalDocuments.tsx','src/pages/portal/HomeownerPortalProfile.tsx','src/pages/portal/ContractorPortal.tsx',
+  'src/pages/portal/ContractorProfile.tsx','src/pages/portal/ContractorServices.tsx','src/pages/portal/ContractorPortalDocuments.tsx',
+  'src/pages/dashboard/ProviderMap.tsx','src/pages/dashboard/Activity.tsx','src/components/agents/ContextualAgentDock.tsx','src/components/agents/AgentChatPanel.tsx',
+  'src/ai/agents.ts','src/styles/launch-hardening.css','public/brand/avatars/Kendrell_Locked_HLC.png',
   'public/brand/avatars/Dion_Locked_HLC.png','public/brand/avatars/Diamond_Locked_HLC.png','public/_redirects','netlify.toml',
-  'supabase/functions/stripe-checkout-session/index.ts','supabase/migrations/20260814134500_harden_internal_automation_access.sql',
+  'supabase/functions/stripe-checkout-session/index.ts','supabase/functions/hlc-agent-chat/index.ts',
+  'supabase/migrations/20260814134500_harden_internal_automation_access.sql',
   'supabase/migrations/20260814135500_enable_hourly_workflow_automation.sql',
   'supabase/migrations/20260814141000_harden_legacy_security_definer_rpcs.sql',
   'supabase/migrations/20260814142000_align_management_rpc_roles.sql',
@@ -45,6 +49,13 @@ for (const file of [
   'supabase/migrations/20260814143500_remove_browser_view_admin_privileges.sql',
   'supabase/migrations/20260814144000_reconcile_voice_access_to_workspace_members.sql',
   'supabase/migrations/20260814144347_harden_community_review_workspace_linkage.sql',
+  'supabase/migrations/20260814144749_provider_map_coordinates_foundation.sql',
+  'supabase/migrations/20260814144914_secure_provider_map_coordinate_updates.sql',
+  'supabase/migrations/20260814145407_portal_identity_and_provider_profile_types.sql',
+  'supabase/migrations/20260814145501_harden_activity_log_as_append_only.sql',
+  'supabase/migrations/20260814145520_linked_provider_profile_read.sql',
+  'supabase/migrations/20260814150142_professional_portal_services_contract.sql',
+  'supabase/migrations/20260814150206_fix_professional_portal_availability_upsert.sql',
 ]) requireFile(file);
 
 requireText('.env.example', 'VITE_SUPABASE_URL=');
@@ -81,6 +92,17 @@ requireText('supabase/migrations/20260814143500_remove_browser_view_admin_privil
 requireText('supabase/migrations/20260814144000_reconcile_voice_access_to_workspace_members.sql', 'voice_audio_select_workspace_members');
 requireText('supabase/migrations/20260814144000_reconcile_voice_access_to_workspace_members.sql', 'workspace_members');
 requireText('supabase/migrations/20260814144347_harden_community_review_workspace_linkage.sql', 'j.workspace_id = community_reviews.workspace_id');
+requireText('supabase/migrations/20260814144749_provider_map_coordinates_foundation.sql', 'latitude');
+requireText('supabase/migrations/20260814144749_provider_map_coordinates_foundation.sql', 'longitude');
+requireText('supabase/migrations/20260814144914_secure_provider_map_coordinate_updates.sql', 'owner');
+requireText('supabase/migrations/20260814144914_secure_provider_map_coordinate_updates.sql', 'manager');
+requireText('supabase/migrations/20260814145407_portal_identity_and_provider_profile_types.sql', 'provider_type');
+requireText('supabase/migrations/20260814145501_harden_activity_log_as_append_only.sql', 'DELETE');
+requireText('supabase/migrations/20260814145501_harden_activity_log_as_append_only.sql', 'UPDATE');
+requireText('supabase/migrations/20260814145520_linked_provider_profile_read.sql', 'contractor_portal_links');
+requireText('supabase/migrations/20260814150142_professional_portal_services_contract.sql', 'provider_services');
+requireText('supabase/migrations/20260814150142_professional_portal_services_contract.sql', 'provider_service_areas');
+requireText('supabase/migrations/20260814150206_fix_professional_portal_availability_upsert.sql', 'contractor_id');
 requireText('src/pages/HostEntry.tsx', 'app.homeleadconnect.org');
 requireText('src/pages/HostEntry.tsx', '<HomePage />');
 requireText('src/pages/HostEntry.tsx', '<AppEntry />');
@@ -88,8 +110,23 @@ requireText('src/routes/AppRouter.tsx', '<Route path="/" element={<HostEntry/>}/
 requireText('src/routes/AppRouter.tsx', '<Route path="/app" element={<AppEntry/>}/>');
 requireText('src/routes/AppRouter.tsx', '<Route path="/portal" element={<AppEntry/>}/>');
 requireText('src/routes/AppRouter.tsx', '<Route path="/homeowner-portal/documents" element={<HomeownerPortalDocuments/>}/>');
+requireText('src/routes/AppRouter.tsx', 'path="/homeowner-portal/profile"');
+requireText('src/routes/AppRouter.tsx', 'path="/homeowner-portal/settings"');
+requireText('src/routes/AppRouter.tsx', 'path="/contractor-portal/profile"');
+requireText('src/routes/AppRouter.tsx', 'path="/contractor-portal/services"');
+requireText('src/routes/AppRouter.tsx', 'path="/contractor-portal/documents"');
+requireText('src/routes/AppRouter.tsx', 'path="/map"');
+requireText('src/routes/AppRouter.tsx', 'path="/network/map"');
+requireText('src/routes/AppRouter.tsx', 'path="/activity"');
 requireText('src/pages/portal/HomeownerPortalDocuments.tsx', 'sharing_scope === "homeowner"');
 requireText('src/pages/portal/HomeownerPortalDocuments.tsx', 'Only files explicitly shared with your resident portal are shown here.');
+requireText('src/pages/dashboard/ProviderMap.tsx', 'latitude');
+requireText('src/pages/dashboard/ProviderMap.tsx', 'longitude');
+requireText('src/pages/dashboard/ProviderMap.tsx', 'not mapped');
+requireText('src/pages/dashboard/Activity.tsx', 'activity');
+requireText('src/components/agents/ContextualAgentDock.tsx', '#F59E0B');
+requireText('src/components/agents/ContextualAgentDock.tsx', '#6366F1');
+requireText('src/components/agents/ContextualAgentDock.tsx', '#10B981');
 requireText('src/pages/auth/Login.tsx', 'navigate(requested || "/app"');
 requireText('src/pages/auth/Login.tsx', '<Navigate to="/app" replace />');
 requireText('src/pages/HomePage.tsx', 'to="/request-service"');
