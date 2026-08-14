@@ -2,7 +2,7 @@
 @media (min-width: 1025px) {
   .hlc-signed-in-shell {
     display: grid;
-    grid-template-columns: 300px minmax(0, 1fr);
+    grid-template-columns: 252px minmax(0, 1fr);
     width: 100%;
     min-height: 100svh;
     align-items: start;
@@ -13,15 +13,15 @@
     top: 0;
     z-index: 80;
     display: flex;
-    width: 300px;
+    width: 252px;
     height: 100svh;
     min-height: 100svh;
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
-    gap: 18px;
+    gap: 14px;
     overflow: hidden;
-    padding: 22px 16px 18px;
+    padding: 18px 12px 14px;
     border-right: 1px solid rgba(148, 163, 184, .16);
     background:
       radial-gradient(circle at 20% 0%, rgba(37, 99, 235, .24), transparent 30%),
@@ -30,19 +30,23 @@
 
   .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-brand {
     width: 100%;
-    padding: 2px 4px 14px;
+    padding: 2px 2px 12px;
     border-bottom: 1px solid rgba(148, 163, 184, .14);
   }
 
   .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-logo {
-    width: 54px;
-    height: 54px;
-    flex-basis: 54px;
-    border-radius: 14px;
+    width: 48px;
+    height: 48px;
+    flex-basis: 48px;
+    border-radius: 12px;
   }
 
   .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-brand-copy h2 {
-    font-size: 18px;
+    font-size: 17px;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-brand-copy span {
+    font-size: 11px;
   }
 
   .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-links {
@@ -54,74 +58,77 @@
     flex-wrap: nowrap;
     align-items: stretch;
     justify-content: flex-start;
-    gap: 10px;
+    gap: 8px;
     overflow-y: auto;
     overscroll-behavior: contain;
-    padding: 0 3px 4px 0;
+    padding: 0 2px 4px 0;
     scrollbar-width: thin;
   }
 
   .hlc-signed-in-shell > .hlc-navbar .hlc-mobile-menu-heading {
     display: grid;
-    gap: 2px;
-    padding: 0 4px 2px;
+    gap: 1px;
+    padding: 0 3px 1px;
     text-align: left;
   }
 
   .hlc-signed-in-shell > .hlc-navbar .hlc-mobile-menu-heading span {
     color: #93c5fd;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 900;
-    letter-spacing: .12em;
+    letter-spacing: .11em;
     text-transform: uppercase;
   }
 
   .hlc-signed-in-shell > .hlc-navbar .hlc-mobile-menu-heading strong {
     color: #f8fafc;
-    font-size: 15px;
-    line-height: 1.3;
+    font-size: 14px;
+    line-height: 1.25;
   }
 
   .hlc-signed-in-shell > .hlc-navbar .hlc-owner-home-link {
     display: flex;
-    min-height: 58px;
+    min-height: 54px;
     align-items: center;
     justify-content: space-between;
-    gap: 12px;
+    gap: 8px;
     box-sizing: border-box;
-    padding: 11px 12px;
+    padding: 9px 10px;
     border: 1px solid rgba(96, 165, 250, .34);
-    border-radius: 14px;
+    border-radius: 12px;
     background: linear-gradient(135deg, rgba(37, 99, 235, .34), rgba(30, 64, 175, .16));
     text-decoration: none;
   }
 
   .hlc-signed-in-shell > .hlc-navbar .hlc-owner-home-link span {
     display: grid;
-    gap: 2px;
+    min-width: 0;
+    gap: 1px;
   }
 
   .hlc-signed-in-shell > .hlc-navbar .hlc-owner-home-link strong {
     color: #fff;
-    font-size: 14px;
+    font-size: 13px;
+    line-height: 1.2;
   }
 
   .hlc-signed-in-shell > .hlc-navbar .hlc-owner-home-link small {
     color: #bfdbfe;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 700;
-    line-height: 1.25;
+    line-height: 1.2;
   }
 
   .hlc-signed-in-shell > .hlc-navbar .hlc-owner-home-link b {
+    flex: 0 0 auto;
     color: #93c5fd;
-    font-size: 18px;
+    font-size: 17px;
   }
 
   .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-groups {
     display: grid;
     width: 100%;
-    gap: 8px;
+    gap: 6px;
   }
 
   .hlc-signed-in-shell > .hlc-navbar .hlc-nav-group {
@@ -130,11 +137,11 @@
 
   .hlc-signed-in-shell > .hlc-navbar .hlc-nav-group summary {
     width: 100%;
-    min-height: 46px;
-    border-radius: 12px;
-    padding: 10px 12px;
+    min-height: 42px;
+    border-radius: 10px;
+    padding: 8px 10px;
     background: rgba(30, 41, 59, .78);
-    font-size: 14px;
+    font-size: 13px;
   }
 
   .hlc-signed-in-shell > .hlc-navbar .hlc-nav-group[open] summary {
@@ -146,46 +153,49 @@
     position: static;
     display: grid;
     width: 100%;
-    gap: 3px;
+    gap: 2px;
     box-sizing: border-box;
-    margin-top: 5px;
-    padding: 5px;
+    margin-top: 4px;
+    padding: 4px;
     border: 1px solid rgba(51, 65, 85, .72);
-    border-radius: 13px;
+    border-radius: 11px;
     background: rgba(2, 6, 23, .46);
     box-shadow: none;
   }
 
   .hlc-signed-in-shell > .hlc-navbar .hlc-nav-menu a {
     display: grid;
-    gap: 2px;
-    min-height: 44px;
+    gap: 1px;
+    min-height: 40px;
     box-sizing: border-box;
-    padding: 8px 10px;
-    border-radius: 10px;
+    padding: 7px 8px;
+    border-radius: 9px;
     color: #e5edf9;
     text-align: left;
   }
 
   .hlc-signed-in-shell > .hlc-navbar .hlc-nav-menu a > small {
     display: block;
+    overflow: hidden;
     color: #93a8c8;
-    font-size: 9px;
+    font-size: 8px;
     font-weight: 700;
-    line-height: 1.25;
+    line-height: 1.2;
     letter-spacing: .01em;
+    text-overflow: ellipsis;
     text-transform: none;
+    white-space: nowrap;
   }
 
   .hlc-signed-in-shell > .hlc-navbar .hlc-agent-nav-link {
-    grid-template-columns: 34px minmax(0, 1fr);
+    grid-template-columns: 30px minmax(0, 1fr);
     align-items: center;
   }
 
   .hlc-signed-in-shell > .hlc-navbar .hlc-agent-nav-link img {
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
     object-fit: cover;
   }
 
@@ -197,7 +207,7 @@
 
   .hlc-signed-in-shell > .hlc-navbar .hlc-nav-logout {
     width: 100%;
-    min-height: 44px;
+    min-height: 42px;
     margin-top: auto;
     border-color: rgba(248, 113, 113, .22);
     background: rgba(127, 29, 29, .12);
