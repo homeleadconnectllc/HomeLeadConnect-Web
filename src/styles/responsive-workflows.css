@@ -208,6 +208,56 @@
   overflow-wrap: anywhere;
 }
 
+/* Call center */
+.hlc-call-disposition {
+  display: grid;
+  gap: 12px;
+}
+
+.hlc-call-disposition input,
+.hlc-call-disposition textarea,
+.hlc-call-disposition button {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.hlc-call-center-list {
+  display: grid;
+  gap: 10px;
+}
+
+.hlc-call-center-record {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow-wrap: anywhere;
+}
+
+.hlc-call-history-record {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.hlc-call-history-copy {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+}
+
+/* Golden workflow */
+.hlc-workflow-stage-copy,
+.hlc-workflow-stage-action {
+  min-width: 0;
+}
+
+.hlc-workflow-stage-action a,
+.hlc-workflow-stage-action span {
+  overflow-wrap: anywhere;
+}
+
 @media (max-width: 1024px) {
   .estimate-layout {
     grid-template-columns: minmax(0, 1fr) minmax(250px, 300px) !important;
@@ -341,6 +391,32 @@
   .hlc-followup-card button {
     width: 100%;
   }
+
+  .hlc-call-history-record {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .hlc-call-history-record button,
+  .hlc-call-disposition-actions button {
+    width: 100%;
+  }
+
+  .hlc-call-disposition-actions {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hlc-workflow-stage {
+    grid-template-columns: 44px minmax(0, 1fr) !important;
+    align-items: start !important;
+  }
+
+  .hlc-workflow-stage-action {
+    grid-column: 2;
+    justify-items: start !important;
+    text-align: left !important;
+  }
 }
 
 @media (max-width: 600px) {
@@ -375,7 +451,9 @@
   .hlc-jobs-page,
   .hlc-messages-page,
   .hlc-documents-page,
-  .hlc-followups-page {
+  .hlc-followups-page,
+  .hlc-call-center-page,
+  .hlc-workflow-page {
     width: calc(100% - 24px) !important;
     margin: 24px auto !important;
   }
@@ -385,7 +463,9 @@
   .hlc-jobs-page h1,
   .hlc-messages-page h1,
   .hlc-documents-page h1,
-  .hlc-followups-page h1 {
+  .hlc-followups-page h1,
+  .hlc-call-center-page h1,
+  .hlc-workflow-page h1 {
     margin-top: 0;
   }
 
@@ -407,7 +487,9 @@
   .hlc-documents-form button,
   .hlc-document-card button,
   .hlc-followup-form button,
-  .hlc-followup-card button {
+  .hlc-followup-card button,
+  .hlc-call-history-record button,
+  .hlc-call-disposition button {
     min-height: 48px;
     font-size: 16px;
   }
@@ -433,8 +515,34 @@
   .hlc-documents-form select,
   .hlc-followup-form input,
   .hlc-followup-form select,
-  .hlc-followup-form textarea {
+  .hlc-followup-form textarea,
+  .hlc-call-disposition input,
+  .hlc-call-disposition textarea {
     min-height: 48px;
     font-size: 16px;
+  }
+
+  .hlc-call-disposition-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hlc-workflow-stage {
+    grid-template-columns: minmax(0, 1fr) !important;
+    padding: 16px !important;
+  }
+
+  .hlc-workflow-stage-number,
+  .hlc-workflow-stage-action {
+    grid-column: auto;
+  }
+
+  .hlc-workflow-stage-action {
+    width: 100%;
+  }
+
+  .hlc-workflow-stage-action a {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
   }
 }
