@@ -13,6 +13,14 @@ import "./styles/responsive-ecosystem.css";
 import App from "./App.tsx";
 import { AuthProvider } from "./context/AuthContext";
 
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    void navigator.serviceWorker.register("/sw.js").catch(() => {
+      // Installation support is progressive enhancement; the web app remains usable without a service worker.
+    });
+  });
+}
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <AuthProvider>
