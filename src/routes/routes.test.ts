@@ -5,6 +5,8 @@ import test from "node:test";
 const router = readFileSync("src/routes/AppRouter.tsx", "utf8");
 const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
 const footer = readFileSync("src/components/Footer.tsx", "utf8");
+const startHere = readFileSync("src/pages/dashboard/StartHere.tsx", "utf8");
+const operationalGuide = readFileSync("src/pages/dashboard/OperationalGuide.tsx", "utf8");
 const publicCopy = ["src/pages/HomePage.tsx", "src/pages/PublicInfo.tsx", "src/pages/ContactPage.tsx", "src/pages/Legal.tsx"]
   .map((path) => readFileSync(path, "utf8"))
   .join("\n");
@@ -31,6 +33,21 @@ test("canonical golden workflow route remains declared once", () => {
 
 test("shared HLC automation control plane remains declared once", () => {
   assert.equal([...router.matchAll(/path="\/automations"/g)].length, 1);
+});
+
+test("company rollout operating guides remain declared and actionable", () => {
+  for (const route of ["/start-here", "/help", "/tutorials", "/rules"]) {
+    assert.equal([...router.matchAll(new RegExp(`path="${route}"`, "g"))].length, 1, route);
+  }
+  assert.match(router, /path="\/start-here" element=\{<StartHere\s*\/>\}/);
+  assert.match(router, /path="\/help" element=\{<OperationalGuide page="help"\s*\/>\}/);
+  assert.match(router, /path="\/tutorials" element=\{<OperationalGuide page="tutorials"\s*\/>\}/);
+  assert.match(router, /path="\/rules" element=\{<OperationalGuide page="rules"\s*\/>\}/);
+  assert.match(startHere, /First-day checklist/);
+  assert.match(startHere, /Support and escalation/);
+  assert.match(operationalGuide, /Cannot sign in/);
+  assert.match(operationalGuide, /Company owner/);
+  assert.match(operationalGuide, /Incident response/);
 });
 
 test("canonical page map contains every top-level HLC experience", () => {
@@ -87,7 +104,7 @@ test("every canonical ecosystem destination has one declared route", () => {
     "/network", "/map", "/network/map", "/profiles", "/providers", "/matching", "/community-hub",
     "/community/discussions", "/community/reviews", "/community/referrals",
     "/community/events", "/community/moderation", "/help", "/tutorials", "/rules",
-    "/profile", "/settings/billing", "/activity",
+    "/start-here", "/profile", "/settings/billing", "/activity",
   ];
   for (const route of routes) {
     assert.equal([...router.matchAll(new RegExp(`path="${route}"`, "g"))].length, 1, `Expected one route for ${route}`);
