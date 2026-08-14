@@ -3,6 +3,8 @@ import { createClient } from "npm:@supabase/supabase-js@2.57.4";
 const cors = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, apikey, content-type, x-client-info",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Max-Age": "86400",
 };
 
 const json = (body: Record<string, unknown>, status = 200) => new Response(JSON.stringify(body), {
@@ -56,7 +58,6 @@ function pcmToWav(pcm: Uint8Array, sampleRate = 24000) {
   view.setUint16(34, 16, true);
   write(36, "data");
   view.setUint32(40, pcm.length, true);
-
   const wav = new Uint8Array(44 + pcm.length);
   wav.set(new Uint8Array(header), 0);
   wav.set(pcm, 44);
@@ -64,14 +65,13 @@ function pcmToWav(pcm: Uint8Array, sampleRate = 24000) {
 }
 
 Deno.serve(async (request) => {
-  if (request.method === "OPTIONS") return new Response("ok", { headers: cors });
+  if (request.method === "OPTIONS") return new Response("ok", { status: 200, headers: cors });
   if (request.method !== "POST") return json({ error: "Method not allowed." }, 405);
 
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
   const anonKey = Deno.env.get("SUPABASE_ANON_KEY");
   const geminiKey = Deno.env.get("GEMINI_API_KEY") || Deno.env.get("GOOGLE_API_KEY");
   const authorization = request.headers.get("Authorization");
-
   if (!supabaseUrl || !anonKey) return json({ error: "HLC voice runtime configuration is incomplete." }, 503);
   if (!authorization) return json({ error: "Authentication is required." }, 401);
   if (!geminiKey) return json({ error: "Neural voice provider is not configured." }, 503);
@@ -125,11 +125,7 @@ Deno.serve(async (request) => {
       contents: [{ parts: [{ text: `${profileConfig.direction}\n\nRead this exact HLC reply aloud without adding or removing words:\n${text}` }] }],
       generationConfig: {
         responseModalities: ["AUDIO"],
-        speechConfig: {
-          voiceConfig: {
-            prebuiltVoiceConfig: { voiceName: profileConfig.voice },
-          },
-        },
+        speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: profileConfig.voice } } },
       },
     }),
   });
@@ -147,12 +143,5 @@ Deno.serve(async (request) => {
   const raw = Uint8Array.from(atob(inline.data), (char) => char.charCodeAt(0));
   const isWav = String(inline.mimeType || "").toLowerCase().includes("wav");
   const wav = isWav ? raw : pcmToWav(raw, 24000);
-
-  return json({
-    agentId,
-    provider: "gemini-2.5-flash-preview-tts",
-    voice: profileConfig.voice,
-    mimeType: "audio/wav",
-    audioBase64: bytesToBase64(wav),
-  });
+  return json({ agentId, provider: "gemini-2.5-flash-preview-tts", voice: profileConfig.voice, mimeType: "audio/wav", audioBase64: bytesToBase64(wav) });
 });
