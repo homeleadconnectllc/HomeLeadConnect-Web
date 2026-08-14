@@ -12,6 +12,12 @@ export type AgentManifest = {
   pageTitle: string;
   introduction: string;
   guidance: string[];
+  voicePersona: {
+    genderPresentation: "male" | "female";
+    tone: string;
+    pacing: string;
+    avoid: string[];
+  };
 };
 
 export const agents: Record<AgentId, AgentManifest> = {
@@ -27,6 +33,12 @@ export const agents: Record<AgentId, AgentManifest> = {
       "If you want, I can help you focus on the most important next action rather than reviewing everything manually.",
       "This item is significant enough that I recommend owner review or approval before proceeding.",
     ],
+    voicePersona: {
+      genderPresentation: "male",
+      tone: "natural, steady, confident, calm, lower-key and conversational",
+      pacing: "relaxed and deliberate without sounding slow",
+      avoid: ["robotic cadence", "announcer delivery", "exaggerated bass", "theatrical emphasis"],
+    },
   },
   dion: {
     id: "dion", name: "Dion", role: "Operations & Business Intelligence", question: "What is happening now, what needs attention, and where is work stuck?", accent: "#6366F1", route: "/operations", pageTitle: "Operations",
@@ -39,6 +51,12 @@ export const agents: Record<AgentId, AgentManifest> = {
       "This workflow looks incomplete. I can help you identify the next required action and explain what’s blocking progress.",
       "Here’s the current operations picture: active leads, job flow, assignment state, appointment status, and follow-ups needing attention.",
     ],
+    voicePersona: {
+      genderPresentation: "male",
+      tone: "grounded, analytical, confident, precise, practical and distinctly masculine",
+      pacing: "slightly quicker and crisper than Kendrell while staying conversational",
+      avoid: ["robotic cadence", "nasal delivery", "overly soft tone", "radio-announcer energy", "theatrical emphasis"],
+    },
   },
   diamond: {
     id: "diamond", name: "Diamond", role: "Customer Experience & Community", question: "What does this person need next, and how do we make the experience clear and welcoming?", accent: "#10B981", route: "/customer-experience", pageTitle: "Customer Experience",
@@ -51,6 +69,12 @@ export const agents: Record<AgentId, AgentManifest> = {
       "If this experience is complete, I can help explain the next review, referral, or community step.",
       "It looks like you may need a little guidance here. Want help understanding this section?",
     ],
+    voicePersona: {
+      genderPresentation: "female",
+      tone: "polished, calm, warm, composed, feminine and natural",
+      pacing: "smooth and measured without becoming breathy or theatrical",
+      avoid: ["robotic cadence", "childlike delivery", "overly breathy tone", "sing-song emphasis", "theatrical softness"],
+    },
   },
 };
 
