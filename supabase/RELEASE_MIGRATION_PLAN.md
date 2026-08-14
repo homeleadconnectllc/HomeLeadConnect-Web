@@ -80,13 +80,20 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 72. `20260814182821_align_assignment_notification_types.sql`
 73. `20260814183500_fix_auth_signup_profile_trigger.sql`
 74. `20260814184422_launch_portal_policy_and_fk_performance_hardening.sql`
+75. `20260814204700_enforce_leads_single_writer.sql`
+76. `20260814205500_complete_company_signup_workspace_membership.sql`
+77. `20260814210500_workspace_team_roles_and_invitations.sql`
+78. `20260814211500_support_workspace_invitee_signup.sql`
 
 ## Current production rules
 
 - `main` is the production source branch. Netlify's native Git integration owns the production build so Netlify can inject production `VITE_*` values.
 - GitHub production verification must pass lint, acceptance tests, the launch static audit, production build, Netlify site access, and exact-SHA-live verification before a release is considered complete.
-- `workspace_members` establishes business-workspace membership. `profiles.role` is the internal role signal. Customer/renter and contractor access is resolved through their dedicated portal links.
-- Internal workspace route policy recognizes `owner`, `manager`, and `technician`. Owner-only surfaces include HQ/command authority and subscription billing. Manager-level surfaces include workflow, automation, analytics, settings, operations, CX control, and moderation. Technicians receive operational workspace access but not manager/owner control planes.
+- `workspace_members` establishes business-workspace membership and now stores the authoritative per-workspace internal role. `profiles.role` mirrors the active workspace role for backward-compatible UI/runtime checks. Customer/renter and contractor access is resolved through their dedicated portal links.
+- Company-owner signup creates an isolated workspace, owner profile, and owner membership atomically. Workspace invitees create only an identity until an email-bound invitation is accepted, preventing orphan personal workspaces for invited staff.
+- Internal workspace team invitations are hashed, email-bound, single-use, expiring, and role-limited. Owners may invite managers or technicians; managers may invite technicians. Team membership mutations run through role-checked RPCs rather than direct browser writes.
+- Internal workspace route policy recognizes `owner`, `manager`, and `technician`. Owner-only surfaces include HQ/command authority and subscription billing. Manager-level surfaces include workflow, automation, analytics, settings, team administration, operations, CX control, and moderation. Technicians receive operational workspace access but not manager/owner control planes.
+- `public.leads` is a server-only write surface. Browser roles do not receive direct INSERT access; canonical lead creation must use the approved server/RPC ingestion boundary.
 - `run_hlc_automation` and `automation_jobs` history are owner/manager control-plane capabilities. The production database enforces that rule in addition to the browser UI.
 - `run_hlc_scheduled_workflow_scan()` is a system-only recurring read-only monitor. Normal browser roles cannot invoke it. It records workflow health, follow-up pressure, and owner-attention evidence without messaging customers, assigning providers, scheduling appointments, changing workflow state, or changing billing.
 - Legacy SECURITY DEFINER operational/billing helpers must verify authenticated identity, canonical workspace membership, and internal role where the operation is staff-only.
@@ -110,7 +117,8 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - Unverified phone/Google/Apple/Facebook sign-in methods remain hidden unless explicitly enabled after end-to-end provider verification.
 - Production API logs showed authenticated `200` responses for user/session reads, workspace membership, leads, jobs, appointments, follow-ups, KPI/analytics RPCs, and analytics-event ingestion during launch acceptance.
 - Web Push dispatch returned `200` in production.
-- `hlc-agent-chat` version 2 produced a fresh authenticated Kendrell `POST 200`; version 3 is deployed with JWT verification and separate internal/resident/professional authorization boundaries and still requires fresh role-specific runtime acceptance.
+- `hlc-agent-chat` is deployed with JWT verification and separate internal/resident/professional authorization boundaries. Gemini provider configuration is server-side only.
+- `hlc-agent-voice` uses server-side Gemini neural TTS; browser system TTS is disabled for agent replies. Physical-device quality/playback acceptance remains a release gate until Kendrell, Dion, and Diamond are heard on iPhone/Mac.
 - Hourly workflow automation is active at minute 07 and has a verified real cron execution. The de-duplication guard correctly suppresses redundant snapshot rows inside its 50-minute window.
 - Legacy SECURITY DEFINER RPCs were hardened so cross-workspace IDs and unauthorized staff actions fail closed.
 - Management-only analytics/KPI, communications-provider configuration, and portal-revocation RPCs enforce owner/manager role checks at the database boundary.
@@ -121,16 +129,16 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - Community review insert authorization requires the completed job and review to share the same `workspace_id`.
 - Provider Map coordinate columns, validation, and management-only update controls are applied in production.
 - Resident identity/provider profile types, linked-provider profile reads, professional portal services/availability contracts, and append-only activity history are applied in production.
-- The stale duplicate auth-user trigger was repaired after live signup testing exposed a database-save failure; the canonical onboarding trigger remains responsible for normal internal-account initialization. The obsolete `on_auth_user_created` trigger is removed in the final repair migration.
+- The auth-user onboarding trigger creates isolated company workspaces atomically and supports invite-only staff identities without creating throwaway owner workspaces.
+- Per-workspace owner/manager/technician roles and secure company-team invitation RPCs are applied in production.
 - Dedicated provider, resident, manager, and technician E2E identities were created. Provider/resident identities have no internal workspace membership; manager/technician identities are explicitly scoped to the HomeLead Connect workspace.
 - The live provider identity accepted the existing offered assignment through `contractor_decide_assignment`. That runtime attempt exposed and then verified a notification-type constraint defect; assignment accepted/rejected/cancelled events are now allowed by the canonical notification constraint.
 - The manager runtime identity scheduled appointment `15` for the accepted provider assignment, and both contractor and resident portal RPCs returned the linked job and scheduled appointment under their own authenticated identities.
 - The manager runtime identity then completed appointment `15` and the linked CRM job. The live golden chain now has persisted accepted assignment, completed appointment, and completed job evidence.
 - Launch portal SELECT policies were consolidated without changing authorization semantics and rewritten to use init-plan-safe `(select auth.uid())`; authenticated provider and resident portal RPCs were retested successfully afterward.
 - Covering indexes were added for the professional-application reviewer FK and launch-critical provider/public-form workspace FKs.
-- Security and performance advisors were rerun after launch DDL. Existing linter findings remain tracked; broad legacy rewrites are not made as a shortcut when a warning reflects an intentional public RPC or a larger legacy policy surface.
-- PR #7's Netlify deploy-preview status reports success, and the preview has rendered on iPhone at least once, but a subsequent iPhone Safari attempt failed to resolve the preview hostname. The physical-device acceptance gate therefore remains open until a stable preview/branch/permalink is confirmed on both iPhone and Mac.
-- Launch Candidate run #194 passed on the functional-completion branch after the portal-policy/index hardening and documentation update.
+- Security and performance advisors were rerun after launch DDL. Leaked-password protection remains an external Supabase Auth setting gate; existing intentional public/server RPC linter findings remain tracked rather than being silenced by unsafe broad revocation.
+- The stable isolated QA site is used for physical-device acceptance before `main` is released.
 
 ## Change procedure after launch
 
