@@ -40,7 +40,7 @@ test("canonical page map contains every top-level HLC experience", () => {
 });
 
 test("previously reserved page-map destinations now resolve inside the app", () => {
-  for (const route of ["/accessibility", "/homeowner-portal/profile", "/homeowner-portal/properties", "/homeowner-portal/requests", "/homeowner-portal/matches", "/homeowner-portal/appointments", "/homeowner-portal/jobs", "/contractor-portal/profile", "/contractor-portal/team", "/contractor-portal/services", "/analytics", "/network/service-areas", "/providers/:providerId", "/network/availability", "/network/eligibility", "/network/saved", "/community/groups", "/hq/approvals", "/hq/system-health"]) {
+  for (const route of ["/accessibility", "/homeowner-portal/profile", "/homeowner-portal/properties", "/homeowner-portal/requests", "/homeowner-portal/matches", "/homeowner-portal/appointments", "/homeowner-portal/jobs", "/homeowner-portal/documents", "/contractor-portal/profile", "/contractor-portal/team", "/contractor-portal/services", "/contractor-portal/documents", "/analytics", "/activity", "/network/map", "/network/service-areas", "/providers/:providerId", "/network/availability", "/network/eligibility", "/network/saved", "/community/groups", "/hq/approvals", "/hq/system-health"]) {
     assert.equal([...router.matchAll(new RegExp(`path="${route}"`, "g"))].length, 1, `Missing routed capability ${route}`);
   }
 });
@@ -50,37 +50,44 @@ test("portal record subroutes use canonical data-backed views", () => {
     const declaration = router.match(new RegExp(`<Route path="${route}" element=\\{<([^ />]+)`));
     assert.equal(declaration?.[1], "HomeownerPortalSection", `${route} must use the homeowner portal RPC view`);
   }
+  assert.match(router, /path="\/homeowner-portal\/documents" element=\{<HomeownerPortalDocuments\s*\/>\}/);
+  assert.match(router, /path="\/homeowner-portal\/profile" element=\{<ResidentProfile\s*\/>\}/);
+  assert.match(router, /path="\/homeowner-portal\/settings" element=\{<ResidentProfile\s*\/>\}/);
   assert.match(router, /path="\/contractor-portal\/profile" element=\{<ContractorProfile\s*\/>\}/);
-  assert.match(router, /path="\/contractor-portal\/services" element=\{<LaunchSurface page="services"\/>\}/);
+  assert.match(router, /path="\/contractor-portal\/services" element=\{<ContractorPortalServices\s*\/>\}/);
+  assert.match(router, /path="\/contractor-portal\/documents" element=\{<ContractorPortalDocuments\s*\/>\}/);
   const workspaceMatch = router.match(/<Route element=\{<WorkspaceLayout\s*\/>\}>/);
   assert.ok(workspaceMatch?.index !== undefined, "WorkspaceLayout route boundary must exist");
   const workspaceStart = workspaceMatch.index;
-  for (const route of ["/homeowner-portal/requests", "/homeowner-portal/appointments", "/homeowner-portal/jobs", "/contractor-portal/profile"]) {
+  for (const route of ["/homeowner-portal/requests", "/homeowner-portal/appointments", "/homeowner-portal/jobs", "/homeowner-portal/documents", "/homeowner-portal/profile", "/homeowner-portal/settings", "/contractor-portal/profile", "/contractor-portal/services", "/contractor-portal/documents"]) {
     assert.ok(router.indexOf(`path="${route}"`) < workspaceStart, `${route} must remain accessible to explicitly linked portal users without workspace membership`);
   }
 });
 
 test("implemented ecosystem destinations use data-backed surfaces", () => {
   const generic: Array<[string,string]> = [
-    ["/network","network"], ["/map","map"], ["/profiles","profiles"], ["/providers","providers"], ["/matching","matching"],
+    ["/network","network"], ["/profiles","profiles"], ["/providers","providers"], ["/matching","matching"],
     ["/community-hub","community"], ["/community/discussions","discussions"], ["/community/reviews","reviews"], ["/community/referrals","referrals"],
     ["/community/events","events"], ["/community/moderation","moderation"], ["/community/groups","groups"], ["/network/service-areas","serviceAreas"],
     ["/network/availability","availability"], ["/network/saved","saved"], ["/contractor-portal/team","team"],
-    ["/contractor-portal/services","services"], ["/hq/approvals","approvals"], ["/hq/system-health","systemHealth"],
+    ["/hq/approvals","approvals"], ["/hq/system-health","systemHealth"],
   ];
   for (const [route,page] of generic) {
     assert.match(router, new RegExp(`path="${route.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}" element=\\{<LaunchSurface page="${page}"\\/>\\}`));
   }
+  assert.match(router, /path="\/map" element=\{<ProviderMap\s*\/>\}/);
+  assert.match(router, /path="\/network\/map" element=\{<ProviderMap\s*\/>\}/);
+  assert.match(router, /path="\/activity" element=\{<WorkspaceActivity\s*\/>\}/);
   assert.match(router, /path="\/homeowner-portal\/properties" element=\{<PropertyIntelligence\s*\/>\}/);
   assert.match(router, /path="\/analytics" element=\{<Analytics\s*\/>\}/);
 });
 
 test("every canonical ecosystem destination has one declared route", () => {
   const routes = [
-    "/network", "/map", "/profiles", "/providers", "/matching", "/community-hub",
+    "/network", "/map", "/network/map", "/profiles", "/providers", "/matching", "/community-hub",
     "/community/discussions", "/community/reviews", "/community/referrals",
     "/community/events", "/community/moderation", "/help", "/tutorials", "/rules",
-    "/profile", "/settings/billing",
+    "/profile", "/settings/billing", "/activity",
   ];
   for (const route of routes) {
     assert.equal([...router.matchAll(new RegExp(`path="${route}"`, "g"))].length, 1, `Expected one route for ${route}`);
