@@ -19,7 +19,6 @@
   min-width: 0;
 }
 
-/* Every route gets a centered, business-grade content shell. */
 .hlc-route-content > main {
   box-sizing: border-box !important;
   width: min(var(--hlc-page-max), calc(100% - (2 * var(--hlc-page-gutter)))) !important;
@@ -32,7 +31,6 @@
   text-align: center;
 }
 
-/* Pages that behave as operational canvases can use more desktop width without touching the edges. */
 .hlc-route-content > main:has(section[aria-label="Provider coordinate map"]),
 .hlc-route-content > main:has(.hlc-workflow-page),
 .hlc-route-content > main.hlc-workflow-page,
@@ -41,13 +39,11 @@
   --hlc-page-max: 1560px;
 }
 
-/* Preserve intentionally compact account/auth experiences while still centering them. */
 .hlc-route-content > main.hlc-auth-page,
 .hlc-route-content > main:has(.hlc-auth-shell) {
   --hlc-page-max: 1180px;
 }
 
-/* Consistent vertical rhythm for direct page sections/cards. */
 .hlc-route-content > main > header,
 .hlc-route-content > main > nav,
 .hlc-route-content > main > section,
@@ -67,7 +63,6 @@
   margin-top: var(--hlc-page-block-gap);
 }
 
-/* Keep public and route-level headings/copy centered everywhere. */
 .hlc-public-shell .hlc-route-content > main > header,
 .hlc-route-content > main > header,
 .hlc-route-content > main > section,
@@ -95,7 +90,6 @@
   margin-inline: auto;
 }
 
-/* Navigation strips should read as one centered, wrapped control group. */
 .hlc-route-content > main > nav,
 .hlc-route-content nav {
   justify-content: center;
@@ -103,7 +97,6 @@
   column-gap: clamp(10px, 1.5vw, 18px);
 }
 
-/* Forms and controls must never create horizontal overflow. */
 .hlc-route-content form,
 .hlc-route-content fieldset,
 .hlc-route-content label,
@@ -122,19 +115,16 @@
   text-align: center;
 }
 
-/* Tables keep business data aligned with the rest of the centered interface. */
 .hlc-route-content th,
 .hlc-route-content td {
   text-align: center;
 }
 
-/* Card/list collections get predictable gaps without forcing a specific visual system. */
 .hlc-route-content [class*="grid"],
 .hlc-route-content [class*="list"] {
   min-width: 0;
 }
 
-/* Large desktop: let the workspace breathe while keeping content centered. */
 @media (min-width: 1600px) {
   :root {
     --hlc-page-max: 1520px;
@@ -149,7 +139,6 @@
   }
 }
 
-/* Tablet: reduce outer chrome and preserve centered alignment. */
 @media (max-width: 1024px) {
   :root {
     --hlc-page-gutter: clamp(16px, 3vw, 28px);
@@ -168,7 +157,6 @@
   }
 }
 
-/* Phones: nearly full width, safe-area aware, compact rhythm, centered wording. */
 @media (max-width: 700px) {
   :root {
     --hlc-page-gutter: max(12px, env(safe-area-inset-left));
@@ -226,18 +214,12 @@
   }
 }
 
-/* Very small phones: retain a minimum usable edge gutter without squeezing content. */
 @media (max-width: 390px) {
   .hlc-route-content > main {
     width: calc(100% - 20px) !important;
   }
 }
 
-/*
- * Absolute HLC centering contract.
- * The product direction is intentionally centered across every routed page and every device.
- * This final layer closes nested-component loopholes left by legacy inline/page-specific styles.
- */
 .hlc-route-content > main,
 .hlc-route-content > main * {
   text-align: center !important;
@@ -296,4 +278,89 @@
 
 .hlc-route-content > main :is(img, svg, canvas, video) {
   margin-inline: auto;
+}
+
+/* Polished HLC route analytics: business-friendly labels, metrics, and proportional activity bars. */
+.hlc-route-insights-card {
+  display: grid;
+  gap: 18px;
+  padding: clamp(18px, 2.5vw, 26px);
+  border: 1px solid #27364b;
+  border-radius: 22px;
+  background: linear-gradient(160deg, rgba(22, 31, 47, .98), rgba(12, 18, 28, .98));
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .14);
+}
+
+.hlc-route-insights-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.hlc-route-insights-heading h3 {
+  margin: 3px 0 0;
+}
+
+.hlc-route-insights {
+  display: grid;
+  gap: 13px;
+  width: 100%;
+  max-width: 760px;
+  margin-inline: auto;
+}
+
+.hlc-route-insight {
+  display: grid;
+  gap: 8px;
+  padding: 14px 16px;
+  border: 1px solid #263548;
+  border-radius: 16px;
+  background: rgba(15, 23, 42, .72);
+}
+
+.hlc-route-insight-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.hlc-route-insight-meta strong {
+  color: #f8fafc;
+  font-size: .94rem;
+}
+
+.hlc-route-insight-meta span {
+  color: #93c5fd;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.hlc-route-insight-track {
+  width: 100%;
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #1e293b;
+}
+
+.hlc-route-insight-track > span {
+  display: block;
+  height: 100%;
+  min-width: 8px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #2563eb, #60a5fa);
+}
+
+@media (max-width: 700px) {
+  .hlc-route-insight {
+    padding: 13px 12px;
+  }
+
+  .hlc-route-insight-meta {
+    justify-content: center;
+  }
 }
