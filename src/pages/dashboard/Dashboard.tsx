@@ -11,7 +11,6 @@ import {
   Gauge,
   ListTodo,
   PhoneCall,
-  Plus,
   Settings,
   Sparkles,
   UsersRound,
@@ -280,8 +279,8 @@ export default function Dashboard() {
         </div>
         <div className="hlc-quick-actions">
           <Link to="/leads" className="hlc-quick-action hlc-quick-action-primary">
-            <Plus size={20} />
-            <span>Lead</span>
+            <UsersRound size={20} />
+            <span>Leads</span>
           </Link>
           <Link to="/call-center" className="hlc-quick-action">
             <PhoneCall size={20} />
