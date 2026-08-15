@@ -1,5 +1,4 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import ContextualAgentDock from "../components/agents/ContextualAgentDock";
 import RealtimeNotificationCenter from "../components/notifications/RealtimeNotificationCenter";
 import LiveTutorialDock from "../components/tutorials/LiveTutorialDock";
 import { useAuth } from "../hooks/useAuth";
@@ -16,6 +15,5 @@ export default function ProtectedLayout() {
     <Outlet />
     <RealtimeNotificationCenter />
     <LiveTutorialDock />
-    <ContextualAgentDock />
   </>;
 }
