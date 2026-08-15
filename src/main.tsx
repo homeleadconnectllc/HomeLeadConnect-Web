@@ -17,8 +17,8 @@ import "./styles/visual-centering.css";
 import "./styles/property-intelligence.css";
 import "./styles/heading-contrast.css";
 import "./styles/mobile-acceptance.css";
-import "./styles/responsive-page-contract.css";
 import "./styles/premium-theme.css";
+import "./styles/responsive-page-contract.css";
 import App from "./App.tsx";
 import { AuthProvider } from "./context/AuthContext";
 
