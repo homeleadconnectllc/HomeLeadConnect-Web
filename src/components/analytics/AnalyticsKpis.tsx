@@ -91,9 +91,12 @@ export default function AnalyticsKpis() {
   const [business, setBusiness] = useState<HlcBusinessKpis>(emptyBusiness);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     let active = true;
+    setLoading(true);
+    setError("");
     Promise.allSettled([getAnalyticsSummary(30), getBusinessKpis(30)])
       .then(([trafficResult, businessResult]) => {
         if (!active) return;
@@ -103,7 +106,7 @@ export default function AnalyticsKpis() {
       })
       .finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
-  }, []);
+  }, [refreshKey]);
 
   const signedInShare = useMemo(() => {
     if (!traffic.sessions) return 0;
@@ -137,11 +140,20 @@ export default function AnalyticsKpis() {
     <section className="hlc-dashboard-section hlc-analytics-panel" aria-labelledby="hlc-analytics-title">
       <div className="hlc-section-heading">
         <div>
-          <span className="hlc-section-eyebrow">HLC business intelligence</span>
-          <h2 id="hlc-analytics-title">Operating KPIs & visitor analytics</h2>
-          <p>Canonical workflow performance plus privacy-minimized first-party HLC traffic for the last 30 days.</p>
+          <span className="hlc-section-eyebrow">HLC operating window</span>
+          <h2 id="hlc-analytics-title">30-day operating snapshot</h2>
+          <p>Verified operating and visitor signals for the active reporting window.</p>
         </div>
-        <span className="hlc-agent-team-chip">30 days</span>
+        <button
+          type="button"
+          className="hlc-analytics-period-button"
+          aria-pressed="true"
+          aria-label="Refresh 30-day business intelligence"
+          title="Refresh 30-day business intelligence"
+          onClick={() => setRefreshKey((value) => value + 1)}
+        >
+          30 days
+        </button>
       </div>
 
       <h3>Operating performance</h3>
@@ -180,7 +192,7 @@ export default function AnalyticsKpis() {
         </article>
       </div>
 
-      <h3 style={{ marginTop: 28 }}>Audience & product activity</h3>
+      <h3 style={{ marginTop: 28 }}>Audience &amp; product activity</h3>
       <div className="hlc-analytics-kpi-grid">
         {trafficCards.map(({ label, value, icon: Icon }) => (
           <article className="hlc-analytics-kpi" key={label}>
