@@ -6,6 +6,7 @@ const responsiveContract = readFileSync("src/styles/responsive-page-contract.css
 const contextualDockCss = readFileSync("src/styles/contextual-agent-dock.css", "utf8");
 const tutorialDock = readFileSync("src/components/tutorials/LiveTutorialDock.tsx", "utf8");
 const providerMap = readFileSync("src/pages/dashboard/ProviderMap.tsx", "utf8");
+const manualCommunications = readFileSync("src/pages/dashboard/ManualCommunications.tsx", "utf8");
 
 test("all routed HLC page content remains globally centered", () => {
   assert.match(responsiveContract, /\.hlc-route-content > main,\s*\.hlc-route-content > main \* \{\s*text-align: center !important;/s);
@@ -30,4 +31,12 @@ test("provider map selection preserves coordinate confidence color", () => {
   assert.doesNotMatch(selectedStyle, /background\s*:/, "selected state must not replace approximate or verified pin color");
   assert.match(providerMap, /Approximate area/);
   assert.match(providerMap, /Verified map location/);
+});
+
+test("Google Voice workspace setup remains management-only in the UI", () => {
+  assert.match(manualCommunications, /\["owner", "manager"\]\.includes/);
+  assert.match(manualCommunications, /canConfigureGoogleVoice && !configuredNumber/);
+  assert.match(manualCommunications, /if \(!canConfigureGoogleVoice\) return;/);
+  assert.match(manualCommunications, /Google Voice workspace setup is limited to an HLC owner or manager/);
+  assert.match(manualCommunications, /Save operator-reported activity/);
 });
