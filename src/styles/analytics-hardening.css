@@ -1,0 +1,77 @@
+/* Dion Business Intelligence interaction hardening. */
+.hlc-analytics-context-title {
+  margin: 10px 0 0;
+  color: #dbeafe;
+  font-size: clamp(1rem, 2.3vw, 1.3rem);
+  font-weight: 760;
+  letter-spacing: -.015em;
+}
+
+.hlc-analytics-period-button {
+  display: inline-flex;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 14px;
+  border: 1px solid #60a5fa;
+  border-radius: 12px;
+  background: #1e3a8a;
+  color: #ffffff;
+  opacity: 1;
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .06em;
+  line-height: 1;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(30, 58, 138, .28);
+  transition: background-color .15s ease, border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+
+.hlc-analytics-period-button:hover {
+  border-color: #93c5fd;
+  background: #1d4ed8;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.hlc-analytics-period-button:focus-visible {
+  outline: 3px solid #67e8f9;
+  outline-offset: 3px;
+  border-color: #bfdbfe;
+  background: #1d4ed8;
+  color: #ffffff;
+  box-shadow: 0 0 0 5px rgba(103, 232, 249, .18), 0 8px 22px rgba(30, 58, 138, .3);
+}
+
+.hlc-analytics-period-button:active,
+.hlc-analytics-period-button[aria-pressed="true"]:active {
+  background: #172554;
+  border-color: #dbeafe;
+  color: #ffffff;
+  transform: translateY(1px) scale(.98);
+}
+
+.hlc-analytics-period-button:disabled {
+  cursor: not-allowed;
+  opacity: .72;
+}
+
+@media (max-width: 720px) {
+  .hlc-analytics-context-title {
+    font-size: 1rem;
+    line-height: 1.35;
+  }
+
+  .hlc-analytics-panel .hlc-section-heading {
+    align-items: flex-start;
+  }
+
+  .hlc-analytics-period-button {
+    flex: 0 0 auto;
+    min-width: 88px;
+    min-height: 44px;
+    padding: 10px 12px;
+  }
+}
