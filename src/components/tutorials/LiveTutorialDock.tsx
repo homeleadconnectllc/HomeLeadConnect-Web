@@ -41,16 +41,15 @@ export default function LiveTutorialDock() {
   const current = tutorial?.steps[Math.min(step, tutorial.steps.length - 1)] ?? "";
 
   useEffect(() => {
-    if (!tutorial) {
-      setOpenKey(null);
-      return;
-    }
-    setStep(0);
-    if (sessionStorage.getItem(seenKey(tutorial)) === "1") {
-      setOpenKey(null);
-      return;
-    }
-    setOpenKey(tutorial.key);
+    const timer = window.setTimeout(() => {
+      if (!tutorial) {
+        setOpenKey(null);
+        return;
+      }
+      setStep(0);
+      setOpenKey(sessionStorage.getItem(seenKey(tutorial)) === "1" ? null : tutorial.key);
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, [tutorial]);
 
   if (!tutorial) return null;
