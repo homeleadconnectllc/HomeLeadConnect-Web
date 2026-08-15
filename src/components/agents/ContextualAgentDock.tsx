@@ -22,12 +22,22 @@ type AccessContext = {
 };
 
 const agents: Record<AgentId, AgentConfig> = {
-  kendrell: { id: "kendrell", name: "Kendrell", role: "Command", accent: "#F59E0B", avatar: "/brand/avatars/Kendrell_Locked_HLC.png" },
-  dion: { id: "dion", name: "Dion", role: "Operations & BI", accent: "#6366F1", avatar: "/brand/avatars/Dion_Locked_HLC.png" },
-  diamond: { id: "diamond", name: "Diamond", role: "Customer Experience", accent: "#10B981", avatar: "/brand/avatars/Diamond_Locked_HLC.png" },
+  kendrell: { id: "kendrell", name: "Kendrell", role: "Executive Command AI", accent: "#F59E0B", avatar: "/brand/avatars/Kendrell_Locked_HLC.png" },
+  dion: { id: "dion", name: "Dion", role: "Operations & BI AI", accent: "#2563EB", avatar: "/brand/avatars/Dion_Locked_HLC.png" },
+  diamond: { id: "diamond", name: "Diamond", role: "Customer Experience & Community AI", accent: "#10B981", avatar: "/brand/avatars/Diamond_Locked_HLC.png" },
 };
 
 const hiddenRoutes = new Set(["/hq", "/operations", "/customer-experience"]);
+const internalWorkspacePrefixes = [
+  "/dashboard", "/start-here", "/ecosystem", "/workflow", "/automations", "/activity", "/network", "/map",
+  "/profiles", "/providers", "/matching", "/community-hub", "/community/", "/help", "/tutorials", "/rules",
+  "/profile", "/analytics", "/hq", "/settings", "/leads", "/estimator", "/jobs", "/calendar", "/team",
+  "/follow-ups", "/manual-communications", "/documents", "/call-center", "/operations", "/customer-experience",
+];
+
+function isInternalWorkspacePath(pathname: string) {
+  return internalWorkspacePrefixes.some((prefix) => pathname === prefix || pathname.startsWith(prefix));
+}
 
 function resolveAgent(pathname: string, access: AccessContext): AgentConfig | null {
   if (access.kind === "resident") return agents.diamond;
@@ -74,6 +84,7 @@ export default function ContextualAgentDock() {
     if (!session) return;
     let active = true;
     const userId = session.user.id;
+
     Promise.all([
       supabase.from("workspace_members").select("workspace_id").eq("user_id", userId).limit(1),
       supabase.from("profiles").select("role").eq("user_id", userId).maybeSingle(),
@@ -93,10 +104,16 @@ export default function ContextualAgentDock() {
     }).catch(() => {
       if (active) setAccess({ kind: null, role: null, userId });
     });
+
     return () => { active = false; };
   }, [session]);
 
-  const agent = useMemo(() => resolveAgent(location.pathname, access), [location.pathname, access]);
+  const effectiveAccess = useMemo<AccessContext>(() => {
+    if (access.kind || !session || !isInternalWorkspacePath(location.pathname)) return access;
+    return { kind: "internal", role: null, userId: session.user.id };
+  }, [access, location.pathname, session]);
+
+  const agent = useMemo(() => resolveAgent(location.pathname, effectiveAccess), [location.pathname, effectiveAccess]);
   const open = Boolean(agent && openFor === location.pathname);
   const greetingVisible = Boolean(agent && greetingFor === agent.id);
 
@@ -149,7 +166,7 @@ export default function ContextualAgentDock() {
           const nextOpen = !open;
           setOpenFor(nextOpen ? location.pathname : null);
           setGreetingFor(null);
-          if (nextOpen) void trackAnalyticsEvent("agent_chat_opened", { agent: agent.id, page: location.pathname, access: access.kind });
+          if (nextOpen) void trackAnalyticsEvent("agent_chat_opened", { agent: agent.id, page: location.pathname, access: effectiveAccess.kind });
         }}
       >
         <img src={agent.avatar} alt="" aria-hidden="true" />
