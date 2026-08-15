@@ -43,7 +43,7 @@ test("signed-in mobile navigation behaves like an adaptive field app", () => {
   assert.match(navbar, /aria-label="Mobile primary navigation"/);
   assert.match(navbar, /aria-current=\{active \? "page" : undefined\}/);
   assert.match(workspaceNav, /padding-bottom: calc\(84px \+ env\(safe-area-inset-bottom\)\)/);
-  assert.match(workspaceNav, /position: fixed;[\s\S]*bottom: 0;[\s\S]*\.hlc-mobile-tabbar/s);
+  assert.match(workspaceNav, /\.hlc-mobile-tabbar \{[\s\S]*position: fixed;[\s\S]*bottom: 0;/);
   assert.match(mobileAppShell, /repeat\(auto-fit, minmax\(0, 1fr\)\)/);
   assert.match(mobileAppShell, /:has\(\.hlc-mobile-tabbar\) \.hlc-navbar-toggle/);
   assert.match(mainEntry, /\.\/styles\/mobile-app-shell\.css/);
