@@ -90,6 +90,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 82. `20260815012500_harden_legacy_lead_routing.sql`
 83. `20260815014000_launch_surface_fk_indexes.sql`
 84. `20260815015000_harden_notification_browser_updates.sql`
+85. `20260815020500_harden_portal_document_relationships.sql`
 
 ## Current production rules
 
@@ -110,7 +111,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - Profile self-service updates must not permit changes to `role`, `workspace_id`, `user_id`, or identity keys. Internal authority fields are server/admin controlled.
 - Voice messages and legacy voice-audio storage use canonical `workspace_members` tenancy; the obsolete `org_members` path is not an authorization source.
 - Community review eligibility must validate that the referenced completed job belongs to the same workspace as the review; a completed job ID from another workspace can never satisfy the review policy.
-- Resident portal documents must be shown only through the resident portal route and remain limited to files explicitly shared with `sharing_scope = 'homeowner'` and authorized by portal linkage/RLS.
+- Resident and professional portal document rows are relationship-scoped, not merely workspace-scoped: a portal user may see only explicitly shared documents tied to that user's linked lead/provider and eligible related estimates, jobs, or appointments. Storage signed-URL access inherits that same document RLS boundary.
 - Provider Map coordinates are canonical location facts with confidence metadata. Exact owner/manager-entered coordinates are marked `verified`; safe city/ZIP centroids may be stored only as explicitly labeled `approximate` coordinates and must never be presented as an exact storefront or live location. Coordinate mutation remains management controlled and range validated.
 - Provider/resident profile-type labels are presentation metadata, never authorization. Renter and subcontractor workflow mechanics that remain undefined must be represented as setup-required rather than fabricated.
 - Professional portal self-service is anchored to an active `contractor_portal_links` relationship. It may update the linked provider's approved profile/service/availability fields but cannot self-grant workspace authority, verification, licensing approval, assignments, billing authority, or map-coordinate authority.
@@ -125,7 +126,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - Production verification confirms the exact Git SHA served by Netlify, not merely a successful local build.
 - Unverified phone/Google/Apple/Facebook sign-in methods remain hidden unless explicitly enabled after end-to-end provider verification.
 - Production API logs showed authenticated `200` responses for user/session reads, workspace membership, leads, jobs, appointments, follow-ups, KPI/analytics RPCs, and analytics-event ingestion during launch acceptance.
-- Web Push dispatch returned `200` in production.
+- Web Push dispatch returned `200` in production; push controls now support explicit per-device disable/unsubscribe and foreground/background notification links are constrained to internal HLC routes.
 - `hlc-agent-chat` is deployed with JWT verification and separate internal/resident/professional authorization boundaries. Gemini provider configuration is server-side only.
 - `hlc-agent-voice` uses server-side Gemini neural TTS; browser system TTS is disabled for agent replies. Physical-device quality/playback acceptance remains a release gate until Kendrell, Dion, and Diamond are heard on iPhone/Mac.
 - Hourly workflow automation is active at minute 07 and has a verified real cron execution. The de-duplication guard correctly suppresses redundant snapshot rows inside its 50-minute window.
@@ -135,7 +136,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - Public browser database-administration grants were removed and verified at `browser_admin_grants_remaining = 0` across public tables/views.
 - Authenticated profile UPDATE privileges are column-scoped to safe self-service fields; role/workspace/identity fields cannot be browser-updated directly.
 - Voice message and `voice-audio` policies were reconciled to `workspace_members` and verified in production.
-- Resident documents have a dedicated portal route so homeowner/renter users are not sent to the internal workspace Documents surface.
+- Portal document SELECT RLS now mirrors the exact resident/provider relationship checks used by document-view auditing, preventing one portal user from listing another relationship's shared-document metadata inside the same workspace.
 - Community review insert authorization requires the completed job and review to share the same `workspace_id`.
 - Provider Map coordinate columns, validation, management-only update controls, and approximate/verified confidence metadata are applied in production.
 - Resident identity/provider profile types, linked-provider profile reads, professional portal services/availability contracts, and append-only activity history are applied in production.
