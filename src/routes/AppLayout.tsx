@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import ContextualAgentDock from "../components/agents/ContextualAgentDock";
 import AnalyticsKpis from "../components/analytics/AnalyticsKpis";
 import AnalyticsTracker from "../components/analytics/AnalyticsTracker";
 import AudioDeviceCenter from "../components/audio/AudioDeviceCenter";
@@ -10,6 +11,19 @@ import MobileWorkDock from "../components/mobile/MobileWorkDock";
 import { useAuth } from "../hooks/useAuth";
 
 const DESKTOP_SIDEBAR_KEY = "hlc.desktopSidebarCollapsed.v1";
+const AGENT_ROUTE_PREFIXES = [
+  "/dashboard", "/start-here", "/ecosystem", "/workflow", "/automations", "/activity",
+  "/network", "/map", "/profiles", "/providers", "/matching", "/community-hub",
+  "/community/discussions", "/community/reviews", "/community/referrals", "/community/events",
+  "/community/moderation", "/community/groups", "/help", "/tutorials", "/rules", "/profile",
+  "/analytics", "/settings", "/leads", "/estimator", "/jobs", "/calendar", "/team",
+  "/follow-ups", "/manual-communications", "/documents", "/call-center", "/messages",
+  "/notifications", "/homeowner-portal", "/contractor-portal",
+];
+
+function isAgentRoute(pathname: string) {
+  return AGENT_ROUTE_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
+}
 
 export default function AppLayout() {
   const { session } = useAuth();
@@ -23,6 +37,7 @@ export default function AppLayout() {
   const showAudioDevices = Boolean(session) && (location.pathname === "/settings" || location.pathname === "/call-center");
   const showFieldDevices = Boolean(session) && location.pathname === "/settings";
   const showAnalytics = Boolean(session) && location.pathname === "/dashboard";
+  const showContextualAgent = Boolean(session) && isAgentRoute(location.pathname);
 
   useEffect(() => {
     const logo = document.querySelector<HTMLElement>(".hlc-navbar-logo");
@@ -84,6 +99,7 @@ export default function AppLayout() {
         {showFieldDevices && <FieldDeviceCenter />}
       </div>
       {session && <MobileWorkDock />}
+      {showContextualAgent && <ContextualAgentDock />}
     </div>
   );
 }
