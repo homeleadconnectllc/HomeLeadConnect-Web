@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { useSearchParams } from "react-router-dom";
 import { listLeads } from "../../api/leads";
 import { listContractors } from "../../api/contractors";
@@ -99,7 +99,7 @@ export default function ManualCommunications() {
   const selected = contacts.find((contact) => contact.key === contactKey) ?? null;
   const nativeTarget = selected ? normalizeNativePhoneTarget(selected.phone) : "";
 
-  const load = useCallback(async () => {
+  async function reload() {
     try {
       const [leadRows, contractorRows, activityRows, conversationRows, canConfigure] = await Promise.all([
         listLeads(), listContractors(), listManualCommunicationActivity(), listConversations(), canManageCommunications(session?.user.id),
@@ -121,9 +121,37 @@ export default function ManualCommunications() {
     } finally {
       setLoading(false);
     }
-  }, [session?.user.id]);
+  }
 
-  useEffect(() => { void load(); }, [load]);
+  useEffect(() => {
+    let active = true;
+    Promise.all([
+      listLeads(),
+      listContractors(),
+      listManualCommunicationActivity(),
+      listConversations(),
+      canManageCommunications(session?.user.id),
+    ])
+      .then(async ([leadRows, contractorRows, activityRows, conversationRows, canConfigure]) => {
+        if (!active) return;
+        setLeads(leadRows);
+        setContractors(contractorRows);
+        setHistory(activityRows);
+        setConversations(conversationRows);
+        setCanConfigureGoogleVoice(canConfigure);
+        try {
+          const configuration = await getGoogleVoiceConfiguration();
+          if (!active) return;
+          setConfiguredNumber(configuration?.sender_identity || "");
+          setNumberInput(configuration?.sender_identity || "");
+        } catch {
+          if (active) setConfiguredNumber("");
+        }
+      })
+      .catch((reason: unknown) => { if (active) setError(errorMessage(reason, "Unable to load manual communications.")); })
+      .finally(() => { if (active) setLoading(false); });
+    return () => { active = false; };
+  }, [session?.user.id]);
 
   function resetCheck() {
     setCheck(null);
@@ -138,7 +166,7 @@ export default function ManualCommunications() {
     setMessage("");
     try {
       await configureGoogleVoice(numberInput);
-      await load();
+      await reload();
       setMessage("Google Voice is available as an optional manual operator channel for this workspace.");
     } catch (reason) {
       setError(errorMessage(reason, "Unable to save the Google Voice number."));
@@ -196,7 +224,7 @@ export default function ManualCommunications() {
       setFollowUpAt("");
       setCheck(null);
       setRequestId(crypto.randomUUID());
-      await load();
+      await reload();
       setMessage("Operator-reported communication saved to HLC history.");
     } catch (reason) {
       setError(errorMessage(reason, "Unable to save the communication activity."));
