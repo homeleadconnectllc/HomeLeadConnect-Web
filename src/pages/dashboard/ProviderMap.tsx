@@ -154,7 +154,7 @@ export default function ProviderMap() {
             <span>Provider cards remain available below. Owner/manager users can add verified exact coordinates when they have a trustworthy business-location source.</span>
           </div>}
         </div>
-        <p style={mapNoteStyle}>Blue-green pins are verified exact map locations. Amber pins are approximate city or ZIP-area points and must not be treated as an exact storefront, service vehicle, or live location. The canvas is a record-location view, not a distance or routing engine.</p>
+        <p style={mapNoteStyle}><strong>Blue-green</strong> = verified exact. <strong>Amber</strong> = approximate city/ZIP area, not an exact storefront or live location. This view does not calculate distance or routing.</p>
       </section>
 
       <section style={listPanelStyle} aria-label="Provider map list">
@@ -272,9 +272,9 @@ const gridOverlayStyle = { position: "absolute" as const, inset: 0, opacity: .3,
 const pinStyle = { position: "absolute" as const, zIndex: 2, width: 34, height: 34, transform: "translate(-50%,-50%)", borderRadius: 999, border: "3px solid #fff", color: "#fff", boxShadow: "0 4px 14px rgba(15,23,42,.32)", cursor: "pointer", fontSize: 18 };
 const verifiedPinStyle = { background: "#0f766e" };
 const approximatePinStyle = { background: "#d97706" };
-const selectedPinStyle = { width: 42, height: 42, background: "#0f172a", outline: "3px solid #22d3ee" };
+const selectedPinStyle = { width: 42, height: 42, outline: "3px solid #0f172a", outlineOffset: 2, boxShadow: "0 8px 22px rgba(15,23,42,.38)" };
 const emptyMapStyle = { position: "absolute" as const, inset: 24, display: "grid", placeContent: "center", gap: 8, textAlign: "center" as const, color: "#334155" };
-const mapNoteStyle = { margin: 0, padding: "12px 16px", color: "#64748b", borderTop: "1px solid #e2e8f0", fontSize: 14 };
+const mapNoteStyle = { margin: 0, padding: "12px 16px", color: "#64748b", borderTop: "1px solid #e2e8f0", fontSize: 14, lineHeight: 1.5 };
 const listPanelStyle = { border: "1px solid #cbd5e1", borderRadius: 18, padding: 16, background: "#fff", minWidth: 0 };
 const providerListStyle = { display: "grid", gap: 10, maxHeight: 520, overflowY: "auto" as const };
 const providerButtonStyle = { minHeight: 44, display: "grid", gap: 3, textAlign: "center" as const, padding: 12, border: "1px solid #cbd5e1", borderRadius: 12, background: "#fff", color: "#0f172a", cursor: "pointer" };
