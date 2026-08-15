@@ -21,6 +21,8 @@ import {
 import type { Contractor, Lead } from "../../lib/types/database";
 import { errorMessage } from "../../lib/errorMessage";
 import { listConversations, type Conversation } from "../../api/messages";
+import { useAuth } from "../../hooks/useAuth";
+import { supabase } from "../../lib/supabase";
 
 type ContactOption = {
   key: string;
@@ -43,7 +45,15 @@ const reasonLabels: Record<string, string> = {
   recording_consent_not_proven: "Recording consent has not been recorded.",
 };
 
+async function canManageCommunications(userId?: string) {
+  if (!userId) return false;
+  const { data, error } = await supabase.from("profiles").select("role").eq("user_id", userId).maybeSingle();
+  if (error) throw error;
+  return ["owner", "manager"].includes(String(data?.role || "").toLowerCase());
+}
+
 export default function ManualCommunications() {
+  const { session } = useAuth();
   const [searchParams] = useSearchParams();
   const [leads, setLeads] = useState<Lead[]>([]);
   const [contractors, setContractors] = useState<Contractor[]>([]);
@@ -52,6 +62,7 @@ export default function ManualCommunications() {
   const [conversationId, setConversationId] = useState("");
   const [configuredNumber, setConfiguredNumber] = useState("");
   const [numberInput, setNumberInput] = useState("");
+  const [canConfigureGoogleVoice, setCanConfigureGoogleVoice] = useState(false);
   const [contactKey, setContactKey] = useState(() => searchParams.get("contact") || "");
   const [channel, setChannel] = useState<ManualCommunicationChannel>(() => searchParams.get("channel") === "sms" ? "sms" : "call");
   const [transport, setTransport] = useState<ManualCommunicationTransport>("device_native");
@@ -90,13 +101,14 @@ export default function ManualCommunications() {
 
   const load = useCallback(async () => {
     try {
-      const [leadRows, contractorRows, activityRows, conversationRows] = await Promise.all([
-        listLeads(), listContractors(), listManualCommunicationActivity(), listConversations(),
+      const [leadRows, contractorRows, activityRows, conversationRows, canConfigure] = await Promise.all([
+        listLeads(), listContractors(), listManualCommunicationActivity(), listConversations(), canManageCommunications(session?.user.id),
       ]);
       setLeads(leadRows);
       setContractors(contractorRows);
       setHistory(activityRows);
       setConversations(conversationRows);
+      setCanConfigureGoogleVoice(canConfigure);
       try {
         const configuration = await getGoogleVoiceConfiguration();
         setConfiguredNumber(configuration?.sender_identity || "");
@@ -109,30 +121,9 @@ export default function ManualCommunications() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [session?.user.id]);
 
-  useEffect(() => {
-    let active = true;
-    Promise.all([listLeads(), listContractors(), listManualCommunicationActivity(), listConversations()])
-      .then(async ([leadRows, contractorRows, activityRows, conversationRows]) => {
-        if (!active) return;
-        setLeads(leadRows);
-        setContractors(contractorRows);
-        setHistory(activityRows);
-        setConversations(conversationRows);
-        try {
-          const configuration = await getGoogleVoiceConfiguration();
-          if (!active) return;
-          setConfiguredNumber(configuration?.sender_identity || "");
-          setNumberInput(configuration?.sender_identity || "");
-        } catch {
-          if (active) setConfiguredNumber("");
-        }
-      })
-      .catch((reason: unknown) => { if (active) setError(errorMessage(reason, "Unable to load manual communications.")); })
-      .finally(() => { if (active) setLoading(false); });
-    return () => { active = false; };
-  }, []);
+  useEffect(() => { void load(); }, [load]);
 
   function resetCheck() {
     setCheck(null);
@@ -141,6 +132,7 @@ export default function ManualCommunications() {
 
   async function saveConfiguration(event: FormEvent) {
     event.preventDefault();
+    if (!canConfigureGoogleVoice) return;
     setBusy(true);
     setError("");
     setMessage("");
@@ -224,12 +216,17 @@ export default function ManualCommunications() {
     {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
     {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
 
-    {!loading && !configuredNumber && <form onSubmit={saveConfiguration} style={panelStyle}>
+    {!loading && canConfigureGoogleVoice && !configuredNumber && <form onSubmit={saveConfiguration} style={panelStyle}>
       <h2>Optional Google Voice channel</h2>
       <label>HLC Google Voice business number<input required type="tel" value={numberInput} onChange={(event) => setNumberInput(event.target.value)} /></label>
       <p>Device-native calling works without this. Saving a number only enables Google Voice as an additional manual channel; it does not connect a private API.</p>
       <button disabled={busy} type="submit">{busy ? "Saving…" : "Enable optional Google Voice logging"}</button>
     </form>}
+
+    {!loading && !canConfigureGoogleVoice && !configuredNumber && <section style={panelStyle}>
+      <h2>Device communication ready</h2>
+      <p>Google Voice workspace setup is limited to an HLC owner or manager. You can continue using the approved device-native call and text workflow below.</p>
+    </section>}
 
     {!loading && configuredNumber && <section style={panelStyle}>
       <h2>Optional Google Voice</h2>
