@@ -28,10 +28,27 @@ const agents: Record<AgentId, AgentConfig> = {
 };
 
 const hiddenRoutes = new Set(["/hq", "/operations", "/customer-experience"]);
+const internalFallbackPrefixes = [
+  "/dashboard", "/start-here", "/ecosystem", "/workflow", "/automations", "/activity",
+  "/network", "/map", "/profiles", "/providers", "/matching", "/community-hub",
+  "/community/discussions", "/community/reviews", "/community/referrals", "/community/events",
+  "/community/moderation", "/community/groups", "/help", "/tutorials", "/rules", "/profile",
+  "/analytics", "/settings", "/leads", "/estimator", "/jobs", "/calendar", "/team",
+  "/follow-ups", "/manual-communications", "/documents", "/call-center",
+];
+
+function isInternalOnlyRoute(pathname: string) {
+  return internalFallbackPrefixes.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
+}
 
 function resolveAgent(pathname: string, access: AccessContext): AgentConfig | null {
   if (access.kind === "resident") return agents.diamond;
   if (access.kind === "professional") return agents.dion;
+
+  // WorkspaceLayout is the authorization boundary. While the redundant dock profile lookup resolves,
+  // internal-only routes get the least-privileged operations agent so mobile never loses AI presence.
+  // Kendrell is still selected only after an owner role is positively resolved.
+  if (access.kind === null && isInternalOnlyRoute(pathname)) return agents.dion;
   if (access.kind !== "internal") return null;
 
   if (
