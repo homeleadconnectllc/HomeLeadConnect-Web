@@ -28,14 +28,6 @@ export default function LiveTutorialDock() {
     else { setStep(0); setOpenFor(location.pathname); }
   }
 
-  function speak() {
-    if (!("speechSynthesis" in window)) return;
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(`${tutorial.title}. ${current}`);
-    utterance.rate = 1;
-    window.speechSynthesis.speak(utterance);
-  }
-
   return (
     <aside style={hostStyle} aria-label="Live HLC tutorial">
       {open && (
@@ -49,7 +41,6 @@ export default function LiveTutorialDock() {
           <div style={actionsStyle}>
             <button type="button" onClick={() => setStep((value) => Math.max(0, value - 1))} disabled={step === 0}>Back</button>
             <button type="button" onClick={() => setStep((value) => Math.min(tutorial.steps.length - 1, value + 1))} disabled={step === tutorial.steps.length - 1}>Next</button>
-            <button type="button" onClick={speak} disabled={!("speechSynthesis" in window)}>Read aloud</button>
           </div>
         </section>
       )}
@@ -61,10 +52,10 @@ export default function LiveTutorialDock() {
   );
 }
 
-const hostStyle = { position: "fixed" as const, zIndex: 1290, left: "max(14px, env(safe-area-inset-left))", bottom: "max(14px, env(safe-area-inset-bottom))", display: "grid", gap: 8, justifyItems: "start", maxWidth: "min(390px, calc(100vw - 28px))" };
-const panelStyle = { width: "min(370px, calc(100vw - 28px))", boxSizing: "border-box" as const, padding: 16, border: "1px solid #cbd5e1", borderRadius: 16, background: "#fff", color: "#0f172a", boxShadow: "0 22px 60px rgba(15,23,42,.28)", textAlign: "left" as const };
-const headStyle = { display: "flex", alignItems: "start", justifyContent: "space-between", gap: 12, marginBottom: 12 };
+const hostStyle = { position: "fixed" as const, zIndex: 1290, left: "max(14px, env(safe-area-inset-left))", bottom: "max(14px, env(safe-area-inset-bottom))", display: "grid", gap: 8, justifyItems: "center", maxWidth: "min(390px, calc(100vw - 28px))" };
+const panelStyle = { width: "min(370px, calc(100vw - 28px))", boxSizing: "border-box" as const, padding: 16, border: "1px solid #cbd5e1", borderRadius: 16, background: "#fff", color: "#0f172a", boxShadow: "0 22px 60px rgba(15,23,42,.28)", textAlign: "center" as const };
+const headStyle = { display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 12, flexWrap: "wrap" as const };
 const eyebrowStyle = { color: "#2563eb", fontWeight: 900, letterSpacing: ".08em", textTransform: "uppercase" as const };
 const progressStyle = { marginBottom: 8, color: "#64748b", fontSize: 13, fontWeight: 800 };
-const actionsStyle = { display: "flex", flexWrap: "wrap" as const, gap: 8, marginTop: 14 };
-const triggerStyle = { display: "flex", alignItems: "center", gap: 10, minHeight: 52, padding: "9px 14px", border: "1px solid #1d4ed8", borderRadius: 999, background: "#eff6ff", color: "#1e3a8a", fontWeight: 800, boxShadow: "0 12px 30px rgba(37,99,235,.18)", cursor: "pointer", textAlign: "left" as const };
+const actionsStyle = { display: "flex", flexWrap: "wrap" as const, gap: 8, marginTop: 14, justifyContent: "center" };
+const triggerStyle = { display: "flex", alignItems: "center", justifyContent: "center", gap: 10, minHeight: 52, padding: "9px 14px", border: "1px solid #1d4ed8", borderRadius: 999, background: "#eff6ff", color: "#1e3a8a", fontWeight: 800, boxShadow: "0 12px 30px rgba(37,99,235,.18)", cursor: "pointer", textAlign: "center" as const };
