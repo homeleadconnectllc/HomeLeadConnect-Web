@@ -50,8 +50,8 @@ test("signed-in mobile navigation behaves like an adaptive field app", () => {
   assert.match(mainEntry, /\.\/styles\/mobile-app-shell\.css/);
 });
 
-test("premium HLC presentation layer is loaded last and remains blue-cyan", () => {
-  assert.match(mainEntry, /\.\/styles\/responsive-page-contract\.css";\s*import "\.\/styles\/premium-theme\.css";/);
+test("premium HLC presentation layer stays blue-cyan beneath the final responsive contract", () => {
+  assert.match(mainEntry, /\.\/styles\/premium-theme\.css";\s*import "\.\/styles\/responsive-page-contract\.css";/);
   assert.match(premiumTheme, /--hlc-blue: #2563eb/);
   assert.match(premiumTheme, /--hlc-cyan: #0891b2/);
   assert.match(premiumTheme, /prefers-reduced-motion: reduce/);
