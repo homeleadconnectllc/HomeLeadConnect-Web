@@ -14,6 +14,9 @@ const serviceWorker = readFileSync("public/sw.js", "utf8");
 const voiceNotes = readFileSync("src/api/voiceNotes.ts", "utf8");
 const voiceNoteRecorder = readFileSync("src/components/messages/VoiceNoteRecorder.tsx", "utf8");
 const messagesPage = readFileSync("src/pages/dashboard/Messages.tsx", "utf8");
+const analyticsPage = readFileSync("src/pages/dashboard/Analytics.tsx", "utf8");
+const analyticsKpis = readFileSync("src/components/analytics/AnalyticsKpis.tsx", "utf8");
+const analyticsHardening = readFileSync("src/styles/analytics-hardening.css", "utf8");
 const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
 const workspaceNav = readFileSync("src/styles/workspace-nav.css", "utf8");
 const mobileAppShell = readFileSync("src/styles/mobile-app-shell.css", "utf8");
@@ -91,6 +94,23 @@ test("mobile voice-note action opens a ready recorder in the selected conversati
   assert.match(voiceNoteRecorder, /focusOnMount\?: boolean/);
   assert.match(voiceNoteRecorder, /recordButtonRef\.current\?\.focus\(\)/);
   assert.match(voiceNoteRecorder, /scrollIntoView/);
+});
+
+test("Dion business intelligence copy and reporting control remain durable and mobile accessible", () => {
+  assert.match(analyticsPage, /HLC Business Intelligence/);
+  assert.match(analyticsPage, /Operating KPIs &amp; Visitor Analytics/);
+  assert.match(analyticsPage, /Canonical workflow performance plus privacy-minimized first-party HLC traffic for the last 30 days\./);
+  assert.match(analyticsKpis, /className="hlc-analytics-period-button"/);
+  assert.match(analyticsKpis, /aria-pressed="true"/);
+  assert.match(analyticsKpis, /setRefreshKey/);
+  assert.match(analyticsHardening, /min-width: 44px/);
+  assert.match(analyticsHardening, /min-height: 44px/);
+  assert.match(analyticsHardening, /background: #1e3a8a/);
+  assert.match(analyticsHardening, /color: #ffffff/);
+  assert.match(analyticsHardening, /\.hlc-analytics-period-button:hover/);
+  assert.match(analyticsHardening, /\.hlc-analytics-period-button:focus-visible/);
+  assert.match(analyticsHardening, /\.hlc-analytics-period-button:active/);
+  assert.match(mainEntry, /\.\/styles\/analytics-hardening\.css/);
 });
 
 test("premium HLC presentation layer stays blue-cyan beneath contrast and responsive contracts", () => {
