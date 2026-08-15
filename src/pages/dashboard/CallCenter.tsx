@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import {
   listBusinessPhones,
@@ -186,10 +186,10 @@ export default function CallCenter() {
   );
 }
 
-const actionStyle = { display: "inline-flex", minHeight: 40, alignItems: "center", padding: "8px 12px", border: "1px solid #0f172a", borderRadius: 10, fontWeight: 800, textDecoration: "none", color: "#0f172a", background: "#fff" };
-const primaryActionStyle = { ...actionStyle, background: "#0f172a", color: "#fff" };
-const secondaryActionStyle = { ...actionStyle, borderColor: "#94a3b8", color: "#334155" };
-const companionStyle = { display: "grid", gap: 16, padding: 20, margin: "24px 0", border: "1px solid #bfdbfe", borderRadius: 18, background: "linear-gradient(145deg, #eff6ff 0%, #ecfeff 100%)", boxShadow: "0 16px 40px rgba(15, 23, 42, 0.08)" };
-const companionActionsStyle = { display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center" };
-const statusGridStyle = { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 10, padding: 14, borderRadius: 12, background: "rgba(255,255,255,0.82)" };
-const eyebrowStyle = { fontSize: 12, fontWeight: 900, letterSpacing: "0.08em", color: "#075985" };
+const actionStyle: CSSProperties = { display: "inline-flex", minHeight: 40, alignItems: "center", padding: "8px 12px", border: "1px solid #0f172a", borderRadius: 10, fontWeight: 800, textDecoration: "none", color: "#0f172a", background: "#fff" };
+const primaryActionStyle: CSSProperties = { ...actionStyle, background: "#0f172a", color: "#fff" };
+const secondaryActionStyle: CSSProperties = { ...actionStyle, borderColor: "#94a3b8", color: "#334155" };
+const companionStyle: CSSProperties = { display: "grid", gap: 16, padding: 20, margin: "24px 0", border: "1px solid #bfdbfe", borderRadius: 18, background: "linear-gradient(145deg, #eff6ff 0%, #ecfeff 100%)", boxShadow: "0 16px 40px rgba(15, 23, 42, 0.08)" };
+const companionActionsStyle: CSSProperties = { display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center" };
+const statusGridStyle: CSSProperties = { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 10, padding: 14, borderRadius: 12, background: "rgba(255,255,255,0.82)" };
+const eyebrowStyle: CSSProperties = { fontSize: 12, fontWeight: 900, letterSpacing: "0.08em", color: "#075985" };
