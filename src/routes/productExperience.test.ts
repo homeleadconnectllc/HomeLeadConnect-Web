@@ -7,6 +7,7 @@ const contextualDockCss = readFileSync("src/styles/contextual-agent-dock.css", "
 const tutorialDock = readFileSync("src/components/tutorials/LiveTutorialDock.tsx", "utf8");
 const providerMap = readFileSync("src/pages/dashboard/ProviderMap.tsx", "utf8");
 const manualCommunications = readFileSync("src/pages/dashboard/ManualCommunications.tsx", "utf8");
+const callCenter = readFileSync("src/pages/dashboard/CallCenter.tsx", "utf8");
 const notificationCenter = readFileSync("src/components/notifications/RealtimeNotificationCenter.tsx", "utf8");
 const serviceWorker = readFileSync("public/sw.js", "utf8");
 const voiceNotes = readFileSync("src/api/voiceNotes.ts", "utf8");
@@ -96,6 +97,18 @@ test("Google Voice workspace setup remains management-only in the UI", () => {
   assert.match(manualCommunications, /if \(!canConfigureGoogleVoice\) return;/);
   assert.match(manualCommunications, /Google Voice workspace setup is limited to an HLC owner or manager/);
   assert.match(manualCommunications, /Save operator-reported activity/);
+});
+
+test("Google Voice handoff stays unified without pretending browser telephony exists", () => {
+  assert.match(callCenter, /Open Google Voice/);
+  assert.match(callCenter, /Outbound call/);
+  assert.match(callCenter, /Outbound text/);
+  assert.match(callCenter, /Log inbound call/);
+  assert.match(callCenter, /Log inbound text/);
+  assert.match(callCenter, /embedded Answer, Hold, Transfer, Hang Up/);
+  assert.match(manualCommunications, /searchParams\.get\("transport"\) === "google_voice"/);
+  assert.match(manualCommunications, /searchParams\.get\("direction"\) === "inbound"/);
+  assert.doesNotMatch(callCenter, /onClick=\{[^}]*answer|onClick=\{[^}]*hold|onClick=\{[^}]*transfer/i);
 });
 
 test("device alerts support explicit disable without silent re-enrollment", () => {
