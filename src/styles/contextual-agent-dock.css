@@ -83,15 +83,16 @@
 
 @media (max-width: 720px) {
   .hlc-agent-dock {
-    right: max(14px, env(safe-area-inset-right));
-    bottom: max(82px, calc(env(safe-area-inset-bottom) + 70px));
+    left: max(14px, env(safe-area-inset-left));
+    right: auto;
     bottom: calc(154px + env(safe-area-inset-bottom));
+    justify-items: start;
     max-width: calc(100vw - 28px);
     gap: 8px;
     pointer-events: none;
   }
 
-  /* Mobile shows one compact contextual avatar; automatic speech bubbles never cover work content. */
+  /* Mobile keeps the AI control visually distinct from the call-center dock. */
   .hlc-agent-greeting { display: none; }
 
   .hlc-agent-dock-trigger,
@@ -100,29 +101,59 @@
   }
 
   .hlc-agent-dock-trigger {
-    width: 52px;
-    min-width: 52px;
-    height: 52px;
-    min-height: 52px;
-    justify-content: center;
-    padding: 4px;
-    overflow: hidden;
+    width: auto;
+    min-width: 132px;
+    max-width: min(176px, calc(100vw - 28px));
+    height: 56px;
+    min-height: 56px;
+    justify-content: flex-start;
+    gap: 8px;
+    padding: 5px 12px 5px 5px;
+    overflow: visible;
     border-width: 2px;
-    border-color: rgba(255,255,255,.82);
+    border-color: rgba(255,255,255,.92);
     border-radius: 999px;
-    box-shadow: 0 16px 34px rgba(15, 23, 42, .34);
+    background: #07111f;
+    box-shadow: 0 16px 34px rgba(15, 23, 42, .38);
   }
 
-  .hlc-agent-dock[data-agent="kendrell"] .hlc-agent-dock-trigger { box-shadow: 0 0 0 3px rgba(245,158,11,.3), 0 16px 34px rgba(15,23,42,.34); }
-  .hlc-agent-dock[data-agent="dion"] .hlc-agent-dock-trigger { box-shadow: 0 0 0 3px rgba(99,102,241,.28), 0 16px 34px rgba(15,23,42,.34); }
-  .hlc-agent-dock[data-agent="diamond"] .hlc-agent-dock-trigger { box-shadow: 0 0 0 3px rgba(16,185,129,.28), 0 16px 34px rgba(15,23,42,.34); }
+  .hlc-agent-dock[data-agent="kendrell"] .hlc-agent-dock-trigger { box-shadow: 0 0 0 3px rgba(245,158,11,.34), 0 16px 34px rgba(15,23,42,.38); }
+  .hlc-agent-dock[data-agent="dion"] .hlc-agent-dock-trigger { box-shadow: 0 0 0 3px rgba(99,102,241,.34), 0 16px 34px rgba(15,23,42,.38); }
+  .hlc-agent-dock[data-agent="diamond"] .hlc-agent-dock-trigger { box-shadow: 0 0 0 3px rgba(16,185,129,.34), 0 16px 34px rgba(15,23,42,.38); }
 
   .hlc-agent-dock-trigger img {
-    width: 42px;
-    height: 42px;
+    display: block;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(255,255,255,.7);
+    background: #1e293b;
   }
 
-  .hlc-agent-dock-trigger span { display: none; }
+  .hlc-agent-dock-trigger span {
+    display: grid;
+    min-width: 0;
+    gap: 1px;
+    text-align: left;
+  }
+
+  .hlc-agent-dock-trigger strong {
+    overflow: hidden;
+    color: #ffffff;
+    font-size: 12px;
+    line-height: 1.15;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .hlc-agent-dock-trigger small {
+    overflow: hidden;
+    color: #dbeafe;
+    font-size: 8px;
+    line-height: 1.15;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 
   .hlc-agent-dock-panel {
     position: fixed;
