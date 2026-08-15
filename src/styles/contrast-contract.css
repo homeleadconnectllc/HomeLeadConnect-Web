@@ -1,11 +1,20 @@
 /* Global HLC contrast contract. Presentation only: readable text follows surface luminance. */
 :root {
   --hlc-text-on-light: #0f172a;
-  --hlc-text-on-light-muted: #475569;
+  --hlc-text-on-light-muted: #334155;
   --hlc-text-on-dark: #f8fafc;
-  --hlc-text-on-dark-muted: #cbd5e1;
-  --hlc-link-on-dark: #bfdbfe;
-  --hlc-link-on-light: #1d4ed8;
+  --hlc-text-on-dark-muted: #e2e8f0;
+  --hlc-link-on-dark: #dbeafe;
+  --hlc-link-on-light: #1e40af;
+}
+
+/* Keep actual copy fully opaque. Muted means quieter color, never transparent text. */
+.hlc-route-content :is(h1, h2, h3, h4, h5, h6, p, li, dt, dd, label, small, strong),
+.hlc-navbar :is(h1, h2, h3, h4, h5, h6, p, li, dt, dd, label, small, strong, span),
+.hlc-mobile-tabbar :is(strong, span),
+.hlc-agent-dock :is(h1, h2, h3, h4, h5, h6, p, li, label, small, strong, span),
+.hlc-mobile-work-dock :is(strong, span) {
+  opacity: 1;
 }
 
 /* Light application surfaces use dark foregrounds. */
@@ -44,7 +53,7 @@
 }
 
 .hlc-signed-in-shell :is(input, select, textarea)::placeholder {
-  color: #64748b;
+  color: #475569;
   opacity: 1;
 }
 
