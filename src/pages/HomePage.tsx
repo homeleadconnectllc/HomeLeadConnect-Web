@@ -47,6 +47,7 @@ export default function HomePage() {
         <div style={{display:"flex",gap:16,justifyContent:"center",alignItems:"center",flexWrap:"wrap",marginTop:22}}>
           <Link to="/pricing" style={{color:"#bfdbfe",fontWeight:800}}>Pricing & free trial</Link>
           <Link to="/how-it-works" style={{color:"#bfdbfe"}}>How it works</Link>
+          <Link to="/community" style={{color:"#bfdbfe"}}>Community</Link>
           <Link to="/professionals" style={{color:"#bfdbfe"}}>For professionals</Link>
           <Link to="/trust" style={{color:"#bfdbfe"}}>Trust & safety</Link>
           <Link to="/contact" style={{color:"#bfdbfe"}}>Contact</Link>
