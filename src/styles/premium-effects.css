@@ -138,6 +138,52 @@
   box-shadow: 0 0 0 4px rgba(16, 185, 129, .08), 0 14px 34px rgba(15, 23, 42, .08);
 }
 
+/* System-wide tactile contract: lift on hover/focus, compress on press, then return in 180ms. */
+.hlc-app-shell :is(button, summary, [role="button"], [role="tab"], [role="menuitem"], [role="switch"]):not(:disabled),
+.hlc-navbar a,
+.hlc-mobile-tabbar a,
+.hlc-mobile-work-dock a,
+.hlc-agent-dock a,
+.hlc-route-content :is(.hlc-button, a[role="button"]) {
+  transform-origin: center;
+  transition: transform 180ms cubic-bezier(.2,.8,.2,1), filter 180ms ease, box-shadow 180ms ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(56, 189, 248, .18);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hlc-app-shell :is(button, summary, [role="button"], [role="tab"], [role="menuitem"], [role="switch"]):not(:disabled):hover,
+  .hlc-navbar a:hover,
+  .hlc-mobile-tabbar a:hover,
+  .hlc-mobile-work-dock a:hover,
+  .hlc-agent-dock a:hover,
+  .hlc-route-content :is(.hlc-button, a[role="button"]):hover {
+    transform: translateY(-1px) scale(1.02);
+    filter: drop-shadow(0 8px 12px rgba(15, 23, 42, .16));
+  }
+}
+
+.hlc-app-shell :is(button, summary, [role="button"], [role="tab"], [role="menuitem"], [role="switch"]):not(:disabled):focus-visible,
+.hlc-navbar a:focus-visible,
+.hlc-mobile-tabbar a:focus-visible,
+.hlc-mobile-work-dock a:focus-visible,
+.hlc-agent-dock a:focus-visible,
+.hlc-route-content :is(.hlc-button, a[role="button"]):focus-visible {
+  transform: translateY(-1px) scale(1.02);
+  filter: drop-shadow(0 8px 12px rgba(15, 23, 42, .16));
+}
+
+.hlc-app-shell :is(button, summary, [role="button"], [role="tab"], [role="menuitem"], [role="switch"]):not(:disabled):active,
+.hlc-navbar a:active,
+.hlc-mobile-tabbar a:active,
+.hlc-mobile-work-dock a:active,
+.hlc-agent-dock a:active,
+.hlc-route-content :is(.hlc-button, a[role="button"]):active {
+  transform: translateY(1px) scale(.97);
+  filter: drop-shadow(0 2px 3px rgba(15, 23, 42, .12));
+  transition-duration: 70ms;
+}
+
 /* Keyboard focus gets a premium ring while preserving visible accessibility. */
 .hlc-signed-in-shell :is(a, button, input, select, textarea):focus-visible {
   outline: 2px solid #38bdf8;
@@ -181,5 +227,16 @@
   .hlc-agent-card::before {
     animation: none !important;
     transform: none !important;
+  }
+
+  .hlc-app-shell :is(button, summary, [role="button"], [role="tab"], [role="menuitem"], [role="switch"]),
+  .hlc-navbar a,
+  .hlc-mobile-tabbar a,
+  .hlc-mobile-work-dock a,
+  .hlc-agent-dock a,
+  .hlc-route-content :is(.hlc-button, a[role="button"]) {
+    transition: none !important;
+    transform: none !important;
+    filter: none !important;
   }
 }
