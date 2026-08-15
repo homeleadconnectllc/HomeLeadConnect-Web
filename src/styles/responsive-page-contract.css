@@ -161,7 +161,7 @@
   :root {
     --hlc-page-gutter: max(12px, env(safe-area-inset-left));
     --hlc-page-top: 16px;
-    --hlc-page-bottom: calc(92px + env(safe-area-inset-bottom));
+    --hlc-page-bottom: calc(172px + env(safe-area-inset-bottom));
     --hlc-page-block-gap: 14px;
   }
 
@@ -211,6 +211,137 @@
   .hlc-route-content strong {
     word-break: normal;
     overflow-wrap: break-word;
+  }
+
+  /* Mobile helpers stay compact and live above the work dock instead of covering records. */
+  .hlc-agent-dock {
+    right: max(12px, env(safe-area-inset-right)) !important;
+    bottom: calc(154px + env(safe-area-inset-bottom)) !important;
+    width: 54px !important;
+    max-width: 54px !important;
+    pointer-events: none !important;
+  }
+
+  .hlc-agent-dock-trigger {
+    width: 52px !important;
+    min-width: 52px !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    padding: 4px !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    border-radius: 999px !important;
+    pointer-events: auto !important;
+  }
+
+  .hlc-agent-dock-trigger > span {
+    display: none !important;
+  }
+
+  .hlc-agent-dock-trigger img {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    margin: 0 !important;
+  }
+
+  .hlc-agent-greeting {
+    display: none !important;
+  }
+
+  .hlc-agent-dock-panel {
+    position: fixed !important;
+    inset: auto 12px calc(154px + env(safe-area-inset-bottom)) 12px !important;
+    width: auto !important;
+    max-width: none !important;
+    max-height: min(58dvh, 540px) !important;
+    pointer-events: auto !important;
+  }
+
+  aside[aria-label="Live HLC tutorial"] {
+    left: max(12px, env(safe-area-inset-left)) !important;
+    bottom: calc(154px + env(safe-area-inset-bottom)) !important;
+    width: 54px !important;
+    max-width: 54px !important;
+  }
+
+  aside[aria-label="Live HLC tutorial"] > button {
+    width: 52px !important;
+    min-width: 52px !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    padding: 0 !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    border-radius: 999px !important;
+  }
+
+  aside[aria-label="Live HLC tutorial"] > button > span:last-child {
+    display: none !important;
+  }
+
+  aside[aria-label="Live HLC tutorial"] > section {
+    position: fixed !important;
+    left: 12px !important;
+    right: 12px !important;
+    bottom: calc(154px + env(safe-area-inset-bottom)) !important;
+    width: auto !important;
+    max-width: none !important;
+    max-height: min(58dvh, 540px) !important;
+    overflow: auto !important;
+  }
+
+  /* Provider map/list must stack on phones; never squeeze copy into letter-wide columns. */
+  .hlc-route-content > main:has(section[aria-label="Provider coordinate map"]) > div {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    gap: 14px !important;
+  }
+
+  section[aria-label="Provider coordinate map"],
+  section[aria-label="Provider map list"] {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  section[aria-label="Provider coordinate map"] > div,
+  section[aria-label="Provider map list"] > div,
+  section[aria-label="Provider map list"] button {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  section[aria-label="Provider coordinate map"] > div:nth-child(2) {
+    min-height: 300px !important;
+  }
+
+  section[aria-label="Provider coordinate map"] *,
+  section[aria-label="Provider map list"] * {
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+    white-space: normal !important;
+  }
+
+  section[aria-label="Map filters"] {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    gap: 12px !important;
+  }
+
+  section[aria-label="Map filters"] label,
+  section[aria-label="Map filters"] input:not([type="checkbox"]) {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
   }
 }
 
