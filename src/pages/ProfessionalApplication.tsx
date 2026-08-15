@@ -6,7 +6,7 @@ export default function ProfessionalApplication() {
   const [requestId] = useState(() => crypto.randomUUID());
   const [form, setForm] = useState({
     organizationName: "", contactName: "", email: "", phone: "", tradeCategories: "",
-    serviceTerritory: "", experienceSummary: "", communicationConsent: false,
+    serviceTerritory: "", experienceSummary: "", communicationConsent: false, honeypot: "",
   });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -38,13 +38,14 @@ export default function ProfessionalApplication() {
     <p>Apply once as a business, contractor, subcontractor, or service trade. HomeLead Connect reviews each application before creating provider access.</p>
     {error && <p role="alert" style={errorStyle}>{error}</p>}
     <form onSubmit={submit} style={formStyle}>
-      <label>Organization or business name<input required minLength={2} maxLength={160} autoComplete="organization" value={form.organizationName} onChange={(event) => setForm({ ...form, organizationName: event.target.value })} /></label>
-      <label>Primary contact<input required minLength={2} maxLength={160} autoComplete="name" value={form.contactName} onChange={(event) => setForm({ ...form, contactName: event.target.value })} /></label>
-      <label>Email<input required type="email" autoComplete="email" value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} /></label>
-      <label>Phone<input required type="tel" autoComplete="tel" value={form.phone} onChange={(event) => setForm({ ...form, phone: event.target.value })} /></label>
-      <label>Trades or services<input required minLength={2} maxLength={500} value={form.tradeCategories} onChange={(event) => setForm({ ...form, tradeCategories: event.target.value })} /></label>
-      <label>Service territory<input required minLength={2} maxLength={500} value={form.serviceTerritory} onChange={(event) => setForm({ ...form, serviceTerritory: event.target.value })} /></label>
-      <label>Experience and qualifications<textarea required minLength={10} maxLength={4000} rows={6} value={form.experienceSummary} onChange={(event) => setForm({ ...form, experienceSummary: event.target.value })} /></label>
+      <label style={trapStyle} aria-hidden="true">Website<input tabIndex={-1} autoComplete="off" name="company_website" value={form.honeypot} onChange={(event) => setForm({ ...form, honeypot: event.target.value })} /></label>
+      <label>Organization or business name<input style={fieldStyle} required minLength={2} maxLength={160} autoComplete="organization" value={form.organizationName} onChange={(event) => setForm({ ...form, organizationName: event.target.value })} /></label>
+      <label>Primary contact<input style={fieldStyle} required minLength={2} maxLength={160} autoComplete="name" value={form.contactName} onChange={(event) => setForm({ ...form, contactName: event.target.value })} /></label>
+      <label>Email<input style={fieldStyle} required type="email" autoComplete="email" value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} /></label>
+      <label>Phone<input style={fieldStyle} required type="tel" autoComplete="tel" value={form.phone} onChange={(event) => setForm({ ...form, phone: event.target.value })} /></label>
+      <label>Trades or services<input style={fieldStyle} required minLength={2} maxLength={500} value={form.tradeCategories} onChange={(event) => setForm({ ...form, tradeCategories: event.target.value })} /></label>
+      <label>Service territory<input style={fieldStyle} required minLength={2} maxLength={500} value={form.serviceTerritory} onChange={(event) => setForm({ ...form, serviceTerritory: event.target.value })} /></label>
+      <label>Experience and qualifications<textarea style={fieldStyle} required minLength={10} maxLength={4000} rows={6} value={form.experienceSummary} onChange={(event) => setForm({ ...form, experienceSummary: event.target.value })} /></label>
       <label style={consentStyle}><input required type="checkbox" checked={form.communicationConsent} onChange={(event) => setForm({ ...form, communicationConsent: event.target.checked })} /> I agree that HomeLead Connect may contact me about this application. This does not consent to unrelated marketing.</label>
       <button disabled={busy} type="submit">{busy ? "Submitting application…" : "Submit professional application"}</button>
     </form>
@@ -53,5 +54,7 @@ export default function ProfessionalApplication() {
 
 const pageStyle = { width: "min(760px, calc(100% - 32px))", margin: "40px auto" };
 const formStyle = { display: "grid", gap: 14, padding: 22, border: "1px solid #cbd5e1", borderRadius: 16, background: "#fff" };
+const fieldStyle = { fontSize: 16, maxWidth: "100%" };
+const trapStyle = { position: "absolute" as const, left: "-10000px", width: 1, height: 1, overflow: "hidden" };
 const consentStyle = { display: "flex", gap: 10, alignItems: "flex-start" };
 const errorStyle = { color: "#b91c1c", padding: 14, border: "1px solid #fecaca", borderRadius: 12, background: "#fef2f2" };
