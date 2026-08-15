@@ -91,6 +91,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 83. `20260815014000_launch_surface_fk_indexes.sql`
 84. `20260815015000_harden_notification_browser_updates.sql`
 85. `20260815020500_harden_portal_document_relationships.sql`
+86. `20260815022000_align_voice_note_portal_storage.sql`
 
 ## Current production rules
 
@@ -112,6 +113,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - Voice messages and legacy voice-audio storage use canonical `workspace_members` tenancy; the obsolete `org_members` path is not an authorization source.
 - Community review eligibility must validate that the referenced completed job belongs to the same workspace as the review; a completed job ID from another workspace can never satisfy the review policy.
 - Resident and professional portal document rows are relationship-scoped, not merely workspace-scoped: a portal user may see only explicitly shared documents tied to that user's linked lead/provider and eligible related estimates, jobs, or appointments. Storage signed-URL access inherits that same document RLS boundary.
+- Conversation voice notes use the private `communication-voice-notes` bucket and authorize storage through canonical conversation participation plus matching workspace/conversation path segments; portal participants do not need internal workspace membership to use messaging voice notes.
 - Provider Map coordinates are canonical location facts with confidence metadata. Exact owner/manager-entered coordinates are marked `verified`; safe city/ZIP centroids may be stored only as explicitly labeled `approximate` coordinates and must never be presented as an exact storefront or live location. Coordinate mutation remains management controlled and range validated.
 - Provider/resident profile-type labels are presentation metadata, never authorization. Renter and subcontractor workflow mechanics that remain undefined must be represented as setup-required rather than fabricated.
 - Professional portal self-service is anchored to an active `contractor_portal_links` relationship. It may update the linked provider's approved profile/service/availability fields but cannot self-grant workspace authority, verification, licensing approval, assignments, billing authority, or map-coordinate authority.
@@ -137,6 +139,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - Authenticated profile UPDATE privileges are column-scoped to safe self-service fields; role/workspace/identity fields cannot be browser-updated directly.
 - Voice message and `voice-audio` policies were reconciled to `workspace_members` and verified in production.
 - Portal document SELECT RLS now mirrors the exact resident/provider relationship checks used by document-view auditing, preventing one portal user from listing another relationship's shared-document metadata inside the same workspace.
+- Portal/internal conversation voice-note storage now uses the deployed private bucket and participant-scoped storage policies, with orphan cleanup limited to unregistered objects in an authorized conversation.
 - Community review insert authorization requires the completed job and review to share the same `workspace_id`.
 - Provider Map coordinate columns, validation, management-only update controls, and approximate/verified confidence metadata are applied in production.
 - Resident identity/provider profile types, linked-provider profile reads, professional portal services/availability contracts, and append-only activity history are applied in production.
