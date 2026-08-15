@@ -117,7 +117,7 @@ export default function Messages() {
     setError("");
     setMessage("");
     try {
-      await uploadVoiceNote(selected.id, file, durationSeconds);
+      await uploadVoiceNote(selected.id, selected.workspace_id, file, durationSeconds);
       setVoiceNotes(await listVoiceNotes(selected.id));
       setMessage("Voice note stored in this conversation.");
     } catch (reason) {
