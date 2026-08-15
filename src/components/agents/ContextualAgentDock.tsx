@@ -183,12 +183,17 @@ export default function ContextualAgentDock() {
     voicedBriefingRef.current = "";
 
     if (cached) {
-      setBriefing(cached);
+      queueMicrotask(() => {
+        if (active) setBriefing(cached);
+      });
       return () => { active = false; };
     }
 
-    setBriefing("");
-    setBriefingBusy(true);
+    queueMicrotask(() => {
+      if (!active) return;
+      setBriefing("");
+      setBriefingBusy(true);
+    });
     void chatWithAgent(
       agent.id,
       "Open this HLC page proactively. Greet me naturally, then give me a concise verified workspace briefing: what needs attention now, the most important risk or queue item, and the single best next action. Use only authorized HLC facts. Prioritize overdue/SLA-exposed work, high-priority leads, pending assignments, scheduled appointments, unread notifications or messages, and blocked workflow items when those facts are available. Do not invent anything and do not wait for me to ask first.",
