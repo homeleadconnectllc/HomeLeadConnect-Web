@@ -65,8 +65,8 @@ export default function ManualCommunications() {
   const [canConfigureGoogleVoice, setCanConfigureGoogleVoice] = useState(false);
   const [contactKey, setContactKey] = useState(() => searchParams.get("contact") || "");
   const [channel, setChannel] = useState<ManualCommunicationChannel>(() => searchParams.get("channel") === "sms" ? "sms" : "call");
-  const [transport, setTransport] = useState<ManualCommunicationTransport>("device_native");
-  const [direction, setDirection] = useState<"inbound" | "outbound">("outbound");
+  const [transport, setTransport] = useState<ManualCommunicationTransport>(() => searchParams.get("transport") === "google_voice" ? "google_voice" : "device_native");
+  const [direction, setDirection] = useState<"inbound" | "outbound">(() => searchParams.get("direction") === "inbound" ? "inbound" : "outbound");
   const [purpose, setPurpose] = useState<CommunicationPurpose>("service");
   const [outcome, setOutcome] = useState("");
   const [notes, setNotes] = useState("");
