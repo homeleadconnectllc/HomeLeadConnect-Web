@@ -21,7 +21,7 @@ export default function HomePage() {
           <Link to="/request-service" style={{padding:"14px 22px",borderRadius:999,background:"#0f172a",color:"#fff",fontWeight:800,textDecoration:"none"}}>Get Help Now</Link>
           <Link to="/app" style={{padding:"14px 22px",borderRadius:999,background:"#fff",color:"#0f172a",fontWeight:800,textDecoration:"none",border:"1px solid #cbd5e1"}}>Open HomeLead Connect</Link>
         </div>
-        <p style={{marginTop:14,color:"#64748b",fontSize:14}}>For participating businesses: 14 days free, then $99/month. Payment method required.</p>
+        <p style={{marginTop:14,color:"#64748b",fontSize:14}}>For participating businesses: 14 days free, then $49.99/month. Payment method required.</p>
       </section>
 
       <section style={{maxWidth:1100,margin:"20px auto 72px",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(230px,1fr))",gap:20}}>
@@ -34,7 +34,7 @@ export default function HomePage() {
       <section style={{maxWidth:1100,margin:"0 auto 28px",background:"linear-gradient(145deg,#07111f,#0b2345 60%,#0b3b51)",color:"#fff",borderRadius:32,padding:"clamp(28px,5vw,44px)",textAlign:"center",boxShadow:"0 24px 70px rgba(15,23,42,.16)"}}>
         <p style={{margin:0,color:"#93c5fd",fontWeight:900,letterSpacing:".1em",fontSize:12}}>FOR BUSINESSES</p>
         <h2 style={{margin:"10px auto 12px",color:"#fff",fontSize:"clamp(28px,5vw,42px)"}}>Try the connected HLC workspace free for 14 days.</h2>
-        <p style={{color:"#cbd5e1",lineHeight:1.65,maxWidth:760,margin:"0 auto"}}>Run leads, estimates, jobs, scheduling, messages, documents, workflow, analytics, and your HLC AI team from one workspace. Continue for $99/month after the trial.</p>
+        <p style={{color:"#cbd5e1",lineHeight:1.65,maxWidth:760,margin:"0 auto"}}>Run leads, estimates, jobs, scheduling, messages, documents, workflow, analytics, and your HLC AI team from one workspace. Continue for $49.99/month after the trial.</p>
         <div style={{display:"flex",gap:14,justifyContent:"center",alignItems:"center",flexWrap:"wrap",marginTop:24}}>
           <Link to="/pricing" style={{padding:"14px 22px",borderRadius:12,background:"#2563eb",color:"#fff",fontWeight:900,textDecoration:"none"}}>See Pricing & Start Trial</Link>
           <Link to="/login?next=/settings" style={{color:"#dbeafe",fontWeight:800}}>Manage existing subscription</Link>
