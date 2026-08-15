@@ -6,9 +6,10 @@ export default function Analytics() {
     <main className="hlc-command-center hlc-analytics-page">
       <section className="hlc-command-hero">
         <div className="hlc-command-copy">
-          <div className="hlc-command-kicker"><BarChart3 size={15} aria-hidden="true" />HLC Intelligence</div>
-          <h1>KPIs, analytics & visitor intelligence</h1>
-          <p>Measure the actual HomeLead Connect journey from visitor intent through LeadScope, jobs, providers, scheduling and follow-through.</p>
+          <div className="hlc-command-kicker"><BarChart3 size={15} aria-hidden="true" />Dion · Business Intelligence</div>
+          <h1>HLC Business Intelligence</h1>
+          <h2 className="hlc-analytics-context-title">Operating KPIs &amp; Visitor Analytics</h2>
+          <p>Canonical workflow performance plus privacy-minimized first-party HLC traffic for the last 30 days.</p>
         </div>
       </section>
 
@@ -35,7 +36,7 @@ export default function Analytics() {
           <article className="hlc-workspace-card"><span className="hlc-workspace-copy"><strong>Estimate intelligence</strong><span>LeadScope conversion, material sourcing behavior, markup performance and estimate acceptance.</span></span></article>
           <article className="hlc-workspace-card"><span className="hlc-workspace-copy"><strong>Provider intelligence</strong><span>Offer response, acceptance, schedule reliability, completion and customer-experience signals.</span></span></article>
           <article className="hlc-workspace-card"><span className="hlc-workspace-copy"><strong>Operations health</strong><span>Follow-up aging, missed calls, voicemail recovery, appointment throughput and workflow bottlenecks.</span></span></article>
-          <article className="hlc-workspace-card"><span className="hlc-workspace-copy"><strong>Property & mechanical context</strong><span>Over time HLC can connect authorized property, equipment, maintenance-cycle and service-history evidence without guessing unsupported facts.</span></span></article>
+          <article className="hlc-workspace-card"><span className="hlc-workspace-copy"><strong>Property &amp; mechanical context</strong><span>Over time HLC can connect authorized property, equipment, maintenance-cycle and service-history evidence without guessing unsupported facts.</span></span></article>
           <article className="hlc-workspace-card"><span className="hlc-workspace-copy"><strong>Agent effectiveness</strong><span>Measure which Kendrell, Dion and Diamond guidance paths help users reach approved next actions faster.</span></span></article>
         </div>
       </section>
