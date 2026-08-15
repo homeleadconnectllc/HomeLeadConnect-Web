@@ -88,6 +88,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 80. `20260814212500_tighten_workspace_members_browser_surface.sql`
 81. `20260814223000_provider_map_coordinate_confidence.sql`
 82. `20260815012500_harden_legacy_lead_routing.sql`
+83. `20260815014000_launch_surface_fk_indexes.sql`
 
 ## Current production rules
 
@@ -145,6 +146,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - The manager runtime identity then completed appointment `15` and the linked CRM job. The live golden chain now has persisted accepted assignment, completed appointment, and completed job evidence.
 - Launch portal SELECT policies were consolidated without changing authorization semantics and rewritten to use init-plan-safe `(select auth.uid())`; authenticated provider and resident portal RPCs were retested successfully afterward.
 - Covering indexes were added for the professional-application reviewer FK and launch-critical provider/public-form workspace FKs.
+- Covering indexes were added for launch-critical AI audit/handoff, automation, Community, messenger/portal-participant, and workspace-invitation foreign keys.
 - Security and performance advisors were rerun after launch DDL. Leaked-password protection remains an external Supabase Auth setting gate; existing intentional public/server RPC linter findings remain tracked rather than being silenced by unsafe broad revocation.
 - The stable isolated QA site is used for physical-device acceptance before `main` is released.
 
