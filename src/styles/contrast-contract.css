@@ -1,0 +1,131 @@
+/* Global HLC contrast contract. Presentation only: readable text follows surface luminance. */
+:root {
+  --hlc-text-on-light: #0f172a;
+  --hlc-text-on-light-muted: #475569;
+  --hlc-text-on-dark: #f8fafc;
+  --hlc-text-on-dark-muted: #cbd5e1;
+  --hlc-link-on-dark: #bfdbfe;
+  --hlc-link-on-light: #1d4ed8;
+}
+
+/* Light application surfaces use dark foregrounds. */
+.hlc-route-content,
+.hlc-route-content > main,
+.hlc-card,
+.hlc-analytics-kpi,
+.hlc-analytics-detail-grid > article,
+.hlc-field-device-center,
+.hlc-field-capability-grid article,
+.hlc-signed-in-shell :is(input, select, textarea) {
+  color: var(--hlc-text-on-light);
+}
+
+.hlc-route-content :is(p, li, dt, dd, label, small),
+.hlc-card :is(p, li, dt, dd, label, small),
+.hlc-analytics-kpi span,
+.hlc-analytics-detail-grid > article :is(p, li, dt, small),
+.hlc-field-device-center :is(p, li, dt, dd, label, small),
+.hlc-field-capability-grid article :is(p, li, dt, dd, label, small) {
+  color: var(--hlc-text-on-light-muted);
+}
+
+.hlc-route-content :is(h1, h2, h3, h4, h5, h6, strong),
+.hlc-card :is(h1, h2, h3, h4, h5, h6, strong),
+.hlc-analytics-kpi strong,
+.hlc-analytics-detail-grid > article :is(h1, h2, h3, h4, h5, h6, strong, dd),
+.hlc-field-device-center :is(h1, h2, h3, h4, h5, h6, strong),
+.hlc-field-capability-grid article :is(h1, h2, h3, h4, h5, h6, strong) {
+  color: var(--hlc-text-on-light);
+}
+
+.hlc-route-content a:not([class*="button"]),
+.hlc-card a:not([class*="button"]) {
+  color: var(--hlc-link-on-light);
+}
+
+.hlc-signed-in-shell :is(input, select, textarea)::placeholder {
+  color: #64748b;
+  opacity: 1;
+}
+
+/* Known dark navigation and AI surfaces always carry light foregrounds. */
+.hlc-navbar,
+.hlc-signed-in-shell > .hlc-navbar,
+.hlc-nav-menu,
+.hlc-mobile-tabbar,
+.hlc-agent-card,
+.hlc-agent-nav-link,
+.hlc-desktop-sidebar-toggle {
+  color: var(--hlc-text-on-dark);
+}
+
+.hlc-navbar :is(h1, h2, h3, h4, h5, h6, strong),
+.hlc-signed-in-shell > .hlc-navbar :is(h1, h2, h3, h4, h5, h6, strong),
+.hlc-nav-menu :is(h1, h2, h3, h4, h5, h6, strong),
+.hlc-mobile-tabbar :is(strong, span),
+.hlc-agent-card :is(h1, h2, h3, h4, h5, h6, strong),
+.hlc-agent-nav-link strong,
+.hlc-desktop-sidebar-toggle {
+  color: var(--hlc-text-on-dark);
+}
+
+.hlc-navbar :is(p, small, span),
+.hlc-signed-in-shell > .hlc-navbar :is(p, small, span),
+.hlc-nav-menu :is(p, small, span),
+.hlc-agent-card :is(p, small),
+.hlc-agent-nav-link small {
+  color: var(--hlc-text-on-dark-muted);
+}
+
+.hlc-navbar a,
+.hlc-signed-in-shell > .hlc-navbar a,
+.hlc-nav-menu a,
+.hlc-mobile-tabbar a,
+.hlc-agent-card a,
+.hlc-agent-open {
+  color: var(--hlc-link-on-dark);
+}
+
+.hlc-nav-menu a[aria-current="page"],
+.hlc-mobile-tabbar > a.is-active,
+.hlc-mobile-tabbar > button.is-active {
+  color: #ffffff;
+}
+
+/* Preserve semantic badge colors while keeping their text legible. */
+.hlc-agent-status {
+  color: #dcfce7;
+}
+
+.hlc-agent-role,
+.hlc-agent-team-chip {
+  color: #dbeafe;
+}
+
+.hlc-agent-card-diamond .hlc-agent-role {
+  color: #bbf7d0;
+}
+
+/* Native controls should not inherit dark text onto dark browser surfaces. */
+.hlc-signed-in-shell select option {
+  color: #0f172a;
+  background: #ffffff;
+}
+
+/* High-contrast preference gets an extra edge without changing layout. */
+@media (prefers-contrast: more) {
+  .hlc-card,
+  .hlc-analytics-kpi,
+  .hlc-analytics-detail-grid > article,
+  .hlc-field-device-center,
+  .hlc-field-capability-grid article {
+    border-color: #94a3b8;
+  }
+
+  .hlc-navbar,
+  .hlc-nav-menu,
+  .hlc-mobile-tabbar,
+  .hlc-agent-card {
+    border-color: rgba(255,255,255,.34);
+  }
+}
