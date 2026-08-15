@@ -1,10 +1,12 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { trackAnalyticsEvent } from "../../api/analytics";
+import { chatWithAgent } from "../../api/agentChat";
 import AgentChatPanel from "./AgentChatPanel";
 import type { AgentId } from "../../ai/agents";
 import { useAuth } from "../../hooks/useAuth";
 import { normalizeInternalRole, type InternalRole } from "../../lib/accessPolicy";
+import { getAgentVoicePreferences, isAgentAudioSupported, prepareAgentAudio, speakAgentText } from "../../lib/agentVoice";
 import { supabase } from "../../lib/supabase";
 
 type AgentConfig = {
@@ -138,6 +140,10 @@ export default function ContextualAgentDock() {
   const location = useLocation();
   const [access, setAccess] = useState<AccessContext>({ kind: null, role: null, userId: null });
   const [openFor, setOpenFor] = useState<string | null>(null);
+  const [briefing, setBriefing] = useState("");
+  const [briefingVisible, setBriefingVisible] = useState(true);
+  const [briefingBusy, setBriefingBusy] = useState(false);
+  const voicedBriefingRef = useRef("");
 
   useEffect(() => {
     if (!session) return;
@@ -169,6 +175,71 @@ export default function ContextualAgentDock() {
   const open = Boolean(agent && openFor === location.pathname);
   const tutorial = agent ? tutorialFor(location.pathname, agent) : null;
 
+  useEffect(() => {
+    if (!agent || !session || hiddenRoutes.has(location.pathname)) return;
+    let active = true;
+    const cacheKey = `hlc.agentBriefing.v1:${agent.id}:${location.pathname}`;
+    const cached = window.sessionStorage.getItem(cacheKey);
+    setBriefingVisible(true);
+    voicedBriefingRef.current = "";
+
+    if (cached) {
+      setBriefing(cached);
+      return () => { active = false; };
+    }
+
+    setBriefing("");
+    setBriefingBusy(true);
+    void chatWithAgent(
+      agent.id,
+      "Open this HLC page proactively. Greet me naturally, then give me a concise verified workspace briefing: what needs attention now, the most important risk or queue item, and the single best next action. Use only authorized HLC facts. Prioritize overdue/SLA-exposed work, high-priority leads, pending assignments, scheduled appointments, unread notifications or messages, and blocked workflow items when those facts are available. Do not invent anything and do not wait for me to ask first.",
+      [],
+    ).then((response) => {
+      if (!active) return;
+      setBriefing(response.reply);
+      window.sessionStorage.setItem(cacheKey, response.reply);
+      void trackAnalyticsEvent("agent_proactive_briefing_loaded", { agent: agent.id, page: location.pathname, access: access.kind });
+    }).catch(() => {
+      if (active) setBriefing(`${agent.name} is online. Open this panel for the current workspace summary and next action.`);
+    }).finally(() => {
+      if (active) setBriefingBusy(false);
+    });
+
+    return () => { active = false; };
+  }, [access.kind, agent, location.pathname, session]);
+
+  useEffect(() => {
+    if (!agent || !briefing || voicedBriefingRef.current === briefing) return;
+    const desktop = window.matchMedia("(min-width: 721px)").matches;
+    const preferences = getAgentVoicePreferences();
+    if (!desktop || !preferences.enabled || !preferences.autoSpeak || !isAgentAudioSupported()) return;
+
+    let cancelled = false;
+    const play = async () => {
+      try {
+        await prepareAgentAudio();
+        if (cancelled) return;
+        await speakAgentText(agent.id, briefing);
+        voicedBriefingRef.current = briefing;
+      } catch {
+        // Desktop browsers may require a user gesture. The first normal interaction
+        // with HLC retries the same proactive briefing without requiring agent input.
+      }
+    };
+
+    void play();
+    const unlock = () => {
+      if (!cancelled && voicedBriefingRef.current !== briefing) void play();
+    };
+    document.addEventListener("pointerdown", unlock, { once: true, capture: true });
+    document.addEventListener("keydown", unlock, { once: true, capture: true });
+    return () => {
+      cancelled = true;
+      document.removeEventListener("pointerdown", unlock, true);
+      document.removeEventListener("keydown", unlock, true);
+    };
+  }, [agent, briefing]);
+
   if (!agent || hiddenRoutes.has(location.pathname)) return null;
 
   return (
@@ -177,6 +248,18 @@ export default function ContextualAgentDock() {
       data-agent={agent.id}
       aria-label={`${agent.name} contextual assistant and tutorial coach`}
     >
+      {briefingVisible && !open && (
+        <section className="hlc-agent-proactive-briefing" aria-live="polite" aria-label={`${agent.name} proactive workspace briefing`}>
+          <div className="hlc-agent-proactive-briefing-head">
+            <img src={agent.avatar} alt="" aria-hidden="true" />
+            <div><strong>{agent.name}</strong><small>{agent.role} · live briefing</small></div>
+            <button type="button" onClick={() => setBriefingVisible(false)} aria-label={`Dismiss ${agent.name} briefing`}>×</button>
+          </div>
+          <p>{briefingBusy ? `${agent.name} is checking the workspace…` : briefing}</p>
+          <button type="button" className="hlc-agent-proactive-open" onClick={() => setOpenFor(location.pathname)}>Open {agent.name}</button>
+        </section>
+      )}
+
       {open && tutorial && (
         <div className="hlc-agent-dock-panel">
           <div className="hlc-agent-dock-panel-head">
@@ -210,7 +293,7 @@ export default function ContextualAgentDock() {
         }}
       >
         <img src={agent.avatar} alt="" aria-hidden="true" />
-        <span><strong>Learn with {agent.name}</strong><small>{agent.role}</small></span>
+        <span><strong>{agent.name}</strong><small>{agent.role}</small></span>
       </button>
     </aside>
   );
