@@ -6,6 +6,7 @@ import AnalyticsTracker from "../components/analytics/AnalyticsTracker";
 import AudioDeviceCenter from "../components/audio/AudioDeviceCenter";
 import FieldDeviceCenter from "../components/device/FieldDeviceCenter";
 import MaterialShopLinks from "../components/estimator/MaterialShopLinks";
+import MobileWorkDock from "../components/mobile/MobileWorkDock";
 import { useAuth } from "../hooks/useAuth";
 
 const DESKTOP_SIDEBAR_KEY = "hlc.desktopSidebarCollapsed.v1";
@@ -82,6 +83,7 @@ export default function AppLayout() {
         {showAudioDevices && <AudioDeviceCenter />}
         {showFieldDevices && <FieldDeviceCenter />}
       </div>
+      {session && <MobileWorkDock />}
     </div>
   );
 }
