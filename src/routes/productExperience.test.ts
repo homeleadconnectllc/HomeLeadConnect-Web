@@ -9,6 +9,8 @@ const providerMap = readFileSync("src/pages/dashboard/ProviderMap.tsx", "utf8");
 const manualCommunications = readFileSync("src/pages/dashboard/ManualCommunications.tsx", "utf8");
 const notificationCenter = readFileSync("src/components/notifications/RealtimeNotificationCenter.tsx", "utf8");
 const serviceWorker = readFileSync("public/sw.js", "utf8");
+const voiceNotes = readFileSync("src/api/voiceNotes.ts", "utf8");
+const messagesPage = readFileSync("src/pages/dashboard/Messages.tsx", "utf8");
 
 test("all routed HLC page content remains globally centered", () => {
   assert.match(responsiveContract, /\.hlc-route-content > main,\s*\.hlc-route-content > main \* \{\s*text-align: center !important;/s);
@@ -56,4 +58,12 @@ test("notification deep links stay inside HLC in foreground and service worker",
   assert.match(notificationCenter, /safeHlcDeepLink\(latest\.deep_link\)/);
   assert.match(serviceWorker, /safeHlcNotificationTarget/);
   assert.match(serviceWorker, /resolved\.origin === self\.location\.origin/);
+});
+
+test("portal voice notes use the canonical conversation-scoped storage path", () => {
+  assert.match(voiceNotes, /VOICE_NOTE_BUCKET = "communication-voice-notes"/);
+  assert.doesNotMatch(voiceNotes, /getCurrentWorkspaceId/);
+  assert.doesNotMatch(voiceNotes, /hlc-voice-notes/);
+  assert.match(voiceNotes, /\$\{workspaceId\}\/\$\{conversationId\}\//);
+  assert.match(messagesPage, /uploadVoiceNote\(selected\.id, selected\.workspace_id, file, durationSeconds\)/);
 });
