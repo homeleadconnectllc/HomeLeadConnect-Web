@@ -4,6 +4,7 @@ import test from "node:test";
 
 const responsiveContract = readFileSync("src/styles/responsive-page-contract.css", "utf8");
 const contextualDockCss = readFileSync("src/styles/contextual-agent-dock.css", "utf8");
+const contextualDock = readFileSync("src/components/agents/ContextualAgentDock.tsx", "utf8");
 const tutorialDock = readFileSync("src/components/tutorials/LiveTutorialDock.tsx", "utf8");
 const providerMap = readFileSync("src/pages/dashboard/ProviderMap.tsx", "utf8");
 const manualCommunications = readFileSync("src/pages/dashboard/ManualCommunications.tsx", "utf8");
@@ -38,6 +39,13 @@ test("browser speech synthesis is never used as an HLC voice fallback", () => {
 test("mobile contextual agent controls do not automatically cover business content", () => {
   assert.match(contextualDockCss, /@media \(max-width: 720px\)[\s\S]*\.hlc-agent-greeting \{ display: none; \}/);
   assert.match(contextualDockCss, /bottom: max\(82px, calc\(env\(safe-area-inset-bottom\) \+ 70px\)\)/);
+});
+
+test("internal-only mobile routes retain an agent while role resolution completes", () => {
+  assert.match(contextualDock, /const internalFallbackPrefixes = \[/);
+  assert.match(contextualDock, /"\/dashboard"/);
+  assert.match(contextualDock, /access\.kind === null && isInternalOnlyRoute\(pathname\)\) return agents\.dion/);
+  assert.match(contextualDock, /if \(access\.role === "owner"\) return agents\.kendrell/);
 });
 
 test("signed-in mobile navigation behaves like an adaptive field app", () => {
