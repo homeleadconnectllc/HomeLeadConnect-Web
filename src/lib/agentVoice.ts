@@ -14,7 +14,7 @@ const STORAGE_KEY = "hlc.agentVoicePreferences.v1";
 
 const DEFAULT_PREFERENCES: AgentVoicePreferences = {
   enabled: true,
-  autoSpeak: false,
+  autoSpeak: true,
 };
 
 let audioContext: AudioContext | null = null;
