@@ -87,6 +87,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 79. `20260814212000_fix_workspace_team_rpc_result_types.sql`
 80. `20260814212500_tighten_workspace_members_browser_surface.sql`
 81. `20260814223000_provider_map_coordinate_confidence.sql`
+82. `20260815012500_harden_legacy_lead_routing.sql`
 
 ## Current production rules
 
@@ -101,6 +102,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - `run_hlc_automation` and `automation_jobs` history are owner/manager control-plane capabilities. The production database enforces that rule in addition to the browser UI.
 - `run_hlc_scheduled_workflow_scan()` is a system-only recurring read-only monitor. Normal browser roles cannot invoke it. It records workflow health, follow-up pressure, and owner-attention evidence without messaging customers, assigning providers, scheduling appointments, changing workflow state, or changing billing.
 - Legacy SECURITY DEFINER operational/billing helpers must verify authenticated identity, canonical workspace membership, and internal role where the operation is staff-only.
+- Balanced lead claiming must validate both the caller's workspace membership and the target assignee's membership in the same workspace. Legacy internal routing fallbacks are not directly executable by browser roles.
 - Management RPCs for analytics/KPIs, provider configuration, and portal administration must enforce owner/manager authorization server-side rather than relying on route hiding.
 - Browser roles must never retain database-administration privileges such as TRUNCATE, TRIGGER, or REFERENCES on public relations. Normal app behavior is limited to explicitly granted CRUD operations plus RLS/RPC enforcement.
 - Profile self-service updates must not permit changes to `role`, `workspace_id`, `user_id`, or identity keys. Internal authority fields are server/admin controlled.
@@ -125,6 +127,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - `hlc-agent-voice` uses server-side Gemini neural TTS; browser system TTS is disabled for agent replies. Physical-device quality/playback acceptance remains a release gate until Kendrell, Dion, and Diamond are heard on iPhone/Mac.
 - Hourly workflow automation is active at minute 07 and has a verified real cron execution. The de-duplication guard correctly suppresses redundant snapshot rows inside its 50-minute window.
 - Legacy SECURITY DEFINER RPCs were hardened so cross-workspace IDs and unauthorized staff actions fail closed.
+- Balanced lead claiming rejects target user IDs that are not members of the same workspace, and the legacy two-argument routing fallback is service-role/internal only.
 - Management-only analytics/KPI, communications-provider configuration, and portal-revocation RPCs enforce owner/manager role checks at the database boundary.
 - Public browser database-administration grants were removed and verified at `browser_admin_grants_remaining = 0` across public tables/views.
 - Authenticated profile UPDATE privileges are column-scoped to safe self-service fields; role/workspace/identity fields cannot be browser-updated directly.
