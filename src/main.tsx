@@ -19,6 +19,7 @@ import "./styles/heading-contrast.css";
 import "./styles/mobile-acceptance.css";
 import "./styles/premium-theme.css";
 import "./styles/premium-effects.css";
+import "./styles/contrast-contract.css";
 import "./styles/responsive-page-contract.css";
 import App from "./App.tsx";
 import { AuthProvider } from "./context/AuthContext";
