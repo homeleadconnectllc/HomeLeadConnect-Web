@@ -16,6 +16,7 @@ const workspaceNav = readFileSync("src/styles/workspace-nav.css", "utf8");
 const mobileAppShell = readFileSync("src/styles/mobile-app-shell.css", "utf8");
 const premiumTheme = readFileSync("src/styles/premium-theme.css", "utf8");
 const premiumEffects = readFileSync("src/styles/premium-effects.css", "utf8");
+const contrastContract = readFileSync("src/styles/contrast-contract.css", "utf8");
 const mainEntry = readFileSync("src/main.tsx", "utf8");
 
 test("all routed HLC page content remains globally centered", () => {
@@ -51,8 +52,8 @@ test("signed-in mobile navigation behaves like an adaptive field app", () => {
   assert.match(mainEntry, /\.\/styles\/mobile-app-shell\.css/);
 });
 
-test("premium HLC presentation layer stays blue-cyan beneath the final responsive contract", () => {
-  assert.match(mainEntry, /\.\/styles\/premium-theme\.css";\s*import "\.\/styles\/premium-effects\.css";\s*import "\.\/styles\/responsive-page-contract\.css";/);
+test("premium HLC presentation layer stays blue-cyan beneath contrast and responsive contracts", () => {
+  assert.match(mainEntry, /\.\/styles\/premium-theme\.css";\s*import "\.\/styles\/premium-effects\.css";\s*import "\.\/styles\/contrast-contract\.css";\s*import "\.\/styles\/responsive-page-contract\.css";/);
   assert.match(premiumTheme, /--hlc-blue: #2563eb/);
   assert.match(premiumTheme, /--hlc-cyan: #0891b2/);
   assert.match(premiumTheme, /prefers-reduced-motion: reduce/);
@@ -69,6 +70,15 @@ test("premium interaction effects remain restrained and accessible", () => {
   assert.match(premiumEffects, /aria-busy="true"/);
   assert.match(premiumEffects, /aria-current="page"/);
   assert.doesNotMatch(premiumEffects, /particle|parallax|purple|violet/i);
+});
+
+test("dark and light HLC surfaces enforce readable foreground contrast", () => {
+  assert.match(contrastContract, /--hlc-text-on-light: #0f172a/);
+  assert.match(contrastContract, /--hlc-text-on-dark: #f8fafc/);
+  assert.match(contrastContract, /\.hlc-navbar,[\s\S]*\.hlc-mobile-tabbar,[\s\S]*\.hlc-agent-card/);
+  assert.match(contrastContract, /\.hlc-card,[\s\S]*\.hlc-analytics-kpi,[\s\S]*\.hlc-field-device-center/);
+  assert.match(contrastContract, /prefers-contrast: more/);
+  assert.match(contrastContract, /select option[\s\S]*background: #ffffff/);
 });
 
 test("provider map selection preserves coordinate confidence color", () => {
