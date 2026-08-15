@@ -1,0 +1,19 @@
+@media (max-width: 760px) {
+  .hlc-mobile-tabbar {
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  }
+
+  .hlc-signed-in-shell:has(.hlc-mobile-tabbar) .hlc-navbar-toggle {
+    display: none;
+  }
+
+  .hlc-signed-in-shell:has(.hlc-mobile-tabbar) .hlc-navbar-brand {
+    max-width: calc(100% - 12px);
+  }
+}
+
+@media (max-width: 600px) {
+  .hlc-mobile-tabbar {
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  }
+}
