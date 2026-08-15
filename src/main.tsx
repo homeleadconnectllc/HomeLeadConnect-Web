@@ -17,6 +17,7 @@ import "./styles/visual-centering.css";
 import "./styles/property-intelligence.css";
 import "./styles/heading-contrast.css";
 import "./styles/mobile-acceptance.css";
+import "./styles/mobile-work-dock.css";
 import "./styles/premium-theme.css";
 import "./styles/premium-effects.css";
 import "./styles/contrast-contract.css";
