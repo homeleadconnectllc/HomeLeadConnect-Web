@@ -1,0 +1,59 @@
+/* Final release containment contract: no routed HLC surface may widen a 320–430px viewport. */
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+}
+
+.hlc-route-content,
+.hlc-route-content > main,
+.hlc-route-content > main > *,
+.hlc-route-content > main * {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.hlc-route-content :is(img, video, canvas, iframe, svg, table, pre, code) {
+  max-width: 100%;
+}
+
+.hlc-route-content :is(pre, code, p, li, small, strong, span, a, button) {
+  overflow-wrap: anywhere;
+}
+
+.hlc-route-content :is(input, select, textarea) {
+  max-width: 100%;
+  font-size: max(16px, 1em);
+}
+
+@media (min-width: 320px) and (max-width: 430px) {
+  .hlc-route-content > main {
+    width: calc(100% - 20px) !important;
+    max-width: calc(100% - 20px) !important;
+    margin-inline: auto !important;
+  }
+
+  .hlc-route-content :is(
+    [class*="grid"],
+    [class*="layout"],
+    [class*="row"],
+    [class*="actions"],
+    [class*="buttons"],
+    [class*="links"],
+    [role="group"],
+    [role="toolbar"]
+  ) {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .hlc-route-content table {
+    display: block;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+  }
+}
