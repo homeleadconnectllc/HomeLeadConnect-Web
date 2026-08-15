@@ -3,13 +3,15 @@ import { useEffect, useRef, useState } from "react";
 type Props = {
   busy: boolean;
   onUpload: (file: File, durationSeconds?: number) => Promise<void>;
+  focusOnMount?: boolean;
 };
 
-export default function VoiceNoteRecorder({ busy, onUpload }: Props) {
+export default function VoiceNoteRecorder({ busy, onUpload, focusOnMount = false }: Props) {
   const recorderRef = useRef<MediaRecorder | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const startedAtRef = useRef(0);
   const chunksRef = useRef<Blob[]>([]);
+  const recordButtonRef = useRef<HTMLButtonElement | null>(null);
   const [recording, setRecording] = useState(false);
   const [previewUrl, setPreviewUrl] = useState("");
   const [recordedFile, setRecordedFile] = useState<File | null>(null);
@@ -20,6 +22,12 @@ export default function VoiceNoteRecorder({ busy, onUpload }: Props) {
     streamRef.current?.getTracks().forEach((track) => track.stop());
     if (previewUrl) URL.revokeObjectURL(previewUrl);
   }, [previewUrl]);
+
+  useEffect(() => {
+    if (!focusOnMount) return;
+    recordButtonRef.current?.focus();
+    recordButtonRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }, [focusOnMount]);
 
   function clearRecording() {
     if (previewUrl) URL.revokeObjectURL(previewUrl);
@@ -80,10 +88,10 @@ export default function VoiceNoteRecorder({ busy, onUpload }: Props) {
     setPreviewUrl(URL.createObjectURL(file));
   }
 
-  return <div style={{ display: "grid", gap: 10 }}>
+  return <div id="hlc-voice-note-recorder" style={{ display: "grid", gap: 10 }}>
     <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
       {!recording
-        ? <button type="button" disabled={busy} onClick={startRecording}>Record voice note</button>
+        ? <button ref={recordButtonRef} type="button" disabled={busy} onClick={startRecording}>Record voice note</button>
         : <button type="button" disabled={busy} onClick={stopRecording}>Stop recording</button>}
       <label style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
         Or select audio
