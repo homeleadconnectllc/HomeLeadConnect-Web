@@ -95,8 +95,6 @@ export default function AnalyticsKpis() {
 
   useEffect(() => {
     let active = true;
-    setLoading(true);
-    setError("");
     Promise.allSettled([getAnalyticsSummary(30), getBusinessKpis(30)])
       .then(([trafficResult, businessResult]) => {
         if (!active) return;
@@ -150,7 +148,11 @@ export default function AnalyticsKpis() {
           aria-pressed="true"
           aria-label="Refresh 30-day business intelligence"
           title="Refresh 30-day business intelligence"
-          onClick={() => setRefreshKey((value) => value + 1)}
+          onClick={() => {
+            setLoading(true);
+            setError("");
+            setRefreshKey((value) => value + 1);
+          }}
         >
           30 days
         </button>
