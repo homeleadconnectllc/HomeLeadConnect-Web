@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "test:acceptance": "node --test src/lib/accessPolicy.test.ts src/lib/leadscope/domain.test.ts src/lib/estimator/calculations.test.ts src/lib/appointments/timeRange.test.ts src/lib/billing/entitlement.test.ts src/ai/agents.test.ts src/routes/routes.test.ts supabase/migrations/migrationChain.test.mjs",
+    "test:acceptance": "node --test src/lib/accessPolicy.test.ts src/lib/leadscope/domain.test.ts src/lib/estimator/calculations.test.ts src/lib/appointments/timeRange.test.ts src/lib/billing/entitlement.test.ts src/ai/agents.test.ts src/routes/routes.test.ts src/routes/productExperience.test.ts supabase/migrations/migrationChain.test.mjs",
     "launch:audit": "node scripts/launch-static-audit.mjs",
     "verify:launch": "npm run lint && npm run test:acceptance && npm run launch:audit && npm run build",
     "preview": "vite preview"
