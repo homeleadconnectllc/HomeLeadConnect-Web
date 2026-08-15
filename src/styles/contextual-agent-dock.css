@@ -84,6 +84,7 @@
 @media (max-width: 720px) {
   .hlc-agent-dock {
     right: max(14px, env(safe-area-inset-right));
+    bottom: max(82px, calc(env(safe-area-inset-bottom) + 70px));
     bottom: calc(154px + env(safe-area-inset-bottom));
     max-width: calc(100vw - 28px);
     gap: 8px;
