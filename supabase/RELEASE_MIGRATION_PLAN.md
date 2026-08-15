@@ -92,6 +92,8 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 84. `20260815015000_harden_notification_browser_updates.sql`
 85. `20260815020500_harden_portal_document_relationships.sql`
 86. `20260815022000_align_voice_note_portal_storage.sql`
+87. `20260815184500_harden_public_intake_rate_limit_and_honeypot.sql`
+88. `20260815190000_lock_public_intake_guard.sql`
 
 ## Current production rules
 
@@ -121,6 +123,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - Notification recipients may update only their own `read_at` state; browser roles cannot rewrite canonical notification title, body, routing, event type, recipient, or source metadata.
 - Anonymous/public callers must never receive direct execution access to internal automation, billing, owner approval, system-health, or staff-only functions.
 - UI hiding is not an authorization boundary. Direct-route, RLS/RPC, storage, and server-side checks must continue to enforce the same access rules.
+- Anonymous service-request and professional-application intake is throttled server-side with append-only attempt evidence. Honeypot submissions fail closed; direct browser execution of the internal guard is revoked.
 
 ## Production verification evidence — 2026-08-14
 
