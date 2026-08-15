@@ -6,6 +6,7 @@ import "./styles/mobile-app-shell.css";
 import "./styles/desktop-workspace-shell.css";
 import "./styles/agent-team.css";
 import "./styles/contextual-agent-dock.css";
+import "./styles/agent-proactive-briefing.css";
 import "./styles/agent-tutorial.css";
 import "./styles/auth-methods.css";
 import "./styles/product-polish.css";
