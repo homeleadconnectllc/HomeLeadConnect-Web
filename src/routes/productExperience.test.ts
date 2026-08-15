@@ -11,6 +11,10 @@ const notificationCenter = readFileSync("src/components/notifications/RealtimeNo
 const serviceWorker = readFileSync("public/sw.js", "utf8");
 const voiceNotes = readFileSync("src/api/voiceNotes.ts", "utf8");
 const messagesPage = readFileSync("src/pages/dashboard/Messages.tsx", "utf8");
+const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
+const workspaceNav = readFileSync("src/styles/workspace-nav.css", "utf8");
+const mobileAppShell = readFileSync("src/styles/mobile-app-shell.css", "utf8");
+const mainEntry = readFileSync("src/main.tsx", "utf8");
 
 test("all routed HLC page content remains globally centered", () => {
   assert.match(responsiveContract, /\.hlc-route-content > main,\s*\.hlc-route-content > main \* \{\s*text-align: center !important;/s);
@@ -26,6 +30,23 @@ test("browser speech synthesis is never used as an HLC voice fallback", () => {
 test("mobile contextual agent controls do not automatically cover business content", () => {
   assert.match(contextualDockCss, /@media \(max-width: 720px\)[\s\S]*\.hlc-agent-greeting \{ display: none; \}/);
   assert.match(contextualDockCss, /bottom: max\(82px, calc\(env\(safe-area-inset-bottom\) \+ 70px\)\)/);
+});
+
+test("signed-in mobile navigation behaves like an adaptive field app", () => {
+  assert.match(navbar, /className="hlc-mobile-tabbar"/);
+  assert.match(navbar, /MobileNavIcon/);
+  assert.match(navbar, /label: "Home", route: "\/dashboard"/);
+  assert.match(navbar, /label: "Leads", route: "\/leads"/);
+  assert.match(navbar, /label: "Jobs", route: "\/jobs"/);
+  assert.match(navbar, /label: "Messages", route: "\/messages"/);
+  assert.match(navbar, /canAccessWorkspacePath\(access\.role, item\.route\)/);
+  assert.match(navbar, /aria-label="Mobile primary navigation"/);
+  assert.match(navbar, /aria-current=\{active \? "page" : undefined\}/);
+  assert.match(workspaceNav, /padding-bottom: calc\(84px \+ env\(safe-area-inset-bottom\)\)/);
+  assert.match(workspaceNav, /position: fixed;[\s\S]*bottom: 0;[\s\S]*\.hlc-mobile-tabbar/s);
+  assert.match(mobileAppShell, /repeat\(auto-fit, minmax\(0, 1fr\)\)/);
+  assert.match(mobileAppShell, /:has\(\.hlc-mobile-tabbar\) \.hlc-navbar-toggle/);
+  assert.match(mainEntry, /\.\/styles\/mobile-app-shell\.css/);
 });
 
 test("provider map selection preserves coordinate confidence color", () => {
