@@ -1,0 +1,185 @@
+/* Premium HLC motion layer. Visual feedback only; no data, workflow, auth, or routing behavior. */
+
+/* Soft reflective edge on premium surfaces. */
+.hlc-card,
+.hlc-analytics-kpi,
+.hlc-field-device-center,
+.hlc-agent-card {
+  position: relative;
+}
+
+.hlc-card::after,
+.hlc-analytics-kpi::after,
+.hlc-field-device-center::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(118deg, transparent 15%, rgba(255,255,255,.72) 38%, transparent 60%);
+  transform: translateX(-145%);
+  opacity: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hlc-card:hover::after,
+  .hlc-analytics-kpi:hover::after,
+  .hlc-field-device-center:hover::after {
+    opacity: .34;
+    animation: hlcSurfaceSheen .85s cubic-bezier(.22,.61,.36,1) both;
+  }
+}
+
+/* KPI top rail gets one restrained light sweep on hover/focus. */
+.hlc-analytics-kpi::before {
+  background-size: 180% 100%;
+  background-position: 0 0;
+  transition: background-position .5s ease, opacity .2s ease;
+}
+
+.hlc-analytics-kpi:is(:hover, :focus-within)::before {
+  background-position: 100% 0;
+  opacity: 1;
+}
+
+/* Active mobile destinations feel selected without becoming flashy. */
+.hlc-mobile-tabbar > a,
+.hlc-mobile-tabbar > button {
+  position: relative;
+  overflow: hidden;
+}
+
+.hlc-mobile-tabbar > a.is-active::after,
+.hlc-mobile-tabbar > button.is-active::after,
+.hlc-mobile-tabbar > a[aria-current="page"]::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  width: 24px;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #60a5fa, #22d3ee);
+  transform: translateX(-50%);
+  box-shadow: 0 0 10px rgba(34, 211, 238, .38);
+}
+
+/* Desktop dropdowns get a soft active rail rather than a loud glow. */
+@media (min-width: 1025px) {
+  .hlc-signed-in-shell > .hlc-navbar .hlc-nav-group[open] {
+    filter: drop-shadow(0 8px 18px rgba(37, 99, 235, .08));
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-nav-menu a[aria-current="page"] {
+    box-shadow: inset 3px 0 0 #38bdf8, 0 6px 16px rgba(2, 6, 23, .16);
+  }
+}
+
+/* Agent presence: quiet halo + online pulse. */
+.hlc-agent-presence {
+  isolation: isolate;
+  animation: hlcPresenceBreath 3.2s ease-in-out infinite;
+}
+
+.hlc-agent-presence::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  z-index: -1;
+  border: 1px solid rgba(34, 197, 94, .42);
+  border-radius: inherit;
+  opacity: 0;
+  animation: hlcPresenceRing 3.2s ease-out infinite;
+}
+
+.hlc-agent-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: 2;
+  border-radius: inherit;
+  pointer-events: none;
+  background: linear-gradient(120deg, transparent 25%, rgba(96,165,250,.16), rgba(34,211,238,.08), transparent 72%);
+  transform: translateX(-125%);
+  opacity: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hlc-agent-card:hover::before,
+  .hlc-agent-card:focus-visible::before {
+    opacity: 1;
+    animation: hlcAgentSweep .9s cubic-bezier(.22,.61,.36,1) both;
+  }
+}
+
+/* Loading feedback for existing accessible busy states. */
+.hlc-signed-in-shell [aria-busy="true"] {
+  position: relative;
+  overflow: hidden;
+}
+
+.hlc-signed-in-shell [aria-busy="true"]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent 20%, rgba(255,255,255,.52) 42%, transparent 64%);
+  transform: translateX(-120%);
+  animation: hlcBusyShimmer 1.35s ease-in-out infinite;
+}
+
+/* Success/completion micro-feedback where existing classes or data status are present. */
+.hlc-signed-in-shell :is(.is-success, .is-complete, .is-completed, [data-status="completed"]) {
+  transition: box-shadow .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+.hlc-signed-in-shell :is(.is-success, .is-complete, .is-completed, [data-status="completed"]):focus-within {
+  border-color: rgba(16, 185, 129, .42);
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, .08), 0 14px 34px rgba(15, 23, 42, .08);
+}
+
+/* Keyboard focus gets a premium ring while preserving visible accessibility. */
+.hlc-signed-in-shell :is(a, button, input, select, textarea):focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px rgba(56, 189, 248, .12);
+}
+
+@keyframes hlcSurfaceSheen {
+  from { transform: translateX(-145%); }
+  to { transform: translateX(145%); }
+}
+
+@keyframes hlcPresenceBreath {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(34, 197, 94, .10), 0 0 8px rgba(34, 197, 94, .18); }
+  50% { box-shadow: 0 0 0 4px rgba(34, 197, 94, .15), 0 0 15px rgba(34, 197, 94, .28); }
+}
+
+@keyframes hlcPresenceRing {
+  0%, 55% { transform: scale(.8); opacity: 0; }
+  65% { opacity: .6; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+@keyframes hlcAgentSweep {
+  from { transform: translateX(-125%); }
+  to { transform: translateX(125%); }
+}
+
+@keyframes hlcBusyShimmer {
+  0% { transform: translateX(-120%); }
+  70%, 100% { transform: translateX(120%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hlc-agent-presence,
+  .hlc-agent-presence::after,
+  .hlc-signed-in-shell [aria-busy="true"]::after,
+  .hlc-card::after,
+  .hlc-analytics-kpi::after,
+  .hlc-field-device-center::after,
+  .hlc-agent-card::before {
+    animation: none !important;
+    transform: none !important;
+  }
+}
