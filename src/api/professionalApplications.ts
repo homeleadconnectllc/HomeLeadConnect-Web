@@ -10,6 +10,7 @@ export type ProfessionalApplicationInput = {
   serviceTerritory: string;
   experienceSummary: string;
   communicationConsent: boolean;
+  honeypot: string;
 };
 
 export async function submitProfessionalApplication(input: ProfessionalApplicationInput) {
@@ -25,6 +26,7 @@ export async function submitProfessionalApplication(input: ProfessionalApplicati
     p_service_territory: input.serviceTerritory,
     p_experience_summary: input.experienceSummary,
     p_communication_consent: input.communicationConsent,
+    p_honeypot: input.honeypot,
   });
   if (error) throw error;
   return (data as Array<{ application_id: string; accepted: boolean }> | null)?.[0] ?? null;
