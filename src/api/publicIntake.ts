@@ -6,6 +6,7 @@ export async function submitServiceRequest(input: {
   phone: string;
   email: string;
   projectDetails: string;
+  honeypot: string;
 }) {
   requireSupabaseConfig();
   const { data, error } = await supabase.rpc("submit_public_service_request", {
@@ -15,6 +16,7 @@ export async function submitServiceRequest(input: {
     p_phone: input.phone,
     p_email: input.email || null,
     p_project_details: input.projectDetails,
+    p_honeypot: input.honeypot,
   });
   if (error) throw error;
   return (data as Array<{ lead_id: number; accepted: boolean }> | null)?.[0] ?? null;
