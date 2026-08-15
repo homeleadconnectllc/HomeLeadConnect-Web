@@ -27,7 +27,7 @@ Deno.serve(async (req: Request) => {
     .select("id,endpoint,p256dh,auth").eq("user_id", notification.recipient_user_id).eq("enabled", true);
   if (subscriptionsError) return new Response("Subscription lookup failed", { status: 500 });
 
-  webpush.setVapidDetails(config.contact || "mailto:info@homeleadconnect.org", config.public_key, config.private_key);
+  webpush.setVapidDetails(config.contact || "mailto:homeleadconnect@gmail.com", config.public_key, config.private_key);
   const payload = JSON.stringify({ title: notification.title, body: notification.body, deep_link: notification.deep_link || "/notifications", tag: notification.id, notification_type: notification.notification_type });
 
   let sent = 0;
