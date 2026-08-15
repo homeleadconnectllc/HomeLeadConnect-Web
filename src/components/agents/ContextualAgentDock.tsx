@@ -86,7 +86,7 @@ export default function ContextualAgentDock() {
       const residentAccess = !resident.error && Boolean(resident.data?.length);
       const professionalAccess = !professional.error && Boolean(professional.data?.length);
       setAccess({
-        kind: internal && role ? "internal" : professionalAccess ? "professional" : residentAccess ? "resident" : null,
+        kind: internal || role ? "internal" : professionalAccess ? "professional" : residentAccess ? "resident" : null,
         role,
         userId,
       });
