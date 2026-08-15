@@ -42,6 +42,41 @@ type AccessState = {
   userId: string | null;
 };
 
+type MobileIconName = "home" | "leads" | "jobs" | "messages" | "notifications" | "profile" | "more";
+
+type MobileNavItem = {
+  label: string;
+  route: string;
+  icon: MobileIconName;
+};
+
+function MobileNavIcon({ name }: { name: MobileIconName }) {
+  if (name === "home") {
+    return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.8 12 3l9 7.8v9.1a1.1 1.1 0 0 1-1.1 1.1h-5.3v-6.2H9.4V21H4.1A1.1 1.1 0 0 1 3 19.9Z" /></svg>;
+  }
+  if (name === "leads") {
+    return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4.8 20c.8-4 3.2-6 7.2-6s6.4 2 7.2 6" /></svg>;
+  }
+  if (name === "jobs") {
+    return <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M9 7V4h6v3M3 12h18" /></svg>;
+  }
+  if (name === "messages") {
+    return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v12H9l-5 4Z" /></svg>;
+  }
+  if (name === "notifications") {
+    return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.8 10a5.2 5.2 0 0 1 10.4 0c0 5 2.2 5.1 2.2 7H4.6c0-1.9 2.2-2 2.2-7ZM9.7 20h4.6" /></svg>;
+  }
+  if (name === "profile") {
+    return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M5 21c.6-4.5 3-6.7 7-6.7s6.4 2.2 7 6.7" /></svg>;
+  }
+  return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.7" /><circle cx="12" cy="12" r="1.7" /><circle cx="19" cy="12" r="1.7" /></svg>;
+}
+
+function mobileRouteIsActive(pathname: string, route: string) {
+  if (route === "/dashboard" || route === "/homeowner-portal" || route === "/contractor-portal") return pathname === route;
+  return pathname === route || pathname.startsWith(`${route}/`);
+}
+
 export default function Navbar() {
   const { session, loading } = useAuth();
   const [access, setAccess] = useState<AccessState>({ business: false, homeowner: false, contractor: false, role: null, userId: null });
@@ -115,6 +150,29 @@ export default function Navbar() {
   const accessResolved = !session || access.userId === session.user.id;
   const showBusinessTools = access.business && Boolean(access.role);
   const brandDestination = signedIn ? (access.business ? "/dashboard" : access.homeowner ? "/homeowner-portal" : access.contractor ? "/contractor-portal" : "/portal/accept") : "/login";
+
+  const mobilePrimaryLinks = useMemo<MobileNavItem[]>(() => {
+    if (!signedIn || !accessResolved) return [];
+    if (showBusinessTools && access.role) {
+      return [
+        { label: "Home", route: "/dashboard", icon: "home" as const },
+        { label: "Leads", route: "/leads", icon: "leads" as const },
+        { label: "Jobs", route: "/jobs", icon: "jobs" as const },
+        { label: "Messages", route: "/messages", icon: "messages" as const },
+      ].filter((item) => canAccessWorkspacePath(access.role, item.route));
+    }
+
+    const portalHome = access.homeowner ? "/homeowner-portal" : access.contractor ? "/contractor-portal" : "/portal/accept";
+    const portalLinks: MobileNavItem[] = [{ label: "Home", route: portalHome, icon: "home" }];
+    if (access.homeowner || access.contractor) {
+      portalLinks.push(
+        { label: "Messages", route: "/messages", icon: "messages" },
+        { label: "Alerts", route: "/notifications", icon: "notifications" },
+        { label: "Profile", route: "/profile", icon: "profile" },
+      );
+    }
+    return portalLinks;
+  }, [access.contractor, access.homeowner, access.role, accessResolved, showBusinessTools, signedIn]);
 
   function closeMobileMenu() {
     setMobileOpenAt(null);
@@ -225,6 +283,36 @@ export default function Navbar() {
 
         <div className="hlc-navbar-links hlc-desktop-navigation">{renderMenuContents()}</div>
       </nav>
+
+      {signedIn && accessResolved && mobilePrimaryLinks.length > 0 && (
+        <nav className="hlc-mobile-tabbar" aria-label="Mobile primary navigation">
+          {mobilePrimaryLinks.map((item) => {
+            const active = mobileRouteIsActive(location.pathname, item.route);
+            return (
+              <Link
+                key={item.route}
+                to={item.route}
+                className={active ? "is-active" : undefined}
+                aria-current={active ? "page" : undefined}
+                onClick={closeMobileMenu}
+              >
+                <MobileNavIcon name={item.icon} />
+                <span>{item.label}</span>
+              </Link>
+            );
+          })}
+          <button
+            type="button"
+            className={mobileOpen ? "is-active" : undefined}
+            aria-expanded={mobileOpen}
+            aria-label={mobileOpen ? "Close all HLC areas" : "Open all HLC areas"}
+            onClick={() => setMobileOpenAt(mobileOpen ? null : location.pathname)}
+          >
+            <MobileNavIcon name="more" />
+            <span>More</span>
+          </button>
+        </nav>
+      )}
       {mobileDrawer}
     </>
   );
