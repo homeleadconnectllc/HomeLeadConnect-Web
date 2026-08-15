@@ -89,6 +89,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 81. `20260814223000_provider_map_coordinate_confidence.sql`
 82. `20260815012500_harden_legacy_lead_routing.sql`
 83. `20260815014000_launch_surface_fk_indexes.sql`
+84. `20260815015000_harden_notification_browser_updates.sql`
 
 ## Current production rules
 
@@ -114,6 +115,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - Provider/resident profile-type labels are presentation metadata, never authorization. Renter and subcontractor workflow mechanics that remain undefined must be represented as setup-required rather than fabricated.
 - Professional portal self-service is anchored to an active `contractor_portal_links` relationship. It may update the linked provider's approved profile/service/availability fields but cannot self-grant workspace authority, verification, licensing approval, assignments, billing authority, or map-coordinate authority.
 - Normal browser roles may append and read authorized activity but cannot rewrite/delete audit history.
+- Notification recipients may update only their own `read_at` state; browser roles cannot rewrite canonical notification title, body, routing, event type, recipient, or source metadata.
 - Anonymous/public callers must never receive direct execution access to internal automation, billing, owner approval, system-health, or staff-only functions.
 - UI hiding is not an authorization boundary. Direct-route, RLS/RPC, storage, and server-side checks must continue to enforce the same access rules.
 
