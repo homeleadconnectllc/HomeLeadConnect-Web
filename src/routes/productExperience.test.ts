@@ -1,0 +1,33 @@
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import test from "node:test";
+
+const responsiveContract = readFileSync("src/styles/responsive-page-contract.css", "utf8");
+const contextualDockCss = readFileSync("src/styles/contextual-agent-dock.css", "utf8");
+const tutorialDock = readFileSync("src/components/tutorials/LiveTutorialDock.tsx", "utf8");
+const providerMap = readFileSync("src/pages/dashboard/ProviderMap.tsx", "utf8");
+
+test("all routed HLC page content remains globally centered", () => {
+  assert.match(responsiveContract, /\.hlc-route-content > main,\s*\.hlc-route-content > main \* \{\s*text-align: center !important;/s);
+  assert.match(responsiveContract, /:is\(input, select, textarea, option\)[\s\S]*text-align: center !important;/);
+  assert.match(responsiveContract, /:is\(a, button\)[\s\S]*text-align: center !important;/);
+  assert.match(responsiveContract, /justify-content: center !important;/);
+});
+
+test("browser speech synthesis is never used as an HLC voice fallback", () => {
+  assert.doesNotMatch(tutorialDock, /speechSynthesis|SpeechSynthesisUtterance/);
+});
+
+test("mobile contextual agent controls do not automatically cover business content", () => {
+  assert.match(contextualDockCss, /@media \(max-width: 720px\)[\s\S]*\.hlc-agent-greeting \{ display: none; \}/);
+  assert.match(contextualDockCss, /bottom: max\(82px, calc\(env\(safe-area-inset-bottom\) \+ 70px\)\)/);
+});
+
+test("provider map selection preserves coordinate confidence color", () => {
+  assert.match(providerMap, /provider\.coordinate_accuracy === "approximate" \? approximatePinStyle : verifiedPinStyle/);
+  const selectedStyle = providerMap.match(/const selectedPinStyle = \{([^}]+)\}/s)?.[1] ?? "";
+  assert.ok(selectedStyle, "selected pin style must exist");
+  assert.doesNotMatch(selectedStyle, /background\s*:/, "selected state must not replace approximate or verified pin color");
+  assert.match(providerMap, /Approximate area/);
+  assert.match(providerMap, /Verified map location/);
+});
