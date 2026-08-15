@@ -15,6 +15,9 @@ const messagesPage = readFileSync("src/pages/dashboard/Messages.tsx", "utf8");
 const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
 const workspaceNav = readFileSync("src/styles/workspace-nav.css", "utf8");
 const mobileAppShell = readFileSync("src/styles/mobile-app-shell.css", "utf8");
+const mobileWorkDock = readFileSync("src/components/mobile/MobileWorkDock.tsx", "utf8");
+const mobileWorkDockCss = readFileSync("src/styles/mobile-work-dock.css", "utf8");
+const appLayout = readFileSync("src/routes/AppLayout.tsx", "utf8");
 const premiumTheme = readFileSync("src/styles/premium-theme.css", "utf8");
 const premiumEffects = readFileSync("src/styles/premium-effects.css", "utf8");
 const contrastContract = readFileSync("src/styles/contrast-contract.css", "utf8");
@@ -51,6 +54,21 @@ test("signed-in mobile navigation behaves like an adaptive field app", () => {
   assert.match(mobileAppShell, /repeat\(auto-fit, minmax\(0, 1fr\)\)/);
   assert.match(mobileAppShell, /:has\(\.hlc-mobile-tabbar\) \.hlc-navbar-toggle/);
   assert.match(mainEntry, /\.\/styles\/mobile-app-shell\.css/);
+});
+
+test("mobile workspace exposes a persistent remote-work action dock", () => {
+  assert.match(appLayout, /session && <MobileWorkDock \/>/);
+  assert.match(mobileWorkDock, /aria-label="Mobile work actions"/);
+  assert.match(mobileWorkDock, /label: "Call"/);
+  assert.match(mobileWorkDock, /label: "Text"/);
+  assert.match(mobileWorkDock, /label: "Schedule"/);
+  assert.match(mobileWorkDock, /label: "Follow Up"/);
+  assert.match(mobileWorkDock, /label: "Voice Note"/);
+  assert.match(mobileWorkDock, /\/messages\?compose=voice-note/);
+  assert.match(mobileWorkDockCss, /@media \(max-width: 720px\)/);
+  assert.match(mobileWorkDockCss, /bottom: calc\(82px \+ env\(safe-area-inset-bottom\)\)/);
+  assert.match(mobileWorkDockCss, /grid-template-columns: repeat\(5, minmax\(0, 1fr\)\)/);
+  assert.match(mainEntry, /\.\/styles\/mobile-work-dock\.css/);
 });
 
 test("premium HLC presentation layer stays blue-cyan beneath contrast and responsive contracts", () => {
