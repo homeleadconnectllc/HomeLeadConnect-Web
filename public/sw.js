@@ -1,6 +1,13 @@
 self.addEventListener("install", () => self.skipWaiting());
 self.addEventListener("activate", (event) => event.waitUntil(self.clients.claim()));
 
+function safeHlcNotificationTarget(value) {
+  const candidate = String(value || "").trim();
+  if (!candidate.startsWith("/") || candidate.startsWith("//")) return "/notifications";
+  const resolved = new URL(candidate, self.location.origin);
+  return resolved.origin === self.location.origin ? `${resolved.pathname}${resolved.search}${resolved.hash}` : "/notifications";
+}
+
 self.addEventListener("push", (event) => {
   if (!event.data) return;
   let payload = {};
@@ -10,7 +17,7 @@ self.addEventListener("push", (event) => {
     body: payload.body || "You have a new HLC update.",
     icon: "/hlc-logo-final.png",
     badge: "/hlc-logo-final.png",
-    data: { url: payload.deep_link || "/notifications" },
+    data: { url: safeHlcNotificationTarget(payload.deep_link) },
     tag: payload.tag || undefined,
   };
   event.waitUntil(self.registration.showNotification(title, options));
@@ -18,7 +25,7 @@ self.addEventListener("push", (event) => {
 
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
-  const target = new URL(event.notification.data?.url || "/notifications", self.location.origin).href;
+  const target = new URL(safeHlcNotificationTarget(event.notification.data?.url), self.location.origin).href;
   event.waitUntil((async () => {
     const windows = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
     for (const client of windows) {
