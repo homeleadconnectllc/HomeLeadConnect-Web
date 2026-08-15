@@ -11,6 +11,7 @@ const callCenter = readFileSync("src/pages/dashboard/CallCenter.tsx", "utf8");
 const notificationCenter = readFileSync("src/components/notifications/RealtimeNotificationCenter.tsx", "utf8");
 const serviceWorker = readFileSync("public/sw.js", "utf8");
 const voiceNotes = readFileSync("src/api/voiceNotes.ts", "utf8");
+const voiceNoteRecorder = readFileSync("src/components/messages/VoiceNoteRecorder.tsx", "utf8");
 const messagesPage = readFileSync("src/pages/dashboard/Messages.tsx", "utf8");
 const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
 const workspaceNav = readFileSync("src/styles/workspace-nav.css", "utf8");
@@ -69,6 +70,16 @@ test("mobile workspace exposes a persistent remote-work action dock", () => {
   assert.match(mobileWorkDockCss, /bottom: calc\(82px \+ env\(safe-area-inset-bottom\)\)/);
   assert.match(mobileWorkDockCss, /grid-template-columns: repeat\(5, minmax\(0, 1fr\)\)/);
   assert.match(mainEntry, /\.\/styles\/mobile-work-dock\.css/);
+});
+
+test("mobile voice-note action opens a ready recorder in the selected conversation", () => {
+  assert.match(messagesPage, /useSearchParams/);
+  assert.match(messagesPage, /searchParams\.get\("compose"\) === "voice-note"/);
+  assert.match(messagesPage, /focusOnMount=\{composeVoiceNote\}/);
+  assert.match(messagesPage, /Voice note mode is ready/);
+  assert.match(voiceNoteRecorder, /focusOnMount\?: boolean/);
+  assert.match(voiceNoteRecorder, /recordButtonRef\.current\?\.focus\(\)/);
+  assert.match(voiceNoteRecorder, /scrollIntoView/);
 });
 
 test("premium HLC presentation layer stays blue-cyan beneath contrast and responsive contracts", () => {
