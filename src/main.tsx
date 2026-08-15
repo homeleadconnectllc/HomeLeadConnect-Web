@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import "./styles/workspace-nav.css";
+import "./styles/mobile-app-shell.css";
 import "./styles/desktop-workspace-shell.css";
 import "./styles/agent-team.css";
 import "./styles/contextual-agent-dock.css";
