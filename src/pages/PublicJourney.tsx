@@ -15,10 +15,10 @@ const content: Record<PublicJourneyKey, { title: string; intro: string; sections
   },
   pricing: {
     title: "Pricing and access",
-    intro: "Residents can request and coordinate service through HLC without a SaaS subscription. Participating businesses can start with a 14-day free business trial, then continue at $99 per month.",
+    intro: "Residents can request and coordinate service through HLC without a SaaS subscription. Participating businesses can start with a 14-day free business trial, then continue at $49.99 per month.",
     sections: [
       ["14-day free business trial", "Create your company workspace and complete subscription setup. A payment method is required to begin the business trial."],
-      ["$99 per month after the trial", "The participating-business HLC workspace subscription is $99 per month after the 14-day trial period."],
+      ["$49.99 per month after the trial", "The participating-business HLC workspace subscription is $49.99 per month after the 14-day trial period."],
       ["Residents", "No HLC SaaS subscription is required to submit a service request or use an invited resident portal."],
       ["Service payments stay separate", "Provider service charges are separate from the HLC workspace subscription. HLC does not collect contractor-to-customer service payments in the Pennsylvania V1 launch model."],
     ],
@@ -67,7 +67,7 @@ export default function PublicJourney({ page }: { page: PublicJourneyKey }) {
     </header>
     {pricing && <section aria-label="Business workspace subscription" style={offerStyle}>
       <p style={offerEyebrowStyle}>HLC BUSINESS WORKSPACE</p>
-      <div style={priceRowStyle}><strong style={priceStyle}>$99</strong><span style={priceUnitStyle}>/ month after trial</span></div>
+      <div style={priceRowStyle}><strong style={priceStyle}>$49.99</strong><span style={priceUnitStyle}>/ month after trial</span></div>
       <p style={trialStyle}>14 days free · payment method required</p>
       <p style={offerCopyStyle}>Start with the full connected HLC business workspace. After sign-in, subscription setup and ongoing billing are managed from Settings.</p>
       <div style={offerActionsStyle}>
