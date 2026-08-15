@@ -86,10 +86,7 @@ export default function RealtimeNotificationCenter() {
   useEffect(() => {
     const userId = session?.user.id;
     if (!userId || typeof Notification === "undefined" || Notification.permission !== "granted") return;
-    if (window.localStorage.getItem(deviceAlertsDisabledKey(userId)) === "1") {
-      setDeviceAlertsEnabled(false);
-      return;
-    }
+    if (window.localStorage.getItem(deviceAlertsDisabledKey(userId)) === "1") return;
     void registerBackgroundPush()
       .then(() => {
         setDeviceAlertsEnabled(true);
