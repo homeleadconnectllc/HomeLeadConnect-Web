@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   listConversations,
   listPortalRecipients,
@@ -14,6 +15,8 @@ import VoiceNoteRecorder from "../../components/messages/VoiceNoteRecorder";
 
 export default function Messages() {
   const { session } = useAuth();
+  const [searchParams] = useSearchParams();
+  const composeVoiceNote = searchParams.get("compose") === "voice-note";
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [recipients, setRecipients] = useState<PortalRecipient[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -140,6 +143,11 @@ export default function Messages() {
     <main className="hlc-messages-page" style={pageStyle}>
       <h1>Messages</h1>
       <p>Persisted HLC portal messages. SMS and email are separate transports and are not represented as connected here.</p>
+      {composeVoiceNote && !loading && selected && (
+        <p role="status" style={{ color: "#075985", fontWeight: 800 }}>
+          Voice note mode is ready. The recorder below is attached to the selected conversation.
+        </p>
+      )}
       {loading && <p>Loading conversations…</p>}
       {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
       {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
@@ -194,7 +202,7 @@ export default function Messages() {
                     Play voice note from {new Date(note.created_at).toLocaleString()}
                   </button>
                 ))}
-                <VoiceNoteRecorder busy={busy} onUpload={addVoiceNote} />
+                <VoiceNoteRecorder busy={busy} onUpload={addVoiceNote} focusOnMount={composeVoiceNote} />
               </section>
             </> : <p>Select a conversation.</p>}
           </section>
