@@ -38,7 +38,10 @@ test("browser speech synthesis is never used as an HLC voice fallback", () => {
 
 test("mobile contextual agent controls do not automatically cover business content", () => {
   assert.match(contextualDockCss, /@media \(max-width: 720px\)[\s\S]*\.hlc-agent-greeting \{ display: none; \}/);
-  assert.match(contextualDockCss, /bottom: max\(82px, calc\(env\(safe-area-inset-bottom\) \+ 70px\)\)/);
+  assert.match(contextualDockCss, /left: max\(14px, env\(safe-area-inset-left\)\)/);
+  assert.match(contextualDockCss, /bottom: calc\(154px \+ env\(safe-area-inset-bottom\)\)/);
+  assert.match(contextualDockCss, /min-width: 132px/);
+  assert.match(contextualDockCss, /\.hlc-agent-dock-trigger span \{[\s\S]*display: grid/);
 });
 
 test("internal-only mobile routes retain an agent while role resolution completes", () => {
