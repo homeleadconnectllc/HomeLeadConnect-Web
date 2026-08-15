@@ -101,6 +101,34 @@ jobs:
           echo 'QA runtime did not become publicly usable.'
           exit 30
 
+      - name: Verify every static HLC route is delivered by QA
+        run: |
+          set -euo pipefail
+          BASE="$HLC_E2E_QA_URL"
+          ROUTES="$(grep -o 'path="[^"]*"' src/routes/AppRouter.tsx \
+            | sed -E 's/^path="(.*)"$/\1/' \
+            | grep -v ':' \
+            | grep -v '^\*$' \
+            | sort -u)"
+          test -n "$ROUTES"
+          failures=0
+          checked=0
+          while IFS= read -r route; do
+            [ -n "$route" ] || continue
+            checked=$((checked + 1))
+            body="/tmp/qa-route-${checked}.html"
+            code="$(curl -sS -L -o "$body" -w '%{http_code}' "${BASE}${route}" || true)"
+            if [ "$code" != "200" ] || ! grep -qi 'HomeLead Connect' "$body"; then
+              echo "FAIL route=$route http=$code"
+              failures=$((failures + 1))
+            else
+              echo "PASS route=$route http=$code"
+            fi
+          done <<< "$ROUTES"
+          echo "Static route delivery checked: $checked"
+          test "$checked" -ge 40
+          test "$failures" -eq 0
+
       - name: Runtime summary
         run: |
           echo "Exact SHA: $GITHUB_SHA"
