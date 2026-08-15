@@ -53,38 +53,39 @@ export default function LiveTutorialDock() {
   }, [tutorial]);
 
   if (!tutorial) return null;
+  const activeTutorial = tutorial;
 
   function closeTutorial() {
-    sessionStorage.setItem(seenKey(tutorial), "1");
+    sessionStorage.setItem(seenKey(activeTutorial), "1");
     setOpenKey(null);
   }
 
   function next() {
-    if (step >= tutorial.steps.length - 1) {
+    if (step >= activeTutorial.steps.length - 1) {
       closeTutorial();
       return;
     }
-    setStep((value) => Math.min(tutorial.steps.length - 1, value + 1));
+    setStep((value) => Math.min(activeTutorial.steps.length - 1, value + 1));
   }
 
   if (!open) return null;
 
   return (
-    <aside className="hlc-contextual-tutorial" aria-label={`${tutorial.title} tutorial`}>
+    <aside className="hlc-contextual-tutorial" aria-label={`${activeTutorial.title} tutorial`}>
       <section className="hlc-contextual-tutorial-panel" role="dialog" aria-modal="false" aria-labelledby="hlc-contextual-tutorial-title">
         <div className="hlc-contextual-tutorial-head">
           <div>
             <small>Quick guide</small>
-            <strong id="hlc-contextual-tutorial-title">{tutorial.title}</strong>
+            <strong id="hlc-contextual-tutorial-title">{activeTutorial.title}</strong>
           </div>
-          <button type="button" onClick={closeTutorial} aria-label={`Dismiss ${tutorial.title} tutorial`}>×</button>
+          <button type="button" onClick={closeTutorial} aria-label={`Dismiss ${activeTutorial.title} tutorial`}>×</button>
         </div>
-        {step === 0 && <p className="hlc-contextual-tutorial-intro">{tutorial.intro}</p>}
-        <div className="hlc-contextual-tutorial-progress">Step {step + 1} of {tutorial.steps.length}</div>
+        {step === 0 && <p className="hlc-contextual-tutorial-intro">{activeTutorial.intro}</p>}
+        <div className="hlc-contextual-tutorial-progress">Step {step + 1} of {activeTutorial.steps.length}</div>
         <p className="hlc-contextual-tutorial-step">{current}</p>
         <div className="hlc-contextual-tutorial-actions">
           <button type="button" onClick={() => setStep((value) => Math.max(0, value - 1))} disabled={step === 0}>Back</button>
-          <button type="button" onClick={next}>{step === tutorial.steps.length - 1 ? "Got it" : "Next"}</button>
+          <button type="button" onClick={next}>{step === activeTutorial.steps.length - 1 ? "Got it" : "Next"}</button>
         </div>
       </section>
     </aside>
