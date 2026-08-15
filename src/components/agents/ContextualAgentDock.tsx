@@ -115,7 +115,11 @@ export default function ContextualAgentDock() {
   if (!agent || hiddenRoutes.has(location.pathname)) return null;
 
   return (
-    <aside className={`hlc-agent-dock ${open ? "is-open" : ""}`} aria-label={`${agent.name} contextual assistant`}>
+    <aside
+      className={`hlc-agent-dock ${open ? "is-open" : ""}`}
+      data-agent={agent.id}
+      aria-label={`${agent.name} contextual assistant`}
+    >
       {!open && greetingVisible && (
         <div className="hlc-agent-greeting" role="status">
           <button type="button" onClick={() => setGreetingFor(null)} aria-label={`Dismiss ${agent.name} greeting`}>×</button>
@@ -127,6 +131,7 @@ export default function ContextualAgentDock() {
       {open && (
         <div className="hlc-agent-dock-panel">
           <div className="hlc-agent-dock-panel-head">
+            <img className="hlc-agent-panel-avatar" src={agent.avatar} alt="" aria-hidden="true" />
             <div><strong>{agent.name}</strong><small>{agent.role} · this page</small></div>
             <button type="button" onClick={() => setOpenFor(null)} aria-label={`Close ${agent.name} assistant`}>Close</button>
           </div>
@@ -138,6 +143,8 @@ export default function ContextualAgentDock() {
         type="button"
         className="hlc-agent-dock-trigger"
         aria-expanded={open}
+        aria-label={`${open ? "Close" : "Open"} ${agent.name} contextual assistant`}
+        title={`${agent.name} · ${agent.role}`}
         onClick={() => {
           const nextOpen = !open;
           setOpenFor(nextOpen ? location.pathname : null);
