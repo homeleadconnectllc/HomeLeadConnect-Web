@@ -85,7 +85,7 @@ jobs:
             curl -fsS -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
               "https://api.netlify.com/api/v1/deploys/$QA_DEPLOY_ID" > /tmp/qa-deploy-state.json
             STATE="$(jq -r '.state' /tmp/qa-deploy-state.json)"
-            CODE="$(curl -sS -L -o /tmp/qa.html -w '%{http_code}' "$EXPECTED" || true)"
+            CODE="$(curl --connect-timeout 10 --max-time 30 --retry 2 --retry-delay 1 --retry-all-errors -sS -L -o /tmp/qa.html -w '%{http_code}' "$EXPECTED" || true)"
             echo "Attempt $attempt: deploy=$STATE http=$CODE"
             if [ "$STATE" = "ready" ] && [ "$CODE" = "200" ] && grep -qi 'HomeLead Connect' /tmp/qa.html; then
               echo "Verified public QA runtime: $EXPECTED"
@@ -117,7 +117,7 @@ jobs:
             [ -n "$route" ] || continue
             checked=$((checked + 1))
             body="/tmp/qa-route-${checked}.html"
-            code="$(curl -sS -L -o "$body" -w '%{http_code}' "${BASE}${route}" || true)"
+            code="$(curl --connect-timeout 10 --max-time 30 --retry 2 --retry-delay 1 --retry-all-errors -sS -L -o "$body" -w '%{http_code}' "${BASE}${route}" || true)"
             if [ "$code" != "200" ] || ! grep -qi 'HomeLead Connect' "$body"; then
               echo "FAIL route=$route http=$code"
               failures=$((failures + 1))
