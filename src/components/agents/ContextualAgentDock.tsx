@@ -141,7 +141,7 @@ export default function ContextualAgentDock() {
   const [access, setAccess] = useState<AccessContext>({ kind: null, role: null, userId: null });
   const [openFor, setOpenFor] = useState<string | null>(null);
   const [briefing, setBriefing] = useState("");
-  const [briefingVisible, setBriefingVisible] = useState(true);
+  const [dismissedBriefingFor, setDismissedBriefingFor] = useState<string | null>(null);
   const [briefingBusy, setBriefingBusy] = useState(false);
   const voicedBriefingRef = useRef("");
 
@@ -180,7 +180,6 @@ export default function ContextualAgentDock() {
     let active = true;
     const cacheKey = `hlc.agentBriefing.v1:${agent.id}:${location.pathname}`;
     const cached = window.sessionStorage.getItem(cacheKey);
-    setBriefingVisible(true);
     voicedBriefingRef.current = "";
 
     if (cached) {
@@ -248,12 +247,12 @@ export default function ContextualAgentDock() {
       data-agent={agent.id}
       aria-label={`${agent.name} contextual assistant and tutorial coach`}
     >
-      {briefingVisible && !open && (
+      {dismissedBriefingFor !== location.pathname && !open && (
         <section className="hlc-agent-proactive-briefing" aria-live="polite" aria-label={`${agent.name} proactive workspace briefing`}>
           <div className="hlc-agent-proactive-briefing-head">
             <img src={agent.avatar} alt="" aria-hidden="true" />
             <div><strong>{agent.name}</strong><small>{agent.role} · live briefing</small></div>
-            <button type="button" onClick={() => setBriefingVisible(false)} aria-label={`Dismiss ${agent.name} briefing`}>×</button>
+            <button type="button" onClick={() => setDismissedBriefingFor(location.pathname)} aria-label={`Dismiss ${agent.name} briefing`}>×</button>
           </div>
           <p>{briefingBusy ? `${agent.name} is checking the workspace…` : briefing}</p>
           <button type="button" className="hlc-agent-proactive-open" onClick={() => setOpenFor(location.pathname)}>Open {agent.name}</button>
