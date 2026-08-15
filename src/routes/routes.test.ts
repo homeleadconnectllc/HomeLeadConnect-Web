@@ -11,6 +11,7 @@ const communityHub = readFileSync("src/pages/dashboard/CommunityHub.tsx", "utf8"
 const publicInfo = readFileSync("src/pages/PublicInfo.tsx", "utf8");
 const mainEntry = readFileSync("src/main.tsx", "utf8");
 const responsiveContract = readFileSync("src/styles/responsive-page-contract.css", "utf8");
+const finalReleaseGuard = readFileSync("src/styles/final-release-guard.css", "utf8");
 const publicCopy = ["src/pages/HomePage.tsx", "src/pages/PublicInfo.tsx", "src/pages/ContactPage.tsx", "src/pages/Legal.tsx"]
   .map((path) => readFileSync(path, "utf8"))
   .join("\n");
@@ -54,9 +55,10 @@ test("company rollout operating guides remain declared and actionable", () => {
   assert.match(operationalGuide, /Incident response/);
 });
 
-test("global responsive page contract is loaded last and covers desktop tablet and phone", () => {
+test("responsive page contract is followed by the final narrow-mobile release guard", () => {
   const importLines = [...mainEntry.matchAll(/import "\.\/styles\/([^"]+\.css)";/g)].map((match) => match[1]);
-  assert.equal(importLines.at(-1), "responsive-page-contract.css");
+  assert.equal(importLines.at(-2), "responsive-page-contract.css");
+  assert.equal(importLines.at(-1), "final-release-guard.css");
   assert.match(responsiveContract, /\.hlc-route-content > main/);
   assert.match(responsiveContract, /margin-inline: auto !important/);
   assert.match(responsiveContract, /--hlc-page-max: 1440px/);
@@ -66,6 +68,9 @@ test("global responsive page contract is loaded last and covers desktop tablet a
   assert.match(responsiveContract, /@media \(max-width: 390px\)/);
   assert.match(responsiveContract, /Provider coordinate map/);
   assert.match(responsiveContract, /:has\(table\)/);
+  assert.match(finalReleaseGuard, /min-width: 320px/);
+  assert.match(finalReleaseGuard, /max-width: 430px/);
+  assert.match(finalReleaseGuard, /overflow-x: clip/);
 });
 
 test("Community is a unified public and authenticated Network front door", () => {
