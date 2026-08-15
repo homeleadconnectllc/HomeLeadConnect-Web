@@ -1,0 +1,104 @@
+.hlc-agent-proactive-briefing {
+  width: min(390px, calc(100vw - 32px));
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid color-mix(in srgb, var(--agent-accent) 52%, transparent);
+  border-radius: 16px 16px 4px 16px;
+  background:
+    linear-gradient(145deg, rgba(3, 9, 20, .97), rgba(7, 17, 31, .96)),
+    radial-gradient(circle at 88% 0%, var(--agent-accent-soft), transparent 38%);
+  color: #eaf4ff;
+  box-shadow: 0 0 28px var(--agent-glow), 0 18px 46px rgba(2, 8, 23, .48);
+  pointer-events: auto;
+  text-align: left;
+}
+
+.hlc-agent-proactive-briefing-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+}
+
+.hlc-agent-proactive-briefing-head img {
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--agent-accent);
+  border-radius: 999px;
+  object-fit: cover;
+  box-shadow: 0 0 14px var(--agent-glow);
+}
+
+.hlc-agent-proactive-briefing-head > div { display: grid; min-width: 0; gap: 1px; }
+.hlc-agent-proactive-briefing-head strong { color: #f8fafc; font-size: 13px; }
+.hlc-agent-proactive-briefing-head small {
+  color: var(--agent-accent);
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.hlc-agent-proactive-briefing-head > button {
+  width: 36px;
+  min-width: 36px;
+  height: 36px;
+  min-height: 36px;
+  padding: 0;
+  border: 1px solid rgba(147, 197, 253, .22);
+  border-radius: 999px;
+  background: rgba(15, 23, 42, .78);
+  color: #bfdbfe;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.hlc-agent-proactive-briefing p {
+  display: -webkit-box;
+  margin: 10px 0;
+  overflow: hidden;
+  color: #dbeafe;
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+.hlc-agent-proactive-open {
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 1px solid color-mix(in srgb, var(--agent-accent) 58%, #334155);
+  border-radius: 10px;
+  background: linear-gradient(145deg, #0b1b30, #07111f);
+  color: #f8fafc;
+  font-weight: 900;
+}
+
+/* Device behavior contract:
+   - shared visual language across desktop/mobile;
+   - desktop may proactively speak when user voice preference allows;
+   - mobile stays visually proactive but never auto-speaks from this surface;
+   - mobile field-work controls remain separate from desktop agent controls. */
+@media (max-width: 720px) {
+  .hlc-agent-proactive-briefing {
+    width: min(320px, calc(100vw - 28px));
+    max-height: 174px;
+    padding: 10px;
+    border-radius: 14px 14px 4px 14px;
+    overflow: hidden;
+  }
+
+  .hlc-agent-proactive-briefing-head img { width: 34px; height: 34px; }
+  .hlc-agent-proactive-briefing p {
+    margin: 8px 0;
+    font-size: 12px;
+    line-height: 1.4;
+    -webkit-line-clamp: 3;
+  }
+  .hlc-agent-proactive-open { min-height: 38px; padding: 6px 10px; font-size: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hlc-agent-proactive-briefing,
+  .hlc-agent-proactive-open { transition: none !important; }
+}
