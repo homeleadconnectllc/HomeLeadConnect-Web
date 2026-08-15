@@ -7,6 +7,8 @@ const contextualDockCss = readFileSync("src/styles/contextual-agent-dock.css", "
 const tutorialDock = readFileSync("src/components/tutorials/LiveTutorialDock.tsx", "utf8");
 const providerMap = readFileSync("src/pages/dashboard/ProviderMap.tsx", "utf8");
 const manualCommunications = readFileSync("src/pages/dashboard/ManualCommunications.tsx", "utf8");
+const notificationCenter = readFileSync("src/components/notifications/RealtimeNotificationCenter.tsx", "utf8");
+const serviceWorker = readFileSync("public/sw.js", "utf8");
 
 test("all routed HLC page content remains globally centered", () => {
   assert.match(responsiveContract, /\.hlc-route-content > main,\s*\.hlc-route-content > main \* \{\s*text-align: center !important;/s);
@@ -39,4 +41,19 @@ test("Google Voice workspace setup remains management-only in the UI", () => {
   assert.match(manualCommunications, /if \(!canConfigureGoogleVoice\) return;/);
   assert.match(manualCommunications, /Google Voice workspace setup is limited to an HLC owner or manager/);
   assert.match(manualCommunications, /Save operator-reported activity/);
+});
+
+test("device alerts support explicit disable without silent re-enrollment", () => {
+  assert.match(notificationCenter, /disable_hlc_web_push_subscription/);
+  assert.match(notificationCenter, /subscription\.unsubscribe\(\)/);
+  assert.match(notificationCenter, /hlc-device-alerts-disabled:/);
+  assert.match(notificationCenter, /Disable device alerts/);
+  assert.match(notificationCenter, /localStorage\.getItem\(deviceAlertsDisabledKey\(userId\)\) === "1"/);
+});
+
+test("notification deep links stay inside HLC in foreground and service worker", () => {
+  assert.match(notificationCenter, /candidate\.startsWith\("\/"\) && !candidate\.startsWith\("\/\/"\)/);
+  assert.match(notificationCenter, /safeHlcDeepLink\(latest\.deep_link\)/);
+  assert.match(serviceWorker, /safeHlcNotificationTarget/);
+  assert.match(serviceWorker, /resolved\.origin === self\.location\.origin/);
 });
