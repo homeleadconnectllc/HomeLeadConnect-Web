@@ -1,0 +1,64 @@
+.hlc-mobile-work-dock {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .hlc-mobile-work-dock {
+    position: fixed;
+    left: 50%;
+    bottom: calc(82px + env(safe-area-inset-bottom));
+    z-index: 45;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    width: min(94vw, 560px);
+    transform: translateX(-50%);
+    overflow: hidden;
+    border: 1px solid rgba(148, 163, 184, 0.45);
+    border-radius: 18px;
+    background: rgba(15, 23, 42, 0.96);
+    box-shadow: 0 18px 48px rgba(15, 23, 42, 0.26);
+    backdrop-filter: blur(16px);
+  }
+
+  .hlc-mobile-work-dock-action {
+    display: flex;
+    min-width: 0;
+    min-height: 58px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 7px 4px;
+    color: #f8fafc;
+    font-size: 10px;
+    font-weight: 800;
+    line-height: 1.1;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .hlc-mobile-work-dock-action + .hlc-mobile-work-dock-action {
+    border-left: 1px solid rgba(148, 163, 184, 0.22);
+  }
+
+  .hlc-mobile-work-dock-action[aria-current="page"] {
+    background: rgba(14, 165, 233, 0.18);
+  }
+
+  .hlc-mobile-work-dock-action:focus-visible {
+    outline: 3px solid #67e8f9;
+    outline-offset: -3px;
+  }
+
+  .hlc-signed-in-shell:has(.hlc-mobile-work-dock) .hlc-route-content {
+    padding-bottom: calc(158px + env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hlc-mobile-work-dock,
+  .hlc-mobile-work-dock-action {
+    scroll-behavior: auto;
+    transition: none;
+  }
+}
