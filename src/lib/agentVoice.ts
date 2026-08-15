@@ -10,28 +10,29 @@ type AudioContextWindow = typeof window & {
   webkitAudioContext?: typeof AudioContext;
 };
 
-const STORAGE_KEY = "hlc.agentVoicePreferences.v1";
+const STORAGE_KEY = "hlc.agentVoicePreferences.v2";
 
-const DEFAULT_PREFERENCES: AgentVoicePreferences = {
-  enabled: true,
-  autoSpeak: true,
-};
+function defaultPreferences(): AgentVoicePreferences {
+  const desktop = typeof window !== "undefined" && window.matchMedia("(min-width: 721px)").matches;
+  return { enabled: true, autoSpeak: desktop };
+}
 
 let audioContext: AudioContext | null = null;
 let activeSource: AudioBufferSourceNode | null = null;
 
 export function getAgentVoicePreferences(): AgentVoicePreferences {
-  if (typeof window === "undefined") return DEFAULT_PREFERENCES;
+  const defaults = defaultPreferences();
+  if (typeof window === "undefined") return defaults;
   try {
     const stored = window.localStorage.getItem(STORAGE_KEY);
-    if (!stored) return DEFAULT_PREFERENCES;
+    if (!stored) return defaults;
     const parsed = JSON.parse(stored) as Partial<AgentVoicePreferences>;
     return {
-      enabled: typeof parsed.enabled === "boolean" ? parsed.enabled : DEFAULT_PREFERENCES.enabled,
-      autoSpeak: typeof parsed.autoSpeak === "boolean" ? parsed.autoSpeak : DEFAULT_PREFERENCES.autoSpeak,
+      enabled: typeof parsed.enabled === "boolean" ? parsed.enabled : defaults.enabled,
+      autoSpeak: typeof parsed.autoSpeak === "boolean" ? parsed.autoSpeak : defaults.autoSpeak,
     };
   } catch {
-    return DEFAULT_PREFERENCES;
+    return defaults;
   }
 }
 
