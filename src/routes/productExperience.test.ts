@@ -14,6 +14,7 @@ const messagesPage = readFileSync("src/pages/dashboard/Messages.tsx", "utf8");
 const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
 const workspaceNav = readFileSync("src/styles/workspace-nav.css", "utf8");
 const mobileAppShell = readFileSync("src/styles/mobile-app-shell.css", "utf8");
+const premiumTheme = readFileSync("src/styles/premium-theme.css", "utf8");
 const mainEntry = readFileSync("src/main.tsx", "utf8");
 
 test("all routed HLC page content remains globally centered", () => {
@@ -47,6 +48,16 @@ test("signed-in mobile navigation behaves like an adaptive field app", () => {
   assert.match(mobileAppShell, /repeat\(auto-fit, minmax\(0, 1fr\)\)/);
   assert.match(mobileAppShell, /:has\(\.hlc-mobile-tabbar\) \.hlc-navbar-toggle/);
   assert.match(mainEntry, /\.\/styles\/mobile-app-shell\.css/);
+});
+
+test("premium HLC presentation layer is loaded last and remains blue-cyan", () => {
+  assert.match(mainEntry, /\.\/styles\/responsive-page-contract\.css";\s*import "\.\/styles\/premium-theme\.css";/);
+  assert.match(premiumTheme, /--hlc-blue: #2563eb/);
+  assert.match(premiumTheme, /--hlc-cyan: #0891b2/);
+  assert.match(premiumTheme, /prefers-reduced-motion: reduce/);
+  assert.match(premiumTheme, /\.hlc-analytics-kpi::before/);
+  assert.match(premiumTheme, /\.hlc-signed-in-shell > \.hlc-navbar/);
+  assert.doesNotMatch(premiumTheme, /purple|violet|#aa3bff|#c084fc/i);
 });
 
 test("provider map selection preserves coordinate confidence color", () => {
