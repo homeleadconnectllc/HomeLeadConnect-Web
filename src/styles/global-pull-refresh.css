@@ -1,0 +1,61 @@
+.hlc-pull-refresh {
+  position: fixed;
+  top: max(10px, env(safe-area-inset-top));
+  left: 50%;
+  z-index: 10000;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 1px solid rgba(120, 190, 255, 0.32);
+  border-radius: 999px;
+  background: rgba(5, 16, 36, 0.92);
+  box-shadow: 0 12px 36px rgba(3, 12, 28, 0.24);
+  color: #f5f9ff;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, calc(-56px + min(var(--hlc-pull-distance), 88px))) scale(0.96);
+  transition: opacity 140ms ease, transform 140ms ease;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.hlc-pull-refresh.is-visible {
+  opacity: 1;
+  transform: translate(-50%, calc(-42px + min(var(--hlc-pull-distance), 88px))) scale(1);
+}
+
+.hlc-pull-refresh__spinner {
+  width: 17px;
+  height: 17px;
+  border: 2px solid rgba(255, 255, 255, 0.24);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  transform: rotate(calc(var(--hlc-pull-progress) * 270deg));
+}
+
+.hlc-pull-refresh.is-refreshing .hlc-pull-refresh__spinner {
+  animation: hlc-pull-refresh-spin 700ms linear infinite;
+}
+
+@keyframes hlc-pull-refresh-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (min-width: 900px), (pointer: fine) {
+  .hlc-pull-refresh {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hlc-pull-refresh,
+  .hlc-pull-refresh__spinner {
+    transition: none;
+    animation-duration: 1ms !important;
+  }
+}
