@@ -13,10 +13,6 @@ jobs:
   deploy-qa:
     runs-on: ubuntu-latest
     environment: production
-    env:
-      VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
-      VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
-      VITE_TURNSTILE_SITE_KEY: ${{ secrets.VITE_TURNSTILE_SITE_KEY }}
     steps:
       - name: Checkout exact branch source
         uses: actions/checkout@v4
@@ -30,12 +26,39 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Load public runtime configuration from production Netlify site
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: |
+          set -euo pipefail
+          test -n "$NETLIFY_AUTH_TOKEN" || { echo 'NETLIFY_AUTH_TOKEN is not configured'; exit 10; }
+
+          PROD_NAME="glittery-pavlova-0f33bd"
+          curl -fsS -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
+            "https://api.netlify.com/api/v1/sites?per_page=100" > /tmp/sites.json
+
+          PROD_SITE_ID="$(jq -r --arg n "$PROD_NAME" '.[] | select(.name == $n) | .id' /tmp/sites.json | head -n 1)"
+          PROD_ACCOUNT_ID="$(jq -r --arg n "$PROD_NAME" '.[] | select(.name == $n) | .account_id' /tmp/sites.json | head -n 1)"
+          test -n "$PROD_SITE_ID" && test "$PROD_SITE_ID" != "null" || { echo 'Production Netlify site was not found'; exit 14; }
+          test -n "$PROD_ACCOUNT_ID" && test "$PROD_ACCOUNT_ID" != "null" || { echo 'Production Netlify account id was not found'; exit 15; }
+
+          for key in VITE_SUPABASE_URL VITE_SUPABASE_ANON_KEY VITE_TURNSTILE_SITE_KEY; do
+            curl -fsS -H "Authorization: Bearer $NETLIFY_AUTH_TOKEN" \
+              "https://api.netlify.com/api/v1/accounts/$PROD_ACCOUNT_ID/env/$key?site_id=$PROD_SITE_ID" > "/tmp/${key}.json"
+            value="$(jq -r '[.values[] | select(.context == "production")][0].value // [.values[] | select(.context == "all")][0].value // empty' "/tmp/${key}.json")"
+            test -n "$value" || { echo "$key has no readable production/all value on the production Netlify site"; exit 16; }
+            echo "::add-mask::$value"
+            printf '%s=%s\n' "$key" "$value" >> "$GITHUB_ENV"
+          done
+
+          echo 'Loaded required public runtime configuration from production Netlify site.'
+
       - name: Verify public runtime configuration
         run: |
           set -euo pipefail
-          test -n "$VITE_SUPABASE_URL" || { echo 'VITE_SUPABASE_URL is not configured for the production GitHub environment'; exit 11; }
-          test -n "$VITE_SUPABASE_ANON_KEY" || { echo 'VITE_SUPABASE_ANON_KEY is not configured for the production GitHub environment'; exit 12; }
-          test -n "$VITE_TURNSTILE_SITE_KEY" || { echo 'VITE_TURNSTILE_SITE_KEY is not configured for the production GitHub environment'; exit 13; }
+          test -n "$VITE_SUPABASE_URL" || { echo 'VITE_SUPABASE_URL is unavailable'; exit 11; }
+          test -n "$VITE_SUPABASE_ANON_KEY" || { echo 'VITE_SUPABASE_ANON_KEY is unavailable'; exit 12; }
+          test -n "$VITE_TURNSTILE_SITE_KEY" || { echo 'VITE_TURNSTILE_SITE_KEY is unavailable'; exit 13; }
           echo 'Required public runtime configuration is present.'
 
       - name: Verify launch candidate
