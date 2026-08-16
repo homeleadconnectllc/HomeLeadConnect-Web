@@ -1,0 +1,75 @@
+.hlc-smart-compose {
+  position: fixed;
+  left: 50%;
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  z-index: 1500;
+  width: min(760px, calc(100% - 24px));
+  transform: translateX(-50%);
+  display: grid;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid rgba(96, 165, 250, 0.42);
+  border-radius: 16px;
+  background: rgba(8, 20, 38, 0.94);
+  color: #e2e8f0;
+  box-shadow: 0 18px 50px rgba(2, 8, 23, 0.28);
+  backdrop-filter: blur(14px);
+}
+
+.hlc-smart-compose__label {
+  padding: 0 4px;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7dd3fc;
+}
+
+.hlc-smart-compose__suggestions {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 1px;
+  scrollbar-width: none;
+}
+
+.hlc-smart-compose__suggestions::-webkit-scrollbar { display: none; }
+
+.hlc-smart-compose button {
+  flex: 0 0 auto;
+  min-height: 38px;
+  max-width: min(72vw, 360px);
+  padding: 8px 12px;
+  border: 1px solid rgba(148, 163, 184, 0.38);
+  border-radius: 999px;
+  background: rgba(15, 44, 80, 0.9);
+  color: #f8fafc;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 750;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hlc-smart-compose button:focus-visible {
+  outline: 3px solid #38bdf8;
+  outline-offset: 2px;
+}
+
+@media (max-width: 700px) {
+  .hlc-smart-compose {
+    bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+    width: calc(100% - 16px);
+    border-radius: 14px;
+    padding: 8px;
+  }
+
+  .hlc-smart-compose__label { display: none; }
+  .hlc-smart-compose button { min-height: 36px; font-size: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hlc-smart-compose, .hlc-smart-compose * { scroll-behavior: auto !important; }
+}
