@@ -1,4 +1,4 @@
-import { useRef, useState, type FormEvent } from "react";
+import { useRef, useState, type CSSProperties, type FormEvent } from "react";
 import { chatWithAgent, type AgentChatMessage } from "../../api/agentChat";
 import { agents, type AgentId } from "../../ai/agents";
 import { errorMessage } from "../../lib/errorMessage";
@@ -145,7 +145,7 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
     recognition.start();
   }
 
-  return <section className="hlc-ai-chat" style={{ "--chat-agent-accent": accent } as React.CSSProperties} aria-labelledby={`${agentId}-chat-title`} data-presence={presence}>
+  return <section className="hlc-ai-chat" style={{ "--chat-agent-accent": accent } as CSSProperties} aria-labelledby={`${agentId}-chat-title`} data-presence={presence} data-agent-experience="premium-conversation-v2">
     <header className="hlc-ai-chat-head">
       <div className="hlc-ai-presence-avatar" data-state={presence}>
         <img src={avatarByAgent[agentId]} alt="" aria-hidden="true" />
