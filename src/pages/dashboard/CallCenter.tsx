@@ -45,7 +45,7 @@ export default function CallCenter() {
   const [notes, setNotes] = useState("");
 
   const googleVoicePhone = phones.find((phone) => phone.provider_type === "google_voice") ?? null;
-  const deviceMode = useMemo(getDeviceMode, []);
+  const deviceMode = useMemo(() => getDeviceMode(), []);
   const voiceLaunchLabel = deviceMode === "ios" ? "Open Google Voice for iPhone" : "Open Google Voice";
 
   async function loadCalls() {
