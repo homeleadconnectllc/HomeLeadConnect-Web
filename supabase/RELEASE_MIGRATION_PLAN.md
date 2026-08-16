@@ -94,6 +94,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 86. `20260815022000_align_voice_note_portal_storage.sql`
 87. `20260815184500_harden_public_intake_rate_limit_and_honeypot.sql`
 88. `20260815190000_lock_public_intake_guard.sql`
+89. `20260816234500_expand_hlc_document_media_types.sql`
 
 ## Current production rules
 
@@ -124,6 +125,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - Anonymous/public callers must never receive direct execution access to internal automation, billing, owner approval, system-health, or staff-only functions.
 - UI hiding is not an authorization boundary. Direct-route, RLS/RPC, storage, and server-side checks must continue to enforce the same access rules.
 - Anonymous service-request and professional-application intake is throttled server-side with append-only attempt evidence. Honeypot submissions fail closed; direct browser execution of the internal guard is revoked.
+- The private `hlc-documents` bucket permits controlled document, photo, and short-video evidence only. It remains private, capped at 25 MB per object, and storage access stays governed by canonical document relationship/RLS checks.
 
 ## Production verification evidence — 2026-08-14
 
@@ -158,6 +160,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - Covering indexes were added for launch-critical AI audit/handoff, automation, Community, messenger/portal-participant, and workspace-invitation foreign keys.
 - Security and performance advisors were rerun after launch DDL. Leaked-password protection remains an external Supabase Auth setting gate; existing intentional public/server RPC linter findings remain tracked rather than being silenced by unsafe broad revocation.
 - The stable isolated QA site is used for physical-device acceptance before `main` is released.
+- `hlc-documents` was verified private with a 25 MB object cap after expanding its allowlist to include MP4, MOV, and WebM short-video evidence alongside the existing document/photo types.
 
 ## Change procedure after launch
 
