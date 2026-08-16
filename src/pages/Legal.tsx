@@ -5,7 +5,7 @@ type LegalPage = "privacy" | "terms" | "platform";
 
 const ReviewNotice = () => (
   <p className="hlc-legal-review" role="note">
-    <strong>ATTORNEY REVIEW REQUIRED:</strong> This Pennsylvania V1 draft is provided for pre-launch review and is not represented as attorney-approved.
+    <strong>Attorney review pending.</strong> This Pennsylvania V1 draft is for pre-launch review and is not represented as attorney-approved.
   </p>
 );
 
@@ -15,13 +15,15 @@ function PrivacyPage() {
       <Link to="/" aria-label="HomeLead Connect home">
         <img className="hlc-legal-logo" src="/hlc-logo-final.png" alt="HomeLead Connect" />
       </Link>
-      <div className="hlc-legal-status"><span className="hlc-legal-status-dot"/>HLC PRIVACY &amp; TRUST</div>
+      <div className="hlc-legal-status-copy">
+        <div className="hlc-legal-status-title">HomeLead Connect Privacy Center</div>
+        <div className="hlc-legal-status-subtitle">Secure access. Clear choices. Connected protection.</div>
+      </div>
     </header>
 
     <section className="hlc-legal-hero">
       <div className="hlc-legal-hero-grid">
         <div>
-          <div className="hlc-legal-kicker">HOMELEAD CONNECT LLC</div>
           <h1 className="hlc-legal-title">Privacy,<span>built into the experience.</span></h1>
           <p className="hlc-legal-lead">This Privacy Policy explains how HomeLead Connect LLC collects, uses, shares, and protects information when you use our websites, applications, forms, communications, and services.</p>
           <div className="hlc-legal-effective"><span className="hlc-legal-status-dot"/>Effective August 15, 2026</div>
