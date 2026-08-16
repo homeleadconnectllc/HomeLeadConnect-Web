@@ -6,7 +6,6 @@ import AnalyticsKpis from "../components/analytics/AnalyticsKpis";
 import AnalyticsTracker from "../components/analytics/AnalyticsTracker";
 import AudioDeviceCenter from "../components/audio/AudioDeviceCenter";
 import FieldDeviceCenter from "../components/device/FieldDeviceCenter";
-import MaterialShopLinks from "../components/estimator/MaterialShopLinks";
 import MobileWorkDock from "../components/mobile/MobileWorkDock";
 import { useAuth } from "../hooks/useAuth";
 
@@ -33,7 +32,6 @@ export default function AppLayout() {
     if (typeof window === "undefined") return false;
     return window.localStorage.getItem(DESKTOP_SIDEBAR_KEY) === "true";
   });
-  const showLeadScopeShopping = Boolean(session) && location.pathname === "/estimator";
   const showAudioDevices = Boolean(session) && (location.pathname === "/settings" || location.pathname === "/call-center");
   const showFieldDevices = Boolean(session) && location.pathname === "/settings";
   const showAnalytics = Boolean(session) && location.pathname === "/dashboard";
@@ -94,7 +92,6 @@ export default function AppLayout() {
       <div className="hlc-route-content">
         <Outlet />
         {showAnalytics && <AnalyticsKpis />}
-        {showLeadScopeShopping && <MaterialShopLinks />}
         {showAudioDevices && <AudioDeviceCenter />}
         {showFieldDevices && <FieldDeviceCenter />}
       </div>
