@@ -15,20 +15,23 @@
 .hlc-agent-team-intro {
   max-width: 650px;
   margin: 6px 0 0;
-  color: #8fa2ba;
+  color: #334155;
+  opacity: 1;
   font-size: .74rem;
+  font-weight: 650;
   line-height: 1.4;
 }
 
 .hlc-agent-team-chip {
   flex: 0 0 auto;
   padding: 7px 10px;
-  border: 1px solid rgba(96, 165, 250, .3);
+  border: 1px solid #93c5fd;
   border-radius: 999px;
-  background: rgba(37, 99, 235, .1);
-  color: #bfdbfe;
+  background: #dbeafe;
+  color: #0f172a;
+  opacity: 1;
   font-size: .7rem;
-  font-weight: 800;
+  font-weight: 900;
   letter-spacing: .06em;
   text-transform: uppercase;
 }
@@ -156,7 +159,8 @@
 
 .hlc-agent-card p {
   margin: 0;
-  color: #91a3ba;
+  color: #cbd5e1;
+  opacity: 1;
   font-size: .73rem;
   line-height: 1.45;
 }
@@ -213,7 +217,8 @@
 .hlc-nav-menu .hlc-agent-nav-link > .hlc-agent-nav-copy > small {
   display: block;
   overflow: hidden;
-  color: #8fa2ba;
+  color: #cbd5e1;
+  opacity: 1;
   font-size: .65rem;
   font-weight: 600;
   line-height: 1.3;
