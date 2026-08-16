@@ -133,7 +133,7 @@ export default function CallCenter() {
             <span><strong>Direct Voice call control API:</strong> Not connected</span>
           </div>
           <p style={{ margin: 0, fontSize: 14 }}>
-            Google Voice remains the carrier surface. Features available inside Google Voice depend on the Voice account and plan. HLC does not impersonate Google Voice controls or claim direct Answer, Hold, Transfer, Hang Up, recording, delivery or inbound synchronization unless a supported provider integration supplies that evidence.
+            Google Voice remains the carrier surface. Features available inside Google Voice depend on the Voice account and plan. HLC does not provide embedded Answer, Hold, Transfer, Hang Up controls and does not claim direct recording, delivery or inbound synchronization unless a supported provider integration supplies that evidence.
           </p>
         </section>
       )}
