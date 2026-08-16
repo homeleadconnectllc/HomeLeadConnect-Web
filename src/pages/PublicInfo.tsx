@@ -41,8 +41,10 @@ const communitySections = [
   ["Plan service", "Service Areas", "Review recorded service-area information before moving into assignment and scheduling.", "/network/service-areas", "View service areas"],
   ["Plan timing", "Availability", "Review recorded provider availability before moving into assignment or appointment scheduling.", "/network/availability", "View availability"],
   ["Stay connected", "Saved Providers", "Keep provider records you want to revisit in one HLC list instead of searching again.", "/network/saved", "Open saved providers"],
-  ["Community", "Discussions & Events", "Participate in discussions, groups, and event/update records inside the same HLC ecosystem.", "/community/discussions", "Open discussions"],
-  ["Trust & growth", "Reviews & Referrals", "Reviews stay tied to eligible completed HLC work, while referrals record attribution without silently enrolling or messaging another person.", "/community/reviews", "Open reviews"],
+  ["Community", "Discussions", "Participate in discussions and groups inside the same HLC ecosystem.", "/community/discussions", "Open discussions"],
+  ["Community", "Events & Updates", "Follow community events and updates without leaving the connected HLC experience.", "/community/events", "View events"],
+  ["Trust", "Completion-linked Reviews", "Reviews stay tied to eligible completed HLC work and canonical records.", "/community/reviews", "Open reviews"],
+  ["Growth", "Referrals", "Record referral attribution without silently enrolling or messaging another person.", "/community/referrals", "Open referrals"],
   ["One place", "Full Community Hub", "Use the signed-in Community hub as the launch point for Network discovery, participation, saved providers, trust signals, and Community operations.", "/community-hub", "Open Community Hub"],
 ] as const;
 
