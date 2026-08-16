@@ -5,6 +5,7 @@ import test from "node:test";
 const agentDock = readFileSync("src/components/agents/ContextualAgentDock.tsx", "utf8");
 const agentVoice = readFileSync("src/lib/agentVoice.ts", "utf8");
 const proactiveCss = readFileSync("src/styles/agent-proactive-briefing.css", "utf8");
+const tutorialCss = readFileSync("src/styles/agent-tutorial.css", "utf8");
 const mobileDock = readFileSync("src/components/mobile/MobileWorkDock.tsx", "utf8");
 const mobileDockCss = readFileSync("src/styles/mobile-work-dock.css", "utf8");
 
@@ -17,13 +18,14 @@ test("agents proactively brief users from verified HLC context without waiting f
   assert.match(agentDock, /sessionStorage/);
 });
 
-test("desktop and mobile share visual language without sharing intrusive voice behavior", () => {
+test("desktop can surface proactive briefing while mobile keeps one non-intrusive AI entry point", () => {
   assert.match(agentVoice, /window\.matchMedia\("\(min-width: 721px\)"\)/);
   assert.match(agentVoice, /autoSpeak: desktop/);
   assert.match(agentDock, /const desktop = window\.matchMedia\("\(min-width: 721px\)"\)\.matches/);
   assert.match(agentDock, /if \(!desktop \|\| !preferences\.enabled \|\| !preferences\.autoSpeak/);
-  assert.match(proactiveCss, /shared visual language across desktop\/mobile/);
-  assert.match(proactiveCss, /mobile stays visually proactive but never auto-speaks/);
+  assert.match(proactiveCss, /@media \(max-width: 720px\)[\s\S]*\.hlc-agent-proactive-briefing \{[\s\S]*display: none !important;/);
+  assert.match(tutorialCss, /-webkit-text-size-adjust: 100%/);
+  assert.match(tutorialCss, /max-height: min\(52dvh, 460px\) !important/);
 });
 
 test("mobile retains its field-work operational controls independently of desktop agent presentation", () => {
