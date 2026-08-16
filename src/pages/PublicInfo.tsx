@@ -5,7 +5,7 @@ const content = {
   about: {
     kicker: "About HomeLead Connect",
     title: "A connected operating layer for home-service work.",
-    body: "HomeLead Connect LLC is a Pennsylvania-first software platform founded and owned by Antoine Washington. HLC helps participating businesses organize service requests, LeadScope estimates, jobs, contractor assignments, appointments, communications, and related history in one workspace.",
+    body: "HomeLead Connect LLC is a Pennsylvania-first home-services technology platform founded, owned, created, and developed by Antoine Washington. HLC connects service requests, LeadScope estimates, provider coordination, scheduling, jobs, communications, documents, workflow automation, analytics, and customer follow-through in one operating system.",
   },
   homeowners: {
     kicker: "For residents",
@@ -15,12 +15,12 @@ const content = {
   contractors: {
     kicker: "For professionals",
     title: "Provider access built around explicit invitations and work history.",
-    body: "HomeLead Connect supports contractor records, job offers, assignment history, and scheduling for participating businesses. A public contractor portal is not yet available.",
+    body: "HomeLead Connect supports professional profiles, provider records, job offers, assignment history, service areas, availability, scheduling, and protected portal access for participating businesses and service professionals.",
   },
   how: {
     kicker: "How HLC works",
     title: "One request becomes a traceable service journey.",
-    body: "The current service workflow is Request → Estimate → Contractor Assignment → Schedule → Work. Each step is recorded separately; submitting a request does not skip later review or acceptance steps.",
+    body: "The HLC workflow keeps Request → Lead → LeadScope/Estimate → Provider coordination → Schedule → Job → Completion as explicit stages. Submitting a request does not skip later review, acceptance, pricing, or scheduling steps.",
   },
   leadscope: {
     kicker: "LeadScope",
@@ -66,6 +66,13 @@ export default function PublicInfo({ page }: { page: keyof typeof content }) {
         </div>
       </header>
 
+      {page === "about" && <section className="hlc-public-grid" aria-label="HomeLead Connect ownership and credits">
+        <article className="hlc-public-card"><p className="hlc-public-card-label">Founder & builder</p><h2>Antoine Washington</h2><p><strong>Founder · Owner · Product Creator · Lead Developer · Technical Architect</strong></p><p>Antoine Washington leads the HLC product vision, application build, workflow design, technical implementation, operating systems, and launch hardening.</p></article>
+        <article className="hlc-public-card"><p className="hlc-public-card-label">Operating model</p><h2>Connection + guidance + execution</h2><p>HLC is designed to keep customer requests, providers, scheduling, communications, documents, automation, and completion history connected instead of scattering the work across unrelated tools.</p></article>
+        <article className="hlc-public-card"><p className="hlc-public-card-label">AI operations team</p><h2>Kendrell · Dion · Diamond</h2><p>Kendrell supports command and risk, Dion supports operations and business intelligence, and Diamond supports customer experience and community. Their actions remain bounded by HLC roles, consent, workflow state, and database controls.</p></article>
+        <article className="hlc-public-card"><p className="hlc-public-card-label">Design credit</p><h2>HLC visual identity</h2><p>HomeLead Connect visual logo design credit: Dion Diamond.</p></article>
+      </section>}
+
       {page === "community" ? <section className="hlc-public-grid" aria-label="Community and network destinations">
         {communitySections.map(([eyebrow, title, body, to, action]) => <article className="hlc-public-card" key={title}>
           <p className="hlc-public-card-label">{eyebrow}</p>
@@ -73,13 +80,13 @@ export default function PublicInfo({ page }: { page: keyof typeof content }) {
           <p>{body}</p>
           <Link className="hlc-public-link" to={to}>{action} →</Link>
         </article>)}
-      </section> : <section className="hlc-public-grid">
+      </section> : page !== "about" && <section className="hlc-public-grid">
         <article className="hlc-public-card"><p className="hlc-public-card-label">Connected records</p><h2>One canonical history</h2><p>HLC keeps each request, estimate, job, appointment and communication attached to the correct record instead of scattering the work across disconnected tools.</p></article>
         <article className="hlc-public-card"><p className="hlc-public-card-label">Clear workflow</p><h2>Every stage stays explicit</h2><p>Requests, approvals, assignments and scheduling remain separate steps so the platform does not silently invent acceptance or completion.</p></article>
         <article className="hlc-public-card"><p className="hlc-public-card-label">Scoped access</p><h2>Access follows the relationship</h2><p>Workspace and portal information is shown through the account, membership, invitation and sharing relationships supported by HLC.</p></article>
       </section>}
 
-      {page === "contractors" && <section className="hlc-public-offer"><p className="hlc-public-offer-label">PROFESSIONAL ACCESS</p><div className="hlc-public-price"><strong>Invite-first</strong></div><p>Contractor access uses explicit workspace invitations and email magic-link authentication. It will be enabled only after production invitation delivery and contractor acceptance testing pass.</p></section>}
+      {page === "contractors" && <section className="hlc-public-offer"><p className="hlc-public-offer-label">PROFESSIONAL ACCESS</p><div className="hlc-public-price"><strong>Application + protected portal</strong></div><p>Professionals can apply to join HLC. Approved/invited participants use authenticated portal access for the records and services made available to their HLC relationship.</p></section>}
     </div>
   </main>;
 }
