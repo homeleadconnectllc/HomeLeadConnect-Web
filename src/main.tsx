@@ -26,6 +26,7 @@ import "./styles/premium-theme.css";
 import "./styles/premium-effects.css";
 import "./styles/contrast-contract.css";
 import "./styles/global-pull-refresh.css";
+import "./styles/global-smart-compose.css";
 import "./styles/responsive-page-contract.css";
 import "./styles/final-release-guard.css";
 import App from "./App.tsx";
