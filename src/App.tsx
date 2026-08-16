@@ -1,7 +1,13 @@
 import AppRouter from "./routes/AppRouter";
+import GlobalPullToRefresh from "./components/GlobalPullToRefresh";
 
 function App() {
-  return <AppRouter />;
+  return (
+    <>
+      <GlobalPullToRefresh />
+      <AppRouter />
+    </>
+  );
 }
 
 export default App;
