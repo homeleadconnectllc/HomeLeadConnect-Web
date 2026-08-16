@@ -5,6 +5,7 @@ type GuidePage = "help" | "tutorials" | "rules";
 const card = { display: "grid", gap: 10, padding: 20, border: "1px solid #cbd5e1", borderRadius: 16, background: "#fff", lineHeight: 1.55 } as const;
 const grid = { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,260px),1fr))", gap: 14 } as const;
 const row = { display: "flex", flexWrap: "wrap", gap: 10, alignItems: "center" } as const;
+const manualAction = { display: "inline-flex", alignItems: "center", justifyContent: "center", minHeight: 40, padding: "8px 12px", borderRadius: 10, border: "1px solid #bfdbfe", color: "#1d4ed8", background: "#eff6ff", textDecoration: "none", fontWeight: 900 } as const;
 
 export default function OperationalGuide({ page }: { page: GuidePage }) {
   return <main style={{ width: "min(1120px,calc(100% - 32px))", margin: "40px auto", display: "grid", gap: 20 }}>
@@ -13,10 +14,31 @@ export default function OperationalGuide({ page }: { page: GuidePage }) {
       <h1 style={{ margin: 0 }}>{page === "help" ? "Help Center" : page === "tutorials" ? "Role Tutorials" : "Rules & Safety"}</h1>
       <p style={{ margin: 0 }}>{page === "help" ? "Recover quickly when work, access, billing, communications, or a customer journey gets blocked." : page === "tutorials" ? "Use the shortest proven path for each HLC role and workflow." : "Operate HLC without bypassing privacy, authorization, consent, billing, provider, or community safeguards."}</p>
     </header>
+    {(page === "help" || page === "tutorials") && <ManualLibrary />}
     {page === "help" && <Help />}
     {page === "tutorials" && <Tutorials />}
     {page === "rules" && <Rules />}
   </main>;
+}
+
+function ManualLibrary() {
+  return <section style={{ ...card, borderColor: "#bfdbfe", background: "linear-gradient(145deg,#f8fbff,#eef6ff)" }} aria-labelledby="hlc-digital-manuals">
+    <p style={{ margin: 0, color: "#2563eb", fontSize: 11, fontWeight: 900, letterSpacing: ".12em" }}>DIGITAL OPERATIONS LIBRARY</p>
+    <h2 id="hlc-digital-manuals" style={{ margin: 0 }}>Keep the recovery instructions with the app</h2>
+    <p style={{ margin: 0, color: "#475569" }}>These manuals are built into HLC as digital files. Open them from any device, use your browser’s Print / Save as PDF option, or download a local copy for offline reference.</p>
+    <div style={grid}>
+      <article style={{ ...card, boxShadow: "none" }}>
+        <h3 style={{ margin: 0 }}>Technician Troubleshooting Manual</h3>
+        <p style={{ margin: 0 }}>Login/access recovery, workflow failures, Google Voice, voice notes, media uploads, billing boundaries, security incidents, and the escalation evidence package.</p>
+        <div style={row}><a href="/manuals/hlc-technician-troubleshooting-manual.html" target="_blank" rel="noreferrer" style={manualAction}>Open manual</a><a href="/manuals/hlc-technician-troubleshooting-manual.html" download="HLC-Technician-Troubleshooting-Manual.html" style={manualAction}>Download</a></div>
+      </article>
+      <article style={{ ...card, boxShadow: "none" }}>
+        <h3 style={{ margin: 0 }}>Manager Operations Manual</h3>
+        <p style={{ margin: 0 }}>Daily opening/closeout, golden workflow, provider operations, scheduling, automation policy, communications, customer status language, incidents, and AI-team boundaries.</p>
+        <div style={row}><a href="/manuals/hlc-manager-operations-manual.html" target="_blank" rel="noreferrer" style={manualAction}>Open manual</a><a href="/manuals/hlc-manager-operations-manual.html" download="HLC-Manager-Operations-Manual.html" style={manualAction}>Download</a></div>
+      </article>
+    </div>
+  </section>;
 }
 
 function Help() {
@@ -25,7 +47,7 @@ function Help() {
       <article style={card}><h2>Cannot sign in</h2><p>Use password recovery first. Staff invited to a company should return through the invitation link so HLC can attach the account to the correct workspace.</p><Link to="/forgot-password">Reset password →</Link></article>
       <article style={card}><h2>Wrong workspace or access</h2><p>Do not create duplicate accounts or share credentials. An owner/manager should verify Team membership and the assigned role.</p><Link to="/team">Open Team →</Link></article>
       <article style={card}><h2>Workflow is blocked</h2><p>Open the Golden Workflow and follow the first incomplete stage. Do not manually skip provider acceptance, appointment, completion, or other required lifecycle gates.</p><Link to="/workflow">Open Workflow →</Link></article>
-      <article style={card}><h2>Calls or messages</h2><p>Check Call Center and manual communications. Confirm consent/suppression state before automated delivery. Embedded calling appears only for a connected programmable carrier.</p><div style={row}><Link to="/call-center">Call Center</Link><Link to="/manual-communications">Communications</Link></div></article>
+      <article style={card}><h2>Calls or messages</h2><p>Check Call Center and manual communications. Confirm consent/suppression state before automated delivery. Google Voice can remain the live carrier surface while HLC preserves customer context, outcome, and follow-up.</p><div style={row}><Link to="/call-center">Call Center</Link><Link to="/manual-communications">Communications</Link></div></article>
       <article style={card}><h2>AI agent problem</h2><p>Retry once after refreshing. If voice generation or playback fails, the underlying record workflow remains available; do not substitute an AI response for a required authorization or business decision.</p><div style={row}><Link to="/hq">Kendrell</Link><Link to="/operations">Dion</Link><Link to="/customer-experience">Diamond</Link></div></article>
       <article style={card}><h2>Billing or subscription</h2><p>Owners should use the Billing surface. Do not send card details, API keys, authentication codes, or secret credentials through support messages.</p><Link to="/settings/billing">Billing →</Link></article>
     </section>
