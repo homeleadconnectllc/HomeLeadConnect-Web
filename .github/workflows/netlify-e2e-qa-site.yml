@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - agent/functional-completion
+      - launch/global-readiness-2026-08-16
   workflow_dispatch:
 
 permissions:
