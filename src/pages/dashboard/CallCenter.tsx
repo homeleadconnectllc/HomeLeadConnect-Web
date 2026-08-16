@@ -1,4 +1,4 @@
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useMemo, useState, type CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import {
   listBusinessPhones,
@@ -26,6 +26,14 @@ function capabilityLabel(enabled: boolean, enabledText: string, manualText: stri
   return enabled ? enabledText : manualText;
 }
 
+function getDeviceMode() {
+  if (typeof navigator === "undefined") return "desktop" as const;
+  const ua = navigator.userAgent;
+  if (/iPhone|iPad|iPod/i.test(ua)) return "ios" as const;
+  if (/Macintosh|Mac OS X/i.test(ua)) return "mac" as const;
+  return "desktop" as const;
+}
+
 export default function CallCenter() {
   const [phones, setPhones] = useState<BusinessPhone[]>([]);
   const [calls, setCalls] = useState<CallSession[]>([]);
@@ -37,6 +45,8 @@ export default function CallCenter() {
   const [notes, setNotes] = useState("");
 
   const googleVoicePhone = phones.find((phone) => phone.provider_type === "google_voice") ?? null;
+  const deviceMode = useMemo(getDeviceMode, []);
+  const voiceLaunchLabel = deviceMode === "ios" ? "Open Google Voice for iPhone" : "Open Google Voice";
 
   async function loadCalls() {
     setCalls(await listCallSessions());
@@ -88,29 +98,47 @@ export default function CallCenter() {
             <strong style={{ fontSize: 22 }}>{formatPhoneNumber(googleVoicePhone.phone_number)}</strong>
             <span>{googleVoicePhone.is_primary ? "Primary HLC company line" : "HLC company line"} · {googleVoicePhone.verification_state}</span>
           </div>
+
           <p style={{ margin: 0 }}>
-            Keep HLC open as your lead and communication workspace while Google Voice handles the live carrier session. Incoming ringing and text alerts come from Google Voice/browser notifications; HLC provides the customer context, handoff, logging, follow-up, and history around that activity.
+            Keep HLC open for customer context, compliance checks, notes, outcomes and follow-up while Google Voice handles the live carrier session. HLC never marks a call answered, completed or transferred unless operator or provider evidence records that outcome.
           </p>
+
+          <div style={deviceReadinessStyle} aria-label="Google Voice device readiness">
+            <strong>{deviceMode === "ios" ? "iPhone call readiness" : deviceMode === "mac" ? "Mac call readiness" : "Desktop call readiness"}</strong>
+            {deviceMode === "ios" ? <>
+              <span>1. Keep the Google Voice app signed in and allow Voice notifications.</span>
+              <span>2. For calls that must originate from your Google Voice number, start the call in Google Voice rather than the iPhone Phone app.</span>
+              <span>3. Return to HLC after the call to record the outcome and create follow-up work.</span>
+            </> : <>
+              <span>1. Keep voice.google.com signed in and open in a supported browser.</span>
+              <span>2. Allow browser/macOS notifications so incoming Voice activity can alert you.</span>
+              <span>3. Keep HLC alongside Google Voice for lead context, history and follow-up.</span>
+            </>}
+          </div>
+
           <div style={companionActionsStyle}>
-            <a href="https://voice.google.com/" target="_blank" rel="noreferrer" style={primaryActionStyle}>Open Google Voice</a>
-            <Link to="/manual-communications?channel=call&transport=google_voice&direction=outbound" style={actionStyle}>Call</Link>
-            <Link to="/manual-communications?channel=sms&transport=google_voice&direction=outbound" style={actionStyle}>Text</Link>
+            <a href="https://voice.google.com/" target="_blank" rel="noreferrer" style={primaryActionStyle}>{voiceLaunchLabel}</a>
+            <Link to="/manual-communications?channel=call&transport=google_voice&direction=outbound" style={actionStyle}>Prepare outbound call</Link>
+            <Link to="/manual-communications?channel=sms&transport=google_voice&direction=outbound" style={actionStyle}>Prepare text</Link>
             <Link to="/manual-communications?channel=call&transport=google_voice&direction=inbound" style={secondaryActionStyle}>Log inbound call</Link>
             <Link to="/manual-communications?channel=sms&transport=google_voice&direction=inbound" style={secondaryActionStyle}>Log inbound text</Link>
           </div>
+
           <div aria-label="Google Voice integration status" style={statusGridStyle}>
             <span><strong>Carrier:</strong> Google Voice</span>
-            <span><strong>Live alerts:</strong> Google Voice/browser</span>
+            <span><strong>Live ringing:</strong> Google Voice app/web</span>
             <span><strong>Lead context:</strong> HLC</span>
-            <span><strong>Call/text history:</strong> HLC operator record</span>
+            <span><strong>Compliance + history:</strong> HLC</span>
+            <span><strong>Outcome + follow-up:</strong> HLC</span>
+            <span><strong>Direct Voice call control API:</strong> Not connected</span>
           </div>
           <p style={{ margin: 0, fontSize: 14 }}>
-            Google Voice is opened as a separate secure carrier surface rather than framed inside HLC. HLC never claims Answer, Hold, Transfer, Hang Up, delivery, or inbound synchronization unless a provider API supplies evidence for those controls.
+            Google Voice remains the carrier surface. Features available inside Google Voice depend on the Voice account and plan. HLC does not impersonate Google Voice controls or claim direct Answer, Hold, Transfer, Hang Up, recording, delivery or inbound synchronization unless a supported provider integration supplies that evidence.
           </p>
         </section>
       )}
 
-      {editingCallId && <section className="hlc-call-disposition" role="dialog" aria-modal="true" aria-labelledby="call-disposition-heading" style={{ padding: 16, border: "2px solid #0f172a", borderRadius: 12 }}>
+      {editingCallId && <section className="hlc-call-disposition" role="dialog" aria-modal="true" aria-labelledby="call-disposition-heading" style={{ padding: 16, border: "2px solid #0f172a", borderRadius: 12 }} data-smart-compose="off">
         <h2 id="call-disposition-heading">Record call outcome</h2>
         <label>Outcome<input autoFocus required maxLength={80} value={disposition} onChange={(event) => setDisposition(event.target.value)} /></label>
         <label>Operator notes<textarea maxLength={2000} value={notes} onChange={(event) => setNotes(event.target.value)} /></label>
@@ -141,18 +169,19 @@ export default function CallCenter() {
                 </div>
                 {phone.provider_type === "google_voice" && !phone.browser_calling_enabled && (
                   <p style={{ margin: 0, color: "#475569" }}>
-                    Google Voice is the active HLC carrier for this line. HLC can hand off calls/texts and preserve operator-reported history; embedded Answer, Hold, Transfer, Hang Up and automatic inbound synchronization remain unavailable until a programmable provider supplies those controls.
+                    Google Voice is the active HLC carrier for this line. HLC prepares the contact and compliance context, opens the carrier surface, and preserves operator-reported history. Live Google Voice call controls stay inside Google Voice unless a supported API is connected later.
                   </p>
                 )}
                 <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                  <a href={`tel:${phone.phone_number}`} style={actionStyle}>Call from this device</a>
                   {phone.provider_type === "google_voice" ? <>
-                    <a href="https://voice.google.com/" target="_blank" rel="noreferrer" style={actionStyle}>Open Google Voice</a>
+                    <a href="https://voice.google.com/" target="_blank" rel="noreferrer" style={primaryActionStyle}>{voiceLaunchLabel}</a>
                     <Link to="/manual-communications?channel=call&transport=google_voice&direction=outbound" style={actionStyle}>Outbound call</Link>
                     <Link to="/manual-communications?channel=sms&transport=google_voice&direction=outbound" style={actionStyle}>Outbound text</Link>
                     <Link to="/manual-communications?channel=call&transport=google_voice&direction=inbound" style={secondaryActionStyle}>Log inbound call</Link>
                     <Link to="/manual-communications?channel=sms&transport=google_voice&direction=inbound" style={secondaryActionStyle}>Log inbound text</Link>
+                    <a href={`tel:${phone.phone_number}`} style={secondaryActionStyle}>Use device Phone app</a>
                   </> : <>
+                    <a href={`tel:${phone.phone_number}`} style={actionStyle}>Call from this device</a>
                     <Link to="/manual-communications?channel=call&transport=device_native&direction=outbound" style={actionStyle}>Outbound call</Link>
                     <Link to="/manual-communications?channel=sms&transport=device_native&direction=outbound" style={actionStyle}>Outbound text</Link>
                     <Link to="/manual-communications?channel=call&transport=device_native&direction=inbound" style={secondaryActionStyle}>Log inbound call</Link>
@@ -192,4 +221,5 @@ const secondaryActionStyle: CSSProperties = { ...actionStyle, borderColor: "#94a
 const companionStyle: CSSProperties = { display: "grid", gap: 16, padding: 20, margin: "24px 0", border: "1px solid #bfdbfe", borderRadius: 18, background: "linear-gradient(145deg, #eff6ff 0%, #ecfeff 100%)", boxShadow: "0 16px 40px rgba(15, 23, 42, 0.08)" };
 const companionActionsStyle: CSSProperties = { display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "center" };
 const statusGridStyle: CSSProperties = { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 10, padding: 14, borderRadius: 12, background: "rgba(255,255,255,0.82)" };
+const deviceReadinessStyle: CSSProperties = { display: "grid", gap: 6, padding: 14, border: "1px solid #bae6fd", borderRadius: 12, background: "rgba(255,255,255,0.9)", color: "#334155" };
 const eyebrowStyle: CSSProperties = { fontSize: 12, fontWeight: 900, letterSpacing: "0.08em", color: "#075985" };
