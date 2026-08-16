@@ -74,28 +74,12 @@
   font-weight: 900;
 }
 
-/* Device behavior contract:
-   - shared visual language across desktop/mobile;
-   - desktop may proactively speak when user voice preference allows;
-   - mobile stays visually proactive but never auto-speaks from this surface;
-   - mobile field-work controls remain separate from desktop agent controls. */
+/* Desktop can surface a proactive briefing. On phones the persistent avatar is the
+   only AI entry point so it never competes with the field-work action dock. */
 @media (max-width: 720px) {
   .hlc-agent-proactive-briefing {
-    width: min(320px, calc(100vw - 28px));
-    max-height: 174px;
-    padding: 10px;
-    border-radius: 14px 14px 4px 14px;
-    overflow: hidden;
+    display: none !important;
   }
-
-  .hlc-agent-proactive-briefing-head img { width: 34px; height: 34px; }
-  .hlc-agent-proactive-briefing p {
-    margin: 8px 0;
-    font-size: 12px;
-    line-height: 1.4;
-    -webkit-line-clamp: 3;
-  }
-  .hlc-agent-proactive-open { min-height: 38px; padding: 6px 10px; font-size: 12px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
