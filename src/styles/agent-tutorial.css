@@ -56,16 +56,86 @@
 }
 
 @media (max-width: 720px) {
+  /* iOS can inflate text inside fixed overlays. Keep the assistant at explicit
+     phone-scale typography and let the sheet scroll internally above work controls. */
+  .hlc-agent-dock-panel {
+    max-height: min(52dvh, 460px) !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
   .hlc-agent-tutorial {
-    padding: 12px;
+    gap: 6px;
+    margin-bottom: 8px;
+    padding: 10px;
+  }
+
+  .hlc-agent-tutorial-kicker {
+    font-size: 9px !important;
   }
 
   .hlc-agent-tutorial h3 {
-    font-size: 17px;
+    font-size: 15px !important;
+    line-height: 1.25 !important;
   }
 
   .hlc-agent-tutorial p,
   .hlc-agent-tutorial li {
-    font-size: 13px;
+    font-size: 12px !important;
+    line-height: 1.35 !important;
+  }
+
+  .hlc-agent-tutorial ol {
+    gap: 4px;
+    padding-left: 18px;
+  }
+
+  .hlc-agent-chat-divider {
+    margin: 8px 0;
+    font-size: 9px !important;
+  }
+
+  .hlc-agent-dock-panel > section[aria-labelledby$="-chat-title"] {
+    gap: 9px !important;
+    padding: 10px !important;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  .hlc-agent-dock-panel > section[aria-labelledby$="-chat-title"] h2 {
+    margin-block: 2px 5px !important;
+    font-size: 17px !important;
+    line-height: 1.2 !important;
+  }
+
+  .hlc-agent-dock-panel > section[aria-labelledby$="-chat-title"] :is(p, li, small, label, strong, span) {
+    font-size: 12px !important;
+    line-height: 1.35 !important;
+  }
+
+  .hlc-agent-dock-panel > section[aria-labelledby$="-chat-title"] > div[aria-live="polite"] {
+    max-height: 128px !important;
+    padding: 9px !important;
+  }
+
+  .hlc-agent-dock-panel > section[aria-labelledby$="-chat-title"] > div[aria-label$="voice controls"] {
+    gap: 6px !important;
+    padding: 8px !important;
+  }
+
+  .hlc-agent-dock-panel textarea {
+    min-height: 76px !important;
+    max-height: 112px !important;
+    font-size: 16px !important;
+    line-height: 1.35 !important;
+  }
+
+  .hlc-agent-dock-panel form button {
+    min-height: 40px !important;
+    padding: 8px 10px !important;
+    font-size: 13px !important;
   }
 }
