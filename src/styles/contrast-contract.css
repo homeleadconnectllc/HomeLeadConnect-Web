@@ -57,6 +57,68 @@
   opacity: 1;
 }
 
+/* Safari/iOS: explicit light surfaces must never retain pale or transparent text-fill. */
+.hlc-public-shell .hlc-home article,
+.hlc-public-shell .hlc-home article :is(h1, h2, h3, h4, h5, h6, strong) {
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+  opacity: 1 !important;
+}
+
+.hlc-public-shell .hlc-home article :is(p, li, small, span) {
+  color: #334155 !important;
+  -webkit-text-fill-color: #334155 !important;
+  opacity: 1 !important;
+}
+
+/* The command hero is rendered on the light workspace canvas. Keep its copy dark. */
+.hlc-command-center .hlc-command-hero h1,
+.hlc-command-center .hlc-command-hero h2 {
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+  opacity: 1 !important;
+}
+
+.hlc-command-center .hlc-command-copy > p {
+  color: #334155 !important;
+  -webkit-text-fill-color: #334155 !important;
+  opacity: 1 !important;
+}
+
+.hlc-command-center .hlc-command-kicker,
+.hlc-command-center .hlc-section-eyebrow {
+  color: #1d4ed8 !important;
+  -webkit-text-fill-color: #1d4ed8 !important;
+  opacity: 1 !important;
+}
+
+/* System strip is a dark operational surface; use high-contrast light copy. */
+.hlc-command-center .hlc-system-strip {
+  background: #0f172a !important;
+  color: #f8fafc !important;
+  border-color: #334155 !important;
+}
+
+.hlc-command-center .hlc-system-strip span {
+  color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
+  opacity: 1 !important;
+}
+
+/* KPI cards are light. Percentages and labels must remain fully readable on iPhone/Safari. */
+.hlc-analytics-kpi strong {
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+  opacity: 1 !important;
+}
+
+.hlc-analytics-kpi > span:last-child {
+  color: #334155 !important;
+  -webkit-text-fill-color: #334155 !important;
+  opacity: 1 !important;
+  font-weight: 800;
+}
+
 /* Known dark navigation and AI surfaces always carry light foregrounds. */
 .hlc-navbar,
 .hlc-signed-in-shell > .hlc-navbar,
