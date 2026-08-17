@@ -57,8 +57,8 @@ body,
     overscroll-behavior-inline: contain;
   }
 
-  /* Keep the contextual AI visibly attached to the mobile call-center stack. */
-  .hlc-signed-in-shell .hlc-agent-dock {
+  /* CLOSED state only: keep one compact contextual AI bubble above the work dock. */
+  .hlc-signed-in-shell .hlc-agent-dock:not(.is-open) {
     left: auto !important;
     right: max(12px, env(safe-area-inset-right)) !important;
     bottom: calc(146px + env(safe-area-inset-bottom)) !important;
@@ -67,7 +67,7 @@ body,
     justify-items: end !important;
   }
 
-  .hlc-signed-in-shell .hlc-agent-dock-trigger {
+  .hlc-signed-in-shell .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger {
     width: 52px !important;
     min-width: 52px !important;
     height: 52px !important;
@@ -77,17 +77,34 @@ body,
     justify-content: center !important;
   }
 
-  .hlc-signed-in-shell .hlc-agent-dock-trigger > span {
+  .hlc-signed-in-shell .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger > span {
     display: none !important;
   }
 
-  /* Fixed agent panels are viewport overlays, not children of the 54px dock button.
-     Do not inherit the generic descendant max-width:100% containment rule. */
-  .hlc-signed-in-shell .hlc-agent-dock-panel {
-    left: 12px !important;
-    right: 12px !important;
-    width: auto !important;
+  /* OPEN state: the dock becomes a viewport overlay. Never inherit the 54px closed width. */
+  .hlc-signed-in-shell .hlc-agent-dock.is-open {
+    position: fixed !important;
+    inset: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
     max-width: none !important;
-    min-width: 0 !important;
+    min-width: 100vw !important;
+    justify-items: stretch !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock.is-open .hlc-agent-dock-panel {
+    position: fixed !important;
+    top: max(58px, env(safe-area-inset-top)) !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    max-width: none !important;
+    min-width: 100vw !important;
+    height: auto !important;
+    max-height: none !important;
+    box-sizing: border-box !important;
   }
 }
