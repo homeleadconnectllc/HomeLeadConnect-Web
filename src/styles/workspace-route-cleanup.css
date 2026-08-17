@@ -1,0 +1,358 @@
+/* HomeLead Connect route-level presentation cleanup
+   --------------------------------------------------
+   Final visual normalization for authenticated pages that still carry legacy
+   inline presentation values. Uses !important only where needed to override
+   those inline width/font/radius/card declarations without changing behavior.
+*/
+
+.hlc-signed-in-shell :is(.hlc-leads-page, .hlc-jobs-page, .hlc-calendar-page, .hlc-messages-page) {
+  width: min(1560px, calc(100% - clamp(28px, 3.5vw, 68px))) !important;
+  max-width: none !important;
+  margin: clamp(26px, 3vw, 46px) auto 124px !important;
+  font-family: inherit !important;
+  text-align: left !important;
+}
+
+/* Dashboard: retain hierarchy without turning every destination into a bubble. */
+.hlc-signed-in-shell .hlc-command-center :is(
+  .hlc-agent-card,
+  .hlc-pulse-card,
+  .hlc-workspace-card,
+  .hlc-metric-card,
+  .hlc-quick-action,
+  .hlc-priority-item
+) {
+  border-radius: 5px !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell .hlc-command-center :is(.hlc-agent-card, .hlc-pulse-card) {
+  border-color: var(--hlc-v4-line) !important;
+}
+
+.hlc-signed-in-shell .hlc-command-center .hlc-pulse-card:not(.hlc-pulse-card-featured) {
+  background: #f8fafc !important;
+}
+
+.hlc-signed-in-shell .hlc-command-center .hlc-pulse-card-featured {
+  background: linear-gradient(135deg, #0d1b3d, #12264a) !important;
+  color: #f8fbff !important;
+}
+
+.hlc-signed-in-shell .hlc-command-center .hlc-pulse-card-featured :is(strong, span, svg) {
+  color: inherit !important;
+}
+
+/* Leads: remove the last legacy system-font and list-gap presentation. */
+.hlc-signed-in-shell .hlc-leads-page .hlc-leads-list {
+  display: grid !important;
+  gap: 0 !important;
+}
+
+/* Jobs: operational records, not floating cards. */
+.hlc-signed-in-shell .hlc-jobs-page > h1,
+.hlc-signed-in-shell .hlc-calendar-page > h1,
+.hlc-signed-in-shell .hlc-messages-page > h1 {
+  margin-bottom: 8px !important;
+}
+
+.hlc-signed-in-shell .hlc-jobs-page > p,
+.hlc-signed-in-shell .hlc-calendar-page > p,
+.hlc-signed-in-shell .hlc-messages-page > p {
+  color: var(--hlc-v4-copy) !important;
+}
+
+.hlc-signed-in-shell .hlc-jobs-list,
+.hlc-signed-in-shell .hlc-calendar-list {
+  display: grid !important;
+  gap: 0 !important;
+  margin-top: 22px !important;
+  border: 1px solid var(--hlc-v4-line) !important;
+  border-radius: 6px !important;
+  overflow: hidden !important;
+  background: #fff !important;
+}
+
+.hlc-signed-in-shell .hlc-job-card,
+.hlc-signed-in-shell .hlc-calendar-card {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 24px !important;
+  min-height: 108px !important;
+  padding: 22px 26px !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--hlc-v4-line-soft) !important;
+  border-radius: 0 !important;
+  background: #fff !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell :is(.hlc-job-card, .hlc-calendar-card):last-child {
+  border-bottom: 0 !important;
+}
+
+.hlc-signed-in-shell :is(.hlc-job-card, .hlc-calendar-card):hover {
+  background: #f5f8fc !important;
+}
+
+.hlc-signed-in-shell .hlc-job-card-copy {
+  min-width: 0;
+  display: grid;
+  gap: 5px;
+}
+
+.hlc-signed-in-shell .hlc-job-card-copy h3 {
+  color: var(--hlc-v4-ink) !important;
+  font-size: 17px !important;
+}
+
+.hlc-signed-in-shell .hlc-job-card-copy p {
+  margin: 0 !important;
+  color: #334861 !important;
+  font-weight: 760 !important;
+}
+
+.hlc-signed-in-shell .hlc-job-card-copy small,
+.hlc-signed-in-shell .hlc-calendar-card-copy small {
+  color: var(--hlc-v4-muted) !important;
+  font-size: 12px !important;
+}
+
+.hlc-signed-in-shell .hlc-job-card-actions,
+.hlc-signed-in-shell .hlc-calendar-actions {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.hlc-signed-in-shell .hlc-job-card-actions select {
+  min-width: 146px !important;
+}
+
+.hlc-signed-in-shell .hlc-job-open,
+.hlc-signed-in-shell .hlc-calendar-actions button {
+  min-height: 42px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 9px 13px !important;
+  border-radius: 4px !important;
+}
+
+.hlc-signed-in-shell .hlc-job-open {
+  border: 1px solid #1e5bff !important;
+  background: #1e5bff !important;
+  color: #fff !important;
+  font-weight: 800 !important;
+  text-decoration: none !important;
+}
+
+.hlc-signed-in-shell .hlc-calendar-card-copy {
+  min-width: 0;
+  display: grid !important;
+  gap: 5px !important;
+  color: var(--hlc-v4-copy) !important;
+}
+
+.hlc-signed-in-shell .hlc-calendar-card-copy > strong {
+  color: var(--hlc-v4-ink) !important;
+  font-size: 15px !important;
+}
+
+/* Messages: split-pane communications console rather than nested rounded cards. */
+.hlc-signed-in-shell .hlc-messages-layout {
+  display: grid !important;
+  grid-template-columns: minmax(280px, .72fr) minmax(0, 2fr) !important;
+  gap: 14px !important;
+  margin-top: 24px !important;
+}
+
+.hlc-signed-in-shell .hlc-messages-conversations,
+.hlc-signed-in-shell .hlc-messages-thread,
+.hlc-signed-in-shell .hlc-message-start {
+  padding: 20px !important;
+  border: 1px solid var(--hlc-v4-line) !important;
+  border-radius: 5px !important;
+  background: #f8fafc !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell .hlc-chat-history-heading,
+.hlc-signed-in-shell .hlc-message-thread-head {
+  padding-bottom: 13px !important;
+  border-bottom: 1px solid var(--hlc-v4-line-soft) !important;
+}
+
+.hlc-signed-in-shell .hlc-chat-history-item {
+  display: grid !important;
+  gap: 5px !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 13px 12px !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--hlc-v4-line-soft) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: var(--hlc-v4-ink) !important;
+  text-align: left !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell .hlc-chat-history-item:hover,
+.hlc-signed-in-shell .hlc-chat-history-item.is-selected {
+  background: #e8eff8 !important;
+}
+
+.hlc-signed-in-shell .hlc-chat-history-item.is-selected {
+  box-shadow: inset 3px 0 0 #1e5bff !important;
+}
+
+.hlc-signed-in-shell .hlc-chat-history-item span {
+  color: var(--hlc-v4-copy) !important;
+  font-size: 13px !important;
+  line-height: 1.45 !important;
+}
+
+.hlc-signed-in-shell .hlc-chat-history-item small {
+  color: var(--hlc-v4-muted) !important;
+  font-size: 11px !important;
+}
+
+.hlc-signed-in-shell .hlc-message-stream {
+  padding: 16px 0 !important;
+}
+
+.hlc-signed-in-shell .hlc-message-bubble {
+  max-width: min(78%, 760px) !important;
+  margin: 0 0 10px !important;
+  padding: 12px 14px !important;
+  border: 1px solid var(--hlc-v4-line-soft) !important;
+  border-radius: 4px !important;
+  background: #fff !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell .hlc-message-bubble-self {
+  margin-left: auto !important;
+  border-color: #adc3e8 !important;
+  background: #e8f0ff !important;
+}
+
+.hlc-signed-in-shell .hlc-message-bubble p {
+  margin: 0 0 5px !important;
+  color: var(--hlc-v4-ink) !important;
+}
+
+.hlc-signed-in-shell .hlc-message-bubble small {
+  color: var(--hlc-v4-muted) !important;
+}
+
+.hlc-signed-in-shell .hlc-message-reply {
+  display: grid !important;
+  gap: 12px !important;
+  margin-top: 12px !important;
+  padding-top: 16px !important;
+  border-top: 1px solid var(--hlc-v4-line-soft) !important;
+}
+
+.hlc-signed-in-shell .hlc-voice-notes {
+  margin-top: 18px !important;
+  padding-top: 16px !important;
+  border-top: 1px solid var(--hlc-v4-line-soft) !important;
+}
+
+/* Settings uses bare forms/sections with inline cards; normalize those directly. */
+.hlc-signed-in-shell > .hlc-route-content > main:not([class]) {
+  width: min(1240px, calc(100% - clamp(28px, 3.5vw, 68px))) !important;
+  max-width: none !important;
+  margin: clamp(26px, 3vw, 46px) auto 124px !important;
+  font-family: inherit !important;
+  text-align: left !important;
+}
+
+.hlc-signed-in-shell > .hlc-route-content > main:not([class]) > :is(form, section) {
+  display: grid !important;
+  gap: 14px !important;
+  margin-top: 16px !important;
+  padding: 22px 24px !important;
+  border: 1px solid var(--hlc-v4-line) !important;
+  border-radius: 5px !important;
+  background: #f8fafc !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell > .hlc-route-content > main:not([class]) > :is(form, section) > h2 {
+  margin: 0 0 4px !important;
+  color: var(--hlc-v4-ink) !important;
+  font-size: 18px !important;
+}
+
+.hlc-signed-in-shell > .hlc-route-content > main:not([class]) label {
+  display: grid !important;
+  gap: 7px !important;
+  color: #233650 !important;
+  font-weight: 700 !important;
+}
+
+.hlc-signed-in-shell > .hlc-route-content > main:not([class]) :is(form, section) p {
+  color: var(--hlc-v4-copy) !important;
+  line-height: 1.5 !important;
+}
+
+.hlc-signed-in-shell > .hlc-route-content > main:not([class]) section article {
+  padding: 14px 0 !important;
+  border-bottom: 1px solid var(--hlc-v4-line-soft) !important;
+}
+
+@media (max-width: 1024px) {
+  .hlc-signed-in-shell :is(.hlc-leads-page, .hlc-jobs-page, .hlc-calendar-page, .hlc-messages-page),
+  .hlc-signed-in-shell > .hlc-route-content > main:not([class]) {
+    width: min(100% - 24px, 920px) !important;
+    margin: 20px auto calc(150px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-messages-layout {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .hlc-signed-in-shell :is(.hlc-leads-page, .hlc-jobs-page, .hlc-calendar-page, .hlc-messages-page),
+  .hlc-signed-in-shell > .hlc-route-content > main:not([class]) {
+    width: calc(100% - 20px) !important;
+    margin-top: 14px !important;
+    margin-bottom: calc(172px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-job-card,
+  .hlc-signed-in-shell .hlc-calendar-card {
+    grid-template-columns: 1fr !important;
+    align-items: stretch !important;
+    gap: 15px !important;
+    padding: 18px 16px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-job-card-actions,
+  .hlc-signed-in-shell .hlc-calendar-actions {
+    justify-content: stretch !important;
+  }
+
+  .hlc-signed-in-shell .hlc-job-card-actions > *,
+  .hlc-signed-in-shell .hlc-calendar-actions > * {
+    flex: 1 1 136px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-message-bubble {
+    max-width: 92% !important;
+  }
+
+  .hlc-signed-in-shell .hlc-messages-conversations,
+  .hlc-signed-in-shell .hlc-messages-thread,
+  .hlc-signed-in-shell .hlc-message-start,
+  .hlc-signed-in-shell > .hlc-route-content > main:not([class]) > :is(form, section) {
+    padding: 18px 15px !important;
+  }
+}
