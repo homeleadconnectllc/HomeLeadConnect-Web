@@ -33,6 +33,7 @@ import "./styles/premium-effects.css";
 import "./styles/global-premium-system.css";
 import "./styles/global-visual-pizzazz.css";
 import "./styles/contrast-contract.css";
+import "./styles/workspace-premium-v3.css";
 import "./styles/responsive-page-contract.css";
 import "./styles/hlc-brand-lock.css";
 import "./styles/legacy-device-compat.css";

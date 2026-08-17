@@ -30,6 +30,7 @@ const premiumTheme = readFileSync("src/styles/premium-theme.css", "utf8");
 const premiumEffects = readFileSync("src/styles/premium-effects.css", "utf8");
 const visualPizzazz = readFileSync("src/styles/global-visual-pizzazz.css", "utf8");
 const contrastContract = readFileSync("src/styles/contrast-contract.css", "utf8");
+const workspacePremium = readFileSync("src/styles/workspace-premium-v3.css", "utf8");
 const mainEntry = readFileSync("src/main.tsx", "utf8");
 const agentWorkspace = readFileSync("src/pages/dashboard/AgentWorkspace.tsx", "utf8");
 const agentTeamCss = readFileSync("src/styles/agent-team.css", "utf8");
@@ -217,7 +218,7 @@ test("dashboard exposes the complete HLC command center instead of hiding launch
 });
 
 test("premium HLC presentation layer stays blue-cyan beneath contrast and responsive contracts", () => {
-  assert.match(mainEntry, /\.\/styles\/premium-theme\.css";\s*import "\.\/styles\/premium-effects\.css";\s*import "\.\/styles\/global-premium-system\.css";\s*import "\.\/styles\/global-visual-pizzazz\.css";\s*import "\.\/styles\/contrast-contract\.css";\s*import "\.\/styles\/responsive-page-contract\.css";/);
+  assert.match(mainEntry, /\.\/styles\/premium-theme\.css";\s*import "\.\/styles\/premium-effects\.css";\s*import "\.\/styles\/global-premium-system\.css";\s*import "\.\/styles\/global-visual-pizzazz\.css";\s*import "\.\/styles\/contrast-contract\.css";\s*import "\.\/styles\/workspace-premium-v3\.css";\s*import "\.\/styles\/responsive-page-contract\.css";/);
   assert.match(premiumTheme, /--hlc-blue: #2563eb/);
   assert.match(premiumTheme, /--hlc-cyan: #0891b2/);
   assert.match(premiumTheme, /prefers-reduced-motion: reduce/);
@@ -225,6 +226,9 @@ test("premium HLC presentation layer stays blue-cyan beneath contrast and respon
   assert.match(premiumTheme, /\.hlc-signed-in-shell > \.hlc-navbar/);
   assert.doesNotMatch(premiumTheme, /purple|violet|#aa3bff|#c084fc/i);
   assert.match(visualPizzazz, /--hlc-pop-blue: #2563eb/);
+  assert.match(workspacePremium, /--hlc-v3-navy-950: #07111f/);
+  assert.match(workspacePremium, /\.hlc-route-content \.hlc-lead-card/);
+  assert.match(workspacePremium, /border-radius: 0 !important/);
   assert.match(visualPizzazz, /\.hlc-job-card/);
   assert.match(visualPizzazz, /\.hlc-call-center-record/);
   assert.match(visualPizzazz, /\.hlc-message-start/);
