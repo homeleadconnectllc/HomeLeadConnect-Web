@@ -43,11 +43,15 @@ export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
 
   useEffect(() => {
     if (!guidanceOpen) return;
+    document.body.classList.add("hlc-agent-guidance-open");
     function closeOnEscape(event: KeyboardEvent) {
       if (event.key === "Escape") setGuidanceOpen(false);
     }
     window.addEventListener("keydown", closeOnEscape);
-    return () => window.removeEventListener("keydown", closeOnEscape);
+    return () => {
+      document.body.classList.remove("hlc-agent-guidance-open");
+      window.removeEventListener("keydown", closeOnEscape);
+    };
   }, [guidanceOpen]);
 
   const selectedLead = useMemo(() => leads.find((lead) => String(lead.id) === leadId), [leadId, leads]);
@@ -132,9 +136,9 @@ export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
     <section style={{ ...panelStyle, marginTop: 20 }}><h2>Work sent between HLC agents</h2>{handoffs.length === 0 ? <p>No work has been sent to another agent.</p> : handoffs.map((item) => <article key={item.id} style={historyStyle}><div style={historyHeadingStyle}><strong>{agents[item.source_agent].name} → {agents[item.destination_agent].name}</strong><span style={statusPillStyle(item.status)}>{friendlyStatus(item.status)}</span></div><p>{item.reason}</p><small>{new Date(item.created_at).toLocaleString()}</small></article>)}</section>
     {selectedLead && <p style={{ color: "#64748b" }}>Current authorized context: {selectedLead.full_name || `Lead #${selectedLead.id}`}</p>}
     <button type="button" aria-label={`Open ${agent.name} help`} onClick={() => setGuidanceOpen(true)} style={{ ...floatingButtonStyle, borderColor: agent.accent }}><span aria-hidden="true">?</span><span>{agent.name}</span></button>
-    {guidanceOpen && <div role="presentation" style={overlayStyle} onMouseDown={(event) => { if (event.target === event.currentTarget) setGuidanceOpen(false); }}>
-      <section role="dialog" aria-modal="true" aria-labelledby={`${agentId}-guidance-title`} style={{ ...drawerStyle, borderColor: agent.accent }}>
-        <div style={{ display: "flex", justifyContent: "space-between", gap: 16, alignItems: "start" }}><div><p style={{ color: agent.accent, margin: 0 }}>{agent.role}</p><h2 id={`${agentId}-guidance-title`} style={{ marginTop: 4 }}>Guidance from {agent.name}</h2></div><button autoFocus type="button" aria-label="Close guidance" onClick={() => setGuidanceOpen(false)}>Close</button></div>
+    {guidanceOpen && <div className="hlc-agent-guidance-overlay" role="presentation" style={overlayStyle} onMouseDown={(event) => { if (event.target === event.currentTarget) setGuidanceOpen(false); }}>
+      <section className="hlc-agent-guidance-drawer" role="dialog" aria-modal="true" aria-labelledby={`${agentId}-guidance-title`} style={{ ...drawerStyle, borderColor: agent.accent }}>
+        <div className="hlc-agent-guidance-head"><div><p style={{ color: agent.accent, margin: 0 }}>{agent.role}</p><h2 id={`${agentId}-guidance-title`} style={{ marginTop: 4 }}>Guidance from {agent.name}</h2></div><button autoFocus type="button" aria-label="Close guidance" onClick={() => setGuidanceOpen(false)}>Close</button></div>
         <p>{agent.introduction}</p>
         <h3>How I can help</h3>
         <ul style={{ display: "grid", gap: 12, paddingLeft: 22 }}>{agent.guidance.map((script) => <li key={script}>{script}</li>)}</ul>
