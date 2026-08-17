@@ -80,4 +80,14 @@ body,
   .hlc-signed-in-shell .hlc-agent-dock-trigger > span {
     display: none !important;
   }
+
+  /* Fixed agent panels are viewport overlays, not children of the 54px dock button.
+     Do not inherit the generic descendant max-width:100% containment rule. */
+  .hlc-signed-in-shell .hlc-agent-dock-panel {
+    left: 12px !important;
+    right: 12px !important;
+    width: auto !important;
+    max-width: none !important;
+    min-width: 0 !important;
+  }
 }
