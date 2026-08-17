@@ -4,20 +4,20 @@
 
 @media (min-width: 721px) {
   .hlc-agent-dock.is-open {
-    width: min(620px, calc(100vw - 48px));
-    max-width: min(620px, calc(100vw - 48px));
+    width: min(720px, calc(100vw - 48px));
+    max-width: min(720px, calc(100vw - 48px));
   }
 
   .hlc-agent-dock.is-open .hlc-agent-dock-panel {
     width: 100%;
-    min-width: min(520px, calc(100vw - 48px));
+    min-width: min(560px, calc(100vw - 48px));
     max-width: none;
-    max-height: min(82vh, 820px);
+    max-height: min(84vh, 860px);
   }
 
   .hlc-agent-dock.is-open .hlc-ai-transcript {
-    min-height: 280px;
-    max-height: min(48vh, 520px);
+    min-height: 300px;
+    max-height: min(50vh, 540px);
   }
 }
 
