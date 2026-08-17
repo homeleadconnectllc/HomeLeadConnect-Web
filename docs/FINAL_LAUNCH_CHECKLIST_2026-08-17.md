@@ -3,7 +3,7 @@
 Date prepared: August 17, 2026  
 Owner: Antoine Washington  
 Release branch: `agent/functional-completion`  
-Verified application candidate before this checklist: `f7c7edce68563e7799d782584ad6ecdc4f8105f6`  
+Verified application candidate: `a00a99a20a8446ea6f3bbe739033f2a2aac0c985`  
 Production branch: `main` — **DO NOT MERGE until every blocking item below is PASS**
 
 ## Status key
@@ -18,12 +18,12 @@ Production branch: `main` — **DO NOT MERGE until every blocking item below is 
 | Gate | Status | Required evidence |
 |---|---|---|
 | Release work is isolated on `agent/functional-completion` | PASS | `main` remained untouched during candidate work. |
-| Launch Candidate workflow | PASS | GitHub Actions run #525 passed for `f7c7edce…`. |
-| Netlify Branch Runtime | PASS | GitHub Actions run #326 passed for `f7c7edce…`. |
-| Isolated Netlify E2E QA deployment | PASS | GitHub Actions run #323 passed for `f7c7edce…`. |
+| Launch Candidate workflow | PASS | GitHub Actions run #526 passed for `a00a99a…`. |
+| Netlify Branch Runtime | PASS | GitHub Actions run #327 passed for `a00a99a…`. |
+| Isolated Netlify E2E QA deployment | PASS | GitHub Actions run #324 passed for `a00a99a…`. QA: `https://hlc-functional-e2e-641b807e.netlify.app`. |
 | Focused agent/product regression contracts | PASS | 27/27 passed. |
 | Launch static audit | PASS | 177/177 passed. |
-| Final release commit is recorded before merge | PENDING | Replace the candidate SHA above with the final checklist commit SHA and require exact-head gates to pass. |
+| Final release commit is recorded before merge | PENDING | Documentation of this test run will create a newer branch SHA; exact-head gates must pass again before merge. |
 
 ## 2. Brand and responsive acceptance
 
@@ -46,7 +46,7 @@ Production branch: `main` — **DO NOT MERGE until every blocking item below is 
 | Logout and second login | PENDING | Session clears completely; a new login returns to the intended HLC route. |
 | Password recovery | PENDING | Recovery email, callback, new password and subsequent login complete on the production-intended hostname. |
 | Email-link login, if visible | PENDING | Complete it end to end or hide it before launch. |
-| Cloudflare Turnstile | PENDING | The widget must show a successful usable state on iPhone. A persistent “Unable to connect to website / Troubleshoot” state is not launch-approved even if another login path happens to work. |
+| Cloudflare Turnstile | BLOCKED | Cloud-browser test loaded the Turnstile script and hidden response field, but after five seconds produced no challenge iframe, no `window.turnstile`, and a zero-length token; Sign in remained disabled. Antoine’s iPhone independently showed “Unable to connect to website / Troubleshoot.” |
 | Unverified social/phone providers | N/A | Keep hidden until each provider is configured and passed end to end. |
 
 ## 4. Core owner experience
@@ -66,7 +66,8 @@ Production branch: `main` — **DO NOT MERGE until every blocking item below is 
 
 | Gate | Status | Acceptance requirement |
 |---|---|---|
-| Production migration chain and database controls | PASS | Canonical release plan records the deployed production chain, RLS hardening and Community Matching ownership certification. |
+| Production migration chain and database controls | PASS | Production reports migration `20260817111451`; Community Matching RLS, policies, storage privacy and hourly scan were inspected read-only. |
+| Community Matching rollback-only CRUD contract | PASS | An existing authenticated production member completed own insert, update and delete inside one transaction; rollback left zero test matching rows. |
 | Community Matching Like | PENDING | Like a provider on iPhone, refresh, reopen Matching and confirm the decision persists. |
 | Community Matching Pass | PENDING | Pass a different provider, refresh, reopen Matching and confirm the decision persists. |
 | Matching privacy | PENDING | A second authenticated identity cannot read or alter the first user’s decisions. |
@@ -105,7 +106,7 @@ Production branch: `main` — **DO NOT MERGE until every blocking item below is 
 |---|---|---|
 | Secrets remain server-side | PASS | No service-role, Stripe secret, provider credential or private signing material is exposed to Vite/browser code. |
 | Supabase leaked-password protection | PENDING | Enable and verify in the production Auth settings. |
-| Fresh Supabase security/performance advisors | PENDING | Capture results after the final production migration state; resolve launch-relevant findings or document approved exceptions. |
+| Fresh Supabase security/performance advisors | BLOCKED | Fresh production advisors were run. Security returned RLS-enabled/no-policy informational findings requiring intent review; performance returned multiple-permissive-policy warnings and unused-index findings. Resolve or approve documented exceptions before launch. |
 | Error and Edge Function monitoring | PENDING | Confirm alerts for auth, intake, billing, invitation, communication and agent failures without logging sensitive content. |
 | Backup policy | PENDING | Record the active backup/PITR setting. |
 | Restore drill | PENDING | Complete and document a non-destructive restore test; configured backup alone is not recovery proof. |
@@ -115,7 +116,8 @@ Production branch: `main` — **DO NOT MERGE until every blocking item below is 
 
 | Gate | Status | Acceptance requirement |
 |---|---|---|
-| Shareable app link | PENDING | The shared link opens the HLC app entry point—not the Carrd/marketing homepage. |
+| Shareable app link | PASS | Static candidate wiring sets manifest `start_url` to `/app`, and `/app` is an application route. Fresh-device behavior remains separately pending. |
+| Apple touch icon metadata | BLOCKED | `index.html` has manifest and Apple standalone metadata but no `rel="apple-touch-icon"`; no dedicated Apple touch icon asset exists. |
 | iPhone Add to Home Screen | PENDING | Install from Safari; the approved HLC icon and app name appear correctly. |
 | Home-screen launch destination | PENDING | Opening the installed icon returns to HLC and preserves or safely requests authentication. |
 | Fresh-device test | PENDING | Antoine’s mother or another approved tester opens the shared link on a device without the existing developer session and can understand the next step without assistance. |
@@ -139,9 +141,9 @@ Complete these steps in order. Do not skip ahead after a failure.
 
 ## 11. Final decision record
 
-**Current decision: NO-GO / PENDING PHYSICAL AND PRODUCTION CERTIFICATION**
+**Current decision: NO-GO / BLOCKED AT TURNSTILE AND INSTALLATION METADATA**
 
-Database controls and the automated branch candidate are in a passing state. This is not yet final public-launch approval because authentication, Turnstile, latest iPhone behavior, end-to-end persistence, production provider behavior, recovery evidence and post-merge production verification still require certification.
+The exact tested branch candidate and rollback-only database ownership contract passed. Launch cannot proceed because Turnstile did not produce a usable token and the iPhone install metadata lacks a dedicated Apple touch icon. Under boundary-first verification, authenticated dashboard, AI-agent, Like/Pass UI persistence, golden workflow, communications, notification and billing UI certification were not continued past the failed authentication boundary. Recovery evidence and physical-iPhone/post-merge production certification also remain outstanding.
 
 Final candidate SHA: `________________________________________`  
 QA permalink: `________________________________________`  
