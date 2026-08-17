@@ -98,6 +98,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 90. `20260817035500_community_match_decisions.sql`
 91. `20260817041000_harden_community_match_decision_privileges.sql`
 92. `20260817110528_enforce_community_match_update_ownership.sql`
+93. `20260817111337_optimize_community_match_rls_and_indexes.sql`
 
 ## Current production rules
 
@@ -166,7 +167,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - The stable isolated QA site is used for physical-device acceptance before `main` is released.
 - `hlc-documents` was verified private with a 25 MB object cap after expanding its allowlist to include MP4, MOV, and WebM short-video evidence alongside the existing document/photo types.
 - Community Matching decisions are persisted in production with RLS so a signed-in user's Like/Pass history survives refresh without leaking another user's discovery choices or changing operational assignment authority. Browser privileges were hardened afterward so `anon` has no table access and `authenticated` has only RLS-scoped CRUD.
-- Pending release: the Community Matching UPDATE policy now reasserts authenticated ownership, current workspace membership, and contractor/workspace linkage in `WITH CHECK`; this source-controlled hardening is not production-certified until deployment and live RLS verification complete.
+- Community Matching UPDATE ownership hardening is deployed and live-certified. Authenticated rollback-only tests verified own-row insert/update/delete access and rejected ownership transfer; no certification row remained. Supporting SELECT/INSERT/DELETE policies and foreign-key indexes were then optimized: security and RLS init-plan/foreign-key advisor findings are clear, with only expected informational unused-index notices while the decision table is empty.
 
 ## Change procedure after launch
 
