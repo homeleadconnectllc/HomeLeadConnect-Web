@@ -34,6 +34,6 @@ test("agent width contract provides a full mobile sheet and a wide desktop comma
   assert.match(widthContract, /\.hlc-agent-dock\.is-open \.hlc-agent-dock-panel \{[\s\S]*min-width: min\(560px, calc\(100vw - 48px\)\)/);
   assert.match(widthContract, /@media \(max-width: 720px\)[\s\S]*\.hlc-agent-dock\.is-open \{[\s\S]*width: 100vw !important;[\s\S]*min-width: 100vw !important;[\s\S]*max-width: none !important;/);
   assert.match(widthContract, /\.hlc-agent-dock\.is-open \.hlc-agent-dock-panel \{[\s\S]*right: 0 !important;[\s\S]*bottom: 0 !important;[\s\S]*left: 0 !important;[\s\S]*width: 100vw !important;[\s\S]*min-width: 100vw !important;[\s\S]*max-width: none !important;/);
-  assert.match(commandCenter, /grid-template-columns: minmax\(180px, 220px\) minmax\(0, 1fr\)/);
-  assert.match(commandCenter, /grid-template-areas:[\s\S]*"head head"[\s\S]*"context chat"/);
+  assert.match(commandCenter, /grid-template-columns:\s*minmax\(180px,\s*220px\)\s*minmax\(0,\s*1fr\)/);
+  assert.match(commandCenter, /grid-template-areas:\s*"head head"\s*"context chat"/);
 });
