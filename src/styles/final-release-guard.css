@@ -31,6 +31,18 @@ body,
 }
 
 @media (min-width: 320px) and (max-width: 430px) {
+  /* Installed iOS apps render beneath a translucent status bar. Keep the
+     complete navigation row below the clock, signal and battery area. */
+  .hlc-navbar {
+    min-height: calc(70px + env(safe-area-inset-top)) !important;
+    padding: calc(11px + env(safe-area-inset-top)) max(14px, env(safe-area-inset-right)) 11px max(14px, env(safe-area-inset-left)) !important;
+  }
+
+  .hlc-mobile-portal {
+    inset: calc(70px + env(safe-area-inset-top)) 0 0 !important;
+    height: calc(100dvh - 70px - env(safe-area-inset-top)) !important;
+  }
+
   .hlc-route-content > main {
     width: calc(100% - 20px) !important;
     max-width: calc(100% - 20px) !important;
