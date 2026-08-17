@@ -20,6 +20,47 @@
   .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger strong { font-size: 15px !important; }
   .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger small { font-size: 11px !important; }
 
+  .hlc-agent-dock.has-briefing:not(.is-open) {
+    width: min(420px, calc(100vw - 48px)) !important;
+    max-width: min(420px, calc(100vw - 48px)) !important;
+  }
+
+  .hlc-agent-dock.has-briefing:not(.is-open) .hlc-agent-dock-trigger {
+    display: none !important;
+  }
+
+  .hlc-agent-dock.has-briefing .hlc-agent-proactive-briefing {
+    width: 100% !important;
+    max-width: 420px !important;
+    padding: 16px !important;
+  }
+
+  .hlc-agent-dock.has-briefing .hlc-agent-proactive-briefing-head strong {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    font-size: 16px !important;
+  }
+
+  .hlc-agent-dock.has-briefing .hlc-agent-proactive-briefing-head small {
+    color: #a9c7ff !important;
+    -webkit-text-fill-color: #a9c7ff !important;
+    font-size: 10px !important;
+  }
+
+  .hlc-agent-dock.has-briefing .hlc-agent-proactive-briefing > p {
+    color: #e6efff !important;
+    -webkit-text-fill-color: #e6efff !important;
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+    opacity: 1 !important;
+  }
+
+  .hlc-agent-dock.has-briefing .hlc-agent-proactive-open {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    font-size: 15px !important;
+  }
+
   .hlc-agent-dock.is-open {
     width: min(880px, calc(100vw - 64px)) !important;
     max-width: min(880px, calc(100vw - 64px)) !important;
@@ -109,6 +150,12 @@
     -webkit-text-fill-color: #c4d2e5 !important;
     font-size: 14px !important;
     line-height: 1.5 !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .hlc-agent-dock.has-briefing:not(.is-open) .hlc-agent-dock-trigger {
+    display: none !important;
   }
 }
 .hlc-route-content .hlc-kendrell-path-grid article h3 {

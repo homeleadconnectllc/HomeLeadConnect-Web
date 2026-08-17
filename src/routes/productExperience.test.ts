@@ -72,6 +72,14 @@ test("desktop agent and workspace navigation remain readable at laptop scale", (
   assert.match(mobileReleaseCss, /\.hlc-command-center \.hlc-metric-card > span:last-child,[\s\S]*font-size: 14px !important/);
 });
 
+test("the proactive briefing replaces rather than duplicates the closed agent launcher", () => {
+  assert.match(contextualDock, /const showBriefing = Boolean\(/);
+  assert.match(contextualDock, /showBriefing \? "has-briefing" : ""/);
+  assert.match(contextualDock, /\{showBriefing && \(/);
+  assert.match(mobileReleaseCss, /\.hlc-agent-dock\.has-briefing:not\(\.is-open\) \.hlc-agent-dock-trigger \{[\s\S]*display: none !important;/);
+  assert.match(mobileReleaseCss, /\.hlc-agent-dock\.has-briefing \.hlc-agent-proactive-briefing > p \{[\s\S]*color: #e6efff !important;[\s\S]*font-size: 15px !important;/);
+});
+
 test("internal-only mobile routes retain an agent while role resolution completes", () => {
   assert.match(contextualDock, /const internalFallbackPrefixes = \[/);
   assert.match(contextualDock, /"\/dashboard"/);
