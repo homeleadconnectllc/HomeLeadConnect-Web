@@ -9,8 +9,10 @@ const startHere = readFileSync("src/pages/dashboard/StartHere.tsx", "utf8");
 const operationalGuide = readFileSync("src/pages/dashboard/OperationalGuide.tsx", "utf8");
 const communityHub = readFileSync("src/pages/dashboard/CommunityHub.tsx", "utf8");
 const communityMatchDeck = readFileSync("src/pages/dashboard/CommunityMatchDeck.tsx", "utf8");
+const eligibilityFit = readFileSync("src/pages/dashboard/EligibilityFit.tsx", "utf8");
 const communityMatchingApi = readFileSync("src/api/communityMatching.ts", "utf8");
 const communityMatchingMigration = readFileSync("supabase/migrations/20260817035500_community_match_decisions.sql", "utf8");
+const communityMatchingGrantMigration = readFileSync("supabase/migrations/20260817041000_harden_community_match_decision_privileges.sql", "utf8");
 const publicInfo = readFileSync("src/pages/PublicInfo.tsx", "utf8");
 const mainEntry = readFileSync("src/main.tsx", "utf8");
 const responsiveContract = readFileSync("src/styles/responsive-page-contract.css", "utf8");
@@ -96,16 +98,21 @@ test("Community is a unified public and authenticated Network front door", () =>
 
 test("Community Matching is the swipe discovery experience while operational fit stays separate", () => {
   assert.match(router, /path="\/matching" element=\{<CommunityMatchDeck\s*\/>\}/);
-  assert.match(router, /path="\/network\/eligibility" element=\{<LaunchSurface page="matching"\/>\}/);
+  assert.match(router, /path="\/network\/eligibility" element=\{<EligibilityFit\s*\/>\}/);
+  assert.match(router, /path="\/homeowner-portal\/matches" element=\{<EligibilityFit\s*\/>\}/);
   assert.match(communityMatchDeck, /Swipe right or tap Like/);
   assert.match(communityMatchDeck, /Swipe left or tap Pass/);
   assert.match(communityMatchDeck, /hlc-match-card-active/);
   assert.match(communityMatchDeck, /setCommunityMatchDecision\(providerId, "like"\)/);
   assert.match(communityMatchDeck, /setCommunityMatchDecision\(providerId, "pass"\)/);
+  assert.match(eligibilityFit, /Eligibility &amp; Fit/);
+  assert.match(eligibilityFit, /separate from the Community swipe experience/);
   assert.match(communityMatchingApi, /community_match_decisions/);
   assert.match(communityMatchingMigration, /enable row level security/i);
   assert.match(communityMatchingMigration, /decision in \('like','pass'\)/);
   assert.match(communityMatchingMigration, /workspace_members/);
+  assert.match(communityMatchingGrantMigration, /revoke all privileges.*from anon/i);
+  assert.match(communityMatchingGrantMigration, /grant select, insert, update, delete.*authenticated/i);
 });
 
 test("canonical page map contains every top-level HLC experience", () => {
@@ -151,7 +158,7 @@ test("implemented ecosystem destinations use data-backed surfaces", () => {
     assert.match(router, new RegExp(`path="${route.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}" element=\\{<LaunchSurface page="${page}"\\/>\\}`));
   }
   assert.match(router, /path="\/matching" element=\{<CommunityMatchDeck\s*\/>\}/);
-  assert.match(router, /path="\/network\/eligibility" element=\{<LaunchSurface page="matching"\/>\}/);
+  assert.match(router, /path="\/network\/eligibility" element=\{<EligibilityFit\s*\/>\}/);
   assert.match(router, /path="\/map" element=\{<ProviderMap\s*\/>\}/);
   assert.match(router, /path="\/network\/map" element=\{<ProviderMap\s*\/>\}/);
   assert.match(router, /path="\/activity" element=\{<WorkspaceActivity\s*\/>\}/);
