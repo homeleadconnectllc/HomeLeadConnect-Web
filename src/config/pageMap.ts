@@ -138,7 +138,7 @@ export const canonicalPageMap: CanonicalPageArea[] = [
       page("Approvals, Alerts & Risks", "/hq/approvals", "Kendrell", "Owner", "MISSING"),
       page("Rules, Compliance & Audit", "/rules", "Kendrell", "Owner and admins", "MISSING", true),
       page("System Health & Integrations", "/hq/system-health", "Kendrell", "Owner and admins", "MISSING"),
-      page("Kendrell Command", "/hq", "Kendrell", "Owner", "UNPROVEN", true),
+      page("Kendrell Command", "/hq", "Kendrell", "Approved owners, managers and supervisors", "UNPROVEN", true),
       page("Kendrell Dedication", "/hq/dedication", "Kendrell", "Authorized workspace", "WORKING", true),
     ],
   },

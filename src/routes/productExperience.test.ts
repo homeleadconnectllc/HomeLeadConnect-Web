@@ -60,7 +60,7 @@ test("internal-only mobile routes retain an agent while role resolution complete
   assert.match(contextualDock, /const internalFallbackPrefixes = \[/);
   assert.match(contextualDock, /"\/dashboard"/);
   assert.match(contextualDock, /access\.kind === null && isInternalOnlyRoute\(pathname\)\) return agents\.dion/);
-  assert.match(contextualDock, /if \(access\.role === "owner"\) return agents\.kendrell/);
+  assert.match(contextualDock, /if \(access\.role === "owner" \|\| access\.role === "manager"\) return agents\.kendrell/);
 });
 
 test("signed-in mobile navigation behaves like an adaptive field app", () => {
