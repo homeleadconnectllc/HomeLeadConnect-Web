@@ -8,6 +8,8 @@ const widthContract = readFileSync("src/styles/agent-panel-width-contract.css", 
 const commandCenter = readFileSync("src/styles/command-center-experience.css", "utf8");
 const finalReleaseGuard = readFileSync("src/styles/final-release-guard.css", "utf8");
 const mainEntry = readFileSync("src/main.tsx", "utf8");
+const mobileReleaseFix = readFileSync("src/styles/mobile-release-fix.css", "utf8");
+const tutorialDock = readFileSync("src/components/tutorials/LiveTutorialDock.tsx", "utf8");
 
 test("mobile contextual AI uses one compact route-resolved avatar above the work dock", () => {
   assert.match(dock, /const agent = useMemo\(\(\) => resolveAgent\(location\.pathname, access\)/);
@@ -36,4 +38,23 @@ test("agent width contract provides a full mobile sheet and a wide desktop comma
   assert.match(widthContract, /\.hlc-agent-dock\.is-open \.hlc-agent-dock-panel \{[\s\S]*right: 0 !important;[\s\S]*bottom: 0 !important;[\s\S]*left: 0 !important;[\s\S]*width: 100vw !important;[\s\S]*min-width: 100vw !important;[\s\S]*max-width: none !important;/);
   assert.match(commandCenter, /grid-template-columns:\s*minmax\(180px,\s*220px\)\s*minmax\(0,\s*1fr\)/);
   assert.match(commandCenter, /grid-template-areas:\s*"head head"\s*"context chat"/);
+});
+
+test("production mobile overlays are exclusive, viewport-safe, and HLC blue", () => {
+  assert.match(mainEntry, /import "\.\/styles\/mobile-release-fix\.css";/);
+  assert.match(dock, /document\.body\.classList\.toggle\("hlc-agent-open", open\)/);
+  assert.match(tutorialDock, /document\.body\.classList\.toggle\("hlc-tutorial-open", open\)/);
+  assert.match(tutorialDock, /aria-modal="true"/);
+  assert.match(mobileReleaseFix, /body\.hlc-tutorial-open \.hlc-agent-dock/);
+  assert.match(mobileReleaseFix, /body\.hlc-agent-open \.hlc-work-dock/);
+  assert.match(mobileReleaseFix, /\.hlc-agent-dock\.is-open \.hlc-agent-dock-trigger \{[\s\S]*display: none !important;/);
+  assert.match(mobileReleaseFix, /--chat-agent-accent: #3b82f6 !important;/);
+  assert.match(mobileReleaseFix, /\.hlc-agent-dock\.is-open textarea \{[\s\S]*background: #fff !important;[\s\S]*color: #0f172a !important;/);
+});
+
+test("mobile authentication uses one clean card with Safari-safe bottom space", () => {
+  assert.match(mobileReleaseFix, /\.hlc-auth-brand \{[\s\S]*display: none !important;/);
+  assert.match(mobileReleaseFix, /padding: 0 0 calc\(132px \+ env\(safe-area-inset-bottom\)\) !important;/);
+  assert.match(mobileReleaseFix, /\.hlc-auth-card > :is\(\.hlc-auth-card-brand, h2, \.hlc-auth-card-description\)/);
+  assert.match(mobileReleaseFix, /\.hlc-auth-form iframe/);
 });
