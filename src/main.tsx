@@ -26,6 +26,7 @@ import "./styles/global-pull-refresh.css";
 import "./styles/global-smart-compose.css";
 import "./styles/premium-theme.css";
 import "./styles/premium-effects.css";
+import "./styles/global-premium-system.css";
 import "./styles/contrast-contract.css";
 import "./styles/responsive-page-contract.css";
 import "./styles/final-release-guard.css";
