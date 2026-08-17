@@ -7,6 +7,11 @@ import {
   listServiceAreas,
   setProviderSaved,
 } from "../../api/ecosystemRecords";
+import {
+  clearCommunityPassDecisions,
+  listCommunityMatchDecisions,
+  setCommunityMatchDecision,
+} from "../../api/communityMatching";
 import { errorMessage } from "../../lib/errorMessage";
 import type { Contractor } from "../../lib/types/database";
 
@@ -25,16 +30,18 @@ export default function CommunityMatchDeck() {
 
   async function load() {
     try {
-      const [providerRows, areaRows, availabilityRows, savedIds] = await Promise.all([
+      const [providerRows, areaRows, availabilityRows, savedIds, decisions] = await Promise.all([
         listContractors({}),
         listServiceAreas(),
         listProviderAvailability(),
         listSavedProviderIds(),
+        listCommunityMatchDecisions(),
       ]);
       setProviders(providerRows);
       setAreas(areaRows);
       setAvailability(availabilityRows);
       setSaved(savedIds);
+      setPassed(new Set(decisions.filter((row) => row.decision === "pass").map((row) => row.contractor_id)));
     } catch (reason) {
       setError(errorMessage(reason, "Unable to load Community Matching."));
     }
@@ -61,7 +68,13 @@ export default function CommunityMatchDeck() {
     setError("");
     try {
       await setProviderSaved(providerId, true);
+      await setCommunityMatchDecision(providerId, "like");
       setSaved((previous) => new Set(previous).add(providerId));
+      setPassed((previous) => {
+        const nextPassed = new Set(previous);
+        nextPassed.delete(providerId);
+        return nextPassed;
+      });
       setOffsetX(0);
     } catch (reason) {
       setError(errorMessage(reason, "Unable to save this provider."));
@@ -70,19 +83,38 @@ export default function CommunityMatchDeck() {
     }
   }
 
-  function pass(providerId: number) {
+  async function pass(providerId: number) {
     if (busy) return;
-    setPassed((previous) => new Set(previous).add(providerId));
-    setOffsetX(0);
+    setBusy(true);
+    setError("");
+    try {
+      await setCommunityMatchDecision(providerId, "pass");
+      setPassed((previous) => new Set(previous).add(providerId));
+      setOffsetX(0);
+    } catch (reason) {
+      setError(errorMessage(reason, "Unable to record this pass."));
+    } finally {
+      setBusy(false);
+    }
   }
 
-  function undoPass() {
-    setPassed(new Set());
-    setOffsetX(0);
+  async function undoPass() {
+    if (busy) return;
+    setBusy(true);
+    setError("");
+    try {
+      await clearCommunityPassDecisions();
+      setPassed(new Set());
+      setOffsetX(0);
+    } catch (reason) {
+      setError(errorMessage(reason, "Unable to reset passed providers."));
+    } finally {
+      setBusy(false);
+    }
   }
 
   function onPointerDown(event: PointerEvent<HTMLElement>) {
-    if (!current) return;
+    if (!current || busy) return;
     startX.current = event.clientX;
     event.currentTarget.setPointerCapture?.(event.pointerId);
   }
@@ -102,7 +134,7 @@ export default function CommunityMatchDeck() {
       return;
     }
     if (finalOffset <= -SWIPE_THRESHOLD) {
-      pass(providerId);
+      void pass(providerId);
       return;
     }
     setOffsetX(0);
@@ -186,7 +218,7 @@ export default function CommunityMatchDeck() {
               <h2>You reached the end of this deck.</h2>
               <p>Review your liked providers, reset passes, or return later when more provider records are available.</p>
               <div className="hlc-match-empty-actions">
-                <button type="button" onClick={undoPass}>Reset passes</button>
+                <button type="button" onClick={() => void undoPass()} disabled={busy}>{busy ? "Resetting…" : "Reset passes"}</button>
                 <Link to="/network/saved">Open liked providers</Link>
               </div>
             </div>
@@ -195,7 +227,7 @@ export default function CommunityMatchDeck() {
 
         {current && (
           <div className="hlc-match-controls" aria-label="Matching actions">
-            <button type="button" className="hlc-match-pass" onClick={() => pass(current.id)} disabled={busy} aria-label="Pass on this provider">
+            <button type="button" className="hlc-match-pass" onClick={() => void pass(current.id)} disabled={busy} aria-label="Pass on this provider">
               <span aria-hidden="true">✕</span>
               <strong>Pass</strong>
             </button>
