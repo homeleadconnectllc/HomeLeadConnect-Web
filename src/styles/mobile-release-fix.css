@@ -1,5 +1,11 @@
 /* Production mobile release contract. This file is intentionally loaded last. */
 
+/* The open command panel already owns an explicit Close control. Rendering the
+ * corner launcher at the same time reads as a duplicate agent, especially on desktop. */
+.hlc-agent-dock.is-open > .hlc-agent-dock-trigger {
+  display: none !important;
+}
+
 /* Desktop readability and control-density contract.
  * Keep the command agent comfortably readable on laptops without applying
  * desktop proportions to the approved phone experience. */
