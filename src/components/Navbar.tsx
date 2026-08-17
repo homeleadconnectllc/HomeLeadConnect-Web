@@ -3,7 +3,8 @@ import { createPortal } from "react-dom";
 import { Link, useLocation } from "react-router-dom";
 import { ecosystemNavigation, type EcosystemPage } from "../config/ecosystem";
 import { useAuth } from "../hooks/useAuth";
-import { canAccessWorkspacePath, normalizeInternalRole, type InternalRole } from "../lib/accessPolicy";
+import { useAccountAccess } from "../hooks/useAccountAccess";
+import { canAccessWorkspacePath } from "../lib/accessPolicy";
 import { supabase } from "../lib/supabase";
 
 const logo = "/hlc-logo-final.png";
@@ -33,14 +34,6 @@ const agentNavigation = [
   { label: "Dion", route: "/operations", purpose: "Operations & BI · leads, jobs and scheduling", avatar: "/brand/avatars/Dion_Locked_HLC.png" },
   { label: "Diamond", route: "/customer-experience", purpose: "Customer Experience · community and recovery", avatar: "/brand/avatars/Diamond_Locked_HLC.png" },
 ];
-
-type AccessState = {
-  business: boolean;
-  homeowner: boolean;
-  contractor: boolean;
-  role: InternalRole | null;
-  userId: string | null;
-};
 
 type MobileIconName = "home" | "leads" | "jobs" | "messages" | "notifications" | "profile" | "more";
 
@@ -79,35 +72,11 @@ function mobileRouteIsActive(pathname: string, route: string) {
 
 export default function Navbar() {
   const { session, loading } = useAuth();
-  const [access, setAccess] = useState<AccessState>({ business: false, homeowner: false, contractor: false, role: null, userId: null });
+  const access = useAccountAccess();
   const [mobileOpenAt, setMobileOpenAt] = useState<string | null>(null);
   const [openGroupState, setOpenGroupState] = useState<{ pathname: string; id: string } | null>(null);
   const location = useLocation();
   const mobileOpen = mobileOpenAt === location.pathname;
-
-  useEffect(() => {
-    if (!session) return;
-    let active = true;
-    const userId = session.user.id;
-    Promise.all([
-      supabase.from("workspace_members").select("workspace_id").eq("user_id", userId).limit(1),
-      supabase.from("homeowner_portal_links").select("id").eq("user_id", userId).is("revoked_at", null).limit(1),
-      supabase.from("contractor_portal_links").select("id").eq("user_id", userId).is("revoked_at", null).limit(1),
-      supabase.from("profiles").select("role").eq("user_id", userId).maybeSingle(),
-    ]).then(([business, homeowner, contractor, profile]) => {
-      if (!active) return;
-      setAccess({
-        business: !business.error && Boolean(business.data?.length),
-        homeowner: !homeowner.error && Boolean(homeowner.data?.length),
-        contractor: !contractor.error && Boolean(contractor.data?.length),
-        role: profile.error ? null : normalizeInternalRole(profile.data?.role),
-        userId,
-      });
-    }).catch(() => {
-      if (active) setAccess({ business: false, homeowner: false, contractor: false, role: null, userId });
-    });
-    return () => { active = false; };
-  }, [session]);
 
   useEffect(() => {
     if (!mobileOpen) return;
@@ -147,7 +116,7 @@ export default function Navbar() {
     : signedInGroups.find((group) => group.pages.some((page) => page.route === location.pathname))?.id ?? "command";
   const openGroup = openGroupState?.pathname === location.pathname ? openGroupState.id : currentGroup;
   const signedIn = !loading && Boolean(session);
-  const accessResolved = !session || access.userId === session.user.id;
+  const accessResolved = !session || (!access.loading && access.userId === session.user.id);
   const showBusinessTools = access.business && Boolean(access.role);
   const brandDestination = signedIn ? (access.business ? "/dashboard" : access.homeowner ? "/homeowner-portal" : access.contractor ? "/contractor-portal" : "/portal/accept") : "/login";
 
