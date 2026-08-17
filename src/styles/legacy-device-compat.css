@@ -1,0 +1,158 @@
+/*
+ * HLC legacy-device visual compatibility layer.
+ * Supports graceful presentation on older capable browsers and narrow phone-class screens.
+ * This does not claim support for obsolete Windows Phone / IE engines that cannot run the React app.
+ */
+
+/* Physical-device baseline: keep the app centered and readable without newer logical-property support. */
+.hlc-route-content > main,
+.hlc-route-content > main > header,
+.hlc-route-content > main > section,
+.hlc-route-content > main > article,
+.hlc-route-content > main > form,
+.hlc-route-content > main > nav {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hlc-route-content img,
+.hlc-route-content video,
+.hlc-route-content canvas,
+.hlc-route-content svg {
+  max-width: 100%;
+}
+
+/* Older Safari/Edge versions can miss dynamic viewport units. Use vh first, then upgrade. */
+@media (max-width: 700px) {
+  .hlc-agent-dock-panel,
+  aside[aria-label="Live HLC tutorial"] > section {
+    max-height: min(58vh, 540px) !important;
+  }
+
+  /* Generic provider/map fallback that does not depend on :has(). */
+  section[aria-label="Provider coordinate map"],
+  section[aria-label="Provider map list"],
+  section[aria-label="Map filters"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  section[aria-label="Map filters"] {
+    display: block !important;
+  }
+
+  section[aria-label="Map filters"] > * {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-bottom: 12px !important;
+  }
+
+  table {
+    max-width: 100%;
+  }
+}
+
+@supports (height: 1dvh) {
+  @media (max-width: 700px) {
+    .hlc-agent-dock-panel,
+    aside[aria-label="Live HLC tutorial"] > section {
+      max-height: min(58dvh, 540px) !important;
+    }
+  }
+}
+
+/* Windows high-contrast / forced-colors support. */
+@media (forced-colors: active) {
+  .hlc-card,
+  .hlc-premium-panel,
+  .hlc-premium-callout,
+  .hlc-premium-toolbar,
+  .hlc-auth-shell,
+  dialog,
+  fieldset,
+  table {
+    border: 1px solid CanvasText !important;
+    box-shadow: none !important;
+    background: Canvas !important;
+    color: CanvasText !important;
+  }
+
+  a,
+  button,
+  input,
+  select,
+  textarea {
+    forced-color-adjust: auto;
+  }
+}
+
+/* Older Microsoft high-contrast mode fallback. */
+@media (-ms-high-contrast: active) {
+  .hlc-card,
+  .hlc-premium-panel,
+  .hlc-premium-callout,
+  .hlc-premium-toolbar,
+  .hlc-auth-shell,
+  dialog,
+  fieldset,
+  table {
+    border: 1px solid windowText !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Prevent premium effects from becoming a rendering burden on older hardware. */
+@media (prefers-reduced-motion: reduce) {
+  .hlc-premium-panel,
+  .hlc-premium-callout,
+  .hlc-premium-toolbar,
+  .hlc-card,
+  .hlc-agent-card {
+    transform: none !important;
+  }
+}
+
+/* Compact laptop widths common on older Windows PCs and MacBook Pros. */
+@media (min-width: 701px) and (max-width: 1280px) {
+  .hlc-route-content > main {
+    width: calc(100% - 32px) !important;
+    max-width: 1180px !important;
+  }
+
+  .hlc-premium-toolbar {
+    flex-wrap: wrap;
+  }
+
+  .hlc-analytics-kpi-grid,
+  .hlc-analytics-kpi-grid-operating {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Very narrow phone-class screens, including legacy Windows Phone dimensions. */
+@media (max-width: 360px) {
+  .hlc-route-content > main {
+    width: calc(100% - 16px) !important;
+  }
+
+  .hlc-mobile-tabbar {
+    font-size: 11px;
+  }
+
+  .hlc-mobile-tabbar > a,
+  .hlc-mobile-tabbar > button {
+    min-width: 0;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+
+  .hlc-premium-panel,
+  .hlc-premium-callout,
+  .hlc-premium-toolbar,
+  .hlc-card,
+  fieldset {
+    border-radius: 14px !important;
+  }
+}
