@@ -111,8 +111,8 @@ Deno.serve(async (request) => {
   if (!contextKind && professionalLink?.workspace_id) contextKind = "professional_portal";
   if (!contextKind) return json({ error: "Authorized HLC account context is unavailable." }, 403);
 
-  if (agentId === "kendrell" && !(contextKind === "internal" && role === "owner")) {
-    return json({ error: "Kendrell voice access is owner-only." }, 403);
+  if (agentId === "kendrell" && !(contextKind === "internal" && ["owner", "manager"].includes(role))) {
+    return json({ error: "Kendrell voice access requires an approved owner, manager, or supervisor role." }, 403);
   }
   if (contextKind === "resident_portal" && agentId !== "diamond") return json({ error: "Diamond is the resident portal assistant." }, 403);
   if (contextKind === "professional_portal" && agentId !== "dion") return json({ error: "Dion is the professional portal assistant." }, 403);

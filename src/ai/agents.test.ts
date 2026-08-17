@@ -67,7 +67,7 @@ test("agent runtime enforces evidence-first advisory operation and professional 
   assert.match(source, /Verify: distinguish VERIFIED FACT, REASONABLE INFERENCE, and UNKNOWN/);
   assert.match(source, /Handoffs must be structured/);
   assert.match(source, /This conversational channel is advisory-only/);
-  assert.match(source, /Kendrell command access is owner-only/);
+  assert.match(source, /Kendrell command access requires an approved owner, manager, or supervisor role/);
   assert.match(source, /repeated_issue=/);
   assert.match(source, /asks_for_human=/);
   assert.match(source, /frustration_language=/);

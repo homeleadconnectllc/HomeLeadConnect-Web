@@ -68,7 +68,7 @@ function resolveAgent(pathname: string, access: AccessContext): AgentConfig | nu
     pathname.startsWith("/customer-experience")
   ) return agents.diamond;
 
-  if (access.role === "owner") return agents.kendrell;
+  if (access.role === "owner" || access.role === "manager") return agents.kendrell;
   return agents.dion;
 }
 
