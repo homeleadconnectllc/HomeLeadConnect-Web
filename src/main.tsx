@@ -37,6 +37,7 @@ import "./styles/responsive-page-contract.css";
 import "./styles/hlc-brand-lock.css";
 import "./styles/legacy-device-compat.css";
 import "./styles/final-release-guard.css";
+import "./styles/mobile-release-fix.css";
 import App from "./App.tsx";
 import { AuthProvider } from "./context/AuthContext";
 
