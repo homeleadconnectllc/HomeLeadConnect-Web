@@ -63,6 +63,15 @@ test("device alerts and contextual agents use separate safe viewport lanes", () 
   assert.match(contextualDockCss, /@media \(min-width: 721px\) and \(max-width: 1100px\)[\s\S]*\.hlc-agent-dock:not\(\.is-open\)/);
 });
 
+test("desktop agent and workspace navigation remain readable at laptop scale", () => {
+  assert.match(mobileReleaseCss, /@media \(min-width: 721px\)[\s\S]*\.hlc-agent-dock:not\(\.is-open\)[\s\S]*min-width: 210px !important/);
+  assert.match(mobileReleaseCss, /\.hlc-agent-dock\.is-open \{[\s\S]*width: min\(880px, calc\(100vw - 64px\)\) !important/);
+  assert.match(mobileReleaseCss, /\.hlc-agent-dock\.is-open \.hlc-ai-icon-action,[\s\S]*min-height: 34px !important/);
+  assert.match(mobileReleaseCss, /\.hlc-agent-dock\.is-open \.hlc-agent-tutorial :is\(p, li\)[\s\S]*color: #dbeafe !important;[\s\S]*font-size: 14px !important/);
+  assert.match(mobileReleaseCss, /\.hlc-signed-in-shell > \.hlc-navbar \.hlc-nav-menu a > small,[\s\S]*font-size: 12\.5px !important/);
+  assert.match(mobileReleaseCss, /\.hlc-command-center \.hlc-metric-card > span:last-child,[\s\S]*font-size: 14px !important/);
+});
+
 test("internal-only mobile routes retain an agent while role resolution completes", () => {
   assert.match(contextualDock, /const internalFallbackPrefixes = \[/);
   assert.match(contextualDock, /"\/dashboard"/);
