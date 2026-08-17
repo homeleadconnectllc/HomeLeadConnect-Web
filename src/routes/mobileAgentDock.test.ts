@@ -15,10 +15,10 @@ test("mobile contextual AI uses one compact route-resolved avatar above the work
   assert.match(dock, /aria-label=\{`\$\{open \? "Close" : "Open"\} \$\{agent\.name\} tab tutorial and assistant`\}/);
   assert.match(dock, /className="hlc-agent-panel-avatar"/);
   assert.match(dockCss, /bottom: calc\(154px \+ env\(safe-area-inset-bottom\)\)/);
-  assert.match(dockCss, /\.hlc-agent-dock-trigger span \{ display: none; \}/);
   assert.match(dockCss, /\.hlc-agent-greeting \{ display: none; \}/);
-  assert.match(dockCss, /width: 52px;/);
-  assert.match(dockCss, /inset: auto 12px calc\(154px \+ env\(safe-area-inset-bottom\)\) 12px;/);
+  assert.match(finalReleaseGuard, /\.hlc-signed-in-shell \.hlc-agent-dock:not\(\.is-open\) \{[\s\S]*width: 54px !important;[\s\S]*max-width: 54px !important;/);
+  assert.match(finalReleaseGuard, /\.hlc-signed-in-shell \.hlc-agent-dock:not\(\.is-open\) \.hlc-agent-dock-trigger \{[\s\S]*width: 52px !important;[\s\S]*min-width: 52px !important;/);
+  assert.match(finalReleaseGuard, /\.hlc-signed-in-shell \.hlc-agent-dock:not\(\.is-open\) \.hlc-agent-dock-trigger > span \{[\s\S]*display: none !important;/);
 });
 
 test("closed mobile agent rail cannot constrain the open viewport agent", () => {
