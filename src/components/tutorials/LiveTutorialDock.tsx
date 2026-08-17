@@ -41,6 +41,11 @@ export default function LiveTutorialDock() {
   const current = tutorial?.steps[Math.min(step, tutorial.steps.length - 1)] ?? "";
 
   useEffect(() => {
+    document.body.classList.toggle("hlc-tutorial-open", open);
+    return () => document.body.classList.remove("hlc-tutorial-open");
+  }, [open]);
+
+  useEffect(() => {
     const timer = window.setTimeout(() => {
       if (!tutorial) {
         setOpenKey(null);
@@ -72,7 +77,7 @@ export default function LiveTutorialDock() {
 
   return (
     <aside className="hlc-contextual-tutorial" aria-label={`${activeTutorial.title} tutorial`}>
-      <section className="hlc-contextual-tutorial-panel" role="dialog" aria-modal="false" aria-labelledby="hlc-contextual-tutorial-title">
+      <section className="hlc-contextual-tutorial-panel" role="dialog" aria-modal="true" aria-labelledby="hlc-contextual-tutorial-title">
         <div className="hlc-contextual-tutorial-head">
           <div>
             <small>Quick guide</small>
