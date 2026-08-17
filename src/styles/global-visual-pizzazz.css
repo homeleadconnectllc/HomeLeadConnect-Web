@@ -1,0 +1,161 @@
+/* Global HLC visual pizzazz layer.
+ * Presentation only: adds warmth, depth, playful polish and tactile hierarchy
+ * without changing routing, data, auth, workflow or accessibility behavior.
+ */
+
+:root {
+  --hlc-pop-blue: #2563eb;
+  --hlc-pop-sky: #38bdf8;
+  --hlc-pop-cyan: #22d3ee;
+  --hlc-pop-mint: #34d399;
+  --hlc-pop-gold: #fbbf24;
+  --hlc-pop-coral: #fb7185;
+  --hlc-pop-navy: #0b1630;
+  --hlc-pop-shadow: 0 20px 55px rgba(15, 23, 42, .12), 0 5px 16px rgba(37, 99, 235, .08);
+}
+
+.hlc-route-content {
+  background:
+    radial-gradient(circle at 8% 5%, rgba(56,189,248,.13), transparent 25rem),
+    radial-gradient(circle at 94% 12%, rgba(52,211,153,.09), transparent 24rem),
+    linear-gradient(180deg, #f7faff 0%, #f2f7ff 48%, #f8fbff 100%);
+}
+
+.hlc-route-content > main {
+  isolation: isolate;
+}
+
+.hlc-route-content > main::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 12px;
+  right: 2%;
+  width: clamp(110px, 18vw, 260px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(34,211,238,.13), rgba(37,99,235,.04) 55%, transparent 72%);
+  pointer-events: none;
+}
+
+/* Make ordinary content cards feel intentional instead of flat. */
+.hlc-route-content :is(article, section, fieldset, .card, [class*="card"], [class*="panel"]):not(.hlc-agent-dock):not(.hlc-mobile-tabbar):not(.hlc-work-dock) {
+  border-color: rgba(148, 163, 184, .30);
+}
+
+.hlc-route-content :is(.card, [class*="card"], .hlc-premium-panel, .hlc-premium-callout) {
+  box-shadow: var(--hlc-pop-shadow);
+}
+
+/* Accent strip gives major white cards a recognizable HLC signature. */
+.hlc-route-content :is(.hlc-premium-panel, .hlc-premium-callout, [class*="card"]):not([class*="agent"]) {
+  position: relative;
+  overflow: hidden;
+}
+
+.hlc-route-content :is(.hlc-premium-panel, .hlc-premium-callout, [class*="card"]):not([class*="agent"])::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: linear-gradient(90deg, var(--hlc-pop-blue), var(--hlc-pop-sky), var(--hlc-pop-mint));
+  opacity: .82;
+  pointer-events: none;
+}
+
+/* Primary actions should pop while secondary actions remain calm. */
+.hlc-route-content :is(button, a)[class*="primary"],
+.hlc-route-content button[type="submit"] {
+  border-color: transparent;
+  color: #fff;
+  background: linear-gradient(135deg, #2563eb, #3b82f6 52%, #0891b2);
+  box-shadow: 0 10px 24px rgba(37, 99, 235, .22);
+}
+
+.hlc-route-content :is(button, a):not(:disabled):active {
+  transform: translateY(1px) scale(.99);
+}
+
+/* Inputs get a friendlier dimensional focus state. */
+.hlc-route-content :is(input, select, textarea) {
+  background: linear-gradient(180deg, #fff, #fbfdff);
+}
+
+.hlc-route-content :is(input, select, textarea):focus {
+  box-shadow: 0 0 0 4px rgba(56,189,248,.14), 0 8px 24px rgba(37,99,235,.08);
+}
+
+/* Empty states should feel like invitations, not dead ends. */
+.hlc-premium-empty,
+.hlc-route-content [class*="empty"] {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(56,189,248,.15), transparent 15rem),
+    linear-gradient(180deg, rgba(255,255,255,.99), rgba(245,249,255,.98));
+}
+
+/* Small semantic surfaces add playful but professional color. */
+.hlc-premium-badge,
+.hlc-status-pill {
+  box-shadow: 0 4px 12px rgba(37,99,235,.08);
+}
+
+.hlc-status-pill[data-tone="success"] { box-shadow: 0 4px 12px rgba(16,185,129,.10); }
+.hlc-status-pill[data-tone="warning"] { box-shadow: 0 4px 12px rgba(245,158,11,.10); }
+.hlc-status-pill[data-tone="danger"] { box-shadow: 0 4px 12px rgba(239,68,68,.09); }
+
+/* Tables: more visual rhythm without reducing legibility. */
+.hlc-route-content table thead {
+  background: linear-gradient(135deg, #eff6ff, #f0fdfa);
+}
+
+.hlc-route-content table tbody tr:nth-child(even) {
+  background: rgba(248,250,252,.72);
+}
+
+/* Legal / long-form informational surfaces need warmth and readable contrast. */
+.hlc-route-content :is([class*="legal"], [class*="privacy"], [class*="terms"]) :is(article, section, .hlc-premium-panel) {
+  background: linear-gradient(155deg, rgba(255,255,255,.99), rgba(239,246,255,.97));
+}
+
+/* Tactile desktop polish. */
+@media (hover: hover) and (pointer: fine) {
+  .hlc-route-content :is(.card, [class*="card"], .hlc-premium-panel):hover {
+    border-color: rgba(96,165,250,.48);
+    box-shadow: 0 24px 64px rgba(15,23,42,.14), 0 8px 24px rgba(37,99,235,.11);
+  }
+}
+
+/* Mobile: bubbly, roomy, but never wider than the viewport. */
+@media (max-width: 720px) {
+  .hlc-route-content {
+    background:
+      radial-gradient(circle at 5% 3%, rgba(56,189,248,.15), transparent 16rem),
+      radial-gradient(circle at 100% 22%, rgba(52,211,153,.08), transparent 14rem),
+      linear-gradient(180deg, #f6f9ff, #f1f6ff 54%, #f8fbff);
+  }
+
+  .hlc-route-content :is(.card, [class*="card"], .hlc-premium-panel, .hlc-premium-callout, fieldset) {
+    border-radius: 22px;
+  }
+
+  .hlc-route-content :is(button, .hlc-button, input, select, textarea) {
+    border-radius: 16px;
+  }
+
+  .hlc-route-content h1 {
+    letter-spacing: -.04em;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hlc-route-content :is(.card, [class*="card"], .hlc-premium-panel) {
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+}
+
+@media (prefers-reduced-motion: reduce), (forced-colors: active) {
+  .hlc-route-content > main::before,
+  .hlc-route-content :is(.hlc-premium-panel, .hlc-premium-callout, [class*="card"]):not([class*="agent"])::after {
+    display: none;
+  }
+}
