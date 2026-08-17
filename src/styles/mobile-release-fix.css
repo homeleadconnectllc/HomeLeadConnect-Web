@@ -1,4 +1,116 @@
 /* Production mobile release contract. This file is intentionally loaded last. */
+
+/* Desktop readability and control-density contract.
+ * Keep the command agent comfortably readable on laptops without applying
+ * desktop proportions to the approved phone experience. */
+@media (min-width: 721px) {
+  .hlc-agent-dock:not(.is-open) {
+    width: auto !important;
+    min-width: 210px !important;
+    max-width: min(280px, calc(100vw - 48px)) !important;
+  }
+
+  .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger {
+    width: 100% !important;
+    min-width: 210px !important;
+    justify-content: flex-start !important;
+    padding: 9px 16px 9px 9px !important;
+  }
+
+  .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger strong { font-size: 15px !important; }
+  .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger small { font-size: 11px !important; }
+
+  .hlc-agent-dock.is-open {
+    width: min(880px, calc(100vw - 64px)) !important;
+    max-width: min(880px, calc(100vw - 64px)) !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-agent-dock-panel {
+    width: 100% !important;
+    min-width: 0 !important;
+    grid-template-columns: minmax(230px, 270px) minmax(0, 1fr) !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-agent-tutorial :is(p, li) {
+    color: #dbeafe !important;
+    -webkit-text-fill-color: #dbeafe !important;
+    font-size: 14px !important;
+    line-height: 1.55 !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-agent-tutorial h3 {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    font-size: 19px !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-agent-tutorial-kicker {
+    color: #9fc2ff !important;
+    -webkit-text-fill-color: #9fc2ff !important;
+    font-size: 12px !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-ai-welcome > p,
+  .hlc-agent-dock.is-open .hlc-ai-message p {
+    color: #dbeafe !important;
+    -webkit-text-fill-color: #dbeafe !important;
+    font-size: 15px !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-ai-quick-prompts button {
+    min-height: 42px !important;
+    color: #eff6ff !important;
+    -webkit-text-fill-color: #eff6ff !important;
+    font-size: 13px !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-ai-composer-actions {
+    gap: 8px !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-ai-icon-action,
+  .hlc-agent-dock.is-open .hlc-ai-settings > summary {
+    min-width: 0 !important;
+    min-height: 34px !important;
+    padding: 5px 9px !important;
+    border-radius: 11px !important;
+    font-size: 13px !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-ai-send {
+    min-width: 38px !important;
+    min-height: 34px !important;
+    padding: 5px 10px !important;
+    border-radius: 11px !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-nav-group summary {
+    font-size: 16px !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-nav-menu a {
+    min-height: 64px !important;
+    font-size: 15.5px !important;
+    line-height: 1.3 !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-nav-menu a > small,
+  .hlc-signed-in-shell > .hlc-navbar .hlc-agent-nav-copy > small {
+    color: #c7d7ec !important;
+    -webkit-text-fill-color: #c7d7ec !important;
+    font-size: 12.5px !important;
+    line-height: 1.45 !important;
+  }
+
+  .hlc-command-center .hlc-metric-card > span:last-child,
+  .hlc-command-center .hlc-pulse-copy > span:last-child,
+  .hlc-command-center .hlc-business-pulse-heading p {
+    color: #c4d2e5 !important;
+    -webkit-text-fill-color: #c4d2e5 !important;
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+  }
+}
 .hlc-route-content .hlc-kendrell-path-grid article h3 {
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
