@@ -11,13 +11,13 @@
   "icons": [
     {
       "src": "/hlc-logo-final.png",
-      "sizes": "any",
+      "sizes": "1024x1024",
       "type": "image/png",
       "purpose": "any"
     },
     {
       "src": "/hlc-logo-final.png",
-      "sizes": "any",
+      "sizes": "1024x1024",
       "type": "image/png",
       "purpose": "maskable"
     }

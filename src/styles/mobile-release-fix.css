@@ -1,20 +1,113 @@
 /* Production mobile release contract. This file is intentionally loaded last. */
+.hlc-route-content .hlc-kendrell-path-grid article h3 {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+.hlc-route-content .hlc-kendrell-path-grid article small {
+  color: #bfdbfe !important;
+  -webkit-text-fill-color: #bfdbfe !important;
+  opacity: 1 !important;
+}
+
+.hlc-kendrell-memorial-mark span {
+  display: block !important;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+}
+
+body.hlc-dedication-view :is(.hlc-mobile-work-dock, .hlc-work-dock, .hlc-mobile-tabbar, .hlc-agent-dock) {
+  display: none !important;
+}
+
 @media (max-width: 720px) {
   .hlc-kendrell-dedication-page {
-    width: min(100% - 24px, 720px) !important;
+    width: min(100% - 20px, 720px) !important;
     margin: 16px auto !important;
-    padding-bottom: calc(110px + env(safe-area-inset-bottom)) !important;
+    padding-bottom: calc(28px + env(safe-area-inset-bottom)) !important;
   }
 
   .hlc-kendrell-memorial.is-standalone {
-    min-height: calc(100dvh - 210px) !important;
+    grid-template-columns: 1fr !important;
+    min-height: 0 !important;
     align-content: center !important;
+    gap: 24px !important;
+    padding: 34px 18px 72px !important;
+    text-align: center !important;
+  }
+
+  .hlc-kendrell-memorial.is-standalone::before {
+    inset: 10px !important;
+  }
+
+  .hlc-kendrell-portrait-stage {
+    width: min(82%, 320px) !important;
+    border-radius: 150px 150px 22px 22px !important;
+  }
+
+  .hlc-kendrell-memorial.is-standalone .hlc-kendrell-memorial-copy {
+    text-align: center !important;
+  }
+
+  .hlc-kendrell-memorial.is-standalone .hlc-kendrell-memorial-dedication,
+  .hlc-kendrell-memorial.is-standalone .hlc-kendrell-legacy {
+    margin-inline: auto !important;
+  }
+
+  .hlc-kendrell-memorial.is-standalone .hlc-kendrell-legacy span {
+    justify-items: center !important;
+    text-align: center !important;
+  }
+
+  .hlc-kendrell-memorial.is-standalone > .hlc-kendrell-memorial-mark {
+    right: 50% !important;
+    bottom: 14px !important;
+    transform: translateX(50%) scale(.72) !important;
   }
 
   .hlc-kendrell-memorial-links {
     display: flex !important;
     justify-content: center !important;
     margin-top: 18px !important;
+  }
+
+  .hlc-kendrell-memorial-links a {
+    flex: 1 1 190px !important;
+  }
+
+  .hlc-kendrell-story,
+  .hlc-kendrell-gallery {
+    grid-template-columns: 1fr !important;
+    gap: 22px !important;
+    padding: 28px 20px !important;
+  }
+
+  .hlc-kendrell-story blockquote {
+    grid-row: auto !important;
+    padding: 18px !important;
+  }
+
+  .hlc-kendrell-path {
+    padding: 28px 20px !important;
+  }
+
+  .hlc-kendrell-path-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .hlc-kendrell-path-grid article {
+    width: 100% !important;
+    min-height: 145px !important;
+    justify-self: stretch !important;
+  }
+
+  .hlc-kendrell-gallery-emblem {
+    min-height: 230px !important;
+  }
+
+  .hlc-kendrell-footer {
+    padding-bottom: 18px !important;
   }
 
   .hlc-kendrell-memorial-links a {

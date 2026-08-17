@@ -10,11 +10,10 @@ type AudioContextWindow = typeof window & {
   webkitAudioContext?: typeof AudioContext;
 };
 
-const STORAGE_KEY = "hlc.agentVoicePreferences.v2";
+const STORAGE_KEY = "hlc.agentVoicePreferences.v3";
 
 function defaultPreferences(): AgentVoicePreferences {
-  const desktop = typeof window !== "undefined" && window.matchMedia("(min-width: 721px)").matches;
-  return { enabled: true, autoSpeak: desktop };
+  return { enabled: false, autoSpeak: false };
 }
 
 let audioContext: AudioContext | null = null;

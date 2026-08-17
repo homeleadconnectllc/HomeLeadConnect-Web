@@ -29,6 +29,9 @@ import { listFollowUps } from "../../api/followUps";
 import { listJobs } from "../../api/jobs";
 import { listWorkspaceAppointments } from "../../api/appointments";
 import { agentTeam } from "../../config/ecosystem";
+import { useAuth } from "../../hooks/useAuth";
+import { useAccountAccess } from "../../hooks/useAccountAccess";
+import { canAccessWorkspacePath } from "../../lib/accessPolicy";
 import type { CrmJob, FollowUp, JobAppointment, Lead } from "../../lib/types/database";
 import "../../styles/dashboard.css";
 
@@ -146,6 +149,8 @@ function formatTime(value: string | null | undefined) {
 }
 
 export default function Dashboard() {
+  const { session } = useAuth();
+  const account = useAccountAccess();
   const [data, setData] = useState<DashboardData>(emptyData);
   const [loading, setLoading] = useState(true);
   const [partialError, setPartialError] = useState(false);
@@ -180,6 +185,11 @@ export default function Dashboard() {
       active = false;
     };
   }, []);
+
+  const visibleAgentTeam = useMemo(() => {
+    if (!session || account.loading || account.error || account.userId !== session.user.id || !account.business || !account.role) return [];
+    return agentTeam.filter((agent) => canAccessWorkspacePath(account.role, agent.route));
+  }, [account, session]);
 
   const metrics = useMemo(() => {
     const pendingFollowUps = data.followUps.filter((item) => item.status === "pending");
@@ -292,18 +302,18 @@ export default function Dashboard() {
         ))}
       </section>
 
-      <section className="hlc-dashboard-section hlc-agent-team-section">
+      {visibleAgentTeam.length > 0 && <section className="hlc-dashboard-section hlc-agent-team-section">
         <div className="hlc-section-heading hlc-agent-team-heading">
           <div>
             <span className="hlc-section-eyebrow">Your AI team</span>
-            <h2>Kendrell · Dion · Diamond</h2>
+            <h2>{visibleAgentTeam.map((agent) => agent.name).join(" · ")}</h2>
             <p className="hlc-agent-team-intro">Three reasoning workspaces grounded in live HLC records, with evidence, uncertainty and owner approval built in.</p>
           </div>
-          <span className="hlc-agent-team-chip">3 workspaces</span>
+          <span className="hlc-agent-team-chip">{visibleAgentTeam.length} {visibleAgentTeam.length === 1 ? "workspace" : "workspaces"}</span>
         </div>
 
         <div className="hlc-agent-grid">
-          {agentTeam.map((agent) => {
+          {visibleAgentTeam.map((agent) => {
             const role = agentRoleCopy[agent.id];
             return (
               <Link className={`hlc-agent-card hlc-agent-card-${agent.id}`} to={agent.route} key={agent.id}>
@@ -325,7 +335,7 @@ export default function Dashboard() {
             );
           })}
         </div>
-      </section>
+      </section>}
 
       <section className="hlc-dashboard-section hlc-dashboard-section-tight">
         <div className="hlc-section-heading">

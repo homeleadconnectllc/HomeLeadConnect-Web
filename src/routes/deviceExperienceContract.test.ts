@@ -18,12 +18,14 @@ test("agents proactively brief users from verified HLC context without waiting f
   assert.match(agentDock, /sessionStorage/);
 });
 
-test("desktop can surface proactive briefing while mobile keeps one non-intrusive AI entry point", () => {
-  assert.match(agentVoice, /window\.matchMedia\("\(min-width: 721px\)"\)/);
-  assert.match(agentVoice, /autoSpeak: desktop/);
-  assert.match(agentDock, /const desktop = window\.matchMedia\("\(min-width: 721px\)"\)\.matches/);
-  assert.match(agentDock, /if \(!desktop \|\| !preferences\.enabled \|\| !preferences\.autoSpeak/);
-  assert.match(proactiveCss, /@media \(max-width: 720px\)[\s\S]*\.hlc-agent-proactive-briefing \{[\s\S]*display: none !important;/);
+test("mobile receives one compact session greeting while agent voice remains explicit opt-in", () => {
+  assert.match(agentVoice, /return \{ enabled: false, autoSpeak: false \}/);
+  assert.match(agentVoice, /hlc\.agentVoicePreferences\.v3/);
+  assert.match(agentDock, /hlc\.agentBriefing\.v2:/);
+  assert.match(agentDock, /alreadyShown/);
+  assert.match(agentDock, /if \(!briefingVisible \|\| !preferences\.enabled \|\| !preferences\.autoSpeak/);
+  assert.match(proactiveCss, /@media \(max-width: 720px\)[\s\S]*max-height: min\(248px, 34vh\)/);
+  assert.doesNotMatch(proactiveCss, /display: none !important/);
   assert.match(tutorialCss, /-webkit-text-size-adjust: 100%/);
   assert.match(tutorialCss, /max-height: min\(52dvh, 460px\) !important/);
 });

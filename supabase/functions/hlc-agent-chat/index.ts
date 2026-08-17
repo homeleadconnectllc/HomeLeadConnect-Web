@@ -211,12 +211,40 @@ Deno.serve(async (request) => {
 
   const admin = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false } });
   const snapshot = contextKind === "internal" ? await buildInternalSnapshot(admin, workspaceId, userId) : emptySnapshot;
+  const capabilityId = `${agentId}_advisory_chat`;
+  const { data: recordedRun, error: recordError } = await admin.from("ai_agent_runs").insert({
+    workspace_id: workspaceId,
+    auth_user_id: userId,
+    agent_id: agentId,
+    capability_id: capabilityId,
+    mode: "SUGGEST",
+    route_context: pagePath,
+    request_summary: {
+      message_length: message.length,
+      history_items: Array.isArray(body.history) ? Math.min(body.history.length, 8) : 0,
+      context_kind: contextKind,
+    },
+    status: "running",
+    idempotency_key: crypto.randomUUID(),
+  }).select("id").single();
+  if (recordError) console.error("Agent advisory activity record failed", recordError.code);
+
+  const completeRecordedRun = async (status: "succeeded" | "failed", model: string, reply: string, fallback: boolean) => {
+    if (!recordedRun?.id) return;
+    const update = status === "succeeded"
+      ? { status, result_summary: { model, fallback, reply_length: reply.length, advisory_only: true }, completed_at: new Date().toISOString() }
+      : { status, error_code: "PROVIDER_ERROR", error_summary: "The live advisory provider was unavailable.", completed_at: new Date().toISOString() };
+    const { error } = await admin.from("ai_agent_runs").update(update).eq("id", recordedRun.id);
+    if (error) console.error("Agent advisory activity completion failed", error.code);
+  };
 
   if (!geminiKey) {
+    const reply = fallbackReply(agentId, contextKind, snapshot);
+    await completeRecordedRun("succeeded", "hlc-deterministic-fallback", reply, true);
     return json({
       agentId,
       model: "hlc-deterministic-fallback",
-      reply: fallbackReply(agentId, contextKind, snapshot),
+      reply,
       advisoryOnly: true,
       fallback: true,
       contextKind,
@@ -255,15 +283,20 @@ Never expose the workspace identifier itself in your response.`;
   if (!providerResponse.ok) {
     const providerText = (await providerResponse.text()).slice(0, 500);
     console.error("Gemini provider error", providerResponse.status, providerText);
-    return json({ agentId, model: "hlc-deterministic-fallback", reply: fallbackReply(agentId, contextKind, snapshot), advisoryOnly: true, fallback: true, contextKind });
+    const reply = fallbackReply(agentId, contextKind, snapshot);
+    await completeRecordedRun("succeeded", "hlc-deterministic-fallback", reply, true);
+    return json({ agentId, model: "hlc-deterministic-fallback", reply, advisoryOnly: true, fallback: true, contextKind });
   }
 
   const providerData = await providerResponse.json();
   const reply = providerData?.candidates?.[0]?.content?.parts
     ?.map((part: { text?: string }) => part.text ?? "").join("").trim();
   if (!reply) {
-    return json({ agentId, model: "hlc-deterministic-fallback", reply: fallbackReply(agentId, contextKind, snapshot), advisoryOnly: true, fallback: true, contextKind });
+    const fallback = fallbackReply(agentId, contextKind, snapshot);
+    await completeRecordedRun("succeeded", "hlc-deterministic-fallback", fallback, true);
+    return json({ agentId, model: "hlc-deterministic-fallback", reply: fallback, advisoryOnly: true, fallback: true, contextKind });
   }
 
+  await completeRecordedRun("succeeded", "gemini-2.5-flash", reply, false);
   return json({ agentId, model: "gemini-2.5-flash", reply, advisoryOnly: true, fallback: false, contextKind });
 });
