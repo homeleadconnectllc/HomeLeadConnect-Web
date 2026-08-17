@@ -114,7 +114,7 @@ test("Dion business intelligence copy and reporting control remain durable and m
 });
 
 test("premium HLC presentation layer stays blue-cyan beneath contrast and responsive contracts", () => {
-  assert.match(mainEntry, /\.\/styles\/premium-theme\.css";\s*import "\.\/styles\/premium-effects\.css";\s*import "\.\/styles\/contrast-contract\.css";\s*import "\.\/styles\/responsive-page-contract\.css";/);
+  assert.match(mainEntry, /\.\/styles\/premium-theme\.css";\s*import "\.\/styles\/premium-effects\.css";\s*import "\.\/styles\/global-premium-system\.css";\s*import "\.\/styles\/contrast-contract\.css";\s*import "\.\/styles\/responsive-page-contract\.css";/);
   assert.match(premiumTheme, /--hlc-blue: #2563eb/);
   assert.match(premiumTheme, /--hlc-cyan: #0891b2/);
   assert.match(premiumTheme, /prefers-reduced-motion: reduce/);
