@@ -69,11 +69,11 @@
 }
 
 .hlc-agent-card-dion::after {
-  background: rgba(99, 102, 241, .15);
+  background: rgba(67, 97, 183, .15);
 }
 
 .hlc-agent-card-diamond::after {
-  background: rgba(16, 185, 129, .13);
+  background: rgba(30, 91, 255, .14);
 }
 
 .hlc-agent-card:hover {
@@ -110,8 +110,8 @@
   height: 11px;
   border: 3px solid #0f172a;
   border-radius: 999px;
-  background: #22c55e;
-  box-shadow: 0 0 0 3px rgba(34, 197, 94, .12);
+  background: #5d8cff;
+  box-shadow: 0 0 0 3px rgba(30, 91, 255, .14);
 }
 
 .hlc-agent-status {
@@ -119,10 +119,10 @@
   right: 33px;
   bottom: 10px;
   padding: 4px 7px;
-  border: 1px solid rgba(34, 197, 94, .26);
+  border: 1px solid rgba(96, 137, 220, .34);
   border-radius: 999px;
-  background: rgba(6, 78, 59, .76);
-  color: #bbf7d0;
+  background: rgba(13, 27, 61, .82);
+  color: #dbe7ff;
   font-size: .58rem;
   font-weight: 800;
   letter-spacing: .05em;
@@ -146,7 +146,7 @@
 }
 
 .hlc-agent-card-diamond .hlc-agent-role {
-  color: #86efac;
+  color: #9bbcff;
 }
 
 .hlc-agent-card h3 {
