@@ -29,6 +29,7 @@ import "./styles/premium-theme.css";
 import "./styles/premium-effects.css";
 import "./styles/global-premium-system.css";
 import "./styles/global-visual-pizzazz.css";
+import "./styles/community-store.css";
 import "./styles/contrast-contract.css";
 import "./styles/responsive-page-contract.css";
 import "./styles/legacy-device-compat.css";
