@@ -84,6 +84,12 @@ export default function RealtimeNotificationCenter() {
   }, [session?.user.id]);
 
   useEffect(() => {
+    if (!pushStatus) return;
+    const timeout = window.setTimeout(() => setPushStatus(""), 5000);
+    return () => window.clearTimeout(timeout);
+  }, [pushStatus]);
+
+  useEffect(() => {
     const userId = session?.user.id;
     if (!userId || typeof Notification === "undefined" || Notification.permission !== "granted") return;
     if (window.localStorage.getItem(deviceAlertsDisabledKey(userId)) === "1") return;
@@ -142,9 +148,9 @@ export default function RealtimeNotificationCenter() {
   if (!session) return null;
 
   return (
-    <div style={hostStyle} aria-live="polite">
+    <div className="hlc-device-alert-center" aria-live="polite">
       {latest && (
-        <aside style={toastStyle} aria-label="New HomeLead Connect alert">
+        <aside className="hlc-device-alert-toast" style={toastStyle} aria-label="New HomeLead Connect alert">
           <button type="button" aria-label="Dismiss alert" onClick={() => setLatest(null)} style={closeStyle}>×</button>
           <strong>{latest.title}</strong>
           <span>{latest.body}</span>
@@ -153,20 +159,19 @@ export default function RealtimeNotificationCenter() {
       )}
 
       {permission === "default" && (
-        <button type="button" disabled={pushBusy} onClick={() => void enableDeviceAlerts()} style={permissionStyle}>{pushBusy ? "Connecting…" : "Enable device alerts"}</button>
+        <button className="hlc-device-alert-button" type="button" disabled={pushBusy} onClick={() => void enableDeviceAlerts()} style={permissionStyle}>{pushBusy ? "Connecting…" : "Enable device alerts"}</button>
       )}
       {permission === "granted" && !deviceAlertsEnabled && (
-        <button type="button" disabled={pushBusy} onClick={() => void enableDeviceAlerts()} style={permissionStyle}>{pushBusy ? "Connecting…" : "Enable HLC alerts on this device"}</button>
+        <button className="hlc-device-alert-button" type="button" disabled={pushBusy} onClick={() => void enableDeviceAlerts()} style={permissionStyle}>{pushBusy ? "Connecting…" : "Enable HLC alerts on this device"}</button>
       )}
       {permission === "granted" && deviceAlertsEnabled && (
-        <button type="button" disabled={pushBusy} onClick={() => void disableDeviceAlerts()} style={permissionStyle}>{pushBusy ? "Disconnecting…" : "Disable device alerts"}</button>
+        <button className="hlc-device-alert-button" type="button" disabled={pushBusy} onClick={() => void disableDeviceAlerts()} style={permissionStyle}>{pushBusy ? "Disconnecting…" : "Disable device alerts"}</button>
       )}
-      {pushStatus && <span style={statusStyle}>{pushStatus}</span>}
+      {pushStatus && <span className="hlc-device-alert-status" style={statusStyle}>{pushStatus}</span>}
     </div>
   );
 }
 
-const hostStyle = { position: "fixed" as const, zIndex: 1500, top: "max(14px, env(safe-area-inset-top))", right: "max(14px, env(safe-area-inset-right))", display: "grid", justifyItems: "end", gap: 8, maxWidth: "min(380px, calc(100vw - 28px))", pointerEvents: "none" as const };
 const toastStyle = { position: "relative" as const, display: "grid", gap: 7, width: "min(360px, calc(100vw - 28px))", boxSizing: "border-box" as const, padding: "16px 44px 16px 16px", border: "1px solid #334155", borderRadius: 16, background: "#0f172a", color: "#f8fafc", boxShadow: "0 22px 60px rgba(15,23,42,.38)", textAlign: "left" as const, pointerEvents: "auto" as const };
 const closeStyle = { position: "absolute" as const, top: 8, right: 8, minWidth: 36, minHeight: 36, border: 0, borderRadius: 10, background: "transparent", color: "#cbd5e1", fontSize: 24, cursor: "pointer" };
 const linkStyle = { color: "#93c5fd", fontWeight: 800 };
