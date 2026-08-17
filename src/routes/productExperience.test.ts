@@ -288,9 +288,12 @@ test("agent workspaces present business language instead of internal capability 
 test("mobile agent guidance is a complete scrollable sheet above fixed navigation", () => {
   assert.match(agentWorkspace, /document\.body\.classList\.add\("hlc-agent-guidance-open"\)/);
   assert.match(agentWorkspace, /hlc-agent-guidance-overlay/);
+  assert.match(agentWorkspace, /createPortal\(/);
+  assert.match(agentWorkspace, /document\.body\)\}/);
   assert.match(agentWorkspace, /hlc-agent-guidance-drawer/);
   assert.match(agentWorkspace, /hlc-agent-guidance-head/);
   assert.match(mobileReleaseCss, /body\.hlc-agent-guidance-open :is\([\s\S]*\.hlc-mobile-tabbar[\s\S]*display: none !important;/);
+  assert.match(mobileReleaseCss, /body\.hlc-agent-guidance-open \.hlc-navbar/);
   assert.match(mobileReleaseCss, /\.hlc-agent-guidance-drawer \{[\s\S]*height: 100dvh !important;[\s\S]*overflow-y: auto !important;/);
   assert.match(mobileReleaseCss, /\.hlc-agent-guidance-head > button \{[\s\S]*white-space: nowrap !important;/);
   assert.match(agentWorkspace, /Make the next decision clear/);
