@@ -21,7 +21,56 @@ body.hlc-dedication-view :is(.hlc-mobile-work-dock, .hlc-work-dock, .hlc-mobile-
   display: none !important;
 }
 
+/* Dashboard section headings sit on the light workspace canvas. */
+.hlc-command-center .hlc-dashboard-section .hlc-section-heading h2 {
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+}
+
+.hlc-agent-action-button {
+  display: grid !important;
+  gap: 5px !important;
+  min-height: 76px !important;
+  padding: 14px 16px !important;
+  text-align: left !important;
+}
+
+.hlc-agent-action-button strong { color: inherit !important; font-size: 16px !important; }
+.hlc-agent-action-button span { color: #64748b !important; font-size: 13px !important; font-weight: 600 !important; line-height: 1.4 !important; }
+.hlc-agent-action-button:disabled { cursor: not-allowed !important; opacity: .62 !important; }
+
 @media (max-width: 720px) {
+  .hlc-agent-workspace {
+    padding-bottom: calc(260px + env(safe-area-inset-bottom)) !important;
+  }
+
+  /* A first-visit briefing must be a readable card, never a sliver hanging off-screen. */
+  .hlc-agent-proactive-briefing {
+    position: fixed !important;
+    left: 14px !important;
+    right: 14px !important;
+    bottom: calc(238px + env(safe-area-inset-bottom)) !important;
+    width: auto !important;
+    max-width: none !important;
+    max-height: min(230px, 30dvh) !important;
+    border-radius: 16px !important;
+    z-index: 88 !important;
+  }
+
+  .hlc-agent-actions h2 {
+    font-size: 1.35rem !important;
+    line-height: 1.2 !important;
+  }
+
+  .hlc-agent-actions textarea {
+    min-height: 104px !important;
+  }
+
+  .hlc-agent-action-button {
+    min-height: 82px !important;
+    border-radius: 16px !important;
+  }
+
   .hlc-kendrell-dedication-page {
     width: min(100% - 20px, 720px) !important;
     margin: 16px auto !important;

@@ -272,3 +272,15 @@ test("portal voice notes use the canonical conversation-scoped storage path", ()
   assert.match(voiceNotes, /\$\{workspaceId\}\/\$\{conversationId\}\//);
   assert.match(messagesPage, /uploadVoiceNote\(selected\.id, selected\.workspace_id, file, durationSeconds\)/);
 });
+
+test("agent workspaces present business language instead of internal capability codes", () => {
+  assert.match(agentWorkspace, /What would you like \{agent\.name\} to do\?/);
+  assert.match(agentWorkspace, /Show my business overview/);
+  assert.match(agentWorkspace, /Add this to Antoine's priority list/);
+  assert.match(agentWorkspace, /Recent activity/);
+  assert.match(agentWorkspace, /Conversation with Kendrell/);
+  assert.match(agentWorkspace, /friendlyStatus/);
+  assert.doesNotMatch(agentWorkspace, /<small>\{capability\.level\}<\/small>/);
+  assert.doesNotMatch(agentWorkspace, /<pre style=\{preStyle\}>/);
+  assert.match(agentWorkspace, /account\.role !== "owner"/);
+});
