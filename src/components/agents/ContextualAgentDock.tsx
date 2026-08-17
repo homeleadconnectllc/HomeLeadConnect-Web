@@ -5,9 +5,9 @@ import { chatWithAgent } from "../../api/agentChat";
 import AgentChatPanel from "./AgentChatPanel";
 import type { AgentId } from "../../ai/agents";
 import { useAuth } from "../../hooks/useAuth";
-import { normalizeInternalRole, type InternalRole } from "../../lib/accessPolicy";
+import { useAccountAccess } from "../../hooks/useAccountAccess";
+import type { InternalRole } from "../../lib/accessPolicy";
 import { getAgentVoicePreferences, isAgentAudioSupported, prepareAgentAudio, speakAgentText } from "../../lib/agentVoice";
-import { supabase } from "../../lib/supabase";
 
 type AgentConfig = {
   id: AgentId;
@@ -137,39 +137,19 @@ function tutorialFor(pathname: string, agent: AgentConfig): TabTutorial {
 
 export default function ContextualAgentDock() {
   const { session } = useAuth();
+  const account = useAccountAccess();
   const location = useLocation();
-  const [access, setAccess] = useState<AccessContext>({ kind: null, role: null, userId: null });
   const [openFor, setOpenFor] = useState<string | null>(null);
   const [briefing, setBriefing] = useState("");
   const [dismissedBriefingFor, setDismissedBriefingFor] = useState<string | null>(null);
   const [briefingBusy, setBriefingBusy] = useState(false);
   const voicedBriefingRef = useRef("");
 
-  useEffect(() => {
-    if (!session) return;
-    let active = true;
-    const userId = session.user.id;
-    Promise.all([
-      supabase.from("workspace_members").select("workspace_id").eq("user_id", userId).limit(1),
-      supabase.from("profiles").select("role").eq("user_id", userId).maybeSingle(),
-      supabase.from("homeowner_portal_links").select("id").eq("user_id", userId).is("revoked_at", null).limit(1),
-      supabase.from("contractor_portal_links").select("id").eq("user_id", userId).is("revoked_at", null).limit(1),
-    ]).then(([workspace, profile, resident, professional]) => {
-      if (!active) return;
-      const internal = !workspace.error && Boolean(workspace.data?.length);
-      const role = profile.error ? null : normalizeInternalRole(profile.data?.role);
-      const residentAccess = !resident.error && Boolean(resident.data?.length);
-      const professionalAccess = !professional.error && Boolean(professional.data?.length);
-      setAccess({
-        kind: internal || role ? "internal" : professionalAccess ? "professional" : residentAccess ? "resident" : null,
-        role,
-        userId,
-      });
-    }).catch(() => {
-      if (active) setAccess({ kind: null, role: null, userId });
-    });
-    return () => { active = false; };
-  }, [session]);
+  const access = useMemo<AccessContext>(() => ({
+    kind: account.business && account.role ? "internal" : account.contractor ? "professional" : account.homeowner ? "resident" : null,
+    role: account.role,
+    userId: account.loading || account.error ? null : account.userId,
+  }), [account]);
 
   const agent = useMemo(() => resolveAgent(location.pathname, access), [location.pathname, access]);
   const open = Boolean(agent && openFor === location.pathname);
