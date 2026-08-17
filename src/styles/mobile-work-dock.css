@@ -51,7 +51,16 @@
   }
 
   .hlc-signed-in-shell:has(.hlc-mobile-work-dock) .hlc-route-content {
-    padding-bottom: calc(158px + env(safe-area-inset-bottom));
+    padding-bottom: calc(236px + env(safe-area-inset-bottom));
+  }
+
+  .hlc-signed-in-shell:has(.hlc-mobile-work-dock) .hlc-route-content > main {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .hlc-agent-workspace {
+    width: min(100% - 24px, 1100px) !important;
+    margin: 18px auto !important;
   }
 }
 

@@ -30,6 +30,8 @@ const premiumEffects = readFileSync("src/styles/premium-effects.css", "utf8");
 const visualPizzazz = readFileSync("src/styles/global-visual-pizzazz.css", "utf8");
 const contrastContract = readFileSync("src/styles/contrast-contract.css", "utf8");
 const mainEntry = readFileSync("src/main.tsx", "utf8");
+const agentWorkspace = readFileSync("src/pages/dashboard/AgentWorkspace.tsx", "utf8");
+const agentTeamCss = readFileSync("src/styles/agent-team.css", "utf8");
 
 test("all routed HLC page content remains globally centered", () => {
   assert.match(responsiveContract, /\.hlc-route-content > main,\s*\.hlc-route-content > main \* \{\s*text-align: center !important;/s);
@@ -86,7 +88,21 @@ test("mobile workspace exposes a persistent remote-work action dock", () => {
   assert.match(mobileWorkDockCss, /@media \(max-width: 720px\)/);
   assert.match(mobileWorkDockCss, /bottom: calc\(82px \+ env\(safe-area-inset-bottom\)\)/);
   assert.match(mobileWorkDockCss, /grid-template-columns: repeat\(5, minmax\(0, 1fr\)\)/);
+  assert.match(mobileWorkDockCss, /padding-bottom: calc\(236px \+ env\(safe-area-inset-bottom\)\)/);
   assert.match(mainEntry, /\.\/styles\/mobile-work-dock\.css/);
+});
+
+test("Kendrell HQ separates the family memorial from the operational AI workspace", () => {
+  assert.match(agentWorkspace, /In loving memory/);
+  assert.match(agentWorkspace, /Kendrell Charles Washington/);
+  assert.match(agentWorkspace, /December 6, 1991 — November 17, 2010/);
+  assert.match(agentWorkspace, /created by his brother, Antoine Washington/);
+  assert.match(agentWorkspace, /Harrisburg High School graduate/);
+  assert.match(agentWorkspace, /HACC student/);
+  assert.match(agentWorkspace, /Aspiring music artist/);
+  assert.match(agentWorkspace, /Symbolic Kendrell AI visual — not a historical photograph/);
+  assert.match(agentTeamCss, /\.hlc-kendrell-memorial/);
+  assert.match(agentTeamCss, /\.hlc-agent-command-hero/);
 });
 
 test("mobile voice-note action opens a ready recorder in the selected conversation", () => {

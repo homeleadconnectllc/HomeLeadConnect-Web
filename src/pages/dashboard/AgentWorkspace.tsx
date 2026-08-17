@@ -82,8 +82,22 @@ export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
       ? agentHandoffCopy["dion:kendrell"]
       : agentHandoffCopy["kendrell:dion"];
 
-  return <main style={pageStyle}>
-    <header style={{ ...heroStyle, borderColor: agent.accent }}>
+  return <main className="hlc-agent-workspace" style={pageStyle}>
+    {agentId === "kendrell" && <section className="hlc-kendrell-memorial" aria-labelledby="kendrell-memorial-title">
+      <div className="hlc-kendrell-memorial-copy">
+        <p className="hlc-kendrell-memorial-eyebrow">In loving memory</p>
+        <h1 id="kendrell-memorial-title">Kendrell Charles Washington</h1>
+        <p className="hlc-kendrell-memorial-dates">December 6, 1991 — November 17, 2010</p>
+        <p className="hlc-kendrell-memorial-dedication">This command office was created by his brother, Antoine Washington, to carry Kendrell’s name forward with purpose, care, and family pride.</p>
+        <div className="hlc-kendrell-legacy" aria-label="Kendrell's legacy">
+          <span>Harrisburg High School graduate</span>
+          <span>HACC student</span>
+          <span>Aspiring music artist</span>
+        </div>
+      </div>
+      <div className="hlc-kendrell-memorial-mark" aria-hidden="true"><span>KCW</span><i /><i /><i /><i /></div>
+    </section>}
+    <header className="hlc-agent-command-hero" style={{ ...heroStyle, borderColor: agent.accent }}>
       <div style={{ display: "grid", gap: 12, alignContent: "center" }}>
         <div style={brandRowStyle}><img src="/hlc-logo-final.png" alt="HomeLead Connect" style={{ width: 48, height: 48, objectFit: "contain" }} /><span>{agent.pageTitle}</span></div>
         <p style={{ margin: 0, color: agent.accent, fontWeight: 800, letterSpacing: ".08em", textTransform: "uppercase" }}>{agent.role}</p>
@@ -92,9 +106,10 @@ export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
         <p style={{ margin: 0, color: "#cbd5e1" }}>{agent.question}</p>
         <button type="button" onClick={() => setGuidanceOpen(true)} style={{ width: "fit-content", background: agent.accent, color: "#0f172a", fontWeight: 800 }}>Ask {agent.name}</button>
       </div>
-      <div style={portraitFrameStyle}>
-        {agent.image ? <img src={agent.image} alt={`${agent.name}, ${agent.role}`} style={portraitStyle} /> : <div role="status" style={missingPortraitStyle}><strong>{agent.name}</strong><span>Approved portrait asset setup required</span></div>}
+      <div className="hlc-agent-portrait-frame" style={portraitFrameStyle}>
+        {agent.image ? <img src={agent.image} alt={`${agent.name} AI workspace visual`} style={portraitStyle} /> : <div role="status" style={missingPortraitStyle}><strong>{agent.name}</strong><span>Approved portrait asset setup required</span></div>}
         <span style={{ ...presenceStyle, background: agent.accent }}>Workspace ready</span>
+        {agentId === "kendrell" && <small className="hlc-symbolic-portrait-note">Symbolic Kendrell AI visual — not a historical photograph</small>}
       </div>
     </header>
     <p style={noticeStyle}>Deterministic workspace capabilities are active. The secured conversational provider endpoint is wired separately and remains advisory-only; if its server credential is not configured, it reports <strong>AI Provider Setup Required</strong>. No model or browser prompt can bypass HLC permissions or lifecycle rules.</p>

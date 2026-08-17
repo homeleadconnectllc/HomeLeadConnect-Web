@@ -177,6 +177,24 @@
   color: #bbf7d0;
 }
 
+/* Agent command heroes are dark even though they live inside the light route canvas. */
+.hlc-agent-command-hero,
+.hlc-kendrell-memorial {
+  color: var(--hlc-text-on-dark);
+}
+
+.hlc-agent-command-hero :is(h1, h2, h3, h4, strong),
+.hlc-kendrell-memorial :is(h1, h2, h3, h4, strong) {
+  color: var(--hlc-text-on-dark) !important;
+  opacity: 1 !important;
+}
+
+.hlc-agent-command-hero :is(p, li, small),
+.hlc-kendrell-memorial :is(p, li, small) {
+  color: var(--hlc-text-on-dark-muted);
+  opacity: 1 !important;
+}
+
 /* Native controls should not inherit dark text onto dark browser surfaces. */
 .hlc-signed-in-shell select option {
   color: #0f172a;
