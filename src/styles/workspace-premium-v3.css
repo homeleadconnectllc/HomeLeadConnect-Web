@@ -121,7 +121,10 @@
 /* Leads become a practical CRM pipeline instead of isolated bubble cards. */
 .hlc-leads-page {
   color: var(--hlc-v3-copy);
+  text-align: left !important;
 }
+
+.hlc-leads-page :where(h1, h2, h3, p, small, strong, label, span) { text-align: left !important; }
 
 .hlc-leads-header {
   display: flex;
@@ -207,6 +210,7 @@
   min-height: 44px;
   border-radius: 7px !important;
   background: #fff !important;
+  text-align: left !important;
 }
 
 .hlc-leads-view-label {
@@ -344,6 +348,7 @@
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 8px !important;
+  text-align: left !important;
 }
 
 .hlc-route-content .hlc-lead-card-actions > a,
