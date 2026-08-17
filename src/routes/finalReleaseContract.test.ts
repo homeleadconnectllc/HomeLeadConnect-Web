@@ -15,6 +15,7 @@ const qaWorkflow = readFileSync(".github/workflows/netlify-e2e-qa-site.yml", "ut
 const turnstileConfig = readFileSync("src/lib/turnstile.ts", "utf8");
 const indexHtml = readFileSync("index.html", "utf8");
 const supabaseRuntime = readFileSync("src/lib/supabase.ts", "utf8");
+const manifest = readFileSync("public/manifest.webmanifest", "utf8");
 
 for (const [name, source] of [["Home", home], ["Pricing", journey], ["Legal", legal]] as const) {
   test(`${name} contains no legacy $99 subscription copy`, () => {
@@ -74,4 +75,8 @@ test("isolated QA never inherits production authentication runtime", () => {
 test("iPhone installation metadata links the approved HLC icon", () => {
   assert.match(indexHtml, /rel="apple-touch-icon" href="\/hlc-logo-final\.png"/);
   assert.match(indexHtml, /rel="manifest" href="\/manifest\.webmanifest"/);
+  assert.match(manifest, /"start_url": "\/app"/);
+  assert.match(manifest, /"sizes": "1024x1024"/);
+  assert.match(main, /register\("\/sw\.js", \{ updateViaCache: "none" \}\)/);
+  assert.match(main, /registration\.update\(\)/);
 });

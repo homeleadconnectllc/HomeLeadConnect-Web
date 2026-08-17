@@ -30,8 +30,8 @@ import { listJobs } from "../../api/jobs";
 import { listWorkspaceAppointments } from "../../api/appointments";
 import { agentTeam } from "../../config/ecosystem";
 import { useAuth } from "../../hooks/useAuth";
-import { canAccessWorkspacePath, normalizeInternalRole, type InternalRole } from "../../lib/accessPolicy";
-import { supabase } from "../../lib/supabase";
+import { useAccountAccess } from "../../hooks/useAccountAccess";
+import { canAccessWorkspacePath } from "../../lib/accessPolicy";
 import type { CrmJob, FollowUp, JobAppointment, Lead } from "../../lib/types/database";
 import "../../styles/dashboard.css";
 
@@ -150,9 +150,8 @@ function formatTime(value: string | null | undefined) {
 
 export default function Dashboard() {
   const { session } = useAuth();
+  const account = useAccountAccess();
   const [data, setData] = useState<DashboardData>(emptyData);
-  const [role, setRole] = useState<InternalRole | null>(null);
-  const [roleResolvedFor, setRoleResolvedFor] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [partialError, setPartialError] = useState(false);
   const [snapshotAt, setSnapshotAt] = useState(0);
@@ -187,29 +186,10 @@ export default function Dashboard() {
     };
   }, []);
 
-  useEffect(() => {
-    if (!session) return;
-    let active = true;
-    const userId = session.user.id;
-    void supabase.from("profiles").select("role").eq("user_id", userId).maybeSingle().then(
-      ({ data: profile, error }) => {
-        if (!active) return;
-        setRole(error ? null : normalizeInternalRole(profile?.role));
-        setRoleResolvedFor(userId);
-      },
-      () => {
-        if (!active) return;
-        setRole(null);
-        setRoleResolvedFor(userId);
-      },
-    );
-    return () => { active = false; };
-  }, [session]);
-
   const visibleAgentTeam = useMemo(() => {
-    if (!session || roleResolvedFor !== session.user.id || !role) return [];
-    return agentTeam.filter((agent) => canAccessWorkspacePath(role, agent.route));
-  }, [role, roleResolvedFor, session]);
+    if (!session || account.loading || account.error || account.userId !== session.user.id || !account.business || !account.role) return [];
+    return agentTeam.filter((agent) => canAccessWorkspacePath(account.role, agent.route));
+  }, [account, session]);
 
   const metrics = useMemo(() => {
     const pendingFollowUps = data.followUps.filter((item) => item.status === "pending");

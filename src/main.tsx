@@ -40,10 +40,13 @@ import "./styles/final-release-guard.css";
 import "./styles/mobile-release-fix.css";
 import App from "./App.tsx";
 import { AuthProvider } from "./context/AuthContext";
+import { AccountAccessProvider } from "./context/AccountAccessProvider";
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    void navigator.serviceWorker.register("/sw.js").catch(() => {
+    void navigator.serviceWorker.register("/sw.js", { updateViaCache: "none" }).then((registration) => {
+      void registration.update();
+    }).catch(() => {
       // Installation support is progressive enhancement; the web app remains usable without a service worker.
     });
   });
@@ -52,7 +55,9 @@ if ("serviceWorker" in navigator) {
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <AuthProvider>
-      <App />
+      <AccountAccessProvider>
+        <App />
+      </AccountAccessProvider>
     </AuthProvider>
   </StrictMode>,
 );
