@@ -1,0 +1,200 @@
+/* Production mobile release contract. This file is intentionally loaded last. */
+@media (max-width: 720px) {
+  /* The public navbar already carries the brand. Keep one clean account card. */
+  .hlc-auth-shell {
+    display: block !important;
+    width: min(100% - 24px, 520px) !important;
+    margin: 12px auto 0 !important;
+    padding: 0 0 calc(132px + env(safe-area-inset-bottom)) !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-auth-brand {
+    display: none !important;
+  }
+
+  .hlc-auth-card {
+    width: 100% !important;
+    padding: 24px 18px !important;
+    border: 1px solid #d7e2f2 !important;
+    border-radius: 24px !important;
+    background: #fff !important;
+    box-shadow: 0 18px 44px rgba(8, 20, 38, .12) !important;
+  }
+
+  .hlc-auth-card::before,
+  .hlc-auth-card::after,
+  .hlc-auth-card > :not(.hlc-auth-form):not(.hlc-auth-method-tabs):not(.hlc-auth-card-footer) {
+    box-shadow: none !important;
+  }
+
+  .hlc-auth-card > :is(.hlc-auth-card-brand, h2, .hlc-auth-card-description) {
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+  }
+
+  .hlc-auth-card-brand {
+    margin: 0 0 8px !important;
+    color: #1d4ed8 !important;
+    font-size: 12px !important;
+    letter-spacing: .12em !important;
+  }
+
+  .hlc-auth-card h2 {
+    margin: 0 !important;
+    color: #081426 !important;
+    font-size: clamp(1.65rem, 7vw, 2.15rem) !important;
+    line-height: 1.12 !important;
+  }
+
+  .hlc-auth-card-description {
+    margin: 10px auto 20px !important;
+    max-width: 34ch !important;
+    color: #475569 !important;
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+  }
+
+  .hlc-auth-method-tabs {
+    gap: 10px !important;
+    margin-bottom: 20px !important;
+  }
+
+  .hlc-auth-method-tabs button,
+  .hlc-auth-form > button {
+    min-height: 52px !important;
+    border-radius: 14px !important;
+  }
+
+  .hlc-auth-form {
+    gap: 16px !important;
+  }
+
+  .hlc-auth-form label {
+    gap: 8px !important;
+    color: #17233a !important;
+    font-size: 16px !important;
+  }
+
+  .hlc-auth-form input {
+    min-height: 54px !important;
+    border-radius: 14px !important;
+    background: #fff !important;
+  }
+
+  .hlc-auth-form iframe,
+  .hlc-auth-form [class*="turnstile"] {
+    max-width: 100% !important;
+  }
+
+  /* A tutorial is a true modal on phones, not another floating dashboard card. */
+  body.hlc-tutorial-open,
+  body.hlc-agent-open {
+    overflow: hidden !important;
+  }
+
+  body.hlc-tutorial-open .hlc-agent-dock,
+  body.hlc-tutorial-open .hlc-work-dock,
+  body.hlc-tutorial-open .hlc-mobile-tabbar,
+  body.hlc-agent-open .hlc-contextual-tutorial,
+  body.hlc-agent-open .hlc-work-dock,
+  body.hlc-agent-open .hlc-mobile-tabbar {
+    display: none !important;
+  }
+
+  .hlc-contextual-tutorial {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 4000 !important;
+    display: grid !important;
+    place-items: center !important;
+    width: 100vw !important;
+    max-width: none !important;
+    padding: max(16px, env(safe-area-inset-top)) 14px max(18px, env(safe-area-inset-bottom)) !important;
+    background: rgba(4, 12, 28, .78) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+  }
+
+  .hlc-contextual-tutorial-panel {
+    position: static !important;
+    width: min(100%, 520px) !important;
+    max-width: 100% !important;
+    max-height: min(78dvh, 620px) !important;
+    margin: 0 !important;
+    padding: 20px !important;
+    overflow: auto !important;
+    border: 1px solid #cbd8ea !important;
+    border-radius: 22px !important;
+    background: #fff !important;
+    color: #0f172a !important;
+    box-shadow: 0 28px 90px rgba(2, 8, 23, .34) !important;
+  }
+
+  .hlc-contextual-tutorial-head button {
+    min-width: 44px !important;
+    min-height: 44px !important;
+    border-radius: 999px !important;
+    background: #0d1b35 !important;
+    color: #fff !important;
+  }
+
+  .hlc-contextual-tutorial-actions {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  /* Open agents own the usable viewport and stay fully inside the HLC palette. */
+  .hlc-agent-dock.is-open {
+    background: rgba(3, 10, 24, .78) !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-agent-dock-trigger {
+    display: none !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-agent-dock-panel {
+    top: max(8px, env(safe-area-inset-top)) !important;
+    bottom: 0 !important;
+    max-height: calc(100dvh - max(8px, env(safe-area-inset-top))) !important;
+    padding: 12px 14px calc(20px + env(safe-area-inset-bottom)) !important;
+    border: 0 !important;
+    border-radius: 24px 24px 0 0 !important;
+    background: linear-gradient(180deg, #07142b, #0a1831) !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-agent-dock-panel-head {
+    top: 0 !important;
+    margin: 0 -2px 10px !important;
+    padding: 10px 2px 12px !important;
+    background: #07142b !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-agent-tutorial {
+    border-color: rgba(91, 139, 255, .34) !important;
+    background: #0c1d39 !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-ai-chat {
+    --chat-agent-accent: #3b82f6 !important;
+  }
+
+  .hlc-agent-dock.is-open textarea {
+    min-height: 88px !important;
+    border: 1px solid #9eb5d3 !important;
+    background: #fff !important;
+    color: #0f172a !important;
+    caret-color: #1d4ed8 !important;
+  }
+
+  .hlc-agent-dock.is-open textarea::placeholder {
+    color: #64748b !important;
+    opacity: 1 !important;
+  }
+}

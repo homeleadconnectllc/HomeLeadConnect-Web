@@ -176,6 +176,11 @@ export default function ContextualAgentDock() {
   const tutorial = agent ? tutorialFor(location.pathname, agent) : null;
 
   useEffect(() => {
+    document.body.classList.toggle("hlc-agent-open", open);
+    return () => document.body.classList.remove("hlc-agent-open");
+  }, [open]);
+
+  useEffect(() => {
     if (!agent || !session || hiddenRoutes.has(location.pathname)) return;
     let active = true;
     const cacheKey = `hlc.agentBriefing.v1:${agent.id}:${location.pathname}`;
