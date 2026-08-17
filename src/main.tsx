@@ -27,6 +27,7 @@ import "./styles/analytics-hardening.css";
 import "./styles/global-pull-refresh.css";
 import "./styles/global-smart-compose.css";
 import "./styles/community-store.css";
+import "./styles/community-match-deck.css";
 import "./styles/premium-theme.css";
 import "./styles/premium-effects.css";
 import "./styles/global-premium-system.css";
