@@ -8,6 +8,9 @@ const footer = readFileSync("src/components/Footer.tsx", "utf8");
 const startHere = readFileSync("src/pages/dashboard/StartHere.tsx", "utf8");
 const operationalGuide = readFileSync("src/pages/dashboard/OperationalGuide.tsx", "utf8");
 const communityHub = readFileSync("src/pages/dashboard/CommunityHub.tsx", "utf8");
+const communityMatchDeck = readFileSync("src/pages/dashboard/CommunityMatchDeck.tsx", "utf8");
+const communityMatchingApi = readFileSync("src/api/communityMatching.ts", "utf8");
+const communityMatchingMigration = readFileSync("supabase/migrations/20260817035500_community_match_decisions.sql", "utf8");
 const publicInfo = readFileSync("src/pages/PublicInfo.tsx", "utf8");
 const mainEntry = readFileSync("src/main.tsx", "utf8");
 const responsiveContract = readFileSync("src/styles/responsive-page-contract.css", "utf8");
@@ -82,13 +85,27 @@ test("responsive page contract is followed by compatibility fallbacks and the fi
 
 test("Community is a unified public and authenticated Network front door", () => {
   assert.match(router, /path="\/community-hub" element=\{<CommunityHub\s*\/>\}/);
-  for (const label of ["Provider Directory", "Provider Map", "Matching", "Service Areas", "Availability", "Saved Providers", "Discussions", "Groups", "Events & Updates", "Completion-linked Reviews", "Referrals", "Rules & Safety"]) {
+  for (const label of ["Provider Directory", "Provider Map", "Community Matching", "Eligibility & Fit", "Service Areas", "Availability", "Saved Providers", "Discussions", "Groups", "Events & Updates", "Completion-linked Reviews", "Referrals", "Rules & Safety"]) {
     assert.match(communityHub, new RegExp(label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   }
   for (const route of ["/providers", "/map", "/matching", "/network/service-areas", "/network/availability", "/network/saved", "/community/discussions", "/community/reviews", "/community/referrals", "/community/events", "/community-hub"]) {
     assert.match(publicInfo, new RegExp(route.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   }
   assert.doesNotMatch(publicInfo, /not operational Pennsylvania V1 services yet/);
+});
+
+test("Community Matching is the swipe discovery experience while operational fit stays separate", () => {
+  assert.match(router, /path="\/matching" element=\{<CommunityMatchDeck\s*\/>\}/);
+  assert.match(router, /path="\/network\/eligibility" element=\{<LaunchSurface page="matching"\/>\}/);
+  assert.match(communityMatchDeck, /Swipe right or tap Like/);
+  assert.match(communityMatchDeck, /Swipe left or tap Pass/);
+  assert.match(communityMatchDeck, /hlc-match-card-active/);
+  assert.match(communityMatchDeck, /setCommunityMatchDecision\(providerId, "like"\)/);
+  assert.match(communityMatchDeck, /setCommunityMatchDecision\(providerId, "pass"\)/);
+  assert.match(communityMatchingApi, /community_match_decisions/);
+  assert.match(communityMatchingMigration, /enable row level security/i);
+  assert.match(communityMatchingMigration, /decision in \('like','pass'\)/);
+  assert.match(communityMatchingMigration, /workspace_members/);
 });
 
 test("canonical page map contains every top-level HLC experience", () => {
@@ -124,7 +141,7 @@ test("portal record subroutes use canonical data-backed views", () => {
 
 test("implemented ecosystem destinations use data-backed surfaces", () => {
   const generic: Array<[string,string]> = [
-    ["/network","network"], ["/profiles","profiles"], ["/providers","providers"], ["/matching","matching"],
+    ["/network","network"], ["/profiles","profiles"], ["/providers","providers"],
     ["/community/discussions","discussions"], ["/community/reviews","reviews"], ["/community/referrals","referrals"],
     ["/community/events","events"], ["/community/moderation","moderation"], ["/community/groups","groups"], ["/network/service-areas","serviceAreas"],
     ["/network/availability","availability"], ["/network/saved","saved"], ["/contractor-portal/team","team"],
@@ -133,6 +150,8 @@ test("implemented ecosystem destinations use data-backed surfaces", () => {
   for (const [route,page] of generic) {
     assert.match(router, new RegExp(`path="${route.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}" element=\\{<LaunchSurface page="${page}"\\/>\\}`));
   }
+  assert.match(router, /path="\/matching" element=\{<CommunityMatchDeck\s*\/>\}/);
+  assert.match(router, /path="\/network\/eligibility" element=\{<LaunchSurface page="matching"\/>\}/);
   assert.match(router, /path="\/map" element=\{<ProviderMap\s*\/>\}/);
   assert.match(router, /path="\/network\/map" element=\{<ProviderMap\s*\/>\}/);
   assert.match(router, /path="\/activity" element=\{<WorkspaceActivity\s*\/>\}/);
