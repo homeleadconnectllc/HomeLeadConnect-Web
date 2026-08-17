@@ -18,9 +18,10 @@ test("owner can open command, billing, management and operational routes", () =>
   }
 });
 
-test("manager cannot open owner-only command or billing authority", () => {
-  assert.equal(canAccessWorkspacePath("manager", "/hq"), false);
-  assert.equal(canAccessWorkspacePath("manager", "/hq/approvals"), false);
+test("manager can open assigned command areas but not owner-only billing authority", () => {
+  assert.equal(canAccessWorkspacePath("manager", "/hq"), true);
+  assert.equal(canAccessWorkspacePath("manager", "/hq/approvals"), true);
+  assert.equal(canAccessWorkspacePath("manager", "/hq/dedication"), true);
   assert.equal(canAccessWorkspacePath("manager", "/settings/billing"), false);
   assert.equal(canAccessWorkspacePath("manager", "/workflow"), true);
   assert.equal(canAccessWorkspacePath("manager", "/automations"), true);
@@ -43,6 +44,7 @@ test("customer and provider identity labels never unlock internal workspace rout
     assert.equal(canAccessWorkspacePath(role, "/dashboard"), false, String(role));
     assert.equal(canAccessWorkspacePath(role, "/leads"), false, String(role));
     assert.equal(canAccessWorkspacePath(role, "/team"), false, String(role));
+    assert.equal(canAccessWorkspacePath(role, "/hq"), false, String(role));
     assert.equal(canRunAutomation(role), false, String(role));
   }
 });
