@@ -7,6 +7,7 @@ const journey = readFileSync("src/pages/PublicJourney.tsx", "utf8");
 const legal = readFileSync("src/pages/Legal.tsx", "utf8");
 const reserved = readFileSync("src/pages/dashboard/ReservedCapability.tsx", "utf8");
 const releaseGuard = readFileSync("src/styles/final-release-guard.css", "utf8");
+const globalPremium = readFileSync("src/styles/global-premium-system.css", "utf8");
 const main = readFileSync("src/main.tsx", "utf8");
 const requestService = readFileSync("src/pages/RequestService.tsx", "utf8");
 const professional = readFileSync("src/pages/ProfessionalApplication.tsx", "utf8");
@@ -36,6 +37,17 @@ test("320px through 430px viewports are explicitly contained", () => {
   assert.match(releaseGuard, /overflow-x: clip/);
   assert.match(releaseGuard, /font-size: max\(16px, 1em\)/);
   assert.match(main, /\.\/styles\/final-release-guard\.css/);
+});
+
+test("global premium HLC design system stays mounted before final release guards", () => {
+  assert.match(main, /\.\/styles\/global-premium-system\.css/);
+  assert.ok(main.indexOf("./styles/global-premium-system.css") < main.indexOf("./styles/contrast-contract.css"));
+  assert.match(globalPremium, /--hlc-premium-blue:\s*#2563eb/);
+  assert.match(globalPremium, /--accent:\s*var\(--hlc-premium-blue\)/);
+  assert.match(globalPremium, /:where\(\.hlc-route-content, \.hlc-auth-shell\).*table/);
+  assert.match(globalPremium, /\.hlc-premium-empty/);
+  assert.match(globalPremium, /\.hlc-status-pill/);
+  assert.match(globalPremium, /prefers-reduced-motion/);
 });
 
 test("anonymous intake surfaces retain bot-trap fields", () => {
