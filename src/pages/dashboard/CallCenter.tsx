@@ -46,6 +46,7 @@ export default function CallCenter() {
 
   const googleVoicePhone = phones.find((phone) => phone.provider_type === "google_voice") ?? null;
   const deviceMode = useMemo(() => getDeviceMode(), []);
+  const callLogEntries = useMemo(() => calls.filter((call) => Boolean(call.disposition?.trim())), [calls]);
   const voiceLaunchLabel = deviceMode === "ios" ? "Open Google Voice for iPhone" : "Open Google Voice";
 
   async function loadCalls() {
@@ -84,9 +85,12 @@ export default function CallCenter() {
   }
 
   return (
-    <main className="hlc-call-center-page" style={{ width: "min(1000px, calc(100% - 32px))", margin: "32px auto" }}>
-      <h1>HLC Communications Hub</h1>
-      <p>Calls, connected phone lines, missed-call activity, voicemail state, texts, and operator outcomes in one HomeLead Connect workspace.</p>
+    <main className="hlc-call-center-page" style={{ width: "min(1080px, calc(100% - 32px))", margin: "32px auto" }}>
+      <header className="hlc-call-center-heading">
+        <p className="hlc-call-center-eyebrow">COMMUNICATIONS COMMAND CENTER</p>
+        <h1>HLC Communications Hub</h1>
+        <p>Calls, connected phone lines, call history, operator logs, missed-call activity, voicemail state, texts, and outcomes in one HomeLead Connect workspace.</p>
+      </header>
       {loading && <p role="status">Loading communications…</p>}
       {error && <p role="alert">{error}</p>}
 
@@ -111,7 +115,7 @@ export default function CallCenter() {
               <span>3. Return to HLC after the call to record the outcome and create follow-up work.</span>
             </> : <>
               <span>1. Keep voice.google.com signed in and open in a supported browser.</span>
-              <span>2. Allow browser/macOS notifications so incoming Voice activity can alert you.</span>
+              <span>2. Allow browser/system notifications so incoming Voice activity can alert you.</span>
               <span>3. Keep HLC alongside Google Voice for lead context, history and follow-up.</span>
             </>}
           </div>
@@ -143,7 +147,7 @@ export default function CallCenter() {
         <label>Outcome<input autoFocus required maxLength={80} value={disposition} onChange={(event) => setDisposition(event.target.value)} /></label>
         <label>Operator notes<textarea maxLength={2000} value={notes} onChange={(event) => setNotes(event.target.value)} /></label>
         <div className="hlc-call-disposition-actions" style={{ display: "flex", gap: 8 }}>
-          <button type="button" disabled={saving || !disposition.trim()} onClick={saveDisposition}>{saving ? "Saving…" : "Save call outcome"}</button>
+          <button type="button" disabled={saving || !disposition.trim()} onClick={saveDisposition}>{saving ? "Saving…" : "Save to call log"}</button>
           <button type="button" disabled={saving} onClick={() => setEditingCallId(null)}>Cancel</button>
         </div>
       </section>}
@@ -193,20 +197,46 @@ export default function CallCenter() {
         </div>
       </section>
 
-      <section aria-labelledby="call-history-heading">
-        <h2 id="call-history-heading">Call activity</h2>
+      <section className="hlc-call-log" aria-labelledby="call-log-heading">
+        <div className="hlc-call-section-heading">
+          <div><span>OUTCOMES</span><h2 id="call-log-heading">Call Log</h2></div>
+          <strong>{callLogEntries.length}</strong>
+        </div>
+        <p>Operator-recorded outcomes from persisted HLC call sessions. Notes remain attached to the source call record.</p>
+        <div className="hlc-call-center-list">
+          {!loading && callLogEntries.length === 0
+            ? <p>No call outcomes have been logged yet. Open a call in Call History and record the outcome after the interaction.</p>
+            : callLogEntries.map((call) => (
+              <article className="hlc-call-center-record hlc-call-log-record" key={`log-${call.id}`}>
+                <div className="hlc-call-history-copy">
+                  <strong>{call.disposition}</strong>
+                  <span>{call.direction || "unknown"} · {call.normalized_state || "requested"}</span>
+                  <span>{new Date(call.started_at).toLocaleString()}</span>
+                  <span>{call.subject_type ? `${call.subject_type} ${call.subject_id}` : "Caller/contact not linked"}</span>
+                </div>
+                <button type="button" onClick={() => beginDisposition(call)}>Update outcome</button>
+              </article>
+            ))}
+        </div>
+      </section>
+
+      <section className="hlc-call-history" aria-labelledby="call-history-heading">
+        <div className="hlc-call-section-heading">
+          <div><span>ALL RECORDED SESSIONS</span><h2 id="call-history-heading">Call History</h2></div>
+          <strong>{calls.length}</strong>
+        </div>
         <div className="hlc-call-center-list">
           {!loading && calls.length === 0
-            ? <p>No HLC call activity yet.</p>
+            ? <p>No HLC call history yet.</p>
             : calls.map((call) => (
               <article className="hlc-call-center-record hlc-call-history-record" key={call.id}>
                 <div className="hlc-call-history-copy">
                   <strong>{call.direction || "unknown"} · {call.normalized_state || "requested"}</strong>
                   <span>{new Date(call.started_at).toLocaleString()}</span>
-                  <span>{call.subject_type ? `${call.subject_type} ${call.subject_id}` : "Unknown caller"}</span>
-                  {call.disposition && <span>{call.disposition}</span>}
+                  <span>{call.subject_type ? `${call.subject_type} ${call.subject_id}` : "Caller/contact not linked"}</span>
+                  {call.disposition && <span>Outcome: {call.disposition}</span>}
                 </div>
-                <button type="button" onClick={() => beginDisposition(call)}>Record call outcome</button>
+                <button type="button" onClick={() => beginDisposition(call)}>{call.disposition ? "Update call outcome" : "Record call outcome"}</button>
               </article>
             ))}
         </div>
