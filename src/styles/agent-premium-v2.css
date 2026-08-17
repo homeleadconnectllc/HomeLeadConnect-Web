@@ -275,6 +275,9 @@
   color: #e2e8f0 !important;
   font-size: 12px;
   font-weight: 700;
+  white-space: normal;
+  overflow-wrap: normal;
+  word-break: normal;
 }
 .hlc-ai-settings small { color: #829ab4 !important; font-size: 10px; }
 
@@ -352,6 +355,44 @@
 
   .hlc-ai-icon-action span,
   .hlc-ai-settings > summary span { display: none; }
+
+  .hlc-ai-settings { position: static; }
+
+  .hlc-ai-settings[open] > div {
+    position: fixed;
+    right: 16px;
+    bottom: calc(250px + env(safe-area-inset-bottom));
+    left: 16px;
+    z-index: 3200;
+    width: auto;
+    max-width: none;
+    gap: 12px;
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .hlc-ai-settings[open] label {
+    display: grid;
+    grid-template-columns: 24px minmax(0, 1fr);
+    width: 100%;
+    min-width: 0;
+    font-size: 15px !important;
+    line-height: 1.35 !important;
+  }
+
+  .hlc-ai-settings[open] label input {
+    width: 22px;
+    height: 22px;
+    margin: 0;
+  }
+
+  .hlc-ai-settings[open] small {
+    display: block;
+    width: 100%;
+    font-size: 12px !important;
+    line-height: 1.45 !important;
+    overflow-wrap: break-word;
+  }
 
   .hlc-ai-message { width: 92%; }
 }
