@@ -27,7 +27,7 @@ import {
   clearPendingManualCall,
   quickCallOutcomes,
   readPendingManualCall,
-  savePendingManualCall,
+  beginPendingManualCall,
   shouldPromptForReturnedCall,
   suggestedFollowUpLocal,
 } from "../../lib/postCallAutomation";
@@ -217,7 +217,7 @@ export default function ManualCommunications() {
 
   function startCallHandoff() {
     if (!selected || channel !== "call" || direction !== "outbound" || check?.decision !== "ALLOW") return;
-    savePendingManualCall({ contactKey: selected.key, transport, purpose, complianceCheck: check, conversationId, requestId, startedAt: Date.now() });
+    beginPendingManualCall({ contactKey: selected.key, transport, purpose, complianceCheck: check, conversationId, requestId });
     setReturnPromptOpen(false);
     setMessage("Call opened. HLC will ask for the outcome when you return.");
   }

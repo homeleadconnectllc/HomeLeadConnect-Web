@@ -26,6 +26,10 @@ export function savePendingManualCall(call: PendingManualCall) {
   if (typeof window !== "undefined") window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(call));
 }
 
+export function beginPendingManualCall(call: Omit<PendingManualCall, "startedAt">) {
+  savePendingManualCall({ ...call, startedAt: Date.now() });
+}
+
 export function clearPendingManualCall() {
   if (typeof window !== "undefined") window.sessionStorage.removeItem(STORAGE_KEY);
 }

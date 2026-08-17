@@ -24,6 +24,7 @@ test("free Google Voice handoff returns to a one-tap canonical outcome and follo
   assert.match(manualCommunications, /logManualCommunicationActivity/);
   assert.match(manualCommunications, /createFollowUp/);
   assert.match(postCallAutomation, /window\.sessionStorage/);
+  assert.match(postCallAutomation, /beginPendingManualCall/);
   assert.match(postCallAutomation, /No answer/);
   assert.match(postCallAutomation, /Callback requested/);
   assert.match(postCallAutomation, /suggestedFollowUpLocal/);
