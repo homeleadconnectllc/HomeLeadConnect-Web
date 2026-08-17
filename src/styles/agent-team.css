@@ -10,24 +10,24 @@
   gap: 24px;
   overflow: hidden;
   padding: clamp(24px, 5vw, 48px);
-  border: 1px solid #d89b2b;
+  border: 1px solid rgba(96, 165, 250, .54);
   border-radius: 24px;
-  background: radial-gradient(circle at 88% 18%, rgba(245, 158, 11, .2), transparent 25%), linear-gradient(145deg, #081225, #101b31 68%, #18243b);
+  background: radial-gradient(circle at 88% 18%, rgba(59, 130, 246, .25), transparent 27%), linear-gradient(145deg, #07142d, #0d1b3d 68%, #132b59);
   color: #f8fafc;
   box-shadow: 0 24px 58px rgba(8, 18, 37, .24);
   text-align: left !important;
 }
 
 .hlc-kendrell-memorial-copy { max-width: 760px; }
-.hlc-kendrell-memorial-eyebrow { margin: 0 0 8px; color: #fbbf24 !important; font-size: .78rem; font-weight: 900; letter-spacing: .16em; text-transform: uppercase; }
+.hlc-kendrell-memorial-eyebrow { margin: 0 0 8px; color: #93c5fd !important; font-size: .78rem; font-weight: 900; letter-spacing: .16em; text-transform: uppercase; }
 .hlc-kendrell-memorial h1 { margin: 0; color: #fff !important; font-size: clamp(2rem, 6vw, 4.2rem); line-height: 1; letter-spacing: -.045em; }
-.hlc-kendrell-memorial-dates { margin: 14px 0 0; color: #fde68a !important; font-weight: 800; letter-spacing: .04em; }
+.hlc-kendrell-memorial-dates { margin: 14px 0 0; color: #bfdbfe !important; font-weight: 800; letter-spacing: .04em; }
 .hlc-kendrell-memorial-dedication { max-width: 680px; margin: 20px 0 0; color: #e2e8f0 !important; font-size: 1.04rem; line-height: 1.7; }
 .hlc-kendrell-legacy { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 22px; }
-.hlc-kendrell-legacy span { padding: 7px 10px; border: 1px solid rgba(251, 191, 36, .42); border-radius: 999px; background: rgba(15, 23, 42, .62); color: #fff7d6 !important; font-size: .76rem; font-weight: 800; }
-.hlc-kendrell-memorial-mark { display: grid; grid-template-columns: repeat(4, 5px); align-content: center; align-items: end; gap: 5px; min-width: 116px; padding: 16px; border-left: 1px solid rgba(251, 191, 36, .32); }
-.hlc-kendrell-memorial-mark span { grid-column: 1 / -1; margin-bottom: 12px; color: #fbbf24; font-size: 1.25rem; font-style: normal; font-weight: 950; letter-spacing: .12em; }
-.hlc-kendrell-memorial-mark i { display: block; height: 34px; border-radius: 999px; background: linear-gradient(#fbbf24, #d97706); }
+.hlc-kendrell-legacy span { padding: 7px 10px; border: 1px solid rgba(96, 165, 250, .44); border-radius: 999px; background: rgba(30, 91, 255, .12); color: #eff6ff !important; font-size: .76rem; font-weight: 800; }
+.hlc-kendrell-memorial-mark { display: grid; grid-template-columns: repeat(4, 5px); align-content: center; align-items: end; gap: 5px; min-width: 116px; padding: 16px; border-left: 1px solid rgba(96, 165, 250, .32); }
+.hlc-kendrell-memorial-mark span { grid-column: 1 / -1; margin-bottom: 12px; color: #93c5fd; font-size: 1.25rem; font-style: normal; font-weight: 950; letter-spacing: .12em; }
+.hlc-kendrell-memorial-mark i { display: block; height: 34px; border-radius: 999px; background: linear-gradient(#60a5fa, #1e5bff); }
 .hlc-kendrell-memorial-mark i:nth-of-type(2) { height: 62px; }
 .hlc-kendrell-memorial-mark i:nth-of-type(3) { height: 46px; }
 .hlc-kendrell-memorial-mark i:nth-of-type(4) { height: 76px; }

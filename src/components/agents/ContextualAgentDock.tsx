@@ -30,7 +30,7 @@ type TabTutorial = {
 };
 
 const agents: Record<AgentId, AgentConfig> = {
-  kendrell: { id: "kendrell", name: "Kendrell", role: "Command", accent: "#F59E0B", avatar: "/brand/avatars/Kendrell_Locked_HLC.png" },
+  kendrell: { id: "kendrell", name: "Kendrell", role: "Command", accent: "#3B82F6", avatar: "/brand/avatars/Kendrell_Locked_HLC.png" },
   dion: { id: "dion", name: "Dion", role: "Operations & BI", accent: "#6366F1", avatar: "/brand/avatars/Dion_Locked_HLC.png" },
   diamond: { id: "diamond", name: "Diamond", role: "Customer Experience", accent: "#10B981", avatar: "/brand/avatars/Diamond_Locked_HLC.png" },
 };

@@ -103,6 +103,8 @@ test("Kendrell HQ separates the family memorial from the operational AI workspac
   assert.match(agentWorkspace, /Symbolic Kendrell AI visual — not a historical photograph/);
   assert.match(agentTeamCss, /\.hlc-kendrell-memorial/);
   assert.match(agentTeamCss, /\.hlc-agent-command-hero/);
+  assert.doesNotMatch(agentTeamCss, /#fbbf24|#d97706|#d89b2b|#fde68a|251, 191, 36|245, 158, 11/i);
+  assert.match(agentTeamCss, /#1e5bff/);
 });
 
 test("mobile voice-note action opens a ready recorder in the selected conversation", () => {

@@ -30,7 +30,7 @@ export type AgentManifest = {
 
 export const agents: Record<AgentId, AgentManifest> = {
   kendrell: {
-    id: "kendrell", name: "Kendrell", role: "Executive Command & Orchestration", question: "What does leadership need to know, decide, delegate, or escalate?", accent: "#F59E0B", route: "/hq",
+    id: "kendrell", name: "Kendrell", role: "Executive Command & Orchestration", question: "What does leadership need to know, decide, delegate, or escalate?", accent: "#3B82F6", route: "/hq",
     image: "/brand/avatars/Kendrell_Locked_HLC.png",
     pageTitle: "HQ",
     introduction: "Hi, I’m Kendrell. I run executive command: risk, priorities, system readiness, decision support, and routing work to the right HLC operator.",

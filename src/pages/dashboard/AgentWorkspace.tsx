@@ -117,7 +117,7 @@ export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
     {showNudge && <aside aria-label={`${agent.name} guidance`} style={{ ...nudgeStyle, borderColor: agent.accent }}><div><strong>{agent.name} can help here.</strong><p style={{ marginBottom: 0 }}>{error ? "I can explain the failure and the safest available next step." : agent.guidance[0]}</p></div><div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}><button type="button" onClick={() => { setGuidanceOpen(true); setShowNudge(false); }}>Show guidance</button><button type="button" onClick={() => setShowNudge(false)}>Dismiss</button></div></aside>}
     {loading && <p>Loading authenticated workspace context…</p>}
     {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
-    {message && <p role="status" style={{ color: message.includes("completed") || message.includes("persisted") ? "#166534" : "#92400e" }}>{message}</p>}
+    {message && <p role="status" style={{ color: message.includes("completed") || message.includes("persisted") ? "#1d4ed8" : "#334155" }}>{message}</p>}
     {!loading && <div style={gridStyle}>
       <section style={panelStyle}><h2>Capabilities</h2>
         {(agentId === "diamond" || agentId === "dion") && <label>Related lead<select value={leadId} onChange={(event) => setLeadId(event.target.value)}><option value="">Select when the capability needs a lead</option>{leads.map((lead) => <option key={lead.id} value={lead.id}>{lead.full_name || `Lead #${lead.id}`}</option>)}</select></label>}
