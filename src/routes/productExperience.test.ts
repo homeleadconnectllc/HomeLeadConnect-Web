@@ -35,6 +35,7 @@ const agentWorkspace = readFileSync("src/pages/dashboard/AgentWorkspace.tsx", "u
 const agentTeamCss = readFileSync("src/styles/agent-team.css", "utf8");
 const dedication = readFileSync("src/pages/dashboard/KendrellDedication.tsx", "utf8");
 const pageMap = readFileSync("src/config/pageMap.ts", "utf8");
+const accountAccessProvider = readFileSync("src/context/AccountAccessProvider.tsx", "utf8");
 
 test("all routed HLC page content remains globally centered", () => {
   assert.match(responsiveContract, /\.hlc-route-content > main,\s*\.hlc-route-content > main \* \{\s*text-align: center !important;/s);
@@ -63,6 +64,8 @@ test("internal-only mobile routes retain an agent while role resolution complete
 });
 
 test("signed-in mobile navigation behaves like an adaptive field app", () => {
+  assert.match(navbar, /useAccountAccess\(\)/);
+  assert.doesNotMatch(navbar, /from\("workspace_members"\)/);
   assert.match(navbar, /className="hlc-mobile-tabbar"/);
   assert.match(navbar, /MobileNavIcon/);
   assert.match(navbar, /label: "Home", route: "\/dashboard"/);
@@ -77,6 +80,19 @@ test("signed-in mobile navigation behaves like an adaptive field app", () => {
   assert.match(mobileAppShell, /repeat\(auto-fit, minmax\(0, 1fr\)\)/);
   assert.match(mobileAppShell, /:has\(\.hlc-mobile-tabbar\) \.hlc-navbar-toggle/);
   assert.match(mainEntry, /\.\/styles\/mobile-app-shell\.css/);
+});
+
+test("navigation, dashboard and contextual agents share one fail-closed account access source", () => {
+  assert.match(mainEntry, /<AccountAccessProvider>/);
+  assert.match(accountAccessProvider, /from\("workspace_members"\)/);
+  assert.match(accountAccessProvider, /from\("profiles"\)\.select\("role"\)/);
+  assert.match(accountAccessProvider, /from\("homeowner_portal_links"\)/);
+  assert.match(accountAccessProvider, /from\("contractor_portal_links"\)/);
+  assert.match(accountAccessProvider, /business: !failed/);
+  assert.match(accountAccessProvider, /role: failed \? null/);
+  assert.match(dashboard, /useAccountAccess\(\)/);
+  assert.match(contextualDock, /useAccountAccess\(\)/);
+  assert.doesNotMatch(contextualDock, /from\("workspace_members"\)/);
 });
 
 test("mobile workspace exposes a persistent remote-work action dock", () => {
@@ -156,7 +172,7 @@ test("Dion business intelligence copy and reporting control remain durable and m
 });
 
 test("dashboard exposes the complete HLC command center instead of hiding launch features", () => {
-  assert.match(dashboard, /canAccessWorkspacePath\(role, agent\.route\)/);
+  assert.match(dashboard, /canAccessWorkspacePath\(account\.role, agent\.route\)/);
   assert.match(dashboard, /visibleAgentTeam\.length > 0/);
   assert.doesNotMatch(dashboard, /\{agentTeam\.map\(/);
   assert.match(dashboard, /Business Pulse/);
