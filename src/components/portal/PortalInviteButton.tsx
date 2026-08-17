@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { sendPortalInvitation, type PortalRole } from "../../api/portals";
 import { errorMessage } from "../../lib/errorMessage";
+import { UserRoundPlus } from "lucide-react";
 
 export default function PortalInviteButton({ role, targetId, email, label }: {
   role: PortalRole;
@@ -25,7 +26,7 @@ export default function PortalInviteButton({ role, targetId, email, label }: {
 
   return <div>
     <button type="button" disabled={busy || !email} onClick={invite}>
-      {busy ? "Sending invitation…" : label}
+      <UserRoundPlus size={16} aria-hidden="true" />{busy ? "Sending invitation…" : label}
     </button>
     {!email && <small> Add an email address before inviting.</small>}
     {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
