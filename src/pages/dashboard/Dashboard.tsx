@@ -3,12 +3,19 @@ import { Link } from "react-router-dom";
 import {
   ArrowRight,
   Bell,
+  BarChart3,
   BriefcaseBusiness,
   CalendarDays,
   ChevronRight,
   CircleDot,
   Clock3,
   Gauge,
+  HeartHandshake,
+  MapPinned,
+  MessageCircle,
+  Network,
+  ShieldCheck,
+  Sparkle,
   ListTodo,
   PhoneCall,
   Settings,
@@ -48,18 +55,67 @@ const workspaceLinks = [
   { to: "/calendar", label: "Schedule", detail: "See appointments and timing", icon: CalendarDays },
 ];
 
-const agentRoleCopy: Record<string, { label: string; responsibility: string }> = {
+const businessPulseLinks = [
+  {
+    to: "/matching",
+    label: "Community Matching",
+    detail: "Discover providers with the new Like or Pass experience.",
+    eyebrow: "New experience",
+    icon: HeartHandshake,
+    featured: true,
+  },
+  {
+    to: "/community-hub",
+    label: "Community Hub",
+    detail: "Discussions, reviews, referrals, groups and HLC Store access.",
+    eyebrow: "Connection",
+    icon: Sparkle,
+  },
+  {
+    to: "/network/map",
+    label: "Provider Map",
+    detail: "Explore verified and approximate provider locations.",
+    eyebrow: "Network",
+    icon: MapPinned,
+  },
+  {
+    to: "/network/eligibility",
+    label: "Eligibility & Fit",
+    detail: "Review service area, trade, availability and recorded fit.",
+    eyebrow: "Operations",
+    icon: Network,
+  },
+  {
+    to: "/messages",
+    label: "Messages",
+    detail: "Open persisted conversations, Chat History and voice notes.",
+    eyebrow: "Communication",
+    icon: MessageCircle,
+  },
+  {
+    to: "/analytics",
+    label: "Business Analytics",
+    detail: "See HLC performance, demand and operational movement.",
+    eyebrow: "Intelligence",
+    icon: BarChart3,
+  },
+];
+
+const agentRoleCopy: Record<string, { label: string; responsibility: string; intelligence: string }> = {
   kendrell: {
     label: "Command",
     responsibility: "Executive priorities, approvals, risk and cross-agent coordination.",
+    intelligence: "Reasons across the whole business and prepares your owner briefing.",
   },
   dion: {
     label: "Operations & BI",
     responsibility: "Leads, LeadScope, jobs, matching, scheduling and operational intelligence.",
+    intelligence: "Finds patterns, explains operational pressure and recommends the next action.",
   },
   diamond: {
     label: "Customer Experience",
     responsibility: "Onboarding, messages, community, reviews, recovery and brand experience.",
+    intelligence: "Understands conversation context and protects the complete customer experience.",
   },
 };
 
@@ -241,7 +297,7 @@ export default function Dashboard() {
           <div>
             <span className="hlc-section-eyebrow">Your AI team</span>
             <h2>Kendrell · Dion · Diamond</h2>
-            <p className="hlc-agent-team-intro">Three dedicated HLC workspaces, each responsible for a different part of the business.</p>
+            <p className="hlc-agent-team-intro">Three reasoning workspaces grounded in live HLC records, with evidence, uncertainty and owner approval built in.</p>
           </div>
           <span className="hlc-agent-team-chip">3 workspaces</span>
         </div>
@@ -260,8 +316,9 @@ export default function Dashboard() {
                   <span className="hlc-agent-role">{role.label}</span>
                   <h3>{agent.name}</h3>
                   <p>{role.responsibility}</p>
+                  <span className="hlc-agent-intelligence">{role.intelligence}</span>
                   <span className="hlc-agent-open">
-                    Open workspace <ArrowRight size={16} />
+                    Open intelligent workspace <ArrowRight size={16} />
                   </span>
                 </div>
               </Link>
@@ -294,6 +351,38 @@ export default function Dashboard() {
             <BriefcaseBusiness size={20} />
             <span>Jobs</span>
           </Link>
+        </div>
+      </section>
+
+      <section className="hlc-dashboard-section hlc-business-pulse-section">
+        <div className="hlc-section-heading hlc-business-pulse-heading">
+          <div>
+            <span className="hlc-section-eyebrow">Everything you built</span>
+            <h2>Business Pulse</h2>
+            <p>One command view into Community, provider discovery, communications and intelligence.</p>
+          </div>
+          <Link to="/hq/system-health" className="hlc-pulse-health">
+            <ShieldCheck size={17} />
+            Systems ready
+          </Link>
+        </div>
+
+        <div className="hlc-business-pulse-grid">
+          {businessPulseLinks.map(({ to, label, detail, eyebrow, icon: Icon, featured }) => (
+            <Link
+              className={`hlc-pulse-card${featured ? " hlc-pulse-card-featured" : ""}`}
+              to={to}
+              key={to}
+            >
+              <span className="hlc-pulse-icon"><Icon size={22} /></span>
+              <span className="hlc-pulse-copy">
+                <span className="hlc-pulse-eyebrow">{eyebrow}</span>
+                <strong>{label}</strong>
+                <span>{detail}</span>
+              </span>
+              <ArrowRight size={19} className="hlc-pulse-arrow" />
+            </Link>
+          ))}
         </div>
       </section>
 

@@ -165,6 +165,16 @@
   line-height: 1.45;
 }
 
+.hlc-agent-intelligence {
+  display: block;
+  margin-top: 2px;
+  padding-top: 9px;
+  border-top: 1px solid rgba(148, 163, 184, .16);
+  color: #a9bbd2;
+  font-size: .7rem;
+  line-height: 1.45;
+}
+
 .hlc-agent-open {
   display: inline-flex;
   align-items: center;

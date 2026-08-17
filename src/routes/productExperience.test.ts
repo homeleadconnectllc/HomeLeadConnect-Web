@@ -17,6 +17,8 @@ const messagesPage = readFileSync("src/pages/dashboard/Messages.tsx", "utf8");
 const analyticsPage = readFileSync("src/pages/dashboard/Analytics.tsx", "utf8");
 const analyticsKpis = readFileSync("src/components/analytics/AnalyticsKpis.tsx", "utf8");
 const analyticsHardening = readFileSync("src/styles/analytics-hardening.css", "utf8");
+const dashboard = readFileSync("src/pages/dashboard/Dashboard.tsx", "utf8");
+const dashboardCss = readFileSync("src/styles/dashboard.css", "utf8");
 const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
 const workspaceNav = readFileSync("src/styles/workspace-nav.css", "utf8");
 const mobileAppShell = readFileSync("src/styles/mobile-app-shell.css", "utf8");
@@ -112,6 +114,18 @@ test("Dion business intelligence copy and reporting control remain durable and m
   assert.match(analyticsHardening, /\.hlc-analytics-period-button:focus-visible/);
   assert.match(analyticsHardening, /\.hlc-analytics-period-button:active/);
   assert.match(mainEntry, /\.\/styles\/analytics-hardening\.css/);
+});
+
+test("dashboard exposes the complete HLC command center instead of hiding launch features", () => {
+  assert.match(dashboard, /Business Pulse/);
+  assert.match(dashboard, /Community Matching/);
+  assert.match(dashboard, /\/community-hub/);
+  assert.match(dashboard, /\/network\/map/);
+  assert.match(dashboard, /\/network\/eligibility/);
+  assert.match(dashboard, /Open intelligent workspace/);
+  assert.match(dashboard, /evidence, uncertainty and owner approval/);
+  assert.match(dashboardCss, /\.hlc-business-pulse-grid/);
+  assert.match(dashboardCss, /@media \(max-width: 720px\)[\s\S]*\.hlc-business-pulse-grid \{[\s\S]*grid-template-columns: 1fr/);
 });
 
 test("premium HLC presentation layer stays blue-cyan beneath contrast and responsive contracts", () => {
