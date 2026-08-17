@@ -74,11 +74,25 @@
   font-weight: 900;
 }
 
-/* Desktop can surface a proactive briefing. On phones the persistent avatar is the
-   only AI entry point so it never competes with the field-work action dock. */
 @media (max-width: 720px) {
   .hlc-agent-proactive-briefing {
-    display: none !important;
+    width: min(360px, calc(100vw - 28px));
+    max-height: min(248px, 34vh);
+    padding: 11px;
+    border-radius: 15px 15px 4px 15px;
+    overflow: auto;
+  }
+
+  .hlc-agent-proactive-briefing p {
+    margin: 8px 0;
+    font-size: 12px;
+    line-height: 1.4;
+    -webkit-line-clamp: 3;
+  }
+
+  .hlc-agent-proactive-open {
+    min-height: 38px;
+    font-size: 12px;
   }
 }
 

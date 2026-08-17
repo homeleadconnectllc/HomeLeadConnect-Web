@@ -99,6 +99,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 91. `20260817041000_harden_community_match_decision_privileges.sql`
 92. `20260817110528_enforce_community_match_update_ownership.sql`
 93. `20260817111337_optimize_community_match_rls_and_indexes.sql`
+94. `20260817195641_record_agent_advisory_activity.sql`
 
 ## Current production rules
 

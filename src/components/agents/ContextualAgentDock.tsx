@@ -141,6 +141,7 @@ export default function ContextualAgentDock() {
   const location = useLocation();
   const [openFor, setOpenFor] = useState<string | null>(null);
   const [briefing, setBriefing] = useState("");
+  const [briefingVisible, setBriefingVisible] = useState(false);
   const [dismissedBriefingFor, setDismissedBriefingFor] = useState<string | null>(null);
   const [briefingBusy, setBriefingBusy] = useState(false);
   const voicedBriefingRef = useRef("");
@@ -161,11 +162,27 @@ export default function ContextualAgentDock() {
   }, [open]);
 
   useEffect(() => {
-    if (!agent || !session || hiddenRoutes.has(location.pathname)) return;
+    if (!agent || !session || !access.userId || hiddenRoutes.has(location.pathname)) return;
     let active = true;
-    const cacheKey = `hlc.agentBriefing.v1:${agent.id}:${location.pathname}`;
+    const cacheKey = `hlc.agentBriefing.v2:${access.userId}:${agent.id}:${location.pathname}`;
+    const shownKey = `${cacheKey}:shown`;
+    const alreadyShown = window.sessionStorage.getItem(shownKey) === "1";
     const cached = window.sessionStorage.getItem(cacheKey);
     voicedBriefingRef.current = "";
+
+    if (alreadyShown) {
+      queueMicrotask(() => {
+        if (active) {
+          setBriefing(cached ?? "");
+          setBriefingVisible(false);
+          setBriefingBusy(false);
+        }
+      });
+      return () => { active = false; };
+    }
+
+    window.sessionStorage.setItem(shownKey, "1");
+    queueMicrotask(() => { if (active) setBriefingVisible(true); });
 
     if (cached) {
       queueMicrotask(() => {
@@ -195,13 +212,12 @@ export default function ContextualAgentDock() {
     });
 
     return () => { active = false; };
-  }, [access.kind, agent, location.pathname, session]);
+  }, [access.kind, access.userId, agent, location.pathname, session]);
 
   useEffect(() => {
     if (!agent || !briefing || voicedBriefingRef.current === briefing) return;
-    const desktop = window.matchMedia("(min-width: 721px)").matches;
     const preferences = getAgentVoicePreferences();
-    if (!desktop || !preferences.enabled || !preferences.autoSpeak || !isAgentAudioSupported()) return;
+    if (!briefingVisible || !preferences.enabled || !preferences.autoSpeak || !isAgentAudioSupported()) return;
 
     let cancelled = false;
     const play = async () => {
@@ -211,7 +227,7 @@ export default function ContextualAgentDock() {
         await speakAgentText(agent.id, briefing);
         voicedBriefingRef.current = briefing;
       } catch {
-        // Desktop browsers may require a user gesture. The first normal interaction
+        // Browsers may require a user gesture. The first normal interaction
         // with HLC retries the same proactive briefing without requiring agent input.
       }
     };
@@ -227,7 +243,7 @@ export default function ContextualAgentDock() {
       document.removeEventListener("pointerdown", unlock, true);
       document.removeEventListener("keydown", unlock, true);
     };
-  }, [agent, briefing]);
+  }, [agent, briefing, briefingVisible]);
 
   if (!agent || hiddenRoutes.has(location.pathname)) return null;
 
@@ -237,12 +253,12 @@ export default function ContextualAgentDock() {
       data-agent={agent.id}
       aria-label={`${agent.name} contextual assistant and tutorial coach`}
     >
-      {dismissedBriefingFor !== location.pathname && !open && (
+      {briefingVisible && dismissedBriefingFor !== location.pathname && !open && (
         <section className="hlc-agent-proactive-briefing" aria-live="polite" aria-label={`${agent.name} proactive workspace briefing`}>
           <div className="hlc-agent-proactive-briefing-head">
             <img src={agent.avatar} alt="" aria-hidden="true" />
             <div><strong>{agent.name}</strong><small>{agent.role} · live briefing</small></div>
-            <button type="button" onClick={() => setDismissedBriefingFor(location.pathname)} aria-label={`Dismiss ${agent.name} briefing`}>×</button>
+            <button type="button" onClick={() => { setDismissedBriefingFor(location.pathname); setBriefingVisible(false); }} aria-label={`Dismiss ${agent.name} briefing`}>×</button>
           </div>
           <p>{briefingBusy ? `${agent.name} is checking the workspace…` : briefing}</p>
           <button type="button" className="hlc-agent-proactive-open" onClick={() => setOpenFor(location.pathname)}>Open {agent.name}</button>
