@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Calculator, CalendarClock, Mail, Phone } from "lucide-react";
 import type { Lead } from "../../lib/types/database";
 import PortalInviteButton from "../portal/PortalInviteButton";
 
@@ -6,17 +7,21 @@ export default function LeadCard({ lead }: { lead: Lead }) {
   return (
     <article className="responsive-record-card hlc-lead-card" style={cardStyle}>
       <div className="hlc-lead-card-copy">
-        <h3 style={{ margin: 0 }}>{lead.full_name || `Lead #${lead.id}`}</h3>
-        <p style={{ margin: "8px 0", color: "#64748b" }}>
-          {[lead.email, lead.phone].filter(Boolean).join(" · ")}
-        </p>
-        <small>Status: {lead.status || "new"}</small>
+        <span className="hlc-lead-avatar" aria-hidden="true">{(lead.full_name || "L").trim().charAt(0).toUpperCase()}</span>
+        <div>
+          <h3 style={{ margin: 0 }}>{lead.full_name || `Lead #${lead.id}`}</h3>
+          <p style={{ margin: "8px 0", color: "#64748b" }}>
+            {lead.email && <span><Mail size={14} aria-hidden="true" />{lead.email}</span>}
+            {lead.phone && <span><Phone size={14} aria-hidden="true" />{lead.phone}</span>}
+          </p>
+        </div>
       </div>
+      <div className="hlc-lead-status-cell"><small>Status</small><strong>{lead.status || "new"}</strong></div>
       <div className="hlc-lead-card-actions" style={{ display: "grid", gap: 8 }}>
-        <Link to={`/estimator?lead=${lead.id}`} style={actionStyle}>Create Estimate</Link>
-        <Link to={`/follow-ups?lead=${lead.id_uuid}`}>Schedule follow-up</Link>
-        {lead.phone && <Link to={`/manual-communications?contact=lead:${lead.id}&channel=call`}>Call</Link>}
-        <PortalInviteButton role="homeowner" targetId={lead.id} email={lead.email} label="Invite to homeowner portal" />
+        <Link className="hlc-lead-primary-action" to={`/estimator?lead=${lead.id}`} style={actionStyle}><Calculator size={16} aria-hidden="true" />Create estimate</Link>
+        <Link to={`/follow-ups?lead=${lead.id_uuid}`}><CalendarClock size={16} aria-hidden="true" />Follow up</Link>
+        {lead.phone && <Link to={`/manual-communications?contact=lead:${lead.id}&channel=call`}><Phone size={16} aria-hidden="true" />Call</Link>}
+        <PortalInviteButton role="homeowner" targetId={lead.id} email={lead.email} label="Portal invite" />
       </div>
     </article>
   );
