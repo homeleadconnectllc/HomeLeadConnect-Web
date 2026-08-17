@@ -1,0 +1,76 @@
+/* Keep HLC's explicit light application surfaces readable even when the OS prefers dark mode.
+   Dark HLC navigation, hero, and agent surfaces already set their own foreground colors. */
+:root {
+  color-scheme: light;
+  --text: #475569;
+  --text-h: #0f172a;
+  --bg: #ffffff;
+  --border: #e2e8f0;
+  --code-bg: #f8fafc;
+  --accent: #2563eb;
+  --accent-bg: rgba(37, 99, 235, 0.1);
+  --accent-border: rgba(37, 99, 235, 0.45);
+  --social-bg: rgba(248, 250, 252, 0.75);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: light;
+    --text: #475569;
+    --text-h: #0f172a;
+    --bg: #ffffff;
+    --border: #e2e8f0;
+    --code-bg: #f8fafc;
+    --accent: #2563eb;
+    --accent-bg: rgba(37, 99, 235, 0.1);
+    --accent-border: rgba(37, 99, 235, 0.45);
+    --social-bg: rgba(248, 250, 252, 0.75);
+  }
+
+  #social .button-icon {
+    filter: none;
+  }
+}
+
+/* Safari can retain transparent text-fill from prior/global effects. Reset semantic headings. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  -webkit-text-fill-color: currentColor;
+}
+
+/* White/light application cards and forms must never inherit a light heading from the OS theme. */
+.hlc-route-content form,
+.hlc-route-content article,
+.hlc-route-content section,
+.hlc-route-content .hlc-card,
+.hlc-route-content .hlc-contact-card,
+.hlc-route-content .hlc-auth-shell {
+  --text-h: #0f172a;
+}
+
+.hlc-route-content form > h1,
+.hlc-route-content form > h2,
+.hlc-route-content form > h3,
+.hlc-route-content article > h1,
+.hlc-route-content article > h2,
+.hlc-route-content article > h3 {
+  color: #0f172a;
+}
+
+/* Explicit dark surfaces keep their intentional light headings. */
+.hlc-navbar h1,
+.hlc-navbar h2,
+.hlc-command-hero h1,
+.hlc-command-hero h2,
+.hlc-mobile-portal h1,
+.hlc-mobile-portal h2,
+.hlc-mobile-portal h3,
+header[style*="linear-gradient"] h1,
+header[style*="linear-gradient"] h2,
+header[style*="linear-gradient"] h3 {
+  color: #f8fafc;
+}

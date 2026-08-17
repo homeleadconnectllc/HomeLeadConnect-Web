@@ -1,0 +1,220 @@
+/* Global HLC contrast contract. Presentation only: readable text follows surface luminance. */
+:root {
+  --hlc-text-on-light: #0f172a;
+  --hlc-text-on-light-muted: #334155;
+  --hlc-text-on-dark: #f8fafc;
+  --hlc-text-on-dark-muted: #e2e8f0;
+  --hlc-link-on-dark: #dbeafe;
+  --hlc-link-on-light: #1e40af;
+}
+
+/* Keep actual copy fully opaque. Muted means quieter color, never transparent text. */
+.hlc-route-content :is(h1, h2, h3, h4, h5, h6, p, li, dt, dd, label, small, strong),
+.hlc-navbar :is(h1, h2, h3, h4, h5, h6, p, li, dt, dd, label, small, strong, span),
+.hlc-mobile-tabbar :is(strong, span),
+.hlc-agent-dock :is(h1, h2, h3, h4, h5, h6, p, li, label, small, strong, span),
+.hlc-mobile-work-dock :is(strong, span) {
+  opacity: 1;
+}
+
+/* Light application surfaces use dark foregrounds. */
+.hlc-route-content,
+.hlc-route-content > main,
+.hlc-card,
+.hlc-analytics-kpi,
+.hlc-analytics-detail-grid > article,
+.hlc-field-device-center,
+.hlc-field-capability-grid article,
+.hlc-signed-in-shell :is(input, select, textarea) {
+  color: var(--hlc-text-on-light);
+}
+
+.hlc-route-content :is(p, li, dt, dd, label, small),
+.hlc-card :is(p, li, dt, dd, label, small),
+.hlc-analytics-kpi span,
+.hlc-analytics-detail-grid > article :is(p, li, dt, small),
+.hlc-field-device-center :is(p, li, dt, dd, label, small),
+.hlc-field-capability-grid article :is(p, li, dt, dd, label, small) {
+  color: var(--hlc-text-on-light-muted);
+}
+
+.hlc-route-content :is(h1, h2, h3, h4, h5, h6, strong),
+.hlc-card :is(h1, h2, h3, h4, h5, h6, strong),
+.hlc-analytics-kpi strong,
+.hlc-analytics-detail-grid > article :is(h1, h2, h3, h4, h5, h6, strong, dd),
+.hlc-field-device-center :is(h1, h2, h3, h4, h5, h6, strong),
+.hlc-field-capability-grid article :is(h1, h2, h3, h4, h5, h6, strong) {
+  color: var(--hlc-text-on-light);
+}
+
+.hlc-route-content a:not([class*="button"]),
+.hlc-card a:not([class*="button"]) {
+  color: var(--hlc-link-on-light);
+}
+
+.hlc-signed-in-shell :is(input, select, textarea)::placeholder {
+  color: #475569;
+  opacity: 1;
+}
+
+/* Safari/iOS: explicit light surfaces must never retain pale or transparent text-fill. */
+.hlc-public-shell .hlc-home article,
+.hlc-public-shell .hlc-home article :is(h1, h2, h3, h4, h5, h6, strong) {
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+  opacity: 1 !important;
+}
+
+.hlc-public-shell .hlc-home article :is(p, li, small, span) {
+  color: #334155 !important;
+  -webkit-text-fill-color: #334155 !important;
+  opacity: 1 !important;
+}
+
+/* The command hero is rendered on the light workspace canvas. Keep its copy dark. */
+.hlc-command-center .hlc-command-hero h1,
+.hlc-command-center .hlc-command-hero h2 {
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+  opacity: 1 !important;
+}
+
+.hlc-command-center .hlc-command-copy > p {
+  color: #334155 !important;
+  -webkit-text-fill-color: #334155 !important;
+  opacity: 1 !important;
+}
+
+.hlc-command-center .hlc-command-kicker,
+.hlc-command-center .hlc-section-eyebrow {
+  color: #1d4ed8 !important;
+  -webkit-text-fill-color: #1d4ed8 !important;
+  opacity: 1 !important;
+}
+
+/* System strip is a dark operational surface; use high-contrast light copy. */
+.hlc-command-center .hlc-system-strip {
+  background: #0f172a !important;
+  color: #f8fafc !important;
+  border-color: #334155 !important;
+}
+
+.hlc-command-center .hlc-system-strip span {
+  color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
+  opacity: 1 !important;
+}
+
+/* KPI cards are light. Percentages and labels must remain fully readable on iPhone/Safari. */
+.hlc-analytics-kpi strong {
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+  opacity: 1 !important;
+}
+
+.hlc-analytics-kpi > span:last-child {
+  color: #334155 !important;
+  -webkit-text-fill-color: #334155 !important;
+  opacity: 1 !important;
+  font-weight: 800;
+}
+
+/* Known dark navigation and AI surfaces always carry light foregrounds. */
+.hlc-navbar,
+.hlc-signed-in-shell > .hlc-navbar,
+.hlc-nav-menu,
+.hlc-mobile-tabbar,
+.hlc-agent-card,
+.hlc-agent-nav-link,
+.hlc-desktop-sidebar-toggle {
+  color: var(--hlc-text-on-dark);
+}
+
+.hlc-navbar :is(h1, h2, h3, h4, h5, h6, strong),
+.hlc-signed-in-shell > .hlc-navbar :is(h1, h2, h3, h4, h5, h6, strong),
+.hlc-nav-menu :is(h1, h2, h3, h4, h5, h6, strong),
+.hlc-mobile-tabbar :is(strong, span),
+.hlc-agent-card :is(h1, h2, h3, h4, h5, h6, strong),
+.hlc-agent-nav-link strong,
+.hlc-desktop-sidebar-toggle {
+  color: var(--hlc-text-on-dark);
+}
+
+.hlc-navbar :is(p, small, span),
+.hlc-signed-in-shell > .hlc-navbar :is(p, small, span),
+.hlc-nav-menu :is(p, small, span),
+.hlc-agent-card :is(p, small),
+.hlc-agent-nav-link small {
+  color: var(--hlc-text-on-dark-muted);
+}
+
+.hlc-navbar a,
+.hlc-signed-in-shell > .hlc-navbar a,
+.hlc-nav-menu a,
+.hlc-mobile-tabbar a,
+.hlc-agent-card a,
+.hlc-agent-open {
+  color: var(--hlc-link-on-dark);
+}
+
+.hlc-nav-menu a[aria-current="page"],
+.hlc-mobile-tabbar > a.is-active,
+.hlc-mobile-tabbar > button.is-active {
+  color: #ffffff;
+}
+
+/* Preserve semantic badge colors while keeping their text legible. */
+.hlc-agent-status {
+  color: #dcfce7;
+}
+
+.hlc-agent-role,
+.hlc-agent-team-chip {
+  color: #dbeafe;
+}
+
+.hlc-agent-card-diamond .hlc-agent-role {
+  color: #bbf7d0;
+}
+
+/* Agent command heroes are dark even though they live inside the light route canvas. */
+.hlc-agent-command-hero,
+.hlc-kendrell-memorial {
+  color: var(--hlc-text-on-dark);
+}
+
+.hlc-agent-command-hero :is(h1, h2, h3, h4, strong),
+.hlc-kendrell-memorial :is(h1, h2, h3, h4, strong) {
+  color: var(--hlc-text-on-dark) !important;
+  opacity: 1 !important;
+}
+
+.hlc-agent-command-hero :is(p, li, small),
+.hlc-kendrell-memorial :is(p, li, small) {
+  color: var(--hlc-text-on-dark-muted);
+  opacity: 1 !important;
+}
+
+/* Native controls should not inherit dark text onto dark browser surfaces. */
+.hlc-signed-in-shell select option {
+  color: #0f172a;
+  background: #ffffff;
+}
+
+/* High-contrast preference gets an extra edge without changing layout. */
+@media (prefers-contrast: more) {
+  .hlc-card,
+  .hlc-analytics-kpi,
+  .hlc-analytics-detail-grid > article,
+  .hlc-field-device-center,
+  .hlc-field-capability-grid article {
+    border-color: #94a3b8;
+  }
+
+  .hlc-navbar,
+  .hlc-nav-menu,
+  .hlc-mobile-tabbar,
+  .hlc-agent-card {
+    border-color: rgba(255,255,255,.34);
+  }
+}

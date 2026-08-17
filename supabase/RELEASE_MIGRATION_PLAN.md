@@ -75,28 +75,62 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 67. `20260814145520_linked_provider_profile_read.sql`
 68. `20260814150142_professional_portal_services_contract.sql`
 69. `20260814150206_fix_professional_portal_availability_upsert.sql`
+70. `20260814163950_professional_application_intake.sql`
+71. `20260814182529_repair_auth_user_signup_profile_trigger.sql`
+72. `20260814182821_align_assignment_notification_types.sql`
+73. `20260814183500_fix_auth_signup_profile_trigger.sql`
+74. `20260814184422_launch_portal_policy_and_fk_performance_hardening.sql`
+75. `20260814204700_enforce_leads_single_writer.sql`
+76. `20260814205500_complete_company_signup_workspace_membership.sql`
+77. `20260814210500_workspace_team_roles_and_invitations.sql`
+78. `20260814211500_support_workspace_invitee_signup.sql`
+79. `20260814212000_fix_workspace_team_rpc_result_types.sql`
+80. `20260814212500_tighten_workspace_members_browser_surface.sql`
+81. `20260814223000_provider_map_coordinate_confidence.sql`
+82. `20260815012500_harden_legacy_lead_routing.sql`
+83. `20260815014000_launch_surface_fk_indexes.sql`
+84. `20260815015000_harden_notification_browser_updates.sql`
+85. `20260815020500_harden_portal_document_relationships.sql`
+86. `20260815022000_align_voice_note_portal_storage.sql`
+87. `20260815184500_harden_public_intake_rate_limit_and_honeypot.sql`
+88. `20260815190000_lock_public_intake_guard.sql`
+89. `20260816234500_expand_hlc_document_media_types.sql`
+90. `20260817035500_community_match_decisions.sql`
+91. `20260817041000_harden_community_match_decision_privileges.sql`
+92. `20260817110528_enforce_community_match_update_ownership.sql`
+93. `20260817111337_optimize_community_match_rls_and_indexes.sql`
 
 ## Current production rules
 
 - `main` is the production source branch. Netlify's native Git integration owns the production build so Netlify can inject production `VITE_*` values.
 - GitHub production verification must pass lint, acceptance tests, the launch static audit, production build, Netlify site access, and exact-SHA-live verification before a release is considered complete.
-- `workspace_members` establishes business-workspace membership. `profiles.role` is the internal role signal. Customer/renter and contractor access is resolved through their dedicated portal links.
-- Internal workspace route policy recognizes `owner`, `manager`, and `technician`. Owner-only surfaces include HQ/command authority and subscription billing. Manager-level surfaces include workflow, automation, analytics, settings, operations, CX control, and moderation. Technicians receive operational workspace access but not manager/owner control planes.
+- `workspace_members` establishes business-workspace membership and now stores the authoritative per-workspace internal role. `profiles.role` mirrors the active workspace role for backward-compatible UI/runtime checks. Customer/renter and contractor access is resolved through their dedicated portal links.
+- Company-owner signup creates an isolated workspace, owner profile, and owner membership atomically. Workspace invitees create only an identity until an email-bound invitation is accepted, preventing orphan personal workspaces for invited staff.
+- Internal workspace team invitations are hashed, email-bound, single-use, expiring, and role-limited. Owners may invite managers or technicians; managers may invite technicians. Team membership mutations run through role-checked RPCs rather than direct browser writes.
+- Browser access to `workspace_members` is authenticated read-only for the caller's own membership. Anonymous SELECT and legacy direct membership-management policies are removed; role changes and membership mutation use audited RPCs/server paths.
+- Internal workspace route policy recognizes `owner`, `manager`, and `technician`. Owner-only surfaces include HQ/command authority and subscription billing. Manager-level surfaces include workflow, automation, analytics, settings, team administration, operations, CX control, and moderation. Technicians receive operational workspace access but not manager/owner control planes.
+- `public.leads` is a server-only write surface. Browser roles do not receive direct INSERT access; canonical lead creation must use the approved server/RPC ingestion boundary.
 - `run_hlc_automation` and `automation_jobs` history are owner/manager control-plane capabilities. The production database enforces that rule in addition to the browser UI.
 - `run_hlc_scheduled_workflow_scan()` is a system-only recurring read-only monitor. Normal browser roles cannot invoke it. It records workflow health, follow-up pressure, and owner-attention evidence without messaging customers, assigning providers, scheduling appointments, changing workflow state, or changing billing.
 - Legacy SECURITY DEFINER operational/billing helpers must verify authenticated identity, canonical workspace membership, and internal role where the operation is staff-only.
+- Balanced lead claiming must validate both the caller's workspace membership and the target assignee's membership in the same workspace. Legacy internal routing fallbacks are not directly executable by browser roles.
 - Management RPCs for analytics/KPIs, provider configuration, and portal administration must enforce owner/manager authorization server-side rather than relying on route hiding.
 - Browser roles must never retain database-administration privileges such as TRUNCATE, TRIGGER, or REFERENCES on public relations. Normal app behavior is limited to explicitly granted CRUD operations plus RLS/RPC enforcement.
 - Profile self-service updates must not permit changes to `role`, `workspace_id`, `user_id`, or identity keys. Internal authority fields are server/admin controlled.
 - Voice messages and legacy voice-audio storage use canonical `workspace_members` tenancy; the obsolete `org_members` path is not an authorization source.
 - Community review eligibility must validate that the referenced completed job belongs to the same workspace as the review; a completed job ID from another workspace can never satisfy the review policy.
-- Resident portal documents must be shown only through the resident portal route and remain limited to files explicitly shared with `sharing_scope = 'homeowner'` and authorized by portal linkage/RLS.
-- Provider Map coordinates are canonical nullable facts. Coordinates must remain range validated; HLC must not infer, silently geocode, or invent missing coordinates. Coordinate mutation is management controlled.
+- Community Matching Like/Pass decisions are private per-user discovery preferences scoped by `workspace_id`, `user_id`, and provider. They do not assign a provider, create a job, schedule work, change billing, or grant any provider/workspace authority. Anonymous access is revoked; authenticated access is limited to SELECT/INSERT/UPDATE/DELETE under RLS.
+- Resident and professional portal document rows are relationship-scoped, not merely workspace-scoped: a portal user may see only explicitly shared documents tied to that user's linked lead/provider and eligible related estimates, jobs, or appointments. Storage signed-URL access inherits that same document RLS boundary.
+- Conversation voice notes use the private `communication-voice-notes` bucket and authorize storage through canonical conversation participation plus matching workspace/conversation path segments; portal participants do not need internal workspace membership to use messaging voice notes.
+- Provider Map coordinates are canonical location facts with confidence metadata. Exact owner/manager-entered coordinates are marked `verified`; safe city/ZIP centroids may be stored only as explicitly labeled `approximate` coordinates and must never be presented as an exact storefront or live location. Coordinate mutation remains management controlled and range validated.
 - Provider/resident profile-type labels are presentation metadata, never authorization. Renter and subcontractor workflow mechanics that remain undefined must be represented as setup-required rather than fabricated.
 - Professional portal self-service is anchored to an active `contractor_portal_links` relationship. It may update the linked provider's approved profile/service/availability fields but cannot self-grant workspace authority, verification, licensing approval, assignments, billing authority, or map-coordinate authority.
 - Normal browser roles may append and read authorized activity but cannot rewrite/delete audit history.
+- Notification recipients may update only their own `read_at` state; browser roles cannot rewrite canonical notification title, body, routing, event type, recipient, or source metadata.
 - Anonymous/public callers must never receive direct execution access to internal automation, billing, owner approval, system-health, or staff-only functions.
 - UI hiding is not an authorization boundary. Direct-route, RLS/RPC, storage, and server-side checks must continue to enforce the same access rules.
+- Anonymous service-request and professional-application intake is throttled server-side with append-only attempt evidence. Honeypot submissions fail closed; direct browser execution of the internal guard is revoked.
+- The private `hlc-documents` bucket permits controlled document, photo, and short-video evidence only. It remains private, capped at 25 MB per object, and storage access stays governed by canonical document relationship/RLS checks.
 
 ## Production verification evidence — 2026-08-14
 
@@ -104,19 +138,36 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - Production verification confirms the exact Git SHA served by Netlify, not merely a successful local build.
 - Unverified phone/Google/Apple/Facebook sign-in methods remain hidden unless explicitly enabled after end-to-end provider verification.
 - Production API logs showed authenticated `200` responses for user/session reads, workspace membership, leads, jobs, appointments, follow-ups, KPI/analytics RPCs, and analytics-event ingestion during launch acceptance.
-- Web Push dispatch returned `200` in production.
-- `hlc-agent-chat` version 2 produced a fresh authenticated Kendrell `POST 200`; version 3 is deployed with JWT verification and separate internal/resident/professional authorization boundaries and still requires fresh role-specific runtime acceptance.
+- Web Push dispatch returned `200` in production; push controls now support explicit per-device disable/unsubscribe and foreground/background notification links are constrained to internal HLC routes.
+- `hlc-agent-chat` is deployed with JWT verification and separate internal/resident/professional authorization boundaries. Gemini provider configuration is server-side only.
+- `hlc-agent-voice` uses server-side Gemini neural TTS; browser system TTS is disabled for agent replies. Physical-device quality/playback acceptance remains a release gate until Kendrell, Dion, and Diamond are heard on iPhone/Mac.
 - Hourly workflow automation is active at minute 07 and has a verified real cron execution. The de-duplication guard correctly suppresses redundant snapshot rows inside its 50-minute window.
 - Legacy SECURITY DEFINER RPCs were hardened so cross-workspace IDs and unauthorized staff actions fail closed.
+- Balanced lead claiming rejects target user IDs that are not members of the same workspace, and the legacy two-argument routing fallback is service-role/internal only.
 - Management-only analytics/KPI, communications-provider configuration, and portal-revocation RPCs enforce owner/manager role checks at the database boundary.
 - Public browser database-administration grants were removed and verified at `browser_admin_grants_remaining = 0` across public tables/views.
 - Authenticated profile UPDATE privileges are column-scoped to safe self-service fields; role/workspace/identity fields cannot be browser-updated directly.
 - Voice message and `voice-audio` policies were reconciled to `workspace_members` and verified in production.
-- Resident documents have a dedicated portal route so homeowner/renter users are not sent to the internal workspace Documents surface.
+- Portal document SELECT RLS now mirrors the exact resident/provider relationship checks used by document-view auditing, preventing one portal user from listing another relationship's shared-document metadata inside the same workspace.
+- Portal/internal conversation voice-note storage now uses the deployed private bucket and participant-scoped storage policies, with orphan cleanup limited to unregistered objects in an authorized conversation.
 - Community review insert authorization requires the completed job and review to share the same `workspace_id`.
-- Provider Map coordinate columns, validation, and management-only update controls are applied in production.
+- Provider Map coordinate columns, validation, management-only update controls, and approximate/verified confidence metadata are applied in production.
 - Resident identity/provider profile types, linked-provider profile reads, professional portal services/availability contracts, and append-only activity history are applied in production.
-- Security and performance advisors were rerun after launch DDL. Existing linter findings remain tracked; no broad index/RLS rewrites are made as a shortcut.
+- The auth-user onboarding trigger creates isolated company workspaces atomically and supports invite-only staff identities without creating throwaway owner workspaces.
+- Per-workspace owner/manager/technician roles and secure company-team invitation RPCs are applied in production. A real owner-context test successfully listed the team and created a disposable technician invitation inside a rolled-back transaction; the RPC result-type defect found by that test was fixed in migration 79.
+- A technician-context production test verified that technicians cannot list the company team or create workspace invitations. Membership grants were tightened afterward to remove anonymous SELECT and obsolete browser INSERT/DELETE policy paths.
+- Dedicated provider, resident, manager, and technician E2E identities were created. Provider/resident identities have no internal workspace membership; manager/technician identities are explicitly scoped to the HomeLead Connect workspace.
+- The live provider identity accepted the existing offered assignment through `contractor_decide_assignment`. That runtime attempt exposed and then verified a notification-type constraint defect; assignment accepted/rejected/cancelled events are now allowed by the canonical notification constraint.
+- The manager runtime identity scheduled appointment `15` for the accepted provider assignment, and both contractor and resident portal RPCs returned the linked job and scheduled appointment under their own authenticated identities.
+- The manager runtime identity then completed appointment `15` and the linked CRM job. The live golden chain now has persisted accepted assignment, completed appointment, and completed job evidence.
+- Launch portal SELECT policies were consolidated without changing authorization semantics and rewritten to use init-plan-safe `(select auth.uid())`; authenticated provider and resident portal RPCs were retested successfully afterward.
+- Covering indexes were added for the professional-application reviewer FK and launch-critical provider/public-form workspace FKs.
+- Covering indexes were added for launch-critical AI audit/handoff, automation, Community, messenger/portal-participant, and workspace-invitation foreign keys.
+- Security and performance advisors were rerun after launch DDL. Leaked-password protection remains an external Supabase Auth setting gate; existing intentional public/server RPC linter findings remain tracked rather than being silenced by unsafe broad revocation.
+- The stable isolated QA site is used for physical-device acceptance before `main` is released.
+- `hlc-documents` was verified private with a 25 MB object cap after expanding its allowlist to include MP4, MOV, and WebM short-video evidence alongside the existing document/photo types.
+- Community Matching decisions are persisted in production with RLS so a signed-in user's Like/Pass history survives refresh without leaking another user's discovery choices or changing operational assignment authority. Browser privileges were hardened afterward so `anon` has no table access and `authenticated` has only RLS-scoped CRUD.
+- Community Matching UPDATE ownership hardening is deployed and live-certified. Authenticated rollback-only tests verified own-row insert/update/delete access and rejected ownership transfer; no certification row remained. Supporting SELECT/INSERT/DELETE policies and foreign-key indexes were then optimized: security and RLS init-plan/foreign-key advisor findings are clear, with only expected informational unused-index notices while the decision table is empty.
 
 ## Change procedure after launch
 

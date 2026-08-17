@@ -12,6 +12,15 @@ function urlBase64ToUint8Array(base64String: string) {
   return Uint8Array.from([...rawData].map((character) => character.charCodeAt(0)));
 }
 
+function safeHlcDeepLink(value?: string | null) {
+  const candidate = String(value || "").trim();
+  return candidate.startsWith("/") && !candidate.startsWith("//") ? candidate : "/notifications";
+}
+
+function deviceAlertsDisabledKey(userId: string) {
+  return `hlc-device-alerts-disabled:${userId}`;
+}
+
 async function registerBackgroundPush() {
   if (!("serviceWorker" in navigator) || !("PushManager" in window)) throw new Error("Background push is not supported by this browser.");
   const { data: publicKey, error: keyError } = await supabase.rpc("get_hlc_web_push_public_key");
@@ -31,13 +40,25 @@ async function registerBackgroundPush() {
   return subscription;
 }
 
+async function disableBackgroundPush() {
+  if (!("serviceWorker" in navigator) || !("PushManager" in window)) return;
+  const registration = await navigator.serviceWorker.ready;
+  const subscription = await registration.pushManager.getSubscription();
+  if (!subscription) return;
+  const { error } = await supabase.rpc("disable_hlc_web_push_subscription", { p_endpoint: subscription.endpoint });
+  if (error) throw error;
+  await subscription.unsubscribe();
+}
+
 export default function RealtimeNotificationCenter() {
   const { session } = useAuth();
   const [latest, setLatest] = useState<NotificationRecord | null>(null);
   const [permission, setPermission] = useState<NotificationPermission | "unsupported">(
     typeof Notification === "undefined" ? "unsupported" : Notification.permission,
   );
+  const [deviceAlertsEnabled, setDeviceAlertsEnabled] = useState(false);
   const [pushStatus, setPushStatus] = useState("");
+  const [pushBusy, setPushBusy] = useState(false);
 
   useEffect(() => {
     const userId = session?.user.id;
@@ -53,7 +74,7 @@ export default function RealtimeNotificationCenter() {
           setLatest(item);
           if (typeof Notification !== "undefined" && Notification.permission === "granted" && document.visibilityState !== "visible") {
             const notice = new Notification(item.title, { body: item.body, icon: "/hlc-logo-final.png", tag: item.id });
-            notice.onclick = () => { window.focus(); window.location.href = item.deep_link || "/notifications"; };
+            notice.onclick = () => { window.focus(); window.location.href = safeHlcDeepLink(item.deep_link); };
           }
         },
       )
@@ -63,27 +84,58 @@ export default function RealtimeNotificationCenter() {
   }, [session?.user.id]);
 
   useEffect(() => {
-    if (!session || typeof Notification === "undefined" || Notification.permission !== "granted") return;
-    void registerBackgroundPush().then(() => setPushStatus("Device alerts connected.")).catch(() => {
-      // A browser may allow foreground notifications but not background PushManager subscriptions.
-    });
-  }, [session]);
+    const userId = session?.user.id;
+    if (!userId || typeof Notification === "undefined" || Notification.permission !== "granted") return;
+    if (window.localStorage.getItem(deviceAlertsDisabledKey(userId)) === "1") return;
+    void registerBackgroundPush()
+      .then(() => {
+        setDeviceAlertsEnabled(true);
+        setPushStatus("Device alerts connected.");
+      })
+      .catch(() => {
+        // A browser may allow foreground notifications but not background PushManager subscriptions.
+      });
+  }, [session?.user.id]);
 
   async function enableDeviceAlerts() {
-    if (typeof Notification === "undefined") return;
+    const userId = session?.user.id;
+    if (!userId || typeof Notification === "undefined") return;
+    setPushBusy(true);
     setPushStatus("");
-    const next = await Notification.requestPermission();
-    setPermission(next);
-    if (next !== "granted") {
-      setPushStatus("Device alerts were not enabled.");
-      return;
-    }
     try {
+      const next = await Notification.requestPermission();
+      setPermission(next);
+      if (next !== "granted") {
+        setPushStatus("Device alerts were not enabled.");
+        return;
+      }
+      window.localStorage.removeItem(deviceAlertsDisabledKey(userId));
       await registerBackgroundPush();
+      setDeviceAlertsEnabled(true);
       setPushStatus("HLC alerts are connected to this device.");
       trackAnalyticsEvent("device_alerts_enabled");
     } catch (reason) {
       setPushStatus(reason instanceof Error ? reason.message : "Background alerts could not be connected.");
+    } finally {
+      setPushBusy(false);
+    }
+  }
+
+  async function disableDeviceAlerts() {
+    const userId = session?.user.id;
+    if (!userId) return;
+    setPushBusy(true);
+    setPushStatus("");
+    try {
+      await disableBackgroundPush();
+      window.localStorage.setItem(deviceAlertsDisabledKey(userId), "1");
+      setDeviceAlertsEnabled(false);
+      setPushStatus("HLC device alerts are disabled on this device.");
+      trackAnalyticsEvent("device_alerts_disabled");
+    } catch (reason) {
+      setPushStatus(reason instanceof Error ? reason.message : "Device alerts could not be disabled.");
+    } finally {
+      setPushBusy(false);
     }
   }
 
@@ -96,12 +148,18 @@ export default function RealtimeNotificationCenter() {
           <button type="button" aria-label="Dismiss alert" onClick={() => setLatest(null)} style={closeStyle}>×</button>
           <strong>{latest.title}</strong>
           <span>{latest.body}</span>
-          <Link to={latest.deep_link || "/notifications"} onClick={() => setLatest(null)} style={linkStyle}>Open in HLC</Link>
+          <Link to={safeHlcDeepLink(latest.deep_link)} onClick={() => setLatest(null)} style={linkStyle}>Open in HLC</Link>
         </aside>
       )}
 
       {permission === "default" && (
-        <button type="button" onClick={() => void enableDeviceAlerts()} style={permissionStyle}>Enable device alerts</button>
+        <button type="button" disabled={pushBusy} onClick={() => void enableDeviceAlerts()} style={permissionStyle}>{pushBusy ? "Connecting…" : "Enable device alerts"}</button>
+      )}
+      {permission === "granted" && !deviceAlertsEnabled && (
+        <button type="button" disabled={pushBusy} onClick={() => void enableDeviceAlerts()} style={permissionStyle}>{pushBusy ? "Connecting…" : "Enable HLC alerts on this device"}</button>
+      )}
+      {permission === "granted" && deviceAlertsEnabled && (
+        <button type="button" disabled={pushBusy} onClick={() => void disableDeviceAlerts()} style={permissionStyle}>{pushBusy ? "Disconnecting…" : "Disable device alerts"}</button>
       )}
       {pushStatus && <span style={statusStyle}>{pushStatus}</span>}
     </div>

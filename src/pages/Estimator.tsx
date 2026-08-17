@@ -7,6 +7,7 @@ import {
   type SaveEstimateInput,
 } from "../api/estimates";
 import { getLead } from "../api/leads";
+import MaterialShopLinks from "../components/estimator/MaterialShopLinks";
 import { useAuth } from "../hooks/useAuth";
 import {
   calculateEstimate,
@@ -78,6 +79,12 @@ export default function Estimator() {
         setError(errorMessage(reason, "Unable to load estimate."));
       });
   }, [estimateParam, session]);
+
+  useEffect(() => {
+    if (message !== "LeadScope estimate saved.") return;
+    const timer = window.setTimeout(() => setMessage(""), 4200);
+    return () => window.clearTimeout(timer);
+  }, [message]);
 
   function updateLine(
     id: string,
@@ -161,6 +168,10 @@ export default function Estimator() {
   }
 
   const locked = status === "converted";
+  const savedEstimateHref = estimateId
+    ? `/estimator?estimate=${encodeURIComponent(estimateId)}${leadId !== null ? `&lead=${leadId}` : ""}`
+    : "/estimator";
+  const shortenedEstimateId = estimateId ? `${estimateId.slice(0, 8)}…${estimateId.slice(-4)}` : "";
 
   return (
     <main style={pageStyle}>
@@ -306,15 +317,33 @@ export default function Estimator() {
               <button type="button" onClick={handleConvert} disabled={busy || !estimateId || status !== "accepted"}>
                 Create job from accepted estimate
               </button>
-              {message && <p role="status" style={{ color: "#86efac", margin: 0 }}>{message}</p>}
+              {message && message !== "LeadScope estimate saved." && <p role="status" style={{ color: "#86efac", margin: 0 }}>{message}</p>}
               {error && <p role="alert" style={{ color: "#fca5a5", margin: 0 }}>{error}</p>}
-              {estimateId && <small style={{ color: "#94a3b8" }}>LeadScope estimate ID: {estimateId}</small>}
               {status === "converted" && <Link to={jobId ? `/jobs/${jobId}` : "/jobs"} style={{ color: "#93c5fd" }}>
                 {jobId ? "Open created job" : "View jobs"}
               </Link>}
             </div>
           </aside>
         </section>
+
+        {(message === "LeadScope estimate saved." || estimateId) && (
+          <section aria-label="Saved LeadScope estimate" style={savedStateStyle}>
+            {message === "LeadScope estimate saved." && (
+              <div role="status" style={successRowStyle}>
+                <span aria-hidden="true" style={successIconStyle}>✓</span>
+                <strong>Estimate saved</strong>
+              </div>
+            )}
+            {estimateId && (
+              <div style={savedMetaStyle}>
+                <small>Estimate {shortenedEstimateId}</small>
+                <Link to={savedEstimateHref}>View saved estimate</Link>
+              </div>
+            )}
+          </section>
+        )}
+
+        <MaterialShopLinks />
       </div>
     </main>
   );
@@ -335,12 +364,16 @@ const lineStyle = { display: "grid", gap: 14, padding: 16, border: "1px solid #e
 const itemNumberStyle = { fontSize: 13, fontWeight: 800, color: "#2563eb", textTransform: "uppercase" as const, letterSpacing: ".06em" };
 const fieldStyle = { display: "grid", gap: 5 };
 const labelStyle = { color: "#0f172a", fontWeight: 750, fontSize: 15 };
-const helpStyle = { color: "#64748b", fontSize: 13, lineHeight: 1.4 };
+const helpStyle = { color: "#475569", fontSize: 13, lineHeight: 1.4 };
 const inputStyle = { padding: "12px 13px", minWidth: 0, width: "100%", boxSizing: "border-box" as const, borderRadius: 9, border: "1px solid #cbd5e1", background: "#fff", color: "#0f172a", fontSize: 16 };
 const removeButtonStyle = { justifySelf: "start", padding: "9px 14px" };
 const summaryStyle = { background: "#111827", color: "#fff", borderRadius: 20, padding: 24, boxShadow: "0 20px 50px rgba(15,23,42,.18)" };
-const summaryFieldStyle = { display: "grid", gap: 6, color: "#cbd5e1", marginBottom: 18 };
+const summaryFieldStyle = { display: "grid", gap: 6, color: "#e2e8f0", marginBottom: 18 };
 const summaryLabelStyle = { color: "#fff", fontWeight: 750 };
-const summaryHelpStyle = { color: "#94a3b8", fontSize: 13, lineHeight: 1.4 };
+const summaryHelpStyle = { color: "#cbd5e1", fontSize: 13, lineHeight: 1.4 };
 const summaryInputStyle = { padding: "12px 13px", borderRadius: 8, border: "1px solid #475569", background: "#fff", color: "#0f172a", fontSize: 16, width: "100%", boxSizing: "border-box" as const };
+const savedStateStyle = { display: "grid", gap: 6, width: "min(1100px, 100%)", margin: "14px auto 10px", padding: "10px 14px", boxSizing: "border-box" as const, border: "1px solid #bbf7d0", borderRadius: 12, background: "#f0fdf4", color: "#14532d" };
+const successRowStyle = { display: "flex", alignItems: "center", justifyContent: "center", gap: 8, minHeight: 24 };
+const successIconStyle = { display: "inline-grid", placeItems: "center", width: 22, height: 22, borderRadius: 999, background: "#16a34a", color: "#fff", fontWeight: 900 };
+const savedMetaStyle = { display: "flex", alignItems: "center", justifyContent: "center", gap: 10, flexWrap: "wrap" as const, color: "#334155" };
 const errorStyle = { color: "#b91c1c" };

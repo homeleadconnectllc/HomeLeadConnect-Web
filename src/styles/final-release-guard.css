@@ -1,0 +1,110 @@
+/* Final release containment contract: no routed HLC surface may widen a 320–430px viewport. */
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+}
+
+.hlc-route-content,
+.hlc-route-content > main,
+.hlc-route-content > main > *,
+.hlc-route-content > main * {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.hlc-route-content :is(img, video, canvas, iframe, svg, table, pre, code) {
+  max-width: 100%;
+}
+
+.hlc-route-content :is(pre, code, p, li, small, strong, span, a, button) {
+  overflow-wrap: anywhere;
+}
+
+.hlc-route-content :is(input, select, textarea) {
+  max-width: 100%;
+  font-size: max(16px, 1em);
+}
+
+@media (min-width: 320px) and (max-width: 430px) {
+  .hlc-route-content > main {
+    width: calc(100% - 20px) !important;
+    max-width: calc(100% - 20px) !important;
+    margin-inline: auto !important;
+  }
+
+  .hlc-route-content :is(
+    [class*="grid"],
+    [class*="layout"],
+    [class*="row"],
+    [class*="actions"],
+    [class*="buttons"],
+    [class*="links"],
+    [role="group"],
+    [role="toolbar"]
+  ) {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .hlc-route-content table {
+    display: block;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+  }
+
+  /* CLOSED state only: keep one compact contextual AI bubble above the work dock. */
+  .hlc-signed-in-shell .hlc-agent-dock:not(.is-open) {
+    left: auto !important;
+    right: max(12px, env(safe-area-inset-right)) !important;
+    bottom: calc(146px + env(safe-area-inset-bottom)) !important;
+    width: 54px !important;
+    max-width: 54px !important;
+    justify-items: end !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger {
+    width: 52px !important;
+    min-width: 52px !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    padding: 4px !important;
+    overflow: hidden !important;
+    justify-content: center !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger > span {
+    display: none !important;
+  }
+
+  /* OPEN state: the dock becomes a viewport overlay. Never inherit the 54px closed width. */
+  .hlc-signed-in-shell .hlc-agent-dock.is-open {
+    position: fixed !important;
+    inset: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    max-width: none !important;
+    min-width: 100vw !important;
+    justify-items: stretch !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock.is-open .hlc-agent-dock-panel {
+    position: fixed !important;
+    top: max(58px, env(safe-area-inset-top)) !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100vw !important;
+    max-width: none !important;
+    min-width: 100vw !important;
+    height: auto !important;
+    max-height: none !important;
+    box-sizing: border-box !important;
+  }
+}

@@ -7,22 +7,26 @@ export default function Footer() {
         background: "#111827",
         color: "#9ca3af",
         textAlign: "center",
-        padding: "30px",
+        padding: "26px 20px",
       }}
     >
-      <nav aria-label="Footer" style={{ display: "flex", justifyContent: "center", flexWrap: "wrap", gap: 16, marginBottom: 12 }}>
-        <Link to="/about">About</Link>
-        <Link to="/how-it-works">How It Works</Link>
-        <Link to="/homeowners">Homeowners</Link>
-        <Link to="/contractors">Contractors</Link>
-        <Link to="/leadscope">LeadScope</Link>
-        <Link to="/community">Community</Link>
-        <Link to="/contact">Contact</Link>
+      <nav
+        aria-label="Legal and accessibility"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: "10px 18px",
+          marginBottom: 12,
+        }}
+      >
         <Link to="/privacy">Privacy</Link>
         <Link to="/terms">Terms</Link>
+        <Link to="/accessibility">Accessibility</Link>
         <Link to="/platform-disclosure">Platform disclosure</Link>
       </nav>
-      © {new Date().getFullYear()} HomeLead Connect LLC
+      <div>© {new Date().getFullYear()} HomeLead Connect LLC</div>
     </footer>
   );
 }

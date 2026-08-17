@@ -1,70 +1,93 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-type Tutorial = { title: string; steps: string[] };
+type Tutorial = { key: string; title: string; intro: string; steps: string[] };
+type TutorialDefinition = { match: (path: string) => boolean; tutorial: Tutorial };
 
-const tutorials: Array<{ match: (path: string) => boolean; tutorial: Tutorial }> = [
-  { match: (p) => p.startsWith("/leads"), tutorial: { title: "Working a lead", steps: ["Review the contact and service request details.", "Use LeadScope when you are ready to estimate the work.", "Record the next follow-up so the lead does not get lost."] } },
-  { match: (p) => p.startsWith("/estimator"), tutorial: { title: "Build a LeadScope estimate", steps: ["Add labor and material items with quantity and unit cost.", "Use Shop project materials to compare third-party material pricing.", "Review markup and customer total, then save the estimate.", "After the customer accepts it, create the job from the accepted estimate."] } },
-  { match: (p) => p.startsWith("/jobs"), tutorial: { title: "Move a job forward", steps: ["Review the job summary and current provider assignment.", "Offer the job to an eligible provider and send portal access when needed.", "Wait for the provider to accept through the protected portal.", "After acceptance, schedule the appointment and continue the workflow."] } },
-  { match: (p) => p.startsWith("/calendar"), tutorial: { title: "Manage appointments", steps: ["Open the appointment tied to the job and provider.", "Confirm the scheduled start and end time.", "Use reschedule only when the job and assignment remain valid."] } },
-  { match: (p) => p.startsWith("/call-center") || p.startsWith("/manual-communications"), tutorial: { title: "Handle communications", steps: ["Confirm the business number/provider status before relying on call features.", "Incoming, missed, and voicemail events appear only when provider evidence reaches HLC.", "Record a disposition or manual communication outcome so the operational record stays truthful."] } },
-  { match: (p) => p.startsWith("/documents"), tutorial: { title: "Work with documents", steps: ["Choose the correct HLC record before uploading.", "Upload the file to the private HLC document store.", "Open registered documents from their authorized record and avoid sharing private storage URLs directly."] } },
-  { match: (p) => p.startsWith("/community"), tutorial: { title: "Use HLC Community", steps: ["Choose discussions, events, reviews, referrals, groups, or moderation.", "Completion-linked reviews require an eligible completed HLC job.", "Report content through moderation instead of editing another participant's record."] } },
-  { match: (p) => p.startsWith("/network") || p.startsWith("/providers") || p.startsWith("/map"), tutorial: { title: "Use the provider network", steps: ["Browse canonical provider profiles and recorded service capabilities.", "Check service areas and availability before making workflow assumptions.", "Save providers for later without treating saved status as verification or acceptance."] } },
-  { match: () => true, tutorial: { title: "HomeLead Connect workspace", steps: ["Use the left workspace navigation on desktop or the Menu drawer on mobile.", "Open the relevant HLC record rather than working from disconnected notes.", "Use the floating agent for page-specific guidance and Notifications for new operational events."] } },
+const tutorials: TutorialDefinition[] = [
+  { match: (p) => p === "/dashboard", tutorial: { key: "dashboard", title: "Dashboard", intro: "Your mobile and desktop starting point for what needs attention now.", steps: ["Scan priority cards, overdue work, new activity, and today’s schedule before opening individual records.", "Use the mobile work dock for Call, Text, Schedule, Follow Up, and Voice Note without leaving the workflow.", "Tap the contextual AI avatar when you want a summary, next-step guidance, or help interpreting this workspace."] } },
+  { match: (p) => p.startsWith("/leads"), tutorial: { key: "leads", title: "Leads", intro: "Work new opportunities from first contact through the next committed action.", steps: ["Open a lead to review contact details, service need, source, status, and communication history.", "Call or text from HLC, then record the outcome so another employee can see exactly what happened.", "Set the next follow-up or move the lead forward so no opportunity is left without an owner or next action."] } },
+  { match: (p) => p.startsWith("/estimator"), tutorial: { key: "estimator", title: "LeadScope", intro: "Build and review an estimate from the lead or job record.", steps: ["Add labor and material items with quantity and unit cost.", "Use Shop project materials when you need to compare available third-party material pricing.", "Review markup and customer total before saving the estimate.", "After the customer accepts it, continue into the job workflow rather than creating a disconnected record."] } },
+  { match: (p) => p.startsWith("/jobs"), tutorial: { key: "jobs", title: "Jobs", intro: "Coordinate accepted work, assignments, appointments, and completion.", steps: ["Open the job to check status, customer, provider assignment, estimate, and scheduled work.", "Use the explicit offer and acceptance workflow before treating a provider as assigned.", "Schedule the appointment only after the job and assignment are valid, then keep completion and follow-up attached to the same job."] } },
+  { match: (p) => p.startsWith("/messages"), tutorial: { key: "messages", title: "Messages", intro: "Keep customer and provider communication tied to the right HLC conversation.", steps: ["Choose the conversation or contact before composing so the message history stays attached to the correct record.", "Use text, notes, attachments, or voice notes as appropriate for the conversation.", "Check the communication history before replying so remote employees do not duplicate outreach or contradict one another."] } },
+  { match: (p) => p.startsWith("/calendar"), tutorial: { key: "calendar", title: "Schedule", intro: "Manage appointments, callbacks, jobs, and follow-up timing from one schedule.", steps: ["Open an appointment to confirm the linked job, customer, provider, start time, and end time.", "Use reschedule when the underlying job and assignment remain valid.", "From mobile, jump directly from the scheduled item to call, text, or follow up with the person involved."] } },
+  { match: (p) => p.startsWith("/follow-ups"), tutorial: { key: "follow-ups", title: "Follow Ups", intro: "This is the team callback and next-action queue.", steps: ["Work due and overdue items first, then upcoming callbacks and reminders.", "Open the linked lead, customer, job, or conversation before contacting them so you have the full context.", "Complete or reschedule the follow-up with a clear outcome instead of leaving an ambiguous task behind."] } },
+  { match: (p) => p.startsWith("/call-center") || p.startsWith("/manual-communications"), tutorial: { key: "call-center", title: "Communications Hub", intro: "Use HLC as the customer-context and follow-up layer around the active phone carrier.", steps: ["Choose the correct company line and contact before starting or logging a communication.", "For Google Voice, HLC can launch Call, Text, and Open Google Voice while ringing and live carrier controls remain in Google Voice.", "After the interaction, record the outcome and next follow-up so the rest of the remote team has an accurate history."] } },
+  { match: (p) => p.startsWith("/notifications"), tutorial: { key: "notifications", title: "Alerts", intro: "Review operational events that may need action.", steps: ["Open an alert to see the HLC record it belongs to instead of acting from the notification alone.", "Handle time-sensitive items such as assignments, appointment changes, messages, and follow-up reminders first.", "Clear or act on alerts once the underlying record is handled so the queue stays useful."] } },
+  { match: (p) => p.startsWith("/documents"), tutorial: { key: "documents", title: "Documents", intro: "Keep files attached to the authorized HLC record they belong to.", steps: ["Choose the correct lead, job, customer, provider, or conversation before uploading.", "Upload to the private HLC document store and use the registered record to reopen it later.", "Avoid sharing private storage URLs directly; use the authorized HLC workflow instead."] } },
+  { match: (p) => p.startsWith("/network") || p.startsWith("/providers") || p.startsWith("/map") || p.startsWith("/matching"), tutorial: { key: "network", title: "Provider Network", intro: "Find and coordinate professionals using recorded service-area and availability data.", steps: ["Review provider profiles, services, service areas, and availability before deciding who fits the work.", "Treat approximate map locations and unverified records as what they are; HLC does not invent distance, rank, or availability.", "Use the explicit offer and acceptance workflow before treating a provider as assigned to a job."] } },
+  { match: (p) => p.startsWith("/community"), tutorial: { key: "community", title: "Community", intro: "Use discussions, events, reviews, referrals, and groups without mixing private workspace data into public activity.", steps: ["Choose the community area that matches what you want to post or review.", "Completion-linked reviews require an eligible completed HLC job when that relationship is required.", "Report problematic content through moderation instead of editing another participant’s record."] } },
+  { match: (p) => p.startsWith("/analytics"), tutorial: { key: "analytics", title: "Analytics", intro: "Use operational metrics to understand workload and outcomes, not as a substitute for source records.", steps: ["Start with the KPI summary, then open the underlying operational area when a number needs investigation.", "Compare activity and trends using the time period shown on the page.", "Use the source lead, job, appointment, or communication record before taking action on an exception."] } },
+  { match: (p) => p.startsWith("/team"), tutorial: { key: "team", title: "Team", intro: "Manage who can work in the HLC workspace and what they are allowed to do.", steps: ["Review each person’s workspace role before assigning operational responsibility.", "Use role permissions rather than sharing owner credentials or exposing billing and HQ controls unnecessarily.", "Keep assignments and follow-ups attached to named users so distributed work stays accountable."] } },
+  { match: (p) => p.startsWith("/settings"), tutorial: { key: "settings", title: "Settings", intro: "Configure company, workspace, billing, and communication settings from the appropriate permission level.", steps: ["Use the section that matches the setting you need instead of changing unrelated workspace controls.", "Owner-only and management-only settings remain restricted even when other employees can use the operational feature.", "Review saved changes before returning to daily work, especially phone, billing, and permission settings."] } },
+  { match: (p) => p.startsWith("/homeowner-portal"), tutorial: { key: "resident-portal", title: "Resident Portal", intro: "Track requests, appointments, messages, documents, and progress from the resident side.", steps: ["Open the active request or job to see its current status and linked appointment.", "Use portal messaging for questions or updates tied to the request.", "Keep documents and profile information inside the portal rather than sending private workspace records outside HLC."] } },
+  { match: (p) => p.startsWith("/contractor-portal"), tutorial: { key: "professional-portal", title: "Professional Portal", intro: "Manage profile information, offers, accepted work, schedules, documents, and job progress.", steps: ["Review new offers and the underlying work details before accepting.", "After acceptance, use the linked job and appointment instead of creating a separate record.", "Keep availability, documents, and completion updates current so the workspace team sees reliable information."] } },
 ];
+
+function tutorialFor(pathname: string) {
+  return tutorials.find((item) => item.match(pathname))?.tutorial ?? null;
+}
+
+function seenKey(tutorial: Tutorial) {
+  return `hlc-contextual-tutorial-seen:v2:${tutorial.key}`;
+}
 
 export default function LiveTutorialDock() {
   const location = useLocation();
-  const tutorial = useMemo(() => tutorials.find((item) => item.match(location.pathname))!.tutorial, [location.pathname]);
-  const [openFor, setOpenFor] = useState<string | null>(null);
+  const tutorial = useMemo(() => tutorialFor(location.pathname), [location.pathname]);
+  const [openKey, setOpenKey] = useState<string | null>(null);
   const [step, setStep] = useState(0);
-  const open = openFor === location.pathname;
-  const current = tutorial.steps[Math.min(step, tutorial.steps.length - 1)];
+  const open = Boolean(tutorial && openKey === tutorial.key);
+  const current = tutorial?.steps[Math.min(step, tutorial.steps.length - 1)] ?? "";
 
-  function toggle() {
-    if (open) setOpenFor(null);
-    else { setStep(0); setOpenFor(location.pathname); }
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      if (!tutorial) {
+        setOpenKey(null);
+        return;
+      }
+      setStep(0);
+      setOpenKey(sessionStorage.getItem(seenKey(tutorial)) === "1" ? null : tutorial.key);
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, [tutorial]);
+
+  if (!tutorial) return null;
+  const activeTutorial = tutorial;
+
+  function closeTutorial() {
+    sessionStorage.setItem(seenKey(activeTutorial), "1");
+    setOpenKey(null);
   }
 
-  function speak() {
-    if (!("speechSynthesis" in window)) return;
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(`${tutorial.title}. ${current}`);
-    utterance.rate = 1;
-    window.speechSynthesis.speak(utterance);
+  function next() {
+    if (step >= activeTutorial.steps.length - 1) {
+      closeTutorial();
+      return;
+    }
+    setStep((value) => Math.min(activeTutorial.steps.length - 1, value + 1));
   }
+
+  if (!open) return null;
 
   return (
-    <aside style={hostStyle} aria-label="Live HLC tutorial">
-      {open && (
-        <section style={panelStyle}>
-          <div style={headStyle}>
-            <div><small style={eyebrowStyle}>Live tutorial</small><strong style={{ display: "block" }}>{tutorial.title}</strong></div>
-            <button type="button" onClick={() => setOpenFor(null)}>Close</button>
+    <aside className="hlc-contextual-tutorial" aria-label={`${activeTutorial.title} tutorial`}>
+      <section className="hlc-contextual-tutorial-panel" role="dialog" aria-modal="false" aria-labelledby="hlc-contextual-tutorial-title">
+        <div className="hlc-contextual-tutorial-head">
+          <div>
+            <small>Quick guide</small>
+            <strong id="hlc-contextual-tutorial-title">{activeTutorial.title}</strong>
           </div>
-          <div style={progressStyle}>Step {step + 1} of {tutorial.steps.length}</div>
-          <p style={{ margin: 0, lineHeight: 1.55 }}>{current}</p>
-          <div style={actionsStyle}>
-            <button type="button" onClick={() => setStep((value) => Math.max(0, value - 1))} disabled={step === 0}>Back</button>
-            <button type="button" onClick={() => setStep((value) => Math.min(tutorial.steps.length - 1, value + 1))} disabled={step === tutorial.steps.length - 1}>Next</button>
-            <button type="button" onClick={speak} disabled={!("speechSynthesis" in window)}>Read aloud</button>
-          </div>
-        </section>
-      )}
-      <button type="button" onClick={toggle} style={triggerStyle} aria-expanded={open}>
-        <span aria-hidden="true" style={{ fontSize: 20 }}>?</span>
-        <span><strong>Guide me</strong><small style={{ display: "block", opacity: .75 }}>Live tutorial</small></span>
-      </button>
+          <button type="button" onClick={closeTutorial} aria-label={`Dismiss ${activeTutorial.title} tutorial`}>×</button>
+        </div>
+        {step === 0 && <p className="hlc-contextual-tutorial-intro">{activeTutorial.intro}</p>}
+        <div className="hlc-contextual-tutorial-progress">Step {step + 1} of {activeTutorial.steps.length}</div>
+        <p className="hlc-contextual-tutorial-step">{current}</p>
+        <div className="hlc-contextual-tutorial-actions">
+          <button type="button" onClick={() => setStep((value) => Math.max(0, value - 1))} disabled={step === 0}>Back</button>
+          <button type="button" onClick={next}>{step === activeTutorial.steps.length - 1 ? "Got it" : "Next"}</button>
+        </div>
+      </section>
     </aside>
   );
 }
-
-const hostStyle = { position: "fixed" as const, zIndex: 1290, left: "max(14px, env(safe-area-inset-left))", bottom: "max(14px, env(safe-area-inset-bottom))", display: "grid", gap: 8, justifyItems: "start", maxWidth: "min(390px, calc(100vw - 28px))" };
-const panelStyle = { width: "min(370px, calc(100vw - 28px))", boxSizing: "border-box" as const, padding: 16, border: "1px solid #cbd5e1", borderRadius: 16, background: "#fff", color: "#0f172a", boxShadow: "0 22px 60px rgba(15,23,42,.28)", textAlign: "left" as const };
-const headStyle = { display: "flex", alignItems: "start", justifyContent: "space-between", gap: 12, marginBottom: 12 };
-const eyebrowStyle = { color: "#2563eb", fontWeight: 900, letterSpacing: ".08em", textTransform: "uppercase" as const };
-const progressStyle = { marginBottom: 8, color: "#64748b", fontSize: 13, fontWeight: 800 };
-const actionsStyle = { display: "flex", flexWrap: "wrap" as const, gap: 8, marginTop: 14 };
-const triggerStyle = { display: "flex", alignItems: "center", gap: 10, minHeight: 52, padding: "9px 14px", border: "1px solid #1d4ed8", borderRadius: 999, background: "#eff6ff", color: "#1e3a8a", fontWeight: 800, boxShadow: "0 12px 30px rgba(37,99,235,.18)", cursor: "pointer", textAlign: "left" as const };

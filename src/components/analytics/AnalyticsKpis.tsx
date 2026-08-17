@@ -45,8 +45,45 @@ const emptyBusiness: HlcBusinessKpis = {
   voicemails: 0,
 };
 
+const routeLabels: Record<string, string> = {
+  "/": "Home",
+  "/app": "HomeLead Connect",
+  "/dashboard": "Dashboard",
+  "/ecosystem": "Ecosystem",
+  "/settings": "Settings",
+  "/jobs": "Jobs",
+  "/calendar": "Calendar",
+  "/leads": "Leads",
+  "/workflow": "Workflow",
+  "/automations": "Automations",
+  "/analytics": "Analytics",
+  "/network": "Network",
+  "/map": "Provider Map",
+  "/providers": "Provider Directory",
+  "/matching": "Matching",
+  "/community": "Community",
+  "/community-hub": "Community Hub",
+  "/request-service": "Request Service",
+  "/login": "Sign In",
+  "/register": "Create Account",
+  "/hq": "Kendrell HQ",
+  "/operations": "Dion Operations",
+  "/customer-experience": "Diamond CX",
+};
+
 function currency(value: number) {
   return new Intl.NumberFormat(undefined, { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(Number(value || 0));
+}
+
+function friendlyRoute(path: string) {
+  if (routeLabels[path]) return routeLabels[path];
+  const clean = path.split("?")[0].replace(/^\/+|\/+$/g, "");
+  if (!clean) return "Home";
+  return clean
+    .split("/")
+    .filter(Boolean)
+    .map((part) => part.replace(/[-_]+/g, " ").replace(/\b\w/g, (letter) => letter.toUpperCase()))
+    .join(" · ");
 }
 
 export default function AnalyticsKpis() {
@@ -54,6 +91,7 @@ export default function AnalyticsKpis() {
   const [business, setBusiness] = useState<HlcBusinessKpis>(emptyBusiness);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     let active = true;
@@ -66,7 +104,7 @@ export default function AnalyticsKpis() {
       })
       .finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
-  }, []);
+  }, [refreshKey]);
 
   const signedInShare = useMemo(() => {
     if (!traffic.sessions) return 0;
@@ -93,15 +131,31 @@ export default function AnalyticsKpis() {
     { label: "Material store clicks", value: traffic.material_store_clicks, icon: MousePointerClick },
   ];
 
+  const topRoutes = traffic.top_paths.slice(0, 6);
+  const topRouteMax = Math.max(1, ...topRoutes.map((item) => Number(item.views || 0)));
+
   return (
     <section className="hlc-dashboard-section hlc-analytics-panel" aria-labelledby="hlc-analytics-title">
       <div className="hlc-section-heading">
         <div>
-          <span className="hlc-section-eyebrow">HLC business intelligence</span>
-          <h2 id="hlc-analytics-title">Operating KPIs & visitor analytics</h2>
-          <p>Canonical workflow performance plus privacy-minimized first-party HLC traffic for the last 30 days.</p>
+          <span className="hlc-section-eyebrow">HLC operating window</span>
+          <h2 id="hlc-analytics-title">30-day operating snapshot</h2>
+          <p>Verified operating and visitor signals for the active reporting window.</p>
         </div>
-        <span className="hlc-agent-team-chip">30 days</span>
+        <button
+          type="button"
+          className="hlc-analytics-period-button"
+          aria-pressed="true"
+          aria-label="Refresh 30-day business intelligence"
+          title="Refresh 30-day business intelligence"
+          onClick={() => {
+            setLoading(true);
+            setError("");
+            setRefreshKey((value) => value + 1);
+          }}
+        >
+          30 days
+        </button>
       </div>
 
       <h3>Operating performance</h3>
@@ -140,7 +194,7 @@ export default function AnalyticsKpis() {
         </article>
       </div>
 
-      <h3 style={{ marginTop: 28 }}>Audience & product activity</h3>
+      <h3 style={{ marginTop: 28 }}>Audience &amp; product activity</h3>
       <div className="hlc-analytics-kpi-grid">
         {trafficCards.map(({ label, value, icon: Icon }) => (
           <article className="hlc-analytics-kpi" key={label}>
@@ -152,11 +206,33 @@ export default function AnalyticsKpis() {
       </div>
 
       <div className="hlc-analytics-detail-grid">
-        <article>
-          <h3>Top HLC routes</h3>
-          {traffic.top_paths.length ? <ol>
-            {traffic.top_paths.slice(0, 6).map((item) => <li key={item.path}><span>{item.path}</span><strong>{item.views}</strong></li>)}
-          </ol> : <p>{loading ? "Loading route activity…" : "Route activity will appear as HLC is used."}</p>}
+        <article className="hlc-route-insights-card">
+          <div className="hlc-route-insights-heading">
+            <div>
+              <span className="hlc-section-eyebrow">Page activity</span>
+              <h3>Top HLC destinations</h3>
+            </div>
+            <Route size={20} aria-hidden="true" />
+          </div>
+          {topRoutes.length ? (
+            <div className="hlc-route-insights" role="list" aria-label="Top HLC destinations by page views">
+              {topRoutes.map((item) => {
+                const views = Number(item.views || 0);
+                const width = Math.max(8, Math.round((views / topRouteMax) * 100));
+                return (
+                  <div className="hlc-route-insight" role="listitem" key={item.path}>
+                    <div className="hlc-route-insight-meta">
+                      <strong>{friendlyRoute(item.path)}</strong>
+                      <span>{views.toLocaleString()} {views === 1 ? "view" : "views"}</span>
+                    </div>
+                    <div className="hlc-route-insight-track" aria-hidden="true">
+                      <span style={{ width: `${width}%` }} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ) : <p>{loading ? "Loading route activity…" : "Route activity will appear as HLC is used."}</p>}
         </article>
         <article>
           <h3>Intent signals</h3>

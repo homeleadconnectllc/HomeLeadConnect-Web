@@ -2,7 +2,7 @@ import { getCurrentWorkspaceId, supabase } from "./client";
 import type { Contractor } from "../lib/types/database";
 
 const contractorColumns =
-  "id,workspace_id,company_name,contact_name,phone,email,website,address,city,state,zip,latitude,longitude,status,specialty,license_number,created_at,updated_at";
+  "id,workspace_id,company_name,contact_name,phone,email,website,address,city,state,zip,latitude,longitude,coordinate_accuracy,coordinate_source,status,specialty,license_number,created_at,updated_at";
 
 export type ContractorFilters = {
   specialty?: string;

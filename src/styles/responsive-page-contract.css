@@ -1,0 +1,513 @@
+/*
+ * HLC system-wide responsive page contract.
+ * Loaded last. This normalizes page centering, gutters, vertical rhythm, and device sizing
+ * across the public site, workspace, portals, CRM, network, community, and agent surfaces.
+ */
+
+:root {
+  --hlc-page-max: 1440px;
+  --hlc-page-gutter: clamp(18px, 3vw, 48px);
+  --hlc-page-block-gap: clamp(18px, 2.4vw, 32px);
+  --hlc-page-top: clamp(24px, 3vw, 44px);
+  --hlc-page-bottom: clamp(40px, 5vw, 72px);
+  --hlc-readable-max: 860px;
+}
+
+.hlc-route-content {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+}
+
+.hlc-route-content > main {
+  box-sizing: border-box !important;
+  width: min(var(--hlc-page-max), calc(100% - (2 * var(--hlc-page-gutter)))) !important;
+  max-width: var(--hlc-page-max) !important;
+  min-width: 0 !important;
+  margin-inline: auto !important;
+  margin-top: var(--hlc-page-top) !important;
+  margin-bottom: var(--hlc-page-bottom) !important;
+  padding-inline: 0 !important;
+  text-align: center;
+}
+
+.hlc-route-content > main:has(section[aria-label="Provider coordinate map"]),
+.hlc-route-content > main:has(.hlc-workflow-page),
+.hlc-route-content > main.hlc-workflow-page,
+.hlc-route-content > main:has(table),
+.hlc-route-content > main:has([role="grid"]) {
+  --hlc-page-max: 1560px;
+}
+
+.hlc-route-content > main.hlc-auth-page,
+.hlc-route-content > main:has(.hlc-auth-shell) {
+  --hlc-page-max: 1180px;
+}
+
+.hlc-route-content > main > header,
+.hlc-route-content > main > nav,
+.hlc-route-content > main > section,
+.hlc-route-content > main > article,
+.hlc-route-content > main > form,
+.hlc-route-content > main > div[role="region"] {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.hlc-route-content > main > header + *,
+.hlc-route-content > main > nav + *,
+.hlc-route-content > main > section + section,
+.hlc-route-content > main > article + article,
+.hlc-route-content > main > form + section,
+.hlc-route-content > main > section + form {
+  margin-top: var(--hlc-page-block-gap);
+}
+
+.hlc-public-shell .hlc-route-content > main > header,
+.hlc-route-content > main > header,
+.hlc-route-content > main > section,
+.hlc-route-content > main > article,
+.hlc-route-content > main > form,
+.hlc-route-content > main > div[role="region"] {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.hlc-route-content > main p,
+.hlc-route-content > main h1,
+.hlc-route-content > main h2,
+.hlc-route-content > main h3,
+.hlc-route-content > main h4,
+.hlc-route-content > main small,
+.hlc-route-content > main strong,
+.hlc-route-content > main li,
+.hlc-route-content > main label {
+  text-align: center;
+}
+
+.hlc-public-shell .hlc-route-content > main > header > p {
+  max-width: var(--hlc-readable-max);
+  margin-inline: auto;
+}
+
+.hlc-route-content > main > nav,
+.hlc-route-content nav {
+  justify-content: center;
+  row-gap: 10px;
+  column-gap: clamp(10px, 1.5vw, 18px);
+}
+
+.hlc-route-content form,
+.hlc-route-content fieldset,
+.hlc-route-content label,
+.hlc-route-content input,
+.hlc-route-content select,
+.hlc-route-content textarea,
+.hlc-route-content button {
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.hlc-route-content input:not([type="checkbox"]):not([type="radio"]),
+.hlc-route-content select,
+.hlc-route-content textarea {
+  max-width: 100%;
+  text-align: center;
+}
+
+.hlc-route-content th,
+.hlc-route-content td {
+  text-align: center;
+}
+
+.hlc-route-content [class*="grid"],
+.hlc-route-content [class*="list"] {
+  min-width: 0;
+}
+
+@media (min-width: 1600px) {
+  :root {
+    --hlc-page-max: 1520px;
+    --hlc-page-gutter: clamp(32px, 3.2vw, 64px);
+  }
+
+  .hlc-route-content > main:has(section[aria-label="Provider coordinate map"]),
+  .hlc-route-content > main.hlc-workflow-page,
+  .hlc-route-content > main:has(table),
+  .hlc-route-content > main:has([role="grid"]) {
+    --hlc-page-max: 1680px;
+  }
+}
+
+@media (max-width: 1024px) {
+  :root {
+    --hlc-page-gutter: clamp(16px, 3vw, 28px);
+    --hlc-page-top: clamp(20px, 3vw, 32px);
+    --hlc-page-bottom: 48px;
+    --hlc-page-block-gap: 18px;
+  }
+
+  .hlc-route-content > main {
+    width: calc(100% - (2 * var(--hlc-page-gutter))) !important;
+  }
+
+  .hlc-route-content > main > nav,
+  .hlc-route-content nav {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 700px) {
+  :root {
+    --hlc-page-gutter: max(12px, env(safe-area-inset-left));
+    --hlc-page-top: 16px;
+    --hlc-page-bottom: calc(172px + env(safe-area-inset-bottom));
+    --hlc-page-block-gap: 14px;
+  }
+
+  .hlc-route-content > main {
+    width: calc(100% - 24px) !important;
+    max-width: none !important;
+    margin-top: var(--hlc-page-top) !important;
+    margin-bottom: var(--hlc-page-bottom) !important;
+    text-align: center;
+  }
+
+  .hlc-route-content > main > header,
+  .hlc-route-content > main > section,
+  .hlc-route-content > main > article,
+  .hlc-route-content > main > form {
+    width: 100%;
+    min-width: 0;
+    text-align: center;
+  }
+
+  .hlc-route-content > main > nav,
+  .hlc-route-content nav {
+    width: 100%;
+    justify-content: center;
+    overflow-wrap: normal;
+  }
+
+  .hlc-route-content > main > nav a,
+  .hlc-route-content > main > nav button {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hlc-route-content h1 {
+    max-width: 100%;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .hlc-route-content p,
+  .hlc-route-content li,
+  .hlc-route-content label,
+  .hlc-route-content a,
+  .hlc-route-content span,
+  .hlc-route-content strong {
+    word-break: normal;
+    overflow-wrap: break-word;
+  }
+
+  /* Mobile helpers stay compact and live above the work dock instead of covering records. */
+  .hlc-agent-dock {
+    right: max(12px, env(safe-area-inset-right)) !important;
+    bottom: calc(154px + env(safe-area-inset-bottom)) !important;
+    width: 54px !important;
+    max-width: 54px !important;
+    pointer-events: none !important;
+  }
+
+  .hlc-agent-dock-trigger {
+    width: 52px !important;
+    min-width: 52px !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    padding: 4px !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    border-radius: 999px !important;
+    pointer-events: auto !important;
+  }
+
+  .hlc-agent-dock-trigger > span {
+    display: none !important;
+  }
+
+  .hlc-agent-dock-trigger img {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    margin: 0 !important;
+  }
+
+  .hlc-agent-greeting {
+    display: none !important;
+  }
+
+  .hlc-agent-dock-panel {
+    position: fixed !important;
+    inset: auto 12px calc(154px + env(safe-area-inset-bottom)) 12px !important;
+    width: auto !important;
+    max-width: none !important;
+    max-height: min(58dvh, 540px) !important;
+    pointer-events: auto !important;
+  }
+
+  aside[aria-label="Live HLC tutorial"] {
+    left: max(12px, env(safe-area-inset-left)) !important;
+    bottom: calc(154px + env(safe-area-inset-bottom)) !important;
+    width: 54px !important;
+    max-width: 54px !important;
+  }
+
+  aside[aria-label="Live HLC tutorial"] > button {
+    width: 52px !important;
+    min-width: 52px !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    padding: 0 !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    border-radius: 999px !important;
+  }
+
+  aside[aria-label="Live HLC tutorial"] > button > span:last-child {
+    display: none !important;
+  }
+
+  aside[aria-label="Live HLC tutorial"] > section {
+    position: fixed !important;
+    left: 12px !important;
+    right: 12px !important;
+    bottom: calc(154px + env(safe-area-inset-bottom)) !important;
+    width: auto !important;
+    max-width: none !important;
+    max-height: min(58dvh, 540px) !important;
+    overflow: auto !important;
+  }
+
+  /* Provider map/list must stack on phones; never squeeze copy into letter-wide columns. */
+  .hlc-route-content > main:has(section[aria-label="Provider coordinate map"]) > div {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    gap: 14px !important;
+  }
+
+  section[aria-label="Provider coordinate map"],
+  section[aria-label="Provider map list"] {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  section[aria-label="Provider coordinate map"] > div,
+  section[aria-label="Provider map list"] > div,
+  section[aria-label="Provider map list"] button {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  section[aria-label="Provider coordinate map"] > div:nth-child(2) {
+    min-height: 300px !important;
+  }
+
+  section[aria-label="Provider coordinate map"] *,
+  section[aria-label="Provider map list"] * {
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+    white-space: normal !important;
+  }
+
+  section[aria-label="Map filters"] {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    gap: 12px !important;
+  }
+
+  section[aria-label="Map filters"] label,
+  section[aria-label="Map filters"] input:not([type="checkbox"]) {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
+
+@media (max-width: 390px) {
+  .hlc-route-content > main {
+    width: calc(100% - 20px) !important;
+  }
+}
+
+.hlc-route-content > main,
+.hlc-route-content > main * {
+  text-align: center !important;
+}
+
+.hlc-route-content > main :is(
+  nav,
+  form,
+  fieldset,
+  section,
+  article,
+  header,
+  footer,
+  [role="group"],
+  [role="toolbar"],
+  [class*="actions"],
+  [class*="buttons"],
+  [class*="links"],
+  [class*="tabs"],
+  [class*="row"]
+) {
+  margin-inline: auto;
+}
+
+.hlc-route-content > main :is(
+  nav,
+  [role="group"],
+  [role="toolbar"],
+  [class*="actions"],
+  [class*="buttons"],
+  [class*="links"],
+  [class*="tabs"]
+) {
+  justify-content: center !important;
+  align-items: center;
+}
+
+.hlc-route-content > main :is(a, button) {
+  text-align: center !important;
+}
+
+.hlc-route-content > main :is(input, select, textarea, option) {
+  text-align: center !important;
+  text-align-last: center;
+}
+
+.hlc-route-content > main :is(ul, ol) {
+  list-style-position: inside;
+  padding-inline-start: 0;
+  margin-inline: auto;
+}
+
+.hlc-route-content > main :is(table) {
+  margin-inline: auto;
+}
+
+.hlc-route-content > main :is(img, svg, canvas, video) {
+  margin-inline: auto;
+}
+
+/* Polished HLC route analytics: business-friendly labels, metrics, and proportional activity bars. */
+.hlc-route-insights-card {
+  display: grid;
+  gap: 24px;
+  padding: clamp(22px, 3vw, 32px);
+  border: 1px solid #27364b;
+  border-radius: 22px;
+  background: linear-gradient(160deg, rgba(22, 31, 47, .98), rgba(12, 18, 28, .98));
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .14);
+}
+
+.hlc-route-insights-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.hlc-route-insights-heading h3 {
+  margin: 5px 0 0;
+}
+
+.hlc-route-insights {
+  display: grid;
+  gap: 20px;
+  width: 100%;
+  max-width: 800px;
+  margin-inline: auto;
+}
+
+.hlc-route-insight {
+  display: grid;
+  gap: 14px;
+  padding: 20px 22px;
+  border: 1px solid #263548;
+  border-radius: 18px;
+  background: rgba(15, 23, 42, .72);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, .08);
+}
+
+.hlc-route-insight-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  min-height: 28px;
+}
+
+.hlc-route-insight-meta strong {
+  color: #f8fafc;
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.hlc-route-insight-meta span {
+  color: #93c5fd;
+  font-size: .82rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.hlc-route-insight-track {
+  width: 100%;
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #1e293b;
+}
+
+.hlc-route-insight-track > span {
+  display: block;
+  height: 100%;
+  min-width: 8px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #2563eb, #60a5fa);
+}
+
+@media (max-width: 700px) {
+  .hlc-route-insights-card {
+    gap: 20px;
+    padding: 18px 14px;
+  }
+
+  .hlc-route-insights {
+    gap: 16px;
+  }
+
+  .hlc-route-insight {
+    gap: 12px;
+    padding: 17px 14px;
+  }
+
+  .hlc-route-insight-meta {
+    justify-content: center;
+    gap: 8px 16px;
+  }
+}

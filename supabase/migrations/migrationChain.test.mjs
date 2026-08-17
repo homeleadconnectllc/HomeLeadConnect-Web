@@ -16,3 +16,27 @@ test("all pending SQL migrations are non-empty", () => {
     assert.ok(readFileSync(`supabase/migrations/${file}`, "utf8").trim().length > 0, `${file} is empty`);
   }
 });
+
+test("Community Matching updates retain authenticated ownership and workspace membership", () => {
+  const migration = readFileSync(
+    "supabase/migrations/20260817110528_enforce_community_match_update_ownership.sql",
+    "utf8",
+  );
+
+  assert.match(migration, /for update\s+to authenticated/i);
+  assert.match(migration, /with check\s*\([\s\S]*user_id\s*=\s*\(select auth\.uid\(\)\)/i);
+  assert.match(migration, /with check\s*\([\s\S]*from public\.workspace_members/i);
+  assert.match(migration, /with check\s*\([\s\S]*from public\.contractors/i);
+});
+
+test("Community Matching policies and foreign keys remain advisor-ready", () => {
+  const migration = readFileSync(
+    "supabase/migrations/20260817111337_optimize_community_match_rls_and_indexes.sql",
+    "utf8",
+  );
+
+  assert.match(migration, /community_match_decisions_contractor_id_idx/i);
+  assert.match(migration, /community_match_decisions_user_id_idx/i);
+  assert.doesNotMatch(migration, /(?<!select )auth\.uid\(\)/i);
+  assert.equal((migration.match(/to authenticated/gi) ?? []).length, 3);
+});

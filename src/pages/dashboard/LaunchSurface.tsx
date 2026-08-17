@@ -37,9 +37,7 @@ const titles: Record<LaunchSurfaceKey, string> = {
 export default function LaunchSurface({ page }: { page: LaunchSurfaceKey }) {
   return <main style={pageStyle}>
     <header style={heroStyle}>
-      <p style={eyebrowStyle}>HomeLead Connect · launch surface</p>
       <h1 style={{ margin: 0 }}>{titles[page]}</h1>
-      <p style={{ margin: 0 }}>Canonical records only. Empty data stays empty; no rank, verification, availability, or outcome is fabricated.</p>
     </header>
     <Surface page={page} />
   </main>;
@@ -125,9 +123,9 @@ function ProviderSurface({page}:{page:LaunchSurfaceKey}){
         const providerAreas=areas.filter((x:any)=>x.contractor_id===p.id); const av=availability.find((x:any)=>x.contractor_id===p.id); const place=[p.city,p.state,p.zip].filter(Boolean).join(", "); const availabilityLabel=av?(av.available?"available":"unavailable"):"not declared";
         return <article key={p.id} style={cardStyle}><h2><Link to={`/providers/${p.id}`}>{p.company_name||p.contact_name||`Provider ${p.id}`}</Link></h2><p>{p.specialty||"Trade not recorded"}</p><p>{place||"Location not recorded"}</p><p>Availability: {availabilityLabel}</p>{providerAreas.map((x:any)=><small key={x.id}>Area: {[x.city,x.state,x.zip].filter(Boolean).join(", ")||"unspecified"}</small>)}<div style={rowStyle}><button onClick={()=>void toggle(p.id)}>{saved.has(p.id)?"Unsave":"Save"}</button>{page==="serviceAreas"&&<button onClick={()=>void addArea(p.id)}>Add PA service area</button>}{page==="availability"&&<button onClick={()=>void setAvail(p.id)}>Mark available</button>}{page==="map"&&place&&<a target="_blank" rel="noreferrer" href={`https://www.openstreetmap.org/search?query=${encodeURIComponent(place)}`}>Open map</a>}</div></article>;
       })}
-      {visible.length===0&&!error&&<p>No authorized provider records match this view.</p>}
+      {visible.length===0&&!error&&<p>No provider records match this view.</p>}
     </section>
-    {page==="matching"&&<section style={cardStyle}><h2>Matching rule</h2><p>Eligibility uses canonical provider and service-area data. HLC does not silently award work or fabricate rank; assignment still requires the explicit offer/acceptance workflow.</p><Link to="/jobs">Continue to jobs and offers →</Link></section>}
+    {page==="matching"&&<section style={cardStyle}><h2>Matching</h2><p>Review service area and availability, then choose the provider you want to contact or offer work to.</p><Link to="/jobs">Continue to jobs and offers →</Link></section>}
   </>;
 }
 
@@ -135,7 +133,6 @@ function Reference({page}:{page:LaunchSurfaceKey}){const copy:Record<string,stri
 
 const pageStyle={width:"min(1120px,calc(100% - 32px))",margin:"40px auto",display:"grid",gap:20};
 const heroStyle={display:"grid",gap:10,padding:"clamp(22px,5vw,40px)",borderRadius:22,color:"#f8fafc",background:"linear-gradient(135deg,#081426,#12365f)"};
-const eyebrowStyle={margin:0,color:"#60a5fa",fontWeight:900,textTransform:"uppercase" as const,letterSpacing:".08em"};
 const gridStyle={display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(100%,260px),1fr))",gap:14};
 const cardStyle={display:"grid",gap:10,padding:20,border:"1px solid #cbd5e1",borderRadius:16,background:"#fff",lineHeight:1.55};
 const rowStyle={display:"flex",flexWrap:"wrap" as const,gap:10,alignItems:"center"};

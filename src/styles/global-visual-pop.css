@@ -1,0 +1,175 @@
+/* HLC global visual-pop layer.
+ * Presentation only: adds energy, depth and tactile polish without changing app behavior.
+ */
+:root {
+  --hlc-pop-blue: #2563eb;
+  --hlc-pop-cyan: #22d3ee;
+  --hlc-pop-sky: #60a5fa;
+  --hlc-pop-navy: #07142b;
+  --hlc-pop-glow: rgba(37, 99, 235, .20);
+  --hlc-pop-cyan-glow: rgba(34, 211, 238, .14);
+}
+
+.hlc-route-content {
+  background:
+    radial-gradient(circle at 10% 4%, rgba(96,165,250,.14), transparent 26rem),
+    radial-gradient(circle at 94% 18%, rgba(34,211,238,.10), transparent 24rem),
+    linear-gradient(180deg, #f8fbff 0%, #eef5ff 48%, #f7fbff 100%);
+}
+
+.hlc-route-content > main {
+  isolation: isolate;
+}
+
+/* Give generic page sections visible rhythm instead of flat white-on-white stacking. */
+.hlc-route-content > main > :where(section, article, form, fieldset) {
+  position: relative;
+}
+
+.hlc-route-content > main > :where(section, article):not([class*="nav"]):not([class*="dock"]) {
+  border-radius: clamp(18px, 2.5vw, 28px);
+}
+
+/* Cards/panels: soft dimensional surface with an HLC light edge. */
+.hlc-route-content :where(
+  .hlc-premium-panel,
+  .hlc-premium-callout,
+  [class*="card"],
+  [class*="panel"],
+  [class*="empty"]
+):not(.hlc-agent-dock):not(.hlc-mobile-tabbar):not(.hlc-work-dock) {
+  border-color: rgba(148, 163, 184, .32);
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.99), rgba(245,249,255,.97));
+  box-shadow:
+    0 18px 48px rgba(15, 23, 42, .08),
+    0 3px 12px rgba(37, 99, 235, .045);
+}
+
+/* A subtle accent cap makes major cards feel designed rather than generated. */
+.hlc-route-content :where(.hlc-premium-panel, .hlc-premium-callout) {
+  overflow: hidden;
+}
+
+.hlc-route-content .hlc-premium-panel::after,
+.hlc-route-content .hlc-premium-callout::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: linear-gradient(90deg, var(--hlc-pop-blue), var(--hlc-pop-sky), var(--hlc-pop-cyan));
+  opacity: .9;
+  pointer-events: none;
+}
+
+/* Headings get a little more editorial presence without sacrificing readability. */
+.hlc-route-content :where(h1, h2) {
+  text-wrap: balance;
+}
+
+.hlc-route-content h1 {
+  font-weight: 900;
+  letter-spacing: -.045em;
+}
+
+.hlc-route-content h2 {
+  letter-spacing: -.035em;
+}
+
+/* Primary actions should pop. Keep destructive/semantic colors owned by their page styles. */
+.hlc-route-content :where(button, .hlc-button)[class*="primary"],
+.hlc-route-content .hlc-button-primary {
+  border-color: rgba(37,99,235,.35);
+  color: #fff;
+  background: linear-gradient(135deg, #1d4ed8, #2563eb 58%, #0891b2);
+  box-shadow: 0 10px 24px rgba(37,99,235,.22);
+}
+
+.hlc-route-content :where(input, select, textarea) {
+  background: rgba(255,255,255,.96);
+  box-shadow: inset 0 1px 2px rgba(15,23,42,.025), 0 4px 14px rgba(15,23,42,.025);
+}
+
+.hlc-route-content :where(input, select, textarea):focus {
+  box-shadow: 0 0 0 4px rgba(37,99,235,.14), 0 10px 28px rgba(37,99,235,.08);
+}
+
+/* Empty states should feel intentional and inviting, not unfinished. */
+.hlc-route-content .hlc-premium-empty {
+  background:
+    radial-gradient(circle at 50% 0%, rgba(96,165,250,.13), transparent 18rem),
+    linear-gradient(180deg, rgba(255,255,255,.99), rgba(242,247,255,.98));
+  border-style: solid;
+  min-height: 210px;
+}
+
+/* Status pills become compact, dimensional chips. */
+.hlc-route-content :where(.hlc-premium-badge, .hlc-status-pill) {
+  box-shadow: 0 5px 14px rgba(37,99,235,.08);
+}
+
+/* Legal/release copy needs premium legibility: never dark text on dark panels. */
+.hlc-route-content :where([class*="legal"], [class*="terms"], [class*="privacy"]) :where(h1,h2,h3,h4,strong) {
+  color: #0b1220;
+}
+
+.hlc-route-content :where([class*="legal"], [class*="terms"], [class*="privacy"]) :where(p,li,small) {
+  color: #475569;
+}
+
+/* Tactile desktop treatment. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .hlc-route-content :where(.hlc-premium-panel, .hlc-premium-callout, [class*="card"]):not(.hlc-agent-dock) {
+    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+  }
+
+  .hlc-route-content :where(.hlc-premium-panel, .hlc-premium-callout, [class*="card"]):not(.hlc-agent-dock):hover {
+    transform: translateY(-2px);
+    border-color: rgba(96,165,250,.45);
+    box-shadow: 0 24px 58px rgba(15,23,42,.11), 0 8px 22px rgba(37,99,235,.08);
+  }
+}
+
+/* Mobile: bubbly/tactile but compact. Do not steal space from the work dock/tab bar. */
+@media (min-width: 320px) and (max-width: 720px) {
+  .hlc-route-content {
+    background:
+      radial-gradient(circle at 12% 2%, rgba(96,165,250,.16), transparent 17rem),
+      radial-gradient(circle at 100% 30%, rgba(34,211,238,.09), transparent 15rem),
+      linear-gradient(180deg, #f8fbff, #eef5ff 55%, #f8fbff);
+  }
+
+  .hlc-route-content :where(
+    .hlc-premium-panel,
+    .hlc-premium-callout,
+    [class*="card"],
+    [class*="panel"]
+  ):not(.hlc-agent-dock):not(.hlc-mobile-tabbar):not(.hlc-work-dock) {
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(15,23,42,.075), 0 2px 9px rgba(37,99,235,.04);
+  }
+
+  .hlc-route-content :where(button, .hlc-button) {
+    min-height: 48px;
+  }
+
+  .hlc-route-content :where(h1,h2,h3,p) {
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Older browsers still get solid surfaces if advanced gradients/backdrop effects are absent. */
+@supports not (background: linear-gradient(135deg, #fff, #eef5ff)) {
+  .hlc-route-content,
+  .hlc-route-content :where(.hlc-premium-panel, .hlc-premium-callout, [class*="card"], [class*="panel"]) {
+    background: #f4f7fb;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hlc-route-content *,
+  .hlc-route-content *::before,
+  .hlc-route-content *::after {
+    scroll-behavior: auto !important;
+  }
+}

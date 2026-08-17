@@ -30,8 +30,9 @@ function forbidText(rel, text) {
 
 for (const file of [
   'src/lib/supabase.ts','src/lib/accessDestination.ts','src/lib/accessPolicy.ts','src/lib/accessPolicy.test.ts','src/routes/AppRouter.tsx','src/context/AuthContext.tsx',
-  'src/pages/HostEntry.tsx','src/pages/HomePage.tsx','src/pages/AppEntry.tsx','src/pages/auth/Login.tsx',
+  'src/pages/HostEntry.tsx','src/pages/HomePage.tsx','src/pages/AppEntry.tsx','src/pages/auth/Login.tsx','src/pages/auth/Register.tsx',
   'src/pages/auth/ForgotPassword.tsx','src/pages/auth/ResetPassword.tsx','src/pages/RequestService.tsx',
+  'src/pages/ProfessionalApplication.tsx','src/api/professionalApplications.ts','src/api/team.ts','src/pages/dashboard/Team.tsx','src/pages/team/AcceptWorkspaceInvitation.tsx',
   'src/api/publicIntake.ts','src/api/leads.ts','src/api/estimates.ts','src/api/jobs.ts','src/api/jobAssignments.ts',
   'src/api/appointments.ts','src/api/billing.ts','src/api/automations.ts','src/pages/dashboard/Automations.tsx','src/pages/dashboard/Workflow.tsx',
   'src/pages/dashboard/Settings.tsx','src/pages/dashboard/CallCenter.tsx','src/api/telephony.ts','src/pages/portal/HomeownerPortal.tsx',
@@ -56,6 +57,12 @@ for (const file of [
   'supabase/migrations/20260814145520_linked_provider_profile_read.sql',
   'supabase/migrations/20260814150142_professional_portal_services_contract.sql',
   'supabase/migrations/20260814150206_fix_professional_portal_availability_upsert.sql',
+  'supabase/migrations/20260814163950_professional_application_intake.sql',
+  'supabase/migrations/20260814204700_enforce_leads_single_writer.sql',
+  'supabase/migrations/20260814205500_complete_company_signup_workspace_membership.sql',
+  'supabase/migrations/20260814210500_workspace_team_roles_and_invitations.sql',
+  'supabase/migrations/20260814211500_support_workspace_invitee_signup.sql',
+  'supabase/migrations/20260814212000_fix_workspace_team_rpc_result_types.sql',
 ]) requireFile(file);
 
 requireText('.env.example', 'VITE_SUPABASE_URL=');
@@ -118,20 +125,40 @@ requireText('src/routes/AppRouter.tsx', 'path="/contractor-portal/documents"');
 requireText('src/routes/AppRouter.tsx', 'path="/map"');
 requireText('src/routes/AppRouter.tsx', 'path="/network/map"');
 requireText('src/routes/AppRouter.tsx', 'path="/activity"');
+requireText('src/routes/AppRouter.tsx', 'path="/team"');
+requireText('src/routes/AppRouter.tsx', 'path="/team/accept"');
 requireText('src/pages/portal/HomeownerPortalDocuments.tsx', 'sharing_scope === "homeowner"');
 requireText('src/pages/portal/HomeownerPortalDocuments.tsx', 'Only files explicitly shared with your resident portal are shown here.');
 requireText('src/pages/dashboard/ProviderMap.tsx', 'latitude');
 requireText('src/pages/dashboard/ProviderMap.tsx', 'longitude');
 requireText('src/pages/dashboard/ProviderMap.tsx', 'not mapped');
 requireText('src/pages/dashboard/WorkspaceActivity.tsx', 'activity');
-requireText('src/components/agents/ContextualAgentDock.tsx', '#F59E0B');
-requireText('src/components/agents/ContextualAgentDock.tsx', '#6366F1');
-requireText('src/components/agents/ContextualAgentDock.tsx', '#10B981');
-requireText('src/pages/auth/Login.tsx', 'navigate(requested || "/app"');
-requireText('src/pages/auth/Login.tsx', '<Navigate to="/app" replace />');
+requireText('src/components/agents/ContextualAgentDock.tsx', '#3B82F6');
+requireText('src/components/agents/ContextualAgentDock.tsx', '#60A5FA');
+requireText('src/pages/auth/Login.tsx', 'function safeNext(search: string)');
+requireText('src/pages/auth/Login.tsx', '!raw.startsWith("//")');
+requireText('src/pages/auth/Login.tsx', 'navigate(destination(), { replace: true })');
+requireText('src/pages/auth/Login.tsx', 'shouldCreateUser: !invitationFlow');
+requireText('src/pages/auth/Register.tsx', 'account_type: invitedStaff ? "workspace_invitee" : "company_owner"');
+requireText('src/pages/team/AcceptWorkspaceInvitation.tsx', 'acceptWorkspaceInvitation');
+requireText('src/api/team.ts', 'create_workspace_invitation');
+requireText('src/api/team.ts', 'accept_workspace_invitation');
+requireText('supabase/migrations/20260814204700_enforce_leads_single_writer.sql', 'revoke insert on table public.leads from authenticated');
+requireText('supabase/migrations/20260814210500_workspace_team_roles_and_invitations.sql', 'workspace_invitations');
+requireText('supabase/migrations/20260814210500_workspace_team_roles_and_invitations.sql', 'create_workspace_invitation');
+requireText('supabase/migrations/20260814211500_support_workspace_invitee_signup.sql', "v_account_type='workspace_invitee'");
 requireText('src/pages/HomePage.tsx', 'to="/request-service"');
 requireText('src/pages/HomePage.tsx', 'to="/app"');
 requireText('src/pages/HomePage.tsx', 'to="/community"');
+requireText('src/pages/ProfessionalApplication.tsx', 'submitProfessionalApplication');
+requireText('src/api/professionalApplications.ts', 'submit_professional_application');
+requireText('supabase/migrations/20260814163950_professional_application_intake.sql', 'enable row level security');
+requireText('supabase/migrations/20260814163950_professional_application_intake.sql', 'security definer');
+requireText('supabase/migrations/20260814163950_professional_application_intake.sql', 'revoke all on table public.professional_applications from public, anon, authenticated');
+requireText('supabase/migrations/20260814163950_professional_application_intake.sql', "'professional-application'");
+forbidText('src/pages/ProfessionalApplication.tsx', 'Status: MISSING');
+forbidText('src/pages/dashboard/Workflow.tsx', 'status: "MISSING"');
+forbidText('src/pages/Accessibility.tsx', 'UNPROVEN');
 requireText('src/styles/launch-hardening.css', 'aside[aria-label$=" guidance"]');
 requireText('src/styles/launch-hardening.css', 'width: 44px !important;');
 requireText('src/styles/launch-hardening.css', 'bottom: calc(132px + env(safe-area-inset-bottom)) !important;');

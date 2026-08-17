@@ -1,0 +1,397 @@
+/*
+ * Global HomeLead Connect premium design system.
+ * Presentation only: this layer must not change routing, auth, data, permissions, or workflow behavior.
+ */
+
+:root {
+  --hlc-premium-bg: #f4f7fb;
+  --hlc-premium-surface: rgba(255, 255, 255, .96);
+  --hlc-premium-surface-strong: #ffffff;
+  --hlc-premium-surface-subtle: #f8fafc;
+  --hlc-premium-ink: #0b1220;
+  --hlc-premium-copy: #475569;
+  --hlc-premium-muted: #64748b;
+  --hlc-premium-line: #dbe4ee;
+  --hlc-premium-line-strong: #cbd5e1;
+  --hlc-premium-blue: #2563eb;
+  --hlc-premium-blue-deep: #1d4ed8;
+  --hlc-premium-cyan: #0891b2;
+  --hlc-premium-focus: rgba(37, 99, 235, .18);
+  --hlc-premium-shadow: 0 18px 50px rgba(15, 23, 42, .09);
+  --hlc-premium-shadow-soft: 0 8px 24px rgba(15, 23, 42, .065);
+  --hlc-premium-radius: 18px;
+  --hlc-premium-radius-sm: 12px;
+
+  /* Eliminate legacy purple defaults everywhere this stylesheet is active. */
+  --accent: var(--hlc-premium-blue);
+  --accent-bg: rgba(37, 99, 235, .10);
+  --accent-border: rgba(37, 99, 235, .34);
+}
+
+html,
+body,
+#root {
+  background-color: var(--hlc-premium-bg);
+}
+
+body {
+  color: var(--hlc-premium-copy);
+  background-image:
+    radial-gradient(circle at 18% -8%, rgba(37, 99, 235, .075), transparent 30rem),
+    radial-gradient(circle at 92% 2%, rgba(8, 145, 178, .055), transparent 28rem);
+}
+
+.hlc-route-content {
+  color: var(--hlc-premium-copy);
+}
+
+.hlc-route-content > main {
+  position: relative;
+}
+
+/* Typography hierarchy */
+:where(.hlc-route-content, .hlc-auth-shell, .hlc-home, .hlc-contact-page) :where(h1, h2, h3, h4, h5, h6) {
+  color: var(--hlc-premium-ink);
+  font-weight: 780;
+  letter-spacing: -.025em;
+}
+
+:where(.hlc-route-content, .hlc-auth-shell, .hlc-home, .hlc-contact-page) :where(p, li, dd, dt, label, small) {
+  color: inherit;
+}
+
+:where(.hlc-route-content, .hlc-auth-shell, .hlc-home, .hlc-contact-page) a:not(.hlc-button):not(.hlc-navbar a):not(.hlc-mobile-tabbar a) {
+  color: var(--hlc-premium-blue-deep);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color .15s ease, text-decoration-color .15s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :where(.hlc-route-content, .hlc-auth-shell, .hlc-home, .hlc-contact-page) a:not(.hlc-button):not(.hlc-navbar a):not(.hlc-mobile-tabbar a):hover {
+    color: #0f4fbf;
+  }
+}
+
+/* Universal controls */
+:where(.hlc-route-content, .hlc-auth-shell, .hlc-home, .hlc-contact-page) :where(input, select, textarea) {
+  min-height: 46px;
+  border: 1px solid var(--hlc-premium-line-strong);
+  border-radius: var(--hlc-premium-radius-sm);
+  padding: 11px 13px;
+  color: var(--hlc-premium-ink);
+  background: rgba(255, 255, 255, .98);
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, .025);
+  transition: border-color .15s ease, box-shadow .15s ease, background-color .15s ease;
+}
+
+:where(.hlc-route-content, .hlc-auth-shell, .hlc-home, .hlc-contact-page) textarea {
+  min-height: 112px;
+  resize: vertical;
+}
+
+:where(.hlc-route-content, .hlc-auth-shell, .hlc-home, .hlc-contact-page) :where(input, select, textarea)::placeholder {
+  color: #94a3b8;
+}
+
+:where(.hlc-route-content, .hlc-auth-shell, .hlc-home, .hlc-contact-page) :where(input, select, textarea):focus {
+  border-color: rgba(37, 99, 235, .72);
+  background: #fff;
+  box-shadow: 0 0 0 4px var(--hlc-premium-focus);
+  outline: none;
+}
+
+:where(.hlc-route-content, .hlc-auth-shell, .hlc-home, .hlc-contact-page) :where(input, select, textarea):disabled {
+  color: #94a3b8;
+  background: #f1f5f9;
+  cursor: not-allowed;
+  opacity: .82;
+}
+
+:where(.hlc-route-content, .hlc-auth-shell, .hlc-home, .hlc-contact-page) label {
+  color: #334155;
+  font-weight: 700;
+}
+
+/* Buttons that do not already have a dedicated product class inherit premium behavior. */
+:where(.hlc-route-content, .hlc-auth-shell, .hlc-home, .hlc-contact-page) button:not(.hlc-navbar-toggle):not(.hlc-desktop-sidebar-toggle):not(.hlc-mobile-tabbar button) {
+  border-radius: var(--hlc-premium-radius-sm);
+  font-weight: 800;
+  letter-spacing: -.01em;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease, background-color .15s ease, opacity .15s ease;
+}
+
+:where(.hlc-route-content, .hlc-auth-shell, .hlc-home, .hlc-contact-page) button:disabled {
+  cursor: not-allowed;
+  opacity: .58;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :where(.hlc-route-content, .hlc-auth-shell, .hlc-home, .hlc-contact-page) button:not(:disabled):hover {
+    transform: translateY(-1px);
+  }
+}
+
+/* Generic panels, cards, fieldsets and dialogs */
+:where(.hlc-route-content, .hlc-auth-shell, .hlc-home, .hlc-contact-page) :where(fieldset, dialog) {
+  border: 1px solid var(--hlc-premium-line);
+  border-radius: var(--hlc-premium-radius);
+  background: var(--hlc-premium-surface);
+  box-shadow: var(--hlc-premium-shadow-soft);
+}
+
+:where(.hlc-route-content, .hlc-auth-shell, .hlc-home, .hlc-contact-page) fieldset {
+  padding: clamp(16px, 2vw, 22px);
+}
+
+:where(.hlc-route-content, .hlc-auth-shell, .hlc-home, .hlc-contact-page) legend {
+  padding-inline: 8px;
+  color: var(--hlc-premium-ink);
+  font-weight: 850;
+}
+
+:where(.hlc-route-content, .hlc-auth-shell, .hlc-home, .hlc-contact-page) dialog {
+  max-width: min(680px, calc(100vw - 28px));
+  color: var(--hlc-premium-copy);
+  box-shadow: 0 30px 90px rgba(2, 6, 23, .24);
+}
+
+:where(.hlc-route-content, .hlc-auth-shell, .hlc-home, .hlc-contact-page) dialog::backdrop {
+  background: rgba(2, 6, 23, .58);
+  backdrop-filter: blur(5px);
+}
+
+/* Data tables become readable, compact executive surfaces. */
+:where(.hlc-route-content, .hlc-auth-shell) table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  border: 1px solid var(--hlc-premium-line);
+  border-radius: 16px;
+  background: var(--hlc-premium-surface-strong);
+  box-shadow: var(--hlc-premium-shadow-soft);
+}
+
+:where(.hlc-route-content, .hlc-auth-shell) thead {
+  background: linear-gradient(180deg, #f8fafc, #f1f5f9);
+}
+
+:where(.hlc-route-content, .hlc-auth-shell) th {
+  color: #334155;
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: .045em;
+  text-transform: uppercase;
+}
+
+:where(.hlc-route-content, .hlc-auth-shell) :where(th, td) {
+  padding: 13px 15px;
+  border-bottom: 1px solid #e8edf3;
+  text-align: left;
+  vertical-align: middle;
+}
+
+:where(.hlc-route-content, .hlc-auth-shell) tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :where(.hlc-route-content, .hlc-auth-shell) tbody tr {
+    transition: background-color .15s ease;
+  }
+
+  :where(.hlc-route-content, .hlc-auth-shell) tbody tr:hover {
+    background: rgba(239, 246, 255, .62);
+  }
+}
+
+/* Details/disclosures */
+:where(.hlc-route-content, .hlc-auth-shell, .hlc-home, .hlc-contact-page) details:not(.hlc-nav-group) {
+  border: 1px solid var(--hlc-premium-line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 5px 18px rgba(15, 23, 42, .045);
+}
+
+:where(.hlc-route-content, .hlc-auth-shell, .hlc-home, .hlc-contact-page) details:not(.hlc-nav-group) > summary {
+  min-height: 44px;
+  padding: 12px 14px;
+  color: var(--hlc-premium-ink);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+:where(.hlc-route-content, .hlc-auth-shell, .hlc-home, .hlc-contact-page) details:not(.hlc-nav-group)[open] > summary {
+  border-bottom: 1px solid #e7edf4;
+  background: rgba(239, 246, 255, .55);
+}
+
+/* Semantic premium utility classes for any page that needs a shared surface without custom CSS. */
+.hlc-premium-panel,
+.hlc-premium-empty,
+.hlc-premium-callout,
+.hlc-premium-toolbar {
+  box-sizing: border-box;
+  border: 1px solid var(--hlc-premium-line);
+  border-radius: var(--hlc-premium-radius);
+  background: linear-gradient(180deg, rgba(255,255,255,.99), rgba(248,250,252,.97));
+  box-shadow: var(--hlc-premium-shadow-soft);
+}
+
+.hlc-premium-panel,
+.hlc-premium-empty,
+.hlc-premium-callout {
+  padding: clamp(18px, 2.4vw, 28px);
+}
+
+.hlc-premium-empty {
+  display: grid;
+  min-height: 180px;
+  place-items: center;
+  align-content: center;
+  gap: 8px;
+  text-align: center;
+  color: var(--hlc-premium-muted);
+}
+
+.hlc-premium-empty > :where(h2, h3, strong) {
+  color: var(--hlc-premium-ink);
+}
+
+.hlc-premium-callout {
+  position: relative;
+  overflow: hidden;
+}
+
+.hlc-premium-callout::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: linear-gradient(180deg, var(--hlc-premium-blue), var(--hlc-premium-cyan));
+}
+
+.hlc-premium-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+}
+
+.hlc-premium-badge,
+.hlc-status-pill {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid #bfdbfe;
+  border-radius: 999px;
+  padding: 5px 10px;
+  color: #1e40af;
+  background: #eff6ff;
+  font-size: 12px;
+  font-weight: 850;
+  line-height: 1;
+}
+
+.hlc-status-pill[data-tone="success"] {
+  border-color: #a7f3d0;
+  color: #047857;
+  background: #ecfdf5;
+}
+
+.hlc-status-pill[data-tone="warning"] {
+  border-color: #fed7aa;
+  color: #9a3412;
+  background: #fff7ed;
+}
+
+.hlc-status-pill[data-tone="danger"] {
+  border-color: #fecaca;
+  color: #b91c1c;
+  background: #fef2f2;
+}
+
+/* Public and authentication surfaces should feel equal in quality to the signed-in workspace. */
+.hlc-auth-shell,
+.hlc-contact-card {
+  box-shadow: 0 28px 80px rgba(15, 23, 42, .11) !important;
+}
+
+.hlc-auth-page {
+  color: var(--hlc-premium-copy);
+}
+
+.hlc-auth-page :where(h1, h2, h3) {
+  color: var(--hlc-premium-ink);
+}
+
+/* Scrollbars: subtle, useful and on-brand where supported. */
+@supports selector(::-webkit-scrollbar) {
+  :where(.hlc-route-content, .hlc-auth-shell, dialog)::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  :where(.hlc-route-content, .hlc-auth-shell, dialog)::-webkit-scrollbar-thumb {
+    border: 3px solid transparent;
+    border-radius: 999px;
+    background: #94a3b8;
+    background-clip: padding-box;
+  }
+}
+
+/* Premium motion is small and tactile, never flashy. */
+@media (prefers-reduced-motion: no-preference) {
+  .hlc-premium-panel,
+  .hlc-premium-callout,
+  .hlc-premium-toolbar {
+    transition: border-color .18s ease, box-shadow .18s ease, transform .18s ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .hlc-premium-panel:hover,
+    .hlc-premium-callout:hover {
+      border-color: #c3d2e2;
+      box-shadow: var(--hlc-premium-shadow);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+@media (max-width: 720px) {
+  :where(.hlc-route-content, .hlc-auth-shell) table {
+    font-size: 14px;
+  }
+
+  :where(.hlc-route-content, .hlc-auth-shell) :where(th, td) {
+    padding: 11px 12px;
+  }
+
+  .hlc-premium-panel,
+  .hlc-premium-empty,
+  .hlc-premium-callout,
+  .hlc-premium-toolbar {
+    border-radius: 16px;
+  }
+
+  .hlc-premium-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hlc-premium-panel,
+  .hlc-premium-callout,
+  .hlc-premium-toolbar,
+  :where(.hlc-route-content, .hlc-auth-shell, .hlc-home, .hlc-contact-page) button {
+    transition: none !important;
+  }
+}

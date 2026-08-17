@@ -1,10 +1,27 @@
-.hlc-auth-method-tabs,
+.hlc-auth-method-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  margin: 0 auto 18px;
+  text-align: center;
+}
+
 .hlc-auth-provider-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  justify-content: center;
   gap: 10px;
   width: 100%;
-  margin-bottom: 18px;
+  margin: 0 auto 18px;
+  text-align: center;
+}
+
+.hlc-auth-method-tabs button {
+  flex: 0 1 220px;
+  width: min(220px, 100%);
 }
 
 .hlc-auth-method-tabs button,
@@ -16,6 +33,7 @@
   background: #fff;
   color: #0f172a;
   font-weight: 800;
+  text-align: center !important;
 }
 
 .hlc-auth-method-tabs button[aria-pressed="true"] {
@@ -25,15 +43,49 @@
   box-shadow: 0 0 0 2px rgba(37, 99, 235, .1);
 }
 
+.hlc-auth-form {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  width: 100%;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.hlc-auth-form label {
+  display: grid;
+  justify-items: center;
+  gap: 7px;
+  width: 100%;
+  text-align: center !important;
+}
+
+.hlc-auth-form input,
+.hlc-auth-form select,
+.hlc-auth-form textarea {
+  width: 100%;
+  text-align: center !important;
+}
+
+.hlc-auth-form > button {
+  display: block;
+  width: min(360px, 100%);
+  margin-inline: auto;
+  text-align: center !important;
+}
+
 .hlc-auth-divider {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
-  margin: 20px 0 14px;
+  width: 100%;
+  margin: 20px auto 14px;
   color: #64748b;
   font-size: 13px;
   font-weight: 800;
   text-transform: uppercase;
+  text-align: center;
   letter-spacing: .06em;
 }
 
@@ -43,6 +95,28 @@
   height: 1px;
   flex: 1 1 auto;
   background: #e2e8f0;
+}
+
+.hlc-auth-card,
+.hlc-auth-card > *,
+.hlc-auth-card-footer,
+.hlc-auth-card-footer p,
+.hlc-auth-card-footer a,
+.hlc-auth-brand,
+.hlc-auth-brand > *,
+.hlc-auth-steps,
+.hlc-auth-steps li,
+.hlc-auth-steps li > * {
+  text-align: center !important;
+}
+
+.hlc-auth-card-footer {
+  width: 100%;
+  margin-inline: auto;
+}
+
+.hlc-auth-logo-link {
+  justify-content: center;
 }
 
 .hlc-navbar-logo-home {
@@ -55,12 +129,20 @@
 }
 
 @media (max-width: 720px) {
-  .hlc-auth-method-tabs,
-  .hlc-auth-provider-grid {
-    grid-template-columns: 1fr;
+  .hlc-auth-method-tabs {
+    flex-direction: column;
+    align-items: center;
   }
 
-  .hlc-auth-method-tabs button,
+  .hlc-auth-method-tabs button {
+    flex: 0 0 auto;
+    width: min(360px, 100%);
+  }
+
+  .hlc-auth-provider-grid {
+    grid-template-columns: minmax(0, 360px);
+  }
+
   .hlc-auth-provider-grid button {
     width: 100%;
   }

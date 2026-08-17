@@ -1,0 +1,50 @@
+/* HLC global brand lock
+ * Canonical visual family: navy / royal blue / white / gray / charcoal-black.
+ * Poppins-first typography follows the approved HLC brand board with resilient device-native fallbacks.
+ */
+
+:root {
+  --hlc-brand-navy: #0d1b3d;
+  --hlc-brand-navy-deep: #07142d;
+  --hlc-brand-blue: #1e5bff;
+  --hlc-brand-blue-strong: #1748d6;
+  --hlc-brand-blue-soft: #eaf1ff;
+  --hlc-brand-white: #ffffff;
+  --hlc-brand-gray-50: #f7f9fc;
+  --hlc-brand-gray-100: #eef2f7;
+  --hlc-brand-gray-200: #d8e0eb;
+  --hlc-brand-gray-400: #9ca3af;
+  --hlc-brand-gray-600: #5b6472;
+  --hlc-brand-charcoal: #111827;
+  --hlc-brand-black: #05070c;
+  --hlc-brand-radius-sm: 14px;
+  --hlc-brand-radius-md: 20px;
+  --hlc-brand-radius-lg: 28px;
+  --hlc-brand-shadow: 0 18px 48px rgba(13, 27, 61, .12), 0 5px 16px rgba(30, 91, 255, .08);
+  --hlc-font-display: "Poppins", "Avenir Next", "SF Pro Display", "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
+  --hlc-font-body: "Poppins", "Avenir Next", "SF Pro Text", "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+}
+
+html,body,#root{background:var(--hlc-brand-gray-50);color:var(--hlc-brand-charcoal)}
+body,button,input,select,textarea{font-family: "Poppins", var(--hlc-font-body);font-synthesis:none;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
+.hlc-route-content{color:var(--hlc-brand-charcoal);background:radial-gradient(circle at 8% 4%,rgba(30,91,255,.08),transparent 24rem),linear-gradient(180deg,#fafbfe 0%,#f4f6fa 54%,#fafbfc 100%)!important}
+.hlc-route-content>main{width:min(100%,1440px)}
+.hlc-route-content :is(h1,h2,h3,h4,h5,h6){font-family:var(--hlc-font-display);color:var(--hlc-brand-navy);font-weight:800;letter-spacing:-.035em;text-wrap:balance}.hlc-route-content h1{line-height:1}.hlc-route-content p,.hlc-route-content li,.hlc-route-content label,.hlc-route-content small{line-height:1.55}
+.hlc-route-content :is(.card,[class*="card"],[class*="panel"],fieldset,.hlc-premium-panel,.hlc-premium-callout){border-color:rgba(148,163,184,.28)!important;box-shadow:var(--hlc-brand-shadow)}
+.hlc-route-content :is(.hlc-premium-panel,.hlc-premium-callout,[class*="card"]):not([class*="agent"])::after,.hlc-route-content .hlc-google-voice-companion::before,.hlc-route-content .hlc-call-center-record::before,.hlc-route-content .hlc-legal-page .hlc-legal-card::before{background:linear-gradient(90deg,var(--hlc-brand-navy),var(--hlc-brand-blue),#7b8da8)!important}
+.hlc-route-content :is(button,a)[class*="primary"],.hlc-route-content button[type="submit"],.hlc-route-content .hlc-job-open,.hlc-route-content .hlc-lead-card-actions>a:first-child,.hlc-match-like{color:#fff!important;border-color:transparent!important;background:linear-gradient(135deg,var(--hlc-brand-blue-strong),var(--hlc-brand-blue) 58%,#315fbd)!important;box-shadow:0 10px 26px rgba(30,91,255,.22)!important}
+.hlc-route-content :is(input,select,textarea){color:var(--hlc-brand-charcoal);border-color:var(--hlc-brand-gray-200)!important;background:#fff!important;border-radius:var(--hlc-brand-radius-sm)!important}.hlc-route-content :is(input,select,textarea):focus{border-color:#7aa3ff!important;box-shadow:0 0 0 4px rgba(30,91,255,.12),0 8px 24px rgba(13,27,61,.06)!important}
+.hlc-premium-badge,.hlc-status-pill,.hlc-status-pill[data-tone="success"],.hlc-status-pill[data-tone="warning"]{color:var(--hlc-brand-navy)!important;border-color:#c8d5eb!important;background:#edf3ff!important;box-shadow:0 4px 12px rgba(30,91,255,.06)!important}
+.hlc-route-content table thead{background:linear-gradient(135deg,#edf3ff,#f4f6fa)!important}.hlc-route-content table tbody tr:nth-child(even){background:#f8fafc!important}
+.hlc-route-content .hlc-job-card,.hlc-route-content .hlc-lead-card,.hlc-route-content .hlc-google-voice-companion,.hlc-route-content .hlc-call-center-record,.hlc-route-content section[aria-labelledby="hlc-audio-device-title"],.hlc-route-content .hlc-messages-thread,.hlc-route-content .hlc-message-start,.hlc-public-grid .hlc-public-card{background:linear-gradient(155deg,#fff,#f7f9fc 82%)!important}.hlc-route-content section[aria-labelledby="hlc-audio-device-title"]::before{color:var(--hlc-brand-navy)!important;border-color:#c7d4e8!important;background:#edf2f8!important}.hlc-route-content .hlc-message-bubble-self{border-color:#bfd0f5!important;background:linear-gradient(135deg,#eef4ff,#f5f7fb)!important}.hlc-public-grid .hlc-public-card:nth-child(3n+1),.hlc-public-grid .hlc-public-card:nth-child(3n+2),.hlc-public-grid .hlc-public-card:nth-child(3n){background:linear-gradient(155deg,#fff,#f1f4f9)!important}
+.hlc-route-content .hlc-legal-page .hlc-legal-card{border-color:rgba(130,158,210,.36)!important;background:radial-gradient(circle at 100% 0%,rgba(30,91,255,.15),transparent 19rem),linear-gradient(155deg,#07142d 0%,#0d1b3d 58%,#13264f 100%)!important}.hlc-route-content .hlc-legal-page .hlc-legal-card :is(h1,h2,h3,h4){color:#fff!important}.hlc-route-content .hlc-legal-page .hlc-legal-card :is(p,li,small){color:#dbe4f2!important}.hlc-route-content .hlc-legal-page .hlc-legal-card a{color:#a8c3ff!important}
+/* Explicit contrast exceptions for intentional dark intelligence surfaces. */
+.hlc-route-content .hlc-messages-conversations :is(h1,h2,h3,h4),.hlc-route-content .hlc-agent-dock-panel :is(h1,h2,h3,h4),.hlc-route-content .hlc-agent-proactive-briefing :is(h1,h2,h3,h4){color:#fff!important}
+/* Community Matching is intentionally light, polished and readable. */
+.hlc-match-hero{background:linear-gradient(145deg,#fff,#f7f9fd)!important}.hlc-match-hero h1{color:#0d1b3d!important}.hlc-match-hero>p{color:#526071!important}.hlc-match-visual{background:linear-gradient(145deg,#0b1732,#132d5f)!important}.hlc-match-visual span,.hlc-match-mini-avatar{background:linear-gradient(145deg,#1748d6,#315fbd)!important}.hlc-match-availability.is-available,.hlc-match-empty-icon{color:#17366f!important;border-color:#c5d4ef!important;background:#eaf1ff!important}.hlc-match-swipe-stamp.is-like{color:#1e5bff!important}.hlc-match-card-next{background:#eef3fb!important}
+/* Command-center and agent surfaces stay navy/blue/gray. */
+.hlc-agent-card,.hlc-agent-panel,.hlc-agent-dock-panel,.hlc-command-center-panel{border-color:rgba(93,137,220,.48)!important}.hlc-agent-dock[data-agent="kendrell"],.hlc-agent-dock[data-agent="dion"],.hlc-agent-dock[data-agent="diamond"]{--agent-accent:#4f86ff!important;--agent-glow:rgba(30,91,255,.30)!important;--agent-accent-soft:rgba(30,91,255,.13)!important}.hlc-agent-card-diamond::after{background:rgba(30,91,255,.14)!important}.hlc-agent-card-diamond .hlc-agent-role{color:#9bbcff!important}.hlc-agent-presence{background:#5d8cff!important;box-shadow:0 0 0 3px rgba(30,91,255,.14)!important}.hlc-agent-status{color:#dbe7ff!important;border-color:rgba(96,137,220,.34)!important;background:rgba(13,27,61,.82)!important}.hlc-agent-dock-panel::before{color:#9bbcff!important}.hlc-agent-card [class*="online"],.hlc-agent-panel [class*="online"],.hlc-agent-dock [class*="online"]{color:#8fb6ff!important}
+.hlc-route-content :is(.text-green,.text-emerald,.text-teal,.bg-green,.bg-emerald,.bg-teal){color:var(--hlc-brand-navy)!important;background-color:var(--hlc-brand-blue-soft)!important;border-color:#c8d5eb!important}
+.hlc-route-content :is(article,section,form,fieldset)>:is(h1,h2,h3):first-child{margin-top:0}.hlc-route-content :is(article,section,form,fieldset)>*+*{margin-top:clamp(10px,1.4vw,18px)}.hlc-route-content :is(button,.hlc-button,a[role="button"]){min-height:44px;border-radius:var(--hlc-brand-radius-sm)!important}
+@media(max-width:720px){.hlc-route-content{background:radial-gradient(circle at 5% 2%,rgba(30,91,255,.08),transparent 16rem),linear-gradient(180deg,#fafbfe,#f4f6fa 56%,#fafbfc)!important}.hlc-route-content :is(.card,[class*="card"],.hlc-premium-panel,.hlc-premium-callout,fieldset){border-radius:22px!important}.hlc-route-content>main{padding-inline:max(10px,env(safe-area-inset-left))}.hlc-route-content :is(h1,h2,h3){text-wrap:pretty}}
+@media(forced-colors:active){.hlc-route-content,.hlc-match-hero,.hlc-match-visual{background:Canvas!important;color:CanvasText!important}}

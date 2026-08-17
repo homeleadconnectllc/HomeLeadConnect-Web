@@ -1,0 +1,141 @@
+.hlc-agent-tutorial {
+  display: grid;
+  gap: 8px;
+  margin: 2px 0 12px;
+  padding: 14px;
+  border: 1px solid #bfdbfe;
+  border-radius: 14px;
+  background: #ffffff;
+  color: #0f172a;
+  text-align: left;
+}
+
+.hlc-agent-tutorial-kicker {
+  color: #1d4ed8;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.hlc-agent-tutorial h3,
+.hlc-agent-tutorial p {
+  margin: 0;
+  color: #0f172a;
+}
+
+.hlc-agent-tutorial p,
+.hlc-agent-tutorial li {
+  color: #334155;
+  line-height: 1.5;
+}
+
+.hlc-agent-tutorial ol {
+  display: grid;
+  gap: 7px;
+  margin: 2px 0 0;
+  padding-left: 22px;
+}
+
+.hlc-agent-chat-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.hlc-agent-chat-divider::before,
+.hlc-agent-chat-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #cbd5e1;
+}
+
+@media (max-width: 720px) {
+  /* iOS can inflate text inside fixed overlays. Keep the assistant at explicit
+     phone-scale typography and let the sheet scroll internally above work controls. */
+  .hlc-agent-dock-panel {
+    max-height: min(52dvh, 460px) !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  .hlc-agent-tutorial {
+    gap: 6px;
+    margin-bottom: 8px;
+    padding: 10px;
+  }
+
+  .hlc-agent-tutorial-kicker {
+    font-size: 9px !important;
+  }
+
+  .hlc-agent-tutorial h3 {
+    font-size: 15px !important;
+    line-height: 1.25 !important;
+  }
+
+  .hlc-agent-tutorial p,
+  .hlc-agent-tutorial li {
+    font-size: 12px !important;
+    line-height: 1.35 !important;
+  }
+
+  .hlc-agent-tutorial ol {
+    gap: 4px;
+    padding-left: 18px;
+  }
+
+  .hlc-agent-chat-divider {
+    margin: 8px 0;
+    font-size: 9px !important;
+  }
+
+  .hlc-agent-dock-panel > section[aria-labelledby$="-chat-title"] {
+    gap: 9px !important;
+    padding: 10px !important;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  .hlc-agent-dock-panel > section[aria-labelledby$="-chat-title"] h2 {
+    margin-block: 2px 5px !important;
+    font-size: 17px !important;
+    line-height: 1.2 !important;
+  }
+
+  .hlc-agent-dock-panel > section[aria-labelledby$="-chat-title"] :is(p, li, small, label, strong, span) {
+    font-size: 12px !important;
+    line-height: 1.35 !important;
+  }
+
+  .hlc-agent-dock-panel > section[aria-labelledby$="-chat-title"] > div[aria-live="polite"] {
+    max-height: 128px !important;
+    padding: 9px !important;
+  }
+
+  .hlc-agent-dock-panel > section[aria-labelledby$="-chat-title"] > div[aria-label$="voice controls"] {
+    gap: 6px !important;
+    padding: 8px !important;
+  }
+
+  .hlc-agent-dock-panel textarea {
+    min-height: 76px !important;
+    max-height: 112px !important;
+    font-size: 16px !important;
+    line-height: 1.35 !important;
+  }
+
+  .hlc-agent-dock-panel form button {
+    min-height: 40px !important;
+    padding: 8px 10px !important;
+    font-size: 13px !important;
+  }
+}

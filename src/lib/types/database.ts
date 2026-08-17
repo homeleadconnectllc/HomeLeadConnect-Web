@@ -110,6 +110,8 @@ export type Contractor = {
   zip: string | null;
   latitude: number | null;
   longitude: number | null;
+  coordinate_accuracy: "approximate" | "verified" | null;
+  coordinate_source: string | null;
   status: string | null;
   specialty: string | null;
   license_number: string | null;
