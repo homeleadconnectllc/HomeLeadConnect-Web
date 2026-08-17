@@ -155,6 +155,7 @@ export default function ContextualAgentDock() {
   const agent = useMemo(() => resolveAgent(location.pathname, access), [location.pathname, access]);
   const open = Boolean(agent && openFor === location.pathname);
   const tutorial = agent ? tutorialFor(location.pathname, agent) : null;
+  const showBriefing = Boolean(briefingVisible && dismissedBriefingFor !== location.pathname && !open);
 
   useEffect(() => {
     document.body.classList.toggle("hlc-agent-open", open);
@@ -249,11 +250,11 @@ export default function ContextualAgentDock() {
 
   return (
     <aside
-      className={`hlc-agent-dock ${open ? "is-open" : ""}`}
+      className={`hlc-agent-dock ${open ? "is-open" : ""} ${showBriefing ? "has-briefing" : ""}`}
       data-agent={agent.id}
       aria-label={`${agent.name} contextual assistant and tutorial coach`}
     >
-      {briefingVisible && dismissedBriefingFor !== location.pathname && !open && (
+      {showBriefing && (
         <section className="hlc-agent-proactive-briefing" aria-live="polite" aria-label={`${agent.name} proactive workspace briefing`}>
           <div className="hlc-agent-proactive-briefing-head">
             <img src={agent.avatar} alt="" aria-hidden="true" />
