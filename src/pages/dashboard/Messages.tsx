@@ -13,6 +13,13 @@ import { errorMessage } from "../../lib/errorMessage";
 import { getVoiceNoteUrl, listVoiceNotes, uploadVoiceNote, type VoiceNote } from "../../api/voiceNotes";
 import VoiceNoteRecorder from "../../components/messages/VoiceNoteRecorder";
 
+function latestConversationPreview(conversation: Conversation) {
+  const latest = conversation.messages[conversation.messages.length - 1];
+  if (!latest?.body) return "No messages in this conversation yet.";
+  const normalized = latest.body.replace(/\s+/g, " ").trim();
+  return normalized.length > 84 ? `${normalized.slice(0, 81)}…` : normalized;
+}
+
 export default function Messages() {
   const { session } = useAuth();
   const [searchParams] = useSearchParams();
@@ -141,8 +148,8 @@ export default function Messages() {
 
   return (
     <main className="hlc-messages-page" style={pageStyle}>
-      <h1>Messages</h1>
-      <p>Persisted HLC portal messages. SMS and email are separate transports and are not represented as connected here.</p>
+      <h1>Messages Center</h1>
+      <p>Persisted HLC conversation and chat history. SMS and email remain separate transports and are not represented as connected unless their provider evidence exists.</p>
       {composeVoiceNote && !loading && selected && (
         <p role="status" style={{ color: "#075985", fontWeight: 800 }}>
           Voice note mode is ready. The recorder below is attached to the selected conversation.
@@ -154,26 +161,36 @@ export default function Messages() {
 
       {!loading && (
         <div className="hlc-messages-layout" style={layoutStyle}>
-          <aside className="hlc-messages-conversations" style={panelStyle}>
-            <h2>Conversations</h2>
-            {conversations.length === 0 && <p>No conversations yet.</p>}
+          <aside className="hlc-messages-conversations" style={panelStyle} aria-label="Chat history">
+            <div className="hlc-chat-history-heading">
+              <div><span>HISTORY</span><h2>Chats</h2></div>
+              <strong>{conversations.length}</strong>
+            </div>
+            {conversations.length === 0 && <p>No chat history yet.</p>}
             {conversations.map((conversation) => (
               <button
                 type="button"
                 key={conversation.id}
+                className={`hlc-chat-history-item ${conversation.id === selectedId ? "is-selected" : ""}`}
+                aria-current={conversation.id === selectedId ? "true" : undefined}
                 onClick={() => setSelectedId(conversation.id)}
                 style={conversationButtonStyle}
               >
-                <strong>{conversation.subject}</strong><br />
-                <small>{new Date(conversation.updated_at).toLocaleString()}</small>
+                <strong>{conversation.subject}</strong>
+                <span>{latestConversationPreview(conversation)}</span>
+                <small>{conversation.messages.length} message{conversation.messages.length === 1 ? "" : "s"} · {new Date(conversation.updated_at).toLocaleString()}</small>
               </button>
             ))}
           </aside>
 
           <section className="hlc-messages-thread" style={panelStyle}>
             {selected ? <>
-              <h2>{selected.subject}</h2>
-              <div className="hlc-message-stream" aria-live="polite">
+              <header className="hlc-message-thread-head">
+                <div><span>CONVERSATION HISTORY</span><h2>{selected.subject}</h2></div>
+                <strong>{selected.messages.length} message{selected.messages.length === 1 ? "" : "s"}</strong>
+              </header>
+              <div className="hlc-message-stream" aria-live="polite" aria-label="Persisted chat history">
+                {selected.messages.length === 0 && <p>No messages have been recorded in this conversation yet.</p>}
                 {selected.messages.map((item) => (
                   <article
                     className={item.sender_user_id === session?.user.id ? "hlc-message-bubble hlc-message-bubble-self" : "hlc-message-bubble"}
@@ -204,7 +221,7 @@ export default function Messages() {
                 ))}
                 <VoiceNoteRecorder busy={busy} onUpload={addVoiceNote} focusOnMount={composeVoiceNote} />
               </section>
-            </> : <p>Select a conversation.</p>}
+            </> : <p>Select a chat from your history.</p>}
           </section>
         </div>
       )}
@@ -231,9 +248,9 @@ export default function Messages() {
   );
 }
 
-const pageStyle = { width: "min(1100px, calc(100% - 48px))", margin: "40px auto", fontFamily: "system-ui, sans-serif" };
-const layoutStyle = { display: "grid", gridTemplateColumns: "minmax(220px, 0.7fr) minmax(0, 2fr)", gap: 20 };
-const panelStyle = { padding: 20, border: "1px solid #e2e8f0", borderRadius: 14 };
-const conversationButtonStyle = { display: "block", width: "100%", marginBottom: 8, padding: 12, textAlign: "left" as const };
-const messageStyle = { marginBottom: 10, padding: 12, background: "#f8fafc", borderRadius: 10 };
+const pageStyle = { width: "min(1180px, calc(100% - 48px))", margin: "40px auto", fontFamily: "system-ui, sans-serif" };
+const layoutStyle = { display: "grid", gridTemplateColumns: "minmax(250px, 0.8fr) minmax(0, 2fr)", gap: 20 };
+const panelStyle = { padding: 20, border: "1px solid #e2e8f0", borderRadius: 18 };
+const conversationButtonStyle = { display: "grid", gap: 5, width: "100%", marginBottom: 8, padding: 12, textAlign: "left" as const };
+const messageStyle = { marginBottom: 10, padding: 12, background: "#f8fafc", borderRadius: 12 };
 const formStyle = { display: "grid", gap: 12, marginTop: 18 };
