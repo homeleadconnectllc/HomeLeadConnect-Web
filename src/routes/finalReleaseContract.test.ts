@@ -8,6 +8,7 @@ const legal = readFileSync("src/pages/Legal.tsx", "utf8");
 const reserved = readFileSync("src/pages/dashboard/ReservedCapability.tsx", "utf8");
 const releaseGuard = readFileSync("src/styles/final-release-guard.css", "utf8");
 const globalPremium = readFileSync("src/styles/global-premium-system.css", "utf8");
+const workspaceRouteCleanup = readFileSync("src/styles/workspace-route-cleanup.css", "utf8");
 const main = readFileSync("src/main.tsx", "utf8");
 const requestService = readFileSync("src/pages/RequestService.tsx", "utf8");
 const professional = readFileSync("src/pages/ProfessionalApplication.tsx", "utf8");
@@ -53,6 +54,19 @@ test("global premium HLC design system stays mounted before final release guards
   assert.match(globalPremium, /\.hlc-premium-empty/);
   assert.match(globalPremium, /\.hlc-status-pill/);
   assert.match(globalPremium, /prefers-reduced-motion/);
+});
+
+test("route cleanup is the final authenticated presentation layer", () => {
+  const v4Index = main.indexOf("./styles/workspace-premium-v4.css");
+  const cleanupIndex = main.indexOf("./styles/workspace-route-cleanup.css");
+  assert.ok(v4Index >= 0);
+  assert.ok(cleanupIndex > v4Index);
+  assert.match(workspaceRouteCleanup, /\.hlc-jobs-page/);
+  assert.match(workspaceRouteCleanup, /\.hlc-calendar-page/);
+  assert.match(workspaceRouteCleanup, /\.hlc-messages-page/);
+  assert.match(workspaceRouteCleanup, /main:not\(\[class\]\)/);
+  assert.match(workspaceRouteCleanup, /\.hlc-command-center/);
+  assert.match(workspaceRouteCleanup, /margin-bottom: calc\(172px \+ env\(safe-area-inset-bottom\)\) !important/);
 });
 
 test("anonymous intake surfaces retain bot-trap fields", () => {
