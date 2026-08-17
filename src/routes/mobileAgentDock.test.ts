@@ -55,10 +55,10 @@ test("production mobile overlays are exclusive, viewport-safe, and HLC blue", ()
 });
 
 test("mobile agent voice controls remain readable and dictated questions submit immediately", () => {
-  assert.match(agentPremium, /\\.hlc-ai-settings\\[open\\] > div \\{[\\s\\S]*position: fixed/);
-  assert.match(agentPremium, /right: 16px;[\\s\\S]*left: 16px;/);
-  assert.match(agentPremium, /grid-template-columns: 24px minmax\\(0, 1fr\\)/);
-  assert.match(agentChatPanel, /void sendMessage\\(transcript\\)/);
+  assert.match(agentPremium, /\.hlc-ai-settings\[open\] > div \{[\s\S]*position: fixed/);
+  assert.match(agentPremium, /right: 16px;[\s\S]*left: 16px;/);
+  assert.match(agentPremium, /grid-template-columns: 24px minmax\(0, 1fr\)/);
+  assert.match(agentChatPanel, /void sendMessage\(transcript\)/);
   assert.match(agentChatPanel, /Voice input could not start/);
 });
 
