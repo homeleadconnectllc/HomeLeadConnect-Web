@@ -11,6 +11,9 @@ const globalPremium = readFileSync("src/styles/global-premium-system.css", "utf8
 const main = readFileSync("src/main.tsx", "utf8");
 const requestService = readFileSync("src/pages/RequestService.tsx", "utf8");
 const professional = readFileSync("src/pages/ProfessionalApplication.tsx", "utf8");
+const qaWorkflow = readFileSync(".github/workflows/netlify-e2e-qa-site.yml", "utf8");
+const turnstileConfig = readFileSync("src/lib/turnstile.ts", "utf8");
+const indexHtml = readFileSync("index.html", "utf8");
 
 for (const [name, source] of [["Home", home], ["Pricing", journey], ["Legal", legal]] as const) {
   test(`${name} contains no legacy $99 subscription copy`, () => {
@@ -55,4 +58,17 @@ test("anonymous intake surfaces retain bot-trap fields", () => {
   assert.match(requestService, /tabIndex=\{-1\}/);
   assert.match(professional, /honeypot/);
   assert.match(professional, /tabIndex=\{-1\}/);
+});
+
+test("isolated QA never inherits production authentication runtime", () => {
+  assert.match(qaWorkflow, /VITE_SUPABASE_URL: https:\/\/agfwqnirspmptjiqrrtk\.supabase\.co/);
+  assert.match(qaWorkflow, /VITE_AUTH_CAPTCHA_REQUIRED: "false"/);
+  assert.doesNotMatch(qaWorkflow, /Load public runtime configuration from production Netlify site/);
+  assert.match(turnstileConfig, /VITE_AUTH_CAPTCHA_REQUIRED/);
+  assert.match(turnstileConfig, /import\.meta\.env\.PROD/);
+});
+
+test("iPhone installation metadata links the approved HLC icon", () => {
+  assert.match(indexHtml, /rel="apple-touch-icon" href="\/hlc-logo-final\.png"/);
+  assert.match(indexHtml, /rel="manifest" href="\/manifest\.webmanifest"/);
 });
