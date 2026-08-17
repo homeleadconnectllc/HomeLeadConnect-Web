@@ -29,6 +29,11 @@ body.hlc-agent-guidance-open :is(.hlc-mobile-work-dock, .hlc-work-dock, .hlc-mob
   display: none !important;
 }
 
+body.hlc-agent-guidance-open .hlc-navbar {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
 .hlc-agent-guidance-overlay {
   z-index: 5000 !important;
 }

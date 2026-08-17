@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
+import { createPortal } from "react-dom";
 import { agents, agentHandoffCopy, capabilityCatalog, type AgentId } from "../../ai/agents";
 import { createAgentHandoff, listAgentHandoffs, listAgentRuns, runAgentCapability, type AgentHandoff, type AgentRun } from "../../api/agents";
 import { listLeads } from "../../api/leads";
@@ -144,7 +145,7 @@ export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
     <section style={{ ...panelStyle, marginTop: 20 }}><h2>Work sent between HLC agents</h2>{handoffs.length === 0 ? <p>No work has been sent to another agent.</p> : handoffs.map((item) => <article key={item.id} style={historyStyle}><div style={historyHeadingStyle}><strong>{agents[item.source_agent].name} → {agents[item.destination_agent].name}</strong><span style={statusPillStyle(item.status)}>{friendlyStatus(item.status)}</span></div><p>{item.reason}</p><small>{new Date(item.created_at).toLocaleString()}</small></article>)}</section>
     {selectedLead && <p style={{ color: "#64748b" }}>Current authorized context: {selectedLead.full_name || `Lead #${selectedLead.id}`}</p>}
     <button type="button" aria-label={`Open ${agent.name} help`} onClick={() => setGuidanceOpen(true)} style={{ ...floatingButtonStyle, borderColor: agent.accent }}><span aria-hidden="true">?</span><span>{agent.name}</span></button>
-    {guidanceOpen && <div className="hlc-agent-guidance-overlay" role="presentation" style={overlayStyle} onMouseDown={(event) => { if (event.target === event.currentTarget) setGuidanceOpen(false); }}>
+    {guidanceOpen && createPortal(<div className="hlc-agent-guidance-overlay" role="presentation" style={overlayStyle} onMouseDown={(event) => { if (event.target === event.currentTarget) setGuidanceOpen(false); }}>
       <section className="hlc-agent-guidance-drawer" role="dialog" aria-modal="true" aria-labelledby={`${agentId}-guidance-title`} style={{ ...drawerStyle, borderColor: agent.accent }}>
         <div className="hlc-agent-guidance-head"><div className="hlc-agent-guidance-identity"><img src={agent.image || "/hlc-logo-final.png"} alt="" aria-hidden="true" /><span><small>{agent.role}</small><strong id={`${agentId}-guidance-title`}>{agent.name} Command</strong><em>Online · workspace protected</em></span></div><button autoFocus type="button" aria-label="Close guidance" onClick={() => setGuidanceOpen(false)}>Close</button></div>
         <div className="hlc-agent-guidance-intro"><span>Command guidance</span><h2>Make the next decision clear.</h2><p>{agent.introduction}</p></div>
@@ -157,7 +158,7 @@ export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
         <p className="hlc-agent-guidance-boundary">Guidance respects workspace authorization, provider readiness, compliance, and HLC lifecycle rules.</p>
         <button className="hlc-agent-guidance-primary" type="button" onClick={openAgentConversation}>Ask {agent.name} about this</button>
       </section>
-    </div>}
+    </div>, document.body)}
   </main>;
 }
 
