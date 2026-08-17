@@ -5,6 +5,7 @@ import { listLeads } from "../../api/leads";
 import AgentChatPanel from "../../components/agents/AgentChatPanel";
 import type { Lead } from "../../lib/types/database";
 import { errorMessage } from "../../lib/errorMessage";
+import { KendrellMemorial } from "./KendrellDedication";
 
 export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
   const agent = agents[agentId];
@@ -83,20 +84,7 @@ export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
       : agentHandoffCopy["kendrell:dion"];
 
   return <main className="hlc-agent-workspace" style={pageStyle}>
-    {agentId === "kendrell" && <section className="hlc-kendrell-memorial" aria-labelledby="kendrell-memorial-title">
-      <div className="hlc-kendrell-memorial-copy">
-        <p className="hlc-kendrell-memorial-eyebrow">In loving memory</p>
-        <h1 id="kendrell-memorial-title">Kendrell Charles Washington</h1>
-        <p className="hlc-kendrell-memorial-dates">December 6, 1991 — November 17, 2010</p>
-        <p className="hlc-kendrell-memorial-dedication">This command office was created by his brother, Antoine Washington, to carry Kendrell’s name forward with purpose, care, and family pride.</p>
-        <div className="hlc-kendrell-legacy" aria-label="Kendrell's legacy">
-          <span>Harrisburg High School graduate</span>
-          <span>HACC student</span>
-          <span>Aspiring music artist</span>
-        </div>
-      </div>
-      <div className="hlc-kendrell-memorial-mark" aria-hidden="true"><span>KCW</span><i /><i /><i /><i /></div>
-    </section>}
+    {agentId === "kendrell" && <KendrellMemorial />}
     <header className="hlc-agent-command-hero" style={{ ...heroStyle, borderColor: agent.accent }}>
       <div style={{ display: "grid", gap: 12, alignContent: "center" }}>
         <div style={brandRowStyle}><img src="/hlc-logo-final.png" alt="HomeLead Connect" style={{ width: 48, height: 48, objectFit: "contain" }} /><span>{agent.pageTitle}</span></div>
