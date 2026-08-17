@@ -11,17 +11,17 @@ const features = [
 export default function HomePage() {
   return <>
     <main className="hlc-home" style={{minHeight:"100vh",padding:"40px 24px",background:"linear-gradient(135deg,#ffffff 0%,#eff6ff 45%,#dbeafe 100%)",color:"#0f172a"}}>
-      <section style={{maxWidth:1100,margin:"0 auto",textAlign:"center",padding:"72px 0 48px"}}>
-        <img src="/hlc-logo-final.png" alt="HomeLead Connect LLC" style={{width:120,height:120,objectFit:"contain",borderRadius:24,background:"#fff",padding:14,boxShadow:"0 20px 60px rgba(15,23,42,.14)"}} />
-        <p style={{fontWeight:800,color:"#2563eb",marginTop:28}}>HOMELEAD CONNECT</p>
-        <h1 style={{fontSize:"clamp(44px,8vw,84px)",lineHeight:1,letterSpacing:"-3px",margin:"14px auto 22px",color:"#0f172a",textShadow:"0 1px 0 rgba(255,255,255,.35)"}}>One front door.<br/>One connected home-services ecosystem.</h1>
-        <p style={{maxWidth:760,margin:"0 auto",fontSize:21,lineHeight:1.6,color:"#475569"}}>Request help, connect with providers, join the community, manage work, and reach the HomeLead Connect workspace from one identity.</p>
-        <div style={{display:"flex",gap:14,justifyContent:"center",flexWrap:"wrap",marginTop:32}}>
+      <section className="hlc-home-hero" style={{maxWidth:1100,margin:"0 auto",textAlign:"center",padding:"72px 0 48px"}}>
+        <img className="hlc-home-hero-logo" src="/hlc-logo-final.png" alt="HomeLead Connect LLC" style={{width:120,height:120,objectFit:"contain",borderRadius:24,background:"#fff",padding:14,boxShadow:"0 20px 60px rgba(15,23,42,.14)"}} />
+        <p className="hlc-home-hero-kicker" style={{fontWeight:800,color:"#2563eb",marginTop:28}}>HOMELEAD CONNECT</p>
+        <h1 className="hlc-home-hero-title" style={{fontSize:"clamp(44px,8vw,84px)",lineHeight:1,letterSpacing:"-3px",margin:"14px auto 22px",color:"#0f172a",textShadow:"0 1px 0 rgba(255,255,255,.35)"}}>One front door.<br/>One connected home-services ecosystem.</h1>
+        <p className="hlc-home-hero-copy" style={{maxWidth:760,margin:"0 auto",fontSize:21,lineHeight:1.6,color:"#475569"}}>Request help, connect with providers, join the community, manage work, and reach the HomeLead Connect workspace from one identity.</p>
+        <div className="hlc-home-hero-actions" style={{display:"flex",gap:14,justifyContent:"center",flexWrap:"wrap",marginTop:32}}>
           <Link to="/pricing" style={{padding:"14px 22px",borderRadius:999,background:"#2563eb",color:"#fff",fontWeight:900,textDecoration:"none",boxShadow:"0 12px 30px rgba(37,99,235,.22)"}}>Start 14-Day Free Trial</Link>
           <Link to="/request-service" style={{padding:"14px 22px",borderRadius:999,background:"#0f172a",color:"#fff",fontWeight:800,textDecoration:"none"}}>Get Help Now</Link>
           <Link to="/app" style={{padding:"14px 22px",borderRadius:999,background:"#fff",color:"#0f172a",fontWeight:800,textDecoration:"none",border:"1px solid #cbd5e1"}}>Open HomeLead Connect</Link>
         </div>
-        <p style={{marginTop:14,color:"#64748b",fontSize:14}}>For participating businesses: 14 days free, then $49.99/month. Payment method required.</p>
+        <p className="hlc-home-hero-note" style={{marginTop:14,color:"#64748b",fontSize:14}}>For participating businesses: 14 days free, then $49.99/month. Payment method required.</p>
       </section>
 
       <section style={{maxWidth:1100,margin:"20px auto 72px",display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(230px,1fr))",gap:20}}>
