@@ -95,6 +95,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 87. `20260815184500_harden_public_intake_rate_limit_and_honeypot.sql`
 88. `20260815190000_lock_public_intake_guard.sql`
 89. `20260816234500_expand_hlc_document_media_types.sql`
+90. `20260817035500_community_match_decisions.sql`
 
 ## Current production rules
 
@@ -115,6 +116,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - Profile self-service updates must not permit changes to `role`, `workspace_id`, `user_id`, or identity keys. Internal authority fields are server/admin controlled.
 - Voice messages and legacy voice-audio storage use canonical `workspace_members` tenancy; the obsolete `org_members` path is not an authorization source.
 - Community review eligibility must validate that the referenced completed job belongs to the same workspace as the review; a completed job ID from another workspace can never satisfy the review policy.
+- Community Matching Like/Pass decisions are private per-user discovery preferences scoped by `workspace_id`, `user_id`, and provider. They do not assign a provider, create a job, schedule work, change billing, or grant any provider/workspace authority.
 - Resident and professional portal document rows are relationship-scoped, not merely workspace-scoped: a portal user may see only explicitly shared documents tied to that user's linked lead/provider and eligible related estimates, jobs, or appointments. Storage signed-URL access inherits that same document RLS boundary.
 - Conversation voice notes use the private `communication-voice-notes` bucket and authorize storage through canonical conversation participation plus matching workspace/conversation path segments; portal participants do not need internal workspace membership to use messaging voice notes.
 - Provider Map coordinates are canonical location facts with confidence metadata. Exact owner/manager-entered coordinates are marked `verified`; safe city/ZIP centroids may be stored only as explicitly labeled `approximate` coordinates and must never be presented as an exact storefront or live location. Coordinate mutation remains management controlled and range validated.
@@ -161,6 +163,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - Security and performance advisors were rerun after launch DDL. Leaked-password protection remains an external Supabase Auth setting gate; existing intentional public/server RPC linter findings remain tracked rather than being silenced by unsafe broad revocation.
 - The stable isolated QA site is used for physical-device acceptance before `main` is released.
 - `hlc-documents` was verified private with a 25 MB object cap after expanding its allowlist to include MP4, MOV, and WebM short-video evidence alongside the existing document/photo types.
+- Community Matching decisions are persisted in production with RLS so a signed-in user's Like/Pass history survives refresh without leaking another user's discovery choices or changing operational assignment authority.
 
 ## Change procedure after launch
 
