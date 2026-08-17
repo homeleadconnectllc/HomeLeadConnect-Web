@@ -8,6 +8,7 @@ import "./styles/agent-team.css";
 import "./styles/contextual-agent-dock.css";
 import "./styles/agent-premium-v2.css";
 import "./styles/agent-panel-width-contract.css";
+import "./styles/command-center-experience.css";
 import "./styles/agent-proactive-briefing.css";
 import "./styles/agent-tutorial.css";
 import "./styles/auth-methods.css";
