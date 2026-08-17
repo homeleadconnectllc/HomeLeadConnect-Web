@@ -29,6 +29,7 @@ import "./styles/premium-effects.css";
 import "./styles/global-premium-system.css";
 import "./styles/contrast-contract.css";
 import "./styles/responsive-page-contract.css";
+import "./styles/legacy-device-compat.css";
 import "./styles/final-release-guard.css";
 import App from "./App.tsx";
 import { AuthProvider } from "./context/AuthContext";
