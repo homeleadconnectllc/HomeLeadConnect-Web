@@ -11,6 +11,7 @@ const communityHub = readFileSync("src/pages/dashboard/CommunityHub.tsx", "utf8"
 const publicInfo = readFileSync("src/pages/PublicInfo.tsx", "utf8");
 const mainEntry = readFileSync("src/main.tsx", "utf8");
 const responsiveContract = readFileSync("src/styles/responsive-page-contract.css", "utf8");
+const legacyDeviceCompat = readFileSync("src/styles/legacy-device-compat.css", "utf8");
 const finalReleaseGuard = readFileSync("src/styles/final-release-guard.css", "utf8");
 const publicCopy = ["src/pages/HomePage.tsx", "src/pages/PublicInfo.tsx", "src/pages/ContactPage.tsx", "src/pages/Legal.tsx"]
   .map((path) => readFileSync(path, "utf8"))
@@ -55,9 +56,10 @@ test("company rollout operating guides remain declared and actionable", () => {
   assert.match(operationalGuide, /Incident response/);
 });
 
-test("responsive page contract is followed by the final narrow-mobile release guard", () => {
+test("responsive page contract is followed by compatibility fallbacks and the final narrow-mobile release guard", () => {
   const importLines = [...mainEntry.matchAll(/import "\.\/styles\/([^"]+\.css)";/g)].map((match) => match[1]);
-  assert.equal(importLines.at(-2), "responsive-page-contract.css");
+  assert.equal(importLines.at(-3), "responsive-page-contract.css");
+  assert.equal(importLines.at(-2), "legacy-device-compat.css");
   assert.equal(importLines.at(-1), "final-release-guard.css");
   assert.match(responsiveContract, /\.hlc-route-content > main/);
   assert.match(responsiveContract, /margin-inline: auto !important/);
@@ -68,6 +70,11 @@ test("responsive page contract is followed by the final narrow-mobile release gu
   assert.match(responsiveContract, /@media \(max-width: 390px\)/);
   assert.match(responsiveContract, /Provider coordinate map/);
   assert.match(responsiveContract, /:has\(table\)/);
+  assert.match(legacyDeviceCompat, /@media \(max-width: 360px\)/);
+  assert.match(legacyDeviceCompat, /@media \(min-width: 701px\) and \(max-width: 1280px\)/);
+  assert.match(legacyDeviceCompat, /@media \(forced-colors: active\)/);
+  assert.match(legacyDeviceCompat, /@media \(-ms-high-contrast: active\)/);
+  assert.match(legacyDeviceCompat, /@supports \(height: 1dvh\)/);
   assert.match(finalReleaseGuard, /min-width: 320px/);
   assert.match(finalReleaseGuard, /max-width: 430px/);
   assert.match(finalReleaseGuard, /overflow-x: clip/);
