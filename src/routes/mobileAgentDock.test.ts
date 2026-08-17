@@ -5,6 +5,7 @@ import test from "node:test";
 const dock = readFileSync("src/components/agents/ContextualAgentDock.tsx", "utf8");
 const dockCss = readFileSync("src/styles/contextual-agent-dock.css", "utf8");
 const widthContract = readFileSync("src/styles/agent-panel-width-contract.css", "utf8");
+const commandCenter = readFileSync("src/styles/command-center-experience.css", "utf8");
 const finalReleaseGuard = readFileSync("src/styles/final-release-guard.css", "utf8");
 const mainEntry = readFileSync("src/main.tsx", "utf8");
 
@@ -26,10 +27,13 @@ test("closed mobile agent rail cannot constrain the open viewport agent", () => 
   assert.match(finalReleaseGuard, /\.hlc-signed-in-shell \.hlc-agent-dock\.is-open \.hlc-agent-dock-panel \{[\s\S]*left: 0 !important;[\s\S]*right: 0 !important;[\s\S]*width: 100vw !important;/);
 });
 
-test("agent width contract provides a full mobile sheet and substantial desktop command panel", () => {
+test("agent width contract provides a full mobile sheet and a wide desktop command panel", () => {
   assert.match(mainEntry, /import "\.\/styles\/agent-panel-width-contract\.css";/);
-  assert.match(widthContract, /@media \(min-width: 721px\)[\s\S]*\.hlc-agent-dock\.is-open \{[\s\S]*width: min\(620px, calc\(100vw - 48px\)\)/);
-  assert.match(widthContract, /\.hlc-agent-dock\.is-open \.hlc-agent-dock-panel \{[\s\S]*min-width: min\(520px, calc\(100vw - 48px\)\)/);
+  assert.match(mainEntry, /import "\.\/styles\/command-center-experience\.css";/);
+  assert.match(widthContract, /@media \(min-width: 721px\)[\s\S]*\.hlc-agent-dock\.is-open \{[\s\S]*width: min\(720px, calc\(100vw - 48px\)\)/);
+  assert.match(widthContract, /\.hlc-agent-dock\.is-open \.hlc-agent-dock-panel \{[\s\S]*min-width: min\(560px, calc\(100vw - 48px\)\)/);
   assert.match(widthContract, /@media \(max-width: 720px\)[\s\S]*\.hlc-agent-dock\.is-open \{[\s\S]*width: 100vw !important;[\s\S]*min-width: 100vw !important;[\s\S]*max-width: none !important;/);
   assert.match(widthContract, /\.hlc-agent-dock\.is-open \.hlc-agent-dock-panel \{[\s\S]*left: 0 !important;[\s\S]*right: 0 !important;[\s\S]*width: 100vw !important;/);
+  assert.match(commandCenter, /grid-template-columns: minmax\(180px, 220px\) minmax\(0, 1fr\)/);
+  assert.match(commandCenter, /grid-template-areas:[\s\S]*"head head"[\s\S]*"context chat"/);
 });
