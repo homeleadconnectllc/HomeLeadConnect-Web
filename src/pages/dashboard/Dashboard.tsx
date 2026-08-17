@@ -29,6 +29,9 @@ import { listFollowUps } from "../../api/followUps";
 import { listJobs } from "../../api/jobs";
 import { listWorkspaceAppointments } from "../../api/appointments";
 import { agentTeam } from "../../config/ecosystem";
+import { useAuth } from "../../hooks/useAuth";
+import { canAccessWorkspacePath, normalizeInternalRole, type InternalRole } from "../../lib/accessPolicy";
+import { supabase } from "../../lib/supabase";
 import type { CrmJob, FollowUp, JobAppointment, Lead } from "../../lib/types/database";
 import "../../styles/dashboard.css";
 
@@ -146,7 +149,10 @@ function formatTime(value: string | null | undefined) {
 }
 
 export default function Dashboard() {
+  const { session } = useAuth();
   const [data, setData] = useState<DashboardData>(emptyData);
+  const [role, setRole] = useState<InternalRole | null>(null);
+  const [roleResolvedFor, setRoleResolvedFor] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [partialError, setPartialError] = useState(false);
   const [snapshotAt, setSnapshotAt] = useState(0);
@@ -180,6 +186,30 @@ export default function Dashboard() {
       active = false;
     };
   }, []);
+
+  useEffect(() => {
+    if (!session) return;
+    let active = true;
+    const userId = session.user.id;
+    void supabase.from("profiles").select("role").eq("user_id", userId).maybeSingle().then(
+      ({ data: profile, error }) => {
+        if (!active) return;
+        setRole(error ? null : normalizeInternalRole(profile?.role));
+        setRoleResolvedFor(userId);
+      },
+      () => {
+        if (!active) return;
+        setRole(null);
+        setRoleResolvedFor(userId);
+      },
+    );
+    return () => { active = false; };
+  }, [session]);
+
+  const visibleAgentTeam = useMemo(() => {
+    if (!session || roleResolvedFor !== session.user.id || !role) return [];
+    return agentTeam.filter((agent) => canAccessWorkspacePath(role, agent.route));
+  }, [role, roleResolvedFor, session]);
 
   const metrics = useMemo(() => {
     const pendingFollowUps = data.followUps.filter((item) => item.status === "pending");
@@ -292,18 +322,18 @@ export default function Dashboard() {
         ))}
       </section>
 
-      <section className="hlc-dashboard-section hlc-agent-team-section">
+      {visibleAgentTeam.length > 0 && <section className="hlc-dashboard-section hlc-agent-team-section">
         <div className="hlc-section-heading hlc-agent-team-heading">
           <div>
             <span className="hlc-section-eyebrow">Your AI team</span>
-            <h2>Kendrell · Dion · Diamond</h2>
+            <h2>{visibleAgentTeam.map((agent) => agent.name).join(" · ")}</h2>
             <p className="hlc-agent-team-intro">Three reasoning workspaces grounded in live HLC records, with evidence, uncertainty and owner approval built in.</p>
           </div>
-          <span className="hlc-agent-team-chip">3 workspaces</span>
+          <span className="hlc-agent-team-chip">{visibleAgentTeam.length} {visibleAgentTeam.length === 1 ? "workspace" : "workspaces"}</span>
         </div>
 
         <div className="hlc-agent-grid">
-          {agentTeam.map((agent) => {
+          {visibleAgentTeam.map((agent) => {
             const role = agentRoleCopy[agent.id];
             return (
               <Link className={`hlc-agent-card hlc-agent-card-${agent.id}`} to={agent.route} key={agent.id}>
@@ -325,7 +355,7 @@ export default function Dashboard() {
             );
           })}
         </div>
-      </section>
+      </section>}
 
       <section className="hlc-dashboard-section hlc-dashboard-section-tight">
         <div className="hlc-section-heading">

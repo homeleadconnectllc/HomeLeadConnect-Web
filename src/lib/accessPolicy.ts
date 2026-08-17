@@ -4,11 +4,11 @@ const internalRoles = new Set<InternalRole>(["owner", "manager", "technician"]);
 const managerRoles = new Set<InternalRole>(["owner", "manager"]);
 
 const ownerOnlyPrefixes = [
-  "/hq",
   "/settings/billing",
 ];
 
 const managerPrefixes = [
+  "/hq",
   "/workflow",
   "/automations",
   "/analytics",

@@ -156,6 +156,9 @@ test("Dion business intelligence copy and reporting control remain durable and m
 });
 
 test("dashboard exposes the complete HLC command center instead of hiding launch features", () => {
+  assert.match(dashboard, /canAccessWorkspacePath\(role, agent\.route\)/);
+  assert.match(dashboard, /visibleAgentTeam\.length > 0/);
+  assert.doesNotMatch(dashboard, /\{agentTeam\.map\(/);
   assert.match(dashboard, /Business Pulse/);
   assert.match(dashboard, /Community Matching/);
   assert.match(dashboard, /\/community-hub/);
