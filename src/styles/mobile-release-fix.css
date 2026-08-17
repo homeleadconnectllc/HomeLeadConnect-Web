@@ -1,9 +1,27 @@
 /* Production mobile release contract. This file is intentionally loaded last. */
-@media (max-width: 720px) {
-  body.hlc-dedication-view :is(.hlc-work-dock, .hlc-mobile-tabbar, .hlc-agent-dock) {
-    display: none !important;
-  }
+.hlc-route-content .hlc-kendrell-path-grid article h3 {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  opacity: 1 !important;
+}
 
+.hlc-route-content .hlc-kendrell-path-grid article small {
+  color: #bfdbfe !important;
+  -webkit-text-fill-color: #bfdbfe !important;
+  opacity: 1 !important;
+}
+
+.hlc-kendrell-memorial-mark span {
+  display: block !important;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+}
+
+body.hlc-dedication-view :is(.hlc-mobile-work-dock, .hlc-work-dock, .hlc-mobile-tabbar, .hlc-agent-dock) {
+  display: none !important;
+}
+
+@media (max-width: 720px) {
   .hlc-kendrell-dedication-page {
     width: min(100% - 20px, 720px) !important;
     margin: 16px auto !important;
@@ -79,7 +97,9 @@
   }
 
   .hlc-kendrell-path-grid article {
+    width: 100% !important;
     min-height: 145px !important;
+    justify-self: stretch !important;
   }
 
   .hlc-kendrell-gallery-emblem {
