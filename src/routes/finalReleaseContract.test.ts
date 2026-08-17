@@ -80,3 +80,11 @@ test("iPhone installation metadata links the approved HLC icon", () => {
   assert.match(main, /register\("\/sw\.js", \{ updateViaCache: "none" \}\)/);
   assert.match(main, /registration\.update\(\)/);
 });
+
+test("installed iPhone navigation clears the status-bar safe area", () => {
+  assert.match(indexHtml, /viewport-fit=cover/);
+  assert.match(indexHtml, /apple-mobile-web-app-status-bar-style/);
+  assert.match(releaseGuard, /\.hlc-navbar \{[\s\S]*min-height: calc\(70px \+ env\(safe-area-inset-top\)\)/);
+  assert.match(releaseGuard, /padding: calc\(11px \+ env\(safe-area-inset-top\)\)/);
+  assert.match(releaseGuard, /\.hlc-mobile-portal \{[\s\S]*inset: calc\(70px \+ env\(safe-area-inset-top\)\)/);
+});
