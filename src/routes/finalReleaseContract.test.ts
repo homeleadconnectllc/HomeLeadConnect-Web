@@ -14,6 +14,7 @@ const professional = readFileSync("src/pages/ProfessionalApplication.tsx", "utf8
 const qaWorkflow = readFileSync(".github/workflows/netlify-e2e-qa-site.yml", "utf8");
 const turnstileConfig = readFileSync("src/lib/turnstile.ts", "utf8");
 const indexHtml = readFileSync("index.html", "utf8");
+const supabaseRuntime = readFileSync("src/lib/supabase.ts", "utf8");
 
 for (const [name, source] of [["Home", home], ["Pricing", journey], ["Legal", legal]] as const) {
   test(`${name} contains no legacy $99 subscription copy`, () => {
@@ -66,6 +67,8 @@ test("isolated QA never inherits production authentication runtime", () => {
   assert.doesNotMatch(qaWorkflow, /Load public runtime configuration from production Netlify site/);
   assert.match(turnstileConfig, /VITE_AUTH_CAPTCHA_REQUIRED/);
   assert.match(turnstileConfig, /import\.meta\.env\.PROD/);
+  assert.match(supabaseRuntime, /host === "app\.homeleadconnect\.org"/);
+  assert.doesNotMatch(supabaseRuntime, /endsWith\("\.netlify\.app"\)/);
 });
 
 test("iPhone installation metadata links the approved HLC icon", () => {
