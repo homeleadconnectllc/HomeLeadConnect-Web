@@ -1,0 +1,63 @@
+/* Agent panel width contract.
+ * Closed mobile presence may be compact; an OPEN agent must never inherit that narrow rail.
+ */
+
+@media (min-width: 721px) {
+  .hlc-agent-dock.is-open {
+    width: min(620px, calc(100vw - 48px));
+    max-width: min(620px, calc(100vw - 48px));
+  }
+
+  .hlc-agent-dock.is-open .hlc-agent-dock-panel {
+    width: 100%;
+    min-width: min(520px, calc(100vw - 48px));
+    max-width: none;
+    max-height: min(82vh, 820px);
+  }
+
+  .hlc-agent-dock.is-open .hlc-ai-transcript {
+    min-height: 280px;
+    max-height: min(48vh, 520px);
+  }
+}
+
+@media (max-width: 720px) {
+  .hlc-agent-dock.is-open {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    min-width: 100vw !important;
+    max-width: none !important;
+    height: 100dvh;
+    min-height: 100vh;
+    z-index: 3000;
+    justify-items: stretch !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-agent-dock-panel {
+    position: fixed !important;
+    top: max(58px, env(safe-area-inset-top)) !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    min-width: 100vw !important;
+    max-width: none !important;
+    height: auto !important;
+    max-height: none !important;
+    margin: 0 !important;
+    border-radius: 24px 24px 0 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .hlc-agent-dock.is-open .hlc-ai-chat,
+  .hlc-agent-dock.is-open .hlc-ai-composer,
+  .hlc-agent-dock.is-open .hlc-ai-transcript {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box;
+  }
+}
