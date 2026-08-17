@@ -7,7 +7,8 @@ const hubSections = [
     items: [
       { title: "Provider Directory", body: "Browse canonical provider records and service capabilities.", to: "/providers", action: "Browse providers" },
       { title: "Provider Map", body: "Explore stored provider locations without implying distance, routing, ETA, or live tracking.", to: "/map", action: "Open map" },
-      { title: "Matching", body: "Review HLC matching and eligibility evidence before assignment or scheduling.", to: "/matching", action: "Open matching" },
+      { title: "Community Matching", body: "Swipe through provider profiles. Like the people you want to revisit, pass on the rest, and open a full profile whenever you want more detail.", to: "/matching", action: "Start matching" },
+      { title: "Eligibility & Fit", body: "Review HLC service-area, availability, and eligibility evidence used for operational provider fit and assignment decisions.", to: "/network/eligibility", action: "Review fit evidence" },
       { title: "Service Areas", body: "See recorded coverage areas for providers in the HLC Network.", to: "/network/service-areas", action: "View service areas" },
       { title: "Availability", body: "Review provider availability records that have actually been stored in HLC.", to: "/network/availability", action: "View availability" },
       { title: "Saved Providers", body: "Keep providers you want to revisit in one connected list.", to: "/network/saved", action: "Open saved providers" },
@@ -38,13 +39,14 @@ export default function CommunityHub() {
       <header style={{ textAlign: "center", maxWidth: 900, margin: "0 auto 34px" }}>
         <p style={{ margin: "0 0 8px", fontWeight: 800, letterSpacing: ".08em", textTransform: "uppercase" }}>HomeLead Connect · Community + Network</p>
         <h1 style={{ margin: "0 0 14px", fontSize: "clamp(2.3rem, 6vw, 4.8rem)", lineHeight: .98 }}>Find. Connect. Participate.</h1>
-        <p style={{ margin: "0 auto", maxWidth: 780 }}>Community is the people-and-provider layer of HLC: discover provider records, explore locations and service coverage, participate in discussions and events, shop approved HLC merchandise, and use completion-linked trust signals without fabricated rankings or claims.</p>
+        <p style={{ margin: "0 auto", maxWidth: 780 }}>Community is the people-and-provider layer of HLC: swipe through provider profiles, explore locations and service coverage, participate in discussions and events, shop approved HLC merchandise, and use completion-linked trust signals without fabricated rankings or claims.</p>
       </header>
 
       <nav aria-label="Community quick navigation" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 10, marginBottom: 30 }}>
         <Link to="/providers">Directory</Link>
         <Link to="/map">Map</Link>
         <Link to="/matching">Matching</Link>
+        <Link to="/network/eligibility">Eligibility &amp; Fit</Link>
         <Link to="/community/discussions">Discussions</Link>
         <Link to="/community/reviews">Reviews</Link>
         <Link to="/community/events">Events</Link>
