@@ -94,6 +94,14 @@ export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
       ? agentHandoffCopy["dion:kendrell"]
       : agentHandoffCopy["kendrell:dion"];
 
+  function openAgentConversation() {
+    setGuidanceOpen(false);
+    window.setTimeout(() => {
+      document.getElementById(`${agentId}-chat-input`)?.focus();
+      document.getElementById(`${agentId}-chat-input`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 80);
+  }
+
   return <main className="hlc-agent-workspace" style={pageStyle}>
     {agentId === "kendrell" && <KendrellMemorial />}
     <header className="hlc-agent-command-hero" style={{ ...heroStyle, borderColor: agent.accent }}>
@@ -138,12 +146,16 @@ export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
     <button type="button" aria-label={`Open ${agent.name} help`} onClick={() => setGuidanceOpen(true)} style={{ ...floatingButtonStyle, borderColor: agent.accent }}><span aria-hidden="true">?</span><span>{agent.name}</span></button>
     {guidanceOpen && <div className="hlc-agent-guidance-overlay" role="presentation" style={overlayStyle} onMouseDown={(event) => { if (event.target === event.currentTarget) setGuidanceOpen(false); }}>
       <section className="hlc-agent-guidance-drawer" role="dialog" aria-modal="true" aria-labelledby={`${agentId}-guidance-title`} style={{ ...drawerStyle, borderColor: agent.accent }}>
-        <div className="hlc-agent-guidance-head"><div><p style={{ color: agent.accent, margin: 0 }}>{agent.role}</p><h2 id={`${agentId}-guidance-title`} style={{ marginTop: 4 }}>Guidance from {agent.name}</h2></div><button autoFocus type="button" aria-label="Close guidance" onClick={() => setGuidanceOpen(false)}>Close</button></div>
-        <p>{agent.introduction}</p>
-        <h3>How I can help</h3>
-        <ul style={{ display: "grid", gap: 12, paddingLeft: 22 }}>{agent.guidance.map((script) => <li key={script}>{script}</li>)}</ul>
+        <div className="hlc-agent-guidance-head"><div className="hlc-agent-guidance-identity"><img src={agent.image || "/hlc-logo-final.png"} alt="" aria-hidden="true" /><span><small>{agent.role}</small><strong id={`${agentId}-guidance-title`}>{agent.name} Command</strong><em>Online · workspace protected</em></span></div><button autoFocus type="button" aria-label="Close guidance" onClick={() => setGuidanceOpen(false)}>Close</button></div>
+        <div className="hlc-agent-guidance-intro"><span>Command guidance</span><h2>Make the next decision clear.</h2><p>{agent.introduction}</p></div>
+        <h3>How {agent.name} can help</h3>
+        <div className="hlc-agent-guidance-cards">{agent.guidance.map((script, index) => {
+          const item = guidanceExperience[agentId][index] ?? { icon: "◇", label: "Guide", summary: script };
+          return <details key={script}><summary><i aria-hidden="true">{item.icon}</i><span><small>{item.label}</small><strong>{item.summary}</strong></span><b aria-hidden="true">＋</b></summary><p>{script}</p></details>;
+        })}</div>
         {agentId !== "kendrell" && <p style={{ ...noticeStyle, margin: 0 }}>{handoffCopy}</p>}
-        <p style={{ color: "#64748b" }}>Guidance does not bypass workspace authorization, provider readiness, compliance, or HLC lifecycle rules. Use the capability controls on this page for persisted actions.</p>
+        <p className="hlc-agent-guidance-boundary">Guidance respects workspace authorization, provider readiness, compliance, and HLC lifecycle rules.</p>
+        <button className="hlc-agent-guidance-primary" type="button" onClick={openAgentConversation}>Ask {agent.name} about this</button>
       </section>
     </div>}
   </main>;
@@ -168,6 +180,27 @@ const capabilityExperience: Record<string, { title: string; description: string 
   kendrell_advisory_chat: { title: "Conversation with Kendrell", description: "A workspace-aware advisory conversation." },
   dion_advisory_chat: { title: "Conversation with Dion", description: "An operations-focused advisory conversation." },
   diamond_advisory_chat: { title: "Conversation with Diamond", description: "A customer-experience advisory conversation." },
+};
+
+const guidanceExperience: Record<AgentId, Array<{ icon: string; label: string; summary: string }>> = {
+  kendrell: [
+    { icon: "◎", label: "Analyze", summary: "Separate facts, risks, and unknowns" },
+    { icon: "↟", label: "Prioritize", summary: "Rank what needs attention first" },
+    { icon: "⇄", label: "Delegate", summary: "Route work to Dion or Diamond" },
+    { icon: "△", label: "Escalate", summary: "Identify blockers and owner decisions" },
+  ],
+  dion: [
+    { icon: "▦", label: "Operate", summary: "Review today's operating picture" },
+    { icon: "⌁", label: "Detect", summary: "Find workflow bottlenecks" },
+    { icon: "→", label: "Follow through", summary: "Turn plans into assigned next steps" },
+    { icon: "△", label: "Escalate", summary: "Send unresolved decisions to Kendrell" },
+  ],
+  diamond: [
+    { icon: "◌", label: "Understand", summary: "Clarify the customer context" },
+    { icon: "✦", label: "Respond", summary: "Prepare a clear human-reviewed reply" },
+    { icon: "♡", label: "Protect", summary: "Preserve trust, consent, and continuity" },
+    { icon: "⇄", label: "Handoff", summary: "Route operational needs to Dion" },
+  ],
 };
 
 function friendlyCapabilityName(id: string) {

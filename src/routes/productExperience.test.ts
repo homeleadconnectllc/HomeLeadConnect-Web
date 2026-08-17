@@ -293,4 +293,12 @@ test("mobile agent guidance is a complete scrollable sheet above fixed navigatio
   assert.match(mobileReleaseCss, /body\.hlc-agent-guidance-open :is\([\s\S]*\.hlc-mobile-tabbar[\s\S]*display: none !important;/);
   assert.match(mobileReleaseCss, /\.hlc-agent-guidance-drawer \{[\s\S]*height: 100dvh !important;[\s\S]*overflow-y: auto !important;/);
   assert.match(mobileReleaseCss, /\.hlc-agent-guidance-head > button \{[\s\S]*white-space: nowrap !important;/);
+  assert.match(agentWorkspace, /Make the next decision clear/);
+  assert.match(agentWorkspace, /Analyze/);
+  assert.match(agentWorkspace, /Prioritize/);
+  assert.match(agentWorkspace, /Delegate/);
+  assert.match(agentWorkspace, /Escalate/);
+  assert.match(agentWorkspace, /Ask \{agent\.name\} about this/);
+  assert.match(mobileReleaseCss, /\.hlc-agent-guidance-intro \{[\s\S]*linear-gradient/);
+  assert.match(mobileReleaseCss, /\.hlc-agent-guidance-cards details/);
 });
