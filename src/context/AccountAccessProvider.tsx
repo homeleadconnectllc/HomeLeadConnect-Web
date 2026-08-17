@@ -9,15 +9,10 @@ export function AccountAccessProvider({ children }: { children: ReactNode }) {
   const [access, setAccess] = useState<AccountAccess>(emptyAccountAccess);
 
   useEffect(() => {
-    if (authLoading) return;
-    if (!session) {
-      setAccess({ ...emptyAccountAccess, loading: false });
-      return;
-    }
+    if (authLoading || !session) return;
 
     let active = true;
     const userId = session.user.id;
-    setAccess({ ...emptyAccountAccess, userId, loading: true });
 
     void Promise.all([
       supabase.from("workspace_members").select("workspace_id").eq("user_id", userId).limit(1),
@@ -46,5 +41,13 @@ export function AccountAccessProvider({ children }: { children: ReactNode }) {
     return () => { active = false; };
   }, [authLoading, session]);
 
-  return <AccountAccessContext.Provider value={access}>{children}</AccountAccessContext.Provider>;
+  const value = authLoading
+    ? emptyAccountAccess
+    : !session
+      ? { ...emptyAccountAccess, loading: false }
+      : access.userId === session.user.id
+        ? access
+        : { ...emptyAccountAccess, userId: session.user.id };
+
+  return <AccountAccessContext.Provider value={value}>{children}</AccountAccessContext.Provider>;
 }
