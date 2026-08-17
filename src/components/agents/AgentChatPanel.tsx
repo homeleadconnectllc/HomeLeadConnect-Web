@@ -129,7 +129,11 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
     recognition.continuous = false;
     recognition.onresult = (event) => {
       const transcript = event.results[0]?.[0]?.transcript?.trim();
-      if (transcript) setDraft((current) => `${current}${current ? " " : ""}${transcript}`);
+      if (!transcript) return;
+      setDraft(transcript);
+      setListening(false);
+      recognitionRef.current = null;
+      void sendMessage(transcript);
     };
     recognition.onerror = (event) => {
       setError(event.error ? `Voice input error: ${event.error}` : "Voice input failed.");
@@ -142,7 +146,13 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
     recognitionRef.current = recognition;
     setListening(true);
     setError("");
-    recognition.start();
+    try {
+      recognition.start();
+    } catch (reason) {
+      recognitionRef.current = null;
+      setListening(false);
+      setError(errorMessage(reason, "Voice input could not start. Check Safari microphone permission and try again."));
+    }
   }
 
   return <section className="hlc-ai-chat" style={{ "--chat-agent-accent": accent } as CSSProperties} aria-labelledby={`${agentId}-chat-title`} data-presence={presence} data-agent-experience="premium-conversation-v2">
@@ -179,7 +189,7 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
       <label className="sr-only" htmlFor={`${agentId}-chat-input`}>Message {agentName}</label>
       <textarea id={`${agentId}-chat-input`} maxLength={4000} rows={2} value={draft} onChange={(event) => setDraft(event.target.value)} placeholder={`Message ${agentName}…`} />
       <div className="hlc-ai-composer-actions">
-        {recognitionSupported && <button className={`hlc-ai-icon-action ${listening ? "is-active" : ""}`} type="button" aria-pressed={listening} onClick={toggleDictation} title={listening ? "Stop listening" : "Voice input"}>{listening ? "■" : "🎤"}<span>{listening ? "Stop" : "Talk"}</span></button>}
+        {recognitionSupported && <button className={`hlc-ai-icon-action ${listening ? "is-active" : ""}`} type="button" aria-pressed={listening} onClick={toggleDictation} title={listening ? "Stop listening" : "Voice input"}>{listening ? "■" : "🎤"}<span>{listening ? "Listening…" : "Talk"}</span></button>}
         <details className="hlc-ai-settings">
           <summary title="Agent preferences">•••<span>Options</span></summary>
           <div>
