@@ -10,6 +10,8 @@ const finalReleaseGuard = readFileSync("src/styles/final-release-guard.css", "ut
 const mainEntry = readFileSync("src/main.tsx", "utf8");
 const mobileReleaseFix = readFileSync("src/styles/mobile-release-fix.css", "utf8");
 const tutorialDock = readFileSync("src/components/tutorials/LiveTutorialDock.tsx", "utf8");
+const agentChatPanel = readFileSync("src/components/agents/AgentChatPanel.tsx", "utf8");
+const agentPremium = readFileSync("src/styles/agent-premium-v2.css", "utf8");
 
 test("mobile contextual AI uses one compact route-resolved avatar above the work dock", () => {
   assert.match(dock, /const agent = useMemo\(\(\) => resolveAgent\(location\.pathname, access\)/);
@@ -50,6 +52,14 @@ test("production mobile overlays are exclusive, viewport-safe, and HLC blue", ()
   assert.match(mobileReleaseFix, /\.hlc-agent-dock\.is-open \.hlc-agent-dock-trigger \{[\s\S]*display: none !important;/);
   assert.match(mobileReleaseFix, /--chat-agent-accent: #3b82f6 !important;/);
   assert.match(mobileReleaseFix, /\.hlc-agent-dock\.is-open textarea \{[\s\S]*background: #fff !important;[\s\S]*color: #0f172a !important;/);
+});
+
+test("mobile agent voice controls remain readable and dictated questions submit immediately", () => {
+  assert.match(agentPremium, /\\.hlc-ai-settings\\[open\\] > div \\{[\\s\\S]*position: fixed/);
+  assert.match(agentPremium, /right: 16px;[\\s\\S]*left: 16px;/);
+  assert.match(agentPremium, /grid-template-columns: 24px minmax\\(0, 1fr\\)/);
+  assert.match(agentChatPanel, /void sendMessage\\(transcript\\)/);
+  assert.match(agentChatPanel, /Voice input could not start/);
 });
 
 test("mobile authentication uses one clean card with Safari-safe bottom space", () => {
