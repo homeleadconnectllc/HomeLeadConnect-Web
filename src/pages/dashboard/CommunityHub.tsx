@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import CommunityStore from "../../components/community/CommunityStore";
 
 const hubSections = [
   {
@@ -37,7 +38,7 @@ export default function CommunityHub() {
       <header style={{ textAlign: "center", maxWidth: 900, margin: "0 auto 34px" }}>
         <p style={{ margin: "0 0 8px", fontWeight: 800, letterSpacing: ".08em", textTransform: "uppercase" }}>HomeLead Connect · Community + Network</p>
         <h1 style={{ margin: "0 0 14px", fontSize: "clamp(2.3rem, 6vw, 4.8rem)", lineHeight: .98 }}>Find. Connect. Participate.</h1>
-        <p style={{ margin: "0 auto", maxWidth: 780 }}>Community is the people-and-provider layer of HLC: discover provider records, explore locations and service coverage, participate in discussions and events, and use completion-linked trust signals without fabricated rankings or claims.</p>
+        <p style={{ margin: "0 auto", maxWidth: 780 }}>Community is the people-and-provider layer of HLC: discover provider records, explore locations and service coverage, participate in discussions and events, shop approved HLC merchandise, and use completion-linked trust signals without fabricated rankings or claims.</p>
       </header>
 
       <nav aria-label="Community quick navigation" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 10, marginBottom: 30 }}>
@@ -47,6 +48,7 @@ export default function CommunityHub() {
         <Link to="/community/discussions">Discussions</Link>
         <Link to="/community/reviews">Reviews</Link>
         <Link to="/community/events">Events</Link>
+        <a href="#hlc-store-heading">HLC Store</a>
       </nav>
 
       {hubSections.map((section) => (
@@ -65,6 +67,8 @@ export default function CommunityHub() {
           </div>
         </section>
       ))}
+
+      <CommunityStore />
 
       <section style={{ marginTop: 32, padding: 24, borderRadius: 20, background: "#0f172a", color: "#e2e8f0", textAlign: "center" }}>
         <h2 style={{ color: "#fff", marginTop: 0 }}>Ready to move from discovery to service?</h2>
