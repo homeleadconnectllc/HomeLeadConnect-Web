@@ -32,6 +32,8 @@ const contrastContract = readFileSync("src/styles/contrast-contract.css", "utf8"
 const mainEntry = readFileSync("src/main.tsx", "utf8");
 const agentWorkspace = readFileSync("src/pages/dashboard/AgentWorkspace.tsx", "utf8");
 const agentTeamCss = readFileSync("src/styles/agent-team.css", "utf8");
+const dedication = readFileSync("src/pages/dashboard/KendrellDedication.tsx", "utf8");
+const pageMap = readFileSync("src/config/pageMap.ts", "utf8");
 
 test("all routed HLC page content remains globally centered", () => {
   assert.match(responsiveContract, /\.hlc-route-content > main,\s*\.hlc-route-content > main \* \{\s*text-align: center !important;/s);
@@ -93,13 +95,17 @@ test("mobile workspace exposes a persistent remote-work action dock", () => {
 });
 
 test("Kendrell HQ separates the family memorial from the operational AI workspace", () => {
-  assert.match(agentWorkspace, /In loving memory/);
-  assert.match(agentWorkspace, /Kendrell Charles Washington/);
-  assert.match(agentWorkspace, /December 6, 1991 — November 17, 2010/);
-  assert.match(agentWorkspace, /created by his brother, Antoine Washington/);
-  assert.match(agentWorkspace, /Harrisburg High School graduate/);
-  assert.match(agentWorkspace, /HACC student/);
-  assert.match(agentWorkspace, /Aspiring music artist/);
+  assert.match(agentWorkspace, /<KendrellMemorial \/>/);
+  assert.match(dedication, /In loving memory/);
+  assert.match(dedication, /Kendrell Charles Washington/);
+  assert.match(dedication, /December 6, 1991 — November 17, 2010/);
+  assert.match(dedication, /created by his brother, Antoine Washington/);
+  assert.match(dedication, /Harrisburg High School graduate/);
+  assert.match(dedication, /HACC student/);
+  assert.match(dedication, /Aspiring music artist/);
+  assert.match(dedication, /to="\/hq\/dedication"/);
+  assert.match(dedication, /to="\/hq"/);
+  assert.match(pageMap, /page\("Kendrell Dedication", "\/hq\/dedication"/);
   assert.match(agentWorkspace, /Symbolic Kendrell AI visual — not a historical photograph/);
   assert.match(agentTeamCss, /\.hlc-kendrell-memorial/);
   assert.match(agentTeamCss, /\.hlc-agent-command-hero/);

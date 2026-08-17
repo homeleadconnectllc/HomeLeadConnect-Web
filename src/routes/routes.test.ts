@@ -38,6 +38,13 @@ test("canonical protected AI routes remain declared once", () => {
   }
 });
 
+test("Kendrell dedication and command are separate explicit destinations", () => {
+  assert.equal((router.match(/path="\/hq\/dedication"/g) ?? []).length, 1);
+  assert.equal((router.match(/path="\/hq"/g) ?? []).length, 1);
+  assert.match(router, /path="\/hq\/dedication" element=\{<KendrellDedication\/>\}/);
+  assert.match(router, /path="\/hq" element=\{<AgentWorkspace agentId="kendrell"\/>\}/);
+});
+
 test("canonical golden workflow route remains declared once", () => {
   assert.equal([...router.matchAll(/path="\/workflow"/g)].length, 1);
 });

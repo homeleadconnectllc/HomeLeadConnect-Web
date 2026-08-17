@@ -1,5 +1,68 @@
 /* Production mobile release contract. This file is intentionally loaded last. */
 @media (max-width: 720px) {
+  .hlc-kendrell-dedication-page {
+    width: min(100% - 24px, 720px) !important;
+    margin: 16px auto !important;
+    padding-bottom: calc(110px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .hlc-kendrell-memorial.is-standalone {
+    min-height: calc(100dvh - 210px) !important;
+    align-content: center !important;
+  }
+
+  .hlc-kendrell-memorial-links {
+    display: flex !important;
+    justify-content: center !important;
+    margin-top: 18px !important;
+  }
+
+  .hlc-kendrell-memorial-links a {
+    display: inline-flex !important;
+    min-height: 48px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 10px 16px !important;
+    border: 1px solid #5b8bff !important;
+    border-radius: 999px !important;
+    background: #0c1d39 !important;
+    color: #fff !important;
+    text-decoration: none !important;
+  }
+
+  .hlc-agent-workspace > .hlc-ai-chat {
+    gap: 12px !important;
+    padding: 16px !important;
+  }
+
+  .hlc-agent-workspace > .hlc-ai-chat .hlc-ai-transcript {
+    min-height: 0 !important;
+    max-height: 44dvh !important;
+    padding: 12px !important;
+  }
+
+  .hlc-agent-workspace > .hlc-ai-chat .hlc-ai-quick-prompts {
+    gap: 8px !important;
+  }
+
+  .hlc-agent-workspace > .hlc-ai-chat .hlc-ai-quick-prompts button {
+    min-height: 46px !important;
+    padding: 9px 12px !important;
+    font-size: 14px !important;
+  }
+
+  .hlc-agent-workspace > .hlc-ai-chat .hlc-ai-composer {
+    width: 100% !important;
+    max-width: 520px !important;
+    margin-inline: auto !important;
+    padding: 12px !important;
+  }
+
+  .hlc-agent-workspace > .hlc-ai-chat textarea {
+    min-height: 82px !important;
+    max-height: 120px !important;
+  }
+
   /* The public navbar already carries the brand. Keep one clean account card. */
   .hlc-auth-shell {
     display: block !important;
