@@ -3,6 +3,8 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const callCenter = readFileSync("src/pages/dashboard/CallCenter.tsx", "utf8");
+const manualCommunications = readFileSync("src/pages/dashboard/ManualCommunications.tsx", "utf8");
+const postCallAutomation = readFileSync("src/lib/postCallAutomation.ts", "utf8");
 const messages = readFileSync("src/pages/dashboard/Messages.tsx", "utf8");
 const communityHub = readFileSync("src/pages/dashboard/CommunityHub.tsx", "utf8");
 const communityStore = readFileSync("src/components/community/CommunityStore.tsx", "utf8");
@@ -13,6 +15,18 @@ test("Call Center exposes persisted call history and outcome log without a dupli
   assert.match(callCenter, />Call Log</);
   assert.match(callCenter, />Call History</);
   assert.match(callCenter, /Save to call log/);
+});
+
+test("free Google Voice handoff returns to a one-tap canonical outcome and follow-up flow", () => {
+  assert.match(manualCommunications, /startCallHandoff/);
+  assert.match(manualCommunications, /SMART POST-CALL/);
+  assert.match(manualCommunications, /quickSaveOutcome/);
+  assert.match(manualCommunications, /logManualCommunicationActivity/);
+  assert.match(manualCommunications, /createFollowUp/);
+  assert.match(postCallAutomation, /window\.sessionStorage/);
+  assert.match(postCallAutomation, /No answer/);
+  assert.match(postCallAutomation, /Callback requested/);
+  assert.match(postCallAutomation, /suggestedFollowUpLocal/);
 });
 
 test("Messages exposes persisted chat history from canonical conversations", () => {
