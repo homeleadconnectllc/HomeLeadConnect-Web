@@ -61,9 +61,10 @@ test("company rollout operating guides remain declared and actionable", () => {
   assert.match(operationalGuide, /Incident response/);
 });
 
-test("responsive page contract is followed by compatibility fallbacks and the final narrow-mobile release guard", () => {
+test("responsive page contract is followed by HLC brand lock, compatibility fallbacks and the final narrow-mobile release guard", () => {
   const importLines = [...mainEntry.matchAll(/import "\.\/styles\/([^"]+\.css)";/g)].map((match) => match[1]);
-  assert.equal(importLines.at(-3), "responsive-page-contract.css");
+  assert.equal(importLines.at(-4), "responsive-page-contract.css");
+  assert.equal(importLines.at(-3), "hlc-brand-lock.css");
   assert.equal(importLines.at(-2), "legacy-device-compat.css");
   assert.equal(importLines.at(-1), "final-release-guard.css");
   assert.match(responsiveContract, /\.hlc-route-content > main/);
