@@ -8,7 +8,7 @@ const workspaceV4 = readFileSync("src/styles/workspace-premium-v4.css", "utf8");
 test("workspace v4 loads after final mobile and release guards", () => {
   assert.match(
     mainEntry,
-    /final-release-guard\.css";\s*import "\.\/styles\/mobile-release-fix\.css";\s*import "\.\/styles\/workspace-premium-v4\.css";/,
+    /final-release-guard\.css";\s*import "\.\/styles\/mobile-release-fix\.css";\s*import ['"]\.\/styles\/workspace-premium-v4\.css['"];/,
   );
 });
 
