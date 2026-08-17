@@ -56,6 +56,13 @@ test("mobile contextual agent controls do not automatically cover business conte
   assert.match(contextualDockCss, /\.hlc-agent-dock-trigger span \{[\s\S]*display: grid/);
 });
 
+test("device alerts and contextual agents use separate safe viewport lanes", () => {
+  assert.match(notificationCenter, /className="hlc-device-alert-center"/);
+  assert.match(notificationCenter, /window\.setTimeout\(\(\) => setPushStatus\(""\), 5000\)/);
+  assert.match(contextualDockCss, /\.hlc-device-alert-center \{[\s\S]*bottom: max\(22px, env\(safe-area-inset-bottom\)\);[\s\S]*left: max\(22px, env\(safe-area-inset-left\)\)/);
+  assert.match(contextualDockCss, /@media \(min-width: 721px\) and \(max-width: 1100px\)[\s\S]*\.hlc-agent-dock:not\(\.is-open\)/);
+});
+
 test("internal-only mobile routes retain an agent while role resolution completes", () => {
   assert.match(contextualDock, /const internalFallbackPrefixes = \[/);
   assert.match(contextualDock, /"\/dashboard"/);
