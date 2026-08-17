@@ -191,15 +191,18 @@ export default function Dashboard() {
     if (!session) return;
     let active = true;
     const userId = session.user.id;
-    supabase.from("profiles").select("role").eq("user_id", userId).maybeSingle().then(({ data: profile, error }) => {
-      if (!active) return;
-      setRole(error ? null : normalizeInternalRole(profile?.role));
-      setRoleResolvedFor(userId);
-    }).catch(() => {
-      if (!active) return;
-      setRole(null);
-      setRoleResolvedFor(userId);
-    });
+    void supabase.from("profiles").select("role").eq("user_id", userId).maybeSingle().then(
+      ({ data: profile, error }) => {
+        if (!active) return;
+        setRole(error ? null : normalizeInternalRole(profile?.role));
+        setRoleResolvedFor(userId);
+      },
+      () => {
+        if (!active) return;
+        setRole(null);
+        setRoleResolvedFor(userId);
+      },
+    );
     return () => { active = false; };
   }, [session]);
 
