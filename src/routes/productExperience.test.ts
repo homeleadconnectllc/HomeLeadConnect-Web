@@ -113,7 +113,9 @@ test("Kendrell HQ separates the family memorial from the operational AI workspac
   assert.match(dedication, /Only family-approved and verified details are presented as history/);
   assert.match(dedication, /A place reserved for authentic memories/);
   assert.match(dedication, /HLC will not replace real family memories with generated images/);
-  assert.match(mobileReleaseCss, /body\.hlc-dedication-view :is\(\.hlc-work-dock, \.hlc-mobile-tabbar, \.hlc-agent-dock\)/);
+  assert.match(mobileReleaseCss, /body\.hlc-dedication-view :is\(\.hlc-mobile-work-dock, \.hlc-work-dock, \.hlc-mobile-tabbar, \.hlc-agent-dock\)/);
+  assert.match(mobileReleaseCss, /\.hlc-route-content \.hlc-kendrell-path-grid article h3 \{[\s\S]*color: #ffffff !important;/);
+  assert.match(mobileReleaseCss, /\.hlc-kendrell-memorial-mark span \{[\s\S]*white-space: nowrap !important;/);
   assert.match(pageMap, /page\("Kendrell Dedication", "\/hq\/dedication"/);
   assert.match(agentWorkspace, /Symbolic Kendrell AI visual — not a historical photograph/);
   assert.match(agentTeamCss, /\.hlc-kendrell-memorial/);
