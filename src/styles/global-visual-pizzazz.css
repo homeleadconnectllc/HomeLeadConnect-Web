@@ -112,9 +112,247 @@
   background: rgba(248,250,252,.72);
 }
 
-/* Legal / long-form informational surfaces need warmth and readable contrast. */
-.hlc-route-content :is([class*="legal"], [class*="privacy"], [class*="terms"]) :is(article, section, .hlc-premium-panel) {
-  background: linear-gradient(155deg, rgba(255,255,255,.99), rgba(239,246,255,.97));
+/* Jobs and leads: turn plain records into high-signal workspace cards. */
+.hlc-route-content .hlc-job-card,
+.hlc-route-content .hlc-lead-card {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(56,189,248,.13), transparent 13rem),
+    linear-gradient(155deg, #ffffff, #f7fbff 72%) !important;
+  border: 1px solid rgba(96,165,250,.28) !important;
+  border-radius: 24px !important;
+  padding: clamp(20px, 3vw, 28px) !important;
+  box-shadow: 0 20px 50px rgba(15,23,42,.10), 0 6px 18px rgba(37,99,235,.07) !important;
+}
+
+.hlc-route-content .hlc-job-card h3,
+.hlc-route-content .hlc-lead-card h3 {
+  font-size: clamp(1.28rem, 3vw, 1.7rem);
+  color: #0b1630;
+}
+
+.hlc-route-content .hlc-job-card small,
+.hlc-route-content .hlc-lead-card small {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 5px;
+  padding: 6px 10px;
+  border: 1px solid #dbeafe;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #1e40af;
+  font-weight: 800;
+}
+
+.hlc-route-content .hlc-job-card-actions,
+.hlc-route-content .hlc-lead-card-actions {
+  gap: 10px !important;
+}
+
+.hlc-route-content .hlc-job-card-actions > *,
+.hlc-route-content .hlc-lead-card-actions > * {
+  min-height: 48px;
+  border-radius: 16px !important;
+}
+
+.hlc-route-content .hlc-job-open,
+.hlc-route-content .hlc-lead-card-actions > a:first-child {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 11px 16px;
+  color: #fff !important;
+  text-decoration: none;
+  background: linear-gradient(135deg, #2563eb, #3b82f6 58%, #0891b2) !important;
+  border: 1px solid transparent !important;
+  box-shadow: 0 10px 24px rgba(37,99,235,.18);
+}
+
+/* Call center: make carrier readiness feel like a command center, not a form. */
+.hlc-route-content .hlc-call-center-page > h1 {
+  margin-bottom: 8px;
+  font-size: clamp(2rem, 5vw, 3rem);
+}
+
+.hlc-route-content .hlc-google-voice-companion,
+.hlc-route-content .hlc-call-center-record {
+  position: relative;
+  overflow: hidden;
+  border-radius: 24px !important;
+  border-color: rgba(56,189,248,.35) !important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(34,211,238,.17), transparent 18rem),
+    linear-gradient(145deg, #f8fbff 0%, #eef8ff 52%, #f0fdfa 100%) !important;
+  box-shadow: 0 20px 52px rgba(15,23,42,.10), 0 6px 18px rgba(14,165,233,.08) !important;
+}
+
+.hlc-route-content .hlc-google-voice-companion::before,
+.hlc-route-content .hlc-call-center-record::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+  background: linear-gradient(90deg, #2563eb, #22d3ee, #34d399);
+}
+
+.hlc-route-content .hlc-call-center-record {
+  padding: clamp(18px, 3vw, 24px);
+}
+
+.hlc-route-content .hlc-call-center-record > div:last-child :is(a, button),
+.hlc-route-content .hlc-google-voice-companion :is(a, button) {
+  border-radius: 14px !important;
+  box-shadow: 0 7px 18px rgba(15,23,42,.06);
+}
+
+/* Audio device center: convert utilitarian controls into a friendly readiness card. */
+.hlc-route-content section[aria-labelledby="hlc-audio-device-title"] {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(96,165,250,.30) !important;
+  border-radius: 26px !important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(52,211,153,.12), transparent 17rem),
+    linear-gradient(155deg, #fff, #f4f9ff 70%) !important;
+  box-shadow: 0 22px 58px rgba(15,23,42,.10), 0 6px 20px rgba(37,99,235,.07) !important;
+}
+
+.hlc-route-content section[aria-labelledby="hlc-audio-device-title"]::before {
+  content: "AUDIO READY";
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  color: #047857;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .09em;
+}
+
+.hlc-route-content section[aria-labelledby="hlc-audio-device-title"] label {
+  padding: 14px;
+  border: 1px solid #dbeafe;
+  border-radius: 18px;
+  background: rgba(255,255,255,.82);
+}
+
+/* Messages: distinct conversation zones and a welcoming compose card. */
+.hlc-route-content .hlc-messages-conversations,
+.hlc-route-content .hlc-messages-thread,
+.hlc-route-content .hlc-message-start {
+  border: 1px solid rgba(96,165,250,.26) !important;
+  border-radius: 24px !important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(56,189,248,.10), transparent 14rem),
+    linear-gradient(160deg, #fff, #f7fbff) !important;
+  box-shadow: 0 18px 45px rgba(15,23,42,.08), 0 5px 16px rgba(37,99,235,.05);
+}
+
+.hlc-route-content .hlc-messages-conversations > button {
+  border: 1px solid #dbeafe;
+  border-radius: 16px;
+  background: #f8fbff;
+}
+
+.hlc-route-content .hlc-message-bubble {
+  border: 1px solid #e2e8f0;
+  border-radius: 18px !important;
+  background: #f8fafc !important;
+}
+
+.hlc-route-content .hlc-message-bubble-self {
+  border-color: #bfdbfe;
+  background: linear-gradient(135deg, #eff6ff, #ecfeff) !important;
+}
+
+.hlc-route-content .hlc-message-start > h2,
+.hlc-route-content .hlc-messages-conversations > h2 {
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.hlc-route-content .hlc-message-start > h2::after,
+.hlc-route-content .hlc-messages-conversations > h2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 64px;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #2563eb, #22d3ee);
+}
+
+/* Public/accessibility cards: add variation so long informational pages do not feel repetitive. */
+.hlc-public-grid .hlc-public-card:nth-child(3n + 1) {
+  background: linear-gradient(155deg, #fff, #eff6ff);
+}
+.hlc-public-grid .hlc-public-card:nth-child(3n + 2) {
+  background: linear-gradient(155deg, #fff, #ecfeff);
+}
+.hlc-public-grid .hlc-public-card:nth-child(3n) {
+  background: linear-gradient(155deg, #fff, #ecfdf5);
+}
+.hlc-public-grid .hlc-public-card {
+  border-radius: 24px;
+  box-shadow: 0 18px 46px rgba(15,23,42,.09), 0 5px 16px rgba(37,99,235,.05);
+}
+
+/* Legal pages stay serious, but should feel like premium editorial cards, never muddy dark-on-dark. */
+.hlc-route-content .hlc-legal-page .hlc-legal-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(125,211,252,.34) !important;
+  border-radius: 28px !important;
+  background:
+    radial-gradient(circle at 100% 0%, rgba(34,211,238,.18), transparent 19rem),
+    radial-gradient(circle at 0% 100%, rgba(37,99,235,.18), transparent 20rem),
+    linear-gradient(155deg, #08172d 0%, #0b2139 58%, #0b2a3e 100%) !important;
+  box-shadow: 0 28px 70px rgba(2,6,23,.24), 0 8px 24px rgba(37,99,235,.12) !important;
+}
+
+.hlc-route-content .hlc-legal-page .hlc-legal-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+  background: linear-gradient(90deg, #3b82f6, #22d3ee, #34d399);
+}
+
+.hlc-route-content .hlc-legal-page .hlc-legal-card :is(h1,h2,h3,h4,strong) {
+  color: #ffffff !important;
+  text-shadow: 0 7px 22px rgba(2,6,23,.24);
+}
+
+.hlc-route-content .hlc-legal-page .hlc-legal-card h1 {
+  font-size: clamp(1.9rem, 5vw, 2.8rem);
+  line-height: 1.04;
+  letter-spacing: -.045em;
+}
+
+.hlc-route-content .hlc-legal-page .hlc-legal-card :is(p,li,small) {
+  color: #dbeafe !important;
+}
+
+.hlc-route-content .hlc-legal-page .hlc-legal-card a {
+  color: #67e8f9 !important;
+}
+
+.hlc-route-content .hlc-legal-page .hlc-legal-card .hlc-legal-warning,
+.hlc-route-content .hlc-legal-page [class*="warning"] {
+  border-color: rgba(251,191,36,.45) !important;
+  background: linear-gradient(135deg, rgba(120,53,15,.30), rgba(69,26,3,.22)) !important;
+}
+
+/* Home/public hero: give the front door statement a branded atmosphere. */
+.hlc-home,
+.hlc-public-page {
+  background:
+    radial-gradient(circle at 50% 8%, rgba(56,189,248,.13), transparent 25rem),
+    radial-gradient(circle at 92% 32%, rgba(52,211,153,.07), transparent 22rem),
+    linear-gradient(180deg, #fbfdff, #f2f7ff 58%, #f8fbff);
 }
 
 /* Tactile desktop polish. */
@@ -145,6 +383,43 @@
   .hlc-route-content h1 {
     letter-spacing: -.04em;
   }
+
+  .hlc-route-content .hlc-job-card,
+  .hlc-route-content .hlc-lead-card {
+    align-items: stretch !important;
+    text-align: left;
+  }
+
+  .hlc-route-content .hlc-job-card-actions,
+  .hlc-route-content .hlc-lead-card-actions {
+    width: 100%;
+  }
+
+  .hlc-route-content .hlc-job-card-actions > *,
+  .hlc-route-content .hlc-lead-card-actions > * {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .hlc-route-content .hlc-call-center-record,
+  .hlc-route-content .hlc-google-voice-companion,
+  .hlc-route-content .hlc-messages-conversations,
+  .hlc-route-content .hlc-messages-thread,
+  .hlc-route-content .hlc-message-start,
+  .hlc-route-content section[aria-labelledby="hlc-audio-device-title"] {
+    border-radius: 22px !important;
+  }
+
+  .hlc-route-content section[aria-labelledby="hlc-audio-device-title"]::before {
+    position: static;
+    display: inline-flex;
+    margin-bottom: 12px;
+  }
+
+  .hlc-route-content .hlc-legal-page .hlc-legal-card {
+    border-radius: 24px !important;
+    padding: 24px 20px !important;
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -155,7 +430,10 @@
 
 @media (prefers-reduced-motion: reduce), (forced-colors: active) {
   .hlc-route-content > main::before,
-  .hlc-route-content :is(.hlc-premium-panel, .hlc-premium-callout, [class*="card"]):not([class*="agent"])::after {
+  .hlc-route-content :is(.hlc-premium-panel, .hlc-premium-callout, [class*="card"]):not([class*="agent"])::after,
+  .hlc-route-content .hlc-google-voice-companion::before,
+  .hlc-route-content .hlc-call-center-record::before,
+  .hlc-route-content .hlc-legal-page .hlc-legal-card::before {
     display: none;
   }
 }
