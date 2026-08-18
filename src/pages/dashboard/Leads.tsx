@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
-import { Search, SlidersHorizontal, UsersRound } from "lucide-react";
-import { listLeads, type LeadRecord } from "../../api/leads";
+import { FormEvent, useEffect, useMemo, useState } from "react";
+import { Plus, Search, SlidersHorizontal, UsersRound } from "lucide-react";
+import { createLead, listLeads, type LeadRecord } from "../../api/leads";
 import LeadCard from "../../components/leads/LeadCard";
 import { errorMessage } from "../../lib/errorMessage";
 
@@ -9,15 +9,48 @@ export default function Leads() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [query, setQuery] = useState("");
+  const [showAddLead, setShowAddLead] = useState(false);
+  const [savingLead, setSavingLead] = useState(false);
+  const [createError, setCreateError] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [notes, setNotes] = useState("");
+
+  async function refreshLeads() {
+    setError("");
+    try {
+      setLeads(await listLeads());
+    } catch (reason: unknown) {
+      setError(errorMessage(reason, "Unable to load leads."));
+    } finally {
+      setLoading(false);
+    }
+  }
 
   useEffect(() => {
-    listLeads()
-      .then(setLeads)
-      .catch((reason: unknown) =>
-        setError(errorMessage(reason, "Unable to load leads.")),
-      )
-      .finally(() => setLoading(false));
+    void refreshLeads();
   }, []);
+
+  async function handleCreateLead(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setCreateError("");
+    setSavingLead(true);
+    try {
+      await createLead({ fullName, phone, email, notes });
+      setFullName("");
+      setPhone("");
+      setEmail("");
+      setNotes("");
+      setShowAddLead(false);
+      setLoading(true);
+      await refreshLeads();
+    } catch (reason: unknown) {
+      setCreateError(errorMessage(reason, "Unable to create lead."));
+    } finally {
+      setSavingLead(false);
+    }
+  }
 
   const visibleLeads = useMemo(() => {
     const normalized = query.trim().toLowerCase();
@@ -75,8 +108,36 @@ export default function Leads() {
             placeholder="Search name, contact, stage, priority, source, or lead code"
           />
         </label>
+        <button type="button" onClick={() => setShowAddLead((value) => !value)}>
+          <Plus size={17} aria-hidden="true" /> {showAddLead ? "Cancel" : "Add lead"}
+        </button>
         <span className="hlc-leads-view-label"><SlidersHorizontal size={17} aria-hidden="true" /> Active pipeline</span>
       </section>
+
+      {showAddLead && (
+        <form onSubmit={handleCreateLead} aria-label="Add lead" style={formStyle}>
+          <label>
+            Name
+            <input value={fullName} onChange={(event) => setFullName(event.target.value)} required minLength={2} autoComplete="name" />
+          </label>
+          <label>
+            Phone
+            <input value={phone} onChange={(event) => setPhone(event.target.value)} required inputMode="tel" autoComplete="tel" />
+          </label>
+          <label>
+            Email
+            <input value={email} onChange={(event) => setEmail(event.target.value)} type="email" autoComplete="email" />
+          </label>
+          <label style={{ gridColumn: "1 / -1" }}>
+            Notes
+            <textarea value={notes} onChange={(event) => setNotes(event.target.value)} maxLength={4000} rows={3} />
+          </label>
+          {createError && <p role="alert" style={{ color: "#b91c1c", gridColumn: "1 / -1" }}>{createError}</p>}
+          <div style={{ gridColumn: "1 / -1" }}>
+            <button type="submit" disabled={savingLead}>{savingLead ? "Adding…" : "Add lead"}</button>
+          </div>
+        </form>
+      )}
 
       <div className="hlc-leads-column-head" aria-hidden="true">
         <span>Homeowner</span><span>Pipeline status</span><span>Next actions</span>
@@ -98,4 +159,11 @@ const pageStyle = {
   width: "min(1000px, calc(100% - 48px))",
   margin: "40px auto",
   fontFamily: "system-ui, sans-serif",
+};
+
+const formStyle = {
+  display: "grid",
+  gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+  gap: 12,
+  margin: "0 0 20px",
 };
