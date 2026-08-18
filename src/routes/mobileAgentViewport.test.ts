@@ -7,11 +7,11 @@ const placement = readFileSync("src/styles/mobile-agent-placement-contract.css",
 test("full mobile agents keep the composer inside the dynamic visual viewport", () => {
   assert.match(
     placement,
-    /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-agent-dock-panel \{[\s\S]*top: max\(8px, env\(safe-area-inset-top\)\) !important;[\s\S]*bottom: max\(12px, env\(safe-area-inset-bottom\)\) !important;[\s\S]*height: calc\(100dvh - max\(8px, env\(safe-area-inset-top\)\) - max\(12px, env\(safe-area-inset-bottom\)\)\) !important;/,
+    /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-agent-dock-panel \{[\s\S]*top: max\(8px, env\(safe-area-inset-top\)\) !important;[\s\S]*bottom: auto !important;[\s\S]*height: auto !important;[\s\S]*max-height: calc\(100dvh - max\(8px, env\(safe-area-inset-top\)\) - max\(12px, env\(safe-area-inset-bottom\)\)\) !important;/,
   );
   assert.match(
     placement,
-    /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-ai-transcript \{[\s\S]*min-height: 0 !important;[\s\S]*overflow-y: auto !important;/,
+    /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-ai-transcript \{[\s\S]*min-height: 0 !important;[\s\S]*max-height: min\(38dvh, 320px\) !important;[\s\S]*overflow-y: auto !important;/,
   );
   assert.match(
     placement,
@@ -20,7 +20,7 @@ test("full mobile agents keep the composer inside the dynamic visual viewport", 
   assert.match(placement, /body\.hlc-agent-open \{[\s\S]*overflow: hidden !important;[\s\S]*overscroll-behavior: none !important;/);
 });
 
-test("full mobile agents do not reserve a giant empty interior lane", () => {
+test("full mobile agents do not reserve empty space above or below the composer", () => {
   assert.match(
     placement,
     /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-agent-tutorial \{[\s\S]*flex-grow: 0 !important;[\s\S]*min-height: 0 !important;[\s\S]*max-height: min\(15dvh, 104px\) !important;/,
@@ -28,6 +28,10 @@ test("full mobile agents do not reserve a giant empty interior lane", () => {
   assert.match(
     placement,
     /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-ai-transcript:empty \{[\s\S]*flex: 0 0 12px !important;[\s\S]*max-height: 12px !important;/,
+  );
+  assert.match(
+    placement,
+    /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-ai-chat \{[\s\S]*flex: 0 1 auto !important;[\s\S]*padding-bottom: 18px !important;/,
   );
 });
 

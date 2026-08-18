@@ -65,10 +65,11 @@
 
   .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-ai-chat {
     display: flex !important;
-    flex: 1 1 auto !important;
+    flex: 0 1 auto !important;
     flex-direction: column !important;
     min-height: 0 !important;
     overflow: hidden !important;
+    padding-bottom: 18px !important;
   }
 
   .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-ai-chat-head {
@@ -76,8 +77,9 @@
   }
 
   .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-ai-transcript {
-    flex: 1 1 auto !important;
+    flex: 0 1 auto !important;
     min-height: 0 !important;
+    max-height: min(38dvh, 320px) !important;
     overflow-y: auto !important;
     overscroll-behavior: contain !important;
     -webkit-overflow-scrolling: touch;
@@ -98,15 +100,14 @@
   }
 
   /* Final full-agent visual-viewport contract.
-   * The open work dock is already hidden by mobile-release-fix.css, so the full
-   * agent does not reserve its old 112px lane. Dynamic viewport units track
-   * Safari chrome and keyboard changes; the background page is locked so users
-   * never have to hold the document scrolled upward to reach the composer.
+   * The sheet may grow toward the visual viewport ceiling, but it no longer
+   * stretches to fill unused height below the composer. This preserves Safari
+   * safe-area behavior while letting the panel hug its actual content.
    */
   .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-agent-dock-panel {
     top: max(8px, env(safe-area-inset-top)) !important;
-    bottom: max(12px, env(safe-area-inset-bottom)) !important;
-    height: calc(100dvh - max(8px, env(safe-area-inset-top)) - max(12px, env(safe-area-inset-bottom))) !important;
+    bottom: auto !important;
+    height: auto !important;
     max-height: calc(100dvh - max(8px, env(safe-area-inset-top)) - max(12px, env(safe-area-inset-bottom))) !important;
   }
 
@@ -122,10 +123,6 @@
     min-height: 0 !important;
     max-height: min(15dvh, 104px) !important;
     margin-block: 0 !important;
-  }
-
-  .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-ai-transcript {
-    min-height: 0 !important;
   }
 
   .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-ai-composer {
