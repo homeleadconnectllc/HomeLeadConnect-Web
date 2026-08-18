@@ -1,9 +1,17 @@
 import { Link } from "react-router-dom";
 import { Calculator, CalendarClock, Mail, Phone } from "lucide-react";
-import type { Lead } from "../../lib/types/database";
+import type { LeadRecord } from "../../api/leads";
 import PortalInviteButton from "../portal/PortalInviteButton";
 
-export default function LeadCard({ lead }: { lead: Lead }) {
+export default function LeadCard({ lead }: { lead: LeadRecord }) {
+  const pipelineLabel = lead.stage || lead.status || "new";
+  const appointmentLabel = lead.appointment_at
+    ? new Intl.DateTimeFormat(undefined, {
+        dateStyle: "medium",
+        timeStyle: "short",
+      }).format(new Date(lead.appointment_at))
+    : null;
+
   return (
     <article className="responsive-record-card hlc-lead-card" style={cardStyle}>
       <div className="hlc-lead-card-copy">
@@ -14,9 +22,19 @@ export default function LeadCard({ lead }: { lead: Lead }) {
             {lead.email && <span><Mail size={14} aria-hidden="true" />{lead.email}</span>}
             {lead.phone && <span><Phone size={14} aria-hidden="true" />{lead.phone}</span>}
           </p>
+          <div className="hlc-lead-context" aria-label="Lead context">
+            {lead.lead_code && <span>#{lead.lead_code}</span>}
+            {lead.source && <span>Source: {lead.source}</span>}
+            {lead.priority && <span>Priority: {lead.priority}</span>}
+            {appointmentLabel && <span>Appointment: {appointmentLabel}</span>}
+          </div>
         </div>
       </div>
-      <div className="hlc-lead-status-cell"><small>Status</small><strong>{lead.status || "new"}</strong></div>
+      <div className="hlc-lead-status-cell">
+        <small>Pipeline</small>
+        <strong>{pipelineLabel}</strong>
+        {lead.sla_status && <span className="hlc-lead-sla">SLA: {lead.sla_status}</span>}
+      </div>
       <div className="hlc-lead-card-actions" style={{ display: "grid", gap: 8 }}>
         <Link className="hlc-lead-primary-action" to={`/estimator?lead=${lead.id}`} style={actionStyle}><Calculator size={16} aria-hidden="true" />Create estimate</Link>
         <Link to={`/follow-ups?lead=${lead.id_uuid}`}><CalendarClock size={16} aria-hidden="true" />Follow up</Link>
