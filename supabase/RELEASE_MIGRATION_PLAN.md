@@ -101,6 +101,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 93. `20260817111337_optimize_community_match_rls_and_indexes.sql`
 94. `20260817195641_record_agent_advisory_activity.sql`
 95. `20260817203000_allow_management_kendrell_advisory_access.sql`
+96. `20260818124500_internal_workspace_lead_creation.sql`
 
 ## Current production rules
 
