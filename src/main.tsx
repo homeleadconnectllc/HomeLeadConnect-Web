@@ -41,6 +41,7 @@ import "./styles/final-release-guard.css";
 import "./styles/mobile-release-fix.css";
 import './styles/workspace-premium-v4.css';
 import './styles/workspace-route-cleanup.css';
+import './styles/desktop-shell-contract-v2.css';
 import App from "./App.tsx";
 import { AuthProvider } from "./context/AuthContext";
 import { AccountAccessProvider } from "./context/AccountAccessProvider";
