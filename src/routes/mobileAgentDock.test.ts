@@ -81,3 +81,12 @@ test("full coach and live briefing keep separate mobile placement contracts", ()
   assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.has-briefing:not\(\.is-open\) \.hlc-agent-proactive-briefing \{[\s\S]*top: auto !important;[\s\S]*bottom: calc\(154px \+ env\(safe-area-inset-bottom\)\) !important;[\s\S]*max-height: min\(210px, 28dvh\) !important;/);
   assert.doesNotMatch(mobileAgentPlacement, /\.hlc-agent-dock\.is-open \.hlc-agent-dock-panel/);
 });
+
+test("Kendrell, Dion, and Diamond share the same full mobile workspace contract", () => {
+  assert.match(dock, /kendrell: \{ id: "kendrell"/);
+  assert.match(dock, /dion: \{ id: "dion"/);
+  assert.match(dock, /diamond: \{ id: "diamond"/);
+  assert.match(dock, /data-agent=\{agent\.id\}/);
+  assert.doesNotMatch(mobileAgentPlacement, /\[data-agent=(?:"|')?(?:kendrell|dion|diamond)/i);
+  assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-agent-dock-panel/);
+});
