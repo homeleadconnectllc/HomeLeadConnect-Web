@@ -103,6 +103,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 95. `20260817203000_allow_management_kendrell_advisory_access.sql`
 96. `20260818124500_internal_workspace_lead_creation.sql`
 97. `20260818131500_fix_internal_workspace_lead_upsert_defaults.sql`
+98. `20260818133000_schema_qualify_causal_lead_digest.sql`
 
 ## Current production rules
 
