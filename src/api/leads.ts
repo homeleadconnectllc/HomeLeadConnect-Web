@@ -1,9 +1,39 @@
 import { getCurrentWorkspaceId, supabase } from "./client";
 import type { Lead } from "../lib/types/database";
 
-const leadColumns = "id,id_uuid,workspace_id,full_name,email,phone,status,created_at";
+export type LeadRecord = Lead & {
+  lead_code: string | null;
+  source: string | null;
+  priority: string | null;
+  stage: string | null;
+  appointment_at: string | null;
+  appointment_status: string | null;
+  next_follow_up_at: string | null;
+  sla_status: string | null;
+  conversion_score: number | null;
+};
 
-export async function listLeads(): Promise<Lead[]> {
+const leadColumns = [
+  "id",
+  "id_uuid",
+  "workspace_id",
+  "full_name",
+  "email",
+  "phone",
+  "status",
+  "created_at",
+  "lead_code",
+  "source",
+  "priority",
+  "stage",
+  "appointment_at",
+  "appointment_status",
+  "next_follow_up_at",
+  "sla_status",
+  "conversion_score",
+].join(",");
+
+export async function listLeads(): Promise<LeadRecord[]> {
   const workspaceId = await getCurrentWorkspaceId();
   const { data, error } = await supabase
     .from("leads")
@@ -13,10 +43,10 @@ export async function listLeads(): Promise<Lead[]> {
     .order("created_at", { ascending: false });
 
   if (error) throw error;
-  return (data ?? []) as Lead[];
+  return (data ?? []) as LeadRecord[];
 }
 
-export async function getLead(id: number): Promise<Lead> {
+export async function getLead(id: number): Promise<LeadRecord> {
   const workspaceId = await getCurrentWorkspaceId();
   const { data, error } = await supabase
     .from("leads")
@@ -26,5 +56,5 @@ export async function getLead(id: number): Promise<Lead> {
     .single();
 
   if (error) throw error;
-  return data as Lead;
+  return data as LeadRecord;
 }
