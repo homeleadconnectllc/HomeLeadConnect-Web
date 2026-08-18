@@ -1,0 +1,195 @@
+/* HomeLead Connect authenticated desktop shell contract v2
+   ---------------------------------------------------------
+   Final desktop authority. A normal laptop browser must never fall back to the
+   tablet shell, hide the workspace navigation, or let the contextual agent
+   cover primary dashboard work.
+*/
+
+@media (min-width: 900px) {
+  .hlc-signed-in-shell {
+    display: grid !important;
+    grid-template-columns: 300px minmax(0, 1fr) !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 100dvh !important;
+    align-items: stretch !important;
+    background: #dce5ef !important;
+  }
+
+  /* Desktop navigation is permanent. No persisted SHOW/HIDE state. */
+  .hlc-signed-in-shell > .hlc-navbar {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 90 !important;
+    display: flex !important;
+    grid-column: 1 !important;
+    width: 300px !important;
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    transform: none !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    overflow: hidden !important;
+    padding: 16px 13px 18px !important;
+    background:
+      radial-gradient(circle at 25% 0%, rgba(30, 91, 255, .14), transparent 28%),
+      linear-gradient(180deg, #06101f 0%, #0b1830 52%, #06101f 100%) !important;
+    border-right: 1px solid rgba(148, 163, 184, .18) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-navbar-links {
+    display: flex !important;
+    min-height: 0 !important;
+    flex: 1 1 auto !important;
+    overflow-y: auto !important;
+  }
+
+  .hlc-signed-in-shell .hlc-navbar-toggle,
+  .hlc-signed-in-shell .hlc-desktop-sidebar-toggle,
+  .hlc-signed-in-shell .hlc-mobile-tabbar,
+  .hlc-signed-in-shell .hlc-mobile-work-dock {
+    display: none !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content {
+    grid-column: 2 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 100dvh !important;
+    overflow-x: clip !important;
+    padding: 0 !important;
+    background:
+      linear-gradient(180deg, rgba(13, 27, 61, .10), rgba(13, 27, 61, .025) 240px, transparent 430px),
+      #dce5ef !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content > main:not(.hlc-match-page):not(.hlc-kendrell-dedication-page) {
+    width: calc(100% - 40px) !important;
+    max-width: 1600px !important;
+    margin: 22px auto 96px !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    text-align: left !important;
+  }
+
+  /* Dashboard uses the available desktop canvas instead of a narrow center column. */
+  .hlc-signed-in-shell .hlc-command-center {
+    width: calc(100% - 40px) !important;
+    max-width: none !important;
+    margin-inline: auto !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-hero {
+    min-height: 0 !important;
+    padding: 24px 28px !important;
+    border: 1px solid #1b3763 !important;
+    border-radius: 6px !important;
+    background:
+      radial-gradient(circle at 90% 0%, rgba(96, 165, 250, .16), transparent 32%),
+      linear-gradient(135deg, #0d1b3d, #06101f) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-hero :is(h1, p, span) { color: #f4f8ff !important; }
+  .hlc-signed-in-shell .hlc-command-hero p { color: #c8d8ee !important; }
+
+  .hlc-signed-in-shell .hlc-system-strip {
+    min-height: 42px !important;
+    margin-top: 12px !important;
+    border-radius: 4px !important;
+  }
+
+  /* Metrics are operational counters, not oversized floating cards. */
+  .hlc-signed-in-shell .hlc-metric-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 1px !important;
+    margin-top: 12px !important;
+    overflow: hidden !important;
+    border: 1px solid #b6c4d5 !important;
+    border-radius: 5px !important;
+    background: #b6c4d5 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-metric-card {
+    min-height: 82px !important;
+    padding: 14px 16px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: #f8fafc !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-signed-in-shell .hlc-metric-card strong {
+    font-size: clamp(1.55rem, 2vw, 2rem) !important;
+    line-height: 1 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-dashboard-section {
+    margin-top: 16px !important;
+    border-radius: 5px !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-signed-in-shell :is(.hlc-agent-card, .hlc-pulse-card, .hlc-workspace-card) {
+    border-radius: 4px !important;
+    box-shadow: none !important;
+  }
+
+  /* Mid-size laptop windows get a compact launcher only; proactive briefing
+     must not sit on top of dashboard records. */
+  .hlc-signed-in-shell .hlc-agent-dock:not(.is-open) .hlc-agent-proactive-briefing {
+    display: none !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock:not(.is-open) {
+    right: 18px !important;
+    bottom: 18px !important;
+    width: auto !important;
+    max-width: 250px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger {
+    min-height: 54px !important;
+    max-width: 250px !important;
+    border-radius: 7px !important;
+    box-shadow: 0 10px 28px rgba(2, 8, 23, .28) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock.is-open {
+    right: 18px !important;
+    bottom: 18px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock.is-open .hlc-agent-dock-panel {
+    width: min(460px, calc(100vw - 340px)) !important;
+    max-height: calc(100dvh - 36px) !important;
+    border-radius: 8px !important;
+  }
+}
+
+/* Large desktop can afford a dedicated utility rail for Kendrell/Dion/Diamond. */
+@media (min-width: 1320px) {
+  .hlc-signed-in-shell > .hlc-route-content {
+    padding-right: 282px !important;
+    box-sizing: border-box !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock:not(.is-open) {
+    top: 22px !important;
+    right: 18px !important;
+    bottom: auto !important;
+    width: 246px !important;
+    max-width: 246px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger {
+    width: 246px !important;
+  }
+}
+
+/* True tablet/mobile begins below the laptop contract. */
+@media (max-width: 899px) {
+  .hlc-signed-in-shell > .hlc-route-content > main:not(.hlc-match-page):not(.hlc-kendrell-dedication-page) {
+    width: min(100% - 20px, 860px) !important;
+  }
+}
