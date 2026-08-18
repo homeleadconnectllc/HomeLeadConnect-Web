@@ -1,0 +1,62 @@
+/* Mobile contextual-agent placement contract.
+ *
+ * This file is intentionally loaded after the legacy release/style layers.
+ * The authenticated mobile assistant is a bottom-docked sheet that lives above
+ * the work dock + tab bar. It must never become a top-anchored full-viewport
+ * overlay on normal workspace routes.
+ *
+ * Any change to this contract must pass the HLC Launch Candidate workflow.
+ */
+
+@media (max-width: 720px) {
+  .hlc-signed-in-shell .hlc-agent-dock.is-open {
+    position: fixed !important;
+    inset: auto 0 calc(154px + env(safe-area-inset-bottom)) 0 !important;
+    width: 100vw !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: auto !important;
+    min-height: 0 !important;
+    justify-items: stretch !important;
+    pointer-events: none !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock.is-open .hlc-agent-dock-panel {
+    position: fixed !important;
+    top: auto !important;
+    right: max(12px, env(safe-area-inset-right)) !important;
+    bottom: calc(154px + env(safe-area-inset-bottom)) !important;
+    left: max(12px, env(safe-area-inset-left)) !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: auto !important;
+    max-height: min(58dvh, 620px) !important;
+    margin: 0 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+    border-radius: 18px !important;
+    pointer-events: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* First-visit / proactive briefing uses the same bottom lane instead of
+     floating higher into the page content. */
+  .hlc-signed-in-shell .hlc-agent-dock.has-briefing:not(.is-open) .hlc-agent-proactive-briefing {
+    position: fixed !important;
+    right: max(12px, env(safe-area-inset-right)) !important;
+    bottom: calc(154px + env(safe-area-inset-bottom)) !important;
+    left: max(12px, env(safe-area-inset-left)) !important;
+    width: auto !important;
+    max-width: none !important;
+    max-height: min(210px, 28dvh) !important;
+    margin: 0 !important;
+    overflow: auto !important;
+    border-radius: 16px !important;
+  }
+
+  body.hlc-agent-open {
+    overflow-x: hidden !important;
+  }
+}
