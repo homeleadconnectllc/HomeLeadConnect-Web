@@ -43,7 +43,7 @@ export async function listLeads(): Promise<LeadRecord[]> {
     .order("created_at", { ascending: false });
 
   if (error) throw error;
-  return (data ?? []) as LeadRecord[];
+  return (data ?? []) as unknown as LeadRecord[];
 }
 
 export async function getLead(id: number): Promise<LeadRecord> {
@@ -56,5 +56,5 @@ export async function getLead(id: number): Promise<LeadRecord> {
     .single();
 
   if (error) throw error;
-  return data as LeadRecord;
+  return data as unknown as LeadRecord;
 }
