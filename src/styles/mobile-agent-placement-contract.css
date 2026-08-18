@@ -90,6 +90,38 @@
     margin-top: auto !important;
   }
 
+  /* Final full-agent visual-viewport contract.
+   * The open work dock is already hidden by mobile-release-fix.css, so the full
+   * agent does not reserve its old 112px lane. Dynamic viewport units track
+   * Safari chrome and keyboard changes; the background page is locked so users
+   * never have to hold the document scrolled upward to reach the composer.
+   */
+  .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-agent-dock-panel {
+    top: max(8px, env(safe-area-inset-top)) !important;
+    bottom: max(12px, env(safe-area-inset-bottom)) !important;
+    height: calc(100dvh - max(8px, env(safe-area-inset-top)) - max(12px, env(safe-area-inset-bottom))) !important;
+    max-height: calc(100dvh - max(8px, env(safe-area-inset-top)) - max(12px, env(safe-area-inset-bottom))) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-agent-dock-panel-head {
+    min-height: 0 !important;
+    padding-block: 10px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-agent-tutorial {
+    max-height: min(18dvh, 132px) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-ai-transcript {
+    min-height: 0 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-ai-composer {
+    position: sticky !important;
+    inset-block-end: 0 !important;
+    flex-shrink: 0 !important;
+  }
+
   /* Live briefing surface.
    * Remains a compact card in the bottom lane. It never receives the full
    * coach sheet's viewport height, top anchor, or scrolling geometry.
@@ -111,6 +143,7 @@
   }
 
   body.hlc-agent-open {
-    overflow-x: hidden !important;
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
   }
 }
