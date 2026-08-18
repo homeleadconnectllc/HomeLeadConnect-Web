@@ -29,7 +29,20 @@ export default function Leads() {
   }
 
   useEffect(() => {
-    void refreshLeads();
+    let active = true;
+    listLeads()
+      .then((data) => {
+        if (active) setLeads(data);
+      })
+      .catch((reason: unknown) => {
+        if (active) setError(errorMessage(reason, "Unable to load leads."));
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+    return () => {
+      active = false;
+    };
   }, []);
 
   async function handleCreateLead(event: FormEvent<HTMLFormElement>) {
