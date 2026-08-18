@@ -9,6 +9,7 @@ const commandCenter = readFileSync("src/styles/command-center-experience.css", "
 const finalReleaseGuard = readFileSync("src/styles/final-release-guard.css", "utf8");
 const mainEntry = readFileSync("src/main.tsx", "utf8");
 const mobileReleaseFix = readFileSync("src/styles/mobile-release-fix.css", "utf8");
+const mobileAgentPlacement = readFileSync("src/styles/mobile-agent-placement-contract.css", "utf8");
 const tutorialDock = readFileSync("src/components/tutorials/LiveTutorialDock.tsx", "utf8");
 const agentChatPanel = readFileSync("src/components/agents/AgentChatPanel.tsx", "utf8");
 const agentPremium = readFileSync("src/styles/agent-premium-v2.css", "utf8");
@@ -67,4 +68,13 @@ test("mobile authentication uses one clean card with Safari-safe bottom space", 
   assert.match(mobileReleaseFix, /padding: 0 0 calc\(132px \+ env\(safe-area-inset-bottom\)\) !important;/);
   assert.match(mobileReleaseFix, /\.hlc-auth-card > :is\(\.hlc-auth-card-brand, h2, \.hlc-auth-card-description\)/);
   assert.match(mobileReleaseFix, /\.hlc-auth-form iframe/);
+});
+
+test("final mobile agent placement stays bottom-docked above workspace controls", () => {
+  assert.match(mainEntry, /import "\.\/styles\/mobile-agent-placement-contract\.css";/);
+  assert.match(mobileAgentPlacement, /@media \(max-width: 720px\)/);
+  assert.match(mobileAgentPlacement, /\.hlc-signed-in-shell \.hlc-agent-dock\.is-open \{[\s\S]*inset: auto 0 calc\(154px \+ env\(safe-area-inset-bottom\)\) 0 !important;/);
+  assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.is-open \.hlc-agent-dock-panel \{[\s\S]*top: auto !important;[\s\S]*bottom: calc\(154px \+ env\(safe-area-inset-bottom\)\) !important;[\s\S]*max-height: min\(58dvh, 620px\) !important;/);
+  assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.has-briefing:not\(\.is-open\) \.hlc-agent-proactive-briefing \{[\s\S]*bottom: calc\(154px \+ env\(safe-area-inset-bottom\)\) !important;/);
+  assert.doesNotMatch(mobileAgentPlacement, /top: max\(58px, env\(safe-area-inset-top\)\)/);
 });
