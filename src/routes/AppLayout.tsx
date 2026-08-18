@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import ContextualAgentDock from "../components/agents/ContextualAgentDock";
@@ -9,7 +9,6 @@ import FieldDeviceCenter from "../components/device/FieldDeviceCenter";
 import MobileWorkDock from "../components/mobile/MobileWorkDock";
 import { useAuth } from "../hooks/useAuth";
 
-const DESKTOP_SIDEBAR_KEY = "hlc.desktopSidebarCollapsed.v1";
 const AGENT_ROUTE_PREFIXES = [
   "/dashboard", "/start-here", "/ecosystem", "/workflow", "/automations", "/activity",
   "/network", "/map", "/profiles", "/providers", "/matching", "/community-hub",
@@ -28,10 +27,6 @@ export default function AppLayout() {
   const { session } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return window.localStorage.getItem(DESKTOP_SIDEBAR_KEY) === "true";
-  });
   const showAudioDevices = Boolean(session) && (location.pathname === "/settings" || location.pathname === "/call-center");
   const showFieldDevices = Boolean(session) && location.pathname === "/settings";
   const showAnalytics = Boolean(session) && location.pathname === "/dashboard";
@@ -64,31 +59,10 @@ export default function AppLayout() {
     };
   }, [navigate, session]);
 
-  function toggleDesktopSidebar() {
-    setSidebarCollapsed((current) => {
-      const next = !current;
-      window.localStorage.setItem(DESKTOP_SIDEBAR_KEY, String(next));
-      return next;
-    });
-  }
-
   return (
-    <div className={`hlc-app-shell ${session ? "hlc-signed-in-shell" : "hlc-public-shell"}${session && sidebarCollapsed ? " hlc-sidebar-collapsed" : ""}`}>
+    <div className={`hlc-app-shell ${session ? "hlc-signed-in-shell" : "hlc-public-shell"}`}>
       <AnalyticsTracker />
       <Navbar />
-      {session && (
-        <button
-          type="button"
-          className="hlc-desktop-sidebar-toggle"
-          onClick={toggleDesktopSidebar}
-          aria-expanded={!sidebarCollapsed}
-          aria-label={sidebarCollapsed ? "Show workspace sidebar" : "Hide workspace sidebar"}
-          title={sidebarCollapsed ? "Show workspace sidebar" : "Hide workspace sidebar"}
-        >
-          <span aria-hidden="true">{sidebarCollapsed ? "›" : "‹"}</span>
-          <span className="hlc-desktop-sidebar-toggle-label">{sidebarCollapsed ? "Show" : "Hide"}</span>
-        </button>
-      )}
       <div className="hlc-route-content">
         <Outlet />
         {showAnalytics && <AnalyticsKpis />}

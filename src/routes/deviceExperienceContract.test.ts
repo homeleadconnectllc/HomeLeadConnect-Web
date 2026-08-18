@@ -8,6 +8,9 @@ const proactiveCss = readFileSync("src/styles/agent-proactive-briefing.css", "ut
 const tutorialCss = readFileSync("src/styles/agent-tutorial.css", "utf8");
 const mobileDock = readFileSync("src/components/mobile/MobileWorkDock.tsx", "utf8");
 const mobileDockCss = readFileSync("src/styles/mobile-work-dock.css", "utf8");
+const appLayout = readFileSync("src/routes/AppLayout.tsx", "utf8");
+const desktopContract = readFileSync("src/styles/desktop-shell-contract-v2.css", "utf8");
+const mainEntry = readFileSync("src/main.tsx", "utf8");
 
 test("agents proactively brief users from verified HLC context without waiting for a prompt", () => {
   assert.match(agentDock, /chatWithAgent\(/);
@@ -39,4 +42,15 @@ test("mobile retains its field-work operational controls independently of deskto
   assert.match(mobileDockCss, /@media \(max-width: 720px\)/);
   assert.match(proactiveCss, /@media \(max-width: 720px\)/);
   assert.doesNotMatch(agentDock, /label: "Call"|label: "Text"|label: "Schedule"/);
+});
+
+test("normal laptop widths use a permanent HLC desktop workspace shell", () => {
+  assert.doesNotMatch(appLayout, /DESKTOP_SIDEBAR_KEY|sidebarCollapsed|hlc-desktop-sidebar-toggle/);
+  assert.match(desktopContract, /@media \(min-width: 900px\)/);
+  assert.match(desktopContract, /grid-template-columns: 300px minmax\(0, 1fr\) !important/);
+  assert.match(desktopContract, /\.hlc-signed-in-shell > \.hlc-navbar[\s\S]*transform: none !important/);
+  assert.match(desktopContract, /\.hlc-mobile-tabbar,[\s\S]*\.hlc-mobile-work-dock[\s\S]*display: none !important/);
+  assert.match(desktopContract, /\.hlc-agent-proactive-briefing[\s\S]*display: none !important/);
+  assert.match(desktopContract, /grid-template-columns: repeat\(4, minmax\(0, 1fr\)\) !important/);
+  assert.match(mainEntry, /workspace-route-cleanup\.css';\s*import '\.\/styles\/desktop-shell-contract-v2\.css';/);
 });
