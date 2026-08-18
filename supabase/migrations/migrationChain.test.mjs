@@ -73,3 +73,17 @@ test("internal lead upsert fix keeps required insert defaults non-null", () => {
   assert.match(migration, /causal\.ingest_lead\(/i);
   assert.doesNotMatch(migration, /grant\s+insert\s+on\s+(table\s+)?public\.leads/i);
 });
+
+test("causal lead writer keeps locked search path and schema-qualified pgcrypto", () => {
+  const migration = readFileSync(
+    "supabase/migrations/20260818133000_schema_qualify_causal_lead_digest.sql",
+    "utf8",
+  );
+
+  assert.match(migration, /security definer/i);
+  assert.match(migration, /set search_path to 'public'/i);
+  assert.match(migration, /extensions\.digest\(/i);
+  assert.doesNotMatch(migration, /(?<!extensions\.)digest\(/i);
+  assert.match(migration, /from public\.workspace_members/i);
+  assert.match(migration, /insert into causal\.leads_state/i);
+});
