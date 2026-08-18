@@ -102,6 +102,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 94. `20260817195641_record_agent_advisory_activity.sql`
 95. `20260817203000_allow_management_kendrell_advisory_access.sql`
 96. `20260818124500_internal_workspace_lead_creation.sql`
+97. `20260818131500_fix_internal_workspace_lead_upsert_defaults.sql`
 
 ## Current production rules
 
@@ -150,7 +151,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 - Management-only analytics/KPI, communications-provider configuration, and portal-revocation RPCs enforce owner/manager role checks at the database boundary.
 - Public browser database-administration grants were removed and verified at `browser_admin_grants_remaining = 0` across public tables/views.
 - Authenticated profile UPDATE privileges are column-scoped to safe self-service fields; role/workspace/identity fields cannot be browser-updated directly.
-- Voice message and `voice-audio` policies were reconciled to `workspace_members` and verified in production.
+- Voice messages and legacy voice-audio policies were reconciled to `workspace_members` and verified in production.
 - Portal document SELECT RLS now mirrors the exact resident/provider relationship checks used by document-view auditing, preventing one portal user from listing another relationship's shared-document metadata inside the same workspace.
 - Portal/internal conversation voice-note storage now uses the deployed private bucket and participant-scoped storage policies, with orphan cleanup limited to unregistered objects in an authorized conversation.
 - Community review insert authorization requires the completed job and review to share the same `workspace_id`.
