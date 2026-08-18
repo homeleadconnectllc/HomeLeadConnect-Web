@@ -15,9 +15,20 @@ test("full mobile agents keep the composer inside the dynamic visual viewport", 
   );
   assert.match(
     placement,
-    /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-ai-composer \{[\s\S]*position: sticky !important;[\s\S]*inset-block-end: 0 !important;[\s\S]*flex-shrink: 0 !important;/,
+    /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-ai-composer \{[\s\S]*position: sticky !important;[\s\S]*inset-block-end: 0 !important;[\s\S]*flex-shrink: 0 !important;[\s\S]*margin-top: 0 !important;/,
   );
   assert.match(placement, /body\.hlc-agent-open \{[\s\S]*overflow: hidden !important;[\s\S]*overscroll-behavior: none !important;/);
+});
+
+test("full mobile agents do not reserve a giant empty interior lane", () => {
+  assert.match(
+    placement,
+    /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-agent-tutorial \{[\s\S]*flex-grow: 0 !important;[\s\S]*min-height: 0 !important;[\s\S]*max-height: min\(15dvh, 104px\) !important;/,
+  );
+  assert.match(
+    placement,
+    /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-ai-transcript:empty \{[\s\S]*flex: 0 0 12px !important;[\s\S]*max-height: 12px !important;/,
+  );
 });
 
 test("visual viewport fix does not move the compact live briefing", () => {
