@@ -59,3 +59,17 @@ test("internal lead creation preserves the single-writer and tenant boundary", (
   assert.match(migration, /grant execute on function public\.create_workspace_lead[\s\S]*to authenticated/i);
   assert.doesNotMatch(migration, /grant\s+insert\s+on\s+(table\s+)?public\.leads/i);
 });
+
+test("internal lead upsert fix keeps required insert defaults non-null", () => {
+  const migration = readFileSync(
+    "supabase/migrations/20260818131500_fix_internal_workspace_lead_upsert_defaults.sql",
+    "utf8",
+  );
+
+  assert.match(migration, /p_priority\s*=>\s*'medium'/i);
+  assert.match(migration, /p_archived\s*=>\s*false/i);
+  assert.doesNotMatch(migration, /p_priority\s*=>\s*case[\s\S]*else\s+null/i);
+  assert.doesNotMatch(migration, /p_archived\s*=>\s*case[\s\S]*else\s+null/i);
+  assert.match(migration, /causal\.ingest_lead\(/i);
+  assert.doesNotMatch(migration, /grant\s+insert\s+on\s+(table\s+)?public\.leads/i);
+});
