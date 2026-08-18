@@ -11,9 +11,9 @@
 
 @media (max-width: 720px) {
   /* Full coach / tutorial workspace.
-   * Owns the usable lane between Safari/top chrome and HLC's bottom controls.
-   * It is fixed to the viewport and scrolls internally, so opening Kendrell does
-   * not reflow or compress the Dashboard underneath it.
+   * Use nearly the whole visible mobile viewport. The sheet itself stays fixed,
+   * while the chat transcript owns the flexible scrolling lane and the composer
+   * stays at the bottom of that lane.
    */
   .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) {
     position: fixed !important;
@@ -29,22 +29,65 @@
 
   .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-agent-dock-panel {
     position: fixed !important;
-    top: max(88px, calc(env(safe-area-inset-top) + 64px)) !important;
-    right: max(12px, env(safe-area-inset-right)) !important;
-    bottom: calc(154px + env(safe-area-inset-bottom)) !important;
-    left: max(12px, env(safe-area-inset-left)) !important;
+    top: max(12px, env(safe-area-inset-top)) !important;
+    right: max(8px, env(safe-area-inset-right)) !important;
+    bottom: calc(112px + env(safe-area-inset-bottom)) !important;
+    left: max(8px, env(safe-area-inset-left)) !important;
+    display: flex !important;
+    flex-direction: column !important;
     width: auto !important;
     min-width: 0 !important;
     max-width: none !important;
     height: auto !important;
+    min-height: 0 !important;
     max-height: none !important;
     margin: 0 !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-    overscroll-behavior: contain !important;
+    overflow: hidden !important;
     border-radius: 18px !important;
     pointer-events: auto !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-agent-dock-panel-head {
+    flex: 0 0 auto !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-agent-tutorial {
+    flex: 0 1 auto !important;
+    max-height: min(22dvh, 190px) !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-agent-chat-divider {
+    flex: 0 0 auto !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-ai-chat {
+    display: flex !important;
+    flex: 1 1 auto !important;
+    flex-direction: column !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-ai-chat-head {
+    flex: 0 0 auto !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-ai-transcript {
+    flex: 1 1 auto !important;
+    min-height: 180px !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
     -webkit-overflow-scrolling: touch;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-ai-composer {
+    position: sticky !important;
+    bottom: 0 !important;
+    z-index: 3 !important;
+    flex: 0 0 auto !important;
+    margin-top: auto !important;
   }
 
   /* Live briefing surface.
