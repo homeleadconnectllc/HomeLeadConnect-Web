@@ -76,8 +76,9 @@ test("full coach and live briefing keep separate mobile placement contracts", ()
   assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \{[\s\S]*inset: 0 !important;[\s\S]*height: 100dvh !important;/);
   assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-agent-dock-panel \{[\s\S]*top: max\(12px, env\(safe-area-inset-top\)\) !important;[\s\S]*bottom: calc\(112px \+ env\(safe-area-inset-bottom\)\) !important;[\s\S]*display: flex !important;[\s\S]*overflow: hidden !important;/);
   assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-ai-chat \{[\s\S]*flex: 1 1 auto !important;[\s\S]*min-height: 0 !important;/);
-  assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-ai-transcript \{[\s\S]*flex: 1 1 auto !important;[\s\S]*min-height: 180px !important;[\s\S]*overflow-y: auto !important;/);
-  assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-ai-composer \{[\s\S]*position: sticky !important;[\s\S]*bottom: 0 !important;[\s\S]*margin-top: auto !important;/);
+  assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-ai-transcript \{[\s\S]*flex: 1 1 auto !important;[\s\S]*min-height: 0 !important;[\s\S]*overflow-y: auto !important;/);
+  assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-ai-transcript:empty \{[\s\S]*flex: 0 0 12px !important;[\s\S]*max-height: 12px !important;/);
+  assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-ai-composer \{[\s\S]*position: sticky !important;[\s\S]*bottom: 0 !important;[\s\S]*margin-top: 0 !important;/);
   assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.has-briefing:not\(\.is-open\) \.hlc-agent-proactive-briefing \{[\s\S]*top: auto !important;[\s\S]*bottom: calc\(154px \+ env\(safe-area-inset-bottom\)\) !important;[\s\S]*max-height: min\(210px, 28dvh\) !important;/);
   assert.doesNotMatch(mobileAgentPlacement, /\.hlc-agent-dock\.is-open \.hlc-agent-dock-panel/);
 });

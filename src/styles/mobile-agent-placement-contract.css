@@ -52,14 +52,15 @@
   }
 
   .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-agent-tutorial {
-    flex: 0 1 auto !important;
-    max-height: min(22dvh, 190px) !important;
+    flex: 0 0 auto !important;
+    max-height: min(15dvh, 104px) !important;
     overflow-y: auto !important;
     overscroll-behavior: contain !important;
   }
 
   .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-agent-chat-divider {
     flex: 0 0 auto !important;
+    margin-block: 4px !important;
   }
 
   .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-ai-chat {
@@ -76,10 +77,16 @@
 
   .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-ai-transcript {
     flex: 1 1 auto !important;
-    min-height: 180px !important;
+    min-height: 0 !important;
     overflow-y: auto !important;
     overscroll-behavior: contain !important;
     -webkit-overflow-scrolling: touch;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-ai-transcript:empty {
+    flex: 0 0 12px !important;
+    min-height: 12px !important;
+    max-height: 12px !important;
   }
 
   .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-ai-composer {
@@ -87,7 +94,7 @@
     bottom: 0 !important;
     z-index: 3 !important;
     flex: 0 0 auto !important;
-    margin-top: auto !important;
+    margin-top: 0 !important;
   }
 
   /* Final full-agent visual-viewport contract.
@@ -105,11 +112,16 @@
 
   .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-agent-dock-panel-head {
     min-height: 0 !important;
-    padding-block: 10px !important;
+    padding-block: 8px !important;
   }
 
+  /* Keep the tutorial/prompt rail compact. It must never manufacture a large
+   * blank flex lane between the prompt controls and the conversation/composer. */
   .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-agent-tutorial {
-    max-height: min(18dvh, 132px) !important;
+    flex-grow: 0 !important;
+    min-height: 0 !important;
+    max-height: min(15dvh, 104px) !important;
+    margin-block: 0 !important;
   }
 
   .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-ai-transcript {
@@ -120,6 +132,7 @@
     position: sticky !important;
     inset-block-end: 0 !important;
     flex-shrink: 0 !important;
+    margin-top: 0 !important;
   }
 
   /* Live briefing surface.
