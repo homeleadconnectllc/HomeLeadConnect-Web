@@ -13,6 +13,13 @@ export type LeadRecord = Lead & {
   conversion_score: number | null;
 };
 
+export type CreateLeadInput = {
+  fullName: string;
+  phone: string;
+  email?: string;
+  notes?: string;
+};
+
 const leadColumns = [
   "id",
   "id_uuid",
@@ -57,4 +64,17 @@ export async function getLead(id: number): Promise<LeadRecord> {
 
   if (error) throw error;
   return data as unknown as LeadRecord;
+}
+
+export async function createLead(input: CreateLeadInput): Promise<number> {
+  const { data, error } = await supabase.rpc("create_workspace_lead", {
+    p_full_name: input.fullName.trim(),
+    p_phone: input.phone.trim(),
+    p_email: input.email?.trim() || null,
+    p_notes: input.notes?.trim() || null,
+  });
+
+  if (error) throw error;
+  if (typeof data !== "number") throw new Error("Lead creation did not return a lead id.");
+  return data;
 }
