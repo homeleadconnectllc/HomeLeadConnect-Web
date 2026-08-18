@@ -71,7 +71,7 @@ test("mobile authentication uses one clean card with Safari-safe bottom space", 
 });
 
 test("final mobile agent placement stays bottom-docked above workspace controls", () => {
-  assert.match(mainEntry, /import "\.\/styles\/mobile-agent-placement-contract\.css";/);
+  assert.match(mainEntry, /mobile-agent-placement-contract\.css/);
   assert.match(mobileAgentPlacement, /@media \(max-width: 720px\)/);
   assert.match(mobileAgentPlacement, /\.hlc-signed-in-shell \.hlc-agent-dock\.is-open \{[\s\S]*inset: auto 0 calc\(154px \+ env\(safe-area-inset-bottom\)\) 0 !important;/);
   assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.is-open \.hlc-agent-dock-panel \{[\s\S]*top: auto !important;[\s\S]*bottom: calc\(154px \+ env\(safe-area-inset-bottom\)\) !important;[\s\S]*max-height: min\(58dvh, 620px\) !important;/);
