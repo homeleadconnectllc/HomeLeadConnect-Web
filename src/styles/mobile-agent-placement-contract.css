@@ -4,6 +4,8 @@
  * The authenticated mobile assistant is a bottom-docked sheet that lives above
  * the work dock + tab bar. It must never become a top-anchored full-viewport
  * overlay on normal workspace routes.
+ *
+ * Any change to this contract must pass the HLC Launch Candidate workflow.
  */
 
 @media (max-width: 720px) {
