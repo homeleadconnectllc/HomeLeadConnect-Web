@@ -5,7 +5,6 @@ on:
     branches:
       - agent/functional-completion
       - launch/global-readiness-2026-08-16
-      - reconcile/sprint2-salvage
   workflow_dispatch:
 
 permissions:
