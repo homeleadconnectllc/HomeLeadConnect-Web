@@ -1,29 +1,35 @@
 /* Mobile contextual-agent placement contract.
  *
  * This file is intentionally loaded after the legacy release/style layers.
- * The authenticated mobile assistant is a bottom-docked sheet that lives above
- * the work dock + tab bar. It must never become a top-anchored full-viewport
- * overlay on normal workspace routes.
+ * Mobile has two separate contextual-agent surfaces:
+ *   1. Full coach workspace: a tall, independently scrollable sheet.
+ *   2. Live briefing: a compact card above the mobile work controls.
+ * They must not inherit each other's size or placement rules.
  *
  * Any change to this contract must pass the HLC Launch Candidate workflow.
  */
 
 @media (max-width: 720px) {
-  .hlc-signed-in-shell .hlc-agent-dock.is-open {
+  /* Full coach / tutorial workspace.
+   * Owns the usable lane between Safari/top chrome and HLC's bottom controls.
+   * It is fixed to the viewport and scrolls internally, so opening Kendrell does
+   * not reflow or compress the Dashboard underneath it.
+   */
+  .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) {
     position: fixed !important;
-    inset: auto 0 calc(154px + env(safe-area-inset-bottom)) 0 !important;
+    inset: 0 !important;
     width: 100vw !important;
     min-width: 0 !important;
     max-width: none !important;
-    height: auto !important;
+    height: 100dvh !important;
     min-height: 0 !important;
     justify-items: stretch !important;
     pointer-events: none !important;
   }
 
-  .hlc-signed-in-shell .hlc-agent-dock.is-open .hlc-agent-dock-panel {
+  .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-agent-dock-panel {
     position: fixed !important;
-    top: auto !important;
+    top: max(88px, calc(env(safe-area-inset-top) + 64px)) !important;
     right: max(12px, env(safe-area-inset-right)) !important;
     bottom: calc(154px + env(safe-area-inset-bottom)) !important;
     left: max(12px, env(safe-area-inset-left)) !important;
@@ -31,7 +37,7 @@
     min-width: 0 !important;
     max-width: none !important;
     height: auto !important;
-    max-height: min(58dvh, 620px) !important;
+    max-height: none !important;
     margin: 0 !important;
     overflow-x: hidden !important;
     overflow-y: auto !important;
@@ -41,18 +47,23 @@
     -webkit-overflow-scrolling: touch;
   }
 
-  /* First-visit / proactive briefing uses the same bottom lane instead of
-     floating higher into the page content. */
+  /* Live briefing surface.
+   * Remains a compact card in the bottom lane. It never receives the full
+   * coach sheet's viewport height, top anchor, or scrolling geometry.
+   */
   .hlc-signed-in-shell .hlc-agent-dock.has-briefing:not(.is-open) .hlc-agent-proactive-briefing {
     position: fixed !important;
+    top: auto !important;
     right: max(12px, env(safe-area-inset-right)) !important;
     bottom: calc(154px + env(safe-area-inset-bottom)) !important;
     left: max(12px, env(safe-area-inset-left)) !important;
     width: auto !important;
+    min-height: 0 !important;
     max-width: none !important;
     max-height: min(210px, 28dvh) !important;
     margin: 0 !important;
-    overflow: auto !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
     border-radius: 16px !important;
   }
 
