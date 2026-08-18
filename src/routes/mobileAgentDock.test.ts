@@ -70,11 +70,11 @@ test("mobile authentication uses one clean card with Safari-safe bottom space", 
   assert.match(mobileReleaseFix, /\.hlc-auth-form iframe/);
 });
 
-test("final mobile agent placement stays bottom-docked above workspace controls", () => {
+test("full coach and live briefing keep separate mobile placement contracts", () => {
   assert.match(mainEntry, /mobile-agent-placement-contract\.css/);
   assert.match(mobileAgentPlacement, /@media \(max-width: 720px\)/);
-  assert.match(mobileAgentPlacement, /\.hlc-signed-in-shell \.hlc-agent-dock\.is-open \{[\s\S]*inset: auto 0 calc\(154px \+ env\(safe-area-inset-bottom\)\) 0 !important;/);
-  assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.is-open \.hlc-agent-dock-panel \{[\s\S]*top: auto !important;[\s\S]*bottom: calc\(154px \+ env\(safe-area-inset-bottom\)\) !important;[\s\S]*max-height: min\(58dvh, 620px\) !important;/);
-  assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.has-briefing:not\(\.is-open\) \.hlc-agent-proactive-briefing \{[\s\S]*bottom: calc\(154px \+ env\(safe-area-inset-bottom\)\) !important;/);
-  assert.doesNotMatch(mobileAgentPlacement, /top: max\(58px, env\(safe-area-inset-top\)\)/);
+  assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \{[\s\S]*inset: 0 !important;[\s\S]*height: 100dvh !important;/);
+  assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-agent-dock-panel \{[\s\S]*top: max\(88px, calc\(env\(safe-area-inset-top\) \+ 64px\)\) !important;[\s\S]*bottom: calc\(154px \+ env\(safe-area-inset-bottom\)\) !important;[\s\S]*max-height: none !important;/);
+  assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.has-briefing:not\(\.is-open\) \.hlc-agent-proactive-briefing \{[\s\S]*top: auto !important;[\s\S]*bottom: calc\(154px \+ env\(safe-area-inset-bottom\)\) !important;[\s\S]*max-height: min\(210px, 28dvh\) !important;/);
+  assert.doesNotMatch(mobileAgentPlacement, /\.hlc-agent-dock\.is-open \.hlc-agent-dock-panel/);
 });
