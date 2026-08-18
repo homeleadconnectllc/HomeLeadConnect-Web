@@ -40,3 +40,22 @@ test("Community Matching policies and foreign keys remain advisor-ready", () => 
   assert.doesNotMatch(migration, /(?<!select )auth\.uid\(\)/i);
   assert.equal((migration.match(/to authenticated/gi) ?? []).length, 3);
 });
+
+test("internal lead creation preserves the single-writer and tenant boundary", () => {
+  const migration = readFileSync(
+    "supabase/migrations/20260818124500_internal_workspace_lead_creation.sql",
+    "utf8",
+  );
+
+  assert.match(migration, /security definer/i);
+  assert.match(migration, /set search_path to ''/i);
+  assert.match(migration, /from public\.workspace_members/i);
+  assert.match(migration, /wm\.workspace_id = v_workspace_id/i);
+  assert.match(migration, /wm\.user_id = v_user_id/i);
+  assert.match(migration, /v_role not in \('owner', 'manager', 'technician'\)/i);
+  assert.match(migration, /public\.can_insert_lead\(v_workspace_id\)/i);
+  assert.match(migration, /causal\.ingest_lead\(/i);
+  assert.match(migration, /revoke all on function public\.create_workspace_lead[\s\S]*from public, anon/i);
+  assert.match(migration, /grant execute on function public\.create_workspace_lead[\s\S]*to authenticated/i);
+  assert.doesNotMatch(migration, /grant\s+insert\s+on\s+(table\s+)?public\.leads/i);
+});
