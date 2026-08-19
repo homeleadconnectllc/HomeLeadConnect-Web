@@ -29,6 +29,17 @@ test("mobile controls retain accessible touch targets and iPhone-safe form sizin
   assert.match(readiness, /outline: 3px solid #67e8f9/);
 });
 
+test("real-device iPhone leads remain readable and proactive briefing does not cover core work", () => {
+  assert.match(readiness, /\.hlc-lead-card-copy/);
+  assert.match(readiness, /grid-template-columns: 48px minmax\(0, 1fr\)/);
+  assert.match(readiness, /\.hlc-lead-context/);
+  assert.match(readiness, /flex-wrap: wrap !important/);
+  assert.match(readiness, /\.hlc-lead-card-actions/);
+  assert.match(readiness, /grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
+  assert.match(readiness, /\.hlc-agent-dock\.has-briefing \.hlc-agent-proactive-briefing/);
+  assert.match(readiness, /display: none !important/);
+});
+
 test("More owns display controls and sign out without a fixed side overlay", () => {
   assert.match(mobileControls, /hlc-mobile-portal-scroll/);
   assert.match(mobileControls, />\s*Mobile\s*</);
