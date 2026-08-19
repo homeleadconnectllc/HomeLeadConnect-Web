@@ -12,9 +12,9 @@ test("compact devices expose persistent Mobile/Desktop and Sign out side control
   assert.match(controls, /hlc-view-mode/);
   assert.match(controls, /width=device-width/);
   assert.match(controls, /width=1180/);
-  assert.match(controls, />Mobile</);
-  assert.match(controls, />Desktop</);
-  assert.match(controls, />Sign out</);
+  assert.match(controls, />\s*Mobile\s*</);
+  assert.match(controls, />\s*Desktop\s*</);
+  assert.match(controls, />\s*Sign out\s*</);
   assert.match(styles, /\.hlc-mobile-side-controls \{/);
   assert.match(styles, /\.hlc-mobile-portal \.hlc-nav-logout \{[\s\S]*display: none !important;/);
 });
