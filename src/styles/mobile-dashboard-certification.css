@@ -2,6 +2,27 @@
    Fix the real-device AI-team layout without changing business logic,
    routes, data, or canonical agent identities. */
 
+/* Real-device desktop QA showed the AI-team control beside Diamond losing
+   readable contrast against the surrounding dark/navy treatment. Keep the
+   count control and agent action copy explicit instead of inheriting colors. */
+.hlc-signed-in-shell .hlc-agent-team-chip {
+  border-color: #2563eb !important;
+  background: #1d4ed8 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+.hlc-signed-in-shell .hlc-agent-card .hlc-agent-open {
+  color: #bfdbfe !important;
+  -webkit-text-fill-color: #bfdbfe !important;
+  opacity: 1 !important;
+}
+
+.hlc-signed-in-shell .hlc-agent-card .hlc-agent-open svg {
+  color: #60a5fa !important;
+}
+
 @media (max-width: 720px) {
   .hlc-signed-in-shell .hlc-command-center {
     width: 100% !important;
