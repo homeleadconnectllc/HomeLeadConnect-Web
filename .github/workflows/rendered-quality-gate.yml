@@ -1,0 +1,110 @@
+name: HLC Rendered Quality Gate
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      VITE_SUPABASE_URL: https://agfwqnirspmptjiqrrtk.supabase.co
+      VITE_SUPABASE_ANON_KEY: sb_publishable_oe-fZIb14XWNWgk5-0pPfw_Xqb0dqYv
+      VITE_AUTH_CAPTCHA_REQUIRED: "false"
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify launch candidate
+        run: npm run verify:launch
+
+      - name: Start rendered preview
+        run: |
+          set -euo pipefail
+          npm run preview -- --host 127.0.0.1 --port 4173 > /tmp/hlc-preview.log 2>&1 &
+          echo $! > /tmp/hlc-preview.pid
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:4173/ > /tmp/hlc-preview.html; then
+              grep -qi 'HomeLead Connect' /tmp/hlc-preview.html
+              exit 0
+            fi
+            sleep 1
+          done
+          cat /tmp/hlc-preview.log || true
+          exit 30
+
+      - name: Mobile rendered quality gate
+        run: |
+          set -euo pipefail
+          npx --yes lighthouse@13.4.1 http://127.0.0.1:4173/ \
+            --quiet \
+            --chrome-flags="--headless --no-sandbox" \
+            --only-categories=performance,accessibility,best-practices \
+            --output=json \
+            --output-path=/tmp/lighthouse-mobile.json
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const report = JSON.parse(fs.readFileSync('/tmp/lighthouse-mobile.json', 'utf8'));
+          const score = (key) => Number(report.categories[key]?.score ?? 0);
+          const scores = {
+            performance: score('performance'),
+            accessibility: score('accessibility'),
+            bestPractices: score('best-practices'),
+          };
+          console.log('Mobile Lighthouse', scores);
+          if (scores.performance < 0.70) throw new Error(`Mobile performance ${scores.performance} < 0.70`);
+          if (scores.accessibility < 0.95) throw new Error(`Mobile accessibility ${scores.accessibility} < 0.95`);
+          if (scores.bestPractices < 0.90) throw new Error(`Mobile best practices ${scores.bestPractices} < 0.90`);
+          NODE
+
+      - name: Desktop rendered quality gate
+        run: |
+          set -euo pipefail
+          npx --yes lighthouse@13.4.1 http://127.0.0.1:4173/ \
+            --quiet \
+            --preset=desktop \
+            --chrome-flags="--headless --no-sandbox" \
+            --only-categories=performance,accessibility,best-practices \
+            --output=json \
+            --output-path=/tmp/lighthouse-desktop.json
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const report = JSON.parse(fs.readFileSync('/tmp/lighthouse-desktop.json', 'utf8'));
+          const score = (key) => Number(report.categories[key]?.score ?? 0);
+          const scores = {
+            performance: score('performance'),
+            accessibility: score('accessibility'),
+            bestPractices: score('best-practices'),
+          };
+          console.log('Desktop Lighthouse', scores);
+          if (scores.performance < 0.80) throw new Error(`Desktop performance ${scores.performance} < 0.80`);
+          if (scores.accessibility < 0.95) throw new Error(`Desktop accessibility ${scores.accessibility} < 0.95`);
+          if (scores.bestPractices < 0.90) throw new Error(`Desktop best practices ${scores.bestPractices} < 0.90`);
+          NODE
+
+      - name: Upload rendered QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rendered-quality-${{ github.sha }}
+          path: |
+            /tmp/lighthouse-mobile.json
+            /tmp/lighthouse-desktop.json
+            /tmp/hlc-preview.log
+          if-no-files-found: warn
+          retention-days: 14
