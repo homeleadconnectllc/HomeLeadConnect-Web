@@ -2,7 +2,7 @@
  *
  * This file is intentionally loaded after the legacy release/style layers.
  * Mobile has two separate contextual-agent surfaces:
- *   1. Full coach workspace: a tall, independently scrollable sheet.
+ *   1. Full coach workspace: a bounded, independently scrollable sheet.
  *   2. Live briefing: a compact card above the mobile work controls.
  * They must not inherit each other's size or placement rules.
  *
@@ -11,9 +11,9 @@
 
 @media (max-width: 720px) {
   /* Full coach / tutorial workspace.
-   * Use nearly the whole visible mobile viewport. The sheet itself stays fixed,
-   * while the chat transcript owns the flexible scrolling lane and the composer
-   * stays at the bottom of that lane.
+   * The agent is an intentional modal surface, but it must not visually consume
+   * the entire iPhone viewport. Keep a visible margin around the sheet, keep the
+   * header/composer anchored, and give the transcript the flexible scroll lane.
    */
   .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) {
     position: fixed !important;
@@ -29,10 +29,10 @@
 
   .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-agent-dock-panel {
     position: fixed !important;
-    top: max(12px, env(safe-area-inset-top)) !important;
-    right: max(8px, env(safe-area-inset-right)) !important;
-    bottom: calc(112px + env(safe-area-inset-bottom)) !important;
-    left: max(8px, env(safe-area-inset-left)) !important;
+    top: auto !important;
+    right: max(10px, env(safe-area-inset-right)) !important;
+    bottom: max(12px, env(safe-area-inset-bottom)) !important;
+    left: max(10px, env(safe-area-inset-left)) !important;
     display: flex !important;
     flex-direction: column !important;
     width: auto !important;
@@ -40,20 +40,33 @@
     max-width: none !important;
     height: auto !important;
     min-height: 0 !important;
-    max-height: none !important;
+    max-height: min(86dvh, 760px) !important;
     margin: 0 !important;
     overflow: hidden !important;
     border-radius: 18px !important;
     pointer-events: auto !important;
   }
 
-  .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-agent-dock-panel-head {
+  .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-agent-dock-panel::before {
     flex: 0 0 auto !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-agent-dock-panel-head {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 5 !important;
+    flex: 0 0 auto !important;
+    min-height: 0 !important;
+    padding-block: 8px !important;
+    background: rgba(4, 12, 24, .98) !important;
   }
 
   .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-agent-tutorial {
     flex: 0 0 auto !important;
-    max-height: min(15dvh, 104px) !important;
+    flex-grow: 0 !important;
+    min-height: 0 !important;
+    max-height: min(13dvh, 92px) !important;
+    margin-block: 0 !important;
     overflow-y: auto !important;
     overscroll-behavior: contain !important;
   }
@@ -65,11 +78,11 @@
 
   .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-ai-chat {
     display: flex !important;
-    flex: 0 1 auto !important;
+    flex: 1 1 auto !important;
     flex-direction: column !important;
     min-height: 0 !important;
     overflow: hidden !important;
-    padding-bottom: 18px !important;
+    padding-bottom: 8px !important;
   }
 
   .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-ai-chat-head {
@@ -77,9 +90,10 @@
   }
 
   .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-ai-transcript {
-    flex: 0 1 auto !important;
-    min-height: 0 !important;
-    max-height: min(38dvh, 320px) !important;
+    flex: 1 1 auto !important;
+    min-height: 84px !important;
+    max-height: none !important;
+    overflow-x: hidden !important;
     overflow-y: auto !important;
     overscroll-behavior: contain !important;
     -webkit-overflow-scrolling: touch;
@@ -91,45 +105,27 @@
     max-height: 12px !important;
   }
 
-  .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-ai-composer {
-    position: sticky !important;
-    bottom: 0 !important;
-    z-index: 3 !important;
+  .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-ai-error {
     flex: 0 0 auto !important;
-    margin-top: 0 !important;
-  }
-
-  /* Final full-agent visual-viewport contract.
-   * The sheet may grow toward the visual viewport ceiling, but it no longer
-   * stretches to fill unused height below the composer. This preserves Safari
-   * safe-area behavior while letting the panel hug its actual content.
-   */
-  .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-agent-dock-panel {
-    top: max(8px, env(safe-area-inset-top)) !important;
-    bottom: auto !important;
-    height: auto !important;
-    max-height: calc(100dvh - max(8px, env(safe-area-inset-top)) - max(12px, env(safe-area-inset-bottom))) !important;
-  }
-
-  .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-agent-dock-panel-head {
-    min-height: 0 !important;
-    padding-block: 8px !important;
-  }
-
-  /* Keep the tutorial/prompt rail compact. It must never manufacture a large
-   * blank flex lane between the prompt controls and the conversation/composer. */
-  .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-agent-tutorial {
-    flex-grow: 0 !important;
-    min-height: 0 !important;
-    max-height: min(15dvh, 104px) !important;
-    margin-block: 0 !important;
+    max-height: 72px !important;
+    overflow-y: auto !important;
+    margin-block: 6px !important;
   }
 
   .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-ai-composer {
     position: sticky !important;
     inset-block-end: 0 !important;
+    z-index: 4 !important;
+    flex: 0 0 auto !important;
     flex-shrink: 0 !important;
     margin-top: 0 !important;
+    background: rgba(2, 8, 23, .98) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock.is-open:not(.has-briefing) .hlc-ai-composer textarea {
+    min-height: 68px !important;
+    max-height: 112px !important;
+    resize: vertical !important;
   }
 
   /* Live briefing surface.

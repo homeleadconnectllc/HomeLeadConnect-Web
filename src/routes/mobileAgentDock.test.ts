@@ -70,15 +70,15 @@ test("mobile authentication uses one clean card with Safari-safe bottom space", 
   assert.match(mobileReleaseFix, /\.hlc-auth-form iframe/);
 });
 
-test("full coach and live briefing keep separate mobile placement contracts", () => {
+test("full coach and live briefing keep separate bounded mobile placement contracts", () => {
   assert.match(mainEntry, /mobile-agent-placement-contract\.css/);
   assert.match(mobileAgentPlacement, /@media \(max-width: 720px\)/);
   assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \{[\s\S]*inset: 0 !important;[\s\S]*height: 100dvh !important;/);
-  assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-agent-dock-panel \{[\s\S]*top: max\(8px, env\(safe-area-inset-top\)\) !important;[\s\S]*bottom: auto !important;[\s\S]*height: auto !important;[\s\S]*max-height: calc\(100dvh - max\(8px, env\(safe-area-inset-top\)\) - max\(12px, env\(safe-area-inset-bottom\)\)\) !important;/);
-  assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-ai-chat \{[\s\S]*flex: 0 1 auto !important;[\s\S]*min-height: 0 !important;[\s\S]*padding-bottom: 18px !important;/);
-  assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-ai-transcript \{[\s\S]*flex: 0 1 auto !important;[\s\S]*min-height: 0 !important;[\s\S]*max-height: min\(38dvh, 320px\) !important;[\s\S]*overflow-y: auto !important;/);
+  assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-agent-dock-panel \{[\s\S]*top: auto !important;[\s\S]*right: max\(10px, env\(safe-area-inset-right\)\) !important;[\s\S]*bottom: max\(12px, env\(safe-area-inset-bottom\)\) !important;[\s\S]*left: max\(10px, env\(safe-area-inset-left\)\) !important;[\s\S]*height: auto !important;[\s\S]*max-height: min\(86dvh, 760px\) !important;/);
+  assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-ai-chat \{[\s\S]*flex: 1 1 auto !important;[\s\S]*min-height: 0 !important;[\s\S]*padding-bottom: 8px !important;/);
+  assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-ai-transcript \{[\s\S]*flex: 1 1 auto !important;[\s\S]*min-height: 84px !important;[\s\S]*max-height: none !important;[\s\S]*overflow-y: auto !important;/);
   assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-ai-transcript:empty \{[\s\S]*flex: 0 0 12px !important;[\s\S]*max-height: 12px !important;/);
-  assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-ai-composer \{[\s\S]*position: sticky !important;[\s\S]*bottom: 0 !important;[\s\S]*margin-top: 0 !important;/);
+  assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.is-open:not\(\.has-briefing\) \.hlc-ai-composer \{[\s\S]*position: sticky !important;[\s\S]*inset-block-end: 0 !important;[\s\S]*margin-top: 0 !important;/);
   assert.match(mobileAgentPlacement, /\.hlc-agent-dock\.has-briefing:not\(\.is-open\) \.hlc-agent-proactive-briefing \{[\s\S]*top: auto !important;[\s\S]*bottom: calc\(154px \+ env\(safe-area-inset-bottom\)\) !important;[\s\S]*max-height: min\(210px, 28dvh\) !important;/);
   assert.doesNotMatch(mobileAgentPlacement, /\.hlc-agent-dock\.is-open \.hlc-agent-dock-panel/);
 });

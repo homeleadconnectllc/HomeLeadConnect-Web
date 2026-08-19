@@ -73,15 +73,15 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
     });
   }
 
-  async function speak(text: string) {
+  async function speak(text: string, reportError = true) {
     if (!speechOutputSupported || !voicePreferences.enabled || voiceBusy) return;
     setVoiceBusy(true);
-    setError("");
+    if (reportError) setError("");
     try {
       await prepareAgentAudio();
       await speakAgentText(agentId, text);
     } catch (reason) {
-      setError(errorMessage(reason, `${agentName}'s voice is temporarily unavailable.`));
+      if (reportError) setError(errorMessage(reason, `${agentName}'s voice is temporarily unavailable.`));
     } finally {
       setVoiceBusy(false);
     }
@@ -103,7 +103,9 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
     try {
       const response = await chatWithAgent(agentId, clean, prior);
       setMessages((current) => [...current, { role: "model", text: response.reply }]);
-      if (voicePreferences.enabled && voicePreferences.autoSpeak) await speak(response.reply);
+      // Voice is progressive enhancement. Never hold the successful text reply,
+      // send controls, or conversation state open while audio generation runs.
+      if (voicePreferences.enabled && voicePreferences.autoSpeak) void speak(response.reply, false);
     } catch (reason) {
       setError(errorMessage(reason, `${agentName} is temporarily unavailable. Try again in a moment.`));
     } finally {
