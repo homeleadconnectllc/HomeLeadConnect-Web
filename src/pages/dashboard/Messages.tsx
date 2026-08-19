@@ -4,6 +4,7 @@ import {
   listConversations,
   listPortalRecipients,
   postInternalMessage,
+  sendPortalEmail,
   startPortalConversation,
   type Conversation,
   type PortalRecipient,
@@ -31,6 +32,7 @@ export default function Messages() {
   const [newBody, setNewBody] = useState("");
   const [reply, setReply] = useState("");
   const [recipientId, setRecipientId] = useState("");
+  const [sendEmailCopy, setSendEmailCopy] = useState(false);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -73,6 +75,10 @@ export default function Messages() {
     () => conversations.find((item) => item.id === selectedId) ?? null,
     [conversations, selectedId],
   );
+  const selectedRecipient = useMemo(
+    () => recipients.find((item) => item.linkId === recipientId) ?? null,
+    [recipients, recipientId],
+  );
 
   useEffect(() => {
     if (!selectedId) return;
@@ -81,21 +87,40 @@ export default function Messages() {
       .catch((reason: unknown) => setError(errorMessage(reason, "Unable to load voice notes.")));
   }, [selectedId]);
 
+  useEffect(() => {
+    if (!selectedRecipient?.email) setSendEmailCopy(false);
+  }, [selectedRecipient?.email]);
+
   async function start(event: FormEvent) {
     event.preventDefault();
     const recipient = recipients.find((item) => item.linkId === recipientId);
     if (!recipient) return;
+    const draftSubject = subject.trim();
+    const draftBody = newBody.trim();
+    const shouldSendEmail = sendEmailCopy && Boolean(recipient.email);
     setBusy(true);
     setError("");
     setMessage("");
     try {
-      const id = await startPortalConversation({ recipient, subject, body: newBody });
+      const id = await startPortalConversation({ recipient, subject: draftSubject, body: draftBody });
       setSubject("");
       setNewBody("");
       setRecipientId("");
+      setSendEmailCopy(false);
       await load();
       setSelectedId(id);
-      setMessage("Internal conversation started.");
+
+      if (shouldSendEmail) {
+        try {
+          await sendPortalEmail({ recipient, subject: draftSubject, body: draftBody, conversationId: id });
+          setMessage("Internal conversation started and email sent.");
+        } catch (reason) {
+          setMessage("Internal conversation started.");
+          setError(errorMessage(reason, "The conversation was saved, but the email was not sent."));
+        }
+      } else {
+        setMessage("Internal conversation started.");
+      }
     } catch (reason) {
       setError(errorMessage(reason, "Unable to start the conversation."));
     } finally {
@@ -149,7 +174,7 @@ export default function Messages() {
   return (
     <main className="hlc-messages-page" style={pageStyle}>
       <h1>Messages Center</h1>
-      <p>Persisted HLC conversation and chat history. SMS and email remain separate transports and are not represented as connected unless their provider evidence exists.</p>
+      <p>Persisted HLC conversation and chat history. External email is sent only when you explicitly select the email option below.</p>
       {composeVoiceNote && !loading && selected && (
         <p role="status" style={{ color: "#075985", fontWeight: 800 }}>
           Voice note mode is ready. The recorder below is attached to the selected conversation.
@@ -241,7 +266,23 @@ export default function Messages() {
           </label>
           <label>Subject<input required maxLength={160} value={subject} onChange={(event) => setSubject(event.target.value)} /></label>
           <label>Message<textarea required maxLength={5000} value={newBody} onChange={(event) => setNewBody(event.target.value)} /></label>
-          <button disabled={busy} type="submit">{busy ? "Starting…" : "Start internal conversation"}</button>
+          {selectedRecipient && (
+            <label style={emailOptionStyle}>
+              <input
+                type="checkbox"
+                checked={sendEmailCopy}
+                disabled={!selectedRecipient.email || busy}
+                onChange={(event) => setSendEmailCopy(event.target.checked)}
+              />
+              <span>
+                <strong>Also send this by email</strong>
+                <small>{selectedRecipient.email || "No email address is available for this recipient."}</small>
+              </span>
+            </label>
+          )}
+          <button disabled={busy} type="submit">
+            {busy ? "Starting…" : sendEmailCopy ? "Start conversation + send email" : "Start internal conversation"}
+          </button>
         </form>
       )}
     </main>
@@ -254,3 +295,4 @@ const panelStyle = { padding: 20, border: "1px solid #e2e8f0", borderRadius: 18 
 const conversationButtonStyle = { display: "grid", gap: 5, width: "100%", marginBottom: 8, padding: 12, textAlign: "left" as const };
 const messageStyle = { marginBottom: 10, padding: 12, background: "#f8fafc", borderRadius: 12 };
 const formStyle = { display: "grid", gap: 12, marginTop: 18 };
+const emailOptionStyle = { display: "flex", gap: 10, alignItems: "flex-start", padding: 12, border: "1px solid #cbd5e1", borderRadius: 12 };
