@@ -4,11 +4,11 @@ import test from "node:test";
 
 const readiness = readFileSync("src/styles/frontend-readiness-contract.css", "utf8");
 const main = readFileSync("src/main.tsx", "utf8");
+const appLayout = readFileSync("src/routes/AppLayout.tsx", "utf8");
 const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
 const footer = readFileSync("src/components/Footer.tsx", "utf8");
 const mobileControls = readFileSync("src/components/MobileViewControls.tsx", "utf8");
 const mobileShell = readFileSync("src/styles/mobile-message-shell-controls.css", "utf8");
-const workDock = readFileSync("src/styles/mobile-work-dock.css", "utf8");
 
 test("final frontend readiness guard is mounted after the other release styles", () => {
   assert.match(main, /frontend-readiness-contract\.css/);
@@ -38,9 +38,11 @@ test("More owns display controls and sign out without a fixed side overlay", () 
   assert.doesNotMatch(mobileShell, /hlc-mobile-side-controls/);
 });
 
-test("duplicate mobile work dock remains non-rendering on compact screens", () => {
-  assert.match(workDock, /\.hlc-mobile-work-dock \{[\s\S]*display: none !important;/);
-  assert.doesNotMatch(workDock, /position:\s*fixed/);
+test("authenticated shell cannot mount a second permanent mobile work dock", () => {
+  assert.doesNotMatch(appLayout, /MobileWorkDock/);
+  assert.doesNotMatch(main, /mobile-work-dock\.css/);
+  assert.match(navbar, /className="hlc-mobile-tabbar"/);
+  assert.match(navbar, /aria-label="Mobile primary navigation"/);
 });
 
 test("public shell legal links and brand accessible name remain Lighthouse-safe", () => {

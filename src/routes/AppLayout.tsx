@@ -6,7 +6,6 @@ import AnalyticsKpis from "../components/analytics/AnalyticsKpis";
 import AnalyticsTracker from "../components/analytics/AnalyticsTracker";
 import AudioDeviceCenter from "../components/audio/AudioDeviceCenter";
 import FieldDeviceCenter from "../components/device/FieldDeviceCenter";
-import MobileWorkDock from "../components/mobile/MobileWorkDock";
 import { useAuth } from "../hooks/useAuth";
 
 const AGENT_ROUTE_PREFIXES = [
@@ -69,7 +68,6 @@ export default function AppLayout() {
         {showAudioDevices && <AudioDeviceCenter />}
         {showFieldDevices && <FieldDeviceCenter />}
       </div>
-      {session && <MobileWorkDock />}
       {showContextualAgent && <ContextualAgentDock />}
     </div>
   );

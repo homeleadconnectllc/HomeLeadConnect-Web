@@ -4,8 +4,8 @@ import test from "node:test";
 
 const controls = readFileSync("src/components/MobileViewControls.tsx", "utf8");
 const styles = readFileSync("src/styles/mobile-message-shell-controls.css", "utf8");
-const workDock = readFileSync("src/styles/mobile-work-dock.css", "utf8");
 const app = readFileSync("src/App.tsx", "utf8");
+const appLayout = readFileSync("src/routes/AppLayout.tsx", "utf8");
 const main = readFileSync("src/main.tsx", "utf8");
 
 test("compact devices expose Mobile/Desktop inside the More menu instead of a fixed overlay", () => {
@@ -20,10 +20,9 @@ test("compact devices expose Mobile/Desktop inside the More menu instead of a fi
   assert.doesNotMatch(styles, /position:\s*fixed/);
 });
 
-test("mobile work dock stays out of the global compact shell", () => {
-  assert.match(workDock, /@media \(max-width: 720px\)/);
-  assert.match(workDock, /\.hlc-mobile-work-dock \{[\s\S]*display: none !important;/);
-  assert.doesNotMatch(workDock, /position:\s*fixed/);
+test("global compact shell cannot mount the retired mobile work dock", () => {
+  assert.doesNotMatch(appLayout, /MobileWorkDock/);
+  assert.doesNotMatch(main, /mobile-work-dock\.css/);
 });
 
 test("Messages mobile layout preserves contrast and clears fixed navigation", () => {
