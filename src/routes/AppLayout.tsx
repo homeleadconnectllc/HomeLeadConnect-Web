@@ -1,12 +1,13 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import ContextualAgentDock from "../components/agents/ContextualAgentDock";
-import AnalyticsKpis from "../components/analytics/AnalyticsKpis";
 import AnalyticsTracker from "../components/analytics/AnalyticsTracker";
-import AudioDeviceCenter from "../components/audio/AudioDeviceCenter";
-import FieldDeviceCenter from "../components/device/FieldDeviceCenter";
 import { useAuth } from "../hooks/useAuth";
+
+const ContextualAgentDock = lazy(() => import("../components/agents/ContextualAgentDock"));
+const AnalyticsKpis = lazy(() => import("../components/analytics/AnalyticsKpis"));
+const AudioDeviceCenter = lazy(() => import("../components/audio/AudioDeviceCenter"));
+const FieldDeviceCenter = lazy(() => import("../components/device/FieldDeviceCenter"));
 
 const AGENT_ROUTE_PREFIXES = [
   "/dashboard", "/start-here", "/ecosystem", "/workflow", "/automations", "/activity",
@@ -64,11 +65,15 @@ export default function AppLayout() {
       <Navbar />
       <div className="hlc-route-content">
         <Outlet />
-        {showAnalytics && <AnalyticsKpis />}
-        {showAudioDevices && <AudioDeviceCenter />}
-        {showFieldDevices && <FieldDeviceCenter />}
+        <Suspense fallback={null}>
+          {showAnalytics && <AnalyticsKpis />}
+          {showAudioDevices && <AudioDeviceCenter />}
+          {showFieldDevices && <FieldDeviceCenter />}
+        </Suspense>
       </div>
-      {showContextualAgent && <ContextualAgentDock />}
+      <Suspense fallback={null}>
+        {showContextualAgent && <ContextualAgentDock />}
+      </Suspense>
     </div>
   );
 }
