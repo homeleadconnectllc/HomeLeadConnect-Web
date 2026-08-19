@@ -22,8 +22,15 @@ export type Conversation = {
 export type PortalRecipient = {
   role: "homeowner" | "contractor";
   linkId: string;
+  subjectId: string;
   label: string;
   email: string | null;
+};
+
+export type EmailTransmissionResult = {
+  id: string;
+  status: "sent" | "failed" | "blocked" | "review" | "queued";
+  error?: string;
 };
 
 export async function listConversations(): Promise<Conversation[]> {
@@ -60,11 +67,23 @@ export async function listPortalRecipients(): Promise<PortalRecipient[]> {
   return [
     ...(homeowners.data ?? []).map((link) => {
       const lead = (leads.data ?? []).find((item) => item.id === link.lead_id);
-      return { role: "homeowner" as const, linkId: link.id, label: lead?.full_name || `Homeowner #${link.lead_id}`, email: lead?.email ?? null };
+      return {
+        role: "homeowner" as const,
+        linkId: link.id,
+        subjectId: String(link.lead_id),
+        label: lead?.full_name || `Homeowner #${link.lead_id}`,
+        email: lead?.email ?? null,
+      };
     }),
     ...(contractors.data ?? []).map((link) => {
       const contractor = (contractorRows.data ?? []).find((item) => item.id === link.contractor_id);
-      return { role: "contractor" as const, linkId: link.id, label: contractor?.company_name || contractor?.contact_name || `Contractor #${link.contractor_id}`, email: contractor?.email ?? null };
+      return {
+        role: "contractor" as const,
+        linkId: link.id,
+        subjectId: String(link.contractor_id),
+        label: contractor?.company_name || contractor?.contact_name || `Contractor #${link.contractor_id}`,
+        email: contractor?.email ?? null,
+      };
     }),
   ];
 }
@@ -85,6 +104,36 @@ export async function startPortalConversation(input: {
   });
   if (error) throw error;
   return data as string;
+}
+
+export async function sendPortalEmail(input: {
+  recipient: PortalRecipient;
+  subject: string;
+  body: string;
+  conversationId?: string;
+  messageId?: string;
+  requestId?: string;
+}) {
+  if (!input.recipient.email) throw new Error("This portal recipient does not have an email address.");
+  const { data, error } = await supabase.functions.invoke("send-communication", {
+    body: {
+      subjectType: input.recipient.role === "homeowner" ? "lead" : "contractor",
+      subjectId: input.recipient.subjectId,
+      channel: "email",
+      purpose: "service",
+      subject: input.subject.trim(),
+      content: input.body.trim(),
+      conversationId: input.conversationId || null,
+      messageId: input.messageId || null,
+      clientRequestId: input.requestId || crypto.randomUUID(),
+    },
+  });
+  if (error) throw error;
+  const result = data as EmailTransmissionResult | null;
+  if (!result || result.status !== "sent") {
+    throw new Error(result?.error || `Email was not sent${result?.status ? ` (${result.status})` : ""}.`);
+  }
+  return result;
 }
 
 export async function postInternalMessage(conversationId: string, body: string, requestId = crypto.randomUUID()) {
