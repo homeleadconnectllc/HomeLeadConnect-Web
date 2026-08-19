@@ -81,6 +81,11 @@ test("desktop dashboard certification layer is last and keeps light metrics read
   assert.match(desktopDashboardCertification, /\.hlc-metric-card strong[\s\S]*color:\s*#0b1730 !important/);
   assert.match(desktopDashboardCertification, /\.hlc-metric-card > span:last-child[\s\S]*color:\s*#475569 !important/);
   assert.match(desktopDashboardCertification, /\.hlc-nav-menu a > small[\s\S]*display:\s*none !important/);
+  assert.match(desktopDashboardCertification, /min-width:\s*900px\) and \(max-width:\s*1699px/);
+  assert.match(desktopDashboardCertification, /\.hlc-route-content \{[\s\S]*padding-right:\s*0 !important/);
+  assert.match(desktopDashboardCertification, /\.hlc-command-center \{[\s\S]*width:\s*100% !important/);
+  assert.match(desktopDashboardCertification, /\.hlc-agent-dock:not\(\.is-open\)[\s\S]*bottom:\s*16px !important/);
+  assert.match(desktopDashboardCertification, /min-width:\s*1700px[\s\S]*padding-right:\s*282px !important/);
 });
 
 test("anonymous intake surfaces retain bot-trap fields", () => {
