@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { useAuth } from "../hooks/useAuth";
-import { supabase } from "../lib/supabase";
 
 type ViewMode = "mobile" | "desktop";
 
@@ -31,6 +31,7 @@ export default function MobileViewControls() {
   const { session, loading } = useAuth();
   const [viewMode, setViewMode] = useState<ViewMode>(() => readStoredViewMode());
   const [compactDevice, setCompactDevice] = useState(() => isCompactDevice());
+  const [menuHost, setMenuHost] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
     const updateCompactDevice = () => setCompactDevice(isCompactDevice());
@@ -42,6 +43,24 @@ export default function MobileViewControls() {
     applyViewMode(viewMode);
   }, [viewMode]);
 
+  useEffect(() => {
+    if (!session || !compactDevice) return;
+
+    const findMenuHost = () => {
+      const host = document.querySelector<HTMLElement>(".hlc-mobile-portal-scroll");
+      setMenuHost((current) => current === host ? current : host);
+    };
+
+    const observer = new MutationObserver(findMenuHost);
+    observer.observe(document.body, { childList: true, subtree: true });
+    const frame = window.requestAnimationFrame(findMenuHost);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
+  }, [compactDevice, session]);
+
   function chooseView(mode: ViewMode) {
     setViewMode(mode);
     try {
@@ -51,33 +70,30 @@ export default function MobileViewControls() {
     }
   }
 
-  async function logout() {
-    await supabase.auth.signOut();
-    window.location.href = "/login";
-  }
+  if (loading || !session || !compactDevice || !menuHost) return null;
 
-  if (loading || !session || !compactDevice) return null;
-
-  return (
-    <aside className="hlc-mobile-side-controls" aria-label="Mobile display and account controls">
-      <span className="hlc-mobile-side-controls-label">View</span>
-      <button
-        type="button"
-        className={viewMode === "mobile" ? "is-active" : undefined}
-        aria-pressed={viewMode === "mobile"}
-        onClick={() => chooseView("mobile")}
-      >
-        Mobile
-      </button>
-      <button
-        type="button"
-        className={viewMode === "desktop" ? "is-active" : undefined}
-        aria-pressed={viewMode === "desktop"}
-        onClick={() => chooseView("desktop")}
-      >
-        Desktop
-      </button>
-      <button type="button" className="is-signout" onClick={logout}>Sign out</button>
-    </aside>
+  return createPortal(
+    <section className="hlc-mobile-menu-utilities" aria-label="Display options">
+      <span className="hlc-mobile-menu-utilities-label">View</span>
+      <div className="hlc-mobile-menu-view-actions">
+        <button
+          type="button"
+          className={viewMode === "mobile" ? "is-active" : undefined}
+          aria-pressed={viewMode === "mobile"}
+          onClick={() => chooseView("mobile")}
+        >
+          Mobile
+        </button>
+        <button
+          type="button"
+          className={viewMode === "desktop" ? "is-active" : undefined}
+          aria-pressed={viewMode === "desktop"}
+          onClick={() => chooseView("desktop")}
+        >
+          Desktop
+        </button>
+      </div>
+    </section>,
+    menuHost,
   );
 }

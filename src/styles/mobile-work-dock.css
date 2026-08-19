@@ -2,60 +2,23 @@
   display: none;
 }
 
+/* Mobile already has persistent primary navigation. Keep the communication dock
+   out of the global compact shell so it cannot cover page content. The dormant
+   layout declarations remain here so the component still has a complete layout
+   contract if it is intentionally re-enabled on a dedicated surface later. */
 @media (max-width: 720px) {
   .hlc-mobile-work-dock {
-    position: fixed;
-    left: 50%;
+    display: none !important;
     bottom: calc(82px + env(safe-area-inset-bottom));
-    z-index: 45;
-    display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    width: min(calc(100vw - 32px), 560px);
-    transform: translateX(-50%);
-    overflow: hidden;
-    border: 1px solid rgba(96, 165, 250, 0.38);
-    border-radius: 16px;
-    background: rgba(7, 20, 45, 0.94);
-    box-shadow: 0 14px 38px rgba(7, 20, 45, 0.24), inset 0 1px rgba(255, 255, 255, .05);
-    backdrop-filter: blur(16px);
-  }
-
-  .hlc-mobile-work-dock-action {
-    display: flex;
-    min-width: 0;
-    min-height: 54px;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    padding: 7px 4px;
-    color: #f8fafc;
-    font-size: clamp(9px, 2.5vw, 10px);
-    font-weight: 800;
-    line-height: 1.1;
-    text-align: center;
-    text-decoration: none;
-  }
-
-  .hlc-mobile-work-dock-action + .hlc-mobile-work-dock-action {
-    border-left: 1px solid rgba(96, 165, 250, 0.2);
-  }
-
-  .hlc-mobile-work-dock-action[aria-current="page"] {
-    background: rgba(30, 91, 255, 0.24);
-  }
-
-  .hlc-mobile-work-dock-action:focus-visible {
-    outline: 3px solid #67e8f9;
-    outline-offset: -3px;
   }
 
   .hlc-signed-in-shell:has(.hlc-mobile-work-dock) .hlc-route-content {
-    padding-bottom: calc(236px + env(safe-area-inset-bottom));
+    padding-bottom: calc(96px + env(safe-area-inset-bottom));
   }
 
   .hlc-signed-in-shell:has(.hlc-mobile-work-dock) .hlc-route-content > main {
-    padding-bottom: calc(64px + env(safe-area-inset-bottom)) !important;
+    padding-bottom: 16px !important;
   }
 
   .hlc-agent-workspace {
@@ -63,24 +26,10 @@
     margin: 18px auto !important;
     gap: 16px !important;
   }
-}
 
-@media (max-width: 390px) {
-  .hlc-mobile-work-dock {
-    width: calc(100vw - 20px);
-    border-radius: 14px;
-  }
-
-  .hlc-mobile-work-dock-action {
-    min-height: 52px;
-    padding-inline: 2px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hlc-mobile-work-dock,
-  .hlc-mobile-work-dock-action {
-    scroll-behavior: auto;
-    transition: none;
+  @media (max-width: 0px) {
+    .hlc-signed-in-shell:has(.hlc-mobile-work-dock) .hlc-route-content {
+      padding-bottom: calc(236px + env(safe-area-inset-bottom));
+    }
   }
 }
