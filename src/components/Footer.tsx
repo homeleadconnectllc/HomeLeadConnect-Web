@@ -1,5 +1,10 @@
 import { Link } from "react-router-dom";
 
+const legalLinkStyle = {
+  color: "#bfdbfe",
+  fontWeight: 600,
+} as const;
+
 export default function Footer() {
   return (
     <footer
@@ -21,10 +26,10 @@ export default function Footer() {
           marginBottom: 12,
         }}
       >
-        <Link to="/privacy">Privacy</Link>
-        <Link to="/terms">Terms</Link>
-        <Link to="/accessibility">Accessibility</Link>
-        <Link to="/platform-disclosure">Platform disclosure</Link>
+        <Link style={legalLinkStyle} to="/privacy">Privacy</Link>
+        <Link style={legalLinkStyle} to="/terms">Terms</Link>
+        <Link style={legalLinkStyle} to="/accessibility">Accessibility</Link>
+        <Link style={legalLinkStyle} to="/platform-disclosure">Platform disclosure</Link>
       </nav>
       <div>© {new Date().getFullYear()} HomeLead Connect LLC</div>
     </footer>
