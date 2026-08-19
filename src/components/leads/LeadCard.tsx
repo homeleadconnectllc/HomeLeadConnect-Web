@@ -6,15 +6,12 @@ import PortalInviteButton from "../portal/PortalInviteButton";
 export default function LeadCard({ lead }: { lead: LeadRecord }) {
   const pipelineLabel = lead.stage || lead.status || "new";
   const appointmentLabel = lead.appointment_at
-    ? new Intl.DateTimeFormat(undefined, {
-        dateStyle: "medium",
-        timeStyle: "short",
-      }).format(new Date(lead.appointment_at))
+    ? new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(new Date(lead.appointment_at))
     : null;
 
   return (
     <article className="responsive-record-card hlc-lead-card" style={cardStyle}>
-      <div className="hlc-lead-card-copy">
+      <Link className="hlc-lead-card-copy hlc-lead-record-link" to={`/leads/${lead.id}`} aria-label={`Open ${lead.full_name || `lead ${lead.id}`} details`}>
         <span className="hlc-lead-avatar" aria-hidden="true">{(lead.full_name || "L").trim().charAt(0).toUpperCase()}</span>
         <div>
           <h3 style={{ margin: 0 }}>{lead.full_name || `Lead #${lead.id}`}</h3>
@@ -24,12 +21,13 @@ export default function LeadCard({ lead }: { lead: LeadRecord }) {
           </p>
           <div className="hlc-lead-context" aria-label="Lead context">
             {lead.lead_code && <span>#{lead.lead_code}</span>}
-            {lead.source && <span>Source: {lead.source}</span>}
-            {lead.priority && <span>Priority: {lead.priority}</span>}
-            {appointmentLabel && <span>Appointment: {appointmentLabel}</span>}
+            {lead.source && <span>· Source: {lead.source}</span>}
+            {lead.priority && <span>· Priority: {lead.priority}</span>}
+            {appointmentLabel && <span>· Appointment: {appointmentLabel}</span>}
           </div>
+          <small className="hlc-lead-open-hint">Open profile, notes, details, and history</small>
         </div>
-      </div>
+      </Link>
       <div className="hlc-lead-status-cell">
         <small>Pipeline</small>
         <strong>{pipelineLabel}</strong>
