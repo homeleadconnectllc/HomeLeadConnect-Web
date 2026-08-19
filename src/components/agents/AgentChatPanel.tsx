@@ -198,7 +198,7 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
             {speechOutputSupported && <>
               <label><input type="checkbox" checked={voicePreferences.enabled} onChange={(event) => updateVoicePreferences({ enabled: event.target.checked, autoSpeak: event.target.checked ? true : false })}/> Enable agent voice</label>
               <label><input type="checkbox" checked={voicePreferences.autoSpeak} disabled={!voicePreferences.enabled} onChange={(event) => updateVoicePreferences({ ...voicePreferences, autoSpeak: event.target.checked })}/> Speak future briefings</label>
-              <small>{voicePersona.genderPresentation} · {voicePersona.tone}</small>
+              <small>{agentName} voice · {voicePersona.tone}</small>
             </>}
             {!speechOutputSupported && <small>Voice output is unavailable in this browser.</small>}
           </div>
