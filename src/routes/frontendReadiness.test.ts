@@ -5,6 +5,7 @@ import test from "node:test";
 const readiness = readFileSync("src/styles/frontend-readiness-contract.css", "utf8");
 const main = readFileSync("src/main.tsx", "utf8");
 const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
+const footer = readFileSync("src/components/Footer.tsx", "utf8");
 const mobileControls = readFileSync("src/components/MobileViewControls.tsx", "utf8");
 const mobileShell = readFileSync("src/styles/mobile-message-shell-controls.css", "utf8");
 const workDock = readFileSync("src/styles/mobile-work-dock.css", "utf8");
@@ -40,4 +41,11 @@ test("More owns display controls and sign out without a fixed side overlay", () 
 test("duplicate mobile work dock remains non-rendering on compact screens", () => {
   assert.match(workDock, /\.hlc-mobile-work-dock \{[\s\S]*display: none !important;/);
   assert.doesNotMatch(workDock, /position:\s*fixed/);
+});
+
+test("public shell legal links and brand accessible name remain Lighthouse-safe", () => {
+  assert.match(footer, /color: "#bfdbfe"/);
+  assert.match(footer, /fontWeight: 600/);
+  assert.match(navbar, /className="hlc-navbar-brand"/);
+  assert.doesNotMatch(navbar, /className="hlc-navbar-brand"[^>]*aria-label=/);
 });

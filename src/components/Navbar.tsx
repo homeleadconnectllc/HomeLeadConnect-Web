@@ -232,7 +232,7 @@ export default function Navbar() {
   return (
     <>
       <nav className={`hlc-navbar ${mobileOpen ? "menu-is-open" : ""}`} role="navigation" aria-label="Main navigation">
-        <Link className="hlc-navbar-brand" to={brandDestination} onClick={closeMobileMenu} aria-label="HomeLead Connect home">
+        <Link className="hlc-navbar-brand" to={brandDestination} onClick={closeMobileMenu}>
           <div className="hlc-navbar-logo"><img src={logo} alt="HomeLead Connect LLC" /></div>
           <div className="hlc-navbar-brand-copy">
             <h2>HomeLead Connect</h2>
