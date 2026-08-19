@@ -6,8 +6,7 @@ const agentDock = readFileSync("src/components/agents/ContextualAgentDock.tsx", 
 const agentVoice = readFileSync("src/lib/agentVoice.ts", "utf8");
 const proactiveCss = readFileSync("src/styles/agent-proactive-briefing.css", "utf8");
 const tutorialCss = readFileSync("src/styles/agent-tutorial.css", "utf8");
-const mobileDock = readFileSync("src/components/mobile/MobileWorkDock.tsx", "utf8");
-const mobileDockCss = readFileSync("src/styles/mobile-work-dock.css", "utf8");
+const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
 const appLayout = readFileSync("src/routes/AppLayout.tsx", "utf8");
 const desktopContract = readFileSync("src/styles/desktop-shell-contract-v2.css", "utf8");
 const mainEntry = readFileSync("src/main.tsx", "utf8");
@@ -33,15 +32,15 @@ test("mobile receives one compact session greeting while agent voice remains exp
   assert.match(tutorialCss, /max-height: min\(52dvh, 460px\) !important/);
 });
 
-test("mobile retains its field-work operational controls independently of desktop agent presentation", () => {
-  assert.match(mobileDock, /label: "Call"/);
-  assert.match(mobileDock, /label: "Text"/);
-  assert.match(mobileDock, /label: "Schedule"/);
-  assert.match(mobileDock, /label: "Follow Up"/);
-  assert.match(mobileDock, /label: "Voice Note"/);
-  assert.match(mobileDockCss, /@media \(max-width: 720px\)/);
+test("mobile field-work navigation remains primary while agent presentation stays contextual", () => {
+  assert.match(navbar, /className="hlc-mobile-tabbar"/);
+  assert.match(navbar, /label: "Home", route: "\/dashboard"/);
+  assert.match(navbar, /label: "Leads", route: "\/leads"/);
+  assert.match(navbar, /label: "Jobs", route: "\/jobs"/);
+  assert.match(navbar, /label: "Messages", route: "\/messages"/);
   assert.match(proactiveCss, /@media \(max-width: 720px\)/);
   assert.doesNotMatch(agentDock, /label: "Call"|label: "Text"|label: "Schedule"/);
+  assert.doesNotMatch(appLayout, /MobileWorkDock/);
 });
 
 test("normal laptop widths use a permanent HLC desktop workspace shell", () => {
@@ -49,7 +48,7 @@ test("normal laptop widths use a permanent HLC desktop workspace shell", () => {
   assert.match(desktopContract, /@media \(min-width: 900px\)/);
   assert.match(desktopContract, /grid-template-columns: 300px minmax\(0, 1fr\) !important/);
   assert.match(desktopContract, /\.hlc-signed-in-shell > \.hlc-navbar[\s\S]*transform: none !important/);
-  assert.match(desktopContract, /\.hlc-mobile-tabbar,[\s\S]*\.hlc-mobile-work-dock[\s\S]*display: none !important/);
+  assert.match(desktopContract, /\.hlc-mobile-tabbar[\s\S]*display: none !important/);
   assert.match(desktopContract, /\.hlc-agent-proactive-briefing[\s\S]*display: none !important/);
   assert.match(desktopContract, /grid-template-columns: repeat\(4, minmax\(0, 1fr\)\) !important/);
   assert.match(mainEntry, /workspace-route-cleanup\.css';\s*import '\.\/styles\/desktop-shell-contract-v2\.css';/);
