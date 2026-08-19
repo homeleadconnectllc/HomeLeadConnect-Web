@@ -12,6 +12,8 @@ const json = (body: Record<string, unknown>, status = 200) => new Response(JSON.
   headers: { ...cors, "Content-Type": "application/json" },
 });
 
+const VOICE_PROVIDER_TIMEOUT_MS = 12_000;
+
 type AgentId = "kendrell" | "dion" | "diamond";
 type ContextKind = "internal" | "resident_portal" | "professional_portal";
 
@@ -74,7 +76,7 @@ Deno.serve(async (request) => {
   const authorization = request.headers.get("Authorization");
   if (!supabaseUrl || !anonKey) return json({ error: "HLC voice runtime configuration is incomplete." }, 503);
   if (!authorization) return json({ error: "Authentication is required." }, 401);
-  if (!geminiKey) return json({ error: "Neural voice provider is not configured." }, 503);
+  if (!geminiKey) return json({ error: "Neural voice provider is not configured.", code: "VOICE_PROVIDER_NOT_CONFIGURED", fallbackToText: true }, 503);
 
   const userClient = createClient(supabaseUrl, anonKey, { global: { headers: { Authorization: authorization } } });
   const { data: userData, error: userError } = await userClient.auth.getUser();
@@ -118,27 +120,43 @@ Deno.serve(async (request) => {
   if (contextKind === "professional_portal" && agentId !== "dion") return json({ error: "Dion is the professional portal assistant." }, 403);
 
   const profileConfig = voiceProfiles[agentId];
-  const providerResponse = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "x-goog-api-key": geminiKey },
-    body: JSON.stringify({
-      contents: [{ parts: [{ text: `${profileConfig.direction}\n\nRead this exact HLC reply aloud without adding or removing words:\n${text}` }] }],
-      generationConfig: {
-        responseModalities: ["AUDIO"],
-        speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: profileConfig.voice } } },
-      },
-    }),
-  });
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort("voice_provider_timeout"), VOICE_PROVIDER_TIMEOUT_MS);
+
+  let providerResponse: Response;
+  try {
+    providerResponse = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-goog-api-key": geminiKey },
+      signal: controller.signal,
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: `${profileConfig.direction}\n\nRead this exact HLC reply aloud without adding or removing words:\n${text}` }] }],
+        generationConfig: {
+          responseModalities: ["AUDIO"],
+          speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: profileConfig.voice } } },
+        },
+      }),
+    });
+  } catch (reason) {
+    if (controller.signal.aborted) {
+      console.error("Gemini TTS provider timeout", VOICE_PROVIDER_TIMEOUT_MS);
+      return json({ error: "Voice generation took too long. Continue with the text reply.", code: "VOICE_PROVIDER_TIMEOUT", retryable: true, fallbackToText: true }, 504);
+    }
+    console.error("Gemini TTS network error", reason instanceof Error ? reason.message.slice(0, 300) : "unknown");
+    return json({ error: "Voice generation is temporarily unavailable. Continue with the text reply.", code: "VOICE_PROVIDER_NETWORK_ERROR", retryable: true, fallbackToText: true }, 502);
+  } finally {
+    clearTimeout(timeoutId);
+  }
 
   if (!providerResponse.ok) {
     const providerText = (await providerResponse.text()).slice(0, 500);
     console.error("Gemini TTS provider error", providerResponse.status, providerText);
-    return json({ error: "Neural voice generation failed." }, 502);
+    return json({ error: "Voice generation is temporarily unavailable. Continue with the text reply.", code: `VOICE_PROVIDER_${providerResponse.status}`, retryable: providerResponse.status === 429 || providerResponse.status >= 500, fallbackToText: true }, 502);
   }
 
   const providerData = await providerResponse.json();
   const inline = providerData?.candidates?.[0]?.content?.parts?.find((part: { inlineData?: { data?: string; mimeType?: string } }) => part?.inlineData?.data)?.inlineData;
-  if (!inline?.data) return json({ error: "Neural voice returned no audio." }, 502);
+  if (!inline?.data) return json({ error: "Voice provider returned no audio. Continue with the text reply.", code: "VOICE_PROVIDER_EMPTY_AUDIO", retryable: true, fallbackToText: true }, 502);
 
   const raw = Uint8Array.from(atob(inline.data), (char) => char.charCodeAt(0));
   const isWav = String(inline.mimeType || "").toLowerCase().includes("wav");
