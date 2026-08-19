@@ -22,8 +22,6 @@ const dashboardCss = readFileSync("src/styles/dashboard.css", "utf8");
 const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
 const workspaceNav = readFileSync("src/styles/workspace-nav.css", "utf8");
 const mobileAppShell = readFileSync("src/styles/mobile-app-shell.css", "utf8");
-const mobileWorkDock = readFileSync("src/components/mobile/MobileWorkDock.tsx", "utf8");
-const mobileWorkDockCss = readFileSync("src/styles/mobile-work-dock.css", "utf8");
 const mobileReleaseCss = readFileSync("src/styles/mobile-release-fix.css", "utf8");
 const appLayout = readFileSync("src/routes/AppLayout.tsx", "utf8");
 const premiumTheme = readFileSync("src/styles/premium-theme.css", "utf8");
@@ -126,20 +124,11 @@ test("navigation, dashboard and contextual agents share one fail-closed account 
   assert.doesNotMatch(contextualDock, /from\("workspace_members"\)/);
 });
 
-test("mobile workspace exposes a persistent remote-work action dock", () => {
-  assert.match(appLayout, /session && <MobileWorkDock \/>/);
-  assert.match(mobileWorkDock, /aria-label="Mobile work actions"/);
-  assert.match(mobileWorkDock, /label: "Call"/);
-  assert.match(mobileWorkDock, /label: "Text"/);
-  assert.match(mobileWorkDock, /label: "Schedule"/);
-  assert.match(mobileWorkDock, /label: "Follow Up"/);
-  assert.match(mobileWorkDock, /label: "Voice Note"/);
-  assert.match(mobileWorkDock, /\/messages\?compose=voice-note/);
-  assert.match(mobileWorkDockCss, /@media \(max-width: 720px\)/);
-  assert.match(mobileWorkDockCss, /bottom: calc\(82px \+ env\(safe-area-inset-bottom\)\)/);
-  assert.match(mobileWorkDockCss, /grid-template-columns: repeat\(5, minmax\(0, 1fr\)\)/);
-  assert.match(mobileWorkDockCss, /padding-bottom: calc\(236px \+ env\(safe-area-inset-bottom\)\)/);
-  assert.match(mainEntry, /\.\/styles\/mobile-work-dock\.css/);
+test("mobile workspace uses one permanent navigation surface", () => {
+  assert.doesNotMatch(appLayout, /MobileWorkDock/);
+  assert.doesNotMatch(mainEntry, /mobile-work-dock\.css/);
+  assert.match(navbar, /className="hlc-mobile-tabbar"/);
+  assert.match(navbar, /aria-label="Mobile primary navigation"/);
 });
 
 test("Kendrell HQ separates the family memorial from the operational AI workspace", () => {
