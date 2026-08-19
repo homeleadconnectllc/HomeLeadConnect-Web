@@ -67,9 +67,9 @@ jobs:
             bestPractices: score('best-practices'),
           };
           console.log('Mobile Lighthouse', scores);
-          if (scores.performance < 0.70) throw new Error(`Mobile performance ${scores.performance} < 0.70`);
+          if (scores.performance < 0.85) throw new Error(`Mobile performance ${scores.performance} < 0.85`);
           if (scores.accessibility < 0.95) throw new Error(`Mobile accessibility ${scores.accessibility} < 0.95`);
-          if (scores.bestPractices < 0.90) throw new Error(`Mobile best practices ${scores.bestPractices} < 0.90`);
+          if (scores.bestPractices < 0.95) throw new Error(`Mobile best practices ${scores.bestPractices} < 0.95`);
           NODE
 
       - name: Desktop rendered quality gate
@@ -92,9 +92,9 @@ jobs:
             bestPractices: score('best-practices'),
           };
           console.log('Desktop Lighthouse', scores);
-          if (scores.performance < 0.80) throw new Error(`Desktop performance ${scores.performance} < 0.80`);
+          if (scores.performance < 0.95) throw new Error(`Desktop performance ${scores.performance} < 0.95`);
           if (scores.accessibility < 0.95) throw new Error(`Desktop accessibility ${scores.accessibility} < 0.95`);
-          if (scores.bestPractices < 0.90) throw new Error(`Desktop best practices ${scores.bestPractices} < 0.90`);
+          if (scores.bestPractices < 0.95) throw new Error(`Desktop best practices ${scores.bestPractices} < 0.95`);
           NODE
 
       - name: Upload rendered QA evidence
