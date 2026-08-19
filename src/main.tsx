@@ -43,6 +43,7 @@ import './styles/workspace-premium-v4.css';
 import './styles/workspace-route-cleanup.css';
 import './styles/desktop-shell-contract-v2.css';
 import './styles/mobile-agent-placement-contract.css';
+import './styles/messages-mobile-polish.css';
 import App from "./App.tsx";
 import { AuthProvider } from "./context/AuthContext";
 import { AccountAccessProvider } from "./context/AccountAccessProvider";
