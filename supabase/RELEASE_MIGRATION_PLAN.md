@@ -105,6 +105,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 97. `20260818131500_fix_internal_workspace_lead_upsert_defaults.sql`
 98. `20260818133000_schema_qualify_causal_lead_digest.sql`
 99. `20260819054000_resend_email_provider_routing.sql`
+100. `20260819130000_backend_launch_hardening.sql`
 
 ## Current production rules
 
