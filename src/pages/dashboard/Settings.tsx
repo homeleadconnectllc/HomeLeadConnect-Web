@@ -19,6 +19,7 @@ import {
 } from "../../api/billing";
 import { listBusinessPhones, type BusinessPhone } from "../../api/telephony";
 import { Link } from "react-router-dom";
+import { DeviceAlertSettings } from "../../components/notifications/RealtimeNotificationCenter";
 
 const blankBusiness = {
   business_name: "", owner_name: "", phone: "", email: "", website: "",
@@ -212,6 +213,8 @@ export default function Settings() {
       </div>
       <p><small>Provider credentials are configured only in the trusted server environment, never in workspace settings.</small></p>
     </section>
+
+    <DeviceAlertSettings />
 
     <section style={cardStyle}>
       <h2>Billing</h2>
