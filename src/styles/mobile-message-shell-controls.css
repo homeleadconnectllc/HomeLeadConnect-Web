@@ -1,0 +1,205 @@
+.hlc-mobile-side-controls {
+  position: fixed;
+  z-index: 1550;
+  top: calc(92px + env(safe-area-inset-top));
+  right: max(8px, env(safe-area-inset-right));
+  display: grid;
+  width: 78px;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid rgba(148, 163, 184, .28);
+  border-radius: 16px;
+  background: rgba(10, 18, 32, .94);
+  box-shadow: 0 14px 34px rgba(2, 6, 23, .28);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.hlc-mobile-side-controls-label {
+  color: #93c5fd;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .1em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.hlc-mobile-side-controls button {
+  min-height: 38px;
+  border: 1px solid rgba(100, 116, 139, .42);
+  border-radius: 10px;
+  padding: 6px 4px;
+  background: #172235;
+  color: #dbeafe;
+  font: inherit;
+  font-size: 10px;
+  font-weight: 850;
+  line-height: 1.1;
+  cursor: pointer;
+}
+
+.hlc-mobile-side-controls button.is-active {
+  border-color: #60a5fa;
+  background: rgba(37, 99, 235, .34);
+  color: #fff;
+}
+
+.hlc-mobile-side-controls button.is-signout {
+  border-color: rgba(248, 113, 113, .38);
+  background: rgba(127, 29, 29, .28);
+  color: #fecaca;
+}
+
+@media (max-width: 1024px) {
+  .hlc-mobile-portal .hlc-nav-logout {
+    display: none !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .hlc-messages-page {
+    box-sizing: border-box;
+    width: min(100% - 20px, 720px) !important;
+    margin: 18px auto 0 !important;
+    padding-bottom: calc(178px + env(safe-area-inset-bottom));
+  }
+
+  .hlc-messages-page > h1 {
+    margin-bottom: 8px;
+  }
+
+  .hlc-messages-page > p {
+    margin-top: 0;
+    line-height: 1.45;
+  }
+
+  .hlc-messages-layout {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  .hlc-messages-conversations,
+  .hlc-messages-thread,
+  .hlc-message-start {
+    padding: 14px !important;
+    border-radius: 16px !important;
+  }
+
+  .hlc-chat-history-heading,
+  .hlc-message-thread-head {
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .hlc-chat-history-heading h2,
+  .hlc-message-thread-head h2 {
+    margin: 2px 0 0;
+    line-height: 1.05;
+  }
+
+  .hlc-chat-history-item {
+    box-sizing: border-box;
+    min-height: 0 !important;
+    gap: 4px !important;
+    margin-bottom: 8px !important;
+    padding: 12px 13px !important;
+    border: 1px solid #dbe3ef !important;
+    border-radius: 14px !important;
+    background: #f8fafc !important;
+    color: #0f172a !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-chat-history-item.is-selected {
+    border-color: #60a5fa !important;
+    border-left: 4px solid #2563eb !important;
+    background: #eef4ff !important;
+  }
+
+  .hlc-chat-history-item strong {
+    color: #0f172a !important;
+    font-size: 16px;
+    line-height: 1.15;
+  }
+
+  .hlc-chat-history-item span {
+    color: #334155 !important;
+    font-size: 14px;
+    line-height: 1.35;
+  }
+
+  .hlc-chat-history-item small {
+    color: #64748b !important;
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .hlc-message-stream {
+    display: grid;
+    gap: 9px;
+  }
+
+  .hlc-message-bubble,
+  .hlc-message-bubble-self {
+    margin: 0 !important;
+    padding: 12px 13px !important;
+    border: 1px solid #dbe3ef;
+    border-radius: 14px !important;
+    background: #f8fafc !important;
+    color: #0f172a !important;
+  }
+
+  .hlc-message-bubble-self {
+    border-color: #bfdbfe;
+    background: #eff6ff !important;
+  }
+
+  .hlc-message-bubble p {
+    margin: 0 0 6px !important;
+    color: #0f172a !important;
+    font-size: 16px;
+    line-height: 1.45;
+  }
+
+  .hlc-message-bubble small {
+    color: #64748b !important;
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .hlc-message-reply {
+    gap: 10px !important;
+    margin-top: 14px !important;
+  }
+
+  .hlc-message-reply textarea,
+  .hlc-message-start textarea,
+  .hlc-message-start input,
+  .hlc-message-start select {
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .hlc-voice-notes {
+    margin-top: 16px;
+  }
+
+  .hlc-message-start {
+    margin-top: 12px !important;
+    margin-bottom: 18px;
+  }
+}
+
+@media (max-width: 420px) {
+  .hlc-mobile-side-controls {
+    top: calc(84px + env(safe-area-inset-top));
+    right: max(6px, env(safe-area-inset-right));
+    width: 70px;
+    padding: 7px;
+  }
+
+  .hlc-mobile-side-controls button {
+    min-height: 36px;
+    font-size: 9px;
+  }
+}
