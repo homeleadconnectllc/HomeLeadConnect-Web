@@ -1,0 +1,129 @@
+/* Desktop launch-certification polish.
+   Keep this narrow: improve desktop information density and contrast without
+   changing mobile behavior, business logic, or canonical agent identities. */
+
+@media (min-width: 900px) {
+  .hlc-signed-in-shell {
+    grid-template-columns: 264px minmax(0, 1fr) !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar {
+    width: 264px !important;
+    gap: 12px !important;
+    padding: 14px 11px 16px !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-brand {
+    padding-bottom: 10px !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-logo {
+    width: 46px !important;
+    height: 46px !important;
+    flex-basis: 46px !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-brand-copy h2 {
+    font-size: 16px !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-owner-home-link {
+    min-height: 56px !important;
+    padding: 10px 11px !important;
+    border-radius: 10px !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-groups {
+    gap: 6px !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-nav-group summary {
+    min-height: 44px !important;
+    padding: 9px 11px !important;
+    border-radius: 10px !important;
+    font-size: 14px !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-nav-group summary > small {
+    min-width: 24px !important;
+    height: 24px !important;
+    font-size: 11px !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-nav-menu {
+    gap: 3px !important;
+    margin-top: 5px !important;
+    padding: 5px !important;
+    border-radius: 10px !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-nav-menu a {
+    min-height: 42px !important;
+    gap: 2px !important;
+    padding: 8px 9px !important;
+    border-radius: 8px !important;
+    font-size: 13px !important;
+  }
+
+  /* Desktop navigation descriptions were making the permanent rail read like
+     documentation instead of navigation. Keep labels scannable; detail remains
+     available in the destination pages themselves. */
+  .hlc-signed-in-shell > .hlc-navbar .hlc-nav-menu a > small {
+    display: none !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-center {
+    width: calc(100% - 28px) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-hero {
+    padding: 20px 24px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-center h1 {
+    font-size: clamp(2rem, 4vw, 2.85rem) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-system-strip {
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-metric-grid {
+    margin-top: 10px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-metric-card {
+    min-height: 72px !important;
+    padding: 12px 14px !important;
+    color: #0f172a !important;
+  }
+
+  .hlc-signed-in-shell .hlc-metric-icon {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 9px !important;
+    background: #dbeafe !important;
+    color: #1d4ed8 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-metric-card strong {
+    margin-top: 10px !important;
+    color: #0b1730 !important;
+    font-size: clamp(1.45rem, 1.8vw, 1.8rem) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-metric-card > span:last-child {
+    margin-top: 4px !important;
+    color: #475569 !important;
+    font-size: .76rem !important;
+  }
+
+  .hlc-signed-in-shell .hlc-dashboard-section {
+    margin-top: 14px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-team-section {
+    margin-top: 14px !important;
+  }
+}
