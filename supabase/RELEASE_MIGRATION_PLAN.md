@@ -108,10 +108,13 @@ The active production app Supabase project is `homeconnect` (`cguhtshclyybivvdnp
 100. `20260819130000_backend_launch_hardening.sql`
 101. `20260819193000_restore_canonical_lead_ingest.sql`
 102. `20260819201500_disable_legacy_leads_new_writer.sql`
+103. `20260819210000_fix_hlc_v1_unlimited_plan_limits.sql`
 
 Migration #101 is retained in the local migration chain because it was applied to `hlc-reconciliation-test` during reconciliation. It is **not evidence of a production defect and is not required to be applied to `homeconnect` solely for parity**: production already has the canonical `causal.ingest_lead(...)` implementation from migration #98 with direct browser execution denied. Do not apply #101 to production unless a future production migration decision independently justifies it.
 
 Migration #102 is a production launch-hardening change. Production retains an empty legacy `public.leads_new` table for compatibility, but normal authenticated users must not be able to create shadow CRM records through `public.create_lead_if_under_limit(...)`. The canonical authenticated lead entry point remains `public.create_workspace_lead(...)` -> `causal.ingest_lead(...)` -> `public.leads`.
+
+Migration #103 fixes HLC V1 entitlement semantics: `lead_limit = 0` and `pipeline_limit = 0` are the plan's unlimited sentinels, not zero-capacity limits. The lead/pipeline guards and billing-state views must therefore report unlimited workspaces as allowed and not limit-reached while preserving existing membership and service-role authorization checks.
 
 ## Current production rules
 
