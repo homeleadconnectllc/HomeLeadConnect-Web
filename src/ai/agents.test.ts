@@ -96,3 +96,19 @@ test("agent voice personas stay distinct and locked", () => {
     assert.ok(agent.voicePersona.avoid.some((item) => /robotic/i.test(item)));
   }
 });
+
+test("provider voices stay agent-specific without generic male/female choices", () => {
+  const voiceRuntime = readFileSync("supabase/functions/hlc-agent-voice/index.ts", "utf8");
+  const chatPanel = readFileSync("src/components/agents/AgentChatPanel.tsx", "utf8");
+
+  assert.match(voiceRuntime, /kendrell:\s*\{[\s\S]*voice:\s*"Schedar"/);
+  assert.match(voiceRuntime, /dion:\s*\{[\s\S]*voice:\s*"Sadaltager"/);
+  assert.match(voiceRuntime, /diamond:\s*\{[\s\S]*voice:\s*"Sulafat"/);
+  assert.match(voiceRuntime, /Kendrell|adult male executive operator/i);
+  assert.match(voiceRuntime, /Dion|adult male business-intelligence operator/i);
+  assert.match(voiceRuntime, /Diamond|adult female customer-experience guide/i);
+
+  assert.match(chatPanel, /\{agentName\} voice · \{voicePersona\.tone\}/);
+  assert.doesNotMatch(chatPanel, /voicePersona\.genderPresentation/);
+  assert.doesNotMatch(chatPanel, /<select[^>]*voice/i);
+});
