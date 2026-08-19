@@ -19,7 +19,7 @@ Related evidence tables are:
 - `causal.leads_state` — append/de-duplicated causal ingestion state evidence.
 - `public.lead_activities` — lead activity evidence, including accepted public intake.
 
-A legacy/stale `leads_new` path is not part of the canonical launch architecture and must not be restored as a second CRM source of truth.
+Production still contains an empty legacy `public.leads_new` table. It is not the canonical CRM authority and must not receive normal authenticated browser writes or be restored as a parallel lead pipeline.
 
 ## Verified active intake paths
 
@@ -65,15 +65,17 @@ The current verified launch behavior therefore treats normalized phone identity 
 
 ## Write-boundary verification
 
-Production reconciliation confirms the controlled causal functions as the lead mutation boundary:
+Production reconciliation confirms the controlled causal functions as the canonical lead mutation boundary:
 
 - `causal._ingest_lead_impl(...)` — private implementation used by guarded public intake.
 - `causal.ingest_lead(...)` — richer internal causal writer used behind the authenticated Add Lead RPC.
 - `public.submit_public_service_request(...)` only performs the post-ingest `request_id` update; it does not directly INSERT a lead.
 
-`public.leads` has RLS enabled. The current browser-facing lead policy is authenticated workspace-scoped SELECT; there is no browser row policy authorizing direct INSERT/UPDATE/DELETE.
+`public.leads` has RLS enabled. The browser-facing lead policy is authenticated workspace-scoped SELECT; there is no browser row policy authorizing direct INSERT/UPDATE/DELETE.
 
-Table-level grants may still exist for normal API roles, but RLS and the approved RPC boundaries are the effective write authorization. Do not describe table grants alone as proof of write access.
+Production also contains the legacy SECURITY DEFINER helper `public.create_lead_if_under_limit(...)`, which writes to `public.leads_new`. The table itself has an authenticated INSERT-deny RLS policy, but SECURITY DEFINER bypasses that row-policy boundary. Launch certification found the legacy RPC still executable by `authenticated` even though the current repository has no consumer for it. Migration #102, `20260819201500_disable_legacy_leads_new_writer.sql`, removes authenticated execution while preserving `service_role` compatibility.
+
+The presence of the empty legacy table is therefore treated as compatibility state, not a second active CRM. Normal browser users must have only the canonical `public.create_workspace_lead(...)` entry point for internal lead creation.
 
 ## Production versus reconciliation-test evidence
 
@@ -126,14 +128,16 @@ If an earlier product definition for Lead Vacuum is recovered, reconcile each in
 
 ## Launch classification
 
-The Lead Vacuum foundation is **reconciled at the canonical lead-system boundary** against production `homeconnect`:
+The Lead Vacuum foundation is **reconciled at the canonical lead-system boundary** against production `homeconnect`, with one focused legacy-writer hardening gate:
 
-- canonical CRM table: verified;
+- canonical CRM table `public.leads`: verified;
 - public request-service intake: verified structurally;
 - public intake guard/idempotency: verified;
 - authenticated Add Lead entry point: verified structurally;
 - canonical internal writer presence/security: verified in production;
-- shadow lead table/path: not active in the launch architecture;
+- legacy `public.leads_new`: exists, empty, non-canonical;
+- direct browser INSERT to `leads_new`: denied by RLS;
+- legacy SECURITY DEFINER `create_lead_if_under_limit`: migration #102 removes authenticated execution;
 - reconciliation-test writer drift: repaired in test only and not classified as a production defect;
 - broader undocumented Lead Vacuum source adapters: not claimed.
 

@@ -107,8 +107,11 @@ The active production app Supabase project is `homeconnect` (`cguhtshclyybivvdnp
 99. `20260819054000_resend_email_provider_routing.sql`
 100. `20260819130000_backend_launch_hardening.sql`
 101. `20260819193000_restore_canonical_lead_ingest.sql`
+102. `20260819201500_disable_legacy_leads_new_writer.sql`
 
 Migration #101 is retained in the local migration chain because it was applied to `hlc-reconciliation-test` during reconciliation. It is **not evidence of a production defect and is not required to be applied to `homeconnect` solely for parity**: production already has the canonical `causal.ingest_lead(...)` implementation from migration #98 with direct browser execution denied. Do not apply #101 to production unless a future production migration decision independently justifies it.
+
+Migration #102 is a production launch-hardening change. Production retains an empty legacy `public.leads_new` table for compatibility, but normal authenticated users must not be able to create shadow CRM records through `public.create_lead_if_under_limit(...)`. The canonical authenticated lead entry point remains `public.create_workspace_lead(...)` -> `causal.ingest_lead(...)` -> `public.leads`.
 
 ## Current production rules
 
@@ -119,7 +122,7 @@ Migration #101 is retained in the local migration chain because it was applied t
 - Internal workspace team invitations are hashed, email-bound, single-use, expiring, and role-limited. Owners may invite managers or technicians; managers may invite technicians. Team membership mutations run through role-checked RPCs rather than direct browser writes.
 - Browser access to `workspace_members` is authenticated read-only for the caller's own membership. Anonymous SELECT and legacy direct membership-management policies are removed; role changes and membership mutation use audited RPCs/server paths.
 - Internal workspace route policy recognizes `owner`, `manager`, and `technician`. Owner-only surfaces include HQ/command authority and subscription billing. Manager-level surfaces include workflow, automation, analytics, settings, team administration, operations, CX control, and moderation. Technicians receive operational workspace access but not manager/owner control planes.
-- `public.leads` is a server-only write surface. Browser roles do not receive direct INSERT access; canonical lead creation must use the approved server/RPC ingestion boundary.
+- `public.leads` is a server-only write surface. Browser roles do not receive direct INSERT access; canonical lead creation must use the approved server/RPC ingestion boundary. Legacy `public.leads_new` must not be writable through an authenticated browser RPC.
 - `run_hlc_automation` and `automation_jobs` history are owner/manager control-plane capabilities. The production database enforces that rule in addition to the browser UI.
 - `run_hlc_scheduled_workflow_scan()` is a system-only recurring read-only monitor. Normal browser roles cannot invoke it. It records workflow health, follow-up pressure, and owner-attention evidence without messaging customers, assigning providers, scheduling appointments, changing workflow state, or changing billing.
 - Legacy SECURITY DEFINER operational/billing helpers must verify authenticated identity, canonical workspace membership, and internal role where the operation is staff-only.
