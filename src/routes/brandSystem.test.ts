@@ -4,9 +4,11 @@ import test from "node:test";
 
 const brandLock = readFileSync("src/styles/hlc-brand-lock.css", "utf8");
 const mainEntry = readFileSync("src/main.tsx", "utf8");
+const authenticatedEntry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 
 test("HLC canonical brand lock stays global before legacy and final release guards", () => {
-  assert.match(mainEntry, /contrast-contract\.css";\s*import "\.\/styles\/workspace-premium-v3\.css";\s*import "\.\/styles\/responsive-page-contract\.css";\s*import "\.\/styles\/hlc-brand-lock\.css";\s*import "\.\/styles\/legacy-device-compat\.css";\s*import "\.\/styles\/final-release-guard\.css";/);
+  assert.match(mainEntry, /contrast-contract\.css";\s*import "\.\/styles\/responsive-page-contract\.css";\s*import "\.\/styles\/hlc-brand-lock\.css";\s*import "\.\/styles\/legacy-device-compat\.css";\s*import "\.\/styles\/final-release-guard\.css";/);
+  assert.match(authenticatedEntry, /workspace-premium-v3\.css/);
   assert.match(brandLock, /--hlc-brand-navy: #0d1b3d/);
   assert.match(brandLock, /--hlc-brand-blue: #1e5bff/);
   assert.match(brandLock, /--hlc-brand-white: #ffffff/);
