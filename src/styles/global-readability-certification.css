@@ -237,12 +237,14 @@
     font-weight: 800 !important;
   }
 
-  .hlc-desktop-sidebar-toggle {
+  /* This selector intentionally matches the legacy desktop-shell specificity so
+     the final certification layer can restore the requested collapse control. */
+  .hlc-signed-in-shell > .hlc-desktop-sidebar-toggle {
     position: fixed;
     z-index: 1600;
     top: 50%;
     left: 248px;
-    display: grid;
+    display: grid !important;
     width: 34px;
     height: 54px;
     place-items: center;
@@ -258,12 +260,12 @@
     transition: left .22s ease, background .18s ease;
   }
 
-  .hlc-desktop-sidebar-toggle:hover,
-  .hlc-desktop-sidebar-toggle:focus-visible {
+  .hlc-signed-in-shell > .hlc-desktop-sidebar-toggle:hover,
+  .hlc-signed-in-shell > .hlc-desktop-sidebar-toggle:focus-visible {
     background: #173158;
   }
 
-  .hlc-desktop-sidebar-toggle > span:first-child {
+  .hlc-signed-in-shell > .hlc-desktop-sidebar-toggle > span:first-child {
     font-size: 28px;
     line-height: 1;
   }
@@ -310,7 +312,7 @@
 }
 
 @media (max-width: 1024px) {
-  .hlc-desktop-sidebar-toggle {
+  .hlc-signed-in-shell > .hlc-desktop-sidebar-toggle {
     display: none !important;
   }
 }
