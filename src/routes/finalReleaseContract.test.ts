@@ -9,6 +9,7 @@ const reserved = readFileSync("src/pages/dashboard/ReservedCapability.tsx", "utf
 const releaseGuard = readFileSync("src/styles/final-release-guard.css", "utf8");
 const globalPremium = readFileSync("src/styles/global-premium-system.css", "utf8");
 const workspaceRouteCleanup = readFileSync("src/styles/workspace-route-cleanup.css", "utf8");
+const desktopDashboardCertification = readFileSync("src/styles/desktop-dashboard-certification.css", "utf8");
 const main = readFileSync("src/main.tsx", "utf8");
 const requestService = readFileSync("src/pages/RequestService.tsx", "utf8");
 const professional = readFileSync("src/pages/ProfessionalApplication.tsx", "utf8");
@@ -69,6 +70,17 @@ test("route cleanup is the final authenticated presentation layer", () => {
   assert.match(workspaceRouteCleanup, /main:not\(\[class\]\)/);
   assert.match(workspaceRouteCleanup, /\.hlc-command-center/);
   assert.match(workspaceRouteCleanup, /margin-bottom: calc\(172px \+ env\(safe-area-inset-bottom\)\) !important/);
+});
+
+test("desktop dashboard certification layer is last and keeps light metrics readable", () => {
+  const readinessIndex = main.indexOf("./styles/frontend-readiness-contract.css");
+  const certificationIndex = main.indexOf("./styles/desktop-dashboard-certification.css");
+  assert.ok(readinessIndex >= 0);
+  assert.ok(certificationIndex > readinessIndex);
+  assert.match(desktopDashboardCertification, /grid-template-columns:\s*264px minmax\(0, 1fr\)/);
+  assert.match(desktopDashboardCertification, /\.hlc-metric-card strong[\s\S]*color:\s*#0b1730 !important/);
+  assert.match(desktopDashboardCertification, /\.hlc-metric-card > span:last-child[\s\S]*color:\s*#475569 !important/);
+  assert.match(desktopDashboardCertification, /\.hlc-nav-menu a > small[\s\S]*display:\s*none !important/);
 });
 
 test("anonymous intake surfaces retain bot-trap fields", () => {
