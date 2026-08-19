@@ -23,7 +23,6 @@ import "./styles/visual-centering.css";
 import "./styles/property-intelligence.css";
 import "./styles/heading-contrast.css";
 import "./styles/mobile-acceptance.css";
-import "./styles/mobile-work-dock.css";
 import "./styles/analytics-hardening.css";
 import "./styles/global-pull-refresh.css";
 import "./styles/global-smart-compose.css";
