@@ -1,0 +1,99 @@
+/* Mobile dashboard launch-certification polish.
+   Fix the real-device AI-team layout without changing business logic,
+   routes, data, or canonical agent identities. */
+
+@media (max-width: 720px) {
+  .hlc-signed-in-shell .hlc-command-center {
+    width: 100% !important;
+    max-width: none !important;
+    padding-inline: 14px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-team-section {
+    padding: 18px 14px !important;
+    overflow: hidden !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-team-heading {
+    display: block !important;
+    margin-bottom: 16px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-team-heading > div {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-team-heading h2 {
+    max-width: none !important;
+    margin-top: 4px !important;
+    font-size: clamp(1.45rem, 7.2vw, 1.85rem) !important;
+    line-height: 1.12 !important;
+    letter-spacing: -.025em !important;
+    text-wrap: pretty !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-team-intro {
+    max-width: 34ch !important;
+    margin: 10px 0 0 !important;
+    font-size: .88rem !important;
+    line-height: 1.5 !important;
+  }
+
+  /* The workspace-count pill is redundant on a phone and was rendering as an
+     empty-looking capsule beside the heading. */
+  .hlc-signed-in-shell .hlc-agent-team-chip {
+    display: none !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-grid {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-card {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-portrait-wrap {
+    width: 100% !important;
+    min-height: 230px !important;
+    max-height: 280px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-portrait {
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 230px !important;
+    object-fit: cover !important;
+    object-position: center 20% !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-card-body {
+    min-width: 0 !important;
+    padding: 18px 16px 20px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-card-body h3 {
+    font-size: 1.35rem !important;
+    line-height: 1.15 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-card-body p,
+  .hlc-signed-in-shell .hlc-agent-intelligence {
+    font-size: .88rem !important;
+    line-height: 1.5 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-open {
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    width: 100% !important;
+    margin-top: 14px !important;
+  }
+}
