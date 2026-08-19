@@ -2,12 +2,14 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 
+const appLayout = readFileSync("src/routes/AppLayout.tsx", "utf8");
 const protectedLayout = readFileSync("src/layouts/ProtectedLayout.tsx", "utf8");
 const contextualAgentDock = readFileSync("src/components/agents/ContextualAgentDock.tsx", "utf8");
 
-test("authenticated protected layout mounts the contextual AI agent without a separate tutorial bubble", () => {
-  assert.match(protectedLayout, /import ContextualAgentDock from "\.\.\/components\/agents\/ContextualAgentDock"/);
-  assert.match(protectedLayout, /<ContextualAgentDock \/>/);
+test("authenticated shell has one contextual AI agent owner without a separate tutorial bubble", () => {
+  assert.match(appLayout, /const ContextualAgentDock = lazy\(\(\) => import\("\.\.\/components\/agents\/ContextualAgentDock"\)\)/);
+  assert.match(appLayout, /<ContextualAgentDock \/>/);
+  assert.doesNotMatch(protectedLayout, /ContextualAgentDock/);
   assert.doesNotMatch(protectedLayout, /LiveTutorialDock/);
 });
 
