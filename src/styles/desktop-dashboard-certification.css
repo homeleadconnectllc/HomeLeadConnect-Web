@@ -73,7 +73,8 @@
   }
 
   .hlc-signed-in-shell .hlc-command-center {
-    width: calc(100% - 28px) !important;
+    width: 100% !important;
+    max-width: none !important;
   }
 
   .hlc-signed-in-shell .hlc-command-hero {
@@ -125,5 +126,43 @@
 
   .hlc-signed-in-shell .hlc-agent-team-section {
     margin-top: 14px !important;
+  }
+}
+
+/* Normal laptops should prioritize the working canvas. The dedicated AI rail
+   only makes sense on genuinely wide desktop monitors. Between 900px and
+   1699px, reclaim the old 282px utility reservation and keep the closed agent
+   launcher compact in the lower-right corner instead of squeezing the page. */
+@media (min-width: 900px) and (max-width: 1699px) {
+  .hlc-signed-in-shell > .hlc-route-content {
+    padding-right: 0 !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content > main:not(.hlc-match-page):not(.hlc-kendrell-dedication-page) {
+    width: calc(100% - 28px) !important;
+    max-width: none !important;
+    margin: 14px auto 88px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock:not(.is-open) {
+    top: auto !important;
+    right: 16px !important;
+    bottom: 16px !important;
+    width: auto !important;
+    max-width: 220px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger {
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: 220px !important;
+  }
+}
+
+/* Very wide monitors can afford the dedicated AI utility rail without
+   stealing the dashboard's primary working width. */
+@media (min-width: 1700px) {
+  .hlc-signed-in-shell > .hlc-route-content {
+    padding-right: 282px !important;
   }
 }
