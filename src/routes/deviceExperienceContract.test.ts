@@ -10,7 +10,7 @@ const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
 const appLayout = readFileSync("src/routes/AppLayout.tsx", "utf8");
 const desktopContract = readFileSync("src/styles/desktop-shell-contract-v2.css", "utf8");
 const readabilityContract = readFileSync("src/styles/global-readability-certification.css", "utf8");
-const mainEntry = readFileSync("src/main.tsx", "utf8");
+const authenticatedStyles = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 
 test("agents proactively brief users from verified HLC context without waiting for a prompt", () => {
   assert.match(agentDock, /chatWithAgent\(/);
@@ -57,6 +57,6 @@ test("normal laptop widths keep desktop workspace navigation available with an e
   assert.match(readabilityContract, /hlc-sidebar-is-collapsed/);
   assert.match(readabilityContract, /grid-template-columns: 56px minmax\(0, 1fr\) !important/);
   assert.match(readabilityContract, /\.hlc-signed-in-shell > \.hlc-desktop-sidebar-toggle/);
-  assert.match(mainEntry, /workspace-route-cleanup\.css';\s*import '\.\/styles\/desktop-shell-contract-v2\.css';/);
-  assert.match(mainEntry, /global-readability-certification\.css/);
+  assert.match(authenticatedStyles, /workspace-route-cleanup\.css";\s*import "\.\/desktop-shell-contract-v2\.css";/);
+  assert.match(authenticatedStyles, /global-readability-certification\.css/);
 });
