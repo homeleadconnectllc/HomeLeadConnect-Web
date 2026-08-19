@@ -47,6 +47,7 @@ import './styles/lead-detail.css';
 import './styles/frontend-readiness-contract.css';
 import './styles/desktop-dashboard-certification.css';
 import './styles/mobile-dashboard-certification.css';
+import './styles/global-readability-certification.css';
 import App from "./App.tsx";
 import { AuthProvider } from "./context/AuthContext";
 import { AccountAccessProvider } from "./context/AccountAccessProvider";
