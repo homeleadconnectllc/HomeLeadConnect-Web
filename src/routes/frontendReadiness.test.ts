@@ -4,14 +4,15 @@ import test from "node:test";
 
 const readiness = readFileSync("src/styles/frontend-readiness-contract.css", "utf8");
 const main = readFileSync("src/main.tsx", "utf8");
+const authenticatedStyles = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 const appLayout = readFileSync("src/routes/AppLayout.tsx", "utf8");
 const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
 const footer = readFileSync("src/components/Footer.tsx", "utf8");
 const mobileControls = readFileSync("src/components/MobileViewControls.tsx", "utf8");
 const mobileShell = readFileSync("src/styles/mobile-message-shell-controls.css", "utf8");
 
-test("final frontend readiness guard is mounted after the other release styles", () => {
-  assert.match(main, /frontend-readiness-contract\.css/);
+test("final frontend readiness guard is mounted in the authenticated style bundle", () => {
+  assert.match(authenticatedStyles, /frontend-readiness-contract\.css/);
 });
 
 test("mobile shell prevents horizontal clipping and reserves safe navigation clearance", () => {
@@ -52,6 +53,7 @@ test("More owns display controls and sign out without a fixed side overlay", () 
 test("authenticated shell cannot mount a second permanent mobile work dock", () => {
   assert.doesNotMatch(appLayout, /MobileWorkDock/);
   assert.doesNotMatch(main, /mobile-work-dock\.css/);
+  assert.doesNotMatch(authenticatedStyles, /mobile-work-dock\.css/);
   assert.match(navbar, /className="hlc-mobile-tabbar"/);
   assert.match(navbar, /aria-label="Mobile primary navigation"/);
 });
