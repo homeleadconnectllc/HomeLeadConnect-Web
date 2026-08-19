@@ -2,7 +2,7 @@
 
 Status: **production is live**. The ordered list below is the canonical local migration chain and must remain an exact filename-ordered mirror of `supabase/migrations`.
 
-The active production app Supabase project is `agfwqnirspmptjiqrrtk`. Do not apply launch migrations to a reconciliation/test project as a substitute for production. Production DDL changes must be represented here, applied intentionally, verified, and followed by security/performance checks appropriate to the change.
+The active production app Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`). The project `hlc-reconciliation-test` (`agfwqnirspmptjiqrrtk`) is a reconciliation/test project and must not be treated as production evidence. Production DDL changes must be represented here, applied intentionally, verified, and followed by security/performance checks appropriate to the change.
 
 ## Ordered canonical chain
 
@@ -107,6 +107,8 @@ The active production app Supabase project is `agfwqnirspmptjiqrrtk`. Do not app
 99. `20260819054000_resend_email_provider_routing.sql`
 100. `20260819130000_backend_launch_hardening.sql`
 101. `20260819193000_restore_canonical_lead_ingest.sql`
+
+Migration #101 is retained in the local migration chain because it was applied to `hlc-reconciliation-test` during reconciliation. It is **not evidence of a production defect and is not required to be applied to `homeconnect` solely for parity**: production already has the canonical `causal.ingest_lead(...)` implementation from migration #98 with direct browser execution denied. Do not apply #101 to production unless a future production migration decision independently justifies it.
 
 ## Current production rules
 
