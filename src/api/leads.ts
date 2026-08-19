@@ -11,6 +11,8 @@ export type LeadRecord = Lead & {
   next_follow_up_at: string | null;
   sla_status: string | null;
   conversion_score: number | null;
+  notes: string | null;
+  updated_at: string | null;
 };
 
 export type CreateLeadInput = {
@@ -29,6 +31,8 @@ const leadColumns = [
   "phone",
   "status",
   "created_at",
+  "updated_at",
+  "notes",
   "lead_code",
   "source",
   "priority",
