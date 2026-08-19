@@ -44,7 +44,9 @@ import './styles/workspace-route-cleanup.css';
 import './styles/desktop-shell-contract-v2.css';
 import './styles/mobile-agent-placement-contract.css';
 import './styles/messages-mobile-polish.css';
+import './styles/mobile-menu-utilities.css';
 import App from "./App.tsx";
+import MobileMenuUtilities from "./components/MobileMenuUtilities.tsx";
 import { AuthProvider } from "./context/AuthContext";
 import { AccountAccessProvider } from "./context/AccountAccessProvider";
 
@@ -63,6 +65,7 @@ createRoot(document.getElementById("root")!).render(
     <AuthProvider>
       <AccountAccessProvider>
         <App />
+        <MobileMenuUtilities />
       </AccountAccessProvider>
     </AuthProvider>
   </StrictMode>,
