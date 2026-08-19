@@ -27,7 +27,7 @@ A legacy/stale `leads_new` path is not part of the canonical launch architecture
 
 The public `/request-service` form calls `src/api/publicIntake.ts`, which invokes `public.submit_public_service_request(...)` with a generated request UUID and honeypot field.
 
-The live RPC:
+The live production RPC:
 
 - validates the enabled public form;
 - applies the public intake guard/rate-limit/honeypot boundary;
@@ -43,7 +43,7 @@ The public form does not directly insert a browser row into `public.leads`.
 
 The signed-in Leads workspace calls `public.create_workspace_lead(...)`.
 
-The live RPC:
+The live production RPC:
 
 - requires an authenticated user;
 - derives the active workspace from the profile;
@@ -59,13 +59,13 @@ The browser does not insert directly into `public.leads`.
 
 The canonical causal writers normalize the phone value to digits and upsert on the unique `(workspace_id, phone)` identity.
 
-Public service requests add a second idempotency boundary through `(workspace_id, request_id)`, preventing a retried form request from creating another lead.
+Public service requests add a second idempotency boundary through the hardened intake ledger: `public.public_intake_attempts` uniquely enforces `(form_slug, request_id)`. A retried request returns the original accepted/rejected decision instead of creating a second intake event.
 
 The current verified launch behavior therefore treats normalized phone identity within a workspace as the canonical lead identity. Any future Lead Vacuum source adapter must use the same canonical ingestion boundary rather than inventing its own deduplication table or direct INSERT path.
 
 ## Write-boundary verification
 
-Live production reconciliation found controlled causal functions as the lead mutation boundary:
+Production reconciliation confirms the controlled causal functions as the lead mutation boundary:
 
 - `causal._ingest_lead_impl(...)` — private implementation used by guarded public intake.
 - `causal.ingest_lead(...)` — richer internal causal writer used behind the authenticated Add Lead RPC.
@@ -75,23 +75,27 @@ Live production reconciliation found controlled causal functions as the lead mut
 
 Table-level grants may still exist for normal API roles, but RLS and the approved RPC boundaries are the effective write authorization. Do not describe table grants alone as proof of write access.
 
-## Production drift found and repaired
+## Production versus reconciliation-test evidence
 
-The reconciliation discovered a launch blocker: `public.create_workspace_lead(...)` depended on `causal.ingest_lead(...)`, while that canonical wrapper was absent from the live app database catalog.
+The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`). The project `hlc-reconciliation-test` (`agfwqnirspmptjiqrrtk`) is not production and must not be used as production certification evidence.
 
-PR #59 restored the wrapper with forward-only migration `20260819193000_restore_canonical_lead_ingest.sql` and explicitly revoked direct execution from PUBLIC, `anon`, and `authenticated` roles.
+A reconciliation pass against `hlc-reconciliation-test` found `public.create_workspace_lead(...)` present while `causal.ingest_lead(...)` was absent there. PR #59 added forward-only migration `20260819193000_restore_canonical_lead_ingest.sql`, and that migration was applied to the reconciliation-test project with direct PUBLIC/`anon`/`authenticated` execution revoked.
 
-After deployment to the production app Supabase project `agfwqnirspmptjiqrrtk`:
+That finding was **test-project schema drift, not a production launch defect**.
 
-- the canonical `causal.ingest_lead(...)` signature exists;
+Independent verification against production `homeconnect` confirms:
+
+- the canonical `causal.ingest_lead(...)` signature already exists from the earlier production lead-ingest migration chain;
 - `anon` cannot execute it;
 - `authenticated` cannot execute it directly;
-- the migration is recorded in Supabase migration history;
-- `public.create_workspace_lead(...)` remains the approved authenticated browser entry point.
+- `public.create_workspace_lead(...)` remains the approved authenticated browser entry point;
+- production did not require migration #101 to restore the writer.
+
+Migration #101 remains in the local repository migration chain because it was applied to the reconciliation-test project. It must not be described as production repair evidence or applied to production solely for test-history parity.
 
 ## Current active public source inventory
 
-The live `public.public_forms` inventory currently includes:
+The live production `public.public_forms` inventory includes:
 
 - `request-service` — enabled; source `public_website`; canonical lead intake.
 - `professional-application` — enabled; source `public_website`; provider/professional application intake, not a customer lead writer.
@@ -122,14 +126,15 @@ If an earlier product definition for Lead Vacuum is recovered, reconcile each in
 
 ## Launch classification
 
-The Lead Vacuum foundation is **reconciled at the canonical lead-system boundary**:
+The Lead Vacuum foundation is **reconciled at the canonical lead-system boundary** against production `homeconnect`:
 
 - canonical CRM table: verified;
-- public request-service intake: verified;
+- public request-service intake: verified structurally;
 - public intake guard/idempotency: verified;
 - authenticated Add Lead entry point: verified structurally;
-- canonical internal writer presence/security: repaired and verified;
+- canonical internal writer presence/security: verified in production;
 - shadow lead table/path: not active in the launch architecture;
+- reconciliation-test writer drift: repaired in test only and not classified as a production defect;
 - broader undocumented Lead Vacuum source adapters: not claimed.
 
 Real signed-in owner Add Lead execution remains part of the owner runtime acceptance journey; catalog/source inspection does not replace that human-authenticated proof.
