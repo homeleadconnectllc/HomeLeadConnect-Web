@@ -10,6 +10,7 @@ const releaseGuard = readFileSync("src/styles/final-release-guard.css", "utf8");
 const globalPremium = readFileSync("src/styles/global-premium-system.css", "utf8");
 const workspaceRouteCleanup = readFileSync("src/styles/workspace-route-cleanup.css", "utf8");
 const desktopDashboardCertification = readFileSync("src/styles/desktop-dashboard-certification.css", "utf8");
+const mobileDashboardCertification = readFileSync("src/styles/mobile-dashboard-certification.css", "utf8");
 const main = readFileSync("src/main.tsx", "utf8");
 const requestService = readFileSync("src/pages/RequestService.tsx", "utf8");
 const professional = readFileSync("src/pages/ProfessionalApplication.tsx", "utf8");
@@ -86,6 +87,18 @@ test("desktop dashboard certification layer is last and keeps light metrics read
   assert.match(desktopDashboardCertification, /\.hlc-command-center \{[\s\S]*width:\s*100% !important/);
   assert.match(desktopDashboardCertification, /\.hlc-agent-dock:not\(\.is-open\)[\s\S]*bottom:\s*16px !important/);
   assert.match(desktopDashboardCertification, /min-width:\s*1700px[\s\S]*padding-right:\s*282px !important/);
+});
+
+test("mobile dashboard certification keeps the AI team readable and single-column", () => {
+  const desktopIndex = main.indexOf("./styles/desktop-dashboard-certification.css");
+  const mobileIndex = main.indexOf("./styles/mobile-dashboard-certification.css");
+  assert.ok(desktopIndex >= 0);
+  assert.ok(mobileIndex > desktopIndex);
+  assert.match(mobileDashboardCertification, /max-width:\s*720px/);
+  assert.match(mobileDashboardCertification, /\.hlc-agent-team-chip[\s\S]*display:\s*none !important/);
+  assert.match(mobileDashboardCertification, /\.hlc-agent-grid[\s\S]*grid-template-columns:\s*1fr !important/);
+  assert.match(mobileDashboardCertification, /\.hlc-agent-card[\s\S]*grid-template-columns:\s*1fr !important/);
+  assert.match(mobileDashboardCertification, /\.hlc-agent-portrait[\s\S]*object-fit:\s*cover !important/);
 });
 
 test("anonymous intake surfaces retain bot-trap fields", () => {
