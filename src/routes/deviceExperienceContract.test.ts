@@ -45,7 +45,7 @@ test("mobile field-work navigation remains primary while agent presentation stay
 });
 
 test("normal laptop widths keep desktop workspace navigation available with an explicit collapse control", () => {
-  assert.match(appLayout, /DESKTOP_SIDEBAR_KEY/);
+  assert.match(appLayout, /SIDEBAR_COLLAPSED_KEY/);
   assert.match(appLayout, /sidebarCollapsed/);
   assert.match(appLayout, /hlc-desktop-sidebar-toggle/);
   assert.match(desktopContract, /@media \(min-width: 900px\)/);
