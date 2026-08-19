@@ -2,7 +2,7 @@
 
 Status: **production is live**. The ordered list below is the canonical local migration chain and must remain an exact filename-ordered mirror of `supabase/migrations`.
 
-The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`). Do not apply launch migrations to the reconciliation/test project as a substitute for production. Production DDL changes must be represented here, applied intentionally, verified, and followed by security/performance checks appropriate to the change.
+The active production app Supabase project is `agfwqnirspmptjiqrrtk`. Do not apply launch migrations to a reconciliation/test project as a substitute for production. Production DDL changes must be represented here, applied intentionally, verified, and followed by security/performance checks appropriate to the change.
 
 ## Ordered canonical chain
 
@@ -106,6 +106,7 @@ The active production Supabase project is `homeconnect` (`cguhtshclyybivvdnpig`)
 98. `20260818133000_schema_qualify_causal_lead_digest.sql`
 99. `20260819054000_resend_email_provider_routing.sql`
 100. `20260819130000_backend_launch_hardening.sql`
+101. `20260819193000_restore_canonical_lead_ingest.sql`
 
 ## Current production rules
 
