@@ -87,10 +87,6 @@ export default function Messages() {
       .catch((reason: unknown) => setError(errorMessage(reason, "Unable to load voice notes.")));
   }, [selectedId]);
 
-  useEffect(() => {
-    if (!selectedRecipient?.email) setSendEmailCopy(false);
-  }, [selectedRecipient?.email]);
-
   async function start(event: FormEvent) {
     event.preventDefault();
     const recipient = recipients.find((item) => item.linkId === recipientId);
@@ -255,7 +251,14 @@ export default function Messages() {
         <form className="hlc-message-start" onSubmit={start} style={{ ...panelStyle, marginTop: 20 }}>
           <h2>Start a portal conversation</h2>
           <label>Recipient
-            <select required value={recipientId} onChange={(event) => setRecipientId(event.target.value)}>
+            <select
+              required
+              value={recipientId}
+              onChange={(event) => {
+                setRecipientId(event.target.value);
+                setSendEmailCopy(false);
+              }}
+            >
               <option value="">Select a linked portal account</option>
               {recipients.map((recipient) => (
                 <option key={recipient.linkId} value={recipient.linkId}>
