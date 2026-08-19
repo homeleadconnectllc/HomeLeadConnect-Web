@@ -145,24 +145,5 @@ begin
 end;
 $$;
 
-insert into public.communication_provider_connections(
-  workspace_id, channel, status, provider_name, sender_identity, verified_at, updated_at
-)
-select
-  w.id,
-  'email',
-  'connected',
-  'resend',
-  'notifications@mail.homeleadconnect.org',
-  now(),
-  now()
-from public.workspaces w
-where exists (
-  select 1 from public.workspace_members wm where wm.workspace_id=w.id
-)
-on conflict (workspace_id, channel) do update
-set status='connected',
-    provider_name='resend',
-    sender_identity='notifications@mail.homeleadconnect.org',
-    verified_at=coalesce(public.communication_provider_connections.verified_at, now()),
-    updated_at=now();
+-- Provider connection rows are operational workspace state, not schema state.
+-- They are configured explicitly when a workspace has verified provider credentials.
