@@ -5,6 +5,14 @@ import { createLead, listLeads, type LeadRecord } from "../../api/leads";
 import LeadCard from "../../components/leads/LeadCard";
 import { errorMessage } from "../../lib/errorMessage";
 
+function createLeadErrorMessage(reason: unknown) {
+  const message = errorMessage(reason, "Unable to create lead.");
+  if (/LEAD_LIMIT_REACHED/i.test(message)) {
+    return "Your workspace has reached its lead limit. Review your subscription or contact support before adding another lead.";
+  }
+  return message;
+}
+
 export default function Leads() {
   const [leads, setLeads] = useState<LeadRecord[]>([]);
   const [error, setError] = useState("");
@@ -60,7 +68,7 @@ export default function Leads() {
       setLoading(true);
       await refreshLeads();
     } catch (reason: unknown) {
-      setCreateError(errorMessage(reason, "Unable to create lead."));
+      setCreateError(createLeadErrorMessage(reason));
     } finally {
       setSavingLead(false);
     }

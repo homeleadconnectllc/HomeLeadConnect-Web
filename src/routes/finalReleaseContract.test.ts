@@ -12,6 +12,8 @@ const workspaceRouteCleanup = readFileSync("src/styles/workspace-route-cleanup.c
 const main = readFileSync("src/main.tsx", "utf8");
 const requestService = readFileSync("src/pages/RequestService.tsx", "utf8");
 const professional = readFileSync("src/pages/ProfessionalApplication.tsx", "utf8");
+const leadsPage = readFileSync("src/pages/dashboard/Leads.tsx", "utf8");
+const unlimitedPlanMigration = readFileSync("supabase/migrations/20260819210000_fix_hlc_v1_unlimited_plan_limits.sql", "utf8");
 const qaWorkflow = readFileSync(".github/workflows/netlify-e2e-qa-site.yml", "utf8");
 const turnstileConfig = readFileSync("src/lib/turnstile.ts", "utf8");
 const indexHtml = readFileSync("index.html", "utf8");
@@ -74,6 +76,14 @@ test("anonymous intake surfaces retain bot-trap fields", () => {
   assert.match(requestService, /tabIndex=\{-1\}/);
   assert.match(professional, /honeypot/);
   assert.match(professional, /tabIndex=\{-1\}/);
+});
+
+test("HLC V1 zero limits remain unlimited rather than zero-capacity", () => {
+  assert.match(unlimitedPlanMigration, /if v_limit = 0 then[\s\S]*return true/i);
+  assert.match(unlimitedPlanMigration, /when wps\.lead_limit = 0 then false/i);
+  assert.match(unlimitedPlanMigration, /when wps\.pipeline_limit = 0 then false/i);
+  assert.match(leadsPage, /Your workspace has reached its lead limit\. Review your subscription or contact support/);
+  assert.doesNotMatch(leadsPage, /setCreateError\(errorMessage\(reason, "Unable to create lead\."\)\)/);
 });
 
 test("isolated QA never inherits production authentication runtime", () => {
