@@ -22,23 +22,25 @@ function readStoredViewMode(): ViewMode {
   }
 }
 
+function isCompactDevice() {
+  if (typeof window === "undefined") return false;
+  return Math.min(window.screen.width, window.screen.height) <= 900;
+}
+
 export default function MobileViewControls() {
   const { session, loading } = useAuth();
-  const [viewMode, setViewMode] = useState<ViewMode>("mobile");
-  const [compactDevice, setCompactDevice] = useState(false);
+  const [viewMode, setViewMode] = useState<ViewMode>(() => readStoredViewMode());
+  const [compactDevice, setCompactDevice] = useState(() => isCompactDevice());
 
   useEffect(() => {
-    const updateCompactDevice = () => setCompactDevice(Math.min(window.screen.width, window.screen.height) <= 900);
-    updateCompactDevice();
+    const updateCompactDevice = () => setCompactDevice(isCompactDevice());
     window.addEventListener("orientationchange", updateCompactDevice);
     return () => window.removeEventListener("orientationchange", updateCompactDevice);
   }, []);
 
   useEffect(() => {
-    const stored = readStoredViewMode();
-    setViewMode(stored);
-    applyViewMode(stored);
-  }, []);
+    applyViewMode(viewMode);
+  }, [viewMode]);
 
   function chooseView(mode: ViewMode) {
     setViewMode(mode);
@@ -47,7 +49,6 @@ export default function MobileViewControls() {
     } catch {
       // Preference persistence is progressive enhancement.
     }
-    applyViewMode(mode);
   }
 
   async function logout() {
