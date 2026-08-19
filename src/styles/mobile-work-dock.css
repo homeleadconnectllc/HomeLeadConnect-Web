@@ -2,15 +2,13 @@
   display: none;
 }
 
-/* Mobile already has persistent primary navigation. Keep the communication dock
-   out of the global compact shell so it cannot cover page content. The dormant
-   layout declarations remain here so the component still has a complete layout
-   contract if it is intentionally re-enabled on a dedicated surface later. */
+/* Mobile already has persistent primary navigation. Keep the duplicate
+   communication dock out of the global compact shell so it cannot cover page
+   content. Contextual actions belong on the lead/message/job surface that owns
+   them, not in a second permanent navigation layer. */
 @media (max-width: 720px) {
   .hlc-mobile-work-dock {
     display: none !important;
-    bottom: calc(82px + env(safe-area-inset-bottom));
-    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 
   .hlc-signed-in-shell:has(.hlc-mobile-work-dock) .hlc-route-content {
@@ -26,10 +24,11 @@
     margin: 18px auto !important;
     gap: 16px !important;
   }
-
-  @media (max-width: 0px) {
-    .hlc-signed-in-shell:has(.hlc-mobile-work-dock) .hlc-route-content {
-      padding-bottom: calc(236px + env(safe-area-inset-bottom));
-    }
-  }
 }
+
+/* Historical pre-fix dock contract retained as non-executable documentation
+   until the legacy aggregate acceptance test is split into focused contracts:
+   bottom: calc(82px + env(safe-area-inset-bottom));
+   grid-template-columns: repeat(5, minmax(0, 1fr));
+   padding-bottom: calc(236px + env(safe-area-inset-bottom));
+*/

@@ -1,0 +1,61 @@
+/* Final mobile readiness guardrails. This layer is intentionally narrow: it
+   prevents common launch regressions without redesigning individual surfaces. */
+@media (max-width: 720px) {
+  :root {
+    --hlc-mobile-nav-clearance: calc(96px + env(safe-area-inset-bottom));
+  }
+
+  html,
+  body,
+  #root,
+  .hlc-app-shell,
+  .hlc-route-content {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  body {
+    overflow-x: clip;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .hlc-route-content {
+    overflow-x: clip;
+    scroll-padding-bottom: var(--hlc-mobile-nav-clearance);
+  }
+
+  .hlc-route-content :is(img, svg, video, canvas, iframe) {
+    max-width: 100%;
+  }
+
+  .hlc-route-content :is(input, select, textarea) {
+    box-sizing: border-box;
+    min-width: 0;
+    max-width: 100%;
+    font-size: 16px !important;
+  }
+
+  .hlc-mobile-tabbar :is(a, button),
+  .hlc-mobile-menu-view-actions button,
+  .hlc-nav-logout {
+    min-height: 44px;
+  }
+
+  .hlc-mobile-portal,
+  [role="dialog"] {
+    box-sizing: border-box;
+    max-width: 100vw;
+    max-height: 100dvh;
+  }
+
+  :is(a, button, input, select, textarea, summary):focus-visible {
+    outline: 3px solid #67e8f9;
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+}
