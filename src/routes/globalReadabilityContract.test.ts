@@ -2,17 +2,19 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 
-const main = readFileSync("src/main.tsx", "utf8");
+const authenticatedStyles = readFileSync("src/styles/authenticated-entry.ts", "utf8");
+const app = readFileSync("src/App.tsx", "utf8");
 const appLayout = readFileSync("src/routes/AppLayout.tsx", "utf8");
 const settings = readFileSync("src/pages/dashboard/Settings.tsx", "utf8");
 const notifications = readFileSync("src/components/notifications/RealtimeNotificationCenter.tsx", "utf8");
 const readability = readFileSync("src/styles/global-readability-certification.css", "utf8");
 
-test("global readability certification is the final stylesheet", () => {
-  const mobileIndex = main.indexOf("./styles/mobile-dashboard-certification.css");
-  const readabilityIndex = main.indexOf("./styles/global-readability-certification.css");
+test("global readability certification is the final authenticated stylesheet", () => {
+  const mobileIndex = authenticatedStyles.indexOf("./mobile-dashboard-certification.css");
+  const readabilityIndex = authenticatedStyles.indexOf("./global-readability-certification.css");
   assert.ok(mobileIndex >= 0);
   assert.ok(readabilityIndex > mobileIndex);
+  assert.match(app, /lazy\(\(\) => import\("\.\/styles\/AuthenticatedStyles"\)\)/);
 });
 
 test("signed-in light and dark surfaces have explicit readable copy contracts", () => {
