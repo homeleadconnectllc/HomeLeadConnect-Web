@@ -28,7 +28,7 @@ Deno.serve(async (request) => {
   let body: Record<string, unknown>;
   try { body = await request.json(); } catch { return json(400, { error: "A valid JSON body is required." }); }
   const channel = String(body.channel || "").toLowerCase();
-  if (!['sms', 'email', 'call'].includes(channel)) return json(400, { error: "Unsupported communication channel." });
+  if (!["sms", "email", "call"].includes(channel)) return json(400, { error: "Unsupported communication channel." });
 
   const requestId = typeof body.clientRequestId === "string" ? body.clientRequestId : crypto.randomUUID();
   const { data: queued, error: queueError } = await userClient.rpc("queue_communication_transmission", {
@@ -58,11 +58,13 @@ Deno.serve(async (request) => {
       return json(503, { id: transmission.id, status: "failed", error: "Email Setup Required / Not Connected" });
     }
     if (!transmission.content) return json(400, { error: "Email content is required." });
+    const requestedSubject = typeof body.subject === "string" ? body.subject.trim() : "";
+    const emailSubject = requestedSubject.slice(0, 160) || `HomeLead Connect — ${String(body.purpose || "service").replaceAll("_", " ")}`;
     await admin.from("communication_transmissions").update({ status: "sending", attempt_count: 1 }).eq("id", transmission.id).eq("status", "queued");
     const providerResponse = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: { Authorization: `Bearer ${resendKey}`, "Content-Type": "application/json", "Idempotency-Key": requestId },
-      body: JSON.stringify({ from: resendFrom, to: [transmission.destination], subject: `HomeLead Connect — ${String(body.purpose || "service").replaceAll("_", " ")}`, text: transmission.content }),
+      body: JSON.stringify({ from: resendFrom, to: [transmission.destination], subject: emailSubject, text: transmission.content }),
     });
     const providerBody = await providerResponse.json().catch(() => ({}));
     if (!providerResponse.ok || typeof providerBody.id !== "string") {
