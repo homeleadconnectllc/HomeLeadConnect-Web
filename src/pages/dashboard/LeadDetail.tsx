@@ -11,25 +11,23 @@ function displayDate(value: string | null | undefined) {
 
 export default function LeadDetail() {
   const { leadId } = useParams();
+  const parsedLeadId = Number(leadId);
+  const validLeadId = Number.isInteger(parsedLeadId) && parsedLeadId > 0 ? parsedLeadId : null;
   const [lead, setLead] = useState<LeadRecord | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const id = Number(leadId);
-    if (!Number.isInteger(id) || id <= 0) {
-      setError("Invalid lead record.");
-      setLoading(false);
-      return;
-    }
+    if (validLeadId === null) return;
     let active = true;
-    getLead(id)
+    getLead(validLeadId)
       .then((record) => { if (active) setLead(record); })
       .catch((reason: unknown) => { if (active) setError(errorMessage(reason, "Unable to load this lead.")); })
       .finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
-  }, [leadId]);
+  }, [validLeadId]);
 
+  if (validLeadId === null) return <main className="hlc-lead-detail-page"><Link to="/leads">← Back to Leads</Link><p role="alert">Invalid lead record.</p></main>;
   if (loading) return <main className="hlc-lead-detail-page"><p role="status">Loading lead…</p></main>;
   if (error || !lead) return <main className="hlc-lead-detail-page"><Link to="/leads">← Back to Leads</Link><p role="alert">{error || "Lead not found."}</p></main>;
 
