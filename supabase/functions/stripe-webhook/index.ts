@@ -3,6 +3,9 @@ import { createClient } from "npm:@supabase/supabase-js@2.57.4";
 
 const json = (body: Record<string, unknown>, status = 200) => new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
 const iso = (seconds: number | null | undefined) => seconds ? new Date(seconds * 1000).toISOString() : null;
+const safeDbError = (error: { code?: string; message?: string } | null | undefined) => error
+  ? `${error.code || "DB_ERROR"}: ${String(error.message || "unknown").slice(0, 300)}`
+  : "unknown";
 
 Deno.serve(async (request) => {
   if (request.method !== "POST") return json({ error: "Method not allowed." }, 405);
@@ -23,17 +26,30 @@ Deno.serve(async (request) => {
   const digest = [...new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(rawBody)))]
     .map((value) => value.toString(16).padStart(2, "0")).join("");
   const admin = createClient(url, service, { auth: { persistSession: false } });
-  const { data: existing } = await admin.from("stripe_webhook_events").select("status").eq("event_id", event.id).maybeSingle();
+  const { data: existing, error: existingError } = await admin.from("stripe_webhook_events").select("status").eq("event_id", event.id).maybeSingle();
+  if (existingError) {
+    console.error("Stripe webhook event lookup failed", event.id, event.type, safeDbError(existingError));
+    return json({ error: "Webhook event lookup failed." }, 500);
+  }
   if (existing?.status === "processed") return json({ received: true, duplicate: true });
-  if (existing?.status === "processing") return json({ error: "Event is already processing." }, 409);
+  if (existing?.status === "processing") return json({ received: true, duplicate: true, processing: true });
   const eventRow = { event_id: event.id, event_type: event.type, api_version: event.api_version, payload_sha256: digest,
     status: "processing", last_received_at: new Date().toISOString(), error_message: null };
   if (existing) {
-    await admin.from("stripe_webhook_events").update(eventRow).eq("event_id", event.id);
-    await admin.rpc("increment_stripe_webhook_attempt", { p_event_id: event.id });
+    const { error: updateError } = await admin.from("stripe_webhook_events").update(eventRow).eq("event_id", event.id);
+    if (updateError) {
+      console.error("Stripe webhook reservation update failed", event.id, event.type, safeDbError(updateError));
+      return json({ error: "Unable to reserve webhook event." }, 500);
+    }
+    const { error: attemptError } = await admin.rpc("increment_stripe_webhook_attempt", { p_event_id: event.id });
+    if (attemptError) console.error("Stripe webhook attempt increment failed", event.id, safeDbError(attemptError));
   } else {
     const { error } = await admin.from("stripe_webhook_events").insert(eventRow);
-    if (error) return json({ error: "Unable to reserve webhook event." }, 500);
+    if (error?.code === "23505") return json({ received: true, duplicate: true, processing: true });
+    if (error) {
+      console.error("Stripe webhook reservation insert failed", event.id, event.type, safeDbError(error));
+      return json({ error: "Unable to reserve webhook event." }, 500);
+    }
   }
 
   async function syncSubscription(subscription: Stripe.Subscription) {
@@ -97,11 +113,14 @@ Deno.serve(async (request) => {
         if (noticeError) throw noticeError;
       }
     }
-    await admin.from("stripe_webhook_events").update({ status: "processed", processed_at: new Date().toISOString() }).eq("event_id", event.id);
+    const { error: processedError } = await admin.from("stripe_webhook_events").update({ status: "processed", processed_at: new Date().toISOString(), error_message: null }).eq("event_id", event.id);
+    if (processedError) throw processedError;
     return json({ received: true });
   } catch (reason) {
     const error = reason instanceof Error ? reason.message.slice(0, 500) : "Webhook processing failed.";
-    await admin.from("stripe_webhook_events").update({ status: "failed", error_message: error }).eq("event_id", event.id);
+    console.error("Stripe webhook processing failed", event.id, event.type, error);
+    const { error: failureWriteError } = await admin.from("stripe_webhook_events").update({ status: "failed", error_message: error }).eq("event_id", event.id);
+    if (failureWriteError) console.error("Stripe webhook failure state write failed", event.id, safeDbError(failureWriteError));
     return json({ error: "Webhook processing failed." }, 500);
   }
 });
