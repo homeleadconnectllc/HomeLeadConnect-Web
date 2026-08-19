@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import AnalyticsTracker from "../components/analytics/AnalyticsTracker";
@@ -8,6 +8,8 @@ const ContextualAgentDock = lazy(() => import("../components/agents/ContextualAg
 const AnalyticsKpis = lazy(() => import("../components/analytics/AnalyticsKpis"));
 const AudioDeviceCenter = lazy(() => import("../components/audio/AudioDeviceCenter"));
 const FieldDeviceCenter = lazy(() => import("../components/device/FieldDeviceCenter"));
+
+const SIDEBAR_COLLAPSED_KEY = "hlc-desktop-sidebar-collapsed";
 
 const AGENT_ROUTE_PREFIXES = [
   "/dashboard", "/start-here", "/ecosystem", "/workflow", "/automations", "/activity",
@@ -27,10 +29,19 @@ export default function AppLayout() {
   const { session } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === "1";
+  });
   const showAudioDevices = Boolean(session) && (location.pathname === "/settings" || location.pathname === "/call-center");
   const showFieldDevices = Boolean(session) && location.pathname === "/settings";
   const showAnalytics = Boolean(session) && location.pathname === "/dashboard";
   const showContextualAgent = Boolean(session) && isAgentRoute(location.pathname);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    window.localStorage.setItem(SIDEBAR_COLLAPSED_KEY, sidebarCollapsed ? "1" : "0");
+  }, [sidebarCollapsed]);
 
   useEffect(() => {
     const logo = document.querySelector<HTMLElement>(".hlc-navbar-logo");
@@ -60,9 +71,21 @@ export default function AppLayout() {
   }, [navigate, session]);
 
   return (
-    <div className={`hlc-app-shell ${session ? "hlc-signed-in-shell" : "hlc-public-shell"}`}>
+    <div className={`hlc-app-shell ${session ? "hlc-signed-in-shell" : "hlc-public-shell"}${session && sidebarCollapsed ? " hlc-sidebar-is-collapsed" : ""}`}>
       <AnalyticsTracker />
       <Navbar />
+      {session && (
+        <button
+          className="hlc-desktop-sidebar-toggle"
+          type="button"
+          aria-label={sidebarCollapsed ? "Expand workspace sidebar" : "Collapse workspace sidebar"}
+          aria-expanded={!sidebarCollapsed}
+          onClick={() => setSidebarCollapsed((current) => !current)}
+        >
+          <span aria-hidden="true">{sidebarCollapsed ? "›" : "‹"}</span>
+          <span className="hlc-sidebar-toggle-label">{sidebarCollapsed ? "Open sidebar" : "Close sidebar"}</span>
+        </button>
+      )}
       <div className="hlc-route-content">
         <Outlet />
         <Suspense fallback={null}>
