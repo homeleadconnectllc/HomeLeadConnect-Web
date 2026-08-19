@@ -6,6 +6,8 @@ const callCenter = readFileSync("src/pages/dashboard/CallCenter.tsx", "utf8");
 const manualCommunications = readFileSync("src/pages/dashboard/ManualCommunications.tsx", "utf8");
 const postCallAutomation = readFileSync("src/lib/postCallAutomation.ts", "utf8");
 const messages = readFileSync("src/pages/dashboard/Messages.tsx", "utf8");
+const messagesApi = readFileSync("src/api/messages.ts", "utf8");
+const sendCommunication = readFileSync("supabase/functions/send-communication/index.ts", "utf8");
 const communityHub = readFileSync("src/pages/dashboard/CommunityHub.tsx", "utf8");
 const communityStore = readFileSync("src/components/community/CommunityStore.tsx", "utf8");
 
@@ -36,6 +38,17 @@ test("Messages exposes persisted chat history from canonical conversations", () 
   assert.match(messages, /CONVERSATION HISTORY/);
   assert.match(messages, /Persisted chat history/);
   assert.match(messages, /conversation\.messages\.length/);
+});
+
+test("Messages can deliberately send a portal message through the canonical Resend transport", () => {
+  assert.match(messages, /sendPortalEmail/);
+  assert.match(messages, /Also send this by email/);
+  assert.match(messages, /Start conversation \+ send email/);
+  assert.match(messagesApi, /functions\.invoke\("send-communication"/);
+  assert.match(messagesApi, /channel: "email"/);
+  assert.match(messagesApi, /subjectId/);
+  assert.match(sendCommunication, /requestedSubject/);
+  assert.match(sendCommunication, /subject: emailSubject/);
 });
 
 test("Community Store is fulfillment-gated and never claims HLC inventory or delivery", () => {
