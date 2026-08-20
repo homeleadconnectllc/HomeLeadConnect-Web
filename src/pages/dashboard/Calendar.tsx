@@ -92,8 +92,23 @@ export default function Calendar() {
   }, []);
 
   useEffect(() => {
-    load();
-  }, [load]);
+    let active = true;
+
+    listWorkspaceAppointments()
+      .then((data) => {
+        if (active) setAppointments(data);
+      })
+      .catch((reason: unknown) => {
+        if (active) setError(errorMessage(reason, "Unable to load schedule."));
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   async function run(action: () => Promise<unknown>, successMessage: string) {
     setBusy(true);
