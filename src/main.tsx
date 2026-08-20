@@ -22,10 +22,14 @@ const rootElement = document.getElementById("root")!;
 
 function publicHomeMarkup() {
   const year = new Date().getFullYear();
+  const compactMark = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'%3E%3Crect width='120' height='120' rx='26' fill='%230d1b3d'/%3E%3Cpath d='M28 31h13v22h38V31h13v58H79V66H41v23H28z' fill='%23fff'/%3E%3Cpath d='M48 76h24v13H48z' fill='%231e5bff'/%3E%3C/svg%3E";
   return `
     <main class="hlc-home" style="min-height:100vh;padding:40px 24px;background:linear-gradient(135deg,#ffffff 0%,#eff6ff 45%,#dbeafe 100%);color:#0f172a">
       <section class="hlc-home-hero" style="max-width:1100px;margin:0 auto;text-align:center;padding:72px 0 48px">
-        <img class="hlc-home-hero-logo" src="/hlc-icon.jpeg" alt="HomeLead Connect LLC" width="120" height="120" loading="lazy" fetchpriority="low" decoding="async" style="width:120px;height:120px;object-fit:contain;border-radius:24px;background:#fff;padding:14px;box-shadow:0 20px 60px rgba(15,23,42,.14)" />
+        <picture>
+          <source media="(max-width: 720px)" srcset="${compactMark}" />
+          <img class="hlc-home-hero-logo" src="/hlc-icon.jpeg" alt="HomeLead Connect LLC" width="120" height="120" loading="lazy" fetchpriority="low" decoding="async" style="width:120px;height:120px;object-fit:contain;border-radius:24px;background:#fff;padding:14px;box-shadow:0 20px 60px rgba(15,23,42,.14)" />
+        </picture>
         <p class="hlc-home-hero-kicker" style="font-weight:800;color:#2563eb;margin-top:28px">HOMELEAD CONNECT</p>
         <h1 class="hlc-home-hero-title" style="font-size:clamp(44px,8vw,84px);line-height:1;letter-spacing:-3px;margin:14px auto 22px;color:#0f172a;text-shadow:0 1px 0 rgba(255,255,255,.35)">One front door.<br />One connected home-services ecosystem.</h1>
         <p class="hlc-home-hero-copy" style="max-width:760px;margin:0 auto;font-size:21px;line-height:1.6;color:#475569">Request help, connect with providers, join the community, manage work, and reach the HomeLead Connect workspace from one identity.</p>
@@ -78,19 +82,19 @@ function publicHomeMarkup() {
     </footer>`;
 }
 
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    void navigator.serviceWorker.register("/sw.js", { updateViaCache: "none" }).then((registration) => {
-      void registration.update();
-    }).catch(() => {
-      // Installation support is progressive enhancement; the web app remains usable without a service worker.
-    });
-  });
-}
-
 if (isPublicHome) {
   rootElement.innerHTML = publicHomeMarkup();
 } else {
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      void navigator.serviceWorker.register("/sw.js", { updateViaCache: "none" }).then((registration) => {
+        void registration.update();
+      }).catch(() => {
+        // Installation support is progressive enhancement; the web app remains usable without a service worker.
+      });
+    });
+  }
+
   void Promise.all([
     import("react"),
     import("react-dom/client"),
