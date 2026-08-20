@@ -40,7 +40,7 @@ for (const file of [
   'src/pages/portal/ContractorProfile.tsx','src/pages/portal/ContractorPortalServices.tsx','src/pages/portal/ContractorPortalDocuments.tsx',
   'src/pages/dashboard/ProviderMap.tsx','src/pages/dashboard/WorkspaceActivity.tsx','src/components/agents/ContextualAgentDock.tsx','src/components/agents/AgentChatPanel.tsx',
   'src/ai/agents.ts','src/styles/launch-hardening.css','public/brand/avatars/Kendrell_Locked_HLC.png',
-  'public/brand/avatars/Dion_Locked_HLC.png','public/brand/avatars/Diamond_Locked_HLC.png','public/_redirects','netlify.toml',
+  'public/brand/avatars/Dion_Locked_HLC.png','public/brand/avatars/Diamond_Locked_HLC.png','public/_redirects','wrangler.jsonc',
   'supabase/functions/stripe-checkout-session/index.ts','supabase/functions/hlc-agent-chat/index.ts',
   'supabase/migrations/20260814134500_harden_internal_automation_access.sql',
   'supabase/migrations/20260814135500_enable_hourly_workflow_automation.sql',
@@ -70,7 +70,8 @@ requireText('.env.example', 'VITE_SUPABASE_ANON_KEY=');
 requireText('.env.example', 'VITE_BILLING_ENABLED=false');
 requireText('.env.example', 'VITE_PORTAL_INVITATIONS_ENABLED=false');
 requireText('public/_redirects', '/* /index.html 200');
-requireText('netlify.toml', 'publish = "dist"');
+requireText('wrangler.jsonc', '"name": "homeleadconnect-web"');
+requireText('wrangler.jsonc', '"pages_build_output_dir": "./dist"');
 requireText('src/pages/AppEntry.tsx', 'resolveUserDestination');
 requireText('src/layouts/WorkspaceLayout.tsx', 'resolveUserDestination');
 requireText('src/layouts/WorkspaceLayout.tsx', 'canAccessWorkspacePath');
@@ -168,7 +169,8 @@ requireText('src/pages/dashboard/Settings.tsx', 'formatBillingOffer');
 requireText('supabase/functions/stripe-checkout-session/index.ts', 'Stripe billing does not match the published HLC plan.');
 forbidText('src/pages/dashboard/Settings.tsx', '$99');
 
-if (fs.existsSync(path.join(root, 'vercel.json'))) failures.push('Stale vercel.json is present; Netlify is the canonical application host.');
+if (fs.existsSync(path.join(root, 'vercel.json'))) failures.push('Stale vercel.json is present; Cloudflare Pages is the canonical application host.');
+if (fs.existsSync(path.join(root, 'netlify.toml'))) failures.push('Stale netlify.toml is present; Cloudflare Pages is the canonical application host.');
 
 const routerPath = path.join(root, 'src/routes/AppRouter.tsx');
 if (fs.existsSync(routerPath)) {
