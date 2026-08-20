@@ -4,81 +4,118 @@ import CommunityStore from "../../components/community/CommunityStore";
 const hubSections = [
   {
     group: "Find & connect",
+    description: "Provider discovery and factual network evidence stay separate from assignment, pricing, and dispatch.",
     items: [
-      { title: "Provider Directory", body: "Browse canonical provider records and service capabilities.", to: "/providers", action: "Browse providers" },
-      { title: "Provider Map", body: "Explore stored provider locations without implying distance, routing, ETA, or live tracking.", to: "/map", action: "Open map" },
-      { title: "Community Matching", body: "Swipe through provider profiles. Like the people you want to revisit, pass on the rest, and open a full profile whenever you want more detail.", to: "/matching", action: "Start matching" },
-      { title: "Eligibility & Fit", body: "Review HLC service-area, availability, and eligibility evidence used for operational provider fit and assignment decisions.", to: "/network/eligibility", action: "Review fit evidence" },
-      { title: "Service Areas", body: "See recorded coverage areas for providers in the HLC Network.", to: "/network/service-areas", action: "View service areas" },
-      { title: "Availability", body: "Review provider availability records that have actually been stored in HLC.", to: "/network/availability", action: "View availability" },
-      { title: "Saved Providers", body: "Keep providers you want to revisit in one connected list.", to: "/network/saved", action: "Open saved providers" },
+      { title: "Provider Directory", body: "Browse canonical provider records and service capabilities.", to: "/providers", action: "Browse providers", meta: "Directory" },
+      { title: "Provider Map", body: "Explore stored provider locations without implying distance, routing, ETA, or live tracking.", to: "/map", action: "Open map", meta: "Location evidence" },
+      { title: "Community Matching", body: "Swipe through provider profiles, save people to revisit, and open full profiles for detail.", to: "/matching", action: "Start matching", meta: "Discovery" },
+      { title: "Eligibility & Fit", body: "Review service-area, availability, and eligibility evidence used for operational fit decisions.", to: "/network/eligibility", action: "Review fit evidence", meta: "Operational evidence" },
+      { title: "Service Areas", body: "See recorded coverage areas for providers in the HLC Network.", to: "/network/service-areas", action: "View service areas", meta: "Coverage" },
+      { title: "Availability", body: "Review provider availability records that have actually been stored in HLC.", to: "/network/availability", action: "View availability", meta: "Availability" },
+      { title: "Saved Providers", body: "Keep providers you want to revisit in one connected list.", to: "/network/saved", action: "Open saved providers", meta: "Saved" },
     ],
   },
   {
     group: "Participate",
+    description: "Community activity is organized around durable conversations, groups, and dated updates.",
     items: [
-      { title: "Discussions", body: "Ask questions, share updates, and participate in Community conversations.", to: "/community/discussions", action: "Open discussions" },
-      { title: "Groups", body: "Organize Community participation around useful shared topics and interests.", to: "/community/groups", action: "Open groups" },
-      { title: "Events & Updates", body: "See dated Community events and updates recorded inside HLC.", to: "/community/events", action: "View events" },
+      { title: "Discussions", body: "Ask questions, share updates, and participate in Community conversations.", to: "/community/discussions", action: "Open discussions", meta: "Conversation" },
+      { title: "Groups", body: "Organize Community participation around useful shared topics and interests.", to: "/community/groups", action: "Open groups", meta: "Shared interests" },
+      { title: "Events & Updates", body: "See dated Community events and updates recorded inside HLC.", to: "/community/events", action: "View events", meta: "Activity" },
     ],
   },
   {
     group: "Trust & growth",
+    description: "Trust signals are tied to recorded HLC activity, with explicit safety and moderation boundaries.",
     items: [
-      { title: "Completion-linked Reviews", body: "Reviews require eligible completed HLC work instead of free-floating rating claims.", to: "/community/reviews", action: "Open reviews" },
-      { title: "Referrals", body: "Record referral attribution without automatically enrolling or contacting another person.", to: "/community/referrals", action: "Open referrals" },
-      { title: "Rules & Safety", body: "Review Community conduct, privacy, safety, and operating expectations.", to: "/rules", action: "Read rules" },
-      { title: "Moderation", body: "Report Community content and route review through the authorized moderation path.", to: "/community/moderation", action: "Open moderation" },
+      { title: "Completion-linked Reviews", body: "Reviews require eligible completed HLC work instead of free-floating rating claims.", to: "/community/reviews", action: "Open reviews", meta: "Verified workflow" },
+      { title: "Referrals", body: "Record referral attribution without automatically enrolling or contacting another person.", to: "/community/referrals", action: "Open referrals", meta: "Attribution" },
+      { title: "Rules & Safety", body: "Review Community conduct, privacy, safety, and operating expectations.", to: "/rules", action: "Read rules", meta: "Policy" },
+      { title: "Moderation", body: "Report Community content and route review through the authorized moderation path.", to: "/community/moderation", action: "Open moderation", meta: "Safety review" },
     ],
   },
 ] as const;
 
+const quickLinks = [
+  ["Directory", "/providers"],
+  ["Map", "/map"],
+  ["Matching", "/matching"],
+  ["Discussions", "/community/discussions"],
+  ["Reviews", "/community/reviews"],
+  ["Events", "/community/events"],
+] as const;
+
 export default function CommunityHub() {
+  const destinationCount = hubSections.reduce((sum, section) => sum + section.items.length, 0);
+
   return (
-    <main style={{ width: "min(1380px, calc(100% - 32px))", margin: "40px auto 72px", lineHeight: 1.55 }}>
-      <header style={{ textAlign: "center", maxWidth: 900, margin: "0 auto 34px" }}>
-        <p style={{ margin: "0 0 8px", fontWeight: 800, letterSpacing: ".08em", textTransform: "uppercase" }}>HomeLead Connect · Community + Network</p>
-        <h1 style={{ margin: "0 0 14px", fontSize: "clamp(2.3rem, 6vw, 4.8rem)", lineHeight: .98 }}>Find. Connect. Participate.</h1>
-        <p style={{ margin: "0 auto", maxWidth: 780 }}>Community is the people-and-provider layer of HLC: swipe through provider profiles, explore locations and service coverage, participate in discussions and events, shop approved HLC merchandise, and use completion-linked trust signals without fabricated rankings or claims.</p>
+    <main className="hlc-community-workspace">
+      <header className="hlc-community-header">
+        <div>
+          <p className="hlc-community-kicker">COMMUNITY OPERATIONS</p>
+          <h1>Community</h1>
+          <p>Find providers, participate in HLC conversations, follow community activity, and use completion-linked trust signals without blurring discovery into assignment or endorsement.</p>
+        </div>
+        <div className="hlc-community-summary" aria-label="Community workspace summary">
+          <span><strong>{destinationCount}</strong><small>Connected destinations</small></span>
+          <span><strong>3</strong><small>Operating lanes</small></span>
+          <span><strong>Recorded</strong><small>Trust evidence</small></span>
+        </div>
       </header>
 
-      <nav aria-label="Community quick navigation" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 10, marginBottom: 30 }}>
-        <Link to="/providers">Directory</Link>
-        <Link to="/map">Map</Link>
-        <Link to="/matching">Matching</Link>
-        <Link to="/network/eligibility">Eligibility &amp; Fit</Link>
-        <Link to="/community/discussions">Discussions</Link>
-        <Link to="/community/reviews">Reviews</Link>
-        <Link to="/community/events">Events</Link>
+      <nav className="hlc-community-commandbar" aria-label="Community quick navigation">
+        {quickLinks.map(([label, to]) => <Link key={to} to={to}>{label}</Link>)}
         <a href="#hlc-store-heading">HLC Store</a>
       </nav>
 
-      {hubSections.map((section) => (
-        <section key={section.group} style={{ marginTop: 30 }}>
-          <div style={{ display: "flex", alignItems: "end", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 14 }}>
-            <h2 style={{ margin: 0 }}>{section.group}</h2>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 250px), 1fr))", gap: 16 }}>
-            {section.items.map((item) => (
-              <article key={item.title} style={{ border: "1px solid #dbe3ef", borderRadius: 18, padding: 20, background: "#fff", boxShadow: "0 10px 26px rgba(15,23,42,.05)", display: "flex", flexDirection: "column", minHeight: 190 }}>
-                <h3 style={{ margin: "0 0 8px" }}>{item.title}</h3>
-                <p style={{ margin: "0 0 18px", flex: 1 }}>{item.body}</p>
-                <Link to={item.to} style={{ fontWeight: 800 }}>{item.action}</Link>
-              </article>
-            ))}
-          </div>
-        </section>
-      ))}
-
-      <CommunityStore />
-
-      <section style={{ marginTop: 32, padding: 24, borderRadius: 20, background: "#0f172a", color: "#e2e8f0", textAlign: "center" }}>
-        <h2 style={{ color: "#fff", marginTop: 0 }}>Ready to move from discovery to service?</h2>
-        <p style={{ maxWidth: 760, margin: "0 auto 16px" }}>Community and Network help you explore. A service request begins the actual HLC workflow; provider assignment, pricing, scheduling, and completion remain separate recorded steps.</p>
-        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 12 }}>
-          <Link to="/request-service" style={{ color: "#fff", fontWeight: 800 }}>Request service</Link>
-          <Link to="/workflow" style={{ color: "#fff", fontWeight: 800 }}>Open workflow</Link>
+      <div className="hlc-community-console">
+        <div className="hlc-community-directory">
+          {hubSections.map((section) => (
+            <section className="hlc-community-lane" key={section.group}>
+              <header className="hlc-community-lane-head">
+                <div>
+                  <span>WORKSPACE LANE</span>
+                  <h2>{section.group}</h2>
+                  <p>{section.description}</p>
+                </div>
+                <strong>{section.items.length}</strong>
+              </header>
+              <div className="hlc-community-row-list">
+                {section.items.map((item) => (
+                  <article className="hlc-community-row" key={item.title}>
+                    <div className="hlc-community-row-copy">
+                      <span>{item.meta}</span>
+                      <h3>{item.title}</h3>
+                      <p>{item.body}</p>
+                    </div>
+                    <Link to={item.to}>{item.action}<span aria-hidden="true"> →</span></Link>
+                  </article>
+                ))}
+              </div>
+            </section>
+          ))}
         </div>
+
+        <aside className="hlc-community-context" aria-label="Community operating boundaries">
+          <section>
+            <span>DIAMOND · CX CONTEXT</span>
+            <h2>Community should stay useful, safe, and human.</h2>
+            <p>Customer-experience guidance belongs alongside the work, while provider facts, moderation decisions, reviews, and referrals remain grounded in their canonical HLC records.</p>
+          </section>
+          <section>
+            <span>OPERATING BOUNDARY</span>
+            <h3>Discovery is not dispatch.</h3>
+            <p>Community and Network help people explore. Provider assignment, pricing, scheduling, and completion remain separate recorded workflow steps.</p>
+            <div className="hlc-community-context-actions">
+              <Link to="/request-service">Request service</Link>
+              <Link to="/workflow">Open workflow</Link>
+            </div>
+          </section>
+        </aside>
+      </div>
+
+      <section className="hlc-community-store-workspace" aria-labelledby="hlc-store-heading">
+        <CommunityStore />
       </section>
     </main>
   );
