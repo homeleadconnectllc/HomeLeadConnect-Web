@@ -2,24 +2,6 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import HomePage from "./pages/HomePage";
 import "./index.css";
-import "./styles/workspace-nav.css";
-import "./styles/auth-methods.css";
-import "./styles/product-polish.css";
-import "./styles/launch-hardening.css";
-import "./styles/launch-mobile.css";
-import "./styles/visual-centering.css";
-import "./styles/heading-contrast.css";
-import "./styles/mobile-acceptance.css";
-import "./styles/premium-theme.css";
-import "./styles/premium-effects.css";
-import "./styles/global-premium-system.css";
-import "./styles/global-visual-pizzazz.css";
-import "./styles/contrast-contract.css";
-import "./styles/responsive-page-contract.css";
-import "./styles/hlc-brand-lock.css";
-import "./styles/legacy-device-compat.css";
-import "./styles/final-release-guard.css";
-import "./styles/mobile-release-fix.css";
 
 const APP_HOST = "app.homeleadconnect.org";
 const isPublicHome = window.location.pathname === "/" && window.location.hostname.toLowerCase() !== APP_HOST;
@@ -43,10 +25,11 @@ if (isPublicHome) {
   );
 } else {
   void Promise.all([
+    import("./styles/app-shell-entry"),
     import("./App.tsx"),
     import("./context/AuthContext"),
     import("./context/AccountAccessProvider"),
-  ]).then(([appModule, authModule, accessModule]) => {
+  ]).then(([, appModule, authModule, accessModule]) => {
     const App = appModule.default;
     const AuthProvider = authModule.AuthProvider;
     const AccountAccessProvider = accessModule.AccountAccessProvider;
