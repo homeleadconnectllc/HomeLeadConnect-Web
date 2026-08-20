@@ -46,6 +46,7 @@ export default function JobCard({
           ))}
         </select>
         <Link className="hlc-job-open" to={`/jobs/${job.id}`}>Open job</Link>
+        <Link to={`/documents?entityType=job&entityId=${encodeURIComponent(job.id)}`}>Attach evidence</Link>
       </div>
     </article>
   );
