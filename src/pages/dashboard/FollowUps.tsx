@@ -43,19 +43,19 @@ export default function FollowUps() {
       .finally(() => setLoading(false));
   }, []);
 
-  useEffect(() => {
-    if (leadId || !contextualLeadRecord || leads.length === 0) return;
+  const contextualLeadId = useMemo(() => {
+    if (!contextualLeadRecord) return "";
     const numericLeadId = Number(contextualLeadRecord);
-    if (!Number.isInteger(numericLeadId) || numericLeadId <= 0) return;
-    const matchingLead = leads.find((lead) => lead.id === numericLeadId);
-    if (matchingLead?.id_uuid) setLeadId(matchingLead.id_uuid);
-  }, [contextualLeadRecord, leadId, leads]);
+    if (!Number.isInteger(numericLeadId) || numericLeadId <= 0) return "";
+    return leads.find((lead) => lead.id === numericLeadId)?.id_uuid || "";
+  }, [contextualLeadRecord, leads]);
+  const selectedLeadId = leadId || contextualLeadId;
 
   async function create(event: FormEvent) {
     event.preventDefault();
-    if (!leadId || !scheduledFor) return;
+    if (!selectedLeadId || !scheduledFor) return;
     await run(async () => {
-      await createFollowUp({ leadId, scheduledFor: new Date(scheduledFor).toISOString(), notes });
+      await createFollowUp({ leadId: selectedLeadId, scheduledFor: new Date(scheduledFor).toISOString(), notes });
       setScheduledFor("");
       setNotes("");
       await load();
@@ -127,7 +127,7 @@ export default function FollowUps() {
           </div>
           <label>
             <span>Lead</span>
-            <select required value={leadId} onChange={(event) => setLeadId(event.target.value)}>
+            <select required value={selectedLeadId} onChange={(event) => setLeadId(event.target.value)}>
               <option value="">Select a lead</option>
               {leads.map((lead) => <option key={lead.id} value={lead.id_uuid}>{lead.full_name || lead.phone}</option>)}
             </select>
@@ -140,7 +140,7 @@ export default function FollowUps() {
             <span>Notes</span>
             <textarea rows={4} value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="What should happen on this follow-up?" />
           </label>
-          <button className="hlc-followup-create" disabled={busy || !leadId || !scheduledFor} type="submit">{busy ? "Saving…" : "Create follow-up"}</button>
+          <button className="hlc-followup-create" disabled={busy || !selectedLeadId || !scheduledFor} type="submit">{busy ? "Saving…" : "Create follow-up"}</button>
         </form>
 
         <section className="hlc-followup-queue" aria-labelledby="hlc-followup-queue-title">
