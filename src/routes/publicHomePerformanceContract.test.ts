@@ -6,12 +6,15 @@ const main = readFileSync(new URL("../main.tsx", import.meta.url), "utf8");
 const home = readFileSync(new URL("../pages/HomePage.tsx", import.meta.url), "utf8");
 const footer = readFileSync(new URL("../components/Footer.tsx", import.meta.url), "utf8");
 
-test("public home stays outside the authenticated application bundle while retaining route context", () => {
+test("public home stays outside the authenticated application bundle while retaining route delivery", () => {
   assert.match(main, /isPublicHome/);
   assert.match(main, /<BrowserRouter>/);
   assert.match(main, /import\("\.\/App\.tsx"\)/);
-  assert.match(home, /react-router-dom/);
-  assert.match(home, /to="\/pricing"/);
+  assert.doesNotMatch(home, /react-router-dom/);
+  assert.match(home, /href="\/pricing"/);
+  assert.match(home, /data-route-to="\/request-service"/);
+  assert.match(home, /data-route-to="\/app"/);
+  assert.match(home, /data-route-to="\/community"/);
   assert.match(home, /loading="lazy"/);
   assert.doesNotMatch(footer, /hlc-logo-final\.png/);
 });
