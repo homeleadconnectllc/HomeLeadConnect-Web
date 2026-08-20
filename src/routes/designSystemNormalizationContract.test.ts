@@ -21,6 +21,8 @@ test("design system exposes canonical spacing, type, geometry, control, and layo
     "--hlc-radius-xl: 20px",
     "--hlc-control-md: 44px",
     "--hlc-content-max: 1440px",
+    "--hlc-work-max: 1240px",
+    "--hlc-reading-max: 1080px",
   ]) assert.match(foundation, new RegExp(token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
 });
 
@@ -37,4 +39,61 @@ test("brand color remains concentrated in intentional command surfaces", () => {
   assert.match(foundation, /linear-gradient\(135deg, var\(--hlc-navy\)/);
   assert.match(foundation, /\.hlc-priority-panel/);
   assert.match(foundation, /\.hlc-agent-card/);
+});
+
+test("working and decision modules share canonical rails", () => {
+  for (const selector of [
+    ".hlc-leads-page",
+    ".hlc-jobs-page",
+    ".hlc-messages-page",
+    ".hlc-calendar-page",
+    ".hlc-follow-ups-page",
+    ".hlc-automations-page",
+    ".hlc-call-center-page",
+    ".hlc-provider-directory-page",
+    ".hlc-community-page",
+    ".hlc-documents-page",
+    ".hlc-settings-page",
+    ".hlc-profile-page",
+    ".hlc-homeowner-portal",
+    ".hlc-contractor-portal",
+  ]) assert.match(foundation, new RegExp(selector.replaceAll(".", "\\.")));
+  assert.match(foundation, /var\(--hlc-work-max\)/);
+  assert.match(foundation, /var\(--hlc-reading-max\)/);
+});
+
+test("records, tables, forms, and status metadata use shared component anatomy", () => {
+  assert.match(foundation, /\.hlc-lead-card/);
+  assert.match(foundation, /\.hlc-job-card/);
+  assert.match(foundation, /thead th/);
+  assert.match(foundation, /tbody td/);
+  assert.match(foundation, /label \{/);
+  assert.match(foundation, /::placeholder/);
+  assert.match(foundation, /\.status-badge/);
+  assert.match(foundation, /\[class\*="status-chip"\]/);
+});
+
+test("dashboard, analytics, and messages are normalized by role rather than generic card styling", () => {
+  assert.match(foundation, /\.hlc-metric-grid/);
+  assert.match(foundation, /\.hlc-metric-card strong/);
+  assert.match(foundation, /\.hlc-business-pulse-grid/);
+  assert.match(foundation, /\.hlc-analytics-kpi-grid/);
+  assert.match(foundation, /\.hlc-messages-layout/);
+  assert.match(foundation, /\.hlc-chat-history-item\.is-selected/);
+});
+
+test("desktop navigation and mobile transformations remain part of the canonical system", () => {
+  assert.match(foundation, /@media \(min-width: 1025px\)/);
+  assert.match(foundation, /\.hlc-navbar-groups/);
+  assert.match(foundation, /\.hlc-nav-group summary/);
+  assert.match(foundation, /\.hlc-mobile-tabbar/);
+  assert.match(foundation, /grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
+  assert.match(foundation, /overflow-x: auto/);
+});
+
+test("agent workspace is compact and leaves application context visible", () => {
+  assert.match(foundation, /\.hlc-agent-dock:not\(\.is-open\)/);
+  assert.match(foundation, /width: min\(480px, calc\(100vw - 32px\)\)/);
+  assert.match(foundation, /height: min\(62dvh, 560px\)/);
+  assert.doesNotMatch(foundation, /height:\s*100dvh/);
 });
