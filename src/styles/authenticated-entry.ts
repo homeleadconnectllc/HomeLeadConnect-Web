@@ -37,4 +37,5 @@ import "./leads-application-workspace.css";
 import "./jobs-application-workspace.css";
 import "./calendar-application-workspace.css";
 import "./follow-ups-application-workspace.css";
+import "./automations-application-workspace.css";
 import "./application-workspace-ui.css";
