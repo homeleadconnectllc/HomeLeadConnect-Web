@@ -3,11 +3,53 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const foundation = readFileSync(new URL("../styles/design-system-foundation.css", import.meta.url), "utf8");
+const mobile = readFileSync(new URL("../styles/mobile-all-screens-certification.css", import.meta.url), "utf8");
 const authenticatedEntry = readFileSync(new URL("../styles/authenticated-entry.ts", import.meta.url), "utf8");
 
-test("authenticated routes load the design-system foundation last", () => {
+test("authenticated routes load normalized foundation before the mobile-only specialization", () => {
   assert.match(authenticatedEntry, /import "\.\/design-system-foundation\.css";/);
-  assert.equal(authenticatedEntry.trim().split("\n").at(-1), 'import "./design-system-foundation.css";');
+  assert.match(authenticatedEntry, /import "\.\/mobile-all-screens-certification\.css";/);
+  assert.ok(
+    authenticatedEntry.indexOf('import "./design-system-foundation.css";') <
+      authenticatedEntry.indexOf('import "./mobile-all-screens-certification.css";'),
+  );
+  assert.equal(authenticatedEntry.trim().split("\n").at(-1), 'import "./mobile-all-screens-certification.css";');
+});
+
+test("mobile specialization is strictly scoped to compact viewports", () => {
+  const compact = mobile.trim();
+  assert.ok(compact.startsWith("/* Mobile-only signed-in normalization."));
+  assert.match(compact, /@media \(max-width: 760px\) \{/);
+  assert.doesNotMatch(compact, /@media \(min-width:/);
+  assert.doesNotMatch(compact, /@media \(width/);
+});
+
+test("mobile specialization covers the signed-in modules and safe viewport lanes", () => {
+  for (const selector of [
+    ".hlc-leads-page",
+    ".hlc-jobs-page",
+    ".hlc-messages-page",
+    ".hlc-calendar-page",
+    ".hlc-follow-ups-page",
+    ".hlc-automations-page",
+    ".hlc-call-center-page",
+    ".hlc-provider-directory-page",
+    ".hlc-community-page",
+    ".hlc-documents-page",
+    ".hlc-settings-page",
+    ".hlc-profile-page",
+    ".hlc-homeowner-portal",
+    ".hlc-contractor-portal",
+    ".hlc-analytics-page",
+    ".hlc-map-page",
+    ".hlc-matching-page",
+    ".hlc-workflow-page",
+    ".hlc-estimator-page",
+    ".hlc-notifications-page",
+  ]) assert.match(mobile, new RegExp(selector.replaceAll(".", "\\.")));
+  assert.match(mobile, /padding-bottom: calc\(92px \+ env\(safe-area-inset-bottom\)\)/);
+  assert.match(mobile, /height: min\(58dvh, 520px\)/);
+  assert.match(mobile, /grid-template-columns: minmax\(0, 1fr\)/);
 });
 
 test("design system exposes canonical spacing, type, geometry, control, and layout tokens", () => {
