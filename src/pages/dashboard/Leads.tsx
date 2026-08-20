@@ -4,6 +4,7 @@ import { Plus, Search, SlidersHorizontal, UsersRound } from "lucide-react";
 import { createLead, listLeads, type LeadRecord } from "../../api/leads";
 import LeadCard from "../../components/leads/LeadCard";
 import { errorMessage } from "../../lib/errorMessage";
+import "../../styles/leads-application-workspace.css";
 
 function createLeadErrorMessage(reason: unknown) {
   const message = errorMessage(reason, "Unable to create lead.");
@@ -28,30 +29,18 @@ export default function Leads() {
 
   async function refreshLeads() {
     setError("");
-    try {
-      setLeads(await listLeads());
-    } catch (reason: unknown) {
-      setError(errorMessage(reason, "Unable to load leads."));
-    } finally {
-      setLoading(false);
-    }
+    try { setLeads(await listLeads()); }
+    catch (reason: unknown) { setError(errorMessage(reason, "Unable to load leads.")); }
+    finally { setLoading(false); }
   }
 
   useEffect(() => {
     let active = true;
     listLeads()
-      .then((data) => {
-        if (active) setLeads(data);
-      })
-      .catch((reason: unknown) => {
-        if (active) setError(errorMessage(reason, "Unable to load leads."));
-      })
-      .finally(() => {
-        if (active) setLoading(false);
-      });
-    return () => {
-      active = false;
-    };
+      .then((data) => { if (active) setLeads(data); })
+      .catch((reason: unknown) => { if (active) setError(errorMessage(reason, "Unable to load leads.")); })
+      .finally(() => { if (active) setLoading(false); });
+    return () => { active = false; };
   }, []);
 
   async function handleCreateLead(event: FormEvent<HTMLFormElement>) {
@@ -60,132 +49,73 @@ export default function Leads() {
     setSavingLead(true);
     try {
       await createLead({ fullName, phone, email, notes });
-      setFullName("");
-      setPhone("");
-      setEmail("");
-      setNotes("");
-      setShowAddLead(false);
-      setLoading(true);
-      await refreshLeads();
-    } catch (reason: unknown) {
-      setCreateError(createLeadErrorMessage(reason));
-    } finally {
-      setSavingLead(false);
-    }
+      setFullName(""); setPhone(""); setEmail(""); setNotes("");
+      setShowAddLead(false); setLoading(true); await refreshLeads();
+    } catch (reason: unknown) { setCreateError(createLeadErrorMessage(reason)); }
+    finally { setSavingLead(false); }
   }
 
   const visibleLeads = useMemo(() => {
     const normalized = query.trim().toLowerCase();
     if (!normalized) return leads;
-    return leads.filter((lead) =>
-      [
-        lead.full_name,
-        lead.email,
-        lead.phone,
-        lead.status,
-        lead.stage,
-        lead.priority,
-        lead.source,
-        lead.lead_code,
-        lead.sla_status,
-      ]
-        .filter(Boolean)
-        .some((value) => String(value).toLowerCase().includes(normalized)),
-    );
+    return leads.filter((lead) => [lead.full_name, lead.email, lead.phone, lead.status, lead.stage, lead.priority, lead.source, lead.lead_code, lead.sla_status]
+      .filter(Boolean).some((value) => String(value).toLowerCase().includes(normalized)));
   }, [leads, query]);
 
-  const newLeadCount = leads.filter((lead) =>
-    [lead.stage, lead.status]
-      .filter(Boolean)
-      .some((value) => String(value).toLowerCase() === "new"),
-  ).length;
-  const highPriorityCount = leads.filter(
-    (lead) => lead.priority?.toLowerCase() === "high",
-  ).length;
+  const newLeadCount = leads.filter((lead) => [lead.stage, lead.status].filter(Boolean).some((value) => String(value).toLowerCase() === "new")).length;
+  const highPriorityCount = leads.filter((lead) => lead.priority?.toLowerCase() === "high").length;
   const scheduledCount = leads.filter((lead) => Boolean(lead.appointment_at)).length;
 
   return (
-    <main className="hlc-leads-page" style={pageStyle}>
+    <main className="hlc-leads-workspace">
       <header className="hlc-leads-header">
         <div>
           <p className="hlc-page-eyebrow">CRM · Opportunity pipeline</p>
           <h1>Leads</h1>
-          <p>Qualify each opportunity, make contact, schedule the next step, and move ready homeowners into estimating.</p>
+          <p>Qualify opportunities, make contact, schedule the next step, and move ready households into estimating.</p>
         </div>
-        <div className="hlc-leads-summary" aria-label="Lead summary">
-          <span><strong>{leads.length}</strong>Total leads</span>
-          <span><strong>{newLeadCount}</strong>New</span>
-          <span><strong>{highPriorityCount}</strong>High priority</span>
-          <span><strong>{scheduledCount}</strong>Scheduled</span>
-        </div>
+        <button className="hlc-leads-add-button" type="button" onClick={() => setShowAddLead((value) => !value)}>
+          <Plus size={17} aria-hidden="true" /> {showAddLead ? "Cancel" : "Add lead"}
+        </button>
       </header>
+
+      <section className="hlc-leads-summary" aria-label="Lead summary">
+        <span><strong>{leads.length}</strong><small>Total</small></span>
+        <span><strong>{newLeadCount}</strong><small>New</small></span>
+        <span><strong>{highPriorityCount}</strong><small>High priority</small></span>
+        <span><strong>{scheduledCount}</strong><small>Scheduled</small></span>
+      </section>
 
       <section className="hlc-leads-toolbar" aria-label="Lead tools">
         <label className="hlc-leads-search">
           <Search size={18} aria-hidden="true" />
           <span className="sr-only">Search leads</span>
-          <input
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search name, contact, stage, priority, source, or lead code"
-          />
+          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search name, contact, stage, priority, source, or lead code" />
         </label>
-        <button type="button" onClick={() => setShowAddLead((value) => !value)}>
-          <Plus size={17} aria-hidden="true" /> {showAddLead ? "Cancel" : "Add lead"}
-        </button>
-        <span className="hlc-leads-view-label"><SlidersHorizontal size={17} aria-hidden="true" /> Active pipeline</span>
+        <span className="hlc-leads-view-label"><SlidersHorizontal size={16} aria-hidden="true" /> Active pipeline</span>
       </section>
 
       {showAddLead && (
-        <form onSubmit={handleCreateLead} aria-label="Add lead" style={formStyle}>
-          <label>
-            Name
-            <input value={fullName} onChange={(event) => setFullName(event.target.value)} required minLength={2} autoComplete="name" />
-          </label>
-          <label>
-            Phone
-            <input value={phone} onChange={(event) => setPhone(event.target.value)} required inputMode="tel" autoComplete="tel" />
-          </label>
-          <label>
-            Email
-            <input value={email} onChange={(event) => setEmail(event.target.value)} type="email" autoComplete="email" />
-          </label>
-          <label style={{ gridColumn: "1 / -1" }}>
-            Notes
-            <textarea value={notes} onChange={(event) => setNotes(event.target.value)} maxLength={4000} rows={3} />
-          </label>
-          {createError && <p role="alert" style={{ color: "#b91c1c", gridColumn: "1 / -1" }}>{createError}</p>}
-          <div style={{ gridColumn: "1 / -1" }}>
-            <button type="submit" disabled={savingLead}>{savingLead ? "Adding…" : "Add lead"}</button>
-          </div>
+        <form className="hlc-leads-create" onSubmit={handleCreateLead} aria-label="Add lead">
+          <label>Name<input value={fullName} onChange={(event) => setFullName(event.target.value)} required minLength={2} autoComplete="name" /></label>
+          <label>Phone<input value={phone} onChange={(event) => setPhone(event.target.value)} required inputMode="tel" autoComplete="tel" /></label>
+          <label>Email<input value={email} onChange={(event) => setEmail(event.target.value)} type="email" autoComplete="email" /></label>
+          <label className="hlc-leads-notes">Notes<textarea value={notes} onChange={(event) => setNotes(event.target.value)} maxLength={4000} rows={3} /></label>
+          {createError && <p role="alert" className="hlc-leads-error">{createError}</p>}
+          <div className="hlc-leads-create-actions"><button type="submit" disabled={savingLead}>{savingLead ? "Adding…" : "Add lead"}</button></div>
         </form>
       )}
 
-      <div className="hlc-leads-column-head" aria-hidden="true">
-        <span>Homeowner</span><span>Pipeline status</span><span>Next actions</span>
-      </div>
-      {loading && <p>Loading leads…</p>}
-      {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
-      {!loading && !error && leads.length === 0 && <p>No leads found.</p>}
-      {!loading && !error && leads.length > 0 && visibleLeads.length === 0 && (
-        <div className="hlc-leads-empty"><UsersRound size={24} aria-hidden="true" /><strong>No matching leads</strong><span>Try a different name, number, email, stage, priority, source, or lead code.</span></div>
-      )}
-      <div className="hlc-leads-list" style={{ display: "grid", gap: 12 }}>
-        {visibleLeads.map((lead) => <LeadCard key={lead.id} lead={lead} />)}
-      </div>
+      <section className="hlc-leads-pipeline" aria-label="Lead pipeline">
+        <div className="hlc-leads-column-head" aria-hidden="true"><span>Household</span><span>Pipeline</span><span>Actions</span></div>
+        {loading && <p className="hlc-leads-state">Loading leads…</p>}
+        {error && <p role="alert" className="hlc-leads-error">{error}</p>}
+        {!loading && !error && leads.length === 0 && <p className="hlc-leads-state">No leads found.</p>}
+        {!loading && !error && leads.length > 0 && visibleLeads.length === 0 && (
+          <div className="hlc-leads-empty"><UsersRound size={24} aria-hidden="true" /><strong>No matching leads</strong><span>Try a different name, number, email, stage, priority, source, or lead code.</span></div>
+        )}
+        <div className="hlc-leads-list">{visibleLeads.map((lead) => <LeadCard key={lead.id} lead={lead} />)}</div>
+      </section>
     </main>
   );
 }
-
-const pageStyle = {
-  width: "min(1000px, calc(100% - 48px))",
-  margin: "40px auto",
-  fontFamily: "system-ui, sans-serif",
-};
-
-const formStyle = {
-  display: "grid",
-  gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-  gap: 12,
-  margin: "0 0 20px",
-};
