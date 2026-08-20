@@ -101,7 +101,7 @@ export default function LeadDetail() {
           <Link to={`/follow-ups?lead=${lead.id_uuid}`}><CalendarClock size={18} aria-hidden="true" /><span><strong>Follow-ups</strong><small>Review or schedule the next action</small></span></Link>
           <Link to={`/manual-communications?contact=lead:${lead.id}`}><MessageSquare size={18} aria-hidden="true" /><span><strong>Communication</strong><small>Call, text, and communication history</small></span></Link>
           <Link to={`/estimator?lead=${lead.id}`}><Calculator size={18} aria-hidden="true" /><span><strong>Estimates</strong><small>Create or continue estimating</small></span></Link>
-          <Link to="/jobs"><BriefcaseBusiness size={18} aria-hidden="true" /><span><strong>Jobs</strong><small>Review work created from accepted estimates</small></span></Link>
+          <Link to={`/jobs?lead=${lead.id}`}><BriefcaseBusiness size={18} aria-hidden="true" /><span><strong>Jobs</strong><small>Review work created from accepted estimates for this lead</small></span></Link>
         </div>
       </section>
     </main>
