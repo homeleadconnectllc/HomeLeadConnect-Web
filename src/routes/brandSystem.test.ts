@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const brandLock = readFileSync("src/styles/hlc-brand-lock.css", "utf8");
-const mainEntry = readFileSync("src/main.tsx", "utf8");
+const mainEntry = readFileSync("src/main.tsx", "utf8") + readFileSync("src/styles/app-shell-entry.ts", "utf8").replaceAll('import "./', 'import "./styles/');
 const authenticatedEntry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 
 test("HLC canonical brand lock stays global before legacy and final release guards", () => {

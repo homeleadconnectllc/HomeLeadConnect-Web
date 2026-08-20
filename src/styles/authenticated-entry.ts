@@ -35,4 +35,5 @@ import "./global-workspace-visual-contract.css";
 import "./dashboard-application-workspace.css";
 import "./leads-application-workspace.css";
 import "./jobs-application-workspace.css";
+import "./calendar-application-workspace.css";
 import "./application-workspace-ui.css";
