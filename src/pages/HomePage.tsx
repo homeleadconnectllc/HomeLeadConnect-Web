@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 
 const features = [
@@ -17,9 +16,9 @@ export default function HomePage() {
         <h1 className="hlc-home-hero-title" style={{fontSize:"clamp(44px,8vw,84px)",lineHeight:1,letterSpacing:"-3px",margin:"14px auto 22px",color:"#0f172a",textShadow:"0 1px 0 rgba(255,255,255,.35)"}}>One front door.<br/>One connected home-services ecosystem.</h1>
         <p className="hlc-home-hero-copy" style={{maxWidth:760,margin:"0 auto",fontSize:21,lineHeight:1.6,color:"#475569"}}>Request help, connect with providers, join the community, manage work, and reach the HomeLead Connect workspace from one identity.</p>
         <div className="hlc-home-hero-actions" style={{display:"flex",gap:14,justifyContent:"center",flexWrap:"wrap",marginTop:32}}>
-          <Link to="/pricing" style={{padding:"14px 22px",borderRadius:999,background:"#2563eb",color:"#fff",fontWeight:900,textDecoration:"none",boxShadow:"0 12px 30px rgba(37,99,235,.22)"}}>Start 14-Day Free Trial</Link>
-          <Link to="/request-service" style={{padding:"14px 22px",borderRadius:999,background:"#0f172a",color:"#fff",fontWeight:800,textDecoration:"none"}}>Get Help Now</Link>
-          <Link to="/app" style={{padding:"14px 22px",borderRadius:999,background:"#fff",color:"#0f172a",fontWeight:800,textDecoration:"none",border:"1px solid #cbd5e1"}}>Open HomeLead Connect</Link>
+          <a href="/pricing" style={{padding:"14px 22px",borderRadius:999,background:"#2563eb",color:"#fff",fontWeight:900,textDecoration:"none",boxShadow:"0 12px 30px rgba(37,99,235,.22)"}}>Start 14-Day Free Trial</a>
+          <a href="/request-service" style={{padding:"14px 22px",borderRadius:999,background:"#0f172a",color:"#fff",fontWeight:800,textDecoration:"none"}}>Get Help Now</a>
+          <a href="/app" style={{padding:"14px 22px",borderRadius:999,background:"#fff",color:"#0f172a",fontWeight:800,textDecoration:"none",border:"1px solid #cbd5e1"}}>Open HomeLead Connect</a>
         </div>
         <p className="hlc-home-hero-note" style={{marginTop:14,color:"#64748b",fontSize:14}}>For participating businesses: 14 days free, then $49.99/month. Payment method required.</p>
       </section>
@@ -36,8 +35,8 @@ export default function HomePage() {
         <h2 style={{margin:"10px auto 12px",color:"#fff",fontSize:"clamp(28px,5vw,42px)"}}>Try the connected HLC workspace free for 14 days.</h2>
         <p style={{color:"#cbd5e1",lineHeight:1.65,maxWidth:760,margin:"0 auto"}}>Run leads, estimates, jobs, scheduling, messages, documents, workflow, analytics, and your HLC AI team from one workspace. Continue for $49.99/month after the trial.</p>
         <div style={{display:"flex",gap:14,justifyContent:"center",alignItems:"center",flexWrap:"wrap",marginTop:24}}>
-          <Link to="/pricing" style={{padding:"14px 22px",borderRadius:12,background:"#2563eb",color:"#fff",fontWeight:900,textDecoration:"none"}}>See Pricing & Start Trial</Link>
-          <Link to="/login?next=/settings" style={{color:"#dbeafe",fontWeight:800}}>Manage existing subscription</Link>
+          <a href="/pricing" style={{padding:"14px 22px",borderRadius:12,background:"#2563eb",color:"#fff",fontWeight:900,textDecoration:"none"}}>See Pricing & Start Trial</a>
+          <a href="/login?next=/settings" style={{color:"#dbeafe",fontWeight:800}}>Manage existing subscription</a>
         </div>
       </section>
 
@@ -45,12 +44,12 @@ export default function HomePage() {
         <h2 style={{margin:"0 auto 14px",color:"#fff"}}>Everything branches from HomeLeadConnect.org</h2>
         <p style={{color:"#cbd5e1",lineHeight:1.6,maxWidth:860,margin:"0 auto"}}>Public information, service requests, authentication, homeowner and contractor portals, Community, Network & Map, CRM operations, scheduling, communications, documents, billing, workflows, analytics, and Kendrell, Dion, and Diamond all belong to the same HLC route tree and Supabase-backed system.</p>
         <div style={{display:"flex",gap:16,justifyContent:"center",alignItems:"center",flexWrap:"wrap",marginTop:22}}>
-          <Link to="/pricing" style={{color:"#bfdbfe",fontWeight:800}}>Pricing & free trial</Link>
-          <Link to="/how-it-works" style={{color:"#bfdbfe"}}>How it works</Link>
-          <Link to="/community" style={{color:"#bfdbfe"}}>Community</Link>
-          <Link to="/professionals" style={{color:"#bfdbfe"}}>For professionals</Link>
-          <Link to="/trust" style={{color:"#bfdbfe"}}>Trust & safety</Link>
-          <Link to="/contact" style={{color:"#bfdbfe"}}>Contact</Link>
+          <a href="/pricing" style={{color:"#bfdbfe",fontWeight:800}}>Pricing & free trial</a>
+          <a href="/how-it-works" style={{color:"#bfdbfe"}}>How it works</a>
+          <a href="/community" style={{color:"#bfdbfe"}}>Community</a>
+          <a href="/professionals" style={{color:"#bfdbfe"}}>For professionals</a>
+          <a href="/trust" style={{color:"#bfdbfe"}}>Trust & safety</a>
+          <a href="/contact" style={{color:"#bfdbfe"}}>Contact</a>
         </div>
       </section>
     </main>
