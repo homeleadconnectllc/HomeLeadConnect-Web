@@ -16,6 +16,7 @@ function dueState(item: FollowUp, now: Date) {
 
 export default function FollowUps() {
   const [searchParams] = useSearchParams();
+  const contextualLeadRecord = searchParams.get("leadRecord");
   const [items, setItems] = useState<FollowUp[]>([]);
   const [leads, setLeads] = useState<Lead[]>([]);
   const [leadId, setLeadId] = useState(() => searchParams.get("lead") || "");
@@ -41,6 +42,14 @@ export default function FollowUps() {
       .catch((reason: unknown) => setError(errorMessage(reason, "Unable to load follow-ups.")))
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    if (leadId || !contextualLeadRecord || leads.length === 0) return;
+    const numericLeadId = Number(contextualLeadRecord);
+    if (!Number.isInteger(numericLeadId) || numericLeadId <= 0) return;
+    const matchingLead = leads.find((lead) => lead.id === numericLeadId);
+    if (matchingLead?.id_uuid) setLeadId(matchingLead.id_uuid);
+  }, [contextualLeadRecord, leadId, leads]);
 
   async function create(event: FormEvent) {
     event.preventDefault();
