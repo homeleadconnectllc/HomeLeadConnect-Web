@@ -1,6 +1,5 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import "./index.css";
 import "./styles/workspace-nav.css";
@@ -39,9 +38,7 @@ if ("serviceWorker" in navigator) {
 if (isPublicHome) {
   root.render(
     <StrictMode>
-      <BrowserRouter>
-        <HomePage />
-      </BrowserRouter>
+      <HomePage />
     </StrictMode>,
   );
 } else {
