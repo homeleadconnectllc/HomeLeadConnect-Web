@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { listJobs, updateJobStatus } from "../../api/jobs";
 import JobCard from "../../components/jobs/JobCard";
 import type { CrmJob, CrmJobStatus } from "../../lib/types/database";
 import { errorMessage } from "../../lib/errorMessage";
 
 export default function Jobs() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [jobs, setJobs] = useState<CrmJob[]>([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
@@ -20,12 +22,24 @@ export default function Jobs() {
       .finally(() => setLoading(false));
   }, []);
 
+  const leadFilter = useMemo(() => {
+    const raw = searchParams.get("lead");
+    if (!raw) return null;
+    const parsed = Number(raw);
+    return Number.isInteger(parsed) && parsed > 0 ? parsed : null;
+  }, [searchParams]);
+
+  const visibleJobs = useMemo(
+    () => leadFilter === null ? jobs : jobs.filter((job) => job.lead_id === leadFilter),
+    [jobs, leadFilter],
+  );
+
   const summary = useMemo(() => ({
-    total: jobs.length,
-    pending: jobs.filter((job) => job.status === "pending").length,
-    active: jobs.filter((job) => job.status === "active").length,
-    completed: jobs.filter((job) => job.status === "completed").length,
-  }), [jobs]);
+    total: visibleJobs.length,
+    pending: visibleJobs.filter((job) => job.status === "pending").length,
+    active: visibleJobs.filter((job) => job.status === "active").length,
+    completed: visibleJobs.filter((job) => job.status === "completed").length,
+  }), [visibleJobs]);
 
   async function changeStatus(job: CrmJob, status: CrmJobStatus) {
     setError("");
@@ -42,6 +56,12 @@ export default function Jobs() {
     }
   }
 
+  function clearLeadFilter() {
+    const next = new URLSearchParams(searchParams);
+    next.delete("lead");
+    setSearchParams(next, { replace: true });
+  }
+
   return (
     <main className="hlc-jobs-workspace">
       <header className="hlc-jobs-header">
@@ -51,6 +71,12 @@ export default function Jobs() {
           <p>Track accepted work from handoff through completion without losing the estimate context.</p>
         </div>
       </header>
+
+      {leadFilter !== null && (
+        <div className="hlc-jobs-state" role="status">
+          Showing jobs for Lead #{leadFilter}. <button type="button" onClick={clearLeadFilter}>Show all jobs</button>
+        </div>
+      )}
 
       <section className="hlc-jobs-summary" aria-label="Job status summary">
         <span><strong>{summary.total}</strong><small>Total jobs</small></span>
@@ -69,15 +95,15 @@ export default function Jobs() {
         {loading && <p className="hlc-jobs-state">Loading jobs…</p>}
         {error && <p className="hlc-jobs-state hlc-jobs-error" role="alert">{error}</p>}
         {message && <p className="hlc-jobs-state hlc-jobs-success" role="status">{message}</p>}
-        {!loading && !error && jobs.length === 0 && (
+        {!loading && !error && visibleJobs.length === 0 && (
           <div className="hlc-jobs-empty">
-            <strong>No jobs yet.</strong>
-            <span>Accepted estimates will appear here as operational work.</span>
+            <strong>{leadFilter === null ? "No jobs yet." : "No jobs for this lead."}</strong>
+            <span>{leadFilter === null ? "Accepted estimates will appear here as operational work." : "Accepted estimates for this lead will appear here as operational work."}</span>
           </div>
         )}
 
         <div className="hlc-jobs-list">
-          {jobs.map((job) => (
+          {visibleJobs.map((job) => (
             <JobCard
               key={job.id}
               job={job}
