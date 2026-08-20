@@ -28,3 +28,4 @@ import "./desktop-dashboard-certification.css";
 import "./mobile-dashboard-certification.css";
 import "./global-readability-certification.css";
 import "./mobile-professional-certification.css";
+import "./signed-in-professional-system.css";
