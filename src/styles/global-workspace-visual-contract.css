@@ -1,0 +1,264 @@
+/* Global authenticated workspace visual contract.
+   Purpose: make every routed workspace tab inherit the same HLC navy/blue hierarchy
+   without replacing page-specific functionality or data behavior. */
+
+.hlc-signed-in-shell {
+  --hlc-bg-0: #07111f;
+  --hlc-bg-1: #0b1628;
+  --hlc-bg-2: #0f1d33;
+  --hlc-surface: rgba(15, 29, 51, .92);
+  --hlc-surface-strong: #11233d;
+  --hlc-surface-soft: rgba(30, 58, 138, .16);
+  --hlc-border: rgba(148, 163, 184, .18);
+  --hlc-border-blue: rgba(96, 165, 250, .34);
+  --hlc-text: #f8fafc;
+  --hlc-muted: #b7c5d8;
+  --hlc-faint: #8fa2bc;
+  --hlc-blue: #3b82f6;
+  --hlc-blue-strong: #2563eb;
+  --hlc-cyan: #22d3ee;
+  background: #07111f;
+  color: var(--hlc-text);
+}
+
+.hlc-signed-in-shell > .hlc-route-content {
+  background:
+    radial-gradient(circle at 12% 0%, rgba(37, 99, 235, .12), transparent 28%),
+    radial-gradient(circle at 88% 10%, rgba(34, 211, 238, .07), transparent 24%),
+    linear-gradient(180deg, #081321 0%, #0b1628 54%, #08111d 100%);
+  color: var(--hlc-text);
+}
+
+.hlc-signed-in-shell > .hlc-route-content > main {
+  box-sizing: border-box;
+  width: min(1440px, calc(100% - 48px)) !important;
+  min-height: calc(100svh - 48px);
+  margin: 24px auto !important;
+  padding: clamp(24px, 3vw, 42px) !important;
+  border: 1px solid var(--hlc-border);
+  border-radius: 26px;
+  background: linear-gradient(145deg, rgba(11, 22, 40, .96), rgba(10, 27, 48, .92));
+  box-shadow: 0 24px 70px rgba(2, 6, 23, .28);
+  color: var(--hlc-text);
+}
+
+.hlc-signed-in-shell > .hlc-route-content > main > header,
+.hlc-signed-in-shell > .hlc-route-content > main > section,
+.hlc-signed-in-shell > .hlc-route-content > main > article,
+.hlc-signed-in-shell > .hlc-route-content > main > form,
+.hlc-signed-in-shell > .hlc-route-content > main > div[role="region"],
+.hlc-signed-in-shell > .hlc-route-content > main > div[role="group"] {
+  color: inherit;
+}
+
+.hlc-signed-in-shell .hlc-page-eyebrow,
+.hlc-signed-in-shell main > header > p:first-child,
+.hlc-signed-in-shell main section > p:first-child[data-eyebrow] {
+  color: #7dd3fc !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  letter-spacing: .12em !important;
+  text-transform: uppercase;
+}
+
+.hlc-signed-in-shell .hlc-route-content h1,
+.hlc-signed-in-shell .hlc-route-content h2,
+.hlc-signed-in-shell .hlc-route-content h3,
+.hlc-signed-in-shell .hlc-route-content h4 {
+  color: var(--hlc-text) !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content h1 {
+  margin-top: 0;
+  font-size: clamp(34px, 5vw, 58px);
+  line-height: 1.02;
+  letter-spacing: -.035em;
+}
+
+.hlc-signed-in-shell .hlc-route-content p,
+.hlc-signed-in-shell .hlc-route-content label,
+.hlc-signed-in-shell .hlc-route-content li,
+.hlc-signed-in-shell .hlc-route-content td,
+.hlc-signed-in-shell .hlc-route-content th,
+.hlc-signed-in-shell .hlc-route-content small,
+.hlc-signed-in-shell .hlc-route-content span {
+  border-color: var(--hlc-border);
+}
+
+.hlc-signed-in-shell .hlc-route-content p,
+.hlc-signed-in-shell .hlc-route-content li,
+.hlc-signed-in-shell .hlc-route-content label,
+.hlc-signed-in-shell .hlc-route-content small {
+  color: var(--hlc-muted);
+}
+
+.hlc-signed-in-shell .hlc-route-content a {
+  color: #93c5fd;
+}
+
+.hlc-signed-in-shell .hlc-route-content section,
+.hlc-signed-in-shell .hlc-route-content article,
+.hlc-signed-in-shell .hlc-route-content form,
+.hlc-signed-in-shell .hlc-route-content table,
+.hlc-signed-in-shell .hlc-route-content fieldset,
+.hlc-signed-in-shell .hlc-route-content .hlc-card,
+.hlc-signed-in-shell .hlc-route-content .card,
+.hlc-signed-in-shell .hlc-route-content [class*="-card"],
+.hlc-signed-in-shell .hlc-route-content [class*="-panel"],
+.hlc-signed-in-shell .hlc-route-content [class*="-toolbar"],
+.hlc-signed-in-shell .hlc-route-content [class*="-summary"] {
+  border-color: var(--hlc-border) !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content section,
+.hlc-signed-in-shell .hlc-route-content article,
+.hlc-signed-in-shell .hlc-route-content form,
+.hlc-signed-in-shell .hlc-route-content fieldset,
+.hlc-signed-in-shell .hlc-route-content .hlc-card,
+.hlc-signed-in-shell .hlc-route-content .card,
+.hlc-signed-in-shell .hlc-route-content [class*="-panel"],
+.hlc-signed-in-shell .hlc-route-content [class*="-toolbar"] {
+  background-color: rgba(15, 29, 51, .78);
+  box-shadow: 0 14px 36px rgba(2, 6, 23, .16);
+}
+
+.hlc-signed-in-shell .hlc-route-content input,
+.hlc-signed-in-shell .hlc-route-content select,
+.hlc-signed-in-shell .hlc-route-content textarea {
+  min-height: 46px;
+  border: 1px solid rgba(148, 163, 184, .26) !important;
+  border-radius: 12px !important;
+  background: rgba(2, 6, 23, .52) !important;
+  color: var(--hlc-text) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .03);
+}
+
+.hlc-signed-in-shell .hlc-route-content input::placeholder,
+.hlc-signed-in-shell .hlc-route-content textarea::placeholder {
+  color: #7f91aa !important;
+  opacity: 1;
+}
+
+.hlc-signed-in-shell .hlc-route-content button,
+.hlc-signed-in-shell .hlc-route-content a[role="button"] {
+  min-height: 42px;
+  border-color: rgba(96, 165, 250, .3);
+  border-radius: 11px;
+  font-weight: 800;
+}
+
+.hlc-signed-in-shell .hlc-route-content button:not([disabled]) {
+  color: #f8fafc;
+}
+
+.hlc-signed-in-shell .hlc-route-content table {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--hlc-border);
+  border-radius: 16px;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: rgba(9, 21, 38, .74);
+}
+
+.hlc-signed-in-shell .hlc-route-content thead {
+  background: rgba(30, 58, 138, .22);
+}
+
+.hlc-signed-in-shell .hlc-route-content th {
+  color: #dbeafe !important;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.hlc-signed-in-shell .hlc-route-content td {
+  color: #dbe4f0 !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content tr + tr td {
+  border-top: 1px solid rgba(148, 163, 184, .12);
+}
+
+/* Common empty/loading/error text should read like intentional product states. */
+.hlc-signed-in-shell .hlc-route-content [role="status"],
+.hlc-signed-in-shell .hlc-route-content [role="alert"],
+.hlc-signed-in-shell .hlc-route-content [class*="empty"] {
+  border-radius: 14px;
+}
+
+.hlc-signed-in-shell .hlc-route-content [role="alert"] {
+  color: #fecaca !important;
+}
+
+/* Sidebar contract from the approved mockup: tighter grouping, darker rail, brighter active state. */
+.hlc-signed-in-shell > .hlc-navbar {
+  background:
+    radial-gradient(circle at 14% 0%, rgba(37, 99, 235, .28), transparent 30%),
+    linear-gradient(180deg, #07111f 0%, #0a1628 52%, #07111f 100%) !important;
+}
+
+.hlc-signed-in-shell > .hlc-navbar .hlc-nav-group summary {
+  border-color: rgba(100, 116, 139, .4) !important;
+  background: rgba(15, 29, 51, .76) !important;
+}
+
+.hlc-signed-in-shell > .hlc-navbar .hlc-nav-group[open] summary {
+  border-color: rgba(96, 165, 250, .5) !important;
+  background: linear-gradient(135deg, rgba(30, 64, 175, .5), rgba(29, 78, 216, .18)) !important;
+}
+
+.hlc-signed-in-shell > .hlc-navbar .hlc-nav-menu {
+  background: rgba(2, 6, 23, .48) !important;
+}
+
+.hlc-signed-in-shell > .hlc-navbar .hlc-nav-menu a[aria-current="page"] {
+  border-color: rgba(96, 165, 250, .5) !important;
+  background: linear-gradient(90deg, rgba(37, 99, 235, .62), rgba(29, 78, 216, .24)) !important;
+  box-shadow: inset 3px 0 0 #60a5fa;
+  color: #fff !important;
+}
+
+@media (max-width: 1024px) {
+  .hlc-signed-in-shell > .hlc-route-content {
+    background:
+      radial-gradient(circle at 50% 0%, rgba(37, 99, 235, .12), transparent 26%),
+      linear-gradient(180deg, #081321 0%, #0b1628 100%);
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content > main {
+    width: calc(100% - 24px) !important;
+    min-height: auto;
+    margin: 12px auto 92px !important;
+    padding: 20px !important;
+    border-radius: 20px;
+  }
+
+  .hlc-signed-in-shell .hlc-route-content h1 {
+    font-size: clamp(30px, 10vw, 42px);
+  }
+
+  .hlc-signed-in-shell .hlc-route-content section,
+  .hlc-signed-in-shell .hlc-route-content article,
+  .hlc-signed-in-shell .hlc-route-content form {
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 430px) {
+  .hlc-signed-in-shell > .hlc-route-content > main {
+    width: calc(100% - 16px) !important;
+    margin-top: 8px !important;
+    padding: 16px !important;
+    border-radius: 18px;
+  }
+
+  .hlc-signed-in-shell .hlc-route-content button,
+  .hlc-signed-in-shell .hlc-route-content a[role="button"],
+  .hlc-signed-in-shell .hlc-route-content input,
+  .hlc-signed-in-shell .hlc-route-content select,
+  .hlc-signed-in-shell .hlc-route-content textarea {
+    min-height: 46px;
+  }
+}
