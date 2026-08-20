@@ -43,4 +43,5 @@ import "./call-center-application-workspace.css";
 import "./network-map-application-workspace.css";
 import "./community-application-workspace.css";
 import "./documents-resources-application-workspace.css";
+import "./account-portals-application-workspace.css";
 import "./application-workspace-ui.css";
