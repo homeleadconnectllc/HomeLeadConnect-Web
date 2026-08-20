@@ -1,0 +1,57 @@
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import test from "node:test";
+
+const workspace = readFileSync("src/pages/dashboard/AgentWorkspace.tsx", "utf8");
+const agents = readFileSync("src/ai/agents.ts", "utf8");
+const styles = readFileSync("src/styles/ai-team-application-workspace.css", "utf8");
+const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
+
+test("AI Team retains one serious command workspace for all three canonical agents", () => {
+  assert.match(workspace, /hlc-agent-workspace/);
+  assert.match(workspace, /hlc-agent-command-hero/);
+  assert.match(workspace, /AgentChatPanel/);
+  assert.match(workspace, /hlc-agent-actions/);
+  assert.match(workspace, /hlc-agent-action-button/);
+  assert.match(workspace, /listAgentRuns\(agentId\)/);
+  assert.match(workspace, /listAgentHandoffs\(agentId\)/);
+  assert.match(workspace, /createAgentHandoff/);
+  assert.match(workspace, /runAgentCapability/);
+});
+
+test("locked AI identities routes roles portraits and voice personas remain exact", () => {
+  assert.match(agents, /id: "kendrell", name: "Kendrell", role: "Executive Command & Orchestration"/);
+  assert.match(agents, /route: "\/hq"/);
+  assert.match(agents, /Kendrell_Locked_HLC\.png/);
+  assert.match(agents, /id: "dion", name: "Dion", role: "Operations & Business Intelligence"/);
+  assert.match(agents, /route: "\/operations"/);
+  assert.match(agents, /Dion_Locked_HLC\.png/);
+  assert.match(agents, /id: "diamond", name: "Diamond", role: "Customer Experience, Service & Community"/);
+  assert.match(agents, /route: "\/customer-experience"/);
+  assert.match(agents, /Diamond_Locked_HLC\.png/);
+  assert.match(agents, /genderPresentation: "male"/);
+  assert.match(agents, /genderPresentation: "female"/);
+});
+
+test("AI Team preserves capability and authorization boundaries", () => {
+  assert.match(workspace, /create_owner_attention_item/);
+  assert.match(workspace, /account\.role !== "owner"/);
+  assert.match(workspace, /Select a lead first/);
+  assert.match(workspace, /create_followup/);
+  assert.match(workspace, /new Date\(dueAt\)\.toISOString\(\)/);
+  assert.match(workspace, /destination: agentId === "diamond" \? "dion" : "kendrell"/);
+  assert.match(workspace, /The source agent remains attributable; the destination agent does not impersonate it/);
+});
+
+test("AI Team styling replaces generic panel cards with command rows and stays mobile safe", () => {
+  const routeIndex = entry.indexOf("./ai-team-application-workspace.css");
+  const finalIndex = entry.indexOf("./application-workspace-ui.css");
+  assert.ok(routeIndex >= 0);
+  assert.ok(finalIndex > routeIndex);
+  assert.match(styles, /\.hlc-agent-actions,.hlc-agent-actions\+section/);
+  assert.match(styles, /border-radius:0!important;background:transparent!important;box-shadow:none!important/);
+  assert.match(styles, /\.hlc-agent-action-button\{display:grid/);
+  assert.match(styles, /@media\(max-width:720px\)/);
+  assert.match(styles, /width:min\(100% - 24px,1440px\)!important/);
+  assert.match(styles, /width:100vw!important;max-width:none!important/);
+});
