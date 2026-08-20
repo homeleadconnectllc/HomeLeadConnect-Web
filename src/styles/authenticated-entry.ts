@@ -32,3 +32,4 @@ import "./signed-in-professional-system.css";
 import "./design-system-foundation.css";
 import "./mobile-all-screens-certification.css";
 import "./global-workspace-visual-contract.css";
+import "./application-workspace-ui.css";
