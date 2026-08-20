@@ -79,6 +79,7 @@ export default function Messages() {
     () => recipients.find((item) => item.linkId === recipientId) ?? null,
     [recipients, recipientId],
   );
+  const totalMessages = useMemo(() => conversations.reduce((sum, item) => sum + item.messages.length, 0), [conversations]);
 
   useEffect(() => {
     if (!selectedId) return;
@@ -168,109 +169,133 @@ export default function Messages() {
   }
 
   return (
-    <main className="hlc-messages-page" style={pageStyle}>
-      <h1>Messages Center</h1>
-      <p>Persisted HLC conversation and chat history. External email is sent only when you explicitly select the email option below.</p>
+    <main className="hlc-messages-workspace">
+      <header className="hlc-messages-header">
+        <div>
+          <p className="hlc-messages-kicker">COMMUNICATIONS</p>
+          <h1>Messages</h1>
+          <p>Persisted HLC conversations, portal communication, and deliberate voice notes in one operator workspace. External email is sent only when explicitly selected.</p>
+        </div>
+        <div className="hlc-messages-summary" aria-label="Message workspace summary">
+          <span><strong>{conversations.length}</strong><small>Conversations</small></span>
+          <span><strong>{totalMessages}</strong><small>Messages</small></span>
+          <span><strong>{recipients.length}</strong><small>Portal contacts</small></span>
+        </div>
+      </header>
+
       {composeVoiceNote && !loading && selected && (
-        <p role="status" style={{ color: "#075985", fontWeight: 800 }}>
-          Voice note mode is ready. The recorder below is attached to the selected conversation.
-        </p>
+        <p className="hlc-messages-status is-info" role="status">Voice note mode is ready. The recorder below is attached to the selected conversation.</p>
       )}
-      {loading && <p>Loading conversations…</p>}
-      {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
-      {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
+      {loading && <p className="hlc-messages-state">Loading conversations…</p>}
+      {error && <p className="hlc-messages-status is-error" role="alert">{error}</p>}
+      {message && <p className="hlc-messages-status is-success" role="status">{message}</p>}
 
       {!loading && (
-        <div className="hlc-messages-layout" style={layoutStyle}>
-          <aside className="hlc-messages-conversations" style={panelStyle} aria-label="Chat history">
-            <div className="hlc-chat-history-heading">
-              <div><span>HISTORY</span><h2>Chats</h2></div>
+        <div className="hlc-messages-console">
+          <aside className="hlc-messages-inbox" aria-label="Chat history">
+            <div className="hlc-messages-section-head">
+              <div><span>INBOX</span><h2>Conversation queue</h2></div>
               <strong>{conversations.length}</strong>
             </div>
-            {conversations.length === 0 && <p>No chat history yet.</p>}
-            {conversations.map((conversation) => (
-              <button
-                type="button"
-                key={conversation.id}
-                className={`hlc-chat-history-item ${conversation.id === selectedId ? "is-selected" : ""}`}
-                aria-current={conversation.id === selectedId ? "true" : undefined}
-                onClick={() => setSelectedId(conversation.id)}
-                style={conversationButtonStyle}
-              >
-                <strong>{conversation.subject}</strong>
-                <span>{latestConversationPreview(conversation)}</span>
-                <small>{conversation.messages.length} message{conversation.messages.length === 1 ? "" : "s"} · {new Date(conversation.updated_at).toLocaleString()}</small>
-              </button>
-            ))}
+            <div className="hlc-messages-inbox-list">
+              {conversations.length === 0 && <p className="hlc-messages-empty">No chat history yet.</p>}
+              {conversations.map((conversation) => (
+                <button
+                  type="button"
+                  key={conversation.id}
+                  className={`hlc-message-inbox-row ${conversation.id === selectedId ? "is-selected" : ""}`}
+                  aria-current={conversation.id === selectedId ? "true" : undefined}
+                  onClick={() => setSelectedId(conversation.id)}
+                >
+                  <span className="hlc-message-inbox-main"><strong>{conversation.subject}</strong><small>{latestConversationPreview(conversation)}</small></span>
+                  <span className="hlc-message-inbox-meta"><strong>{conversation.messages.length}</strong><small>{new Date(conversation.updated_at).toLocaleString()}</small></span>
+                </button>
+              ))}
+            </div>
           </aside>
 
-          <section className="hlc-messages-thread" style={panelStyle}>
+          <section className="hlc-messages-thread">
             {selected ? <>
               <header className="hlc-message-thread-head">
-                <div><span>CONVERSATION HISTORY</span><h2>{selected.subject}</h2></div>
+                <div><span>ACTIVE CONVERSATION</span><h2>{selected.subject}</h2></div>
                 <strong>{selected.messages.length} message{selected.messages.length === 1 ? "" : "s"}</strong>
               </header>
+
               <div className="hlc-message-stream" aria-live="polite" aria-label="Persisted chat history">
-                {selected.messages.length === 0 && <p>No messages have been recorded in this conversation yet.</p>}
+                {selected.messages.length === 0 && <p className="hlc-messages-empty">No messages have been recorded in this conversation yet.</p>}
                 {selected.messages.map((item) => (
                   <article
-                    className={item.sender_user_id === session?.user.id ? "hlc-message-bubble hlc-message-bubble-self" : "hlc-message-bubble"}
+                    className={item.sender_user_id === session?.user.id ? "hlc-message-entry is-self" : "hlc-message-entry"}
                     key={item.id}
-                    style={messageStyle}
                   >
+                    <div className="hlc-message-entry-meta">
+                      <strong>{item.sender_user_id === session?.user.id ? "You" : "Participant"}</strong>
+                      <small>{new Date(item.created_at).toLocaleString()} · persisted</small>
+                    </div>
                     <p>{item.body}</p>
-                    <small>{item.sender_user_id === session?.user.id ? "You" : "Participant"} · {new Date(item.created_at).toLocaleString()} · persisted</small>
                   </article>
                 ))}
               </div>
 
-              <form className="hlc-message-reply" onSubmit={send} style={formStyle}>
-                <label>Reply
-                  <textarea required maxLength={5000} value={reply} onChange={(event) => setReply(event.target.value)} />
-                </label>
-                <button disabled={busy} type="submit">{busy ? "Posting…" : "Post internal message"}</button>
+              <form className="hlc-message-composer" onSubmit={send}>
+                <label htmlFor="hlc-message-reply">Internal reply</label>
+                <textarea id="hlc-message-reply" required maxLength={5000} value={reply} onChange={(event) => setReply(event.target.value)} />
+                <div className="hlc-message-composer-actions">
+                  <small>Stored in the canonical HLC conversation history.</small>
+                  <button disabled={busy} type="submit">{busy ? "Posting…" : "Post internal message"}</button>
+                </div>
               </form>
 
-              <section className="hlc-voice-notes">
-                <h3>Voice notes</h3>
+              <section className="hlc-voice-note-console">
+                <div className="hlc-messages-section-head">
+                  <div><span>AUDIO</span><h3>Voice notes</h3></div>
+                  <strong>{voiceNotes.length}</strong>
+                </div>
                 <p>Voice notes are deliberate audio messages, not telephone-call recordings.</p>
-                {voiceNotes.length === 0 && <p>No voice notes in this conversation.</p>}
-                {voiceNotes.map((note) => (
-                  <button key={note.id} type="button" onClick={() => playVoiceNote(note)}>
-                    Play voice note from {new Date(note.created_at).toLocaleString()}
-                  </button>
-                ))}
+                <div className="hlc-voice-note-list">
+                  {voiceNotes.length === 0 && <p className="hlc-messages-empty">No voice notes in this conversation.</p>}
+                  {voiceNotes.map((note) => (
+                    <button key={note.id} type="button" onClick={() => playVoiceNote(note)}>
+                      <span>Play voice note</span><small>{new Date(note.created_at).toLocaleString()}</small>
+                    </button>
+                  ))}
+                </div>
                 <VoiceNoteRecorder busy={busy} onUpload={addVoiceNote} focusOnMount={composeVoiceNote} />
               </section>
-            </> : <p>Select a chat from your history.</p>}
+            </> : <p className="hlc-messages-empty">Select a conversation from the queue.</p>}
           </section>
         </div>
       )}
 
       {recipients.length > 0 && (
-        <form className="hlc-message-start" onSubmit={start} style={{ ...panelStyle, marginTop: 20 }}>
-          <h2>Start a portal conversation</h2>
-          <label>Recipient
-            <select
-              required
-              value={recipientId}
-              onChange={(event) => {
-                setRecipientId(event.target.value);
-                setSendEmailCopy(false);
-              }}
-            >
-              <option value="">Select a linked portal account</option>
-              {recipients.map((recipient) => (
-                <option key={recipient.linkId} value={recipient.linkId}>
-                  {recipient.label}{recipient.email ? ` (${recipient.email})` : ""}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label>Subject<input required maxLength={160} value={subject} onChange={(event) => setSubject(event.target.value)} /></label>
-          <label>Message<textarea required maxLength={5000} value={newBody} onChange={(event) => setNewBody(event.target.value)} /></label>
+        <form className="hlc-message-start-workspace" onSubmit={start}>
+          <div className="hlc-messages-section-head">
+            <div><span>NEW CONVERSATION</span><h2>Start portal conversation</h2></div>
+            <small>Internal by default</small>
+          </div>
+          <div className="hlc-message-start-fields">
+            <label>Recipient
+              <select
+                required
+                value={recipientId}
+                onChange={(event) => {
+                  setRecipientId(event.target.value);
+                  setSendEmailCopy(false);
+                }}
+              >
+                <option value="">Select a linked portal account</option>
+                {recipients.map((recipient) => (
+                  <option key={recipient.linkId} value={recipient.linkId}>
+                    {recipient.label}{recipient.email ? ` (${recipient.email})` : ""}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>Subject<input required maxLength={160} value={subject} onChange={(event) => setSubject(event.target.value)} /></label>
+            <label className="hlc-message-start-body">Message<textarea required maxLength={5000} value={newBody} onChange={(event) => setNewBody(event.target.value)} /></label>
+          </div>
           {selectedRecipient && (
-            <label style={emailOptionStyle}>
+            <label className="hlc-message-email-option">
               <input
                 type="checkbox"
                 checked={sendEmailCopy}
@@ -283,19 +308,14 @@ export default function Messages() {
               </span>
             </label>
           )}
-          <button disabled={busy} type="submit">
-            {busy ? "Starting…" : sendEmailCopy ? "Start conversation + send email" : "Start internal conversation"}
-          </button>
+          <div className="hlc-message-start-actions">
+            <small>Email is never sent unless the checkbox above is deliberately selected.</small>
+            <button disabled={busy} type="submit">
+              {busy ? "Starting…" : sendEmailCopy ? "Start conversation + send email" : "Start internal conversation"}
+            </button>
+          </div>
         </form>
       )}
     </main>
   );
 }
-
-const pageStyle = { width: "min(1180px, calc(100% - 48px))", margin: "40px auto", fontFamily: "system-ui, sans-serif" };
-const layoutStyle = { display: "grid", gridTemplateColumns: "minmax(250px, 0.8fr) minmax(0, 2fr)", gap: 20 };
-const panelStyle = { padding: 20, border: "1px solid #e2e8f0", borderRadius: 18 };
-const conversationButtonStyle = { display: "grid", gap: 5, width: "100%", marginBottom: 8, padding: 12, textAlign: "left" as const };
-const messageStyle = { marginBottom: 10, padding: 12, background: "#f8fafc", borderRadius: 12 };
-const formStyle = { display: "grid", gap: 12, marginTop: 18 };
-const emailOptionStyle = { display: "flex", gap: 10, alignItems: "flex-start", padding: 12, border: "1px solid #cbd5e1", borderRadius: 12 };
