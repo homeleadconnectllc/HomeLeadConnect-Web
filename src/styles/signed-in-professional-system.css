@@ -1,0 +1,342 @@
+/* Signed-in professional system certification.
+   Purpose: unify operational hierarchy, remove unnecessary card/pill noise,
+   normalize contrast and spacing, and keep AI tools integrated rather than
+   obstructive. Loaded last for signed-in routes only. */
+
+.hlc-signed-in-shell {
+  --hlc-ink: #0f172a;
+  --hlc-muted: #475569;
+  --hlc-line: #cbd5e1;
+  --hlc-soft-line: #e2e8f0;
+  --hlc-surface: #ffffff;
+  --hlc-soft: #f8fafc;
+  --hlc-navy: #08152c;
+  --hlc-navy-2: #123b72;
+  --hlc-blue: #1d4ed8;
+  --hlc-cyan: #38bdf8;
+  --hlc-radius: 10px;
+  --hlc-control-radius: 8px;
+  color: var(--hlc-ink);
+}
+
+.hlc-signed-in-shell > .hlc-route-content {
+  background: #f7f9fc;
+}
+
+.hlc-signed-in-shell > .hlc-route-content main {
+  text-align: left;
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(h1,h2,h3,p,label,small,li,dt,dd) {
+  text-align: left;
+}
+
+.hlc-signed-in-shell > .hlc-route-content h1 {
+  margin-bottom: 10px;
+  color: var(--hlc-ink) !important;
+  font-size: clamp(2rem, 3vw, 3.1rem) !important;
+  line-height: 1.04 !important;
+  letter-spacing: -.035em !important;
+}
+
+.hlc-signed-in-shell > .hlc-route-content h2 {
+  color: var(--hlc-ink) !important;
+  font-size: clamp(1.45rem, 2vw, 2rem) !important;
+  line-height: 1.1 !important;
+}
+
+.hlc-signed-in-shell > .hlc-route-content h3 {
+  color: var(--hlc-ink) !important;
+  font-size: clamp(1.08rem, 1.35vw, 1.3rem) !important;
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(p,li,label,td,dd) {
+  color: var(--hlc-muted);
+  font-size: 16px !important;
+  line-height: 1.55 !important;
+}
+
+.hlc-signed-in-shell > .hlc-route-content small {
+  color: #5b677a;
+  font-size: 13px !important;
+  line-height: 1.45;
+}
+
+/* Operational pages use one aligned content rail instead of floating centered cards. */
+.hlc-signed-in-shell :is(
+  .hlc-leads-page,
+  .hlc-jobs-page,
+  .hlc-messages-page,
+  .hlc-settings-page,
+  .hlc-profile-page,
+  .hlc-calendar-page,
+  .hlc-follow-ups-page,
+  .hlc-automations-page,
+  .hlc-documents-page,
+  .hlc-call-center-page,
+  .hlc-community-page,
+  .hlc-provider-directory-page
+) {
+  width: min(1180px, calc(100% - 48px)) !important;
+  margin: 32px auto 56px !important;
+}
+
+/* Cards are reserved for real grouping; ordinary records read like rows/panels. */
+.hlc-signed-in-shell :is(
+  .hlc-workspace-card,
+  .hlc-pulse-card,
+  .hlc-lead-card,
+  .hlc-job-card,
+  .hlc-messages-conversations,
+  .hlc-messages-thread,
+  .hlc-message-start,
+  .hlc-device-alert-settings,
+  .hlc-analytics-kpi,
+  .responsive-record-card
+) {
+  border: 1px solid var(--hlc-soft-line) !important;
+  border-radius: var(--hlc-radius) !important;
+  background: var(--hlc-surface) !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell :is(.hlc-workspace-grid,.hlc-pulse-grid,.hlc-business-pulse-grid,.hlc-leads-list,.hlc-jobs-list) {
+  gap: 12px !important;
+}
+
+.hlc-signed-in-shell .hlc-lead-card,
+.hlc-signed-in-shell .hlc-job-card {
+  padding: 18px !important;
+  align-items: flex-start !important;
+}
+
+.hlc-signed-in-shell .hlc-lead-card-copy,
+.hlc-signed-in-shell .hlc-job-card-copy {
+  text-align: left !important;
+}
+
+.hlc-signed-in-shell .hlc-lead-open-hint,
+.hlc-signed-in-shell .hlc-job-card-copy small {
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+.hlc-signed-in-shell .hlc-lead-open-hint {
+  color: var(--hlc-blue) !important;
+  font-weight: 800 !important;
+}
+
+/* Buttons and fields use a consistent control language rather than assorted pills. */
+.hlc-signed-in-shell > .hlc-route-content :is(input,select,textarea,button,a[role="button"]) {
+  box-sizing: border-box;
+  font-size: 16px !important;
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(input,select,textarea) {
+  min-height: 44px;
+  border: 1px solid #b8c4d3 !important;
+  border-radius: var(--hlc-control-radius) !important;
+  background: #fff !important;
+  color: var(--hlc-ink) !important;
+}
+
+.hlc-signed-in-shell > .hlc-route-content textarea { min-height: 118px; }
+
+.hlc-signed-in-shell > .hlc-route-content :is(button,a[role="button"]) {
+  min-height: 44px;
+  border-radius: var(--hlc-control-radius) !important;
+  font-weight: 800 !important;
+}
+
+/* Dashboard/analytics hero areas carry the brand; surrounding workspace stays calm. */
+.hlc-signed-in-shell .hlc-command-hero {
+  border: 0 !important;
+  border-radius: 12px !important;
+  background: linear-gradient(135deg, var(--hlc-navy) 0%, var(--hlc-navy-2) 62%, #0e5d99 100%) !important;
+  color: #f8fafc !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell .hlc-command-hero :is(h1,h2,h3,p,strong,span) {
+  color: #f8fafc !important;
+  -webkit-text-fill-color: currentColor !important;
+  opacity: 1 !important;
+}
+
+.hlc-signed-in-shell .hlc-command-hero .hlc-command-kicker { color: #7dd3fc !important; }
+
+.hlc-signed-in-shell .hlc-system-strip {
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell :is(.hlc-priority-panel,.hlc-agent-card) {
+  border-radius: 12px !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell :is(.hlc-priority-panel,.hlc-agent-card) :is(h1,h2,h3,strong) {
+  color: #f8fafc !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+.hlc-signed-in-shell :is(.hlc-priority-panel,.hlc-agent-card) :is(p,span) {
+  color: #dbeafe !important;
+}
+
+/* Business Pulse should read as navigation, not a pile of marketing tiles. */
+.hlc-signed-in-shell .hlc-business-pulse-grid {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)) !important;
+}
+
+.hlc-signed-in-shell .hlc-pulse-card {
+  min-height: 0 !important;
+  padding: 16px !important;
+}
+
+.hlc-signed-in-shell .hlc-pulse-card:not(.hlc-pulse-card-featured) :is(strong,span) {
+  color: var(--hlc-ink) !important;
+}
+
+/* Messages: selected history and compose surfaces must remain readable. */
+.hlc-signed-in-shell .hlc-chat-history-item {
+  border-radius: 8px !important;
+  background: #f8fafc !important;
+  color: var(--hlc-ink) !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell .hlc-chat-history-item.is-selected {
+  border-color: #2563eb !important;
+  background: #eaf2ff !important;
+}
+
+.hlc-signed-in-shell .hlc-chat-history-item :is(strong,span,small) {
+  color: var(--hlc-ink) !important;
+  -webkit-text-fill-color: currentColor !important;
+  opacity: 1 !important;
+}
+
+/* Analytics keeps numerical emphasis without giant billboard cards. */
+.hlc-signed-in-shell .hlc-analytics-kpi {
+  min-height: 126px !important;
+  padding: 16px !important;
+}
+
+.hlc-signed-in-shell .hlc-analytics-kpi strong {
+  font-size: clamp(1.75rem, 4vw, 2.5rem) !important;
+  color: var(--hlc-ink) !important;
+}
+
+/* AI is an integrated utility. Closed state is compact; open state leaves the app visible. */
+.hlc-agent-dock:not(.is-open) {
+  width: 58px !important;
+  max-width: 58px !important;
+}
+
+.hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger {
+  width: 56px !important;
+  min-width: 56px !important;
+  height: 56px !important;
+  min-height: 56px !important;
+  padding: 3px !important;
+  border-radius: 14px !important;
+}
+
+@media (min-width: 761px) {
+  .hlc-agent-dock.is-open {
+    right: 18px !important;
+    bottom: 18px !important;
+    left: auto !important;
+    top: auto !important;
+    width: min(520px, calc(100vw - 36px)) !important;
+    max-width: min(520px, calc(100vw - 36px)) !important;
+    height: min(680px, calc(100dvh - 36px)) !important;
+    max-height: calc(100dvh - 36px) !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .hlc-signed-in-shell > .hlc-route-content {
+    padding-bottom: calc(112px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content h1 {
+    font-size: clamp(1.9rem, 8vw, 2.35rem) !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content h2 {
+    font-size: clamp(1.35rem, 5.8vw, 1.75rem) !important;
+  }
+
+  .hlc-signed-in-shell :is(
+    .hlc-leads-page,
+    .hlc-jobs-page,
+    .hlc-messages-page,
+    .hlc-settings-page,
+    .hlc-profile-page,
+    .hlc-calendar-page,
+    .hlc-follow-ups-page,
+    .hlc-automations-page,
+    .hlc-documents-page,
+    .hlc-call-center-page,
+    .hlc-community-page,
+    .hlc-provider-directory-page
+  ) {
+    width: calc(100% - 28px) !important;
+    margin: 22px auto 40px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-hero {
+    padding: 20px 18px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-messages-layout {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-lead-card,
+  .hlc-signed-in-shell .hlc-job-card {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-lead-card-actions,
+  .hlc-signed-in-shell .hlc-job-card-actions {
+    width: 100% !important;
+  }
+
+  .hlc-agent-dock:not(.is-open) {
+    right: 14px !important;
+    bottom: calc(88px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .hlc-agent-dock.is-open {
+    position: fixed !important;
+    left: 12px !important;
+    right: 12px !important;
+    top: auto !important;
+    bottom: calc(84px + env(safe-area-inset-bottom)) !important;
+    width: auto !important;
+    max-width: none !important;
+    height: min(68dvh, 620px) !important;
+    max-height: min(68dvh, 620px) !important;
+    z-index: 1500 !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-agent-dock-panel {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    border-radius: 14px !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+
+  .hlc-mobile-tabbar { z-index: 1600 !important; }
+}
