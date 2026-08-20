@@ -7,7 +7,7 @@ const ecosystemRecords = fs.readFileSync(new URL("../api/ecosystemRecords.ts", i
 
 test("provider service-area UI requires explicit territory input instead of a hardcoded state mutation", () => {
   assert.doesNotMatch(launchSurface, /Add PA service area/);
-  assert.doesNotMatch(launchSurface, /saveServiceArea\(\{contractorId:id,state:\"PA\"\}\)/);
+  assert.doesNotMatch(launchSurface, /saveServiceArea\(\{contractorId:id,state:"PA"\}\)/);
   assert.match(launchSurface, /Add service territory/);
   assert.match(launchSurface, /Save service area/);
   assert.match(launchSurface, /Enter a city, state, or ZIP before saving a service area\./);
@@ -24,5 +24,5 @@ test("service-area persistence accepts actual city, state, ZIP, and radius field
 test("availability action can represent both available and unavailable states", () => {
   assert.match(launchSurface, /Mark unavailable/);
   assert.match(launchSurface, /Mark available/);
-  assert.match(launchSurface, /setAvail\(p\.id,!Boolean\(av\?\.available\)\)/);
+  assert.match(launchSurface, /setAvail\(p\.id,!av\?\.available\)/);
 });
