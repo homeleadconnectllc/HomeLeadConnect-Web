@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { listJobs, updateJobStatus } from "../../api/jobs";
 import JobCard from "../../components/jobs/JobCard";
 import type { CrmJob, CrmJobStatus } from "../../lib/types/database";
@@ -20,6 +20,13 @@ export default function Jobs() {
       .finally(() => setLoading(false));
   }, []);
 
+  const summary = useMemo(() => ({
+    total: jobs.length,
+    pending: jobs.filter((job) => job.status === "pending").length,
+    active: jobs.filter((job) => job.status === "active").length,
+    completed: jobs.filter((job) => job.status === "completed").length,
+  }), [jobs]);
+
   async function changeStatus(job: CrmJob, status: CrmJobStatus) {
     setError("");
     setMessage("");
@@ -36,22 +43,50 @@ export default function Jobs() {
   }
 
   return (
-    <main className="hlc-jobs-page" style={pageStyle}>
-      <h1>Jobs</h1>
-      <p style={{ color: "#64748b" }}>Jobs created from accepted estimates.</p>
-      {loading && <p>Loading jobs…</p>}
-      {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
-      {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
-      {!loading && !error && jobs.length === 0 && <p>No jobs yet.</p>}
-      <div className="hlc-jobs-list" style={{ display: "grid", gap: 12 }}>
-        {jobs.map((job) => <JobCard key={job.id} job={job} disabled={busyJobId === job.id} onStatusChange={changeStatus} />)}
-      </div>
+    <main className="hlc-jobs-workspace">
+      <header className="hlc-jobs-header">
+        <div>
+          <p className="hlc-jobs-kicker">WORK OPERATIONS</p>
+          <h1>Jobs</h1>
+          <p>Track accepted work from handoff through completion without losing the estimate context.</p>
+        </div>
+      </header>
+
+      <section className="hlc-jobs-summary" aria-label="Job status summary">
+        <span><strong>{summary.total}</strong><small>Total jobs</small></span>
+        <span><strong>{summary.pending}</strong><small>Pending</small></span>
+        <span><strong>{summary.active}</strong><small>Active</small></span>
+        <span><strong>{summary.completed}</strong><small>Completed</small></span>
+      </section>
+
+      <section className="hlc-jobs-board" aria-label="Job operating board">
+        <div className="hlc-jobs-column-head" aria-hidden="true">
+          <span>Job</span>
+          <span>Value / estimate</span>
+          <span>Status / action</span>
+        </div>
+
+        {loading && <p className="hlc-jobs-state">Loading jobs…</p>}
+        {error && <p className="hlc-jobs-state hlc-jobs-error" role="alert">{error}</p>}
+        {message && <p className="hlc-jobs-state hlc-jobs-success" role="status">{message}</p>}
+        {!loading && !error && jobs.length === 0 && (
+          <div className="hlc-jobs-empty">
+            <strong>No jobs yet</strong>
+            <span>Accepted estimates will appear here as operational work.</span>
+          </div>
+        )}
+
+        <div className="hlc-jobs-list">
+          {jobs.map((job) => (
+            <JobCard
+              key={job.id}
+              job={job}
+              disabled={busyJobId === job.id}
+              onStatusChange={changeStatus}
+            />
+          ))}
+        </div>
+      </section>
     </main>
   );
 }
-
-const pageStyle = {
-  width: "min(1000px, calc(100% - 48px))",
-  margin: "40px auto",
-  fontFamily: "system-ui, sans-serif",
-};
