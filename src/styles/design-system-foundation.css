@@ -1,0 +1,784 @@
+/* HLC design-system normalization foundation.
+   Canonical tokens and shell rules replace page-by-page visual invention.
+   Loaded last for authenticated routes during the normalization sprint. */
+
+.hlc-signed-in-shell {
+  --hlc-space-1: 4px;
+  --hlc-space-2: 8px;
+  --hlc-space-3: 12px;
+  --hlc-space-4: 16px;
+  --hlc-space-5: 24px;
+  --hlc-space-6: 32px;
+  --hlc-space-7: 40px;
+  --hlc-space-8: 48px;
+  --hlc-space-9: 64px;
+
+  --hlc-text-xs: 12px;
+  --hlc-text-sm: 14px;
+  --hlc-text-base: 16px;
+  --hlc-text-lg: 18px;
+  --hlc-text-xl: 20px;
+  --hlc-text-2xl: 24px;
+  --hlc-text-3xl: 30px;
+  --hlc-text-4xl: 36px;
+
+  --hlc-radius-sm: 8px;
+  --hlc-radius-md: 12px;
+  --hlc-radius-lg: 16px;
+  --hlc-radius-xl: 20px;
+
+  --hlc-control-sm: 36px;
+  --hlc-control-md: 44px;
+  --hlc-control-lg: 48px;
+
+  --hlc-sidebar-width: 272px;
+  --hlc-content-max: 1440px;
+  --hlc-work-max: 1240px;
+  --hlc-reading-max: 1080px;
+
+  --hlc-canvas: #f4f7fb;
+  --hlc-surface: #ffffff;
+  --hlc-surface-subtle: #f8fafc;
+  --hlc-surface-muted: #eef3f8;
+  --hlc-border-subtle: #d9e2ec;
+  --hlc-border-strong: #b8c6d8;
+  --hlc-text: #10213d;
+  --hlc-text-muted: #526278;
+  --hlc-navy: #0b1730;
+  --hlc-navy-soft: #12274a;
+  --hlc-blue: #1d5fd1;
+  --hlc-cyan: #0ea5e9;
+  --hlc-danger: #b42318;
+  --hlc-warning: #b54708;
+  --hlc-success: #067647;
+
+  color: var(--hlc-text);
+  background: var(--hlc-canvas);
+  font-size: var(--hlc-text-base);
+  line-height: 1.5;
+}
+
+/* Canonical signed-in content shell. */
+.hlc-signed-in-shell > .hlc-route-content {
+  min-width: 0;
+  color: var(--hlc-text);
+  background: var(--hlc-canvas);
+}
+
+.hlc-signed-in-shell > .hlc-route-content > main,
+.hlc-signed-in-shell > .hlc-route-content > section,
+.hlc-signed-in-shell > .hlc-route-content > article {
+  width: min(100%, var(--hlc-content-max));
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+
+.hlc-signed-in-shell > .hlc-route-content > main {
+  padding-inline: clamp(var(--hlc-space-4), 3vw, var(--hlc-space-7));
+}
+
+/* One page rail for the modules that people work in every day. */
+.hlc-signed-in-shell :is(
+  .hlc-leads-page,
+  .hlc-jobs-page,
+  .hlc-messages-page,
+  .hlc-calendar-page,
+  .hlc-follow-ups-page,
+  .hlc-automations-page,
+  .hlc-call-center-page,
+  .hlc-provider-directory-page,
+  .hlc-community-page,
+  .hlc-documents-page
+) {
+  width: min(100%, var(--hlc-work-max)) !important;
+  margin: var(--hlc-space-6) auto var(--hlc-space-9) !important;
+  padding-inline: clamp(var(--hlc-space-4), 2.2vw, var(--hlc-space-6)) !important;
+  box-sizing: border-box;
+  text-align: left !important;
+}
+
+/* Reading and decision pages get more breathing room. */
+.hlc-signed-in-shell :is(
+  .hlc-settings-page,
+  .hlc-profile-page,
+  .hlc-homeowner-portal,
+  .hlc-contractor-portal,
+  .hlc-team-page
+) {
+  width: min(100%, var(--hlc-reading-max)) !important;
+  margin: var(--hlc-space-6) auto var(--hlc-space-9) !important;
+  padding-inline: clamp(var(--hlc-space-4), 2.2vw, var(--hlc-space-6)) !important;
+  box-sizing: border-box;
+  text-align: left !important;
+}
+
+/* Typography roles. */
+.hlc-signed-in-shell > .hlc-route-content h1 {
+  margin: 0;
+  color: var(--hlc-text);
+  font-size: clamp(var(--hlc-text-3xl), 2.5vw, var(--hlc-text-4xl));
+  font-weight: 750;
+  line-height: 1.12;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+}
+
+.hlc-signed-in-shell > .hlc-route-content h2 {
+  margin: 0;
+  color: var(--hlc-text);
+  font-size: clamp(var(--hlc-text-xl), 1.8vw, var(--hlc-text-2xl));
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -.015em;
+}
+
+.hlc-signed-in-shell > .hlc-route-content h3 {
+  margin: 0;
+  color: var(--hlc-text);
+  font-size: var(--hlc-text-lg);
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(p, li, label, td, dd) {
+  font-size: var(--hlc-text-base);
+  line-height: 1.55;
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(small, .hlc-section-eyebrow, .hlc-command-kicker) {
+  font-size: var(--hlc-text-xs);
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(.hlc-section-heading p, .hlc-workspace-copy span, .hlc-pulse-copy > span:last-child) {
+  color: var(--hlc-text-muted);
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(
+  .hlc-leads-page,
+  .hlc-jobs-page,
+  .hlc-messages-page,
+  .hlc-settings-page,
+  .hlc-profile-page,
+  .hlc-calendar-page,
+  .hlc-follow-ups-page,
+  .hlc-automations-page,
+  .hlc-documents-page,
+  .hlc-call-center-page,
+  .hlc-community-page,
+  .hlc-provider-directory-page
+) :is(h1, h2, h3, p, label, small) {
+  text-align: left !important;
+}
+
+/* Page headers use one vertical rhythm instead of bespoke centered banners. */
+.hlc-signed-in-shell > .hlc-route-content :is(main, section) > header,
+.hlc-signed-in-shell > .hlc-route-content .hlc-section-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--hlc-space-4);
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(main, section) > header {
+  margin-bottom: var(--hlc-space-6);
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(main, section) > header > :first-child,
+.hlc-signed-in-shell > .hlc-route-content .hlc-section-heading > :first-child {
+  min-width: 0;
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(main, section) > header p,
+.hlc-signed-in-shell > .hlc-route-content .hlc-section-heading p {
+  max-width: 68ch;
+  margin: var(--hlc-space-2) 0 0;
+  color: var(--hlc-text-muted);
+}
+
+/* Canonical surface system: borders organize; shadows are reserved for floating UI. */
+.hlc-signed-in-shell > .hlc-route-content :is(
+  .hlc-workspace-card,
+  .hlc-lead-card,
+  .hlc-job-card,
+  .hlc-device-alert-settings,
+  .hlc-messages-conversations,
+  .hlc-messages-thread,
+  .hlc-message-start,
+  .hlc-analytics-kpi,
+  .responsive-record-card
+) {
+  border: 1px solid var(--hlc-border-subtle);
+  border-radius: var(--hlc-radius-md);
+  background: var(--hlc-surface);
+  box-shadow: none;
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(.hlc-workspace-card, .hlc-lead-card, .hlc-job-card) {
+  padding: var(--hlc-space-5);
+}
+
+/* Records are flatter than decision cards. */
+.hlc-signed-in-shell .hlc-lead-card,
+.hlc-signed-in-shell .hlc-job-card,
+.hlc-signed-in-shell .responsive-record-card {
+  border-radius: var(--hlc-radius-sm) !important;
+  border-color: var(--hlc-border-subtle) !important;
+  background: var(--hlc-surface) !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell .hlc-lead-card + .hlc-lead-card,
+.hlc-signed-in-shell .hlc-job-card + .hlc-job-card {
+  margin-top: var(--hlc-space-3);
+}
+
+.hlc-signed-in-shell .hlc-lead-card-copy,
+.hlc-signed-in-shell .hlc-job-card-copy {
+  min-width: 0;
+  text-align: left !important;
+}
+
+.hlc-signed-in-shell .hlc-lead-open-hint,
+.hlc-signed-in-shell .hlc-job-card-copy small {
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell .hlc-lead-open-hint {
+  color: var(--hlc-blue) !important;
+  font-weight: 700 !important;
+}
+
+/* Consistent grids and section rhythm. */
+.hlc-signed-in-shell > .hlc-route-content :is(.hlc-dashboard-section, .hlc-analytics-panel) {
+  margin-top: var(--hlc-space-7);
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(
+  .hlc-workspace-grid,
+  .hlc-business-pulse-grid,
+  .hlc-metric-grid,
+  .hlc-leads-list,
+  .hlc-jobs-list
+) {
+  gap: var(--hlc-space-4);
+}
+
+.hlc-signed-in-shell > .hlc-route-content .hlc-section-heading {
+  margin-bottom: var(--hlc-space-5);
+}
+
+/* Controls share one physical system. */
+.hlc-signed-in-shell > .hlc-route-content :is(button, a[role="button"], input, select, textarea) {
+  box-sizing: border-box;
+  font: inherit;
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(input, select) {
+  min-height: var(--hlc-control-md);
+  padding-inline: var(--hlc-space-4);
+  border: 1px solid var(--hlc-border-strong);
+  border-radius: var(--hlc-radius-sm);
+  background: var(--hlc-surface);
+  color: var(--hlc-text);
+}
+
+.hlc-signed-in-shell > .hlc-route-content textarea {
+  min-height: 120px;
+  padding: var(--hlc-space-4);
+  border: 1px solid var(--hlc-border-strong);
+  border-radius: var(--hlc-radius-sm);
+  background: var(--hlc-surface);
+  color: var(--hlc-text);
+  resize: vertical;
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(button, a[role="button"]) {
+  min-height: var(--hlc-control-md);
+  padding-inline: var(--hlc-space-4);
+  border-radius: var(--hlc-radius-sm);
+  font-size: var(--hlc-text-sm);
+  font-weight: 650;
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(button, a[role="button"], input, select, textarea):focus-visible {
+  outline: 3px solid rgba(14, 165, 233, .32);
+  outline-offset: 2px;
+}
+
+.hlc-signed-in-shell > .hlc-route-content label {
+  display: block;
+  margin-bottom: var(--hlc-space-2);
+  color: var(--hlc-text);
+  font-size: var(--hlc-text-sm);
+  font-weight: 650;
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(input, select, textarea)::placeholder {
+  color: #718096;
+  opacity: 1;
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(input, select, textarea):disabled,
+.hlc-signed-in-shell > .hlc-route-content button:disabled {
+  cursor: not-allowed;
+  opacity: .62;
+}
+
+/* Tables have one dense working-screen system. */
+.hlc-signed-in-shell > .hlc-route-content table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--hlc-border-subtle);
+  border-radius: var(--hlc-radius-md);
+  background: var(--hlc-surface);
+  overflow: hidden;
+}
+
+.hlc-signed-in-shell > .hlc-route-content thead th {
+  padding: var(--hlc-space-3) var(--hlc-space-4);
+  border-bottom: 1px solid var(--hlc-border-strong);
+  background: var(--hlc-surface-muted);
+  color: var(--hlc-text);
+  font-size: var(--hlc-text-xs);
+  font-weight: 750;
+  letter-spacing: .045em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.hlc-signed-in-shell > .hlc-route-content tbody td {
+  padding: var(--hlc-space-3) var(--hlc-space-4);
+  border-bottom: 1px solid var(--hlc-border-subtle);
+  color: var(--hlc-text);
+  font-size: var(--hlc-text-sm);
+  vertical-align: middle;
+}
+
+.hlc-signed-in-shell > .hlc-route-content tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.hlc-signed-in-shell > .hlc-route-content tbody tr:hover {
+  background: var(--hlc-surface-subtle);
+}
+
+/* Status metadata stays compact instead of becoming large pill UI. */
+.hlc-signed-in-shell > .hlc-route-content :is(.badge, .status-badge, .hlc-status-badge, [class*="status-chip"]) {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  padding: 2px var(--hlc-space-2);
+  border: 1px solid var(--hlc-border-subtle);
+  border-radius: 999px;
+  background: var(--hlc-surface-subtle);
+  color: var(--hlc-text-muted);
+  font-size: var(--hlc-text-xs);
+  font-weight: 650;
+  line-height: 1.2;
+}
+
+/* Brand color is reserved for intentional command and interaction surfaces. */
+.hlc-signed-in-shell .hlc-command-hero,
+.hlc-signed-in-shell .hlc-priority-panel,
+.hlc-signed-in-shell .hlc-agent-card {
+  color: #f8fafc;
+}
+
+.hlc-signed-in-shell .hlc-command-hero {
+  padding: var(--hlc-space-6);
+  border: 0;
+  border-radius: var(--hlc-radius-lg);
+  background: linear-gradient(135deg, var(--hlc-navy) 0%, var(--hlc-navy-soft) 62%, #0c4f82 100%);
+  box-shadow: none;
+}
+
+.hlc-signed-in-shell .hlc-command-hero :is(h1, h2, h3, p, strong, span),
+.hlc-signed-in-shell .hlc-priority-panel :is(h1, h2, h3, p, strong, span),
+.hlc-signed-in-shell .hlc-agent-card :is(h1, h2, h3, p, strong) {
+  color: #f8fafc;
+  -webkit-text-fill-color: currentColor;
+}
+
+.hlc-signed-in-shell .hlc-command-hero .hlc-command-kicker {
+  color: #93dfff;
+}
+
+.hlc-signed-in-shell .hlc-system-strip {
+  border-radius: var(--hlc-radius-sm) !important;
+  box-shadow: none !important;
+}
+
+/* Dashboard establishes attention order: status first, work next, detail after. */
+.hlc-signed-in-shell .hlc-metric-grid {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.hlc-signed-in-shell .hlc-metric-card {
+  min-height: 112px;
+  padding: var(--hlc-space-4) var(--hlc-space-5);
+  border: 1px solid var(--hlc-border-subtle);
+  border-radius: var(--hlc-radius-md);
+  background: var(--hlc-surface);
+  box-shadow: none;
+}
+
+.hlc-signed-in-shell .hlc-metric-card strong {
+  color: var(--hlc-text) !important;
+  font-size: var(--hlc-text-3xl) !important;
+  font-weight: 750 !important;
+}
+
+.hlc-signed-in-shell .hlc-metric-card > span:last-child {
+  color: var(--hlc-text-muted) !important;
+  font-size: var(--hlc-text-sm) !important;
+  font-weight: 600 !important;
+}
+
+.hlc-signed-in-shell .hlc-business-pulse-grid {
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)) !important;
+}
+
+.hlc-signed-in-shell .hlc-pulse-card {
+  min-height: 0 !important;
+  padding: var(--hlc-space-4) !important;
+  border: 1px solid var(--hlc-border-subtle) !important;
+  border-radius: var(--hlc-radius-sm) !important;
+  background: var(--hlc-surface) !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell .hlc-pulse-card:not(.hlc-pulse-card-featured) :is(strong, span) {
+  color: var(--hlc-text) !important;
+}
+
+/* Analytics uses numerical emphasis without billboard-sized cards. */
+.hlc-signed-in-shell .hlc-analytics-kpi-grid {
+  gap: var(--hlc-space-4) !important;
+}
+
+.hlc-signed-in-shell .hlc-analytics-kpi {
+  min-height: 120px !important;
+  padding: var(--hlc-space-4) !important;
+  border-radius: var(--hlc-radius-md) !important;
+}
+
+.hlc-signed-in-shell .hlc-analytics-kpi strong {
+  color: var(--hlc-text) !important;
+  font-size: clamp(var(--hlc-text-2xl), 3vw, var(--hlc-text-3xl)) !important;
+  font-weight: 750 !important;
+}
+
+/* Leads and jobs are dense working records, not marketing tiles. */
+.hlc-signed-in-shell :is(.hlc-leads-toolbar, .hlc-jobs-toolbar) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: var(--hlc-space-3) !important;
+  margin-bottom: var(--hlc-space-5);
+  padding: var(--hlc-space-4) !important;
+  border: 1px solid var(--hlc-border-subtle) !important;
+  border-radius: var(--hlc-radius-md) !important;
+  background: var(--hlc-surface-subtle) !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell .hlc-lead-card,
+.hlc-signed-in-shell .hlc-job-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--hlc-space-4);
+  padding: var(--hlc-space-4) var(--hlc-space-5) !important;
+}
+
+.hlc-signed-in-shell :is(.hlc-lead-card-actions, .hlc-job-card-actions) {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--hlc-space-2) !important;
+}
+
+/* Messages keep list, thread and compose visually related. */
+.hlc-signed-in-shell .hlc-messages-layout {
+  display: grid;
+  grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
+  gap: var(--hlc-space-4) !important;
+  align-items: start;
+}
+
+.hlc-signed-in-shell :is(.hlc-messages-conversations, .hlc-messages-thread, .hlc-message-start) {
+  padding: var(--hlc-space-4) !important;
+  border: 1px solid var(--hlc-border-subtle) !important;
+  border-radius: var(--hlc-radius-md) !important;
+  background: var(--hlc-surface) !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell .hlc-chat-history-item {
+  border: 1px solid transparent !important;
+  border-radius: var(--hlc-radius-sm) !important;
+  background: transparent !important;
+  color: var(--hlc-text) !important;
+  box-shadow: none !important;
+  text-align: left !important;
+}
+
+.hlc-signed-in-shell .hlc-chat-history-item:hover {
+  background: var(--hlc-surface-subtle) !important;
+}
+
+.hlc-signed-in-shell .hlc-chat-history-item.is-selected {
+  border-color: #9cc4ff !important;
+  background: #eaf2ff !important;
+}
+
+.hlc-signed-in-shell .hlc-chat-history-item :is(strong, span, small) {
+  color: var(--hlc-text) !important;
+  -webkit-text-fill-color: currentColor !important;
+  opacity: 1 !important;
+}
+
+/* Navigation is grouped, predictable, and less pill-heavy. */
+@media (min-width: 1025px) {
+  .hlc-signed-in-shell > .hlc-navbar {
+    width: var(--hlc-sidebar-width) !important;
+    padding-inline: var(--hlc-space-3) !important;
+    background: var(--hlc-navy) !important;
+  }
+
+  .hlc-signed-in-shell:not(.hlc-sidebar-is-collapsed) {
+    grid-template-columns: var(--hlc-sidebar-width) minmax(0, 1fr) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-navbar-groups {
+    gap: var(--hlc-space-2) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-nav-group summary {
+    min-height: var(--hlc-control-md);
+    padding: var(--hlc-space-2) var(--hlc-space-3) !important;
+    border-radius: var(--hlc-radius-sm) !important;
+    font-size: var(--hlc-text-sm) !important;
+    font-weight: 700 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-nav-menu {
+    gap: var(--hlc-space-1) !important;
+    padding: var(--hlc-space-1) !important;
+    border-radius: var(--hlc-radius-sm) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-nav-menu a {
+    min-height: var(--hlc-control-md) !important;
+    padding: var(--hlc-space-2) var(--hlc-space-3) !important;
+    border-radius: var(--hlc-radius-sm) !important;
+    font-size: var(--hlc-text-sm) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-nav-menu a[aria-current="page"] {
+    background: rgba(29, 95, 209, .28) !important;
+    color: #eff6ff !important;
+  }
+
+  .hlc-signed-in-shell .hlc-nav-logout {
+    min-height: var(--hlc-control-md) !important;
+    border-radius: var(--hlc-radius-sm) !important;
+  }
+}
+
+/* AI is integrated utility UI; open state must leave context visible. */
+.hlc-agent-dock:not(.is-open) {
+  width: 56px !important;
+  max-width: 56px !important;
+}
+
+.hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger {
+  width: 54px !important;
+  min-width: 54px !important;
+  height: 54px !important;
+  min-height: 54px !important;
+  padding: 3px !important;
+  border-radius: var(--hlc-radius-md) !important;
+}
+
+@media (min-width: 761px) {
+  .hlc-agent-dock.is-open {
+    right: var(--hlc-space-4) !important;
+    bottom: var(--hlc-space-4) !important;
+    left: auto !important;
+    top: auto !important;
+    width: min(480px, calc(100vw - 32px)) !important;
+    max-width: min(480px, calc(100vw - 32px)) !important;
+    height: min(640px, calc(100dvh - 32px)) !important;
+    max-height: calc(100dvh - 32px) !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-agent-dock-panel {
+    border-radius: var(--hlc-radius-lg) !important;
+  }
+}
+
+/* Mobile is intentionally re-laid out, not just narrowed. */
+@media (max-width: 760px) {
+  .hlc-signed-in-shell > .hlc-route-content {
+    padding-bottom: calc(104px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content > main {
+    padding-inline: var(--hlc-space-4);
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content h1 {
+    font-size: var(--hlc-text-3xl);
+    line-height: 1.1;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content h2 {
+    font-size: var(--hlc-text-xl);
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content :is(
+    .hlc-leads-page,
+    .hlc-jobs-page,
+    .hlc-messages-page,
+    .hlc-settings-page,
+    .hlc-profile-page,
+    .hlc-calendar-page,
+    .hlc-follow-ups-page,
+    .hlc-automations-page,
+    .hlc-documents-page,
+    .hlc-call-center-page,
+    .hlc-community-page,
+    .hlc-provider-directory-page,
+    .hlc-homeowner-portal,
+    .hlc-contractor-portal,
+    .hlc-team-page
+  ) {
+    width: 100% !important;
+    margin: var(--hlc-space-5) auto var(--hlc-space-7) !important;
+    padding-inline: var(--hlc-space-4) !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content :is(main, section) > header,
+  .hlc-signed-in-shell > .hlc-route-content .hlc-section-heading {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--hlc-space-3);
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content :is(.hlc-workspace-card, .hlc-lead-card, .hlc-job-card) {
+    padding: var(--hlc-space-4);
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content :is(.hlc-dashboard-section, .hlc-analytics-panel) {
+    margin-top: var(--hlc-space-6);
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content :is(.hlc-workspace-grid, .hlc-business-pulse-grid, .hlc-metric-grid) {
+    gap: var(--hlc-space-3);
+  }
+
+  .hlc-signed-in-shell .hlc-command-hero {
+    padding: var(--hlc-space-5) var(--hlc-space-4);
+    border-radius: var(--hlc-radius-md);
+  }
+
+  .hlc-signed-in-shell .hlc-metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--hlc-space-3) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-metric-card {
+    min-height: 104px;
+    padding: var(--hlc-space-3) var(--hlc-space-4);
+  }
+
+  .hlc-signed-in-shell .hlc-business-pulse-grid,
+  .hlc-signed-in-shell .hlc-analytics-kpi-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .hlc-signed-in-shell .hlc-lead-card,
+  .hlc-signed-in-shell .hlc-job-card {
+    grid-template-columns: 1fr !important;
+    align-items: stretch;
+    gap: var(--hlc-space-3);
+  }
+
+  .hlc-signed-in-shell :is(.hlc-lead-card-actions, .hlc-job-card-actions) {
+    width: 100% !important;
+    justify-content: stretch;
+  }
+
+  .hlc-signed-in-shell :is(.hlc-lead-card-actions, .hlc-job-card-actions) > * {
+    flex: 1 1 140px;
+  }
+
+  .hlc-signed-in-shell .hlc-messages-layout {
+    grid-template-columns: 1fr !important;
+    gap: var(--hlc-space-3) !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .hlc-mobile-tabbar {
+    min-height: calc(68px + env(safe-area-inset-bottom)) !important;
+    padding: var(--hlc-space-2) max(var(--hlc-space-1), env(safe-area-inset-right)) max(var(--hlc-space-2), env(safe-area-inset-bottom)) max(var(--hlc-space-1), env(safe-area-inset-left)) !important;
+    border-top: 1px solid rgba(184, 198, 216, .24) !important;
+    background: rgba(11, 23, 48, .98) !important;
+  }
+
+  .hlc-mobile-tabbar > :is(a, button) {
+    min-height: 52px !important;
+    border-radius: var(--hlc-radius-sm) !important;
+    font-size: 10px !important;
+  }
+
+  .hlc-mobile-portal-scroll {
+    padding-inline: var(--hlc-space-4) !important;
+    padding-bottom: calc(88px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .hlc-mobile-portal .hlc-nav-group summary,
+  .hlc-mobile-portal .hlc-nav-menu,
+  .hlc-mobile-portal .hlc-nav-menu a {
+    border-radius: var(--hlc-radius-sm) !important;
+  }
+
+  .hlc-agent-dock:not(.is-open) {
+    right: var(--hlc-space-3) !important;
+    bottom: calc(84px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .hlc-agent-dock.is-open {
+    position: fixed !important;
+    left: var(--hlc-space-3) !important;
+    right: var(--hlc-space-3) !important;
+    top: auto !important;
+    bottom: calc(82px + env(safe-area-inset-bottom)) !important;
+    width: auto !important;
+    max-width: none !important;
+    height: min(62dvh, 560px) !important;
+    max-height: min(62dvh, 560px) !important;
+    z-index: 1500 !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-agent-dock-panel {
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    border-radius: var(--hlc-radius-lg) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+  }
+}
