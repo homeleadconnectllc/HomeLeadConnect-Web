@@ -62,13 +62,13 @@ test("lead, message, job and schedule surfaces expose launch-critical states", (
   assert.match(calendar, /Loading schedule…/);
   assert.match(calendar, /role="alert"/);
   assert.match(calendar, /role="status"/);
-  assert.match(calendar, /No job appointments scheduled\./);
+  assert.match(calendar, /No appointments in this view/);
   assert.match(calendar, /disabled=\{busy/);
 });
 
 test("schedule-to-job handoff remains contextual and reversible", () => {
-  assert.match(calendar, /<Link to="\/jobs">← Jobs<\/Link>/);
-  assert.match(calendar, /to=\{`\/jobs\/\$\{appointment\.job_id\}`\}/);
+  assert.match(calendar, /className="hlc-calendar-primary-link" to="\/jobs"/);
+  assert.match(calendar, /to=\{`\/jobs\/\$\{selectedAppointment\.job_id\}`\}/);
   assert.match(calendar, /Reschedule/);
   assert.match(calendar, /Complete/);
   assert.match(calendar, /Cancel/);
