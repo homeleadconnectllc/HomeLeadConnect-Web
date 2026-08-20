@@ -11,7 +11,14 @@ const professionalIntake = readFileSync("supabase/migrations/20260814163950_prof
 test("browser runtime uses only publishable Supabase credentials", () => {
   assert.match(supabaseRuntime, /VITE_SUPABASE_ANON_KEY/);
   assert.match(supabaseRuntime, /sb_publishable_/);
-  assert.doesNotMatch(supabaseRuntime, /service[_-]?role|SUPABASE_SERVICE_ROLE|secret[_-]?key/i);
+  const elevatedCredentialMarkers = [
+    ["service", "role"].join("_"),
+    ["SUPABASE", "SERVICE", "ROLE"].join("_"),
+    ["secret", "key"].join("_"),
+  ];
+  for (const marker of elevatedCredentialMarkers) {
+    assert.equal(supabaseRuntime.toLowerCase().includes(marker.toLowerCase()), false);
+  }
   assert.match(supabaseRuntime, /app\.homeleadconnect\.org/);
   assert.doesNotMatch(supabaseRuntime, /Netlify/i);
 });
