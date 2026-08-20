@@ -1,0 +1,70 @@
+name: HLC Production Verification
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-production-source:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7.0.1
+
+      - name: Setup Node
+        uses: actions/setup-node@v7.0.0
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Verify production source
+        run: npm run verify:launch
+
+      - name: Build production source
+        run: npm run build
+
+      - name: Verify Cloudflare Pages configuration
+        run: |
+          grep -q '"name": "homeleadconnect-web"' wrangler.jsonc
+          grep -q '"pages_build_output_dir": "./dist"' wrangler.jsonc
+          grep -qxF '/* /index.html 200' public/_redirects
+
+      - name: Verify Cloudflare production surfaces
+        shell: bash
+        run: |
+          set -euo pipefail
+          for url in \
+            https://app.homeleadconnect.org/ \
+            https://app.homeleadconnect.org/login \
+            https://app.homeleadconnect.org/dashboard \
+            https://app.homeleadconnect.org/messages \
+            https://app.homeleadconnect.org/jobs \
+            https://app.homeleadconnect.org/calendar \
+            https://app.homeleadconnect.org/community-hub \
+            https://app.homeleadconnect.org/documents \
+            https://app.homeleadconnect.org/hq \
+            https://homeleadconnect-web.pages.dev/; do
+            echo "Checking $url"
+            curl --fail --silent --show-error --location \
+              --retry 6 --retry-all-errors --retry-delay 5 \
+              --connect-timeout 15 --max-time 45 \
+              -o /tmp/hlc-response.html \
+              -w '%{http_code}\n' \
+              "$url" | grep -Eq '^2[0-9][0-9]$'
+            grep -qi '<html' /tmp/hlc-response.html
+          done
+
+      - name: Record production verification target
+        run: |
+          echo "Verified source SHA: $GITHUB_SHA"
+          echo "Production host: https://app.homeleadconnect.org"
+          echo "Cloudflare Pages project: homeleadconnect-web"
