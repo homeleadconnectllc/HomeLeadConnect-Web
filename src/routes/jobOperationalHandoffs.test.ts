@@ -13,6 +13,7 @@ test("job rows keep lead context through follow-up and call handoffs", () => {
 
 test("follow-up composer resolves numeric job lead context to the canonical lead UUID", () => {
   assert.match(followUps, /searchParams\.get\("leadRecord"\)/);
-  assert.match(followUps, /leads\.find\(\(lead\) => lead\.id === numericLeadId\)/);
-  assert.match(followUps, /setLeadId\(matchingLead\.id_uuid\)/);
+  assert.match(followUps, /leads\.find\(\(lead\) => lead\.id === numericLeadId\)\?\.id_uuid/);
+  assert.match(followUps, /const selectedLeadId = leadId \|\| contextualLeadId/);
+  assert.match(followUps, /createFollowUp\(\{ leadId: selectedLeadId/);
 });
