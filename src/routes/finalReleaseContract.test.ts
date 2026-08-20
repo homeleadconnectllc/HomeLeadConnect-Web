@@ -17,7 +17,7 @@ const requestService = readFileSync("src/pages/RequestService.tsx", "utf8");
 const professional = readFileSync("src/pages/ProfessionalApplication.tsx", "utf8");
 const leadsPage = readFileSync("src/pages/dashboard/Leads.tsx", "utf8");
 const unlimitedPlanMigration = readFileSync("supabase/migrations/20260819210000_fix_hlc_v1_unlimited_plan_limits.sql", "utf8");
-const qaWorkflow = readFileSync(".github/workflows/netlify-e2e-qa-site.yml", "utf8");
+const productionWorkflow = readFileSync(".github/workflows/cloudflare-production-verification.yml", "utf8");
 const turnstileConfig = readFileSync("src/lib/turnstile.ts", "utf8");
 const indexHtml = readFileSync("index.html", "utf8");
 const supabaseRuntime = readFileSync("src/lib/supabase.ts", "utf8");
@@ -117,10 +117,10 @@ test("HLC V1 zero limits remain unlimited rather than zero-capacity", () => {
   assert.doesNotMatch(leadsPage, /setCreateError\(errorMessage\(reason, "Unable to create lead\."\)\)/);
 });
 
-test("isolated QA never inherits production authentication runtime", () => {
-  assert.match(qaWorkflow, /VITE_SUPABASE_URL: https:\/\/agfwqnirspmptjiqrrtk\.supabase\.co/);
-  assert.match(qaWorkflow, /VITE_AUTH_CAPTCHA_REQUIRED: "false"/);
-  assert.doesNotMatch(qaWorkflow, /Load public runtime configuration from production Netlify site/);
+test("production authentication runtime is Cloudflare-bound and fail-closed", () => {
+  assert.match(productionWorkflow, /https:\/\/app\.homeleadconnect\.org/);
+  assert.match(productionWorkflow, /https:\/\/homeleadconnect-web\.pages\.dev/);
+  assert.doesNotMatch(productionWorkflow, /NETLIFY_AUTH_TOKEN|api\.netlify\.com/);
   assert.match(turnstileConfig, /VITE_AUTH_CAPTCHA_REQUIRED/);
   assert.match(turnstileConfig, /import\.meta\.env\.PROD/);
   assert.match(supabaseRuntime, /host === "app\.homeleadconnect\.org"/);
