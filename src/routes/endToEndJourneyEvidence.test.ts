@@ -2,8 +2,18 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
 
+const leadDetail = fs.readFileSync(new URL("../pages/dashboard/LeadDetail.tsx", import.meta.url), "utf8");
+const jobs = fs.readFileSync(new URL("../pages/dashboard/Jobs.tsx", import.meta.url), "utf8");
 const jobCard = fs.readFileSync(new URL("../components/jobs/JobCard.tsx", import.meta.url), "utf8");
 const documents = fs.readFileSync(new URL("../pages/dashboard/Documents.tsx", import.meta.url), "utf8");
+
+test("lead detail carries exact lead context into related jobs", () => {
+  assert.match(leadDetail, /to=\{`\/jobs\?lead=\$\{lead\.id\}`\}/);
+  assert.match(jobs, /const raw = searchParams\.get\("lead"\)/);
+  assert.match(jobs, /jobs\.filter\(\(job\) => job\.lead_id === leadFilter\)/);
+  assert.match(jobs, /Showing jobs for Lead #\{leadFilter\}/);
+  assert.match(jobs, /Show all jobs/);
+});
 
 test("job work hands evidence intake the exact job context", () => {
   assert.match(jobCard, /to=\{`\/documents\?entityType=job&entityId=\$\{encodeURIComponent\(job\.id\)\}`\}/);
