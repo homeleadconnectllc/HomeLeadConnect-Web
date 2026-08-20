@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   getDocumentUrl,
   listDocuments,
@@ -14,12 +15,18 @@ const captureGuidance = [
   ["Use video deliberately", "Keep clips short and steady. Video is best when motion, sound, operation, or a path through the property matters."],
 ] as const;
 
+const documentEntityTypes = new Set(["lead", "estimate", "job", "appointment", "contractor", "conversation"]);
+
 export default function Documents() {
+  const [searchParams] = useSearchParams();
   const [items, setItems] = useState<DocumentRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const requestedEntityType = searchParams.get("entityType") || "";
+  const requestedEntityId = searchParams.get("entityId") || "";
+  const initialEntityType = documentEntityTypes.has(requestedEntityType) ? requestedEntityType : "lead";
 
   async function load() {
     setItems(await listDocuments());
@@ -99,7 +106,7 @@ export default function Documents() {
           </div>
           <form className="hlc-documents-form" onSubmit={submit}>
             <label>Related record type
-              <select name="entityType">
+              <select name="entityType" defaultValue={initialEntityType}>
                 <option value="lead">Lead / service request</option>
                 <option value="estimate">LeadScope estimate</option>
                 <option value="job">Job</option>
@@ -108,7 +115,7 @@ export default function Documents() {
                 <option value="conversation">Conversation</option>
               </select>
             </label>
-            <label>Related record ID<input name="entityId" required placeholder="Paste or enter the HLC record ID" /></label>
+            <label>Related record ID<input name="entityId" required defaultValue={requestedEntityId} placeholder="Paste or enter the HLC record ID" /></label>
             <label>Who should be able to see it?
               <select name="sharingScope">
                 <option value="workspace">HLC workspace only</option>
