@@ -3,7 +3,7 @@
    controls from covering route content. No business logic changes. */
 @media (max-width: 760px) {
   .hlc-signed-in-shell > .hlc-route-content {
-    padding-bottom: calc(118px + env(safe-area-inset-bottom)) !important;
+    padding-bottom: calc(124px + env(safe-area-inset-bottom)) !important;
     overflow-x: clip;
   }
 
@@ -12,40 +12,177 @@
     margin-inline: auto;
   }
 
-  /* Mobile type: strong hierarchy without oversized centered billboard copy. */
   .hlc-signed-in-shell > .hlc-route-content h1 {
-    font-size: clamp(2rem, 9vw, 2.55rem) !important;
-    line-height: 1.02 !important;
+    font-size: clamp(2rem, 8.4vw, 2.45rem) !important;
+    line-height: 1.04 !important;
     letter-spacing: -.035em !important;
   }
 
   .hlc-signed-in-shell > .hlc-route-content h2 {
-    font-size: clamp(1.45rem, 6.5vw, 1.85rem) !important;
-    line-height: 1.08 !important;
+    font-size: clamp(1.4rem, 6vw, 1.8rem) !important;
+    line-height: 1.1 !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content h3 {
+    font-size: clamp(1.05rem, 4.8vw, 1.28rem) !important;
+    line-height: 1.18 !important;
   }
 
   .hlc-signed-in-shell > .hlc-route-content :is(p, li, label, td, dd) {
-    line-height: 1.48 !important;
+    line-height: 1.5 !important;
   }
 
-  /* Route content reads like an application, not a stack of marketing cards. */
+  .hlc-signed-in-shell :is(.hlc-leads-page, .hlc-jobs-page, .hlc-messages-page) {
+    width: calc(100% - 28px) !important;
+    margin: 24px auto !important;
+    text-align: left !important;
+  }
+
+  .hlc-signed-in-shell :is(.hlc-leads-page, .hlc-jobs-page, .hlc-messages-page) :is(h1, h2, h3, p, label, small) {
+    text-align: left !important;
+  }
+
   .hlc-signed-in-shell > .hlc-route-content :is(
     .hlc-workspace-card,
     .hlc-pulse-card,
-    .hlc-device-alert-settings
+    .hlc-device-alert-settings,
+    .hlc-lead-card,
+    .hlc-job-card,
+    .hlc-messages-conversations,
+    .hlc-messages-thread,
+    .hlc-message-start
   ) {
-    border-radius: 12px !important;
+    border-radius: 10px !important;
     box-shadow: none !important;
   }
 
   .hlc-signed-in-shell .hlc-workspace-grid,
-  .hlc-signed-in-shell .hlc-pulse-grid {
-    gap: 12px !important;
+  .hlc-signed-in-shell .hlc-pulse-grid,
+  .hlc-signed-in-shell .hlc-business-pulse-grid {
+    gap: 10px !important;
   }
 
-  /* Dashboard hero: restore intentional HLC navy treatment and readable copy. */
+  .hlc-signed-in-shell .hlc-leads-toolbar {
+    gap: 10px !important;
+    padding: 14px !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-signed-in-shell .hlc-lead-card {
+    padding: 16px !important;
+    border-color: #cbd5e1 !important;
+    background: #ffffff !important;
+  }
+
+  .hlc-signed-in-shell .hlc-lead-card-copy {
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+
+  .hlc-signed-in-shell .hlc-lead-card h3 {
+    color: #10213d !important;
+    font-size: 1.32rem !important;
+  }
+
+  .hlc-signed-in-shell .hlc-lead-context {
+    color: #334155 !important;
+    font-size: 15px !important;
+    line-height: 1.45 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-lead-open-hint {
+    display: inline-block !important;
+    margin-top: 10px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: #1d4ed8 !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-job-card {
+    padding: 16px !important;
+    border-color: #cbd5e1 !important;
+    background: #ffffff !important;
+  }
+
+  .hlc-signed-in-shell .hlc-job-card-copy {
+    width: 100%;
+    text-align: left !important;
+  }
+
+  .hlc-signed-in-shell .hlc-job-card-copy small {
+    display: block !important;
+    margin-top: 4px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: #475569 !important;
+    overflow-wrap: anywhere;
+  }
+
+  .hlc-signed-in-shell .hlc-job-card-actions {
+    width: 100%;
+    gap: 8px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-job-card-actions :is(select, .hlc-job-open) {
+    min-height: 48px !important;
+    border-radius: 8px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-messages-layout {
+    gap: 14px !important;
+  }
+
+  .hlc-signed-in-shell :is(.hlc-messages-conversations, .hlc-messages-thread, .hlc-message-start) {
+    padding: 16px !important;
+    border: 1px solid #cbd5e1 !important;
+    background: #ffffff !important;
+  }
+
+  .hlc-signed-in-shell .hlc-chat-history-item {
+    border-radius: 8px !important;
+    background: #f8fafc !important;
+    color: #0f172a !important;
+    text-align: left !important;
+  }
+
+  .hlc-signed-in-shell .hlc-chat-history-item.is-selected {
+    border-color: #2563eb !important;
+    background: #eaf2ff !important;
+  }
+
+  .hlc-signed-in-shell .hlc-chat-history-item :is(strong, span, small) {
+    color: #0f172a !important;
+    -webkit-text-fill-color: currentColor !important;
+    opacity: 1 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-message-start > h2,
+  .hlc-signed-in-shell .hlc-message-thread-head h2 {
+    color: #0b1730 !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content :is(input, select, textarea) {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    border-radius: 8px !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content textarea {
+    min-height: 116px;
+  }
+
   .hlc-signed-in-shell .hlc-command-hero {
-    background: linear-gradient(135deg, #0a1730 0%, #123b72 58%, #0f5f9c 100%) !important;
+    padding: 22px 20px !important;
+    border-radius: 12px !important;
+    background: linear-gradient(135deg, #08152c 0%, #123b72 58%, #0e5d99 100%) !important;
     color: #f8fafc !important;
     text-align: left !important;
   }
@@ -54,49 +191,94 @@
     color: #f8fafc !important;
     -webkit-text-fill-color: currentColor !important;
     opacity: 1 !important;
+    text-align: left !important;
   }
 
   .hlc-signed-in-shell .hlc-command-hero .hlc-command-kicker {
     color: #7dd3fc !important;
   }
 
-  /* Dark operational/marketing panels need one reliable contrast contract. */
-  .hlc-signed-in-shell :is(.hlc-priority-panel, .hlc-business-pulse, .hlc-agent-card) :is(h1,h2,h3,strong) {
+  .hlc-signed-in-shell .hlc-command-hero h1 {
+    font-size: clamp(2.1rem, 9vw, 2.75rem) !important;
+  }
+
+  .hlc-signed-in-shell :is(.hlc-priority-panel, .hlc-business-pulse-section, .hlc-agent-card) :is(h1, h2, h3, strong) {
     color: #f8fafc !important;
     -webkit-text-fill-color: currentColor !important;
     opacity: 1 !important;
   }
 
-  .hlc-signed-in-shell :is(.hlc-priority-panel, .hlc-business-pulse, .hlc-agent-card) :is(p,span) {
+  .hlc-signed-in-shell :is(.hlc-priority-panel, .hlc-business-pulse-section, .hlc-agent-card) :is(p, span) {
     color: #dbeafe !important;
     opacity: 1 !important;
   }
 
-  /* Dense records/forms should use the available width and avoid nested-pill styling. */
-  .hlc-signed-in-shell > .hlc-route-content :is(input, select, textarea) {
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
+  .hlc-signed-in-shell .hlc-business-pulse-section .hlc-section-eyebrow,
+  .hlc-signed-in-shell .hlc-priority-panel .hlc-section-eyebrow {
+    color: #60a5fa !important;
   }
 
-  .hlc-signed-in-shell > .hlc-route-content textarea {
-    min-height: 120px;
+  .hlc-signed-in-shell .hlc-pulse-card {
+    border-radius: 9px !important;
+    box-shadow: none !important;
   }
 
-  /* Agent launcher stays above navigation without sitting on form actions/content. */
+  .hlc-signed-in-shell .hlc-pulse-card:not(.hlc-pulse-card-featured) {
+    background: #ffffff !important;
+  }
+
+  .hlc-signed-in-shell .hlc-pulse-card:not(.hlc-pulse-card-featured) :is(strong, span) {
+    color: #0f172a !important;
+  }
+
+  .hlc-signed-in-shell .hlc-analytics-panel > .hlc-section-heading {
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+
+  .hlc-signed-in-shell .hlc-analytics-panel > .hlc-section-heading h2 {
+    max-width: 12ch;
+    font-size: clamp(1.8rem, 8vw, 2.35rem) !important;
+    text-align: left !important;
+  }
+
+  .hlc-signed-in-shell .hlc-analytics-panel > .hlc-section-heading p,
+  .hlc-signed-in-shell .hlc-analytics-panel > h3 {
+    text-align: left !important;
+  }
+
+  .hlc-signed-in-shell .hlc-analytics-kpi {
+    min-height: 150px !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-signed-in-shell .hlc-analytics-kpi strong {
+    font-size: clamp(2rem, 10vw, 2.8rem) !important;
+  }
+
   .hlc-agent-dock:not(.is-open) {
-    right: 16px !important;
-    bottom: calc(104px + env(safe-area-inset-bottom)) !important;
+    right: 14px !important;
+    bottom: calc(92px + env(safe-area-inset-bottom)) !important;
+    width: 56px !important;
+    max-width: 56px !important;
   }
 
-  /* Open agent experience is a contained sheet, not a page-covering floating card. */
+  .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger {
+    width: 54px !important;
+    min-width: 54px !important;
+    height: 54px !important;
+    min-height: 54px !important;
+    padding: 3px !important;
+  }
+
   .hlc-agent-dock.is-open {
     position: fixed !important;
-    inset: 12px 12px calc(96px + env(safe-area-inset-bottom)) 12px !important;
+    inset: 12px 12px calc(82px + env(safe-area-inset-bottom)) 12px !important;
     width: auto !important;
     max-width: none !important;
     height: auto !important;
-    z-index: 1900 !important;
+    z-index: 1500 !important;
   }
 
   .hlc-agent-dock.is-open .hlc-agent-dock-panel {
@@ -104,14 +286,13 @@
     max-width: 100% !important;
     height: 100% !important;
     max-height: 100% !important;
-    border-radius: 18px !important;
+    border-radius: 14px !important;
     overflow-x: hidden !important;
     overflow-y: auto !important;
     overscroll-behavior: contain;
   }
 
-  /* Bottom navigation owns its lane. Content must never visually compete with it. */
-  .hlc-mobile-bottom-nav {
-    z-index: 1800 !important;
+  .hlc-mobile-tabbar {
+    z-index: 1600 !important;
   }
 }
