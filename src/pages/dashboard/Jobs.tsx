@@ -71,7 +71,7 @@ export default function Jobs() {
         {message && <p className="hlc-jobs-state hlc-jobs-success" role="status">{message}</p>}
         {!loading && !error && jobs.length === 0 && (
           <div className="hlc-jobs-empty">
-            <strong>No jobs yet</strong>
+            <strong>No jobs yet.</strong>
             <span>Accepted estimates will appear here as operational work.</span>
           </div>
         )}
