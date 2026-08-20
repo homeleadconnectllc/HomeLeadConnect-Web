@@ -1,0 +1,244 @@
+/* HLC design-system normalization foundation.
+   Canonical tokens and shell rules replace page-by-page visual invention.
+   Loaded last for authenticated routes during the normalization sprint. */
+
+.hlc-signed-in-shell {
+  --hlc-space-1: 4px;
+  --hlc-space-2: 8px;
+  --hlc-space-3: 12px;
+  --hlc-space-4: 16px;
+  --hlc-space-5: 24px;
+  --hlc-space-6: 32px;
+  --hlc-space-7: 40px;
+  --hlc-space-8: 48px;
+  --hlc-space-9: 64px;
+
+  --hlc-text-xs: 12px;
+  --hlc-text-sm: 14px;
+  --hlc-text-base: 16px;
+  --hlc-text-lg: 18px;
+  --hlc-text-xl: 20px;
+  --hlc-text-2xl: 24px;
+  --hlc-text-3xl: 30px;
+  --hlc-text-4xl: 36px;
+
+  --hlc-radius-sm: 8px;
+  --hlc-radius-md: 12px;
+  --hlc-radius-lg: 16px;
+  --hlc-radius-xl: 20px;
+
+  --hlc-control-sm: 36px;
+  --hlc-control-md: 44px;
+  --hlc-control-lg: 48px;
+
+  --hlc-sidebar-width: 272px;
+  --hlc-content-max: 1440px;
+
+  --hlc-canvas: #f4f7fb;
+  --hlc-surface: #ffffff;
+  --hlc-surface-subtle: #f8fafc;
+  --hlc-surface-muted: #eef3f8;
+  --hlc-border-subtle: #d9e2ec;
+  --hlc-border-strong: #b8c6d8;
+  --hlc-text: #10213d;
+  --hlc-text-muted: #526278;
+  --hlc-navy: #0b1730;
+  --hlc-navy-soft: #12274a;
+  --hlc-blue: #1d5fd1;
+  --hlc-cyan: #0ea5e9;
+  --hlc-danger: #b42318;
+  --hlc-warning: #b54708;
+  --hlc-success: #067647;
+
+  color: var(--hlc-text);
+  background: var(--hlc-canvas);
+  font-size: var(--hlc-text-base);
+  line-height: 1.5;
+}
+
+/* Canonical signed-in content shell. */
+.hlc-signed-in-shell > .hlc-route-content {
+  min-width: 0;
+  color: var(--hlc-text);
+  background: var(--hlc-canvas);
+}
+
+.hlc-signed-in-shell > .hlc-route-content > main,
+.hlc-signed-in-shell > .hlc-route-content > section,
+.hlc-signed-in-shell > .hlc-route-content > article {
+  width: min(100%, var(--hlc-content-max));
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+
+.hlc-signed-in-shell > .hlc-route-content > main {
+  padding-inline: clamp(var(--hlc-space-4), 3vw, var(--hlc-space-7));
+}
+
+/* Typography roles. */
+.hlc-signed-in-shell > .hlc-route-content h1 {
+  margin: 0;
+  color: var(--hlc-text);
+  font-size: clamp(var(--hlc-text-3xl), 2.5vw, var(--hlc-text-4xl));
+  font-weight: 750;
+  line-height: 1.12;
+  letter-spacing: -.025em;
+}
+
+.hlc-signed-in-shell > .hlc-route-content h2 {
+  margin: 0;
+  color: var(--hlc-text);
+  font-size: clamp(var(--hlc-text-xl), 1.8vw, var(--hlc-text-2xl));
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -.015em;
+}
+
+.hlc-signed-in-shell > .hlc-route-content h3 {
+  margin: 0;
+  color: var(--hlc-text);
+  font-size: var(--hlc-text-lg);
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(p, li, label, td, dd) {
+  font-size: var(--hlc-text-base);
+  line-height: 1.55;
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(small, .hlc-section-eyebrow, .hlc-command-kicker) {
+  font-size: var(--hlc-text-xs);
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(.hlc-section-heading p, .hlc-workspace-copy span, .hlc-pulse-copy > span:last-child) {
+  color: var(--hlc-text-muted);
+}
+
+/* Canonical surface system: borders organize; shadows are reserved for floating UI. */
+.hlc-signed-in-shell > .hlc-route-content :is(
+  .hlc-workspace-card,
+  .hlc-lead-card,
+  .hlc-job-card,
+  .hlc-device-alert-settings,
+  .hlc-messages-conversations,
+  .hlc-messages-thread,
+  .hlc-message-start,
+  .hlc-analytics-kpi
+) {
+  border: 1px solid var(--hlc-border-subtle);
+  border-radius: var(--hlc-radius-md);
+  background: var(--hlc-surface);
+  box-shadow: none;
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(.hlc-workspace-card, .hlc-lead-card, .hlc-job-card) {
+  padding: var(--hlc-space-5);
+}
+
+/* Consistent grids and section rhythm. */
+.hlc-signed-in-shell > .hlc-route-content :is(.hlc-dashboard-section, .hlc-analytics-panel) {
+  margin-top: var(--hlc-space-7);
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(.hlc-workspace-grid, .hlc-business-pulse-grid, .hlc-metric-grid) {
+  gap: var(--hlc-space-4);
+}
+
+.hlc-signed-in-shell > .hlc-route-content .hlc-section-heading {
+  gap: var(--hlc-space-4);
+  margin-bottom: var(--hlc-space-5);
+}
+
+/* Controls share one physical system. */
+.hlc-signed-in-shell > .hlc-route-content :is(button, a[role="button"], input, select, textarea) {
+  box-sizing: border-box;
+  font: inherit;
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(input, select) {
+  min-height: var(--hlc-control-md);
+  padding-inline: var(--hlc-space-4);
+  border: 1px solid var(--hlc-border-strong);
+  border-radius: var(--hlc-radius-sm);
+  background: var(--hlc-surface);
+  color: var(--hlc-text);
+}
+
+.hlc-signed-in-shell > .hlc-route-content textarea {
+  min-height: 120px;
+  padding: var(--hlc-space-4);
+  border: 1px solid var(--hlc-border-strong);
+  border-radius: var(--hlc-radius-sm);
+  background: var(--hlc-surface);
+  color: var(--hlc-text);
+  resize: vertical;
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(button, a[role="button"]) {
+  min-height: var(--hlc-control-md);
+  padding-inline: var(--hlc-space-4);
+  border-radius: var(--hlc-radius-sm);
+  font-size: var(--hlc-text-sm);
+  font-weight: 650;
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(button, a[role="button"], input, select, textarea):focus-visible {
+  outline: 3px solid rgba(14, 165, 233, .32);
+  outline-offset: 2px;
+}
+
+/* Brand color is reserved for intentional command and interaction surfaces. */
+.hlc-signed-in-shell .hlc-command-hero,
+.hlc-signed-in-shell .hlc-priority-panel,
+.hlc-signed-in-shell .hlc-agent-card {
+  color: #f8fafc;
+}
+
+.hlc-signed-in-shell .hlc-command-hero {
+  border-radius: var(--hlc-radius-lg);
+  background: linear-gradient(135deg, var(--hlc-navy) 0%, var(--hlc-navy-soft) 62%, #0c4f82 100%);
+}
+
+.hlc-signed-in-shell .hlc-command-hero :is(h1, h2, h3, p, strong, span),
+.hlc-signed-in-shell .hlc-priority-panel :is(h1, h2, h3, p, strong, span),
+.hlc-signed-in-shell .hlc-agent-card :is(h1, h2, h3, p, strong) {
+  color: #f8fafc;
+  -webkit-text-fill-color: currentColor;
+}
+
+/* Working screens are denser than reading/decision screens. */
+.hlc-signed-in-shell > .hlc-route-content :is(.hlc-leads-page, .hlc-jobs-page, .hlc-messages-page) {
+  text-align: left;
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(.hlc-leads-page, .hlc-jobs-page, .hlc-messages-page) :is(h1, h2, h3, p, label) {
+  text-align: left;
+}
+
+/* Mobile is intentionally re-laid out, not just narrowed. */
+@media (max-width: 760px) {
+  .hlc-signed-in-shell > .hlc-route-content > main {
+    padding-inline: var(--hlc-space-4);
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content h1 {
+    font-size: var(--hlc-text-3xl);
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content h2 {
+    font-size: var(--hlc-text-xl);
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content :is(.hlc-workspace-card, .hlc-lead-card, .hlc-job-card) {
+    padding: var(--hlc-space-4);
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content :is(.hlc-dashboard-section, .hlc-analytics-panel) {
+    margin-top: var(--hlc-space-6);
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content :is(.hlc-workspace-grid, .hlc-business-pulse-grid, .hlc-metric-grid) {
+    gap: var(--hlc-space-3);
+  }
+}
