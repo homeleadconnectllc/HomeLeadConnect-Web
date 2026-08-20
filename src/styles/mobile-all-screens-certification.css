@@ -1,0 +1,227 @@
+/* Mobile-only signed-in normalization. Desktop/tablet website remains governed by the existing design system. */
+@media (max-width: 760px) {
+  .hlc-signed-in-shell,
+  .hlc-signed-in-shell * {
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content {
+    width: 100%;
+    overflow-x: clip;
+    padding-bottom: calc(92px + env(safe-area-inset-bottom));
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content > main,
+  .hlc-signed-in-shell > .hlc-route-content > section,
+  .hlc-signed-in-shell > .hlc-route-content > article,
+  .hlc-signed-in-shell :is(
+    .hlc-leads-page,
+    .hlc-jobs-page,
+    .hlc-messages-page,
+    .hlc-calendar-page,
+    .hlc-follow-ups-page,
+    .hlc-automations-page,
+    .hlc-call-center-page,
+    .hlc-provider-directory-page,
+    .hlc-community-page,
+    .hlc-documents-page,
+    .hlc-settings-page,
+    .hlc-profile-page,
+    .hlc-homeowner-portal,
+    .hlc-contractor-portal,
+    .hlc-team-page,
+    .hlc-analytics-page,
+    .hlc-map-page,
+    .hlc-matching-page,
+    .hlc-workflow-page,
+    .hlc-estimator-page,
+    .hlc-notifications-page,
+    .hlc-rules-page,
+    .hlc-help-page,
+    .hlc-tutorials-page
+  ) {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 auto 32px !important;
+    padding-inline: 16px !important;
+    text-align: left !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content h1 {
+    max-width: 100%;
+    font-size: clamp(26px, 7.5vw, 32px) !important;
+    line-height: 1.08 !important;
+    text-align: left !important;
+    overflow-wrap: anywhere;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content h2 {
+    font-size: clamp(20px, 5.8vw, 24px) !important;
+    line-height: 1.16 !important;
+    text-align: left !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content h3 {
+    font-size: 18px !important;
+    line-height: 1.24 !important;
+    text-align: left !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content :is(p, li, label, td, dd, input, select, textarea, button, a[role="button"]) {
+    font-size: 16px !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content :is(small, .hlc-section-eyebrow, .hlc-command-kicker, .hlc-status-meta) {
+    font-size: 13px !important;
+    line-height: 1.35 !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content :is(
+    .hlc-page-header,
+    .hlc-section-heading,
+    .hlc-toolbar,
+    .hlc-filter-bar,
+    .hlc-action-row,
+    .hlc-header-actions,
+    .hlc-page-actions,
+    .hlc-form-actions
+  ) {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+    width: 100% !important;
+    text-align: left !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content :is(
+    .hlc-workspace-grid,
+    .hlc-business-pulse-grid,
+    .hlc-metric-grid,
+    .hlc-analytics-kpi-grid,
+    .hlc-dashboard-grid,
+    .hlc-provider-grid,
+    .hlc-community-grid,
+    .hlc-settings-grid,
+    .hlc-form-grid,
+    .hlc-two-column,
+    .hlc-three-column
+  ) {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content :is(
+    .hlc-workspace-card,
+    .hlc-lead-card,
+    .hlc-job-card,
+    .hlc-analytics-kpi,
+    .hlc-device-alert-settings,
+    .hlc-message-start,
+    .hlc-profile-card,
+    .hlc-settings-card,
+    .hlc-provider-card,
+    .hlc-community-card
+  ) {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 16px !important;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content :is(.hlc-lead-card, .hlc-job-card, .hlc-chat-history-item) {
+    border-left-width: 0 !important;
+    border-right-width: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content :is(input, select, textarea, button, a[role="button"]) {
+    width: 100%;
+    max-width: 100%;
+    min-height: 48px;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content textarea {
+    min-height: 132px;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content :is(table, .hlc-table, .hlc-data-table) {
+    min-width: 640px;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content :is(.hlc-table-wrap, .hlc-table-scroll, .hlc-data-table-wrap) {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 10px;
+  }
+
+  .hlc-signed-in-shell .hlc-messages-layout {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  .hlc-signed-in-shell :is(.hlc-messages-conversations, .hlc-messages-thread, .hlc-message-start) {
+    width: 100% !important;
+    min-height: auto !important;
+    border-radius: 10px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-chat-history-item {
+    padding: 12px 8px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-hero {
+    padding: 20px 18px !important;
+    border-radius: 12px !important;
+    text-align: left !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-hero :is(h1, h2, h3, p, strong, span) {
+    text-align: left !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock.is-open {
+    right: 12px !important;
+    bottom: calc(82px + env(safe-area-inset-bottom)) !important;
+    left: 12px !important;
+    width: auto !important;
+    height: min(58dvh, 520px) !important;
+    max-height: calc(100dvh - 112px - env(safe-area-inset-bottom)) !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+  }
+
+  .hlc-signed-in-shell .hlc-agent-dock:not(.is-open) {
+    right: 14px !important;
+    bottom: calc(84px + env(safe-area-inset-bottom)) !important;
+    left: auto !important;
+    width: auto !important;
+  }
+
+  .hlc-signed-in-shell .hlc-mobile-tabbar {
+    min-height: calc(68px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-mobile-tabbar > :is(a, button) {
+    min-height: 54px !important;
+    font-size: 11px !important;
+  }
+
+  .hlc-signed-in-shell :is(.hlc-navbar-links, .hlc-mobile-portal-scroll) {
+    overflow-x: hidden !important;
+  }
+
+  .hlc-signed-in-shell :is(img, video, canvas, svg) {
+    max-width: 100%;
+  }
+
+  .hlc-signed-in-shell :is(pre, code, .hlc-code-block) {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+}
