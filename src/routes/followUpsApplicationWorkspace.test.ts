@@ -16,9 +16,11 @@ test("Follow Ups is a dedicated relationship queue instead of a card history pag
 });
 
 test("Follow Ups preserves creation, completion, lead context, and durable empty state", () => {
-  assert.match(page, /createFollowUp\(\{ leadId, scheduledFor: new Date\(scheduledFor\)\.toISOString\(\), notes \}\)/);
+  assert.match(page, /const selectedLeadId = leadId \|\| contextualLeadId/);
+  assert.match(page, /createFollowUp\(\{ leadId: selectedLeadId, scheduledFor: new Date\(scheduledFor\)\.toISOString\(\), notes \}\)/);
   assert.match(page, /completeFollowUp\(item\.id\)/);
   assert.match(page, /searchParams\.get\("lead"\)/);
+  assert.match(page, /searchParams\.get\("leadRecord"\)/);
   assert.match(page, /No follow-ups yet\./);
   assert.match(page, /to="\/leads"/);
 });
