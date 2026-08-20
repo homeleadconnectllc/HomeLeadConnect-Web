@@ -1,5 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import HomePage from "./pages/HomePage";
 import "./index.css";
 import "./styles/workspace-nav.css";
 import "./styles/auth-methods.css";
@@ -19,9 +21,10 @@ import "./styles/hlc-brand-lock.css";
 import "./styles/legacy-device-compat.css";
 import "./styles/final-release-guard.css";
 import "./styles/mobile-release-fix.css";
-import App from "./App.tsx";
-import { AuthProvider } from "./context/AuthContext";
-import { AccountAccessProvider } from "./context/AccountAccessProvider";
+
+const APP_HOST = "app.homeleadconnect.org";
+const isPublicHome = window.location.pathname === "/" && window.location.hostname.toLowerCase() !== APP_HOST;
+const root = createRoot(document.getElementById("root")!);
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
@@ -33,12 +36,32 @@ if ("serviceWorker" in navigator) {
   });
 }
 
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <AuthProvider>
-      <AccountAccessProvider>
-        <App />
-      </AccountAccessProvider>
-    </AuthProvider>
-  </StrictMode>,
-);
+if (isPublicHome) {
+  root.render(
+    <StrictMode>
+      <BrowserRouter>
+        <HomePage />
+      </BrowserRouter>
+    </StrictMode>,
+  );
+} else {
+  void Promise.all([
+    import("./App.tsx"),
+    import("./context/AuthContext"),
+    import("./context/AccountAccessProvider"),
+  ]).then(([appModule, authModule, accessModule]) => {
+    const App = appModule.default;
+    const AuthProvider = authModule.AuthProvider;
+    const AccountAccessProvider = accessModule.AccountAccessProvider;
+
+    root.render(
+      <StrictMode>
+        <AuthProvider>
+          <AccountAccessProvider>
+            <App />
+          </AccountAccessProvider>
+        </AuthProvider>
+      </StrictMode>,
+    );
+  });
+}
