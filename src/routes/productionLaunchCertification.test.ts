@@ -1,11 +1,12 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import test from "node:test";
 
 const router = readFileSync("src/routes/AppRouter.tsx", "utf8");
 const wrangler = readFileSync("wrangler.jsonc", "utf8");
 const redirects = readFileSync("public/_redirects", "utf8");
 const workflow = readFileSync(".github/workflows/cloudflare-production-verification.yml", "utf8");
+const workflowFiles = readdirSync(".github/workflows");
 
 test("production host is Cloudflare Pages with SPA deep-link fallback", () => {
   assert.match(wrangler, /"name": "homeleadconnect-web"/);
@@ -14,6 +15,10 @@ test("production host is Cloudflare Pages with SPA deep-link fallback", () => {
   assert.match(workflow, /https:\/\/app\.homeleadconnect\.org/);
   assert.match(workflow, /https:\/\/homeleadconnect-web\.pages\.dev/);
   assert.doesNotMatch(workflow, /NETLIFY_AUTH_TOKEN|api\.netlify\.com|Netlify production/);
+});
+
+test("launch workflows no longer retain stale Netlify deployment paths", () => {
+  assert.deepEqual(workflowFiles.filter((file) => /netlify/i.test(file)), []);
 });
 
 test("integrated production workflow exercises representative public and authenticated routes", () => {
