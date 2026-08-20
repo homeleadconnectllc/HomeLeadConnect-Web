@@ -3,10 +3,10 @@ import { createClient } from "@supabase/supabase-js";
 const envSupabaseUrl = import.meta.env.VITE_SUPABASE_URL || "";
 const envSupabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || "";
 
-// The production custom hostname is pinned to the canonical project. Netlify QA,
-// branch and deploy-preview hosts must honor their explicit environment so test
-// activity can never drift into production. The publishable key is browser-safe;
-// privileged access still depends on RLS, authenticated JWTs, and server-side keys.
+// The production custom hostname is pinned to the canonical project. Non-production
+// runtimes must honor their explicit environment so preview/test activity cannot
+// drift into production. The publishable key is browser-safe; privileged access
+// still depends on RLS, authenticated JWTs, and server-side keys.
 const hostedProductionUrl = "https://cguhtshclyybivvdnpig.supabase.co";
 const hostedProductionPublishableKey = "sb_publishable_MQioEyUGv8MNlowJgVyXYQ_kf5cyafA";
 
@@ -29,7 +29,7 @@ export const supabaseConfig = {
 };
 
 export const supabaseConfigMessage =
-  "HLC auth is not connected yet for this deploy. Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in Netlify for this branch deploy, then redeploy.";
+  "HLC auth is not connected for this deploy. Configure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY for the Cloudflare Pages environment, then redeploy.";
 
 export function isSupabaseConfigured() {
   if (supabaseConfig.missing.length > 0) return false;
