@@ -1,0 +1,402 @@
+/* Dashboard-specific application workspace.
+   The dashboard is an operating surface, not a collection of floating cards. */
+
+.hlc-command-center {
+  --dashboard-divider: rgba(148, 163, 184, .16);
+  --dashboard-divider-strong: rgba(96, 165, 250, .28);
+  --dashboard-row-hover: rgba(37, 99, 235, .08);
+  --dashboard-muted: #96a8bf;
+  --dashboard-faint: #71839a;
+  --dashboard-text: #f8fafc;
+}
+
+.hlc-command-center .hlc-command-hero {
+  align-items: end;
+  padding: 2px 0 20px;
+  border-bottom: 1px solid var(--dashboard-divider);
+}
+
+.hlc-command-center .hlc-command-copy > p {
+  margin-bottom: 0;
+}
+
+.hlc-command-center .hlc-command-icon-button {
+  width: 42px;
+  height: 42px;
+  border-radius: 9px;
+  box-shadow: none;
+}
+
+/* System state reads like a status line, not a decorated panel. */
+.hlc-command-center .hlc-system-strip {
+  margin: 0;
+  padding: 10px 0;
+  border: 0;
+  border-bottom: 1px solid var(--dashboard-divider);
+  border-radius: 0;
+  background: transparent;
+}
+
+/* Metrics become a compact KPI rail with vertical separators. */
+.hlc-command-center .hlc-metric-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  border-bottom: 1px solid var(--dashboard-divider);
+}
+
+.hlc-command-center .hlc-metric-card {
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: 12px;
+  min-height: 92px;
+  padding: 16px 18px;
+  border: 0;
+  border-right: 1px solid var(--dashboard-divider);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.hlc-command-center .hlc-metric-card:last-child {
+  border-right: 0;
+}
+
+.hlc-command-center .hlc-metric-icon {
+  grid-row: 1 / span 2;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+}
+
+.hlc-command-center .hlc-metric-card strong {
+  margin: 0;
+  font-size: clamp(1.55rem, 2.2vw, 2rem);
+  line-height: 1;
+}
+
+.hlc-command-center .hlc-metric-card > span:last-child {
+  margin: 4px 0 0;
+}
+
+.hlc-command-center .hlc-metric-card:hover {
+  transform: none;
+  background: var(--dashboard-row-hover);
+}
+
+/* Sections are separated by rhythm and dividers instead of containers. */
+.hlc-command-center .hlc-dashboard-section {
+  margin-top: 0;
+  padding: 26px 0;
+  border-bottom: 1px solid var(--dashboard-divider);
+}
+
+.hlc-command-center .hlc-dashboard-section:last-child {
+  border-bottom: 0;
+}
+
+.hlc-command-center .hlc-section-heading {
+  margin-bottom: 14px;
+}
+
+.hlc-command-center .hlc-section-heading h2 {
+  font-size: 1.08rem;
+}
+
+/* Quick actions are a toolbar. */
+.hlc-command-center .hlc-quick-actions {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  border: 1px solid var(--dashboard-divider);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.hlc-command-center .hlc-quick-action {
+  min-height: 54px;
+  border: 0;
+  border-right: 1px solid var(--dashboard-divider);
+  border-radius: 0;
+  background: rgba(15, 23, 42, .3);
+  box-shadow: none;
+}
+
+.hlc-command-center .hlc-quick-action:last-child {
+  border-right: 0;
+}
+
+.hlc-command-center .hlc-quick-action-primary {
+  background: rgba(37, 99, 235, .18);
+  color: #dbeafe;
+}
+
+.hlc-command-center .hlc-quick-action:hover {
+  transform: none;
+  background: rgba(37, 99, 235, .12);
+}
+
+/* Priority work is a true queue. */
+.hlc-command-center .hlc-priority-panel {
+  padding: 26px 0;
+  border: 0;
+  border-bottom: 1px solid var(--dashboard-divider);
+  border-radius: 0;
+  background: transparent;
+}
+
+.hlc-command-center .hlc-priority-list {
+  border-top: 1px solid var(--dashboard-divider);
+}
+
+.hlc-command-center .hlc-priority-item {
+  min-height: 62px;
+  padding: 12px 4px;
+  border-top: 0;
+  border-bottom: 1px solid var(--dashboard-divider);
+}
+
+.hlc-command-center .hlc-priority-item:hover {
+  background: var(--dashboard-row-hover);
+}
+
+.hlc-command-center .hlc-priority-marker {
+  border-radius: 8px;
+}
+
+/* Business Pulse becomes a directory/command list rather than a card grid. */
+.hlc-command-center .hlc-business-pulse-section {
+  padding: 26px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.hlc-command-center .hlc-business-pulse-heading {
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.hlc-command-center .hlc-pulse-health {
+  border-radius: 8px;
+  background: transparent;
+}
+
+.hlc-command-center .hlc-business-pulse-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  border-top: 1px solid var(--dashboard-divider);
+}
+
+.hlc-command-center .hlc-pulse-card,
+.hlc-command-center .hlc-pulse-card-featured {
+  grid-column: auto;
+  min-height: 82px;
+  padding: 14px 10px;
+  border: 0;
+  border-bottom: 1px solid var(--dashboard-divider);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.hlc-command-center .hlc-pulse-card:nth-child(odd) {
+  border-right: 1px solid var(--dashboard-divider);
+  padding-right: 18px;
+}
+
+.hlc-command-center .hlc-pulse-card:nth-child(even) {
+  padding-left: 18px;
+}
+
+.hlc-command-center .hlc-pulse-card:hover {
+  transform: none;
+  background: var(--dashboard-row-hover);
+  box-shadow: none;
+}
+
+.hlc-command-center .hlc-pulse-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+}
+
+.hlc-command-center .hlc-pulse-copy > span:last-child {
+  color: var(--dashboard-muted);
+}
+
+/* Workspace destinations become a dense launcher list. */
+.hlc-command-center .hlc-workspace-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  border-top: 1px solid var(--dashboard-divider);
+}
+
+.hlc-command-center .hlc-workspace-card {
+  min-height: 66px;
+  padding: 12px 8px;
+  border: 0;
+  border-bottom: 1px solid var(--dashboard-divider);
+  border-radius: 0;
+  background: transparent;
+}
+
+.hlc-command-center .hlc-workspace-card:nth-child(odd) {
+  border-right: 1px solid var(--dashboard-divider);
+  padding-right: 18px;
+}
+
+.hlc-command-center .hlc-workspace-card:nth-child(even) {
+  padding-left: 18px;
+}
+
+.hlc-command-center .hlc-workspace-card:hover {
+  transform: none;
+  background: var(--dashboard-row-hover);
+}
+
+/* AI team is treated like staffed workspaces: compact identity rows, not promo cards. */
+.hlc-command-center .hlc-agent-team-section .hlc-agent-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--dashboard-divider);
+}
+
+.hlc-command-center .hlc-agent-team-section .hlc-agent-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  min-height: 104px;
+  padding: 14px 6px;
+  border: 0;
+  border-bottom: 1px solid var(--dashboard-divider);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.hlc-command-center .hlc-agent-team-section .hlc-agent-card:hover {
+  transform: none;
+  background: var(--dashboard-row-hover);
+  box-shadow: none;
+}
+
+.hlc-command-center .hlc-agent-team-section .hlc-agent-portrait-wrap {
+  width: 68px;
+  min-width: 68px;
+}
+
+.hlc-command-center .hlc-agent-team-section .hlc-agent-portrait {
+  width: 58px;
+  height: 58px;
+  border-radius: 12px;
+}
+
+.hlc-command-center .hlc-agent-team-section .hlc-agent-card-body {
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.4fr);
+  column-gap: 18px;
+  align-items: center;
+}
+
+.hlc-command-center .hlc-agent-team-section .hlc-agent-role,
+.hlc-command-center .hlc-agent-team-section .hlc-agent-card-body h3,
+.hlc-command-center .hlc-agent-team-section .hlc-agent-card-body p,
+.hlc-command-center .hlc-agent-team-section .hlc-agent-intelligence {
+  margin: 0;
+}
+
+.hlc-command-center .hlc-agent-team-section .hlc-agent-role,
+.hlc-command-center .hlc-agent-team-section .hlc-agent-card-body h3 {
+  grid-column: 1;
+}
+
+.hlc-command-center .hlc-agent-team-section .hlc-agent-card-body p,
+.hlc-command-center .hlc-agent-team-section .hlc-agent-intelligence {
+  grid-column: 2;
+}
+
+.hlc-command-center .hlc-agent-team-section .hlc-agent-open {
+  grid-column: 1 / -1;
+  margin-top: 6px;
+  color: #93c5fd;
+}
+
+@media (max-width: 860px) {
+  .hlc-command-center .hlc-business-pulse-grid,
+  .hlc-command-center .hlc-workspace-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hlc-command-center .hlc-pulse-card:nth-child(odd),
+  .hlc-command-center .hlc-workspace-card:nth-child(odd) {
+    border-right: 0;
+    padding-right: 10px;
+  }
+
+  .hlc-command-center .hlc-pulse-card:nth-child(even),
+  .hlc-command-center .hlc-workspace-card:nth-child(even) {
+    padding-left: 10px;
+  }
+
+  .hlc-command-center .hlc-agent-team-section .hlc-agent-card-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hlc-command-center .hlc-agent-team-section .hlc-agent-role,
+  .hlc-command-center .hlc-agent-team-section .hlc-agent-card-body h3,
+  .hlc-command-center .hlc-agent-team-section .hlc-agent-card-body p,
+  .hlc-command-center .hlc-agent-team-section .hlc-agent-intelligence {
+    grid-column: 1;
+  }
+}
+
+@media (max-width: 720px) {
+  .hlc-command-center {
+    padding-inline: 14px;
+  }
+
+  .hlc-command-center .hlc-command-hero {
+    align-items: flex-start;
+  }
+
+  .hlc-command-center .hlc-metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hlc-command-center .hlc-metric-card:nth-child(2) {
+    border-right: 0;
+  }
+
+  .hlc-command-center .hlc-metric-card:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--dashboard-divider);
+  }
+
+  .hlc-command-center .hlc-quick-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hlc-command-center .hlc-quick-action:nth-child(2) {
+    border-right: 0;
+  }
+
+  .hlc-command-center .hlc-quick-action:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--dashboard-divider);
+  }
+
+  .hlc-command-center .hlc-priority-item {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+}
+
+@media (max-width: 430px) {
+  .hlc-command-center .hlc-metric-card {
+    min-height: 84px;
+    padding: 13px 10px;
+  }
+
+  .hlc-command-center .hlc-agent-team-section .hlc-agent-card {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+}
