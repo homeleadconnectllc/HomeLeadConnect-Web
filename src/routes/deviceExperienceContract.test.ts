@@ -9,7 +9,8 @@ const tutorialCss = readFileSync("src/styles/agent-tutorial.css", "utf8");
 const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
 const appLayout = readFileSync("src/routes/AppLayout.tsx", "utf8");
 const desktopContract = readFileSync("src/styles/desktop-shell-contract-v2.css", "utf8");
-const mainEntry = readFileSync("src/main.tsx", "utf8");
+const readabilityContract = readFileSync("src/styles/global-readability-certification.css", "utf8");
+const authenticatedStyles = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 
 test("agents proactively brief users from verified HLC context without waiting for a prompt", () => {
   assert.match(agentDock, /chatWithAgent\(/);
@@ -43,13 +44,19 @@ test("mobile field-work navigation remains primary while agent presentation stay
   assert.doesNotMatch(appLayout, /MobileWorkDock/);
 });
 
-test("normal laptop widths use a permanent HLC desktop workspace shell", () => {
-  assert.doesNotMatch(appLayout, /DESKTOP_SIDEBAR_KEY|sidebarCollapsed|hlc-desktop-sidebar-toggle/);
+test("normal laptop widths keep desktop workspace navigation available with an explicit collapse control", () => {
+  assert.match(appLayout, /SIDEBAR_COLLAPSED_KEY/);
+  assert.match(appLayout, /sidebarCollapsed/);
+  assert.match(appLayout, /hlc-desktop-sidebar-toggle/);
   assert.match(desktopContract, /@media \(min-width: 900px\)/);
   assert.match(desktopContract, /grid-template-columns: 300px minmax\(0, 1fr\) !important/);
   assert.match(desktopContract, /\.hlc-signed-in-shell > \.hlc-navbar[\s\S]*transform: none !important/);
   assert.match(desktopContract, /\.hlc-mobile-tabbar[\s\S]*display: none !important/);
   assert.match(desktopContract, /\.hlc-agent-proactive-briefing[\s\S]*display: none !important/);
   assert.match(desktopContract, /grid-template-columns: repeat\(4, minmax\(0, 1fr\)\) !important/);
-  assert.match(mainEntry, /workspace-route-cleanup\.css';\s*import '\.\/styles\/desktop-shell-contract-v2\.css';/);
+  assert.match(readabilityContract, /hlc-sidebar-is-collapsed/);
+  assert.match(readabilityContract, /grid-template-columns: 56px minmax\(0, 1fr\) !important/);
+  assert.match(readabilityContract, /\.hlc-signed-in-shell > \.hlc-desktop-sidebar-toggle/);
+  assert.match(authenticatedStyles, /workspace-route-cleanup\.css";\s*import "\.\/desktop-shell-contract-v2\.css";/);
+  assert.match(authenticatedStyles, /global-readability-certification\.css/);
 });

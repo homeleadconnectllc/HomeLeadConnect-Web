@@ -50,38 +50,14 @@ async function disableBackgroundPush() {
   await subscription.unsubscribe();
 }
 
-export default function RealtimeNotificationCenter() {
+export function DeviceAlertSettings() {
   const { session } = useAuth();
-  const [latest, setLatest] = useState<NotificationRecord | null>(null);
   const [permission, setPermission] = useState<NotificationPermission | "unsupported">(
     typeof Notification === "undefined" ? "unsupported" : Notification.permission,
   );
   const [deviceAlertsEnabled, setDeviceAlertsEnabled] = useState(false);
   const [pushStatus, setPushStatus] = useState("");
   const [pushBusy, setPushBusy] = useState(false);
-
-  useEffect(() => {
-    const userId = session?.user.id;
-    if (!userId) return;
-
-    const channel = supabase
-      .channel(`hlc-notifications-${userId}`)
-      .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "notifications", filter: `recipient_user_id=eq.${userId}` },
-        (payload) => {
-          const item = payload.new as NotificationRecord;
-          setLatest(item);
-          if (typeof Notification !== "undefined" && Notification.permission === "granted" && document.visibilityState !== "visible") {
-            const notice = new Notification(item.title, { body: item.body, icon: "/hlc-logo-final.png", tag: item.id });
-            notice.onclick = () => { window.focus(); window.location.href = safeHlcDeepLink(item.deep_link); };
-          }
-        },
-      )
-      .subscribe();
-
-    return () => { void supabase.removeChannel(channel); };
-  }, [session?.user.id]);
 
   useEffect(() => {
     if (!pushStatus) return;
@@ -99,7 +75,7 @@ export default function RealtimeNotificationCenter() {
         setPushStatus("Device alerts connected.");
       })
       .catch(() => {
-        // A browser may allow foreground notifications but not background PushManager subscriptions.
+        // A browser can support foreground notifications without background push.
       });
   }, [session?.user.id]);
 
@@ -148,26 +124,67 @@ export default function RealtimeNotificationCenter() {
   if (!session) return null;
 
   return (
-    <div className="hlc-device-alert-center" aria-live="polite">
-      {latest && (
-        <aside className="hlc-device-alert-toast" style={toastStyle} aria-label="New HomeLead Connect alert">
-          <button type="button" aria-label="Dismiss alert" onClick={() => setLatest(null)} style={closeStyle}>×</button>
-          <strong>{latest.title}</strong>
-          <span>{latest.body}</span>
-          <Link to={safeHlcDeepLink(latest.deep_link)} onClick={() => setLatest(null)} style={linkStyle}>Open in HLC</Link>
-        </aside>
+    <section className="hlc-device-alert-settings" aria-labelledby="device-alert-settings-heading">
+      <div>
+        <h2 id="device-alert-settings-heading">Device alerts</h2>
+        <p>Choose whether this browser can receive HomeLead Connect notifications when the app is not in front of you.</p>
+      </div>
+      {permission === "unsupported" ? (
+        <p role="status">This browser does not support device notifications.</p>
+      ) : permission === "denied" ? (
+        <p role="status">Notifications are blocked in this browser. Allow notifications in browser settings, then return here.</p>
+      ) : (
+        <button
+          className="hlc-device-alert-settings-button"
+          type="button"
+          disabled={pushBusy}
+          onClick={() => void (deviceAlertsEnabled ? disableDeviceAlerts() : enableDeviceAlerts())}
+        >
+          {pushBusy ? (deviceAlertsEnabled ? "Disconnecting…" : "Connecting…") : deviceAlertsEnabled ? "Disable device alerts" : "Enable device alerts"}
+        </button>
       )}
+      {pushStatus && <p className="hlc-device-alert-settings-status" role="status">{pushStatus}</p>}
+    </section>
+  );
+}
 
-      {permission === "default" && (
-        <button className="hlc-device-alert-button" type="button" disabled={pushBusy} onClick={() => void enableDeviceAlerts()} style={permissionStyle}>{pushBusy ? "Connecting…" : "Enable device alerts"}</button>
-      )}
-      {permission === "granted" && !deviceAlertsEnabled && (
-        <button className="hlc-device-alert-button" type="button" disabled={pushBusy} onClick={() => void enableDeviceAlerts()} style={permissionStyle}>{pushBusy ? "Connecting…" : "Enable HLC alerts on this device"}</button>
-      )}
-      {permission === "granted" && deviceAlertsEnabled && (
-        <button className="hlc-device-alert-button" type="button" disabled={pushBusy} onClick={() => void disableDeviceAlerts()} style={permissionStyle}>{pushBusy ? "Disconnecting…" : "Disable device alerts"}</button>
-      )}
-      {pushStatus && <span className="hlc-device-alert-status" style={statusStyle}>{pushStatus}</span>}
+export default function RealtimeNotificationCenter() {
+  const { session } = useAuth();
+  const [latest, setLatest] = useState<NotificationRecord | null>(null);
+
+  useEffect(() => {
+    const userId = session?.user.id;
+    if (!userId) return;
+
+    const channel = supabase
+      .channel(`hlc-notifications-${userId}`)
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "notifications", filter: `recipient_user_id=eq.${userId}` },
+        (payload) => {
+          const item = payload.new as NotificationRecord;
+          setLatest(item);
+          if (typeof Notification !== "undefined" && Notification.permission === "granted" && document.visibilityState !== "visible") {
+            const notice = new Notification(item.title, { body: item.body, icon: "/hlc-logo-final.png", tag: item.id });
+            notice.onclick = () => { window.focus(); window.location.href = safeHlcDeepLink(item.deep_link); };
+          }
+        },
+      )
+      .subscribe();
+
+    return () => { void supabase.removeChannel(channel); };
+  }, [session?.user.id]);
+
+  if (!session || !latest) return null;
+
+  return (
+    <div className="hlc-device-alert-center" aria-live="polite">
+      <aside className="hlc-device-alert-toast" style={toastStyle} aria-label="New HomeLead Connect alert">
+        <button type="button" aria-label="Dismiss alert" onClick={() => setLatest(null)} style={closeStyle}>×</button>
+        <strong>{latest.title}</strong>
+        <span>{latest.body}</span>
+        <Link to={safeHlcDeepLink(latest.deep_link)} onClick={() => setLatest(null)} style={linkStyle}>Open in HLC</Link>
+      </aside>
     </div>
   );
 }
@@ -175,5 +192,3 @@ export default function RealtimeNotificationCenter() {
 const toastStyle = { position: "relative" as const, display: "grid", gap: 7, width: "min(360px, calc(100vw - 28px))", boxSizing: "border-box" as const, padding: "16px 44px 16px 16px", border: "1px solid #334155", borderRadius: 16, background: "#0f172a", color: "#f8fafc", boxShadow: "0 22px 60px rgba(15,23,42,.38)", textAlign: "left" as const, pointerEvents: "auto" as const };
 const closeStyle = { position: "absolute" as const, top: 8, right: 8, minWidth: 36, minHeight: 36, border: 0, borderRadius: 10, background: "transparent", color: "#cbd5e1", fontSize: 24, cursor: "pointer" };
 const linkStyle = { color: "#93c5fd", fontWeight: 800 };
-const permissionStyle = { minHeight: 44, padding: "10px 14px", border: "1px solid #334155", borderRadius: 999, background: "#0f172a", color: "#fff", fontWeight: 800, cursor: "pointer", pointerEvents: "auto" as const };
-const statusStyle = { maxWidth: 320, padding: "8px 10px", borderRadius: 10, background: "rgba(15,23,42,.92)", color: "#e2e8f0", fontSize: 12, pointerEvents: "auto" as const };

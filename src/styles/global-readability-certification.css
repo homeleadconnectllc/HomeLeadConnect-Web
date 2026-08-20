@@ -1,0 +1,385 @@
+/* Real-device global launch certification.
+   This layer is intentionally last: it repairs readable contrast, practical
+   type size, desktop sidebar collapse, settings-only device controls, and
+   agent-panel viewport containment without changing HLC business logic. */
+
+.hlc-signed-in-shell {
+  font-size: 17px;
+  line-height: 1.55;
+  letter-spacing: .002em;
+}
+
+.hlc-signed-in-shell > .hlc-route-content {
+  color: #17233b;
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(p, li, label, td, dd) {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(h1, h2, h3) {
+  letter-spacing: -.02em;
+  line-height: 1.12;
+  text-wrap: balance;
+}
+
+.hlc-signed-in-shell > .hlc-route-content h1 {
+  font-size: clamp(2rem, 3vw, 3.15rem);
+  font-weight: 850;
+}
+
+.hlc-signed-in-shell > .hlc-route-content h2 {
+  font-size: clamp(1.45rem, 2vw, 2.05rem);
+  font-weight: 820;
+}
+
+.hlc-signed-in-shell > .hlc-route-content h3 {
+  font-size: clamp(1.1rem, 1.4vw, 1.35rem);
+  font-weight: 800;
+}
+
+.hlc-signed-in-shell > .hlc-route-content main > p,
+.hlc-signed-in-shell > .hlc-route-content main > header p,
+.hlc-signed-in-shell > .hlc-route-content .hlc-agent-team-intro,
+.hlc-signed-in-shell > .hlc-route-content .hlc-workspace-copy span,
+.hlc-signed-in-shell > .hlc-route-content .hlc-pulse-copy > span:last-child {
+  color: #334155 !important;
+  font-size: 16px !important;
+  line-height: 1.6 !important;
+  opacity: 1 !important;
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(button, a[role="button"], input, select, textarea) {
+  font-size: 16px;
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(button, a[role="button"]) {
+  font-weight: 750;
+  letter-spacing: .005em;
+}
+
+.hlc-signed-in-shell > .hlc-route-content small {
+  font-size: max(13px, .8rem);
+  line-height: 1.5;
+}
+
+/* Dashboard hero and intentionally-dark system areas must use light copy. */
+.hlc-signed-in-shell .hlc-command-hero :is(h1, h2, h3, p, strong, span),
+.hlc-signed-in-shell .hlc-system-strip :is(span, strong),
+.hlc-signed-in-shell .hlc-priority-panel :is(h2, h3, p, strong),
+.hlc-signed-in-shell .hlc-agent-card :is(h2, h3, p, strong),
+.hlc-signed-in-shell .hlc-agent-card-body :is(h3, p) {
+  color: #f8fafc !important;
+  -webkit-text-fill-color: currentColor !important;
+  opacity: 1 !important;
+}
+
+.hlc-signed-in-shell .hlc-command-hero p,
+.hlc-signed-in-shell .hlc-system-strip,
+.hlc-signed-in-shell .hlc-priority-panel .hlc-priority-copy span,
+.hlc-signed-in-shell .hlc-priority-panel .hlc-priority-meta,
+.hlc-signed-in-shell .hlc-agent-card-body p,
+.hlc-signed-in-shell .hlc-agent-intelligence {
+  color: #dbeafe !important;
+  opacity: 1 !important;
+}
+
+.hlc-signed-in-shell .hlc-command-kicker,
+.hlc-signed-in-shell .hlc-section-eyebrow,
+.hlc-signed-in-shell .hlc-pulse-eyebrow,
+.hlc-signed-in-shell .hlc-agent-role {
+  color: #1d5fd1 !important;
+  font-size: 13px !important;
+  font-weight: 850 !important;
+  letter-spacing: .12em !important;
+  opacity: 1 !important;
+}
+
+.hlc-signed-in-shell .hlc-command-hero .hlc-command-kicker {
+  color: #93c5fd !important;
+}
+
+.hlc-signed-in-shell .hlc-command-hero h1 {
+  font-size: clamp(2.35rem, 4vw, 4rem) !important;
+  font-weight: 900 !important;
+  letter-spacing: -.035em !important;
+}
+
+.hlc-signed-in-shell .hlc-metric-card strong {
+  font-size: clamp(1.7rem, 2.6vw, 2.35rem) !important;
+  font-weight: 900 !important;
+  letter-spacing: -.025em;
+}
+
+.hlc-signed-in-shell .hlc-metric-card > span:last-child {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+}
+
+/* Light workspace surfaces: stop inherited white/faint text from disappearing. */
+.hlc-signed-in-shell :is(.hlc-metric-card, .hlc-workspace-card) :is(strong, h2, h3),
+.hlc-signed-in-shell .hlc-agent-team-heading h2,
+.hlc-signed-in-shell .hlc-business-pulse-heading h2 {
+  color: #0b1730 !important;
+  -webkit-text-fill-color: currentColor !important;
+  opacity: 1 !important;
+}
+
+.hlc-signed-in-shell .hlc-metric-card > span:last-child,
+.hlc-signed-in-shell .hlc-workspace-copy span {
+  color: #3f4f66 !important;
+  opacity: 1 !important;
+}
+
+.hlc-signed-in-shell .hlc-workspace-copy strong {
+  color: #10213d !important;
+}
+
+.hlc-signed-in-shell .hlc-pulse-card {
+  color: #17233b !important;
+}
+
+.hlc-signed-in-shell .hlc-pulse-card .hlc-pulse-copy strong {
+  color: #10213d !important;
+}
+
+.hlc-signed-in-shell .hlc-pulse-card .hlc-pulse-copy > span:last-child {
+  color: #42536b !important;
+}
+
+.hlc-signed-in-shell .hlc-agent-team-intro {
+  max-width: 70ch !important;
+}
+
+/* Settings owns device-notification controls now; never float setup over nav. */
+.hlc-device-alert-settings {
+  display: grid;
+  gap: 12px;
+  margin-top: 24px;
+  padding: 20px;
+  border: 1px solid #bdcad9;
+  border-radius: 6px;
+  background: #f8fafc;
+  color: #17233b;
+  box-shadow: 0 2px 7px rgba(6, 16, 31, .045);
+}
+
+.hlc-device-alert-settings h2 {
+  margin: 0;
+  color: #0a1830 !important;
+}
+
+.hlc-device-alert-settings p {
+  margin: 6px 0 0;
+  color: #3b4b62 !important;
+  font-size: 16px !important;
+}
+
+.hlc-device-alert-settings-button {
+  width: fit-content;
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid #174cc2;
+  border-radius: 5px;
+  background: #1e5bff;
+  color: #fff !important;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.hlc-device-alert-settings-status {
+  font-weight: 700;
+}
+
+/* Keep the sign-out action reachable after the final navigation group. */
+@media (min-width: 1025px) {
+  .hlc-signed-in-shell > .hlc-navbar {
+    overflow: hidden !important;
+    transition: width .22s ease, padding .22s ease;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-desktop-navigation {
+    display: flex !important;
+    min-height: 0 !important;
+    flex: 1 1 auto !important;
+    flex-direction: column !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    padding-bottom: 22px !important;
+    scrollbar-gutter: stable;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-groups {
+    flex: 0 0 auto;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-nav-group-title,
+  .hlc-signed-in-shell > .hlc-navbar .hlc-nav-link,
+  .hlc-signed-in-shell > .hlc-navbar .hlc-nav-group-trigger {
+    font-size: 15px !important;
+    font-weight: 760 !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-nav-logout {
+    position: relative !important;
+    z-index: 2 !important;
+    display: block !important;
+    width: 100% !important;
+    min-height: 44px !important;
+    flex: 0 0 auto !important;
+    margin: 14px 0 0 !important;
+    border: 1px solid rgba(147, 197, 253, .34) !important;
+    background: #10264a !important;
+    color: #f8fafc !important;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+  }
+
+  /* This selector intentionally matches the legacy desktop-shell specificity so
+     the final certification layer can restore the requested collapse control. */
+  .hlc-signed-in-shell > .hlc-desktop-sidebar-toggle {
+    position: fixed;
+    z-index: 1600;
+    top: 50%;
+    left: 248px;
+    display: grid !important;
+    width: 34px;
+    height: 54px;
+    place-items: center;
+    padding: 0;
+    border: 1px solid #315899;
+    border-left: 0;
+    border-radius: 0 10px 10px 0;
+    background: #0d1b3d;
+    color: #fff;
+    box-shadow: 4px 8px 18px rgba(6, 16, 31, .18);
+    cursor: pointer;
+    transform: translateY(-50%);
+    transition: left .22s ease, background .18s ease;
+  }
+
+  .hlc-signed-in-shell > .hlc-desktop-sidebar-toggle:hover,
+  .hlc-signed-in-shell > .hlc-desktop-sidebar-toggle:focus-visible {
+    background: #173158;
+  }
+
+  .hlc-signed-in-shell > .hlc-desktop-sidebar-toggle > span:first-child {
+    font-size: 28px;
+    line-height: 1;
+  }
+
+  .hlc-sidebar-toggle-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .hlc-signed-in-shell.hlc-sidebar-is-collapsed {
+    grid-template-columns: 56px minmax(0, 1fr) !important;
+  }
+
+  .hlc-signed-in-shell.hlc-sidebar-is-collapsed > .hlc-navbar {
+    width: 56px !important;
+    padding-inline: 7px !important;
+  }
+
+  .hlc-signed-in-shell.hlc-sidebar-is-collapsed > .hlc-navbar :is(.hlc-navbar-brand-copy, .hlc-desktop-navigation) {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  .hlc-signed-in-shell.hlc-sidebar-is-collapsed > .hlc-navbar .hlc-navbar-brand {
+    justify-content: center !important;
+    padding-inline: 0 !important;
+  }
+
+  .hlc-signed-in-shell.hlc-sidebar-is-collapsed > .hlc-navbar .hlc-navbar-logo {
+    width: 42px !important;
+    height: 42px !important;
+    flex-basis: 42px !important;
+  }
+
+  .hlc-signed-in-shell.hlc-sidebar-is-collapsed > .hlc-desktop-sidebar-toggle {
+    left: 40px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .hlc-signed-in-shell > .hlc-desktop-sidebar-toggle {
+    display: none !important;
+  }
+}
+
+/* The contextual tutorial/chat must remain inside the viewport and may not
+   create its own horizontal scroll lane. */
+.hlc-agent-dock.is-open {
+  max-width: calc(100vw - 24px) !important;
+}
+
+.hlc-agent-dock.is-open .hlc-agent-dock-panel {
+  width: min(680px, calc(100vw - 36px)) !important;
+  max-width: calc(100vw - 36px) !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+
+.hlc-agent-dock.is-open .hlc-agent-dock-panel > *,
+.hlc-agent-dock.is-open .hlc-agent-dock-panel section,
+.hlc-agent-dock.is-open .hlc-agent-dock-panel form,
+.hlc-agent-dock.is-open .hlc-agent-dock-panel textarea,
+.hlc-agent-dock.is-open .hlc-agent-dock-panel input,
+.hlc-agent-dock.is-open .hlc-agent-dock-panel button {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 760px) {
+  .hlc-signed-in-shell {
+    font-size: 17px;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content :is(p, li, label, td, dd) {
+    font-size: 16px;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content :is(input, select, textarea) {
+    font-size: 16px !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content main > p,
+  .hlc-signed-in-shell > .hlc-route-content main > header p,
+  .hlc-signed-in-shell > .hlc-route-content .hlc-agent-team-intro,
+  .hlc-signed-in-shell > .hlc-route-content .hlc-workspace-copy span,
+  .hlc-signed-in-shell > .hlc-route-content .hlc-pulse-copy > span:last-child {
+    font-size: 16px !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content h1 {
+    font-size: clamp(2rem, 10vw, 2.75rem);
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content h2 {
+    font-size: clamp(1.45rem, 7vw, 1.9rem);
+  }
+
+  .hlc-device-alert-settings {
+    padding: 16px;
+  }
+
+  .hlc-device-alert-settings-button {
+    width: 100%;
+  }
+
+  .hlc-agent-dock.is-open .hlc-agent-dock-panel {
+    width: calc(100vw - 24px) !important;
+    max-width: calc(100vw - 24px) !important;
+  }
+}

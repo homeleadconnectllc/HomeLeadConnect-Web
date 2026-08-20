@@ -30,6 +30,7 @@ const visualPizzazz = readFileSync("src/styles/global-visual-pizzazz.css", "utf8
 const contrastContract = readFileSync("src/styles/contrast-contract.css", "utf8");
 const workspacePremium = readFileSync("src/styles/workspace-premium-v3.css", "utf8");
 const mainEntry = readFileSync("src/main.tsx", "utf8");
+const authenticatedEntry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 const agentWorkspace = readFileSync("src/pages/dashboard/AgentWorkspace.tsx", "utf8");
 const agentTeamCss = readFileSync("src/styles/agent-team.css", "utf8");
 const dedication = readFileSync("src/pages/dashboard/KendrellDedication.tsx", "utf8");
@@ -108,7 +109,7 @@ test("signed-in mobile navigation behaves like an adaptive field app", () => {
   assert.match(workspaceNav, /\.hlc-mobile-tabbar \{[\s\S]*position: fixed;[\s\S]*bottom: 0;/);
   assert.match(mobileAppShell, /repeat\(auto-fit, minmax\(0, 1fr\)\)/);
   assert.match(mobileAppShell, /:has\(\.hlc-mobile-tabbar\) \.hlc-navbar-toggle/);
-  assert.match(mainEntry, /\.\/styles\/mobile-app-shell\.css/);
+  assert.match(authenticatedEntry, /mobile-app-shell\.css/);
 });
 
 test("navigation, dashboard and contextual agents share one fail-closed account access source", () => {
@@ -188,7 +189,7 @@ test("Dion business intelligence copy and reporting control remain durable and m
   assert.match(analyticsHardening, /\.hlc-analytics-period-button:hover/);
   assert.match(analyticsHardening, /\.hlc-analytics-period-button:focus-visible/);
   assert.match(analyticsHardening, /\.hlc-analytics-period-button:active/);
-  assert.match(mainEntry, /\.\/styles\/analytics-hardening\.css/);
+  assert.match(authenticatedEntry, /analytics-hardening\.css/);
 });
 
 test("dashboard exposes the complete HLC command center instead of hiding launch features", () => {
@@ -207,7 +208,8 @@ test("dashboard exposes the complete HLC command center instead of hiding launch
 });
 
 test("premium HLC presentation layer stays blue-cyan beneath contrast and responsive contracts", () => {
-  assert.match(mainEntry, /\.\/styles\/premium-theme\.css";\s*import "\.\/styles\/premium-effects\.css";\s*import "\.\/styles\/global-premium-system\.css";\s*import "\.\/styles\/global-visual-pizzazz\.css";\s*import "\.\/styles\/contrast-contract\.css";\s*import "\.\/styles\/workspace-premium-v3\.css";\s*import "\.\/styles\/responsive-page-contract\.css";/);
+  assert.match(mainEntry, /\.\/styles\/premium-theme\.css";\s*import "\.\/styles\/premium-effects\.css";\s*import "\.\/styles\/global-premium-system\.css";\s*import "\.\/styles\/global-visual-pizzazz\.css";\s*import "\.\/styles\/contrast-contract\.css";\s*import "\.\/styles\/responsive-page-contract\.css";/);
+  assert.match(authenticatedEntry, /workspace-premium-v3\.css/);
   assert.match(premiumTheme, /--hlc-blue: #2563eb/);
   assert.match(premiumTheme, /--hlc-cyan: #0891b2/);
   assert.match(premiumTheme, /prefers-reduced-motion: reduce/);

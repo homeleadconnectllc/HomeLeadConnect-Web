@@ -1,14 +1,25 @@
+import { lazy, Suspense } from "react";
 import AppRouter from "./routes/AppRouter";
-import GlobalPullToRefresh from "./components/GlobalPullToRefresh";
-import GlobalSmartCompose from "./components/GlobalSmartCompose";
-import MobileViewControls from "./components/MobileViewControls";
+import { useAuth } from "./hooks/useAuth";
+
+const AuthenticatedStyles = lazy(() => import("./styles/AuthenticatedStyles"));
+const GlobalPullToRefresh = lazy(() => import("./components/GlobalPullToRefresh"));
+const GlobalSmartCompose = lazy(() => import("./components/GlobalSmartCompose"));
+const MobileViewControls = lazy(() => import("./components/MobileViewControls"));
 
 function App() {
+  const { session } = useAuth();
+
   return (
     <>
-      <GlobalPullToRefresh />
-      <GlobalSmartCompose />
-      <MobileViewControls />
+      {session && (
+        <Suspense fallback={null}>
+          <AuthenticatedStyles />
+          <GlobalPullToRefresh />
+          <GlobalSmartCompose />
+          <MobileViewControls />
+        </Suspense>
+      )}
       <AppRouter />
     </>
   );

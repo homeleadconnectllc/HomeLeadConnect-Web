@@ -12,6 +12,7 @@ const workspaceRouteCleanup = readFileSync("src/styles/workspace-route-cleanup.c
 const desktopDashboardCertification = readFileSync("src/styles/desktop-dashboard-certification.css", "utf8");
 const mobileDashboardCertification = readFileSync("src/styles/mobile-dashboard-certification.css", "utf8");
 const main = readFileSync("src/main.tsx", "utf8");
+const authenticatedStyles = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 const requestService = readFileSync("src/pages/RequestService.tsx", "utf8");
 const professional = readFileSync("src/pages/ProfessionalApplication.tsx", "utf8");
 const leadsPage = readFileSync("src/pages/dashboard/Leads.tsx", "utf8");
@@ -61,8 +62,8 @@ test("global premium HLC design system stays mounted before final release guards
 });
 
 test("route cleanup is the final authenticated presentation layer", () => {
-  const v4Index = main.indexOf("./styles/workspace-premium-v4.css");
-  const cleanupIndex = main.indexOf("./styles/workspace-route-cleanup.css");
+  const v4Index = authenticatedStyles.indexOf("./workspace-premium-v4.css");
+  const cleanupIndex = authenticatedStyles.indexOf("./workspace-route-cleanup.css");
   assert.ok(v4Index >= 0);
   assert.ok(cleanupIndex > v4Index);
   assert.match(workspaceRouteCleanup, /\.hlc-jobs-page/);
@@ -73,9 +74,9 @@ test("route cleanup is the final authenticated presentation layer", () => {
   assert.match(workspaceRouteCleanup, /margin-bottom: calc\(172px \+ env\(safe-area-inset-bottom\)\) !important/);
 });
 
-test("desktop dashboard certification layer is last and keeps light metrics readable", () => {
-  const readinessIndex = main.indexOf("./styles/frontend-readiness-contract.css");
-  const certificationIndex = main.indexOf("./styles/desktop-dashboard-certification.css");
+test("desktop dashboard certification layer stays late in authenticated styles and keeps light metrics readable", () => {
+  const readinessIndex = authenticatedStyles.indexOf("./frontend-readiness-contract.css");
+  const certificationIndex = authenticatedStyles.indexOf("./desktop-dashboard-certification.css");
   assert.ok(readinessIndex >= 0);
   assert.ok(certificationIndex > readinessIndex);
   assert.match(desktopDashboardCertification, /grid-template-columns:\s*264px minmax\(0, 1fr\)/);
@@ -90,8 +91,8 @@ test("desktop dashboard certification layer is last and keeps light metrics read
 });
 
 test("mobile dashboard certification keeps the AI team readable and single-column", () => {
-  const desktopIndex = main.indexOf("./styles/desktop-dashboard-certification.css");
-  const mobileIndex = main.indexOf("./styles/mobile-dashboard-certification.css");
+  const desktopIndex = authenticatedStyles.indexOf("./desktop-dashboard-certification.css");
+  const mobileIndex = authenticatedStyles.indexOf("./mobile-dashboard-certification.css");
   assert.ok(desktopIndex >= 0);
   assert.ok(mobileIndex > desktopIndex);
   assert.match(mobileDashboardCertification, /max-width:\s*720px/);
