@@ -1,6 +1,6 @@
 # HomeLead Connect Final Release Candidate
 
-Frozen from certified `main` at `982bbe78b3e0a9218a81bff1a2b9958cb56d931a`.
+Frozen from certified `main` at `df0426b736a51aaf8cb47e3bfe8c71afd3847a50` after the environment/integration certification batch.
 
 This branch is the final application-code release candidate. No feature, visual-system, auth, tenancy, RLS, AI-identity, billing, or deployment-model changes belong here unless a launch-blocking defect is proven during certification.
 
