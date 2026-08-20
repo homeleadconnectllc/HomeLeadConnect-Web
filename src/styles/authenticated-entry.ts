@@ -40,4 +40,5 @@ import "./follow-ups-application-workspace.css";
 import "./automations-application-workspace.css";
 import "./messages-application-workspace.css";
 import "./call-center-application-workspace.css";
+import "./network-map-application-workspace.css";
 import "./application-workspace-ui.css";
