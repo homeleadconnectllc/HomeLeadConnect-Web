@@ -48,7 +48,16 @@ jobs:
           cat /tmp/hlc-preview.log || true
           exit 30
 
-      - name: Mobile rendered quality gate
+      - name: Calendar route delivery smoke
+        run: |
+          set -euo pipefail
+          code="$(curl -sS -L -o /tmp/hlc-calendar.html -w '%{http_code}' http://127.0.0.1:4173/calendar)"
+          echo "Calendar route HTTP $code"
+          test "$code" = "200"
+          grep -qi 'HomeLead Connect' /tmp/hlc-calendar.html
+          echo 'Calendar SPA route delivery: PASS'
+
+      - name: Mobile rendered measurement
         run: |
           set -euo pipefail
           npx --yes lighthouse@13.4.1 http://127.0.0.1:4173/ \
@@ -61,18 +70,14 @@ jobs:
           const fs = require('node:fs');
           const report = JSON.parse(fs.readFileSync('/tmp/lighthouse-mobile.json', 'utf8'));
           const score = (key) => Number(report.categories[key]?.score ?? 0);
-          const scores = {
+          console.log('Mobile Lighthouse', {
             performance: score('performance'),
             accessibility: score('accessibility'),
             bestPractices: score('best-practices'),
-          };
-          console.log('Mobile Lighthouse', scores);
-          if (scores.performance < 0.85) throw new Error(`Mobile performance ${scores.performance} < 0.85`);
-          if (scores.accessibility < 0.95) throw new Error(`Mobile accessibility ${scores.accessibility} < 0.95`);
-          if (scores.bestPractices < 0.95) throw new Error(`Mobile best practices ${scores.bestPractices} < 0.95`);
+          });
           NODE
 
-      - name: Desktop rendered quality gate
+      - name: Desktop rendered measurement
         run: |
           set -euo pipefail
           npx --yes lighthouse@13.4.1 http://127.0.0.1:4173/ \
@@ -86,15 +91,40 @@ jobs:
           const fs = require('node:fs');
           const report = JSON.parse(fs.readFileSync('/tmp/lighthouse-desktop.json', 'utf8'));
           const score = (key) => Number(report.categories[key]?.score ?? 0);
-          const scores = {
+          console.log('Desktop Lighthouse', {
             performance: score('performance'),
             accessibility: score('accessibility'),
             bestPractices: score('best-practices'),
-          };
-          console.log('Desktop Lighthouse', scores);
-          if (scores.performance < 0.95) throw new Error(`Desktop performance ${scores.performance} < 0.95`);
-          if (scores.accessibility < 0.95) throw new Error(`Desktop accessibility ${scores.accessibility} < 0.95`);
-          if (scores.bestPractices < 0.95) throw new Error(`Desktop best practices ${scores.bestPractices} < 0.95`);
+          });
+          NODE
+
+      - name: Evaluate rendered thresholds
+        run: |
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const load = (path) => JSON.parse(fs.readFileSync(path, 'utf8'));
+          const scores = (report) => ({
+            performance: Number(report.categories.performance?.score ?? 0),
+            accessibility: Number(report.categories.accessibility?.score ?? 0),
+            bestPractices: Number(report.categories['best-practices']?.score ?? 0),
+          });
+          const mobile = scores(load('/tmp/lighthouse-mobile.json'));
+          const desktop = scores(load('/tmp/lighthouse-desktop.json'));
+          console.log('Rendered quality summary', { mobile, desktop });
+
+          const failures = [];
+          if (mobile.performance < 0.85) failures.push(`Mobile performance ${mobile.performance} < 0.85`);
+          if (mobile.accessibility < 0.95) failures.push(`Mobile accessibility ${mobile.accessibility} < 0.95`);
+          if (mobile.bestPractices < 0.95) failures.push(`Mobile best practices ${mobile.bestPractices} < 0.95`);
+          if (desktop.performance < 0.95) failures.push(`Desktop performance ${desktop.performance} < 0.95`);
+          if (desktop.accessibility < 0.95) failures.push(`Desktop accessibility ${desktop.accessibility} < 0.95`);
+          if (desktop.bestPractices < 0.95) failures.push(`Desktop best practices ${desktop.bestPractices} < 0.95`);
+
+          if (failures.length) {
+            console.error('Rendered quality gate failed:\n- ' + failures.join('\n- '));
+            process.exit(1);
+          }
+          console.log('Rendered quality gate: PASS');
           NODE
 
       - name: Upload rendered QA evidence
@@ -106,5 +136,6 @@ jobs:
             /tmp/lighthouse-mobile.json
             /tmp/lighthouse-desktop.json
             /tmp/hlc-preview.log
+            /tmp/hlc-calendar.html
           if-no-files-found: warn
           retention-days: 14
