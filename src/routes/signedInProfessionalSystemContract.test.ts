@@ -5,9 +5,14 @@ import test from "node:test";
 const entry = readFileSync(new URL("../styles/authenticated-entry.ts", import.meta.url), "utf8");
 const css = readFileSync(new URL("../styles/signed-in-professional-system.css", import.meta.url), "utf8");
 
-test("signed-in professional system loads last in authenticated styles", () => {
+test("signed-in professional system remains mounted beneath the normalization authority", () => {
   assert.match(entry, /import "\.\/signed-in-professional-system\.css";/);
-  assert.ok(entry.trimEnd().endsWith('import "./signed-in-professional-system.css";'));
+  assert.match(entry, /import "\.\/design-system-foundation\.css";/);
+  assert.ok(
+    entry.indexOf('import "./signed-in-professional-system.css";') <
+      entry.indexOf('import "./design-system-foundation.css";'),
+  );
+  assert.ok(entry.trimEnd().endsWith('import "./design-system-foundation.css";'));
 });
 
 test("signed-in professional system keeps operational pages aligned and restrained", () => {
