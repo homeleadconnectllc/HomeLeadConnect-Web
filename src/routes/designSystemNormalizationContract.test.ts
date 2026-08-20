@@ -6,14 +6,17 @@ const foundation = readFileSync(new URL("../styles/design-system-foundation.css"
 const mobile = readFileSync(new URL("../styles/mobile-all-screens-certification.css", import.meta.url), "utf8");
 const authenticatedEntry = readFileSync(new URL("../styles/authenticated-entry.ts", import.meta.url), "utf8");
 
-test("authenticated routes load normalized foundation before the mobile-only specialization", () => {
+test("authenticated routes load normalized foundation before mobile specialization and the final workspace visual contract", () => {
+  const foundationImport = 'import "./design-system-foundation.css";';
+  const mobileImport = 'import "./mobile-all-screens-certification.css";';
+  const visualContractImport = 'import "./global-workspace-visual-contract.css";';
+
   assert.match(authenticatedEntry, /import "\.\/design-system-foundation\.css";/);
   assert.match(authenticatedEntry, /import "\.\/mobile-all-screens-certification\.css";/);
-  assert.ok(
-    authenticatedEntry.indexOf('import "./design-system-foundation.css";') <
-      authenticatedEntry.indexOf('import "./mobile-all-screens-certification.css";'),
-  );
-  assert.equal(authenticatedEntry.trim().split("\n").at(-1), 'import "./mobile-all-screens-certification.css";');
+  assert.match(authenticatedEntry, /import "\.\/global-workspace-visual-contract\.css";/);
+  assert.ok(authenticatedEntry.indexOf(foundationImport) < authenticatedEntry.indexOf(mobileImport));
+  assert.ok(authenticatedEntry.indexOf(mobileImport) < authenticatedEntry.indexOf(visualContractImport));
+  assert.equal(authenticatedEntry.trim().split("\n").at(-1), visualContractImport);
 });
 
 test("mobile specialization is strictly scoped to compact viewports", () => {
