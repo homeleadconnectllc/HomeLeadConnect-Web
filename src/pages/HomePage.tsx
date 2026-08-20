@@ -17,8 +17,8 @@ export default function HomePage() {
         <p className="hlc-home-hero-copy" style={{maxWidth:760,margin:"0 auto",fontSize:21,lineHeight:1.6,color:"#475569"}}>Request help, connect with providers, join the community, manage work, and reach the HomeLead Connect workspace from one identity.</p>
         <div className="hlc-home-hero-actions" style={{display:"flex",gap:14,justifyContent:"center",flexWrap:"wrap",marginTop:32}}>
           <a href="/pricing" style={{padding:"14px 22px",borderRadius:999,background:"#2563eb",color:"#fff",fontWeight:900,textDecoration:"none",boxShadow:"0 12px 30px rgba(37,99,235,.22)"}}>Start 14-Day Free Trial</a>
-          <a href="/request-service" style={{padding:"14px 22px",borderRadius:999,background:"#0f172a",color:"#fff",fontWeight:800,textDecoration:"none"}}>Get Help Now</a>
-          <a href="/app" style={{padding:"14px 22px",borderRadius:999,background:"#fff",color:"#0f172a",fontWeight:800,textDecoration:"none",border:"1px solid #cbd5e1"}}>Open HomeLead Connect</a>
+          <a data-route-to="/request-service" href="/request-service" style={{padding:"14px 22px",borderRadius:999,background:"#0f172a",color:"#fff",fontWeight:800,textDecoration:"none"}}>Get Help Now</a>
+          <a data-route-to="/app" href="/app" style={{padding:"14px 22px",borderRadius:999,background:"#fff",color:"#0f172a",fontWeight:800,textDecoration:"none",border:"1px solid #cbd5e1"}}>Open HomeLead Connect</a>
         </div>
         <p className="hlc-home-hero-note" style={{marginTop:14,color:"#64748b",fontSize:14}}>For participating businesses: 14 days free, then $49.99/month. Payment method required.</p>
       </section>
@@ -46,7 +46,7 @@ export default function HomePage() {
         <div style={{display:"flex",gap:16,justifyContent:"center",alignItems:"center",flexWrap:"wrap",marginTop:22}}>
           <a href="/pricing" style={{color:"#bfdbfe",fontWeight:800}}>Pricing & free trial</a>
           <a href="/how-it-works" style={{color:"#bfdbfe"}}>How it works</a>
-          <a href="/community" style={{color:"#bfdbfe"}}>Community</a>
+          <a data-route-to="/community" href="/community" style={{color:"#bfdbfe"}}>Community</a>
           <a href="/professionals" style={{color:"#bfdbfe"}}>For professionals</a>
           <a href="/trust" style={{color:"#bfdbfe"}}>Trust & safety</a>
           <a href="/contact" style={{color:"#bfdbfe"}}>Contact</a>
