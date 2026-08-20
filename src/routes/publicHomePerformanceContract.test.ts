@@ -8,9 +8,10 @@ const footer = readFileSync(new URL("../components/Footer.tsx", import.meta.url)
 
 test("public home stays outside the authenticated application bundle while retaining route delivery", () => {
   assert.match(main, /isPublicHome/);
-  assert.match(main, /<BrowserRouter>/);
+  assert.doesNotMatch(main, /BrowserRouter/);
   assert.match(main, /import\("\.\/App\.tsx"\)/);
   assert.doesNotMatch(home, /react-router-dom/);
+  assert.doesNotMatch(footer, /react-router-dom/);
   assert.match(home, /href="\/pricing"/);
   assert.match(home, /data-route-to="\/request-service"/);
   assert.match(home, /data-route-to="\/app"/);
