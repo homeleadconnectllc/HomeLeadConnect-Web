@@ -20,19 +20,31 @@ export function AuthProvider({
   useEffect(() => {
     if (!isSupabaseConfigured()) return;
 
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
-      setLoading(false);
-    });
+    let active = true;
+
+    void supabase.auth.getSession().then(
+      ({ data, error }) => {
+        if (!active) return;
+        setSession(error ? null : data.session);
+        setLoading(false);
+      },
+      () => {
+        if (!active) return;
+        setSession(null);
+        setLoading(false);
+      },
+    );
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
+    } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+      if (!active) return;
+      setSession(nextSession);
       setLoading(false);
     });
 
     return () => {
+      active = false;
       subscription.unsubscribe();
     };
   }, []);
