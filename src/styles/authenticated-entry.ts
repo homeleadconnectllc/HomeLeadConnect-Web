@@ -36,4 +36,5 @@ import "./dashboard-application-workspace.css";
 import "./leads-application-workspace.css";
 import "./jobs-application-workspace.css";
 import "./calendar-application-workspace.css";
+import "./follow-ups-application-workspace.css";
 import "./application-workspace-ui.css";
