@@ -13,6 +13,8 @@ export default function JobCard({
   onStatusChange: (job: CrmJob, status: CrmJobStatus) => void;
   disabled?: boolean;
 }) {
+  const leadRecord = job.lead_id == null ? null : encodeURIComponent(String(job.lead_id));
+
   return (
     <article className="hlc-job-row">
       <div className="hlc-job-identity">
@@ -46,6 +48,8 @@ export default function JobCard({
           ))}
         </select>
         <Link className="hlc-job-open" to={`/jobs/${job.id}`}>Open job</Link>
+        {leadRecord && <Link to={`/follow-ups?leadRecord=${leadRecord}`}>Schedule follow-up</Link>}
+        {leadRecord && <Link to={`/manual-communications?channel=call&direction=outbound&contact=lead:${leadRecord}`}>Prepare call</Link>}
         <Link to={`/documents?entityType=job&entityId=${encodeURIComponent(job.id)}`}>Attach evidence</Link>
       </div>
     </article>
