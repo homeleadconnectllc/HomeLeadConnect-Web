@@ -19,3 +19,16 @@ test("public home stays outside the authenticated application bundle while retai
   assert.match(home, /loading="lazy"/);
   assert.doesNotMatch(footer, /hlc-logo-final\.png/);
 });
+
+test("public home renders without paying React startup cost", () => {
+  assert.doesNotMatch(main, /^import .* from "react"/m);
+  assert.doesNotMatch(main, /^import .* from "react-dom\/client"/m);
+  assert.doesNotMatch(main, /^import HomePage /m);
+  assert.match(main, /rootElement\.innerHTML = publicHomeMarkup\(\)/);
+  assert.match(main, /import\("react"\)/);
+  assert.match(main, /import\("react-dom\/client"\)/);
+  assert.match(main, /data-route-to="\/request-service"/);
+  assert.match(main, /data-route-to="\/app"/);
+  assert.match(main, /data-route-to="\/community"/);
+  assert.match(main, /aria-label="Legal and accessibility"/);
+});
