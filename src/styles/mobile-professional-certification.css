@@ -1,0 +1,117 @@
+/* Mobile production-certification visual system.
+   Reduce card-on-card noise, normalize alignment/contrast, and keep persistent
+   controls from covering route content. No business logic changes. */
+@media (max-width: 760px) {
+  .hlc-signed-in-shell > .hlc-route-content {
+    padding-bottom: calc(118px + env(safe-area-inset-bottom)) !important;
+    overflow-x: clip;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content main {
+    width: min(100%, 720px);
+    margin-inline: auto;
+  }
+
+  /* Mobile type: strong hierarchy without oversized centered billboard copy. */
+  .hlc-signed-in-shell > .hlc-route-content h1 {
+    font-size: clamp(2rem, 9vw, 2.55rem) !important;
+    line-height: 1.02 !important;
+    letter-spacing: -.035em !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content h2 {
+    font-size: clamp(1.45rem, 6.5vw, 1.85rem) !important;
+    line-height: 1.08 !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content :is(p, li, label, td, dd) {
+    line-height: 1.48 !important;
+  }
+
+  /* Route content reads like an application, not a stack of marketing cards. */
+  .hlc-signed-in-shell > .hlc-route-content :is(
+    .hlc-workspace-card,
+    .hlc-pulse-card,
+    .hlc-device-alert-settings
+  ) {
+    border-radius: 12px !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-signed-in-shell .hlc-workspace-grid,
+  .hlc-signed-in-shell .hlc-pulse-grid {
+    gap: 12px !important;
+  }
+
+  /* Dashboard hero: restore intentional HLC navy treatment and readable copy. */
+  .hlc-signed-in-shell .hlc-command-hero {
+    background: linear-gradient(135deg, #0a1730 0%, #123b72 58%, #0f5f9c 100%) !important;
+    color: #f8fafc !important;
+    text-align: left !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-hero :is(h1, h2, h3, p, strong, span) {
+    color: #f8fafc !important;
+    -webkit-text-fill-color: currentColor !important;
+    opacity: 1 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-hero .hlc-command-kicker {
+    color: #7dd3fc !important;
+  }
+
+  /* Dark operational/marketing panels need one reliable contrast contract. */
+  .hlc-signed-in-shell :is(.hlc-priority-panel, .hlc-business-pulse, .hlc-agent-card) :is(h1,h2,h3,strong) {
+    color: #f8fafc !important;
+    -webkit-text-fill-color: currentColor !important;
+    opacity: 1 !important;
+  }
+
+  .hlc-signed-in-shell :is(.hlc-priority-panel, .hlc-business-pulse, .hlc-agent-card) :is(p,span) {
+    color: #dbeafe !important;
+    opacity: 1 !important;
+  }
+
+  /* Dense records/forms should use the available width and avoid nested-pill styling. */
+  .hlc-signed-in-shell > .hlc-route-content :is(input, select, textarea) {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .hlc-signed-in-shell > .hlc-route-content textarea {
+    min-height: 120px;
+  }
+
+  /* Agent launcher stays above navigation without sitting on form actions/content. */
+  .hlc-agent-dock:not(.is-open) {
+    right: 16px !important;
+    bottom: calc(104px + env(safe-area-inset-bottom)) !important;
+  }
+
+  /* Open agent experience is a contained sheet, not a page-covering floating card. */
+  .hlc-agent-dock.is-open {
+    position: fixed !important;
+    inset: 12px 12px calc(96px + env(safe-area-inset-bottom)) 12px !important;
+    width: auto !important;
+    max-width: none !important;
+    height: auto !important;
+    z-index: 1900 !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-agent-dock-panel {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    border-radius: 18px !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+  }
+
+  /* Bottom navigation owns its lane. Content must never visually compete with it. */
+  .hlc-mobile-bottom-nav {
+    z-index: 1800 !important;
+  }
+}
