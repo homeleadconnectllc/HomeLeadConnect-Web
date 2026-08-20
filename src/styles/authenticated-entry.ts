@@ -33,4 +33,6 @@ import "./design-system-foundation.css";
 import "./mobile-all-screens-certification.css";
 import "./global-workspace-visual-contract.css";
 import "./dashboard-application-workspace.css";
+import "./leads-application-workspace.css";
+import "./jobs-application-workspace.css";
 import "./application-workspace-ui.css";

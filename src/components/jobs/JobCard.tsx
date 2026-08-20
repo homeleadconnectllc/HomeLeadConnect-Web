@@ -14,15 +14,23 @@ export default function JobCard({
   disabled?: boolean;
 }) {
   return (
-    <article className="responsive-record-card hlc-job-card" style={cardStyle}>
-      <div className="hlc-job-card-copy">
-        <h3 style={{ margin: 0 }}>{job.name}</h3>
-        <p style={{ margin: "8px 0", color: "#475569" }}>
-          {formatCurrency(Number(job.contract_value))}
-        </p>
-        <small>Estimate: {job.source_estimate_id}</small>
+    <article className="hlc-job-row">
+      <div className="hlc-job-identity">
+        <span className="hlc-job-status-dot" data-status={job.status} aria-hidden="true" />
+        <div className="hlc-job-identity-copy">
+          <strong>{job.name}</strong>
+          <span>Job #{job.id.slice(0, 8)}</span>
+        </div>
       </div>
-      <div className="hlc-job-card-actions">
+
+      <div className="hlc-job-value-cell">
+        <span className="hlc-job-cell-label">Value</span>
+        <strong>{formatCurrency(Number(job.contract_value))}</strong>
+        <small>Estimate {job.source_estimate_id}</small>
+      </div>
+
+      <div className="hlc-job-actions">
+        <span className="hlc-job-cell-label">Status</span>
         <select
           disabled={disabled}
           aria-label={`Status for ${job.name}`}
@@ -42,14 +50,3 @@ export default function JobCard({
     </article>
   );
 }
-
-const cardStyle = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  gap: 20,
-  padding: 20,
-  background: "#fff",
-  border: "1px solid #e2e8f0",
-  borderRadius: 14,
-};
