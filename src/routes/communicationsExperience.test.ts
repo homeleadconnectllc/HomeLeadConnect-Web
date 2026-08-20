@@ -35,7 +35,7 @@ test("free Google Voice handoff returns to a one-tap canonical outcome and follo
 test("Messages exposes persisted chat history from canonical conversations", () => {
   assert.match(messages, /listConversations/);
   assert.match(messages, /aria-label="Chat history"/);
-  assert.match(messages, /CONVERSATION HISTORY/);
+  assert.match(messages, /ACTIVE CONVERSATION/);
   assert.match(messages, /Persisted chat history/);
   assert.match(messages, /conversation\.messages\.length/);
 });
