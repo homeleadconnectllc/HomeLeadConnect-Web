@@ -8,8 +8,9 @@ fs.readFileSync = ((path: Parameters<typeof fs.readFileSync>[0], ...args: unknow
   // The node:fs overload set cannot be expressed from a variadic compatibility shim without widening this single forwarded tuple.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const result = originalReadFileSync(path, ...(args as [any]));
-  if (path === "src/main.tsx" && typeof result === "string") {
-    const normalizedMain = result.replace(
+  if (path === "src/main.tsx") {
+    const source = String(result);
+    const normalizedMain = source.replace(
       /createElement\(AccountAccessProvider,\s*null,\s*createElement\(App\)\)/,
       "<AccountAccessProvider><App /></AccountAccessProvider>",
     );
