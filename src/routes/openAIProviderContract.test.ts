@@ -27,6 +27,9 @@ test("agent voice uses OpenAI speech generation while preserving canonical HLC v
   assert.match(voice, /providerVoice: "cedar"/);
   assert.match(voice, /voice: "Sadaltager"/);
   assert.match(voice, /providerVoice: "ash"/);
+  assert.match(voice, /Pronounce the name Dion as Dee-Yon/);
+  assert.match(voice, /text\.replace\(\/\\bDion\\b\/gi, "Dee-Yon"\)/);
+  assert.match(voice, /input: applyCanonicalPronunciations\(text\)/);
   assert.match(voice, /voice: "Sulafat"/);
   assert.match(voice, /providerVoice: "coral"/);
   assert.match(voice, /Kendrell voice access requires an approved owner, manager, or supervisor role/);
