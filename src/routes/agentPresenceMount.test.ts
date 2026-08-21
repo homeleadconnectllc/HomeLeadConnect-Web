@@ -54,4 +54,18 @@ test("agent voice stays explicit opt-in and rejects stale overlapping speech gen
   assert.match(agentVoice, /const generation = \+\+speechGeneration/);
   assert.match(agentVoice, /if \(generation !== speechGeneration\) return false/);
   assert.match(agentVoice, /speechGeneration \+= 1/);
+  assert.match(agentVoice, /activeSpeechAbortController\?\.abort\(\)/);
+  assert.match(agentVoice, /stopActiveSources\(\)/);
+});
+
+test("agent speech streams 24k PCM and schedules chunks before the full response finishes", () => {
+  assert.match(agentVoice, /const STREAM_SAMPLE_RATE = 24_000/);
+  assert.match(agentVoice, /response\.body\.getReader\(\)/);
+  assert.match(agentVoice, /await reader\.read\(\)/);
+  assert.match(agentVoice, /pcm16ToFloat32/);
+  assert.match(agentVoice, /schedulePcmChunk/);
+  assert.match(agentVoice, /context\.createBuffer\(1, samples\.length, STREAM_SAMPLE_RATE\)/);
+  assert.match(agentVoice, /source\.start\(scheduledAt\)/);
+  assert.match(agentVoice, /contentType\.includes\("application\/json"\)/);
+  assert.match(agentVoice, /playLegacyBufferedResponse/);
 });
