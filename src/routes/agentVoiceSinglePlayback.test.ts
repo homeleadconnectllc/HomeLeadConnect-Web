@@ -10,13 +10,13 @@ test("agent voice claims the single playback generation before awaiting auth", (
   assert.ok(generationIndex >= 0, "voice generation guard must exist");
   assert.ok(authIndex >= 0, "auth lookup must exist");
   assert.ok(generationIndex < authIndex, "latest voice request must become authoritative before async auth work");
-  assert.match(voice, /if \(generation !== speechGeneration\) return false;\n  const accessToken/);
+  assert.match(voice, /if \(generation !== speechGeneration\) return false;\n {2}const accessToken/);
 });
 
 test("agent voice cancels competing native speech and active Web Audio sources", () => {
   assert.match(voice, /window\.speechSynthesis\?\.cancel\(\)/);
   assert.match(voice, /activeSpeechAbortController\?\.abort\(\)/);
-  assert.match(voice, /cancelNativeSpeech\(\);\n  stopActiveSources\(\);/);
+  assert.match(voice, /cancelNativeSpeech\(\);\n {2}stopActiveSources\(\);/);
 });
 
 test("stopAgentSpeech invalidates pending async requests before they can start", () => {
