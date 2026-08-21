@@ -6,20 +6,23 @@ const foundation = readFileSync(new URL("../styles/design-system-foundation.css"
 const mobile = readFileSync(new URL("../styles/mobile-all-screens-certification.css", import.meta.url), "utf8");
 const authenticatedEntry = readFileSync(new URL("../styles/authenticated-entry.ts", import.meta.url), "utf8");
 
-test("authenticated routes load normalized foundation, mobile specialization, visual contract, then application workspace authority", () => {
+test("authenticated routes load normalized foundation, mobile specialization, visual contract, structural authority, then launch contrast", () => {
   const foundationImport = 'import "./design-system-foundation.css";';
   const mobileImport = 'import "./mobile-all-screens-certification.css";';
   const visualContractImport = 'import "./global-workspace-visual-contract.css";';
   const applicationUiImport = 'import "./application-workspace-ui.css";';
+  const contrastImport = 'import "./launch-contrast-readability.css";';
 
   assert.match(authenticatedEntry, /import "\.\/design-system-foundation\.css";/);
   assert.match(authenticatedEntry, /import "\.\/mobile-all-screens-certification\.css";/);
   assert.match(authenticatedEntry, /import "\.\/global-workspace-visual-contract\.css";/);
   assert.match(authenticatedEntry, /import "\.\/application-workspace-ui\.css";/);
+  assert.match(authenticatedEntry, /import "\.\/launch-contrast-readability\.css";/);
   assert.ok(authenticatedEntry.indexOf(foundationImport) < authenticatedEntry.indexOf(mobileImport));
   assert.ok(authenticatedEntry.indexOf(mobileImport) < authenticatedEntry.indexOf(visualContractImport));
   assert.ok(authenticatedEntry.indexOf(visualContractImport) < authenticatedEntry.indexOf(applicationUiImport));
-  assert.equal(authenticatedEntry.trim().split("\n").at(-1), applicationUiImport);
+  assert.ok(authenticatedEntry.indexOf(applicationUiImport) < authenticatedEntry.indexOf(contrastImport));
+  assert.equal(authenticatedEntry.trim().split("\n").at(-1), contrastImport);
 });
 
 test("mobile specialization is strictly scoped to compact viewports", () => {

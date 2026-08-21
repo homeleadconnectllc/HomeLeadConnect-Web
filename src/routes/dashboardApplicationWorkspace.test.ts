@@ -5,12 +5,14 @@ import test from "node:test";
 const dashboard = readFileSync(new URL("../styles/dashboard-application-workspace.css", import.meta.url), "utf8");
 const authenticatedEntry = readFileSync(new URL("../styles/authenticated-entry.ts", import.meta.url), "utf8");
 
-test("dashboard specialization is mounted before the final application workspace authority", () => {
+test("dashboard specialization is mounted before structural and launch contrast authorities", () => {
   const dashboardImport = 'import "./dashboard-application-workspace.css";';
   const applicationImport = 'import "./application-workspace-ui.css";';
+  const contrastImport = 'import "./launch-contrast-readability.css";';
   assert.match(authenticatedEntry, /import "\.\/dashboard-application-workspace\.css";/);
   assert.ok(authenticatedEntry.indexOf(dashboardImport) < authenticatedEntry.indexOf(applicationImport));
-  assert.equal(authenticatedEntry.trim().split("\n").at(-1), applicationImport);
+  assert.ok(authenticatedEntry.indexOf(applicationImport) < authenticatedEntry.indexOf(contrastImport));
+  assert.equal(authenticatedEntry.trim().split("\n").at(-1), contrastImport);
 });
 
 test("dashboard metrics are a divider-based KPI rail instead of cards", () => {
