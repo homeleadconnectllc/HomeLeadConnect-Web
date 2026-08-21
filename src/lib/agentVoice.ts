@@ -82,6 +82,14 @@ export async function prepareAgentAudio() {
   return true;
 }
 
+function cancelNativeSpeech() {
+  try {
+    window.speechSynthesis?.cancel();
+  } catch {
+    // Native speech may be unavailable or blocked by the browser.
+  }
+}
+
 function stopActiveSources() {
   for (const source of activeSources) {
     try {
@@ -179,13 +187,20 @@ export async function speakAgentText(agentId: AgentId, text: string) {
   if (context.state === "suspended") await context.resume();
   if (context.state !== "running") throw new Error("Tap the voice control again to enable audio playback.");
 
+  // Claim the single playback slot before any async auth/network work. This is
+  // what makes a newer request or stop action authoritative even while an older
+  // request is still waiting on Safari, Supabase auth, or the TTS edge function.
+  const generation = ++speechGeneration;
+  activeSpeechAbortController?.abort();
+  activeSpeechAbortController = null;
+  cancelNativeSpeech();
+  stopActiveSources();
+
   const { data: sessionData } = await supabase.auth.getSession();
+  if (generation !== speechGeneration) return false;
   const accessToken = sessionData.session?.access_token;
   if (!accessToken) throw new Error("Authentication is required for agent voice.");
 
-  const generation = ++speechGeneration;
-  activeSpeechAbortController?.abort();
-  stopActiveSources();
   const controller = new AbortController();
   activeSpeechAbortController = controller;
 
@@ -260,5 +275,6 @@ export function stopAgentSpeech() {
   speechGeneration += 1;
   activeSpeechAbortController?.abort();
   activeSpeechAbortController = null;
+  cancelNativeSpeech();
   stopActiveSources();
 }
