@@ -1,5 +1,5 @@
 import type { AgentId } from "../ai/agents";
-import { supabase } from "./supabase";
+import { supabase, supabaseConfig } from "./supabase";
 
 export type AgentVoicePreferences = {
   enabled: boolean;
@@ -11,13 +11,16 @@ type AudioContextWindow = typeof window & {
 };
 
 const STORAGE_KEY = "hlc.agentVoicePreferences.v3";
+const STREAM_SAMPLE_RATE = 24_000;
+const STREAM_START_LEAD_SECONDS = 0.04;
 
 function defaultPreferences(): AgentVoicePreferences {
   return { enabled: false, autoSpeak: false };
 }
 
 let audioContext: AudioContext | null = null;
-let activeSource: AudioBufferSourceNode | null = null;
+const activeSources = new Set<AudioBufferSourceNode>();
+let activeSpeechAbortController: AbortController | null = null;
 let speechGeneration = 0;
 
 export function getAgentVoicePreferences(): AgentVoicePreferences {
@@ -79,15 +82,20 @@ export async function prepareAgentAudio() {
   return true;
 }
 
-function stopActiveSource() {
-  if (!activeSource) return;
-  try {
-    activeSource.stop();
-  } catch {
-    // Source may already have ended.
+function stopActiveSources() {
+  for (const source of activeSources) {
+    try {
+      source.stop();
+    } catch {
+      // Source may already have ended.
+    }
+    try {
+      source.disconnect();
+    } catch {
+      // Source may already be disconnected.
+    }
   }
-  activeSource.disconnect();
-  activeSource = null;
+  activeSources.clear();
 }
 
 function base64ToArrayBuffer(base64: string) {
@@ -97,6 +105,70 @@ function base64ToArrayBuffer(base64: string) {
   return bytes.buffer;
 }
 
+function pcm16ToFloat32(bytes: Uint8Array) {
+  const sampleCount = Math.floor(bytes.byteLength / 2);
+  const samples = new Float32Array(sampleCount);
+  const view = new DataView(bytes.buffer, bytes.byteOffset, sampleCount * 2);
+  for (let index = 0; index < sampleCount; index += 1) {
+    const value = view.getInt16(index * 2, true);
+    samples[index] = value < 0 ? value / 0x8000 : value / 0x7fff;
+  }
+  return samples;
+}
+
+function schedulePcmChunk(context: AudioContext, bytes: Uint8Array, startAt: number) {
+  const samples = pcm16ToFloat32(bytes);
+  if (!samples.length) return startAt;
+
+  const buffer = context.createBuffer(1, samples.length, STREAM_SAMPLE_RATE);
+  buffer.copyToChannel(samples, 0);
+  const source = context.createBufferSource();
+  source.buffer = buffer;
+  source.connect(context.destination);
+  source.onended = () => {
+    activeSources.delete(source);
+    try { source.disconnect(); } catch { /* already disconnected */ }
+  };
+  activeSources.add(source);
+
+  const scheduledAt = Math.max(startAt, context.currentTime + STREAM_START_LEAD_SECONDS);
+  source.start(scheduledAt);
+  return scheduledAt + buffer.duration;
+}
+
+async function throwVoiceResponseError(response: Response) {
+  let message = "Neural voice generation failed.";
+  try {
+    const payload = await response.json() as { error?: string };
+    if (payload?.error) message = payload.error;
+  } catch {
+    // Preserve the generic message when the response is not JSON.
+  }
+  throw new Error(message);
+}
+
+async function playLegacyBufferedResponse(context: AudioContext, response: Response, generation: number) {
+  const payload = await response.json() as { audioBase64?: string } | null;
+  if (generation !== speechGeneration) return false;
+  if (!payload?.audioBase64) throw new Error("Neural voice returned no playable audio.");
+
+  const encodedAudio = base64ToArrayBuffer(payload.audioBase64);
+  const decodedAudio = await context.decodeAudioData(encodedAudio.slice(0));
+  if (generation !== speechGeneration) return false;
+
+  stopActiveSources();
+  const source = context.createBufferSource();
+  source.buffer = decodedAudio;
+  source.connect(context.destination);
+  source.onended = () => {
+    activeSources.delete(source);
+    try { source.disconnect(); } catch { /* already disconnected */ }
+  };
+  activeSources.add(source);
+  source.start(0);
+  return true;
+}
+
 export async function speakAgentText(agentId: AgentId, text: string) {
   if (typeof window === "undefined") throw new Error("Spoken replies are unavailable in this browser.");
   const cleanText = text.trim();
@@ -104,58 +176,89 @@ export async function speakAgentText(agentId: AgentId, text: string) {
 
   const context = getAudioContext();
   if (!context) throw new Error("Spoken replies are unavailable in this browser.");
+  if (context.state === "suspended") await context.resume();
+  if (context.state !== "running") throw new Error("Tap the voice control again to enable audio playback.");
+
+  const { data: sessionData } = await supabase.auth.getSession();
+  const accessToken = sessionData.session?.access_token;
+  if (!accessToken) throw new Error("Authentication is required for agent voice.");
 
   const generation = ++speechGeneration;
-  stopActiveSource();
+  activeSpeechAbortController?.abort();
+  stopActiveSources();
+  const controller = new AbortController();
+  activeSpeechAbortController = controller;
 
-  const { data, error } = await supabase.functions.invoke("hlc-agent-voice", {
-    body: { agentId, text: cleanText },
-  });
+  let response: Response;
+  try {
+    response = await fetch(`${supabaseConfig.url}/functions/v1/hlc-agent-voice`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        apikey: supabaseConfig.anonKey,
+        "Content-Type": "application/json",
+      },
+      signal: controller.signal,
+      body: JSON.stringify({ agentId, text: cleanText }),
+    });
+  } catch (reason) {
+    if (controller.signal.aborted || generation !== speechGeneration) return false;
+    throw reason;
+  }
 
   if (generation !== speechGeneration) return false;
+  if (!response.ok) await throwVoiceResponseError(response);
 
-  if (error) {
-    const contextBody = (error as { context?: { json?: () => Promise<unknown> } }).context;
-    if (contextBody?.json) {
-      try {
-        const payload = await contextBody.json() as { error?: string };
-        if (payload?.error) throw new Error(payload.error);
-      } catch (reason) {
-        if (reason instanceof Error && reason.message) throw reason;
+  const contentType = response.headers.get("content-type")?.toLowerCase() ?? "";
+  if (contentType.includes("application/json")) {
+    return playLegacyBufferedResponse(context, response, generation);
+  }
+
+  if (!response.body) throw new Error("Neural voice returned no playable audio stream.");
+
+  const reader = response.body.getReader();
+  let nextPlaybackAt = context.currentTime + STREAM_START_LEAD_SECONDS;
+  let carry: number | null = null;
+  let started = false;
+
+  try {
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      if (generation !== speechGeneration) {
+        await reader.cancel();
+        return false;
       }
+      if (!value?.byteLength) continue;
+
+      let bytes = value;
+      if (carry !== null) {
+        const combined = new Uint8Array(value.byteLength + 1);
+        combined[0] = carry;
+        combined.set(value, 1);
+        bytes = combined;
+        carry = null;
+      }
+      if (bytes.byteLength % 2 === 1) {
+        carry = bytes[bytes.byteLength - 1];
+        bytes = bytes.subarray(0, bytes.byteLength - 1);
+      }
+      if (!bytes.byteLength) continue;
+
+      nextPlaybackAt = schedulePcmChunk(context, bytes, nextPlaybackAt);
+      started = true;
     }
-    throw new Error(error.message || "Neural voice generation failed.");
+  } finally {
+    if (activeSpeechAbortController === controller) activeSpeechAbortController = null;
   }
 
-  const payload = data as { audioBase64?: string; mimeType?: string; voice?: string } | null;
-  if (!payload?.audioBase64) throw new Error("Neural voice returned no playable audio.");
-
-  if (context.state === "suspended") await context.resume();
-  if (context.state !== "running") {
-    throw new Error("Audio is ready. Tap Replay again to play it on this device.");
-  }
-
-  const encodedAudio = base64ToArrayBuffer(payload.audioBase64);
-  const decodedAudio = await context.decodeAudioData(encodedAudio.slice(0));
-  if (generation !== speechGeneration) return false;
-
-  // A newer request may have begun while this audio was decoding. Re-check the
-  // generation and stop anything that managed to start before this source.
-  stopActiveSource();
-  const source = context.createBufferSource();
-  source.buffer = decodedAudio;
-  source.connect(context.destination);
-  source.onended = () => {
-    if (activeSource === source) activeSource = null;
-    source.disconnect();
-  };
-  activeSource = source;
-  source.start(0);
-  return true;
+  return started;
 }
 
 export function stopAgentSpeech() {
   if (typeof window === "undefined") return;
   speechGeneration += 1;
-  stopActiveSource();
+  activeSpeechAbortController?.abort();
+  activeSpeechAbortController = null;
+  stopActiveSources();
 }
