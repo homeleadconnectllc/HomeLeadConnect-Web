@@ -18,6 +18,7 @@ function defaultPreferences(): AgentVoicePreferences {
 
 let audioContext: AudioContext | null = null;
 let activeSource: AudioBufferSourceNode | null = null;
+let speechGeneration = 0;
 
 export function getAgentVoicePreferences(): AgentVoicePreferences {
   const defaults = defaultPreferences();
@@ -103,11 +104,15 @@ export async function speakAgentText(agentId: AgentId, text: string) {
 
   const context = getAudioContext();
   if (!context) throw new Error("Spoken replies are unavailable in this browser.");
+
+  const generation = ++speechGeneration;
   stopActiveSource();
 
   const { data, error } = await supabase.functions.invoke("hlc-agent-voice", {
     body: { agentId, text: cleanText },
   });
+
+  if (generation !== speechGeneration) return false;
 
   if (error) {
     const contextBody = (error as { context?: { json?: () => Promise<unknown> } }).context;
@@ -132,6 +137,11 @@ export async function speakAgentText(agentId: AgentId, text: string) {
 
   const encodedAudio = base64ToArrayBuffer(payload.audioBase64);
   const decodedAudio = await context.decodeAudioData(encodedAudio.slice(0));
+  if (generation !== speechGeneration) return false;
+
+  // A newer request may have begun while this audio was decoding. Re-check the
+  // generation and stop anything that managed to start before this source.
+  stopActiveSource();
   const source = context.createBufferSource();
   source.buffer = decodedAudio;
   source.connect(context.destination);
@@ -146,5 +156,6 @@ export async function speakAgentText(agentId: AgentId, text: string) {
 
 export function stopAgentSpeech() {
   if (typeof window === "undefined") return;
+  speechGeneration += 1;
   stopActiveSource();
 }

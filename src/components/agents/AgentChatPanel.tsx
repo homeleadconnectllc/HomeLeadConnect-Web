@@ -1,4 +1,4 @@
-import { useRef, useState, type CSSProperties, type FormEvent } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type FormEvent } from "react";
 import { chatWithAgent, type AgentChatMessage } from "../../api/agentChat";
 import { agents, type AgentId } from "../../ai/agents";
 import { errorMessage } from "../../lib/errorMessage";
@@ -61,6 +61,40 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
   const sendDisabled = busy || draft.trim().length === 0;
   const voicePersona = agents[agentId].voicePersona;
   const presence: PresenceState = listening ? "listening" : voiceBusy ? "speaking" : busy ? "thinking" : "available";
+
+  useEffect(() => {
+    if (!speechOutputSupported || !voicePreferences.enabled || !voicePreferences.autoSpeak) return;
+    const greetingKey = `hlc.agentRoomGreeting.v1:${agentId}`;
+    if (window.sessionStorage.getItem(greetingKey) === "1") return;
+
+    const greeting = `${agents[agentId].introduction} ${agents[agentId].question}`.trim();
+    let cancelled = false;
+
+    const playGreeting = async () => {
+      if (cancelled || window.sessionStorage.getItem(greetingKey) === "1") return;
+      try {
+        await prepareAgentAudio();
+        if (cancelled) return;
+        const played = await speakAgentText(agentId, greeting);
+        if (!cancelled && played) window.sessionStorage.setItem(greetingKey, "1");
+      } catch {
+        // Safari/iOS can require the first user gesture. Retry exactly once on
+        // the first interaction instead of spawning another voice source.
+      }
+    };
+
+    void playGreeting();
+    const unlock = () => { if (!cancelled) void playGreeting(); };
+    document.addEventListener("pointerdown", unlock, { once: true, capture: true });
+    document.addEventListener("keydown", unlock, { once: true, capture: true });
+
+    return () => {
+      cancelled = true;
+      document.removeEventListener("pointerdown", unlock, true);
+      document.removeEventListener("keydown", unlock, true);
+      stopAgentSpeech();
+    };
+  }, [agentId, speechOutputSupported, voicePreferences.autoSpeak, voicePreferences.enabled]);
 
   function updateVoicePreferences(next: AgentVoicePreferences) {
     setVoicePreferences(next);
