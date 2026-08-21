@@ -5,10 +5,13 @@ import test from "node:test";
 const applicationUi = readFileSync(new URL("../styles/application-workspace-ui.css", import.meta.url), "utf8");
 const authenticatedEntry = readFileSync(new URL("../styles/authenticated-entry.ts", import.meta.url), "utf8");
 
-test("application workspace UI is the final authenticated stylesheet authority", () => {
+test("application workspace UI remains the final structural authority beneath launch contrast", () => {
   const applicationImport = 'import "./application-workspace-ui.css";';
+  const contrastImport = 'import "./launch-contrast-readability.css";';
   assert.match(authenticatedEntry, /import "\.\/application-workspace-ui\.css";/);
-  assert.equal(authenticatedEntry.trim().split("\n").at(-1), applicationImport);
+  assert.match(authenticatedEntry, /import "\.\/launch-contrast-readability\.css";/);
+  assert.ok(authenticatedEntry.indexOf(applicationImport) < authenticatedEntry.indexOf(contrastImport));
+  assert.equal(authenticatedEntry.trim().split("\n").at(-1), contrastImport);
 });
 
 test("the routed workspace shell is flat instead of a giant card", () => {
