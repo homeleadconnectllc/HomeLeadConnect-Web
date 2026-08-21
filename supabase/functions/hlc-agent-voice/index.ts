@@ -13,21 +13,22 @@ const json = (body: Record<string, unknown>, status = 200) => new Response(JSON.
 });
 
 const VOICE_PROVIDER_TIMEOUT_MS = 12_000;
+const OPENAI_TTS_MODEL = "gpt-4o-mini-tts";
 
 type AgentId = "kendrell" | "dion" | "diamond";
 type ContextKind = "internal" | "resident_portal" | "professional_portal";
 
 const voiceProfiles: Record<AgentId, { voice: string; direction: string }> = {
   kendrell: {
-    voice: "Schedar",
+    voice: "cedar",
     direction: "Speak as a natural adult male executive operator: steady, confident, calm, lower-key, conversational, clean and full-voiced. Relaxed but not sleepy. Never whisper. Never sound breathy, raspy, scratchy, gravelly, spooky, theatrical, robotic, or like an announcer. Use normal conversational volume and smooth connected phrasing.",
   },
   dion: {
-    voice: "Sadaltager",
+    voice: "ash",
     direction: "Speak as a natural adult male business-intelligence operator: grounded, analytical, confident, precise and practical. Slightly quicker and crisper than Kendrell, but still conversational. Never whisper. Never sound breathy, raspy, scratchy, nasal, robotic, theatrical, or like a radio announcer.",
   },
   diamond: {
-    voice: "Sulafat",
+    voice: "coral",
     direction: "Speak as a natural adult female customer-experience guide: polished, calm, warm, composed and conversational. Smooth and measured, never childlike, breathy, whispery, sing-song, robotic, theatrical, or overly soft.",
   },
 };
@@ -41,42 +42,17 @@ function bytesToBase64(bytes: Uint8Array) {
   return btoa(binary);
 }
 
-function pcmToWav(pcm: Uint8Array, sampleRate = 24000) {
-  const header = new ArrayBuffer(44);
-  const view = new DataView(header);
-  const write = (offset: number, value: string) => {
-    for (let i = 0; i < value.length; i += 1) view.setUint8(offset + i, value.charCodeAt(i));
-  };
-  write(0, "RIFF");
-  view.setUint32(4, 36 + pcm.length, true);
-  write(8, "WAVE");
-  write(12, "fmt ");
-  view.setUint32(16, 16, true);
-  view.setUint16(20, 1, true);
-  view.setUint16(22, 1, true);
-  view.setUint32(24, sampleRate, true);
-  view.setUint32(28, sampleRate * 2, true);
-  view.setUint16(32, 2, true);
-  view.setUint16(34, 16, true);
-  write(36, "data");
-  view.setUint32(40, pcm.length, true);
-  const wav = new Uint8Array(44 + pcm.length);
-  wav.set(new Uint8Array(header), 0);
-  wav.set(pcm, 44);
-  return wav;
-}
-
 Deno.serve(async (request) => {
   if (request.method === "OPTIONS") return new Response("ok", { status: 200, headers: cors });
   if (request.method !== "POST") return json({ error: "Method not allowed." }, 405);
 
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
   const anonKey = Deno.env.get("SUPABASE_ANON_KEY");
-  const geminiKey = Deno.env.get("GEMINI_API_KEY") || Deno.env.get("GOOGLE_API_KEY");
+  const openaiKey = Deno.env.get("OPENAI_API_KEY");
   const authorization = request.headers.get("Authorization");
   if (!supabaseUrl || !anonKey) return json({ error: "HLC voice runtime configuration is incomplete." }, 503);
   if (!authorization) return json({ error: "Authentication is required." }, 401);
-  if (!geminiKey) return json({ error: "Neural voice provider is not configured.", code: "VOICE_PROVIDER_NOT_CONFIGURED", fallbackToText: true }, 503);
+  if (!openaiKey) return json({ error: "Neural voice provider is not configured.", code: "VOICE_PROVIDER_NOT_CONFIGURED", fallbackToText: true }, 503);
 
   const userClient = createClient(supabaseUrl, anonKey, { global: { headers: { Authorization: authorization } } });
   const { data: userData, error: userError } = await userClient.auth.getUser();
@@ -125,24 +101,27 @@ Deno.serve(async (request) => {
 
   let providerResponse: Response;
   try {
-    providerResponse = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent", {
+    providerResponse = await fetch("https://api.openai.com/v1/audio/speech", {
       method: "POST",
-      headers: { "Content-Type": "application/json", "x-goog-api-key": geminiKey },
+      headers: {
+        "Authorization": `Bearer ${openaiKey}`,
+        "Content-Type": "application/json",
+      },
       signal: controller.signal,
       body: JSON.stringify({
-        contents: [{ parts: [{ text: `${profileConfig.direction}\n\nRead this exact HLC reply aloud without adding or removing words:\n${text}` }] }],
-        generationConfig: {
-          responseModalities: ["AUDIO"],
-          speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: profileConfig.voice } } },
-        },
+        model: OPENAI_TTS_MODEL,
+        voice: profileConfig.voice,
+        input: text,
+        instructions: profileConfig.direction,
+        response_format: "wav",
       }),
     });
   } catch (reason) {
     if (controller.signal.aborted) {
-      console.error("Gemini TTS provider timeout", VOICE_PROVIDER_TIMEOUT_MS);
+      console.error("OpenAI TTS provider timeout", VOICE_PROVIDER_TIMEOUT_MS);
       return json({ error: "Voice generation took too long. Continue with the text reply.", code: "VOICE_PROVIDER_TIMEOUT", retryable: true, fallbackToText: true }, 504);
     }
-    console.error("Gemini TTS network error", reason instanceof Error ? reason.message.slice(0, 300) : "unknown");
+    console.error("OpenAI TTS network error", reason instanceof Error ? reason.message.slice(0, 300) : "unknown");
     return json({ error: "Voice generation is temporarily unavailable. Continue with the text reply.", code: "VOICE_PROVIDER_NETWORK_ERROR", retryable: true, fallbackToText: true }, 502);
   } finally {
     clearTimeout(timeoutId);
@@ -150,16 +129,12 @@ Deno.serve(async (request) => {
 
   if (!providerResponse.ok) {
     const providerText = (await providerResponse.text()).slice(0, 500);
-    console.error("Gemini TTS provider error", providerResponse.status, providerText);
+    console.error("OpenAI TTS provider error", providerResponse.status, providerText);
     return json({ error: "Voice generation is temporarily unavailable. Continue with the text reply.", code: `VOICE_PROVIDER_${providerResponse.status}`, retryable: providerResponse.status === 429 || providerResponse.status >= 500, fallbackToText: true }, 502);
   }
 
-  const providerData = await providerResponse.json();
-  const inline = providerData?.candidates?.[0]?.content?.parts?.find((part: { inlineData?: { data?: string; mimeType?: string } }) => part?.inlineData?.data)?.inlineData;
-  if (!inline?.data) return json({ error: "Voice provider returned no audio. Continue with the text reply.", code: "VOICE_PROVIDER_EMPTY_AUDIO", retryable: true, fallbackToText: true }, 502);
+  const wav = new Uint8Array(await providerResponse.arrayBuffer());
+  if (!wav.length) return json({ error: "Voice provider returned no audio. Continue with the text reply.", code: "VOICE_PROVIDER_EMPTY_AUDIO", retryable: true, fallbackToText: true }, 502);
 
-  const raw = Uint8Array.from(atob(inline.data), (char) => char.charCodeAt(0));
-  const isWav = String(inline.mimeType || "").toLowerCase().includes("wav");
-  const wav = isWav ? raw : pcmToWav(raw, 24000);
-  return json({ agentId, provider: "gemini-2.5-flash-preview-tts", voice: profileConfig.voice, mimeType: "audio/wav", audioBase64: bytesToBase64(wav) });
+  return json({ agentId, provider: OPENAI_TTS_MODEL, voice: profileConfig.voice, mimeType: "audio/wav", audioBase64: bytesToBase64(wav) });
 });
