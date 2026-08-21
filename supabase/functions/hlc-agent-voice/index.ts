@@ -5,15 +5,17 @@ const cors = {
   "Access-Control-Allow-Headers": "authorization, apikey, content-type, x-client-info",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
   "Access-Control-Max-Age": "86400",
+  "Access-Control-Expose-Headers": "content-type, x-hlc-agent, x-hlc-provider, x-hlc-voice, x-hlc-sample-rate",
 };
 
 const json = (body: Record<string, unknown>, status = 200) => new Response(JSON.stringify(body), {
   status,
-  headers: { ...cors, "Content-Type": "application/json" },
+  headers: { ...cors, "Content-Type": "application/json", "Cache-Control": "no-store" },
 });
 
 const VOICE_PROVIDER_TIMEOUT_MS = 12_000;
 const OPENAI_TTS_MODEL = "gpt-4o-mini-tts";
+const PCM_SAMPLE_RATE = 24_000;
 
 type AgentId = "kendrell" | "dion" | "diamond";
 type ContextKind = "internal" | "resident_portal" | "professional_portal";
@@ -38,15 +40,6 @@ const voiceProfiles: Record<AgentId, { voice: string; providerVoice: string; dir
 
 function applyCanonicalPronunciations(text: string) {
   return text.replace(/\bDion\b/gi, "Dee-Yon");
-}
-
-function bytesToBase64(bytes: Uint8Array) {
-  let binary = "";
-  const chunk = 0x8000;
-  for (let i = 0; i < bytes.length; i += chunk) {
-    binary += String.fromCharCode(...bytes.subarray(i, Math.min(i + chunk, bytes.length)));
-  }
-  return btoa(binary);
 }
 
 Deno.serve(async (request) => {
@@ -103,8 +96,8 @@ Deno.serve(async (request) => {
   if (contextKind === "professional_portal" && agentId !== "dion") return json({ error: "Dion is the professional portal assistant." }, 403);
 
   const profileConfig = voiceProfiles[agentId];
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort("voice_provider_timeout"), VOICE_PROVIDER_TIMEOUT_MS);
+  const providerAbort = new AbortController();
+  const timeoutId = setTimeout(() => providerAbort.abort("voice_provider_timeout"), VOICE_PROVIDER_TIMEOUT_MS);
 
   let providerResponse: Response;
   try {
@@ -114,25 +107,26 @@ Deno.serve(async (request) => {
         "Authorization": `Bearer ${openaiKey}`,
         "Content-Type": "application/json",
       },
-      signal: controller.signal,
+      signal: providerAbort.signal,
       body: JSON.stringify({
         model: OPENAI_TTS_MODEL,
         voice: profileConfig.providerVoice,
         input: applyCanonicalPronunciations(text),
         instructions: profileConfig.direction,
-        response_format: "wav",
+        response_format: "pcm",
+        stream_format: "audio",
       }),
     });
   } catch (reason) {
-    if (controller.signal.aborted) {
+    clearTimeout(timeoutId);
+    if (providerAbort.signal.aborted) {
       console.error("OpenAI TTS provider timeout", VOICE_PROVIDER_TIMEOUT_MS);
       return json({ error: "Voice generation took too long. Continue with the text reply.", code: "VOICE_PROVIDER_TIMEOUT", retryable: true, fallbackToText: true }, 504);
     }
     console.error("OpenAI TTS network error", reason instanceof Error ? reason.message.slice(0, 300) : "unknown");
     return json({ error: "Voice generation is temporarily unavailable. Continue with the text reply.", code: "VOICE_PROVIDER_NETWORK_ERROR", retryable: true, fallbackToText: true }, 502);
-  } finally {
-    clearTimeout(timeoutId);
   }
+  clearTimeout(timeoutId);
 
   if (!providerResponse.ok) {
     const providerText = (await providerResponse.text()).slice(0, 500);
@@ -140,8 +134,21 @@ Deno.serve(async (request) => {
     return json({ error: "Voice generation is temporarily unavailable. Continue with the text reply.", code: `VOICE_PROVIDER_${providerResponse.status}`, retryable: providerResponse.status === 429 || providerResponse.status >= 500, fallbackToText: true }, 502);
   }
 
-  const wav = new Uint8Array(await providerResponse.arrayBuffer());
-  if (!wav.length) return json({ error: "Voice provider returned no audio. Continue with the text reply.", code: "VOICE_PROVIDER_EMPTY_AUDIO", retryable: true, fallbackToText: true }, 502);
+  if (!providerResponse.body) {
+    return json({ error: "Voice provider returned no audio. Continue with the text reply.", code: "VOICE_PROVIDER_EMPTY_AUDIO", retryable: true, fallbackToText: true }, 502);
+  }
 
-  return json({ agentId, provider: OPENAI_TTS_MODEL, voice: profileConfig.voice, providerVoice: profileConfig.providerVoice, mimeType: "audio/wav", audioBase64: bytesToBase64(wav) });
+  return new Response(providerResponse.body, {
+    status: 200,
+    headers: {
+      ...cors,
+      "Content-Type": "audio/pcm",
+      "Cache-Control": "no-store, no-transform",
+      "X-Content-Type-Options": "nosniff",
+      "X-HLC-Agent": agentId,
+      "X-HLC-Provider": OPENAI_TTS_MODEL,
+      "X-HLC-Voice": profileConfig.voice,
+      "X-HLC-Sample-Rate": String(PCM_SAMPLE_RATE),
+    },
+  });
 });
