@@ -52,6 +52,7 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
   const [busy, setBusy] = useState(false);
   const [listening, setListening] = useState(false);
   const [error, setError] = useState("");
+  const [fallbackMode, setFallbackMode] = useState(false);
   const [voiceBusy, setVoiceBusy] = useState(false);
   const [voicePreferences, setVoicePreferences] = useState<AgentVoicePreferences>(() => getAgentVoicePreferences());
   const recognitionRef = useRef<RecognitionLike | null>(null);
@@ -102,11 +103,25 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
     setMessages([...prior, { role: "user", text: clean }]);
     try {
       const response = await chatWithAgent(agentId, clean, prior);
-      setMessages((current) => [...current, { role: "model", text: response.reply }]);
+      const previousModelReply = [...prior].reverse().find((item) => item.role === "model")?.text.trim() ?? "";
+      const repeatedFallback = Boolean(response.fallback && previousModelReply && previousModelReply === response.reply.trim());
+      setFallbackMode(Boolean(response.fallback));
+
+      if (repeatedFallback) {
+        setError(`${agentName}'s live reasoning provider is temporarily unavailable. HLC kept the existing verified fallback instead of repeating the same response.`);
+      } else {
+        setMessages((current) => [...current, { role: "model", text: response.reply }]);
+        if (response.fallback) {
+          setError(`${agentName} is using verified HLC fallback guidance right now. Live reasoning will resume automatically when the provider is available.`);
+        }
+      }
+
       // Voice is progressive enhancement. Never hold the successful text reply,
       // send controls, or conversation state open while audio generation runs.
-      if (voicePreferences.enabled && voicePreferences.autoSpeak) void speak(response.reply, false);
+      // Do not repeatedly speak degraded fallback copy as though it were a fresh live answer.
+      if (!response.fallback && voicePreferences.enabled && voicePreferences.autoSpeak) void speak(response.reply, false);
     } catch (reason) {
+      setFallbackMode(false);
       setError(errorMessage(reason, `${agentName} is temporarily unavailable. Try again in a moment.`));
     } finally {
       setBusy(false);
@@ -157,7 +172,7 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
     }
   }
 
-  return <section className="hlc-ai-chat" style={{ "--chat-agent-accent": accent } as CSSProperties} aria-labelledby={`${agentId}-chat-title`} data-presence={presence} data-agent-experience="premium-conversation-v2">
+  return <section className="hlc-ai-chat" style={{ "--chat-agent-accent": accent } as CSSProperties} aria-labelledby={`${agentId}-chat-title`} data-presence={presence} data-agent-experience="premium-conversation-v2" data-response-mode={fallbackMode ? "fallback" : "live"}>
     <header className="hlc-ai-chat-head">
       <div className="hlc-ai-presence-avatar" data-state={presence}>
         <img src={avatarByAgent[agentId]} alt="" aria-hidden="true" />
@@ -165,7 +180,7 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
       </div>
       <div>
         <h2 id={`${agentId}-chat-title`}>{agentName}</h2>
-        <p>{presence === "thinking" ? "Thinking" : presence === "listening" ? "Listening" : presence === "speaking" ? "Speaking" : "Ready"}</p>
+        <p>{presence === "thinking" ? "Thinking" : presence === "listening" ? "Listening" : presence === "speaking" ? "Speaking" : fallbackMode ? "Verified fallback" : "Ready"}</p>
       </div>
     </header>
 
