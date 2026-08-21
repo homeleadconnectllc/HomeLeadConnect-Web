@@ -27,7 +27,7 @@ const voiceProfiles: Record<AgentId, { voice: string; providerVoice: string; dir
   dion: {
     voice: "Sadaltager",
     providerVoice: "ash",
-    direction: "Speak as a natural adult male business-intelligence operator: grounded, analytical, confident, precise and practical. Slightly quicker and crisper than Kendrell, but still conversational. Never whisper. Never sound breathy, raspy, scratchy, nasal, robotic, theatrical, or like a radio announcer.",
+    direction: "Speak as a natural adult male business-intelligence operator: grounded, analytical, confident, precise and practical. Slightly quicker and crisper than Kendrell, but still conversational. Pronounce the name Dion as Dee-Yon. Never whisper. Never sound breathy, raspy, scratchy, nasal, robotic, theatrical, or like a radio announcer.",
   },
   diamond: {
     voice: "Sulafat",
@@ -35,6 +35,10 @@ const voiceProfiles: Record<AgentId, { voice: string; providerVoice: string; dir
     direction: "Speak as a natural adult female customer-experience guide: polished, calm, warm, composed and conversational. Smooth and measured, never childlike, breathy, whispery, sing-song, robotic, theatrical, or overly soft.",
   },
 };
+
+function applyCanonicalPronunciations(text: string) {
+  return text.replace(/\bDion\b/gi, "Dee-Yon");
+}
 
 function bytesToBase64(bytes: Uint8Array) {
   let binary = "";
@@ -114,7 +118,7 @@ Deno.serve(async (request) => {
       body: JSON.stringify({
         model: OPENAI_TTS_MODEL,
         voice: profileConfig.providerVoice,
-        input: text,
+        input: applyCanonicalPronunciations(text),
         instructions: profileConfig.direction,
         response_format: "wav",
       }),
