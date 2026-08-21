@@ -40,7 +40,7 @@ test("successful text chat never waits for automatic voice generation", () => {
   assert.match(agentChatPanel, /if \(reportError\) setError/);
 });
 
-test("every canonical agent room gets one proactive spoken greeting per session", () => {
+test("every canonical agent room gets one proactive spoken greeting per session after voice opt-in", () => {
   assert.match(agentChatPanel, /hlc\.agentRoomGreeting\.v1:\$\{agentId\}/);
   assert.match(agentChatPanel, /agents\[agentId\]\.introduction/);
   assert.match(agentChatPanel, /agents\[agentId\]\.question/);
@@ -48,8 +48,8 @@ test("every canonical agent room gets one proactive spoken greeting per session"
   assert.match(agentChatPanel, /stopAgentSpeech\(\)/);
 });
 
-test("agent voice defaults on and rejects stale overlapping speech generations", () => {
-  assert.match(agentVoice, /return \{ enabled: true, autoSpeak: true \}/);
+test("agent voice stays explicit opt-in and rejects stale overlapping speech generations", () => {
+  assert.match(agentVoice, /return \{ enabled: false, autoSpeak: false \}/);
   assert.match(agentVoice, /let speechGeneration = 0/);
   assert.match(agentVoice, /const generation = \+\+speechGeneration/);
   assert.match(agentVoice, /if \(generation !== speechGeneration\) return false/);
