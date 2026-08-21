@@ -1,0 +1,199 @@
+/* Final launch readability authority.
+   HLC uses a deep-navy operating canvas with explicit high-contrast foregrounds.
+   Route layouts remain route-specific; this file only standardizes visual tokens,
+   readable controls, and mobile contrast. WCAG AA target: normal text >= 4.5:1. */
+
+.hlc-signed-in-shell {
+  --hlc-launch-canvas: #071426;
+  --hlc-launch-surface: #0d1b2f;
+  --hlc-launch-surface-raised: #10243e;
+  --hlc-launch-line: #28415f;
+  --hlc-launch-text: #f8fafc;
+  --hlc-launch-muted: #c2cede;
+  --hlc-launch-subtle: #9fb0c5;
+  --hlc-launch-blue: #2563eb;
+  --hlc-launch-blue-soft: #93c5fd;
+}
+
+.hlc-signed-in-shell,
+.hlc-signed-in-shell > .hlc-route-content,
+.hlc-signed-in-shell > .hlc-route-content > main {
+  background: var(--hlc-launch-canvas) !important;
+  color: var(--hlc-launch-text) !important;
+}
+
+/* Center the page-level heading block while preserving task/data alignment inside each route. */
+.hlc-signed-in-shell > .hlc-route-content > main > header {
+  width: min(100%, 980px);
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center !important;
+}
+
+.hlc-signed-in-shell > .hlc-route-content > main > header :is(h1,h2,p) {
+  text-align: center !important;
+}
+
+/* Never allow inherited light-theme ink on the dark operating canvas. */
+.hlc-signed-in-shell > .hlc-route-content :is(h1,h2,h3,h4,h5,h6,strong,b,legend,dt) {
+  color: var(--hlc-launch-text) !important;
+  -webkit-text-fill-color: currentColor !important;
+  opacity: 1 !important;
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(p,li,label,td,dd,span,small,time) {
+  color: var(--hlc-launch-muted);
+  -webkit-text-fill-color: currentColor;
+}
+
+.hlc-signed-in-shell > .hlc-route-content small,
+.hlc-signed-in-shell > .hlc-route-content [class*="-meta"],
+.hlc-signed-in-shell > .hlc-route-content [class*="-context"],
+.hlc-signed-in-shell > .hlc-route-content [class*="-subtitle"] {
+  color: var(--hlc-launch-subtle) !important;
+}
+
+/* Inputs are intentionally dark, not light islands inside a navy workspace. */
+.hlc-signed-in-shell > .hlc-route-content :is(input,select,textarea) {
+  border-color: var(--hlc-launch-line) !important;
+  background: #0a192c !important;
+  color: var(--hlc-launch-text) !important;
+  caret-color: var(--hlc-launch-blue-soft);
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(input,textarea)::placeholder {
+  color: #9aabc0 !important;
+  opacity: 1 !important;
+}
+
+.hlc-signed-in-shell > .hlc-route-content select option {
+  background: #0a192c;
+  color: var(--hlc-launch-text);
+}
+
+/* Buttons must never place blue/dark text on a dark-blue fill. */
+.hlc-signed-in-shell > .hlc-route-content :is(button,a[role="button"]),
+.hlc-signed-in-shell > .hlc-route-content [class*="-action"]:is(a,button) {
+  border-color: #3b5f88 !important;
+  background: #112744 !important;
+  color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(button,a[role="button"]):hover,
+.hlc-signed-in-shell > .hlc-route-content [class*="-action"]:is(a,button):hover {
+  border-color: #60a5fa !important;
+  background: #17365d !important;
+}
+
+.hlc-signed-in-shell > .hlc-route-content :is(button,a,[tabindex]):focus-visible {
+  outline: 3px solid #7dd3fc !important;
+  outline-offset: 2px !important;
+}
+
+/* Primary CTAs keep HLC blue with white copy. */
+.hlc-signed-in-shell > .hlc-route-content :is(.hlc-leads-add-button,.hlc-leads-create button,.hlc-lead-action-primary,[class*="-primary"]):is(a,button) {
+  border-color: var(--hlc-launch-blue) !important;
+  background: var(--hlc-launch-blue) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Explicit semantic surfaces stay dark and separated by structure, not card decoration. */
+.hlc-signed-in-shell .hlc-route-content [data-ui-surface="object"],
+.hlc-signed-in-shell .hlc-route-content [data-ui-surface="inspector"],
+.hlc-signed-in-shell .hlc-route-content [data-ui-surface="dialog"] {
+  border-color: var(--hlc-launch-line) !important;
+  background: var(--hlc-launch-surface) !important;
+  color: var(--hlc-launch-text) !important;
+}
+
+/* Leads: the production mobile screenshot exposed inherited light-theme colors here. */
+.hlc-signed-in-shell .hlc-leads-workspace {
+  color: var(--hlc-launch-text) !important;
+}
+
+.hlc-signed-in-shell .hlc-leads-header h1,
+.hlc-signed-in-shell .hlc-leads-summary strong,
+.hlc-signed-in-shell .hlc-lead-identity-copy > strong,
+.hlc-signed-in-shell .hlc-lead-pipeline-cell strong {
+  color: var(--hlc-launch-text) !important;
+  -webkit-text-fill-color: var(--hlc-launch-text) !important;
+}
+
+.hlc-signed-in-shell .hlc-lead-contact-line,
+.hlc-signed-in-shell .hlc-lead-context,
+.hlc-signed-in-shell .hlc-lead-sla,
+.hlc-signed-in-shell .hlc-lead-cell-label,
+.hlc-signed-in-shell .hlc-leads-view-label,
+.hlc-signed-in-shell .hlc-leads-summary small {
+  color: var(--hlc-launch-muted) !important;
+  -webkit-text-fill-color: var(--hlc-launch-muted) !important;
+}
+
+.hlc-signed-in-shell .hlc-lead-row {
+  border-bottom-color: var(--hlc-launch-line) !important;
+  background: transparent !important;
+}
+
+.hlc-signed-in-shell .hlc-lead-row:hover,
+.hlc-signed-in-shell .hlc-lead-row:focus-within {
+  background: #102744 !important;
+}
+
+.hlc-signed-in-shell .hlc-lead-actions a,
+.hlc-signed-in-shell .hlc-lead-actions button {
+  border-color: #3b5f88 !important;
+  background: #112744 !important;
+  color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
+}
+
+.hlc-signed-in-shell .hlc-leads-search {
+  border-color: var(--hlc-launch-line) !important;
+  background: #0a192c !important;
+  color: var(--hlc-launch-muted) !important;
+}
+
+/* Preserve legibility in common dense workspaces. */
+.hlc-signed-in-shell .hlc-route-content :is(table,thead,tbody,tr,th,td),
+.hlc-signed-in-shell .hlc-route-content [class*="-row"] {
+  border-color: var(--hlc-launch-line);
+}
+
+.hlc-signed-in-shell .hlc-route-content th {
+  color: #dce7f5 !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content a:not([role="button"]):not(.hlc-lead-identity) {
+  color: #93c5fd;
+}
+
+@media (max-width: 760px) {
+  .hlc-signed-in-shell > .hlc-route-content > main {
+    padding-left: max(16px, env(safe-area-inset-left)) !important;
+    padding-right: max(16px, env(safe-area-inset-right)) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-lead-row {
+    padding: 16px 4px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-lead-identity-copy > strong {
+    font-size: 1rem !important;
+    line-height: 1.35 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-lead-contact-line,
+  .hlc-signed-in-shell .hlc-lead-context,
+  .hlc-signed-in-shell .hlc-lead-sla {
+    font-size: .78rem !important;
+    line-height: 1.45 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-lead-actions a,
+  .hlc-signed-in-shell .hlc-lead-actions button {
+    min-height: 44px !important;
+    padding-inline: 12px !important;
+  }
+}
