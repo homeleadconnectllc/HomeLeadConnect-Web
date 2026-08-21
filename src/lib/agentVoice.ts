@@ -13,7 +13,7 @@ type AudioContextWindow = typeof window & {
 const STORAGE_KEY = "hlc.agentVoicePreferences.v3";
 
 function defaultPreferences(): AgentVoicePreferences {
-  return { enabled: true, autoSpeak: true };
+  return { enabled: false, autoSpeak: false };
 }
 
 let audioContext: AudioContext | null = null;
