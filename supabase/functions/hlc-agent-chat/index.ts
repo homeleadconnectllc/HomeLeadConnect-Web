@@ -11,9 +11,13 @@ const json = (body: Record<string, unknown>, status = 200) => new Response(JSON.
   headers: { ...cors, "Content-Type": "application/json" },
 });
 
+const OPENAI_CHAT_MODEL = "gpt-5.6-terra";
+const CHAT_PROVIDER_TIMEOUT_MS = 12_000;
+
 type AgentId = "kendrell" | "dion" | "diamond";
 type ChatMessage = { role: "user" | "model"; text: string };
 type ContextKind = "internal" | "resident_portal" | "professional_portal";
+type FallbackReason = "provider_key_missing" | "provider_timeout" | "provider_network_error" | `provider_http_${number}` | "provider_empty_response";
 
 type OperationsSnapshot = {
   openLeads: number;
@@ -97,6 +101,24 @@ function escalationSignals(message: string, history: ChatMessage[]) {
   return { repeated, asksForHuman, frustration, sensitive };
 }
 
+function extractOpenAIResponseText(payload: unknown) {
+  if (!payload || typeof payload !== "object") return "";
+  const output = (payload as { output?: unknown[] }).output;
+  if (!Array.isArray(output)) return "";
+  const pieces: string[] = [];
+  for (const item of output) {
+    if (!item || typeof item !== "object") continue;
+    const content = (item as { content?: unknown[] }).content;
+    if (!Array.isArray(content)) continue;
+    for (const part of content) {
+      if (!part || typeof part !== "object") continue;
+      const typed = part as { type?: string; text?: string };
+      if (typed.type === "output_text" && typeof typed.text === "string") pieces.push(typed.text);
+    }
+  }
+  return pieces.join("").trim();
+}
+
 async function buildInternalSnapshot(admin: ReturnType<typeof createClient>, workspaceId: string, userId: string): Promise<OperationsSnapshot> {
   const nowIso = new Date().toISOString();
   const dayAheadIso = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
@@ -150,7 +172,7 @@ Deno.serve(async (request) => {
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
   const anonKey = Deno.env.get("SUPABASE_ANON_KEY");
   const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
-  const geminiKey = Deno.env.get("GEMINI_API_KEY") || Deno.env.get("GOOGLE_API_KEY");
+  const openaiKey = Deno.env.get("OPENAI_API_KEY");
   const authorization = request.headers.get("Authorization");
   if (!supabaseUrl || !anonKey || !serviceKey) return json({ error: "HLC runtime configuration is incomplete." }, 503);
   if (!authorization) return json({ error: "Authentication is required." }, 401);
@@ -229,31 +251,29 @@ Deno.serve(async (request) => {
   }).select("id").single();
   if (recordError) console.error("Agent advisory activity record failed", recordError.code);
 
-  const completeRecordedRun = async (status: "succeeded" | "failed", model: string, reply: string, fallback: boolean) => {
+  const completeRecordedRun = async (model: string, reply: string, fallback: boolean, fallbackReason?: FallbackReason) => {
     if (!recordedRun?.id) return;
-    const update = status === "succeeded"
-      ? { status, result_summary: { model, fallback, reply_length: reply.length, advisory_only: true }, completed_at: new Date().toISOString() }
-      : { status, error_code: "PROVIDER_ERROR", error_summary: "The live advisory provider was unavailable.", completed_at: new Date().toISOString() };
+    const update = {
+      status: "succeeded",
+      result_summary: { model, fallback, fallback_reason: fallbackReason ?? null, reply_length: reply.length, advisory_only: true },
+      error_code: fallbackReason ? fallbackReason.toUpperCase() : null,
+      error_summary: fallbackReason ? `Live advisory provider fallback: ${fallbackReason}.` : null,
+      completed_at: new Date().toISOString(),
+    };
     const { error } = await admin.from("ai_agent_runs").update(update).eq("id", recordedRun.id);
     if (error) console.error("Agent advisory activity completion failed", error.code);
   };
 
-  if (!geminiKey) {
+  const returnFallback = async (reason: FallbackReason) => {
     const reply = fallbackReply(agentId, contextKind, snapshot);
-    await completeRecordedRun("succeeded", "hlc-deterministic-fallback", reply, true);
-    return json({
-      agentId,
-      model: "hlc-deterministic-fallback",
-      reply,
-      advisoryOnly: true,
-      fallback: true,
-      contextKind,
-    });
-  }
+    await completeRecordedRun("hlc-deterministic-fallback", reply, true, reason);
+    return json({ agentId, model: "hlc-deterministic-fallback", reply, advisoryOnly: true, fallback: true, fallbackReason: reason, contextKind });
+  };
+
+  if (!openaiKey) return await returnFallback("provider_key_missing");
 
   const rawHistory = Array.isArray(body.history) ? body.history.slice(-8)
     .filter((item) => item && (item.role === "user" || item.role === "model") && typeof item.text === "string") : [];
-  const history = rawHistory.map((item) => ({ role: item.role, parts: [{ text: item.text.slice(0, 4000) }] }));
   const signals = escalationSignals(message, rawHistory);
 
   const internalSnapshot = contextKind === "internal"
@@ -270,33 +290,47 @@ Authorized operating metrics: ${internalSnapshot}.
 ${escalationContext}.
 Never expose the workspace identifier itself in your response.`;
 
-  const providerResponse = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent", {
-    method: "POST",
-    headers: { "Content-Type": "application/json", "x-goog-api-key": geminiKey },
-    body: JSON.stringify({
-      systemInstruction: { parts: [{ text: systemInstruction }] },
-      contents: [...history, { role: "user", parts: [{ text: message }] }],
-      generationConfig: { maxOutputTokens: 1200, temperature: 0.35 },
-    }),
-  });
+  const conversation = rawHistory.length
+    ? rawHistory.map((item) => `${item.role === "user" ? "User" : agentId}: ${item.text.slice(0, 4000)}`).join("\n")
+    : "No prior conversation in this session.";
+  const input = `Recent conversation:\n${conversation}\n\nCurrent user message:\n${message}`;
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort("chat_provider_timeout"), CHAT_PROVIDER_TIMEOUT_MS);
+  let providerResponse: Response;
+  try {
+    providerResponse = await fetch("https://api.openai.com/v1/responses", {
+      method: "POST",
+      signal: controller.signal,
+      headers: {
+        "Authorization": `Bearer ${openaiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: OPENAI_CHAT_MODEL,
+        instructions: systemInstruction,
+        input,
+        max_output_tokens: 1200,
+      }),
+    });
+  } catch (reason) {
+    const fallbackReason: FallbackReason = controller.signal.aborted ? "provider_timeout" : "provider_network_error";
+    console.error("OpenAI chat provider request failed", fallbackReason, reason instanceof Error ? reason.message.slice(0, 300) : "unknown");
+    return await returnFallback(fallbackReason);
+  } finally {
+    clearTimeout(timeoutId);
+  }
 
   if (!providerResponse.ok) {
     const providerText = (await providerResponse.text()).slice(0, 500);
-    console.error("Gemini provider error", providerResponse.status, providerText);
-    const reply = fallbackReply(agentId, contextKind, snapshot);
-    await completeRecordedRun("succeeded", "hlc-deterministic-fallback", reply, true);
-    return json({ agentId, model: "hlc-deterministic-fallback", reply, advisoryOnly: true, fallback: true, contextKind });
+    console.error("OpenAI chat provider error", providerResponse.status, providerText);
+    return await returnFallback(`provider_http_${providerResponse.status}`);
   }
 
   const providerData = await providerResponse.json();
-  const reply = providerData?.candidates?.[0]?.content?.parts
-    ?.map((part: { text?: string }) => part.text ?? "").join("").trim();
-  if (!reply) {
-    const fallback = fallbackReply(agentId, contextKind, snapshot);
-    await completeRecordedRun("succeeded", "hlc-deterministic-fallback", fallback, true);
-    return json({ agentId, model: "hlc-deterministic-fallback", reply: fallback, advisoryOnly: true, fallback: true, contextKind });
-  }
+  const reply = extractOpenAIResponseText(providerData);
+  if (!reply) return await returnFallback("provider_empty_response");
 
-  await completeRecordedRun("succeeded", "gemini-2.5-flash", reply, false);
-  return json({ agentId, model: "gemini-2.5-flash", reply, advisoryOnly: true, fallback: false, contextKind });
+  await completeRecordedRun(OPENAI_CHAT_MODEL, reply, false);
+  return json({ agentId, model: OPENAI_CHAT_MODEL, reply, advisoryOnly: true, fallback: false, contextKind });
 });
