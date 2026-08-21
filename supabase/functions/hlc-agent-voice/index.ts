@@ -18,17 +18,20 @@ const OPENAI_TTS_MODEL = "gpt-4o-mini-tts";
 type AgentId = "kendrell" | "dion" | "diamond";
 type ContextKind = "internal" | "resident_portal" | "professional_portal";
 
-const voiceProfiles: Record<AgentId, { voice: string; direction: string }> = {
+const voiceProfiles: Record<AgentId, { voice: string; providerVoice: string; direction: string }> = {
   kendrell: {
-    voice: "cedar",
+    voice: "Schedar",
+    providerVoice: "cedar",
     direction: "Speak as a natural adult male executive operator: steady, confident, calm, lower-key, conversational, clean and full-voiced. Relaxed but not sleepy. Never whisper. Never sound breathy, raspy, scratchy, gravelly, spooky, theatrical, robotic, or like an announcer. Use normal conversational volume and smooth connected phrasing.",
   },
   dion: {
-    voice: "ash",
+    voice: "Sadaltager",
+    providerVoice: "ash",
     direction: "Speak as a natural adult male business-intelligence operator: grounded, analytical, confident, precise and practical. Slightly quicker and crisper than Kendrell, but still conversational. Never whisper. Never sound breathy, raspy, scratchy, nasal, robotic, theatrical, or like a radio announcer.",
   },
   diamond: {
-    voice: "coral",
+    voice: "Sulafat",
+    providerVoice: "coral",
     direction: "Speak as a natural adult female customer-experience guide: polished, calm, warm, composed and conversational. Smooth and measured, never childlike, breathy, whispery, sing-song, robotic, theatrical, or overly soft.",
   },
 };
@@ -110,7 +113,7 @@ Deno.serve(async (request) => {
       signal: controller.signal,
       body: JSON.stringify({
         model: OPENAI_TTS_MODEL,
-        voice: profileConfig.voice,
+        voice: profileConfig.providerVoice,
         input: text,
         instructions: profileConfig.direction,
         response_format: "wav",
@@ -136,5 +139,5 @@ Deno.serve(async (request) => {
   const wav = new Uint8Array(await providerResponse.arrayBuffer());
   if (!wav.length) return json({ error: "Voice provider returned no audio. Continue with the text reply.", code: "VOICE_PROVIDER_EMPTY_AUDIO", retryable: true, fallbackToText: true }, 502);
 
-  return json({ agentId, provider: OPENAI_TTS_MODEL, voice: profileConfig.voice, mimeType: "audio/wav", audioBase64: bytesToBase64(wav) });
+  return json({ agentId, provider: OPENAI_TTS_MODEL, voice: profileConfig.voice, providerVoice: profileConfig.providerVoice, mimeType: "audio/wav", audioBase64: bytesToBase64(wav) });
 });
