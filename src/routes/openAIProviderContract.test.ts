@@ -18,14 +18,17 @@ test("agent chat uses the server-side OpenAI Responses API without weakening HLC
   assert.match(chat, /provider_timeout/);
 });
 
-test("agent voice uses OpenAI speech generation while keeping identity-specific directions and access boundaries", () => {
+test("agent voice uses OpenAI speech generation while preserving canonical HLC voice identities and access boundaries", () => {
   assert.match(voice, /Deno\.env\.get\("OPENAI_API_KEY"\)/);
   assert.match(voice, /https:\/\/api\.openai\.com\/v1\/audio\/speech/);
   assert.match(voice, /gpt-4o-mini-tts/);
   assert.doesNotMatch(voice, /generativelanguage\.googleapis\.com/);
-  assert.match(voice, /voice: "cedar"/);
-  assert.match(voice, /voice: "ash"/);
-  assert.match(voice, /voice: "coral"/);
+  assert.match(voice, /voice: "Schedar"/);
+  assert.match(voice, /providerVoice: "cedar"/);
+  assert.match(voice, /voice: "Sadaltager"/);
+  assert.match(voice, /providerVoice: "ash"/);
+  assert.match(voice, /voice: "Sulafat"/);
+  assert.match(voice, /providerVoice: "coral"/);
   assert.match(voice, /Kendrell voice access requires an approved owner, manager, or supervisor role/);
   assert.match(voice, /Diamond is the resident portal assistant/);
   assert.match(voice, /Dion is the professional portal assistant/);
