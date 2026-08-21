@@ -1,0 +1,25 @@
+import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import test from "node:test";
+
+const panel = readFileSync("src/components/agents/AgentChatPanel.tsx", "utf8");
+const chatApi = readFileSync("src/api/agentChat.ts", "utf8");
+const edgeFunction = readFileSync("supabase/functions/hlc-agent-chat/index.ts", "utf8");
+
+test("agent chat preserves bounded conversation history and route context", () => {
+  assert.match(chatApi, /history\.slice\(-8\)/);
+  assert.match(chatApi, /pagePath/);
+  assert.match(edgeFunction, /Stay in that agent identity for the entire conversation/);
+});
+
+test("fallback responses are explicitly surfaced instead of impersonating a fresh live answer", () => {
+  assert.match(panel, /data-response-mode=\{fallbackMode \? "fallback" : "live"\}/);
+  assert.match(panel, /Verified fallback/);
+  assert.match(panel, /live reasoning provider is temporarily unavailable/);
+});
+
+test("repeated deterministic fallback copy is suppressed and never auto-spoken as new reasoning", () => {
+  assert.match(panel, /previousModelReply === response\.reply\.trim\(\)/);
+  assert.match(panel, /kept the existing verified fallback instead of repeating the same response/);
+  assert.match(panel, /!response\.fallback && voicePreferences\.enabled && voicePreferences\.autoSpeak/);
+});
