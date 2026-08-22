@@ -100,3 +100,21 @@ test("canonical new-lead status migration fixes only the historical uppercase NE
   assert.doesNotMatch(migration, /set status = lower\(status\)/i);
   assert.doesNotMatch(migration, /lower\(status\).*check/i);
 });
+
+test("job lifecycle keeps linked leads booked or closed without regressing completed work", () => {
+  const migration = readFileSync(
+    "supabase/migrations/20260822133000_sync_job_and_lead_lifecycle.sql",
+    "utf8",
+  );
+
+  assert.match(migration, /update public\.leads[\s\S]*set stage = 'new'[\s\S]*where stage = 'NEW'/i);
+  assert.match(migration, /add constraint leads_stage_no_uppercase_new/i);
+  assert.match(migration, /create or replace function internal\.sync_lead_lifecycle_from_job\(\)/i);
+  assert.match(migration, /security definer[\s\S]*set search_path to ''/i);
+  assert.match(migration, /revoke all on function internal\.sync_lead_lifecycle_from_job\(\) from public, anon, authenticated/i);
+  assert.match(migration, /after insert or update of status, lead_id, workspace_id on public\.crm_jobs/i);
+  assert.match(migration, /new\.status = 'completed'[\s\S]*v_target_state := 'closed'/i);
+  assert.match(migration, /new\.status in \('pending', 'active'\)[\s\S]*v_target_state := 'booked'/i);
+  assert.match(migration, /not exists \([\s\S]*completed_job[\s\S]*status = 'completed'/i);
+  assert.doesNotMatch(migration, /set status = lower\(status\)/i);
+});
