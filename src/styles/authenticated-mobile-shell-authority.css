@@ -1,0 +1,29 @@
+/* Final authenticated mobile shell ownership.
+   On phone/tablet viewports the inline desktop navigation must never render;
+   Navbar.tsx owns mobile navigation through the Menu portal + mobile tab bar. */
+@media (max-width: 1024px) {
+  .hlc-navbar .hlc-desktop-navigation {
+    display: none !important;
+  }
+
+  .hlc-navbar-toggle {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hlc-signed-in-shell,
+  .hlc-route-content,
+  .hlc-route-content > main {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .hlc-signed-in-shell .hlc-route-content {
+    padding-inline: 0 !important;
+    overflow-x: clip;
+  }
+}
