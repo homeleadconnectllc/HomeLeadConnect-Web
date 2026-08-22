@@ -25,7 +25,7 @@ const expectedReachableRoutes = [
 
 test("every supported clickable route remains explicitly inventoried", () => {
   for (const route of expectedReachableRoutes) {
-    assert.match(router, new RegExp(`path=[\\"']${route.replace(/[.*+?^${}()|[\\]\\]/g, "\\$&")}[\\"']`), `Missing route contract for ${route}`);
+    assert.ok(router.includes(`path=\"${route}\"`), `Missing route contract for ${route}`);
   }
 });
 
