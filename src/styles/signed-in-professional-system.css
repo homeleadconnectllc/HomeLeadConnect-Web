@@ -100,9 +100,15 @@
 }
 
 /* Dashboard + Analytics source-of-truth: one dark HLC operating environment. */
-.hlc-signed-in-shell :is(.hlc-command-center, .hlc-analytics-page, .hlc-analytics-panel) {
+.hlc-signed-in-shell :is(.hlc-command-center, .hlc-business-pulse-section, .hlc-analytics-page, .hlc-analytics-panel) {
   background: #071426 !important;
   color: #f8fafc !important;
+}
+
+.hlc-signed-in-shell .hlc-business-pulse-section {
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 
 .hlc-signed-in-shell :is(.hlc-workspace-card, .hlc-pulse-card, .hlc-analytics-kpi) {
@@ -112,12 +118,34 @@
   box-shadow: none !important;
 }
 
+.hlc-signed-in-shell .hlc-pulse-card {
+  border: 0 !important;
+  border-bottom: 1px solid #28415f !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+.hlc-signed-in-shell .hlc-pulse-card-featured {
+  border-top: 1px solid #28415f !important;
+}
+
 .hlc-signed-in-shell :is(.hlc-workspace-card, .hlc-pulse-card, .hlc-analytics-kpi) :is(h2,h3,strong) {
   color: #f8fafc !important;
   -webkit-text-fill-color: #f8fafc !important;
 }
 
 .hlc-signed-in-shell :is(.hlc-workspace-card, .hlc-pulse-card, .hlc-analytics-kpi) :is(p,span,small) {
+  color: #c2cede !important;
+  -webkit-text-fill-color: #c2cede !important;
+}
+
+.hlc-signed-in-shell .hlc-pulse-copy strong {
+  color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
+}
+
+.hlc-signed-in-shell .hlc-pulse-copy > span:last-child,
+.hlc-signed-in-shell .hlc-pulse-eyebrow {
   color: #c2cede !important;
   -webkit-text-fill-color: #c2cede !important;
 }
@@ -328,6 +356,20 @@
 
   .hlc-signed-in-shell .hlc-command-hero {
     padding: 20px 18px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-business-pulse-section {
+    padding-inline: 0 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-business-pulse-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-pulse-card {
+    min-height: 96px !important;
+    padding: 18px 8px !important;
   }
 
   .hlc-signed-in-shell .hlc-messages-layout {
