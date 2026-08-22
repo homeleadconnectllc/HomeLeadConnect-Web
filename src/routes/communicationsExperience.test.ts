@@ -8,8 +8,8 @@ const postCallAutomation = readFileSync("src/lib/postCallAutomation.ts", "utf8")
 const messages = readFileSync("src/pages/dashboard/Messages.tsx", "utf8");
 const messagesApi = readFileSync("src/api/messages.ts", "utf8");
 const sendCommunication = readFileSync("supabase/functions/send-communication/index.ts", "utf8");
-const queueProviderRouting = readFileSync(
-  "supabase/migrations/20260822113000_reconcile_communication_queue_provider_routing.sql",
+const providerNeutralRouting = readFileSync(
+  "supabase/migrations/20260822175000_provider_neutral_communication_resolution.sql",
   "utf8",
 );
 const communityHub = readFileSync("src/pages/dashboard/CommunityHub.tsx", "utf8");
@@ -44,7 +44,7 @@ test("Messages exposes persisted chat history from canonical conversations", () 
   assert.match(messages, /conversation\.messages\.length/);
 });
 
-test("Messages can deliberately send a portal message through the canonical Resend transport", () => {
+test("Messages can deliberately send a portal message through the canonical email transport", () => {
   assert.match(messages, /sendPortalEmail/);
   assert.match(messages, /Also send this by email/);
   assert.match(messages, /Start conversation \+ send email/);
@@ -55,12 +55,27 @@ test("Messages can deliberately send a portal message through the canonical Rese
   assert.match(sendCommunication, /subject: emailSubject/);
 });
 
-test("canonical communication queue persists the provider selected for each channel", () => {
-  assert.match(queueProviderRouting, /when lower\(p_channel\) in \('sms','call'\) then 'twilio'/);
-  assert.match(queueProviderRouting, /when lower\(p_channel\)='email' then 'resend'/);
-  assert.match(queueProviderRouting, /false,false,false,v_provider_name/);
-  assert.match(queueProviderRouting, /content,provider_name,client_request_id,status,created_by/);
-  assert.match(queueProviderRouting, /v_provider_name,p_client_request_id,v_status,auth\.uid\(\)/);
+test("canonical communication queue resolves provider from workspace configuration", () => {
+  assert.match(providerNeutralRouting, /from public\.communication_provider_connections pc/);
+  assert.match(providerNeutralRouting, /pc\.workspace_id=v_workspace_id/);
+  assert.match(providerNeutralRouting, /pc\.channel=lower\(p_channel\)/);
+  assert.match(providerNeutralRouting, /pc\.status in \('connected','manual_available'\)/);
+  assert.match(providerNeutralRouting, /case pc\.status when 'connected' then 0 else 1 end/);
+  assert.match(providerNeutralRouting, /false,false,false,v_provider_name/);
+  assert.match(providerNeutralRouting, /provider_name,client_request_id,status,created_by/);
+  assert.doesNotMatch(providerNeutralRouting, /when lower\(p_channel\) in \('sms','call'\) then 'twilio'/);
+  assert.doesNotMatch(providerNeutralRouting, /when lower\(p_channel\)='email' then 'resend'/);
+});
+
+test("manual providers remain honest handoffs and unknown adapters never fall back to Twilio", () => {
+  assert.match(providerNeutralRouting, /v_provider_status='manual_available'[\s\S]*then 'review'/);
+  assert.match(sendCommunication, /providerConnection\?\.status === "manual_available"/);
+  assert.match(sendCommunication, /delivery_mode: "manual_handoff"/);
+  assert.match(sendCommunication, /providerName === "resend" && channel === "email"/);
+  assert.match(sendCommunication, /providerName === "twilio" && \(channel === "sms" \|\| channel === "call"\)/);
+  assert.match(sendCommunication, /PROVIDER_ADAPTER_NOT_INSTALLED/);
+  assert.match(sendCommunication, /delivery_mode: providerConnection\?\.status === "manual_available" \? "manual_handoff" : "adapter_required"/);
+  assert.doesNotMatch(sendCommunication, /const providerName = channel ===/);
 });
 
 test("Community Store is fulfillment-gated and never claims HLC inventory or delivery", () => {
