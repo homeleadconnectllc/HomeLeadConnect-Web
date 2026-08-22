@@ -63,6 +63,32 @@
   border-radius: 8px !important;
 }
 
+/* Legacy direct sections sometimes carry inline light panel styles. Keep them
+   on the shared workspace unless a named route-specific surface owns them. */
+.hlc-signed-in-shell .hlc-route-content main > section:not([class]) {
+  color: var(--hlc-ref-text) !important;
+  border-color: var(--hlc-ref-line) !important;
+  border-radius: 8px !important;
+  background: rgba(12, 26, 46, .66) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content main > section:not([class]) + section:not([class]) {
+  margin-top: 18px !important;
+}
+
+/* Older informational paragraphs can carry inline pastel backgrounds. These
+   remain truthful state callouts, but visually belong to the dark HLC system. */
+.hlc-signed-in-shell .hlc-route-content main > p[style*="background"] {
+  color: var(--hlc-ref-muted) !important;
+  border-color: var(--hlc-ref-line-strong) !important;
+  border-radius: 6px !important;
+  background: rgba(47, 128, 255, .065) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
 /* Lists/grids visually join into one professional workspace. */
 .hlc-signed-in-shell .hlc-route-content main section:has(> article) {
   gap: 0 !important;
