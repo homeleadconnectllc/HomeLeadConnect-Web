@@ -27,6 +27,14 @@ Department accents identify responsibility only:
 
 Department accents must not turn the agents into unrelated visual brands.
 
+## Typography alignment
+
+Presentation typography is centered within its own section across the authenticated HLC app. This applies to page and route introductions, section headings, KPI values and labels, navigation groups, cards and panels, empty states, CTA copy, agent workspaces, settings sections, and community/network/resource presentation surfaces.
+
+Functional reading and entry surfaces remain left-aligned where centering would reduce scanability or comprehension. These exceptions include form fields and labels, data tables and record grids, long-form messages and chat threads, and dense record-detail fields.
+
+The rule applies to pages, subpages, nested sections, and shared workspace surfaces through shared visual authority rather than page-by-page overrides.
+
 ## Screen-family rules
 
 ### Auth

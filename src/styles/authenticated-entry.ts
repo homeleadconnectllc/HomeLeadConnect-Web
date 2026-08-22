@@ -48,4 +48,5 @@ import "./ai-team-application-workspace.css";
 import "./professional-flat-surface-system.css";
 import "./application-workspace-ui.css";
 import "./mobile-dashboard-live-authority.css";
+import "./centered-presentation-typography.css";
 import "./launch-contrast-readability.css";

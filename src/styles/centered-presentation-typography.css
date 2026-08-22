@@ -1,0 +1,103 @@
+/* Canonical authenticated presentation alignment.
+   Presentation copy is centered within its section across HLC.
+   Functional reading and entry surfaces remain left-aligned for scanability. */
+
+.hlc-signed-in-shell > .hlc-route-content main,
+.hlc-signed-in-shell > .hlc-route-content main > section,
+.hlc-signed-in-shell > .hlc-route-content :is(
+  .hlc-section-heading,
+  .hlc-command-copy,
+  .hlc-metric-card,
+  .hlc-pulse-copy,
+  .hlc-workspace-copy,
+  .hlc-agent-card-body,
+  .hlc-analytics-kpi,
+  .hlc-priority-empty,
+  .hlc-empty-state,
+  .hlc-route-empty,
+  .hlc-section-empty
+) {
+  text-align: center !important;
+}
+
+.hlc-signed-in-shell > .hlc-route-content main :is(h1, h2, h3, p, small),
+.hlc-signed-in-shell > .hlc-route-content :is(
+  .hlc-section-heading,
+  .hlc-command-copy,
+  .hlc-metric-card,
+  .hlc-pulse-copy,
+  .hlc-workspace-copy,
+  .hlc-agent-card-body,
+  .hlc-analytics-kpi,
+  .hlc-priority-empty,
+  .hlc-empty-state,
+  .hlc-route-empty,
+  .hlc-section-empty
+) :is(h1, h2, h3, p, strong, span, small) {
+  text-align: center !important;
+}
+
+/* Functional exceptions: data entry, dense records, tables and conversation reading
+   retain left alignment because centered text would reduce usability. */
+.hlc-signed-in-shell > .hlc-route-content :is(
+  form,
+  fieldset,
+  label,
+  input,
+  textarea,
+  select,
+  table,
+  thead,
+  tbody,
+  tfoot,
+  tr,
+  th,
+  td,
+  [role="table"],
+  [role="grid"],
+  [role="row"],
+  [role="cell"],
+  [role="gridcell"]
+),
+.hlc-signed-in-shell > .hlc-route-content :is(
+  .hlc-messages-thread,
+  .hlc-message-start,
+  .hlc-chat-history-item,
+  .hlc-message-bubble,
+  .hlc-message-content,
+  .hlc-lead-card-copy,
+  .hlc-job-card-copy,
+  .hlc-record-detail,
+  .hlc-record-details,
+  .hlc-detail-grid,
+  .hlc-detail-field,
+  .hlc-timeline,
+  .hlc-activity-feed
+),
+.hlc-signed-in-shell > .hlc-route-content :is(
+  form,
+  fieldset,
+  table,
+  [role="table"],
+  [role="grid"],
+  .hlc-messages-thread,
+  .hlc-chat-history-item,
+  .hlc-message-bubble,
+  .hlc-message-content,
+  .hlc-lead-card-copy,
+  .hlc-job-card-copy,
+  .hlc-record-detail,
+  .hlc-record-details,
+  .hlc-detail-grid,
+  .hlc-detail-field,
+  .hlc-timeline,
+  .hlc-activity-feed
+) :is(h1, h2, h3, p, strong, span, small, li, dt, dd, label) {
+  text-align: left !important;
+}
+
+/* Keep list markers and dense data descriptions readable when they are explicitly
+   part of a record or form surface. */
+.hlc-signed-in-shell > .hlc-route-content :is(form, .hlc-record-detail, .hlc-record-details, .hlc-detail-grid) :is(li, dt, dd) {
+  text-align: left !important;
+}
