@@ -112,6 +112,7 @@ The active production app Supabase project is `homeconnect` (`cguhtshclyybivvdnp
 104. `20260822113000_reconcile_communication_queue_provider_routing.sql`
 105. `20260822114000_optimize_active_rls_and_communication_fk_indexes.sql`
 106. `20260822124500_canonicalize_new_lead_status.sql`
+107. `20260822133000_sync_job_and_lead_lifecycle.sql`
 
 Migration #101 is retained in the local migration chain because it was applied to `hlc-reconciliation-test` during reconciliation. It is **not evidence of a production defect and is not required to be applied to `homeconnect` solely for parity**: production already has the canonical `causal.ingest_lead(...)` implementation from migration #98 with direct browser execution denied. Do not apply #101 to production unless a future production migration decision independently justifies it.
 
@@ -124,6 +125,8 @@ Migration #104 reconciles source control to the communication queue provider-rou
 Migration #105 is the first evidence-backed production performance batch. It preserves the existing `call_sessions`, `public_forms`, and authenticated subscription-read authorization semantics while changing only caller evaluation to init-plan-safe `(select auth.uid())`. It also adds covering indexes only for foreign keys confirmed missing on active call/communication surfaces. It does not consolidate duplicate permissive policies and does not remove unused indexes.
 
 Migration #106 normalizes only the historical uppercase `NEW` lead-status variant to canonical lowercase `new` and adds a narrow constraint preventing that exact variant from returning. It intentionally does not lowercase the entire status vocabulary because legacy terminal-state contracts still contain uppercase values and require separate reconciliation.
+
+Migration #107 keeps canonical lead lifecycle state aligned with persisted job progress. It normalizes only the historical uppercase `NEW` stage variant, marks leads with pending/active jobs as `booked`, marks leads with completed jobs as `closed`, and installs an internal security-definer trigger so future job inserts/status updates maintain that relationship. Completed work wins over pending work, and unrelated legacy uppercase terminal-state contracts remain untouched.
 
 ## Current production rules
 
