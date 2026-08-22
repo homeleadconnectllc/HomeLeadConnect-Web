@@ -14,8 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
-      VITE_SUPABASE_URL: https://agfwqnirspmptjiqrrtk.supabase.co
-      VITE_SUPABASE_ANON_KEY: sb_publishable_oe-fZIb14XWNWgk5-0pPfw_Xqb0dqYv
+      VITE_SUPABASE_URL: https://cguhtshclyybivvdnpig.supabase.co
+      VITE_SUPABASE_ANON_KEY: sb_publishable_MQioEyUGv8MNlowJgVyXYQ_kf5cyafA
       VITE_AUTH_CAPTCHA_REQUIRED: "false"
     steps:
       - name: Checkout exact candidate
