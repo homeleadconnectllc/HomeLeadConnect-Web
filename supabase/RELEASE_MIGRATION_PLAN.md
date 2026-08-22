@@ -109,6 +109,7 @@ The active production app Supabase project is `homeconnect` (`cguhtshclyybivvdnp
 101. `20260819193000_restore_canonical_lead_ingest.sql`
 102. `20260819201500_disable_legacy_leads_new_writer.sql`
 103. `20260819210000_fix_hlc_v1_unlimited_plan_limits.sql`
+104. `20260822113000_reconcile_communication_queue_provider_routing.sql`
 
 Migration #101 is retained in the local migration chain because it was applied to `hlc-reconciliation-test` during reconciliation. It is **not evidence of a production defect and is not required to be applied to `homeconnect` solely for parity**: production already has the canonical `causal.ingest_lead(...)` implementation from migration #98 with direct browser execution denied. Do not apply #101 to production unless a future production migration decision independently justifies it.
 
@@ -116,10 +117,12 @@ Migration #102 is a production launch-hardening change. Production retains an em
 
 Migration #103 fixes HLC V1 entitlement semantics: `lead_limit = 0` and `pipeline_limit = 0` are the plan's unlimited sentinels, not zero-capacity limits. The lead/pipeline guards and billing-state views must therefore report unlimited workspaces as allowed and not limit-reached while preserving existing membership and service-role authorization checks.
 
+Migration #104 reconciles source control to the communication queue provider-routing behavior already verified in canonical production. Email queue transmissions select and persist `resend`; SMS/call queue transmissions select and persist `twilio`; the selected provider is passed into the existing compliance function. This migration is intentionally idempotent and does not widen browser privileges or weaken communication compliance.
+
 ## Current production rules
 
-- `main` is the production source branch. Netlify's native Git integration owns the production build so Netlify can inject production `VITE_*` values.
-- GitHub production verification must pass lint, acceptance tests, the launch static audit, production build, Netlify site access, and exact-SHA-live verification before a release is considered complete.
+- `main` is the production source branch. Cloudflare Pages owns the canonical production/preview application build and deployment path; production `VITE_*` configuration must remain aligned with the canonical HLC environment contract.
+- GitHub production verification must pass lint, acceptance tests, the launch static audit, production build, rendered mobile/desktop quality verification, and exact-SHA-live verification before a release is considered complete.
 - `workspace_members` establishes business-workspace membership and now stores the authoritative per-workspace internal role. `profiles.role` mirrors the active workspace role for backward-compatible UI/runtime checks. Customer/renter and contractor access is resolved through their dedicated portal links.
 - Company-owner signup creates an isolated workspace, owner profile, and owner membership atomically. Workspace invitees create only an identity until an email-bound invitation is accepted, preventing orphan personal workspaces for invited staff.
 - Internal workspace team invitations are hashed, email-bound, single-use, expiring, and role-limited. Owners may invite managers or technicians; managers may invite technicians. Team membership mutations run through role-checked RPCs rather than direct browser writes.
@@ -192,7 +195,7 @@ Migration #103 fixes HLC V1 entitlement semantics: `lead_limit = 0` and `pipelin
 3. Keep this ordered list synchronized with `supabase/migrations`.
 4. Verify RLS, function grants, tenant predicates, role checks, storage policies, and column privileges for any changed data surface.
 5. Run `npm run verify:launch`.
-6. Let Netlify build with production environment variables.
+6. Let Cloudflare Pages build with the canonical production environment configuration.
 7. Require the exact-SHA-live production gate to pass.
 8. Review fresh production auth/API/Edge/Cron logs for regressions.
 9. Do not expose secrets, service-role credentials, VAPID private material, Stripe secret keys, or provider tokens to browser code or documentation.
