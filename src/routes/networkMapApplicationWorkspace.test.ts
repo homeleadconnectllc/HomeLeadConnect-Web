@@ -36,3 +36,11 @@ test("Network Map specialization mounts before final authority and collapses saf
   assert.match(styles, /\.hlc-network-map-console\{grid-template-columns:1fr/);
   assert.match(styles, /\.hlc-network-provider-row\{grid-template-columns:1fr/);
 });
+
+test("Network Map is natively dark without white provider rows or a light map canvas", () => {
+  assert.match(styles, /--network-surface:#0d1b2f/);
+  assert.match(styles, /\.hlc-network-map-canvas\{[^}]*linear-gradient\(180deg,#0b1c31,#081426\)/);
+  assert.match(styles, /\.hlc-network-provider-row\{[^}]*background:transparent/);
+  assert.match(styles, /\.hlc-network-provider-row\.is-selected\{[^}]*rgba\(47,128,255,\.12\)/);
+  assert.doesNotMatch(styles, /background:(?:#fff|#ffffff|#f8fafc|#f8fbff|#eef6ff)/i);
+});
