@@ -1,0 +1,229 @@
+/* Real-device mobile Dashboard + Analytics visual authority.
+   This is presentation-only: preserve routes, data, actions and business logic while
+   preventing legacy light/card surfaces from winning on the signed-in phone workspace. */
+
+@media (max-width: 760px) {
+  .hlc-signed-in-shell .hlc-command-center {
+    --hlc-mobile-dashboard-line: rgba(148, 163, 184, .18);
+    --hlc-mobile-dashboard-text: #f8fafc;
+    --hlc-mobile-dashboard-muted: #c2cede;
+    --hlc-mobile-dashboard-subtle: #9fb0c5;
+    --hlc-mobile-dashboard-surface: #0d1b2f;
+    --hlc-mobile-dashboard-blue: #2f80ff;
+    background: #071426 !important;
+    color: var(--hlc-mobile-dashboard-text) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-center :is(.hlc-metric-grid,.hlc-quick-actions,.hlc-business-pulse-grid,.hlc-priority-list,.hlc-workspace-grid,.hlc-agent-grid) {
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  /* KPI rail: compact operating rows, never large white cards. */
+  .hlc-signed-in-shell .hlc-command-center .hlc-metric-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+    border-top: 1px solid var(--hlc-mobile-dashboard-line) !important;
+    border-bottom: 0 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-center .hlc-metric-card {
+    grid-template-columns: 40px minmax(0, 1fr) auto !important;
+    min-height: 68px !important;
+    padding: 12px 4px !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--hlc-mobile-dashboard-line) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: var(--hlc-mobile-dashboard-text) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-center .hlc-metric-icon {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 8px !important;
+    background: rgba(47, 128, 255, .12) !important;
+    color: #93c5fd !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-center .hlc-metric-card strong {
+    margin: 0 !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    font-size: 1.25rem !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-center .hlc-metric-card > span:last-child {
+    margin: 0 !important;
+    color: var(--hlc-mobile-dashboard-muted) !important;
+    -webkit-text-fill-color: var(--hlc-mobile-dashboard-muted) !important;
+    font-size: .82rem !important;
+  }
+
+  /* Keep all dashboard sections on one continuous navy operating canvas. */
+  .hlc-signed-in-shell .hlc-command-center :is(.hlc-dashboard-section,.hlc-agent-team-section,.hlc-business-pulse-section,.hlc-priority-panel) {
+    margin-top: 0 !important;
+    padding: 22px 0 !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--hlc-mobile-dashboard-line) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-center .hlc-section-heading {
+    margin-bottom: 12px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-center .hlc-section-heading h2,
+  .hlc-signed-in-shell .hlc-command-center .hlc-priority-copy strong,
+  .hlc-signed-in-shell .hlc-command-center .hlc-workspace-copy strong,
+  .hlc-signed-in-shell .hlc-command-center .hlc-pulse-copy strong {
+    color: #f8fafc !important;
+    -webkit-text-fill-color: #f8fafc !important;
+    opacity: 1 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-center :is(.hlc-priority-copy span,.hlc-priority-meta,.hlc-workspace-copy span,.hlc-pulse-copy > span:last-child,.hlc-business-pulse-heading p) {
+    color: var(--hlc-mobile-dashboard-muted) !important;
+    -webkit-text-fill-color: var(--hlc-mobile-dashboard-muted) !important;
+    opacity: 1 !important;
+  }
+
+  /* Quick actions are a compact tool rail, not a white bordered card matrix. */
+  .hlc-signed-in-shell .hlc-command-center .hlc-quick-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0 !important;
+    border: 1px solid #28415f !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-center .hlc-quick-action {
+    min-height: 56px !important;
+    border: 0 !important;
+    border-right: 1px solid #28415f !important;
+    border-bottom: 1px solid #28415f !important;
+    border-radius: 0 !important;
+    background: #0d1b2f !important;
+    color: #e8f1ff !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-center .hlc-quick-action-primary {
+    background: #1d4ed8 !important;
+    color: #ffffff !important;
+  }
+
+  /* Business Pulse, Priority and Workspace remain divider-based rows. */
+  .hlc-signed-in-shell .hlc-command-center :is(.hlc-pulse-card,.hlc-pulse-card-featured,.hlc-priority-item,.hlc-workspace-card,.hlc-priority-empty) {
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-center .hlc-pulse-card,
+  .hlc-signed-in-shell .hlc-command-center .hlc-workspace-card,
+  .hlc-signed-in-shell .hlc-command-center .hlc-priority-item {
+    border: 0 !important;
+    border-bottom: 1px solid var(--hlc-mobile-dashboard-line) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-center :is(.hlc-pulse-icon,.hlc-workspace-icon,.hlc-priority-marker) {
+    background: rgba(47, 128, 255, .12) !important;
+    color: #93c5fd !important;
+    border-color: rgba(96, 165, 250, .22) !important;
+  }
+
+  /* Analytics uses the same dark operating language and dense rows. */
+  .hlc-signed-in-shell .hlc-analytics-page .hlc-analytics-panel {
+    padding-inline: 0 !important;
+    background: transparent !important;
+    color: var(--hlc-mobile-dashboard-text) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-analytics-page .hlc-analytics-kpi-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+    border-top: 1px solid var(--hlc-mobile-dashboard-line) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-analytics-page .hlc-analytics-kpi {
+    display: grid !important;
+    grid-template-columns: 34px minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 12px !important;
+    min-height: 64px !important;
+    padding: 12px 4px !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--hlc-mobile-dashboard-line) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-signed-in-shell .hlc-analytics-page .hlc-analytics-kpi svg {
+    color: #60a5fa !important;
+  }
+
+  .hlc-signed-in-shell .hlc-analytics-page .hlc-analytics-kpi strong {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    font-size: 1.1rem !important;
+  }
+
+  .hlc-signed-in-shell .hlc-analytics-page .hlc-analytics-kpi span {
+    color: var(--hlc-mobile-dashboard-muted) !important;
+    -webkit-text-fill-color: var(--hlc-mobile-dashboard-muted) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-analytics-page .hlc-analytics-detail-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0 !important;
+    border-top: 1px solid var(--hlc-mobile-dashboard-line) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-analytics-page .hlc-analytics-detail-grid > article,
+  .hlc-signed-in-shell .hlc-analytics-page .hlc-route-insights-card {
+    padding: 18px 4px !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--hlc-mobile-dashboard-line) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: var(--hlc-mobile-dashboard-text) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-analytics-page :is(dt,p,.hlc-route-insight-meta span) {
+    color: var(--hlc-mobile-dashboard-muted) !important;
+    -webkit-text-fill-color: var(--hlc-mobile-dashboard-muted) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-analytics-page :is(dd,.hlc-route-insight-meta strong) {
+    color: #f8fafc !important;
+    -webkit-text-fill-color: #f8fafc !important;
+  }
+
+  .hlc-signed-in-shell .hlc-analytics-page .hlc-route-insight {
+    padding: 14px 0 !important;
+    border-bottom: 1px solid var(--hlc-mobile-dashboard-line) !important;
+    background: transparent !important;
+  }
+
+  .hlc-signed-in-shell .hlc-analytics-page .hlc-route-insight-track {
+    height: 5px !important;
+    background: #10243e !important;
+  }
+
+  .hlc-signed-in-shell .hlc-analytics-page .hlc-route-insight-track > span {
+    background: linear-gradient(90deg, #2563eb, #60a5fa) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-analytics-page .hlc-analytics-period-button {
+    min-height: 44px !important;
+    border-color: #3b5f88 !important;
+    border-radius: 7px !important;
+    background: #112744 !important;
+    color: #f8fafc !important;
+  }
+}
