@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import {
   listConversations,
   listPortalRecipients,
+  portalRecipientDisplayLabel,
   postInternalMessage,
   sendPortalEmail,
   startPortalConversation,
@@ -286,10 +287,13 @@ export default function Messages() {
                 <option value="">Select a linked portal account</option>
                 {recipients.map((recipient) => (
                   <option key={recipient.linkId} value={recipient.linkId}>
-                    {recipient.label}{recipient.email ? ` (${recipient.email})` : ""}
+                    {portalRecipientDisplayLabel(recipient)}
                   </option>
                 ))}
               </select>
+              {selectedRecipient && <small className="hlc-recipient-detail">
+                {selectedRecipient.email ? `Email available: ${selectedRecipient.email}` : "Internal portal messaging only"}
+              </small>}
             </label>
             <label>Subject<input required maxLength={160} value={subject} onChange={(event) => setSubject(event.target.value)} /></label>
             <label className="hlc-message-start-body">Message<textarea required maxLength={5000} value={newBody} onChange={(event) => setNewBody(event.target.value)} /></label>
