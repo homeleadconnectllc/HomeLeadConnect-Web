@@ -75,3 +75,11 @@ test("account portal specialization mounts before final authority and collapses 
   assert.match(styles, /\.hlc-portal-row,.hlc-portal-file-row\{grid-template-columns:1fr/);
   assert.match(styles, /width:min\(100% - 24px,1440px\)/);
 });
+
+test("account and portal screens are natively dark with divider-based controls", () => {
+  assert.match(styles, /--acct-surface:#0d1b2f/);
+  assert.match(styles, /\.hlc-account-field-grid input,[\s\S]*background:var\(--acct-surface-soft\)/);
+  assert.match(styles, /\.hlc-account-form-actions button,[\s\S]*background:#112744/);
+  assert.match(styles, /\.hlc-portal-row\{[^}]*background:transparent!important/);
+  assert.doesNotMatch(styles, /background:(?:#fff|#ffffff|#fbfdff|#eef5fc)/i);
+});
