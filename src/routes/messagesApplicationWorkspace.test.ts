@@ -37,3 +37,11 @@ test("Messages specialization mounts before final authority and collapses to one
   assert.match(styles, /\.hlc-messages-console\{grid-template-columns:1fr/);
   assert.match(styles, /\.hlc-message-entry\{grid-template-columns:1fr/);
 });
+
+test("Messages is natively dark and does not depend on a later contrast override to remove light islands", () => {
+  assert.match(styles, /--msg-surface:#0d1b2f/);
+  assert.match(styles, /\.hlc-message-stream\{[^}]*background:#081426/);
+  assert.match(styles, /\.hlc-message-composer\{[^}]*background:var\(--msg-surface\)/);
+  assert.match(styles, /\.hlc-message-inbox-row\.is-selected\{[^}]*rgba\(47,128,255,\.12\)/);
+  assert.doesNotMatch(styles, /background:(?:#fff|#ffffff|#f8fafc|#f8fbff|#eef6ff)/i);
+});
