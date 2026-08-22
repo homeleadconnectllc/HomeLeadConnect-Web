@@ -7,6 +7,10 @@ const browserPrivileges = readFileSync("supabase/migrations/20260814143000_remov
 const providerCoordinates = readFileSync("supabase/migrations/20260814144914_secure_provider_map_coordinate_updates.sql", "utf8");
 const activityLog = readFileSync("supabase/migrations/20260814145501_harden_activity_log_as_append_only.sql", "utf8");
 const professionalIntake = readFileSync("supabase/migrations/20260814163950_professional_application_intake.sql", "utf8");
+const activePerformanceBatch = readFileSync(
+  "supabase/migrations/20260822114000_optimize_active_rls_and_communication_fk_indexes.sql",
+  "utf8",
+);
 
 test("browser runtime uses only publishable Supabase credentials", () => {
   assert.match(supabaseRuntime, /VITE_SUPABASE_ANON_KEY/);
@@ -48,4 +52,38 @@ test("anonymous professional intake cannot directly read or mutate its backing t
   assert.match(professionalIntake, /enable row level security/i);
   assert.match(professionalIntake, /security definer/i);
   assert.match(professionalIntake, /revoke all on table public\.professional_applications from public, anon, authenticated/i);
+});
+
+test("active performance batch preserves RLS authority while optimizing caller evaluation", () => {
+  for (const policy of [
+    "workspace members can insert sessions",
+    "workspace members can select sessions",
+    "workspace members can update sessions",
+    "public_forms_select_workspace",
+    "public_forms_insert_workspace",
+    "public_forms_update_workspace",
+    "public_forms_delete_workspace",
+    "subscriptions_select_own_workspace",
+  ]) {
+    assert.match(activePerformanceBatch, new RegExp(policy.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  }
+  assert.match(activePerformanceBatch, /where wm\.user_id = \(select auth\.uid\(\)\)/);
+  assert.match(activePerformanceBatch, /where p\.user_id = \(select auth\.uid\(\)\)/);
+  assert.doesNotMatch(activePerformanceBatch, /drop policy[^\n]*telephony_call_sessions_member_select/i);
+  assert.doesNotMatch(activePerformanceBatch, /drop index/i);
+});
+
+test("active communication FK batch adds only evidence-backed covering indexes", () => {
+  for (const indexName of [
+    "business_phone_numbers_provider_connection_id_idx",
+    "call_sessions_business_phone_id_idx",
+    "call_sessions_compliance_check_id_idx",
+    "call_sessions_conversation_id_idx",
+    "call_sessions_requested_by_idx",
+    "communication_compliance_checks_actor_user_id_idx",
+    "communication_provider_events_call_session_id_idx",
+    "communication_provider_events_transmission_id_idx",
+  ]) {
+    assert.match(activePerformanceBatch, new RegExp(`create index if not exists ${indexName}`, "i"));
+  }
 });
