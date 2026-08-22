@@ -33,6 +33,20 @@ export type EmailTransmissionResult = {
   error?: string;
 };
 
+export function portalRecipientDisplayLabel(recipient: PortalRecipient) {
+  const roleLabel = recipient.role === "homeowner" ? "Resident" : "Professional";
+  return `${recipient.label} — ${roleLabel}`;
+}
+
+export function dedupePortalRecipients(recipients: PortalRecipient[]) {
+  const unique = new Map<string, PortalRecipient>();
+  for (const recipient of recipients) {
+    const key = `${recipient.role}:${recipient.subjectId}`;
+    if (!unique.has(key)) unique.set(key, recipient);
+  }
+  return [...unique.values()].sort((a, b) => a.label.localeCompare(b.label));
+}
+
 export async function listConversations(): Promise<Conversation[]> {
   const { data, error } = await supabase
     .from("conversations")
@@ -64,7 +78,7 @@ export async function listPortalRecipients(): Promise<PortalRecipient[]> {
   if (leads.error) throw leads.error;
   if (contractorRows.error) throw contractorRows.error;
 
-  return [
+  return dedupePortalRecipients([
     ...(homeowners.data ?? []).map((link) => {
       const lead = (leads.data ?? []).find((item) => item.id === link.lead_id);
       return {
@@ -85,7 +99,7 @@ export async function listPortalRecipients(): Promise<PortalRecipient[]> {
         email: contractor?.email ?? null,
       };
     }),
-  ];
+  ]);
 }
 
 export async function startPortalConversation(input: {

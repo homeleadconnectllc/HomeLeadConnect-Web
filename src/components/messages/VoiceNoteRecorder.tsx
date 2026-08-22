@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 type Props = {
   busy: boolean;
@@ -12,6 +12,7 @@ export default function VoiceNoteRecorder({ busy, onUpload, focusOnMount = false
   const startedAtRef = useRef(0);
   const chunksRef = useRef<Blob[]>([]);
   const recordButtonRef = useRef<HTMLButtonElement | null>(null);
+  const fileInputId = useId();
   const [recording, setRecording] = useState(false);
   const [previewUrl, setPreviewUrl] = useState("");
   const [recordedFile, setRecordedFile] = useState<File | null>(null);
@@ -88,22 +89,30 @@ export default function VoiceNoteRecorder({ busy, onUpload, focusOnMount = false
     setPreviewUrl(URL.createObjectURL(file));
   }
 
-  return <div id="hlc-voice-note-recorder" style={{ display: "grid", gap: 10 }}>
-    <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+  return <div id="hlc-voice-note-recorder" className="hlc-voice-note-recorder">
+    <div className="hlc-voice-note-actions">
       {!recording
         ? <button ref={recordButtonRef} type="button" disabled={busy} onClick={startRecording}>Record voice note</button>
         : <button type="button" disabled={busy} onClick={stopRecording}>Stop recording</button>}
-      <label style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-        Or select audio
-        <input type="file" accept="audio/*" capture="user" disabled={busy || recording}
-          onChange={(event) => selectFile(event.target.files?.[0])} />
+      <label className="hlc-audio-file-action" htmlFor={fileInputId}>
+        <span>Select audio file</span>
+        <small>{recordedFile?.name || "Optional attachment"}</small>
       </label>
+      <input
+        className="hlc-audio-file-input"
+        id={fileInputId}
+        type="file"
+        accept="audio/*"
+        capture="user"
+        disabled={busy || recording}
+        onChange={(event) => selectFile(event.target.files?.[0])}
+      />
     </div>
-    {recording && <p role="status">Recording… Select Stop recording when finished.</p>}
-    {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
-    {previewUrl && <div>
+    {recording && <p className="hlc-voice-note-status" role="status">Recording… Select Stop recording when finished.</p>}
+    {error && <p className="hlc-voice-note-error" role="alert">{error}</p>}
+    {previewUrl && <div className="hlc-voice-note-preview">
       <audio controls src={previewUrl}>Your browser does not support audio playback.</audio>
-      <div style={{ display: "flex", gap: 8 }}>
+      <div className="hlc-voice-note-preview-actions">
         <button type="button" disabled={busy} onClick={uploadRecording}>{busy ? "Uploading…" : "Upload voice note"}</button>
         <button type="button" disabled={busy} onClick={clearRecording}>Cancel</button>
       </div>

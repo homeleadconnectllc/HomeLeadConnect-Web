@@ -10,15 +10,15 @@
   "orientation": "any",
   "icons": [
     {
-      "src": "/hlc-logo-final.png",
-      "sizes": "1024x1024",
-      "type": "image/png",
+      "src": "/hlc-touch-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
       "purpose": "any"
     },
     {
-      "src": "/hlc-logo-final.png",
-      "sizes": "1024x1024",
-      "type": "image/png",
+      "src": "/hlc-touch-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
       "purpose": "maskable"
     }
   ]

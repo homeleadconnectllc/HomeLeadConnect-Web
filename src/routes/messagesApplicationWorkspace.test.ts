@@ -5,6 +5,8 @@ import test from "node:test";
 const page = readFileSync("src/pages/dashboard/Messages.tsx", "utf8");
 const styles = readFileSync("src/styles/messages-application-workspace.css", "utf8");
 const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
+const api = readFileSync("src/api/messages.ts", "utf8");
+const recorder = readFileSync("src/components/messages/VoiceNoteRecorder.tsx", "utf8");
 
 test("Messages uses a dedicated communications console instead of panel cards", () => {
   assert.match(page, /hlc-messages-workspace/);
@@ -44,4 +46,27 @@ test("Messages is natively dark and does not depend on a later contrast override
   assert.match(styles, /\.hlc-message-composer\{[^}]*background:var\(--msg-surface\)/);
   assert.match(styles, /\.hlc-message-inbox-row\.is-selected\{[^}]*rgba\(47,128,255,\.12\)/);
   assert.doesNotMatch(styles, /background:(?:#fff|#ffffff|#f8fafc|#f8fbff|#eef6ff)/i);
+});
+
+test("Messages mobile workspace uses available viewport height without a capped chat stream", () => {
+  assert.match(styles, /min-height:calc\(100dvh - 190px\)/);
+  assert.match(styles, /grid-template-rows:auto minmax\(260px,1fr\) auto auto/);
+  assert.match(styles, /\.hlc-message-stream\{max-height:none;min-height:260px;overflow:auto/);
+  assert.doesNotMatch(styles, /\.hlc-message-stream\{max-height:52vh\}[^\s\S]*Issue #153/);
+});
+
+test("Messages recipient picker is canonical and does not expose raw email addresses in option labels", () => {
+  assert.match(api, /dedupePortalRecipients/);
+  assert.match(api, /portalRecipientDisplayLabel/);
+  assert.match(api, /const key = `\$\{recipient\.role\}:\$\{recipient\.subjectId\}`/);
+  assert.match(page, /portalRecipientDisplayLabel\(recipient\)/);
+  assert.doesNotMatch(page, /recipient\.label\}\$\{recipient\.email/);
+});
+
+test("Voice note attachment control is styled through HLC classes instead of inline layout and raw file chrome", () => {
+  assert.match(recorder, /hlc-voice-note-recorder/);
+  assert.match(recorder, /hlc-audio-file-action/);
+  assert.match(recorder, /hlc-audio-file-input/);
+  assert.doesNotMatch(recorder, /style=\{\{/);
+  assert.match(styles, /\.hlc-audio-file-input\{position:absolute!important/);
 });

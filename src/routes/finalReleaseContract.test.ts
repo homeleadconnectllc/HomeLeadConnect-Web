@@ -127,11 +127,13 @@ test("production authentication runtime is Cloudflare-bound and fail-closed", ()
   assert.doesNotMatch(supabaseRuntime, /endsWith\("\.netlify\.app"\)/);
 });
 
-test("iPhone installation metadata links the approved HLC icon", () => {
-  assert.match(indexHtml, /rel="apple-touch-icon" href="\/hlc-logo-final\.png"/);
+test("iPhone installation metadata links the approved optimized HLC icon", () => {
+  assert.match(indexHtml, /rel="apple-touch-icon" href="\/hlc-touch-icon\.svg"/);
   assert.match(indexHtml, /rel="manifest" href="\/manifest\.webmanifest"/);
   assert.match(manifest, /"start_url": "\/app"/);
-  assert.match(manifest, /"sizes": "1024x1024"/);
+  assert.match(manifest, /"src": "\/hlc-touch-icon\.svg"/);
+  assert.match(manifest, /"sizes": "any"/);
+  assert.doesNotMatch(manifest, /hlc-logo-final\.png/);
   assert.match(main, /register\("\/sw\.js", \{ updateViaCache: "none" \}\)/);
   assert.match(main, /registration\.update\(\)/);
 });
