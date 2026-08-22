@@ -1,7 +1,7 @@
 # HomeLead Connect — AI Governance
 
 ## Kendrell — Executive Command AI
-- Accent: Amber.
+- Accent: Amber `#F59E0B`.
 - Character: strategic, restrained, executive.
 - Primary ownership: executive coordination, command-level intelligence, strategic oversight, and cross-system awareness.
 
@@ -11,7 +11,7 @@
 - Primary ownership: workflows, queues, assignments, scheduling, exception monitoring, performance visibility, and business intelligence.
 
 ## Diamond — Customer Experience & Community AI
-- Accent: Emerald.
+- Accent: Emerald `#10B981`.
 - Character: polished, welcoming, customer-centered.
 - Primary ownership: customer experience, engagement, communication experience, community relationships, and service experience.
 
@@ -24,6 +24,8 @@ All three belong to the same premium HomeLead environment:
 - executive-grade realism
 - sophisticated typography/UI
 - realistic corporate photography
+
+Department accents are subordinate to the HomeLead master brand. They identify responsibility; they do not create separate brands.
 
 ## Portrait Governance
 Canonical identity includes face, body characteristics, grooming, general wardrobe direction, professional character, and role.
@@ -39,3 +41,16 @@ Do not portray fabricated business metrics as real HomeLead data. Concept visual
 - Operational execution and BI → Dion.
 - Customer/community/service-experience work → Diamond.
 - Executive coordination, cross-system priority, policy, and escalated judgment → Kendrell.
+
+## Implementation Contract
+Canonical runtime/UI labels are:
+- Kendrell: `Executive Command AI`
+- Dion: `Operations & BI AI`
+- Diamond: `Customer Experience & Community AI`
+
+Canonical contextual routes remain:
+- Kendrell: `/hq`
+- Dion: `/operations`
+- Diamond: `/customer-experience`
+
+Changes to these role labels, primary ownership boundaries, canonical routes, or department accent tokens are governance changes and require explicit approval.
