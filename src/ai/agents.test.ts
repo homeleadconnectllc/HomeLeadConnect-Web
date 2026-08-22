@@ -3,13 +3,29 @@ import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 
-import { agents, capabilityCatalog } from "./agents.ts";
+import { agentDepartmentAccents, agents, capabilityCatalog } from "./agents.ts";
 
 test("each HLC agent has one canonical contextual route", () => {
   assert.equal(agents.dion.route, "/operations");
   assert.equal(agents.diamond.route, "/customer-experience");
   assert.equal(agents.kendrell.route, "/hq");
   assert.equal(new Set(Object.values(agents).map((agent) => agent.route)).size, 3);
+});
+
+test("canonical AI role labels and department accents stay locked", () => {
+  assert.equal(agents.kendrell.role, "Executive Command AI");
+  assert.equal(agents.dion.role, "Operations & BI AI");
+  assert.equal(agents.diamond.role, "Customer Experience & Community AI");
+
+  assert.deepEqual(agentDepartmentAccents, {
+    kendrell: "#F59E0B",
+    dion: "#6366F1",
+    diamond: "#10B981",
+  });
+
+  assert.equal(agents.kendrell.accent, agentDepartmentAccents.kendrell);
+  assert.equal(agents.dion.accent, agentDepartmentAccents.dion);
+  assert.equal(agents.diamond.accent, agentDepartmentAccents.diamond);
 });
 
 test("agent pages use the exact locked portrait assets", () => {

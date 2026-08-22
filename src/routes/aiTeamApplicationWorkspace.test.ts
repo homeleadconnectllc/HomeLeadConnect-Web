@@ -19,16 +19,19 @@ test("AI Team retains one serious command workspace for all three canonical agen
   assert.match(workspace, /runAgentCapability/);
 });
 
-test("locked AI identities routes roles portraits and voice personas remain exact", () => {
-  assert.match(agents, /id: "kendrell", name: "Kendrell", role: "Executive Command & Orchestration"/);
+test("locked AI identities routes roles portraits accents and voice personas remain exact", () => {
+  assert.match(agents, /id: "kendrell", name: "Kendrell", role: "Executive Command AI"/);
   assert.match(agents, /route: "\/hq"/);
   assert.match(agents, /Kendrell_Locked_HLC\.png/);
-  assert.match(agents, /id: "dion", name: "Dion", role: "Operations & Business Intelligence"/);
+  assert.match(agents, /kendrell: "#F59E0B"/);
+  assert.match(agents, /id: "dion", name: "Dion", role: "Operations & BI AI"/);
   assert.match(agents, /route: "\/operations"/);
   assert.match(agents, /Dion_Locked_HLC\.png/);
-  assert.match(agents, /id: "diamond", name: "Diamond", role: "Customer Experience, Service & Community"/);
+  assert.match(agents, /dion: "#6366F1"/);
+  assert.match(agents, /id: "diamond", name: "Diamond", role: "Customer Experience & Community AI"/);
   assert.match(agents, /route: "\/customer-experience"/);
   assert.match(agents, /Diamond_Locked_HLC\.png/);
+  assert.match(agents, /diamond: "#10B981"/);
   assert.match(agents, /genderPresentation: "male"/);
   assert.match(agents, /genderPresentation: "female"/);
 });

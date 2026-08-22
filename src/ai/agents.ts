@@ -28,9 +28,15 @@ export type AgentManifest = {
   };
 };
 
+export const agentDepartmentAccents = {
+  kendrell: "#F59E0B",
+  dion: "#6366F1",
+  diamond: "#10B981",
+} as const satisfies Record<AgentId, string>;
+
 export const agents: Record<AgentId, AgentManifest> = {
   kendrell: {
-    id: "kendrell", name: "Kendrell", role: "Executive Command & Orchestration", question: "What does leadership need to know, decide, delegate, or escalate?", accent: "#3B82F6", route: "/hq",
+    id: "kendrell", name: "Kendrell", role: "Executive Command AI", question: "What does leadership need to know, decide, delegate, or escalate?", accent: agentDepartmentAccents.kendrell, route: "/hq",
     image: "/brand/avatars/Kendrell_Locked_HLC.png",
     pageTitle: "HQ",
     introduction: "Hi, I’m Kendrell. I run executive command: risk, priorities, system readiness, decision support, and routing work to the right HLC operator.",
@@ -57,7 +63,7 @@ export const agents: Record<AgentId, AgentManifest> = {
     },
   },
   dion: {
-    id: "dion", name: "Dion", role: "Operations & Business Intelligence", question: "What is happening now, what is stuck, what should happen next, and what evidence proves it?", accent: "#3B82F6", route: "/operations", pageTitle: "Operations",
+    id: "dion", name: "Dion", role: "Operations & BI AI", question: "What is happening now, what is stuck, what should happen next, and what evidence proves it?", accent: agentDepartmentAccents.dion, route: "/operations", pageTitle: "Operations",
     image: "/brand/avatars/Dion_Locked_HLC.png",
     introduction: "Hi, I’m Dion. I operate from the live workflow: leads, follow-ups, assignments, appointments, jobs, provider evidence, bottlenecks, and measurable next actions.",
     guidance: [
@@ -83,7 +89,7 @@ export const agents: Record<AgentId, AgentManifest> = {
     },
   },
   diamond: {
-    id: "diamond", name: "Diamond", role: "Customer Experience, Service & Community", question: "What does this person need, what can HLC truthfully resolve now, and when should the experience escalate?", accent: "#60A5FA", route: "/customer-experience", pageTitle: "Customer Experience",
+    id: "diamond", name: "Diamond", role: "Customer Experience & Community AI", question: "What does this person need, what can HLC truthfully resolve now, and when should the experience escalate?", accent: agentDepartmentAccents.diamond, route: "/customer-experience", pageTitle: "Customer Experience",
     image: "/brand/avatars/Diamond_Locked_HLC.png",
     introduction: "Hi, I’m Diamond. I handle customer clarity and service experience: understanding the need, explaining verified status, guiding the next step, and escalating when the issue should not stay automated.",
     guidance: [
