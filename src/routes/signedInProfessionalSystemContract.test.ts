@@ -47,6 +47,18 @@ test("dashboard and analytics are excluded from the legacy light-card contract a
   assert.match(css, /color: #f8fafc !important/);
 });
 
+test("business pulse cannot regress to bright card-wall surfaces", () => {
+  assert.match(css, /\.hlc-business-pulse-section/);
+  assert.match(css, /border-radius: 0 !important/);
+  assert.match(css, /\.hlc-pulse-card \{/);
+  assert.match(css, /border-bottom: 1px solid #28415f !important/);
+  assert.match(css, /background: transparent !important/);
+  assert.match(css, /\.hlc-pulse-copy strong/);
+  assert.match(css, /-webkit-text-fill-color: #f8fafc !important/);
+  assert.match(css, /grid-template-columns: 1fr !important/);
+  assert.match(css, /gap: 0 !important/);
+});
+
 test("signed-in professional system keeps agent utility from covering the whole mobile app", () => {
   assert.match(css, /height: min\(68dvh, 620px\)/);
   assert.match(css, /bottom: calc\(84px \+ env\(safe-area-inset-bottom\)\)/);
