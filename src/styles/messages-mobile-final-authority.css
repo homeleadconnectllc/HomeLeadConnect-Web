@@ -1,0 +1,184 @@
+/* Final production iPhone authority for issue #153.
+   Keep Messages inside the dark HLC operating system and use the mobile viewport deliberately. */
+
+@media (max-width: 720px) {
+  .hlc-messages-workspace {
+    --msg-mobile-control: #0d1b2f;
+    --msg-mobile-control-strong: #102744;
+    --msg-mobile-border: #315273;
+    --msg-mobile-text: #f8fafc;
+    --msg-mobile-muted: #b8c7da;
+    padding-bottom: calc(108px + env(safe-area-inset-bottom));
+  }
+
+  /* Never allow later global light-form rules to recreate the white-card look. */
+  .hlc-messages-workspace :is(input, textarea, select),
+  .hlc-message-composer textarea,
+  .hlc-message-start-fields :is(input, textarea, select) {
+    box-sizing: border-box !important;
+    background: var(--msg-mobile-control) !important;
+    color: var(--msg-mobile-text) !important;
+    border: 1px solid var(--msg-mobile-border) !important;
+    border-radius: 6px !important;
+    box-shadow: none !important;
+    -webkit-text-fill-color: var(--msg-mobile-text) !important;
+  }
+
+  .hlc-messages-workspace :is(input, textarea)::placeholder {
+    color: #8294aa !important;
+    opacity: 1;
+  }
+
+  /* Active-thread count is metadata, not a floating white pill/card. */
+  .hlc-message-thread-head > strong {
+    display: inline !important;
+    width: auto !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: var(--msg-mobile-muted) !important;
+    box-shadow: none !important;
+  }
+
+  /* Give the queue meaningful room and let it scroll independently. */
+  .hlc-messages-inbox {
+    max-height: none !important;
+    min-height: 340px;
+    height: min(46dvh, 520px);
+    overflow: hidden !important;
+    border-bottom: 1px solid var(--msg-line);
+  }
+
+  .hlc-messages-inbox-list {
+    height: calc(100% - 78px);
+    min-height: 250px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+  }
+
+  .hlc-message-inbox-row {
+    min-height: 92px !important;
+    padding: 14px 16px !important;
+    border-radius: 0 !important;
+    border-left: 3px solid transparent !important;
+    background: rgba(13, 27, 47, .72) !important;
+    box-shadow: none !important;
+  }
+
+  /* Restrained row identity accents: one HLC system, easier contact scanning. */
+  .hlc-message-inbox-row:nth-child(4n + 1) { border-left-color: #2f80ff !important; background: rgba(47,128,255,.08) !important; }
+  .hlc-message-inbox-row:nth-child(4n + 2) { border-left-color: #6366f1 !important; background: rgba(99,102,241,.08) !important; }
+  .hlc-message-inbox-row:nth-child(4n + 3) { border-left-color: #10b981 !important; background: rgba(16,185,129,.07) !important; }
+  .hlc-message-inbox-row:nth-child(4n) { border-left-color: #f59e0b !important; background: rgba(245,158,11,.06) !important; }
+  .hlc-message-inbox-row.is-selected {
+    border-left-color: #60a5fa !important;
+    background: rgba(47,128,255,.16) !important;
+    box-shadow: inset 0 0 0 1px rgba(96,165,250,.14) !important;
+  }
+
+  /* Conversation history gets a real viewport instead of collapsing around the composer. */
+  .hlc-messages-thread {
+    min-height: calc(100dvh - 170px) !important;
+    grid-template-rows: auto minmax(360px, 1fr) auto auto !important;
+  }
+
+  .hlc-message-stream {
+    min-height: 360px !important;
+    max-height: 58dvh !important;
+    padding: 10px 14px !important;
+    background: #081426 !important;
+  }
+
+  .hlc-message-entry,
+  .hlc-message-entry.is-self {
+    margin: 0 !important;
+    padding: 16px 2px !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--msg-line-soft) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-message-entry.is-self {
+    padding-left: 12px !important;
+    box-shadow: inset 3px 0 0 #2f80ff !important;
+  }
+
+  /* The owner asked for substantially more writing room. */
+  .hlc-message-composer {
+    padding: 16px 14px !important;
+    gap: 10px !important;
+    background: #0b192c !important;
+  }
+
+  .hlc-message-composer textarea {
+    min-height: 180px !important;
+    max-height: 42dvh;
+    resize: vertical;
+    font-size: 16px !important;
+    line-height: 1.5;
+  }
+
+  .hlc-message-start-fields textarea,
+  .hlc-message-start-body textarea {
+    min-height: 190px !important;
+    max-height: 46dvh;
+    resize: vertical;
+    font-size: 16px !important;
+    line-height: 1.5;
+  }
+
+  .hlc-message-start-fields input,
+  .hlc-message-start-fields select {
+    min-height: 50px !important;
+  }
+
+  .hlc-message-start-workspace,
+  .hlc-message-start-actions,
+  .hlc-message-composer,
+  .hlc-voice-note-console {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Voice notes stay visibly attached to the selected conversation after upload. */
+  .hlc-voice-note-console {
+    background: transparent !important;
+  }
+
+  .hlc-voice-note-list {
+    min-height: 48px;
+    background: transparent !important;
+  }
+
+  .hlc-voice-note-list button {
+    background: rgba(13,27,47,.7) !important;
+    border-radius: 0 !important;
+  }
+
+  .hlc-voice-note-list .hlc-messages-empty {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    color: var(--msg-mobile-muted) !important;
+  }
+
+  .hlc-audio-file-action,
+  .hlc-voice-note-actions > button,
+  .hlc-voice-note-preview-actions button {
+    border-radius: 6px !important;
+    background: #112744 !important;
+    color: #f8fafc !important;
+    box-shadow: none !important;
+  }
+
+  /* Keep the fixed mobile navigation from covering actionable content. */
+  .hlc-message-start-workspace {
+    margin-bottom: calc(24px + env(safe-area-inset-bottom));
+  }
+}
