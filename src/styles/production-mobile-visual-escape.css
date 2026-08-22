@@ -1,0 +1,163 @@
+/* #160 production iPhone authority.
+   Presentation only: close the remaining Dashboard and Call Center visual escapes
+   without changing communications, auth, AI, data, routing, or business logic. */
+
+@media (max-width: 760px) {
+  /* Dashboard Business Pulse / navigation cards must never fall back to light cards. */
+  .hlc-signed-in-shell .hlc-command-center :is(.hlc-business-pulse-grid,.hlc-pulse-card,.hlc-pulse-card-featured) {
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-center :is(.hlc-pulse-card,.hlc-pulse-card-featured) {
+    min-height: 0 !important;
+    padding: 16px 4px !important;
+    border: 0 !important;
+    border-bottom: 1px solid rgba(148,163,184,.18) !important;
+    border-radius: 0 !important;
+    color: #f8fafc !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-center :is(.hlc-pulse-card,.hlc-pulse-card-featured) :is(strong,h3) {
+    color: #f8fafc !important;
+    -webkit-text-fill-color: #f8fafc !important;
+    opacity: 1 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-center :is(.hlc-pulse-card,.hlc-pulse-card-featured) :is(p,span,small) {
+    color: #c2cede !important;
+    -webkit-text-fill-color: #c2cede !important;
+    opacity: 1 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-center .hlc-pulse-icon {
+    background: rgba(47,128,255,.12) !important;
+    border: 1px solid rgba(96,165,250,.22) !important;
+    color: #93c5fd !important;
+  }
+
+  /* Call Center: readable command header and denser mobile operating hierarchy. */
+  .hlc-signed-in-shell .hlc-call-center-workspace {
+    width: calc(100% - 28px) !important;
+    margin: 18px auto calc(112px + env(safe-area-inset-bottom)) !important;
+    gap: 12px !important;
+    background: #071426 !important;
+    color: #f8fafc !important;
+  }
+
+  .hlc-signed-in-shell .hlc-call-center-header {
+    gap: 14px !important;
+    padding: 4px 0 16px !important;
+    border-bottom-color: #28415f !important;
+  }
+
+  .hlc-signed-in-shell .hlc-call-center-header :is(.hlc-call-center-eyebrow,h1) {
+    color: #f8fafc !important;
+    -webkit-text-fill-color: #f8fafc !important;
+    opacity: 1 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-call-center-header .hlc-call-center-eyebrow {
+    color: #60a5fa !important;
+    -webkit-text-fill-color: #60a5fa !important;
+  }
+
+  .hlc-signed-in-shell .hlc-call-center-header > div:first-child > p:last-child {
+    margin-top: 8px !important;
+    max-width: 42rem !important;
+    color: #c2cede !important;
+    -webkit-text-fill-color: #c2cede !important;
+    line-height: 1.45 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-call-center-summary {
+    grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+    border-color: #28415f !important;
+  }
+
+  .hlc-signed-in-shell .hlc-call-center-summary span {
+    padding: 10px 8px !important;
+    background: #0d1b2f !important;
+    border-color: rgba(148,163,184,.14) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-call-center-summary strong,
+  .hlc-signed-in-shell .hlc-call-section-heading h2,
+  .hlc-signed-in-shell .hlc-call-carrier-number strong,
+  .hlc-signed-in-shell .hlc-call-device-readiness strong,
+  .hlc-signed-in-shell .hlc-call-integration-ledger strong,
+  .hlc-signed-in-shell .hlc-call-line-identity strong {
+    color: #f8fafc !important;
+    -webkit-text-fill-color: #f8fafc !important;
+  }
+
+  .hlc-signed-in-shell .hlc-call-center-summary small,
+  .hlc-signed-in-shell .hlc-call-carrier-explainer,
+  .hlc-signed-in-shell .hlc-call-boundary-note,
+  .hlc-signed-in-shell .hlc-call-device-readiness span,
+  .hlc-signed-in-shell .hlc-call-integration-ledger small,
+  .hlc-signed-in-shell .hlc-call-line-capabilities,
+  .hlc-signed-in-shell .hlc-call-line-note {
+    color: #c2cede !important;
+    -webkit-text-fill-color: #c2cede !important;
+  }
+
+  .hlc-signed-in-shell .hlc-call-carrier-lane,
+  .hlc-signed-in-shell .hlc-call-lines,
+  .hlc-signed-in-shell .hlc-call-ledgers {
+    background: transparent !important;
+    border-color: #28415f !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-signed-in-shell .hlc-call-carrier-explainer,
+  .hlc-signed-in-shell .hlc-call-boundary-note {
+    padding: 10px 4px !important;
+    line-height: 1.45 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-call-carrier-grid {
+    border-color: rgba(148,163,184,.14) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-call-device-readiness {
+    padding: 14px 4px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-call-integration-ledger span {
+    padding: 10px 4px !important;
+    background: transparent !important;
+  }
+
+  .hlc-signed-in-shell .hlc-call-action-rail,
+  .hlc-signed-in-shell .hlc-call-line-actions {
+    grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+    gap: 8px !important;
+    padding: 12px 0 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-call-action-rail .is-primary,
+  .hlc-signed-in-shell .hlc-call-line-actions .is-primary {
+    grid-column: 1 / -1 !important;
+    min-height: 48px !important;
+    background: #2563eb !important;
+    border-color: #2563eb !important;
+    color: #fff !important;
+  }
+
+  .hlc-signed-in-shell .hlc-call-action-rail a:not(.is-primary),
+  .hlc-signed-in-shell .hlc-call-line-actions a:not(.is-primary) {
+    min-height: 44px !important;
+    padding: 8px !important;
+    background: #112744 !important;
+    border-color: #3b5f88 !important;
+    color: #f8fafc !important;
+  }
+
+  .hlc-signed-in-shell .hlc-call-line-row,
+  .hlc-signed-in-shell .hlc-call-ledger-row {
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+    background: transparent !important;
+  }
+}
