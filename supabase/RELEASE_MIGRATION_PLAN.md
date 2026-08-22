@@ -71,7 +71,7 @@ The active production app Supabase project is `homeconnect` (`cguhtshclyybivvdnp
 63. `20260814144749_provider_map_coordinates_foundation.sql`
 64. `20260814144914_secure_provider_map_coordinate_updates.sql`
 65. `20260814145407_portal_identity_and_provider_profile_types.sql`
-66. `20260814145500_harden_activity_log_as_append_only.sql`
+66. `20260814145501_harden_activity_log_as_append_only.sql`
 67. `20260814145520_linked_provider_profile_read.sql`
 68. `20260814150142_professional_portal_services_contract.sql`
 69. `20260814150206_fix_professional_portal_availability_upsert.sql`
