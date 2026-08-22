@@ -44,3 +44,11 @@ test("Community specialization mounts before final authority and collapses safel
   assert.match(styles, /\.hlc-community-summary\{grid-template-columns:1fr/);
   assert.match(styles, /width:min\(100% - 24px,1440px\)/);
 });
+
+test("Community is natively dark with restrained navigation and divider rows", () => {
+  assert.match(styles, /--community-surface:#0d1b2f/);
+  assert.match(styles, /\.hlc-community-commandbar a:hover,[\s\S]*rgba\(47,128,255,\.1\)/);
+  assert.match(styles, /\.hlc-community-row\{[^}]*background:transparent!important/);
+  assert.match(styles, /\.hlc-community-context section\{[^}]*background:transparent!important/);
+  assert.doesNotMatch(styles, /background:(?:#fff|#ffffff|#edf5ff|#eef6ff|#f8fbff)/i);
+});
