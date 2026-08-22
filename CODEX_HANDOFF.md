@@ -3,6 +3,17 @@
 ## Objective
 Finish HomeLead Connect as a genuinely operating application, not just a complete route map. Work from current `main` and preserve the existing production architecture unless a verified defect requires change.
 
+## Production source of truth
+
+For production verification, incident response, and launch certification, use Supabase project **`cguhtshclyybivvdnpig`**.
+
+- Production API URL: `https://cguhtshclyybivvdnpig.supabase.co`
+- `app.homeleadconnect.org` is explicitly pinned to this project in `src/lib/supabase.ts`.
+- `.env.production` must point to the same project and its active browser-safe publishable key.
+- Do **not** use `agfwqnirspmptjiqrrtk` as production evidence for agent/runtime certification.
+- Before diagnosing a production runtime defect, first verify the project ref used by the live frontend and inspect logs/data in that same project.
+- Current certified AI runtime baseline (2026-08-21): `hlc-agent-chat` v16 and `hlc-agent-voice` v15 on `cguhtshclyybivvdnpig`; authenticated Kendrell runs have succeeded with `gpt-5.6-terra`, `fallback: false`, and `error_code: null`.
+
 Current production head context:
 - desktop full-width fix: `5c24095ba93b71b6f6980736e29eab1a712e00fe`
 - obsolete ecosystem-readiness surface removed: `e5a3cfb7d4238517e7301f72cb3afed4902f7910`
