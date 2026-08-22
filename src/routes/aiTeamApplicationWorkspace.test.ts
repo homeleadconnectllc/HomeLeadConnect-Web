@@ -58,3 +58,13 @@ test("AI Team styling replaces generic panel cards with command rows and stays m
   assert.match(styles, /width:min\(100% - 24px,1440px\)!important/);
   assert.match(styles, /width:100vw!important;max-width:none!important/);
 });
+
+test("AI command workspaces are natively dark while preserving role-owned accents", () => {
+  assert.match(styles, /--agent-surface:#0d1b2f/);
+  assert.match(styles, /\.hlc-agent-command-hero\{[^}]*border-radius:10px!important/);
+  assert.match(styles, /\.hlc-agent-actions select,[\s\S]*background:var\(--agent-surface-soft\)!important/);
+  assert.match(styles, /\.hlc-agent-action-button:hover,[\s\S]*rgba\(47,128,255,\.06\)!important/);
+  assert.match(styles, /\.hlc-agent-guidance-drawer\{[^}]*background:#0b192b!important/);
+  assert.doesNotMatch(styles, /background:(?:#fff|#ffffff|#fbfdff|#eef5fc|#eef6ff|#f8fbff)!important/i);
+  assert.match(workspace, /style=\{\{ \.\.\.heroStyle, borderColor: agent\.accent \}\}/);
+});
