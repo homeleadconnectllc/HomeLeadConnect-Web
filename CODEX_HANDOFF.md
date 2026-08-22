@@ -112,7 +112,7 @@ Prove and repair as needed:
 - workspace tenancy via `workspace_id`
 - single-writer lead ingestion model
 - browser clients must not gain direct mutation paths to `public.leads`
-- Netlify is the canonical app host
+- Cloudflare Pages is the canonical production and preview app host
 - locked agent identities: Kendrell, Dion, Diamond
 - provider-agnostic device-native communications must never fabricate delivery/receipt state
 
