@@ -1,0 +1,247 @@
+/*
+ * Whole-app HLC visual reference authority — issue #140.
+ *
+ * Purpose: make generic/nested authenticated destinations inherit the approved
+ * reference language even when an older component still carries inline light
+ * surface styles. Route-specific authorities loaded after this file may refine
+ * behavior, but no supported signed-in page should fall back to a white card wall.
+ */
+
+.hlc-signed-in-shell {
+  --hlc-ref-canvas: #06101e;
+  --hlc-ref-bg: #081426;
+  --hlc-ref-surface: #0c1a2e;
+  --hlc-ref-surface-2: #10243f;
+  --hlc-ref-line: rgba(199, 210, 227, .14);
+  --hlc-ref-line-strong: rgba(199, 210, 227, .24);
+  --hlc-ref-text: #f8fafc;
+  --hlc-ref-muted: #aebbd0;
+  --hlc-ref-faint: #7f91aa;
+  --hlc-ref-blue: #2f80ff;
+  --hlc-ref-blue-soft: rgba(47, 128, 255, .10);
+}
+
+.hlc-signed-in-shell .hlc-route-content,
+.hlc-signed-in-shell .hlc-route-content > main {
+  color: var(--hlc-ref-text) !important;
+  background-color: var(--hlc-ref-bg) !important;
+}
+
+/* Generic page heroes become compact command headers, not decorative cards. */
+.hlc-signed-in-shell .hlc-route-content > main > header,
+.hlc-signed-in-shell .hlc-route-content > main > div:first-child:has(> h1) {
+  padding: 18px 0 20px !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--hlc-ref-line) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content > main > header h1,
+.hlc-signed-in-shell .hlc-route-content > main > div:first-child:has(> h1) h1 {
+  margin: 0 !important;
+  color: var(--hlc-ref-text) !important;
+  letter-spacing: -.02em;
+}
+
+/* Legacy generic cards/forms are converted into restrained operating surfaces. */
+.hlc-signed-in-shell .hlc-route-content main :is(form, article) {
+  color: var(--hlc-ref-text) !important;
+  border-color: var(--hlc-ref-line) !important;
+  background: rgba(12, 26, 46, .72) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content main form {
+  padding: clamp(16px, 2.2vw, 24px) !important;
+  border-radius: 8px !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content main article {
+  border-radius: 8px !important;
+}
+
+/* Lists/grids visually join into one professional workspace. */
+.hlc-signed-in-shell .hlc-route-content main section:has(> article) {
+  gap: 0 !important;
+  overflow: hidden;
+  border: 1px solid var(--hlc-ref-line) !important;
+  border-radius: 8px !important;
+  background: rgba(6, 16, 30, .22) !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content main section:has(> article) > article {
+  border: 0 !important;
+  border-right: 1px solid var(--hlc-ref-line) !important;
+  border-bottom: 1px solid var(--hlc-ref-line) !important;
+  border-radius: 0 !important;
+  background: rgba(12, 26, 46, .56) !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content main section:has(> article) > article:hover {
+  background: rgba(47, 128, 255, .065) !important;
+}
+
+/* Typography and metadata hierarchy. */
+.hlc-signed-in-shell .hlc-route-content main :is(h1, h2, h3, h4, strong) {
+  color: var(--hlc-ref-text) !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content main :is(p, small, label, time) {
+  color: var(--hlc-ref-muted) !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content main small {
+  color: var(--hlc-ref-faint) !important;
+}
+
+/* Forms are dark-native and compact while preserving functional left alignment. */
+.hlc-signed-in-shell .hlc-route-content main label {
+  display: grid;
+  gap: 7px;
+  text-align: left !important;
+  font-weight: 650;
+}
+
+.hlc-signed-in-shell .hlc-route-content main :is(input, select, textarea) {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px !important;
+  color: var(--hlc-ref-text) !important;
+  caret-color: var(--hlc-ref-text);
+  border: 1px solid var(--hlc-ref-line-strong) !important;
+  border-radius: 7px !important;
+  background: #09182b !important;
+  box-shadow: none !important;
+  text-align: left !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content main textarea {
+  min-height: 116px;
+  resize: vertical;
+}
+
+.hlc-signed-in-shell .hlc-route-content main :is(input, select, textarea):focus {
+  outline: 2px solid rgba(47, 128, 255, .32) !important;
+  outline-offset: 1px;
+  border-color: rgba(47, 128, 255, .72) !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content main :is(input, textarea)::placeholder {
+  color: #72849e !important;
+}
+
+/* Primary interactions follow the reference: compact fill, restrained geometry. */
+.hlc-signed-in-shell .hlc-route-content main button,
+.hlc-signed-in-shell .hlc-route-content main a[role="button"] {
+  min-height: 42px;
+  padding: 9px 14px !important;
+  border-radius: 7px !important;
+  border-color: rgba(47, 128, 255, .34) !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content main button:not(:disabled):hover,
+.hlc-signed-in-shell .hlc-route-content main a[role="button"]:hover {
+  border-color: rgba(47, 128, 255, .58) !important;
+  background-color: rgba(47, 128, 255, .13) !important;
+  transform: none !important;
+}
+
+/* Plain link clusters become compact sub-navigation. */
+.hlc-signed-in-shell .hlc-route-content main > div:has(> a + a) {
+  gap: 6px !important;
+  padding: 8px 0 12px !important;
+  border-bottom: 1px solid var(--hlc-ref-line);
+}
+
+.hlc-signed-in-shell .hlc-route-content main > div:has(> a + a) > a {
+  padding: 7px 10px;
+  border-radius: 6px;
+  color: #c5d9f7 !important;
+  text-decoration: none;
+  background: transparent;
+}
+
+.hlc-signed-in-shell .hlc-route-content main > div:has(> a + a) > a:hover {
+  color: #fff !important;
+  background: var(--hlc-ref-blue-soft);
+}
+
+/* Tables and record canvases emulate the dense reference screens. */
+.hlc-signed-in-shell .hlc-route-content main table {
+  color: var(--hlc-ref-muted) !important;
+  border-collapse: collapse;
+  background: rgba(8, 20, 38, .7) !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content main :is(th, td) {
+  padding: 11px 12px;
+  border-bottom: 1px solid var(--hlc-ref-line) !important;
+  text-align: left !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content main th {
+  color: #dce7f6 !important;
+  font-size: .78rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+/* Truthful state surfaces should look intentional instead of empty. */
+.hlc-signed-in-shell .hlc-route-content main :is([role="status"], [role="alert"]) {
+  padding: 12px 14px;
+  border-left: 3px solid var(--hlc-ref-blue);
+  color: var(--hlc-ref-muted) !important;
+  background: rgba(47, 128, 255, .065) !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content main [role="alert"] {
+  border-left-color: #f59e0b;
+}
+
+/* Department responsibility accents stay subordinate to the HLC master system. */
+.hlc-agent-workspace[data-agent="kendrell"],
+.hlc-agent-workspace-kendrell {
+  --hlc-department-accent: #f59e0b;
+}
+
+.hlc-agent-workspace[data-agent="dion"],
+.hlc-agent-workspace-dion {
+  --hlc-department-accent: #6366f1;
+}
+
+.hlc-agent-workspace[data-agent="diamond"],
+.hlc-agent-workspace-diamond {
+  --hlc-department-accent: #10b981;
+}
+
+/* Mobile is a reorganized workspace, not a squeezed desktop canvas. */
+@media (max-width: 720px) {
+  .hlc-signed-in-shell .hlc-route-content > main {
+    padding-inline: 16px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-route-content > main > header,
+  .hlc-signed-in-shell .hlc-route-content > main > div:first-child:has(> h1) {
+    padding-block: 14px 16px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-route-content main :is(form, article) {
+    padding: 15px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-route-content main section:has(> article) {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-route-content main section:has(> article) > article {
+    border-right: 0 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-route-content main textarea {
+    min-height: 132px;
+  }
+}
