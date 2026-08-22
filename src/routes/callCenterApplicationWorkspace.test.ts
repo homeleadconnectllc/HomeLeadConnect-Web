@@ -38,3 +38,11 @@ test("Call Center specialization mounts before final authority and becomes one-c
   assert.match(styles, /\.hlc-call-line-row\{grid-template-columns:1fr/);
   assert.match(styles, /\.hlc-call-ledger-row\{grid-template-columns:1fr/);
 });
+
+test("Call Center is natively dark and reserves contained treatment for the disposition inspector", () => {
+  assert.match(styles, /--call-surface:#0d1b2f/);
+  assert.match(styles, /\.hlc-call-carrier-lane\{[^}]*background:transparent/);
+  assert.match(styles, /\.hlc-call-line-row\{[^}]*background:transparent/);
+  assert.match(styles, /\.hlc-call-disposition\{[^}]*background:var\(--call-surface\)/);
+  assert.doesNotMatch(styles, /background:(?:#fff|#ffffff|#f8fafc|#f8fbff)/i);
+});
