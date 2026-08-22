@@ -1,0 +1,375 @@
+/* Professional flat-surface system
+   Approved visual direction: premium HLC workspace, fewer floating cards,
+   quieter separators, tighter radii, deeper navy surfaces, restrained role accents.
+   This file is intentionally imported last for authenticated workspaces. */
+
+.hlc-signed-in-shell {
+  --hlc-flat-bg: #081426;
+  --hlc-flat-bg-deep: #06101e;
+  --hlc-flat-surface: #0d1a2d;
+  --hlc-flat-surface-strong: #102039;
+  --hlc-flat-surface-soft: rgba(15, 32, 57, .72);
+  --hlc-flat-line: rgba(199, 210, 227, .12);
+  --hlc-flat-line-strong: rgba(199, 210, 227, .18);
+  --hlc-flat-text: #f8fafc;
+  --hlc-flat-muted: #a9b8cb;
+  --hlc-flat-faint: #8092aa;
+  --hlc-flat-blue: #2f80ff;
+  --hlc-flat-blue-soft: rgba(47, 128, 255, .11);
+  background: var(--hlc-flat-bg-deep) !important;
+}
+
+.hlc-signed-in-shell > .hlc-route-content {
+  background:
+    linear-gradient(180deg, rgba(47, 128, 255, .045), transparent 180px),
+    var(--hlc-flat-bg) !important;
+}
+
+.hlc-signed-in-shell > .hlc-route-content > main {
+  width: min(1480px, calc(100% - 48px)) !important;
+  margin: 0 auto !important;
+  padding: clamp(28px, 3vw, 44px) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content h1,
+.hlc-signed-in-shell .hlc-route-content h2,
+.hlc-signed-in-shell .hlc-route-content h3,
+.hlc-signed-in-shell .hlc-route-content h4 {
+  color: var(--hlc-flat-text) !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content p,
+.hlc-signed-in-shell .hlc-route-content li,
+.hlc-signed-in-shell .hlc-route-content small,
+.hlc-signed-in-shell .hlc-route-content label {
+  color: var(--hlc-flat-muted);
+}
+
+/* Structural regions read as one continuous professional workspace. */
+.hlc-signed-in-shell .hlc-route-content > main > section,
+.hlc-signed-in-shell .hlc-route-content > main > article,
+.hlc-signed-in-shell .hlc-route-content > main > form {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content > main > section + section,
+.hlc-signed-in-shell .hlc-route-content > main > article + article {
+  border-top: 1px solid var(--hlc-flat-line) !important;
+}
+
+/* Bright outlines and floating-card shadows are retired across authenticated workspaces. */
+.hlc-signed-in-shell .hlc-route-content :is(
+  .hlc-card,
+  .card,
+  [class*="-card"],
+  [class*="-panel"],
+  [class*="-tile"],
+  [class*="-summary"]
+) {
+  border-color: var(--hlc-flat-line) !important;
+  border-radius: 10px !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content :is(
+  .hlc-card,
+  .card,
+  [class*="-card"],
+  [class*="-panel"],
+  [class*="-tile"],
+  [class*="-summary"]
+):hover {
+  transform: none !important;
+  border-color: var(--hlc-flat-line-strong) !important;
+  box-shadow: none !important;
+}
+
+/* Toolbars and filter rows are attached to the work area instead of floating boxes. */
+.hlc-signed-in-shell .hlc-route-content [class*="-toolbar"],
+.hlc-signed-in-shell .hlc-route-content [class*="-filters"],
+.hlc-signed-in-shell .hlc-route-content [class*="-controls"] {
+  border: 0 !important;
+  border-bottom: 1px solid var(--hlc-flat-line) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Tables become quiet data canvases with row separators. */
+.hlc-signed-in-shell .hlc-route-content table {
+  overflow: hidden;
+  border: 1px solid var(--hlc-flat-line) !important;
+  border-radius: 8px !important;
+  background: rgba(7, 17, 31, .32) !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content thead {
+  background: rgba(47, 128, 255, .055) !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content tr + tr td {
+  border-top-color: var(--hlc-flat-line) !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content tbody tr:hover {
+  background: rgba(47, 128, 255, .055) !important;
+}
+
+/* Inputs keep clear affordance without bright chrome. */
+.hlc-signed-in-shell .hlc-route-content input,
+.hlc-signed-in-shell .hlc-route-content select,
+.hlc-signed-in-shell .hlc-route-content textarea {
+  border-color: var(--hlc-flat-line-strong) !important;
+  border-radius: 8px !important;
+  background: rgba(5, 15, 29, .72) !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content input:focus,
+.hlc-signed-in-shell .hlc-route-content select:focus,
+.hlc-signed-in-shell .hlc-route-content textarea:focus {
+  border-color: rgba(47, 128, 255, .58) !important;
+}
+
+/* Buttons use fill and typography for hierarchy, not glowing borders. */
+.hlc-signed-in-shell .hlc-route-content button,
+.hlc-signed-in-shell .hlc-route-content a[role="button"] {
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content button:hover,
+.hlc-signed-in-shell .hlc-route-content a[role="button"]:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Dashboard: convert the card wall into one executive operating canvas. */
+.hlc-command-center {
+  padding-inline: 0 !important;
+}
+
+.hlc-system-strip {
+  margin-bottom: 0 !important;
+  padding: 13px 0 !important;
+  border: 0 !important;
+  border-block: 1px solid var(--hlc-flat-line) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+.hlc-metric-grid {
+  gap: 0 !important;
+  border-bottom: 1px solid var(--hlc-flat-line);
+}
+
+.hlc-metric-card {
+  min-height: 132px;
+  padding: 22px 20px !important;
+  border: 0 !important;
+  border-right: 1px solid var(--hlc-flat-line) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+.hlc-metric-card:last-child {
+  border-right: 0 !important;
+}
+
+.hlc-metric-card:hover {
+  background: rgba(47, 128, 255, .045) !important;
+}
+
+.hlc-dashboard-section {
+  margin-top: 0 !important;
+  padding-block: 30px !important;
+}
+
+.hlc-business-pulse-section,
+.hlc-priority-panel {
+  padding-inline: 0 !important;
+  border: 0 !important;
+  border-top: 1px solid var(--hlc-flat-line) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+.hlc-business-pulse-grid,
+.hlc-workspace-grid {
+  gap: 0 !important;
+  border: 1px solid var(--hlc-flat-line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.hlc-pulse-card,
+.hlc-workspace-card {
+  border: 0 !important;
+  border-right: 1px solid var(--hlc-flat-line) !important;
+  border-bottom: 1px solid var(--hlc-flat-line) !important;
+  border-radius: 0 !important;
+  background: rgba(10, 24, 43, .54) !important;
+}
+
+.hlc-pulse-card-featured {
+  background: rgba(47, 128, 255, .09) !important;
+  box-shadow: inset 3px 0 0 var(--hlc-flat-blue) !important;
+}
+
+.hlc-pulse-card:hover,
+.hlc-workspace-card:hover {
+  background: rgba(47, 128, 255, .065) !important;
+}
+
+.hlc-quick-actions {
+  gap: 8px !important;
+}
+
+.hlc-quick-action {
+  border-color: var(--hlc-flat-line) !important;
+  border-radius: 8px !important;
+  background: rgba(15, 32, 57, .58) !important;
+  box-shadow: none !important;
+}
+
+.hlc-quick-action-primary {
+  border-color: transparent !important;
+  background: var(--hlc-flat-blue) !important;
+}
+
+.hlc-priority-item {
+  border-color: var(--hlc-flat-line) !important;
+}
+
+/* Agent team: role color remains responsibility metadata, not a glowing card border. */
+.hlc-agent-card,
+[class*="hlc-agent-card-"] {
+  border-color: var(--hlc-flat-line) !important;
+  background: var(--hlc-flat-surface-soft) !important;
+  box-shadow: none !important;
+}
+
+.hlc-agent-card-kendrell {
+  box-shadow: inset 3px 0 0 #f59e0b !important;
+}
+
+.hlc-agent-card-dion {
+  box-shadow: inset 3px 0 0 #6366f1 !important;
+}
+
+.hlc-agent-card-diamond {
+  box-shadow: inset 3px 0 0 #10b981 !important;
+}
+
+/* Dense object lists: prefer row separators over individual outlined boxes. */
+.hlc-signed-in-shell .hlc-route-content [class*="-list"] > :is(
+  [class*="-card"],
+  [class*="-item"],
+  article,
+  li
+) {
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-bottom: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content [class*="-list"] > :is(
+  [class*="-card"],
+  [class*="-item"],
+  article,
+  li
+) + :is(
+  [class*="-card"],
+  [class*="-item"],
+  article,
+  li
+) {
+  border-top: 1px solid var(--hlc-flat-line) !important;
+}
+
+/* Keep true dialogs/inspectors contained. */
+.hlc-signed-in-shell .hlc-route-content [data-ui-surface="dialog"],
+.hlc-signed-in-shell .hlc-route-content [data-ui-surface="inspector"],
+.hlc-signed-in-shell .hlc-route-content [role="dialog"] {
+  border: 1px solid var(--hlc-flat-line-strong) !important;
+  border-radius: 10px !important;
+  background: var(--hlc-flat-surface-strong) !important;
+  box-shadow: 0 22px 50px rgba(0, 0, 0, .24) !important;
+}
+
+/* Sidebar/menu chrome follows the same quieter language. */
+.hlc-signed-in-shell > .hlc-navbar .hlc-nav-group summary {
+  border-color: transparent !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+}
+
+.hlc-signed-in-shell > .hlc-navbar .hlc-nav-group[open] summary,
+.hlc-signed-in-shell > .hlc-navbar .hlc-nav-menu a[aria-current="page"] {
+  border-color: transparent !important;
+  border-radius: 7px !important;
+  background: rgba(47, 128, 255, .12) !important;
+  box-shadow: inset 2px 0 0 var(--hlc-flat-blue) !important;
+}
+
+.hlc-signed-in-shell > .hlc-navbar .hlc-nav-menu {
+  border-color: var(--hlc-flat-line) !important;
+  border-radius: 10px !important;
+  background: #091629 !important;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .24) !important;
+}
+
+@media (max-width: 1024px) {
+  .hlc-signed-in-shell > .hlc-route-content > main {
+    width: calc(100% - 20px) !important;
+    padding: 22px 18px 96px !important;
+  }
+
+  .hlc-dashboard-section {
+    padding-block: 24px !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .hlc-signed-in-shell > .hlc-route-content > main {
+    width: 100% !important;
+    padding: 18px 16px 92px !important;
+  }
+
+  .hlc-metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .hlc-metric-card {
+    min-height: 112px;
+    border-bottom: 1px solid var(--hlc-flat-line) !important;
+  }
+
+  .hlc-metric-card:nth-child(2n) {
+    border-right: 0 !important;
+  }
+
+  .hlc-business-pulse-grid,
+  .hlc-workspace-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .hlc-pulse-card,
+  .hlc-workspace-card {
+    border-right: 0 !important;
+  }
+
+  .hlc-quick-action {
+    border-radius: 7px !important;
+  }
+}
