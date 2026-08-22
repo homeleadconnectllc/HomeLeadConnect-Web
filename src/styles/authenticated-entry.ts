@@ -49,5 +49,6 @@ import "./professional-flat-surface-system.css";
 import "./application-workspace-ui.css";
 import "./mobile-dashboard-live-authority.css";
 import "./centered-presentation-typography.css";
+import "./full-app-visual-reference-authority.css";
 import "./messages-mobile-final-authority.css";
 import "./launch-contrast-readability.css";
