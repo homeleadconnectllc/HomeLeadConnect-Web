@@ -1,6 +1,7 @@
 import "../index.css";
 import "./workspace-nav.css";
 import "./auth-methods.css";
+import "./auth-mobile-final-authority.css";
 import "./product-polish.css";
 import "./launch-hardening.css";
 import "./launch-mobile.css";

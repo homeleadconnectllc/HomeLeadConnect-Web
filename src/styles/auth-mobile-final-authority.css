@@ -1,0 +1,157 @@
+/* Final mobile auth authority.
+ * This file intentionally loads after mobile-release-fix.css so the approved
+ * flat HLC account-access system cannot be reverted by legacy mobile card rules. */
+
+@media (max-width: 720px) {
+  .hlc-auth-shell.hlc-auth-shell--flat {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 0 calc(36px + env(safe-area-inset-bottom)) !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: #081426 !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-auth-shell--flat .hlc-auth-brand {
+    display: none !important;
+  }
+
+  .hlc-auth-shell--flat .hlc-auth-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 28px 20px 34px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: #0d1a2d !important;
+    color: #e8eef8 !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-auth-shell--flat .hlc-auth-card::before,
+  .hlc-auth-shell--flat .hlc-auth-card::after {
+    display: none !important;
+  }
+
+  .hlc-auth-shell--flat .hlc-auth-card > :is(.hlc-auth-card-brand, h2, .hlc-auth-card-description) {
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-auth-shell--flat .hlc-auth-card-brand {
+    color: #70a7ff !important;
+  }
+
+  .hlc-auth-shell--flat .hlc-auth-card h2 {
+    color: #ffffff !important;
+  }
+
+  .hlc-auth-shell--flat .hlc-auth-card-description {
+    max-width: 42ch !important;
+    margin: 8px 0 20px !important;
+    color: #aebdd0 !important;
+  }
+
+  .hlc-auth-shell--flat .hlc-auth-method-tabs {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0 18px !important;
+    width: 100% !important;
+    margin: 0 0 22px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-bottom: 1px solid rgba(199, 210, 227, 0.14) !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-auth-shell--flat .hlc-auth-method-tabs button {
+    width: 100% !important;
+    min-height: 44px !important;
+    padding: 10px 0 !important;
+    border: 0 !important;
+    border-bottom: 2px solid transparent !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: #9fb0c5 !important;
+    box-shadow: none !important;
+    text-align: center !important;
+  }
+
+  .hlc-auth-shell--flat .hlc-auth-method-tabs button[aria-pressed="true"] {
+    border-bottom-color: #2f80ff !important;
+    background: transparent !important;
+    color: #ffffff !important;
+  }
+
+  .hlc-auth-shell--flat .hlc-auth-form {
+    gap: 16px !important;
+  }
+
+  .hlc-auth-shell--flat .hlc-auth-form label {
+    gap: 7px !important;
+    color: #e8eef8 !important;
+    font-size: 0.9rem !important;
+  }
+
+  .hlc-auth-shell--flat .hlc-auth-form input,
+  .hlc-auth-shell--flat .hlc-auth-form select,
+  .hlc-auth-shell--flat .hlc-auth-form textarea {
+    min-height: 50px !important;
+    padding: 12px 13px !important;
+    border: 1px solid rgba(199, 210, 227, 0.2) !important;
+    border-radius: 7px !important;
+    background: #101f34 !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-auth-shell--flat .hlc-auth-form input:focus,
+  .hlc-auth-shell--flat .hlc-auth-form select:focus,
+  .hlc-auth-shell--flat .hlc-auth-form textarea:focus {
+    border-color: #2f80ff !important;
+    box-shadow: 0 0 0 3px rgba(47, 128, 255, 0.15) !important;
+  }
+
+  .hlc-auth-shell--flat .hlc-auth-form > button {
+    min-height: 50px !important;
+    border: 0 !important;
+    border-radius: 7px !important;
+    background: #2f80ff !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-auth-shell--flat .hlc-auth-card-footer {
+    display: grid !important;
+    gap: 8px !important;
+    width: 100% !important;
+    margin: 22px 0 0 !important;
+    padding: 20px 0 0 !important;
+    border: 0 !important;
+    border-top: 1px solid rgba(199, 210, 227, 0.14) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: #91a4bc !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-auth-shell--flat .hlc-auth-card-footer a,
+  .hlc-auth-shell--flat .hlc-auth-card a {
+    color: #7fb1ff !important;
+  }
+
+  .hlc-auth-shell--flat [aria-label="Bot protection"] {
+    width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  .hlc-auth-shell--flat [aria-label="Bot protection"] iframe {
+    max-width: 100% !important;
+  }
+}
