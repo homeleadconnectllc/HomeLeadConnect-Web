@@ -35,8 +35,8 @@ test("scoped mobile auth authority beats legacy card rules without changing glob
   assert.ok(mobileReleaseIndex > authAuthorityIndex);
   assert.equal(appShellEntry.trim().split("\n").at(-1), 'import "./mobile-release-fix.css";');
   assert.match(mobileAuthAuthority, /\.hlc-auth-shell\.hlc-auth-shell--flat[\s\S]*background:\s*#081426 !important[\s\S]*border-radius:\s*0 !important/i);
-  assert.match(mobileAuthAuthority, /\.hlc-auth-shell--flat \.hlc-auth-card[\s\S]*background:\s*#0d1a2d !important[\s\S]*border-radius:\s*0 !important[\s\S]*box-shadow:\s*none !important/i);
-  assert.match(mobileAuthAuthority, /\.hlc-auth-shell--flat \.hlc-auth-method-tabs button[\s\S]*border-radius:\s*0 !important[\s\S]*background:\s*transparent !important/i);
-  assert.match(mobileAuthAuthority, /\.hlc-auth-shell--flat \.hlc-auth-form input[\s\S]*border-radius:\s*7px !important[\s\S]*background:\s*#101f34 !important/i);
-  assert.match(mobileAuthAuthority, /\.hlc-auth-shell--flat \.hlc-auth-card-footer[\s\S]*border-radius:\s*0 !important[\s\S]*background:\s*transparent !important[\s\S]*box-shadow:\s*none !important/i);
+  assert.match(mobileAuthAuthority, /\.hlc-auth-shell\.hlc-auth-shell--flat \.hlc-auth-card[\s\S]*background:\s*#0d1a2d !important[\s\S]*border-radius:\s*0 !important[\s\S]*box-shadow:\s*none !important/i);
+  assert.match(mobileAuthAuthority, /\.hlc-auth-shell\.hlc-auth-shell--flat \.hlc-auth-method-tabs button[\s\S]*border-radius:\s*0 !important[\s\S]*background:\s*transparent !important/i);
+  assert.match(mobileAuthAuthority, /\.hlc-auth-shell\.hlc-auth-shell--flat \.hlc-auth-form input[\s\S]*border-radius:\s*6px !important[\s\S]*background:\s*#101f34 !important/i);
+  assert.match(mobileAuthAuthority, /\.hlc-auth-shell\.hlc-auth-shell--flat \.hlc-auth-card \.hlc-auth-card-footer[\s\S]*border-radius:\s*0 !important[\s\S]*background:\s*transparent !important[\s\S]*color:\s*#b8c6d8 !important[\s\S]*opacity:\s*1 !important/i);
 });
