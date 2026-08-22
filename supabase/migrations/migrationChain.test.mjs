@@ -87,3 +87,16 @@ test("causal lead writer keeps locked search path and schema-qualified pgcrypto"
   assert.match(migration, /from public\.workspace_members/i);
   assert.match(migration, /insert into causal\.leads_state/i);
 });
+
+test("canonical new-lead status migration fixes only the historical uppercase NEW variant", () => {
+  const migration = readFileSync(
+    "supabase/migrations/20260822124500_canonicalize_new_lead_status.sql",
+    "utf8",
+  );
+
+  assert.match(migration, /update public\.leads[\s\S]*set status = 'new'[\s\S]*where status = 'NEW'/i);
+  assert.match(migration, /add constraint leads_status_no_uppercase_new/i);
+  assert.match(migration, /status is null or status <> 'NEW'/i);
+  assert.doesNotMatch(migration, /set status = lower\(status\)/i);
+  assert.doesNotMatch(migration, /lower\(status\).*check/i);
+});
