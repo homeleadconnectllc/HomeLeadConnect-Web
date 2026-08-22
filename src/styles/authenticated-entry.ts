@@ -47,3 +47,4 @@ import "./account-portals-application-workspace.css";
 import "./ai-team-application-workspace.css";
 import "./application-workspace-ui.css";
 import "./launch-contrast-readability.css";
+import "./professional-flat-surface-system.css";
