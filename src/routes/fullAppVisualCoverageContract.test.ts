@@ -38,6 +38,13 @@ test("whole-app visual reference authority is loaded in authenticated style orde
   assert.match(authority, /Mobile is a reorganized workspace/);
 });
 
+test("legacy inline light surfaces cannot punch through the shared dark workspace", () => {
+  assert.match(authority, /main > section:not\(\[class\]\)/);
+  assert.match(authority, /main > p\[style\*="background"\]/);
+  assert.match(authority, /background: rgba\(12, 26, 46, \.66\) !important/);
+  assert.match(authority, /background: rgba\(47, 128, 255, \.065\) !important/);
+});
+
 test("visual authority preserves the canonical HLC and department accent contract", () => {
   assert.match(authority, /#2f80ff/i);
   assert.match(authority, /#f59e0b/i);
