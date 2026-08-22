@@ -3,15 +3,18 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const dashboard = readFileSync(new URL("../styles/dashboard-application-workspace.css", import.meta.url), "utf8");
+const mobileLiveAuthority = readFileSync(new URL("../styles/mobile-dashboard-live-authority.css", import.meta.url), "utf8");
 const authenticatedEntry = readFileSync(new URL("../styles/authenticated-entry.ts", import.meta.url), "utf8");
 
 test("dashboard specialization is mounted before structural and launch contrast authorities", () => {
   const dashboardImport = 'import "./dashboard-application-workspace.css";';
   const applicationImport = 'import "./application-workspace-ui.css";';
+  const mobileLiveImport = 'import "./mobile-dashboard-live-authority.css";';
   const contrastImport = 'import "./launch-contrast-readability.css";';
   assert.match(authenticatedEntry, /import "\.\/dashboard-application-workspace\.css";/);
   assert.ok(authenticatedEntry.indexOf(dashboardImport) < authenticatedEntry.indexOf(applicationImport));
-  assert.ok(authenticatedEntry.indexOf(applicationImport) < authenticatedEntry.indexOf(contrastImport));
+  assert.ok(authenticatedEntry.indexOf(applicationImport) < authenticatedEntry.indexOf(mobileLiveImport));
+  assert.ok(authenticatedEntry.indexOf(mobileLiveImport) < authenticatedEntry.indexOf(contrastImport));
   assert.equal(authenticatedEntry.trim().split("\n").at(-1), contrastImport);
 });
 
@@ -48,4 +51,13 @@ test("dashboard mobile layout preserves compact KPI and action rails", () => {
   assert.match(dashboard, /@media \(max-width: 720px\)/);
   assert.match(dashboard, /grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
   assert.match(dashboard, /@media \(max-width: 430px\)/);
+});
+
+test("real-device mobile dashboard and analytics reject legacy light card islands", () => {
+  assert.match(mobileLiveAuthority, /@media \(max-width: 760px\)/);
+  assert.match(mobileLiveAuthority, /\.hlc-signed-in-shell \.hlc-command-center \.hlc-metric-card[\s\S]*border-radius:\s*0 !important[\s\S]*background:\s*transparent !important[\s\S]*box-shadow:\s*none !important/i);
+  assert.match(mobileLiveAuthority, /\.hlc-signed-in-shell \.hlc-command-center :is\(\.hlc-dashboard-section,\.hlc-agent-team-section,\.hlc-business-pulse-section,\.hlc-priority-panel\)[\s\S]*background:\s*transparent !important/i);
+  assert.match(mobileLiveAuthority, /\.hlc-signed-in-shell \.hlc-analytics-page \.hlc-analytics-kpi[\s\S]*border-radius:\s*0 !important[\s\S]*background:\s*transparent !important/i);
+  assert.match(mobileLiveAuthority, /\.hlc-signed-in-shell \.hlc-analytics-page \.hlc-analytics-detail-grid > article,[\s\S]*background:\s*transparent !important/i);
+  assert.doesNotMatch(mobileLiveAuthority, /background:\s*(?:#fff(?:fff)?|white)\b/i);
 });
