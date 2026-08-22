@@ -1,0 +1,46 @@
+# HomeLead Connect — Brand System
+
+## Master Brand
+HomeLead Connect LLC
+
+## Public Domain
+HomeLeadConnect.org
+
+## Public Tagline
+**Smarter Connections. Better Service Experiences.**
+
+## Core Colors
+- Navy: `#081426`
+- Blue: `#2F80FF`
+- White: `#FFFFFF`
+- Supporting neutral: `#C7D2E3`
+
+## AI Department Accents
+- Kendrell: Amber
+- Dion: Indigo `#6366F1`
+- Diamond: Emerald
+
+Departmental accents identify responsibility; HomeLead branding identifies ownership.
+
+## Visual Direction
+Premium dark SaaS / corporate:
+- clean
+- modern
+- professional
+- trustworthy
+- restrained
+- realistic
+
+## Shared Workplace Language
+- charcoal/navy architectural surfaces
+- dark wood
+- glass
+- restrained metal details
+- warm indirect lighting
+- executive-grade realism
+
+## Logo Governance
+Use approved official HLC artwork. Do not generate, redraw, approximate, or reinterpret an authoritative HLC logo.
+
+## Public-Site Rule
+Public presentation communicates product value and trust without exposing proprietary architecture, internal AI implementation, database design, infrastructure, or automation logic.
