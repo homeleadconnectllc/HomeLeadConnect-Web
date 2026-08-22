@@ -5,9 +5,15 @@ import test from "node:test";
 const authenticatedEntry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 const surfaceSystem = readFileSync("src/styles/professional-flat-surface-system.css", "utf8");
 
-test("professional flat surface system loads last for authenticated workspaces", () => {
+test("professional flat surface system loads beneath structural and contrast authorities", () => {
   const lines = authenticatedEntry.trim().split("\n");
-  assert.equal(lines.at(-1), 'import "./professional-flat-surface-system.css";');
+  const flatIndex = lines.indexOf('import "./professional-flat-surface-system.css";');
+  const structuralIndex = lines.indexOf('import "./application-workspace-ui.css";');
+  const contrastIndex = lines.indexOf('import "./launch-contrast-readability.css";');
+  assert.ok(flatIndex >= 0);
+  assert.ok(flatIndex < structuralIndex);
+  assert.ok(structuralIndex < contrastIndex);
+  assert.equal(lines.at(-1), 'import "./launch-contrast-readability.css";');
 });
 
 test("approved workspace direction removes floating card chrome without removing HLC role accents", () => {
