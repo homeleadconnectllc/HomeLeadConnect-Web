@@ -36,7 +36,7 @@ test("signed-in professional system protects readable brand surfaces", () => {
 });
 
 test("dashboard and analytics are excluded from the legacy light-card contract at source", () => {
-  const lightContract = css.match(/\.hlc-signed-in-shell :is\([\s\S]*?\) \{\n  border: 1px solid var\(--hlc-soft-line\)/)?.[0] ?? "";
+  const lightContract = css.match(/\.hlc-signed-in-shell :is\([\s\S]*?\) \{\n {2}border: 1px solid var\(--hlc-soft-line\)/)?.[0] ?? "";
   assert.doesNotMatch(lightContract, /\.hlc-workspace-card/);
   assert.doesNotMatch(lightContract, /\.hlc-pulse-card/);
   assert.doesNotMatch(lightContract, /\.hlc-analytics-kpi/);
