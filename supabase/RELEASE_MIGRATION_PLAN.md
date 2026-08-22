@@ -71,7 +71,7 @@ The active production app Supabase project is `homeconnect` (`cguhtshclyybivvdnp
 63. `20260814144749_provider_map_coordinates_foundation.sql`
 64. `20260814144914_secure_provider_map_coordinate_updates.sql`
 65. `20260814145407_portal_identity_and_provider_profile_types.sql`
-66. `20260814145501_harden_activity_log_as_append_only.sql`
+66. `20260814145500_harden_activity_log_as_append_only.sql`
 67. `20260814145520_linked_provider_profile_read.sql`
 68. `20260814150142_professional_portal_services_contract.sql`
 69. `20260814150206_fix_professional_portal_availability_upsert.sql`
@@ -113,6 +113,7 @@ The active production app Supabase project is `homeconnect` (`cguhtshclyybivvdnp
 105. `20260822114000_optimize_active_rls_and_communication_fk_indexes.sql`
 106. `20260822124500_canonicalize_new_lead_status.sql`
 107. `20260822133000_sync_job_and_lead_lifecycle.sql`
+108. `20260822175000_provider_neutral_communication_resolution.sql`
 
 Migration #101 is retained in the local migration chain because it was applied to `hlc-reconciliation-test` during reconciliation. It is **not evidence of a production defect and is not required to be applied to `homeconnect` solely for parity**: production already has the canonical `causal.ingest_lead(...)` implementation from migration #98 with direct browser execution denied. Do not apply #101 to production unless a future production migration decision independently justifies it.
 
@@ -127,6 +128,8 @@ Migration #105 is the first evidence-backed production performance batch. It pre
 Migration #106 normalizes only the historical uppercase `NEW` lead-status variant to canonical lowercase `new` and adds a narrow constraint preventing that exact variant from returning. It intentionally does not lowercase the entire status vocabulary because legacy terminal-state contracts still contain uppercase values and require separate reconciliation.
 
 Migration #107 keeps canonical lead lifecycle state aligned with persisted job progress. It normalizes only the historical uppercase `NEW` stage variant, marks leads with pending/active jobs as `booked`, marks leads with completed jobs as `closed`, and installs an internal security-definer trigger so future job inserts/status updates maintain that relationship. Completed work wins over pending work, and unrelated legacy uppercase terminal-state contracts remain untouched.
+
+Migration #108 removes vendor assumptions from the canonical communication queue without changing its browser-facing RPC signature. The queue now resolves the workspace's configured provider for the requested channel, prefers API-connected providers over manual handoff providers, persists that provider with the transmission, and keeps `manual_available` transports in review rather than fabricating delivery. Provider execution remains adapter-based and fail-closed when an automatic adapter is not installed.
 
 ## Current production rules
 
