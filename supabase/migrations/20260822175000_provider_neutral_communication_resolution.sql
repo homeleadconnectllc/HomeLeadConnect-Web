@@ -27,6 +27,7 @@ declare
   v_transmission_id uuid;
   v_provider_name text;
   v_provider_status text;
+  v_existing_provider_name text;
 begin
   if auth.uid() is null then
     raise exception 'Authentication is required.' using errcode='42501';
@@ -63,7 +64,7 @@ begin
   v_provider_name := coalesce(nullif(lower(btrim(v_provider_name)),''),'unconfigured');
 
   select t.id,t.status,t.compliance_check_id,t.provider_name
-    into v_transmission_id,v_status,v_check_id,v_provider_name
+    into v_transmission_id,v_status,v_check_id,v_existing_provider_name
   from public.communication_transmissions t
   where t.workspace_id=v_workspace_id
     and t.channel=lower(p_channel)
@@ -78,7 +79,7 @@ begin
       'id',v_transmission_id,
       'decision',coalesce(v_check->>'decision','BLOCK'),
       'status',v_status,
-      'provider_name',v_provider_name,
+      'provider_name',v_existing_provider_name,
       'reasons',coalesce(v_check->'reasons','[]'::jsonb)
     );
   end if;
