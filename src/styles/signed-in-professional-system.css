@@ -1,7 +1,7 @@
 /* Signed-in professional system certification.
    Purpose: unify operational hierarchy, remove unnecessary card/pill noise,
    normalize contrast and spacing, and keep AI tools integrated rather than
-   obstructive. Loaded last for signed-in routes only. */
+   obstructive. */
 
 .hlc-signed-in-shell {
   --hlc-ink: #0f172a;
@@ -81,23 +81,65 @@
   margin: 32px auto 56px !important;
 }
 
-/* Cards are reserved for real grouping; ordinary records read like rows/panels. */
+/* Light object surfaces remain available for legacy operational records only.
+   Dashboard, Business Pulse, Workspace navigation and Analytics are dark operating
+   surfaces and are intentionally excluded from this light-card contract. */
 .hlc-signed-in-shell :is(
-  .hlc-workspace-card,
-  .hlc-pulse-card,
   .hlc-lead-card,
   .hlc-job-card,
   .hlc-messages-conversations,
   .hlc-messages-thread,
   .hlc-message-start,
   .hlc-device-alert-settings,
-  .hlc-analytics-kpi,
   .responsive-record-card
 ) {
   border: 1px solid var(--hlc-soft-line) !important;
   border-radius: var(--hlc-radius) !important;
   background: var(--hlc-surface) !important;
   box-shadow: none !important;
+}
+
+/* Dashboard + Analytics source-of-truth: one dark HLC operating environment. */
+.hlc-signed-in-shell :is(.hlc-command-center, .hlc-analytics-page, .hlc-analytics-panel) {
+  background: #071426 !important;
+  color: #f8fafc !important;
+}
+
+.hlc-signed-in-shell :is(.hlc-workspace-card, .hlc-pulse-card, .hlc-analytics-kpi) {
+  border-color: #28415f !important;
+  background: transparent !important;
+  color: #f8fafc !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell :is(.hlc-workspace-card, .hlc-pulse-card, .hlc-analytics-kpi) :is(h2,h3,strong) {
+  color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
+}
+
+.hlc-signed-in-shell :is(.hlc-workspace-card, .hlc-pulse-card, .hlc-analytics-kpi) :is(p,span,small) {
+  color: #c2cede !important;
+  -webkit-text-fill-color: #c2cede !important;
+}
+
+.hlc-signed-in-shell .hlc-analytics-detail-grid > article,
+.hlc-signed-in-shell .hlc-route-insights-card,
+.hlc-signed-in-shell .hlc-route-insight {
+  border-color: #28415f !important;
+  background: transparent !important;
+  color: #f8fafc !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell .hlc-analytics-detail-grid :is(dt,p,span,small),
+.hlc-signed-in-shell .hlc-route-insight :is(span,small) {
+  color: #c2cede !important;
+}
+
+.hlc-signed-in-shell .hlc-analytics-detail-grid :is(dd,strong,h3),
+.hlc-signed-in-shell .hlc-route-insight strong {
+  color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
 }
 
 .hlc-signed-in-shell :is(.hlc-workspace-grid,.hlc-pulse-grid,.hlc-business-pulse-grid,.hlc-leads-list,.hlc-jobs-list) {
@@ -128,7 +170,6 @@
   font-weight: 800 !important;
 }
 
-/* Buttons and fields use a consistent control language rather than assorted pills. */
 .hlc-signed-in-shell > .hlc-route-content :is(input,select,textarea,button,a[role="button"]) {
   box-sizing: border-box;
   font-size: 16px !important;
@@ -150,7 +191,6 @@
   font-weight: 800 !important;
 }
 
-/* Dashboard/analytics hero areas carry the brand; surrounding workspace stays calm. */
 .hlc-signed-in-shell .hlc-command-hero {
   border: 0 !important;
   border-radius: 12px !important;
@@ -186,7 +226,6 @@
   color: #dbeafe !important;
 }
 
-/* Business Pulse should read as navigation, not a pile of marketing tiles. */
 .hlc-signed-in-shell .hlc-business-pulse-grid {
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)) !important;
 }
@@ -197,10 +236,9 @@
 }
 
 .hlc-signed-in-shell .hlc-pulse-card:not(.hlc-pulse-card-featured) :is(strong,span) {
-  color: var(--hlc-ink) !important;
+  color: #dbeafe !important;
 }
 
-/* Messages: selected history and compose surfaces must remain readable. */
 .hlc-signed-in-shell .hlc-chat-history-item {
   border-radius: 8px !important;
   background: #f8fafc !important;
@@ -219,18 +257,17 @@
   opacity: 1 !important;
 }
 
-/* Analytics keeps numerical emphasis without giant billboard cards. */
 .hlc-signed-in-shell .hlc-analytics-kpi {
-  min-height: 126px !important;
-  padding: 16px !important;
+  min-height: 88px !important;
+  padding: 14px 8px !important;
+  border-radius: 0 !important;
 }
 
 .hlc-signed-in-shell .hlc-analytics-kpi strong {
-  font-size: clamp(1.75rem, 4vw, 2.5rem) !important;
-  color: var(--hlc-ink) !important;
+  font-size: clamp(1.55rem, 4vw, 2.25rem) !important;
+  color: #f8fafc !important;
 }
 
-/* AI is an integrated utility. Closed state is compact; open state leaves the app visible. */
 .hlc-agent-dock:not(.is-open) {
   width: 58px !important;
   max-width: 58px !important;
