@@ -16,11 +16,11 @@ HomeLeadConnect.org
 - Supporting neutral: `#C7D2E3`
 
 ## AI Department Accents
-- Kendrell: Amber
+- Kendrell: Amber `#F59E0B`
 - Dion: Indigo `#6366F1`
-- Diamond: Emerald
+- Diamond: Emerald `#10B981`
 
-Departmental accents identify responsibility; HomeLead branding identifies ownership.
+Departmental accents identify responsibility; HomeLead branding identifies ownership. Accent colors are supporting signals and must not replace the core HomeLead navy/blue visual system.
 
 ## Visual Direction
 Premium dark SaaS / corporate:
@@ -38,6 +38,18 @@ Premium dark SaaS / corporate:
 - restrained metal details
 - warm indirect lighting
 - executive-grade realism
+
+## Departmental Visual Language
+### Kendrell — Executive Command
+Amber accents, quieter executive environment, strategic and restrained presentation.
+
+### Dion — Operations & BI
+Indigo accents, more active operational environment, workflow/queue/scheduling/analysis context.
+
+### Diamond — Customer Experience & Community
+Emerald accents, polished and welcoming environment, customer/community/service-experience context.
+
+All three must remain visibly part of one HomeLead organization.
 
 ## Logo Governance
 Use approved official HLC artwork. Do not generate, redraw, approximate, or reinterpret an authoritative HLC logo.
