@@ -10,6 +10,18 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="HomeLead Connect" />
+    <script>
+      (() => {
+        const shortSide = Math.min(window.screen?.width || 9999, window.screen?.height || 9999);
+        if (shortSide <= 760) {
+          document.documentElement.classList.add('hlc-compact-device');
+          const viewport = document.querySelector('meta[name="viewport"]');
+          if (viewport) {
+            viewport.setAttribute('content', `width=${shortSide}, initial-scale=1.0, viewport-fit=cover`);
+          }
+        }
+      })();
+    </script>
     <title>HomeLead Connect</title>
   </head>
   <body>

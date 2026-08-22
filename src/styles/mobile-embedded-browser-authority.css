@@ -1,0 +1,123 @@
+/* #162 compact-device authority.
+   Ensures iPhone-class devices keep the mobile HLC shell even when an embedded
+   browser reports a desktop-sized layout viewport. Presentation only. */
+
+.hlc-compact-device .hlc-signed-in-shell {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 100svh !important;
+}
+
+.hlc-compact-device .hlc-signed-in-shell > .hlc-navbar {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 80 !important;
+  display: flex !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 14px !important;
+  overflow: visible !important;
+  padding: 14px max(16px, env(safe-area-inset-right)) 14px max(16px, env(safe-area-inset-left)) !important;
+  border-right: 0 !important;
+  border-bottom: 1px solid rgba(148,163,184,.18) !important;
+  background: linear-gradient(180deg,#071426 0%,#0a1830 100%) !important;
+  transform: none !important;
+  opacity: 1 !important;
+}
+
+.hlc-compact-device .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-brand {
+  width: auto !important;
+  max-width: calc(100% - 124px) !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+
+.hlc-compact-device .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-logo {
+  width: 52px !important;
+  height: 52px !important;
+  flex-basis: 52px !important;
+}
+
+.hlc-compact-device .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-links,
+.hlc-compact-device .hlc-desktop-sidebar-toggle {
+  display: none !important;
+}
+
+.hlc-compact-device .hlc-signed-in-shell > .hlc-route-content {
+  width: 100% !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  overflow-x: clip !important;
+  padding-bottom: calc(92px + env(safe-area-inset-bottom)) !important;
+}
+
+.hlc-compact-device .hlc-signed-in-shell .hlc-mobile-tabbar {
+  display: grid !important;
+  position: fixed !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 90 !important;
+  grid-template-columns: repeat(5,minmax(0,1fr)) !important;
+  min-height: calc(68px + env(safe-area-inset-bottom)) !important;
+}
+
+.hlc-compact-device .hlc-command-center {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  padding-inline: 14px !important;
+}
+
+/* Business Pulse must never inherit the legacy light-card treatment. */
+.hlc-compact-device .hlc-command-center .hlc-business-pulse-grid {
+  background: transparent !important;
+  gap: 0 !important;
+}
+
+.hlc-compact-device .hlc-command-center .hlc-pulse-card,
+.hlc-compact-device .hlc-command-center .hlc-pulse-card-featured {
+  min-height: 0 !important;
+  padding: 16px 8px !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(148,163,184,.18) !important;
+  border-radius: 0 !important;
+  background: #0d1b2f !important;
+  color: #f8fafc !important;
+  box-shadow: none !important;
+}
+
+.hlc-compact-device .hlc-command-center .hlc-pulse-card-featured {
+  background: #10243e !important;
+}
+
+.hlc-compact-device .hlc-command-center .hlc-pulse-card :is(strong,.hlc-pulse-eyebrow),
+.hlc-compact-device .hlc-command-center .hlc-pulse-card-featured :is(strong,.hlc-pulse-eyebrow) {
+  color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
+  opacity: 1 !important;
+}
+
+.hlc-compact-device .hlc-command-center .hlc-pulse-card .hlc-pulse-copy > span:last-child,
+.hlc-compact-device .hlc-command-center .hlc-pulse-card-featured .hlc-pulse-copy > span:last-child {
+  color: #c2cede !important;
+  -webkit-text-fill-color: #c2cede !important;
+  opacity: 1 !important;
+}
+
+.hlc-compact-device .hlc-command-center .hlc-pulse-icon {
+  background: rgba(47,128,255,.12) !important;
+  border: 1px solid rgba(96,165,250,.22) !important;
+  color: #93c5fd !important;
+}
+
+@media (max-width: 760px), (max-device-width: 760px) {
+  .hlc-command-center .hlc-business-pulse-grid {
+    grid-template-columns: minmax(0,1fr) !important;
+  }
+}
