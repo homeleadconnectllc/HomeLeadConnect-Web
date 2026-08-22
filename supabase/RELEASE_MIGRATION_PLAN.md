@@ -110,6 +110,7 @@ The active production app Supabase project is `homeconnect` (`cguhtshclyybivvdnp
 102. `20260819201500_disable_legacy_leads_new_writer.sql`
 103. `20260819210000_fix_hlc_v1_unlimited_plan_limits.sql`
 104. `20260822113000_reconcile_communication_queue_provider_routing.sql`
+105. `20260822114000_optimize_active_rls_and_communication_fk_indexes.sql`
 
 Migration #101 is retained in the local migration chain because it was applied to `hlc-reconciliation-test` during reconciliation. It is **not evidence of a production defect and is not required to be applied to `homeconnect` solely for parity**: production already has the canonical `causal.ingest_lead(...)` implementation from migration #98 with direct browser execution denied. Do not apply #101 to production unless a future production migration decision independently justifies it.
 
@@ -118,6 +119,8 @@ Migration #102 is a production launch-hardening change. Production retains an em
 Migration #103 fixes HLC V1 entitlement semantics: `lead_limit = 0` and `pipeline_limit = 0` are the plan's unlimited sentinels, not zero-capacity limits. The lead/pipeline guards and billing-state views must therefore report unlimited workspaces as allowed and not limit-reached while preserving existing membership and service-role authorization checks.
 
 Migration #104 reconciles source control to the communication queue provider-routing behavior already verified in canonical production. Email queue transmissions select and persist `resend`; SMS/call queue transmissions select and persist `twilio`; the selected provider is passed into the existing compliance function. This migration is intentionally idempotent and does not widen browser privileges or weaken communication compliance.
+
+Migration #105 is the first evidence-backed production performance batch. It preserves the existing `call_sessions`, `public_forms`, and authenticated subscription-read authorization semantics while changing only caller evaluation to init-plan-safe `(select auth.uid())`. It also adds covering indexes only for foreign keys confirmed missing on active call/communication surfaces. It does not consolidate duplicate permissive policies and does not remove unused indexes.
 
 ## Current production rules
 
