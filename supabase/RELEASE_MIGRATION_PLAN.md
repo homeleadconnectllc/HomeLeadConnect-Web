@@ -116,6 +116,7 @@ The active production app Supabase project is `homeconnect` (`cguhtshclyybivvdnp
 108. `20260822175000_provider_neutral_communication_resolution.sql`
 109. `20260823014500_lead_vacuum_social_attribution.sql`
 110. `20260823021800_fix_leads_stage_default.sql`
+111. `20260823170000_harden_provider_network_tenancy.sql`
 
 Migration #101 is retained in the local migration chain because it was applied to `hlc-reconciliation-test` during reconciliation. It is **not evidence of a production defect and is not required to be applied to `homeconnect` solely for parity**: production already has the canonical `causal.ingest_lead(...)` implementation from migration #98 with direct browser execution denied. Do not apply #101 to production unless a future production migration decision independently justifies it.
 
@@ -136,6 +137,8 @@ Migration #108 removes vendor assumptions from the canonical communication queue
 Migration #109 adds the Lead Vacuum's server-controlled attributed intake boundary. It preserves canonical lead creation through the causal writer, keeps browser callers away from privileged lead-table writes, records social/UTM and contact-consent evidence in canonical event metadata, and keeps retries idempotent through the public request identifier.
 
 Migration #110 aligns the `public.leads.stage` default with the canonical lowercase `new` state enforced by migration #107. It fixes new canonical lead inserts that otherwise inherit the retired uppercase `NEW` default and fail the `leads_stage_no_uppercase_new` constraint.
+
+Migration #111 hardens provider-network tenancy by requiring every `provider_availability`, `provider_service_areas`, `provider_services`, and `saved_providers` row to reference a contractor from the same workspace. It preserves existing frontend upsert conflict targets and adds only the composite contractor/workspace key required to enforce that invariant at the database boundary.
 
 ## Current production rules
 
