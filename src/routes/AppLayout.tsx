@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import AnalyticsTracker from "../components/analytics/AnalyticsTracker";
 import { useAuth } from "../hooks/useAuth";
 
@@ -46,7 +47,7 @@ export default function AppLayout() {
   useEffect(() => {
     const logo = document.querySelector<HTMLElement>(".hlc-navbar-logo");
     if (!logo) return;
-    const destination = session ? "/dashboard" : "/login";
+    const destination = session ? "/dashboard" : "/";
     const activate = () => navigate(destination);
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Enter" || event.key === " ") {
@@ -56,7 +57,7 @@ export default function AppLayout() {
     };
     logo.setAttribute("role", "link");
     logo.setAttribute("tabindex", "0");
-    logo.setAttribute("aria-label", session ? "Return to HomeLead Connect dashboard" : "Go to HomeLead Connect sign in");
+    logo.setAttribute("aria-label", session ? "Return to HomeLead Connect dashboard" : "Go to HomeLead Connect home");
     logo.classList.add("hlc-navbar-logo-home");
     logo.addEventListener("click", activate);
     logo.addEventListener("keydown", onKeyDown);
@@ -94,6 +95,7 @@ export default function AppLayout() {
           {showFieldDevices && <FieldDeviceCenter />}
         </Suspense>
       </div>
+      {!session && <Footer />}
       <Suspense fallback={null}>
         {showContextualAgent && <ContextualAgentDock />}
       </Suspense>
