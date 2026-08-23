@@ -12,6 +12,31 @@ The application already owns `public.submit_public_service_request(...)`, which 
 
 #164 extends that established boundary rather than creating a parallel Carrd-only lead store.
 
+## Implemented on PR #165 branch
+
+- `supabase/migrations/20260823014500_lead_vacuum_social_attribution.sql`
+  - registers the `lead-vacuum` public form
+  - adds `submit_public_lead_vacuum(...)`
+  - requires explicit contact consent
+  - deduplicates by `request_id`
+  - persists normalized social source in `leads.source`
+  - persists full attribution and consent evidence in canonical causal event metadata
+  - grants execution only to `service_role`
+- `supabase/functions/lead-vacuum-intake/index.ts`
+  - public browser intake boundary with custom origin validation
+  - no privileged browser credential
+  - server-side field validation and length limits
+  - honeypot bot trap
+  - source normalization for Facebook, Instagram, TikTok, direct, and other
+  - user-safe responses without internal database details
+- `docs/carrd/lead-vacuum-embed.html`
+  - copy/paste Carrd form implementation
+  - mobile-first HLC presentation
+  - UTM/referrer capture
+  - request UUID retained across retries
+  - explicit consent
+  - success and retry-safe failure states
+
 ## Browser payload
 
 Carrd should collect:
