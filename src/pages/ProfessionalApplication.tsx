@@ -4,6 +4,24 @@ import { submitProfessionalApplication } from "../api/professionalApplications";
 import { errorMessage } from "../lib/errorMessage";
 import "../styles/public-premium.css";
 
+const commonTrades = [
+  "Handyman / home repair",
+  "HVAC / heating / cooling",
+  "Plumbing",
+  "Electrical",
+  "Roofing",
+  "Painting",
+  "Drywall / finishing",
+  "Cleaning / housekeeping",
+  "Moving / hauling",
+  "Landscaping / lawn care",
+  "Flooring",
+  "Carpentry",
+  "Siding / gutters",
+  "General contractor",
+  "Subcontractor",
+];
+
 export default function ProfessionalApplication() {
   const [requestId] = useState(() => crypto.randomUUID());
   const [form, setForm] = useState({
@@ -38,7 +56,7 @@ export default function ProfessionalApplication() {
       <div className="hlc-public-brand"><img className="hlc-public-logo" src="/hlc-logo-final.png" alt="HomeLead Connect" /></div>
       <p className="hlc-public-kicker">Professional network</p>
       <h1>Bring your business into the HLC service network.</h1>
-      <p className="hlc-public-hero-copy">Apply once as a business, contractor, subcontractor, or service trade. HomeLead Connect reviews each application before creating provider access.</p>
+      <p className="hlc-public-hero-copy">Apply once as a business, contractor, subcontractor, mover, cleaner, HVAC company, painter, roofer, handyman, plumber, electrician, landscaper, or other home-service professional. HomeLead Connect reviews each application before creating provider access.</p>
     </header>
 
     <section className="hlc-public-form-wrap">
@@ -63,7 +81,11 @@ export default function ProfessionalApplication() {
           <label>Primary contact<input required minLength={2} maxLength={160} autoComplete="name" value={form.contactName} onChange={(event) => setForm({ ...form, contactName: event.target.value })} /></label>
           <label>Email<input required type="email" autoComplete="email" value={form.email} onChange={(event) => setForm({ ...form, email: event.target.value })} /></label>
           <label>Phone<input required type="tel" autoComplete="tel" value={form.phone} onChange={(event) => setForm({ ...form, phone: event.target.value })} /></label>
-          <label>Trades or services<input required minLength={2} maxLength={500} placeholder="Painting, HVAC, cleaning, roofing…" value={form.tradeCategories} onChange={(event) => setForm({ ...form, tradeCategories: event.target.value })} /></label>
+          <label>Trades or services
+            <input required minLength={2} maxLength={500} list="hlc-common-trades" placeholder="HVAC, moving, cleaning, painting, roofing, handyman…" value={form.tradeCategories} onChange={(event) => setForm({ ...form, tradeCategories: event.target.value })} />
+            <small>List every service you actually provide. Separate multiple services with commas.</small>
+          </label>
+          <datalist id="hlc-common-trades">{commonTrades.map((trade) => <option value={trade} key={trade} />)}</datalist>
           <label>Service territory<input required minLength={2} maxLength={500} placeholder="Cities, ZIP codes, counties, or service radius" value={form.serviceTerritory} onChange={(event) => setForm({ ...form, serviceTerritory: event.target.value })} /></label>
           <label>Experience and qualifications<textarea required minLength={10} maxLength={4000} rows={6} value={form.experienceSummary} onChange={(event) => setForm({ ...form, experienceSummary: event.target.value })} /></label>
           <label className="hlc-public-consent"><input required type="checkbox" checked={form.communicationConsent} onChange={(event) => setForm({ ...form, communicationConsent: event.target.checked })} /><span>I agree that HomeLead Connect may contact me about this application. This does not consent to unrelated marketing.</span></label>
