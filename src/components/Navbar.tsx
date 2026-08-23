@@ -7,7 +7,7 @@ import { useAccountAccess } from "../hooks/useAccountAccess";
 import { canAccessWorkspacePath } from "../lib/accessPolicy";
 import { supabase } from "../lib/supabase";
 
-const logo = "/hlc-touch-icon.svg";
+const logo = "/hlc-logo-final.png";
 const declaredWorkspaceRoutes = new Set([
   "/dashboard", "/ecosystem", "/workflow", "/automations", "/hq", "/notifications",
   "/leads", "/estimator", "/jobs", "/calendar", "/follow-ups", "/operations",
@@ -205,7 +205,7 @@ export default function Navbar() {
               <div className="hlc-nav-menu">
                 {group.pages.map((page) => (
                   <Link aria-current={location.pathname === page.route ? "page" : undefined} key={page.route} onClick={closeMobileMenu} to={page.route}>
-                    <span>{page.label}</span><small>{page.purpose}</small>
+                    <span>{page.label}</span><small>{page.purpose}</small></span>
                   </Link>
                 ))}
               </div>
