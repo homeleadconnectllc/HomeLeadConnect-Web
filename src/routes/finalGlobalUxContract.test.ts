@@ -2,7 +2,8 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 
-const shell = readFileSync("src/styles/app-shell-entry.ts", "utf8");
+const authenticatedStyles = readFileSync("src/styles/AuthenticatedStyles.tsx", "utf8");
+const presentation = readFileSync("src/styles/launch-global-presentation-authority.css", "utf8");
 const ux = readFileSync("src/styles/final-global-ux-contract.css", "utf8");
 const flat = readFileSync("src/styles/final-flat-geometry-contract.css", "utf8");
 const map = readFileSync("src/pages/dashboard/ProviderMap.tsx", "utf8");
@@ -11,9 +12,10 @@ const leadCard = readFileSync("src/components/leads/LeadCard.tsx", "utf8");
 const requestService = readFileSync("src/pages/RequestService.tsx", "utf8");
 const professionalApplication = readFileSync("src/pages/ProfessionalApplication.tsx", "utf8");
 
-test("final UX contract mounts after flat geometry authority", () => {
-  const flatIndex = shell.indexOf("./final-flat-geometry-contract.css");
-  const uxIndex = shell.indexOf("./final-global-ux-contract.css");
+test("final UX contracts are composed inside the final authenticated presentation authority", () => {
+  assert.match(authenticatedStyles, /import "\.\/launch-global-presentation-authority\.css";/);
+  const flatIndex = presentation.indexOf('@import "./final-flat-geometry-contract.css";');
+  const uxIndex = presentation.indexOf('@import "./final-global-ux-contract.css";');
   assert.ok(flatIndex >= 0);
   assert.ok(uxIndex > flatIndex);
 });
