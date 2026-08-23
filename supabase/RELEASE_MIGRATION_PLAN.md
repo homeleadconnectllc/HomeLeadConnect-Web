@@ -115,6 +115,7 @@ The active production app Supabase project is `homeconnect` (`cguhtshclyybivvdnp
 107. `20260822133000_sync_job_and_lead_lifecycle.sql`
 108. `20260822175000_provider_neutral_communication_resolution.sql`
 109. `20260823014500_lead_vacuum_social_attribution.sql`
+110. `20260823021800_fix_leads_stage_default.sql`
 
 Migration #101 is retained in the local migration chain because it was applied to `hlc-reconciliation-test` during reconciliation. It is **not evidence of a production defect and is not required to be applied to `homeconnect` solely for parity**: production already has the canonical `causal.ingest_lead(...)` implementation from migration #98 with direct browser execution denied. Do not apply #101 to production unless a future production migration decision independently justifies it.
 
@@ -133,6 +134,8 @@ Migration #107 keeps canonical lead lifecycle state aligned with persisted job p
 Migration #108 removes vendor assumptions from the canonical communication queue without changing its browser-facing RPC signature. The queue now resolves the workspace's configured provider for the requested channel, prefers API-connected providers over manual handoff providers, persists that provider with the transmission, and keeps `manual_available` transports in review rather than fabricating delivery. Provider execution remains adapter-based and fail-closed when an automatic adapter is not installed.
 
 Migration #109 adds the Lead Vacuum's server-controlled attributed intake boundary. It preserves canonical lead creation through the causal writer, keeps browser callers away from privileged lead-table writes, records social/UTM and contact-consent evidence in canonical event metadata, and keeps retries idempotent through the public request identifier.
+
+Migration #110 aligns the `public.leads.stage` default with the canonical lowercase `new` state enforced by migration #107. It fixes new canonical lead inserts that otherwise inherit the retired uppercase `NEW` default and fail the `leads_stage_no_uppercase_new` constraint.
 
 ## Current production rules
 
