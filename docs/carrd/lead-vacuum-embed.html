@@ -78,7 +78,12 @@
     if (haystack.includes('tiktok')) return 'tiktok';
     return haystack ? 'other' : 'direct';
   };
-  const requestId = crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-0000-4000-8000-${Math.random().toString(16).slice(2,14).padEnd(12,'0')}`;
+  const fallbackUuid = () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = Math.random() * 16 | 0;
+    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+  const requestId = crypto.randomUUID ? crypto.randomUUID() : fallbackUuid();
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
