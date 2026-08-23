@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type CSSProperties, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 
 import { listContractors, setProviderMapCoordinates } from "../../api/contractors";
@@ -9,6 +9,8 @@ import { supabase } from "../../lib/supabase";
 import type { Contractor } from "../../lib/types/database";
 
 type Point = { provider: Contractor; x: number; y: number };
+
+const RECORD_ACCENTS = ["#38BDF8", "#2DD4BF", "#FBBF24", "#FB923C", "#60A5FA", "#34D399", "#A78BFA"];
 
 export default function ProviderMap() {
   const { session } = useAuth();
@@ -148,37 +150,47 @@ export default function ProviderMap() {
         </div>
         <div className="hlc-network-map-canvas">
           <div aria-hidden="true" className="hlc-network-map-grid" />
-          {points.map(({ provider, x, y }) => <button
-            key={provider.id}
-            type="button"
-            aria-label={`Select ${providerName(provider)} on map, ${coordinateLabel(provider)}`}
-            aria-pressed={selectedId === provider.id}
-            title={`${providerName(provider)} · ${coordinateLabel(provider)} · ${place(provider) || "location recorded by coordinates"}`}
-            onClick={() => selectProvider(provider)}
-            className="hlc-network-map-pin"
-            style={{ ...pinStyle, ...(provider.coordinate_accuracy === "approximate" ? approximatePinStyle : verifiedPinStyle), left: `${x}%`, top: `${y}%`, ...(selectedId === provider.id ? selectedPinStyle : {}) }}
-          ><span aria-hidden="true">●</span></button>)}
+          {points.map(({ provider, x, y }) => {
+            const accent = providerAccent(provider);
+            const selectedPin = selectedId === provider.id;
+            const accuracyClass = provider.coordinate_accuracy === "approximate" ? "is-approximate" : "is-verified";
+            const style = { "--record-accent": accent, left: `${x}%`, top: `${y}%` } as CSSProperties;
+            return <button
+              key={provider.id}
+              type="button"
+              aria-label={`Select ${providerName(provider)} on map, ${coordinateLabel(provider)}`}
+              aria-pressed={selectedPin}
+              title={`${providerName(provider)} · ${coordinateLabel(provider)} · ${place(provider) || "location recorded by coordinates"}`}
+              onClick={() => selectProvider(provider)}
+              className={`hlc-network-map-pin ${accuracyClass} ${selectedPin ? "is-selected" : ""}`}
+              style={style}
+            ><span className="hlc-network-map-pin-core" aria-hidden="true">{providerInitials(provider)}</span></button>;
+          })}
           {mappedProviders.length === 0 && <div className="hlc-network-map-empty">
             <strong>No stored map coordinates yet.</strong>
             <span>Provider records remain available in the adjacent queue. Owner/manager users can add verified exact coordinates only when a trustworthy source exists.</span>
           </div>}
         </div>
-        <p className="hlc-network-map-legend"><strong>Blue-green</strong> = verified exact. <strong>Amber</strong> = approximate city/ZIP area, not an exact storefront or live location. This view does not calculate distance or routing.</p>
+        <p className="hlc-network-map-legend"><strong>Solid color</strong> = verified exact. <strong>Dashed ring</strong> = approximate city/ZIP area. Accent colors identify the provider or trade consistently; they do not imply distance, ranking, or availability.</p>
       </section>
 
       <aside className="hlc-network-provider-queue" aria-label="Provider map list">
         <div className="hlc-network-section-head"><div><span>RECORD QUEUE</span><h2>Providers</h2></div><strong>{filtered.length}</strong></div>
         <div className="hlc-network-provider-list">
-          {filtered.map((provider) => <button
-            type="button"
-            key={provider.id}
-            onClick={() => selectProvider(provider)}
-            aria-pressed={selectedId === provider.id}
-            className={`hlc-network-provider-row ${selectedId === provider.id ? "is-selected" : ""}`}
-          >
-            <span><strong>{providerName(provider)}</strong><small>{provider.specialty || "Trade not recorded"}</small></span>
-            <span><strong>{place(provider) || "Location not recorded"}</strong><small>{hasCoordinates(provider) ? coordinateLabel(provider) : "Location not mapped yet"}</small></span>
-          </button>)}
+          {filtered.map((provider) => {
+            const style = { "--record-accent": providerAccent(provider) } as CSSProperties;
+            return <button
+              type="button"
+              key={provider.id}
+              onClick={() => selectProvider(provider)}
+              aria-pressed={selectedId === provider.id}
+              className={`hlc-network-provider-row ${selectedId === provider.id ? "is-selected" : ""}`}
+              style={style}
+            >
+              <span><strong>{providerName(provider)}</strong><small>{provider.specialty || "Trade not recorded"}</small></span>
+              <span><strong>{place(provider) || "Location not recorded"}</strong><small>{hasCoordinates(provider) ? coordinateLabel(provider) : "Location not mapped yet"}</small></span>
+            </button>;
+          })}
           {filtered.length === 0 && <p className="hlc-network-map-empty-copy">No authorized provider records match these filters.</p>}
         </div>
       </aside>
@@ -222,6 +234,26 @@ function providerName(provider: Contractor) {
   return provider.company_name || provider.contact_name || `Provider ${provider.id}`;
 }
 
+function providerInitials(provider: Contractor) {
+  const words = providerName(provider).trim().split(/\s+/).filter(Boolean);
+  if (words.length === 0) return "P";
+  return `${words[0]?.charAt(0) || ""}${words[1]?.charAt(0) || ""}`.toUpperCase();
+}
+
+function providerAccent(provider: Contractor) {
+  const specialty = String(provider.specialty || "").toLowerCase();
+  if (/(plumb|water)/.test(specialty)) return "#38BDF8";
+  if (/(hvac|heating|cooling|climate)/.test(specialty)) return "#2DD4BF";
+  if (/(electric)/.test(specialty)) return "#FBBF24";
+  if (/(roof|exterior|siding|gutter)/.test(specialty)) return "#FB923C";
+  if (/(paint|finish|drywall)/.test(specialty)) return "#60A5FA";
+  if (/(clean|janitor|maid)/.test(specialty)) return "#34D399";
+  const key = `${provider.id}:${provider.company_name || ""}:${provider.contact_name || ""}`;
+  let hash = 0;
+  for (let index = 0; index < key.length; index += 1) hash = ((hash << 5) - hash + key.charCodeAt(index)) | 0;
+  return RECORD_ACCENTS[Math.abs(hash) % RECORD_ACCENTS.length];
+}
+
 function place(provider: Contractor) {
   return [provider.city, provider.state, provider.zip].filter(Boolean).join(", ");
 }
@@ -263,8 +295,3 @@ function osmEmbedUrl(lat: number, lng: number) {
   const bbox = [lng - delta, lat - delta, lng + delta, lat + delta].join(",");
   return `https://www.openstreetmap.org/export/embed.html?bbox=${encodeURIComponent(bbox)}&layer=mapnik&marker=${encodeURIComponent(`${lat},${lng}`)}`;
 }
-
-const pinStyle = { position: "absolute" as const, zIndex: 2, width: 34, height: 34, transform: "translate(-50%,-50%)" };
-const verifiedPinStyle = { background: "#0f766e" };
-const approximatePinStyle = { background: "#d97706" };
-const selectedPinStyle = { width: 42, height: 42, outline: "3px solid #0f172a", outlineOffset: 2, boxShadow: "0 8px 22px rgba(15,23,42,.38)" };
