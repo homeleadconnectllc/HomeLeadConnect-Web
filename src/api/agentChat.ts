@@ -1,5 +1,6 @@
 import { supabase } from "./client";
 import type { AgentId } from "../ai/agents";
+import type { ResolvedAgentLocale } from "../lib/agentLocale";
 
 export type AgentChatMessage = { role: "user" | "model"; text: string };
 export type AgentChatResponse = {
@@ -9,12 +10,13 @@ export type AgentChatResponse = {
   advisoryOnly: boolean;
   fallback?: boolean;
   contextKind?: "internal" | "resident_portal" | "professional_portal";
+  locale?: ResolvedAgentLocale;
 };
 
-export async function chatWithAgent(agentId: AgentId, message: string, history: AgentChatMessage[] = []) {
+export async function chatWithAgent(agentId: AgentId, message: string, history: AgentChatMessage[] = [], locale: ResolvedAgentLocale = "en-US") {
   const pagePath = typeof window !== "undefined" ? window.location.pathname : "/";
   const { data, error } = await supabase.functions.invoke("hlc-agent-chat", {
-    body: { agentId, message, history: history.slice(-8), pagePath },
+    body: { agentId, message, history: history.slice(-8), pagePath, locale },
   });
   if (error) {
     const context = (error as { context?: { json?: () => Promise<unknown> } }).context;
