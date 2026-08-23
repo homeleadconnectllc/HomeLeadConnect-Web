@@ -1,0 +1,94 @@
+/* Launch visual contract: authenticated navy surfaces use white copy with blue accents.
+ * Form controls remain light with dark charcoal text. */
+
+.hlc-route-content {
+  --hlc-launch-fg: #f8fafc;
+  --hlc-launch-muted: #e2e8f0;
+  --hlc-launch-accent: #93c5fd;
+  --hlc-launch-accent-strong: #60a5fa;
+  --hlc-launch-control-fg: #1f2937;
+  --hlc-launch-control-muted: #64748b;
+}
+
+.hlc-route-content :is(h1, h2, .hlc-section-heading h2, .hlc-section-eyebrow, [class*="kicker"], [class*="eyebrow"]) {
+  color: var(--hlc-launch-accent) !important;
+  -webkit-text-fill-color: var(--hlc-launch-accent) !important;
+  opacity: 1 !important;
+}
+
+.hlc-route-content :is(h3, h4, h5, h6, strong, b) {
+  color: var(--hlc-launch-fg) !important;
+  -webkit-text-fill-color: var(--hlc-launch-fg) !important;
+  opacity: 1 !important;
+}
+
+.hlc-route-content :is(p, li, dt, dd, time, address),
+.hlc-route-content :is(span, small):not(option):not([class*="badge"]):not([class*="status"]) {
+  color: var(--hlc-launch-fg) !important;
+  -webkit-text-fill-color: var(--hlc-launch-fg) !important;
+  opacity: 1 !important;
+}
+
+.hlc-route-content :is(label, legend),
+.hlc-route-content [class*="label"]:not(.hlc-mobile-tabbar-label),
+.hlc-route-content [class*="meta"] {
+  color: var(--hlc-launch-accent) !important;
+  -webkit-text-fill-color: var(--hlc-launch-accent) !important;
+  opacity: 1 !important;
+}
+
+.hlc-route-content a:not([class*="button"]):not([role="button"]) {
+  color: #bfdbfe !important;
+  -webkit-text-fill-color: #bfdbfe !important;
+  opacity: 1 !important;
+}
+
+/* Light form controls are deliberate islands on the navy workspace. */
+.hlc-route-content :is(input, select, textarea) {
+  background: #ffffff !important;
+  color: var(--hlc-launch-control-fg) !important;
+  -webkit-text-fill-color: var(--hlc-launch-control-fg) !important;
+  border-color: #b7c8df !important;
+  opacity: 1 !important;
+}
+
+.hlc-route-content :is(input, textarea)::placeholder {
+  color: var(--hlc-launch-control-muted) !important;
+  -webkit-text-fill-color: var(--hlc-launch-control-muted) !important;
+  opacity: 1 !important;
+}
+
+.hlc-route-content select option {
+  background: #ffffff !important;
+  color: var(--hlc-launch-control-fg) !important;
+  -webkit-text-fill-color: var(--hlc-launch-control-fg) !important;
+}
+
+/* Blue/dark actions always carry white labels. */
+.hlc-route-content :is(button, [role="button"]):not(:disabled),
+.hlc-route-content a[class*="button"] {
+  color: #ffffff;
+}
+
+.hlc-route-content :is(button, [role="button"]):not(:disabled) :is(span, strong, small),
+.hlc-route-content a[class*="button"] :is(span, strong, small) {
+  color: inherit !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+/* Explicit light cards keep their intentional dark foreground contract. */
+.hlc-route-content :is(.hlc-agent-guidance-cards details, .hlc-auth-card, .hlc-light-surface) {
+  color: var(--hlc-launch-control-fg) !important;
+}
+
+.hlc-route-content :is(.hlc-agent-guidance-cards details, .hlc-auth-card, .hlc-light-surface) :is(h1,h2,h3,h4,h5,h6,strong,b,p,li,dt,dd,span,small,label) {
+  color: var(--hlc-launch-control-fg) !important;
+  -webkit-text-fill-color: var(--hlc-launch-control-fg) !important;
+}
+
+/* iOS Safari sometimes preserves stale text fill across theme changes. */
+@supports (-webkit-touch-callout: none) {
+  .hlc-route-content :is(h1,h2,h3,h4,h5,h6,p,li,dt,dd,label,legend,strong,b,small,span,a) {
+    opacity: 1 !important;
+  }
+}

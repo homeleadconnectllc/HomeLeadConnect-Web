@@ -16,6 +16,7 @@ import "./global-visual-pizzazz.css";
 import "./contrast-contract.css";
 import "./authenticated-mobile-shell-authority.css";
 import "./public-layout-qa-hardening.css";
+import "./launch-global-contrast.css";
 import "./responsive-page-contract.css";
 import "./hlc-brand-lock.css";
 import "./legacy-device-compat.css";
