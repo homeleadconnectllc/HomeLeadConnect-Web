@@ -81,6 +81,10 @@ Retries with the same `request_id` must be idempotent.
 
 Return a user-safe validation or temporary-failure state. A retry must not create duplicate canonical leads.
 
+## Rollout boundary
+
+The repository implementation can be completed and certified without changing the live Carrd page. Production activation requires the database migration and public Edge Function to be deployed first; only then should the Carrd embed be pasted/published, so the public form never points at a missing endpoint.
+
 ## Launch proof
 
 Before #164 closes, submit at least one production-safe test through the public form and prove:
