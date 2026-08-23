@@ -21,7 +21,10 @@
 @media (max-width: 760px) {
   .hlc-route-guide-backdrop {
     align-items: flex-end;
-    padding: 12px max(12px, env(safe-area-inset-right)) max(84px, calc(72px + env(safe-area-inset-bottom))) max(12px, env(safe-area-inset-left));
+    padding-top: 12px;
+    padding-right: max(12px, env(safe-area-inset-right));
+    padding-bottom: max(84px, calc(72px + env(safe-area-inset-bottom)));
+    padding-left: max(12px, env(safe-area-inset-left));
   }
 
   .hlc-route-guide-backdrop .hlc-route-guide {
