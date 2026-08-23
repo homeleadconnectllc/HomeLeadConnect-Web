@@ -1,0 +1,141 @@
+<!-- HLC Lead Vacuum — Carrd Embed -->
+<section class="hlc-vacuum" aria-labelledby="hlc-vacuum-title">
+  <div class="hlc-vacuum__eyebrow">HLC LEAD VACUUM</div>
+  <h1 id="hlc-vacuum-title">Tell us what you need. We’ll route the opportunity.</h1>
+  <p class="hlc-vacuum__intro">One short intake connects you with the right HomeLead workflow while preserving where you found us.</p>
+
+  <form id="hlcLeadVacuum" novalidate>
+    <input type="text" name="company_website" tabindex="-1" autocomplete="off" class="hlc-hp" aria-hidden="true">
+
+    <div class="hlc-grid">
+      <label>Full name<input name="full_name" autocomplete="name" required maxlength="160"></label>
+      <label>Phone<input name="phone" inputmode="tel" autocomplete="tel" required maxlength="64"></label>
+      <label>Email<input name="email" type="email" autocomplete="email" maxlength="254"></label>
+      <label>What brings you here?
+        <select name="intent">
+          <option value="">Choose one</option>
+          <option>Home project or repair</option>
+          <option>Buying or selling a home</option>
+          <option>Need a professional</option>
+          <option>Business / professional opportunity</option>
+          <option>Referral or partnership</option>
+          <option>Other</option>
+        </select>
+      </label>
+      <label>Property / service area<input name="service_area" maxlength="240" placeholder="City, ZIP, or property address"></label>
+      <label>Timeline
+        <select name="timeline">
+          <option value="">Choose one</option>
+          <option>As soon as possible</option>
+          <option>Within 30 days</option>
+          <option>1–3 months</option>
+          <option>3+ months</option>
+          <option>Just exploring</option>
+        </select>
+      </label>
+      <label>Preferred contact
+        <select name="preferred_contact_method">
+          <option value="">No preference</option>
+          <option value="call">Call</option>
+          <option value="text">Text</option>
+          <option value="email">Email</option>
+        </select>
+      </label>
+    </div>
+
+    <label>What should we know?<textarea name="notes" maxlength="4000" rows="5" placeholder="Tell us about the opportunity, project, property, or question."></textarea></label>
+
+    <label class="hlc-consent">
+      <input type="checkbox" name="consent_contact" required>
+      <span>I agree that HomeLead Connect may contact me about this request using the information I provided. Communication preferences and applicable consent rules still apply.</span>
+    </label>
+
+    <button type="submit" id="hlcVacuumSubmit">Get connected</button>
+    <p id="hlcVacuumStatus" class="hlc-status" role="status" aria-live="polite"></p>
+    <p class="hlc-legal">By submitting, you acknowledge the HomeLead Connect Privacy Policy and Terms of Use.</p>
+  </form>
+</section>
+
+<style>
+  .hlc-vacuum{--navy:#081426;--panel:#10233d;--blue:#2f6fff;--text:#f8fbff;--muted:#aebbd0;max-width:860px;margin:auto;padding:clamp(28px,5vw,64px);border:1px solid #23446f;border-radius:28px;background:linear-gradient(180deg,#0b1a31,#081426);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;box-sizing:border-box}
+  .hlc-vacuum *{box-sizing:border-box}.hlc-vacuum__eyebrow{color:#65b8ff;font-weight:800;letter-spacing:.14em;font-size:.82rem;text-align:center}.hlc-vacuum h1{font-size:clamp(2rem,6vw,4rem);line-height:1.02;margin:.55rem 0 1rem;text-align:center}.hlc-vacuum__intro{max-width:650px;margin:0 auto 2rem;color:var(--muted);font-size:1.08rem;line-height:1.65;text-align:center}.hlc-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.hlc-vacuum label{display:grid;gap:8px;margin:0 0 16px;font-weight:700;color:#dce8f8}.hlc-vacuum input,.hlc-vacuum select,.hlc-vacuum textarea{width:100%;border:1px solid #3b5d88;border-radius:14px;background:#0c1c33;color:#fff;padding:15px 16px;font:inherit;outline:none}.hlc-vacuum input:focus,.hlc-vacuum select:focus,.hlc-vacuum textarea:focus{border-color:#70b7ff;box-shadow:0 0 0 3px rgba(47,111,255,.2)}.hlc-consent{grid-template-columns:auto 1fr!important;align-items:start;font-weight:500!important;line-height:1.5;color:var(--muted)!important}.hlc-consent input{width:20px;height:20px;margin-top:2px}.hlc-vacuum button{width:100%;border:0;border-radius:14px;background:var(--blue);color:white;padding:17px 22px;font-size:1.1rem;font-weight:800;cursor:pointer}.hlc-vacuum button[disabled]{opacity:.58;cursor:wait}.hlc-status{min-height:1.5em;text-align:center;font-weight:700;margin:16px 0 0}.hlc-status.is-error{color:#ff9ba4}.hlc-status.is-success{color:#69e6ad}.hlc-legal{text-align:center;color:#8797ae;font-size:.84rem;line-height:1.5;margin:12px 0 0}.hlc-hp{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;opacity:0!important}@media(max-width:680px){.hlc-grid{grid-template-columns:1fr}.hlc-vacuum{border-radius:20px;padding:26px 18px}.hlc-vacuum h1{font-size:2.25rem}}
+</style>
+
+<script>
+(() => {
+  const ENDPOINT = 'https://agfwqnirspmptjiqrrtk.supabase.co/functions/v1/lead-vacuum-intake';
+  const form = document.getElementById('hlcLeadVacuum');
+  const button = document.getElementById('hlcVacuumSubmit');
+  const status = document.getElementById('hlcVacuumStatus');
+  if (!form || !button || !status) return;
+
+  const params = new URLSearchParams(location.search);
+  const safe = (value, max = 240) => (value || '').toString().trim().slice(0, max);
+  const sourcePlatform = () => {
+    const haystack = `${params.get('utm_source') || ''} ${document.referrer || ''}`.toLowerCase();
+    if (haystack.includes('facebook') || haystack.includes('fb.com')) return 'facebook';
+    if (haystack.includes('instagram')) return 'instagram';
+    if (haystack.includes('tiktok')) return 'tiktok';
+    return haystack ? 'other' : 'direct';
+  };
+  const fallbackUuid = () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = Math.random() * 16 | 0;
+    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+  const requestId = crypto.randomUUID ? crypto.randomUUID() : fallbackUuid();
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    status.className = 'hlc-status';
+    status.textContent = '';
+    if (!form.reportValidity()) return;
+
+    const data = new FormData(form);
+    button.disabled = true;
+    button.textContent = 'Connecting…';
+
+    const payload = {
+      request_id: requestId,
+      full_name: safe(data.get('full_name'), 160),
+      phone: safe(data.get('phone'), 64),
+      email: safe(data.get('email'), 254),
+      intent: safe(data.get('intent'), 120),
+      service_area: safe(data.get('service_area'), 240),
+      timeline: safe(data.get('timeline'), 120),
+      preferred_contact_method: safe(data.get('preferred_contact_method'), 32),
+      notes: safe(data.get('notes'), 4000),
+      consent_contact: data.get('consent_contact') === 'on',
+      consent_timestamp: new Date().toISOString(),
+      source_platform: sourcePlatform(),
+      utm_source: safe(params.get('utm_source'), 180),
+      utm_medium: safe(params.get('utm_medium'), 180),
+      utm_campaign: safe(params.get('utm_campaign'), 240),
+      utm_content: safe(params.get('utm_content'), 240),
+      utm_term: safe(params.get('utm_term'), 240),
+      landing_url: safe(location.href, 2048),
+      referrer: safe(document.referrer, 2048),
+      company_website: safe(data.get('company_website'), 200)
+    };
+
+    try {
+      const response = await fetch(ENDPOINT, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(payload)
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok || !result.accepted) throw new Error(result.error || 'We could not submit your request.');
+      form.reset();
+      status.className = 'hlc-status is-success';
+      status.textContent = 'You’re connected. HomeLead received your request.';
+      button.textContent = 'Request received';
+    } catch (error) {
+      status.className = 'hlc-status is-error';
+      status.textContent = error instanceof Error ? error.message : 'We could not submit your request. Please try again.';
+      button.disabled = false;
+      button.textContent = 'Get connected';
+    }
+  });
+})();
+</script>

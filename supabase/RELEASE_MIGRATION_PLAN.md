@@ -114,6 +114,7 @@ The active production app Supabase project is `homeconnect` (`cguhtshclyybivvdnp
 106. `20260822124500_canonicalize_new_lead_status.sql`
 107. `20260822133000_sync_job_and_lead_lifecycle.sql`
 108. `20260822175000_provider_neutral_communication_resolution.sql`
+109. `20260823014500_lead_vacuum_social_attribution.sql`
 
 Migration #101 is retained in the local migration chain because it was applied to `hlc-reconciliation-test` during reconciliation. It is **not evidence of a production defect and is not required to be applied to `homeconnect` solely for parity**: production already has the canonical `causal.ingest_lead(...)` implementation from migration #98 with direct browser execution denied. Do not apply #101 to production unless a future production migration decision independently justifies it.
 
@@ -130,6 +131,8 @@ Migration #106 normalizes only the historical uppercase `NEW` lead-status varian
 Migration #107 keeps canonical lead lifecycle state aligned with persisted job progress. It normalizes only the historical uppercase `NEW` stage variant, marks leads with pending/active jobs as `booked`, marks leads with completed jobs as `closed`, and installs an internal security-definer trigger so future job inserts/status updates maintain that relationship. Completed work wins over pending work, and unrelated legacy uppercase terminal-state contracts remain untouched.
 
 Migration #108 removes vendor assumptions from the canonical communication queue without changing its browser-facing RPC signature. The queue now resolves the workspace's configured provider for the requested channel, prefers API-connected providers over manual handoff providers, persists that provider with the transmission, and keeps `manual_available` transports in review rather than fabricating delivery. Provider execution remains adapter-based and fail-closed when an automatic adapter is not installed.
+
+Migration #109 adds the Lead Vacuum's server-controlled attributed intake boundary. It preserves canonical lead creation through the causal writer, keeps browser callers away from privileged lead-table writes, records social/UTM and contact-consent evidence in canonical event metadata, and keeps retries idempotent through the public request identifier.
 
 ## Current production rules
 
