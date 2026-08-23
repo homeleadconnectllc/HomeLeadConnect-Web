@@ -14,6 +14,20 @@
   --hlc-ux-control-ink: #1f2937;
 }
 
+/* Large signed-in surfaces never fall back to a light browser/card canvas. */
+#root .hlc-signed-in-shell > .hlc-route-content :is(
+  [class*="card"],
+  [class*="panel"],
+  [class*="workspace"],
+  [class*="console"],
+  [class*="drawer"]
+) {
+  background-color: var(--hlc-ux-surface) !important;
+  color: var(--hlc-ux-text) !important;
+  border-color: var(--hlc-ux-border-soft) !important;
+  box-shadow: none !important;
+}
+
 /* Every major record is visually separate. */
 #root .hlc-signed-in-shell > .hlc-route-content :is(
   article,
@@ -69,15 +83,16 @@
   color: var(--hlc-ux-muted);
 }
 
-/* Full white cards are not part of the signed-in visual language. */
+/* Status/badge bubbles must never become unreadable white-on-white pills. */
 #root .hlc-signed-in-shell > .hlc-route-content :is(
-  [class*="card"],
-  [class*="panel"],
-  [class*="workspace"],
-  [class*="empty"],
-  [class*="state"]
-) {
-  box-shadow: none !important;
+  [class*="status"],
+  [class*="badge"],
+  [class*="pill"]
+):not(input):not(select):not(textarea) {
+  background-color: #112744 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border-color: #3b5f88 !important;
 }
 
 /* Buttons: never white-on-white. Inputs may remain white for clarity. */
@@ -196,6 +211,19 @@
   flex: 0 0 auto !important;
 }
 
+#root .hlc-page-map .hlc-network-coordinate-advanced {
+  background: #0a192c !important;
+  border: 1px solid #3b5f88 !important;
+  padding: 12px !important;
+}
+
+#root .hlc-page-map .hlc-network-coordinate-advanced > summary {
+  color: #93c5fd !important;
+  -webkit-text-fill-color: #93c5fd !important;
+  font-weight: 900 !important;
+  cursor: pointer !important;
+}
+
 /* Estimate: compact line items with strong separation. */
 #root .hlc-page-estimator .estimate-line {
   padding: 14px !important;
@@ -220,10 +248,15 @@
   border: 1px solid #3b5f88 !important;
 }
 
+/* Keep contextual assistants away from primary mobile controls. */
+#root .hlc-signed-in-shell .hlc-agent-dock-trigger {
+  max-width: min(220px, calc(100vw - 32px)) !important;
+}
+
 /* All authenticated pages reserve room for the fixed bottom nav + agent. */
 @media (max-width: 760px), (max-device-width: 760px) {
   #root .hlc-signed-in-shell > .hlc-route-content > main {
-    padding-bottom: calc(138px + env(safe-area-inset-bottom)) !important;
+    padding-bottom: calc(146px + env(safe-area-inset-bottom)) !important;
   }
 
   #root .hlc-signed-in-shell > .hlc-route-content :is(form,fieldset) {
