@@ -1,6 +1,10 @@
 import { supabase } from "./client";
 import type { AgentId } from "../ai/agents";
-import type { ResolvedAgentLocale } from "../lib/agentLocale";
+import {
+  buildAgentLocaleDirective,
+  getLocalizedAgentFallback,
+  type ResolvedAgentLocale,
+} from "../lib/agentLocale";
 
 export type AgentChatMessage = { role: "user" | "model"; text: string };
 export type AgentChatResponse = {
@@ -15,8 +19,10 @@ export type AgentChatResponse = {
 
 export async function chatWithAgent(agentId: AgentId, message: string, history: AgentChatMessage[] = [], locale: ResolvedAgentLocale = "en-US") {
   const pagePath = typeof window !== "undefined" ? window.location.pathname : "/";
+  const localeDirective: AgentChatMessage = { role: "user", text: buildAgentLocaleDirective(locale) };
+  const localeAwareHistory = [localeDirective, ...history.slice(-7)];
   const { data, error } = await supabase.functions.invoke("hlc-agent-chat", {
-    body: { agentId, message, history: history.slice(-8), pagePath, locale },
+    body: { agentId, message, history: localeAwareHistory, pagePath, locale },
   });
   if (error) {
     const context = (error as { context?: { json?: () => Promise<unknown> } }).context;
@@ -31,5 +37,10 @@ export async function chatWithAgent(agentId: AgentId, message: string, history: 
     throw error;
   }
   if (!data?.reply) throw new Error("AI provider returned no response.");
-  return data as AgentChatResponse;
+  const response = data as AgentChatResponse;
+  return {
+    ...response,
+    locale,
+    reply: response.fallback ? getLocalizedAgentFallback(agentId, locale) : response.reply,
+  };
 }
