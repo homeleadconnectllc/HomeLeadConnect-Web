@@ -177,7 +177,7 @@ export default function ProviderMap() {
             ><span className="hlc-network-map-pin-core" aria-hidden="true">{providerInitials(provider)}</span></button>;
           })}
           {mappedProviders.length === 0 && <div className="hlc-network-map-empty">
-            <strong>No mapped providers yet.</strong>
+            <strong>Provider is not mapped yet.</strong>
             <span>Select a provider from the list. Use its recorded address first; exact coordinates are an advanced management-only verification step.</span>
           </div>}
         </div>
@@ -226,7 +226,7 @@ export default function ProviderMap() {
         loading="lazy"
         referrerPolicy="no-referrer"
         className="hlc-network-map-preview"
-      /> : <div className="hlc-network-map-unmapped"><strong>No verified map point yet</strong><span>Use the provider's recorded address first. Exact coordinates are optional advanced verification.</span></div>}
+      /> : <div className="hlc-network-map-unmapped"><strong>Provider is not mapped yet</strong><span>Use the provider's recorded address first. Exact coordinates are optional advanced verification.</span></div>}
 
       {canManageCoordinates && <details className="hlc-network-coordinate-advanced">
         <summary>Advanced: verify exact map point</summary>
