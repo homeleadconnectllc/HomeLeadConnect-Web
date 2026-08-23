@@ -56,4 +56,5 @@ import "./mobile-embedded-browser-authority.css";
 import "./owner-visual-cleanup.css";
 import "./hlc-visual-handoff-authority.css";
 import "./hlc-guidance-clickaway.css";
+import "./mobile-centering-recovery.css";
 import "./launch-contrast-readability.css";
