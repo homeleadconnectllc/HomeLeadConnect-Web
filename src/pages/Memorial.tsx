@@ -12,10 +12,10 @@ export default function MemorialPage() {
 
       <section className="hlc-public-story-card hlc-memorial-tribute" aria-label="Memorial tribute">
         <p>
-          HomeLead Connect carries Kendrell’s name forward as a personal dedication from his brother, Antoine Washington — with purpose, care, family pride, and respect for the life and memories behind the name.
+          This page is a quiet place within the HomeLead Connect story to honor Kendrell’s memory and the family connection behind the name.
         </p>
         <p>
-          Kendrell was a Harrisburg High School graduate, a HACC student, and an aspiring music artist. This memorial preserves those family-approved details simply and respectfully.
+          Kendrell was a Harrisburg High School graduate, a HACC student, and an aspiring music artist.
         </p>
       </section>
 
@@ -23,7 +23,7 @@ export default function MemorialPage() {
         <p className="hlc-public-story-eyebrow">A BROTHER’S DEDICATION</p>
         <h2>A name carried forward with purpose</h2>
         <p>
-          The dedication is part of HomeLead Connect’s story, but it remains separate from product operations. This page exists to honor Kendrell as a person and family member first.
+          Antoine Washington created the Kendrell command office to carry his brother’s name forward with purpose, care, and family pride.
         </p>
       </section>
 
