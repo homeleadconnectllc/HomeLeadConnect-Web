@@ -1,16 +1,28 @@
 import { Link } from "react-router-dom";
 import { Calculator, CalendarClock, Mail, Phone } from "lucide-react";
+import type { CSSProperties } from "react";
 import type { LeadRecord } from "../../api/leads";
 import PortalInviteButton from "../portal/PortalInviteButton";
+
+const LEAD_ACCENTS = ["#38BDF8", "#2DD4BF", "#FBBF24", "#FB923C", "#60A5FA", "#34D399", "#A78BFA"];
+
+function leadAccent(lead: LeadRecord) {
+  const key = String(lead.id_uuid || lead.id || lead.lead_code || lead.full_name || "lead");
+  let hash = 0;
+  for (let index = 0; index < key.length; index += 1) hash = ((hash << 5) - hash + key.charCodeAt(index)) | 0;
+  return LEAD_ACCENTS[Math.abs(hash) % LEAD_ACCENTS.length];
+}
 
 export default function LeadCard({ lead }: { lead: LeadRecord }) {
   const pipelineLabel = lead.stage || lead.status || "new";
   const appointmentLabel = lead.appointment_at
     ? new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(new Date(lead.appointment_at))
     : null;
+  const accent = leadAccent(lead);
+  const rowStyle = { "--lead-accent": accent } as CSSProperties;
 
   return (
-    <article className="hlc-lead-row">
+    <article className="hlc-lead-row" style={rowStyle}>
       <Link className="hlc-lead-identity" to={`/leads/${lead.id}`} aria-label={`Open ${lead.full_name || `lead ${lead.id}`} details`}>
         <span className="hlc-lead-avatar" aria-hidden="true">{(lead.full_name || "L").trim().charAt(0).toUpperCase()}</span>
         <span className="hlc-lead-identity-copy">
