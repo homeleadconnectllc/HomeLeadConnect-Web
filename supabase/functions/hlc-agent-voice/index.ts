@@ -5,7 +5,7 @@ const cors = {
   "Access-Control-Allow-Headers": "authorization, apikey, content-type, x-client-info",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
   "Access-Control-Max-Age": "86400",
-  "Access-Control-Expose-Headers": "content-type, x-hlc-agent, x-hlc-provider, x-hlc-voice, x-hlc-sample-rate",
+  "Access-Control-Expose-Headers": "content-type, x-hlc-agent, x-hlc-provider, x-hlc-voice, x-hlc-sample-rate, x-hlc-locale",
 };
 
 const json = (body: Record<string, unknown>, status = 200) => new Response(JSON.stringify(body), {
@@ -19,12 +19,24 @@ const PCM_SAMPLE_RATE = 24_000;
 
 type AgentId = "kendrell" | "dion" | "diamond";
 type ContextKind = "internal" | "resident_portal" | "professional_portal";
+type AgentLocale = "en-US" | "es-US" | "fr-FR" | "pt-BR" | "zh-CN" | "ar-SA";
+
+const supportedLocales = new Set<AgentLocale>(["en-US", "es-US", "fr-FR", "pt-BR", "zh-CN", "ar-SA"]);
+
+const localeDirections: Record<AgentLocale, string> = {
+  "en-US": "Speak in natural American English pronunciation and rhythm.",
+  "es-US": "Speak in natural, clear Spanish appropriate for a US audience. Use Spanish pronunciation and rhythm for the full response, not English pronunciation rules.",
+  "fr-FR": "Speak in natural, clear French. Use French pronunciation and rhythm for the full response, not English pronunciation rules.",
+  "pt-BR": "Speak in natural Brazilian Portuguese. Use Brazilian Portuguese pronunciation and rhythm for the full response, not English pronunciation rules.",
+  "zh-CN": "Speak in natural Standard Mandarin Chinese. Use Mandarin pronunciation and rhythm for the full response, not English pronunciation rules.",
+  "ar-SA": "Speak in natural, clear Arabic appropriate for a Saudi/Gulf audience. Use Arabic pronunciation and rhythm for the full response, not English pronunciation rules.",
+};
 
 const voiceProfiles: Record<AgentId, { voice: string; providerVoice: string; direction: string }> = {
   kendrell: {
     voice: "Schedar",
     providerVoice: "cedar",
-    direction: "Speak as a natural adult male executive operator: steady, confident, calm, lower-key, conversational, clean and full-voiced. Relaxed but not sleepy. Never whisper. Never sound breathy, raspy, scratchy, gravelly, spooky, theatrical, robotic, or like an announcer. Use normal conversational volume and smooth connected phrasing.",
+    direction: "Speak as a natural adult male executive operator: steady, confident, calm, lower-key, conversational, clean and full-voiced. Relaxed but not sleepy. Never whisper. Never sound breathy, raspy, scratchy, gravelly, spooky, theatrical, robotic, or like an announcer. Use normal conversational volume and smooth connected phrasing. The name Kendrell is spelled Kendrell and pronounced Ken-Drayl.",
   },
   dion: {
     voice: "Sadaltager",
@@ -38,8 +50,11 @@ const voiceProfiles: Record<AgentId, { voice: string; providerVoice: string; dir
   },
 };
 
-function applyCanonicalPronunciations(text: string) {
-  return text.replace(/\bDion\b/gi, "Dee-Yon");
+function applyCanonicalPronunciations(text: string, locale: AgentLocale) {
+  if (locale !== "en-US") return text;
+  return text
+    .replace(/\bKendrell\b/gi, "Ken-Drayl")
+    .replace(/\bDion\b/gi, "Dee-Yon");
 }
 
 Deno.serve(async (request) => {
@@ -58,10 +73,11 @@ Deno.serve(async (request) => {
   const { data: userData, error: userError } = await userClient.auth.getUser();
   if (userError || !userData.user) return json({ error: "Authentication is required." }, 401);
 
-  let body: { agentId?: AgentId; text?: string };
+  let body: { agentId?: AgentId; text?: string; locale?: AgentLocale };
   try { body = await request.json(); } catch { return json({ error: "Invalid request." }, 400); }
   const agentId = body.agentId;
   const text = body.text?.trim() ?? "";
+  const locale = body.locale && supportedLocales.has(body.locale) ? body.locale : "en-US";
   if (!agentId || !(agentId in voiceProfiles)) return json({ error: "Unknown HLC agent." }, 400);
   if (text.length < 1 || text.length > 4000) return json({ error: "Speech text must be between 1 and 4,000 characters." }, 400);
 
@@ -111,8 +127,8 @@ Deno.serve(async (request) => {
       body: JSON.stringify({
         model: OPENAI_TTS_MODEL,
         voice: profileConfig.providerVoice,
-        input: applyCanonicalPronunciations(text),
-        instructions: profileConfig.direction,
+        input: applyCanonicalPronunciations(text, locale),
+        instructions: `${profileConfig.direction} ${localeDirections[locale]} Preserve names, numbers, prices, dates, times, consent language, scheduling details, and confirmations exactly in meaning.`,
         response_format: "pcm",
         stream_format: "audio",
       }),
@@ -148,6 +164,7 @@ Deno.serve(async (request) => {
       "X-HLC-Agent": agentId,
       "X-HLC-Provider": OPENAI_TTS_MODEL,
       "X-HLC-Voice": profileConfig.voice,
+      "X-HLC-Locale": locale,
       "X-HLC-Sample-Rate": String(PCM_SAMPLE_RATE),
     },
   });
