@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const legalLinkStyle = {
   color: "#bfdbfe",
   fontWeight: 600,
@@ -5,14 +7,16 @@ const legalLinkStyle = {
 
 export default function Footer() {
   return (
-    <footer
-      style={{
-        background: "#111827",
-        color: "#9ca3af",
-        textAlign: "center",
-        padding: "26px 20px",
-      }}
-    >
+    <footer className="hlc-public-footer">
+      <Link className="hlc-public-footer-brand" to="/" aria-label="HomeLead Connect home">
+        <span className="hlc-public-footer-mark" aria-hidden="true">
+          <img src="/hlc-icon.jpeg" alt="" />
+        </span>
+        <span>
+          <strong>HomeLead Connect</strong>
+          <small>Home services network</small>
+        </span>
+      </Link>
       <nav
         aria-label="Legal and accessibility"
         style={{
@@ -24,10 +28,10 @@ export default function Footer() {
           marginBottom: 12,
         }}
       >
-        <a style={legalLinkStyle} href="/privacy">Privacy</a>
-        <a style={legalLinkStyle} href="/terms">Terms</a>
-        <a style={legalLinkStyle} href="/accessibility">Accessibility</a>
-        <a style={legalLinkStyle} href="/platform-disclosure">Platform disclosure</a>
+        <Link style={legalLinkStyle} to="/privacy">Privacy</Link>
+        <Link style={legalLinkStyle} to="/terms">Terms</Link>
+        <Link style={legalLinkStyle} to="/accessibility">Accessibility</Link>
+        <Link style={legalLinkStyle} to="/platform-disclosure">Platform disclosure</Link>
       </nav>
       <div>© {new Date().getFullYear()} HomeLead Connect LLC</div>
     </footer>
