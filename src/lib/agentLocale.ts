@@ -1,6 +1,8 @@
 export type AgentLocale = "auto" | "en-US" | "es-US" | "fr-FR" | "pt-BR" | "zh-CN" | "ar-SA";
 export type ResolvedAgentLocale = Exclude<AgentLocale, "auto">;
 
+type AgentId = "kendrell" | "dion" | "diamond";
+
 export const agentLocaleOptions: Array<{ value: AgentLocale; label: string }> = [
   { value: "auto", label: "Auto detect" },
   { value: "en-US", label: "English" },
@@ -52,6 +54,56 @@ export function detectAgentLocale(text: string, browserLocale?: string | null): 
 
 export function resolveAgentLocale(preference: AgentLocale, message = "", browserLocale?: string | null): ResolvedAgentLocale {
   return preference === "auto" ? detectAgentLocale(message, browserLocale) : preference;
+}
+
+const localeNames: Record<ResolvedAgentLocale, string> = {
+  "en-US": "English (United States)",
+  "es-US": "Spanish (United States)",
+  "fr-FR": "French",
+  "pt-BR": "Brazilian Portuguese",
+  "zh-CN": "Simplified Chinese",
+  "ar-SA": "Arabic",
+};
+
+export function buildAgentLocaleDirective(locale: ResolvedAgentLocale) {
+  return `HLC language preference: respond in ${localeNames[locale]} (${locale}). Translate user-facing guidance faithfully while preserving canonical HLC record meaning. Never rewrite or imply changes to canonical records merely because the presentation language differs. For consent, pricing, scheduling, confirmations, safety, billing, or legal-sensitive wording, translate precisely rather than loosely summarizing.`;
+}
+
+const localizedFallback: Record<ResolvedAgentLocale, Record<AgentId, string>> = {
+  "en-US": {
+    kendrell: "Kendrell here. Live reasoning is temporarily unavailable. I can still keep the verified HLC context, priorities, risks, and next-step boundaries clear without pretending an action occurred.",
+    dion: "Dion here. Live reasoning is temporarily unavailable. I can still work from verified HLC workflow state and keep the next operational step clear without inventing status or completion.",
+    diamond: "Diamond here. Live reasoning is temporarily unavailable. I can still explain verified HLC status and the safest next step without guessing or making unsupported promises.",
+  },
+  "es-US": {
+    kendrell: "Habla Kendrell. El razonamiento en vivo no está disponible temporalmente. Aun así puedo mantener claros el contexto verificado de HLC, las prioridades, los riesgos y el siguiente paso sin fingir que se realizó una acción.",
+    dion: "Habla Dion. El razonamiento en vivo no está disponible temporalmente. Aun así puedo trabajar con el estado verificado del flujo de HLC y mantener claro el siguiente paso operativo sin inventar estados ni finalizaciones.",
+    diamond: "Habla Diamond. El razonamiento en vivo no está disponible temporalmente. Aun así puedo explicar el estado verificado de HLC y el siguiente paso más seguro sin adivinar ni hacer promesas no respaldadas.",
+  },
+  "fr-FR": {
+    kendrell: "Kendrell à l’appareil. Le raisonnement en direct est temporairement indisponible. Je peux toutefois garder clairs le contexte HLC vérifié, les priorités, les risques et la prochaine étape sans prétendre qu’une action a été effectuée.",
+    dion: "Dion à l’appareil. Le raisonnement en direct est temporairement indisponible. Je peux toutefois travailler à partir de l’état vérifié du workflow HLC et préciser la prochaine étape sans inventer de statut ni d’achèvement.",
+    diamond: "Diamond à l’appareil. Le raisonnement en direct est temporairement indisponible. Je peux toutefois expliquer le statut HLC vérifié et la prochaine étape la plus sûre sans deviner ni faire de promesses non confirmées.",
+  },
+  "pt-BR": {
+    kendrell: "Aqui é Kendrell. O raciocínio ao vivo está temporariamente indisponível. Ainda posso manter claros o contexto verificado da HLC, as prioridades, os riscos e o próximo passo sem fingir que alguma ação foi executada.",
+    dion: "Aqui é Dion. O raciocínio ao vivo está temporariamente indisponível. Ainda posso trabalhar com o estado verificado do fluxo da HLC e deixar claro o próximo passo operacional sem inventar status ou conclusão.",
+    diamond: "Aqui é Diamond. O raciocínio ao vivo está temporariamente indisponível. Ainda posso explicar o status verificado da HLC e o próximo passo mais seguro sem adivinhar nem fazer promessas sem respaldo.",
+  },
+  "zh-CN": {
+    kendrell: "我是 Kendrell。实时推理暂时不可用。我仍可依据已验证的 HLC 上下文，清楚说明优先事项、风险和下一步，而且不会假装任何操作已经执行。",
+    dion: "我是 Dion。实时推理暂时不可用。我仍可依据已验证的 HLC 工作流状态说明下一项运营步骤，而且不会虚构状态或完成情况。",
+    diamond: "我是 Diamond。实时推理暂时不可用。我仍可说明已验证的 HLC 状态和最安全的下一步，而且不会猜测或作出没有依据的承诺。",
+  },
+  "ar-SA": {
+    kendrell: "أنا Kendrell. الاستدلال المباشر غير متاح مؤقتًا. لا يزال بإمكاني إبقاء سياق HLC الموثّق والأولويات والمخاطر والخطوة التالية واضحة من دون الادعاء بأن أي إجراء قد نُفّذ.",
+    dion: "أنا Dion. الاستدلال المباشر غير متاح مؤقتًا. لا يزال بإمكاني العمل من حالة سير العمل الموثّقة في HLC وتوضيح الخطوة التشغيلية التالية من دون اختلاق حالة أو إنجاز.",
+    diamond: "أنا Diamond. الاستدلال المباشر غير متاح مؤقتًا. لا يزال بإمكاني شرح حالة HLC الموثّقة والخطوة التالية الأكثر أمانًا من دون تخمين أو وعود غير مدعومة.",
+  },
+};
+
+export function getLocalizedAgentFallback(agentId: AgentId, locale: ResolvedAgentLocale) {
+  return localizedFallback[locale][agentId];
 }
 
 export type AgentUiCopy = {
