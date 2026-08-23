@@ -111,6 +111,9 @@
     margin-inline: 0 !important;
   }
 
+  /* Keep guidance and agent controls in separate viewport lanes. Both components
+     render together on signed-in agent routes, so sharing one bottom/right slot
+     causes an exact overlap even when each control individually clears the tab bar. */
   .hlc-help-trigger {
     position: fixed !important;
     top: auto !important;
@@ -123,7 +126,7 @@
     position: fixed !important;
     top: auto !important;
     right: max(14px, env(safe-area-inset-right)) !important;
-    bottom: max(104px, calc(88px + env(safe-area-inset-bottom))) !important;
+    bottom: max(160px, calc(144px + env(safe-area-inset-bottom))) !important;
     left: auto !important;
     width: auto !important;
     max-width: calc(100vw - 28px) !important;
