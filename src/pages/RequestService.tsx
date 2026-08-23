@@ -4,8 +4,10 @@ import { trackAnalyticsEvent } from "../api/analytics";
 import { submitServiceRequest } from "../api/publicIntake";
 import { errorMessage } from "../lib/errorMessage";
 
+type ResidentType = "Renter" | "Homeowner" | "Property manager" | "Other";
+
 export default function RequestService() {
-  const [form, setForm] = useState({ fullName: "", phone: "", email: "", projectDetails: "", honeypot: "" });
+  const [form, setForm] = useState({ fullName: "", phone: "", email: "", residentType: "Renter" as ResidentType, projectDetails: "", honeypot: "" });
   const [requestId] = useState(() => crypto.randomUUID());
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -17,7 +19,12 @@ export default function RequestService() {
     setBusy(true);
     setError("");
     try {
-      const result = await submitServiceRequest({ requestId, ...form });
+      const { residentType, ...requestFields } = form;
+      const result = await submitServiceRequest({
+        requestId,
+        ...requestFields,
+        projectDetails: `[Resident type: ${residentType}]\n${form.projectDetails.trim()}`,
+      });
       if (!result?.accepted) throw new Error("The request could not be accepted.");
       trackAnalyticsEvent("service_request_submitted");
       setSubmitted(true);
@@ -44,7 +51,7 @@ export default function RequestService() {
       <img src="/branding/hlc-logo-full.png" alt="HomeLead Connect" style={logoStyle} />
       <p style={eyebrowStyle}>HOMELEAD CONNECT · SERVICE REQUEST</p>
       <h1 style={titleStyle}>Tell us what your home needs.</h1>
-      <p style={introStyle}>Start with one request. HLC keeps the review, provider coordination, scheduling, and communication connected from there.</p>
+      <p style={introStyle}>Renters, homeowners, property managers, and everyday households can start with one request. HLC keeps review, provider coordination, scheduling, and communication connected from there.</p>
       <div style={stepsStyle} aria-label="Service request process">
         <span style={stepStyle}><b>01</b> Tell us what you need</span>
         <span style={stepStyle}><b>02</b> HLC reviews the request</span>
@@ -56,8 +63,9 @@ export default function RequestService() {
       <aside style={asideStyle}>
         <p style={darkEyebrowStyle}>A BETTER FRONT DOOR</p>
         <h2 style={asideTitleStyle}>One request. Clear next steps.</h2>
-        <p style={asideCopyStyle}>Use this form for repairs, maintenance, improvements, moving, cleaning, and other home-service needs supported by the HLC network.</p>
+        <p style={asideCopyStyle}>Use this form for repairs, maintenance, improvements, moving, cleaning, HVAC, painting, roofing, and other home-service needs supported by the HLC network.</p>
         <div style={trustListStyle}>
+          <p><strong>Renters are welcome</strong><br/><span>Select renter below so HLC can keep your household context visible.</span></p>
           <p><strong>Protected intake</strong><br/><span>Your request enters HLC’s controlled workflow.</span></p>
           <p><strong>No marketing enrollment</strong><br/><span>Submitting this form does not opt you into marketing messages.</span></p>
           <p><strong>No false promises</strong><br/><span>Provider assignment, pricing, and appointments are confirmed separately.</span></p>
@@ -78,8 +86,18 @@ export default function RequestService() {
             <label style={labelStyle}>Full name<span style={requiredStyle}>Required</span><input style={fieldStyle} required minLength={2} autoComplete="name" placeholder="Your name" value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} /></label>
             <label style={labelStyle}>Best phone number<span style={requiredStyle}>Required</span><input style={fieldStyle} required type="tel" autoComplete="tel" placeholder="(717) 555-0123" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} /></label>
           </div>
-          <label style={labelStyle}>Email<span style={optionalStyle}>Optional</span><input style={fieldStyle} type="email" autoComplete="email" placeholder="you@example.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></label>
-          <label style={labelStyle}>What home service or project do you need?<span style={requiredStyle}>Required</span><textarea style={{ ...fieldStyle, resize: "vertical", minHeight: 150 }} required minLength={10} rows={6} placeholder="Describe the repair, project, timing, or anything else that would help us understand what you need." value={form.projectDetails} onChange={(e) => setForm({ ...form, projectDetails: e.target.value })} /></label>
+          <div style={twoColumnStyle}>
+            <label style={labelStyle}>Resident / customer type<span style={requiredStyle}>Required</span>
+              <select style={fieldStyle} value={form.residentType} onChange={(e) => setForm({ ...form, residentType: e.target.value as ResidentType })}>
+                <option>Renter</option>
+                <option>Homeowner</option>
+                <option>Property manager</option>
+                <option>Other</option>
+              </select>
+            </label>
+            <label style={labelStyle}>Email<span style={optionalStyle}>Optional</span><input style={fieldStyle} type="email" autoComplete="email" placeholder="you@example.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></label>
+          </div>
+          <label style={labelStyle}>What home service or project do you need?<span style={requiredStyle}>Required</span><textarea style={{ ...fieldStyle, resize: "vertical", minHeight: 150 }} required minLength={10} rows={6} placeholder="Describe the repair, move, cleaning, HVAC issue, project, timing, or anything else that would help us understand what you need." value={form.projectDetails} onChange={(e) => setForm({ ...form, projectDetails: e.target.value })} /></label>
           <div style={privacyStyle}><strong>Privacy-minded by design.</strong><span>We use this information to review and respond to your service request. This form does not enroll you in marketing messages.</span></div>
           <button disabled={busy} type="submit" style={{ ...submitStyle, opacity: busy ? .65 : 1 }}>{busy ? "Sending request…" : "Send request to HomeLead Connect →"}</button>
         </form>
@@ -89,21 +107,21 @@ export default function RequestService() {
 }
 
 const pageStyle = { width: "min(1180px, calc(100% - 28px))", margin: "clamp(18px,4vw,44px) auto 72px", display: "grid", gap: "clamp(18px,3vw,28px)", color: "#0f172a" };
-const heroStyle = { overflow: "hidden", borderRadius: 30, padding: "clamp(30px,7vw,68px) clamp(20px,6vw,64px)", textAlign: "center" as const, color: "#f8fafc", background: "radial-gradient(circle at 15% 0%,rgba(14,165,233,.22),transparent 30%),radial-gradient(circle at 90% 20%,rgba(59,130,246,.25),transparent 28%),linear-gradient(145deg,#050b14,#0b1c33 55%,#0a3550)", boxShadow: "0 28px 80px rgba(15,23,42,.22)" };
+const heroStyle = { overflow: "hidden", borderRadius: 4, padding: "clamp(30px,7vw,68px) clamp(20px,6vw,64px)", textAlign: "center" as const, color: "#f8fafc", background: "radial-gradient(circle at 15% 0%,rgba(14,165,233,.22),transparent 30%),radial-gradient(circle at 90% 20%,rgba(59,130,246,.25),transparent 28%),linear-gradient(145deg,#050b14,#0b1c33 55%,#0a3550)", boxShadow: "0 28px 80px rgba(15,23,42,.22)" };
 const logoStyle = { width: "min(220px,58vw)", maxHeight: 76, objectFit: "contain" as const, margin: "0 auto 18px" };
 const eyebrowStyle = { margin: 0, color: "#93c5fd", fontSize: 11, fontWeight: 900, letterSpacing: ".16em" };
 const titleStyle = { margin: "10px auto 14px", color: "#fff", fontSize: "clamp(2rem,5.5vw,4.4rem)", lineHeight: 1, letterSpacing: "-.045em", maxWidth: 850 };
 const introStyle = { maxWidth: 760, margin: "0 auto", color: "#dbeafe", fontSize: "clamp(16px,2vw,20px)", lineHeight: 1.65, fontWeight: 600 };
 const stepsStyle = { display: "flex", flexWrap: "wrap" as const, justifyContent: "center", gap: 10, marginTop: 26 };
-const stepStyle = { display: "inline-flex", gap: 8, alignItems: "center", minHeight: 42, padding: "9px 13px", borderRadius: 999, color: "#e0f2fe", background: "rgba(255,255,255,.07)", border: "1px solid rgba(147,197,253,.22)", fontSize: 13, fontWeight: 800 };
+const stepStyle = { display: "inline-flex", gap: 8, alignItems: "center", minHeight: 42, padding: "9px 13px", borderRadius: 4, color: "#e0f2fe", background: "rgba(255,255,255,.07)", border: "1px solid rgba(147,197,253,.22)", fontSize: 13, fontWeight: 800 };
 const contentGridStyle = { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,360px),1fr))", gap: 20, alignItems: "start" };
-const asideStyle = { padding: "clamp(24px,5vw,40px)", borderRadius: 24, background: "linear-gradient(180deg,#f8fbff,#eef6ff)", border: "1px solid #dbeafe" };
+const asideStyle = { padding: "clamp(24px,5vw,40px)", borderRadius: 4, background: "linear-gradient(180deg,#f8fbff,#eef6ff)", border: "1px solid #dbeafe" };
 const darkEyebrowStyle = { margin: 0, color: "#2563eb", fontSize: 11, fontWeight: 900, letterSpacing: ".14em" };
 const asideTitleStyle = { margin: "9px 0 12px", fontSize: "clamp(1.7rem,4vw,2.6rem)", lineHeight: 1.08, letterSpacing: "-.035em" };
 const asideCopyStyle = { margin: 0, color: "#475569", lineHeight: 1.7, fontWeight: 600 };
 const trustListStyle = { display: "grid", gap: 2, margin: "22px 0", color: "#0f172a" };
 const asideLinkStyle = { color: "#1d4ed8", fontWeight: 900, textDecoration: "none" };
-const formCardStyle = { padding: "clamp(22px,5vw,38px)", borderRadius: 24, background: "#fff", border: "1px solid #dbe7f4", boxShadow: "0 20px 60px rgba(15,23,42,.09)" };
+const formCardStyle = { padding: "clamp(22px,5vw,38px)", borderRadius: 4, background: "#fff", border: "1px solid #dbe7f4", boxShadow: "0 20px 60px rgba(15,23,42,.09)" };
 const formHeadingStyle = { marginBottom: 22 };
 const formTitleStyle = { margin: "8px 0 8px", fontSize: "clamp(1.6rem,3vw,2.2rem)", letterSpacing: "-.025em" };
 const formIntroStyle = { margin: 0, color: "#64748b", lineHeight: 1.6, fontWeight: 600 };
@@ -112,16 +130,16 @@ const twoColumnStyle = { display: "grid", gridTemplateColumns: "repeat(auto-fit,
 const labelStyle = { display: "grid", gap: 7, color: "#0f172a", fontSize: 14, fontWeight: 900 };
 const requiredStyle = { color: "#64748b", fontSize: 10, letterSpacing: ".08em", textTransform: "uppercase" as const };
 const optionalStyle = { ...requiredStyle, color: "#94a3b8" };
-const fieldStyle = { width: "100%", boxSizing: "border-box" as const, minHeight: 48, padding: "12px 13px", border: "1px solid #cbd5e1", borderRadius: 12, background: "#fbfdff", color: "#0f172a", font: "inherit", fontSize: 16, fontWeight: 600, outlineColor: "#2563eb" };
-const privacyStyle = { display: "grid", gap: 4, padding: 14, borderRadius: 14, color: "#334155", background: "#f8fafc", border: "1px solid #e2e8f0", fontSize: 13, lineHeight: 1.55 };
-const submitStyle = { minHeight: 52, padding: "13px 18px", border: 0, borderRadius: 14, color: "#fff", background: "linear-gradient(135deg,#2563eb,#0ea5e9)", fontSize: 15, fontWeight: 900, cursor: "pointer", boxShadow: "0 12px 28px rgba(37,99,235,.24)" };
-const errorStyle = { padding: 13, borderRadius: 12, color: "#991b1b", background: "#fef2f2", border: "1px solid #fecaca", fontWeight: 800 };
+const fieldStyle = { width: "100%", boxSizing: "border-box" as const, minHeight: 48, padding: "12px 13px", border: "1px solid #cbd5e1", borderRadius: 4, background: "#fbfdff", color: "#0f172a", font: "inherit", fontSize: 16, fontWeight: 600, outlineColor: "#2563eb" };
+const privacyStyle = { display: "grid", gap: 4, padding: 14, borderRadius: 4, color: "#334155", background: "#f8fafc", border: "1px solid #e2e8f0", fontSize: 13, lineHeight: 1.55 };
+const submitStyle = { minHeight: 52, padding: "13px 18px", border: 0, borderRadius: 4, color: "#fff", background: "linear-gradient(135deg,#2563eb,#0ea5e9)", fontSize: 15, fontWeight: 900, cursor: "pointer", boxShadow: "0 12px 28px rgba(37,99,235,.24)" };
+const errorStyle = { padding: 13, borderRadius: 4, color: "#991b1b", background: "#fef2f2", border: "1px solid #fecaca", fontWeight: 800 };
 const trapStyle = { position: "absolute" as const, left: "-10000px", width: 1, height: 1, overflow: "hidden" };
-const successStyle = { maxWidth: 820, margin: "8vh auto", padding: "clamp(30px,7vw,64px)", borderRadius: 30, textAlign: "center" as const, color: "#f8fafc", background: "radial-gradient(circle at 50% 0%,rgba(14,165,233,.22),transparent 35%),linear-gradient(145deg,#050b14,#0b2345)", boxShadow: "0 28px 80px rgba(15,23,42,.22)" };
-const successIconStyle = { width: 58, height: 58, display: "grid", placeItems: "center", margin: "0 auto 18px", borderRadius: 18, color: "#082f49", background: "#a5f3fc", fontSize: 28, fontWeight: 1000 };
+const successStyle = { maxWidth: 820, margin: "8vh auto", padding: "clamp(30px,7vw,64px)", borderRadius: 4, textAlign: "center" as const, color: "#f8fafc", background: "radial-gradient(circle at 50% 0%,rgba(14,165,233,.22),transparent 35%),linear-gradient(145deg,#050b14,#0b2345)", boxShadow: "0 28px 80px rgba(15,23,42,.22)" };
+const successIconStyle = { width: 58, height: 58, display: "grid", placeItems: "center", margin: "0 auto 18px", borderRadius: 999, color: "#082f49", background: "#a5f3fc", fontSize: 28, fontWeight: 1000 };
 const successTitleStyle = { margin: "10px auto 14px", color: "#fff", fontSize: "clamp(2rem,5vw,3.7rem)", lineHeight: 1.02, letterSpacing: "-.04em" };
 const successCopyStyle = { maxWidth: 680, margin: "0 auto", color: "#dbeafe", lineHeight: 1.7, fontWeight: 600 };
-const noticeStyle = { maxWidth: 650, display: "grid", gap: 5, margin: "24px auto", padding: 16, borderRadius: 16, color: "#e2e8f0", background: "rgba(255,255,255,.06)", border: "1px solid rgba(147,197,253,.18)", lineHeight: 1.55 };
+const noticeStyle = { maxWidth: 650, display: "grid", gap: 5, margin: "24px auto", padding: 16, borderRadius: 4, color: "#e2e8f0", background: "rgba(255,255,255,.06)", border: "1px solid rgba(147,197,253,.18)", lineHeight: 1.55 };
 const actionRowStyle = { display: "flex", flexWrap: "wrap" as const, justifyContent: "center", gap: 12 };
-const primaryButtonStyle = { display: "inline-flex", alignItems: "center", justifyContent: "center", minHeight: 48, padding: "12px 20px", borderRadius: 14, color: "#fff", background: "linear-gradient(135deg,#2563eb,#0ea5e9)", textDecoration: "none", fontWeight: 900 };
+const primaryButtonStyle = { display: "inline-flex", alignItems: "center", justifyContent: "center", minHeight: 48, padding: "12px 20px", borderRadius: 4, color: "#fff", background: "linear-gradient(135deg,#2563eb,#0ea5e9)", textDecoration: "none", fontWeight: 900 };
 const secondaryButtonStyle = { ...primaryButtonStyle, background: "rgba(255,255,255,.08)", border: "1px solid rgba(191,219,254,.3)" };
