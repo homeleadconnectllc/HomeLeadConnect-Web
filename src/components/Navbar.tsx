@@ -205,7 +205,7 @@ export default function Navbar() {
               <div className="hlc-nav-menu">
                 {group.pages.map((page) => (
                   <Link aria-current={location.pathname === page.route ? "page" : undefined} key={page.route} onClick={closeMobileMenu} to={page.route}>
-                    <span>{page.label}</span><small>{page.purpose}</small></span>
+                    <span>{page.label}</span><small>{page.purpose}</small>
                   </Link>
                 ))}
               </div>
