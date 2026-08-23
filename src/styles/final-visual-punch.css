@@ -1,0 +1,116 @@
+/* Final visual punch list — launch authority.
+   Scope: mobile bottom-nav clearance, resilient empty-state icon rendering,
+   secondary-text density, and overflow protection. Loaded last. */
+
+#root .hlc-signed-in-shell {
+  --hlc-mobile-nav-clearance: calc(132px + env(safe-area-inset-bottom, 0px));
+  scroll-padding-bottom: var(--hlc-mobile-nav-clearance) !important;
+}
+
+@media (max-width: 760px), (max-device-width: 760px) {
+  /* Every authenticated route must be able to scroll completely above the fixed nav. */
+  #root .hlc-signed-in-shell > .hlc-route-content {
+    box-sizing: border-box !important;
+    min-height: 100% !important;
+    padding-bottom: var(--hlc-mobile-nav-clearance) !important;
+    scroll-padding-bottom: var(--hlc-mobile-nav-clearance) !important;
+  }
+
+  #root .hlc-signed-in-shell > .hlc-route-content > :last-child,
+  #root .hlc-signed-in-shell > .hlc-route-content :where(form, section, article, main):last-child {
+    margin-bottom: 18px !important;
+  }
+
+  /* Interactive controls and record anchors must never settle underneath the nav. */
+  #root .hlc-signed-in-shell > .hlc-route-content :where(
+    button,
+    a,
+    input,
+    select,
+    textarea,
+    .hlc-message-entry,
+    .hlc-lead-row,
+    .hlc-job-row,
+    [class*="offer-row"],
+    [class*="assignment-row"],
+    [class*="voice"],
+    [class*="composer"],
+    [class*="history"]
+  ) {
+    scroll-margin-bottom: var(--hlc-mobile-nav-clearance) !important;
+  }
+
+  /* Keep secondary/meta copy readable without letting it overpower primary actions. */
+  #root .hlc-signed-in-shell > .hlc-route-content :where(
+    p,
+    li,
+    small,
+    time,
+    [class*="meta"],
+    [class*="detail"],
+    [class*="description"],
+    [class*="helper"],
+    [class*="caption"]
+  ) {
+    max-width: 100% !important;
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+  }
+
+  #root .hlc-signed-in-shell > .hlc-route-content :where(
+    small,
+    time,
+    [class*="meta"],
+    [class*="caption"]
+  ) {
+    font-size: clamp(13px, 3.5vw, 16px) !important;
+    line-height: 1.45 !important;
+  }
+
+  #root .hlc-signed-in-shell > .hlc-route-content :where(
+    p,
+    li,
+    [class*="detail"],
+    [class*="description"],
+    [class*="helper"]
+  ) {
+    line-height: 1.55 !important;
+  }
+
+  /* Long IDs, emails and assignment history must wrap instead of being clipped. */
+  #root .hlc-signed-in-shell > .hlc-route-content :where(
+    [class*="id"],
+    [class*="email"],
+    [class*="history"],
+    [class*="assignment"]
+  ) {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  /* Browser/font-safe fallback for empty-state icon containers. Broken tofu glyphs
+     are suppressed and replaced with a simple neutral mark when the component uses
+     a dedicated icon wrapper. */
+  #root .hlc-signed-in-shell > .hlc-route-content :where(
+    [class*="empty-state"],
+    [class*="emptyState"],
+    [class*="empty_state"]
+  ) :where([class*="icon"], [data-empty-icon]) {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+    font-size: 0 !important;
+    line-height: 1 !important;
+  }
+
+  #root .hlc-signed-in-shell > .hlc-route-content :where(
+    [class*="empty-state"],
+    [class*="emptyState"],
+    [class*="empty_state"]
+  ) :where([class*="icon"], [data-empty-icon])::before {
+    content: "•" !important;
+    display: inline-block !important;
+    color: #dbeafe !important;
+    font-size: 28px !important;
+    line-height: 1 !important;
+  }
+}
