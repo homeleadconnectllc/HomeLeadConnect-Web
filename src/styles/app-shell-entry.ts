@@ -1,4 +1,5 @@
 import "../index.css";
+import "./public-facing-pass.css";
 import "./workspace-nav.css";
 import "./auth-methods.css";
 import "./auth-mobile-final-authority.css";
