@@ -3,6 +3,9 @@ import { useLocation } from "react-router-dom";
 
 const GUIDANCE: Array<{ prefix: string; title: string; body: string }> = [
   { prefix: "/dashboard", title: "Command Center", body: "Start here for priorities, live work, alerts, and the next action across HomeLead Connect." },
+  { prefix: "/hq", title: "Kendrell · Executive Command", body: "Use this command view for approvals, risk, priorities, and decisions that need executive attention." },
+  { prefix: "/operations", title: "Dion · Operations & BI", body: "Use this operations view to inspect workflow health, scheduling, jobs, leads, and business intelligence." },
+  { prefix: "/customer-experience", title: "Diamond · Customer Experience", body: "Use this view for customer experience, community activity, service recovery, reviews, and referrals." },
   { prefix: "/leads", title: "Leads", body: "Open a lead to review contact details, qualification, LeadScope, follow-up, and the handoff into scheduled work." },
   { prefix: "/jobs", title: "Jobs", body: "Use this area to open work, update status, schedule appointments, assign providers, and attach job evidence." },
   { prefix: "/messages", title: "Messages", body: "Choose a conversation first. Then send an internal message, use email when intended, or record a voice note." },
@@ -40,16 +43,27 @@ function hintFor(control: HTMLInputElement | HTMLSelectElement | HTMLTextAreaEle
   const label = humanize(raw.replace(/\(.*?\)/g, "").trim());
   const key = `${control.getAttribute("name") || ""} ${control.getAttribute("id") || ""} ${label}`.toLowerCase();
 
-  if (key.includes("company")) return "Enter company name";
+  if (key.includes("company") || key.includes("business name")) return "Enter company or business name";
+  if (key.includes("first") && key.includes("name")) return "Enter first name";
+  if (key.includes("last") && key.includes("name")) return "Enter last name";
   if (key.includes("contact") && key.includes("name")) return "Enter contact name";
-  if (key.includes("special")) return "Enter exact specialty or trade";
-  if (key.includes("city") || key.includes("state") || key.includes("zip") || key.includes("location")) return "Enter city, state, or ZIP";
+  if (key.includes("special") || key.includes("trade")) return "Enter exact specialty or trade";
+  if (key.includes("street") || key.includes("address")) return "Enter street address";
+  if (key.includes("city")) return "Enter city";
+  if (key.includes("state")) return "Enter state";
+  if (key.includes("zip") || key.includes("postal")) return "Enter ZIP or postal code";
+  if (key.includes("location")) return "Enter city, state, or ZIP";
   if (key.includes("phone")) return "Enter phone number";
   if (key.includes("email")) return "Enter email address";
+  if (key.includes("url") || key.includes("website")) return "Enter full website address";
+  if (key.includes("amount") || key.includes("price") || key.includes("cost")) return "Enter amount";
+  if (key.includes("title") || key.includes("subject")) return "Enter a short title";
+  if (key.includes("description") || key.includes("details")) return "Describe what is needed";
   if (key.includes("note")) return "Add notes (optional)";
   if (key.includes("search")) return "Search by name or keyword";
   if (key.includes("start")) return "Choose start date and time";
   if (key.includes("end")) return "Choose end date and time";
+  if (key.includes("password")) return "Enter password";
   return label === "Field" ? "Enter information" : `Enter ${label.toLowerCase()}`;
 }
 
@@ -63,18 +77,15 @@ function enhanceFields() {
     if (["hidden", "checkbox", "radio", "submit", "button", "reset"].includes(type)) return;
 
     const hint = hintFor(control);
+    const existingLabel = nearbyLabel(control);
     if (!control.getAttribute("aria-label") && !control.getAttribute("aria-labelledby")) {
-      control.setAttribute("aria-label", nearbyLabel(control) || hint);
+      control.setAttribute("aria-label", existingLabel || hint);
     }
     control.setAttribute("data-hlc-field-guided", "true");
+    if (!control.title) control.title = hint;
 
-    if (control instanceof HTMLInputElement && ["date", "time", "datetime-local", "month", "week", "file"].includes(type)) {
-      if (!control.title) control.title = hint;
-      return;
-    }
-    if (!(control instanceof HTMLSelectElement) && !control.placeholder) {
-      control.placeholder = hint;
-    }
+    if (control instanceof HTMLInputElement && ["date", "time", "datetime-local", "month", "week", "file"].includes(type)) return;
+    if (!(control instanceof HTMLSelectElement) && !control.placeholder) control.placeholder = hint;
   });
 }
 
@@ -104,6 +115,15 @@ export default function WorkspaceGuidance() {
     setOpen(!dismissed);
   }, [storageKey]);
 
+  useEffect(() => {
+    if (!open) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") dismiss();
+    };
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, [open, storageKey]);
+
   function dismiss() {
     if (typeof window !== "undefined") window.sessionStorage.setItem(storageKey, "dismissed");
     setOpen(false);
@@ -113,13 +133,21 @@ export default function WorkspaceGuidance() {
     <>
       <button className="hlc-help-trigger" type="button" onClick={() => setOpen(true)} aria-label="Open instructions for this page">?</button>
       {open && (
-        <aside className="hlc-route-guide" role="dialog" aria-modal="false" aria-labelledby="hlc-route-guide-title">
-          <button className="hlc-route-guide-close" type="button" onClick={dismiss} aria-label="Close instructions">×</button>
-          <span>QUICK GUIDE</span>
-          <strong id="hlc-route-guide-title">{guidance.title}</strong>
-          <p>{guidance.body}</p>
-          <button className="hlc-route-guide-dismiss" type="button" onClick={dismiss}>Got it</button>
-        </aside>
+        <div className="hlc-route-guide-backdrop" onClick={dismiss} role="presentation">
+          <aside
+            className="hlc-route-guide"
+            role="dialog"
+            aria-modal="false"
+            aria-labelledby="hlc-route-guide-title"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <button className="hlc-route-guide-close" type="button" onClick={dismiss} aria-label="Close instructions">×</button>
+            <span>QUICK GUIDE</span>
+            <strong id="hlc-route-guide-title">{guidance.title}</strong>
+            <p>{guidance.body}</p>
+            <button className="hlc-route-guide-dismiss" type="button" onClick={dismiss}>Got it</button>
+          </aside>
+        </div>
       )}
     </>
   );
