@@ -1,0 +1,211 @@
+/* Screenshot-driven mobile alignment recovery.
+   Imported immediately before launch-contrast-readability.css so launch contrast
+   remains the final contract authority while this file owns geometry/placement. */
+
+/* True modal work must own the viewport. Hide auxiliary floating controls while a
+   route-level modal is present so fixed agent/help affordances cannot bleed through. */
+.hlc-signed-in-shell:has(.hlc-route-content [aria-modal="true"]) .hlc-agent-dock,
+.hlc-signed-in-shell:has(.hlc-route-content [aria-modal="true"]) .hlc-help-trigger {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+@media (max-width: 760px) {
+  .hlc-signed-in-shell.hlc-signed-in-shell > .hlc-route-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-inline: auto !important;
+    overflow-x: clip !important;
+  }
+
+  .hlc-signed-in-shell.hlc-signed-in-shell > .hlc-route-content > main,
+  .hlc-signed-in-shell.hlc-signed-in-shell :is(
+    .hlc-leads-workspace,
+    .hlc-jobs-workspace,
+    .hlc-calendar-page,
+    .hlc-messages-workspace
+  ) {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 540px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: max(16px, env(safe-area-inset-left)) !important;
+    padding-right: max(16px, env(safe-area-inset-right)) !important;
+    min-width: 0 !important;
+  }
+
+  /* Leads and Jobs are CSS-grid operating boards, not semantic tables. On mobile
+     they collapse to one column; min-width guards prevent long content/actions from
+     widening the page canvas even without an overflow-x table wrapper. */
+  .hlc-signed-in-shell.hlc-signed-in-shell :is(
+    .hlc-leads-pipeline,
+    .hlc-leads-list,
+    .hlc-lead-row,
+    .hlc-lead-identity,
+    .hlc-lead-identity-copy,
+    .hlc-lead-actions,
+    .hlc-jobs-board,
+    .hlc-jobs-list,
+    .hlc-job-row,
+    .hlc-job-identity,
+    .hlc-job-identity-copy,
+    .hlc-job-value-cell,
+    .hlc-job-actions
+  ) {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .hlc-signed-in-shell.hlc-signed-in-shell :is(
+    .hlc-lead-contact-line,
+    .hlc-lead-context,
+    .hlc-job-value-cell small
+  ) {
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
+  }
+
+  .hlc-signed-in-shell.hlc-signed-in-shell :is(
+    .hlc-calendar-workspace,
+    .hlc-calendar-board,
+    .hlc-calendar-timeline,
+    .hlc-calendar-detail-panel,
+    .hlc-calendar-upcoming
+  ) {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    min-width: 0 !important;
+  }
+
+  .hlc-signed-in-shell.hlc-signed-in-shell .hlc-calendar-mini-month {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 360px !important;
+    margin: 18px auto 0 !important;
+    padding: 16px 0 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    border-bottom: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-signed-in-shell.hlc-signed-in-shell .hlc-calendar-mini-grid,
+  .hlc-signed-in-shell.hlc-signed-in-shell .hlc-calendar-mini-weekdays,
+  .hlc-signed-in-shell.hlc-signed-in-shell .hlc-calendar-mini-heading {
+    width: 100% !important;
+    max-width: 360px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .hlc-signed-in-shell.hlc-signed-in-shell .hlc-calendar-mini-grid > button {
+    white-space: nowrap !important;
+    word-break: keep-all !important;
+    overflow-wrap: normal !important;
+    min-width: 0 !important;
+  }
+
+  .hlc-signed-in-shell.hlc-signed-in-shell .hlc-calendar-empty,
+  .hlc-signed-in-shell.hlc-signed-in-shell .hlc-calendar-detail-empty {
+    min-height: 180px !important;
+    padding: 24px 12px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-signed-in-shell.hlc-signed-in-shell :is(
+    .hlc-flat-section,
+    .hlc-messages-console,
+    .hlc-messages-inbox,
+    .hlc-messages-thread,
+    .hlc-message-stream,
+    .hlc-message-entry,
+    .hlc-lead-row,
+    .hlc-job-row
+  ) {
+    border-left: 0 !important;
+    border-right: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-signed-in-shell.hlc-signed-in-shell .hlc-message-stream {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .hlc-signed-in-shell.hlc-signed-in-shell .hlc-message-entry {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-inline: 0 !important;
+  }
+
+  /* Keep guidance and agent controls in separate viewport lanes. Both components
+     render together on signed-in agent routes, so sharing one bottom/right slot
+     causes an exact overlap even when each control individually clears the tab bar. */
+  .hlc-help-trigger {
+    position: fixed !important;
+    top: auto !important;
+    right: max(14px, env(safe-area-inset-right)) !important;
+    bottom: max(104px, calc(88px + env(safe-area-inset-bottom))) !important;
+    z-index: 80 !important;
+  }
+
+  .hlc-agent-dock:not(.is-open) {
+    position: fixed !important;
+    top: auto !important;
+    right: max(14px, env(safe-area-inset-right)) !important;
+    bottom: max(160px, calc(144px + env(safe-area-inset-bottom))) !important;
+    left: auto !important;
+    width: auto !important;
+    max-width: calc(100vw - 28px) !important;
+    z-index: 85 !important;
+  }
+
+  .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger {
+    min-width: 44px !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    padding: 2px !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+  }
+
+  .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger img {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+  .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger span {
+    display: none !important;
+  }
+
+  .hlc-signed-in-shell.hlc-signed-in-shell :is(
+    .hlc-leads-summary,
+    .hlc-jobs-summary,
+    .hlc-calendar-kpis,
+    .hlc-messages-summary
+  ) {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    width: 100% !important;
+  }
+
+  .hlc-signed-in-shell.hlc-signed-in-shell .hlc-calendar-kpis article {
+    min-height: 84px !important;
+    padding: 12px !important;
+  }
+}

@@ -7,7 +7,7 @@ import { useAccountAccess } from "../hooks/useAccountAccess";
 import { canAccessWorkspacePath } from "../lib/accessPolicy";
 import { supabase } from "../lib/supabase";
 
-const logo = "/hlc-icon.jpeg";
+const logo = "/hlc-touch-icon.svg";
 const declaredWorkspaceRoutes = new Set([
   "/dashboard", "/ecosystem", "/workflow", "/automations", "/hq", "/notifications",
   "/leads", "/estimator", "/jobs", "/calendar", "/follow-ups", "/operations",

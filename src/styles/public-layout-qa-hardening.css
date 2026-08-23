@@ -1,0 +1,48 @@
+/* Screenshot-driven public layout hardening for PR #167. */
+.hlc-public-shell {
+  overflow-x: clip;
+}
+
+.hlc-public-shell > .hlc-navbar {
+  padding-top: max(10px, env(safe-area-inset-top)) !important;
+}
+
+.hlc-public-shell .hlc-route-content {
+  min-width: 0;
+}
+
+.hlc-public-footer {
+  box-sizing: border-box;
+  width: 100%;
+  justify-items: center !important;
+  text-align: center !important;
+}
+
+.hlc-public-footer-brand {
+  width: fit-content;
+  margin-inline: auto;
+  justify-content: center !important;
+  text-align: center !important;
+}
+
+.hlc-public-footer-brand > span:last-child {
+  justify-items: center;
+  text-align: center;
+}
+
+.hlc-public-footer nav {
+  width: 100%;
+  margin-inline: auto;
+  justify-content: center !important;
+}
+
+@media (max-width: 600px) {
+  .hlc-public-shell > .hlc-navbar {
+    min-height: calc(64px + env(safe-area-inset-top));
+  }
+
+  .hlc-public-footer-brand {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

@@ -1,4 +1,5 @@
 import "../index.css";
+import "./public-facing-pass.css";
 import "./workspace-nav.css";
 import "./auth-methods.css";
 import "./auth-mobile-final-authority.css";
@@ -14,6 +15,7 @@ import "./global-premium-system.css";
 import "./global-visual-pizzazz.css";
 import "./contrast-contract.css";
 import "./authenticated-mobile-shell-authority.css";
+import "./public-layout-qa-hardening.css";
 import "./responsive-page-contract.css";
 import "./hlc-brand-lock.css";
 import "./legacy-device-compat.css";

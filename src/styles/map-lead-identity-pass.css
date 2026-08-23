@@ -1,0 +1,181 @@
+/* Final source-driven visual pass for map depth, coordinate contrast, and record identity.
+   Imported immediately before launch-contrast-readability.css; selectors intentionally
+   outrank generic launch rules without replacing the final launch authority contract. */
+
+.hlc-signed-in-shell.hlc-signed-in-shell .hlc-network-map-filterbar input,
+.hlc-signed-in-shell.hlc-signed-in-shell .hlc-network-coordinate-form input[type="number"] {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  min-height: 46px !important;
+  padding: 10px 14px !important;
+  border: 1px solid rgba(148, 163, 184, 0.28) !important;
+  border-radius: 7px !important;
+  background: #0D1F3A !important;
+  background-color: #0D1F3A !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  caret-color: #93C5FD !important;
+  box-shadow: inset 0 0 0 1px rgba(47, 176, 255, 0.04) !important;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.hlc-signed-in-shell.hlc-signed-in-shell .hlc-network-map-filterbar input::placeholder,
+.hlc-signed-in-shell.hlc-signed-in-shell .hlc-network-coordinate-form input::placeholder {
+  color: #94A3B8 !important;
+  -webkit-text-fill-color: #94A3B8 !important;
+  opacity: 1 !important;
+}
+
+.hlc-signed-in-shell.hlc-signed-in-shell .hlc-network-map-canvas {
+  isolation: isolate;
+  border: 1px solid rgba(56, 189, 248, 0.2) !important;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(47, 128, 255, 0.16) 0%, rgba(15, 43, 72, 0.76) 28%, #081426 76%) !important;
+  box-shadow:
+    inset 0 0 26px rgba(0, 0, 0, 0.62),
+    inset 0 1px 0 rgba(147, 197, 253, 0.05) !important;
+}
+
+.hlc-signed-in-shell.hlc-signed-in-shell .hlc-network-map-canvas::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(circle at center, transparent 48%, rgba(1, 8, 20, 0.48) 100%);
+}
+
+.hlc-signed-in-shell.hlc-signed-in-shell .hlc-network-map-grid {
+  z-index: 0;
+  opacity: .34 !important;
+  background-image:
+    linear-gradient(rgba(93, 117, 147, .58) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(93, 117, 147, .58) 1px, transparent 1px) !important;
+  background-size: 10% 10% !important;
+}
+
+.hlc-signed-in-shell.hlc-signed-in-shell .hlc-network-map-pin {
+  z-index: 4 !important;
+  display: grid !important;
+  place-items: center !important;
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+.hlc-signed-in-shell.hlc-signed-in-shell .hlc-network-map-pin-core {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  font-size: 0;
+  font-weight: 900;
+  line-height: 1;
+  transition: width .16s ease, height .16s ease, box-shadow .16s ease, font-size .16s ease;
+}
+
+.hlc-signed-in-shell.hlc-signed-in-shell .hlc-network-map-pin.is-verified .hlc-network-map-pin-core {
+  border: 2px solid rgba(255, 255, 255, .86);
+  background: var(--record-accent, #38BDF8) !important;
+  box-shadow: 0 0 12px color-mix(in srgb, var(--record-accent, #38BDF8) 72%, transparent) !important;
+}
+
+.hlc-signed-in-shell.hlc-signed-in-shell .hlc-network-map-pin.is-verified .hlc-network-map-pin-core::after {
+  content: "";
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #FFFFFF;
+}
+
+.hlc-signed-in-shell.hlc-signed-in-shell .hlc-network-map-pin.is-approximate .hlc-network-map-pin-core {
+  border: 2px dashed var(--record-accent, #FBBF24);
+  background: color-mix(in srgb, var(--record-accent, #FBBF24) 22%, #081426) !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell.hlc-signed-in-shell .hlc-network-map-pin.is-selected {
+  z-index: 8 !important;
+}
+
+.hlc-signed-in-shell.hlc-signed-in-shell .hlc-network-map-pin.is-selected .hlc-network-map-pin-core {
+  width: 28px;
+  height: 28px;
+  border-style: solid;
+  border-color: rgba(255,255,255,.9);
+  background: var(--record-accent, #60A5FA) !important;
+  font-size: 9px;
+  letter-spacing: .01em;
+  box-shadow:
+    0 0 0 5px color-mix(in srgb, var(--record-accent, #60A5FA) 18%, transparent),
+    0 0 18px color-mix(in srgb, var(--record-accent, #60A5FA) 68%, transparent) !important;
+}
+
+.hlc-signed-in-shell.hlc-signed-in-shell .hlc-network-map-pin.is-selected .hlc-network-map-pin-core::after {
+  display: none;
+}
+
+.hlc-signed-in-shell.hlc-signed-in-shell .hlc-network-provider-row {
+  position: relative;
+  min-width: 0 !important;
+  padding-left: 18px !important;
+  box-shadow: inset 3px 0 0 color-mix(in srgb, var(--record-accent, #A78BFA) 52%, transparent) !important;
+}
+
+.hlc-signed-in-shell.hlc-signed-in-shell .hlc-network-provider-row.is-selected {
+  background: color-mix(in srgb, var(--record-accent, #60A5FA) 10%, transparent) !important;
+  box-shadow: inset 4px 0 0 var(--record-accent, #60A5FA) !important;
+}
+
+/* Lead rows share one neutral canvas, while a stable record accent gives each
+   household a recognizable visual identity without turning the CRM into colored cards. */
+.hlc-signed-in-shell.hlc-signed-in-shell .hlc-lead-row {
+  --lead-accent: #60A5FA;
+  box-shadow: inset 3px 0 0 color-mix(in srgb, var(--lead-accent) 62%, transparent) !important;
+}
+
+.hlc-signed-in-shell.hlc-signed-in-shell .hlc-lead-row:hover,
+.hlc-signed-in-shell.hlc-signed-in-shell .hlc-lead-row:focus-within {
+  background: color-mix(in srgb, var(--lead-accent) 7%, #071426) !important;
+}
+
+.hlc-signed-in-shell.hlc-signed-in-shell .hlc-lead-avatar {
+  border: 1px solid color-mix(in srgb, var(--lead-accent) 46%, transparent) !important;
+  background: color-mix(in srgb, var(--lead-accent) 16%, #10243e) !important;
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--lead-accent) 7%, transparent) !important;
+}
+
+.hlc-signed-in-shell.hlc-signed-in-shell .hlc-lead-pipeline-cell > strong {
+  color: color-mix(in srgb, var(--lead-accent) 58%, #FFFFFF) !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+@media (max-width: 760px) {
+  .hlc-signed-in-shell.hlc-signed-in-shell .hlc-network-map-canvas {
+    min-height: 390px !important;
+    border-radius: 8px !important;
+  }
+
+  .hlc-signed-in-shell.hlc-signed-in-shell .hlc-network-map-canvas-head {
+    padding-inline: 8px !important;
+  }
+
+  .hlc-signed-in-shell.hlc-signed-in-shell .hlc-lead-row {
+    padding-left: 10px !important;
+  }
+}

@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 import AnalyticsTracker from "../components/analytics/AnalyticsTracker";
 import { useAuth } from "../hooks/useAuth";
 
@@ -8,6 +9,7 @@ const ContextualAgentDock = lazy(() => import("../components/agents/ContextualAg
 const AnalyticsKpis = lazy(() => import("../components/analytics/AnalyticsKpis"));
 const AudioDeviceCenter = lazy(() => import("../components/audio/AudioDeviceCenter"));
 const FieldDeviceCenter = lazy(() => import("../components/device/FieldDeviceCenter"));
+const WorkspaceGuidance = lazy(() => import("../components/WorkspaceGuidance"));
 
 const SIDEBAR_COLLAPSED_KEY = "hlc-desktop-sidebar-collapsed";
 
@@ -18,11 +20,19 @@ const AGENT_ROUTE_PREFIXES = [
   "/community/moderation", "/community/groups", "/help", "/tutorials", "/rules", "/profile",
   "/analytics", "/settings", "/leads", "/estimator", "/jobs", "/calendar", "/team",
   "/follow-ups", "/manual-communications", "/documents", "/call-center", "/messages",
-  "/notifications", "/homeowner-portal", "/contractor-portal",
+  "/notifications", "/homeowner-portal", "/contractor-portal", "/hq", "/operations",
+  "/customer-experience",
 ];
 
 function isAgentRoute(pathname: string) {
   return AGENT_ROUTE_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
+}
+
+function personaRouteClass(pathname: string) {
+  if (pathname === "/hq" || pathname.startsWith("/hq/")) return "hlc-route-hq";
+  if (pathname === "/operations" || pathname.startsWith("/operations/")) return "hlc-route-operations";
+  if (pathname === "/customer-experience" || pathname.startsWith("/customer-experience/")) return "hlc-route-customer-experience";
+  return "";
 }
 
 export default function AppLayout() {
@@ -37,6 +47,7 @@ export default function AppLayout() {
   const showFieldDevices = Boolean(session) && location.pathname === "/settings";
   const showAnalytics = Boolean(session) && location.pathname === "/dashboard";
   const showContextualAgent = Boolean(session) && isAgentRoute(location.pathname);
+  const routePersonaClass = session ? personaRouteClass(location.pathname) : "";
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -46,7 +57,7 @@ export default function AppLayout() {
   useEffect(() => {
     const logo = document.querySelector<HTMLElement>(".hlc-navbar-logo");
     if (!logo) return;
-    const destination = session ? "/dashboard" : "/login";
+    const destination = session ? "/dashboard" : "/";
     const activate = () => navigate(destination);
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Enter" || event.key === " ") {
@@ -56,7 +67,7 @@ export default function AppLayout() {
     };
     logo.setAttribute("role", "link");
     logo.setAttribute("tabindex", "0");
-    logo.setAttribute("aria-label", session ? "Return to HomeLead Connect dashboard" : "Go to HomeLead Connect sign in");
+    logo.setAttribute("aria-label", session ? "Return to HomeLead Connect dashboard" : "Go to HomeLead Connect home");
     logo.classList.add("hlc-navbar-logo-home");
     logo.addEventListener("click", activate);
     logo.addEventListener("keydown", onKeyDown);
@@ -71,7 +82,7 @@ export default function AppLayout() {
   }, [navigate, session]);
 
   return (
-    <div className={`hlc-app-shell ${session ? "hlc-signed-in-shell" : "hlc-public-shell"}${session && sidebarCollapsed ? " hlc-sidebar-is-collapsed" : ""}`}>
+    <div className={`hlc-app-shell ${session ? "hlc-signed-in-shell" : "hlc-public-shell"}${session && sidebarCollapsed ? " hlc-sidebar-is-collapsed" : ""}${routePersonaClass ? ` ${routePersonaClass}` : ""}`}>
       <AnalyticsTracker />
       <Navbar />
       {session && (
@@ -94,7 +105,9 @@ export default function AppLayout() {
           {showFieldDevices && <FieldDeviceCenter />}
         </Suspense>
       </div>
+      {!session && <Footer />}
       <Suspense fallback={null}>
+        {session && <WorkspaceGuidance />}
         {showContextualAgent && <ContextualAgentDock />}
       </Suspense>
     </div>

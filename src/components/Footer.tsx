@@ -5,14 +5,16 @@ const legalLinkStyle = {
 
 export default function Footer() {
   return (
-    <footer
-      style={{
-        background: "#111827",
-        color: "#9ca3af",
-        textAlign: "center",
-        padding: "26px 20px",
-      }}
-    >
+    <footer className="hlc-public-footer">
+      <a className="hlc-public-footer-brand" href="/" aria-label="HomeLead Connect home">
+        <span className="hlc-public-footer-mark" aria-hidden="true">
+          <img src="/hlc-icon.jpeg" alt="" />
+        </span>
+        <span>
+          <strong>HomeLead Connect</strong>
+          <small>Home services network</small>
+        </span>
+      </a>
       <nav
         aria-label="Legal and accessibility"
         style={{

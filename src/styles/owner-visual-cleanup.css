@@ -1,0 +1,276 @@
+/* Owner visual direction: flat, dark, branded, self-explanatory.
+   This layer intentionally removes legacy card chrome and bright form islands.
+   launch-contrast-readability.css remains the final color/contrast authority. */
+
+.hlc-signed-in-shell .hlc-route-content {
+  --hlc-owner-canvas: #071426;
+  --hlc-owner-line: #29415f;
+  --hlc-owner-field: #0a192c;
+  --hlc-owner-field-focus: #0e223b;
+  --hlc-owner-text: #f8fafc;
+  --hlc-owner-muted: #b6c5d8;
+}
+
+/* No card wall: records and sections read as one continuous workspace. */
+.hlc-signed-in-shell .hlc-route-content :is(
+  [class*="card"],
+  [class*="Card"],
+  [class*="panel"],
+  [class*="Panel"],
+  [class*="tile"],
+  [class*="Tile"],
+  [class*="record"],
+  [class*="Record"]
+):not([role="dialog"]):not([data-ui-surface="dialog"]):not(.hlc-route-guide) {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-top: 0 !important;
+  border-bottom: 1px solid var(--hlc-owner-line) !important;
+  border-radius: 0 !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content [data-ui-surface="object"] {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--hlc-owner-line) !important;
+  border-radius: 0 !important;
+}
+
+/* Kill bright islands and white outlines that appeared on mobile work records. */
+.hlc-signed-in-shell .hlc-route-content :is(section,article,div,form,fieldset)[style*="background: rgb(255"],
+.hlc-signed-in-shell .hlc-route-content :is(section,article,div,form,fieldset)[style*="background:#fff"],
+.hlc-signed-in-shell .hlc-route-content :is(section,article,div,form,fieldset)[style*="background: #fff"],
+.hlc-signed-in-shell .hlc-route-content :is(section,article,div,form,fieldset)[style*="background:white"],
+.hlc-signed-in-shell .hlc-route-content :is(section,article,div,form,fieldset)[style*="background: white"] {
+  background: transparent !important;
+  color: var(--hlc-owner-text) !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content :is(section,article,div,form,fieldset)[style*="border: 1px solid white"],
+.hlc-signed-in-shell .hlc-route-content :is(section,article,div,form,fieldset)[style*="border:1px solid white"],
+.hlc-signed-in-shell .hlc-route-content :is(section,article,div,form,fieldset)[style*="border: 1px solid #fff"] {
+  border: 0 !important;
+  border-bottom: 1px solid var(--hlc-owner-line) !important;
+  border-radius: 0 !important;
+}
+
+/* Fields stay dark, obvious, and readable everywhere in the authenticated app. */
+body .hlc-signed-in-shell .hlc-route-content :is(input,select,textarea) {
+  width: 100%;
+  min-height: 48px;
+  box-sizing: border-box;
+  background: var(--hlc-owner-field) !important;
+  background-image: none !important;
+  border: 1px solid #365777 !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+  color: var(--hlc-owner-text) !important;
+  -webkit-text-fill-color: var(--hlc-owner-text) !important;
+  padding: 12px 14px !important;
+  font: inherit;
+  color-scheme: dark;
+}
+
+body .hlc-signed-in-shell .hlc-route-content :is(input,select,textarea):focus {
+  background: var(--hlc-owner-field-focus) !important;
+  border-color: #60a5fa !important;
+  outline: 2px solid rgba(96,165,250,.35) !important;
+  outline-offset: 1px;
+}
+
+body .hlc-signed-in-shell .hlc-route-content :is(input,textarea)::placeholder {
+  color: #9fb0c5 !important;
+  -webkit-text-fill-color: #9fb0c5 !important;
+  opacity: 1 !important;
+}
+
+body .hlc-signed-in-shell .hlc-route-content :is(input[type="date"],input[type="time"],input[type="datetime-local"],input[type="month"],input[type="week"]) {
+  color-scheme: dark;
+}
+
+body .hlc-signed-in-shell .hlc-route-content input[type="file"] {
+  min-height: 52px;
+  padding: 8px !important;
+}
+
+body .hlc-signed-in-shell .hlc-route-content input[type="file"]::file-selector-button {
+  background: #112744;
+  border: 1px solid #365777;
+  border-radius: 6px;
+  color: #f8fafc;
+  padding: 9px 12px;
+  margin-right: 12px;
+}
+
+/* Labels should explain the field before the user taps it. */
+.hlc-signed-in-shell .hlc-route-content label {
+  display: block;
+  margin-bottom: 7px !important;
+  color: #dce7f5 !important;
+  font-weight: 700 !important;
+  line-height: 1.3 !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content [data-hlc-field-guided="true"] {
+  scroll-margin-top: 160px;
+}
+
+/* Buttons are controls, not floating cards. */
+.hlc-signed-in-shell .hlc-route-content button:not(.hlc-route-guide-close):not(.hlc-route-guide-dismiss),
+.hlc-signed-in-shell .hlc-route-content a[role="button"] {
+  box-shadow: none !important;
+  border-radius: 8px !important;
+}
+
+/* Persistent HLC brand should stay visually anchored. */
+.hlc-signed-in-shell .hlc-navbar {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: 80 !important;
+  background: #071426 !important;
+  border-bottom: 1px solid var(--hlc-owner-line) !important;
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell .hlc-navbar-logo img {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Route guide: temporary instructional UI, intentionally dismissible. */
+.hlc-help-trigger {
+  position: fixed;
+  right: 16px;
+  bottom: calc(88px + env(safe-area-inset-bottom));
+  z-index: 108;
+  width: 44px;
+  height: 44px;
+  border: 1px solid #365777;
+  border-radius: 50%;
+  background: #102744;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 900;
+  box-shadow: none;
+}
+
+.hlc-route-guide {
+  position: fixed;
+  right: 16px;
+  bottom: calc(142px + env(safe-area-inset-bottom));
+  z-index: 109;
+  width: min(380px, calc(100vw - 32px));
+  padding: 18px 48px 18px 18px;
+  background: #0b1b30;
+  border: 1px solid #365777;
+  border-radius: 10px;
+  box-shadow: 0 16px 40px rgba(0,0,0,.28);
+  color: #f8fafc;
+}
+
+.hlc-route-guide > span {
+  display: block;
+  margin-bottom: 5px;
+  color: #93c5fd;
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .12em;
+}
+
+.hlc-route-guide > strong {
+  display: block;
+  color: #fff;
+  font-size: 18px;
+}
+
+.hlc-route-guide p {
+  margin: 8px 0 14px;
+  color: #c2cede !important;
+  line-height: 1.55;
+}
+
+.hlc-route-guide-close {
+  position: absolute;
+  top: 8px;
+  right: 9px;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  background: transparent;
+  color: #dce7f5;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.hlc-route-guide-dismiss {
+  min-height: 42px;
+  padding: 9px 14px;
+  border: 1px solid #3b82f6;
+  border-radius: 7px;
+  background: #2563eb;
+  color: #fff;
+  font-weight: 800;
+}
+
+/* Mobile density: less dead space, clearer task progression. */
+@media (max-width: 760px) {
+  .hlc-signed-in-shell .hlc-navbar {
+    min-height: 72px !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-navbar-logo {
+    width: 54px !important;
+    height: 54px !important;
+    flex: 0 0 54px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-navbar-brand-copy h2 {
+    font-size: clamp(1.05rem, 5vw, 1.35rem) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-route-content > main {
+    padding-top: 20px !important;
+    padding-bottom: calc(104px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-route-content > main :is(section,article,form,fieldset) {
+    margin-top: 0 !important;
+    margin-bottom: 24px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-route-content > main :is(h1,h2,h3) {
+    margin-top: 0 !important;
+    margin-bottom: 10px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-route-content > main :is(p,ul,ol) {
+    margin-top: 6px !important;
+    margin-bottom: 14px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-route-content form {
+    gap: 16px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-route-content :is(input,select,textarea) {
+    font-size: 16px !important;
+  }
+}
+
+@media (min-width: 761px) {
+  .hlc-help-trigger {
+    bottom: 24px;
+    right: 24px;
+  }
+
+  .hlc-route-guide {
+    bottom: 78px;
+    right: 24px;
+  }
+}
