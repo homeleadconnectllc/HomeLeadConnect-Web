@@ -1,0 +1,322 @@
+/* Launch live-device authority.
+   Final screenshot-driven rules for authenticated HLC surfaces.
+   Keep the operating canvas navy, primary text white, supporting labels light blue,
+   and native white controls readable with charcoal ink on iPhone/Safari. */
+
+#root .hlc-signed-in-shell,
+#root .hlc-signed-in-shell > .hlc-route-content,
+#root .hlc-signed-in-shell > .hlc-route-content > main {
+  background: #071426 !important;
+  color: #f8fafc !important;
+}
+
+/* One consistent authenticated brand lockup on every route. The current approved
+   master in-repo is the HLC emblem, so the adjacent brand name remains necessary. */
+#root .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-brand {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  min-width: 0 !important;
+  color: #ffffff !important;
+  text-decoration: none !important;
+}
+
+#root .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-logo {
+  display: grid !important;
+  place-items: center !important;
+  flex: 0 0 48px !important;
+  width: 48px !important;
+  min-width: 48px !important;
+  max-width: 48px !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+#root .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-logo img {
+  display: block !important;
+  width: 48px !important;
+  min-width: 48px !important;
+  max-width: 48px !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  max-height: 48px !important;
+  object-fit: contain !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  clip-path: none !important;
+  box-shadow: none !important;
+}
+
+#root .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-brand-copy {
+  display: grid !important;
+  min-width: 0 !important;
+  gap: 2px !important;
+}
+
+#root .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-brand-copy h2 {
+  margin: 0 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-size: clamp(1.08rem, 2.2vw, 1.35rem) !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.02em !important;
+  white-space: nowrap !important;
+}
+
+#root .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-brand-copy span {
+  color: #93c5fd !important;
+  -webkit-text-fill-color: #93c5fd !important;
+  font-size: .68rem !important;
+  font-weight: 800 !important;
+  letter-spacing: .08em !important;
+  text-transform: uppercase !important;
+}
+
+/* Navy surfaces never inherit dark/light-theme ink. */
+#root .hlc-signed-in-shell > .hlc-route-content :is(h1,h2,h3,h4,h5,h6,strong,b,legend,dt) {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  opacity: 1 !important;
+}
+
+#root .hlc-signed-in-shell > .hlc-route-content :is(p,li,td,dd,span,small,time) {
+  color: #c7d2e3;
+  -webkit-text-fill-color: currentColor;
+}
+
+#root .hlc-signed-in-shell > .hlc-route-content :is(
+  .hlc-command-kicker,
+  .hlc-section-eyebrow,
+  .hlc-jobs-kicker,
+  .hlc-leads-kicker,
+  [class*="-kicker"],
+  [class*="-eyebrow"]
+) {
+  color: #93c5fd !important;
+  -webkit-text-fill-color: #93c5fd !important;
+}
+
+#root .hlc-signed-in-shell > .hlc-route-content label {
+  color: #93c5fd !important;
+  -webkit-text-fill-color: #93c5fd !important;
+  font-weight: 700 !important;
+  opacity: 1 !important;
+}
+
+/* Approved light-control exception: white fields/dropdowns use charcoal labels and values. */
+#root .hlc-signed-in-shell > .hlc-route-content :is(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  select,
+  textarea
+) {
+  border: 1px solid #9fb0c5 !important;
+  background: #ffffff !important;
+  color: #1f2937 !important;
+  -webkit-text-fill-color: #1f2937 !important;
+  caret-color: #1d4ed8 !important;
+  opacity: 1 !important;
+}
+
+#root .hlc-signed-in-shell > .hlc-route-content :is(input,textarea)::placeholder {
+  color: #64748b !important;
+  -webkit-text-fill-color: #64748b !important;
+  opacity: 1 !important;
+}
+
+#root .hlc-signed-in-shell > .hlc-route-content select option {
+  background: #ffffff !important;
+  color: #1f2937 !important;
+  -webkit-text-fill-color: #1f2937 !important;
+}
+
+#root .hlc-signed-in-shell > .hlc-route-content :is(input,select,textarea):disabled {
+  background: #eef2f7 !important;
+  color: #475569 !important;
+  -webkit-text-fill-color: #475569 !important;
+  opacity: 1 !important;
+}
+
+/* Explicit screenshot regressions. */
+#root .hlc-signed-in-shell .hlc-jobs-header h1,
+#root .hlc-signed-in-shell .hlc-leads-header h1,
+#root .hlc-signed-in-shell .hlc-command-center h1 {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+#root .hlc-signed-in-shell .hlc-job-actions select {
+  background: #ffffff !important;
+  color: #1f2937 !important;
+  -webkit-text-fill-color: #1f2937 !important;
+}
+
+/* Guidance must sit above the fixed mobile navigation rather than covering task content. */
+#root .hlc-signed-in-shell .hlc-route-guide {
+  max-width: min(360px, calc(100vw - 28px)) !important;
+}
+
+@media (max-width: 900px), (max-device-width: 900px) {
+  /* An iPhone-class physical device always receives the launch mobile shell,
+     even if an embedded browser retained an old desktop viewport preference. */
+  #root .hlc-signed-in-shell {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 100svh !important;
+  }
+
+  #root .hlc-signed-in-shell > .hlc-navbar {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 120 !important;
+    display: flex !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 76px !important;
+    height: auto !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    padding: 12px max(16px, env(safe-area-inset-right)) 12px max(16px, env(safe-area-inset-left)) !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid rgba(148,163,184,.2) !important;
+    background: #071426 !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+
+  #root .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-brand {
+    width: auto !important;
+    max-width: calc(100% - 116px) !important;
+    padding: 0 !important;
+  }
+
+  #root .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-logo,
+  #root .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-logo img {
+    flex-basis: 50px !important;
+    width: 50px !important;
+    min-width: 50px !important;
+    max-width: 50px !important;
+    height: 50px !important;
+    min-height: 50px !important;
+    max-height: 50px !important;
+  }
+
+  #root .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-brand-copy h2 {
+    font-size: clamp(1.05rem, 5vw, 1.35rem) !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  #root .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-brand-copy span {
+    display: none !important;
+  }
+
+  #root .hlc-signed-in-shell > .hlc-navbar .hlc-desktop-navigation,
+  #root .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-links.hlc-desktop-navigation,
+  #root .hlc-signed-in-shell .hlc-desktop-sidebar-toggle {
+    display: none !important;
+  }
+
+  #root .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-toggle {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 0 auto !important;
+    min-width: 82px !important;
+    min-height: 48px !important;
+    padding: 0 14px !important;
+    border: 1px solid #3b5f88 !important;
+    border-radius: 10px !important;
+    background: #112744 !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    font-size: 1rem !important;
+    font-weight: 850 !important;
+  }
+
+  #root .hlc-signed-in-shell > .hlc-route-content {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    overflow-x: clip !important;
+    padding-bottom: calc(96px + env(safe-area-inset-bottom)) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-command-center {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 20px 16px calc(132px + env(safe-area-inset-bottom)) !important;
+    font-size: 16px !important;
+    transform: none !important;
+    zoom: 1 !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-command-center .hlc-command-hero {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-command-center h1 {
+    font-size: clamp(2rem, 10vw, 2.8rem) !important;
+    line-height: 1 !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-command-center :is(.hlc-metric-grid,.hlc-business-pulse-grid,.hlc-agent-grid,.hlc-workspace-grid) {
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100% !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-command-center .hlc-quick-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    width: 100% !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-command-center .hlc-section-heading,
+  #root .hlc-signed-in-shell .hlc-command-center .hlc-business-pulse-heading,
+  #root .hlc-signed-in-shell .hlc-command-center .hlc-agent-team-heading {
+    align-items: flex-start !important;
+    flex-direction: column !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-command-center :is(.hlc-agent-card,.hlc-pulse-card,.hlc-workspace-card,.hlc-priority-item) {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-mobile-tabbar {
+    display: grid !important;
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 130 !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    width: 100% !important;
+    min-height: calc(70px + env(safe-area-inset-bottom)) !important;
+    background: #06111f !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-help-trigger {
+    bottom: max(94px, calc(82px + env(safe-area-inset-bottom))) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-route-guide {
+    right: max(14px, env(safe-area-inset-right)) !important;
+    bottom: max(100px, calc(88px + env(safe-area-inset-bottom))) !important;
+    max-height: min(46svh, 420px) !important;
+    overflow: auto !important;
+  }
+}
