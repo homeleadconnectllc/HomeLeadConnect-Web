@@ -1,0 +1,73 @@
+/* Final launch geometry contract
+   Owner-approved direction: large HLC surfaces stay crisp and structured, not pillowy.
+   Small semantic indicators (badges/counts/avatars/status dots) may remain rounded. */
+
+:root {
+  --hlc-radius-surface: 2px;
+  --hlc-radius-control: 4px;
+  --hlc-radius-small: 6px;
+}
+
+/* Large application surfaces: cards, panels, tiles, drawers and grouped records. */
+.hlc-route-content :where(
+  .hlc-card,
+  [class*="card"],
+  [class*="Card"],
+  [class*="panel"],
+  [class*="Panel"],
+  [class*="tile"],
+  [class*="Tile"],
+  [class*="surface"],
+  [class*="Surface"],
+  [class*="drawer"],
+  [class*="Drawer"]
+) {
+  border-radius: var(--hlc-radius-surface) !important;
+}
+
+/* Forms and action controls should feel deliberate and rectangular. */
+.hlc-route-content :where(input, select, textarea, button),
+.hlc-navbar-toggle,
+.hlc-navbar-links button,
+.hlc-nav-menu {
+  border-radius: var(--hlc-radius-control) !important;
+}
+
+/* Keep menus structured rather than bubble-like. */
+.hlc-route-content :where([role="menu"], [role="listbox"], details, fieldset) {
+  border-radius: var(--hlc-radius-small) !important;
+}
+
+/* Explicit exceptions: these are intentionally compact status/identity shapes. */
+.hlc-route-content :where(
+  [class*="badge"],
+  [class*="Badge"],
+  [class*="pill"],
+  [class*="Pill"],
+  [class*="avatar"],
+  [class*="Avatar"],
+  [class*="counter"],
+  [class*="Counter"],
+  [class*="status-dot"],
+  [class*="StatusDot"]
+),
+.hlc-route-content [aria-label*="count" i] {
+  border-radius: 999px !important;
+}
+
+/* Navbar brand mark is artwork, not a decorative rounded card. */
+.hlc-navbar-logo {
+  border-radius: 0 !important;
+}
+
+/* Prevent large pill CTA geometry on signed-in product screens. */
+.hlc-route-content a[class*="button"],
+.hlc-route-content a[class*="Button"] {
+  border-radius: var(--hlc-radius-control) !important;
+}
+
+@media (max-width: 720px) {
+  .hlc-route-content :where(input, select, textarea, button) {
+    border-radius: var(--hlc-radius-control) !important;
+  }
+}

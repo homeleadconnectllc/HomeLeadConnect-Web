@@ -13,6 +13,11 @@ function leadAccent(lead: LeadRecord) {
   return LEAD_ACCENTS[Math.abs(hash) % LEAD_ACCENTS.length];
 }
 
+function residentTypeFromNotes(notes: string | null) {
+  const match = notes?.match(/\[Resident type:\s*([^\]]+)\]/i);
+  return match?.[1]?.trim() || null;
+}
+
 export default function LeadCard({ lead }: { lead: LeadRecord }) {
   const pipelineLabel = lead.stage || lead.status || "new";
   const appointmentLabel = lead.appointment_at
@@ -20,6 +25,7 @@ export default function LeadCard({ lead }: { lead: LeadRecord }) {
     : null;
   const accent = leadAccent(lead);
   const rowStyle = { "--lead-accent": accent } as CSSProperties;
+  const residentType = residentTypeFromNotes(lead.notes);
 
   return (
     <article className="hlc-lead-row" style={rowStyle}>
@@ -27,6 +33,7 @@ export default function LeadCard({ lead }: { lead: LeadRecord }) {
         <span className="hlc-lead-avatar" aria-hidden="true">{(lead.full_name || "L").trim().charAt(0).toUpperCase()}</span>
         <span className="hlc-lead-identity-copy">
           <strong>{lead.full_name || `Lead #${lead.id}`}</strong>
+          {residentType && <span className="hlc-lead-resident-type">{residentType}</span>}
           <span className="hlc-lead-contact-line">
             {lead.email && <span><Mail size={13} aria-hidden="true" />{lead.email}</span>}
             {lead.phone && <span><Phone size={13} aria-hidden="true" />{lead.phone}</span>}

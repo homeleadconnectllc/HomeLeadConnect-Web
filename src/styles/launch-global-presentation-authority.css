@@ -1,3 +1,6 @@
+@import "./final-flat-geometry-contract.css";
+@import "./final-global-ux-contract.css";
+
 /* Final launch presentation authority.
    Applies the approved mobile visual language across authenticated HLC routes:
    centered page presentation, navy/outlined workflow surfaces, and no generic ? floater
@@ -91,7 +94,7 @@
   background-position: center !important;
   background-size: 72% 72% !important;
   border: 1px solid #3b82f6 !important;
-  border-radius: 14px !important;
+  border-radius: 6px !important;
 }
 
 /* Agent-owned routes already mount ContextualAgentDock with the correct Kendrell,
