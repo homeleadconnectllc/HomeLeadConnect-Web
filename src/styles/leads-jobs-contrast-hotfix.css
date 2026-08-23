@@ -1,42 +1,44 @@
-/* Screenshot-driven contrast recovery for Leads and Jobs on PR #167. */
-.hlc-signed-in-shell .hlc-lead-row,
-.hlc-signed-in-shell .hlc-job-row,
-.hlc-signed-in-shell [data-component="lead-row"],
-.hlc-signed-in-shell [data-component="job-row"] {
+/* Screenshot-driven contrast recovery for Leads and Jobs on PR #167.
+   Selectors intentionally outrank later structural transparency rules while
+   launch-contrast-readability.css remains the final authenticated authority. */
+.hlc-signed-in-shell .hlc-lead-row.hlc-lead-row,
+.hlc-signed-in-shell .hlc-job-row.hlc-job-row,
+.hlc-signed-in-shell [data-component="lead-row"][data-component="lead-row"],
+.hlc-signed-in-shell [data-component="job-row"][data-component="job-row"] {
   background-color: #0d1f3a !important;
   color: #ffffff !important;
   border: 1px solid rgba(255, 255, 255, 0.10) !important;
   border-radius: 8px !important;
 }
 
-.hlc-signed-in-shell .hlc-lead-row :is(h1,h2,h3,h4,strong,b,a),
-.hlc-signed-in-shell .hlc-job-row :is(h1,h2,h3,h4,strong,b,a) {
+.hlc-signed-in-shell .hlc-lead-row.hlc-lead-row :is(h1,h2,h3,h4,strong,b,a),
+.hlc-signed-in-shell .hlc-job-row.hlc-job-row :is(h1,h2,h3,h4,strong,b,a) {
   color: #ffffff !important;
   -webkit-text-fill-color: currentColor !important;
 }
 
-.hlc-signed-in-shell .hlc-lead-row :is(p,span,small,time,label),
-.hlc-signed-in-shell .hlc-job-row :is(p,span,small,time,label) {
+.hlc-signed-in-shell .hlc-lead-row.hlc-lead-row :is(p,span,small,time,label),
+.hlc-signed-in-shell .hlc-job-row.hlc-job-row :is(p,span,small,time,label) {
   color: #cbd5e1 !important;
   -webkit-text-fill-color: currentColor !important;
 }
 
-.hlc-signed-in-shell .hlc-lead-row :is(.text-muted,[class*="-meta"],[class*="-context"],[class*="-subtitle"]),
-.hlc-signed-in-shell .hlc-job-row :is(.text-muted,[class*="-meta"],[class*="-context"],[class*="-subtitle"]) {
+.hlc-signed-in-shell .hlc-lead-row.hlc-lead-row :is(.text-muted,[class*="-meta"],[class*="-context"],[class*="-subtitle"]),
+.hlc-signed-in-shell .hlc-job-row.hlc-job-row :is(.text-muted,[class*="-meta"],[class*="-context"],[class*="-subtitle"]) {
   color: #94a3b8 !important;
 }
 
-.hlc-signed-in-shell .hlc-lead-row:hover,
-.hlc-signed-in-shell .hlc-lead-row:focus-within,
-.hlc-signed-in-shell .hlc-job-row:hover,
-.hlc-signed-in-shell .hlc-job-row:focus-within {
+.hlc-signed-in-shell .hlc-lead-row.hlc-lead-row:hover,
+.hlc-signed-in-shell .hlc-lead-row.hlc-lead-row:focus-within,
+.hlc-signed-in-shell .hlc-job-row.hlc-job-row:hover,
+.hlc-signed-in-shell .hlc-job-row.hlc-job-row:focus-within {
   background-color: #102744 !important;
   border-color: rgba(96, 165, 250, 0.30) !important;
 }
 
 @media (max-width: 760px) {
-  .hlc-signed-in-shell .hlc-lead-row,
-  .hlc-signed-in-shell .hlc-job-row {
+  .hlc-signed-in-shell .hlc-lead-row.hlc-lead-row,
+  .hlc-signed-in-shell .hlc-job-row.hlc-job-row {
     padding: 16px !important;
     margin-bottom: 10px !important;
   }
