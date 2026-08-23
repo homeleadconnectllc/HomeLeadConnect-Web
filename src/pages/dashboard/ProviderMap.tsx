@@ -84,7 +84,7 @@ export default function ProviderMap() {
       const mapped = hasCoordinates(provider);
       if (mappedOnly && !mapped) return false;
       if (!needle) return true;
-      return [provider.company_name, provider.contact_name, provider.specialty, provider.city, provider.state, provider.zip]
+      return [provider.company_name, provider.contact_name, provider.specialty, provider.address, provider.city, provider.state, provider.zip]
         .filter(Boolean)
         .some((value) => String(value).toLowerCase().includes(needle));
     });
@@ -108,9 +108,9 @@ export default function ProviderMap() {
     try {
       await setProviderMapCoordinates(selected.id, lat, lng);
       await reloadProviders(selected.id);
-      setMessage("Verified provider map coordinates saved through the management-only HLC control.");
+      setMessage("Verified map point saved.");
     } catch (reason) {
-      setError(errorMessage(reason, "Unable to save provider map coordinates."));
+      setError(errorMessage(reason, "Unable to save the verified map point."));
     } finally {
       setBusy(false);
     }
@@ -121,7 +121,7 @@ export default function ProviderMap() {
       <div>
         <p className="hlc-network-map-kicker">NETWORK INTELLIGENCE</p>
         <h1>Provider Map</h1>
-        <p>Pins use only coordinates stored in HLC. Approximate city or ZIP-area points remain explicitly separate from verified exact locations; this workspace does not invent distance, ETA, routing, dispatch, or live location.</p>
+        <p>Find providers by company, trade, city, state, ZIP, or recorded business address. Exact map points are shown only when HLC has a verified location.</p>
       </div>
       <div className="hlc-network-map-summary" aria-label="Provider map summary">
         <span><strong>{filtered.length}</strong><small>Visible providers</small></span>
@@ -141,8 +141,8 @@ export default function ProviderMap() {
     </nav>
 
     <section className="hlc-network-map-filterbar" aria-label="Map filters">
-      <label>Search providers, trades, or locations
-        <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Painter, Harrisburg, 17101…" />
+      <label>Search provider, trade, city, state, ZIP, or address
+        <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="HVAC, mover, cleaner, Harrisburg, 17101…" />
       </label>
       <label className="hlc-network-map-toggle"><input type="checkbox" checked={mappedOnly} onChange={(event) => setMappedOnly(event.target.checked)} /> Mapped locations only</label>
     </section>
@@ -177,11 +177,11 @@ export default function ProviderMap() {
             ><span className="hlc-network-map-pin-core" aria-hidden="true">{providerInitials(provider)}</span></button>;
           })}
           {mappedProviders.length === 0 && <div className="hlc-network-map-empty">
-            <strong>No stored map coordinates yet.</strong>
-            <span>Provider records remain available in the adjacent queue. Owner/manager users can add verified exact coordinates only when a trustworthy source exists.</span>
+            <strong>No mapped providers yet.</strong>
+            <span>Select a provider from the list. Use its recorded address first; exact coordinates are an advanced management-only verification step.</span>
           </div>}
         </div>
-        <p className="hlc-network-map-legend"><strong>Solid color</strong> = verified exact. <strong>Dashed ring</strong> = approximate city/ZIP area. Accent colors identify the provider or trade consistently; they do not imply distance, ranking, or availability.</p>
+        <p className="hlc-network-map-legend"><strong>Solid</strong> = verified exact location. <strong>Dashed</strong> = approximate city/ZIP area. Colors identify providers/trades only.</p>
       </section>
 
       <aside className="hlc-network-provider-queue" aria-label="Provider map list">
@@ -198,7 +198,7 @@ export default function ProviderMap() {
               style={style}
             >
               <span><strong>{providerName(provider)}</strong><small>{provider.specialty || "Trade not recorded"}</small></span>
-              <span><strong>{place(provider) || "Location not recorded"}</strong><small>{hasCoordinates(provider) ? coordinateLabel(provider) : "Location not mapped yet"}</small></span>
+              <span><strong>{providerAddress(provider) || "Location not recorded"}</strong><small>{hasCoordinates(provider) ? coordinateLabel(provider) : "Exact map point not verified"}</small></span>
             </button>;
           })}
           {filtered.length === 0 && <p className="hlc-network-map-empty-copy">No authorized provider records match these filters.</p>}
@@ -210,11 +210,13 @@ export default function ProviderMap() {
       <div className="hlc-network-map-inspector-copy">
         <p className="hlc-network-map-kicker">SELECTED PROVIDER</p>
         <h2>{providerName(selected)}</h2>
-        <p>{selected.specialty || "Trade not recorded"} · {place(selected) || "Location not recorded"}</p>
+        <p>{selected.specialty || "Trade not recorded"}</p>
+        <p><strong>Recorded location:</strong> {providerAddress(selected) || "No address recorded yet"}</p>
         {hasCoordinates(selected) && <p className="hlc-network-map-accuracy"><strong>{coordinateLabel(selected)}.</strong> {coordinateDescription(selected)}</p>}
         <div className="hlc-network-map-actions">
           <Link to={`/providers/${selected.id}`}>Open provider record</Link>
-          {hasCoordinates(selected) && <a target="_blank" rel="noreferrer" href={osmPageUrl(selected.latitude, selected.longitude)}>{selected.coordinate_accuracy === "approximate" ? "Open approximate area in OpenStreetMap" : "Open verified location in OpenStreetMap"}</a>}
+          {providerAddress(selected) && <a target="_blank" rel="noreferrer" href={osmSearchUrl(selected)}>Open recorded address in map</a>}
+          {hasCoordinates(selected) && <a target="_blank" rel="noreferrer" href={osmPageUrl(selected.latitude, selected.longitude)}>Open exact saved map point</a>}
         </div>
       </div>
 
@@ -224,14 +226,17 @@ export default function ProviderMap() {
         loading="lazy"
         referrerPolicy="no-referrer"
         className="hlc-network-map-preview"
-      /> : <div className="hlc-network-map-unmapped"><strong>Map preview unavailable</strong><span>This provider has no stored HLC coordinates.</span></div>}
+      /> : <div className="hlc-network-map-unmapped"><strong>No verified map point yet</strong><span>Use the provider's recorded address first. Exact coordinates are optional advanced verification.</span></div>}
 
-      {canManageCoordinates && <form onSubmit={saveCoordinates} className="hlc-network-coordinate-form">
-        <div><strong>Management map coordinates</strong><p>Enter coordinates only when the source confirms the provider's exact business/location point. Saving through this control marks the coordinates as verified; do not replace an approximate city/ZIP point with another inferred point.</p></div>
-        <label>Latitude<input type="number" step="any" min={-90} max={90} required value={latitude} onChange={(event) => setLatitude(event.target.value)} /></label>
-        <label>Longitude<input type="number" step="any" min={-180} max={180} required value={longitude} onChange={(event) => setLongitude(event.target.value)} /></label>
-        <button type="submit" disabled={busy || !latitude || !longitude}>{busy ? "Saving location…" : "Save verified map location"}</button>
-      </form>}
+      {canManageCoordinates && <details className="hlc-network-coordinate-advanced">
+        <summary>Advanced: verify exact map point</summary>
+        <form onSubmit={saveCoordinates} className="hlc-network-coordinate-form">
+          <div><strong>Exact coordinates</strong><p>Only use this when a trustworthy source gives the exact point. Normal location work should use the provider address above.</p></div>
+          <label>Latitude<input type="number" step="any" min={-90} max={90} required value={latitude} onChange={(event) => setLatitude(event.target.value)} /></label>
+          <label>Longitude<input type="number" step="any" min={-180} max={180} required value={longitude} onChange={(event) => setLongitude(event.target.value)} /></label>
+          <button type="submit" disabled={busy || !latitude || !longitude}>{busy ? "Saving location…" : "Save verified exact point"}</button>
+        </form>
+      </details>}
     </section>}
   </main>;
 }
@@ -258,6 +263,9 @@ function providerAccent(provider: Contractor) {
   if (/(roof|exterior|siding|gutter)/.test(specialty)) return "#FB923C";
   if (/(paint|finish|drywall)/.test(specialty)) return "#60A5FA";
   if (/(clean|janitor|maid)/.test(specialty)) return "#34D399";
+  if (/(move|moving|mover)/.test(specialty)) return "#A78BFA";
+  if (/(handyman|repair|maintenance)/.test(specialty)) return "#60A5FA";
+  if (/(landscape|lawn|yard)/.test(specialty)) return "#34D399";
   const key = `${provider.id}:${provider.company_name || ""}:${provider.contact_name || ""}`;
   let hash = 0;
   for (let index = 0; index < key.length; index += 1) hash = ((hash << 5) - hash + key.charCodeAt(index)) | 0;
@@ -268,6 +276,10 @@ function place(provider: Contractor) {
   return [provider.city, provider.state, provider.zip].filter(Boolean).join(", ");
 }
 
+function providerAddress(provider: Contractor) {
+  return [provider.address, provider.city, provider.state, provider.zip].filter(Boolean).join(", ");
+}
+
 function coordinateLabel(provider: Contractor) {
   if (provider.coordinate_accuracy === "verified") return "Verified map location";
   if (provider.coordinate_accuracy === "approximate") return "Approximate area";
@@ -275,8 +287,8 @@ function coordinateLabel(provider: Contractor) {
 }
 
 function coordinateDescription(provider: Contractor) {
-  if (provider.coordinate_accuracy === "verified") return "HLC records this point as an owner/manager-verified exact location source.";
-  if (provider.coordinate_accuracy === "approximate") return "This point represents a city or ZIP-area location and is not an exact storefront, service vehicle, or live provider location.";
+  if (provider.coordinate_accuracy === "verified") return "HLC records this point as an owner/manager-verified exact location.";
+  if (provider.coordinate_accuracy === "approximate") return "This point represents a city or ZIP area, not a live provider location.";
   return "HLC has stored coordinates, but no confidence classification is available for this older record.";
 }
 
@@ -294,6 +306,10 @@ function projectPoints(providers: Array<Contractor & { latitude: number; longitu
     x: 7 + ((provider.longitude - minLng) / lngSpan) * 86,
     y: 93 - ((provider.latitude - minLat) / latSpan) * 86,
   }));
+}
+
+function osmSearchUrl(provider: Contractor) {
+  return `https://www.openstreetmap.org/search?query=${encodeURIComponent(providerAddress(provider))}`;
 }
 
 function osmPageUrl(lat: number, lng: number) {
