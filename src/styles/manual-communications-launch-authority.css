@@ -1,0 +1,129 @@
+/* Final route authority for /manual-communications.
+   This route historically mixed inline light panels with the authenticated navy shell,
+   which produced white-on-light and dark-on-navy text on iPhone. */
+
+#root .hlc-page-manual-communications .hlc-route-content > main {
+  width: min(900px, calc(100% - 32px)) !important;
+  margin: 28px auto !important;
+  color: #f8fafc !important;
+}
+
+#root .hlc-page-manual-communications .hlc-route-content > main > h1 {
+  margin-bottom: 10px !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+#root .hlc-page-manual-communications .hlc-route-content > main > p {
+  color: #c7d2e3 !important;
+  -webkit-text-fill-color: #c7d2e3 !important;
+  line-height: 1.6 !important;
+}
+
+/* Inline legacy panels are intentionally neutralized into one dark operating language. */
+#root .hlc-page-manual-communications .hlc-route-content > main :is(section,form)[style] {
+  border-color: #28415f !important;
+  background: #0d1f3a !important;
+  color: #f8fafc !important;
+  box-shadow: none !important;
+}
+
+#root .hlc-page-manual-communications .hlc-route-content > main :is(section,form)[style] :is(h2,h3,strong) {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+#root .hlc-page-manual-communications .hlc-route-content > main :is(section,form)[style] p,
+#root .hlc-page-manual-communications .hlc-route-content > main :is(section,form)[style] li,
+#root .hlc-page-manual-communications .hlc-route-content > main :is(section,form)[style] small {
+  color: #c7d2e3 !important;
+  -webkit-text-fill-color: #c7d2e3 !important;
+}
+
+/* Honest-record, compliance and post-call status blocks stay dark enough for white ink. */
+#root .hlc-page-manual-communications .hlc-route-content > main > p[style],
+#root .hlc-page-manual-communications .hlc-route-content > main div[role="status"][style],
+#root .hlc-page-manual-communications .hlc-route-content > main section[role="dialog"][style] {
+  border-color: #315d9d !important;
+  background: #10243e !important;
+  color: #f8fafc !important;
+  box-shadow: none !important;
+}
+
+#root .hlc-page-manual-communications .hlc-route-content > main div[role="status"][style] strong,
+#root .hlc-page-manual-communications .hlc-route-content > main section[role="dialog"][style] :is(h2,strong) {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+#root .hlc-page-manual-communications .hlc-route-content > main section[role="dialog"][style] > p:first-child {
+  color: #93c5fd !important;
+  -webkit-text-fill-color: #93c5fd !important;
+}
+
+/* White native controls are the approved exception and must always use charcoal ink. */
+#root .hlc-page-manual-communications .hlc-route-content :is(input,select,textarea) {
+  background: #ffffff !important;
+  color: #1f2937 !important;
+  -webkit-text-fill-color: #1f2937 !important;
+  border-color: #9fb0c5 !important;
+}
+
+#root .hlc-page-manual-communications .hlc-route-content select option {
+  background: #ffffff !important;
+  color: #1f2937 !important;
+  -webkit-text-fill-color: #1f2937 !important;
+}
+
+#root .hlc-page-manual-communications .hlc-route-content label {
+  color: #93c5fd !important;
+  -webkit-text-fill-color: #93c5fd !important;
+  font-weight: 750 !important;
+}
+
+#root .hlc-page-manual-communications .hlc-route-content button {
+  border: 1px solid #3b5f88 !important;
+  background: #112744 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+#root .hlc-page-manual-communications .hlc-route-content a {
+  color: #93c5fd !important;
+  -webkit-text-fill-color: #93c5fd !important;
+}
+
+#root .hlc-page-manual-communications .hlc-route-content a[style*="background"] {
+  border: 1px solid #3b5f88 !important;
+  background: #112744 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+#root .hlc-page-manual-communications .hlc-route-content [role="alert"] {
+  color: #fca5a5 !important;
+  -webkit-text-fill-color: #fca5a5 !important;
+}
+
+@media (max-width: 900px), (max-device-width: 900px) {
+  #root .hlc-page-manual-communications .hlc-route-content > main {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 22px 16px calc(128px + env(safe-area-inset-bottom)) !important;
+  }
+
+  #root .hlc-page-manual-communications .hlc-route-content > main :is(section,form)[style] {
+    padding: 16px !important;
+    border-radius: 10px !important;
+  }
+
+  #root .hlc-page-manual-communications .hlc-route-content > main :is(input,select,textarea,button) {
+    min-height: 48px !important;
+    font-size: 16px !important;
+  }
+
+  #root .hlc-page-manual-communications .hlc-route-content > main textarea {
+    min-height: 108px !important;
+  }
+}
