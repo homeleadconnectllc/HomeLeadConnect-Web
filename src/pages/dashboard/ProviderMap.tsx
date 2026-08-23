@@ -121,7 +121,7 @@ export default function ProviderMap() {
       <div>
         <p className="hlc-network-map-kicker">NETWORK INTELLIGENCE</p>
         <h1>Provider Map</h1>
-        <p>Find providers by company, trade, city, state, ZIP, or recorded business address. Exact map points are shown only when HLC has a verified location.</p>
+        <p>Find providers by company, trade, city, state, ZIP, or recorded business address. Exact map points are shown only when HLC has a verified location. HLC does not invent distance, ETA, routing, dispatch, or live location.</p>
       </div>
       <div className="hlc-network-map-summary" aria-label="Provider map summary">
         <span><strong>{filtered.length}</strong><small>Visible providers</small></span>
