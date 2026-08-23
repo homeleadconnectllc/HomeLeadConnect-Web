@@ -1,0 +1,168 @@
+/* Final launch presentation authority.
+   Applies the approved mobile visual language across authenticated HLC routes:
+   centered page presentation, navy/outlined workflow surfaces, and no generic ? floater
+   where a contextual HLC agent avatar is already mounted. */
+
+/* Center primary page presentation without forcing form fields or table cells to center. */
+#root .hlc-signed-in-shell > .hlc-route-content > main {
+  margin-inline: auto !important;
+}
+
+#root .hlc-signed-in-shell > .hlc-route-content > main > header,
+#root .hlc-signed-in-shell .hlc-command-copy,
+#root .hlc-signed-in-shell .hlc-dashboard-section > .hlc-section-heading,
+#root .hlc-signed-in-shell .hlc-analytics-panel > .hlc-section-heading {
+  text-align: center !important;
+  justify-items: center !important;
+  justify-content: center !important;
+}
+
+#root .hlc-signed-in-shell .hlc-command-copy,
+#root .hlc-signed-in-shell .hlc-section-heading > div,
+#root .hlc-signed-in-shell .hlc-analytics-panel > .hlc-section-heading > div {
+  margin-inline: auto !important;
+}
+
+#root .hlc-signed-in-shell .hlc-analytics-panel > .hlc-section-heading {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 18px !important;
+}
+
+#root .hlc-signed-in-shell .hlc-analytics-panel > h3,
+#root .hlc-signed-in-shell .hlc-analytics-kpi,
+#root .hlc-signed-in-shell .hlc-analytics-period-button {
+  text-align: center !important;
+  margin-inline: auto !important;
+}
+
+/* Workflow: outline-only stage rows. No large white cards on the navy canvas. */
+#root .hlc-page-workflow .hlc-workflow-page > header {
+  text-align: center !important;
+  justify-items: center !important;
+}
+
+#root .hlc-page-workflow .hlc-workflow-stage {
+  background: transparent !important;
+  border: 1px solid #3b5f88 !important;
+  color: #f8fafc !important;
+  box-shadow: none !important;
+}
+
+#root .hlc-page-workflow .hlc-workflow-stage-copy,
+#root .hlc-page-workflow .hlc-workflow-stage-action {
+  text-align: center !important;
+  justify-items: center !important;
+}
+
+#root .hlc-page-workflow .hlc-workflow-stage :is(h2,p,strong,span) {
+  color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
+}
+
+#root .hlc-page-workflow .hlc-workflow-stage-copy p:last-child,
+#root .hlc-page-workflow .hlc-workflow-stage a {
+  color: #93c5fd !important;
+  -webkit-text-fill-color: #93c5fd !important;
+}
+
+#root .hlc-page-workflow .hlc-workflow-stage-number {
+  background: #112744 !important;
+  border: 1px solid #3b82f6 !important;
+  color: #93c5fd !important;
+  -webkit-text-fill-color: #93c5fd !important;
+}
+
+#root .hlc-page-workflow .hlc-workflow-page > aside {
+  background: transparent !important;
+  color: #f8fafc !important;
+  border: 1px solid #3b5f88 !important;
+  text-align: center !important;
+}
+
+/* General/system guide fallback uses the HLC mark rather than a question mark. */
+#root .hlc-signed-in-shell .hlc-help-trigger {
+  font-size: 0 !important;
+  color: transparent !important;
+  -webkit-text-fill-color: transparent !important;
+  background-color: #0d1f3a !important;
+  background-image: url('/hlc-logo-final.png') !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  background-size: 72% 72% !important;
+  border: 1px solid #3b82f6 !important;
+  border-radius: 14px !important;
+}
+
+/* Agent-owned routes already mount ContextualAgentDock with the correct Kendrell,
+   Dion, or Diamond avatar. Remove the duplicate generic guide floater there. */
+#root .hlc-signed-in-shell:is(
+  .hlc-page-dashboard,
+  .hlc-page-start-here,
+  .hlc-page-ecosystem,
+  .hlc-page-workflow,
+  .hlc-page-automations,
+  .hlc-page-activity,
+  .hlc-page-network,
+  .hlc-page-map,
+  .hlc-page-profiles,
+  .hlc-page-providers,
+  .hlc-page-matching,
+  .hlc-page-community-hub,
+  .hlc-page-community-discussions,
+  .hlc-page-community-reviews,
+  .hlc-page-community-referrals,
+  .hlc-page-community-events,
+  .hlc-page-community-moderation,
+  .hlc-page-community-groups,
+  .hlc-page-help,
+  .hlc-page-tutorials,
+  .hlc-page-rules,
+  .hlc-page-profile,
+  .hlc-page-analytics,
+  .hlc-page-settings,
+  .hlc-page-leads,
+  .hlc-page-estimator,
+  .hlc-page-jobs,
+  .hlc-page-calendar,
+  .hlc-page-team,
+  .hlc-page-follow-ups,
+  .hlc-page-manual-communications,
+  .hlc-page-documents,
+  .hlc-page-call-center,
+  .hlc-page-messages,
+  .hlc-page-notifications,
+  .hlc-page-homeowner-portal,
+  .hlc-page-contractor-portal,
+  .hlc-page-hq,
+  .hlc-page-operations,
+  .hlc-page-customer-experience
+) .hlc-help-trigger {
+  display: none !important;
+}
+
+/* Contextual agent avatar is the sole assistant floater on agent-owned pages. */
+#root .hlc-signed-in-shell .hlc-agent-dock-trigger {
+  right: max(18px, env(safe-area-inset-right)) !important;
+  bottom: calc(96px + env(safe-area-inset-bottom)) !important;
+  z-index: 165 !important;
+}
+
+@media (max-width: 760px), (max-device-width: 760px) {
+  #root .hlc-page-workflow .hlc-workflow-stage {
+    grid-template-columns: 44px minmax(0, 1fr) !important;
+    gap: 14px !important;
+    padding: 18px 14px !important;
+  }
+
+  #root .hlc-page-workflow .hlc-workflow-stage-action {
+    grid-column: 2 !important;
+    justify-items: center !important;
+    text-align: center !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-agent-dock-trigger {
+    right: max(14px, env(safe-area-inset-right)) !important;
+    bottom: calc(94px + env(safe-area-inset-bottom)) !important;
+  }
+}
