@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const card = {
   display: "grid",
   gap: 10,
@@ -20,9 +22,9 @@ export default function AboutPage() {
       </header>
 
       <section style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(min(100%,320px),1fr))", gap: 16 }}>
-        <article style={card}>
+        <article style={{ ...card, borderColor: "#bfdbfe" }}>
           <p style={{ margin: 0, color: "#2563eb", fontSize: 11, fontWeight: 900, letterSpacing: ".12em" }}>FOUNDER & BUILDER</p>
-          <h2 style={{ margin: 0 }}>Antoine Washington</h2>
+          <h2 style={{ margin: 0, fontSize: "clamp(1.65rem,4vw,2.25rem)", color: "#0f172a" }}>Antoine Washington</h2>
           <p style={{ margin: 0, fontWeight: 900, color: "#334155" }}>Founder · Owner · Product Creator · Lead Developer · Technical Architect</p>
           <p style={{ margin: 0, color: "#64748b", lineHeight: 1.65 }}>
             Antoine Washington founded HomeLead Connect and has led the product vision, application build, workflow design, technical implementation, operational systems, launch hardening, and day-to-day platform development.
@@ -38,11 +40,12 @@ export default function AboutPage() {
         </article>
 
         <article style={card}>
-          <p style={{ margin: 0, color: "#2563eb", fontSize: 11, fontWeight: 900, letterSpacing: ".12em" }}>AI OPERATIONS TEAM</p>
-          <h2 style={{ margin: 0 }}>Kendrell · Dion · Diamond</h2>
+          <p style={{ margin: 0, color: "#2563eb", fontSize: 11, fontWeight: 900, letterSpacing: ".12em" }}>IN REMEMBRANCE</p>
+          <h2 style={{ margin: 0 }}>Kendrell Memorial</h2>
           <p style={{ margin: 0, color: "#64748b", lineHeight: 1.65 }}>
-            Kendrell supports command and risk, Dion supports operations and business intelligence, and Diamond supports customer experience and community. Their authority remains bounded by HLC roles, consent, workflow state, and database controls.
+            A quiet, dedicated space honoring Kendrell Charles Washington and the family story carried forward through HomeLead Connect.
           </p>
+          <Link to="/memorial" style={{ marginTop: 4, color: "#1d4ed8", fontWeight: 800 }}>Visit the memorial</Link>
         </article>
       </section>
 
