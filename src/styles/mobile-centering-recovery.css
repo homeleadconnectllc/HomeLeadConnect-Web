@@ -2,6 +2,14 @@
    Imported immediately before launch-contrast-readability.css so launch contrast
    remains the final contract authority while this file owns geometry/placement. */
 
+/* True modal work must own the viewport. Hide auxiliary floating controls while a
+   route-level modal is present so fixed agent/help affordances cannot bleed through. */
+.hlc-signed-in-shell:has(.hlc-route-content [aria-modal="true"]) .hlc-agent-dock,
+.hlc-signed-in-shell:has(.hlc-route-content [aria-modal="true"]) .hlc-help-trigger {
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
 @media (max-width: 760px) {
   .hlc-signed-in-shell.hlc-signed-in-shell > .hlc-route-content {
     width: 100% !important;
@@ -24,6 +32,38 @@
     margin-right: auto !important;
     padding-left: max(16px, env(safe-area-inset-left)) !important;
     padding-right: max(16px, env(safe-area-inset-right)) !important;
+    min-width: 0 !important;
+  }
+
+  /* Leads and Jobs are CSS-grid operating boards, not semantic tables. On mobile
+     they collapse to one column; min-width guards prevent long content/actions from
+     widening the page canvas even without an overflow-x table wrapper. */
+  .hlc-signed-in-shell.hlc-signed-in-shell :is(
+    .hlc-leads-pipeline,
+    .hlc-leads-list,
+    .hlc-lead-row,
+    .hlc-lead-identity,
+    .hlc-lead-identity-copy,
+    .hlc-lead-actions,
+    .hlc-jobs-board,
+    .hlc-jobs-list,
+    .hlc-job-row,
+    .hlc-job-identity,
+    .hlc-job-identity-copy,
+    .hlc-job-value-cell,
+    .hlc-job-actions
+  ) {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .hlc-signed-in-shell.hlc-signed-in-shell :is(
+    .hlc-lead-contact-line,
+    .hlc-lead-context,
+    .hlc-job-value-cell small
+  ) {
+    overflow-wrap: anywhere !important;
+    word-break: normal !important;
   }
 
   .hlc-signed-in-shell.hlc-signed-in-shell :is(
@@ -42,6 +82,7 @@
     border-right: 0 !important;
     border-radius: 0 !important;
     box-shadow: none !important;
+    min-width: 0 !important;
   }
 
   .hlc-signed-in-shell.hlc-signed-in-shell .hlc-calendar-mini-month {
