@@ -20,11 +20,19 @@ const AGENT_ROUTE_PREFIXES = [
   "/community/moderation", "/community/groups", "/help", "/tutorials", "/rules", "/profile",
   "/analytics", "/settings", "/leads", "/estimator", "/jobs", "/calendar", "/team",
   "/follow-ups", "/manual-communications", "/documents", "/call-center", "/messages",
-  "/notifications", "/homeowner-portal", "/contractor-portal",
+  "/notifications", "/homeowner-portal", "/contractor-portal", "/hq", "/operations",
+  "/customer-experience",
 ];
 
 function isAgentRoute(pathname: string) {
   return AGENT_ROUTE_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
+}
+
+function personaRouteClass(pathname: string) {
+  if (pathname === "/hq" || pathname.startsWith("/hq/")) return "hlc-route-hq";
+  if (pathname === "/operations" || pathname.startsWith("/operations/")) return "hlc-route-operations";
+  if (pathname === "/customer-experience" || pathname.startsWith("/customer-experience/")) return "hlc-route-customer-experience";
+  return "";
 }
 
 export default function AppLayout() {
@@ -39,6 +47,7 @@ export default function AppLayout() {
   const showFieldDevices = Boolean(session) && location.pathname === "/settings";
   const showAnalytics = Boolean(session) && location.pathname === "/dashboard";
   const showContextualAgent = Boolean(session) && isAgentRoute(location.pathname);
+  const routePersonaClass = session ? personaRouteClass(location.pathname) : "";
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -73,7 +82,7 @@ export default function AppLayout() {
   }, [navigate, session]);
 
   return (
-    <div className={`hlc-app-shell ${session ? "hlc-signed-in-shell" : "hlc-public-shell"}${session && sidebarCollapsed ? " hlc-sidebar-is-collapsed" : ""}`}>
+    <div className={`hlc-app-shell ${session ? "hlc-signed-in-shell" : "hlc-public-shell"}${session && sidebarCollapsed ? " hlc-sidebar-is-collapsed" : ""}${routePersonaClass ? ` ${routePersonaClass}` : ""}`}>
       <AnalyticsTracker />
       <Navbar />
       {session && (
