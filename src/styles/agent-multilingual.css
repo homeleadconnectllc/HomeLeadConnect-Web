@@ -26,25 +26,40 @@
   font-size: 9px;
 }
 
-.hlc-ai-settings .hlc-ai-language-setting {
-  display: grid;
-  grid-template-columns: 1fr;
-  align-items: stretch;
-  gap: 6px;
-}
-
-.hlc-ai-settings .hlc-ai-language-setting > span {
-  color: #e2e8f0;
-  font-size: 12px;
-  font-weight: 800;
-}
-
 .hlc-ai-transcript[dir="rtl"],
 .hlc-ai-composer textarea[dir="rtl"] {
   text-align: right;
 }
 
 @media (max-width: 720px) {
-  .hlc-ai-language-control { display: none; }
-  .hlc-ai-settings .hlc-ai-language-setting { display: grid; }
+  .hlc-agent-dock.is-open .hlc-ai-chat-head {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    padding: 2px 0 4px;
+  }
+
+  .hlc-agent-dock.is-open .hlc-ai-presence-avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .hlc-agent-dock.is-open .hlc-ai-chat-head > div:nth-child(2) {
+    min-width: 0;
+  }
+
+  .hlc-agent-dock.is-open .hlc-ai-chat-head h2 {
+    font-size: 15px;
+  }
+
+  .hlc-ai-language-control {
+    display: grid;
+    min-width: 118px;
+    max-width: 44vw;
+  }
+
+  .hlc-ai-language-control span,
+  .hlc-ai-language-control small {
+    display: none;
+  }
 }
