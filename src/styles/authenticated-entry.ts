@@ -54,6 +54,6 @@ import "./messages-mobile-final-authority.css";
 import "./production-mobile-visual-escape.css";
 import "./mobile-embedded-browser-authority.css";
 import "./owner-visual-cleanup.css";
-import "./launch-contrast-readability.css";
 import "./hlc-visual-handoff-authority.css";
 import "./hlc-guidance-clickaway.css";
+import "./launch-contrast-readability.css";
