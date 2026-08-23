@@ -6,6 +6,8 @@ import LeadCard from "../../components/leads/LeadCard";
 import { errorMessage } from "../../lib/errorMessage";
 import "../../styles/leads-application-workspace.css";
 
+type ResidentType = "Renter" | "Homeowner" | "Property manager" | "Other";
+
 function createLeadErrorMessage(reason: unknown) {
   const message = errorMessage(reason, "Unable to create lead.");
   if (/LEAD_LIMIT_REACHED/i.test(message)) {
@@ -25,6 +27,7 @@ export default function Leads() {
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+  const [residentType, setResidentType] = useState<ResidentType>("Renter");
   const [notes, setNotes] = useState("");
 
   async function refreshLeads() {
@@ -48,8 +51,9 @@ export default function Leads() {
     setCreateError("");
     setSavingLead(true);
     try {
-      await createLead({ fullName, phone, email, notes });
-      setFullName(""); setPhone(""); setEmail(""); setNotes("");
+      const residentNote = `[Resident type: ${residentType}]`;
+      await createLead({ fullName, phone, email, notes: notes.trim() ? `${residentNote}\n${notes.trim()}` : residentNote });
+      setFullName(""); setPhone(""); setEmail(""); setResidentType("Renter"); setNotes("");
       setShowAddLead(false); setLoading(true); await refreshLeads();
     } catch (reason: unknown) { setCreateError(createLeadErrorMessage(reason)); }
     finally { setSavingLead(false); }
@@ -58,7 +62,7 @@ export default function Leads() {
   const visibleLeads = useMemo(() => {
     const normalized = query.trim().toLowerCase();
     if (!normalized) return leads;
-    return leads.filter((lead) => [lead.full_name, lead.email, lead.phone, lead.status, lead.stage, lead.priority, lead.source, lead.lead_code, lead.sla_status]
+    return leads.filter((lead) => [lead.full_name, lead.email, lead.phone, lead.status, lead.stage, lead.priority, lead.source, lead.lead_code, lead.sla_status, lead.notes]
       .filter(Boolean).some((value) => String(value).toLowerCase().includes(normalized)));
   }, [leads, query]);
 
@@ -72,7 +76,7 @@ export default function Leads() {
         <div>
           <p className="hlc-page-eyebrow">CRM · Opportunity pipeline</p>
           <h1>Leads</h1>
-          <p>Qualify opportunities, make contact, schedule the next step, and move ready households into estimating.</p>
+          <p>Qualify renters, homeowners, property managers, and other households; make contact, schedule the next step, and move ready requests into estimating.</p>
         </div>
         <button className="hlc-leads-add-button" type="button" onClick={() => setShowAddLead((value) => !value)}>
           <Plus size={17} aria-hidden="true" /> {showAddLead ? "Cancel" : "Add lead"}
@@ -90,7 +94,7 @@ export default function Leads() {
         <label className="hlc-leads-search">
           <Search size={18} aria-hidden="true" />
           <span className="sr-only">Search leads</span>
-          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search name, contact, stage, priority, source, or lead code" />
+          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search renter/homeowner, name, contact, stage, priority, source, or lead code" />
         </label>
         <span className="hlc-leads-view-label"><SlidersHorizontal size={16} aria-hidden="true" /> Active pipeline</span>
       </section>
@@ -98,9 +102,17 @@ export default function Leads() {
       {showAddLead && (
         <form className="hlc-leads-create" onSubmit={handleCreateLead} aria-label="Add lead">
           <label>Name<input value={fullName} onChange={(event) => setFullName(event.target.value)} required minLength={2} autoComplete="name" /></label>
+          <label>Resident / customer type
+            <select value={residentType} onChange={(event) => setResidentType(event.target.value as ResidentType)}>
+              <option>Renter</option>
+              <option>Homeowner</option>
+              <option>Property manager</option>
+              <option>Other</option>
+            </select>
+          </label>
           <label>Phone<input value={phone} onChange={(event) => setPhone(event.target.value)} required inputMode="tel" autoComplete="tel" /></label>
           <label>Email<input value={email} onChange={(event) => setEmail(event.target.value)} type="email" autoComplete="email" /></label>
-          <label className="hlc-leads-notes">Notes<textarea value={notes} onChange={(event) => setNotes(event.target.value)} maxLength={4000} rows={3} /></label>
+          <label className="hlc-leads-notes">Notes<textarea value={notes} onChange={(event) => setNotes(event.target.value)} maxLength={4000} rows={3} placeholder="Service need, timing, access notes, or next step" /></label>
           {createError && <p role="alert" className="hlc-leads-error">{createError}</p>}
           <div className="hlc-leads-create-actions"><button type="submit" disabled={savingLead}>{savingLead ? "Adding…" : "Add lead"}</button></div>
         </form>
@@ -112,7 +124,7 @@ export default function Leads() {
         {error && <p role="alert" className="hlc-leads-error">{error}</p>}
         {!loading && !error && leads.length === 0 && <p className="hlc-leads-state">No leads found.</p>}
         {!loading && !error && leads.length > 0 && visibleLeads.length === 0 && (
-          <div className="hlc-leads-empty"><UsersRound size={24} aria-hidden="true" /><strong>No matching leads</strong><span>Try a different name, number, email, stage, priority, source, or lead code.</span></div>
+          <div className="hlc-leads-empty"><UsersRound size={24} aria-hidden="true" /><strong>No matching leads</strong><span>Try a different resident type, name, number, email, stage, priority, source, or lead code.</span></div>
         )}
         <div className="hlc-leads-list">{visibleLeads.map((lead) => <LeadCard key={lead.id} lead={lead} />)}</div>
       </section>
