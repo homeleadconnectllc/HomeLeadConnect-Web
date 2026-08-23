@@ -4,6 +4,7 @@ import "./desktop-workspace-shell.css";
 import "./agent-team.css";
 import "./contextual-agent-dock.css";
 import "./agent-premium-v2.css";
+import "./agent-multilingual.css";
 import "./agent-panel-width-contract.css";
 import "./command-center-experience.css";
 import "./agent-proactive-briefing.css";

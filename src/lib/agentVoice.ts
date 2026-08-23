@@ -1,4 +1,5 @@
 import type { AgentId } from "../ai/agents";
+import type { ResolvedAgentLocale } from "./agentLocale";
 import { supabase, supabaseConfig } from "./supabase";
 
 export type AgentVoicePreferences = {
@@ -60,11 +61,6 @@ export function isAgentAudioSupported() {
   return Boolean(window.AudioContext || audioWindow.webkitAudioContext);
 }
 
-/**
- * Must be called from a user gesture on iOS/Safari before an async TTS request.
- * It resumes Web Audio and plays a one-frame silent buffer so later neural audio
- * can start after the network round-trip without invoking HTMLMediaElement autoplay.
- */
 export async function prepareAgentAudio() {
   const context = getAudioContext();
   if (!context) throw new Error("Spoken replies are unavailable in this browser.");
@@ -177,7 +173,7 @@ async function playLegacyBufferedResponse(context: AudioContext, response: Respo
   return true;
 }
 
-export async function speakAgentText(agentId: AgentId, text: string) {
+export async function speakAgentText(agentId: AgentId, text: string, locale: ResolvedAgentLocale = "en-US") {
   if (typeof window === "undefined") throw new Error("Spoken replies are unavailable in this browser.");
   const cleanText = text.trim();
   if (!cleanText) return false;
@@ -187,9 +183,6 @@ export async function speakAgentText(agentId: AgentId, text: string) {
   if (context.state === "suspended") await context.resume();
   if (context.state !== "running") throw new Error("Tap the voice control again to enable audio playback.");
 
-  // Claim the single playback slot before any async auth/network work. This is
-  // what makes a newer request or stop action authoritative even while an older
-  // request is still waiting on Safari, Supabase auth, or the TTS edge function.
   const generation = ++speechGeneration;
   activeSpeechAbortController?.abort();
   activeSpeechAbortController = null;
@@ -214,7 +207,7 @@ export async function speakAgentText(agentId: AgentId, text: string) {
         "Content-Type": "application/json",
       },
       signal: controller.signal,
-      body: JSON.stringify({ agentId, text: cleanText }),
+      body: JSON.stringify({ agentId, text: cleanText, locale }),
     });
   } catch (reason) {
     if (controller.signal.aborted || generation !== speechGeneration) return false;

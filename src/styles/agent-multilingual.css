@@ -1,0 +1,65 @@
+.hlc-ai-language-control {
+  display: grid;
+  gap: 3px;
+  margin-left: auto;
+  min-width: 132px;
+  color: #b9cee5;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.hlc-ai-language-control select,
+.hlc-ai-settings .hlc-ai-language-select {
+  min-height: 34px;
+  width: 100%;
+  padding: 6px 30px 6px 9px;
+  border: 1px solid rgba(148, 163, 184, .24);
+  border-radius: 10px;
+  background: #07111f;
+  color: #f8fbff;
+  font: inherit;
+  font-size: 12px;
+}
+
+.hlc-ai-language-control small {
+  color: #829ab4;
+  font-size: 9px;
+}
+
+.hlc-ai-transcript[dir="rtl"],
+.hlc-ai-composer textarea[dir="rtl"] {
+  text-align: right;
+}
+
+@media (max-width: 720px) {
+  .hlc-agent-dock.is-open .hlc-ai-chat-head {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    padding: 2px 0 4px;
+  }
+
+  .hlc-agent-dock.is-open .hlc-ai-presence-avatar {
+    width: 34px;
+    height: 34px;
+  }
+
+  .hlc-agent-dock.is-open .hlc-ai-chat-head > div:nth-child(2) {
+    min-width: 0;
+  }
+
+  .hlc-agent-dock.is-open .hlc-ai-chat-head h2 {
+    font-size: 15px;
+  }
+
+  .hlc-ai-language-control {
+    display: grid;
+    min-width: 118px;
+    max-width: 44vw;
+  }
+
+  .hlc-ai-language-control span,
+  .hlc-ai-language-control small {
+    display: none;
+  }
+}

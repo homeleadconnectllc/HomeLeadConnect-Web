@@ -18,7 +18,7 @@ test("agent chat uses the server-side OpenAI Responses API without weakening HLC
   assert.match(chat, /provider_timeout/);
 });
 
-test("agent voice uses streamed OpenAI speech while preserving canonical HLC voice identities and access boundaries", () => {
+test("agent voice uses streamed OpenAI speech while preserving canonical HLC voice identities, locale behavior, and access boundaries", () => {
   assert.match(voice, /Deno\.env\.get\("OPENAI_API_KEY"\)/);
   assert.match(voice, /https:\/\/api\.openai\.com\/v1\/audio\/speech/);
   assert.match(voice, /gpt-4o-mini-tts/);
@@ -28,15 +28,24 @@ test("agent voice uses streamed OpenAI speech while preserving canonical HLC voi
   assert.match(voice, /new Response\(providerResponse\.body/);
   assert.match(voice, /"Content-Type": "audio\/pcm"/);
   assert.match(voice, /"X-HLC-Sample-Rate": String\(PCM_SAMPLE_RATE\)/);
+  assert.match(voice, /"X-HLC-Locale": locale/);
   assert.doesNotMatch(voice, /audioBase64/);
   assert.doesNotMatch(voice, /providerResponse\.arrayBuffer\(\)/);
   assert.match(voice, /voice: "Schedar"/);
   assert.match(voice, /providerVoice: "cedar"/);
+  assert.match(voice, /pronounced Ken-Drayl/);
   assert.match(voice, /voice: "Sadaltager"/);
   assert.match(voice, /providerVoice: "ash"/);
   assert.match(voice, /Pronounce the name Dion as Dee-Yon/);
-  assert.match(voice, /text\.replace\(\/\\bDion\\b\/gi, "Dee-Yon"\)/);
-  assert.match(voice, /input: applyCanonicalPronunciations\(text\)/);
+  assert.match(voice, /replace\(\/\\bKendrell\\b\/gi, "Ken-Drayl"\)/);
+  assert.match(voice, /replace\(\/\\bDion\\b\/gi, "Dee-Yon"\)/);
+  assert.match(voice, /if \(locale !== "en-US"\) return text;/);
+  assert.match(voice, /input: applyCanonicalPronunciations\(text, locale\)/);
+  assert.match(voice, /Use Spanish pronunciation and rhythm/);
+  assert.match(voice, /Use French pronunciation and rhythm/);
+  assert.match(voice, /Use Brazilian Portuguese pronunciation and rhythm/);
+  assert.match(voice, /Use Mandarin pronunciation and rhythm/);
+  assert.match(voice, /Use Arabic pronunciation and rhythm/);
   assert.match(voice, /voice: "Sulafat"/);
   assert.match(voice, /providerVoice: "coral"/);
   assert.match(voice, /Kendrell voice access requires an approved owner, manager, or supervisor role/);

@@ -35,15 +35,16 @@ test("mobile agent remains a bounded sheet with transcript-owned scrolling", () 
 });
 
 test("successful text chat never waits for automatic voice generation", () => {
-  assert.match(agentChatPanel, /void speak\(response\.reply, false\)/);
-  assert.doesNotMatch(agentChatPanel, /await speak\(response\.reply\)/);
+  assert.match(agentChatPanel, /void speak\(response\.reply, false, responseLocale\)/);
+  assert.doesNotMatch(agentChatPanel, /await speak\(response\.reply/);
   assert.match(agentChatPanel, /if \(reportError\) setError/);
 });
 
-test("every canonical agent room gets one proactive spoken greeting per session after voice opt-in", () => {
-  assert.match(agentChatPanel, /hlc\.agentRoomGreeting\.v1:\$\{agentId\}/);
+test("every canonical agent room gets one locale-specific proactive spoken greeting per session after voice opt-in", () => {
+  assert.match(agentChatPanel, /hlc\.agentRoomGreeting\.v2:\$\{agentId\}:\$\{activeLocale\}/);
   assert.match(agentChatPanel, /agents\[agentId\]\.introduction/);
   assert.match(agentChatPanel, /agents\[agentId\]\.question/);
+  assert.match(agentChatPanel, /speakAgentText\(agentId, greeting, activeLocale\)/);
   assert.match(agentChatPanel, /document\.addEventListener\("pointerdown", unlock/);
   assert.match(agentChatPanel, /stopAgentSpeech\(\)/);
 });
