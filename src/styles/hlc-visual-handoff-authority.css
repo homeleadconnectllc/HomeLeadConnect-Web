@@ -1,0 +1,260 @@
+:root {
+  --bg-core: #081426;
+  --bg-surface-elevated: #0D1F3A;
+  --brand-blue: #2FB0FF;
+  --text-primary: #FFFFFF;
+  --text-secondary: #C7D2E3;
+  --border-subtle: rgba(199, 210, 227, 0.08);
+  --accent-kendrell: #F59E0B;
+  --accent-dion: #6366F1;
+  --accent-diamond: #10B981;
+}
+
+/* Final HLC visual authority: dark operating canvas, restrained surfaces, clear hierarchy. */
+.hlc-signed-in-shell,
+.hlc-signed-in-shell > .hlc-route-content,
+.hlc-signed-in-shell > .hlc-route-content > main {
+  background: var(--bg-core) !important;
+  color: var(--text-primary) !important;
+}
+
+.hlc-signed-in-shell > .hlc-route-content > main {
+  width: 100%;
+  min-height: 100%;
+}
+
+/* Persistent HLC brand treatment. */
+.hlc-signed-in-shell .hlc-navbar {
+  background: rgba(8, 20, 38, 0.97) !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+}
+
+.hlc-signed-in-shell .hlc-navbar-logo {
+  display: grid !important;
+  place-items: center;
+  visibility: visible !important;
+  opacity: 1 !important;
+  flex: 0 0 auto;
+}
+
+.hlc-signed-in-shell .hlc-navbar-logo img {
+  display: block !important;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Reduce the legacy card-heavy appearance across operational screens. */
+.hlc-signed-in-shell .hlc-route-content :is(
+  [class*="-card"],
+  [class*="-panel"],
+  [class*="-section"],
+  [class*="-surface"]
+):not(.hlc-kendrell-card):not([data-ui-surface="dialog"]):not([role="dialog"]) {
+  box-shadow: none !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content [data-ui-surface="object"],
+.hlc-signed-in-shell .hlc-route-content [data-ui-surface="inspector"] {
+  background: transparent !important;
+  border-color: var(--border-subtle) !important;
+  box-shadow: none !important;
+}
+
+/* Form controls are self-explanatory, dark, and visually consistent. */
+.hlc-signed-in-shell .hlc-route-content :is(input, select, textarea) {
+  background: #0A192C !important;
+  color: var(--text-primary) !important;
+  border: 1px solid rgba(199, 210, 227, 0.18) !important;
+  border-radius: 8px !important;
+  min-height: 44px;
+}
+
+.hlc-signed-in-shell .hlc-route-content textarea {
+  min-height: 96px;
+}
+
+.hlc-signed-in-shell .hlc-route-content :is(input, textarea)::placeholder {
+  color: rgba(199, 210, 227, 0.72) !important;
+  opacity: 1 !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content :is(input, select, textarea):focus {
+  border-color: var(--brand-blue) !important;
+  outline: 2px solid rgba(47, 176, 255, 0.18) !important;
+  outline-offset: 1px;
+}
+
+.hlc-signed-in-shell .hlc-route-content label {
+  color: var(--text-secondary) !important;
+  font-weight: 600;
+}
+
+/* Kendrell — Executive Command AI (/hq) */
+.hlc-kendrell-active,
+.hlc-route-hq .hlc-navbar a[href="/hq"],
+.hlc-route-hq .hlc-navbar [href="/hq"] {
+  background: rgba(245, 158, 11, 0.12) !important;
+  border-left: 3px solid var(--accent-kendrell) !important;
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.25) !important;
+}
+
+.hlc-kendrell-card {
+  background: var(--bg-surface-elevated) !important;
+  border: 1px solid rgba(245, 158, 11, 0.15) !important;
+  border-radius: 8px !important;
+}
+
+/* Dion — Operations & BI AI (/operations) */
+.hlc-dion-active,
+.hlc-route-operations .hlc-navbar a[href="/operations"],
+.hlc-route-operations .hlc-navbar [href="/operations"] {
+  background: rgba(99, 102, 241, 0.12) !important;
+  border-left: 3px solid var(--accent-dion) !important;
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.25) !important;
+}
+
+.hlc-progress-fill {
+  background: var(--accent-dion) !important;
+  box-shadow: 0 0 8px rgba(99, 102, 241, 0.4) !important;
+}
+
+/* Diamond — Customer Experience & Community AI (/customer-experience) */
+.hlc-diamond-active,
+.hlc-route-customer-experience .hlc-navbar a[href="/customer-experience"],
+.hlc-route-customer-experience .hlc-navbar [href="/customer-experience"] {
+  background: rgba(16, 185, 129, 0.12) !important;
+  border-left: 3px solid var(--accent-diamond) !important;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.25) !important;
+}
+
+.hlc-diamond-badge {
+  background: rgba(16, 185, 129, 0.15) !important;
+  color: var(--accent-diamond) !important;
+  border: 1px solid rgba(16, 185, 129, 0.3) !important;
+}
+
+/* Leads table and details. */
+.hlc-table-header,
+.hlc-signed-in-shell .hlc-leads-workspace thead,
+.hlc-signed-in-shell .hlc-leads-workspace th {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: rgba(199, 210, 227, 0.7) !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+}
+
+.hlc-table-row,
+.hlc-signed-in-shell .hlc-lead-row {
+  transition: background-color 0.15s ease !important;
+  border-bottom: 1px solid rgba(199, 210, 227, 0.04) !important;
+}
+
+.hlc-table-row:hover,
+.hlc-signed-in-shell .hlc-lead-row:hover {
+  background-color: rgba(47, 176, 255, 0.03) !important;
+}
+
+.hlc-badge-in-progress {
+  background: rgba(47, 176, 255, 0.15) !important;
+  color: var(--brand-blue) !important;
+  border: 1px solid rgba(47, 176, 255, 0.3) !important;
+  box-shadow: 0 0 8px rgba(47, 176, 255, 0.2) !important;
+  border-radius: 9999px !important;
+  padding: 2px 8px !important;
+}
+
+.hlc-timeline-node {
+  width: 10px !important;
+  height: 10px !important;
+  border-radius: 50% !important;
+  background-color: var(--brand-blue) !important;
+  box-shadow: 0 0 8px var(--brand-blue) !important;
+}
+
+/* Messages module. */
+.hlc-msg-thread-active,
+.hlc-signed-in-shell .hlc-message-thread[aria-current="true"],
+.hlc-signed-in-shell .hlc-thread-item[aria-current="true"] {
+  background: rgba(47, 176, 255, 0.08) !important;
+  border-left: 3px solid var(--brand-blue) !important;
+}
+
+.hlc-bubble-outgoing {
+  background: linear-gradient(135deg, #2FB0FF 0%, #1A73E8 100%) !important;
+  border-radius: 16px 16px 2px 16px !important;
+  color: #FFFFFF !important;
+}
+
+.hlc-bubble-incoming {
+  background: rgba(199, 210, 227, 0.06) !important;
+  border: 1px solid rgba(199, 210, 227, 0.1) !important;
+  border-radius: 16px 16px 16px 2px !important;
+  color: #FFFFFF !important;
+}
+
+/* Calendar module. */
+.hlc-calendar-cell {
+  border: 1px solid rgba(199, 210, 227, 0.05) !important;
+}
+
+.hlc-calendar-event {
+  background: rgba(47, 176, 255, 0.18) !important;
+  border-left: 3px solid var(--brand-blue) !important;
+  border-radius: 4px !important;
+  transition: all 0.2s ease !important;
+}
+
+.hlc-calendar-event:hover {
+  background: rgba(47, 176, 255, 0.3) !important;
+  box-shadow: 0 0 12px rgba(47, 176, 255, 0.25) !important;
+}
+
+.hlc-time-now-line {
+  background: #FF4D4D !important;
+  box-shadow: 0 0 8px #FF4D4D !important;
+  height: 2px !important;
+}
+
+/* Click-away guidance stays legible without becoming another large card. */
+.hlc-help-trigger {
+  border: 1px solid rgba(47, 176, 255, 0.36) !important;
+  background: #0D1F3A !important;
+  color: #FFFFFF !important;
+  box-shadow: none !important;
+}
+
+.hlc-route-guide {
+  background: #0D1F3A !important;
+  color: #FFFFFF !important;
+  border: 1px solid rgba(199, 210, 227, 0.12) !important;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.34) !important;
+}
+
+.hlc-route-guide p {
+  color: var(--text-secondary) !important;
+}
+
+@media (max-width: 760px) {
+  .hlc-signed-in-shell > .hlc-route-content > main {
+    padding-left: max(16px, env(safe-area-inset-left)) !important;
+    padding-right: max(16px, env(safe-area-inset-right)) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-route-content :is(section, form, [class*="-section"]) {
+    margin-block: 14px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-route-content :is(input, select, textarea, button) {
+    font-size: 16px;
+  }
+
+  .hlc-signed-in-shell .hlc-navbar-logo {
+    width: 44px !important;
+    height: 44px !important;
+  }
+}
