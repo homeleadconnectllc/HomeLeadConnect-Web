@@ -35,6 +35,19 @@ function personaRouteClass(pathname: string) {
   return "";
 }
 
+function stableRouteClass(pathname: string) {
+  const slug = pathname
+    .split("?")[0]
+    .split("#")[0]
+    .split("/")
+    .filter(Boolean)
+    .slice(0, 2)
+    .join("-")
+    .replace(/[^a-zA-Z0-9-]/g, "-")
+    .toLowerCase();
+  return slug ? `hlc-page-${slug}` : "hlc-page-home";
+}
+
 export default function AppLayout() {
   const { session } = useAuth();
   const location = useLocation();
@@ -48,6 +61,7 @@ export default function AppLayout() {
   const showAnalytics = Boolean(session) && location.pathname === "/dashboard";
   const showContextualAgent = Boolean(session) && isAgentRoute(location.pathname);
   const routePersonaClass = session ? personaRouteClass(location.pathname) : "";
+  const routeClass = stableRouteClass(location.pathname);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -82,7 +96,7 @@ export default function AppLayout() {
   }, [navigate, session]);
 
   return (
-    <div className={`hlc-app-shell ${session ? "hlc-signed-in-shell" : "hlc-public-shell"}${session && sidebarCollapsed ? " hlc-sidebar-is-collapsed" : ""}${routePersonaClass ? ` ${routePersonaClass}` : ""}`}>
+    <div className={`hlc-app-shell ${session ? "hlc-signed-in-shell" : "hlc-public-shell"} ${routeClass}${session && sidebarCollapsed ? " hlc-sidebar-is-collapsed" : ""}${routePersonaClass ? ` ${routePersonaClass}` : ""}`}>
       <AnalyticsTracker />
       <Navbar />
       {session && (
