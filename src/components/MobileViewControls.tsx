@@ -27,17 +27,33 @@ function isCompactDevice() {
   return Math.min(window.screen.width, window.screen.height) <= 900;
 }
 
+function readInitialViewMode(): ViewMode {
+  // A stale desktop preference must never make a physical phone boot into a
+  // compressed desktop canvas. Desktop remains available as an explicit choice
+  // from the mobile menu, but every new compact-device load starts mobile-safe.
+  return isCompactDevice() ? "mobile" : readStoredViewMode();
+}
+
 export default function MobileViewControls() {
   const { session, loading } = useAuth();
-  const [viewMode, setViewMode] = useState<ViewMode>(() => readStoredViewMode());
+  const [viewMode, setViewMode] = useState<ViewMode>(() => readInitialViewMode());
   const [compactDevice, setCompactDevice] = useState(() => isCompactDevice());
   const [menuHost, setMenuHost] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
     const updateCompactDevice = () => setCompactDevice(isCompactDevice());
     window.addEventListener("orientationchange", updateCompactDevice);
-    return () => window.removeEventListener("orientationchange", updateCompactDevice);
+    window.addEventListener("resize", updateCompactDevice);
+    return () => {
+      window.removeEventListener("orientationchange", updateCompactDevice);
+      window.removeEventListener("resize", updateCompactDevice);
+    };
   }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("hlc-compact-device", compactDevice);
+    return () => document.documentElement.classList.remove("hlc-compact-device");
+  }, [compactDevice]);
 
   useEffect(() => {
     applyViewMode(viewMode);
