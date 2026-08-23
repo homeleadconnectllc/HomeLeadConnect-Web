@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 const GUIDANCE: Array<{ prefix: string; title: string; body: string }> = [
@@ -100,7 +100,10 @@ export default function WorkspaceGuidance() {
     [location.pathname],
   );
   const storageKey = `hlc-guide:${guidance.prefix}`;
-  const [open, setOpen] = useState(false);
+  const [manuallyOpenedKey, setManuallyOpenedKey] = useState<string | null>(null);
+  const [closedKey, setClosedKey] = useState<string | null>(null);
+  const persistedDismissed = typeof window !== "undefined" && window.sessionStorage.getItem(storageKey) === "dismissed";
+  const open = manuallyOpenedKey === storageKey || (closedKey !== storageKey && !persistedDismissed);
 
   useEffect(() => {
     enhanceFields();
@@ -110,9 +113,15 @@ export default function WorkspaceGuidance() {
     return () => observer.disconnect();
   }, [location.pathname]);
 
-  useEffect(() => {
-    const dismissed = typeof window !== "undefined" && window.sessionStorage.getItem(storageKey) === "dismissed";
-    setOpen(!dismissed);
+  const dismiss = useCallback(() => {
+    if (typeof window !== "undefined") window.sessionStorage.setItem(storageKey, "dismissed");
+    setManuallyOpenedKey(null);
+    setClosedKey(storageKey);
+  }, [storageKey]);
+
+  const openGuide = useCallback(() => {
+    setClosedKey(null);
+    setManuallyOpenedKey(storageKey);
   }, [storageKey]);
 
   useEffect(() => {
@@ -122,16 +131,11 @@ export default function WorkspaceGuidance() {
     };
     document.addEventListener("keydown", closeOnEscape);
     return () => document.removeEventListener("keydown", closeOnEscape);
-  }, [open, storageKey]);
-
-  function dismiss() {
-    if (typeof window !== "undefined") window.sessionStorage.setItem(storageKey, "dismissed");
-    setOpen(false);
-  }
+  }, [dismiss, open]);
 
   return (
     <>
-      <button className="hlc-help-trigger" type="button" onClick={() => setOpen(true)} aria-label="Open instructions for this page">?</button>
+      <button className="hlc-help-trigger" type="button" onClick={openGuide} aria-label="Open instructions for this page">?</button>
       {open && (
         <div className="hlc-route-guide-backdrop" onClick={dismiss} role="presentation">
           <aside
