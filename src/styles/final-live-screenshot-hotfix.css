@@ -1,0 +1,144 @@
+/* Live screenshot hotfix — final pre-launch polish.
+   Keeps the approved navy/white/light-blue system while fixing native control
+   readability and making working surfaces unmistakable on iPhone. */
+
+#root .hlc-signed-in-shell {
+  --hlc-hotfix-surface: #0d1f3a;
+  --hlc-hotfix-surface-2: #112744;
+  --hlc-hotfix-border: #3b5f88;
+  --hlc-hotfix-blue: #93c5fd;
+  --hlc-hotfix-text: #f8fafc;
+  --hlc-hotfix-ink: #1f2937;
+}
+
+/* Native file upload controls were the last obvious white-on-white/browser-default leak. */
+#root .hlc-signed-in-shell > .hlc-route-content input[type="file"] {
+  display: block !important;
+  width: 100% !important;
+  min-height: 52px !important;
+  padding: 7px 9px !important;
+  background: #ffffff !important;
+  color: var(--hlc-hotfix-ink) !important;
+  -webkit-text-fill-color: var(--hlc-hotfix-ink) !important;
+  border: 1.5px solid #9fb0c5 !important;
+  line-height: 1.35 !important;
+  overflow: hidden !important;
+}
+
+#root .hlc-signed-in-shell > .hlc-route-content input[type="file"]::file-selector-button {
+  min-height: 38px !important;
+  margin: 0 12px 0 0 !important;
+  padding: 8px 13px !important;
+  border: 1px solid var(--hlc-hotfix-border) !important;
+  border-radius: 4px !important;
+  background: var(--hlc-hotfix-surface-2) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font: inherit !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+}
+
+/* Safari/WebKit fallback for older iPhone file controls. */
+#root .hlc-signed-in-shell > .hlc-route-content input[type="file"]::-webkit-file-upload-button {
+  min-height: 38px !important;
+  margin: 0 12px 0 0 !important;
+  padding: 8px 13px !important;
+  border: 1px solid var(--hlc-hotfix-border) !important;
+  border-radius: 4px !important;
+  background: var(--hlc-hotfix-surface-2) !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font: inherit !important;
+  font-weight: 700 !important;
+}
+
+/* Working forms stay visually grouped, but never become giant white cards. */
+#root .hlc-signed-in-shell > .hlc-route-content :where(form, fieldset) {
+  background-color: transparent !important;
+  color: var(--hlc-hotfix-text) !important;
+}
+
+#root .hlc-signed-in-shell > .hlc-route-content :where(form, fieldset)[class*="card"],
+#root .hlc-signed-in-shell > .hlc-route-content :where(form, fieldset)[class*="panel"],
+#root .hlc-signed-in-shell > .hlc-route-content :where(form, fieldset)[class*="workspace"] {
+  background: var(--hlc-hotfix-surface) !important;
+  border: 1px solid rgba(147,197,253,.24) !important;
+  border-left: 3px solid #60a5fa !important;
+}
+
+/* Form labels are instructional and should read before the control itself. */
+#root .hlc-signed-in-shell > .hlc-route-content label {
+  text-align: left !important;
+  justify-items: stretch !important;
+  align-items: stretch !important;
+  line-height: 1.25 !important;
+}
+
+/* Keep action groups and data rows from visually running together. */
+#root .hlc-signed-in-shell > .hlc-route-content :where(
+  .hlc-message-entry,
+  .hlc-lead-row,
+  .hlc-job-row,
+  [class*="offer-row"],
+  [class*="assignment-row"],
+  [class*="provider-row"],
+  [class*="portal-row"]
+) {
+  margin-block: 10px !important;
+  padding-block: 16px !important;
+}
+
+#root .hlc-signed-in-shell > .hlc-route-content :where(
+  .hlc-message-entry,
+  .hlc-lead-row,
+  .hlc-job-row,
+  [class*="offer-row"],
+  [class*="assignment-row"],
+  [class*="provider-row"],
+  [class*="portal-row"]
+) + :where(
+  .hlc-message-entry,
+  .hlc-lead-row,
+  .hlc-job-row,
+  [class*="offer-row"],
+  [class*="assignment-row"],
+  [class*="provider-row"],
+  [class*="portal-row"]
+) {
+  border-top-color: rgba(147,197,253,.34) !important;
+}
+
+/* Status/select/input fields are the intentional light exception and always use dark ink. */
+#root .hlc-signed-in-shell > .hlc-route-content :where(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
+  color: var(--hlc-hotfix-ink) !important;
+  -webkit-text-fill-color: var(--hlc-hotfix-ink) !important;
+}
+
+/* Links/actions on navy surfaces should remain obvious without becoming pale pills. */
+#root .hlc-signed-in-shell > .hlc-route-content a:not(.hlc-navbar-brand) {
+  text-underline-offset: 3px !important;
+}
+
+@media (max-width: 760px), (max-device-width: 760px) {
+  #root .hlc-signed-in-shell > .hlc-route-content input[type="file"] {
+    font-size: 15px !important;
+  }
+
+  #root .hlc-signed-in-shell > .hlc-route-content :where(form, fieldset) {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  #root .hlc-signed-in-shell > .hlc-route-content :where(
+    .hlc-message-entry,
+    .hlc-lead-row,
+    .hlc-job-row,
+    [class*="offer-row"],
+    [class*="assignment-row"],
+    [class*="provider-row"],
+    [class*="portal-row"]
+  ) {
+    scroll-margin-top: 96px !important;
+  }
+}
