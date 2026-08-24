@@ -33,7 +33,8 @@ type RecognitionLike = {
 };
 
 type RecognitionConstructor = new () => RecognitionLike;
-type PresenceState = "available" | "thinking" | "listening" | "speaking";
+type PresenceState = "available" | "thinking" | "listening" | "preparing" | "speaking";
+type VoicePhase = "idle" | "preparing" | "speaking";
 
 const avatarByAgent: Record<AgentId, string> = {
   kendrell: "/brand/avatars/Kendrell_Locked_HLC.png",
@@ -90,7 +91,7 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
   const [listening, setListening] = useState(false);
   const [error, setError] = useState("");
   const [fallbackMode, setFallbackMode] = useState(false);
-  const [voiceBusy, setVoiceBusy] = useState(false);
+  const [voicePhase, setVoicePhase] = useState<VoicePhase>("idle");
   const [localePreference, setLocalePreference] = useState<AgentLocale>(() => getAgentLocalePreference());
   const [activeLocale, setActiveLocale] = useState<ResolvedAgentLocale>(() => resolveAgentLocale(getAgentLocalePreference(), "", browserLocale));
   const [voicePreferences, setVoicePreferences] = useState<AgentVoicePreferences>(() => getAgentVoicePreferences());
@@ -99,7 +100,8 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
   const speechOutputSupported = isAgentAudioSupported();
   const sendDisabled = busy || draft.trim().length === 0;
   const voicePersona = agents[agentId].voicePersona;
-  const presence: PresenceState = listening ? "listening" : voiceBusy ? "speaking" : busy ? "thinking" : "available";
+  const voiceBusy = voicePhase !== "idle";
+  const presence: PresenceState = listening ? "listening" : voicePhase === "speaking" ? "speaking" : voicePhase === "preparing" ? "preparing" : busy ? "thinking" : "available";
   const copy = getAgentUiCopy(activeLocale);
 
   useEffect(() => {
@@ -134,6 +136,7 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
       document.removeEventListener("pointerdown", unlock, true);
       document.removeEventListener("keydown", unlock, true);
       stopAgentSpeech();
+      setVoicePhase("idle");
     };
   }, [activeLocale, agentId, agentName, copy.welcome, speechOutputSupported, voicePreferences.autoSpeak, voicePreferences.enabled]);
 
@@ -143,6 +146,7 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
     const resolved = resolveAgentLocale(next, draft, browserLocale);
     setActiveLocale(resolved);
     stopAgentSpeech();
+    setVoicePhase("idle");
   }
 
   function updateVoicePreferences(next: AgentVoicePreferences) {
@@ -150,6 +154,7 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
     saveAgentVoicePreferences(next);
     if (!next.enabled) {
       stopAgentSpeech();
+      setVoicePhase("idle");
       return;
     }
     void prepareAgentAudio().catch((reason) => {
@@ -159,15 +164,16 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
 
   async function speak(text: string, reportError = true, locale = activeLocale) {
     if (!speechOutputSupported || !voicePreferences.enabled || voiceBusy) return;
-    setVoiceBusy(true);
+    setVoicePhase("preparing");
     if (reportError) setError("");
     try {
       await prepareAgentAudio();
-      await speakAgentText(agentId, text, locale);
+      const played = await speakAgentText(agentId, text, locale, () => setVoicePhase("speaking"));
+      if (!played) throw new Error("No audible audio started. Tap Listen to retry.");
     } catch (reason) {
-      if (reportError) setError(errorMessage(reason, `${agentName}'s voice is temporarily unavailable.`));
+      setError(errorMessage(reason, `${agentName}'s voice did not start. Tap Listen to retry.`));
     } finally {
-      setVoiceBusy(false);
+      setVoicePhase("idle");
     }
   }
 
@@ -256,7 +262,17 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
     }
   }
 
-  const presenceLabel = presence === "thinking" ? copy.thinking : presence === "listening" ? copy.listening : presence === "speaking" ? copy.speaking : fallbackMode ? copy.verifiedFallback : copy.ready;
+  const presenceLabel = presence === "thinking"
+    ? copy.thinking
+    : presence === "listening"
+      ? copy.listening
+      : presence === "preparing"
+        ? "Preparing voice…"
+        : presence === "speaking"
+          ? copy.speaking
+          : fallbackMode
+            ? copy.verifiedFallback
+            : copy.ready;
 
   return <section className="hlc-ai-chat" style={{ "--chat-agent-accent": accent } as CSSProperties} aria-labelledby={`${agentId}-chat-title`} data-presence={presence} data-agent-experience="premium-conversation-v3" data-response-mode={fallbackMode ? "fallback" : "live"} data-agent-locale={activeLocale}>
     <header className="hlc-ai-chat-head">
@@ -288,20 +304,20 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
       {messages.map((item, index) => <article key={`${item.role}-${index}`} className={`hlc-ai-message is-${item.role}`}>
         <strong>{item.role === "user" ? copy.you : agentName}</strong>
         <p>{item.text}</p>
-        {item.role === "model" && speechOutputSupported && voicePreferences.enabled && <button type="button" className="hlc-ai-replay" disabled={voiceBusy} onClick={() => void speak(item.text)} aria-label={`${copy.listen} · ${agentName}`}>{voiceBusy ? `${copy.speaking}…` : copy.listen}</button>}
+        {item.role === "model" && speechOutputSupported && voicePreferences.enabled && <button type="button" className="hlc-ai-replay" disabled={voiceBusy} onClick={() => void speak(item.text)} aria-label={`${copy.listen} · ${agentName}`}>{voicePhase === "preparing" ? "Preparing…" : voicePhase === "speaking" ? `${copy.speaking}…` : copy.listen}</button>}
       </article>)}
       {busy && <div className="hlc-ai-thinking" role="status"><span/><span/><span/><em>{agentName} · {copy.thinking}</em></div>}
     </div>
 
     {error && <p role="alert" className="hlc-ai-error">{error}</p>}
 
-    <form onSubmit={submit} className="hlc-ai-composer">
+    <form onSubmit={submit} className="hlc-ai-composer" onPointerDown={() => { if (voicePreferences.enabled) void prepareAgentAudio().catch(() => undefined); }}>
       <label className="sr-only" htmlFor={`${agentId}-chat-input`}>{copy.message} {agentName}</label>
       <textarea id={`${agentId}-chat-input`} maxLength={4000} rows={2} value={draft} onChange={(event) => setDraft(event.target.value)} placeholder={`${copy.message} ${agentName}…`} lang={activeLocale} dir={activeLocale === "ar-SA" ? "rtl" : "auto"} />
       <div className="hlc-ai-composer-actions">
         {recognitionSupported && <button className={`hlc-ai-icon-action ${listening ? "is-active" : ""}`} type="button" aria-pressed={listening} onClick={toggleDictation} title={copy.talk}>{listening ? "■" : "🎤"}<span>{listening ? `${copy.listening}…` : copy.talk}</span></button>}
         <details className="hlc-ai-settings">
-          <summary title={copy.options}>•••<span>{copy.options}</span></summary>
+          <summary title={copy.options}><span className="hlc-ai-settings-label">Voice</span><span className="sr-only">{copy.options}</span></summary>
           <div>
             {speechOutputSupported && <>
               <label><input type="checkbox" checked={voicePreferences.enabled} onChange={(event) => updateVoicePreferences({ enabled: event.target.checked, autoSpeak: event.target.checked ? true : false })}/> {copy.enableVoice}</label>
