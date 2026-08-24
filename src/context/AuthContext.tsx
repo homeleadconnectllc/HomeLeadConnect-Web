@@ -9,6 +9,27 @@ import type { Session } from "@supabase/supabase-js";
 import { isSupabaseConfigured, supabase } from "../lib/supabase";
 import { AuthContext } from "./auth-context";
 
+function isInvalidRefreshTokenError(error: unknown) {
+  const message =
+    error instanceof Error
+      ? error.message
+      : typeof error === "object" && error !== null && "message" in error
+        ? String((error as { message?: unknown }).message ?? "")
+        : String(error ?? "");
+
+  return /invalid refresh token|refresh token not found/i.test(message);
+}
+
+async function clearCorruptLocalSession(error: unknown) {
+  if (!isInvalidRefreshTokenError(error)) return;
+
+  try {
+    await supabase.auth.signOut({ scope: "local" });
+  } catch {
+    // Recovery must remain fail-closed even if the stale local token cannot be revoked remotely.
+  }
+}
+
 export function AuthProvider({
   children,
 }: {
@@ -23,13 +44,23 @@ export function AuthProvider({
     let active = true;
 
     void supabase.auth.getSession().then(
-      ({ data, error }) => {
+      async ({ data, error }) => {
         if (!active) return;
+
+        if (error) {
+          await clearCorruptLocalSession(error);
+          if (!active) return;
+        }
+
         setSession(error ? null : data.session);
         setLoading(false);
       },
-      () => {
+      async (error) => {
         if (!active) return;
+
+        await clearCorruptLocalSession(error);
+        if (!active) return;
+
         setSession(null);
         setLoading(false);
       },

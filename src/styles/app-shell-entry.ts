@@ -3,6 +3,7 @@ import "./public-facing-pass.css";
 import "./workspace-nav.css";
 import "./auth-methods.css";
 import "./auth-mobile-final-authority.css";
+import "./auth-session-hardening.css";
 import "./product-polish.css";
 import "./launch-hardening.css";
 import "./launch-mobile.css";
