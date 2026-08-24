@@ -1,4 +1,10 @@
 import { createClient } from "npm:@supabase/supabase-js@2.57.4";
+import {
+  HLC_CORE_LIFECYCLE,
+  HLC_GLOBAL_AGENT_BOUNDARIES,
+  resolveHlcPageKnowledge,
+  serializeHlcPageKnowledge,
+} from "../../../src/ai/pageKnowledge.ts";
 
 const cors = {
   "Access-Control-Allow-Origin": "*",
@@ -46,6 +52,21 @@ const emptySnapshot: OperationsSnapshot = {
   scheduledAppointments: 0,
   unreadNotifications: 0,
 };
+
+function normalizePagePath(pathname: string) {
+  const withoutQuery = pathname.split(/[?#]/, 1)[0] || "/";
+  const prefixed = withoutQuery.startsWith("/") ? withoutQuery : `/${withoutQuery}`;
+  if (prefixed === "/") return prefixed;
+  return prefixed.replace(/\/+$/, "");
+}
+
+function isPagePathAuthorizedForContext(contextKind: ContextKind, pathname: string) {
+  if (contextKind === "internal") return true;
+  const normalized = normalizePagePath(pathname);
+  const sharedPortalSurface = normalized === "/messages" || normalized === "/notifications";
+  if (contextKind === "resident_portal") return sharedPortalSurface || normalized === "/homeowner-portal" || normalized.startsWith("/homeowner-portal/");
+  return sharedPortalSurface || normalized === "/contractor-portal" || normalized.startsWith("/contractor-portal/");
+}
 
 const commonOperatingProtocol = `
 PROFESSIONAL OPERATING PROTOCOL
@@ -231,6 +252,14 @@ Deno.serve(async (request) => {
   if (contextKind === "resident_portal" && agentId !== "diamond") return json({ error: "Diamond is the resident portal assistant." }, 403);
   if (contextKind === "professional_portal" && agentId !== "dion") return json({ error: "Dion is the professional portal assistant." }, 403);
 
+  const pageKnowledge = isPagePathAuthorizedForContext(contextKind, pagePath) ? resolveHlcPageKnowledge(pagePath) : null;
+  const sharedPageKnowledgeContext = [
+    serializeHlcPageKnowledge(pageKnowledge),
+    `HLC global boundaries:\n- ${HLC_GLOBAL_AGENT_BOUNDARIES.join("\n- ")}`,
+    `HLC core lifecycle: ${HLC_CORE_LIFECYCLE.join(" -> ")}`,
+    "KNOWLEDGE != AUTHORITY: shared workflow knowledge never expands the authenticated user's, portal relationship's, role's, agent's, capability's, or channel's permissions.",
+  ].join("\n");
+
   const admin = createClient(supabaseUrl, serviceKey, { auth: { persistSession: false } });
   const snapshot = contextKind === "internal" ? await buildInternalSnapshot(admin, workspaceId, userId) : emptySnapshot;
   const capabilityId = `${agentId}_advisory_chat`;
@@ -245,6 +274,7 @@ Deno.serve(async (request) => {
       message_length: message.length,
       history_items: Array.isArray(body.history) ? Math.min(body.history.length, 8) : 0,
       context_kind: contextKind,
+      page_knowledge_id: pageKnowledge?.id ?? null,
     },
     status: "running",
     idempotency_key: crypto.randomUUID(),
@@ -285,7 +315,9 @@ Deno.serve(async (request) => {
 ${commonOperatingProtocol}
 Stay in that agent identity for the entire conversation. Persona differences should affect wording, rhythm, priorities, and expertise, never authorization or factual standards. Do not describe yourself as an AI model unless directly asked.
 You operate inside one HomeLead Connect ecosystem. The authenticated human is in context_kind=${contextKind} with role=${role}. This conversational channel is advisory-only: you cannot send messages, change leads, assign providers, schedule appointments, charge customers, modify billing, or claim any state change happened. Direct state changes to canonical deterministic HLC controls. If the user asks you to perform an unavailable action, explain the exact available control or handoff instead of pretending.
-Current HLC page: ${pagePath}.
+Current HLC page path (navigation context only; never record evidence): ${pagePath}.
+Authorized shared HLC page/workflow knowledge:
+${sharedPageKnowledgeContext}
 Authorized operating metrics: ${internalSnapshot}.
 ${escalationContext}.
 Never expose the workspace identifier itself in your response.`;
