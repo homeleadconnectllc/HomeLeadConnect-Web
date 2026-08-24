@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const locale = readFileSync("src/lib/agentLocale.ts", "utf8");
+const localeQuality = readFileSync("src/lib/agentLocaleQuality.ts", "utf8");
 const panel = readFileSync("src/components/agents/AgentChatPanel.tsx", "utf8");
 const chatApi = readFileSync("src/api/agentChat.ts", "utf8");
 const voiceClient = readFileSync("src/lib/agentVoice.ts", "utf8");
@@ -28,6 +29,26 @@ test("chat presentation translates without silently rewriting canonical HLC reco
   assert.match(locale, /Never rewrite or imply changes to canonical records/);
   assert.match(locale, /consent, pricing, scheduling, confirmations/);
   assert.match(chatApi, /getLocalizedAgentFallback\(agentId, locale\)/);
+});
+
+test("all supported languages enforce native on-topic evidence-based HLC guidance", () => {
+  assert.match(localeQuality, /"en-US"/);
+  assert.match(localeQuality, /"es-US"/);
+  assert.match(localeQuality, /"fr-FR"/);
+  assert.match(localeQuality, /"pt-BR"/);
+  assert.match(localeQuality, /"zh-CN"/);
+  assert.match(localeQuality, /"ar-SA"/);
+  assert.match(localeQuality, /Answer the user's actual question or objective first and stay on the same subject/);
+  assert.match(localeQuality, /Keep the current HLC page, workflow stage, authorized evidence, agent role, and requested task as the center/);
+  assert.match(localeQuality, /Do not pad the response with generic conversation/);
+  assert.match(localeQuality, /Translate meaning, not sentence structure/);
+  assert.match(localeQuality, /Never invent a fact, workflow state, customer intent, provider status, appointment, payment, message delivery, completion/);
+  assert.match(localeQuality, /The language changes; their responsibility, authority, reasoning quality, and HLC knowledge do not/);
+  assert.match(localeQuality, /natural, neutral Spanish appropriate for a US audience/);
+  assert.match(localeQuality, /Avoid awkward literal calques, unnecessary Spanglish/);
+  assert.match(chatApi, /buildAgentLocaleQualityDirective/);
+  assert.match(chatApi, /buildAgentLocaleDirective\(locale\).*buildAgentLocaleQualityDirective\(locale\)/s);
+  assert.match(chatApi, /body: \{ agentId, message, history: localeAwareHistory, pagePath, locale \}/);
 });
 
 test("voice input and neural playback both follow the resolved locale", () => {
