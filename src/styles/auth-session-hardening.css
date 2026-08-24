@@ -1,0 +1,11 @@
+/* Post-launch auth hardening: preserve HLC dark fields during Safari/iCloud autofill. */
+.hlc-auth-shell--flat .hlc-auth-form input:-webkit-autofill,
+.hlc-auth-shell--flat .hlc-auth-form input:-webkit-autofill:hover,
+.hlc-auth-shell--flat .hlc-auth-form input:-webkit-autofill:focus,
+.hlc-auth-shell--flat .hlc-auth-form input:-webkit-autofill:active {
+  -webkit-text-fill-color: #ffffff !important;
+  caret-color: #ffffff;
+  -webkit-box-shadow: 0 0 0 1000px #101f34 inset !important;
+  box-shadow: 0 0 0 1000px #101f34 inset !important;
+  transition: background-color 9999s ease-out 0s;
+}
