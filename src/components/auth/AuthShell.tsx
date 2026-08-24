@@ -21,7 +21,7 @@ export default function AuthShell({
     <main className="hlc-auth-shell hlc-auth-shell--flat">
       <section className="hlc-auth-brand" aria-label="HomeLead Connect">
         <a className="hlc-auth-logo-link" href="https://homeleadconnect.org" aria-label="Return to HomeLead Connect home">
-          <img src="/hlc-logo-final.png" alt="" />
+          <img src="/hlc-icon.jpeg" alt="" />
           <span>HomeLead Connect</span>
         </a>
         <div className="hlc-auth-brand-copy">
