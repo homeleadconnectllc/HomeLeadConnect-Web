@@ -38,25 +38,26 @@ const voiceProfiles: Record<AgentId, { voice: string; providerVoice: string; dir
   kendrell: {
     voice: "Schedar",
     providerVoice: "cedar",
-    direction: "Speak as a natural adult male executive operator: steady, confident, calm, lower-key, conversational, clean and full-voiced. Keep a consistent medium-low pitch, relaxed cadence, moderate vocal weight, and even intensity from reply to reply. Relaxed but not sleepy. Never whisper. Never sound breathy, raspy, scratchy, gravelly, spooky, theatrical, robotic, or like an announcer. Use normal conversational volume and smooth connected phrasing. The name Kendrell is spelled Kendrell and pronounced Ken-Drayl.",
+    direction: "Speak as a natural adult male executive operator: steady, confident, calm, lower-key, conversational, clean and full-voiced. Keep a consistent medium-low pitch, relaxed cadence, moderate vocal weight, and even intensity from reply to reply. Relaxed but not sleepy. Never whisper. Never sound breathy, raspy, scratchy, gravelly, spooky, theatrical, robotic, or like an announcer. Use normal conversational volume and smooth connected phrasing. The name Kendrell is pronounced Ken-Drayl.",
   },
   dion: {
     voice: "Sadaltager",
     providerVoice: "ash",
-    direction: "Speak as a natural adult male business-intelligence operator: grounded, analytical, confident, precise and practical. Keep a consistent medium pitch, crisp but natural cadence, moderate vocal weight, and even professional intensity from reply to reply. Slightly quicker and crisper than Kendrell, but still conversational. Pronounce the name Dion as Dee-Yon. Never whisper. Never sound breathy, raspy, scratchy, nasal, robotic, theatrical, or like a radio announcer.",
+    direction: "Speak as a natural adult male business-intelligence operator: grounded, analytical, confident, precise and practical. Keep a consistent medium pitch, crisp but natural cadence, moderate vocal weight, and even professional intensity from reply to reply. Slightly quicker and crisper than Kendrell, but still conversational. The name Dion is pronounced Dee-Yon. Never whisper. Never sound breathy, raspy, scratchy, nasal, robotic, theatrical, or like a radio announcer.",
   },
   diamond: {
     voice: "Sulafat",
     providerVoice: "coral",
-    direction: "Speak as a natural adult female customer-experience guide: polished, calm, warm, composed and conversational. Keep the same recognizable medium-soft voice on every reply: stable pitch range, smooth cadence, gentle warmth, moderate vocal weight, and even intensity. Do not harden, tighten, sharpen, deepen, brighten, or dramatically soften the voice when the wording changes. Be warm without becoming overly soft. Never sound childlike, breathy, whispery, sing-song, robotic, theatrical, sharp, stern, or forceful.",
+    direction: "Speak as a natural adult female customer-experience guide: polished, calm, warm, composed and conversational. Keep the same recognizable medium-soft voice on every reply: stable pitch range, smooth cadence, gentle warmth, moderate vocal weight, and even intensity. The name Diamond is pronounced Die-Men. Do not harden, tighten, sharpen, deepen, brighten, or dramatically soften the voice when the wording changes. Be warm without becoming overly soft. Never sound childlike, breathy, whispery, sing-song, robotic, theatrical, sharp, stern, or forceful.",
   },
 };
 
 function applyCanonicalPronunciations(text: string, locale: AgentLocale) {
   if (locale !== "en-US") return text;
   return text
-    .replace(/\bKendrell\b/gi, "Ken-Drayl")
-    .replace(/\bDion\b/gi, "Dee-Yon");
+    .replace(/\bDiamond\b/gi, "Die-Men")
+    .replace(/\bDion\b/gi, "Dee-Yon")
+    .replace(/\bKendrell\b/gi, "Ken-Drayl");
 }
 
 Deno.serve(async (request) => {
