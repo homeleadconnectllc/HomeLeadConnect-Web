@@ -48,7 +48,7 @@ test("all supported languages enforce native on-topic evidence-based HLC guidanc
   assert.match(localeQuality, /Avoid awkward literal calques, unnecessary Spanglish/);
   assert.match(chatApi, /buildAgentLocaleQualityDirective/);
   assert.match(chatApi, /buildAgentLocaleDirective\(locale\).*buildAgentLocaleQualityDirective\(locale\)/s);
-  assert.match(chatApi, /body: \{ agentId, message, history: localeAwareHistory, pagePath, locale \}/);
+  assert.match(chatApi, /body: \{ agentId, message, history: localeAwareHistory, pagePath, locale, timeZone \}/);
 });
 
 test("voice input and neural playback both follow the resolved locale", () => {
