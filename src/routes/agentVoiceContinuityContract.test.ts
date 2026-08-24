@@ -8,10 +8,11 @@ test("streamed agent voice schedules PCM chunks continuously instead of restarti
   assert.match(voice, /let nextPlaybackAt = context\.currentTime \+ STREAM_START_LEAD_SECONDS;/);
   assert.match(voice, /nextPlaybackAt = schedulePcmChunk\(context, bytes, nextPlaybackAt\);/);
   const streamStart = voice.indexOf("while (true)");
-  const streamEnd = voice.indexOf("return started;", streamStart);
+  const streamEnd = voice.indexOf("await waitForScheduledPlayback", streamStart);
   const streamBody = voice.slice(streamStart, streamEnd);
   assert.ok(streamStart >= 0 && streamEnd > streamStart);
   assert.equal(streamBody.includes("stopActiveSources();"), false, "active audio must not be stopped between normal stream chunks");
+  assert.match(voice, /await waitForScheduledPlayback\(context, nextPlaybackAt, generation\)/);
 });
 
 test("odd-byte PCM boundaries are carried into the next network chunk", () => {
