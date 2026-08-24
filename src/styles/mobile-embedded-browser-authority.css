@@ -16,13 +16,13 @@
   display: flex !important;
   width: 100% !important;
   height: auto !important;
-  min-height: 0 !important;
+  min-height: calc(70px + env(safe-area-inset-top)) !important;
   flex-direction: row !important;
   align-items: center !important;
   justify-content: space-between !important;
   gap: 14px !important;
   overflow: visible !important;
-  padding: 14px max(16px, env(safe-area-inset-right)) 14px max(16px, env(safe-area-inset-left)) !important;
+  padding: calc(14px + env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) 14px max(16px, env(safe-area-inset-left)) !important;
   border-right: 0 !important;
   border-bottom: 1px solid rgba(148,163,184,.18) !important;
   background: linear-gradient(180deg,#071426 0%,#0a1830 100%) !important;
@@ -65,6 +65,11 @@
   z-index: 90 !important;
   grid-template-columns: repeat(5,minmax(0,1fr)) !important;
   min-height: calc(68px + env(safe-area-inset-bottom)) !important;
+}
+
+.hlc-compact-device .hlc-mobile-portal {
+  inset: calc(70px + env(safe-area-inset-top)) 0 0 !important;
+  height: calc(100dvh - 70px - env(safe-area-inset-top)) !important;
 }
 
 .hlc-compact-device .hlc-command-center {
