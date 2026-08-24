@@ -22,6 +22,7 @@ test("agent voice uses streamed OpenAI speech while preserving canonical HLC voi
   assert.match(voice, /Deno\.env\.get\("OPENAI_API_KEY"\)/);
   assert.match(voice, /https:\/\/api\.openai\.com\/v1\/audio\/speech/);
   assert.match(voice, /gpt-4o-mini-tts/);
+  assert.match(voice, /tts-1-hd/);
   assert.doesNotMatch(voice, /generativelanguage\.googleapis\.com/);
   assert.match(voice, /response_format: "pcm"/);
   assert.match(voice, /stream_format: "audio"/);
@@ -29,14 +30,19 @@ test("agent voice uses streamed OpenAI speech while preserving canonical HLC voi
   assert.match(voice, /"Content-Type": "audio\/pcm"/);
   assert.match(voice, /"X-HLC-Sample-Rate": String\(PCM_SAMPLE_RATE\)/);
   assert.match(voice, /"X-HLC-Locale": locale/);
+  assert.match(voice, /"X-HLC-Provider": profileConfig\.model/);
   assert.doesNotMatch(voice, /audioBase64/);
   assert.doesNotMatch(voice, /providerResponse\.arrayBuffer\(\)/);
   assert.match(voice, /voice: "Schedar"/);
   assert.match(voice, /providerVoice: "cedar"/);
-  assert.match(voice, /pronounced Ken-Drayl/);
+  assert.match(voice, /The name Kendrell is pronounced Ken-Drayl/);
   assert.match(voice, /voice: "Sadaltager"/);
   assert.match(voice, /providerVoice: "ash"/);
-  assert.match(voice, /Pronounce the name Dion as Dee-Yon/);
+  assert.match(voice, /The name Dion is pronounced Dee-Yon/);
+  assert.match(voice, /voice: "Sulafat"/);
+  assert.match(voice, /providerVoice: "coral"/);
+  assert.match(voice, /The name Diamond is pronounced Die-Men/);
+  assert.match(voice, /replace\(\/\\bDiamond\\b\/gi, "Die-Men"\)/);
   assert.match(voice, /replace\(\/\\bKendrell\\b\/gi, "Ken-Drayl"\)/);
   assert.match(voice, /replace\(\/\\bDion\\b\/gi, "Dee-Yon"\)/);
   assert.match(voice, /if \(locale !== "en-US"\) return text;/);
@@ -46,8 +52,6 @@ test("agent voice uses streamed OpenAI speech while preserving canonical HLC voi
   assert.match(voice, /Use Brazilian Portuguese pronunciation and rhythm/);
   assert.match(voice, /Use Mandarin pronunciation and rhythm/);
   assert.match(voice, /Use Arabic pronunciation and rhythm/);
-  assert.match(voice, /voice: "Sulafat"/);
-  assert.match(voice, /providerVoice: "coral"/);
   assert.match(voice, /Kendrell voice access requires an approved owner, manager, or supervisor role/);
   assert.match(voice, /Diamond is the resident portal assistant/);
   assert.match(voice, /Dion is the professional portal assistant/);
