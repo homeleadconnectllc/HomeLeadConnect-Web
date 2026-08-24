@@ -4,6 +4,7 @@ import test from "node:test";
 
 const chat = readFileSync(new URL("../../supabase/functions/hlc-agent-chat/index.ts", import.meta.url), "utf8");
 const voice = readFileSync(new URL("../../supabase/functions/hlc-agent-voice/index.ts", import.meta.url), "utf8");
+const chatClient = readFileSync(new URL("../api/agentChat.ts", import.meta.url), "utf8");
 
 test("agent chat uses the server-side OpenAI Responses API without weakening HLC authorization", () => {
   assert.match(chat, /Deno\.env\.get\("OPENAI_API_KEY"\)/);
@@ -16,6 +17,18 @@ test("agent chat uses the server-side OpenAI Responses API without weakening HLC
   assert.match(chat, /professional_portal.*dion/s);
   assert.match(chat, /provider_key_missing/);
   assert.match(chat, /provider_timeout/);
+});
+
+test("every HLC agent interaction carries current local temporal context", () => {
+  assert.match(chatClient, /Intl\.DateTimeFormat\(\)\.resolvedOptions\(\)\.timeZone/);
+  assert.match(chatClient, /HLC RUNTIME TEMPORAL CONTEXT/);
+  assert.match(chatClient, /authoritative for this interaction/);
+  assert.match(chatClient, /UTC instant=/);
+  assert.match(chatClient, /good morning\/afternoon\/evening/);
+  assert.match(chatClient, /today, tomorrow, yesterday, this week, deadlines, appointments, and follow-ups/);
+  assert.match(chatClient, /Do not infer current time from conversation history/);
+  assert.match(chatClient, /const localeAwareHistory = \[temporalDirective, localeDirective/);
+  assert.match(chatClient, /timeZone,/);
 });
 
 test("agent voice uses streamed OpenAI speech while preserving canonical HLC voice identities, locale behavior, and access boundaries", () => {
