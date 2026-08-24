@@ -32,7 +32,7 @@ test("chat presentation translates without silently rewriting canonical HLC reco
 
 test("voice input and neural playback both follow the resolved locale", () => {
   assert.match(panel, /recognition\.lang = activeLocale/);
-  assert.match(panel, /speakAgentText\(agentId, text, locale\)/);
+  assert.match(panel, /speakAgentText\(agentId, text, locale, \(\) => setVoicePhase\("speaking"\)\)/);
   assert.match(voiceClient, /body: JSON\.stringify\(\{ agentId, text: cleanText, locale \}\)/);
   assert.match(voiceEdge, /Use Spanish pronunciation and rhythm/);
   assert.match(voiceEdge, /Use French pronunciation and rhythm/);

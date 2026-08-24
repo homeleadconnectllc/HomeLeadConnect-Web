@@ -1,0 +1,65 @@
+.hlc-ai-presence-avatar[data-state="preparing"]::before {
+  animation: hlc-agent-pulse 1.35s ease-in-out infinite;
+  box-shadow: 0 0 18px color-mix(in srgb, var(--chat-agent-accent) 30%, transparent);
+}
+
+.hlc-ai-presence-avatar[data-state="preparing"] > span {
+  background: #93c5fd;
+}
+
+.hlc-ai-settings > summary .hlc-ai-settings-label {
+  display: inline !important;
+  font-size: 12px !important;
+  line-height: 1 !important;
+}
+
+@media (max-width: 720px) {
+  .hlc-ai-composer-actions {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 8px !important;
+    width: 100%;
+  }
+
+  .hlc-ai-composer-actions > .hlc-ai-icon-action {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    min-height: 46px;
+    border-radius: 8px !important;
+  }
+
+  .hlc-ai-composer-actions > .hlc-ai-send {
+    grid-column: 2;
+    grid-row: 1;
+    width: 100%;
+    min-height: 46px;
+    margin-left: 0;
+    border-radius: 8px !important;
+  }
+
+  .hlc-ai-composer-actions > .hlc-ai-settings {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100%;
+  }
+
+  .hlc-ai-settings > summary {
+    width: 100%;
+    min-height: 42px;
+    border-radius: 8px !important;
+    font-size: 0 !important;
+  }
+
+  .hlc-ai-settings > summary .hlc-ai-settings-label {
+    display: inline !important;
+    font-size: 12px !important;
+  }
+
+  .hlc-ai-settings[open] > div {
+    right: 12px !important;
+    bottom: calc(228px + env(safe-area-inset-bottom)) !important;
+    left: 12px !important;
+    border-radius: 8px !important;
+  }
+}
