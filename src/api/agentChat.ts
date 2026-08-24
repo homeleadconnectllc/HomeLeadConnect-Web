@@ -26,10 +26,32 @@ function browserTimeZone() {
   }
 }
 
+function buildAgentTemporalDirective(timeZone: string): AgentChatMessage {
+  const now = new Date();
+  const formatter = new Intl.DateTimeFormat("en-US", {
+    timeZone,
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+    timeZoneName: "short",
+  });
+  return {
+    role: "user",
+    text: `HLC RUNTIME TEMPORAL CONTEXT — authoritative for this interaction: ${formatter.format(now)}; IANA time zone=${timeZone}; UTC instant=${now.toISOString()}. Use this runtime context for greetings and every time-sensitive phrase, including good morning/afternoon/evening, today, tomorrow, yesterday, this week, deadlines, appointments, and follow-ups. Do not infer current time from conversation history.`,
+  };
+}
+
 export async function chatWithAgent(agentId: AgentId, message: string, history: AgentChatMessage[] = [], locale: ResolvedAgentLocale = "en-US") {
   const pagePath = typeof window !== "undefined" ? window.location.pathname : "/";
+  const timeZone = browserTimeZone();
+  const temporalDirective = buildAgentTemporalDirective(timeZone);
   const localeDirective: AgentChatMessage = { role: "user", text: buildAgentLocaleDirective(locale) };
-  const localeAwareHistory = [localeDirective, ...history.slice(-7)];
+  const localeAwareHistory = [temporalDirective, localeDirective, ...history.slice(-6)];
   const { data, error } = await supabase.functions.invoke("hlc-agent-chat", {
     body: {
       agentId,
@@ -37,7 +59,7 @@ export async function chatWithAgent(agentId: AgentId, message: string, history: 
       history: localeAwareHistory,
       pagePath,
       locale,
-      timeZone: browserTimeZone(),
+      timeZone,
     },
   });
   if (error) {
