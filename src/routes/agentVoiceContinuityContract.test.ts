@@ -37,6 +37,14 @@ test("Diamond alone uses the tts-1-hd A/B candidate while Kendrell and Dion reta
   assert.match(voiceRuntime, /X-HLC-Provider": profileConfig\.model/);
 });
 
+test("all HLC voices use one steady slightly-slower conversational speed", () => {
+  assert.match(voiceRuntime, /const HLC_STEADY_SPEECH_SPEED = 0\.92/);
+  assert.match(voiceRuntime, /speed: HLC_STEADY_SPEECH_SPEED/);
+  assert.match(voiceRuntime, /even, unhurried conversational pace/);
+  assert.match(voiceRuntime, /Be clear and efficient without rushing/);
+  assert.doesNotMatch(voiceRuntime, /Slightly quicker and crisper than Kendrell/);
+});
+
 test("instruction-based identity locking stays enabled only for instruction-capable voices", () => {
   assert.match(voiceRuntime, /const VOICE_IDENTITY_LOCK =/);
   assert.match(voiceRuntime, /Maintain one stable vocal identity across every reply/);
