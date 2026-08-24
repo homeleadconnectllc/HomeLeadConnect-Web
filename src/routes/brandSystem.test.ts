@@ -5,6 +5,21 @@ import test from "node:test";
 const brandLock = readFileSync("src/styles/hlc-brand-lock.css", "utf8");
 const mainEntry = readFileSync("src/main.tsx", "utf8") + readFileSync("src/styles/app-shell-entry.ts", "utf8").replaceAll('import "./', 'import "./styles/');
 const authenticatedEntry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
+const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
+const footer = readFileSync("src/components/Footer.tsx", "utf8");
+const authShell = readFileSync("src/components/auth/AuthShell.tsx", "utf8");
+const htmlEntry = readFileSync("index.html", "utf8");
+const manifest = readFileSync("public/manifest.webmanifest", "utf8");
+const serviceWorker = readFileSync("public/sw.js", "utf8");
+
+const canonicalLogoPath = "/hlc-icon.jpeg";
+const activeBrandSurfaces = [navbar, footer, authShell, htmlEntry, manifest, serviceWorker];
+const forbiddenLegacyLogoReferences = [
+  "/favicon.svg",
+  "hlc-logo-final.png",
+  "hlc-trans-logo.jpeg",
+  "/logo.png",
+];
 
 test("HLC canonical brand lock stays global before legacy and final release guards", () => {
   assert.match(mainEntry, /contrast-contract\.css";\s*import "\.\/styles\/responsive-page-contract\.css";\s*import "\.\/styles\/hlc-brand-lock\.css";\s*import "\.\/styles\/legacy-device-compat\.css";\s*import "\.\/styles\/final-release-guard\.css";/);
@@ -24,4 +39,24 @@ test("brand lock replaces green matching, agent, and success presentation with H
   assert.match(brandLock, /\.hlc-agent-presence/);
   assert.match(brandLock, /\.hlc-route-content section\[aria-labelledby="hlc-audio-device-title"\]::before/);
   assert.doesNotMatch(brandLock, /#34d399|#10b981|#059669|#047857|#0f766e|#15803d|#166534|#dcfce7|#ecfdf5/i);
+});
+
+test("official HLC mark stays canonical across shared UI, browser, PWA, and notifications", () => {
+  for (const surface of activeBrandSurfaces) {
+    assert.match(surface, new RegExp(canonicalLogoPath.replace(".", "\\.")));
+  }
+
+  assert.match(htmlEntry, /rel="icon"[^>]+href="\/hlc-icon\.jpeg"/);
+  assert.match(htmlEntry, /rel="apple-touch-icon"[^>]+href="\/hlc-icon\.jpeg"/);
+  assert.match(manifest, /"src"\s*:\s*"\/hlc-icon\.jpeg"/);
+  assert.match(serviceWorker, /icon:\s*"\/hlc-icon\.jpeg"/);
+  assert.match(serviceWorker, /badge:\s*"\/hlc-icon\.jpeg"/);
+});
+
+test("active HLC brand surfaces reject legacy and placeholder logo references", () => {
+  for (const surface of activeBrandSurfaces) {
+    for (const legacyReference of forbiddenLegacyLogoReferences) {
+      assert.doesNotMatch(surface, new RegExp(legacyReference.replaceAll(".", "\\.")));
+    }
+  }
 });
