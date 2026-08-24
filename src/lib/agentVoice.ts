@@ -23,6 +23,7 @@ let audioContext: AudioContext | null = null;
 const activeSources = new Set<AudioBufferSourceNode>();
 let activeSpeechAbortController: AbortController | null = null;
 let speechGeneration = 0;
+let activeInteractiveGeneration: number | null = null;
 
 export function getAgentVoicePreferences(): AgentVoicePreferences {
   const defaults = defaultPreferences();
@@ -207,11 +208,17 @@ export async function speakAgentText(
   const cleanText = text.trim();
   if (!cleanText) return false;
 
+  // Calls with an actual playback-start callback are interactive chat/replay speech.
+  // Background greeting/briefing speech must never interrupt that authoritative stream.
+  const interactive = Boolean(onPlaybackStart);
+  if (!interactive && activeInteractiveGeneration !== null) return false;
+
   const context = getAudioContext();
   if (!context) throw new Error("Spoken replies are unavailable in this browser.");
   await ensureAudioContextRunning(context);
 
   const generation = ++speechGeneration;
+  if (interactive) activeInteractiveGeneration = generation;
   activeSpeechAbortController?.abort();
   activeSpeechAbortController = null;
   cancelNativeSpeech();
@@ -225,39 +232,39 @@ export async function speakAgentText(
   const controller = new AbortController();
   activeSpeechAbortController = controller;
 
-  let response: Response;
   try {
-    response = await fetch(`${supabaseConfig.url}/functions/v1/hlc-agent-voice`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        apikey: supabaseConfig.anonKey,
-        "Content-Type": "application/json",
-      },
-      signal: controller.signal,
-      body: JSON.stringify({ agentId, text: cleanText, locale }),
-    });
-  } catch (reason) {
-    if (controller.signal.aborted || generation !== speechGeneration) return false;
-    throw reason;
-  }
+    let response: Response;
+    try {
+      response = await fetch(`${supabaseConfig.url}/functions/v1/hlc-agent-voice`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          apikey: supabaseConfig.anonKey,
+          "Content-Type": "application/json",
+        },
+        signal: controller.signal,
+        body: JSON.stringify({ agentId, text: cleanText, locale }),
+      });
+    } catch (reason) {
+      if (controller.signal.aborted || generation !== speechGeneration) return false;
+      throw reason;
+    }
 
-  if (generation !== speechGeneration) return false;
-  if (!response.ok) await throwVoiceResponseError(response);
+    if (generation !== speechGeneration) return false;
+    if (!response.ok) await throwVoiceResponseError(response);
 
-  const contentType = response.headers.get("content-type")?.toLowerCase() ?? "";
-  if (contentType.includes("application/json")) {
-    return playLegacyBufferedResponse(context, response, generation, onPlaybackStart);
-  }
+    const contentType = response.headers.get("content-type")?.toLowerCase() ?? "";
+    if (contentType.includes("application/json")) {
+      return await playLegacyBufferedResponse(context, response, generation, onPlaybackStart);
+    }
 
-  if (!response.body) throw new Error("Neural voice returned no playable audio stream.");
+    if (!response.body) throw new Error("Neural voice returned no playable audio stream.");
 
-  const reader = response.body.getReader();
-  let nextPlaybackAt = context.currentTime + STREAM_START_LEAD_SECONDS;
-  let carry: number | null = null;
-  let started = false;
+    const reader = response.body.getReader();
+    let nextPlaybackAt = context.currentTime + STREAM_START_LEAD_SECONDS;
+    let carry: number | null = null;
+    let started = false;
 
-  try {
     while (true) {
       const { value, done } = await reader.read();
       if (done) break;
@@ -295,16 +302,17 @@ export async function speakAgentText(
 
     if (!started) throw new Error("Neural voice returned no playable audio stream.");
     await waitForScheduledPlayback(context, nextPlaybackAt, generation);
+    return started && generation === speechGeneration;
   } finally {
     if (activeSpeechAbortController === controller) activeSpeechAbortController = null;
+    if (activeInteractiveGeneration === generation) activeInteractiveGeneration = null;
   }
-
-  return started && generation === speechGeneration;
 }
 
 export function stopAgentSpeech() {
   if (typeof window === "undefined") return;
   speechGeneration += 1;
+  activeInteractiveGeneration = null;
   activeSpeechAbortController?.abort();
   activeSpeechAbortController = null;
   cancelNativeSpeech();
