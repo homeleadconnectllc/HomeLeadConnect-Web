@@ -15,6 +15,7 @@ const json = (body: Record<string, unknown>, status = 200) => new Response(JSON.
 
 const VOICE_PROVIDER_TIMEOUT_MS = 12_000;
 const PCM_SAMPLE_RATE = 24_000;
+const HLC_STEADY_SPEECH_SPEED = 0.92;
 
 type AgentId = "kendrell" | "dion" | "diamond";
 type ContextKind = "internal" | "resident_portal" | "professional_portal";
@@ -32,12 +33,12 @@ type VoiceProfile = {
 const supportedLocales = new Set<AgentLocale>(["en-US", "es-US", "fr-FR", "pt-BR", "zh-CN", "ar-SA"]);
 
 const localeDirections: Record<AgentLocale, string> = {
-  "en-US": "Speak in natural American English pronunciation and rhythm.",
-  "es-US": "Speak in natural, clear Spanish appropriate for a US audience. Use Spanish pronunciation and rhythm for the full response, not English pronunciation rules.",
-  "fr-FR": "Speak in natural, clear French. Use French pronunciation and rhythm for the full response, not English pronunciation rules.",
-  "pt-BR": "Speak in natural Brazilian Portuguese. Use Brazilian Portuguese pronunciation and rhythm for the full response, not English pronunciation rules.",
-  "zh-CN": "Speak in natural Standard Mandarin Chinese. Use Mandarin pronunciation and rhythm for the full response, not English pronunciation rules.",
-  "ar-SA": "Speak in natural, clear Arabic appropriate for a Saudi/Gulf audience. Use Arabic pronunciation and rhythm for the full response, not English pronunciation rules.",
+  "en-US": "Speak in natural American English pronunciation and rhythm at an even, unhurried conversational pace.",
+  "es-US": "Speak in natural, clear Spanish appropriate for a US audience. Use Spanish pronunciation and rhythm for the full response, not English pronunciation rules. Keep an even, unhurried conversational pace.",
+  "fr-FR": "Speak in natural, clear French. Use French pronunciation and rhythm for the full response, not English pronunciation rules. Keep an even, unhurried conversational pace.",
+  "pt-BR": "Speak in natural Brazilian Portuguese. Use Brazilian Portuguese pronunciation and rhythm for the full response, not English pronunciation rules. Keep an even, unhurried conversational pace.",
+  "zh-CN": "Speak in natural Standard Mandarin Chinese. Use Mandarin pronunciation and rhythm for the full response, not English pronunciation rules. Keep an even, unhurried conversational pace.",
+  "ar-SA": "Speak in natural, clear Arabic appropriate for a Saudi/Gulf audience. Use Arabic pronunciation and rhythm for the full response, not English pronunciation rules. Keep an even, unhurried conversational pace.",
 };
 
 const VOICE_IDENTITY_LOCK = "Maintain one stable vocal identity across every reply. Do not change the apparent speaker, age, pitch range, vocal weight, resonance, accent, baseline speaking rate, warmth, intensity, or overall timbre because of the wording or emotion of the text. Keep the same recognizable voice from sentence to sentence and request to request. Express emphasis with small natural inflection only; never shift into a noticeably harder, softer, deeper, brighter, sharper, breathier, more dramatic, or more forceful version of the voice.";
@@ -48,21 +49,21 @@ const voiceProfiles: Record<AgentId, VoiceProfile> = {
     providerVoice: "cedar",
     model: "gpt-4o-mini-tts",
     supportsInstructions: true,
-    direction: "Speak as a natural adult male executive operator: steady, confident, calm, lower-key, conversational, clean and full-voiced. Keep a consistent medium-low pitch, relaxed cadence, moderate vocal weight, and even intensity from reply to reply. Relaxed but not sleepy. Never whisper. Never sound breathy, raspy, scratchy, gravelly, spooky, theatrical, robotic, or like an announcer. Use normal conversational volume and smooth connected phrasing. The name Kendrell is pronounced Ken-Drayl.",
+    direction: "Speak as a natural adult male executive operator: steady, confident, calm, lower-key, conversational, clean and full-voiced. Keep a consistent medium-low pitch, relaxed cadence, moderate vocal weight, even intensity, and steady pace from reply to reply. Relaxed but not sleepy. Never rush. Never whisper. Never sound breathy, raspy, scratchy, gravelly, spooky, theatrical, robotic, or like an announcer. Use normal conversational volume and smooth connected phrasing. The name Kendrell is pronounced Ken-Drayl.",
   },
   dion: {
     voice: "Sadaltager",
     providerVoice: "ash",
     model: "gpt-4o-mini-tts",
     supportsInstructions: true,
-    direction: "Speak as a natural adult male business-intelligence operator: grounded, analytical, confident, precise and practical. Keep a consistent medium pitch, crisp but natural cadence, moderate vocal weight, and even professional intensity from reply to reply. Slightly quicker and crisper than Kendrell, but still conversational. The name Dion is pronounced Dee-Yon. Never whisper. Never sound breathy, raspy, scratchy, nasal, robotic, theatrical, or like a radio announcer.",
+    direction: "Speak as a natural adult male business-intelligence operator: grounded, analytical, confident, precise and practical. Keep a consistent medium pitch, crisp but natural cadence, moderate vocal weight, even professional intensity, and steady conversational pace from reply to reply. Be clear and efficient without rushing. The name Dion is pronounced Dee-Yon. Never whisper. Never sound breathy, raspy, scratchy, nasal, robotic, theatrical, or like a radio announcer.",
   },
   diamond: {
     voice: "Sulafat",
     providerVoice: "coral",
     model: "tts-1-hd",
     supportsInstructions: false,
-    direction: "Speak as a natural adult female customer-experience guide: polished, calm, warm, composed and conversational. Keep the same recognizable medium-soft voice on every reply: stable pitch range, smooth cadence, gentle warmth, moderate vocal weight, and even intensity. The name Diamond is pronounced Die-Men. Do not harden, tighten, sharpen, deepen, brighten, or dramatically soften the voice when the wording changes. Be warm without becoming overly soft. Never sound childlike, breathy, whispery, sing-song, robotic, theatrical, sharp, stern, or forceful.",
+    direction: "Speak as a natural adult female customer-experience guide: polished, calm, warm, composed and conversational. Keep the same recognizable medium-soft voice on every reply: stable pitch range, smooth cadence, gentle warmth, moderate vocal weight, even intensity, and steady pace. The name Diamond is pronounced Die-Men. Do not harden, tighten, sharpen, deepen, brighten, or dramatically soften the voice when the wording changes. Be warm without becoming overly soft. Never sound childlike, breathy, whispery, sing-song, robotic, theatrical, sharp, stern, forceful, or rushed.",
   },
 };
 
@@ -136,6 +137,7 @@ Deno.serve(async (request) => {
     model: profileConfig.model,
     voice: profileConfig.providerVoice,
     input: applyCanonicalPronunciations(text, locale),
+    speed: HLC_STEADY_SPEECH_SPEED,
     response_format: "pcm",
     stream_format: "audio",
   };
