@@ -7,10 +7,11 @@ const chatApi = readFileSync("src/api/agentChat.ts", "utf8");
 const locale = readFileSync("src/lib/agentLocale.ts", "utf8");
 const edgeFunction = readFileSync("supabase/functions/hlc-agent-chat/index.ts", "utf8");
 
-test("agent chat preserves bounded conversation history, route context, and one locale directive", () => {
-  assert.match(chatApi, /history\.slice\(-7\)/);
-  assert.match(chatApi, /localeAwareHistory = \[localeDirective, \.\.\.history\.slice\(-7\)\]/);
+test("agent chat preserves bounded conversation history, route context, one temporal directive, and one locale directive", () => {
+  assert.match(chatApi, /history\.slice\(-6\)/);
+  assert.match(chatApi, /localeAwareHistory = \[temporalDirective, localeDirective, \.\.\.history\.slice\(-6\)\]/);
   assert.match(chatApi, /pagePath/);
+  assert.match(chatApi, /buildAgentTemporalDirective\(timeZone\)/);
   assert.match(chatApi, /buildAgentLocaleDirective\(locale\)/);
   assert.match(edgeFunction, /Stay in that agent identity for the entire conversation/);
 });
