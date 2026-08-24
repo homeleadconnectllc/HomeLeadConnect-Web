@@ -14,12 +14,20 @@ const json = (body: Record<string, unknown>, status = 200) => new Response(JSON.
 });
 
 const VOICE_PROVIDER_TIMEOUT_MS = 12_000;
-const OPENAI_TTS_MODEL = "gpt-4o-mini-tts";
 const PCM_SAMPLE_RATE = 24_000;
 
 type AgentId = "kendrell" | "dion" | "diamond";
 type ContextKind = "internal" | "resident_portal" | "professional_portal";
 type AgentLocale = "en-US" | "es-US" | "fr-FR" | "pt-BR" | "zh-CN" | "ar-SA";
+type VoiceModel = "gpt-4o-mini-tts" | "tts-1-hd";
+
+type VoiceProfile = {
+  voice: string;
+  providerVoice: string;
+  model: VoiceModel;
+  supportsInstructions: boolean;
+  direction: string;
+};
 
 const supportedLocales = new Set<AgentLocale>(["en-US", "es-US", "fr-FR", "pt-BR", "zh-CN", "ar-SA"]);
 
@@ -34,20 +42,26 @@ const localeDirections: Record<AgentLocale, string> = {
 
 const VOICE_IDENTITY_LOCK = "Maintain one stable vocal identity across every reply. Do not change the apparent speaker, age, pitch range, vocal weight, resonance, accent, baseline speaking rate, warmth, intensity, or overall timbre because of the wording or emotion of the text. Keep the same recognizable voice from sentence to sentence and request to request. Express emphasis with small natural inflection only; never shift into a noticeably harder, softer, deeper, brighter, sharper, breathier, more dramatic, or more forceful version of the voice.";
 
-const voiceProfiles: Record<AgentId, { voice: string; providerVoice: string; direction: string }> = {
+const voiceProfiles: Record<AgentId, VoiceProfile> = {
   kendrell: {
     voice: "Schedar",
     providerVoice: "cedar",
+    model: "gpt-4o-mini-tts",
+    supportsInstructions: true,
     direction: "Speak as a natural adult male executive operator: steady, confident, calm, lower-key, conversational, clean and full-voiced. Keep a consistent medium-low pitch, relaxed cadence, moderate vocal weight, and even intensity from reply to reply. Relaxed but not sleepy. Never whisper. Never sound breathy, raspy, scratchy, gravelly, spooky, theatrical, robotic, or like an announcer. Use normal conversational volume and smooth connected phrasing. The name Kendrell is pronounced Ken-Drayl.",
   },
   dion: {
     voice: "Sadaltager",
     providerVoice: "ash",
+    model: "gpt-4o-mini-tts",
+    supportsInstructions: true,
     direction: "Speak as a natural adult male business-intelligence operator: grounded, analytical, confident, precise and practical. Keep a consistent medium pitch, crisp but natural cadence, moderate vocal weight, and even professional intensity from reply to reply. Slightly quicker and crisper than Kendrell, but still conversational. The name Dion is pronounced Dee-Yon. Never whisper. Never sound breathy, raspy, scratchy, nasal, robotic, theatrical, or like a radio announcer.",
   },
   diamond: {
     voice: "Sulafat",
     providerVoice: "coral",
+    model: "tts-1-hd",
+    supportsInstructions: false,
     direction: "Speak as a natural adult female customer-experience guide: polished, calm, warm, composed and conversational. Keep the same recognizable medium-soft voice on every reply: stable pitch range, smooth cadence, gentle warmth, moderate vocal weight, and even intensity. The name Diamond is pronounced Die-Men. Do not harden, tighten, sharpen, deepen, brighten, or dramatically soften the voice when the wording changes. Be warm without becoming overly soft. Never sound childlike, breathy, whispery, sing-song, robotic, theatrical, sharp, stern, or forceful.",
   },
 };
@@ -118,6 +132,17 @@ Deno.serve(async (request) => {
   const providerAbort = new AbortController();
   const timeoutId = setTimeout(() => providerAbort.abort("voice_provider_timeout"), VOICE_PROVIDER_TIMEOUT_MS);
 
+  const speechRequest: Record<string, unknown> = {
+    model: profileConfig.model,
+    voice: profileConfig.providerVoice,
+    input: applyCanonicalPronunciations(text, locale),
+    response_format: "pcm",
+    stream_format: "audio",
+  };
+  if (profileConfig.supportsInstructions) {
+    speechRequest.instructions = `${VOICE_IDENTITY_LOCK} ${profileConfig.direction} ${localeDirections[locale]} Preserve names, numbers, prices, dates, times, consent language, scheduling details, and confirmations exactly in meaning.`;
+  }
+
   let providerResponse: Response;
   try {
     providerResponse = await fetch("https://api.openai.com/v1/audio/speech", {
@@ -127,14 +152,7 @@ Deno.serve(async (request) => {
         "Content-Type": "application/json",
       },
       signal: providerAbort.signal,
-      body: JSON.stringify({
-        model: OPENAI_TTS_MODEL,
-        voice: profileConfig.providerVoice,
-        input: applyCanonicalPronunciations(text, locale),
-        instructions: `${VOICE_IDENTITY_LOCK} ${profileConfig.direction} ${localeDirections[locale]} Preserve names, numbers, prices, dates, times, consent language, scheduling details, and confirmations exactly in meaning.`,
-        response_format: "pcm",
-        stream_format: "audio",
-      }),
+      body: JSON.stringify(speechRequest),
     });
   } catch (reason) {
     clearTimeout(timeoutId);
@@ -165,7 +183,7 @@ Deno.serve(async (request) => {
       "Cache-Control": "no-store, no-transform",
       "X-Content-Type-Options": "nosniff",
       "X-HLC-Agent": agentId,
-      "X-HLC-Provider": OPENAI_TTS_MODEL,
+      "X-HLC-Provider": profileConfig.model,
       "X-HLC-Voice": profileConfig.voice,
       "X-HLC-Locale": locale,
       "X-HLC-Sample-Rate": String(PCM_SAMPLE_RATE),
