@@ -17,12 +17,28 @@ export type AgentChatResponse = {
   locale?: ResolvedAgentLocale;
 };
 
+function browserTimeZone() {
+  if (typeof Intl === "undefined") return "UTC";
+  try {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
+  } catch {
+    return "UTC";
+  }
+}
+
 export async function chatWithAgent(agentId: AgentId, message: string, history: AgentChatMessage[] = [], locale: ResolvedAgentLocale = "en-US") {
   const pagePath = typeof window !== "undefined" ? window.location.pathname : "/";
   const localeDirective: AgentChatMessage = { role: "user", text: buildAgentLocaleDirective(locale) };
   const localeAwareHistory = [localeDirective, ...history.slice(-7)];
   const { data, error } = await supabase.functions.invoke("hlc-agent-chat", {
-    body: { agentId, message, history: localeAwareHistory, pagePath, locale },
+    body: {
+      agentId,
+      message,
+      history: localeAwareHistory,
+      pagePath,
+      locale,
+      timeZone: browserTimeZone(),
+    },
   });
   if (error) {
     const context = (error as { context?: { json?: () => Promise<unknown> } }).context;
