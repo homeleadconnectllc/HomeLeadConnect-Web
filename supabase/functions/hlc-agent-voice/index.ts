@@ -32,21 +32,23 @@ const localeDirections: Record<AgentLocale, string> = {
   "ar-SA": "Speak in natural, clear Arabic appropriate for a Saudi/Gulf audience. Use Arabic pronunciation and rhythm for the full response, not English pronunciation rules.",
 };
 
+const VOICE_IDENTITY_LOCK = "Maintain one stable vocal identity across every reply. Do not change the apparent speaker, age, pitch range, vocal weight, resonance, accent, baseline speaking rate, warmth, intensity, or overall timbre because of the wording or emotion of the text. Keep the same recognizable voice from sentence to sentence and request to request. Express emphasis with small natural inflection only; never shift into a noticeably harder, softer, deeper, brighter, sharper, breathier, more dramatic, or more forceful version of the voice.";
+
 const voiceProfiles: Record<AgentId, { voice: string; providerVoice: string; direction: string }> = {
   kendrell: {
     voice: "Schedar",
     providerVoice: "cedar",
-    direction: "Speak as a natural adult male executive operator: steady, confident, calm, lower-key, conversational, clean and full-voiced. Relaxed but not sleepy. Never whisper. Never sound breathy, raspy, scratchy, gravelly, spooky, theatrical, robotic, or like an announcer. Use normal conversational volume and smooth connected phrasing. The name Kendrell is spelled Kendrell and pronounced Ken-Drayl.",
+    direction: "Speak as a natural adult male executive operator: steady, confident, calm, lower-key, conversational, clean and full-voiced. Keep a consistent medium-low pitch, relaxed cadence, moderate vocal weight, and even intensity from reply to reply. Relaxed but not sleepy. Never whisper. Never sound breathy, raspy, scratchy, gravelly, spooky, theatrical, robotic, or like an announcer. Use normal conversational volume and smooth connected phrasing. The name Kendrell is spelled Kendrell and pronounced Ken-Drayl.",
   },
   dion: {
     voice: "Sadaltager",
     providerVoice: "ash",
-    direction: "Speak as a natural adult male business-intelligence operator: grounded, analytical, confident, precise and practical. Slightly quicker and crisper than Kendrell, but still conversational. Pronounce the name Dion as Dee-Yon. Never whisper. Never sound breathy, raspy, scratchy, nasal, robotic, theatrical, or like a radio announcer.",
+    direction: "Speak as a natural adult male business-intelligence operator: grounded, analytical, confident, precise and practical. Keep a consistent medium pitch, crisp but natural cadence, moderate vocal weight, and even professional intensity from reply to reply. Slightly quicker and crisper than Kendrell, but still conversational. Pronounce the name Dion as Dee-Yon. Never whisper. Never sound breathy, raspy, scratchy, nasal, robotic, theatrical, or like a radio announcer.",
   },
   diamond: {
     voice: "Sulafat",
     providerVoice: "coral",
-    direction: "Speak as a natural adult female customer-experience guide: polished, calm, warm, composed and conversational. Smooth and measured, never childlike, breathy, whispery, sing-song, robotic, theatrical, or overly soft.",
+    direction: "Speak as a natural adult female customer-experience guide: polished, calm, warm, composed and conversational. Keep the same recognizable medium-soft voice on every reply: stable pitch range, smooth cadence, gentle warmth, moderate vocal weight, and even intensity. Do not harden, tighten, sharpen, deepen, brighten, or dramatically soften the voice when the wording changes. Be warm without becoming overly soft. Never sound childlike, breathy, whispery, sing-song, robotic, theatrical, sharp, stern, or forceful.",
   },
 };
 
@@ -128,7 +130,7 @@ Deno.serve(async (request) => {
         model: OPENAI_TTS_MODEL,
         voice: profileConfig.providerVoice,
         input: applyCanonicalPronunciations(text, locale),
-        instructions: `${profileConfig.direction} ${localeDirections[locale]} Preserve names, numbers, prices, dates, times, consent language, scheduling details, and confirmations exactly in meaning.`,
+        instructions: `${VOICE_IDENTITY_LOCK} ${profileConfig.direction} ${localeDirections[locale]} Preserve names, numbers, prices, dates, times, consent language, scheduling details, and confirmations exactly in meaning.`,
         response_format: "pcm",
         stream_format: "audio",
       }),
