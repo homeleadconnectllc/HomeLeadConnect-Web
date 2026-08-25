@@ -47,7 +47,7 @@ test("golden workflow preserves the canonical HLC service lifecycle", () => {
 
 test("settings are centralized into the locked administration categories", () => {
   const labels = settingsArchitecture.map((section) => section.label);
-  for (const required of [
+  const requiredLabels: Array<(typeof labels)[number]> = [
     "Account",
     "Workspace",
     "Work",
@@ -62,7 +62,8 @@ test("settings are centralized into the locked administration categories", () =>
     "Privacy & Security",
     "Appearance",
     "Help",
-  ]) {
+  ];
+  for (const required of requiredLabels) {
     assert.ok(labels.includes(required), `missing settings category: ${required}`);
   }
 });
