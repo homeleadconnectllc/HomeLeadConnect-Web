@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { objectionGuides, scriptLibrary } from "../../data/scriptLibrary";
 
 type GuidePage = "help" | "tutorials" | "rules";
 
@@ -51,11 +52,7 @@ export default function OperationalGuide({ page }: { page: GuidePage }) {
   return <main className="hlc-resources-workspace">
     <header className="hlc-resources-header">
       <div><p className="hlc-resources-kicker">{copy.kicker}</p><h1>{copy.title}</h1><p>{copy.body}</p></div>
-      <div className="hlc-resources-summary" aria-label={`${copy.title} summary`}>
-        <span><strong>{copy.count}</strong><small>{page === "rules" ? "Safety areas" : "Guides"}</small></span>
-        <span><strong>HLC</strong><small>Canonical process</small></span>
-        <span><strong>Live</strong><small>Linked actions</small></span>
-      </div>
+      <div className="hlc-resources-summary" aria-label={`${copy.title} summary`}><span><strong>{copy.count}</strong><small>{page === "rules" ? "Safety areas" : "Guides"}</small></span><span><strong>{scriptLibrary.length}</strong><small>Approved scripts</small></span><span><strong>{objectionGuides.length}</strong><small>Rebuttal guides</small></span></div>
     </header>
 
     <nav className="hlc-resources-commandbar" aria-label="Resource navigation">
@@ -63,31 +60,34 @@ export default function OperationalGuide({ page }: { page: GuidePage }) {
       <Link className={page === "tutorials" ? "is-active" : ""} to="/tutorials">Tutorials</Link>
       <Link className={page === "rules" ? "is-active" : ""} to="/rules">Rules & Safety</Link>
       <Link to="/documents">Documents</Link>
+      <Link to="/call-center">Call Center</Link>
     </nav>
 
     {(page === "help" || page === "tutorials") && <ManualLibrary />}
+    {page === "help" && <ScriptLibrary />}
 
     <section className="hlc-resources-ledger" aria-label={copy.title}>
       <div className="hlc-resources-section-head"><div><span>{page === "rules" ? "POLICY REGISTER" : "OPERATING GUIDES"}</span><h2>{page === "rules" ? "Required boundaries" : "Find the next safe action"}</h2></div><strong>{items.length}</strong></div>
-      <div className="hlc-resources-row-list">
-        {items.map((item, index) => <ResourceRow item={item} number={index + 1} key={item.title} />)}
-      </div>
+      <div className="hlc-resources-row-list">{items.map((item, index) => <ResourceRow item={item} number={index + 1} key={item.title} />)}</div>
     </section>
 
-    {page === "help" && <section className="hlc-resources-escalation">
-      <div><span>ESCALATION</span><h2>Escalate to HomeLead Connect</h2></div>
-      <p>Contact <a href="mailto:homeleadconnect@gmail.com">homeleadconnect@gmail.com</a> or <a href="tel:+17172881785">717-288-1785</a>. Include the page, approximate time, affected workflow/record, and what you expected to happen. Never send passwords, OTP codes, private API keys, service-role credentials, or payment-card data.</p>
-      <Link to="/start-here">Return to Start Here</Link>
-    </section>}
+    {page === "help" && <section className="hlc-resources-escalation"><div><span>ESCALATION</span><h2>Escalate to HomeLead Connect</h2></div><p>Contact <a href="mailto:homeleadconnect@gmail.com">homeleadconnect@gmail.com</a> or <a href="tel:+17172881785">717-288-1785</a>. Include the page, approximate time, affected workflow/record, and what you expected to happen. Never send passwords, OTP codes, private API keys, service-role credentials, or payment-card data.</p><Link to="/start-here">Return to Start Here</Link></section>}
   </main>;
 }
 
 function ResourceRow({ item, number }: { item: ResourceItem; number: number }) {
-  return <article className="hlc-resource-row">
-    <span className="hlc-resource-index">{String(number).padStart(2, "0")}</span>
-    <div className="hlc-resource-copy"><h3>{item.title}</h3>{item.body && <p>{item.body}</p>}{item.steps && <ol>{item.steps.map(step => <li key={step}>{step}</li>)}</ol>}</div>
-    {item.actions && <div className="hlc-resource-actions">{item.actions.map(action => <Link key={action.to} to={action.to}>{action.label}</Link>)}</div>}
-  </article>;
+  return <article className="hlc-resource-row"><span className="hlc-resource-index">{String(number).padStart(2, "0")}</span><div className="hlc-resource-copy"><h3>{item.title}</h3>{item.body && <p>{item.body}</p>}{item.steps && <ol>{item.steps.map(step => <li key={step}>{step}</li>)}</ol>}</div>{item.actions && <div className="hlc-resource-actions">{item.actions.map(action => <Link key={action.to} to={action.to}>{action.label}</Link>)}</div>}</article>;
+}
+
+function ScriptLibrary() {
+  return <section className="hlc-manual-library" aria-labelledby="hlc-script-library">
+    <div className="hlc-resources-section-head"><div><span>APPROVED LANGUAGE LIBRARY</span><h2 id="hlc-script-library">Scripts, talk tracks & rebuttals</h2></div><strong>{scriptLibrary.length + objectionGuides.length}</strong></div>
+    <p>Use these approved HLC talk tracks as guidance, keep the conversation natural, and always record the actual disposition and next action on the source record.</p>
+    <div className="hlc-manual-list">
+      {scriptLibrary.map((script) => <article className="hlc-manual-row" key={script.id}><div><h3>{script.title}</h3><p>{script.body}</p><small>{script.channel} · {script.stage} · {script.audience}</small></div><div><strong>Next</strong><small>{script.suggestedActions.join(" · ")}</small></div></article>)}
+      {objectionGuides.map((guide) => <article className="hlc-manual-row" key={guide.id}><div><h3>{guide.objection}</h3><p>{guide.response}</p><small>Goal: {guide.goal}</small></div><div><strong>Next</strong><small>{guide.nextActions.join(" · ")}</small></div></article>)}
+    </div>
+  </section>;
 }
 
 function ManualLibrary() {
