@@ -120,6 +120,7 @@ The active production app Supabase project is `homeconnect` (`cguhtshclyybivvdnp
 112. `20260825224138_harden_public_analytics_rpc_search_path.sql`
 113. `20260825224704_harden_workspace_rls_initplans_and_pipeline_limit.sql`
 114. `20260825230409_remove_redundant_rls_select_policies.sql`
+115. `20260825231534_lock_remaining_browser_security_definer_search_paths.sql`
 
 Migration #101 is retained in the local migration chain because it was applied to `hlc-reconciliation-test` during reconciliation. It is **not evidence of a production defect and is not required to be applied to `homeconnect` solely for parity**: production already has the canonical `causal.ingest_lead(...)` implementation from migration #98 with direct browser execution denied. Do not apply #101 to production unless a future production migration decision independently justifies it.
 
@@ -148,6 +149,8 @@ Migration #112 hardens the intentionally public analytics RPC by locking its `se
 Migration #113 removes the duplicate permissive pipeline INSERT path that could bypass plan-limit enforcement and optimizes selected workspace membership RLS checks without widening access.
 
 Migration #114 removes only semantically redundant SELECT policies on `call_sessions` and `participant_preferences`; distinct `profiles` and `workspaces` policies remain intact pending separate authorization review.
+
+Migration #115 pins the remaining audited browser-callable SECURITY DEFINER RPCs to an empty `search_path`. The affected functions already schema-qualify application relations and retain their existing authentication, workspace membership, provider-link, or owner/manager authorization checks; signatures and business behavior are unchanged.
 
 ## Current production rules
 
