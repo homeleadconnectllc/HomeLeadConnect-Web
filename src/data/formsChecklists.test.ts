@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { checklistRegistry, checklistsForContext, formRegistry, formsForContext } from "./formsChecklists";
+import { checklistRegistry, checklistsForContext, formRegistry, formsForContext } from "./formsChecklists.ts";
 
 test("forms registry covers core HLC work contexts", () => {
   for (const context of ["lead", "estimate", "job", "provider"]) {
