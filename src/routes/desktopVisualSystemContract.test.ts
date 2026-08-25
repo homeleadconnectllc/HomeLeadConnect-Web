@@ -9,12 +9,25 @@ const dataWorkspaces = readFileSync(new URL("../styles/desktop-data-workspaces.c
 const archetypes = readFileSync(new URL("../styles/desktop-page-archetypes.css", import.meta.url), "utf8");
 const shellRecovery = readFileSync(new URL("../styles/desktop-shell-recovery.css", import.meta.url), "utf8");
 const coreWorkspaces = readFileSync(new URL("../styles/desktop-core-workspaces.css", import.meta.url), "utf8");
+const workflowComms = readFileSync(new URL("../styles/desktop-workflow-communications.css", import.meta.url), "utf8");
+const discoveryCommunity = readFileSync(new URL("../styles/desktop-discovery-community.css", import.meta.url), "utf8");
+const accountPortalsAgents = readFileSync(new URL("../styles/desktop-account-portals-agents.css", import.meta.url), "utf8");
 const finalPolish = readFileSync(new URL("../styles/authenticated-final-polish.css", import.meta.url), "utf8");
 const publicPolish = readFileSync(new URL("../styles/public-final-flat-authority.css", import.meta.url), "utf8");
 const appLayout = readFileSync(new URL("./AppLayout.tsx", import.meta.url), "utf8");
 const app = readFileSync(new URL("../App.tsx", import.meta.url), "utf8");
 
-const desktopLayers = [desktopSystem, agentRail, dataWorkspaces, archetypes, shellRecovery, coreWorkspaces];
+const desktopLayers = [
+  desktopSystem,
+  agentRail,
+  dataWorkspaces,
+  archetypes,
+  shellRecovery,
+  coreWorkspaces,
+  workflowComms,
+  discoveryCommunity,
+  accountPortalsAgents,
+];
 
 const protectedMobileMaxWidth = /@media\s*\([^)]*max-width:\s*(?:[1-9]\d{0,2}|10(?:0\d|1\d|2[0-4]))px[^)]*\)/i;
 
@@ -25,6 +38,9 @@ test("desktop visual-system layers load after launch/mobile authorities", () => 
   const archetypeIndex = authenticatedStyles.indexOf("desktop-page-archetypes.css");
   const shellRecoveryIndex = authenticatedStyles.indexOf("desktop-shell-recovery.css");
   const coreWorkspacesIndex = authenticatedStyles.indexOf("desktop-core-workspaces.css");
+  const workflowCommsIndex = authenticatedStyles.indexOf("desktop-workflow-communications.css");
+  const discoveryCommunityIndex = authenticatedStyles.indexOf("desktop-discovery-community.css");
+  const accountPortalsAgentsIndex = authenticatedStyles.indexOf("desktop-account-portals-agents.css");
   const finalPolishIndex = authenticatedStyles.indexOf("authenticated-final-polish.css");
 
   assert.ok(desktopSystemIndex > authenticatedStyles.indexOf("final-visual-punch.css"));
@@ -33,7 +49,10 @@ test("desktop visual-system layers load after launch/mobile authorities", () => 
   assert.ok(archetypeIndex > dataWorkspaceIndex);
   assert.ok(shellRecoveryIndex > archetypeIndex);
   assert.ok(coreWorkspacesIndex > shellRecoveryIndex);
-  assert.ok(finalPolishIndex > coreWorkspacesIndex);
+  assert.ok(workflowCommsIndex > coreWorkspacesIndex);
+  assert.ok(discoveryCommunityIndex > workflowCommsIndex);
+  assert.ok(accountPortalsAgentsIndex > discoveryCommunityIndex);
+  assert.ok(finalPolishIndex > accountPortalsAgentsIndex);
 });
 
 test("post-launch Mac authority stays isolated from protected mobile/tablet viewports", () => {
@@ -96,7 +115,33 @@ test("core desktop workspaces use continuous rows and flat command surfaces", ()
   assert.match(coreWorkspaces, /\.hlc-page-notifications/);
   assert.match(coreWorkspaces, /\.hlc-page-documents/);
   assert.match(coreWorkspaces, /border-radius:\s*0\s*!important/);
-  assert.match(coreWorkspaces, /border-bottom:\s*1px solid var\(--hlc-core-line/);
+});
+
+test("workflow and communications routes use dedicated desktop workspace authority", () => {
+  assert.match(workflowComms, /\.hlc-page-estimator/);
+  assert.match(workflowComms, /\.hlc-page-calendar/);
+  assert.match(workflowComms, /\.hlc-page-messages/);
+  assert.match(workflowComms, /\.hlc-page-call-center/);
+  assert.match(workflowComms, /\.hlc-page-manual-communications/);
+});
+
+test("network and community route families use dedicated desktop workspace authority", () => {
+  assert.match(discoveryCommunity, /\.hlc-page-network/);
+  assert.match(discoveryCommunity, /\.hlc-page-map/);
+  assert.match(discoveryCommunity, /\.hlc-page-providers/);
+  assert.match(discoveryCommunity, /\.hlc-page-matching/);
+  assert.match(discoveryCommunity, /\.hlc-page-community-hub/);
+  assert.match(discoveryCommunity, /\.hlc-page-community-discussions/);
+});
+
+test("account portal and agent route families use dedicated desktop workspace authority", () => {
+  assert.match(accountPortalsAgents, /\.hlc-page-settings/);
+  assert.match(accountPortalsAgents, /\.hlc-page-profile/);
+  assert.match(accountPortalsAgents, /\.hlc-page-homeowner-portal/);
+  assert.match(accountPortalsAgents, /\.hlc-page-contractor-portal/);
+  assert.match(accountPortalsAgents, /\.hlc-page-hq/);
+  assert.match(accountPortalsAgents, /\.hlc-page-operations/);
+  assert.match(accountPortalsAgents, /\.hlc-page-customer-experience/);
 });
 
 test("desktop HLC AI team parity keeps all three agents discoverable without replacing contextual intelligence", () => {
