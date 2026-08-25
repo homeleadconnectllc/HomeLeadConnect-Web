@@ -73,7 +73,7 @@ test("signed-in routes share the final dark readable form and alert contract", (
   assert.match(finalPolish, /#07111f/);
   assert.match(finalPolish, /text-align:\s*center\s*!important/);
   assert.match(finalPolish, /textarea[\s\S]*text-align:\s*left\s*!important/);
-  assert.match(finalPolish, /role=\"alert\"|\[role=\"alert\"\]/);
+  assert.match(finalPolish, /role="alert"|\[role="alert"\]/);
   assert.match(finalPolish, /rgba\(248,\s*113,\s*113/);
 });
 
@@ -82,7 +82,7 @@ test("public and trial surfaces load one final flat dark authority", () => {
   assert.match(publicPolish, /\.hlc-public-card[\s\S]*border-radius:\s*0\s*!important/);
   assert.match(publicPolish, /\.hlc-auth-card[\s\S]*background:\s*transparent\s*!important/);
   assert.match(publicPolish, /hlc-page-about[\s\S]*Kendrell_Locked_HLC\.png/);
-  assert.match(publicPolish, /input:not\(\[type=\"checkbox\"\]/);
+  assert.match(publicPolish, /input:not\(\[type="checkbox"\]/);
 });
 
 test("desktop HLC AI team parity keeps all three agents discoverable without replacing contextual intelligence", () => {
