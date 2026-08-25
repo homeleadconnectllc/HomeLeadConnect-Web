@@ -8,6 +8,27 @@
     display: none !important;
   }
 
+  /* Mobile navigation is rendered through its own portal. The full desktop
+     navigation tree remains mounted for larger breakpoints, but on iPhone it must
+     be completely removed from layout. Leaving this fixed/hidden tree active can
+     surface an orphan link (for example Schedule) and reserve hundreds of pixels
+     of empty height above route content. */
+  .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-links.hlc-desktop-navigation {
+    display: none !important;
+    position: static !important;
+    inset: auto !important;
+    width: 0 !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    max-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    overflow: hidden !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
   .hlc-mobile-portal-scroll {
     box-sizing: border-box;
     width: 100%;
