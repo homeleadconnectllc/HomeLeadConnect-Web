@@ -1,0 +1,322 @@
+/* HomeLead Connect desktop data-workspace authority.
+ * Scope: Leads and Jobs on Mac/desktop only.
+ * Mobile/tablet behavior below 1025px is intentionally untouched.
+ */
+@media (min-width: 1025px) {
+  #root .hlc-page-leads .hlc-leads-workspace,
+  #root .hlc-page-jobs .hlc-jobs-workspace {
+    width: min(100%, 1320px);
+    margin: 0 auto;
+    padding: 0 0 56px;
+  }
+
+  #root .hlc-page-leads .hlc-leads-header,
+  #root .hlc-page-jobs .hlc-jobs-header {
+    align-items: center;
+    gap: 28px;
+    padding: 4px 0 24px;
+    border-bottom: 0;
+  }
+
+  #root .hlc-page-leads .hlc-leads-header > div,
+  #root .hlc-page-jobs .hlc-jobs-header > div {
+    max-width: 780px;
+  }
+
+  #root .hlc-page-leads .hlc-leads-header h1,
+  #root .hlc-page-jobs .hlc-jobs-header h1 {
+    margin: 4px 0 10px;
+    font-size: clamp(38px, 3vw, 48px);
+  }
+
+  #root .hlc-page-leads .hlc-leads-header > div > p:last-child,
+  #root .hlc-page-jobs .hlc-jobs-header > div > p:last-child {
+    max-width: 720px;
+    color: #9fb0c7;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  #root .hlc-page-leads .hlc-leads-add-button {
+    min-height: 46px;
+    padding: 0 18px;
+    border: 1px solid rgba(96,165,250,.4);
+    border-radius: 12px;
+    background: linear-gradient(180deg, #1f6fd1, #1858a8);
+    box-shadow: 0 10px 26px rgba(2,6,23,.24);
+  }
+
+  #root .hlc-page-leads .hlc-leads-summary,
+  #root .hlc-page-jobs .hlc-jobs-summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin: 8px 0 22px;
+    border: 0;
+  }
+
+  #root .hlc-page-leads .hlc-leads-summary > span,
+  #root .hlc-page-jobs .hlc-jobs-summary > span {
+    display: grid;
+    min-height: 90px;
+    align-content: center;
+    gap: 5px;
+    box-sizing: border-box;
+    padding: 18px 20px;
+    border: 1px solid rgba(148,163,184,.13);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(17,36,58,.9), rgba(10,24,41,.9));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.02);
+  }
+
+  #root .hlc-page-leads .hlc-leads-summary > span {
+    border-right: 1px solid rgba(148,163,184,.13);
+  }
+
+  #root .hlc-page-leads .hlc-leads-summary strong,
+  #root .hlc-page-jobs .hlc-jobs-summary strong {
+    color: #f8fbff;
+    font-size: 26px;
+    line-height: 1;
+  }
+
+  #root .hlc-page-leads .hlc-leads-summary small,
+  #root .hlc-page-jobs .hlc-jobs-summary small {
+    color: #8ea1b8;
+    font-size: 11px;
+    letter-spacing: .08em;
+  }
+
+  #root .hlc-page-leads .hlc-leads-toolbar {
+    gap: 16px;
+    margin-bottom: 18px;
+    padding: 0;
+    border: 0;
+  }
+
+  #root .hlc-page-leads .hlc-leads-search {
+    min-height: 50px;
+    padding: 0 16px;
+    border: 1px solid rgba(148,163,184,.16);
+    border-radius: 14px;
+    background: #0a1829;
+  }
+
+  #root .hlc-page-leads .hlc-leads-search input {
+    text-align: left !important;
+  }
+
+  #root .hlc-page-leads .hlc-leads-view-label {
+    min-height: 42px;
+    padding: 0 14px;
+    border: 1px solid rgba(148,163,184,.13);
+    border-radius: 999px;
+    background: rgba(17,36,58,.72);
+    color: #9fb0c7;
+  }
+
+  #root .hlc-page-leads .hlc-leads-create {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 18px;
+    margin: 0 0 22px;
+    padding: 22px;
+    border: 1px solid rgba(96,165,250,.18);
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(17,36,58,.82), rgba(9,22,38,.9));
+  }
+
+  #root .hlc-page-leads .hlc-leads-notes,
+  #root .hlc-page-leads .hlc-leads-create-actions,
+  #root .hlc-page-leads .hlc-leads-error {
+    grid-column: 1 / -1;
+  }
+
+  #root .hlc-page-leads .hlc-leads-create-actions {
+    justify-content: flex-end;
+    padding-top: 2px;
+  }
+
+  #root .hlc-page-leads .hlc-leads-pipeline,
+  #root .hlc-page-jobs .hlc-jobs-board {
+    margin-top: 0;
+    border: 1px solid rgba(148,163,184,.13);
+    border-radius: 20px;
+    background: linear-gradient(180deg, rgba(12,27,45,.88), rgba(8,20,34,.92));
+    box-shadow: 0 18px 46px rgba(2,6,23,.16), inset 0 1px 0 rgba(255,255,255,.018);
+    overflow: hidden;
+  }
+
+  #root .hlc-page-leads .hlc-leads-column-head,
+  #root .hlc-page-jobs .hlc-jobs-column-head {
+    display: grid;
+    align-items: center;
+    gap: 24px;
+    box-sizing: border-box;
+    min-height: 46px;
+    padding: 0 20px;
+    border-bottom: 1px solid rgba(148,163,184,.12);
+    color: #71859e;
+    background: rgba(4,12,23,.38);
+    font-size: 10px;
+    font-weight: 850;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+
+  #root .hlc-page-leads .hlc-leads-column-head,
+  #root .hlc-page-leads .hlc-lead-row {
+    grid-template-columns: minmax(300px, 1.65fr) minmax(140px, .55fr) minmax(360px, 1.15fr);
+  }
+
+  #root .hlc-page-jobs .hlc-jobs-column-head,
+  #root .hlc-page-jobs .hlc-job-row {
+    grid-template-columns: minmax(260px, 1.2fr) minmax(180px, .65fr) minmax(420px, 1.55fr);
+  }
+
+  #root .hlc-page-leads .hlc-leads-list,
+  #root .hlc-page-jobs .hlc-jobs-list {
+    display: grid;
+    gap: 0;
+  }
+
+  #root .hlc-page-leads .hlc-lead-row,
+  #root .hlc-page-jobs .hlc-job-row {
+    display: grid;
+    align-items: center;
+    gap: 24px;
+    min-height: 104px;
+    box-sizing: border-box;
+    padding: 18px 20px;
+    border: 0;
+    border-bottom: 1px solid rgba(148,163,184,.1);
+    background: transparent;
+    transition: background .16s ease, box-shadow .16s ease;
+  }
+
+  #root .hlc-page-leads .hlc-lead-row:last-child,
+  #root .hlc-page-jobs .hlc-job-row:last-child {
+    border-bottom: 0;
+  }
+
+  #root .hlc-page-leads .hlc-lead-row:hover,
+  #root .hlc-page-jobs .hlc-job-row:hover {
+    background: rgba(30,64,175,.075);
+    box-shadow: inset 3px 0 0 rgba(96,165,250,.48);
+  }
+
+  #root .hlc-page-leads .hlc-lead-identity,
+  #root .hlc-page-jobs .hlc-job-identity {
+    min-width: 0;
+  }
+
+  #root .hlc-page-leads .hlc-lead-avatar {
+    width: 44px;
+    height: 44px;
+    flex-basis: 44px;
+    border: 1px solid rgba(96,165,250,.18);
+    background: #10233a;
+  }
+
+  #root .hlc-page-leads .hlc-lead-identity-copy > strong,
+  #root .hlc-page-jobs .hlc-job-identity-copy > strong {
+    color: #f7fbff;
+    font-size: 15px;
+    line-height: 1.3;
+  }
+
+  #root .hlc-page-leads .hlc-lead-contact-line,
+  #root .hlc-page-leads .hlc-lead-context,
+  #root .hlc-page-jobs .hlc-job-identity-copy > span {
+    color: #8397b0;
+    font-size: 11px;
+    line-height: 1.45;
+  }
+
+  #root .hlc-page-leads .hlc-lead-pipeline-cell,
+  #root .hlc-page-jobs .hlc-job-value-cell {
+    min-width: 0;
+    padding-left: 4px;
+  }
+
+  #root .hlc-page-leads .hlc-lead-pipeline-cell strong,
+  #root .hlc-page-jobs .hlc-job-value-cell strong {
+    font-size: 14px;
+  }
+
+  #root .hlc-page-leads .hlc-lead-actions,
+  #root .hlc-page-jobs .hlc-job-actions {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  #root .hlc-page-leads .hlc-lead-actions :where(a, button),
+  #root .hlc-page-jobs .hlc-job-actions :where(a, button) {
+    min-height: 36px;
+    box-sizing: border-box;
+    border: 1px solid rgba(148,163,184,.17);
+    border-radius: 9px;
+    padding: 0 10px;
+    color: #c9d7e8;
+    background: #0d1b2d;
+    font-size: 11px;
+    font-weight: 750;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  #root .hlc-page-leads .hlc-lead-actions :where(a, button):hover,
+  #root .hlc-page-jobs .hlc-job-actions :where(a, button):hover {
+    border-color: rgba(96,165,250,.32);
+    color: #f8fbff;
+    background: #132640;
+  }
+
+  #root .hlc-page-leads .hlc-lead-action-primary,
+  #root .hlc-page-jobs .hlc-job-open {
+    border-color: rgba(96,165,250,.38) !important;
+    color: #e6f1ff !important;
+    background: rgba(37,99,235,.18) !important;
+  }
+
+  #root .hlc-page-jobs .hlc-job-actions select {
+    width: auto;
+    min-width: 122px;
+    min-height: 36px;
+    padding: 0 28px 0 10px !important;
+    border-radius: 9px !important;
+    font-size: 11px;
+    text-align: left;
+  }
+
+  #root .hlc-page-jobs .hlc-job-cell-label {
+    display: none;
+  }
+
+  #root .hlc-page-jobs .hlc-jobs-state,
+  #root .hlc-page-leads .hlc-leads-state,
+  #root .hlc-page-leads .hlc-leads-empty,
+  #root .hlc-page-jobs .hlc-jobs-empty {
+    margin: 0;
+    padding: 26px 20px;
+    color: #8fa2ba;
+  }
+
+  /* Slightly tighter Mac widths keep rows readable without collapsing into mobile. */
+  @media (max-width: 1240px) {
+    #root .hlc-page-leads .hlc-leads-column-head,
+    #root .hlc-page-leads .hlc-lead-row {
+      grid-template-columns: minmax(260px, 1.4fr) minmax(120px, .5fr) minmax(300px, 1fr);
+      gap: 18px;
+    }
+
+    #root .hlc-page-jobs .hlc-jobs-column-head,
+    #root .hlc-page-jobs .hlc-job-row {
+      grid-template-columns: minmax(230px, 1fr) minmax(150px, .55fr) minmax(340px, 1.4fr);
+      gap: 18px;
+    }
+  }
+}
