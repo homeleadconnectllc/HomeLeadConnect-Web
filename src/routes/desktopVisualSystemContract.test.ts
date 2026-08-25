@@ -8,13 +8,13 @@ const agentRail = readFileSync(new URL("../styles/desktop-agent-team-rail.css", 
 const dataWorkspaces = readFileSync(new URL("../styles/desktop-data-workspaces.css", import.meta.url), "utf8");
 const archetypes = readFileSync(new URL("../styles/desktop-page-archetypes.css", import.meta.url), "utf8");
 const shellRecovery = readFileSync(new URL("../styles/desktop-shell-recovery.css", import.meta.url), "utf8");
+const finalPolish = readFileSync(new URL("../styles/authenticated-final-polish.css", import.meta.url), "utf8");
+const publicPolish = readFileSync(new URL("../styles/public-final-flat-authority.css", import.meta.url), "utf8");
 const appLayout = readFileSync(new URL("./AppLayout.tsx", import.meta.url), "utf8");
+const app = readFileSync(new URL("../App.tsx", import.meta.url), "utf8");
 
 const desktopLayers = [desktopSystem, agentRail, dataWorkspaces, archetypes, shellRecovery];
 
-// Desktop authority may use nested upper bounds such as 1240px to tune smaller
-// Mac screens, but it must never introduce a breakpoint that reaches the
-// protected phone/tablet range at 1024px or below.
 const protectedMobileMaxWidth = /@media\s*\([^)]*max-width:\s*(?:[1-9]\d{0,2}|10(?:0\d|1\d|2[0-4]))px[^)]*\)/i;
 
 test("desktop visual-system layers load after launch/mobile authorities", () => {
@@ -23,12 +23,14 @@ test("desktop visual-system layers load after launch/mobile authorities", () => 
   const dataWorkspaceIndex = authenticatedStyles.indexOf("desktop-data-workspaces.css");
   const archetypeIndex = authenticatedStyles.indexOf("desktop-page-archetypes.css");
   const shellRecoveryIndex = authenticatedStyles.indexOf("desktop-shell-recovery.css");
+  const finalPolishIndex = authenticatedStyles.indexOf("authenticated-final-polish.css");
 
   assert.ok(desktopSystemIndex > authenticatedStyles.indexOf("final-visual-punch.css"));
   assert.ok(agentRailIndex > desktopSystemIndex);
   assert.ok(dataWorkspaceIndex > agentRailIndex);
   assert.ok(archetypeIndex > dataWorkspaceIndex);
   assert.ok(shellRecoveryIndex > archetypeIndex);
+  assert.ok(finalPolishIndex > shellRecoveryIndex);
 });
 
 test("post-launch Mac authority stays isolated from protected mobile/tablet viewports", () => {
@@ -38,11 +40,12 @@ test("post-launch Mac authority stays isolated from protected mobile/tablet view
   }
 });
 
-test("desktop shell reserves navigation and working-canvas space instead of overlaying records", () => {
+test("desktop shell reserves navigation and returns the full canvas when collapsed", () => {
   assert.match(shellRecovery, /--hlc-desktop-sidebar-width:\s*252px/);
-  assert.match(shellRecovery, /--hlc-desktop-sidebar-collapsed-width:\s*76px/);
+  assert.match(shellRecovery, /--hlc-desktop-sidebar-collapsed-width:\s*0px/);
   assert.match(shellRecovery, /> nav\.hlc-navbar[\s\S]*width:\s*var\(--hlc-desktop-sidebar-width\)\s*!important/);
-  assert.match(shellRecovery, /> \.hlc-route-content[\s\S]*margin:\s*0 0 0 var\(--hlc-desktop-sidebar-width\)\s*!important/);
+  assert.match(shellRecovery, /hlc-sidebar-is-collapsed[\s\S]*width:\s*0\s*!important/);
+  assert.match(shellRecovery, /hlc-sidebar-is-collapsed > \.hlc-route-content[\s\S]*margin-left:\s*0\s*!important/);
   assert.match(shellRecovery, /\.hlc-navbar-links\.hlc-desktop-navigation[\s\S]*position:\s*static\s*!important/);
   assert.match(shellRecovery, /pointer-events:\s*auto\s*!important/);
   assert.match(desktopSystem, /\.hlc-mobile-tabbar[\s\S]*display:\s*none\s*!important/);
@@ -64,6 +67,22 @@ test("desktop sidebar exposes an obvious mid-edge collapse handle", () => {
 test("dashboard agent status does not cover agent photography", () => {
   assert.match(shellRecovery, /\.hlc-agent-portrait-wrap \.hlc-agent-status[\s\S]*display:\s*none\s*!important/);
   assert.match(shellRecovery, /\.hlc-agent-role::after[\s\S]*Online/);
+});
+
+test("signed-in routes share the final dark readable form and alert contract", () => {
+  assert.match(finalPolish, /#07111f/);
+  assert.match(finalPolish, /text-align:\s*center\s*!important/);
+  assert.match(finalPolish, /textarea[\s\S]*text-align:\s*left\s*!important/);
+  assert.match(finalPolish, /role=\"alert\"|\[role=\"alert\"\]/);
+  assert.match(finalPolish, /rgba\(248,\s*113,\s*113/);
+});
+
+test("public and trial surfaces load one final flat dark authority", () => {
+  assert.match(app, /public-final-flat-authority\.css/);
+  assert.match(publicPolish, /\.hlc-public-card[\s\S]*border-radius:\s*0\s*!important/);
+  assert.match(publicPolish, /\.hlc-auth-card[\s\S]*background:\s*transparent\s*!important/);
+  assert.match(publicPolish, /hlc-page-about[\s\S]*Kendrell_Locked_HLC\.png/);
+  assert.match(publicPolish, /input:not\(\[type=\"checkbox\"\]/);
 });
 
 test("desktop HLC AI team parity keeps all three agents discoverable without replacing contextual intelligence", () => {
