@@ -41,10 +41,13 @@ test("real-device iPhone leads remain readable and proactive briefing does not c
   assert.match(readiness, /display: none !important/);
 });
 
-test("More owns display controls and sign out without a fixed side overlay", () => {
-  assert.match(mobileControls, /hlc-mobile-portal-scroll/);
-  assert.match(mobileControls, />\s*Mobile\s*</);
-  assert.match(mobileControls, />\s*Desktop\s*</);
+test("compact devices enforce mobile layout while More owns account sign out", () => {
+  assert.match(mobileControls, /function enforceMobileViewport\(\)/);
+  assert.match(mobileControls, /viewport\.content = MOBILE_VIEWPORT/);
+  assert.match(mobileControls, /localStorage\.removeItem\(VIEW_MODE_KEY\)/);
+  assert.doesNotMatch(mobileControls, /width=1180/);
+  assert.doesNotMatch(mobileControls, />\s*Desktop\s*</);
+  assert.match(navbar, /className="hlc-mobile-account-footer"/);
   assert.match(navbar, /className="hlc-nav-logout"/);
   assert.match(navbar, />Sign out<\/button>/);
   assert.doesNotMatch(mobileShell, /hlc-mobile-side-controls/);
