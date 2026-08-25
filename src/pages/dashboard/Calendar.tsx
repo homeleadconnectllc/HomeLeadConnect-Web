@@ -7,6 +7,11 @@ import {
   markNoShow,
   rescheduleAppointment,
 } from "../../api/appointments";
+import {
+  getAppointmentCalendarSync,
+  syncAppointmentToGoogleCalendar,
+  type CalendarSyncEvidence,
+} from "../../api/integrations";
 import type { JobAppointment } from "../../lib/types/database";
 import { errorMessage } from "../../lib/errorMessage";
 import RescheduleDialog from "../../components/scheduling/RescheduleDialog";
@@ -69,10 +74,19 @@ function contractorName(appointment: JobAppointment) {
   return appointment.contractor?.company_name || appointment.contractor?.contact_name || `Contractor #${appointment.contractor_id}`;
 }
 
+function calendarSyncLabel(sync: CalendarSyncEvidence | null) {
+  if (!sync) return "Not synced";
+  if (sync.sync_state === "synced") return sync.last_synced_at ? `Synced ${new Date(sync.last_synced_at).toLocaleString()}` : "Synced";
+  if (sync.sync_state === "failed") return sync.failure_message ? `Failed: ${sync.failure_message}` : "Sync failed";
+  return sync.sync_state;
+}
+
 export default function Calendar() {
   const [appointments, setAppointments] = useState<JobAppointment[]>([]);
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
+  const [calendarBusy, setCalendarBusy] = useState(false);
+  const [calendarSync, setCalendarSync] = useState<CalendarSyncEvidence | null>(null);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [rescheduling, setRescheduling] = useState<JobAppointment | null>(null);
@@ -163,6 +177,45 @@ export default function Calendar() {
 
   const selectedAppointment =
     appointments.find((appointment) => appointment.id === selectedId) || visibleAppointments[0] || null;
+
+  useEffect(() => {
+    let active = true;
+    setCalendarSync(null);
+    if (!selectedAppointment) return () => { active = false; };
+
+    getAppointmentCalendarSync(selectedAppointment.id)
+      .then((sync) => {
+        if (active) setCalendarSync(sync);
+      })
+      .catch(() => {
+        if (active) setCalendarSync(null);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [selectedAppointment?.id]);
+
+  async function syncSelectedAppointment() {
+    if (!selectedAppointment) return;
+    setCalendarBusy(true);
+    setError("");
+    setMessage("");
+    try {
+      const sync = await syncAppointmentToGoogleCalendar(selectedAppointment.id);
+      setCalendarSync(sync);
+      setMessage("Appointment synced to Google Calendar.");
+    } catch (reason) {
+      try {
+        setCalendarSync(await getAppointmentCalendarSync(selectedAppointment.id));
+      } catch {
+        setCalendarSync(null);
+      }
+      setError(errorMessage(reason, "Unable to sync this appointment to Google Calendar."));
+    } finally {
+      setCalendarBusy(false);
+    }
+  }
 
   const todayCount = appointments.filter((appointment) => sameDay(new Date(appointment.appointment_date), today)).length;
   const weekStart = startOfWeek(today);
@@ -328,6 +381,7 @@ export default function Calendar() {
                 <div><dt>Time</dt><dd>{appointmentRange(selectedAppointment)}</dd></div>
                 <div><dt>Contractor</dt><dd>{contractorName(selectedAppointment)}</dd></div>
                 <div><dt>Job ID</dt><dd>{selectedAppointment.job_id}</dd></div>
+                <div><dt>Google Calendar</dt><dd>{calendarSyncLabel(calendarSync)}</dd></div>
                 {selectedAppointment.notes && <div><dt>Notes</dt><dd>{selectedAppointment.notes}</dd></div>}
               </dl>
 
@@ -335,6 +389,12 @@ export default function Calendar() {
                 <Link className="primary" to={`/jobs/${selectedAppointment.job_id}`}>View job details <span>→</span></Link>
                 {selectedAppointment.status === "scheduled" && (
                   <>
+                    <button
+                      disabled={calendarBusy || busy || !selectedAppointment.appointment_end_at}
+                      onClick={syncSelectedAppointment}
+                    >
+                      {calendarBusy ? "Syncing…" : calendarSync?.sync_state === "synced" ? "Sync changes to Google Calendar" : "Sync to Google Calendar"}
+                    </button>
                     <button disabled={busy || !selectedAppointment.appointment_end_at} onClick={() => setRescheduling(selectedAppointment)}>Reschedule</button>
                     <button disabled={busy} onClick={() => run(() => completeAppointment(selectedAppointment.id), "Appointment completed.")}>Complete appointment</button>
                     <button className="danger" disabled={busy} onClick={() => run(() => cancelAppointment(selectedAppointment.id), "Appointment cancelled.")}>Cancel appointment</button>
