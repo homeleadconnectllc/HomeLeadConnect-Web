@@ -7,7 +7,7 @@ import {
   goldenWorkflowStages,
   mobilePrimaryNavigation,
   settingsArchitecture,
-} from "./applicationInformationArchitecture";
+} from "./applicationInformationArchitecture.ts";
 
 test("mobile navigation stays limited to five top-level destinations", () => {
   assert.deepEqual(
