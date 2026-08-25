@@ -1,0 +1,197 @@
+/* HomeLead Connect desktop discovery + community implementation. */
+
+@media (min-width: 1025px) {
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-network,
+    .hlc-page-map,
+    .hlc-page-providers,
+    .hlc-page-profiles,
+    .hlc-page-matching,
+    .hlc-page-community-hub,
+    .hlc-page-community-discussions,
+    .hlc-page-community-reviews,
+    .hlc-page-community-referrals,
+    .hlc-page-community-events,
+    .hlc-page-community-moderation,
+    .hlc-page-community-groups
+  ) > .hlc-route-content > main {
+    width: min(1480px, calc(100% - 48px)) !important;
+    margin: 0 auto !important;
+    padding-bottom: 56px !important;
+  }
+
+  /* Discovery pages: search/filter + list/map/detail split without decorative cards. */
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-network,
+    .hlc-page-map,
+    .hlc-page-providers,
+    .hlc-page-profiles,
+    .hlc-page-matching
+  ) .hlc-route-content :where(
+    section,
+    article,
+    [class*="panel"],
+    [class*="card"],
+    [class*="surface"]
+  ) {
+    box-shadow: none !important;
+  }
+
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-network,
+    .hlc-page-map,
+    .hlc-page-providers,
+    .hlc-page-profiles,
+    .hlc-page-matching
+  ) .hlc-route-content :where(
+    section[class*="card"],
+    article[class*="card"],
+    div[class*="panel"],
+    div[class*="surface"]
+  ) {
+    border-radius: 0 !important;
+  }
+
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-network,
+    .hlc-page-map,
+    .hlc-page-providers,
+    .hlc-page-profiles,
+    .hlc-page-matching
+  ) .hlc-route-content :where(
+    [class*="toolbar"],
+    [class*="filters"],
+    [class*="search"]
+  ) {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-network,
+    .hlc-page-map,
+    .hlc-page-providers,
+    .hlc-page-profiles,
+    .hlc-page-matching
+  ) .hlc-route-content :where(
+    [class*="provider"],
+    [class*="profile"],
+    [class*="result"]
+  ) {
+    box-shadow: none !important;
+  }
+
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-network,
+    .hlc-page-map,
+    .hlc-page-providers,
+    .hlc-page-profiles,
+    .hlc-page-matching
+  ) .hlc-route-content :where(
+    [class*="provider-row"],
+    [class*="profile-row"],
+    [class*="result-row"]
+  ) {
+    border-radius: 0 !important;
+    border-bottom: 1px solid rgba(148, 163, 184, .11) !important;
+  }
+
+  /* Maps must dominate their workspace and stay square to the surrounding rails. */
+  #root .hlc-signed-in-shell :is(.hlc-page-map, .hlc-page-network) .hlc-route-content :where(
+    [class*="map"],
+    [class*="canvas"]
+  ) {
+    border-radius: 0 !important;
+  }
+
+  /* Community is a feed/list system, not a grid of marketing cards. */
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-community-hub,
+    .hlc-page-community-discussions,
+    .hlc-page-community-reviews,
+    .hlc-page-community-referrals,
+    .hlc-page-community-events,
+    .hlc-page-community-moderation,
+    .hlc-page-community-groups
+  ) .hlc-route-content :where(
+    section,
+    article,
+    [class*="card"],
+    [class*="panel"],
+    [class*="lane"],
+    [class*="surface"]
+  ) {
+    box-shadow: none !important;
+  }
+
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-community-hub,
+    .hlc-page-community-discussions,
+    .hlc-page-community-reviews,
+    .hlc-page-community-referrals,
+    .hlc-page-community-events,
+    .hlc-page-community-moderation,
+    .hlc-page-community-groups
+  ) .hlc-route-content :where(
+    section[class*="card"],
+    article[class*="card"],
+    div[class*="panel"],
+    div[class*="lane"],
+    div[class*="surface"]
+  ) {
+    border-radius: 0 !important;
+  }
+
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-community-hub,
+    .hlc-page-community-discussions,
+    .hlc-page-community-reviews,
+    .hlc-page-community-referrals,
+    .hlc-page-community-events,
+    .hlc-page-community-moderation,
+    .hlc-page-community-groups
+  ) .hlc-route-content :where(
+    [class*="row"],
+    [class*="post"],
+    [class*="discussion"],
+    [class*="review"],
+    [class*="event"]
+  ) {
+    box-shadow: none !important;
+  }
+
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-community-hub,
+    .hlc-page-community-discussions,
+    .hlc-page-community-reviews,
+    .hlc-page-community-referrals,
+    .hlc-page-community-events,
+    .hlc-page-community-moderation,
+    .hlc-page-community-groups
+  ) .hlc-route-content :where(
+    [class*="row"] + [class*="row"],
+    [class*="post"] + [class*="post"],
+    [class*="discussion"] + [class*="discussion"]
+  ) {
+    border-top: 1px solid rgba(148, 163, 184, .11) !important;
+  }
+
+  @media (max-width: 1240px) {
+    #root .hlc-signed-in-shell :is(
+      .hlc-page-network,
+      .hlc-page-map,
+      .hlc-page-providers,
+      .hlc-page-profiles,
+      .hlc-page-matching,
+      .hlc-page-community-hub,
+      .hlc-page-community-discussions,
+      .hlc-page-community-reviews,
+      .hlc-page-community-referrals,
+      .hlc-page-community-events,
+      .hlc-page-community-moderation,
+      .hlc-page-community-groups
+    ) > .hlc-route-content > main {
+      width: min(100% - 32px, 1480px) !important;
+    }
+  }
+}

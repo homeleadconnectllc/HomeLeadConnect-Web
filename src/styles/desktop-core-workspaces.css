@@ -1,0 +1,310 @@
+/* HomeLead Connect desktop core workspace implementation.
+ * Batch 1 applies the route implementation contract to the highest-traffic
+ * signed-in workspaces without changing route logic, data access, or mobile.
+ */
+
+@media (min-width: 1025px) {
+  #root .hlc-signed-in-shell {
+    --hlc-core-bg: #07111f;
+    --hlc-core-surface: #0a1829;
+    --hlc-core-surface-2: #0d1d30;
+    --hlc-core-line: rgba(148, 163, 184, .16);
+    --hlc-core-line-blue: rgba(96, 165, 250, .28);
+    --hlc-core-text: #edf5ff;
+    --hlc-core-muted: #9fb0c4;
+    --hlc-core-blue: #60a5fa;
+    --hlc-core-danger: #f87171;
+  }
+
+  /* Route canvas rhythm */
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-dashboard,
+    .hlc-page-leads,
+    .hlc-page-jobs,
+    .hlc-page-follow-ups,
+    .hlc-page-notifications,
+    .hlc-page-documents
+  ) > .hlc-route-content > main {
+    width: min(1480px, calc(100% - 48px)) !important;
+    margin: 0 auto !important;
+    padding: 0 0 56px !important;
+    color: var(--hlc-core-text) !important;
+  }
+
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-dashboard,
+    .hlc-page-leads,
+    .hlc-page-jobs,
+    .hlc-page-follow-ups,
+    .hlc-page-notifications,
+    .hlc-page-documents
+  ) > .hlc-route-content > main > :first-child {
+    margin-top: 0 !important;
+  }
+
+  /* Page headers read as toolbars, not hero cards. */
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-dashboard,
+    .hlc-page-leads,
+    .hlc-page-jobs,
+    .hlc-page-follow-ups,
+    .hlc-page-notifications,
+    .hlc-page-documents
+  ) .hlc-route-content :where(header, [class*="header"]):not(.hlc-message-entry *) {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-leads,
+    .hlc-page-jobs,
+    .hlc-page-follow-ups,
+    .hlc-page-notifications,
+    .hlc-page-documents
+  ) .hlc-route-content > main > header:first-child {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: flex-end !important;
+    justify-content: space-between !important;
+    gap: 18px 28px !important;
+    padding: 0 0 20px !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--hlc-core-line-blue) !important;
+    background: transparent !important;
+  }
+
+  /* Filter/action strips */
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-leads,
+    .hlc-page-jobs,
+    .hlc-page-follow-ups,
+    .hlc-page-notifications,
+    .hlc-page-documents
+  ) .hlc-route-content :where(
+    [class*="toolbar"],
+    [class*="filters"],
+    [class*="controls"],
+    [class*="commandbar"]
+  ) {
+    border-radius: 0 !important;
+    border-color: var(--hlc-core-line) !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  /* Tables and dense lists become one continuous operational surface. */
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-leads,
+    .hlc-page-jobs,
+    .hlc-page-follow-ups,
+    .hlc-page-notifications,
+    .hlc-page-documents
+  ) .hlc-route-content :where(
+    table,
+    [class*="table"],
+    [class*="list"],
+    [class*="queue"]
+  ) {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-leads,
+    .hlc-page-jobs,
+    .hlc-page-follow-ups,
+    .hlc-page-notifications,
+    .hlc-page-documents
+  ) .hlc-route-content table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    background: transparent !important;
+  }
+
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-leads,
+    .hlc-page-jobs,
+    .hlc-page-follow-ups,
+    .hlc-page-notifications,
+    .hlc-page-documents
+  ) .hlc-route-content :where(th, td) {
+    padding: 13px 14px !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    text-align: left !important;
+  }
+
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-leads,
+    .hlc-page-jobs,
+    .hlc-page-follow-ups,
+    .hlc-page-notifications,
+    .hlc-page-documents
+  ) .hlc-route-content th {
+    color: #a9bdd3 !important;
+    font-size: 11px !important;
+    font-weight: 900 !important;
+    letter-spacing: .08em !important;
+    text-transform: uppercase !important;
+    border-bottom: 1px solid var(--hlc-core-line-blue) !important;
+  }
+
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-leads,
+    .hlc-page-jobs,
+    .hlc-page-follow-ups,
+    .hlc-page-notifications,
+    .hlc-page-documents
+  ) .hlc-route-content td {
+    color: #dce8f5 !important;
+    border-bottom: 1px solid rgba(148, 163, 184, .10) !important;
+  }
+
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-leads,
+    .hlc-page-jobs,
+    .hlc-page-follow-ups,
+    .hlc-page-notifications,
+    .hlc-page-documents
+  ) .hlc-route-content tr:hover td {
+    background: rgba(37, 99, 235, .07) !important;
+  }
+
+  /* Generic record rows lose decorative floating-card styling. */
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-leads,
+    .hlc-page-jobs,
+    .hlc-page-follow-ups,
+    .hlc-page-notifications,
+    .hlc-page-documents
+  ) .hlc-route-content :where(
+    article[class*="card"],
+    div[class*="card"],
+    article[class*="row"],
+    div[class*="row"]
+  ) {
+    box-shadow: none !important;
+  }
+
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-leads,
+    .hlc-page-jobs,
+    .hlc-page-follow-ups,
+    .hlc-page-notifications,
+    .hlc-page-documents
+  ) .hlc-route-content :where(
+    article[class*="card"],
+    div[class*="card"]
+  ) {
+    border-radius: 0 !important;
+  }
+
+  /* Dashboard: command center uses bands and separators rather than a card wall. */
+  #root .hlc-page-dashboard .hlc-command-center {
+    width: min(1480px, calc(100% - 48px)) !important;
+    margin: 0 auto !important;
+    padding: 0 0 60px !important;
+  }
+
+  #root .hlc-page-dashboard .hlc-command-hero {
+    padding: 0 0 22px !important;
+    border-bottom: 1px solid var(--hlc-core-line-blue) !important;
+  }
+
+  #root .hlc-page-dashboard .hlc-system-strip {
+    margin: 0 !important;
+    padding: 13px 0 !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--hlc-core-line) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+  }
+
+  #root .hlc-page-dashboard .hlc-metric-grid {
+    gap: 0 !important;
+    border-bottom: 1px solid var(--hlc-core-line) !important;
+  }
+
+  #root .hlc-page-dashboard .hlc-metric-card {
+    min-height: 118px !important;
+    padding: 20px !important;
+    border: 0 !important;
+    border-right: 1px solid var(--hlc-core-line) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+
+  #root .hlc-page-dashboard .hlc-metric-card:last-child {
+    border-right: 0 !important;
+  }
+
+  #root .hlc-page-dashboard :where(
+    .hlc-business-pulse-section,
+    .hlc-priority-panel,
+    .hlc-agent-team-section
+  ) {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  #root .hlc-page-dashboard .hlc-pulse-card,
+  #root .hlc-page-dashboard .hlc-agent-card,
+  #root .hlc-page-dashboard .hlc-workspace-card {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Priority / attention semantics */
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-follow-ups,
+    .hlc-page-notifications,
+    .hlc-page-dashboard
+  ) .hlc-route-content :where(
+    [class*="overdue"],
+    [class*="urgent"],
+    [class*="danger"],
+    [role="alert"]
+  ) {
+    border-color: rgba(248, 113, 113, .40) !important;
+    color: #fecaca !important;
+  }
+
+  /* Action buttons remain visually interactive and compact. */
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-dashboard,
+    .hlc-page-leads,
+    .hlc-page-jobs,
+    .hlc-page-follow-ups,
+    .hlc-page-notifications,
+    .hlc-page-documents
+  ) .hlc-route-content :where(button, a[class*="action"], a[class*="button"], a[class*="btn"]) {
+    min-height: 40px !important;
+    padding-inline: 14px !important;
+  }
+
+  /* Smaller desktop/MacBook widths keep usable density. */
+  @media (max-width: 1240px) {
+    #root .hlc-signed-in-shell :is(
+      .hlc-page-dashboard,
+      .hlc-page-leads,
+      .hlc-page-jobs,
+      .hlc-page-follow-ups,
+      .hlc-page-notifications,
+      .hlc-page-documents
+    ) > .hlc-route-content > main,
+    #root .hlc-page-dashboard .hlc-command-center {
+      width: min(100% - 32px, 1480px) !important;
+    }
+
+    #root .hlc-page-dashboard .hlc-metric-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+  }
+}

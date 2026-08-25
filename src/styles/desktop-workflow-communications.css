@@ -1,0 +1,215 @@
+/* HomeLead Connect desktop workflow + communications implementation.
+ * Batch 2 applies the route implementation contract to LeadScope, Calendar,
+ * Messages, Call Center and Calls & Texts. Desktop only.
+ */
+
+@media (min-width: 1025px) {
+  /* Shared canvas sizing */
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-estimator,
+    .hlc-page-calendar,
+    .hlc-page-messages,
+    .hlc-page-call-center,
+    .hlc-page-manual-communications
+  ) > .hlc-route-content > main {
+    width: min(1480px, calc(100% - 48px)) !important;
+    margin: 0 auto !important;
+    padding-bottom: 56px !important;
+  }
+
+  /* LeadScope / estimator behaves like an operational document, not a card stack. */
+  #root .hlc-page-estimator .hlc-route-content :where(
+    section,
+    article,
+    [class*="panel"],
+    [class*="card"],
+    [class*="surface"]
+  ) {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  #root .hlc-page-estimator .hlc-route-content > main > header:first-child {
+    padding-bottom: 20px !important;
+    border-bottom: 1px solid rgba(96, 165, 250, .28) !important;
+    background: transparent !important;
+  }
+
+  #root .hlc-page-estimator .hlc-route-content :where(table, [class*="line"], [class*="item"]) {
+    border-radius: 0 !important;
+  }
+
+  #root .hlc-page-estimator .hlc-route-content table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    background: transparent !important;
+  }
+
+  #root .hlc-page-estimator .hlc-route-content :where(th, td) {
+    padding: 13px 14px !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+  }
+
+  #root .hlc-page-estimator .hlc-route-content th {
+    border-bottom: 1px solid rgba(96, 165, 250, .28) !important;
+    color: #a9bdd3 !important;
+  }
+
+  #root .hlc-page-estimator .hlc-route-content td {
+    border-bottom: 1px solid rgba(148, 163, 184, .11) !important;
+    color: #dce8f5 !important;
+  }
+
+  /* Calendar: keep the calendar itself visually primary. */
+  #root .hlc-page-calendar .hlc-calendar-page {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  #root .hlc-page-calendar :where(.hlc-calendar-board, .hlc-calendar-detail-panel) {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  #root .hlc-page-calendar .hlc-calendar-board {
+    border-color: rgba(96, 165, 250, .22) !important;
+  }
+
+  #root .hlc-page-calendar .hlc-calendar-detail-panel {
+    border-color: rgba(148, 163, 184, .16) !important;
+  }
+
+  #root .hlc-page-calendar .hlc-calendar-toolbar {
+    border-radius: 0 !important;
+    background: #0a1829 !important;
+  }
+
+  #root .hlc-page-calendar .hlc-calendar-kpis {
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  #root .hlc-page-calendar .hlc-calendar-kpis article {
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  /* Messages: a desktop inbox console with continuous panes. */
+  #root .hlc-page-messages .hlc-messages-workspace {
+    width: 100% !important;
+  }
+
+  #root .hlc-page-messages .hlc-messages-console {
+    min-height: min(720px, calc(100vh - 220px)) !important;
+    border-radius: 0 !important;
+    border-color: rgba(96, 165, 250, .22) !important;
+    box-shadow: none !important;
+  }
+
+  #root .hlc-page-messages :where(
+    .hlc-messages-inbox,
+    .hlc-messages-thread,
+    .hlc-message-start-workspace,
+    .hlc-message-composer,
+    .hlc-voice-note-console
+  ) {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  #root .hlc-page-messages .hlc-message-inbox-row {
+    border-radius: 0 !important;
+  }
+
+  #root .hlc-page-messages .hlc-message-entry {
+    border-radius: 8px !important;
+  }
+
+  #root .hlc-page-messages .hlc-message-start-workspace {
+    border-left: 1px solid rgba(148, 163, 184, .16) !important;
+    border-right: 1px solid rgba(148, 163, 184, .16) !important;
+    border-bottom: 1px solid rgba(148, 163, 184, .16) !important;
+  }
+
+  /* Call Center and manual communications: queue + context, never floating cards. */
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-call-center,
+    .hlc-page-manual-communications
+  ) .hlc-route-content :where(
+    section,
+    article,
+    [class*="card"],
+    [class*="panel"],
+    [class*="console"],
+    [class*="queue"]
+  ) {
+    box-shadow: none !important;
+  }
+
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-call-center,
+    .hlc-page-manual-communications
+  ) .hlc-route-content :where(
+    section[class*="card"],
+    article[class*="card"],
+    div[class*="panel"],
+    div[class*="console"],
+    div[class*="queue"]
+  ) {
+    border-radius: 0 !important;
+  }
+
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-call-center,
+    .hlc-page-manual-communications
+  ) .hlc-route-content > main > header:first-child {
+    padding-bottom: 20px !important;
+    border-bottom: 1px solid rgba(96, 165, 250, .28) !important;
+  }
+
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-call-center,
+    .hlc-page-manual-communications
+  ) .hlc-route-content :where(
+    [class*="row"],
+    [class*="log"],
+    [class*="history"]
+  ) {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-call-center,
+    .hlc-page-manual-communications
+  ) .hlc-route-content :where(
+    [class*="row"] + [class*="row"],
+    [class*="log"] + [class*="log"]
+  ) {
+    border-top: 1px solid rgba(148, 163, 184, .11) !important;
+  }
+
+  /* Long communication fields stay left aligned despite global short-field centering. */
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-messages,
+    .hlc-page-call-center,
+    .hlc-page-manual-communications
+  ) .hlc-route-content :where(textarea, [contenteditable="true"]) {
+    text-align: left !important;
+  }
+
+  @media (max-width: 1240px) {
+    #root .hlc-signed-in-shell :is(
+      .hlc-page-estimator,
+      .hlc-page-calendar,
+      .hlc-page-messages,
+      .hlc-page-call-center,
+      .hlc-page-manual-communications
+    ) > .hlc-route-content > main {
+      width: min(100% - 32px, 1480px) !important;
+    }
+  }
+}
