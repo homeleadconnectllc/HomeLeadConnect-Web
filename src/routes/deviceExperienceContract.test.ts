@@ -36,9 +36,10 @@ test("mobile receives one compact session greeting while agent voice remains exp
 test("mobile field-work navigation remains primary while agent presentation stays contextual", () => {
   assert.match(navbar, /className="hlc-mobile-tabbar"/);
   assert.match(navbar, /label: "Home", route: "\/dashboard"/);
-  assert.match(navbar, /label: "Leads", route: "\/leads"/);
-  assert.match(navbar, /label: "Jobs", route: "\/jobs"/);
+  assert.match(navbar, /label: "Work", route: "\/leads"/);
   assert.match(navbar, /label: "Messages", route: "\/messages"/);
+  assert.match(navbar, /label: "Map", route: "\/map"/);
+  assert.match(navbar, /routes: \["\/jobs", "\/calendar", "\/follow-ups", "\/matching"\]/);
   assert.match(proactiveCss, /@media \(max-width: 720px\)/);
   assert.doesNotMatch(agentDock, /label: "Call"|label: "Text"|label: "Schedule"/);
   assert.doesNotMatch(appLayout, /MobileWorkDock/);
