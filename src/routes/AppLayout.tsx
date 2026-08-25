@@ -6,6 +6,7 @@ import AnalyticsTracker from "../components/analytics/AnalyticsTracker";
 import { useAuth } from "../hooks/useAuth";
 
 const ContextualAgentDock = lazy(() => import("../components/agents/ContextualAgentDock"));
+const DesktopAgentTeamRail = lazy(() => import("../components/agents/DesktopAgentTeamRail"));
 const AnalyticsKpis = lazy(() => import("../components/analytics/AnalyticsKpis"));
 const AudioDeviceCenter = lazy(() => import("../components/audio/AudioDeviceCenter"));
 const FieldDeviceCenter = lazy(() => import("../components/device/FieldDeviceCenter"));
@@ -122,6 +123,7 @@ export default function AppLayout() {
       {!session && <Footer />}
       <Suspense fallback={null}>
         {session && <WorkspaceGuidance />}
+        {session && <DesktopAgentTeamRail />}
         {showContextualAgent && <ContextualAgentDock />}
       </Suspense>
     </div>
