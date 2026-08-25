@@ -7,6 +7,7 @@ const AuthenticatedStyles = lazy(() => import("./styles/AuthenticatedStyles"));
 const GlobalPullToRefresh = lazy(() => import("./components/GlobalPullToRefresh"));
 const GlobalSmartCompose = lazy(() => import("./components/GlobalSmartCompose"));
 const MobileViewControls = lazy(() => import("./components/MobileViewControls"));
+const ContextualAgentDock = lazy(() => import("./components/agents/ContextualAgentDock"));
 
 function App() {
   const { session } = useAuth();
@@ -19,6 +20,7 @@ function App() {
           <GlobalPullToRefresh />
           <GlobalSmartCompose />
           <MobileViewControls />
+          <ContextualAgentDock />
         </Suspense>
       )}
       <AppRouter />
