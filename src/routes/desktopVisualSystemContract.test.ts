@@ -10,6 +10,11 @@ const archetypes = readFileSync(new URL("../styles/desktop-page-archetypes.css",
 
 const desktopLayers = [desktopSystem, agentRail, dataWorkspaces, archetypes];
 
+// Desktop authority may use nested upper bounds such as 1240px to tune smaller
+// Mac screens, but it must never introduce a breakpoint that reaches the
+// protected phone/tablet range at 1024px or below.
+const protectedMobileMaxWidth = /@media\s*\([^)]*max-width:\s*(?:[1-9]\d{0,2}|10(?:0\d|1\d|2[0-4]))px[^)]*\)/i;
+
 test("desktop visual-system layers load after launch/mobile authorities", () => {
   const desktopSystemIndex = authenticatedStyles.indexOf("desktop-visual-system.css");
   const agentRailIndex = authenticatedStyles.indexOf("desktop-agent-team-rail.css");
@@ -22,10 +27,10 @@ test("desktop visual-system layers load after launch/mobile authorities", () => 
   assert.ok(archetypeIndex > dataWorkspaceIndex);
 });
 
-test("post-launch Mac authority stays isolated to desktop viewports", () => {
+test("post-launch Mac authority stays isolated from protected mobile/tablet viewports", () => {
   for (const css of desktopLayers) {
     assert.match(css, /@media\s*\(min-width:\s*1025px\)/i);
-    assert.doesNotMatch(css, /@media\s*\(max-width:/i);
+    assert.doesNotMatch(css, protectedMobileMaxWidth);
   }
 });
 
