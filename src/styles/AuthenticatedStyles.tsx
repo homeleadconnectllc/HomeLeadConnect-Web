@@ -8,6 +8,7 @@ import "./desktop-visual-system.css";
 import "./desktop-agent-team-rail.css";
 import "./desktop-data-workspaces.css";
 import "./desktop-page-archetypes.css";
+import "./desktop-shell-recovery.css";
 
 export default function AuthenticatedStyles() {
   return null;
