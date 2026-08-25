@@ -101,9 +101,7 @@ export default function WorkspaceGuidance() {
   );
   const storageKey = `hlc-guide:${guidance.prefix}`;
   const [manuallyOpenedKey, setManuallyOpenedKey] = useState<string | null>(null);
-  const [closedKey, setClosedKey] = useState<string | null>(null);
-  const persistedDismissed = typeof window !== "undefined" && window.sessionStorage.getItem(storageKey) === "dismissed";
-  const open = manuallyOpenedKey === storageKey || (closedKey !== storageKey && !persistedDismissed);
+  const open = manuallyOpenedKey === storageKey;
 
   useEffect(() => {
     enhanceFields();
@@ -114,13 +112,10 @@ export default function WorkspaceGuidance() {
   }, [location.pathname]);
 
   const dismiss = useCallback(() => {
-    if (typeof window !== "undefined") window.sessionStorage.setItem(storageKey, "dismissed");
     setManuallyOpenedKey(null);
-    setClosedKey(storageKey);
-  }, [storageKey]);
+  }, []);
 
   const openGuide = useCallback(() => {
-    setClosedKey(null);
     setManuallyOpenedKey(storageKey);
   }, [storageKey]);
 
