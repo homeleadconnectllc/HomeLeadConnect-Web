@@ -1,4 +1,5 @@
 import { Navigate } from "react-router-dom";
+import BillingWorkspace from "./BillingWorkspace";
 
 export type EcosystemAreaKey =
   | "network" | "map" | "profiles" | "providers" | "matching"
@@ -11,7 +12,7 @@ export type EcosystemAreaKey =
  * internal MISSING / UNPROVEN engineering labels to customers.
  */
 export default function EcosystemAreaPage({ page }: { page: EcosystemAreaKey }) {
-  if (page === "billing") return <Navigate to="/settings" replace />;
+  if (page === "billing") return <BillingWorkspace />;
   if (page === "network") return <Navigate to="/network" replace />;
   if (page === "map") return <Navigate to="/map" replace />;
   if (page === "profiles") return <Navigate to="/profiles" replace />;
