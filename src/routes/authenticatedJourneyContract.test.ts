@@ -24,9 +24,10 @@ test("critical signed-in journey destinations stay declared and reachable", () =
 
 test("mobile primary navigation preserves the core return path", () => {
   assert.match(navbar, /label: "Home", route: "\/dashboard"/);
-  assert.match(navbar, /label: "Leads", route: "\/leads"/);
-  assert.match(navbar, /label: "Jobs", route: "\/jobs"/);
+  assert.match(navbar, /label: "Work", route: "\/leads"/);
   assert.match(navbar, /label: "Messages", route: "\/messages"/);
+  assert.match(navbar, /label: "Map", route: "\/map"/);
+  assert.match(navbar, /routes: \["\/jobs", "\/calendar", "\/follow-ups", "\/matching"\]/);
   assert.match(navbar, /aria-current=\{active \? "page" : undefined\}/);
 });
 
