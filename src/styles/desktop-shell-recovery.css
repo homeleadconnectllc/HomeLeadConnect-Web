@@ -6,7 +6,7 @@
 @media (min-width: 1025px) {
   #root .hlc-signed-in-shell {
     --hlc-desktop-sidebar-width: 252px;
-    --hlc-desktop-sidebar-collapsed-width: 76px;
+    --hlc-desktop-sidebar-collapsed-width: 0px;
     position: relative !important;
     display: block !important;
     width: 100% !important;
@@ -64,13 +64,20 @@
     overflow-x: hidden !important;
     overflow-y: auto !important;
     pointer-events: auto !important;
+    opacity: 1 !important;
+    transition: width .2s ease, min-width .2s ease, max-width .2s ease, transform .2s ease, opacity .16s ease !important;
   }
 
   #root .hlc-signed-in-shell.hlc-sidebar-is-collapsed > nav.hlc-navbar {
-    width: var(--hlc-desktop-sidebar-collapsed-width) !important;
-    min-width: var(--hlc-desktop-sidebar-collapsed-width) !important;
-    max-width: var(--hlc-desktop-sidebar-collapsed-width) !important;
-    padding-inline: 10px !important;
+    width: 0 !important;
+    min-width: 0 !important;
+    max-width: 0 !important;
+    padding: 0 !important;
+    border-right: 0 !important;
+    overflow: hidden !important;
+    transform: translateX(-100%) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
   }
 
   /* Legacy responsive navbar rules must not turn desktop navigation into a drawer. */
@@ -152,11 +159,12 @@
     padding-top: 104px !important;
     overflow: visible !important;
     pointer-events: auto !important;
+    transition: margin-left .2s ease !important;
   }
 
   #root .hlc-signed-in-shell.hlc-sidebar-is-collapsed > .hlc-route-content {
     width: auto !important;
-    margin-left: var(--hlc-desktop-sidebar-collapsed-width) !important;
+    margin-left: 0 !important;
   }
 
   #root .hlc-signed-in-shell > .hlc-route-content > main {
@@ -186,6 +194,7 @@
     box-shadow: 0 12px 30px rgba(2, 6, 23, .36) !important;
     transform: translateY(-50%) !important;
     cursor: pointer !important;
+    transition: left .2s ease !important;
   }
 
   #root .hlc-signed-in-shell > .hlc-desktop-sidebar-toggle > span[aria-hidden="true"] {
@@ -195,7 +204,10 @@
   }
 
   #root .hlc-signed-in-shell.hlc-sidebar-is-collapsed > .hlc-desktop-sidebar-toggle {
-    left: calc(var(--hlc-desktop-sidebar-collapsed-width) - 11px) !important;
+    left: 0 !important;
+    width: 28px !important;
+    min-width: 28px !important;
+    border-radius: 0 999px 999px 0 !important;
   }
 
   /* Dashboard presence belongs with identity copy, never over agent photography. */
