@@ -9,7 +9,7 @@ const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 
 test("Documents uses a dedicated evidence workspace instead of inline card composition", () => {
   assert.match(documents, /hlc-documents-workspace/);
-  assert.match(documents, /RECORD EVIDENCE/);
+  assert.match(documents, /DOCUMENT OPERATIONS/);
   assert.match(documents, /hlc-documents-console/);
   assert.match(documents, /hlc-document-row/);
   assert.doesNotMatch(documents, /heroStyle|guideCardStyle|fileCardStyle|boxShadow:/);
@@ -31,6 +31,19 @@ test("Documents preserves canonical loading, upload, sharing and open behavior",
   assert.match(documents, /value="homeowner"/);
   assert.match(documents, /value="contractor"/);
   assert.match(documents, /25 MB/);
+});
+
+test("Documents v2 exposes real library controls while keeping unconnected processing honest", () => {
+  assert.match(documents, /type="search"/);
+  assert.match(documents, /Record type/);
+  assert.match(documents, /File type/);
+  assert.match(documents, /Sharing/);
+  assert.match(documents, /Clear filters/);
+  assert.match(documents, /\/resources\/forms/);
+  assert.match(documents, /Scan \/ OCR · setup pending/);
+  assert.match(documents, /E-signatures · setup pending/);
+  assert.match(documents, /aria-disabled="true"/);
+  assert.doesNotMatch(documents, /OCR complete|Signature complete|Signed successfully/);
 });
 
 test("Help Tutorials and Rules share the knowledge workspace while preserving operational handoffs", () => {
