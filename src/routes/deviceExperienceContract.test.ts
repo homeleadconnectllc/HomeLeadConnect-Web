@@ -33,12 +33,13 @@ test("mobile receives one compact session greeting while agent voice remains exp
   assert.match(tutorialCss, /max-height: min\(52dvh, 460px\) !important/);
 });
 
-test("mobile field-work navigation remains primary while agent presentation stays contextual", () => {
+test("mobile field-work navigation remains canonical while agent presentation stays contextual", () => {
   assert.match(navbar, /className="hlc-mobile-tabbar"/);
-  assert.match(navbar, /label: "Home", route: "\/dashboard"/);
-  assert.match(navbar, /label: "Leads", route: "\/leads"/);
-  assert.match(navbar, /label: "Jobs", route: "\/jobs"/);
-  assert.match(navbar, /label: "Messages", route: "\/messages"/);
+  assert.match(navbar, /label:\s*"Home",[\s\S]*?route:\s*"\/dashboard"/);
+  assert.match(navbar, /label:\s*"Work",[\s\S]*?route:\s*"\/leads"/);
+  assert.match(navbar, /label:\s*"Network",[\s\S]*?route:\s*"\/network"/);
+  assert.match(navbar, /label:\s*"Community",[\s\S]*?route:\s*"\/community-hub"/);
+  assert.match(navbar, /aria-label="More"/);
   assert.match(proactiveCss, /@media \(max-width: 720px\)/);
   assert.doesNotMatch(agentDock, /label: "Call"|label: "Text"|label: "Schedule"/);
   assert.doesNotMatch(appLayout, /MobileWorkDock/);
