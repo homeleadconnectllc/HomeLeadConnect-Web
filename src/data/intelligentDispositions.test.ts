@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { getCriticalDispositions, intelligentDispositions } from "./intelligentDispositions";
+import { getCriticalDispositions, intelligentDispositions } from "./intelligentDispositions.ts";
 
 test("intelligent dispositions have unique ids", () => {
   const ids = intelligentDispositions.map((item) => item.id);
