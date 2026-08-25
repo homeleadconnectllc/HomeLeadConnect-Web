@@ -1,9 +1,6 @@
-import { lazy, Suspense } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import RealtimeNotificationCenter from "../components/notifications/RealtimeNotificationCenter";
 import { useAuth } from "../hooks/useAuth";
-
-const ContextualAgentDock = lazy(() => import("../components/agents/ContextualAgentDock"));
 
 export default function ProtectedLayout() {
   const { session, loading } = useAuth();
@@ -16,8 +13,5 @@ export default function ProtectedLayout() {
   return <>
     <Outlet />
     <RealtimeNotificationCenter />
-    <Suspense fallback={null}>
-      <ContextualAgentDock />
-    </Suspense>
   </>;
 }
