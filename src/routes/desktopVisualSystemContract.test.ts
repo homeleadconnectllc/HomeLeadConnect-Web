@@ -8,12 +8,13 @@ const agentRail = readFileSync(new URL("../styles/desktop-agent-team-rail.css", 
 const dataWorkspaces = readFileSync(new URL("../styles/desktop-data-workspaces.css", import.meta.url), "utf8");
 const archetypes = readFileSync(new URL("../styles/desktop-page-archetypes.css", import.meta.url), "utf8");
 const shellRecovery = readFileSync(new URL("../styles/desktop-shell-recovery.css", import.meta.url), "utf8");
+const coreWorkspaces = readFileSync(new URL("../styles/desktop-core-workspaces.css", import.meta.url), "utf8");
 const finalPolish = readFileSync(new URL("../styles/authenticated-final-polish.css", import.meta.url), "utf8");
 const publicPolish = readFileSync(new URL("../styles/public-final-flat-authority.css", import.meta.url), "utf8");
 const appLayout = readFileSync(new URL("./AppLayout.tsx", import.meta.url), "utf8");
 const app = readFileSync(new URL("../App.tsx", import.meta.url), "utf8");
 
-const desktopLayers = [desktopSystem, agentRail, dataWorkspaces, archetypes, shellRecovery];
+const desktopLayers = [desktopSystem, agentRail, dataWorkspaces, archetypes, shellRecovery, coreWorkspaces];
 
 const protectedMobileMaxWidth = /@media\s*\([^)]*max-width:\s*(?:[1-9]\d{0,2}|10(?:0\d|1\d|2[0-4]))px[^)]*\)/i;
 
@@ -23,6 +24,7 @@ test("desktop visual-system layers load after launch/mobile authorities", () => 
   const dataWorkspaceIndex = authenticatedStyles.indexOf("desktop-data-workspaces.css");
   const archetypeIndex = authenticatedStyles.indexOf("desktop-page-archetypes.css");
   const shellRecoveryIndex = authenticatedStyles.indexOf("desktop-shell-recovery.css");
+  const coreWorkspacesIndex = authenticatedStyles.indexOf("desktop-core-workspaces.css");
   const finalPolishIndex = authenticatedStyles.indexOf("authenticated-final-polish.css");
 
   assert.ok(desktopSystemIndex > authenticatedStyles.indexOf("final-visual-punch.css"));
@@ -30,7 +32,8 @@ test("desktop visual-system layers load after launch/mobile authorities", () => 
   assert.ok(dataWorkspaceIndex > agentRailIndex);
   assert.ok(archetypeIndex > dataWorkspaceIndex);
   assert.ok(shellRecoveryIndex > archetypeIndex);
-  assert.ok(finalPolishIndex > shellRecoveryIndex);
+  assert.ok(coreWorkspacesIndex > shellRecoveryIndex);
+  assert.ok(finalPolishIndex > coreWorkspacesIndex);
 });
 
 test("post-launch Mac authority stays isolated from protected mobile/tablet viewports", () => {
@@ -83,6 +86,17 @@ test("public and trial surfaces load one final flat dark authority", () => {
   assert.match(publicPolish, /\.hlc-auth-card[\s\S]*background:\s*transparent\s*!important/);
   assert.match(publicPolish, /hlc-page-about[\s\S]*Kendrell_Locked_HLC\.png/);
   assert.match(publicPolish, /input:not\(\[type="checkbox"\]/);
+});
+
+test("core desktop workspaces use continuous rows and flat command surfaces", () => {
+  assert.match(coreWorkspaces, /\.hlc-page-dashboard/);
+  assert.match(coreWorkspaces, /\.hlc-page-leads/);
+  assert.match(coreWorkspaces, /\.hlc-page-jobs/);
+  assert.match(coreWorkspaces, /\.hlc-page-follow-ups/);
+  assert.match(coreWorkspaces, /\.hlc-page-notifications/);
+  assert.match(coreWorkspaces, /\.hlc-page-documents/);
+  assert.match(coreWorkspaces, /border-radius:\s*0\s*!important/);
+  assert.match(coreWorkspaces, /border-bottom:\s*1px solid var\(--hlc-core-line/);
 });
 
 test("desktop HLC AI team parity keeps all three agents discoverable without replacing contextual intelligence", () => {
