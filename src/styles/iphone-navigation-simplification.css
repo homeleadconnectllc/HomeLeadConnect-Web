@@ -230,6 +230,58 @@
     background: rgba(148, 163, 184, .1) !important;
   }
 
+  /* The mobile command/analytics canvas must size to its content. Several older
+     desktop presentation layers reserved tall sections, which can leave a large
+     blank band on a physical iPhone after the new fixed tab bar is mounted. */
+  .hlc-signed-in-shell .hlc-command-center,
+  .hlc-signed-in-shell .hlc-command-center > section,
+  .hlc-signed-in-shell .hlc-command-center .hlc-dashboard-section,
+  .hlc-signed-in-shell .hlc-analytics-page .hlc-analytics-panel {
+    min-height: 0 !important;
+    height: auto !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-center > section,
+  .hlc-signed-in-shell .hlc-analytics-page .hlc-analytics-panel {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 540px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .hlc-signed-in-shell .hlc-command-center .hlc-section-heading,
+  .hlc-signed-in-shell .hlc-analytics-page .hlc-section-heading,
+  .hlc-signed-in-shell .hlc-analytics-page .hlc-section-heading > div {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    align-items: center !important;
+    justify-content: center !important;
+    justify-items: center !important;
+    text-align: center !important;
+  }
+
+  .hlc-signed-in-shell .hlc-analytics-page .hlc-section-heading {
+    display: grid !important;
+    gap: 12px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-analytics-page .hlc-section-heading p,
+  .hlc-signed-in-shell .hlc-analytics-page .hlc-section-heading h2,
+  .hlc-signed-in-shell .hlc-analytics-page .hlc-section-eyebrow {
+    max-width: 30rem !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
+  }
+
+  .hlc-signed-in-shell .hlc-analytics-page .hlc-analytics-period-button {
+    justify-self: center !important;
+    margin: 0 auto !important;
+  }
+
   /* Keep primary navigation thumb-friendly and stable above the iPhone home
      indicator. These five destinations are the mobile information architecture. */
   .hlc-mobile-tabbar {
