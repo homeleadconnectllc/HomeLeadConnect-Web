@@ -1,0 +1,144 @@
+/* HomeLead Connect desktop account + portals + agents implementation. */
+
+@media (min-width: 1025px) {
+  #root .hlc-signed-in-shell :is(
+    .hlc-page-settings,
+    .hlc-page-profile,
+    .hlc-page-homeowner-portal,
+    .hlc-page-contractor-portal,
+    .hlc-page-hq,
+    .hlc-page-operations,
+    .hlc-page-customer-experience
+  ) > .hlc-route-content > main {
+    width: min(1480px, calc(100% - 48px)) !important;
+    margin: 0 auto !important;
+    padding-bottom: 56px !important;
+  }
+
+  /* Settings/profile use flat grouped rows and explicit navigation hierarchy. */
+  #root .hlc-signed-in-shell :is(.hlc-page-settings, .hlc-page-profile) .hlc-route-content :where(
+    section,
+    article,
+    [class*="card"],
+    [class*="panel"],
+    [class*="surface"]
+  ) {
+    box-shadow: none !important;
+  }
+
+  #root .hlc-signed-in-shell :is(.hlc-page-settings, .hlc-page-profile) .hlc-route-content :where(
+    section[class*="card"],
+    article[class*="card"],
+    div[class*="panel"],
+    div[class*="surface"]
+  ) {
+    border-radius: 0 !important;
+  }
+
+  #root .hlc-signed-in-shell :is(.hlc-page-settings, .hlc-page-profile) .hlc-route-content :where(
+    [class*="row"],
+    [class*="setting"],
+    [class*="preference"]
+  ) {
+    box-shadow: none !important;
+  }
+
+  #root .hlc-signed-in-shell :is(.hlc-page-settings, .hlc-page-profile) .hlc-route-content :where(
+    [class*="row"] + [class*="row"],
+    [class*="setting"] + [class*="setting"],
+    [class*="preference"] + [class*="preference"]
+  ) {
+    border-top: 1px solid rgba(148, 163, 184, .11) !important;
+  }
+
+  /* Portals stay role-focused and use continuous sections instead of internal app card grids. */
+  #root .hlc-signed-in-shell :is(.hlc-page-homeowner-portal, .hlc-page-contractor-portal) .hlc-route-content :where(
+    .hlc-portal-workspace,
+    section,
+    article,
+    [class*="card"],
+    [class*="panel"]
+  ) {
+    box-shadow: none !important;
+  }
+
+  #root .hlc-signed-in-shell :is(.hlc-page-homeowner-portal, .hlc-page-contractor-portal) .hlc-route-content :where(
+    .hlc-portal-workspace,
+    section[class*="card"],
+    article[class*="card"],
+    div[class*="panel"]
+  ) {
+    border-radius: 0 !important;
+  }
+
+  #root .hlc-signed-in-shell :is(.hlc-page-homeowner-portal, .hlc-page-contractor-portal) .hlc-route-content :where(
+    [class*="project"],
+    [class*="request"],
+    [class*="appointment"],
+    [class*="document"],
+    [class*="message"]
+  ) {
+    box-shadow: none !important;
+  }
+
+  /* Agent workspaces are full workspaces, not chat cards. */
+  #root .hlc-signed-in-shell :is(.hlc-page-hq, .hlc-page-operations, .hlc-page-customer-experience) .hlc-route-content :where(
+    section,
+    article,
+    [class*="card"],
+    [class*="panel"],
+    [class*="surface"]
+  ) {
+    box-shadow: none !important;
+  }
+
+  #root .hlc-signed-in-shell :is(.hlc-page-hq, .hlc-page-operations, .hlc-page-customer-experience) .hlc-route-content :where(
+    section[class*="card"],
+    article[class*="card"],
+    div[class*="panel"],
+    div[class*="surface"]
+  ) {
+    border-radius: 0 !important;
+  }
+
+  #root .hlc-signed-in-shell :is(.hlc-page-hq, .hlc-page-operations, .hlc-page-customer-experience) .hlc-route-content > main > header:first-child {
+    padding-bottom: 20px !important;
+    border-bottom: 1px solid rgba(96, 165, 250, .28) !important;
+  }
+
+  #root .hlc-signed-in-shell :is(.hlc-page-hq, .hlc-page-operations, .hlc-page-customer-experience) .hlc-route-content :where(
+    [class*="chat"],
+    [class*="conversation"],
+    [class*="thread"]
+  ) {
+    box-shadow: none !important;
+  }
+
+  #root .hlc-signed-in-shell :is(.hlc-page-hq, .hlc-page-operations, .hlc-page-customer-experience) .hlc-route-content :where(textarea, [contenteditable="true"]) {
+    text-align: left !important;
+  }
+
+  /* Billing and attention/destructive actions use explicit red semantics only when needed. */
+  #root .hlc-page-settings .hlc-route-content :where(
+    [class*="danger"],
+    [class*="destructive"],
+    [role="alert"]
+  ) {
+    border-color: rgba(248, 113, 113, .42) !important;
+    color: #fecaca !important;
+  }
+
+  @media (max-width: 1240px) {
+    #root .hlc-signed-in-shell :is(
+      .hlc-page-settings,
+      .hlc-page-profile,
+      .hlc-page-homeowner-portal,
+      .hlc-page-contractor-portal,
+      .hlc-page-hq,
+      .hlc-page-operations,
+      .hlc-page-customer-experience
+    ) > .hlc-route-content > main {
+      width: min(100% - 32px, 1480px) !important;
+    }
+  }
+}
