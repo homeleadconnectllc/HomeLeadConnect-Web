@@ -37,20 +37,23 @@ test("Settings preserves identity workspace business phone alert and billing con
 
 test("Integrations and Connections reports evidence-backed state instead of invented connectivity", () => {
   assert.match(settings, /IntegrationsConnectionsPanel/);
+  assert.match(settings, /getIntegrationEvidence\(profile\.workspace_id\)/);
   assert.match(connections, /Integrations & Connections/);
   assert.match(connections, /Phone \/ SMS providers/);
   assert.match(connections, /Stripe/);
   assert.match(connections, /Email delivery/);
-  assert.match(connections, /Calendar provider/);
+  assert.match(connections, /Google Calendar sync/);
   assert.match(connections, /HLC document storage/);
   assert.match(connections, /OCR \/ document processing/);
   assert.match(connections, /Maps \/ routing/);
   assert.match(connections, /API & webhooks/);
   assert.match(connections, /Statuses below are evidence-based/);
+  assert.match(connections, /emailConnection\?\.status === "connected"/);
+  assert.match(connections, /syncedCalendarMappings > 0/);
+  assert.match(connections, /Provider delivery-event proof is still pending/);
+  assert.match(connections, /User OAuth and bidirectional reconciliation are not claimed/);
   assert.match(connections, /state: "Not verified"/);
   assert.match(connections, /state: "Setup required"/);
-  assert.doesNotMatch(connections, /Email delivery[\s\S]{0,250}state: "Connected"/);
-  assert.doesNotMatch(connections, /Calendar provider[\s\S]{0,250}state: "Connected"/);
 });
 
 test("My Profile preserves participant preferences and authorization boundary", () => {
