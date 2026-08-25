@@ -8,6 +8,9 @@ const communicationsDeployment = readFileSync("supabase/functions/COMMUNICATIONS
 const checkout = readFileSync("supabase/functions/stripe-checkout-session/index.ts", "utf8");
 const webhook = readFileSync("supabase/functions/stripe-webhook/index.ts", "utf8");
 const productionWorkflow = readFileSync(".github/workflows/cloudflare-production-verification.yml", "utf8");
+const integrationApi = readFileSync("src/api/integrations.ts", "utf8");
+const integrationPanel = readFileSync("src/components/settings/IntegrationsConnectionsPanel.tsx", "utf8");
+const settingsPage = readFileSync("src/pages/dashboard/Settings.tsx", "utf8");
 
 test("unproven launch integrations remain disabled by default", () => {
   assert.match(envExample, /VITE_BILLING_ENABLED=false/);
@@ -44,6 +47,20 @@ test("launch communications remain provider-agnostic and do not fabricate delive
   assert.match(communicationsDeployment, /must never claim that a call or text was delivered/i);
   assert.match(communicationsDeployment, /No Twilio account.*required for the HLC V1 launch gate/is);
   assert.match(communicationsDeployment, /Email transport remains disabled until a real provider and verified sender are configured/i);
+});
+
+test("integration settings read workspace-scoped runtime evidence instead of hard-coded provider claims", () => {
+  assert.match(integrationApi, /from\("communication_provider_connections"\)/);
+  assert.match(integrationApi, /from\("calendar_event_mappings"\)/);
+  assert.match(integrationApi, /from\("communication_transmissions"\)/);
+  assert.match(integrationApi, /from\("communication_provider_events"\)/);
+  assert.match(integrationApi, /eq\("workspace_id", workspaceId\)/);
+  assert.match(settingsPage, /getIntegrationEvidence\(profile\.workspace_id\)/);
+  assert.match(settingsPage, /integrationEvidence=\{integrationEvidence\}/);
+  assert.match(integrationPanel, /emailConnection\?\.status === "connected"/);
+  assert.match(integrationPanel, /syncedCalendarMappings > 0/);
+  assert.match(integrationPanel, /Provider delivery-event proof is still pending/);
+  assert.match(integrationPanel, /User OAuth and bidirectional reconciliation are not claimed/);
 });
 
 test("production verification exercises the Cloudflare custom host and deep links", () => {
