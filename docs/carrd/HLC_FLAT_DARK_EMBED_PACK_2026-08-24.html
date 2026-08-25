@@ -1,0 +1,55 @@
+<!--
+HomeLead Connect Carrd Embed Pack
+Paste the STYLE block into a Carrd Embed element set to Code / Hidden (or site-wide custom code where available).
+Then paste any SECTION block into its own Carrd Embed element.
+Design contract: flat dark navy canvas, light readable text, thin blue/white separators, red alerts only, rounded corners reserved mainly for controls.
+-->
+
+<style>
+:root{--hlc-bg:#07111f;--hlc-bg2:#081626;--hlc-line:rgba(148,163,184,.2);--hlc-blue:#60a5fa;--hlc-text:#f8fbff;--hlc-copy:#c4d2e3;--hlc-muted:#91a4bd;--hlc-alert:#fecaca;--hlc-alertbg:rgba(127,29,29,.18)}
+.hlc-carrd{box-sizing:border-box;width:100%;color:var(--hlc-text);background:linear-gradient(180deg,var(--hlc-bg),var(--hlc-bg2) 48%,var(--hlc-bg));font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;text-align:center}
+.hlc-carrd *{box-sizing:border-box}.hlc-carrd-shell{width:min(1120px,calc(100% - 32px));margin:0 auto}.hlc-carrd-section{padding:42px 0;border-bottom:1px solid var(--hlc-line);background:transparent;border-radius:0;box-shadow:none}.hlc-carrd-section:first-child{border-top:1px solid var(--hlc-line)}.hlc-carrd-logo{display:block;width:min(190px,58vw);height:auto;margin:0 auto 22px}.hlc-carrd-kicker{margin:0 0 10px;color:var(--hlc-blue);font-size:.74rem;font-weight:900;letter-spacing:.15em;text-transform:uppercase}.hlc-carrd h1,.hlc-carrd h2,.hlc-carrd h3{margin:0;color:var(--hlc-text);line-height:1.05}.hlc-carrd h1{font-size:clamp(2.3rem,6vw,4.6rem);letter-spacing:-.045em}.hlc-carrd h2{font-size:clamp(1.7rem,4vw,2.6rem)}.hlc-carrd p{max-width:820px;margin:14px auto 0;color:var(--hlc-copy);font-size:1rem;line-height:1.7}.hlc-carrd-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:24px}.hlc-carrd-btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:11px 17px;border:1px solid rgba(96,165,250,.35);border-radius:8px;background:#123052;color:#f8fbff!important;font-weight:850;text-decoration:none!important}.hlc-carrd-btn.primary{border-color:#2563eb;background:#2563eb}.hlc-carrd-list{display:grid;margin-top:24px;border-top:1px solid var(--hlc-line)}.hlc-carrd-row{display:grid;grid-template-columns:minmax(160px,.35fr) minmax(0,1fr);gap:24px;padding:22px 0;border-bottom:1px solid var(--hlc-line);text-align:left}.hlc-carrd-row strong{color:var(--hlc-text);font-size:1.02rem}.hlc-carrd-row span{color:var(--hlc-copy);line-height:1.6}.hlc-carrd-form{display:grid;gap:16px;max-width:760px;margin:28px auto 0}.hlc-carrd-form label{display:grid;gap:7px;color:#dce8f7;font-weight:800;text-align:center}.hlc-carrd-form input,.hlc-carrd-form select,.hlc-carrd-form textarea{width:100%;min-height:48px;padding:12px 14px;border:1px solid rgba(148,163,184,.28);border-radius:5px;background:#0a1829;color:#f8fbff;font:inherit;text-align:center;outline:none}.hlc-carrd-form textarea{text-align:left;min-height:130px}.hlc-carrd-form input::placeholder,.hlc-carrd-form textarea::placeholder{color:var(--hlc-muted);opacity:1}.hlc-carrd-form input::placeholder{text-align:center}.hlc-carrd-form textarea::placeholder{text-align:left}.hlc-carrd-alert{margin:22px auto 0;padding:14px 16px;max-width:760px;border:1px solid rgba(248,113,113,.42);background:var(--hlc-alertbg);color:var(--hlc-alert);text-align:center}.hlc-carrd-contact{display:grid;gap:0;margin-top:24px;border-top:1px solid var(--hlc-line)}.hlc-carrd-contact div{display:grid;grid-template-columns:minmax(140px,.35fr) minmax(0,1fr);gap:18px;padding:14px 0;border-bottom:1px solid var(--hlc-line);text-align:left}.hlc-carrd-contact span{color:var(--hlc-muted);font-weight:800;text-transform:uppercase;font-size:.72rem;letter-spacing:.08em}.hlc-carrd-contact a,.hlc-carrd-contact strong{color:#dce8f7}.hlc-carrd-portrait{display:block;width:112px;height:112px;object-fit:cover;margin:0 auto 18px;border:1px solid rgba(96,165,250,.28);border-radius:0}@media(max-width:720px){.hlc-carrd-section{padding:32px 0}.hlc-carrd-row,.hlc-carrd-contact div{grid-template-columns:1fr;gap:7px;text-align:center}.hlc-carrd-actions{display:grid}.hlc-carrd-btn{width:100%}}
+</style>
+
+<!-- HOME / HERO -->
+<section class="hlc-carrd"><div class="hlc-carrd-shell"><div class="hlc-carrd-section">
+  <img class="hlc-carrd-logo" src="https://homeleadconnect.org/assets/images/hlc-logo-full.png" alt="HomeLead Connect">
+  <p class="hlc-carrd-kicker">HOMELEAD CONNECT</p>
+  <h1>One front door for connected home-service help.</h1>
+  <p>Residents, renters, homeowners, service professionals and participating businesses can move through one connected HomeLead Connect experience.</p>
+  <div class="hlc-carrd-actions"><a class="hlc-carrd-btn primary" href="https://app.homeleadconnect.org/request-service">Request Service</a><a class="hlc-carrd-btn" href="https://app.homeleadconnect.org/pricing">Pricing</a><a class="hlc-carrd-btn" href="https://app.homeleadconnect.org/login">Sign In</a></div>
+</div></div></section>
+
+<!-- PRICING -->
+<section class="hlc-carrd"><div class="hlc-carrd-shell"><div class="hlc-carrd-section">
+  <p class="hlc-carrd-kicker">HLC BUSINESS WORKSPACE</p>
+  <h2>14 days free. Then $49.99/month.</h2>
+  <p>Participating businesses can start with the connected HLC workspace. A payment method is required to begin the trial. Resident service requests do not require an HLC SaaS subscription.</p>
+  <div class="hlc-carrd-list"><div class="hlc-carrd-row"><strong>Business workspace</strong><span>Leads, estimates, jobs, scheduling, communications, documents, workflows, analytics and HLC AI assistance.</span></div><div class="hlc-carrd-row"><strong>Residents</strong><span>No HLC SaaS subscription is required to submit a service request or use an invited resident portal.</span></div><div class="hlc-carrd-row"><strong>Service payments</strong><span>Provider service charges remain separate from the HLC workspace subscription.</span></div></div>
+  <div class="hlc-carrd-actions"><a class="hlc-carrd-btn primary" href="https://app.homeleadconnect.org/register?next=/settings">Start 14-Day Free Trial</a><a class="hlc-carrd-btn" href="https://app.homeleadconnect.org/login?next=/settings">Manage Subscription</a></div>
+</div></div></section>
+
+<!-- PROFESSIONALS -->
+<section class="hlc-carrd"><div class="hlc-carrd-shell"><div class="hlc-carrd-section">
+  <p class="hlc-carrd-kicker">FOR PROFESSIONALS</p>
+  <h2>Bring your business into the HLC service network.</h2>
+  <p>Contractors, subcontractors, cleaners, movers, HVAC companies, painters, roofers, handymen and other home-service professionals can apply for HLC review.</p>
+  <div class="hlc-carrd-list"><div class="hlc-carrd-row"><strong>Profile</strong><span>Services, territory, team and approved verification evidence.</span></div><div class="hlc-carrd-row"><strong>Opportunities</strong><span>Explicit offers and acceptance state instead of silent assignment.</span></div><div class="hlc-carrd-row"><strong>Operations</strong><span>Scheduling, jobs, messages, documents and connected work history.</span></div></div>
+  <div class="hlc-carrd-actions"><a class="hlc-carrd-btn primary" href="https://app.homeleadconnect.org/professional-application">Apply as a Professional</a></div>
+</div></div></section>
+
+<!-- ABOUT / KENDRELL -->
+<section class="hlc-carrd"><div class="hlc-carrd-shell"><div class="hlc-carrd-section">
+  <img class="hlc-carrd-portrait" src="https://app.homeleadconnect.org/brand/avatars/Kendrell_Locked_HLC.png" alt="Kendrell">
+  <p class="hlc-carrd-kicker">HOMELEAD CONNECT LLC</p>
+  <h2>Connection, guidance and execution.</h2>
+  <p>HomeLead Connect connects service requests, provider coordination, scheduling, communications, documents and customer follow-through in one operating system.</p>
+  <div class="hlc-carrd-actions"><a class="hlc-carrd-btn" href="https://app.homeleadconnect.org/about">About HLC</a><a class="hlc-carrd-btn" href="https://app.homeleadconnect.org/memorial">Kendrell Memorial</a></div>
+</div></div></section>
+
+<!-- CONTACT -->
+<section class="hlc-carrd"><div class="hlc-carrd-shell"><div class="hlc-carrd-section">
+  <p class="hlc-carrd-kicker">CONTACT HOMELEAD CONNECT</p>
+  <h2>Start with the right HLC path.</h2>
+  <div class="hlc-carrd-contact"><div><span>Home help</span><a href="https://app.homeleadconnect.org/request-service">Request service</a></div><div><span>Professionals</span><a href="https://app.homeleadconnect.org/professional-application">Apply to participate</a></div><div><span>Platform</span><a href="mailto:info@homeleadconnect.org">info@homeleadconnect.org</a></div><div><span>Web</span><a href="https://homeleadconnect.org">homeleadconnect.org</a></div></div>
+</div></div></section>
