@@ -8,6 +8,7 @@ const agentRail = readFileSync(new URL("../styles/desktop-agent-team-rail.css", 
 const dataWorkspaces = readFileSync(new URL("../styles/desktop-data-workspaces.css", import.meta.url), "utf8");
 const archetypes = readFileSync(new URL("../styles/desktop-page-archetypes.css", import.meta.url), "utf8");
 const shellRecovery = readFileSync(new URL("../styles/desktop-shell-recovery.css", import.meta.url), "utf8");
+const appLayout = readFileSync(new URL("./AppLayout.tsx", import.meta.url), "utf8");
 
 const desktopLayers = [desktopSystem, agentRail, dataWorkspaces, archetypes, shellRecovery];
 
@@ -38,13 +39,31 @@ test("post-launch Mac authority stays isolated from protected mobile/tablet view
 });
 
 test("desktop shell reserves navigation and working-canvas space instead of overlaying records", () => {
-  assert.match(desktopSystem, /--hlc-desktop-sidebar-width:\s*288px/);
-  assert.match(desktopSystem, /margin-left:\s*var\(--hlc-desktop-sidebar-width\)/);
-  assert.match(desktopSystem, /\.hlc-mobile-tabbar[\s\S]*display:\s*none\s*!important/);
-  assert.match(shellRecovery, /> nav\.hlc-navbar[\s\S]*width:\s*288px\s*!important/);
-  assert.match(shellRecovery, /> \.hlc-route-content[\s\S]*margin:\s*0 0 0 288px\s*!important/);
+  assert.match(shellRecovery, /--hlc-desktop-sidebar-width:\s*252px/);
+  assert.match(shellRecovery, /--hlc-desktop-sidebar-collapsed-width:\s*76px/);
+  assert.match(shellRecovery, /> nav\.hlc-navbar[\s\S]*width:\s*var\(--hlc-desktop-sidebar-width\)\s*!important/);
+  assert.match(shellRecovery, /> \.hlc-route-content[\s\S]*margin:\s*0 0 0 var\(--hlc-desktop-sidebar-width\)\s*!important/);
   assert.match(shellRecovery, /\.hlc-navbar-links\.hlc-desktop-navigation[\s\S]*position:\s*static\s*!important/);
   assert.match(shellRecovery, /pointer-events:\s*auto\s*!important/);
+  assert.match(desktopSystem, /\.hlc-mobile-tabbar[\s\S]*display:\s*none\s*!important/);
+});
+
+test("desktop brand is centered above the page instead of riding inside the sidebar", () => {
+  assert.match(appLayout, /hlc-desktop-page-brand/);
+  assert.match(shellRecovery, /\.hlc-navbar-brand[\s\S]*display:\s*none\s*!important/);
+  assert.match(shellRecovery, /\.hlc-desktop-page-brand[\s\S]*left:\s*50%\s*!important/);
+  assert.match(shellRecovery, /transform:\s*translateX\(-50%\)\s*!important/);
+});
+
+test("desktop sidebar exposes an obvious mid-edge collapse handle", () => {
+  assert.match(shellRecovery, /\.hlc-desktop-sidebar-toggle[\s\S]*top:\s*50%\s*!important/);
+  assert.match(shellRecovery, /height:\s*86px\s*!important/);
+  assert.match(shellRecovery, /cursor:\s*pointer\s*!important/);
+});
+
+test("dashboard agent status does not cover agent photography", () => {
+  assert.match(shellRecovery, /\.hlc-agent-portrait-wrap \.hlc-agent-status[\s\S]*display:\s*none\s*!important/);
+  assert.match(shellRecovery, /\.hlc-agent-role::after[\s\S]*Online/);
 });
 
 test("desktop HLC AI team parity keeps all three agents discoverable without replacing contextual intelligence", () => {
