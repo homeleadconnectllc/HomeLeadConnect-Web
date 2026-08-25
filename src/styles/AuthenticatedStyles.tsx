@@ -11,6 +11,8 @@ import "./desktop-page-archetypes.css";
 import "./desktop-shell-recovery.css";
 import "./desktop-core-workspaces.css";
 import "./desktop-workflow-communications.css";
+import "./desktop-discovery-community.css";
+import "./desktop-account-portals-agents.css";
 import "./authenticated-final-polish.css";
 
 export default function AuthenticatedStyles() {
