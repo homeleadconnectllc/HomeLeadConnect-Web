@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { objectionGuides, scriptLibrary, scriptLibrarySections } from "./scriptLibrary";
+import { objectionGuides, scriptLibrary, scriptLibrarySections } from "./scriptLibrary.ts";
 
 test("scripts library covers the required operating sections", () => {
   for (const required of [
