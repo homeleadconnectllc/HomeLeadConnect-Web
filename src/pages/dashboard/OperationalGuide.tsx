@@ -59,6 +59,7 @@ export default function OperationalGuide({ page }: { page: GuidePage }) {
       <Link className={page === "help" ? "is-active" : ""} to="/help">Help Center</Link>
       <Link className={page === "tutorials" ? "is-active" : ""} to="/tutorials">Tutorials</Link>
       <Link className={page === "rules" ? "is-active" : ""} to="/rules">Rules & Safety</Link>
+      <Link to="/resources/forms">Forms & Checklists</Link>
       <Link to="/documents">Documents</Link>
       <Link to="/call-center">Call Center</Link>
     </nav>
