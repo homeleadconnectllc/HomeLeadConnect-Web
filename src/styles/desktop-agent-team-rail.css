@@ -10,58 +10,62 @@
   #root .hlc-signed-in-shell .hlc-desktop-agent-team {
     position: fixed;
     z-index: 1175;
-    right: 24px;
-    top: 24px;
+    right: 18px;
+    top: 50%;
     display: grid;
-    width: 238px;
-    gap: 10px;
+    width: 104px;
+    gap: 8px;
     box-sizing: border-box;
     border: 1px solid rgba(148, 163, 184, .14);
-    border-radius: 18px;
-    padding: 12px;
-    background: rgba(7, 17, 31, .94);
-    box-shadow: 0 18px 46px rgba(2, 6, 23, .28);
+    border-radius: 20px;
+    padding: 10px 8px;
+    background: rgba(7, 17, 31, .96);
+    box-shadow: 0 18px 46px rgba(2, 6, 23, .3);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
+    transform: translateY(-50%);
   }
 
   #root .hlc-signed-in-shell .hlc-desktop-agent-team-heading {
     display: grid;
+    place-items: center;
     gap: 2px;
-    padding: 2px 4px 6px;
+    padding: 2px 2px 6px;
+    text-align: center;
   }
 
   #root .hlc-signed-in-shell .hlc-desktop-agent-team-heading > span {
     color: #6f9ed5;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 900;
     letter-spacing: .14em;
   }
 
   #root .hlc-signed-in-shell .hlc-desktop-agent-team-heading > strong {
-    color: #eef6ff;
-    font-size: 13px;
+    color: #9fb3ca;
+    font-size: 9px;
+    font-weight: 750;
     line-height: 1.2;
   }
 
   #root .hlc-signed-in-shell .hlc-desktop-agent-team-list {
     display: grid;
-    gap: 6px;
+    gap: 7px;
   }
 
   #root .hlc-signed-in-shell .hlc-desktop-agent-team-link {
     display: grid;
-    grid-template-columns: 42px minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 10px;
+    place-items: center;
+    gap: 5px;
     min-width: 0;
-    min-height: 58px;
+    min-height: 74px;
     box-sizing: border-box;
     border: 1px solid transparent;
-    border-radius: 14px;
-    padding: 7px 9px;
+    border-radius: 15px;
+    padding: 7px 4px;
     color: #d7e4f3;
     background: rgba(15, 31, 51, .58);
+    text-align: center;
     text-decoration: none;
     transition: border-color .16s ease, background .16s ease, transform .16s ease;
   }
@@ -69,28 +73,28 @@
   #root .hlc-signed-in-shell .hlc-desktop-agent-team-link:hover,
   #root .hlc-signed-in-shell .hlc-desktop-agent-team-link:focus-visible {
     border-color: rgba(96, 165, 250, .34);
-    background: rgba(22, 49, 81, .72);
-    transform: translateY(-1px);
+    background: rgba(22, 49, 81, .78);
+    transform: translateX(-2px);
   }
 
   #root .hlc-signed-in-shell .hlc-desktop-agent-team-link.is-active {
-    border-color: rgba(96, 165, 250, .42);
-    background: linear-gradient(135deg, rgba(37, 99, 235, .24), rgba(14, 36, 61, .88));
+    border-color: rgba(96, 165, 250, .46);
+    background: linear-gradient(135deg, rgba(37, 99, 235, .26), rgba(14, 36, 61, .9));
   }
 
   #root .hlc-signed-in-shell .hlc-desktop-agent-avatar-wrap {
     position: relative;
     display: block;
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
   }
 
   #root .hlc-signed-in-shell .hlc-desktop-agent-avatar-wrap img {
     display: block;
-    width: 42px;
-    height: 42px;
+    width: 44px;
+    height: 44px;
     border: 1px solid rgba(255, 255, 255, .09);
-    border-radius: 12px;
+    border-radius: 13px;
     object-fit: cover;
     background: #0c1b2d;
   }
@@ -99,8 +103,8 @@
     position: absolute;
     right: -2px;
     bottom: -2px;
-    width: 10px;
-    height: 10px;
+    width: 11px;
+    height: 11px;
     box-sizing: border-box;
     border: 2px solid #07111f;
     border-radius: 999px;
@@ -110,37 +114,30 @@
   #root .hlc-signed-in-shell .hlc-desktop-agent-team-copy {
     display: grid;
     min-width: 0;
-    gap: 2px;
+    gap: 1px;
   }
 
   #root .hlc-signed-in-shell .hlc-desktop-agent-team-copy strong {
     overflow: hidden;
+    max-width: 82px;
     color: #f2f7fd;
-    font-size: 13px;
-    line-height: 1.2;
+    font-size: 10px;
+    line-height: 1.15;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
   #root .hlc-signed-in-shell .hlc-desktop-agent-team-copy small {
-    overflow: hidden;
-    color: #8fa7c2;
-    font-size: 10px;
-    font-weight: 700;
-    line-height: 1.25;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    display: none;
   }
 
   #root .hlc-signed-in-shell .hlc-desktop-agent-team-open {
-    color: #7198c5;
-    font-size: 22px;
-    font-weight: 400;
+    display: none;
   }
 
-  /* Reserve a calm top-right lane for the team rail without covering page controls. */
-  #root .hlc-signed-in-shell:not(.hlc-agent-open) > .hlc-route-content > main {
-    padding-top: 150px;
+  /* Reserve only the slim rail lane. No large top spacer and no content obstruction. */
+  #root .hlc-signed-in-shell:not(.hlc-agent-open) > .hlc-route-content {
+    padding-right: max(124px, clamp(28px, 3.2vw, 56px));
   }
 
   /* Once a full contextual assistant is open, it owns the right lane. */
@@ -150,7 +147,7 @@
   }
 
   #root .hlc-signed-in-shell .hlc-help-trigger {
-    right: 24px;
+    right: 26px;
     bottom: 24px;
   }
 }
