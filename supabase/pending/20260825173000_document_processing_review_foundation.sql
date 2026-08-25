@@ -91,6 +91,23 @@ grant select on public.document_extraction_fields to authenticated;
 grant all on public.document_processing_jobs to service_role;
 grant all on public.document_extraction_fields to service_role;
 
+-- The live document-events vocabulary is currently upload/share/view/delete only.
+-- Expand it atomically with this foundation before any processing RPC can emit its audit events.
+alter table public.document_events
+  drop constraint if exists document_events_action_check;
+alter table public.document_events
+  add constraint document_events_action_check
+  check (action in (
+    'uploaded',
+    'shared',
+    'viewed',
+    'deleted',
+    'processing_requested',
+    'processing_completed',
+    'processing_failed',
+    'extraction_reviewed'
+  ));
+
 create or replace function public.request_document_processing(
   p_document_id uuid,
   p_processing_kind text
@@ -186,6 +203,3 @@ revoke all on function public.request_document_processing(uuid,text) from public
 grant execute on function public.request_document_processing(uuid,text) to authenticated,service_role;
 revoke all on function public.review_document_extraction_field(uuid,text,jsonb) from public,anon;
 grant execute on function public.review_document_extraction_field(uuid,text,jsonb) to authenticated,service_role;
-
--- When promoted into the canonical chain, extend public.document_events action vocabulary to include:
--- processing_requested, processing_completed, processing_failed, extraction_reviewed.
