@@ -10,6 +10,7 @@ import "./desktop-data-workspaces.css";
 import "./desktop-page-archetypes.css";
 import "./desktop-shell-recovery.css";
 import "./desktop-core-workspaces.css";
+import "./desktop-workflow-communications.css";
 import "./authenticated-final-polish.css";
 
 export default function AuthenticatedStyles() {
