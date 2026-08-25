@@ -117,6 +117,9 @@ The active production app Supabase project is `homeconnect` (`cguhtshclyybivvdnp
 109. `20260823014500_lead_vacuum_social_attribution.sql`
 110. `20260823021800_fix_leads_stage_default.sql`
 111. `20260823170000_harden_provider_network_tenancy.sql`
+112. `20260825224138_harden_public_analytics_rpc_search_path.sql`
+113. `20260825224704_harden_workspace_rls_initplans_and_pipeline_limit.sql`
+114. `20260825230409_remove_redundant_rls_select_policies.sql`
 
 Migration #101 is retained in the local migration chain because it was applied to `hlc-reconciliation-test` during reconciliation. It is **not evidence of a production defect and is not required to be applied to `homeconnect` solely for parity**: production already has the canonical `causal.ingest_lead(...)` implementation from migration #98 with direct browser execution denied. Do not apply #101 to production unless a future production migration decision independently justifies it.
 
@@ -139,6 +142,12 @@ Migration #109 adds the Lead Vacuum's server-controlled attributed intake bounda
 Migration #110 aligns the `public.leads.stage` default with the canonical lowercase `new` state enforced by migration #107. It fixes new canonical lead inserts that otherwise inherit the retired uppercase `NEW` default and fail the `leads_stage_no_uppercase_new` constraint.
 
 Migration #111 hardens provider-network tenancy by requiring every `provider_availability`, `provider_service_areas`, `provider_services`, and `saved_providers` row to reference a contractor from the same workspace. It preserves existing frontend upsert conflict targets and adds only the composite contractor/workspace key required to enforce that invariant at the database boundary.
+
+Migration #112 hardens the intentionally public analytics RPC by locking its `search_path`, removing PUBLIC's default execution privilege, and retaining only explicit intended-role execution grants.
+
+Migration #113 removes the duplicate permissive pipeline INSERT path that could bypass plan-limit enforcement and optimizes selected workspace membership RLS checks without widening access.
+
+Migration #114 removes only semantically redundant SELECT policies on `call_sessions` and `participant_preferences`; distinct `profiles` and `workspaces` policies remain intact pending separate authorization review.
 
 ## Current production rules
 
