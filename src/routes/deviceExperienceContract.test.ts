@@ -39,7 +39,8 @@ test("mobile field-work navigation remains canonical while agent presentation st
   assert.match(navbar, /label:\s*"Work",[\s\S]*?route:\s*"\/leads"/);
   assert.match(navbar, /label:\s*"Network",[\s\S]*?route:\s*"\/network"/);
   assert.match(navbar, /label:\s*"Community",[\s\S]*?route:\s*"\/community-hub"/);
-  assert.match(navbar, /aria-label="More"/);
+  assert.match(navbar, /aria-label=\{mobileOpen \? "Close all HLC areas" : "Open all HLC areas"\}/);
+  assert.match(navbar, /<span>More<\/span>/);
   assert.match(proactiveCss, /@media \(max-width: 720px\)/);
   assert.doesNotMatch(agentDock, /label: "Call"|label: "Text"|label: "Schedule"/);
   assert.doesNotMatch(appLayout, /MobileWorkDock/);
