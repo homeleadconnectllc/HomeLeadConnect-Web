@@ -83,7 +83,7 @@ export default function FollowUps() {
     }
   }
 
-  const now = useMemo(() => new Date(), [items]);
+  const now = useMemo(() => new Date(), []);
   const orderedItems = useMemo(() => [...items].sort((a, b) => {
     if (a.status === "completed" && b.status !== "completed") return 1;
     if (a.status !== "completed" && b.status === "completed") return -1;
