@@ -8,7 +8,7 @@ import {
   invoiceExtractionFields,
   receiptExtractionFields,
   signatureEnvelopeStates,
-} from "./documentProcessing";
+} from "./documentProcessing.ts";
 
 test("document processing supports OCR invoice receipt and generic extraction without implying automatic posting", () => {
   assert.deepEqual(documentProcessingKinds, ["ocr", "invoice", "receipt", "generic_extraction"]);
