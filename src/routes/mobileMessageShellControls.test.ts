@@ -9,14 +9,17 @@ const appLayout = readFileSync("src/routes/AppLayout.tsx", "utf8");
 const main = readFileSync("src/main.tsx", "utf8");
 const authenticatedEntry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 
-test("compact devices expose Mobile/Desktop inside the More menu instead of a fixed overlay", () => {
+test("compact devices enforce mobile viewport without a manual desktop switch", () => {
   assert.match(app, /<MobileViewControls \/>/);
   assert.match(controls, /hlc-view-mode/);
   assert.match(controls, /width=device-width/);
-  assert.match(controls, /width=1180/);
-  assert.match(controls, /hlc-mobile-portal-scroll/);
-  assert.match(controls, />\s*Mobile\s*</);
-  assert.match(controls, />\s*Desktop\s*</);
+  assert.match(controls, /function enforceMobileViewport\(\)/);
+  assert.match(controls, /viewport\.content = MOBILE_VIEWPORT/);
+  assert.match(controls, /localStorage\.removeItem\(VIEW_MODE_KEY\)/);
+  assert.match(controls, /return null/);
+  assert.doesNotMatch(controls, /width=1180/);
+  assert.doesNotMatch(controls, /hlc-mobile-portal-scroll/);
+  assert.doesNotMatch(controls, />\s*Desktop\s*</);
   assert.doesNotMatch(controls, /hlc-mobile-side-controls/);
   assert.doesNotMatch(styles, /position:\s*fixed/);
 });
