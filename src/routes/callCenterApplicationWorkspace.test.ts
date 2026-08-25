@@ -14,13 +14,14 @@ test("Call Center uses a dedicated call-operations workspace instead of inline c
   assert.doesNotMatch(page, /CSSProperties|companionStyle|actionStyle|statusGridStyle/);
 });
 
-test("Call Center preserves carrier handoff, persisted sessions and outcome mutations", () => {
+test("Call Center preserves carrier handoff, persisted sessions and intelligent outcome mutations", () => {
   assert.match(page, /listBusinessPhones\(\)/);
   assert.match(page, /listCallSessions\(\)/);
   assert.match(page, /recordCallDisposition/);
   assert.match(page, />Call Log</);
   assert.match(page, />Call History</);
-  assert.match(page, /Save to call log/);
+  assert.match(page, /Save intelligent disposition/);
+  assert.match(page, /Human confirmation required/);
   assert.match(page, /https:\/\/voice\.google\.com\//);
   assert.match(page, /transport=google_voice&direction=outbound/);
   assert.match(page, /transport=google_voice&direction=inbound/);
