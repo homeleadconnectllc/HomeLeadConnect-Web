@@ -70,7 +70,10 @@ test("authenticated logo remains a readable uncropped HLC mark on live mobile ro
 });
 
 test("physical phones boot into and activate the compact mobile shell", () => {
-  assert.match(mobileViewControls, /return isCompactDevice\(\) \? "mobile" : readStoredViewMode\(\)/);
+  assert.match(mobileViewControls, /function isCompactDevice\(\)/);
+  assert.match(mobileViewControls, /function enforceMobileViewport\(\)/);
+  assert.match(mobileViewControls, /if \(compactDevice\) enforceMobileViewport\(\)/);
+  assert.match(mobileViewControls, /localStorage\.removeItem\(VIEW_MODE_KEY\)/);
   assert.match(mobileViewControls, /classList\.toggle\("hlc-compact-device", compactDevice\)/);
   assert.match(liveDeviceAuthority, /max-device-width:\s*900px/i);
   assert.match(liveDeviceAuthority, /\.hlc-command-center[\s\S]*transform:\s*none\s*!important[\s\S]*zoom:\s*1\s*!important/i);
