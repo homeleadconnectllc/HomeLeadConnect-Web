@@ -3,13 +3,15 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const documents = readFileSync("src/pages/dashboard/Documents.tsx", "utf8");
+const scan = readFileSync("src/pages/dashboard/DocumentScan.tsx", "utf8");
+const router = readFileSync("src/routes/AppRouter.tsx", "utf8");
 const guides = readFileSync("src/pages/dashboard/OperationalGuide.tsx", "utf8");
 const styles = readFileSync("src/styles/documents-resources-application-workspace.css", "utf8");
 const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 
 test("Documents uses a dedicated evidence workspace instead of inline card composition", () => {
   assert.match(documents, /hlc-documents-workspace/);
-  assert.match(documents, /RECORD EVIDENCE/);
+  assert.match(documents, /DOCUMENT OPERATIONS/);
   assert.match(documents, /hlc-documents-console/);
   assert.match(documents, /hlc-document-row/);
   assert.doesNotMatch(documents, /heroStyle|guideCardStyle|fileCardStyle|boxShadow:/);
@@ -31,6 +33,31 @@ test("Documents preserves canonical loading, upload, sharing and open behavior",
   assert.match(documents, /value="homeowner"/);
   assert.match(documents, /value="contractor"/);
   assert.match(documents, /25 MB/);
+});
+
+test("Documents v2 exposes real library controls while keeping unconnected processing honest", () => {
+  assert.match(documents, /type="search"/);
+  assert.match(documents, /Record type/);
+  assert.match(documents, /File type/);
+  assert.match(documents, /Sharing/);
+  assert.match(documents, /Clear filters/);
+  assert.match(documents, /\/resources\/forms/);
+  assert.match(documents, /to="\/documents\/scan">Scan capture/);
+  assert.match(documents, /OCR extraction · setup pending/);
+  assert.match(documents, /E-signatures · setup pending/);
+  assert.match(documents, /aria-disabled="true"/);
+  assert.doesNotMatch(documents, /OCR complete|Signature complete|Signed successfully/);
+});
+
+test("Scan intake stores original record evidence without claiming OCR", () => {
+  assert.match(router, /path="\/documents\/scan" element={<DocumentScan\/>}/);
+  assert.match(scan, /SCAN INTAKE/);
+  assert.match(scan, /uploadDocument\(\{/);
+  assert.match(scan, /capture="environment"/);
+  assert.match(scan, /application\/pdf,image\/jpeg,image\/png,image\/webp/);
+  assert.match(scan, /OCR extraction has not been run/);
+  assert.match(scan, /Human review/);
+  assert.doesNotMatch(scan, /OCR complete|extracted successfully|auto-posted|signature complete/i);
 });
 
 test("Help Tutorials and Rules share the knowledge workspace while preserving operational handoffs", () => {

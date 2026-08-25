@@ -35,23 +35,27 @@ const agentNavigation = [
   { label: "Diamond", route: "/customer-experience", purpose: "Customer Experience · community and recovery", avatar: "/brand/avatars/Diamond_Locked_HLC.png" },
 ];
 
-type MobileIconName = "home" | "leads" | "jobs" | "messages" | "notifications" | "profile" | "more";
+type MobileIconName = "home" | "work" | "network" | "community" | "messages" | "notifications" | "profile" | "more";
 
 type MobileNavItem = {
   label: string;
   route: string;
   icon: MobileIconName;
+  matches?: string[];
 };
 
 function MobileNavIcon({ name }: { name: MobileIconName }) {
   if (name === "home") {
     return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.8 12 3l9 7.8v9.1a1.1 1.1 0 0 1-1.1 1.1h-5.3v-6.2H9.4V21H4.1A1.1 1.1 0 0 1 3 19.9Z" /></svg>;
   }
-  if (name === "leads") {
-    return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4.8 20c.8-4 3.2-6 7.2-6s6.4 2 7.2 6" /></svg>;
-  }
-  if (name === "jobs") {
+  if (name === "work") {
     return <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M9 7V4h6v3M3 12h18" /></svg>;
+  }
+  if (name === "network") {
+    return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2.5" /><circle cx="5" cy="18" r="2.5" /><circle cx="19" cy="18" r="2.5" /><path d="m10.8 7.2-4.5 8.5M13.2 7.2l4.5 8.5M7.5 18h9" /></svg>;
+  }
+  if (name === "community") {
+    return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="3" /><circle cx="17" cy="9" r="2.5" /><path d="M2.8 20c.6-4.2 2.4-6.3 5.2-6.3 3 0 4.8 2.1 5.3 6.3M13.5 14.5c2.9-.7 6.5.8 7 5.5" /></svg>;
   }
   if (name === "messages") {
     return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v12H9l-5 4Z" /></svg>;
@@ -65,9 +69,14 @@ function MobileNavIcon({ name }: { name: MobileIconName }) {
   return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.7" /><circle cx="12" cy="12" r="1.7" /><circle cx="19" cy="12" r="1.7" /></svg>;
 }
 
-function mobileRouteIsActive(pathname: string, route: string) {
-  if (route === "/dashboard" || route === "/homeowner-portal" || route === "/contractor-portal") return pathname === route;
-  return pathname === route || pathname.startsWith(`${route}/`);
+function pathMatchesPrefix(pathname: string, prefix: string) {
+  return pathname === prefix || pathname.startsWith(`${prefix}/`);
+}
+
+function mobileRouteIsActive(pathname: string, item: MobileNavItem) {
+  if (item.matches?.some((prefix) => pathMatchesPrefix(pathname, prefix))) return true;
+  if (item.route === "/dashboard" || item.route === "/homeowner-portal" || item.route === "/contractor-portal") return pathname === item.route;
+  return pathMatchesPrefix(pathname, item.route);
 }
 
 export default function Navbar() {
@@ -123,12 +132,33 @@ export default function Navbar() {
   const mobilePrimaryLinks = useMemo<MobileNavItem[]>(() => {
     if (!signedIn || !accessResolved) return [];
     if (showBusinessTools && access.role) {
-      return [
-        { label: "Home", route: "/dashboard", icon: "home" as const },
-        { label: "Leads", route: "/leads", icon: "leads" as const },
-        { label: "Jobs", route: "/jobs", icon: "jobs" as const },
-        { label: "Messages", route: "/messages", icon: "messages" as const },
-      ].filter((item) => canAccessWorkspacePath(access.role, item.route));
+      const candidates: MobileNavItem[] = [
+        {
+          label: "Home",
+          route: "/dashboard",
+          icon: "home",
+          matches: ["/dashboard", "/workflow", "/ecosystem", "/automations", "/notifications", "/hq"],
+        },
+        {
+          label: "Work",
+          route: "/leads",
+          icon: "work",
+          matches: ["/leads", "/estimator", "/jobs", "/calendar", "/follow-ups", "/operations"],
+        },
+        {
+          label: "Network",
+          route: "/network",
+          icon: "network",
+          matches: ["/network", "/matching", "/map", "/providers", "/profiles"],
+        },
+        {
+          label: "Community",
+          route: "/community-hub",
+          icon: "community",
+          matches: ["/community-hub", "/community"],
+        },
+      ];
+      return candidates.filter((item) => canAccessWorkspacePath(access.role, item.route));
     }
 
     const portalHome = access.homeowner ? "/homeowner-portal" : access.contractor ? "/contractor-portal" : "/portal/accept";
@@ -142,6 +172,9 @@ export default function Navbar() {
     }
     return portalLinks;
   }, [access.contractor, access.homeowner, access.role, accessResolved, showBusinessTools, signedIn]);
+
+  const businessPrimaryAreaActive = showBusinessTools && mobilePrimaryLinks.some((item) => mobileRouteIsActive(location.pathname, item));
+  const moreIsActive = mobileOpen || (showBusinessTools && !businessPrimaryAreaActive);
 
   function closeMobileMenu() {
     setMobileOpenAt(null);
@@ -256,7 +289,7 @@ export default function Navbar() {
       {signedIn && accessResolved && mobilePrimaryLinks.length > 0 && (
         <nav className="hlc-mobile-tabbar" aria-label="Mobile primary navigation">
           {mobilePrimaryLinks.map((item) => {
-            const active = mobileRouteIsActive(location.pathname, item.route);
+            const active = mobileRouteIsActive(location.pathname, item);
             return (
               <Link
                 key={item.route}
@@ -272,7 +305,7 @@ export default function Navbar() {
           })}
           <button
             type="button"
-            className={mobileOpen ? "is-active" : undefined}
+            className={moreIsActive ? "is-active" : undefined}
             aria-expanded={mobileOpen}
             aria-label={mobileOpen ? "Close all HLC areas" : "Open all HLC areas"}
             onClick={() => setMobileOpenAt(mobileOpen ? null : location.pathname)}

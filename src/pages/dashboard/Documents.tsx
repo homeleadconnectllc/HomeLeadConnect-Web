@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import {
   getDocumentUrl,
   listDocuments,
@@ -16,6 +16,8 @@ const captureGuidance = [
 ] as const;
 
 const documentEntityTypes = new Set(["lead", "estimate", "job", "appointment", "contractor", "conversation"]);
+const filterScopes = ["all", "workspace", "homeowner", "contractor"] as const;
+type FilterScope = (typeof filterScopes)[number];
 
 export default function Documents() {
   const [searchParams] = useSearchParams();
@@ -24,6 +26,10 @@ export default function Documents() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [query, setQuery] = useState("");
+  const [entityFilter, setEntityFilter] = useState("all");
+  const [scopeFilter, setScopeFilter] = useState<FilterScope>("all");
+  const [typeFilter, setTypeFilter] = useState("all");
   const requestedEntityType = searchParams.get("entityType") || "";
   const requestedEntityId = searchParams.get("entityId") || "";
   const initialEntityType = documentEntityTypes.has(requestedEntityType) ? requestedEntityType : "lead";
@@ -44,6 +50,20 @@ export default function Documents() {
     counts[type] = (counts[type] ?? 0) + 1;
     return counts;
   }, {} as Record<string, number>), [items]);
+
+  const entityTypes = useMemo(() => Array.from(new Set(items.map((item) => item.entity_type))).sort(), [items]);
+  const fileTypes = useMemo(() => Array.from(new Set(items.map((item) => friendlyType(item.mime_type)))).sort(), [items]);
+  const filteredItems = useMemo(() => {
+    const needle = query.trim().toLowerCase();
+    return items.filter((item) => {
+      if (entityFilter !== "all" && item.entity_type !== entityFilter) return false;
+      if (scopeFilter !== "all" && item.sharing_scope !== scopeFilter) return false;
+      if (typeFilter !== "all" && friendlyType(item.mime_type) !== typeFilter) return false;
+      if (!needle) return true;
+      return [item.filename, item.entity_type, item.entity_id, item.sharing_scope, friendlyType(item.mime_type)]
+        .some((value) => value.toLowerCase().includes(needle));
+    });
+  }, [entityFilter, items, query, scopeFilter, typeFilter]);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -80,23 +100,40 @@ export default function Documents() {
     }
   }
 
+  function clearFilters() {
+    setQuery("");
+    setEntityFilter("all");
+    setScopeFilter("all");
+    setTypeFilter("all");
+  }
+
   return (
     <main className="hlc-documents-workspace">
       <header className="hlc-documents-header">
         <div>
-          <p className="hlc-documents-kicker">RECORD EVIDENCE</p>
-          <h1>Documents & media</h1>
-          <p>Attach useful evidence to the correct HLC record, keep sharing scope explicit, and make the next operator or professional understand the work without guessing.</p>
+          <p className="hlc-documents-kicker">DOCUMENT OPERATIONS</p>
+          <h1>Documents, forms & evidence</h1>
+          <p>Keep record-linked files, forms, field evidence and sharing decisions inside HLC. Scan capture is available now; OCR extraction and e-signatures remain separate processing lanes until their trusted backends are connected.</p>
         </div>
         <div className="hlc-documents-summary" aria-label="Evidence workspace summary">
           <span><strong>{items.length}</strong><small>Stored files</small></span>
-          <span><strong>25 MB</strong><small>Per-file limit</small></span>
+          <span><strong>{filteredItems.length}</strong><small>Current view</small></span>
           <span><strong>{Object.keys(typeCounts).length}</strong><small>Media types</small></span>
+          <span><strong>25 MB</strong><small>Per-file limit</small></span>
         </div>
       </header>
 
       {error && <p role="alert" className="hlc-documents-status is-error">{error}</p>}
       {message && <p role="status" className="hlc-documents-status is-success">{message}</p>}
+
+      <nav className="hlc-resources-commandbar" aria-label="Document workspace capabilities">
+        <a href="#hlc-document-intake-title">Upload</a>
+        <a href="#hlc-record-library">Library</a>
+        <Link to="/resources/forms">Forms & Checklists</Link>
+        <Link to="/documents/scan">Scan capture</Link>
+        <span aria-disabled="true" title="OCR processing backend is not connected yet">OCR extraction · setup pending</span>
+        <span aria-disabled="true" title="Electronic signature backend is not connected yet">E-signatures · setup pending</span>
+      </nav>
 
       <div className="hlc-documents-console">
         <section className="hlc-documents-intake" aria-labelledby="hlc-document-intake-title">
@@ -151,19 +188,29 @@ export default function Documents() {
       <section className="hlc-documents-library" aria-labelledby="hlc-record-library">
         <div className="hlc-documents-section-head">
           <div><span>RECORD LIBRARY</span><h2 id="hlc-record-library">Stored evidence</h2></div>
-          <strong>{items.length}</strong>
+          <strong>{filteredItems.length} / {items.length}</strong>
         </div>
-        {loading ? <p className="hlc-documents-state">Loading evidence…</p> : items.length === 0 ? <p className="hlc-documents-state">No documents or media yet. Attach the first useful piece of evidence above.</p> : (
+
+        <div className="hlc-documents-form" aria-label="Document filters">
+          <label>Search<input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Filename, record ID, type, sharing scope…" /></label>
+          <label>Record type<select value={entityFilter} onChange={(event) => setEntityFilter(event.target.value)}><option value="all">All record types</option>{entityTypes.map((type) => <option key={type} value={type}>{type}</option>)}</select></label>
+          <label>File type<select value={typeFilter} onChange={(event) => setTypeFilter(event.target.value)}><option value="all">All file types</option>{fileTypes.map((type) => <option key={type} value={type}>{type}</option>)}</select></label>
+          <label>Sharing<select value={scopeFilter} onChange={(event) => setScopeFilter(event.target.value as FilterScope)}>{filterScopes.map((scope) => <option key={scope} value={scope}>{scope === "all" ? "All sharing scopes" : scope}</option>)}</select></label>
+          <button type="button" onClick={clearFilters}>Clear filters</button>
+        </div>
+
+        {loading ? <p className="hlc-documents-state">Loading evidence…</p> : items.length === 0 ? <p className="hlc-documents-state">No documents or media yet. Attach the first useful piece of evidence above.</p> : filteredItems.length === 0 ? <p className="hlc-documents-state">No stored evidence matches the current filters.</p> : (
           <div className="hlc-documents-file-list">
-            {items.map((item) => (
+            {filteredItems.map((item) => (
               <article className="hlc-document-row" key={item.id}>
                 <div className="hlc-document-row-main">
                   <button type="button" onClick={() => open(item)}>{item.filename}</button>
                   <span>{item.entity_type} · {item.entity_id}</span>
+                  <small>Added {new Date(item.created_at).toLocaleString()}</small>
                 </div>
                 <div className="hlc-document-row-meta">
                   <strong>{friendlyType(item.mime_type)}</strong>
-                  <span>{item.sharing_scope}</span>
+                  <span>{sharingLabel(item.sharing_scope)}</span>
                   <small>{formatBytes(item.byte_size)}</small>
                 </div>
               </article>
@@ -173,6 +220,12 @@ export default function Documents() {
       </section>
     </main>
   );
+}
+
+function sharingLabel(scope: DocumentRecord["sharing_scope"]) {
+  if (scope === "homeowner") return "Resident shared";
+  if (scope === "contractor") return "Professional shared";
+  return "Workspace only";
 }
 
 function formatBytes(bytes: number) {
