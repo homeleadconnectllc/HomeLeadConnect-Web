@@ -98,10 +98,12 @@ test("signed-in mobile navigation behaves like an adaptive field app", () => {
   assert.doesNotMatch(navbar, /from\("workspace_members"\)/);
   assert.match(navbar, /className="hlc-mobile-tabbar"/);
   assert.match(navbar, /MobileNavIcon/);
-  assert.match(navbar, /label: "Home", route: "\/dashboard"/);
-  assert.match(navbar, /label: "Leads", route: "\/leads"/);
-  assert.match(navbar, /label: "Jobs", route: "\/jobs"/);
-  assert.match(navbar, /label: "Messages", route: "\/messages"/);
+  assert.match(navbar, /label:\s*"Home",[\s\S]*?route:\s*"\/dashboard"/);
+  assert.match(navbar, /label:\s*"Work",[\s\S]*?route:\s*"\/leads"/);
+  assert.match(navbar, /label:\s*"Network",[\s\S]*?route:\s*"\/network"/);
+  assert.match(navbar, /label:\s*"Community",[\s\S]*?route:\s*"\/community-hub"/);
+  assert.match(navbar, /aria-label=\{mobileOpen \? "Close all HLC areas" : "Open all HLC areas"\}/);
+  assert.match(navbar, /<span>More<\/span>/);
   assert.match(navbar, /canAccessWorkspacePath\(access\.role, item\.route\)/);
   assert.match(navbar, /aria-label="Mobile primary navigation"/);
   assert.match(navbar, /aria-current=\{active \? "page" : undefined\}/);
