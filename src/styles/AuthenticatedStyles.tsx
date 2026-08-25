@@ -9,6 +9,7 @@ import "./desktop-agent-team-rail.css";
 import "./desktop-data-workspaces.css";
 import "./desktop-page-archetypes.css";
 import "./desktop-shell-recovery.css";
+import "./authenticated-final-polish.css";
 
 export default function AuthenticatedStyles() {
   return null;
