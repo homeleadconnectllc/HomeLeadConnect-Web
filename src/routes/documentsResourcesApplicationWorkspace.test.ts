@@ -42,7 +42,8 @@ test("Documents v2 exposes real library controls while keeping unconnected proce
   assert.match(documents, /Sharing/);
   assert.match(documents, /Clear filters/);
   assert.match(documents, /\/resources\/forms/);
-  assert.match(documents, /Scan \/ OCR · setup pending/);
+  assert.match(documents, /to="\/documents\/scan">Scan capture/);
+  assert.match(documents, /OCR extraction · setup pending/);
   assert.match(documents, /E-signatures · setup pending/);
   assert.match(documents, /aria-disabled="true"/);
   assert.doesNotMatch(documents, /OCR complete|Signature complete|Signed successfully/);
