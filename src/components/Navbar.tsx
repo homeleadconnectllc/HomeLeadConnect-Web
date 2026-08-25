@@ -35,7 +35,7 @@ const agentNavigation = [
   { label: "Diamond", route: "/customer-experience", purpose: "Customer Experience · community and recovery", avatar: "/brand/avatars/Diamond_Locked_HLC.png" },
 ];
 
-type MobileIconName = "home" | "leads" | "jobs" | "messages" | "notifications" | "profile" | "more";
+type MobileIconName = "home" | "work" | "messages" | "map" | "notifications" | "profile" | "more";
 
 type MobileNavItem = {
   label: string;
@@ -43,18 +43,31 @@ type MobileNavItem = {
   icon: MobileIconName;
 };
 
+type MobileSection = {
+  label: string;
+  routes: string[];
+};
+
+const businessMobileSections: MobileSection[] = [
+  { label: "Work tools", routes: ["/jobs", "/calendar", "/follow-ups", "/matching"] },
+  { label: "Communications", routes: ["/call-center", "/manual-communications"] },
+  { label: "Community", routes: ["/community-hub", "/community/discussions", "/community/reviews", "/community/referrals", "/community/events"] },
+  { label: "Resources", routes: ["/documents", "/help", "/tutorials", "/rules"] },
+  { label: "Account", routes: ["/profile", "/contractor-portal", "/settings/billing", "/settings"] },
+];
+
 function MobileNavIcon({ name }: { name: MobileIconName }) {
   if (name === "home") {
     return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.8 12 3l9 7.8v9.1a1.1 1.1 0 0 1-1.1 1.1h-5.3v-6.2H9.4V21H4.1A1.1 1.1 0 0 1 3 19.9Z" /></svg>;
   }
-  if (name === "leads") {
-    return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M4.8 20c.8-4 3.2-6 7.2-6s6.4 2 7.2 6" /></svg>;
-  }
-  if (name === "jobs") {
+  if (name === "work") {
     return <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M9 7V4h6v3M3 12h18" /></svg>;
   }
   if (name === "messages") {
     return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v12H9l-5 4Z" /></svg>;
+  }
+  if (name === "map") {
+    return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3Z" /><path d="M9 3v15M15 6v15" /></svg>;
   }
   if (name === "notifications") {
     return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.8 10a5.2 5.2 0 0 1 10.4 0c0 5 2.2 5.1 2.2 7H4.6c0-1.9 2.2-2 2.2-7ZM9.7 20h4.6" /></svg>;
@@ -67,6 +80,7 @@ function MobileNavIcon({ name }: { name: MobileIconName }) {
 
 function mobileRouteIsActive(pathname: string, route: string) {
   if (route === "/dashboard" || route === "/homeowner-portal" || route === "/contractor-portal") return pathname === route;
+  if (route === "/leads") return ["/leads", "/jobs", "/calendar", "/follow-ups", "/matching"].some((workRoute) => pathname === workRoute || pathname.startsWith(`${workRoute}/`));
   return pathname === route || pathname.startsWith(`${route}/`);
 }
 
@@ -111,6 +125,11 @@ export default function Navbar() {
       .filter((group) => group.pages.length > 0);
   }, [access]);
 
+  const pageByRoute = useMemo(() => {
+    const pages = signedInGroups.flatMap((group) => group.pages);
+    return new Map(pages.map((page) => [page.route, page]));
+  }, [signedInGroups]);
+
   const currentGroup = agentRoutes.has(location.pathname)
     ? "ai-team"
     : signedInGroups.find((group) => group.pages.some((page) => page.route === location.pathname))?.id ?? "command";
@@ -125,9 +144,9 @@ export default function Navbar() {
     if (showBusinessTools && access.role) {
       return [
         { label: "Home", route: "/dashboard", icon: "home" as const },
-        { label: "Leads", route: "/leads", icon: "leads" as const },
-        { label: "Jobs", route: "/jobs", icon: "jobs" as const },
+        { label: "Work", route: "/leads", icon: "work" as const },
         { label: "Messages", route: "/messages", icon: "messages" as const },
+        { label: "Map", route: "/map", icon: "map" as const },
       ].filter((item) => canAccessWorkspacePath(access.role, item.route));
     }
 
@@ -151,22 +170,21 @@ export default function Navbar() {
     setOpenGroupState({ pathname: location.pathname, id: openGroup === id ? "" : id });
   }
 
-  function renderMenuContents() {
-    if (loading) {
-      return <p className="hlc-nav-access-note" role="status">Loading navigation…</p>;
-    }
+  function renderPublicMenuContents() {
+    return (
+      <>
+        <div className="hlc-mobile-menu-heading"><span>HomeLead Connect</span><strong>How can we help?</strong></div>
+        <a href="https://homeleadconnect.org">Public Home</a>
+        <Link to="/request-service" onClick={closeMobileMenu}>Request Service</Link>
+        <Link to="/contact" onClick={closeMobileMenu}>Contact</Link>
+        <Link to="/login" onClick={closeMobileMenu}>Sign In</Link>
+      </>
+    );
+  }
 
-    if (!signedIn) {
-      return (
-        <>
-          <div className="hlc-mobile-menu-heading"><span>HomeLead Connect</span><strong>How can we help?</strong></div>
-          <a href="https://homeleadconnect.org">Public Home</a>
-          <Link to="/request-service" onClick={closeMobileMenu}>Request Service</Link>
-          <Link to="/contact" onClick={closeMobileMenu}>Contact</Link>
-          <Link to="/login" onClick={closeMobileMenu}>Sign In</Link>
-        </>
-      );
-    }
+  function renderDesktopMenuContents() {
+    if (loading) return <p className="hlc-nav-access-note" role="status">Loading navigation…</p>;
+    if (!signedIn) return renderPublicMenuContents();
 
     return (
       <>
@@ -220,10 +238,81 @@ export default function Navbar() {
     );
   }
 
+  function renderMobileMenuContents() {
+    if (loading) return <p className="hlc-nav-access-note" role="status">Loading navigation…</p>;
+    if (!signedIn) return renderPublicMenuContents();
+
+    if (!showBusinessTools) {
+      return (
+        <>
+          <div className="hlc-mobile-menu-heading"><span>More</span><strong>Your account</strong></div>
+          <div className="hlc-mobile-more-list">
+            {access.homeowner && <Link to="/homeowner-portal" onClick={closeMobileMenu}>Resident portal</Link>}
+            {access.contractor && <Link to="/contractor-portal" onClick={closeMobileMenu}>Professional portal</Link>}
+            {(access.homeowner || access.contractor) && <Link to="/notifications" onClick={closeMobileMenu}>Notifications</Link>}
+            {(access.homeowner || access.contractor) && <Link to="/profile" onClick={closeMobileMenu}>My profile</Link>}
+          </div>
+          <div className="hlc-mobile-account-footer"><button type="button" onClick={logout}>Sign out</button></div>
+        </>
+      );
+    }
+
+    const availableAgents = agentNavigation.filter((agent) => canAccessWorkspacePath(access.role, agent.route));
+
+    return (
+      <>
+        <div className="hlc-mobile-menu-heading hlc-mobile-more-heading">
+          <span>More</span>
+          <strong>Everything else, when you need it.</strong>
+        </div>
+
+        {availableAgents.length > 0 && (
+          <section className="hlc-mobile-more-section hlc-mobile-ai-section" aria-labelledby="hlc-mobile-ai-title">
+            <div className="hlc-mobile-section-heading">
+              <h3 id="hlc-mobile-ai-title">AI team</h3>
+              <small>Ask the right agent from anywhere.</small>
+            </div>
+            <div className="hlc-mobile-agent-grid">
+              {availableAgents.map((agent) => (
+                <Link key={agent.route} to={agent.route} onClick={closeMobileMenu} aria-current={location.pathname === agent.route ? "page" : undefined}>
+                  <img src={agent.avatar} alt="" aria-hidden="true" />
+                  <span><strong>{agent.label}</strong><small>{agent.purpose.split(" · ")[0]}</small></span>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
+
+        <div className="hlc-mobile-more-sections">
+          {businessMobileSections.map((section) => {
+            const pages = section.routes.map((route) => pageByRoute.get(route)).filter((page): page is EcosystemPage => Boolean(page));
+            if (pages.length === 0) return null;
+            return (
+              <section className="hlc-mobile-more-section" key={section.label}>
+                <div className="hlc-mobile-section-heading"><h3>{section.label}</h3></div>
+                <div className="hlc-mobile-more-list">
+                  {pages.map((page) => (
+                    <Link key={page.route} to={page.route} onClick={closeMobileMenu} aria-current={location.pathname === page.route ? "page" : undefined}>
+                      <span>{page.label}</span><b aria-hidden="true">›</b>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            );
+          })}
+        </div>
+
+        <div className="hlc-mobile-account-footer">
+          <button type="button" onClick={logout}>Sign out</button>
+        </div>
+      </>
+    );
+  }
+
   const mobileDrawer = mobileOpen && typeof document !== "undefined"
     ? createPortal(
         <div className="hlc-mobile-portal" role="dialog" aria-modal="true" aria-label="HomeLead Connect navigation">
-          <div className="hlc-mobile-portal-scroll">{renderMenuContents()}</div>
+          <div className="hlc-mobile-portal-scroll">{renderMobileMenuContents()}</div>
         </div>,
         document.body,
       )
@@ -250,7 +339,7 @@ export default function Navbar() {
           {mobileOpen ? "Close" : "Menu"}
         </button>
 
-        <div className="hlc-navbar-links hlc-desktop-navigation">{renderMenuContents()}</div>
+        <div className="hlc-navbar-links hlc-desktop-navigation">{renderDesktopMenuContents()}</div>
       </nav>
 
       {signedIn && accessResolved && mobilePrimaryLinks.length > 0 && (
@@ -274,7 +363,7 @@ export default function Navbar() {
             type="button"
             className={mobileOpen ? "is-active" : undefined}
             aria-expanded={mobileOpen}
-            aria-label={mobileOpen ? "Close all HLC areas" : "Open all HLC areas"}
+            aria-label={mobileOpen ? "Close more navigation" : "Open more navigation"}
             onClick={() => setMobileOpenAt(mobileOpen ? null : location.pathname)}
           >
             <MobileNavIcon name="more" />
