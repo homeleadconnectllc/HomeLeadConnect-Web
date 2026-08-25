@@ -56,7 +56,7 @@ test("document processor requires signed user context and keeps provider credent
   assert.match(processorSource, /request\.headers\.get\("Authorization"\)/);
   assert.match(processorSource, /userClient\.auth\.getUser\(\)/);
   assert.match(processorSource, /Deno\.env\.get\("OPENAI_API_KEY"\)/);
-  assert.match(processorSource, /Deno\.env\.get\("SUPABASE_SERVICE_ROLE_KEY"\)/);
+  assert.match(processorSource, /const admin = createClient\(url, serviceKey/);
   assert.doesNotMatch(processorSource, /sk-[A-Za-z0-9_-]{12,}/);
 });
 
