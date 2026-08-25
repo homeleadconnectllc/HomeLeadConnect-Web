@@ -1,0 +1,109 @@
+/* HomeLead Connect Mac shell recovery.
+ * This authority exists only to guarantee desktop shell geometry after legacy
+ * launch/mobile layers have loaded. It does not alter tablet/mobile behavior.
+ */
+
+@media (min-width: 1025px) {
+  #root .hlc-signed-in-shell {
+    position: relative !important;
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 100vh !important;
+    overflow-x: hidden !important;
+  }
+
+  /* Keep the workspace navigation a real sidebar, never a viewport-wide sheet. */
+  #root .hlc-signed-in-shell > nav.hlc-navbar {
+    position: fixed !important;
+    z-index: 1200 !important;
+    inset: 0 auto 0 0 !important;
+    width: 288px !important;
+    min-width: 288px !important;
+    max-width: 288px !important;
+    height: 100dvh !important;
+    min-height: 100vh !important;
+    max-height: 100dvh !important;
+    margin: 0 !important;
+    transform: none !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    pointer-events: auto !important;
+  }
+
+  #root .hlc-signed-in-shell.hlc-sidebar-is-collapsed > nav.hlc-navbar {
+    width: 88px !important;
+    min-width: 88px !important;
+    max-width: 88px !important;
+  }
+
+  /* Legacy responsive navbar rules must not turn desktop navigation into a drawer. */
+  #root .hlc-signed-in-shell > nav.hlc-navbar .hlc-navbar-toggle {
+    display: none !important;
+  }
+
+  #root .hlc-signed-in-shell > nav.hlc-navbar .hlc-navbar-links.hlc-desktop-navigation {
+    position: static !important;
+    inset: auto !important;
+    display: flex !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    flex: 1 0 auto !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    overflow: visible !important;
+    transform: none !important;
+    pointer-events: auto !important;
+  }
+
+  #root .hlc-signed-in-shell > nav.hlc-navbar .hlc-navbar-groups,
+  #root .hlc-signed-in-shell > nav.hlc-navbar .hlc-nav-group,
+  #root .hlc-signed-in-shell > nav.hlc-navbar .hlc-nav-menu {
+    max-width: 100% !important;
+  }
+
+  #root .hlc-signed-in-shell > nav.hlc-navbar a,
+  #root .hlc-signed-in-shell > nav.hlc-navbar button,
+  #root .hlc-signed-in-shell > nav.hlc-navbar summary {
+    pointer-events: auto !important;
+  }
+
+  /* The working canvas always lives beside the sidebar and above background layers. */
+  #root .hlc-signed-in-shell > .hlc-route-content {
+    position: relative !important;
+    z-index: 1 !important;
+    display: block !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    min-height: 100vh !important;
+    margin: 0 0 0 288px !important;
+    overflow: visible !important;
+    pointer-events: auto !important;
+  }
+
+  #root .hlc-signed-in-shell.hlc-sidebar-is-collapsed > .hlc-route-content {
+    width: auto !important;
+    margin-left: 88px !important;
+  }
+
+  #root .hlc-signed-in-shell > .hlc-route-content > main {
+    position: relative !important;
+    z-index: 2 !important;
+    pointer-events: auto !important;
+  }
+
+  /* Contextual assistant state is carried on body, so reserve the right lane there. */
+  body.hlc-agent-open #root .hlc-signed-in-shell > .hlc-route-content {
+    padding-right: clamp(420px, 31vw, 438px) !important;
+  }
+
+  body.hlc-agent-open #root .hlc-signed-in-shell .hlc-desktop-agent-team {
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+}
