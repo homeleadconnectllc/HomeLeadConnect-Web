@@ -12,6 +12,7 @@ import {
 } from "./documentProcessing.ts";
 
 const migrationCandidate = readFileSync("supabase/pending/20260825173000_document_processing_review_foundation.sql", "utf8");
+const processorSource = readFileSync("supabase/functions/process-document/index.ts", "utf8");
 
 test("document processing supports OCR invoice receipt and generic extraction without implying automatic posting", () => {
   assert.deepEqual(documentProcessingKinds, ["ocr", "invoice", "receipt", "generic_extraction"]);
@@ -49,4 +50,34 @@ test("pending document processing migration expands audit vocabulary before proc
   assert.match(migrationCandidate, /set search_path to ''/);
   assert.match(migrationCandidate, /revoke all on function public\.request_document_processing\(uuid,text\) from public,anon/);
   assert.match(migrationCandidate, /revoke all on function public\.review_document_extraction_field\(uuid,text,jsonb\) from public,anon/);
+});
+
+test("document processor requires signed user context and keeps provider credentials server-side", () => {
+  assert.match(processorSource, /request\.headers\.get\("Authorization"\)/);
+  assert.match(processorSource, /userClient\.auth\.getUser\(\)/);
+  assert.match(processorSource, /Deno\.env\.get\("OPENAI_API_KEY"\)/);
+  assert.match(processorSource, /Deno\.env\.get\("SUPABASE_SERVICE_ROLE_KEY"\)/);
+  assert.doesNotMatch(processorSource, /sk-[A-Za-z0-9_-]{12,}/);
+});
+
+test("document processor is explicit queued-only review workflow rather than automatic posting", () => {
+  assert.match(processorSource, /job\.status !== "queued"/);
+  assert.match(processorSource, /status: "processing"/);
+  assert.match(processorSource, /status: "review_required"/);
+  assert.match(processorSource, /status: "failed"/);
+  assert.match(processorSource, /processing_completed/);
+  assert.match(processorSource, /processing_failed/);
+  assert.doesNotMatch(processorSource, /from\("(?:estimates|estimate_lines|subscriptions|payments)"\)/);
+});
+
+test("document processor constrains source files and uses multimodal structured extraction", () => {
+  for (const mime of ["application/pdf", "image/jpeg", "image/png", "image/webp"]) {
+    assert.ok(processorSource.includes(mime));
+  }
+  assert.match(processorSource, /25 \* 1024 \* 1024/);
+  assert.match(processorSource, /type: "input_file"/);
+  assert.match(processorSource, /type: "input_image"/);
+  assert.match(processorSource, /type: "json_schema"/);
+  assert.match(processorSource, /strict: true/);
+  assert.match(processorSource, /document_extraction_fields/);
 });
