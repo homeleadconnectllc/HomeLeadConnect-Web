@@ -113,7 +113,7 @@ export default function Documents() {
         <div>
           <p className="hlc-documents-kicker">DOCUMENT OPERATIONS</p>
           <h1>Documents, forms & evidence</h1>
-          <p>Keep record-linked files, forms, field evidence and sharing decisions inside HLC. Advanced scan/OCR and e-signature lanes stay visibly separated until their trusted processing backends are connected.</p>
+          <p>Keep record-linked files, forms, field evidence and sharing decisions inside HLC. Scan capture is available now; OCR extraction and e-signatures remain separate processing lanes until their trusted backends are connected.</p>
         </div>
         <div className="hlc-documents-summary" aria-label="Evidence workspace summary">
           <span><strong>{items.length}</strong><small>Stored files</small></span>
@@ -130,7 +130,8 @@ export default function Documents() {
         <a href="#hlc-document-intake-title">Upload</a>
         <a href="#hlc-record-library">Library</a>
         <Link to="/resources/forms">Forms & Checklists</Link>
-        <span aria-disabled="true" title="OCR processing backend is not connected yet">Scan / OCR · setup pending</span>
+        <Link to="/documents/scan">Scan capture</Link>
+        <span aria-disabled="true" title="OCR processing backend is not connected yet">OCR extraction · setup pending</span>
         <span aria-disabled="true" title="Electronic signature backend is not connected yet">E-signatures · setup pending</span>
       </nav>
 
