@@ -7,8 +7,9 @@ const desktopSystem = readFileSync(new URL("../styles/desktop-visual-system.css"
 const agentRail = readFileSync(new URL("../styles/desktop-agent-team-rail.css", import.meta.url), "utf8");
 const dataWorkspaces = readFileSync(new URL("../styles/desktop-data-workspaces.css", import.meta.url), "utf8");
 const archetypes = readFileSync(new URL("../styles/desktop-page-archetypes.css", import.meta.url), "utf8");
+const shellRecovery = readFileSync(new URL("../styles/desktop-shell-recovery.css", import.meta.url), "utf8");
 
-const desktopLayers = [desktopSystem, agentRail, dataWorkspaces, archetypes];
+const desktopLayers = [desktopSystem, agentRail, dataWorkspaces, archetypes, shellRecovery];
 
 // Desktop authority may use nested upper bounds such as 1240px to tune smaller
 // Mac screens, but it must never introduce a breakpoint that reaches the
@@ -20,11 +21,13 @@ test("desktop visual-system layers load after launch/mobile authorities", () => 
   const agentRailIndex = authenticatedStyles.indexOf("desktop-agent-team-rail.css");
   const dataWorkspaceIndex = authenticatedStyles.indexOf("desktop-data-workspaces.css");
   const archetypeIndex = authenticatedStyles.indexOf("desktop-page-archetypes.css");
+  const shellRecoveryIndex = authenticatedStyles.indexOf("desktop-shell-recovery.css");
 
   assert.ok(desktopSystemIndex > authenticatedStyles.indexOf("final-visual-punch.css"));
   assert.ok(agentRailIndex > desktopSystemIndex);
   assert.ok(dataWorkspaceIndex > agentRailIndex);
   assert.ok(archetypeIndex > dataWorkspaceIndex);
+  assert.ok(shellRecoveryIndex > archetypeIndex);
 });
 
 test("post-launch Mac authority stays isolated from protected mobile/tablet viewports", () => {
@@ -38,12 +41,17 @@ test("desktop shell reserves navigation and working-canvas space instead of over
   assert.match(desktopSystem, /--hlc-desktop-sidebar-width:\s*288px/);
   assert.match(desktopSystem, /margin-left:\s*var\(--hlc-desktop-sidebar-width\)/);
   assert.match(desktopSystem, /\.hlc-mobile-tabbar[\s\S]*display:\s*none\s*!important/);
+  assert.match(shellRecovery, /> nav\.hlc-navbar[\s\S]*width:\s*288px\s*!important/);
+  assert.match(shellRecovery, /> \.hlc-route-content[\s\S]*margin:\s*0 0 0 288px\s*!important/);
+  assert.match(shellRecovery, /\.hlc-navbar-links\.hlc-desktop-navigation[\s\S]*position:\s*static\s*!important/);
+  assert.match(shellRecovery, /pointer-events:\s*auto\s*!important/);
 });
 
 test("desktop HLC AI team parity keeps all three agents discoverable without replacing contextual intelligence", () => {
   assert.match(agentRail, /\.hlc-desktop-agent-team/);
   assert.match(agentRail, /\.hlc-desktop-agent-team-link/);
   assert.match(agentRail, /\.hlc-agent-open/);
+  assert.match(shellRecovery, /body\.hlc-agent-open/);
 });
 
 test("desktop archetypes cover major Mac workspace families", () => {
