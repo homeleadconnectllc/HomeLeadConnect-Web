@@ -35,17 +35,17 @@
   [class*="-workspace "]
 ) {
   border-color: rgba(148, 163, 184, .18) !important;
+  border-radius: 0 !important;
   box-shadow: none !important;
 }
 
-/* Structural panels lose excessive pill/card rounding. Small interactive items
- * can keep their own radius through more specific component rules. */
+/* Structural panels are flat. Small interactive controls keep their own radius. */
 #root .hlc-signed-in-shell .hlc-route-content :where(
   section[class*="card"], article[class*="card"], div[class*="panel"],
   section[class*="panel"], article[class*="panel"], div[class*="surface"],
   section[class*="surface"], article[class*="surface"]
 ) {
-  border-radius: 4px !important;
+  border-radius: 0 !important;
   background-color: rgba(10, 24, 41, .76) !important;
 }
 
