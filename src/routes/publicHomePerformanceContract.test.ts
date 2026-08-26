@@ -33,8 +33,9 @@ test("public home renders without paying React startup cost", () => {
   assert.match(main, /aria-label="Legal and accessibility"/);
 });
 
-test("no-React public root uses the canonical official HLC mark and rejects the legacy megabyte logo", () => {
-  assert.match(main, /src="\/hlc-icon\.jpeg"/);
+test("no-React public root uses the canonical transparent HLC mark and rejects opaque legacy sources", () => {
+  assert.match(main, /src="\/hlc-logo-transparent\.png"/);
+  assert.doesNotMatch(main, /hlc-icon\.jpeg/);
   assert.doesNotMatch(main, /hlc-logo-final\.png/);
   assert.match(main, /width="40" height="40"/);
   assert.match(main, /width="28" height="28"/);
