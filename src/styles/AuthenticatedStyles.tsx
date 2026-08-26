@@ -15,6 +15,7 @@ import "./desktop-discovery-community.css";
 import "./desktop-account-portals-agents.css";
 import "./authenticated-final-polish.css";
 import "./calendar-mobile-action-order.css";
+import "./launch-messaging-simplification.css";
 
 export default function AuthenticatedStyles() {
   return null;
