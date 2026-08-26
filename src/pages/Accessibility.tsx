@@ -14,7 +14,7 @@ export default function Accessibility() {
   return <main className="hlc-utility-page"><div className="hlc-utility-shell">
     <header className="hlc-utility-header">
       <div>
-        <div className="hlc-utility-brand"><img className="hlc-utility-logo" src="/hlc-logo-final.png" alt="HomeLead Connect" /></div>
+        <div className="hlc-utility-brand"><img className="hlc-utility-logo" src="/hlc-logo-transparent.png" alt="HomeLead Connect" /></div>
         <p className="hlc-utility-kicker">Accessibility</p>
         <h1 className="hlc-utility-title">HomeLead Connect should work across devices, inputs, and abilities.</h1>
         <p className="hlc-utility-lead">HLC is being built for keyboard, screen-reader, zoom, contrast, reduced-motion and phone use across public, portal and workspace experiences.</p>

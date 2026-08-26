@@ -107,7 +107,7 @@ export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
     {agentId === "kendrell" && <KendrellMemorial />}
     <header className="hlc-agent-command-hero" style={{ ...heroStyle, borderColor: agent.accent }}>
       <div style={{ display: "grid", gap: 12, alignContent: "center" }}>
-        <div style={brandRowStyle}><img src="/hlc-logo-final.png" alt="HomeLead Connect" style={{ width: 48, height: 48, objectFit: "contain" }} /><span>{agent.pageTitle}</span></div>
+        <div style={brandRowStyle}><img src="/hlc-logo-transparent.png" alt="HomeLead Connect" style={{ width: 48, height: 48, objectFit: "contain" }} /><span>{agent.pageTitle}</span></div>
         <p style={{ margin: 0, color: agent.accent, fontWeight: 800, letterSpacing: ".08em", textTransform: "uppercase" }}>{agent.role}</p>
         <h1 style={{ margin: 0, fontSize: "clamp(2rem, 6vw, 4rem)" }}>{agent.name}</h1>
         <p style={{ margin: 0, fontSize: "1.05rem", lineHeight: 1.6 }}>{agent.introduction}</p>
@@ -147,7 +147,7 @@ export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
     <button type="button" aria-label={`Open ${agent.name} help`} onClick={() => setGuidanceOpen(true)} style={{ ...floatingButtonStyle, borderColor: agent.accent }}><span aria-hidden="true">?</span><span>{agent.name}</span></button>
     {guidanceOpen && createPortal(<div className="hlc-agent-guidance-overlay" role="presentation" style={overlayStyle} onMouseDown={(event) => { if (event.target === event.currentTarget) setGuidanceOpen(false); }}>
       <section className="hlc-agent-guidance-drawer" role="dialog" aria-modal="true" aria-labelledby={`${agentId}-guidance-title`} style={{ ...drawerStyle, borderColor: agent.accent }}>
-        <div className="hlc-agent-guidance-head"><div className="hlc-agent-guidance-identity"><img src={agent.image || "/hlc-logo-final.png"} alt="" aria-hidden="true" /><span><small>{agent.role}</small><strong id={`${agentId}-guidance-title`}>{agent.name} Command</strong><em>Online · workspace protected</em></span></div><button autoFocus type="button" aria-label="Close guidance" onClick={() => setGuidanceOpen(false)}>Close</button></div>
+        <div className="hlc-agent-guidance-head"><div className="hlc-agent-guidance-identity"><img src={agent.image || "/hlc-logo-transparent.png"} alt="" aria-hidden="true" /><span><small>{agent.role}</small><strong id={`${agentId}-guidance-title`}>{agent.name} Command</strong><em>Online · workspace protected</em></span></div><button autoFocus type="button" aria-label="Close guidance" onClick={() => setGuidanceOpen(false)}>Close</button></div>
         <div className="hlc-agent-guidance-intro"><span>Command guidance</span><h2>Make the next decision clear.</h2><p>{agent.introduction}</p></div>
         <h3>How {agent.name} can help</h3>
         <div className="hlc-agent-guidance-cards">{agent.guidance.map((script, index) => {

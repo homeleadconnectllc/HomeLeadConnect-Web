@@ -48,12 +48,12 @@ export default function ProfessionalApplication() {
   }
 
   if (submitted) return <main className="hlc-public-page hlc-public-success"><div className="hlc-public-shell">
-    <header className="hlc-public-hero"><div className="hlc-public-brand"><img className="hlc-public-logo" src="/hlc-logo-final.png" alt="HomeLead Connect" /></div><p className="hlc-public-kicker">Professional network</p><h1>Application received.</h1><p className="hlc-public-hero-copy">Your professional application was saved for HomeLead Connect review. This confirmation is not approval, verification, an invitation, or an offer of work.</p><div className="hlc-public-actions"><Link className="hlc-public-primary" to="/professionals">Back to professional overview</Link><Link className="hlc-public-secondary" to="/contact">Contact HLC</Link></div></header>
+    <header className="hlc-public-hero"><div className="hlc-public-brand"><img className="hlc-public-logo" src="/hlc-logo-transparent.png" alt="HomeLead Connect" /></div><p className="hlc-public-kicker">Professional network</p><h1>Application received.</h1><p className="hlc-public-hero-copy">Your professional application was saved for HomeLead Connect review. This confirmation is not approval, verification, an invitation, or an offer of work.</p><div className="hlc-public-actions"><Link className="hlc-public-primary" to="/professionals">Back to professional overview</Link><Link className="hlc-public-secondary" to="/contact">Contact HLC</Link></div></header>
   </div></main>;
 
   return <main className="hlc-public-page"><div className="hlc-public-shell">
     <header className="hlc-public-hero">
-      <div className="hlc-public-brand"><img className="hlc-public-logo" src="/hlc-logo-final.png" alt="HomeLead Connect" /></div>
+      <div className="hlc-public-brand"><img className="hlc-public-logo" src="/hlc-logo-transparent.png" alt="HomeLead Connect" /></div>
       <p className="hlc-public-kicker">Professional network</p>
       <h1>Bring your business into the HLC service network.</h1>
       <p className="hlc-public-hero-copy">Apply once as a business, contractor, subcontractor, mover, cleaner, HVAC company, painter, roofer, handyman, plumber, electrician, landscaper, or other home-service professional. HomeLead Connect reviews each application before creating provider access.</p>

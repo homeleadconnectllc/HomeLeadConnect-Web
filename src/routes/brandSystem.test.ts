@@ -12,13 +12,13 @@ const htmlEntry = readFileSync("index.html", "utf8");
 const manifest = readFileSync("public/manifest.webmanifest", "utf8");
 const serviceWorker = readFileSync("public/sw.js", "utf8");
 
-const canonicalLogoPath = "/hlc-icon.jpeg";
+const canonicalLogoPath = "/hlc-logo-transparent.png";
 const activeBrandSurfaces = [navbar, footer, authShell, htmlEntry, manifest, serviceWorker];
 const forbiddenLegacyLogoReferences = [
   "/favicon.svg",
   "hlc-logo-final.png",
   "hlc-trans-logo.jpeg",
-  "/logo.png",
+  "/hlc-logo-transparent.png",
 ];
 
 test("HLC canonical brand lock stays global before legacy and final release guards", () => {

@@ -69,7 +69,7 @@ export default function PublicJourney({ page }: { page: PublicJourneyKey }) {
   return <main className="hlc-public-page">
     <div className="hlc-public-shell">
       <header className="hlc-public-hero">
-        <div className="hlc-public-brand"><img className="hlc-public-logo" src="/hlc-logo-final.png" alt="HomeLead Connect" /></div>
+        <div className="hlc-public-brand"><img className="hlc-public-logo" src="/hlc-logo-transparent.png" alt="HomeLead Connect" /></div>
         <p className="hlc-public-kicker">{item.kicker}</p>
         <h1>{item.title}</h1>
         <p className="hlc-public-hero-copy">{item.intro}</p>

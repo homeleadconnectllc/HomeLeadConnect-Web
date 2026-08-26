@@ -26,7 +26,7 @@ function publicHomeMarkup() {
     <main class="hlc-home" style="min-height:100vh;padding:0 20px 48px;background:#081426;color:#f8fafc">
       <header style="position:sticky;top:0;z-index:30;max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px;padding:10px 0;background:rgba(8,20,38,.96);border-bottom:1px solid rgba(199,210,227,.10);backdrop-filter:blur(14px)">
         <a href="/" aria-label="HomeLead Connect home" style="display:flex;align-items:center;min-width:0;text-decoration:none;color:#fff">
-          <img src="/hlc-icon.jpeg" alt="HomeLead Connect LLC" loading="eager" decoding="async" width="40" height="40" style="display:block;height:40px;width:40px;object-fit:cover;border-radius:8px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.35))" />
+          <img src="/hlc-logo-transparent.png" alt="HomeLead Connect LLC" loading="eager" decoding="async" width="40" height="40" style="display:block;height:40px;width:40px;object-fit:cover;border-radius:8px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.35))" />
         </a>
         <a data-route-to="/app" href="/app" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 14px;border:1px solid rgba(147,197,253,.32);border-radius:8px;background:#10243e;color:#fff;font-weight:800;text-decoration:none;white-space:nowrap">Open HLC</a>
       </header>
@@ -74,7 +74,7 @@ function publicHomeMarkup() {
       </section>
     </main>
     <footer style="background:#06101f;color:#9fb0c5;text-align:center;padding:26px 20px;border-top:1px solid rgba(199,210,227,.10)">
-      <img src="/hlc-icon.jpeg" alt="" loading="lazy" decoding="async" width="28" height="28" style="display:block;height:28px;width:28px;object-fit:cover;border-radius:6px;margin:0 auto 14px;opacity:.78" />
+      <img src="/hlc-logo-transparent.png" alt="" loading="lazy" decoding="async" width="28" height="28" style="display:block;height:28px;width:28px;object-fit:cover;border-radius:6px;margin:0 auto 14px;opacity:.78" />
       <nav aria-label="Legal and accessibility" style="display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:10px 18px;margin-bottom:12px">
         <a style="color:#bfdbfe;font-weight:600" href="/privacy">Privacy</a>
         <a style="color:#bfdbfe;font-weight:600" href="/terms">Terms</a>

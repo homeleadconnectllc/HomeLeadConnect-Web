@@ -66,7 +66,7 @@ export default function KendrellDedication() {
 
     <section className="hlc-kendrell-gallery" aria-labelledby="kendrell-gallery-title">
       <div className="hlc-kendrell-gallery-emblem" aria-hidden="true">
-        <img src="/hlc-logo-final.png" alt="" />
+        <img src="/hlc-logo-transparent.png" alt="" />
         <span>KCW</span>
       </div>
       <div>
