@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Search, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAccountAccess } from "../../hooks/useAccountAccess";
@@ -61,6 +62,7 @@ export default function GlobalCommandSearch() {
   const access = useAccountAccess();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [menuHost, setMenuHost] = useState<HTMLElement | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
@@ -77,6 +79,20 @@ export default function GlobalCommandSearch() {
     return () => {
       window.removeEventListener(OPEN_HLC_COMMAND_SEARCH, openSearch);
       window.removeEventListener("keydown", onKeyDown);
+    };
+  }, []);
+
+  useEffect(() => {
+    const findHost = () => {
+      const host = document.querySelector<HTMLElement>(".hlc-mobile-portal-scroll");
+      setMenuHost((current) => current === host ? current : host);
+    };
+    const observer = new MutationObserver(findHost);
+    observer.observe(document.body, { childList: true, subtree: true });
+    const frame = window.requestAnimationFrame(findHost);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      observer.disconnect();
     };
   }, []);
 
@@ -116,46 +132,60 @@ export default function GlobalCommandSearch() {
     navigate(item.route);
   }
 
-  if (!open) return null;
+  const menuTrigger = menuHost
+    ? createPortal(
+        <button className="hlc-mobile-command-search-trigger" type="button" onClick={() => setOpen(true)}>
+          <Search size={18} aria-hidden="true" />
+          <span><strong>Search HLC</strong><small>Find work, people, tools and settings</small></span>
+          <b aria-hidden="true">→</b>
+        </button>,
+        menuHost,
+      )
+    : null;
 
   return (
-    <div className="hlc-command-search-backdrop" role="presentation" onMouseDown={(event) => {
-      if (event.currentTarget === event.target) setOpen(false);
-    }}>
-      <section className="hlc-command-search" role="dialog" aria-modal="true" aria-label="Search HomeLead Connect">
-        <header className="hlc-command-search-header">
-          <Search size={20} aria-hidden="true" />
-          <input
-            ref={inputRef}
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search HLC..."
-            aria-label="Search HLC"
-            autoComplete="off"
-          />
-          <button type="button" aria-label="Close search" onClick={() => setOpen(false)}><X size={20} /></button>
-        </header>
-        <div className="hlc-command-search-results" role="listbox" aria-label="Search results">
-          {matches.length ? matches.map((item) => (
-            <button key={`${item.group}-${item.label}-${item.route}`} type="button" role="option" onClick={() => choose(item)}>
-              <span className="hlc-command-search-result-copy">
-                <strong>{item.label}</strong>
-                <small>{item.detail}</small>
-              </span>
-              <span className="hlc-command-search-group">{item.group}</span>
-            </button>
-          )) : (
-            <div className="hlc-command-search-empty">
-              <strong>No matching HLC area yet.</strong>
-              <span>Try a feature, workflow, person, or action name.</span>
+    <>
+      {menuTrigger}
+      {open && (
+        <div className="hlc-command-search-backdrop" role="presentation" onMouseDown={(event) => {
+          if (event.currentTarget === event.target) setOpen(false);
+        }}>
+          <section className="hlc-command-search" role="dialog" aria-modal="true" aria-label="Search HomeLead Connect">
+            <header className="hlc-command-search-header">
+              <Search size={20} aria-hidden="true" />
+              <input
+                ref={inputRef}
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                placeholder="Search HLC..."
+                aria-label="Search HLC"
+                autoComplete="off"
+              />
+              <button type="button" aria-label="Close search" onClick={() => setOpen(false)}><X size={20} /></button>
+            </header>
+            <div className="hlc-command-search-results" role="listbox" aria-label="Search results">
+              {matches.length ? matches.map((item) => (
+                <button key={`${item.group}-${item.label}-${item.route}`} type="button" role="option" onClick={() => choose(item)}>
+                  <span className="hlc-command-search-result-copy">
+                    <strong>{item.label}</strong>
+                    <small>{item.detail}</small>
+                  </span>
+                  <span className="hlc-command-search-group">{item.group}</span>
+                </button>
+              )) : (
+                <div className="hlc-command-search-empty">
+                  <strong>No matching HLC area yet.</strong>
+                  <span>Try a feature, workflow, person, or action name.</span>
+                </div>
+              )}
             </div>
-          )}
+            <footer className="hlc-command-search-footer">
+              <span>Search respects your HLC role and workspace access.</span>
+              <kbd>⌘K</kbd>
+            </footer>
+          </section>
         </div>
-        <footer className="hlc-command-search-footer">
-          <span>Search respects your HLC role and workspace access.</span>
-          <kbd>⌘K</kbd>
-        </footer>
-      </section>
-    </div>
+      )}
+    </>
   );
 }
