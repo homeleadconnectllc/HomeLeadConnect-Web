@@ -124,6 +124,7 @@ The active production app Supabase project is `homeconnect` (`cguhtshclyybivvdnp
 116. `20260826001000_add_hlc_growth_summary.sql`
 117. `20260826003000_community_participation_foundation.sql`
 118. `20260826034000_allow_workspace_level_documents.sql`
+119. `20260826113000_hlc_native_calendar.sql`
 
 Migration #101 is retained in the local migration chain because it was applied to `hlc-reconciliation-test` during reconciliation. It is **not evidence of a production defect and is not required to be applied to `homeconnect` solely for parity**: production already has the canonical `causal.ingest_lead(...)` implementation from migration #98 with direct browser execution denied. Do not apply #101 to production unless a future production migration decision independently justifies it.
 
@@ -160,6 +161,8 @@ Migration #116 adds an aggregate Growth intelligence RPC over existing HLC lead-
 Migration #117 adds tenant-safe Community participation primitives for discussion replies, group membership, and event attendance. Every browser path remains authenticated and workspace-scoped, parent records must belong to the same workspace and correct Community kind, anonymous table access is revoked, and mutable participation remains owned by the signed-in participant or existing owner moderation authority.
 
 Migration #118 adds first-class workspace-level documents without weakening record-linked validation. Blank record IDs from the browser are normalized to the active workspace by the upload API; the registration RPC accepts `workspace` only when the supplied entity ID exactly matches the authenticated user's active workspace. Existing lead, estimate, job, appointment, contractor, and conversation linkage checks remain unchanged.
+
+Migration #119 adds the first-party HLC calendar event store. Native meetings, reminders, tasks, focus blocks, and other workspace events are tenant-scoped under RLS; all workspace members may read and create events, while edits/deletes remain limited to the creator or owner/manager authority. Job appointments remain canonical operational records and are rendered alongside native HLC events. Google Calendar is optional interoperability, not a launch dependency.
 
 ## Current production rules
 
