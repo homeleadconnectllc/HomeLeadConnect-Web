@@ -120,6 +120,25 @@ export async function startPortalConversation(input: {
   return data as string;
 }
 
+async function providerErrorMessage(error: unknown) {
+  const context = (error as { context?: unknown } | null)?.context;
+  if (context instanceof Response) {
+    try {
+      const body = await context.clone().json() as { error?: string; message?: string };
+      if (typeof body.error === "string" && body.error.trim()) return body.error.trim();
+      if (typeof body.message === "string" && body.message.trim()) return body.message.trim();
+    } catch {
+      try {
+        const text = await context.clone().text();
+        if (text.trim()) return text.trim().slice(0, 500);
+      } catch {
+        // Fall through to the safe generic provider message below.
+      }
+    }
+  }
+  return "Email provider failed. Please verify the recipient address and try again.";
+}
+
 export async function sendPortalEmail(input: {
   recipient: PortalRecipient;
   subject: string;
@@ -128,7 +147,7 @@ export async function sendPortalEmail(input: {
   messageId?: string;
   requestId?: string;
 }) {
-  if (!input.recipient.email) throw new Error("This portal recipient does not have an email address.");
+  if (!input.recipient.email) throw new Error("This contact does not have an email address.");
   const { data, error } = await supabase.functions.invoke("send-communication", {
     body: {
       subjectType: input.recipient.role === "homeowner" ? "lead" : "contractor",
@@ -142,7 +161,7 @@ export async function sendPortalEmail(input: {
       clientRequestId: input.requestId || crypto.randomUUID(),
     },
   });
-  if (error) throw error;
+  if (error) throw new Error(await providerErrorMessage(error));
   const result = data as EmailTransmissionResult | null;
   if (!result || result.status !== "sent") {
     throw new Error(result?.error || `Email was not sent${result?.status ? ` (${result.status})` : ""}.`);

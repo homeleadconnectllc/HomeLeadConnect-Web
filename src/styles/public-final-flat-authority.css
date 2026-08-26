@@ -1,0 +1,306 @@
+/* HomeLead Connect final public visual authority.
+ * Goal: one continuous dark HLC canvas with readable copy and controls.
+ * Large sections stay flat; rounded geometry is reserved for buttons/inputs.
+ */
+
+#root .hlc-app-shell.hlc-public-shell {
+  background: #07111f !important;
+  color: #eef5ff !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell > .hlc-route-content {
+  background:
+    radial-gradient(circle at 50% -10%, rgba(37, 99, 235, .12), transparent 32%),
+    linear-gradient(180deg, #07111f 0%, #081626 48%, #07111f 100%) !important;
+  color: #eef5ff !important;
+}
+
+/* Shared public journey / information pages */
+#root .hlc-app-shell.hlc-public-shell .hlc-public-page,
+#root .hlc-app-shell.hlc-public-shell .hlc-utility-page {
+  background: transparent !important;
+  color: #eef5ff !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell .hlc-public-hero,
+#root .hlc-app-shell.hlc-public-shell .hlc-utility-header {
+  text-align: center !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell .hlc-public-brand,
+#root .hlc-app-shell.hlc-public-shell .hlc-utility-brand {
+  justify-content: center !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell .hlc-public-hero h1,
+#root .hlc-app-shell.hlc-public-shell .hlc-public-hero-copy,
+#root .hlc-app-shell.hlc-public-shell .hlc-utility-title,
+#root .hlc-app-shell.hlc-public-shell .hlc-utility-lead {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  color: #f8fbff !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell .hlc-public-hero-copy,
+#root .hlc-app-shell.hlc-public-shell .hlc-utility-lead,
+#root .hlc-app-shell.hlc-public-shell .hlc-public-card p,
+#root .hlc-app-shell.hlc-public-shell .hlc-public-card li,
+#root .hlc-app-shell.hlc-public-shell .hlc-utility-path p,
+#root .hlc-app-shell.hlc-public-shell .hlc-utility-section p {
+  color: #c2d0e1 !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell .hlc-public-actions,
+#root .hlc-app-shell.hlc-public-shell .hlc-utility-actions {
+  justify-content: center !important;
+}
+
+/* Kill the card-wall look. These become flat content bands with separators. */
+#root .hlc-app-shell.hlc-public-shell .hlc-public-grid,
+#root .hlc-app-shell.hlc-public-shell .hlc-public-nav-cards,
+#root .hlc-app-shell.hlc-public-shell .hlc-public-form-wrap,
+#root .hlc-app-shell.hlc-public-shell .hlc-utility-summary {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell .hlc-public-card,
+#root .hlc-app-shell.hlc-public-shell .hlc-public-sidecard,
+#root .hlc-app-shell.hlc-public-shell .hlc-public-form,
+#root .hlc-app-shell.hlc-public-shell .hlc-utility-path,
+#root .hlc-app-shell.hlc-public-shell .hlc-utility-section,
+#root .hlc-app-shell.hlc-public-shell .hlc-utility-contact-grid,
+#root .hlc-app-shell.hlc-public-shell .hlc-utility-focus {
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell .hlc-public-card {
+  border: 0 !important;
+  border-bottom: 1px solid rgba(148, 163, 184, .18) !important;
+  padding: 28px 26px !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell .hlc-public-card::before {
+  display: none !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell .hlc-public-card h2,
+#root .hlc-app-shell.hlc-public-shell .hlc-public-sidecard h2,
+#root .hlc-app-shell.hlc-public-shell .hlc-utility-path h2,
+#root .hlc-app-shell.hlc-public-shell .hlc-utility-section h2,
+#root .hlc-app-shell.hlc-public-shell .hlc-utility-section h3 {
+  color: #f8fbff !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell .hlc-public-offer {
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Public forms stay dark, flat and centered. */
+#root .hlc-app-shell.hlc-public-shell .hlc-public-form-wrap {
+  border-top: 1px solid rgba(148, 163, 184, .18) !important;
+  border-bottom: 1px solid rgba(148, 163, 184, .18) !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell .hlc-public-sidecard,
+#root .hlc-app-shell.hlc-public-shell .hlc-public-form {
+  color: #eef5ff !important;
+  border-color: rgba(148, 163, 184, .16) !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell .hlc-public-form label,
+#root .hlc-app-shell.hlc-public-shell .hlc-route-content :where(form label) {
+  color: #dce8f7 !important;
+  text-align: center !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell .hlc-route-content :where(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
+  border: 1px solid rgba(148, 163, 184, .24) !important;
+  border-radius: 5px !important;
+  background: #0a1829 !important;
+  color: #f8fbff !important;
+  text-align: center !important;
+  box-shadow: none !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell .hlc-route-content :where(input, select, textarea)::placeholder {
+  color: #91a4bd !important;
+  text-align: center !important;
+  opacity: 1 !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell .hlc-route-content :where(input, select, textarea):focus {
+  border-color: rgba(96, 165, 250, .72) !important;
+  outline: 0 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, .12) !important;
+}
+
+/* Trial/register/login account center: no gray/white card shell. */
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-shell,
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-shell--flat {
+  min-height: calc(100vh - 80px) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-brand,
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-card {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #eef5ff !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-card {
+  border-left: 1px solid rgba(148, 163, 184, .18) !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-brand-copy,
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-form-heading,
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-card-footer {
+  text-align: center !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-brand h1,
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-card h2,
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-card label,
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-card p,
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-card footer,
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-steps strong {
+  color: #f4f8fd !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-description,
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-card-description,
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-steps span,
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-card-footer {
+  color: #b9c8da !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-steps li {
+  border: 0 !important;
+  border-bottom: 1px solid rgba(148, 163, 184, .14) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-logo-link {
+  justify-content: center !important;
+}
+
+/* About: override the old inline white-card presentation without changing content. */
+#root .hlc-app-shell.hlc-public-shell.hlc-page-about .hlc-route-content > main {
+  width: min(1100px, calc(100% - 28px)) !important;
+  color: #eef5ff !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-about .hlc-route-content > main > header {
+  border-radius: 0 !important;
+  border-bottom: 1px solid rgba(148, 163, 184, .18) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  text-align: center !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-about .hlc-route-content > main > section,
+#root .hlc-app-shell.hlc-public-shell.hlc-page-about .hlc-route-content article {
+  gap: 0 !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-about .hlc-route-content article,
+#root .hlc-app-shell.hlc-public-shell.hlc-page-about .hlc-route-content > main > section:last-child {
+  position: relative !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(148, 163, 184, .18) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #eef5ff !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-about .hlc-route-content article :where(h2,p),
+#root .hlc-app-shell.hlc-public-shell.hlc-page-about .hlc-route-content > main > section:last-child :where(h2,p) {
+  color: #dce8f7 !important;
+}
+
+/* Kendrell memorial identity needs a visible portrait on About. */
+#root .hlc-app-shell.hlc-public-shell.hlc-page-about .hlc-route-content article:nth-child(3)::before {
+  content: "";
+  display: block;
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 18px;
+  border: 1px solid rgba(96, 165, 250, .24);
+  border-radius: 0;
+  background: url('/brand/avatars/Kendrell_Locked_HLC.png') center / cover no-repeat;
+}
+
+/* Service request: force old inline white sections into the same flat dark system. */
+#root .hlc-app-shell.hlc-public-shell.hlc-page-request-service .hlc-route-content > main {
+  color: #eef5ff !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-request-service .hlc-route-content > main > section,
+#root .hlc-app-shell.hlc-public-shell.hlc-page-request-service .hlc-route-content aside,
+#root .hlc-app-shell.hlc-public-shell.hlc-page-request-service .hlc-route-content form {
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #eef5ff !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-request-service .hlc-route-content aside,
+#root .hlc-app-shell.hlc-public-shell.hlc-page-request-service .hlc-route-content > main > section:nth-child(2) > div {
+  border: 0 !important;
+  border-top: 1px solid rgba(148, 163, 184, .18) !important;
+  border-bottom: 1px solid rgba(148, 163, 184, .18) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-request-service .hlc-route-content :where(h1,h2,h3,strong,label,p,span) {
+  color: #dce8f7 !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-request-service .hlc-route-content a {
+  color: #9fc5ff !important;
+}
+
+/* Home: increase contrast and keep content as flat bands. */
+#root .hlc-app-shell.hlc-public-shell.hlc-page-home .hlc-home {
+  background: #07111f !important;
+  color: #f8fbff !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-home .hlc-home :where(p) {
+  color: #c6d4e5 !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-home .hlc-home :where(h1,h2,h3) {
+  color: #ffffff !important;
+}
+
+/* Buttons may stay rounded. If a button uses a light fill, its text must be dark. */
+#root .hlc-app-shell.hlc-public-shell .hlc-route-content :where(a,button)[style*="background:#fff"],
+#root .hlc-app-shell.hlc-public-shell .hlc-route-content :where(a,button)[style*="background: #fff"] {
+  color: #08111f !important;
+}
+
+@media (max-width: 820px) {
+  #root .hlc-app-shell.hlc-public-shell .hlc-auth-card {
+    border-left: 0 !important;
+    border-top: 1px solid rgba(148, 163, 184, .18) !important;
+  }
+}

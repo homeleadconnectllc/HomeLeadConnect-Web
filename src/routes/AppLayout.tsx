@@ -1,11 +1,12 @@
 import { lazy, Suspense, useEffect, useState } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import AnalyticsTracker from "../components/analytics/AnalyticsTracker";
 import { useAuth } from "../hooks/useAuth";
 
 const ContextualAgentDock = lazy(() => import("../components/agents/ContextualAgentDock"));
+const DesktopAgentTeamRail = lazy(() => import("../components/agents/DesktopAgentTeamRail"));
 const AnalyticsKpis = lazy(() => import("../components/analytics/AnalyticsKpis"));
 const AudioDeviceCenter = lazy(() => import("../components/audio/AudioDeviceCenter"));
 const FieldDeviceCenter = lazy(() => import("../components/device/FieldDeviceCenter"));
@@ -100,6 +101,11 @@ export default function AppLayout() {
       <AnalyticsTracker />
       <Navbar />
       {session && (
+        <Link className="hlc-desktop-page-brand" to="/dashboard" aria-label="HomeLead Connect dashboard">
+          <img src="/hlc-icon.jpeg" alt="HomeLead Connect LLC" />
+        </Link>
+      )}
+      {session && (
         <button
           className="hlc-desktop-sidebar-toggle"
           type="button"
@@ -122,6 +128,7 @@ export default function AppLayout() {
       {!session && <Footer />}
       <Suspense fallback={null}>
         {session && <WorkspaceGuidance />}
+        {session && <DesktopAgentTeamRail />}
         {showContextualAgent && <ContextualAgentDock />}
       </Suspense>
     </div>

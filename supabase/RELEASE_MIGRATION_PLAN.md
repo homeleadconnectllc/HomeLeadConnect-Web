@@ -117,6 +117,14 @@ The active production app Supabase project is `homeconnect` (`cguhtshclyybivvdnp
 109. `20260823014500_lead_vacuum_social_attribution.sql`
 110. `20260823021800_fix_leads_stage_default.sql`
 111. `20260823170000_harden_provider_network_tenancy.sql`
+112. `20260825224138_harden_public_analytics_rpc_search_path.sql`
+113. `20260825224704_harden_workspace_rls_initplans_and_pipeline_limit.sql`
+114. `20260825230409_remove_redundant_rls_select_policies.sql`
+115. `20260825231534_lock_remaining_browser_security_definer_search_paths.sql`
+116. `20260826001000_add_hlc_growth_summary.sql`
+117. `20260826003000_community_participation_foundation.sql`
+118. `20260826034000_allow_workspace_level_documents.sql`
+119. `20260826113000_hlc_native_calendar.sql`
 
 Migration #101 is retained in the local migration chain because it was applied to `hlc-reconciliation-test` during reconciliation. It is **not evidence of a production defect and is not required to be applied to `homeconnect` solely for parity**: production already has the canonical `causal.ingest_lead(...)` implementation from migration #98 with direct browser execution denied. Do not apply #101 to production unless a future production migration decision independently justifies it.
 
@@ -139,6 +147,22 @@ Migration #109 adds the Lead Vacuum's server-controlled attributed intake bounda
 Migration #110 aligns the `public.leads.stage` default with the canonical lowercase `new` state enforced by migration #107. It fixes new canonical lead inserts that otherwise inherit the retired uppercase `NEW` default and fail the `leads_stage_no_uppercase_new` constraint.
 
 Migration #111 hardens provider-network tenancy by requiring every `provider_availability`, `provider_service_areas`, `provider_services`, and `saved_providers` row to reference a contractor from the same workspace. It preserves existing frontend upsert conflict targets and adds only the composite contractor/workspace key required to enforce that invariant at the database boundary.
+
+Migration #112 hardens the intentionally public analytics RPC by locking its `search_path`, removing PUBLIC's default execution privilege, and retaining only explicit intended-role execution grants.
+
+Migration #113 removes the duplicate permissive pipeline INSERT path that could bypass plan-limit enforcement and optimizes selected workspace membership RLS checks without widening access.
+
+Migration #114 removes only semantically redundant SELECT policies on `call_sessions` and `participant_preferences`; distinct `profiles` and `workspaces` policies remain intact pending separate authorization review.
+
+Migration #115 pins the remaining audited browser-callable SECURITY DEFINER RPCs to an empty `search_path`. The affected functions already schema-qualify application relations and retain their existing authentication, workspace membership, provider-link, or owner/manager authorization checks; signatures and business behavior are unchanged.
+
+Migration #116 adds an aggregate Growth intelligence RPC over existing HLC lead-source and Community referral records. It returns only workspace-scoped counts and attribution-quality metrics, requires authenticated owner/manager membership, uses an empty `search_path`, and grants no anonymous execution.
+
+Migration #117 adds tenant-safe Community participation primitives for discussion replies, group membership, and event attendance. Every browser path remains authenticated and workspace-scoped, parent records must belong to the same workspace and correct Community kind, anonymous table access is revoked, and mutable participation remains owned by the signed-in participant or existing owner moderation authority.
+
+Migration #118 adds first-class workspace-level documents without weakening record-linked validation. Blank record IDs from the browser are normalized to the active workspace by the upload API; the registration RPC accepts `workspace` only when the supplied entity ID exactly matches the authenticated user's active workspace. Existing lead, estimate, job, appointment, contractor, and conversation linkage checks remain unchanged.
+
+Migration #119 adds the first-party HLC calendar event store. Native meetings, reminders, tasks, focus blocks, and other workspace events are tenant-scoped under RLS; all workspace members may read and create events, while edits/deletes remain limited to the creator or owner/manager authority. Job appointments remain canonical operational records and are rendered alongside native HLC events. Google Calendar is optional interoperability, not a launch dependency.
 
 ## Current production rules
 

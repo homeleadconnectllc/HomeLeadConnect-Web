@@ -1,0 +1,171 @@
+.hlc-native-calendar-header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.hlc-calendar-primary-link {
+  border: 1px solid rgba(66, 148, 255, .45);
+  cursor: pointer;
+  font: inherit;
+}
+
+.hlc-calendar-primary-link.secondary {
+  background: rgba(15, 38, 65, .86);
+}
+
+.hlc-native-event-composer {
+  position: relative;
+  z-index: 2;
+  margin: 0 0 16px;
+  padding: 18px;
+  border: 1px solid rgba(75, 149, 239, .28);
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(10, 31, 57, .98), rgba(7, 23, 43, .98));
+}
+
+.hlc-native-event-composer-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.hlc-native-event-composer-heading small {
+  color: #6fb8ff;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.hlc-native-event-composer-heading h2 {
+  margin: 4px 0 0;
+  color: #fff;
+  font-size: 21px;
+}
+
+.hlc-native-event-composer-heading > button {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid rgba(108, 151, 207, .2);
+  border-radius: 10px;
+  color: #d4e1f1;
+  background: #10233d;
+  cursor: pointer;
+}
+
+.hlc-native-event-composer form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.hlc-native-event-composer label {
+  display: grid;
+  gap: 7px;
+  color: #a9bed8;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.hlc-native-event-composer input,
+.hlc-native-event-composer select,
+.hlc-native-event-composer textarea {
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 12px;
+  border: 1px solid rgba(103, 151, 211, .24);
+  border-radius: 10px;
+  color: #f5f9ff;
+  background: #0a1d35;
+  font: inherit;
+}
+
+.hlc-native-event-composer textarea { resize: vertical; }
+.hlc-native-event-composer .wide { grid-column: 1 / -1; }
+
+.hlc-calendar-event.native {
+  border-left-color: #67b7ff;
+  background: linear-gradient(105deg, rgba(15, 65, 112, .72), rgba(8, 39, 73, .62));
+}
+
+.hlc-calendar-detail-empty button,
+.hlc-calendar-empty button {
+  margin-top: 16px;
+  min-height: 42px;
+  padding: 0 15px;
+  border: 1px solid rgba(77, 158, 255, .3);
+  border-radius: 10px;
+  color: #91ccff;
+  background: rgba(0, 94, 214, .1);
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* Mini-month states: selected date, today's date, and dates with actual calendar items are distinct. */
+.hlc-native-calendar .hlc-calendar-mini-grid button {
+  position: relative;
+}
+
+.hlc-native-calendar .hlc-calendar-mini-grid button.has-items {
+  border-color: rgba(73, 196, 255, .82);
+  background: linear-gradient(145deg, rgba(16, 55, 95, .98), rgba(8, 36, 70, .98));
+  box-shadow: inset 0 -3px 0 rgba(73, 196, 255, .55), 0 0 14px rgba(38, 158, 255, .12);
+}
+
+.hlc-native-calendar .hlc-calendar-mini-grid button.has-items::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 5px;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #50d5ff;
+  transform: translateX(-50%);
+  box-shadow: 0 0 8px rgba(80, 213, 255, .9);
+}
+
+.hlc-native-calendar .hlc-calendar-mini-grid button.selected {
+  border-color: rgba(126, 164, 255, .98);
+  color: #fff;
+  background: linear-gradient(145deg, rgba(44, 83, 196, .98), rgba(24, 54, 142, .98));
+  box-shadow: 0 0 0 2px rgba(105, 142, 255, .26), 0 8px 22px rgba(35, 71, 185, .3);
+}
+
+.hlc-native-calendar .hlc-calendar-mini-grid button.selected::after {
+  content: "";
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: #e5ecff;
+  box-shadow: 0 0 7px rgba(229, 236, 255, .85);
+}
+
+.hlc-native-calendar .hlc-calendar-mini-grid button.has-items.selected::before {
+  background: #69e1ff;
+  box-shadow: 0 0 10px rgba(105, 225, 255, 1);
+}
+
+.hlc-native-calendar .hlc-calendar-mini-grid button.today:not(.selected) {
+  border-color: rgba(104, 232, 184, .72);
+  box-shadow: inset 0 0 0 1px rgba(104, 232, 184, .2);
+}
+
+@media (max-width: 700px) {
+  .hlc-native-calendar-header-actions { width: 100%; }
+  .hlc-native-calendar-header-actions > * { flex: 1 1 100%; }
+  .hlc-native-event-composer { padding: 14px; }
+  .hlc-native-event-composer form { grid-template-columns: 1fr; }
+  .hlc-native-event-composer .wide { grid-column: auto; }
+  .hlc-native-event-composer input,
+  .hlc-native-event-composer select,
+  .hlc-native-event-composer textarea { font-size: 16px; }
+}

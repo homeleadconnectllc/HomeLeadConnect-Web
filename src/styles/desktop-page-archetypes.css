@@ -1,0 +1,626 @@
+/* HomeLead Connect desktop page archetypes.
+ * Mac/desktop only. This layer upgrades shared authenticated page families without
+ * changing route logic, data access, auth, or mobile/tablet presentation.
+ */
+
+@media (min-width: 1025px) {
+  #root .hlc-signed-in-shell {
+    --hlc-desk-card: #0c1b2d;
+    --hlc-desk-card-raised: #102238;
+    --hlc-desk-card-soft: #0a1727;
+    --hlc-desk-line: rgba(148, 163, 184, .14);
+    --hlc-desk-line-focus: rgba(96, 165, 250, .34);
+    --hlc-desk-copy: #e7eff9;
+    --hlc-desk-muted: #93a6bf;
+    --hlc-desk-faint: #71849d;
+    --hlc-desk-blue: #60a5fa;
+    --hlc-desk-radius: 18px;
+    --hlc-desk-shadow: 0 22px 55px rgba(2, 6, 23, .22);
+  }
+
+  /* Shared page opening hierarchy */
+  #root .hlc-signed-in-shell .hlc-route-content > main > header:first-child,
+  #root .hlc-signed-in-shell .hlc-route-content > main > .hlc-calendar-header {
+    margin-bottom: 24px;
+  }
+
+  #root .hlc-signed-in-shell .hlc-route-content > main > header:first-child > div:first-child > p:last-child,
+  #root .hlc-signed-in-shell .hlc-route-content > main > header:first-child p {
+    max-width: 820px;
+    line-height: 1.58;
+  }
+
+  #root .hlc-signed-in-shell .hlc-route-content :where(
+    .hlc-page-eyebrow,
+    .hlc-jobs-kicker,
+    .hlc-messages-kicker,
+    .hlc-community-kicker,
+    .hlc-account-kicker
+  ) {
+    color: #7fa9d8 !important;
+    font-size: 11px !important;
+    font-weight: 900 !important;
+    letter-spacing: .13em !important;
+    text-transform: uppercase !important;
+  }
+
+  /* Reusable stat strip */
+  #root .hlc-signed-in-shell .hlc-route-content :where(
+    .hlc-leads-summary,
+    .hlc-jobs-summary,
+    .hlc-messages-summary,
+    .hlc-community-summary,
+    .hlc-portal-summary,
+    .hlc-calendar-kpis
+  ) {
+    border: 1px solid var(--hlc-desk-line) !important;
+    border-radius: var(--hlc-desk-radius) !important;
+    background: linear-gradient(180deg, rgba(16, 34, 56, .92), rgba(9, 23, 39, .94)) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .02) !important;
+    overflow: hidden;
+  }
+
+  #root .hlc-signed-in-shell .hlc-route-content :where(
+    .hlc-leads-summary,
+    .hlc-jobs-summary,
+    .hlc-messages-summary,
+    .hlc-community-summary,
+    .hlc-portal-summary
+  ) > span {
+    min-height: 76px;
+    box-sizing: border-box;
+    padding: 16px 20px !important;
+    border-color: rgba(148, 163, 184, .1) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-route-content :where(
+    .hlc-leads-summary,
+    .hlc-jobs-summary,
+    .hlc-messages-summary,
+    .hlc-community-summary,
+    .hlc-portal-summary
+  ) strong {
+    color: #f8fbff !important;
+    font-size: 1.55rem !important;
+    line-height: 1 !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-route-content :where(
+    .hlc-leads-summary,
+    .hlc-jobs-summary,
+    .hlc-messages-summary,
+    .hlc-community-summary,
+    .hlc-portal-summary
+  ) small {
+    color: var(--hlc-desk-muted) !important;
+    font-size: 11px !important;
+    letter-spacing: .07em !important;
+    text-transform: uppercase;
+  }
+
+  /* Communications workspace */
+  #root .hlc-signed-in-shell .hlc-messages-workspace {
+    display: grid;
+    gap: 22px;
+  }
+
+  #root .hlc-signed-in-shell .hlc-messages-header {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(360px, .48fr);
+    gap: 28px;
+    align-items: end !important;
+    padding: 0 0 22px !important;
+    border-bottom: 1px solid var(--hlc-desk-line) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-messages-summary {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  #root .hlc-signed-in-shell .hlc-messages-console {
+    display: grid !important;
+    grid-template-columns: minmax(260px, .34fr) minmax(0, 1fr) !important;
+    min-height: min(680px, calc(100vh - 220px));
+    border: 1px solid var(--hlc-desk-line) !important;
+    border-radius: 22px !important;
+    overflow: hidden !important;
+    background: #081524 !important;
+    box-shadow: var(--hlc-desk-shadow);
+  }
+
+  #root .hlc-signed-in-shell .hlc-messages-inbox {
+    min-width: 0;
+    border-right: 1px solid var(--hlc-desk-line) !important;
+    background: #091829 !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-messages-thread {
+    min-width: 0;
+    background: linear-gradient(180deg, #0b1a2b, #081523) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-messages-section-head,
+  #root .hlc-signed-in-shell .hlc-message-thread-head {
+    padding: 18px 20px !important;
+    border-bottom: 1px solid var(--hlc-desk-line) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-message-inbox-row {
+    width: 100%;
+    min-height: 78px;
+    box-sizing: border-box;
+    padding: 14px 16px !important;
+    border: 0 !important;
+    border-bottom: 1px solid rgba(148, 163, 184, .09) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: var(--hlc-desk-copy) !important;
+    text-align: left !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-message-inbox-row:hover,
+  #root .hlc-signed-in-shell .hlc-message-inbox-row.is-selected {
+    background: rgba(37, 99, 235, .13) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-message-inbox-row.is-selected {
+    box-shadow: inset 3px 0 0 #60a5fa;
+  }
+
+  #root .hlc-signed-in-shell .hlc-message-stream {
+    min-height: 300px;
+    max-height: 48vh;
+    overflow-y: auto;
+    padding: 22px !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-message-entry {
+    max-width: min(78%, 760px);
+    margin-bottom: 14px !important;
+    border: 1px solid var(--hlc-desk-line) !important;
+    border-radius: 16px !important;
+    padding: 14px 16px !important;
+    background: #102036 !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-message-entry.is-self {
+    margin-left: auto !important;
+    border-color: rgba(96, 165, 250, .24) !important;
+    background: #102b4a !important;
+  }
+
+  #root .hlc-signed-in-shell :where(.hlc-message-composer, .hlc-voice-note-console, .hlc-message-start-workspace) {
+    border: 1px solid var(--hlc-desk-line) !important;
+    border-radius: 18px !important;
+    background: #0b192a !important;
+    box-shadow: none !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-message-composer {
+    margin: 20px !important;
+    padding: 18px !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-voice-note-console {
+    margin: 0 20px 20px !important;
+    padding: 0 0 18px !important;
+    overflow: hidden;
+  }
+
+  #root .hlc-signed-in-shell .hlc-message-start-workspace {
+    padding: 0 0 22px !important;
+    overflow: hidden;
+  }
+
+  #root .hlc-signed-in-shell .hlc-message-start-fields {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px !important;
+    padding: 20px !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-message-start-body {
+    grid-column: 1 / -1;
+  }
+
+  /* Calendar/workday workspace */
+  #root .hlc-signed-in-shell .hlc-calendar-page {
+    padding: 0 !important;
+    background: transparent !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-calendar-ambient {
+    opacity: .12 !important;
+    pointer-events: none;
+  }
+
+  #root .hlc-signed-in-shell .hlc-calendar-header {
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: space-between !important;
+    gap: 28px;
+    padding: 0 0 22px !important;
+    border-bottom: 1px solid var(--hlc-desk-line) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-calendar-kpis {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    margin: 22px 0 !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-calendar-kpis article {
+    min-height: 108px;
+    box-sizing: border-box;
+    padding: 20px !important;
+    border: 0 !important;
+    border-right: 1px solid rgba(148, 163, 184, .1) !important;
+    background: transparent !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-calendar-kpis article:last-child {
+    border-right: 0 !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-calendar-workspace {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 360px) !important;
+    gap: 20px !important;
+    align-items: start;
+  }
+
+  #root .hlc-signed-in-shell :where(.hlc-calendar-board, .hlc-calendar-detail-panel) {
+    border: 1px solid var(--hlc-desk-line) !important;
+    border-radius: 20px !important;
+    background: #0a1829 !important;
+    box-shadow: var(--hlc-desk-shadow) !important;
+    overflow: hidden;
+  }
+
+  #root .hlc-signed-in-shell .hlc-calendar-detail-panel {
+    position: sticky !important;
+    top: 24px;
+  }
+
+  #root .hlc-signed-in-shell .hlc-calendar-toolbar {
+    min-height: 68px;
+    padding: 14px 18px !important;
+    border-bottom: 1px solid var(--hlc-desk-line) !important;
+    background: #0d1d30 !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-calendar-event {
+    width: 100%;
+    min-height: 92px;
+    box-sizing: border-box;
+    margin: 0 !important;
+    padding: 16px 18px !important;
+    border: 0 !important;
+    border-bottom: 1px solid rgba(148, 163, 184, .1) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: var(--hlc-desk-copy) !important;
+    text-align: left !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-calendar-event:hover,
+  #root .hlc-signed-in-shell .hlc-calendar-event.selected {
+    background: rgba(37, 99, 235, .11) !important;
+  }
+
+  /* Community / discovery workspace */
+  #root .hlc-signed-in-shell .hlc-community-workspace {
+    display: grid;
+    gap: 22px;
+  }
+
+  #root .hlc-signed-in-shell .hlc-community-header {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(380px, .52fr);
+    gap: 30px;
+    align-items: end !important;
+    padding: 0 0 22px !important;
+    border-bottom: 1px solid var(--hlc-desk-line) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-community-summary {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  #root .hlc-signed-in-shell .hlc-community-commandbar {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 8px !important;
+    padding: 10px !important;
+    border: 1px solid var(--hlc-desk-line) !important;
+    border-radius: 15px !important;
+    background: #091827 !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-community-commandbar a {
+    border-radius: 10px;
+    padding: 9px 12px !important;
+    color: #bdcde0 !important;
+    text-decoration: none;
+  }
+
+  #root .hlc-signed-in-shell .hlc-community-commandbar a:hover {
+    color: #f5f9ff !important;
+    background: rgba(37, 99, 235, .15) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-community-console {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 340px) !important;
+    gap: 20px !important;
+    align-items: start;
+  }
+
+  #root .hlc-signed-in-shell .hlc-community-directory {
+    display: grid;
+    gap: 18px;
+  }
+
+  #root .hlc-signed-in-shell .hlc-community-lane,
+  #root .hlc-signed-in-shell .hlc-community-context > section,
+  #root .hlc-signed-in-shell .hlc-community-store-workspace {
+    border: 1px solid var(--hlc-desk-line) !important;
+    border-radius: 20px !important;
+    background: #0a192a !important;
+    box-shadow: var(--hlc-desk-shadow) !important;
+    overflow: hidden;
+  }
+
+  #root .hlc-signed-in-shell .hlc-community-lane-head {
+    padding: 20px !important;
+    border-bottom: 1px solid var(--hlc-desk-line) !important;
+    background: #0d1d30 !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-community-row {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 20px;
+    align-items: center;
+    min-height: 112px;
+    box-sizing: border-box;
+    padding: 18px 20px !important;
+    border: 0 !important;
+    border-bottom: 1px solid rgba(148, 163, 184, .09) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-community-row:last-child {
+    border-bottom: 0 !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-community-row:hover {
+    background: rgba(37, 99, 235, .07) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-community-context {
+    position: sticky;
+    top: 24px;
+    display: grid;
+    gap: 16px;
+  }
+
+  #root .hlc-signed-in-shell .hlc-community-context > section {
+    padding: 20px !important;
+  }
+
+  /* Portal / account workspaces */
+  #root .hlc-signed-in-shell .hlc-portal-workspace {
+    display: grid;
+    gap: 20px;
+    padding: 0 !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-portal-header {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(380px, .5fr);
+    gap: 30px;
+    align-items: end !important;
+    padding: 0 0 22px !important;
+    border-bottom: 1px solid var(--hlc-desk-line) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-portal-summary {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  #root .hlc-signed-in-shell :where(.hlc-portal-identity, .hlc-portal-project) {
+    border: 1px solid var(--hlc-desk-line) !important;
+    border-radius: 20px !important;
+    background: #0a192a !important;
+    box-shadow: var(--hlc-desk-shadow) !important;
+    overflow: hidden;
+  }
+
+  #root .hlc-signed-in-shell .hlc-portal-identity {
+    padding: 18px 20px !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-account-section-head {
+    padding: 18px 20px !important;
+    border-bottom: 1px solid var(--hlc-desk-line) !important;
+    background: #0d1d30 !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-portal-row {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 24px;
+    align-items: start;
+    min-height: 120px;
+    box-sizing: border-box;
+    padding: 20px !important;
+    border: 0 !important;
+    border-bottom: 1px solid rgba(148, 163, 184, .1) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-portal-actions {
+    display: flex !important;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px !important;
+    min-width: 210px;
+  }
+
+  #root .hlc-signed-in-shell .hlc-portal-file-row {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 18px;
+    align-items: center;
+    padding: 15px 20px !important;
+    border-bottom: 1px solid rgba(148, 163, 184, .09) !important;
+  }
+
+  /* LaunchSurface still uses inline styles. Route-class authority normalizes it without
+     changing its data/workflow implementation. */
+  #root .hlc-signed-in-shell:is(
+    .hlc-page-network,
+    .hlc-page-network-service-areas,
+    .hlc-page-network-availability,
+    .hlc-page-network-eligibility,
+    .hlc-page-network-saved,
+    .hlc-page-providers,
+    .hlc-page-profiles,
+    .hlc-page-community-discussions,
+    .hlc-page-community-reviews,
+    .hlc-page-community-referrals,
+    .hlc-page-community-events,
+    .hlc-page-community-moderation,
+    .hlc-page-community-groups,
+    .hlc-page-contractor-portal-team,
+    .hlc-page-hq-approvals,
+    .hlc-page-hq-system-health
+  ) .hlc-route-content > main {
+    display: grid !important;
+    gap: 20px !important;
+    padding: 0 !important;
+    background: transparent !important;
+  }
+
+  #root .hlc-signed-in-shell:is(
+    .hlc-page-network,
+    .hlc-page-network-service-areas,
+    .hlc-page-network-availability,
+    .hlc-page-network-eligibility,
+    .hlc-page-network-saved,
+    .hlc-page-providers,
+    .hlc-page-profiles,
+    .hlc-page-community-discussions,
+    .hlc-page-community-reviews,
+    .hlc-page-community-referrals,
+    .hlc-page-community-events,
+    .hlc-page-community-moderation,
+    .hlc-page-community-groups,
+    .hlc-page-contractor-portal-team,
+    .hlc-page-hq-approvals,
+    .hlc-page-hq-system-health
+  ) .hlc-route-content > main > header {
+    margin: 0 !important;
+    padding: 0 0 20px !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--hlc-desk-line) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  #root .hlc-signed-in-shell:is(
+    .hlc-page-network,
+    .hlc-page-network-service-areas,
+    .hlc-page-network-availability,
+    .hlc-page-network-eligibility,
+    .hlc-page-network-saved,
+    .hlc-page-providers,
+    .hlc-page-profiles,
+    .hlc-page-community-discussions,
+    .hlc-page-community-reviews,
+    .hlc-page-community-referrals,
+    .hlc-page-community-events,
+    .hlc-page-community-moderation,
+    .hlc-page-community-groups,
+    .hlc-page-contractor-portal-team,
+    .hlc-page-hq-approvals,
+    .hlc-page-hq-system-health
+  ) .hlc-route-content > main :where(form, section, article) {
+    border: 1px solid var(--hlc-desk-line) !important;
+    border-radius: 18px !important;
+    padding: 20px !important;
+    color: var(--hlc-desk-copy) !important;
+    background: #0a192a !important;
+    box-shadow: none !important;
+  }
+
+  /* Generic form/workflow surfaces from screenshots */
+  #root .hlc-signed-in-shell:is(
+    .hlc-page-follow-ups,
+    .hlc-page-manual-communications,
+    .hlc-page-estimator,
+    .hlc-page-settings,
+    .hlc-page-documents,
+    .hlc-page-profile,
+    .hlc-page-contractor-portal-profile,
+    .hlc-page-contractor-portal-services,
+    .hlc-page-contractor-portal-documents
+  ) .hlc-route-content > main {
+    display: grid;
+    gap: 20px;
+  }
+
+  #root .hlc-signed-in-shell:is(
+    .hlc-page-follow-ups,
+    .hlc-page-manual-communications,
+    .hlc-page-estimator,
+    .hlc-page-settings,
+    .hlc-page-documents,
+    .hlc-page-profile,
+    .hlc-page-contractor-portal-profile,
+    .hlc-page-contractor-portal-services,
+    .hlc-page-contractor-portal-documents
+  ) .hlc-route-content > main :where(form, section, article):not([class*="row"]) {
+    border-color: var(--hlc-desk-line) !important;
+    background-color: #0a192a !important;
+    box-shadow: none !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-route-content :where(form) {
+    gap: 14px;
+  }
+
+  #root .hlc-signed-in-shell .hlc-route-content :where(form) > label {
+    gap: 7px;
+  }
+
+  #root .hlc-signed-in-shell .hlc-route-content :where(button, a[role="button"]) {
+    border-radius: 11px;
+  }
+
+  #root .hlc-signed-in-shell .hlc-route-content button:not(:disabled) {
+    cursor: pointer;
+  }
+
+  #root .hlc-signed-in-shell .hlc-route-content button:disabled {
+    cursor: not-allowed;
+    opacity: .58;
+  }
+
+  /* Dense desktop tables / rows must never disappear underneath the assistant rail. */
+  #root .hlc-signed-in-shell .hlc-route-content :where(table, .hlc-leads-list, .hlc-jobs-list, .hlc-messages-console, .hlc-community-console) {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  #root .hlc-signed-in-shell .hlc-route-content :where(td, th, .hlc-lead-row, .hlc-job-row, .hlc-portal-row) {
+    overflow-wrap: anywhere;
+  }
+}

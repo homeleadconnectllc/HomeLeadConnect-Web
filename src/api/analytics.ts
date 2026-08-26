@@ -38,6 +38,17 @@ export type HlcBusinessKpis = {
   voicemails: number;
 };
 
+export type HlcGrowthSummary = {
+  days: number;
+  total_leads: number;
+  known_source_leads: number;
+  unknown_source_leads: number;
+  attribution_known_rate: number;
+  sources: Array<{ source: string; lead_count: number }>;
+  referrals: number;
+  referral_statuses: Array<{ status: string; count: number }>;
+};
+
 type AnalyticsMetadata = Record<string, string | number | boolean | null>;
 
 const SESSION_KEY = "hlc-analytics-session-id";
@@ -84,4 +95,10 @@ export async function getBusinessKpis(days = 30) {
   const { data, error } = await supabase.rpc("get_hlc_business_kpis", { p_days: days });
   if (error) throw error;
   return (data ?? {}) as HlcBusinessKpis;
+}
+
+export async function getGrowthSummary(days = 30) {
+  const { data, error } = await supabase.rpc("get_hlc_growth_summary", { p_days: days });
+  if (error) throw error;
+  return (data ?? {}) as HlcGrowthSummary;
 }

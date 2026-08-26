@@ -1,0 +1,196 @@
+.hlc-messages-launch-simple .hlc-messages-header {
+  margin-bottom: 18px;
+}
+
+.hlc-messages-launch-simple .hlc-messages-summary {
+  display: none;
+}
+
+.hlc-message-quick-compose {
+  display: grid;
+  gap: 16px;
+  margin: 0 0 22px;
+  padding: 20px;
+  border: 1px solid rgba(96, 157, 232, 0.2);
+  border-radius: 18px;
+  background: linear-gradient(155deg, rgba(10, 31, 56, 0.98), rgba(7, 22, 42, 0.98));
+}
+
+.hlc-message-quick-compose label,
+.hlc-message-subject-details label {
+  display: grid;
+  gap: 8px;
+  color: #9fc6f6;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.hlc-message-quick-compose select,
+.hlc-message-quick-compose textarea,
+.hlc-message-subject-details input {
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid rgba(111, 158, 216, 0.28);
+  border-radius: 12px;
+  background: #f8fbff;
+  color: #172033;
+  font: inherit;
+}
+
+.hlc-message-quick-compose textarea {
+  min-height: 126px;
+  resize: vertical;
+}
+
+.hlc-message-delivery-choice {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.hlc-message-delivery-choice legend {
+  grid-column: 1 / -1;
+  margin-bottom: 2px;
+  color: #9fc6f6;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.hlc-message-delivery-choice label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 64px;
+  padding: 12px 14px;
+  border: 1px solid rgba(111, 158, 216, 0.24);
+  border-radius: 12px;
+  background: rgba(15, 39, 68, 0.92);
+  cursor: pointer;
+}
+
+.hlc-message-delivery-choice label:has(input:checked) {
+  border-color: rgba(69, 174, 255, 0.75);
+  box-shadow: 0 0 0 2px rgba(51, 153, 255, 0.12);
+}
+
+.hlc-message-delivery-choice label.is-disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.hlc-message-delivery-choice span {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.hlc-message-delivery-choice strong {
+  color: #f5f9ff;
+  font-size: 14px;
+}
+
+.hlc-message-delivery-choice small {
+  overflow: hidden;
+  color: #8499b6;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hlc-message-subject-details {
+  border: 0;
+  color: #87a3c4;
+}
+
+.hlc-message-subject-details summary {
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.hlc-message-subject-details[open] summary {
+  margin-bottom: 10px;
+}
+
+.hlc-message-primary-send {
+  min-height: 50px;
+  border: 1px solid rgba(79, 165, 255, 0.5);
+  border-radius: 12px;
+  background: linear-gradient(135deg, #126fd6, #0d58b7);
+  color: #fff;
+  font: inherit;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.hlc-message-primary-send:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+
+.hlc-messages-launch-simple .hlc-voice-note-console {
+  margin: 14px 0 0;
+  padding: 12px 0 0;
+  border-top: 1px solid rgba(99, 146, 205, 0.15);
+}
+
+.hlc-messages-launch-simple .hlc-voice-note-console > summary {
+  color: #90a8c7;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+@media (max-width: 760px) {
+  .hlc-messages-launch-simple {
+    padding-bottom: calc(120px + env(safe-area-inset-bottom));
+  }
+
+  .hlc-messages-launch-simple .hlc-messages-header p:not(.hlc-messages-kicker) {
+    max-width: 34ch;
+  }
+
+  .hlc-message-quick-compose {
+    gap: 14px;
+    margin-inline: 0;
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .hlc-message-delivery-choice {
+    grid-template-columns: 1fr;
+  }
+
+  .hlc-message-delivery-choice label {
+    min-height: 58px;
+  }
+
+  .hlc-messages-launch-simple .hlc-messages-console {
+    display: block;
+  }
+
+  .hlc-messages-launch-simple .hlc-messages-inbox {
+    margin-bottom: 14px;
+    overflow: visible;
+  }
+
+  .hlc-messages-launch-simple .hlc-messages-inbox-list {
+    max-height: none;
+    height: auto;
+    overflow: visible;
+  }
+
+  .hlc-messages-launch-simple .hlc-message-inbox-row {
+    min-height: 0;
+  }
+
+  .hlc-messages-launch-simple .hlc-message-thread-head,
+  .hlc-messages-launch-simple .hlc-message-composer,
+  .hlc-messages-launch-simple .hlc-message-stream {
+    padding-inline: 14px;
+  }
+}

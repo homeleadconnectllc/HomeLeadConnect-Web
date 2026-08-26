@@ -1,0 +1,164 @@
+/* HomeLead Connect final authenticated visual contract.
+ * Applies across signed-in routes. Geometry-specific desktop rules remain in
+ * desktop authorities; this file standardizes readability, surfaces, borders,
+ * states, and form alignment across the full authenticated application.
+ */
+
+#root .hlc-signed-in-shell,
+#root .hlc-signed-in-shell > .hlc-route-content {
+  background-color: #07111f !important;
+  color: #edf5ff !important;
+}
+
+#root .hlc-signed-in-shell .hlc-route-content :where(h1,h2,h3,h4,h5,h6,strong,b) {
+  color: #f8fbff !important;
+}
+
+#root .hlc-signed-in-shell .hlc-route-content :where(p,li,small,span,label,th,td,legend) {
+  color: #c4d2e3;
+}
+
+#root .hlc-signed-in-shell .hlc-route-content a:not([class*="button"]):not([class*="action"]):not([class*="btn"]) {
+  color: #9bc5ff;
+}
+
+/* Large content surfaces should read as sections, not floating rounded cards. */
+#root .hlc-signed-in-shell .hlc-route-content :where(
+  .hlc-card,
+  [class$="-card"],
+  [class*="-card "],
+  [class$="-panel"],
+  [class*="-panel "],
+  [class$="-surface"],
+  [class*="-surface "],
+  [class$="-workspace"],
+  [class*="-workspace "]
+) {
+  border-color: rgba(148, 163, 184, .18) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Structural panels are flat. Small interactive controls keep their own radius. */
+#root .hlc-signed-in-shell .hlc-route-content :where(
+  section[class*="card"], article[class*="card"], div[class*="panel"],
+  section[class*="panel"], article[class*="panel"], div[class*="surface"],
+  section[class*="surface"], article[class*="surface"]
+) {
+  border-radius: 0 !important;
+  background-color: rgba(10, 24, 41, .76) !important;
+}
+
+/* Thin blue/white separators make hierarchy visible without a card wall. */
+#root .hlc-signed-in-shell .hlc-route-content :where(
+  section, article, .hlc-table-wrap, .hlc-list, .hlc-board, .hlc-console
+) {
+  border-color: rgba(148, 163, 184, .18);
+}
+
+#root .hlc-signed-in-shell .hlc-route-content :where(hr) {
+  border: 0 !important;
+  border-top: 1px solid rgba(96, 165, 250, .28) !important;
+}
+
+/* Forms: centered labels and short values throughout the product. */
+#root .hlc-signed-in-shell .hlc-route-content :where(form label, fieldset legend) {
+  color: #dce8f7 !important;
+  text-align: center !important;
+}
+
+#root .hlc-signed-in-shell .hlc-route-content :where(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+  select
+) {
+  border: 1px solid rgba(148, 163, 184, .24) !important;
+  border-radius: 5px !important;
+  background: #0a1829 !important;
+  color: #f8fbff !important;
+  text-align: center !important;
+  box-shadow: none !important;
+}
+
+#root .hlc-signed-in-shell .hlc-route-content :where(
+  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]),
+  select
+)::placeholder {
+  color: #91a4bd !important;
+  text-align: center !important;
+  opacity: 1 !important;
+}
+
+/* Long-form communication and notes stay left aligned for scanability. */
+#root .hlc-signed-in-shell .hlc-route-content textarea,
+#root .hlc-signed-in-shell .hlc-route-content :where(
+  [class*="message"], [class*="note"], [class*="description"], [class*="address"]
+) textarea {
+  border: 1px solid rgba(148, 163, 184, .24) !important;
+  border-radius: 5px !important;
+  background: #0a1829 !important;
+  color: #f8fbff !important;
+  text-align: left !important;
+  box-shadow: none !important;
+}
+
+#root .hlc-signed-in-shell .hlc-route-content textarea::placeholder {
+  color: #91a4bd !important;
+  text-align: left !important;
+  opacity: 1 !important;
+}
+
+#root .hlc-signed-in-shell .hlc-route-content :where(input,select,textarea):focus {
+  border-color: rgba(96, 165, 250, .72) !important;
+  outline: 0 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, .13) !important;
+}
+
+/* Tables and dense record rows use dark continuous surfaces. */
+#root .hlc-signed-in-shell .hlc-route-content :where(table,thead,tbody,tr,th,td) {
+  background-color: transparent;
+}
+
+#root .hlc-signed-in-shell .hlc-route-content th {
+  color: #9fb6d0 !important;
+  border-bottom-color: rgba(96, 165, 250, .25) !important;
+}
+
+#root .hlc-signed-in-shell .hlc-route-content td {
+  color: #d6e2f0 !important;
+  border-bottom-color: rgba(148, 163, 184, .12) !important;
+}
+
+/* Attention semantics: red is reserved for errors, destructive actions, and
+ * items that genuinely need attention. */
+#root .hlc-signed-in-shell .hlc-route-content :where(
+  [role="alert"], .hlc-error, .hlc-danger, .hlc-destructive, [class*="error"], [class*="danger"]
+) {
+  border-color: rgba(248, 113, 113, .42) !important;
+  background-color: rgba(127, 29, 29, .18) !important;
+  color: #fecaca !important;
+}
+
+#root .hlc-signed-in-shell .hlc-route-content :where(
+  [role="alert"] a, .hlc-error a, .hlc-danger a, .hlc-destructive a
+) {
+  color: #fff1f2 !important;
+}
+
+/* Keep actual controls visibly interactive; rounded controls are allowed. */
+#root .hlc-signed-in-shell .hlc-route-content :where(button, [role="button"], a[class*="button"], a[class*="action"], a[class*="btn"]) {
+  min-height: 40px;
+}
+
+/* Small mobile readability improvement only; no mobile navigation/layout rewrite. */
+@media (max-width: 1024px) {
+  #root .hlc-signed-in-shell .hlc-route-content :where(h1,h2,h3,p,label,span,small) {
+    text-shadow: none !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-route-content :where(
+    input:not([type="checkbox"]):not([type="radio"]):not([type="file"]), select
+  ) {
+    color: #f8fbff !important;
+    background: #0a1829 !important;
+  }
+}

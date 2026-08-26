@@ -2,15 +2,20 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 
-const calendarPage = readFileSync(new URL("../pages/dashboard/Calendar.tsx", import.meta.url), "utf8");
+const calendarPage = readFileSync(new URL("../pages/dashboard/HlcNativeCalendar.tsx", import.meta.url), "utf8");
+const calendarApi = readFileSync(new URL("../api/hlcCalendar.ts", import.meta.url), "utf8");
 const calendarCss = readFileSync(new URL("../styles/calendar-application-workspace.css", import.meta.url), "utf8");
 const authenticatedEntry = readFileSync(new URL("../styles/authenticated-entry.ts", import.meta.url), "utf8");
 
-test("Calendar keeps a dedicated schedule workspace with job handoff and detail inspector", () => {
+test("Calendar keeps a dedicated native schedule workspace with job handoff and detail inspector", () => {
   assert.match(calendarPage, /className="hlc-calendar-workspace"/);
   assert.match(calendarPage, /className="hlc-calendar-timeline"/);
   assert.match(calendarPage, /className="hlc-calendar-detail-panel"/);
   assert.match(calendarPage, /to=\{`\/jobs\/\$\{selectedAppointment\.job_id\}`\}/);
+  assert.match(calendarPage, /createHlcCalendarEvent/);
+  assert.match(calendarPage, /listHlcCalendarEvents/);
+  assert.match(calendarPage, /Google Calendar is optional, not required/);
+  assert.match(calendarApi, /from\("hlc_calendar_events"\)/);
 });
 
 test("Calendar specialization is mounted before final application workspace authority", () => {

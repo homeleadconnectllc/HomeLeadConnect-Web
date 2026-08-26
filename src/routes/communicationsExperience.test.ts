@@ -15,12 +15,13 @@ const providerNeutralRouting = readFileSync(
 const communityHub = readFileSync("src/pages/dashboard/CommunityHub.tsx", "utf8");
 const communityStore = readFileSync("src/components/community/CommunityStore.tsx", "utf8");
 
-test("Call Center exposes persisted call history and outcome log without a duplicate call store", () => {
+test("Call Center exposes persisted call history and intelligent outcome logging without a duplicate call store", () => {
   assert.match(callCenter, /listCallSessions/);
   assert.match(callCenter, /recordCallDisposition/);
   assert.match(callCenter, />Call Log</);
   assert.match(callCenter, />Call History</);
-  assert.match(callCenter, /Save to call log/);
+  assert.match(callCenter, /Save intelligent disposition/);
+  assert.match(callCenter, /Human confirmation required/);
 });
 
 test("free Google Voice handoff returns to a one-tap canonical outcome and follow-up flow", () => {
@@ -40,7 +41,7 @@ test("Messages exposes persisted chat history from canonical conversations", () 
   assert.match(messages, /listConversations/);
   assert.match(messages, /aria-label="Chat history"/);
   assert.match(messages, /ACTIVE CONVERSATION/);
-  assert.match(messages, /Persisted chat history/);
+  assert.match(messages, /Persisted conversation history/);
   assert.match(messages, /conversation\.messages\.length/);
 });
 

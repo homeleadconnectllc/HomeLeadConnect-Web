@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const settings = readFileSync("src/pages/dashboard/Settings.tsx", "utf8");
+const connections = readFileSync("src/components/settings/IntegrationsConnectionsPanel.tsx", "utf8");
 const profile = readFileSync("src/pages/dashboard/MyProfile.tsx", "utf8");
 const resident = readFileSync("src/pages/portal/HomeownerPortal.tsx", "utf8");
 const professional = readFileSync("src/pages/portal/ContractorPortal.tsx", "utf8");
@@ -32,6 +33,27 @@ test("Settings preserves identity workspace business phone alert and billing con
   assert.match(settings, /startSubscriptionCheckout/);
   assert.match(settings, /openBillingPortal/);
   assert.match(settings, /billingConsent/);
+});
+
+test("Integrations and Connections reports evidence-backed state instead of invented connectivity", () => {
+  assert.match(settings, /IntegrationsConnectionsPanel/);
+  assert.match(settings, /getIntegrationEvidence\(profile\.workspace_id\)/);
+  assert.match(connections, /Integrations & Connections/);
+  assert.match(connections, /Phone \/ SMS providers/);
+  assert.match(connections, /Stripe/);
+  assert.match(connections, /Email delivery/);
+  assert.match(connections, /Google Calendar sync/);
+  assert.match(connections, /HLC document storage/);
+  assert.match(connections, /OCR \/ document processing/);
+  assert.match(connections, /Maps \/ routing/);
+  assert.match(connections, /API & webhooks/);
+  assert.match(connections, /Statuses below are evidence-based/);
+  assert.match(connections, /emailConnection\?\.status === "connected"/);
+  assert.match(connections, /syncedCalendarMappings > 0/);
+  assert.match(connections, /Provider delivery-event proof is still pending/);
+  assert.match(connections, /User OAuth and bidirectional reconciliation are not claimed/);
+  assert.match(connections, /state: "Not verified"/);
+  assert.match(connections, /state: "Setup required"/);
 });
 
 test("My Profile preserves participant preferences and authorization boundary", () => {
