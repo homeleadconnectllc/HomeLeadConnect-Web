@@ -121,6 +121,7 @@ The active production app Supabase project is `homeconnect` (`cguhtshclyybivvdnp
 113. `20260825224704_harden_workspace_rls_initplans_and_pipeline_limit.sql`
 114. `20260825230409_remove_redundant_rls_select_policies.sql`
 115. `20260825231534_lock_remaining_browser_security_definer_search_paths.sql`
+116. `20260826001000_add_hlc_growth_summary.sql`
 
 Migration #101 is retained in the local migration chain because it was applied to `hlc-reconciliation-test` during reconciliation. It is **not evidence of a production defect and is not required to be applied to `homeconnect` solely for parity**: production already has the canonical `causal.ingest_lead(...)` implementation from migration #98 with direct browser execution denied. Do not apply #101 to production unless a future production migration decision independently justifies it.
 
@@ -151,6 +152,8 @@ Migration #113 removes the duplicate permissive pipeline INSERT path that could 
 Migration #114 removes only semantically redundant SELECT policies on `call_sessions` and `participant_preferences`; distinct `profiles` and `workspaces` policies remain intact pending separate authorization review.
 
 Migration #115 pins the remaining audited browser-callable SECURITY DEFINER RPCs to an empty `search_path`. The affected functions already schema-qualify application relations and retain their existing authentication, workspace membership, provider-link, or owner/manager authorization checks; signatures and business behavior are unchanged.
+
+Migration #116 adds an aggregate Growth intelligence RPC over existing HLC lead-source and Community referral records. It returns only workspace-scoped counts and attribution-quality metrics, requires authenticated owner/manager membership, uses an empty `search_path`, and grants no anonymous execution.
 
 ## Current production rules
 
