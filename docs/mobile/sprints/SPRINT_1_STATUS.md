@@ -1,7 +1,15 @@
 # Sprint 1 Checkpoint
 
-Current branch head after implementation/docs checkpoint: `9d33a08e4e4144186af9d36a4faefce8c85b2a59` at the time this file was introduced, with later documentation commits possible.
+Status: VERIFYING
 
-The authoritative exact head for certification is always the GitHub branch head at verification time; never reuse this literal SHA after the branch advances.
+Sprint 1 product implementation is complete on its isolated child branch. The Mobile A+ CI infrastructure has been promoted into the program branch, and Sprint 1 has synchronized both HLC Launch Candidate and HLC Rendered Quality Gate workflow definitions with that program baseline.
 
-Required gates remain CI, rendered quality and human iPhone visual QA.
+This checkpoint commit exists to trigger both exact-head gates after CI synchronization without changing product behavior.
+
+Required before freeze:
+- exact-head HLC Launch Candidate PASS
+- exact-head HLC Rendered Quality Gate PASS
+- PR remains isolated from production `main`
+- physical iPhone visual QA remains a separate human observational gate
+
+The authoritative certification SHA is always the current GitHub branch head at verification time.
