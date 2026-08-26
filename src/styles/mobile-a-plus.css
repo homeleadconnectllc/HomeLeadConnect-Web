@@ -103,6 +103,44 @@ button.hlc-command-icon-button {
     overflow-x: hidden;
   }
 
+  /* Keep Search HLC immediately visible whenever the More drawer is open. */
+  .hlc-mobile-command-search-trigger {
+    position: fixed;
+    z-index: 1190;
+    right: 14px;
+    bottom: calc(104px + env(safe-area-inset-bottom));
+    left: 14px;
+    width: auto;
+    margin: 0;
+    min-height: 60px;
+    box-shadow: 0 14px 36px rgba(2, 8, 23, .42);
+  }
+
+  /* Mobile agent launchers are circular people, not square floating cards. */
+  .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger {
+    display: grid;
+    place-items: center;
+    width: 68px;
+    height: 68px;
+    min-width: 68px;
+    min-height: 68px;
+    padding: 4px;
+    overflow: hidden;
+    border-radius: 50%;
+  }
+
+  .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger > img {
+    width: 58px;
+    height: 58px;
+    max-width: 58px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger > span {
+    display: none;
+  }
+
   /* Keyboard-open rows must stay inside the page instead of widening it. */
   .hlc-signed-in-shell [class*="suggestion"],
   .hlc-signed-in-shell [class*="quick-repl"],
