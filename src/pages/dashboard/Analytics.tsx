@@ -64,8 +64,8 @@ export default function Analytics() {
         <div className="hlc-command-copy">
           <div className="hlc-command-kicker"><BarChart3 size={15} aria-hidden="true" />Dion · Business &amp; Growth Intelligence</div>
           <h1>HLC Business Intelligence</h1>
-          <h2 className="hlc-analytics-context-title">Operating KPIs, acquisition, attribution &amp; conversion</h2>
-          <p>Canonical workflow performance plus privacy-minimized first-party HLC traffic, lead-source and Community referral evidence for the last 30 days.</p>
+          <h2 className="hlc-analytics-context-title">Operating KPIs &amp; Visitor Analytics</h2>
+          <p>Canonical workflow performance plus privacy-minimized first-party HLC traffic for the last 30 days. Growth intelligence extends that same evidence with acquisition, attribution, conversion, and Community referral signals.</p>
         </div>
       </section>
 
@@ -88,7 +88,7 @@ export default function Analytics() {
 
       {!loading && !error && <>
         <section className="hlc-dashboard-section" aria-labelledby="growth-scorecard-heading">
-          <div className="hlc-section-heading"><div><span className="hlc-section-eyebrow">Growth scorecard</span><h2 id="growth-scorecard-heading">What is moving</h2></div><Route size={20} aria-hidden="true" /></div>
+          <div className="hlc-section-heading"><div><span className="hlc-section-eyebrow">Growth scorecard</span><h2 id="growth-scorecard-heading">Acquisition, attribution &amp; conversion</h2></div><Route size={20} aria-hidden="true" /></div>
           <div className="hlc-dashboard-kpis">
             <article><strong>{analytics?.sessions ?? 0}</strong><span>Sessions</span></article>
             <article><strong>{business?.leads ?? growth?.total_leads ?? 0}</strong><span>New leads</span></article>
