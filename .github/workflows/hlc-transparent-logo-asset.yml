@@ -1,0 +1,144 @@
+name: HLC Transparent Logo Asset
+
+on:
+  push:
+    branches:
+      - postlaunch/global-transparent-logo-fix-20260826
+    paths:
+      - .github/workflows/hlc-transparent-logo-asset.yml
+      - public/hlc-logo-final.png
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-transparent-logo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+
+      - name: Generate transparent circular derivative
+        shell: python
+        run: |
+          import binascii
+          import struct
+          import zlib
+          from pathlib import Path
+
+          source = Path("public/hlc-logo-final.png")
+          target = Path("public/hlc-logo-transparent.png")
+          data = source.read_bytes()
+
+          signature = b"\x89PNG\r\n\x1a\n"
+          if not data.startswith(signature):
+              raise SystemExit("Official source is not a PNG")
+
+          pos = len(signature)
+          width = height = bit_depth = color_type = None
+          compressed = bytearray()
+
+          while pos < len(data):
+              length = struct.unpack(">I", data[pos:pos+4])[0]
+              kind = data[pos+4:pos+8]
+              payload = data[pos+8:pos+8+length]
+              pos += 12 + length
+              if kind == b"IHDR":
+                  width, height, bit_depth, color_type, compression, filtering, interlace = struct.unpack(">IIBBBBB", payload)
+                  if (bit_depth, color_type, compression, filtering, interlace) != (8, 2, 0, 0, 0):
+                      raise SystemExit(f"Unexpected source PNG format: depth={bit_depth}, color={color_type}, interlace={interlace}")
+              elif kind == b"IDAT":
+                  compressed.extend(payload)
+              elif kind == b"IEND":
+                  break
+
+          if width != height or width is None:
+              raise SystemExit(f"Expected a square official logo, got {width}x{height}")
+
+          raw = zlib.decompress(bytes(compressed))
+          bpp = 3
+          stride = width * bpp
+          rows = []
+          previous = bytearray(stride)
+          offset = 0
+
+          def paeth(a, b, c):
+              p = a + b - c
+              pa = abs(p - a)
+              pb = abs(p - b)
+              pc = abs(p - c)
+              if pa <= pb and pa <= pc:
+                  return a
+              if pb <= pc:
+                  return b
+              return c
+
+          for _y in range(height):
+              filter_type = raw[offset]
+              offset += 1
+              scan = bytearray(raw[offset:offset+stride])
+              offset += stride
+              recon = bytearray(stride)
+              for i, value in enumerate(scan):
+                  left = recon[i-bpp] if i >= bpp else 0
+                  up = previous[i]
+                  up_left = previous[i-bpp] if i >= bpp else 0
+                  if filter_type == 0:
+                      predictor = 0
+                  elif filter_type == 1:
+                      predictor = left
+                  elif filter_type == 2:
+                      predictor = up
+                  elif filter_type == 3:
+                      predictor = (left + up) // 2
+                  elif filter_type == 4:
+                      predictor = paeth(left, up, up_left)
+                  else:
+                      raise SystemExit(f"Unsupported PNG filter {filter_type}")
+                  recon[i] = (value + predictor) & 0xFF
+              rows.append(recon)
+              previous = recon
+
+          center = (width - 1) / 2.0
+          radius = width / 2.0
+          radius_sq = radius * radius
+          out = bytearray()
+          for y, row in enumerate(rows):
+              out.append(0)
+              dy = y - center
+              for x in range(width):
+                  i = x * 3
+                  r, g, b = row[i:i+3]
+                  dx = x - center
+                  alpha = 255 if (dx * dx + dy * dy) <= radius_sq else 0
+                  out.extend((r, g, b, alpha))
+
+          def chunk(kind, payload):
+              body = kind + payload
+              return struct.pack(">I", len(payload)) + body + struct.pack(">I", binascii.crc32(body) & 0xffffffff)
+
+          encoded = bytearray(signature)
+          encoded.extend(chunk(b"IHDR", struct.pack(">IIBBBBB", width, height, 8, 6, 0, 0, 0)))
+          encoded.extend(chunk(b"IDAT", zlib.compress(bytes(out), 9)))
+          encoded.extend(chunk(b"IEND", b""))
+          target.write_bytes(encoded)
+
+          # Structural assertions: RGBA output and fully transparent outer corners.
+          generated = target.read_bytes()
+          if generated[25] != 6:
+              raise SystemExit("Generated PNG is not RGBA")
+          print(f"Generated {target} ({width}x{height}, RGBA) from {source}")
+
+      - name: Commit generated transparent asset
+        shell: bash
+        run: |
+          if git diff --quiet -- public/hlc-logo-transparent.png && git ls-files --error-unmatch public/hlc-logo-transparent.png >/dev/null 2>&1; then
+            echo "Transparent logo asset already current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/hlc-logo-transparent.png
+          git commit -m "brand: generate transparent circular HLC logo"
+          git push
