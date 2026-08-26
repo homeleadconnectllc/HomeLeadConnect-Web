@@ -103,7 +103,7 @@ button.hlc-command-icon-button {
     overflow-x: hidden;
   }
 
-  /* Keyboard-open rows must wrap/scroll internally instead of widening the page. */
+  /* Keyboard-open rows must stay inside the page instead of widening it. */
   .hlc-signed-in-shell [class*="suggestion"],
   .hlc-signed-in-shell [class*="quick-repl"],
   .hlc-signed-in-shell [class*="prompt-chip"] {
@@ -116,6 +116,39 @@ button.hlc-command-icon-button {
   .hlc-signed-in-shell [class*="prompt-chip"] > * {
     min-width: 0;
     max-width: 100%;
+  }
+
+  /* Smart Compose is a horizontal suggestion rail on mobile, not a clipped row. */
+  .hlc-smart-compose {
+    width: 100%;
+    max-width: 100vw;
+    overflow: hidden;
+  }
+
+  .hlc-smart-compose__suggestions {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-inline: 14px;
+    scroll-padding-inline: 14px;
+    scroll-snap-type: x proximity;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .hlc-smart-compose__suggestions::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hlc-smart-compose__suggestions > button {
+    flex: 0 0 auto;
+    max-width: calc(100vw - 44px);
+    white-space: normal;
+    scroll-snap-align: start;
   }
 
   .hlc-command-search-backdrop,
