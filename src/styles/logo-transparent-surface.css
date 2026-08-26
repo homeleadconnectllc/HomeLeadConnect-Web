@@ -1,0 +1,25 @@
+/* Global HLC logo surface rule: transparent outside the official circular mark. */
+.hlc-navbar-logo {
+  background: transparent !important;
+  border-radius: 50% !important;
+  overflow: visible !important;
+  box-shadow: none !important;
+}
+
+.hlc-navbar-logo img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain !important;
+  background: transparent !important;
+  border-radius: 50% !important;
+  box-shadow: none !important;
+}
+
+/* Auth/public reusable brand images must not manufacture a white tile around transparency. */
+.hlc-auth-shell img[src="/hlc-logo-transparent.png"],
+.hlc-public-shell img[src="/hlc-logo-transparent.png"],
+.hlc-app-shell img[src="/hlc-logo-transparent.png"] {
+  background: transparent !important;
+  box-shadow: none !important;
+}
