@@ -106,34 +106,57 @@
   cursor: pointer;
 }
 
-/* Make the date currently carrying the open schedule visually unmistakable. */
+/* Mini-month states: selected date, today's date, and dates with actual calendar items are distinct. */
 .hlc-native-calendar .hlc-calendar-mini-grid button {
   position: relative;
 }
 
+.hlc-native-calendar .hlc-calendar-mini-grid button.has-items {
+  border-color: rgba(73, 196, 255, .82);
+  background: linear-gradient(145deg, rgba(16, 55, 95, .98), rgba(8, 36, 70, .98));
+  box-shadow: inset 0 -3px 0 rgba(73, 196, 255, .55), 0 0 14px rgba(38, 158, 255, .12);
+}
+
+.hlc-native-calendar .hlc-calendar-mini-grid button.has-items::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 5px;
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #50d5ff;
+  transform: translateX(-50%);
+  box-shadow: 0 0 8px rgba(80, 213, 255, .9);
+}
+
 .hlc-native-calendar .hlc-calendar-mini-grid button.selected {
-  border-color: rgba(92, 180, 255, .95);
+  border-color: rgba(126, 164, 255, .98);
   color: #fff;
-  background: linear-gradient(145deg, rgba(17, 110, 235, .96), rgba(8, 72, 164, .96));
-  box-shadow: 0 0 0 2px rgba(86, 174, 255, .22), 0 8px 22px rgba(0, 98, 225, .28);
+  background: linear-gradient(145deg, rgba(44, 83, 196, .98), rgba(24, 54, 142, .98));
+  box-shadow: 0 0 0 2px rgba(105, 142, 255, .26), 0 8px 22px rgba(35, 71, 185, .3);
 }
 
 .hlc-native-calendar .hlc-calendar-mini-grid button.selected::after {
   content: "";
   position: absolute;
-  left: 50%;
-  bottom: 6px;
+  right: 6px;
+  top: 6px;
   width: 6px;
   height: 6px;
   border-radius: 999px;
-  background: #dff3ff;
-  transform: translateX(-50%);
-  box-shadow: 0 0 8px rgba(223, 243, 255, .9);
+  background: #e5ecff;
+  box-shadow: 0 0 7px rgba(229, 236, 255, .85);
+}
+
+.hlc-native-calendar .hlc-calendar-mini-grid button.has-items.selected::before {
+  background: #69e1ff;
+  box-shadow: 0 0 10px rgba(105, 225, 255, 1);
 }
 
 .hlc-native-calendar .hlc-calendar-mini-grid button.today:not(.selected) {
-  border-color: rgba(79, 201, 255, .66);
-  box-shadow: inset 0 0 0 1px rgba(79, 201, 255, .18);
+  border-color: rgba(104, 232, 184, .72);
+  box-shadow: inset 0 0 0 1px rgba(104, 232, 184, .2);
 }
 
 @media (max-width: 700px) {
