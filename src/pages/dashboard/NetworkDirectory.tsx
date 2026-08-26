@@ -69,7 +69,8 @@ export default function NetworkDirectory({ savedOnly = false }: { savedOnly?: bo
   }
 
   useEffect(() => {
-    void load();
+    const timer = window.setTimeout(() => void load(), 0);
+    return () => window.clearTimeout(timer);
   }, []);
 
   const evidence = useMemo<ProviderEvidence[]>(() => providers.map((provider) => ({
