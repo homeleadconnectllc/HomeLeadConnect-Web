@@ -1,4 +1,5 @@
 import "./index.css";
+import "./styles/logo-transparent-surface.css";
 
 /*
 Authenticated runtime ownership moved to styles/app-shell-entry.ts so the public homepage can stay lightweight.
