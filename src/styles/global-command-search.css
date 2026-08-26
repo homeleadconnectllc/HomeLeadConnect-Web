@@ -1,0 +1,185 @@
+.hlc-command-search-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: grid;
+  align-items: start;
+  justify-items: center;
+  padding: max(18px, env(safe-area-inset-top)) 14px max(18px, env(safe-area-inset-bottom));
+  background: rgba(2, 8, 23, .78);
+  backdrop-filter: blur(14px);
+}
+
+.hlc-command-search {
+  width: min(720px, 100%);
+  max-height: min(760px, calc(100dvh - 36px - env(safe-area-inset-top) - env(safe-area-inset-bottom)));
+  overflow: hidden;
+  border: 1px solid #2b3b52;
+  border-radius: 22px;
+  background: linear-gradient(180deg, #111b2b, #0b1220);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, .5);
+  color: #e8f0fb;
+}
+
+.hlc-command-search-header {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  min-height: 62px;
+  padding: 10px 12px 10px 16px;
+  border-bottom: 1px solid #26364d;
+  color: #93c5fd;
+}
+
+.hlc-command-search-header input {
+  width: 100%;
+  min-height: 44px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #f8fbff;
+  font: inherit;
+  font-size: 1rem;
+}
+
+.hlc-command-search-header input::placeholder {
+  color: #71849d;
+}
+
+.hlc-command-search-header button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 12px;
+  background: #172235;
+  color: #dbeafe;
+}
+
+.hlc-command-search-results {
+  max-height: min(610px, calc(100dvh - 172px - env(safe-area-inset-top) - env(safe-area-inset-bottom)));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 8px;
+}
+
+.hlc-command-search-results > button {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 62px;
+  padding: 10px 12px;
+  border: 1px solid transparent;
+  border-radius: 14px;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+
+.hlc-command-search-results > button:hover,
+.hlc-command-search-results > button:focus-visible {
+  border-color: #31527d;
+  outline: 0;
+  background: #152238;
+}
+
+.hlc-command-search-result-copy {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.hlc-command-search-result-copy strong {
+  overflow: hidden;
+  color: #f8fbff;
+  font-size: .92rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hlc-command-search-result-copy small {
+  overflow: hidden;
+  color: #8ea0b7;
+  font-size: .75rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hlc-command-search-group {
+  padding: 5px 8px;
+  border: 1px solid #2c4668;
+  border-radius: 999px;
+  background: rgba(37, 99, 235, .1);
+  color: #a9cfff;
+  font-size: .65rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+  white-space: nowrap;
+}
+
+.hlc-command-search-empty {
+  display: grid;
+  gap: 4px;
+  padding: 24px 14px;
+  color: #8496ad;
+  font-size: .82rem;
+}
+
+.hlc-command-search-empty strong {
+  color: #dbeafe;
+}
+
+.hlc-command-search-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 46px;
+  padding: 8px 14px;
+  border-top: 1px solid #26364d;
+  color: #70839b;
+  font-size: .69rem;
+}
+
+.hlc-command-search-footer kbd {
+  padding: 3px 7px;
+  border: 1px solid #33445c;
+  border-radius: 7px;
+  background: #121c2b;
+  color: #b8c7da;
+  font: inherit;
+  font-weight: 750;
+}
+
+@media (max-width: 720px) {
+  .hlc-command-search-backdrop {
+    align-items: stretch;
+    padding: max(8px, env(safe-area-inset-top)) 8px max(8px, env(safe-area-inset-bottom));
+  }
+
+  .hlc-command-search {
+    width: 100%;
+    max-height: calc(100dvh - max(16px, env(safe-area-inset-top)) - max(16px, env(safe-area-inset-bottom)));
+    border-radius: 18px;
+  }
+
+  .hlc-command-search-header {
+    min-height: 60px;
+  }
+
+  .hlc-command-search-results {
+    max-height: calc(100dvh - 154px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+
+  .hlc-command-search-results > button {
+    min-height: 66px;
+  }
+
+  .hlc-command-search-footer kbd {
+    display: none;
+  }
+}
