@@ -7,9 +7,11 @@ on:
       - sprint/ecosystem-launch-completion
       - launch/full-hlc-hardening-2026-08-14
       - launch/global-readiness-2026-08-16
+      - 'postlaunch/mobile-a-plus-*'
   pull_request:
     branches:
       - main
+      - postlaunch/mobile-a-plus-20260826
 
 permissions:
   contents: read
