@@ -41,7 +41,6 @@ const Ecosystem=lazy(()=>import("../pages/dashboard/Ecosystem"));
 const Workflow=lazy(()=>import("../pages/dashboard/Workflow"));
 const Automations=lazy(()=>import("../pages/dashboard/Automations"));
 const WorkspaceActivity=lazy(()=>import("../pages/dashboard/WorkspaceActivity"));
-const EcosystemAreaPage=lazy(()=>import("../pages/dashboard/EcosystemAreaPage"));
 const LaunchSurface=lazy(()=>import("../pages/dashboard/LaunchSurface"));
 const CommunityHub=lazy(()=>import("../pages/dashboard/CommunityHub"));
 const CommunityMatchDeck=lazy(()=>import("../pages/dashboard/CommunityMatchDeck"));
