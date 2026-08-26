@@ -23,6 +23,7 @@ jobs:
         shell: python
         run: |
           import binascii
+          import math
           import struct
           import zlib
           from pathlib import Path
@@ -100,9 +101,14 @@ jobs:
               rows.append(recon)
               previous = recon
 
+          # Physical-device QA showed that a canvas-edge circle preserved the source's
+          # pale halo. The official blue ring sits inset from the 1024px canvas, so the
+          # alpha boundary must follow that visible mark rather than width / 2.
           center = (width - 1) / 2.0
-          radius = width / 2.0
-          radius_sq = radius * radius
+          transparent_margin = round(width * 0.035)  # 36px at 1024px
+          radius = (width / 2.0) - transparent_margin
+          feather = 1.5
+
           out = bytearray()
           for y, row in enumerate(rows):
               out.append(0)
@@ -111,8 +117,14 @@ jobs:
                   i = x * 3
                   r, g, b = row[i:i+3]
                   dx = x - center
-                  alpha = 255 if (dx * dx + dy * dy) <= radius_sq else 0
-                  out.extend((r, g, b, alpha))
+                  distance = math.sqrt(dx * dx + dy * dy)
+                  if distance <= radius - feather:
+                      alpha = 255
+                  elif distance >= radius + feather:
+                      alpha = 0
+                  else:
+                      alpha = round(255 * ((radius + feather - distance) / (feather * 2.0)))
+                  out.extend((r, g, b, max(0, min(255, alpha))))
 
           def chunk(kind, payload):
               body = kind + payload
@@ -124,11 +136,31 @@ jobs:
           encoded.extend(chunk(b"IEND", b""))
           target.write_bytes(encoded)
 
-          # Structural assertions: RGBA output and fully transparent outer corners.
           generated = target.read_bytes()
           if generated[25] != 6:
               raise SystemExit("Generated PNG is not RGBA")
-          print(f"Generated {target} ({width}x{height}, RGBA) from {source}")
+
+          # Decode our generated scanlines (filter 0) and prove the outer band is fully
+          # transparent while the center remains opaque. This catches the exact halo
+          # regression seen during iPhone QA.
+          generated_raw = zlib.decompress(bytes(out and zlib.compress(bytes(out), 9)))
+          rgba_stride = width * 4
+          def alpha_at(x, y):
+              row_start = y * (rgba_stride + 1)
+              return out[row_start + 1 + x * 4 + 3]
+
+          edge_probe = max(1, transparent_margin // 2)
+          probes = [
+              (0, 0), (width - 1, 0), (0, height - 1), (width - 1, height - 1),
+              (center.__round__(), edge_probe), (center.__round__(), height - 1 - edge_probe),
+              (edge_probe, center.__round__()), (width - 1 - edge_probe, center.__round__()),
+          ]
+          if any(alpha_at(int(x), int(y)) != 0 for x, y in probes):
+              raise SystemExit("Outer logo band is not fully transparent")
+          if alpha_at(width // 2, height // 2) != 255:
+              raise SystemExit("Logo center unexpectedly became transparent")
+
+          print(f"Generated {target} ({width}x{height}, RGBA) with {transparent_margin}px transparent outer margin")
 
       - name: Commit generated transparent asset
         shell: bash
@@ -140,5 +172,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add public/hlc-logo-transparent.png
-          git commit -m "brand: generate transparent circular HLC logo"
+          git commit -m "brand: remove visible outer logo halo"
           git push
