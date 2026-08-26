@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from "react";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import AnalyticsTracker from "../components/analytics/AnalyticsTracker";
@@ -100,11 +100,6 @@ export default function AppLayout() {
     <div className={`hlc-app-shell ${session ? "hlc-signed-in-shell" : "hlc-public-shell"} ${routeClass}${session && sidebarCollapsed ? " hlc-sidebar-is-collapsed" : ""}${routePersonaClass ? ` ${routePersonaClass}` : ""}`}>
       <AnalyticsTracker />
       <Navbar />
-      {session && (
-        <Link className="hlc-desktop-page-brand" to="/dashboard" aria-label="HomeLead Connect dashboard">
-          <img src="/hlc-logo-transparent.png" alt="HomeLead Connect LLC" />
-        </Link>
-      )}
       {session && (
         <button
           className="hlc-desktop-sidebar-toggle"
