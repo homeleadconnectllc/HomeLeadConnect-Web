@@ -130,3 +130,30 @@ summary {
   box-shadow: none !important;
   background: transparent !important;
 }
+
+/*
+ * Operational discovery/filter controls must not regress into bright rounded
+ * strips on dark HLC pages. Keep actual controls usable, but render them as
+ * dark, flat application controls instead of white bubbles/cards.
+ */
+#root .hlc-settings-section input,
+#root .hlc-settings-section select,
+#root .hlc-settings-section textarea,
+#root .hlc-network-directory input,
+#root .hlc-network-directory select,
+#root .hlc-network-directory .hlc-input-with-icon {
+  color: #f8fbff !important;
+  background: #081a2b !important;
+  background-color: #081a2b !important;
+  background-image: none !important;
+  border-color: #35577a !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+#root .hlc-settings-section input::placeholder,
+#root .hlc-network-directory input::placeholder,
+#root .hlc-settings-section textarea::placeholder {
+  color: #aebfd4 !important;
+  opacity: 1 !important;
+}
