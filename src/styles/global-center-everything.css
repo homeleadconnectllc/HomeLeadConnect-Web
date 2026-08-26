@@ -56,3 +56,45 @@ summary {
 .responsive-record-card {
   text-align: center !important;
 }
+
+/*
+ * Locked HLC surface rule: no white/light rounded bubbles or SaaS-style cards.
+ * Information stays on the dark HLC canvas or a flat rectangular surface.
+ * This deliberately covers recurring card/panel/badge/count/empty-state naming
+ * so the rule carries across CRM, communications, documents and operations.
+ */
+#root [class*="card" i],
+#root [class*="tile" i],
+#root [class*="panel" i],
+#root [class*="bubble" i],
+#root [class*="badge" i],
+#root [class*="pill" i],
+#root [class*="chip" i],
+#root [class*="count" i],
+#root [class*="metric" i],
+#root [class*="stat" i],
+#root [class*="empty" i],
+#root .counter,
+#root output,
+#root mark,
+#root kbd {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+/* Remove decorative light fills from common generated status/count surfaces. */
+#root [class*="card" i]::before,
+#root [class*="card" i]::after,
+#root [class*="badge" i]::before,
+#root [class*="badge" i]::after,
+#root [class*="count" i]::before,
+#root [class*="count" i]::after,
+#root [class*="empty" i]::before,
+#root [class*="empty" i]::after {
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
