@@ -15,7 +15,12 @@
   .hlc-calendar-detail-heading { order: 1; }
   .hlc-calendar-detail-actions {
     order: 2;
-    display: grid;
+    display: grid !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
     gap: 10px;
     padding: 14px 18px 16px;
     border-bottom: 1px solid rgba(98, 143, 200, .14);
@@ -24,6 +29,8 @@
 
   .hlc-calendar-detail-actions > a,
   .hlc-calendar-detail-actions > button {
+    display: flex !important;
+    visibility: visible !important;
     width: 100%;
     min-height: 48px;
   }
