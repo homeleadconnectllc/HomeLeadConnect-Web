@@ -175,10 +175,17 @@
 
   .hlc-messages-launch-simple .hlc-messages-inbox {
     margin-bottom: 14px;
+    overflow: visible;
   }
 
   .hlc-messages-launch-simple .hlc-messages-inbox-list {
-    max-height: 260px;
+    max-height: none;
+    height: auto;
+    overflow: visible;
+  }
+
+  .hlc-messages-launch-simple .hlc-message-inbox-row {
+    min-height: 0;
   }
 
   .hlc-messages-launch-simple .hlc-message-thread-head,
