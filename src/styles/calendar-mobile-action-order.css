@@ -1,0 +1,33 @@
+@media (max-width: 700px) {
+  .hlc-calendar-page {
+    padding-bottom: calc(132px + env(safe-area-inset-bottom));
+    overflow: visible;
+  }
+
+  .hlc-calendar-detail-panel {
+    position: relative;
+    top: auto;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+  }
+
+  .hlc-calendar-detail-heading { order: 1; }
+  .hlc-calendar-detail-actions {
+    order: 2;
+    display: grid;
+    gap: 10px;
+    padding: 14px 18px 16px;
+    border-bottom: 1px solid rgba(98, 143, 200, .14);
+    background: rgba(7, 24, 44, .98);
+  }
+
+  .hlc-calendar-detail-actions > a,
+  .hlc-calendar-detail-actions > button {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .hlc-calendar-detail-list { order: 3; }
+  .hlc-calendar-mini-month { order: 4; }
+}
