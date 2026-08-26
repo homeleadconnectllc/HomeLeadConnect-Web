@@ -49,6 +49,7 @@ export default function CalendarSignificanceMarkers() {
   useEffect(() => {
     const root = document.querySelector(".hlc-native-calendar");
     if (!root) return;
+    const calendarRoot: Element = root;
 
     let cancelled = false;
     let timer: number | undefined;
@@ -69,7 +70,7 @@ export default function CalendarSignificanceMarkers() {
           .filter((event) => event.status !== "cancelled")
           .forEach((event) => itemDates.add(localDateKey(event.start_at)));
 
-        markVisibleMonth(root, itemDates);
+        markVisibleMonth(calendarRoot, itemDates);
       } catch {
         // Calendar significance markers are visual enhancement only.
       }
@@ -81,7 +82,7 @@ export default function CalendarSignificanceMarkers() {
     };
 
     const observer = new MutationObserver(scheduleRefresh);
-    observer.observe(root, { childList: true, subtree: true });
+    observer.observe(calendarRoot, { childList: true, subtree: true });
     scheduleRefresh();
 
     return () => {
