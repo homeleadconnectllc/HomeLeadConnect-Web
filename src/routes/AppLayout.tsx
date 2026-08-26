@@ -11,6 +11,7 @@ const AnalyticsKpis = lazy(() => import("../components/analytics/AnalyticsKpis")
 const AudioDeviceCenter = lazy(() => import("../components/audio/AudioDeviceCenter"));
 const FieldDeviceCenter = lazy(() => import("../components/device/FieldDeviceCenter"));
 const WorkspaceGuidance = lazy(() => import("../components/WorkspaceGuidance"));
+const GlobalCommandSearch = lazy(() => import("../components/search/GlobalCommandSearch"));
 
 const SIDEBAR_COLLAPSED_KEY = "hlc-desktop-sidebar-collapsed";
 
@@ -130,6 +131,7 @@ export default function AppLayout() {
         {session && <WorkspaceGuidance />}
         {session && <DesktopAgentTeamRail />}
         {showContextualAgent && <ContextualAgentDock />}
+        {session && <GlobalCommandSearch />}
       </Suspense>
     </div>
   );
