@@ -7,7 +7,7 @@ const dashboard = readFileSync("src/pages/dashboard/Dashboard.tsx", "utf8");
 const leads = readFileSync("src/pages/dashboard/Leads.tsx", "utf8");
 const leadCard = readFileSync("src/components/leads/LeadCard.tsx", "utf8");
 const messages = readFileSync("src/pages/dashboard/Messages.tsx", "utf8");
-const calendar = readFileSync("src/pages/dashboard/Calendar.tsx", "utf8");
+const calendar = readFileSync("src/pages/dashboard/HlcNativeCalendar.tsx", "utf8");
 const jobs = readFileSync("src/pages/dashboard/Jobs.tsx", "utf8");
 const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
 
@@ -61,18 +61,20 @@ test("lead, message, job and schedule surfaces expose launch-critical states", (
   assert.match(jobs, /No jobs yet\./);
   assert.match(jobs, /busyJobId/);
 
-  assert.match(calendar, /Loading schedule…/);
+  assert.match(calendar, /Loading HLC Calendar…/);
   assert.match(calendar, /role="alert"/);
   assert.match(calendar, /role="status"/);
-  assert.match(calendar, /No appointments in this view/);
+  assert.match(calendar, /No calendar items here/);
   assert.match(calendar, /disabled=\{busy/);
+  assert.match(calendar, /createHlcCalendarEvent/);
 });
 
 test("schedule-to-job handoff remains contextual and reversible", () => {
-  assert.match(calendar, /className="hlc-calendar-primary-link" to="\/jobs"/);
+  assert.match(calendar, /to="\/jobs"/);
   assert.match(calendar, /to=\{`\/jobs\/\$\{selectedAppointment\.job_id\}`\}/);
   assert.match(calendar, /Reschedule/);
-  assert.match(calendar, /Complete/);
-  assert.match(calendar, /Cancel/);
-  assert.match(calendar, /No-show/);
+  assert.match(calendar, /Complete appointment/);
+  assert.match(calendar, /Cancel appointment/);
+  assert.match(calendar, /Mark no-show/);
+  assert.match(calendar, /HLC native schedule/);
 });
