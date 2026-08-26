@@ -41,7 +41,7 @@ test("Messages exposes persisted chat history from canonical conversations", () 
   assert.match(messages, /listConversations/);
   assert.match(messages, /aria-label="Chat history"/);
   assert.match(messages, /ACTIVE CONVERSATION/);
-  assert.match(messages, /Persisted chat history/);
+  assert.match(messages, /Persisted conversation history/);
   assert.match(messages, /conversation\.messages\.length/);
 });
 
