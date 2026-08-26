@@ -11,14 +11,16 @@ const authShell = readFileSync("src/components/auth/AuthShell.tsx", "utf8");
 const htmlEntry = readFileSync("index.html", "utf8");
 const manifest = readFileSync("public/manifest.webmanifest", "utf8");
 const serviceWorker = readFileSync("public/sw.js", "utf8");
+const transparentLogo = readFileSync("public/hlc-logo-transparent.png");
 
 const canonicalLogoPath = "/hlc-logo-transparent.png";
 const activeBrandSurfaces = [navbar, footer, authShell, htmlEntry, manifest, serviceWorker];
 const forbiddenLegacyLogoReferences = [
   "/favicon.svg",
-  "hlc-logo-final.png",
-  "hlc-trans-logo.jpeg",
-  "/hlc-logo-transparent.png",
+  "/hlc-icon.jpeg",
+  "/hlc-trans-logo.jpeg",
+  "/logo.png",
+  "/hlc-logo-final.png",
 ];
 
 test("HLC canonical brand lock stays global before legacy and final release guards", () => {
@@ -43,14 +45,23 @@ test("brand lock replaces green matching, agent, and success presentation with H
 
 test("official HLC mark stays canonical across shared UI, browser, PWA, and notifications", () => {
   for (const surface of activeBrandSurfaces) {
-    assert.match(surface, new RegExp(canonicalLogoPath.replace(".", "\\.")));
+    assert.match(surface, new RegExp(canonicalLogoPath.replaceAll(".", "\\.")));
   }
 
-  assert.match(htmlEntry, /rel="icon"[^>]+href="\/hlc-icon\.jpeg"/);
-  assert.match(htmlEntry, /rel="apple-touch-icon"[^>]+href="\/hlc-icon\.jpeg"/);
-  assert.match(manifest, /"src"\s*:\s*"\/hlc-icon\.jpeg"/);
-  assert.match(serviceWorker, /icon:\s*"\/hlc-icon\.jpeg"/);
-  assert.match(serviceWorker, /badge:\s*"\/hlc-icon\.jpeg"/);
+  assert.match(htmlEntry, /rel="icon"[^>]+type="image\/png"[^>]+href="\/hlc-logo-transparent\.png"/);
+  assert.match(htmlEntry, /rel="apple-touch-icon"[^>]+href="\/hlc-logo-transparent\.png"/);
+  assert.match(manifest, /"src"\s*:\s*"\/hlc-logo-transparent\.png"/);
+  assert.match(manifest, /"type"\s*:\s*"image\/png"/);
+  assert.match(serviceWorker, /icon:\s*"\/hlc-logo-transparent\.png"/);
+  assert.match(serviceWorker, /badge:\s*"\/hlc-logo-transparent\.png"/);
+});
+
+test("canonical HLC logo asset is a 1024px RGBA PNG", () => {
+  assert.deepEqual([...transparentLogo.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
+  assert.equal(transparentLogo.readUInt32BE(16), 1024);
+  assert.equal(transparentLogo.readUInt32BE(20), 1024);
+  assert.equal(transparentLogo[24], 8);
+  assert.equal(transparentLogo[25], 6);
 });
 
 test("active HLC brand surfaces reject legacy and placeholder logo references", () => {
