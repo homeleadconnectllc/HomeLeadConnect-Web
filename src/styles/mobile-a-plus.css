@@ -1,0 +1,95 @@
+.hlc-command-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+button.hlc-command-icon-button {
+  cursor: pointer;
+}
+
+@media (max-width: 720px) {
+  .hlc-signed-in-shell .hlc-route-content {
+    padding-bottom: calc(86px + env(safe-area-inset-bottom));
+  }
+
+  .hlc-command-center {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: calc(38px + env(safe-area-inset-bottom));
+  }
+
+  .hlc-command-hero {
+    order: 1;
+  }
+
+  .hlc-system-strip {
+    order: 2;
+  }
+
+  .hlc-dashboard-priority-section {
+    order: 3;
+    margin-top: 18px;
+  }
+
+  .hlc-dashboard-quick-section {
+    order: 4;
+    margin-top: 22px;
+  }
+
+  .hlc-metric-grid {
+    order: 5;
+    margin-top: 22px;
+  }
+
+  .hlc-agent-team-section {
+    order: 6;
+  }
+
+  .hlc-dashboard-workspace-section {
+    order: 7;
+  }
+
+  .hlc-business-pulse-section {
+    order: 8;
+  }
+
+  .hlc-command-hero-actions {
+    gap: 7px;
+  }
+
+  .hlc-command-hero-actions .hlc-command-icon-button {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .hlc-priority-item,
+  .hlc-quick-action,
+  .hlc-metric-card,
+  .hlc-workspace-card,
+  .hlc-agent-card,
+  .hlc-pulse-card {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .hlc-mobile-tabbar {
+    padding-bottom: max(7px, env(safe-area-inset-bottom));
+  }
+
+  .hlc-mobile-tabbar > a,
+  .hlc-mobile-tabbar > button {
+    min-height: 48px;
+  }
+
+  .hlc-mobile-portal-scroll {
+    padding-bottom: calc(104px + env(safe-area-inset-bottom));
+  }
+
+  .hlc-command-search-backdrop,
+  .hlc-mobile-portal {
+    overscroll-behavior: contain;
+  }
+}
