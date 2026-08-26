@@ -15,6 +15,8 @@ import { errorMessage } from "../../lib/errorMessage";
 import { getVoiceNoteUrl, listVoiceNotes, uploadVoiceNote, type VoiceNote } from "../../api/voiceNotes";
 import VoiceNoteRecorder from "../../components/messages/VoiceNoteRecorder";
 
+type DeliveryMode = "internal" | "email";
+
 function latestConversationPreview(conversation: Conversation) {
   const latest = conversation.messages[conversation.messages.length - 1];
   if (!latest?.body) return "No messages in this conversation yet.";
@@ -33,7 +35,7 @@ export default function Messages() {
   const [newBody, setNewBody] = useState("");
   const [reply, setReply] = useState("");
   const [recipientId, setRecipientId] = useState("");
-  const [sendEmailCopy, setSendEmailCopy] = useState(false);
+  const [deliveryMode, setDeliveryMode] = useState<DeliveryMode>("internal");
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -80,7 +82,6 @@ export default function Messages() {
     () => recipients.find((item) => item.linkId === recipientId) ?? null,
     [recipients, recipientId],
   );
-  const totalMessages = useMemo(() => conversations.reduce((sum, item) => sum + item.messages.length, 0), [conversations]);
 
   useEffect(() => {
     if (!selectedId) return;
@@ -93,34 +94,40 @@ export default function Messages() {
     event.preventDefault();
     const recipient = recipients.find((item) => item.linkId === recipientId);
     if (!recipient) return;
-    const draftSubject = subject.trim();
+    const draftSubject = subject.trim() || "HomeLead Connect message";
     const draftBody = newBody.trim();
-    const shouldSendEmail = sendEmailCopy && Boolean(recipient.email);
+    const shouldSendEmail = deliveryMode === "email";
+    if (shouldSendEmail && !recipient.email) {
+      setError("This contact does not have an email address. Choose Internal instead.");
+      return;
+    }
+
     setBusy(true);
     setError("");
     setMessage("");
     try {
       const id = await startPortalConversation({ recipient, subject: draftSubject, body: draftBody });
-      setSubject("");
-      setNewBody("");
-      setRecipientId("");
-      setSendEmailCopy(false);
       await load();
       setSelectedId(id);
 
       if (shouldSendEmail) {
         try {
           await sendPortalEmail({ recipient, subject: draftSubject, body: draftBody, conversationId: id });
-          setMessage("Internal conversation started and email sent.");
+          setMessage("Email sent and saved in HLC.");
         } catch (reason) {
-          setMessage("Internal conversation started.");
-          setError(errorMessage(reason, "The conversation was saved, but the email was not sent."));
+          setMessage("Conversation saved in HLC.");
+          setError(errorMessage(reason, "Email provider failed. The conversation was still saved."));
         }
       } else {
-        setMessage("Internal conversation started.");
+        setMessage("Internal message saved in HLC.");
       }
+
+      setSubject("");
+      setNewBody("");
+      setRecipientId("");
+      setDeliveryMode("internal");
     } catch (reason) {
-      setError(errorMessage(reason, "Unable to start the conversation."));
+      setError(errorMessage(reason, "Unable to send this message."));
     } finally {
       setBusy(false);
     }
@@ -136,9 +143,9 @@ export default function Messages() {
       await postInternalMessage(selected.id, reply);
       setReply("");
       await load();
-      setMessage("Internal message posted.");
+      setMessage("Internal reply saved.");
     } catch (reason) {
-      setError(errorMessage(reason, "Unable to post the message."));
+      setError(errorMessage(reason, "Unable to post the reply."));
     } finally {
       setBusy(false);
     }
@@ -170,36 +177,80 @@ export default function Messages() {
   }
 
   return (
-    <main className="hlc-messages-workspace">
+    <main className="hlc-messages-workspace hlc-messages-launch-simple">
       <header className="hlc-messages-header">
         <div>
           <p className="hlc-messages-kicker">COMMUNICATIONS</p>
           <h1>Messages</h1>
-          <p>Persisted HLC conversations, portal communication, and deliberate voice notes in one operator workspace. External email is sent only when explicitly selected.</p>
-        </div>
-        <div className="hlc-messages-summary" aria-label="Message workspace summary">
-          <span><strong>{conversations.length}</strong><small>Conversations</small></span>
-          <span><strong>{totalMessages}</strong><small>Messages</small></span>
-          <span><strong>{recipients.length}</strong><small>Portal contacts</small></span>
+          <p>Choose a contact, choose Email or Internal, write the message, and send. Calls and texts stay in their own workspace.</p>
         </div>
       </header>
 
-      {composeVoiceNote && !loading && selected && (
-        <p className="hlc-messages-status is-info" role="status">Voice note mode is ready. The recorder below is attached to the selected conversation.</p>
-      )}
       {loading && <p className="hlc-messages-state">Loading conversations…</p>}
       {error && <p className="hlc-messages-status is-error" role="alert">{error}</p>}
       {message && <p className="hlc-messages-status is-success" role="status">{message}</p>}
 
+      {!loading && recipients.length > 0 && (
+        <form className="hlc-message-quick-compose" onSubmit={start}>
+          <div className="hlc-messages-section-head">
+            <div><span>NEW MESSAGE</span><h2>Send a message</h2></div>
+          </div>
+
+          <label>Contact
+            <select
+              required
+              value={recipientId}
+              onChange={(event) => {
+                setRecipientId(event.target.value);
+                setDeliveryMode("internal");
+                setError("");
+              }}
+            >
+              <option value="">Select a contact</option>
+              {recipients.map((recipient) => (
+                <option key={recipient.linkId} value={recipient.linkId}>
+                  {portalRecipientDisplayLabel(recipient)}{recipient.email ? ` · ${recipient.email}` : ""}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <fieldset className="hlc-message-delivery-choice">
+            <legend>Send as</legend>
+            <label>
+              <input type="radio" name="deliveryMode" value="internal" checked={deliveryMode === "internal"} onChange={() => setDeliveryMode("internal")} />
+              <span><strong>Internal</strong><small>HLC conversation only</small></span>
+            </label>
+            <label className={!selectedRecipient?.email ? "is-disabled" : ""}>
+              <input type="radio" name="deliveryMode" value="email" checked={deliveryMode === "email"} disabled={!selectedRecipient?.email} onChange={() => setDeliveryMode("email")} />
+              <span><strong>Email</strong><small>{selectedRecipient?.email || "No email available"}</small></span>
+            </label>
+          </fieldset>
+
+          <label>Message
+            <textarea required maxLength={5000} value={newBody} onChange={(event) => setNewBody(event.target.value)} placeholder="Write your message…" />
+          </label>
+
+          <details className="hlc-message-subject-details">
+            <summary>Optional subject</summary>
+            <label>Subject<input maxLength={160} value={subject} onChange={(event) => setSubject(event.target.value)} placeholder="HomeLead Connect message" /></label>
+          </details>
+
+          <button className="hlc-message-primary-send" disabled={busy || !recipientId || !newBody.trim()} type="submit">
+            {busy ? "Sending…" : deliveryMode === "email" ? "Send email" : "Send internal message"}
+          </button>
+        </form>
+      )}
+
       {!loading && (
         <div className="hlc-messages-console">
-          <aside className="hlc-messages-inbox" aria-label="Chat history">
+          <aside className="hlc-messages-inbox" aria-label="Conversation history">
             <div className="hlc-messages-section-head">
-              <div><span>INBOX</span><h2>Conversation queue</h2></div>
+              <div><span>INBOX</span><h2>Conversations</h2></div>
               <strong>{conversations.length}</strong>
             </div>
             <div className="hlc-messages-inbox-list">
-              {conversations.length === 0 && <p className="hlc-messages-empty">No chat history yet.</p>}
+              {conversations.length === 0 && <p className="hlc-messages-empty">No conversation history yet.</p>}
               {conversations.map((conversation) => (
                 <button
                   type="button"
@@ -218,20 +269,17 @@ export default function Messages() {
           <section className="hlc-messages-thread">
             {selected ? <>
               <header className="hlc-message-thread-head">
-                <div><span>ACTIVE CONVERSATION</span><h2>{selected.subject}</h2></div>
-                <strong>{selected.messages.length} message{selected.messages.length === 1 ? "" : "s"}</strong>
+                <div><span>CONVERSATION</span><h2>{selected.subject}</h2></div>
+                <strong>{selected.messages.length}</strong>
               </header>
 
-              <div className="hlc-message-stream" aria-live="polite" aria-label="Persisted chat history">
-                {selected.messages.length === 0 && <p className="hlc-messages-empty">No messages have been recorded in this conversation yet.</p>}
+              <div className="hlc-message-stream" aria-live="polite" aria-label="Persisted conversation history">
+                {selected.messages.length === 0 && <p className="hlc-messages-empty">No messages yet.</p>}
                 {selected.messages.map((item) => (
-                  <article
-                    className={item.sender_user_id === session?.user.id ? "hlc-message-entry is-self" : "hlc-message-entry"}
-                    key={item.id}
-                  >
+                  <article className={item.sender_user_id === session?.user.id ? "hlc-message-entry is-self" : "hlc-message-entry"} key={item.id}>
                     <div className="hlc-message-entry-meta">
                       <strong>{item.sender_user_id === session?.user.id ? "You" : "Participant"}</strong>
-                      <small>{new Date(item.created_at).toLocaleString()} · persisted</small>
+                      <small>{new Date(item.created_at).toLocaleString()}</small>
                     </div>
                     <p>{item.body}</p>
                   </article>
@@ -240,19 +288,15 @@ export default function Messages() {
 
               <form className="hlc-message-composer" onSubmit={send}>
                 <label htmlFor="hlc-message-reply">Internal reply</label>
-                <textarea id="hlc-message-reply" required maxLength={5000} value={reply} onChange={(event) => setReply(event.target.value)} />
+                <textarea id="hlc-message-reply" required maxLength={5000} value={reply} onChange={(event) => setReply(event.target.value)} placeholder="Reply inside HLC…" />
                 <div className="hlc-message-composer-actions">
-                  <small>Stored in the canonical HLC conversation history.</small>
-                  <button disabled={busy} type="submit">{busy ? "Posting…" : "Post internal message"}</button>
+                  <small>Internal replies stay in HLC.</small>
+                  <button disabled={busy} type="submit">{busy ? "Posting…" : "Post reply"}</button>
                 </div>
               </form>
 
-              <section className="hlc-voice-note-console">
-                <div className="hlc-messages-section-head">
-                  <div><span>AUDIO</span><h3>Voice notes</h3></div>
-                  <strong>{voiceNotes.length}</strong>
-                </div>
-                <p>Voice notes are deliberate audio messages, not telephone-call recordings.</p>
+              <details className="hlc-voice-note-console" open={composeVoiceNote || undefined}>
+                <summary>Voice notes ({voiceNotes.length})</summary>
                 <div className="hlc-voice-note-list">
                   {voiceNotes.length === 0 && <p className="hlc-messages-empty">No voice notes in this conversation.</p>}
                   {voiceNotes.map((note) => (
@@ -262,63 +306,10 @@ export default function Messages() {
                   ))}
                 </div>
                 <VoiceNoteRecorder busy={busy} onUpload={addVoiceNote} focusOnMount={composeVoiceNote} />
-              </section>
-            </> : <p className="hlc-messages-empty">Select a conversation from the queue.</p>}
+              </details>
+            </> : <p className="hlc-messages-empty">Select a conversation from the inbox.</p>}
           </section>
         </div>
-      )}
-
-      {recipients.length > 0 && (
-        <form className="hlc-message-start-workspace" onSubmit={start}>
-          <div className="hlc-messages-section-head">
-            <div><span>NEW CONVERSATION</span><h2>Start portal conversation</h2></div>
-            <small>Internal by default</small>
-          </div>
-          <div className="hlc-message-start-fields">
-            <label>Recipient
-              <select
-                required
-                value={recipientId}
-                onChange={(event) => {
-                  setRecipientId(event.target.value);
-                  setSendEmailCopy(false);
-                }}
-              >
-                <option value="">Select a linked portal account</option>
-                {recipients.map((recipient) => (
-                  <option key={recipient.linkId} value={recipient.linkId}>
-                    {portalRecipientDisplayLabel(recipient)}
-                  </option>
-                ))}
-              </select>
-              {selectedRecipient && <small className="hlc-recipient-detail">
-                {selectedRecipient.email ? `Email available: ${selectedRecipient.email}` : "Internal portal messaging only"}
-              </small>}
-            </label>
-            <label>Subject<input required maxLength={160} value={subject} onChange={(event) => setSubject(event.target.value)} /></label>
-            <label className="hlc-message-start-body">Message<textarea required maxLength={5000} value={newBody} onChange={(event) => setNewBody(event.target.value)} /></label>
-          </div>
-          {selectedRecipient && (
-            <label className="hlc-message-email-option">
-              <input
-                type="checkbox"
-                checked={sendEmailCopy}
-                disabled={!selectedRecipient.email || busy}
-                onChange={(event) => setSendEmailCopy(event.target.checked)}
-              />
-              <span>
-                <strong>Also send this by email</strong>
-                <small>{selectedRecipient.email || "No email address is available for this recipient."}</small>
-              </span>
-            </label>
-          )}
-          <div className="hlc-message-start-actions">
-            <small>Email is never sent unless the checkbox above is deliberately selected.</small>
-            <button disabled={busy} type="submit">
-              {busy ? "Starting…" : sendEmailCopy ? "Start conversation + send email" : "Start internal conversation"}
-            </button>
-          </div>
-        </form>
       )}
     </main>
   );
