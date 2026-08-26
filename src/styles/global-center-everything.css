@@ -1,0 +1,58 @@
+/*
+ * Locked HLC alignment rule: center-first across the entire experience.
+ * This authority is intentionally global and late-loaded from main.tsx so it
+ * applies to public, auth, portal, CRM, messaging, documents, scripts, data,
+ * operational workspaces, headers, footers, labels, values and controls.
+ */
+
+html,
+body,
+#root,
+#root *,
+.hlc-app-shell,
+.hlc-app-shell *,
+.hlc-public-shell,
+.hlc-public-shell * {
+  text-align: center !important;
+}
+
+input,
+textarea,
+select,
+button,
+option,
+label,
+table,
+thead,
+tbody,
+tfoot,
+tr,
+th,
+td,
+caption,
+pre,
+code,
+blockquote,
+address,
+details,
+summary {
+  text-align: center !important;
+}
+
+/* Keep centered content visually centered inside common flex/grid controls. */
+.hlc-navbar-brand-copy,
+.hlc-nav-menu,
+.hlc-nav-menu a,
+.hlc-nav-group,
+.hlc-mobile-menu-heading,
+.hlc-auth-form,
+.hlc-auth-form label,
+.hlc-auth-page,
+.hlc-contact-page,
+.hlc-contact-card,
+.hlc-route-content,
+.hlc-route-content main,
+.hlc-card,
+.responsive-record-card {
+  text-align: center !important;
+}
