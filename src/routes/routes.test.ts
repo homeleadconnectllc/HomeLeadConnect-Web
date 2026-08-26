@@ -10,6 +10,7 @@ const operationalGuide = readFileSync("src/pages/dashboard/OperationalGuide.tsx"
 const communityHub = readFileSync("src/pages/dashboard/CommunityHub.tsx", "utf8");
 const communityMatchDeck = readFileSync("src/pages/dashboard/CommunityMatchDeck.tsx", "utf8");
 const eligibilityFit = readFileSync("src/pages/dashboard/EligibilityFit.tsx", "utf8");
+const networkDirectory = readFileSync("src/pages/dashboard/NetworkDirectory.tsx", "utf8");
 const communityMatchingApi = readFileSync("src/api/communityMatching.ts", "utf8");
 const communityMatchingMigration = readFileSync("supabase/migrations/20260817035500_community_match_decisions.sql", "utf8");
 const communityMatchingGrantMigration = readFileSync("supabase/migrations/20260817041000_harden_community_match_decision_privileges.sql", "utf8");
@@ -157,15 +158,27 @@ test("portal record subroutes use canonical data-backed views", () => {
 
 test("implemented ecosystem destinations use data-backed surfaces", () => {
   const generic: Array<[string,string]> = [
-    ["/network","network"], ["/profiles","profiles"], ["/providers","providers"],
     ["/community/discussions","discussions"], ["/community/reviews","reviews"], ["/community/referrals","referrals"],
     ["/community/events","events"], ["/community/moderation","moderation"], ["/community/groups","groups"], ["/network/service-areas","serviceAreas"],
-    ["/network/availability","availability"], ["/network/saved","saved"], ["/contractor-portal/team","team"],
+    ["/network/availability","availability"], ["/contractor-portal/team","team"],
     ["/hq/approvals","approvals"], ["/hq/system-health","systemHealth"],
   ];
   for (const [route,page] of generic) {
     assert.match(router, new RegExp(`path="${route.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}" element=\\{<LaunchSurface page="${page}"\\/>\\}`));
   }
+  assert.match(router, /path="\/network" element=\{<NetworkDirectory\s*\/>\}/);
+  assert.match(router, /path="\/profiles" element=\{<NetworkDirectory\s*\/>\}/);
+  assert.match(router, /path="\/providers" element=\{<NetworkDirectory\s*\/>\}/);
+  assert.match(router, /path="\/network\/saved" element=\{<NetworkDirectory savedOnly\s*\/>\}/);
+  assert.match(networkDirectory, /listContractors\(\{\}\)/);
+  assert.match(networkDirectory, /listProviderServices\(\)/);
+  assert.match(networkDirectory, /listServiceAreas\(\)/);
+  assert.match(networkDirectory, /listProviderAvailability\(\)/);
+  assert.match(networkDirectory, /listSavedProviderIds\(\)/);
+  assert.match(networkDirectory, /Declared available/);
+  assert.match(networkDirectory, /Availability not declared/);
+  assert.match(networkDirectory, /Trade or service/);
+  assert.match(networkDirectory, /City, state or ZIP/);
   assert.match(router, /path="\/matching" element=\{<CommunityMatchDeck\s*\/>\}/);
   assert.match(router, /path="\/network\/eligibility" element=\{<EligibilityFit\s*\/>\}/);
   assert.match(router, /path="\/map" element=\{<ProviderMap\s*\/>\}/);
