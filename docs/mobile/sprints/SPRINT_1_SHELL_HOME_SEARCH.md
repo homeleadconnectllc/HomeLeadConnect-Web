@@ -61,3 +61,7 @@ Parent mobile program: `postlaunch/mobile-a-plus-20260826`
 - Rendered mobile quality PASS.
 - iPhone visual QA for Dashboard, More -> Search, search modal, keyboard-open state and bottom navigation.
 - No regression to desktop dashboard/navigation.
+
+## Exact-head retry checkpoint
+
+A fresh documentation-only checkpoint was created after GitHub Actions returned a runner `startup_failure` before any job started. This retry does not alter Sprint 1 product behavior or lower any gate; it exists only to obtain clean exact-head Launch Candidate and Rendered Quality evidence.
