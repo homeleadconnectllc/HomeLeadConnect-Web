@@ -71,6 +71,7 @@ export default function Documents() {
     const form = new FormData(formElement);
     const file = form.get("file");
     if (!(file instanceof File) || !file.size) return;
+    const entityId = String(form.get("entityId") ?? "").trim();
 
     setBusy(true);
     setError("");
@@ -78,13 +79,15 @@ export default function Documents() {
     try {
       await uploadDocument({
         entityType: String(form.get("entityType")),
-        entityId: String(form.get("entityId")),
+        entityId,
         sharingScope: String(form.get("sharingScope")),
         file,
       });
       await load();
       formElement.reset();
-      setMessage("Evidence stored, linked to the selected HLC record, and ready for the sharing scope you chose.");
+      setMessage(entityId
+        ? "Evidence stored, linked to the selected HLC record, and ready for the sharing scope you chose."
+        : "Document stored privately in this HLC workspace. You can link it to a record later when needed.");
     } catch (reason) {
       setError(errorMessage(reason, "Unable to upload this file."));
     } finally {
@@ -139,7 +142,7 @@ export default function Documents() {
         <section className="hlc-documents-intake" aria-labelledby="hlc-document-intake-title">
           <div className="hlc-documents-section-head">
             <div><span>INTAKE</span><h2 id="hlc-document-intake-title">Attach evidence</h2></div>
-            <small>Private record first</small>
+            <small>Private workspace first</small>
           </div>
           <form className="hlc-documents-form" onSubmit={submit}>
             <label>Related record type
@@ -152,7 +155,10 @@ export default function Documents() {
                 <option value="conversation">Conversation</option>
               </select>
             </label>
-            <label>Related record ID<input name="entityId" required defaultValue={requestedEntityId} placeholder="Paste or enter the HLC record ID" /></label>
+            <label>Related record ID <small>(optional)</small>
+              <input name="entityId" defaultValue={requestedEntityId} placeholder="Leave blank for workspace-only storage" />
+            </label>
+            <small className="hlc-documents-form-help">No record yet? Leave the ID blank. HLC will store the file privately at workspace level.</small>
             <label>Who should be able to see it?
               <select name="sharingScope">
                 <option value="workspace">HLC workspace only</option>
@@ -165,7 +171,7 @@ export default function Documents() {
               <span>PDF, Word, text, JPEG, PNG, WebP, MP4, MOV, or WebM. Maximum 25 MB per file.</span>
               <input name="file" type="file" accept=".pdf,.docx,.txt,image/jpeg,image/png,image/webp,video/mp4,video/quicktime,video/webm" required />
             </label>
-            <button disabled={busy}>{busy ? "Uploading securely…" : "Attach to HLC record"}</button>
+            <button disabled={busy}>{busy ? "Uploading securely…" : "Store document"}</button>
           </form>
         </section>
 
@@ -180,7 +186,7 @@ export default function Documents() {
           </div>
           <div className="hlc-documents-privacy">
             <strong>Protect private information.</strong>
-            <p>Avoid faces when they are not needed, mail, IDs, payment information, passwords, security codes, computer screens, children, or unrelated private areas. Upload only material relevant to the HLC record.</p>
+            <p>Avoid faces when they are not needed, mail, IDs, payment information, passwords, security codes, computer screens, children, or unrelated private areas. Upload only material relevant to HLC operations.</p>
           </div>
         </aside>
       </div>
@@ -205,7 +211,7 @@ export default function Documents() {
               <article className="hlc-document-row" key={item.id}>
                 <div className="hlc-document-row-main">
                   <button type="button" onClick={() => open(item)}>{item.filename}</button>
-                  <span>{item.entity_type} · {item.entity_id}</span>
+                  <span>{item.entity_type === "workspace" ? "Workspace document" : `${item.entity_type} · ${item.entity_id}`}</span>
                   <small>Added {new Date(item.created_at).toLocaleString()}</small>
                 </div>
                 <div className="hlc-document-row-meta">
