@@ -242,7 +242,7 @@ export default function Messages() {
           </details>
 
           <button className="hlc-message-primary-send" disabled={busy || !recipientId || !newBody.trim()} type="submit">
-            {busy ? "Sending…" : sendEmailCopy ? "Send email" : "Send internal message"}
+            {busy ? "Sending…" : sendEmailCopy ? "Start conversation + send email" : "Send internal message"}
           </button>
         </form>
       )}
@@ -274,12 +274,12 @@ export default function Messages() {
           <section className="hlc-messages-thread">
             {selected ? <>
               <header className="hlc-message-thread-head">
-                <div><span>CONVERSATION</span><h2>{selected.subject}</h2></div>
+                <div><span>ACTIVE CONVERSATION</span><h2>{selected.subject}</h2></div>
                 <strong>{selected.messages.length}</strong>
               </header>
 
               <div className="hlc-message-stream" aria-live="polite" aria-label="Persisted conversation history">
-                {selected.messages.length === 0 && <p className="hlc-messages-empty">No messages yet.</p>}
+                {selected.messages.length === 0 && <p className="hlc-messages-empty">No messages have been recorded in this conversation yet.</p>}
                 {selected.messages.map((item) => (
                   <article className={item.sender_user_id === session?.user.id ? "hlc-message-entry is-self" : "hlc-message-entry"} key={item.id}>
                     <div className="hlc-message-entry-meta">
