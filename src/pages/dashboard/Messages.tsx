@@ -82,6 +82,7 @@ export default function Messages() {
     () => recipients.find((item) => item.linkId === recipientId) ?? null,
     [recipients, recipientId],
   );
+  const sendEmailCopy = deliveryMode === "email";
 
   useEffect(() => {
     if (!selectedId) return;
@@ -96,7 +97,7 @@ export default function Messages() {
     if (!recipient) return;
     const draftSubject = subject.trim() || "HomeLead Connect message";
     const draftBody = newBody.trim();
-    const shouldSendEmail = deliveryMode === "email";
+    const shouldSendEmail = sendEmailCopy;
     if (shouldSendEmail && !recipient.email) {
       setError("This contact does not have an email address. Choose Internal instead.");
       return;
@@ -186,6 +187,9 @@ export default function Messages() {
         </div>
       </header>
 
+      {composeVoiceNote && !loading && selected && (
+        <p className="hlc-messages-status is-info" role="status">Voice note mode is ready. The recorder is attached to the selected conversation.</p>
+      )}
       {loading && <p className="hlc-messages-state">Loading conversations…</p>}
       {error && <p className="hlc-messages-status is-error" role="alert">{error}</p>}
       {message && <p className="hlc-messages-status is-success" role="status">{message}</p>}
@@ -209,10 +213,11 @@ export default function Messages() {
               <option value="">Select a contact</option>
               {recipients.map((recipient) => (
                 <option key={recipient.linkId} value={recipient.linkId}>
-                  {portalRecipientDisplayLabel(recipient)}{recipient.email ? ` · ${recipient.email}` : ""}
+                  {portalRecipientDisplayLabel(recipient)}
                 </option>
               ))}
             </select>
+            {selectedRecipient && <small>{selectedRecipient.email ? `Email available: ${selectedRecipient.email}` : "Internal messaging only"}</small>}
           </label>
 
           <fieldset className="hlc-message-delivery-choice">
@@ -222,8 +227,8 @@ export default function Messages() {
               <span><strong>Internal</strong><small>HLC conversation only</small></span>
             </label>
             <label className={!selectedRecipient?.email ? "is-disabled" : ""}>
-              <input type="radio" name="deliveryMode" value="email" checked={deliveryMode === "email"} disabled={!selectedRecipient?.email} onChange={() => setDeliveryMode("email")} />
-              <span><strong>Email</strong><small>{selectedRecipient?.email || "No email available"}</small></span>
+              <input type="radio" name="deliveryMode" value="email" checked={sendEmailCopy} disabled={!selectedRecipient?.email} onChange={() => setDeliveryMode("email")} />
+              <span><strong>Email</strong><small>Also send this by email</small></span>
             </label>
           </fieldset>
 
@@ -237,20 +242,20 @@ export default function Messages() {
           </details>
 
           <button className="hlc-message-primary-send" disabled={busy || !recipientId || !newBody.trim()} type="submit">
-            {busy ? "Sending…" : deliveryMode === "email" ? "Send email" : "Send internal message"}
+            {busy ? "Sending…" : sendEmailCopy ? "Send email" : "Send internal message"}
           </button>
         </form>
       )}
 
       {!loading && (
         <div className="hlc-messages-console">
-          <aside className="hlc-messages-inbox" aria-label="Conversation history">
+          <aside className="hlc-messages-inbox" aria-label="Chat history">
             <div className="hlc-messages-section-head">
               <div><span>INBOX</span><h2>Conversations</h2></div>
               <strong>{conversations.length}</strong>
             </div>
             <div className="hlc-messages-inbox-list">
-              {conversations.length === 0 && <p className="hlc-messages-empty">No conversation history yet.</p>}
+              {conversations.length === 0 && <p className="hlc-messages-empty">No chat history yet.</p>}
               {conversations.map((conversation) => (
                 <button
                   type="button"
