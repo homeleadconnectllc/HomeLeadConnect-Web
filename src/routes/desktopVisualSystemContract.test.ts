@@ -73,11 +73,9 @@ test("desktop shell reserves navigation and returns the full canvas when collaps
   assert.match(desktopSystem, /\.hlc-mobile-tabbar[\s\S]*display:\s*none\s*!important/);
 });
 
-test("desktop brand is centered above the page instead of riding inside the sidebar", () => {
-  assert.match(appLayout, /hlc-desktop-page-brand/);
+test("oversized page-level brand is not mounted in the authenticated shell", () => {
+  assert.doesNotMatch(appLayout, /hlc-desktop-page-brand/);
   assert.match(shellRecovery, /\.hlc-navbar-brand[\s\S]*display:\s*none\s*!important/);
-  assert.match(shellRecovery, /\.hlc-desktop-page-brand[\s\S]*left:\s*50%\s*!important/);
-  assert.match(shellRecovery, /transform:\s*translateX\(-50%\)\s*!important/);
 });
 
 test("desktop sidebar exposes an obvious mid-edge collapse handle", () => {
