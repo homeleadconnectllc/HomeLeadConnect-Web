@@ -20,13 +20,15 @@ test("job work hands evidence intake the exact job context", () => {
   assert.match(jobCard, />Attach evidence<\/Link>/);
 });
 
-test("documents accepts only supported contextual record types and pre-fills the linked record", () => {
+test("documents accepts supported contextual record types, pre-fills linked records, and allows workspace-only intake", () => {
   assert.match(documents, /useSearchParams\(\)/);
   assert.match(documents, /documentEntityTypes = new Set\(\["lead", "estimate", "job", "appointment", "contractor", "conversation"\]\)/);
   assert.match(documents, /defaultValue=\{initialEntityType\}/);
   assert.match(documents, /defaultValue=\{requestedEntityId\}/);
+  assert.match(documents, /const entityId = String\(form\.get\("entityId"\) \?\? ""\)\.trim\(\)/);
+  assert.match(documents, /Leave blank for workspace-only storage/);
   assert.match(documents, /uploadDocument\(\{/);
   assert.match(documents, /entityType: String\(form\.get\("entityType"\)\)/);
-  assert.match(documents, /entityId: String\(form\.get\("entityId"\)\)/);
+  assert.match(documents, /entityId,/);
   assert.match(documents, /sharingScope: String\(form\.get\("sharingScope"\)\)/);
 });
