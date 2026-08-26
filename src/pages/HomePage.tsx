@@ -21,8 +21,7 @@ export default function HomePage() {
       </header>
 
       <section className="hlc-home-hero" style={{maxWidth:1100,margin:"0 auto",textAlign:"center",padding:"clamp(48px,10vw,88px) 0 46px"}}>
-        <img className="hlc-home-hero-logo" src="/hlc-logo-transparent.png" alt="HomeLead Connect LLC" width={112} height={112} loading="eager" decoding="async" style={{width:112,height:112,objectFit:"contain",borderRadius:18}} />
-        <p className="hlc-home-hero-kicker" style={{fontWeight:900,color:"#60a5fa",marginTop:22,letterSpacing:".05em"}}>HOMELEAD CONNECT</p>
+        <p className="hlc-home-hero-kicker" style={{fontWeight:900,color:"#60a5fa",marginTop:0,letterSpacing:".05em"}}>HOMELEAD CONNECT</p>
         <h1 className="hlc-home-hero-title" style={{fontSize:"clamp(42px,8vw,80px)",lineHeight:1.02,letterSpacing:"-2.5px",margin:"12px auto 20px",color:"#f8fafc"}}>One front door.<br/>One connected home-services ecosystem.</h1>
         <p className="hlc-home-hero-copy" style={{maxWidth:760,margin:"0 auto",fontSize:"clamp(18px,4vw,21px)",lineHeight:1.6,color:"#b6c5d8"}}>Request help, connect with providers, join the community, manage work, and reach the HomeLead Connect workspace from one identity.</p>
         <div className="hlc-home-hero-actions" style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap",marginTop:28}}>
