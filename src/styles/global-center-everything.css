@@ -98,3 +98,35 @@ summary {
   box-shadow: none !important;
   background: transparent !important;
 }
+
+/*
+ * Section-heading metadata (for example the Call Center "HLC guided" marker
+ * and numeric heading summaries) was rendered as a white rounded pill without
+ * a badge/pill class. Treat these as plain centered metadata globally within
+ * HLC section-heading patterns instead of decorative bubbles.
+ */
+#root [class*="section-heading" i] > strong,
+#root [class*="section-heading" i] > b,
+#root [class*="section-heading" i] > span:last-child,
+#root .hlc-call-section-heading > strong {
+  display: inline !important;
+  padding: 0 !important;
+  margin-inline: auto !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+#root [class*="section-heading" i] > strong::before,
+#root [class*="section-heading" i] > strong::after,
+#root .hlc-call-section-heading > strong::before,
+#root .hlc-call-section-heading > strong::after {
+  content: none !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
