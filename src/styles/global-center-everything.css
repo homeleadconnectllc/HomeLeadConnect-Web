@@ -134,7 +134,7 @@ summary {
 /*
  * Operational discovery/filter controls must not regress into bright rounded
  * strips on dark HLC pages. Keep actual controls usable, but render them as
- * dark, flat application controls instead of white bubbles/cards.
+ * dark application controls with restrained geometry instead of white cards.
  */
 #root .hlc-settings-section input,
 #root .hlc-settings-section select,
@@ -143,12 +143,22 @@ summary {
 #root .hlc-network-directory select,
 #root .hlc-network-directory .hlc-input-with-icon {
   color: #f8fbff !important;
-  background: #081a2b !important;
-  background-color: #081a2b !important;
+  background: #0b2036 !important;
+  background-color: #0b2036 !important;
   background-image: none !important;
-  border-color: #35577a !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
+  border: 1px solid #41698f !important;
+  border-radius: 8px !important;
+  box-shadow: inset 0 0 0 1px rgba(77, 144, 255, 0.08) !important;
+}
+
+#root .hlc-settings-section input:focus,
+#root .hlc-settings-section select:focus,
+#root .hlc-settings-section textarea:focus,
+#root .hlc-network-directory input:focus,
+#root .hlc-network-directory select:focus {
+  border-color: #5b9dff !important;
+  outline: 2px solid rgba(91, 157, 255, 0.24) !important;
+  outline-offset: 2px !important;
 }
 
 #root .hlc-settings-section input::placeholder,
@@ -156,4 +166,73 @@ summary {
 #root .hlc-settings-section textarea::placeholder {
   color: #aebfd4 !important;
   opacity: 1 !important;
+}
+
+/*
+ * AI agents: the portrait itself is the launcher. Never put Kendrell, Dion or
+ * Diamond inside a square/rounded-square tile. This rule applies globally to
+ * the contextual dock trigger while preserving the circular portrait and its
+ * role accent.
+ */
+#root .hlc-agent-dock-trigger {
+  width: auto !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+#root .hlc-agent-dock-trigger > img {
+  display: block !important;
+  width: 62px !important;
+  height: 62px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  object-fit: cover !important;
+  border-radius: 50% !important;
+  border: 2px solid #5b9dff !important;
+  background: transparent !important;
+  box-shadow: 0 0 0 3px rgba(91, 157, 255, 0.15) !important;
+}
+
+#root .hlc-agent-dock-trigger > span {
+  display: none !important;
+}
+
+/*
+ * Provider directory records stay dark and operational but get cleaner visual
+ * hierarchy: one accent edge and restrained dividers instead of a boxed card.
+ */
+#root .hlc-network-directory .hlc-phone-row {
+  background: #0d2139 !important;
+  border: 0 !important;
+  border-left: 4px solid #3b82f6 !important;
+  border-top: 1px solid #294866 !important;
+  border-bottom: 1px solid #294866 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 22px 18px !important;
+}
+
+#root .hlc-network-directory .hlc-phone-row > div:first-child {
+  display: grid !important;
+  gap: 8px !important;
+  justify-items: center !important;
+}
+
+#root .hlc-network-directory .hlc-phone-row > div:first-child > strong {
+  font-size: clamp(1.05rem, 4.4vw, 1.35rem) !important;
+  line-height: 1.2 !important;
+}
+
+#root .hlc-network-directory .hlc-phone-row .hlc-account-inline-links {
+  margin-top: 18px !important;
+  gap: 14px !important;
 }
