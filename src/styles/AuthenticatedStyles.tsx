@@ -26,6 +26,7 @@ import "./five-star-brand-runtime.css";
 import "./five-star-mobile-physical-qa.css";
 import "./five-star-mobile-physical-resources.css";
 import "./five-star-mobile-cascade-closure.css";
+import "./global-launch-utility-header.css";
 
 export default function AuthenticatedStyles() {
   return null;
