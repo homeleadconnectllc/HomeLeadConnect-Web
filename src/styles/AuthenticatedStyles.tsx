@@ -1,3 +1,4 @@
+import MobileNavigationDialogAccessibility from "../components/accessibility/MobileNavigationDialogAccessibility";
 import "./authenticated-entry";
 import "./launch-live-device-authority.css";
 import "./manual-communications-launch-authority.css";
@@ -29,5 +30,5 @@ import "./five-star-mobile-cascade-closure.css";
 import "./global-launch-utility-header.css";
 
 export default function AuthenticatedStyles() {
-  return null;
+  return <MobileNavigationDialogAccessibility />;
 }
