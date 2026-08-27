@@ -6,6 +6,9 @@ const styles = readFileSync("src/styles/mobile-a-plus-final-device-corrections.c
 const styleEntry = readFileSync("src/styles/AuthenticatedStyles.tsx", "utf8");
 const viewportAuthority = readFileSync("src/components/MobileViewportAuthority.tsx", "utf8");
 const app = readFileSync("src/App.tsx", "utf8");
+const communityStore = readFileSync("src/components/community/CommunityStore.tsx", "utf8");
+const communityStoreStyles = readFileSync("src/styles/community-store.css", "utf8");
+const nativeCalendarStyles = readFileSync("src/styles/hlc-native-calendar.css", "utf8");
 
 test("final device correction authority mounts after Sprint 7", () => {
   const sprint7 = styleEntry.indexOf("./mobile-a-plus-sprint-7-integrated-accessibility.css");
@@ -42,6 +45,23 @@ test("FD-05 makes Messages task-first on compact screens", () => {
   assert.match(styles, /\.hlc-messages-header > div:first-child > p:last-child,[\s\S]*\.hlc-messages-summary[\s\S]*display: none/);
   assert.match(styles, /\.hlc-message-start-fields[\s\S]*gap: 9px/);
   assert.match(styles, /body\.hlc-keyboard-open \.hlc-message-composer/);
+});
+
+test("FD-15 pending Community checkout is status text, never a fake purchase control", () => {
+  assert.match(communityStore, /hlc-community-product-checkout-status/);
+  assert.match(communityStore, /role="status"/);
+  assert.match(communityStore, /Checkout unavailable · storefront connection pending/);
+  assert.doesNotMatch(communityStore, /<button[^>]*disabled[\s\S]*Checkout connection pending/);
+  assert.match(communityStoreStyles, /\.hlc-community-product-checkout-status[\s\S]*border-top/);
+  assert.doesNotMatch(communityStoreStyles, /\.hlc-community-product-checkout-status[\s\S]*cursor:\s*pointer/);
+});
+
+test("FD-16 mobile calendar keeps seven quiet columns without card-like day treatment", () => {
+  assert.match(nativeCalendarStyles, /FD-16/);
+  assert.match(nativeCalendarStyles, /grid-template-columns:\s*repeat\(7, minmax\(0, 1fr\)\)/);
+  assert.match(nativeCalendarStyles, /\.hlc-calendar-mini-grid button,[\s\S]*min-height:\s*44px/);
+  assert.match(nativeCalendarStyles, /\.hlc-calendar-mini-grid button\.has-items[\s\S]*box-shadow:\s*none/);
+  assert.match(nativeCalendarStyles, /\.hlc-calendar-mini-grid button\.selected[\s\S]*box-shadow:\s*inset 0 0 0 1px/);
 });
 
 test("authenticated runtime mounts the viewport authority", () => {
