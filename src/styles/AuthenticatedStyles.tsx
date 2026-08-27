@@ -40,6 +40,7 @@ import "./mobile-a-plus-final-device-gate-closure.css";
 import "./mobile-a-plus-final-device-round-2.css";
 import "./provider-professional-profile.css";
 import "./mobile-a-plus-final-device-round-3.css";
+import "./mobile-a-plus-private-beta-closure.css";
 
 export default function AuthenticatedStyles() {
   return null;
