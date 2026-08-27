@@ -11,6 +11,7 @@ const AnalyticsKpis = lazy(() => import("../components/analytics/AnalyticsKpis")
 const AudioDeviceCenter = lazy(() => import("../components/audio/AudioDeviceCenter"));
 const FieldDeviceCenter = lazy(() => import("../components/device/FieldDeviceCenter"));
 const WorkspaceGuidance = lazy(() => import("../components/WorkspaceGuidance"));
+const GlobalCommandSearch = lazy(() => import("../components/search/GlobalCommandSearch"));
 
 const SIDEBAR_COLLAPSED_KEY = "hlc-desktop-sidebar-collapsed";
 
@@ -102,7 +103,7 @@ export default function AppLayout() {
       <Navbar />
       {session && (
         <Link className="hlc-desktop-page-brand" to="/dashboard" aria-label="HomeLead Connect dashboard">
-          <img src="/hlc-icon.jpeg" alt="HomeLead Connect LLC" />
+          <img src="/hlc-logo-transparent.png" alt="HomeLead Connect LLC" />
         </Link>
       )}
       {session && (
@@ -130,6 +131,7 @@ export default function AppLayout() {
         {session && <WorkspaceGuidance />}
         {session && <DesktopAgentTeamRail />}
         {showContextualAgent && <ContextualAgentDock />}
+        {session && <GlobalCommandSearch />}
       </Suspense>
     </div>
   );

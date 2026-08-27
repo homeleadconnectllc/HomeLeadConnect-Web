@@ -1,6 +1,6 @@
 /* Final global launch UX contract
    Screenshot-driven: clear record separation, self-explanatory forms, strong contrast,
-   compact mobile density, no white-on-white controls, and safe bottom-nav clearance. */
+   compact mobile density, no white control islands, and safe bottom-nav clearance. */
 
 #root .hlc-signed-in-shell {
   --hlc-ux-canvas: #071426;
@@ -11,37 +11,17 @@
   --hlc-ux-text: #f8fafc;
   --hlc-ux-muted: #c7d2e3;
   --hlc-ux-label: #93c5fd;
-  --hlc-ux-control-ink: #1f2937;
+  --hlc-ux-control-ink: #f8fbff;
 }
 
-/* Large signed-in surfaces never fall back to a light browser/card canvas. */
-#root .hlc-signed-in-shell > .hlc-route-content :is(
-  [class*="card"],
-  [class*="panel"],
-  [class*="workspace"],
-  [class*="console"],
-  [class*="drawer"]
-) {
+#root .hlc-signed-in-shell > .hlc-route-content :is([class*="card"],[class*="panel"],[class*="workspace"],[class*="console"],[class*="drawer"]) {
   background-color: var(--hlc-ux-surface) !important;
   color: var(--hlc-ux-text) !important;
   border-color: var(--hlc-ux-border-soft) !important;
   box-shadow: none !important;
 }
 
-/* Every major record is visually separate. */
-#root .hlc-signed-in-shell > .hlc-route-content :is(
-  article,
-  [class*="record-row"],
-  [class*="record-card"],
-  [class*="inbox-row"],
-  [class*="provider-row"],
-  [class*="lead-row"],
-  [class*="job-row"],
-  [class*="history-row"],
-  [class*="offer-row"],
-  [class*="activity-row"],
-  [class*="notification-row"]
-) {
+#root .hlc-signed-in-shell > .hlc-route-content :is(article,[class*="record-row"],[class*="record-card"],[class*="inbox-row"],[class*="provider-row"],[class*="lead-row"],[class*="job-row"],[class*="history-row"],[class*="offer-row"],[class*="activity-row"],[class*="notification-row"]) {
   background: var(--hlc-ux-surface) !important;
   color: var(--hlc-ux-text) !important;
   border: 1px solid var(--hlc-ux-border-soft) !important;
@@ -49,53 +29,24 @@
   box-shadow: none !important;
 }
 
-#root .hlc-signed-in-shell > .hlc-route-content :is(
-  [class*="record-row"],
-  [class*="inbox-row"],
-  [class*="provider-row"],
-  [class*="lead-row"],
-  [class*="job-row"],
-  [class*="history-row"],
-  [class*="offer-row"],
-  [class*="activity-row"],
-  [class*="notification-row"]
-) + :is(
-  [class*="record-row"],
-  [class*="inbox-row"],
-  [class*="provider-row"],
-  [class*="lead-row"],
-  [class*="job-row"],
-  [class*="history-row"],
-  [class*="offer-row"],
-  [class*="activity-row"],
-  [class*="notification-row"]
-) {
+#root .hlc-signed-in-shell > .hlc-route-content :is([class*="record-row"],[class*="inbox-row"],[class*="provider-row"],[class*="lead-row"],[class*="job-row"],[class*="history-row"],[class*="offer-row"],[class*="activity-row"],[class*="notification-row"]) + :is([class*="record-row"],[class*="inbox-row"],[class*="provider-row"],[class*="lead-row"],[class*="job-row"],[class*="history-row"],[class*="offer-row"],[class*="activity-row"],[class*="notification-row"]) {
   margin-top: 10px !important;
 }
 
-/* Text on dark surfaces stays readable. */
 #root .hlc-signed-in-shell > .hlc-route-content :is(article,[class*="row"],[class*="card"],[class*="panel"]) :is(h1,h2,h3,h4,strong,b) {
   color: var(--hlc-ux-text) !important;
   -webkit-text-fill-color: var(--hlc-ux-text) !important;
 }
 
-#root .hlc-signed-in-shell > .hlc-route-content :is(article,[class*="row"],[class*="card"],[class*="panel"]) :is(p,small,span,time,dd,dt,li) {
-  color: var(--hlc-ux-muted);
-}
+#root .hlc-signed-in-shell > .hlc-route-content :is(article,[class*="row"],[class*="card"],[class*="panel"]) :is(p,small,span,time,dd,dt,li) { color: var(--hlc-ux-muted); }
 
-/* Status/badge bubbles must never become unreadable white-on-white pills. */
-#root .hlc-signed-in-shell > .hlc-route-content :is(
-  [class*="status"],
-  [class*="badge"],
-  [class*="pill"]
-):not(input):not(select):not(textarea) {
+#root .hlc-signed-in-shell > .hlc-route-content :is([class*="status"],[class*="badge"],[class*="pill"]):not(input):not(select):not(textarea) {
   background-color: #112744 !important;
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
   border-color: #3b5f88 !important;
 }
 
-/* Buttons: never white-on-white. Inputs may remain white for clarity. */
 #root .hlc-signed-in-shell > .hlc-route-content button:not(.hlc-agent-dock-trigger):not(.hlc-mobile-tabbar button) {
   background: #112744 !important;
   color: #ffffff !important;
@@ -105,19 +56,9 @@
 }
 
 #root .hlc-signed-in-shell > .hlc-route-content button:hover:not(:disabled),
-#root .hlc-signed-in-shell > .hlc-route-content button:focus-visible:not(:disabled) {
-  background: #17365e !important;
-  border-color: #60a5fa !important;
-}
+#root .hlc-signed-in-shell > .hlc-route-content button:focus-visible:not(:disabled) { background: #17365e !important; border-color: #60a5fa !important; }
+#root .hlc-signed-in-shell > .hlc-route-content button:disabled { background: #1b2b40 !important; color: #9fb0c5 !important; -webkit-text-fill-color: #9fb0c5 !important; opacity: 1 !important; }
 
-#root .hlc-signed-in-shell > .hlc-route-content button:disabled {
-  background: #1b2b40 !important;
-  color: #9fb0c5 !important;
-  -webkit-text-fill-color: #9fb0c5 !important;
-  opacity: 1 !important;
-}
-
-/* Fields are obvious and labeled. */
 #root .hlc-signed-in-shell > .hlc-route-content label {
   gap: 7px !important;
   color: var(--hlc-ux-label) !important;
@@ -125,35 +66,28 @@
   font-weight: 800 !important;
 }
 
+/* Disable native light control painting so select/textarea obey the HLC dark surface. */
 #root .hlc-signed-in-shell > .hlc-route-content :is(input:not([type="checkbox"]):not([type="radio"]),select,textarea) {
   min-height: 46px !important;
   padding: 10px 12px !important;
-  border: 1.5px solid #9fb0c5 !important;
-  background: #ffffff !important;
+  color-scheme: dark !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  border: 1.5px solid #3b5f88 !important;
+  background: #0d1d31 !important;
+  background-color: #0d1d31 !important;
+  background-image: none !important;
   color: var(--hlc-ux-control-ink) !important;
   -webkit-text-fill-color: var(--hlc-ux-control-ink) !important;
-  box-shadow: inset 0 0 0 1px rgba(15,23,42,.04) !important;
+  box-shadow: inset 0 0 0 1000px #0d1d31 !important;
 }
 
-#root .hlc-signed-in-shell > .hlc-route-content textarea {
-  min-height: 112px !important;
-  resize: vertical !important;
-}
+#root .hlc-signed-in-shell > .hlc-route-content :is(input,textarea)::placeholder { color: #8295ad !important; -webkit-text-fill-color: #8295ad !important; opacity: 1 !important; }
+#root .hlc-signed-in-shell > .hlc-route-content select option { background: #0d1d31 !important; color: #f8fbff !important; }
+#root .hlc-signed-in-shell > .hlc-route-content textarea { min-height: 112px !important; resize: vertical !important; }
+#root .hlc-signed-in-shell > .hlc-route-content :is(input,select,textarea):focus { border-color: #60a5fa !important; outline: 3px solid rgba(96,165,250,.28) !important; outline-offset: 1px !important; }
 
-#root .hlc-signed-in-shell > .hlc-route-content :is(input,select,textarea):focus {
-  border-color: #2563eb !important;
-  outline: 3px solid rgba(96,165,250,.28) !important;
-  outline-offset: 1px !important;
-}
-
-/* Empty states remain compact and readable, not giant pale cards. */
-#root .hlc-signed-in-shell > .hlc-route-content :is(
-  .hlc-messages-empty,
-  .hlc-network-map-empty,
-  .hlc-network-map-empty-copy,
-  [class*="empty-state"],
-  [class*="emptyState"]
-) {
+#root .hlc-signed-in-shell > .hlc-route-content :is(.hlc-messages-empty,.hlc-network-map-empty,.hlc-network-map-empty-copy,[class*="empty-state"],[class*="emptyState"]) {
   min-height: 0 !important;
   padding: 16px !important;
   background: #0a192c !important;
@@ -163,118 +97,35 @@
   text-align: center !important;
 }
 
-/* Message composer: comfortable, clear, and separated from history. */
 #root .hlc-page-messages .hlc-message-composer,
-#root .hlc-page-messages .hlc-message-start-workspace {
-  display: grid !important;
-  gap: 12px !important;
-  padding: 16px !important;
-  background: #0a192c !important;
-  border: 1px solid #3b5f88 !important;
-  border-left: 3px solid #60a5fa !important;
-}
-
+#root .hlc-page-messages .hlc-message-start-workspace { display: grid !important; gap: 12px !important; padding: 16px !important; background: #0a192c !important; border: 1px solid #3b5f88 !important; border-left: 3px solid #60a5fa !important; }
 #root .hlc-page-messages .hlc-message-composer textarea,
-#root .hlc-page-messages .hlc-message-start-workspace textarea {
-  min-height: 120px !important;
-}
+#root .hlc-page-messages .hlc-message-start-workspace textarea { min-height: 120px !important; }
+#root .hlc-page-messages .hlc-message-entry { padding: 14px !important; margin-bottom: 10px !important; background: #0d1f3a !important; border: 1px solid rgba(147,197,253,.22) !important; border-left: 3px solid #3b82f6 !important; }
+#root .hlc-page-messages .hlc-message-entry.is-self { border-left-color: #34d399 !important; background: #10243e !important; }
 
-#root .hlc-page-messages .hlc-message-entry {
-  padding: 14px !important;
-  margin-bottom: 10px !important;
-  background: #0d1f3a !important;
-  border: 1px solid rgba(147,197,253,.22) !important;
-  border-left: 3px solid #3b82f6 !important;
-}
-
-#root .hlc-page-messages .hlc-message-entry.is-self {
-  border-left-color: #34d399 !important;
-  background: #10243e !important;
-}
-
-/* Network rail becomes scrollable rather than overlapping labels. */
 #root .hlc-page-map .hlc-network-route-rail,
 #root .hlc-page-network .hlc-network-route-rail,
-#root .hlc-page-providers .hlc-network-route-rail {
-  display: flex !important;
-  gap: 8px !important;
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
-  white-space: nowrap !important;
-  scrollbar-width: thin !important;
-  padding-bottom: 6px !important;
-}
-
+#root .hlc-page-providers .hlc-network-route-rail { display: flex !important; gap: 8px !important; overflow-x: auto !important; overflow-y: hidden !important; white-space: nowrap !important; scrollbar-width: thin !important; padding-bottom: 6px !important; }
 #root .hlc-page-map .hlc-network-route-rail > *,
 #root .hlc-page-network .hlc-network-route-rail > *,
-#root .hlc-page-providers .hlc-network-route-rail > * {
-  flex: 0 0 auto !important;
-}
+#root .hlc-page-providers .hlc-network-route-rail > * { flex: 0 0 auto !important; }
+#root .hlc-page-map .hlc-network-coordinate-advanced { background: #0a192c !important; border: 1px solid #3b5f88 !important; padding: 12px !important; }
+#root .hlc-page-map .hlc-network-coordinate-advanced > summary { color: #93c5fd !important; -webkit-text-fill-color: #93c5fd !important; font-weight: 900 !important; cursor: pointer !important; }
 
-#root .hlc-page-map .hlc-network-coordinate-advanced {
-  background: #0a192c !important;
-  border: 1px solid #3b5f88 !important;
-  padding: 12px !important;
-}
+#root .hlc-page-estimator .estimate-line { padding: 14px !important; gap: 10px !important; background: #0d1f3a !important; border: 1px solid #3b5f88 !important; border-left: 3px solid #60a5fa !important; }
+#root .hlc-page-estimator .estimate-line + .estimate-line { margin-top: 10px !important; }
+#root .hlc-page-estimator .estimate-line :is(input,select) { min-height: 44px !important; }
+#root .hlc-page-estimator :is([class*="shop"],[class*="store"],[class*="material"]) :is(article,a) { background: #0d1f3a !important; color: #f8fafc !important; border: 1px solid #3b5f88 !important; }
+#root .hlc-signed-in-shell .hlc-agent-dock-trigger { max-width: min(220px, calc(100vw - 32px)) !important; }
 
-#root .hlc-page-map .hlc-network-coordinate-advanced > summary {
-  color: #93c5fd !important;
-  -webkit-text-fill-color: #93c5fd !important;
-  font-weight: 900 !important;
-  cursor: pointer !important;
-}
-
-/* Estimate: compact line items with strong separation. */
-#root .hlc-page-estimator .estimate-line {
-  padding: 14px !important;
-  gap: 10px !important;
-  background: #0d1f3a !important;
-  border: 1px solid #3b5f88 !important;
-  border-left: 3px solid #60a5fa !important;
-}
-
-#root .hlc-page-estimator .estimate-line + .estimate-line {
-  margin-top: 10px !important;
-}
-
-#root .hlc-page-estimator .estimate-line :is(input,select) {
-  min-height: 44px !important;
-}
-
-/* Store/resource cards must not wash out on the dark app canvas. */
-#root .hlc-page-estimator :is([class*="shop"],[class*="store"],[class*="material"]) :is(article,a) {
-  background: #0d1f3a !important;
-  color: #f8fafc !important;
-  border: 1px solid #3b5f88 !important;
-}
-
-/* Keep contextual assistants away from primary mobile controls. */
-#root .hlc-signed-in-shell .hlc-agent-dock-trigger {
-  max-width: min(220px, calc(100vw - 32px)) !important;
-}
-
-/* All authenticated pages reserve room for the fixed bottom nav + agent. */
 @media (max-width: 760px), (max-device-width: 760px) {
-  #root .hlc-signed-in-shell > .hlc-route-content > main {
-    padding-bottom: calc(146px + env(safe-area-inset-bottom)) !important;
-  }
-
-  #root .hlc-signed-in-shell > .hlc-route-content :is(form,fieldset) {
-    gap: 12px !important;
-  }
-
-  #root .hlc-signed-in-shell > .hlc-route-content :is(input:not([type="checkbox"]):not([type="radio"]),select) {
-    min-height: 46px !important;
-  }
-
-  #root .hlc-signed-in-shell > .hlc-route-content textarea {
-    min-height: 104px !important;
-  }
-
+  #root .hlc-signed-in-shell > .hlc-route-content > main { padding-bottom: calc(146px + env(safe-area-inset-bottom)) !important; }
+  #root .hlc-signed-in-shell > .hlc-route-content :is(form,fieldset) { gap: 12px !important; }
+  #root .hlc-signed-in-shell > .hlc-route-content :is(input:not([type="checkbox"]):not([type="radio"]),select) { min-height: 46px !important; }
+  #root .hlc-signed-in-shell > .hlc-route-content textarea { min-height: 104px !important; }
   #root .hlc-page-estimator .estimate-layout,
   #root .hlc-page-estimator .estimate-line,
   #root .hlc-page-messages .hlc-messages-console,
-  #root .hlc-page-map .hlc-network-map-console {
-    grid-template-columns: minmax(0, 1fr) !important;
-  }
+  #root .hlc-page-map .hlc-network-map-console { grid-template-columns: minmax(0, 1fr) !important; }
 }

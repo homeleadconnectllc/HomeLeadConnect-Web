@@ -1,0 +1,198 @@
+.hlc-command-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+button.hlc-command-icon-button {
+  cursor: pointer;
+}
+
+@media (max-width: 720px) {
+  /* Desktop-only authenticated brand must never consume the mobile Home viewport. */
+  .hlc-signed-in-shell .hlc-desktop-page-brand {
+    display: none !important;
+  }
+
+  /* Keep all authenticated mobile surfaces inside the physical viewport. */
+  .hlc-signed-in-shell,
+  .hlc-signed-in-shell .hlc-route-content,
+  .hlc-signed-in-shell .hlc-command-center {
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  .hlc-signed-in-shell .hlc-route-content {
+    padding-bottom: calc(112px + env(safe-area-inset-bottom));
+  }
+
+  .hlc-command-center {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: calc(52px + env(safe-area-inset-bottom));
+  }
+
+  .hlc-command-hero {
+    order: 1;
+  }
+
+  .hlc-system-strip {
+    order: 2;
+  }
+
+  .hlc-dashboard-priority-section {
+    order: 3;
+    margin-top: 18px;
+  }
+
+  .hlc-dashboard-quick-section {
+    order: 4;
+    margin-top: 22px;
+  }
+
+  .hlc-metric-grid {
+    order: 5;
+    margin-top: 22px;
+  }
+
+  .hlc-agent-team-section {
+    order: 6;
+  }
+
+  .hlc-dashboard-workspace-section {
+    order: 7;
+  }
+
+  .hlc-business-pulse-section {
+    order: 8;
+  }
+
+  .hlc-command-hero-actions {
+    gap: 7px;
+  }
+
+  .hlc-command-hero-actions .hlc-command-icon-button {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .hlc-priority-item,
+  .hlc-quick-action,
+  .hlc-metric-card,
+  .hlc-workspace-card,
+  .hlc-agent-card,
+  .hlc-pulse-card {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .hlc-mobile-tabbar {
+    padding-bottom: max(7px, env(safe-area-inset-bottom));
+  }
+
+  .hlc-mobile-tabbar > a,
+  .hlc-mobile-tabbar > button {
+    min-height: 48px;
+  }
+
+  .hlc-mobile-portal-scroll {
+    max-width: 100%;
+    padding-bottom: calc(120px + env(safe-area-inset-bottom));
+    overflow-x: hidden;
+  }
+
+  /* Keep Search HLC immediately visible whenever the More drawer is open. */
+  .hlc-mobile-command-search-trigger {
+    position: fixed;
+    z-index: 1190;
+    right: 14px;
+    bottom: calc(104px + env(safe-area-inset-bottom));
+    left: 14px;
+    width: auto;
+    margin: 0;
+    min-height: 60px;
+    box-shadow: 0 14px 36px rgba(2, 8, 23, .42);
+  }
+
+  /* Mobile agent launchers are circular people, not square floating cards. */
+  .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger {
+    display: grid;
+    place-items: center;
+    width: 68px;
+    height: 68px;
+    min-width: 68px;
+    min-height: 68px;
+    padding: 4px;
+    overflow: hidden;
+    border-radius: 50%;
+  }
+
+  .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger > img {
+    width: 58px;
+    height: 58px;
+    max-width: 58px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger > span {
+    display: none;
+  }
+
+  /* Keyboard-open rows must stay inside the page instead of widening it. */
+  .hlc-signed-in-shell [class*="suggestion"],
+  .hlc-signed-in-shell [class*="quick-repl"],
+  .hlc-signed-in-shell [class*="prompt-chip"] {
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .hlc-signed-in-shell [class*="suggestion"] > *,
+  .hlc-signed-in-shell [class*="quick-repl"] > *,
+  .hlc-signed-in-shell [class*="prompt-chip"] > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  /* Smart Compose is a horizontal suggestion rail on mobile, not a clipped row. */
+  .hlc-smart-compose {
+    width: 100%;
+    max-width: 100vw;
+    overflow: hidden;
+  }
+
+  .hlc-smart-compose__suggestions {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-inline: 14px;
+    scroll-padding-inline: 14px;
+    scroll-snap-type: x proximity;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .hlc-smart-compose__suggestions::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hlc-smart-compose__suggestions > button {
+    flex: 0 0 auto;
+    max-width: calc(100vw - 44px);
+    white-space: normal;
+    scroll-snap-align: start;
+  }
+
+  .hlc-command-search-backdrop,
+  .hlc-mobile-portal {
+    max-width: 100vw;
+    overflow-x: hidden;
+    overscroll-behavior: contain;
+  }
+}

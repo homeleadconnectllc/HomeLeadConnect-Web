@@ -8,7 +8,7 @@ export default function Footer() {
     <footer className="hlc-public-footer">
       <a className="hlc-public-footer-brand" href="/" aria-label="HomeLead Connect home">
         <span className="hlc-public-footer-mark" aria-hidden="true">
-          <img src="/hlc-icon.jpeg" alt="" />
+          <img src="/hlc-logo-transparent.png" alt="" />
         </span>
         <span>
           <strong>HomeLead Connect</strong>

@@ -1,0 +1,468 @@
+/*
+ * HLC Five-Star Mobile Foundation
+ * Final mobile authority for the authenticated shell.
+ * Purpose: containment, safe areas, compact navigation, dark controls,
+ * first-class Search, and non-overlapping contextual AI.
+ */
+
+:root {
+  --hlc-five-star-rail: 18px;
+  --hlc-five-star-section-gap: 28px;
+  --hlc-five-star-related-gap: 12px;
+  --hlc-five-star-radius: 10px;
+  --hlc-five-star-nav-height: 72px;
+  --hlc-five-star-surface: #0b1829;
+  --hlc-five-star-surface-raised: #102139;
+  --hlc-five-star-border: rgba(148, 180, 219, 0.2);
+  --hlc-five-star-text: #f8fbff;
+  --hlc-five-star-muted: #9fb0c5;
+}
+
+.hlc-mobile-command-search-trigger {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  html,
+  body,
+  #root {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+    background: #071426;
+    color-scheme: dark;
+  }
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  .hlc-signed-in-shell {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+    background: #071426;
+  }
+
+  .hlc-signed-in-shell .hlc-route-content {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding-right: var(--hlc-five-star-rail) !important;
+    padding-left: var(--hlc-five-star-rail) !important;
+    padding-bottom: calc(var(--hlc-five-star-nav-height) + env(safe-area-inset-bottom) + 36px) !important;
+    overflow-x: clip;
+  }
+
+  .hlc-signed-in-shell .hlc-route-content > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .hlc-signed-in-shell img {
+    max-width: 100%;
+  }
+
+  /* Compact authenticated header: identity without consuming the first viewport. */
+  .hlc-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1100;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 62px;
+    padding: max(8px, env(safe-area-inset-top)) var(--hlc-five-star-rail) 8px;
+    border-bottom: 1px solid var(--hlc-five-star-border);
+    background: rgba(7, 20, 38, 0.96);
+    backdrop-filter: blur(16px);
+  }
+
+  .hlc-navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    color: var(--hlc-five-star-text);
+    text-decoration: none;
+  }
+
+  .hlc-navbar-logo {
+    display: grid;
+    place-items: center;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    overflow: visible;
+    border: 0 !important;
+    border-radius: 50%;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-navbar-logo img {
+    display: block;
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .hlc-navbar-brand-copy {
+    min-width: 0;
+  }
+
+  .hlc-navbar-brand-copy h2 {
+    overflow: hidden;
+    margin: 0;
+    color: var(--hlc-five-star-text);
+    font-size: 0.96rem;
+    line-height: 1.15;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .hlc-navbar-brand-copy span {
+    display: block;
+    overflow: hidden;
+    margin-top: 2px;
+    color: var(--hlc-five-star-muted);
+    font-size: 0.68rem;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .hlc-navbar-toggle {
+    min-width: 52px;
+    min-height: 44px;
+    padding: 0 10px;
+    border: 1px solid var(--hlc-five-star-border);
+    border-radius: 9px;
+    background: #10233c;
+    color: var(--hlc-five-star-text);
+    font-weight: 800;
+  }
+
+  /* More is a real destination sheet; every action participates in document flow. */
+  .hlc-mobile-portal {
+    position: fixed;
+    inset: 0;
+    z-index: 1090;
+    width: 100%;
+    max-width: 100vw;
+    padding-top: calc(62px + env(safe-area-inset-top));
+    padding-bottom: calc(var(--hlc-five-star-nav-height) + env(safe-area-inset-bottom));
+    overflow: hidden;
+    background: #071426;
+  }
+
+  .hlc-mobile-portal-scroll {
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    padding: 16px var(--hlc-five-star-rail) 28px !important;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .hlc-mobile-menu-heading {
+    display: grid;
+    gap: 4px;
+    margin: 0 0 14px;
+    padding: 0 2px 14px;
+    border-bottom: 1px solid var(--hlc-five-star-border);
+  }
+
+  .hlc-mobile-menu-heading > span {
+    color: #8fb6e8;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .hlc-mobile-menu-heading > strong {
+    color: var(--hlc-five-star-text);
+    font-size: 1.2rem;
+    line-height: 1.25;
+  }
+
+  .hlc-mobile-command-search-trigger {
+    position: static !important;
+    z-index: auto !important;
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+    width: 100% !important;
+    min-height: 58px;
+    margin: 0 0 12px !important;
+    padding: 9px 12px;
+    border: 1px solid rgba(96, 165, 250, 0.38);
+    border-radius: 10px;
+    background: #102744;
+    box-shadow: none !important;
+    color: var(--hlc-five-star-text);
+    text-align: left;
+  }
+
+  .hlc-mobile-command-search-icon {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: rgba(37, 99, 235, 0.2);
+    color: #93c5fd;
+    font-size: 1.2rem;
+  }
+
+  .hlc-mobile-command-search-trigger > span:not(.hlc-mobile-command-search-icon) {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .hlc-mobile-command-search-trigger strong {
+    color: var(--hlc-five-star-text);
+    font-size: 0.88rem;
+  }
+
+  .hlc-mobile-command-search-trigger small {
+    overflow: hidden;
+    color: var(--hlc-five-star-muted);
+    font-size: 0.7rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .hlc-owner-home-link,
+  .hlc-nav-group,
+  .hlc-nav-logout {
+    border-radius: var(--hlc-five-star-radius) !important;
+  }
+
+  .hlc-nav-group {
+    overflow: hidden;
+    border: 1px solid var(--hlc-five-star-border) !important;
+    background: rgba(11, 24, 41, 0.74) !important;
+  }
+
+  .hlc-nav-group + .hlc-nav-group {
+    margin-top: 8px;
+  }
+
+  .hlc-nav-group summary,
+  .hlc-nav-menu > a,
+  .hlc-agent-nav-link {
+    min-height: 48px;
+  }
+
+  /* Global Search is its own modal layer, never part of the More geometry. */
+  .hlc-command-search-backdrop {
+    z-index: 1400;
+    align-items: stretch;
+    padding: max(8px, env(safe-area-inset-top)) 8px max(8px, env(safe-area-inset-bottom));
+  }
+
+  .hlc-command-search {
+    width: 100%;
+    height: calc(100dvh - max(16px, env(safe-area-inset-top)) - max(16px, env(safe-area-inset-bottom)));
+    max-height: none;
+    border-radius: 12px;
+  }
+
+  .hlc-command-search-header {
+    min-height: 60px;
+  }
+
+  .hlc-command-search-results {
+    max-height: calc(100dvh - 154px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+
+  /* One bottom navigation reservation across every authenticated route. */
+  .hlc-mobile-tabbar {
+    z-index: 1200;
+    min-height: var(--hlc-five-star-nav-height);
+    padding-bottom: max(7px, env(safe-area-inset-bottom));
+    background: rgba(8, 22, 39, 0.98);
+    border-top: 1px solid var(--hlc-five-star-border);
+    backdrop-filter: blur(16px);
+  }
+
+  .hlc-mobile-tabbar > a,
+  .hlc-mobile-tabbar > button {
+    min-width: 0;
+    min-height: 48px;
+  }
+
+  .hlc-mobile-tabbar .is-active {
+    border-radius: 9px !important;
+  }
+
+  /* Contextual AI gets one reserved lane; closed state never owns content space. */
+  .hlc-agent-dock {
+    z-index: 1250 !important;
+  }
+
+  .hlc-agent-dock:not(.is-open) {
+    right: 14px !important;
+    bottom: calc(var(--hlc-five-star-nav-height) + env(safe-area-inset-bottom) + 16px) !important;
+    left: auto !important;
+    width: 60px !important;
+    max-width: 60px !important;
+    pointer-events: none;
+  }
+
+  .hlc-agent-dock:not(.is-open) .hlc-agent-proactive-briefing {
+    display: none !important;
+  }
+
+  .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger {
+    display: grid !important;
+    place-items: center;
+    width: 60px !important;
+    height: 60px !important;
+    min-width: 60px !important;
+    min-height: 60px !important;
+    padding: 3px !important;
+    overflow: hidden;
+    border: 1px solid rgba(147, 197, 253, 0.5) !important;
+    border-radius: 50% !important;
+    background: #0c1e34 !important;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.34) !important;
+    pointer-events: auto;
+  }
+
+  .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger > img {
+    width: 52px !important;
+    height: 52px !important;
+    max-width: 52px !important;
+    object-fit: cover;
+    border-radius: 50% !important;
+  }
+
+  .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger > span {
+    display: none !important;
+  }
+
+  .hlc-agent-dock.is-open {
+    position: fixed !important;
+    inset: auto 0 0 !important;
+    z-index: 1450 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: min(88dvh, 760px) !important;
+    max-height: calc(100dvh - env(safe-area-inset-top) - 8px) !important;
+    border-radius: 16px 16px 0 0 !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-agent-dock-panel {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    overflow: hidden;
+    border-radius: 16px 16px 0 0 !important;
+  }
+
+  body.hlc-agent-open .hlc-mobile-tabbar {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  /* Dark native-feeling form controls across operational routes. */
+  .hlc-signed-in-shell input:not([type="checkbox"]):not([type="radio"]),
+  .hlc-signed-in-shell select,
+  .hlc-signed-in-shell textarea {
+    max-width: 100%;
+    min-height: 44px;
+    border-color: rgba(148, 180, 219, 0.28) !important;
+    border-radius: 9px !important;
+    background: #0d1d31 !important;
+    color: var(--hlc-five-star-text) !important;
+  }
+
+  .hlc-signed-in-shell input::placeholder,
+  .hlc-signed-in-shell textarea::placeholder {
+    color: #7f93ac !important;
+  }
+
+  .hlc-signed-in-shell input:-webkit-autofill,
+  .hlc-signed-in-shell input:-webkit-autofill:hover,
+  .hlc-signed-in-shell input:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--hlc-five-star-text) !important;
+    -webkit-box-shadow: 0 0 0 1000px #0d1d31 inset !important;
+    transition: background-color 9999s ease-out 0s;
+  }
+
+  /* Operational pages use restrained geometry instead of bubble/card walls. */
+  .hlc-signed-in-shell :where(article, section, div)[class*="card"] {
+    border-radius: var(--hlc-five-star-radius);
+  }
+
+  .hlc-signed-in-shell h1 {
+    max-width: 100%;
+    margin-top: 0;
+    font-size: clamp(1.75rem, 8vw, 2.35rem);
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+
+  .hlc-signed-in-shell h2 {
+    max-width: 100%;
+    line-height: 1.15;
+  }
+
+  .hlc-signed-in-shell button,
+  .hlc-signed-in-shell a,
+  .hlc-signed-in-shell input,
+  .hlc-signed-in-shell select,
+  .hlc-signed-in-shell textarea {
+    touch-action: manipulation;
+  }
+
+  .hlc-smart-compose {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+
+  .hlc-smart-compose__suggestions {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-inline: 2px;
+    scroll-snap-type: x proximity;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .hlc-smart-compose__suggestions::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hlc-smart-compose__suggestions > button {
+    flex: 0 0 auto;
+    max-width: calc(100vw - 52px);
+    white-space: normal;
+    scroll-snap-align: start;
+  }
+}
