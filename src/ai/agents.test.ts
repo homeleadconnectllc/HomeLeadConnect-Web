@@ -12,20 +12,21 @@ test("each HLC agent has one canonical contextual route", () => {
   assert.equal(new Set(Object.values(agents).map((agent) => agent.route)).size, 3);
 });
 
-test("canonical AI role labels and department accents stay locked", () => {
+test("canonical AI role labels and department accents stay locked without purple", () => {
   assert.equal(agents.kendrell.role, "Executive Command AI");
   assert.equal(agents.dion.role, "Operations & BI AI");
   assert.equal(agents.diamond.role, "Customer Experience & Community AI");
 
   assert.deepEqual(agentDepartmentAccents, {
     kendrell: "#F59E0B",
-    dion: "#6366F1",
+    dion: "#38BDF8",
     diamond: "#10B981",
   });
 
   assert.equal(agents.kendrell.accent, agentDepartmentAccents.kendrell);
   assert.equal(agents.dion.accent, agentDepartmentAccents.dion);
   assert.equal(agents.diamond.accent, agentDepartmentAccents.diamond);
+  assert.notEqual(agentDepartmentAccents.dion.toLowerCase(), "#6366f1");
 });
 
 test("agent pages use the exact locked portrait assets", () => {
