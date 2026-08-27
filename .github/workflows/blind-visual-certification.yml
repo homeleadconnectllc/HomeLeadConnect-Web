@@ -1,0 +1,60 @@
+name: HLC Blind Visual Certification
+
+on:
+  push:
+    branches:
+      - 'postlaunch/mobile-five-star-*'
+  pull_request:
+    branches:
+      - postlaunch/mobile-a-plus-20260826
+
+permissions:
+  contents: read
+
+jobs:
+  blind-visual:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      VITE_SUPABASE_URL: https://cguhtshclyybivvdnpig.supabase.co
+      VITE_SUPABASE_ANON_KEY: sb_publishable_MQioEyUGv8MNlowJgVyXYQ_kf5cyafA
+      VITE_AUTH_CAPTCHA_REQUIRED: false
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install project dependencies
+        run: npm ci
+      - name: Install browser runner without changing lockfile
+        run: |
+          npm install --no-save --package-lock=false playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Build exact candidate
+        run: npm run build
+      - name: Start rendered preview
+        run: |
+          set -euo pipefail
+          npm run preview -- --host 127.0.0.1 --port 4173 > /tmp/hlc-blind-preview.log 2>&1 &
+          echo $! > /tmp/hlc-blind-preview.pid
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/hlc-blind-preview.log || true
+          exit 30
+      - name: Certify iPhone and Mac rendered geometry
+        run: node scripts/blind-visual-certification.mjs
+      - name: Upload blind visual evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: blind-visual-${{ github.sha }}
+          path: |
+            artifacts/blind-visual/
+            /tmp/hlc-blind-preview.log
+          if-no-files-found: warn
+          retention-days: 14
