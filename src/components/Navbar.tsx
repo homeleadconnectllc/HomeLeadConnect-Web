@@ -21,14 +21,9 @@ const declaredWorkspaceRoutes = new Set([
 ]);
 
 const companyTeamPage: EcosystemPage = {
-  label: "Company Team",
-  route: "/team",
-  owner: "Kendrell",
-  audiences: ["Business", "Owner", "Manager"],
-  purpose: "Invite managers and technicians, review membership and revoke access.",
-  status: "WORKING",
+  label: "Company Team", route: "/team", owner: "Kendrell", audiences: ["Business", "Owner", "Manager"],
+  purpose: "Invite managers and technicians, review membership and revoke access.", status: "WORKING",
 };
-
 const agentRoutes = new Set(["/hq", "/operations", "/customer-experience"]);
 const agentNavigation = [
   { label: "Kendrell", route: "/hq", purpose: "Command · approvals, risk and orchestration", avatar: "/brand/avatars/Kendrell_Locked_HLC.png" },
@@ -38,7 +33,6 @@ const agentNavigation = [
 
 type MobileIconName = "home" | "work" | "network" | "community" | "messages" | "notifications" | "profile" | "more";
 type MobileNavItem = { label: string; route: string; icon: MobileIconName; matches?: string[] };
-
 function MobileNavIcon({ name }: { name: MobileIconName }) {
   if (name === "home") return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.8 12 3l9 7.8v9.1a1.1 1.1 0 0 1-1.1 1.1h-5.3v-6.2H9.4V21H4.1A1.1 1.1 0 0 1 3 19.9Z" /></svg>;
   if (name === "work") return <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M9 7V4h6v3M3 12h18" /></svg>;
@@ -49,7 +43,6 @@ function MobileNavIcon({ name }: { name: MobileIconName }) {
   if (name === "profile") return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M5 21c.6-4.5 3-6.7 7-6.7s6.4 2.2 7 6.7" /></svg>;
   return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.7" /><circle cx="12" cy="12" r="1.7" /><circle cx="19" cy="12" r="1.7" /></svg>;
 }
-
 function pathMatchesPrefix(pathname: string, prefix: string) { return pathname === prefix || pathname.startsWith(`${prefix}/`); }
 function mobileRouteIsActive(pathname: string, item: MobileNavItem) {
   if (item.matches?.some((prefix) => pathMatchesPrefix(pathname, prefix))) return true;
@@ -73,7 +66,6 @@ export default function Navbar() {
   }, [mobileOpen]);
 
   async function logout() { await supabase.auth.signOut(); window.location.href = "/login"; }
-
   const signedInGroups = useMemo(() => {
     const hasPageAccess = (page: EcosystemPage) => {
       if (page.route === "/homeowner-portal") return access.homeowner;
@@ -94,17 +86,14 @@ export default function Navbar() {
   const accessResolved = !session || (!access.loading && access.userId === session.user.id);
   const showBusinessTools = access.business && Boolean(access.role);
   const brandDestination = signedIn ? (access.business ? "/dashboard" : access.homeowner ? "/homeowner-portal" : access.contractor ? "/contractor-portal" : "/portal/accept") : "/login";
-
   const mobilePrimaryLinks = useMemo<MobileNavItem[]>(() => {
     if (!signedIn || !accessResolved) return [];
-    if (showBusinessTools && access.role) {
-      return [
-        { label: "Home", route: "/dashboard", icon: "home" as const, matches: ["/dashboard", "/workflow", "/ecosystem", "/automations", "/notifications", "/hq"] },
-        { label: "Work", route: "/leads", icon: "work" as const, matches: ["/leads", "/estimator", "/jobs", "/calendar", "/follow-ups", "/operations"] },
-        { label: "Network", route: "/network", icon: "network" as const, matches: ["/network", "/matching", "/map", "/providers", "/profiles"] },
-        { label: "Community", route: "/community-hub", icon: "community" as const, matches: ["/community-hub", "/community"] },
-      ].filter((item) => canAccessWorkspacePath(access.role, item.route));
-    }
+    if (showBusinessTools && access.role) return [
+      { label: "Home", route: "/dashboard", icon: "home", matches: ["/dashboard", "/workflow", "/ecosystem", "/automations", "/notifications", "/hq"] },
+      { label: "Work", route: "/leads", icon: "work", matches: ["/leads", "/estimator", "/jobs", "/calendar", "/follow-ups", "/operations"] },
+      { label: "Network", route: "/network", icon: "network", matches: ["/network", "/matching", "/map", "/providers", "/profiles"] },
+      { label: "Community", route: "/community-hub", icon: "community", matches: ["/community-hub", "/community"] },
+    ].filter((item) => canAccessWorkspacePath(access.role!, item.route)) as MobileNavItem[];
     const portalHome = access.homeowner ? "/homeowner-portal" : access.contractor ? "/contractor-portal" : "/portal/accept";
     const portalLinks: MobileNavItem[] = [{ label: "Home", route: portalHome, icon: "home" }];
     if (access.homeowner || access.contractor) portalLinks.push({ label: "Messages", route: "/messages", icon: "messages" }, { label: "Alerts", route: "/notifications", icon: "notifications" }, { label: "Profile", route: "/profile", icon: "profile" });
@@ -120,18 +109,18 @@ export default function Navbar() {
   function renderMenuContents() {
     if (loading) return <p className="hlc-nav-access-note" role="status">Loading navigation…</p>;
     if (!signedIn) return <><div className="hlc-mobile-menu-heading"><span>HomeLead Connect</span><strong>How can we help?</strong></div><a href="https://homeleadconnect.org">Public Home</a><Link to="/request-service" onClick={closeMobileMenu}>Request Service</Link><Link to="/contact" onClick={closeMobileMenu}>Contact</Link><Link to="/login" onClick={closeMobileMenu}>Sign In</Link></>;
-
     return <>
       <div className="hlc-mobile-menu-heading"><span>{showBusinessTools ? "HLC workspace" : access.homeowner ? "Resident portal" : access.contractor ? "Professional portal" : "HLC account"}</span><strong>{showBusinessTools ? "Run HomeLead Connect." : "Your HomeLead Connect access."}</strong></div>
       <button className="hlc-mobile-command-search-trigger" type="button" onClick={openGlobalSearch}><span className="hlc-mobile-command-search-icon" aria-hidden="true">⌕</span><span><strong>Search HLC</strong><small>Find work, people, tools and settings</small></span><b aria-hidden="true">→</b></button>
       <nav className="hlc-mobile-more-quick" aria-label="More quick actions">
+        <Link to="/start-here" onClick={closeMobileMenu}><MobileNavIcon name="more" /><span><strong>App Directory</strong><small>See everything available to you</small></span></Link>
         <Link to="/notifications" onClick={closeMobileMenu}><MobileNavIcon name="notifications" /><span><strong>Notifications</strong><small>What needs attention</small></span></Link>
         <Link to="/profile" onClick={closeMobileMenu}><MobileNavIcon name="profile" /><span><strong>My profile</strong><small>Identity and preferences</small></span></Link>
         {showBusinessTools && <Link to="/settings" onClick={closeMobileMenu}><MobileNavIcon name="more" /><span><strong>Settings</strong><small>Workspace and account controls</small></span></Link>}
       </nav>
       {showBusinessTools && <Link className="hlc-owner-home-link" to="/dashboard" onClick={closeMobileMenu}><span><strong>Open Command Center</strong><small>Dashboard, live work and priorities</small></span><b aria-hidden="true">→</b></Link>}
       <div className="hlc-navbar-groups" aria-label="Signed-in HLC areas">
-        {showBusinessTools && <details className="hlc-nav-group hlc-nav-agent-group" open={openGroup === "ai-team"}><summary onClick={(event) => { event.preventDefault(); toggleGroup("ai-team"); }}><span>AI Team</span><small>{agentNavigation.filter((agent) => canAccessWorkspacePath(access.role, agent.route)).length}</small></summary><div className="hlc-nav-menu hlc-agent-nav-menu">{agentNavigation.filter((agent) => canAccessWorkspacePath(access.role, agent.route)).map((agent) => <Link className="hlc-agent-nav-link" aria-current={location.pathname === agent.route ? "page" : undefined} key={agent.route} onClick={closeMobileMenu} to={agent.route}><img src={agent.avatar} alt="" aria-hidden="true" /><span className="hlc-agent-nav-copy"><strong>{agent.label}</strong><small>{agent.purpose}</small></span></Link>)}</div></details>}
+        {showBusinessTools && <details className="hlc-nav-group hlc-nav-agent-group" open={openGroup === "ai-team"}><summary onClick={(event) => { event.preventDefault(); toggleGroup("ai-team"); }}><span>AI Team</span><small>{agentNavigation.filter((agent) => canAccessWorkspacePath(access.role!, agent.route)).length}</small></summary><div className="hlc-nav-menu hlc-agent-nav-menu">{agentNavigation.filter((agent) => canAccessWorkspacePath(access.role!, agent.route)).map((agent) => <Link className="hlc-agent-nav-link" aria-current={location.pathname === agent.route ? "page" : undefined} key={agent.route} onClick={closeMobileMenu} to={agent.route}><img src={agent.avatar} alt="" aria-hidden="true" /><span className="hlc-agent-nav-copy"><strong>{agent.label}</strong><small>{agent.purpose}</small></span></Link>)}</div></details>}
         {signedInGroups.map((group) => <details className="hlc-nav-group" key={group.id} open={openGroup === group.id}><summary onClick={(event) => { event.preventDefault(); toggleGroup(group.id); }}><span>{group.label}</span><small>{group.pages.length}</small></summary><div className="hlc-nav-menu">{group.pages.map((page) => <Link aria-current={location.pathname === page.route ? "page" : undefined} key={page.route} onClick={closeMobileMenu} to={page.route}><span>{page.label}</span><small>{page.purpose}</small></Link>)}</div></details>)}
       </div>
       {!accessResolved && <p className="hlc-nav-access-note">Loading account access…</p>}
@@ -141,7 +130,6 @@ export default function Navbar() {
   }
 
   const mobileDrawer = mobileOpen && typeof document !== "undefined" ? createPortal(<div className="hlc-mobile-portal" role="dialog" aria-modal="true" aria-label="HomeLead Connect navigation"><div className="hlc-mobile-portal-scroll">{renderMenuContents()}</div></div>, document.body) : null;
-
   return <>
     <nav className={`hlc-navbar ${mobileOpen ? "menu-is-open" : ""}`} role="navigation" aria-label="Main navigation">
       <Link className="hlc-navbar-brand" to={brandDestination} onClick={closeMobileMenu}><div className="hlc-navbar-logo"><img src={logo} alt="HomeLead Connect LLC" /></div><div className="hlc-navbar-brand-copy"><h2>HomeLead Connect</h2><span>{signedIn ? (showBusinessTools ? "HLC workspace" : access.homeowner ? "Resident portal" : access.contractor ? "Professional portal" : "HLC account") : "Home services network"}</span></div></Link>
