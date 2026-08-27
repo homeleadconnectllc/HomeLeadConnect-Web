@@ -13,8 +13,8 @@ export default function ContractorCard({
   const location = [contractor.city, contractor.state].filter(Boolean).join(", ");
 
   return (
-    <article style={cardStyle}>
-      <div>
+    <article className="hlc-contractor-card" style={cardStyle}>
+      <div className="hlc-contractor-card__copy">
         <h3 style={{ margin: 0 }}>
           {contractor.company_name || contractor.contact_name || `Contractor #${contractor.id}`}
         </h3>
@@ -23,7 +23,7 @@ export default function ContractorCard({
         </p>
         <small>Status: {contractor.status || "not specified"}</small>
       </div>
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+      <div className="hlc-contractor-card__actions" style={{ display: "flex", alignItems: "center", gap: 12 }}>
         {contractor.phone && <Link to={`/manual-communications?contact=contractor:${contractor.id}&channel=call`}>Call</Link>}
         <button type="button" disabled={disabled} onClick={() => onOffer(contractor)}>
           Offer job
