@@ -18,6 +18,7 @@ import "./calendar-mobile-action-order.css";
 import "./launch-messaging-simplification.css";
 import "./mobile-a-plus.css";
 import "./five-star-mobile-foundation.css";
+import "./five-star-mobile-routes.css";
 
 export default function AuthenticatedStyles() {
   return null;
