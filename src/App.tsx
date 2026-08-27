@@ -8,6 +8,7 @@ const GlobalPullToRefresh = lazy(() => import("./components/GlobalPullToRefresh"
 const GlobalSmartCompose = lazy(() => import("./components/GlobalSmartCompose"));
 const MobileViewControls = lazy(() => import("./components/MobileViewControls"));
 const MessageDraftPersistence = lazy(() => import("./components/messages/MessageDraftPersistence"));
+const MobileViewportAuthority = lazy(() => import("./components/MobileViewportAuthority"));
 
 function App() {
   const { session } = useAuth();
@@ -17,6 +18,7 @@ function App() {
       {session && (
         <Suspense fallback={null}>
           <AuthenticatedStyles />
+          <MobileViewportAuthority />
           <GlobalPullToRefresh />
           <GlobalSmartCompose />
           <MobileViewControls />
