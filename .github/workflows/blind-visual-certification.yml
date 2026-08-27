@@ -14,11 +14,12 @@ permissions:
 jobs:
   blind-visual:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 12
     env:
       VITE_SUPABASE_URL: https://cguhtshclyybivvdnpig.supabase.co
       VITE_SUPABASE_ANON_KEY: sb_publishable_MQioEyUGv8MNlowJgVyXYQ_kf5cyafA
       VITE_AUTH_CAPTCHA_REQUIRED: false
+      HLC_BROWSER_EXECUTABLE: /usr/bin/google-chrome
     steps:
       - name: Checkout exact candidate
         uses: actions/checkout@v4
@@ -29,10 +30,10 @@ jobs:
           cache: npm
       - name: Install project dependencies
         run: npm ci
-      - name: Install browser runner without changing lockfile
-        run: |
-          npm install --no-save --package-lock=false playwright@1.55.0
-          npx playwright install --with-deps chromium
+      - name: Install Playwright runner without changing lockfile
+        run: npm install --no-save --package-lock=false playwright@1.55.0
+      - name: Verify runner Chrome exists
+        run: test -x "$HLC_BROWSER_EXECUTABLE" && "$HLC_BROWSER_EXECUTABLE" --version
       - name: Build exact candidate
         run: npm run build
       - name: Start rendered preview
