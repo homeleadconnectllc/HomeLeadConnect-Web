@@ -1,0 +1,321 @@
+/*
+ * HLC Five-Star Physical iPhone Resource Authority
+ * Extends the physical-device authority with the exact DOM rendered by
+ * Rules / Help / Tutorials and signed-in Legal surfaces.
+ */
+@media (max-width: 720px) {
+  .hlc-signed-in-shell .hlc-resources-workspace,
+  .hlc-signed-in-shell .hlc-legal-page,
+  .hlc-signed-in-shell .hlc-legal-shell {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding-inline: 0 !important;
+    overflow-x: hidden !important;
+  }
+
+  /* Rules / Help / Tutorials: compact task-first header instead of a tall document hero. */
+  .hlc-signed-in-shell .hlc-resources-header {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 12px 0 14px !important;
+    border: 0 !important;
+    border-bottom: 1px solid rgba(148, 180, 219, .18) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-signed-in-shell .hlc-resources-header h1 {
+    margin: 3px 0 0 !important;
+    font-size: clamp(1.8rem, 9vw, 2.15rem) !important;
+    line-height: 1.04 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-resources-header > div:first-child > p:last-child {
+    display: -webkit-box !important;
+    margin: 7px 0 0 !important;
+    overflow: hidden !important;
+    color: #a8bad0 !important;
+    font-size: .8rem !important;
+    line-height: 1.4 !important;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .hlc-signed-in-shell .hlc-resources-summary {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 0 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-top: 1px solid rgba(148, 180, 219, .14) !important;
+    border-bottom: 1px solid rgba(148, 180, 219, .14) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-signed-in-shell .hlc-resources-summary > span {
+    display: grid !important;
+    align-content: center !important;
+    min-width: 0 !important;
+    min-height: 64px !important;
+    padding: 8px 5px !important;
+    border-right: 1px solid rgba(148, 180, 219, .12) !important;
+    text-align: center !important;
+  }
+
+  .hlc-signed-in-shell .hlc-resources-summary > span:last-child { border-right: 0 !important; }
+  .hlc-signed-in-shell .hlc-resources-summary strong { font-size: 1.15rem !important; }
+  .hlc-signed-in-shell .hlc-resources-summary small {
+    display: block !important;
+    margin-top: 2px !important;
+    overflow: hidden !important;
+    color: #9fb0c5 !important;
+    font-size: .62rem !important;
+    line-height: 1.2 !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .hlc-signed-in-shell .hlc-resources-commandbar {
+    display: flex !important;
+    gap: 6px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 10px 0 14px !important;
+    padding: 0 0 8px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    border: 0 !important;
+    border-bottom: 1px solid rgba(148, 180, 219, .16) !important;
+    background: transparent !important;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .hlc-signed-in-shell .hlc-resources-commandbar::-webkit-scrollbar { display: none; }
+  .hlc-signed-in-shell .hlc-resources-commandbar > a {
+    flex: 0 0 auto !important;
+    min-height: 40px !important;
+    padding: 9px 10px !important;
+    border-radius: 8px !important;
+    white-space: nowrap !important;
+  }
+
+  .hlc-signed-in-shell .hlc-resources-ledger,
+  .hlc-signed-in-shell .hlc-manual-library {
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 0 18px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-signed-in-shell .hlc-resources-section-head {
+    display: flex !important;
+    align-items: end !important;
+    justify-content: space-between !important;
+    gap: 10px !important;
+    min-width: 0 !important;
+    padding: 10px 0 8px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-resources-section-head h2 {
+    margin: 2px 0 0 !important;
+    font-size: 1rem !important;
+  }
+
+  .hlc-signed-in-shell .hlc-resources-row-list,
+  .hlc-signed-in-shell .hlc-manual-list {
+    display: grid !important;
+    gap: 0 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-resource-row {
+    display: grid !important;
+    grid-template-columns: 30px minmax(0, 1fr) !important;
+    gap: 8px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 12px 0 !important;
+    border: 0 !important;
+    border-bottom: 1px solid rgba(148, 180, 219, .14) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-signed-in-shell .hlc-resource-index {
+    min-width: 0 !important;
+    padding-top: 2px !important;
+    font-size: .67rem !important;
+  }
+
+  .hlc-signed-in-shell .hlc-resource-copy {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-resource-copy h3 {
+    margin: 0 !important;
+    font-size: .92rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-resource-copy p,
+  .hlc-signed-in-shell .hlc-resource-copy li,
+  .hlc-signed-in-shell .hlc-manual-row p,
+  .hlc-signed-in-shell .hlc-manual-row small {
+    font-size: .75rem !important;
+    line-height: 1.45 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-resource-actions {
+    grid-column: 2 !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 6px !important;
+    min-width: 0 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-resource-actions > a {
+    min-height: 38px !important;
+    padding: 7px 9px !important;
+    border-radius: 8px !important;
+    font-size: .72rem !important;
+  }
+
+  .hlc-signed-in-shell .hlc-manual-row {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 7px !important;
+    min-width: 0 !important;
+    padding: 12px 0 !important;
+    border: 0 !important;
+    border-bottom: 1px solid rgba(148, 180, 219, .14) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+  }
+
+  /* Signed-in legal pages: flatten the public-document presentation into the mobile app rail. */
+  .hlc-signed-in-shell .hlc-legal-brandbar {
+    min-height: 0 !important;
+    padding: 10px 0 12px !important;
+    gap: 9px !important;
+    border-bottom: 1px solid rgba(148, 180, 219, .16) !important;
+    background: transparent !important;
+  }
+
+  .hlc-signed-in-shell .hlc-legal-logo {
+    width: 38px !important;
+    height: 38px !important;
+    object-fit: contain !important;
+    border-radius: 50% !important;
+    background: transparent !important;
+  }
+
+  .hlc-signed-in-shell .hlc-legal-status-title { font-size: .82rem !important; }
+  .hlc-signed-in-shell .hlc-legal-status-subtitle { display: none !important; }
+
+  .hlc-signed-in-shell .hlc-legal-hero,
+  .hlc-signed-in-shell .hlc-legal-hero-grid {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 14px 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+  }
+
+  .hlc-signed-in-shell .hlc-legal-title,
+  .hlc-signed-in-shell .hlc-legal-card > h1 {
+    margin: 0 !important;
+    font-size: clamp(1.8rem, 9vw, 2.15rem) !important;
+    line-height: 1.04 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-legal-lead {
+    margin: 9px 0 !important;
+    font-size: .78rem !important;
+    line-height: 1.45 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-legal-guide {
+    display: none !important;
+  }
+
+  .hlc-signed-in-shell .hlc-legal-actions {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 7px !important;
+    margin-top: 10px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-legal-actions > * {
+    min-height: 40px !important;
+    padding: 8px 10px !important;
+    border-radius: 8px !important;
+  }
+
+  .hlc-signed-in-shell .hlc-legal-review,
+  .hlc-signed-in-shell .hlc-legal-card {
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 14px 0 !important;
+    border: 0 !important;
+    border-bottom: 1px solid rgba(148, 180, 219, .14) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-signed-in-shell .hlc-legal-card h2 {
+    margin: 0 0 7px !important;
+    font-size: 1rem !important;
+  }
+
+  .hlc-signed-in-shell .hlc-legal-card p,
+  .hlc-signed-in-shell .hlc-legal-card li,
+  .hlc-signed-in-shell .hlc-legal-review {
+    font-size: .76rem !important;
+    line-height: 1.5 !important;
+  }
+
+  .hlc-signed-in-shell .hlc-legal-nav {
+    display: flex !important;
+    gap: 6px !important;
+    width: 100% !important;
+    margin: 12px 0 0 !important;
+    padding: 8px 0 0 !important;
+    overflow-x: auto !important;
+    border-top: 1px solid rgba(148, 180, 219, .16) !important;
+    scrollbar-width: none;
+  }
+
+  .hlc-signed-in-shell .hlc-legal-nav::-webkit-scrollbar { display: none; }
+  .hlc-signed-in-shell .hlc-legal-nav > a {
+    flex: 0 0 auto !important;
+    min-height: 40px !important;
+    padding: 9px 10px !important;
+    border-radius: 8px !important;
+    white-space: nowrap !important;
+  }
+}
