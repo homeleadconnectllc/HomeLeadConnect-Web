@@ -14,7 +14,7 @@ permissions:
 jobs:
   blind-visual:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 10
     env:
       VITE_SUPABASE_URL: https://cguhtshclyybivvdnpig.supabase.co
       VITE_SUPABASE_ANON_KEY: sb_publishable_MQioEyUGv8MNlowJgVyXYQ_kf5cyafA
@@ -30,8 +30,6 @@ jobs:
           cache: npm
       - name: Install project dependencies
         run: npm ci
-      - name: Install Playwright runner without changing lockfile
-        run: npm install --no-save --package-lock=false playwright@1.55.0
       - name: Verify runner Chrome exists
         run: test -x "$HLC_BROWSER_EXECUTABLE" && "$HLC_BROWSER_EXECUTABLE" --version
       - name: Build exact candidate
@@ -47,8 +45,36 @@ jobs:
           done
           cat /tmp/hlc-blind-preview.log || true
           exit 30
-      - name: Certify iPhone and Mac rendered geometry
+      - name: Generate authenticated visual fixture
         run: node scripts/blind-visual-certification.mjs
+      - name: Certify authenticated iPhone geometry
+        run: |
+          set -euo pipefail
+          FIXTURE="file://$GITHUB_WORKSPACE/artifacts/blind-visual/authenticated-fixture.html"
+          "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --allow-file-access-from-files --window-size=390,844 --hide-scrollbars --dump-dom "$FIXTURE" > artifacts/blind-visual/authenticated-iphone.dom.html
+          grep -q 'data-cert-status="pass"' artifacts/blind-visual/authenticated-iphone.dom.html
+          "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --allow-file-access-from-files --window-size=390,844 --hide-scrollbars --screenshot="$GITHUB_WORKSPACE/artifacts/blind-visual/authenticated-iphone.png" --run-all-compositor-stages-before-draw "$FIXTURE"
+      - name: Certify authenticated Mac geometry
+        run: |
+          set -euo pipefail
+          FIXTURE="file://$GITHUB_WORKSPACE/artifacts/blind-visual/authenticated-fixture.html"
+          "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --allow-file-access-from-files --window-size=1440,900 --hide-scrollbars --dump-dom "$FIXTURE" > artifacts/blind-visual/authenticated-mac.dom.html
+          grep -q 'data-cert-status="pass"' artifacts/blind-visual/authenticated-mac.dom.html
+          "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --allow-file-access-from-files --window-size=1440,900 --hide-scrollbars --screenshot="$GITHUB_WORKSPACE/artifacts/blind-visual/authenticated-mac.png" --run-all-compositor-stages-before-draw "$FIXTURE"
+      - name: Capture public iPhone routes
+        run: |
+          set -euo pipefail
+          for item in 'home:/' 'login:/login' 'privacy:/privacy' 'terms:/terms' 'platform:/platform-disclosure'; do
+            name="${item%%:*}"; route="${item#*:}"
+            "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --window-size=390,844 --hide-scrollbars --screenshot="$GITHUB_WORKSPACE/artifacts/blind-visual/public-iphone-$name.png" --run-all-compositor-stages-before-draw "http://127.0.0.1:4173$route"
+          done
+      - name: Capture public Mac routes
+        run: |
+          set -euo pipefail
+          for item in 'home:/' 'login:/login' 'privacy:/privacy'; do
+            name="${item%%:*}"; route="${item#*:}"
+            "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --window-size=1440,900 --hide-scrollbars --screenshot="$GITHUB_WORKSPACE/artifacts/blind-visual/public-mac-$name.png" --run-all-compositor-stages-before-draw "http://127.0.0.1:4173$route"
+          done
       - name: Upload blind visual evidence
         if: always()
         uses: actions/upload-artifact@v4
