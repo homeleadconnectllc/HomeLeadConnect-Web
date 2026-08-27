@@ -27,12 +27,24 @@ export default function MobileViewportAuthority() {
       body.classList.toggle("hlc-keyboard-open", keyboardOpen);
     };
 
+    const enableVoiceFromSummary = (event: MouseEvent) => {
+      if (window.matchMedia("(max-width: 760px)").matches === false) return;
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const summary = target.closest(".hlc-ai-settings > summary");
+      if (!summary) return;
+      const details = summary.parentElement;
+      const enable = details?.querySelector<HTMLInputElement>('input[type="checkbox"]:not(:disabled)');
+      if (enable && !enable.checked) enable.click();
+    };
+
     update();
     viewport?.addEventListener("resize", update);
     viewport?.addEventListener("scroll", update);
     window.addEventListener("resize", update);
     document.addEventListener("focusin", update);
     document.addEventListener("focusout", update);
+    document.addEventListener("click", enableVoiceFromSummary, true);
 
     return () => {
       viewport?.removeEventListener("resize", update);
@@ -40,6 +52,7 @@ export default function MobileViewportAuthority() {
       window.removeEventListener("resize", update);
       document.removeEventListener("focusin", update);
       document.removeEventListener("focusout", update);
+      document.removeEventListener("click", enableVoiceFromSummary, true);
       body.classList.remove("hlc-keyboard-open");
       root.style.removeProperty("--hlc-visual-viewport-height");
       root.style.removeProperty("--hlc-visual-viewport-width");
