@@ -1,0 +1,116 @@
+/* Mobile A+ Sprint 5 — Community participation + extended network regression guard.
+   Compact-only authority; preserves canonical persistence and desktop layouts. */
+
+@media (max-width: 760px) {
+  .hlc-community-participation {
+    min-width: 0;
+    width: min(100%, 100vw);
+    overflow-x: clip;
+    padding-inline: 16px;
+    padding-bottom: calc(92px + env(safe-area-inset-bottom));
+  }
+
+  .hlc-community-participation .hlc-command-hero,
+  .hlc-community-participation .hlc-settings-section,
+  .hlc-community-participation .hlc-phone-list,
+  .hlc-community-participation .hlc-phone-row,
+  .hlc-community-participation .hlc-settings-ledger {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .hlc-community-participation .hlc-settings-section {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .hlc-community-participation label {
+    min-width: 0;
+    display: grid;
+    gap: 7px;
+  }
+
+  .hlc-community-participation input,
+  .hlc-community-participation select,
+  .hlc-community-participation textarea {
+    width: 100%;
+    max-width: 100%;
+    min-height: 44px;
+    font-size: 16px;
+  }
+
+  .hlc-community-participation textarea {
+    min-height: 104px;
+    resize: vertical;
+  }
+
+  .hlc-community-participation button,
+  .hlc-community-participation a {
+    min-height: 44px;
+  }
+
+  .hlc-community-participation button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding-inline: 14px;
+  }
+
+  .hlc-community-participation .hlc-phone-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    overflow-wrap: anywhere;
+  }
+
+  .hlc-community-participation .hlc-phone-row > div,
+  .hlc-community-participation .hlc-phone-row span,
+  .hlc-community-participation .hlc-phone-row p,
+  .hlc-community-participation .hlc-phone-row small {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .hlc-community-participation .hlc-account-inline-links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .hlc-community-participation .hlc-account-inline-links button {
+    width: 100%;
+  }
+
+  .hlc-community-participation .hlc-account-inline-links button[aria-pressed="true"]::before {
+    content: "✓";
+    margin-right: 6px;
+    font-weight: 800;
+  }
+
+  .hlc-community-participation .hlc-settings-ledger {
+    display: grid;
+    gap: 8px;
+  }
+
+  .hlc-community-participation .hlc-settings-ledger .hlc-settings-section {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 430px) {
+  .hlc-community-participation .hlc-account-inline-links {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hlc-community-participation *,
+  .hlc-community-participation *::before,
+  .hlc-community-participation *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
