@@ -1,0 +1,15 @@
+/*
+ * Visual fail-safe for authenticated legacy image references.
+ * Shared/browser/PWA surfaces use the canonical path directly; this prevents
+ * route-local legacy img sources from visually reintroducing opaque logo mats.
+ */
+.hlc-signed-in-shell img[src="/hlc-logo-final.png"],
+.hlc-signed-in-shell img[src="/hlc-icon.jpeg"],
+.hlc-signed-in-shell img[src="/hlc-trans-logo.jpeg"],
+.hlc-signed-in-shell img[src="/logo.png"] {
+  content: url("/hlc-logo-transparent.png") !important;
+  object-fit: contain !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  box-shadow: none;
+}

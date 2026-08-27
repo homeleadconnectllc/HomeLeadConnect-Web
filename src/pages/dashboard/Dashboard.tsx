@@ -14,6 +14,7 @@ import {
   MapPinned,
   MessageCircle,
   Network,
+  Search,
   ShieldCheck,
   Sparkle,
   ListTodo,
@@ -148,6 +149,10 @@ function formatTime(value: string | null | undefined) {
     : new Intl.DateTimeFormat(undefined, { hour: "numeric", minute: "2-digit" }).format(date);
 }
 
+function openGlobalSearch() {
+  window.dispatchEvent(new Event("hlc:open-command-search"));
+}
+
 export default function Dashboard() {
   const { session } = useAuth();
   const account = useAccountAccess();
@@ -280,9 +285,14 @@ export default function Dashboard() {
           <h1>{getGreeting()}.</h1>
           <p>Here’s what needs your attention across HomeLead Connect.</p>
         </div>
-        <Link className="hlc-command-icon-button" to="/notifications" aria-label="Open notifications">
-          <Bell size={21} />
-        </Link>
+        <div className="hlc-command-hero-actions">
+          <button className="hlc-command-icon-button" type="button" aria-label="Search HomeLead Connect" onClick={openGlobalSearch}>
+            <Search size={21} />
+          </button>
+          <Link className="hlc-command-icon-button" to="/notifications" aria-label="Open notifications">
+            <Bell size={21} />
+          </Link>
+        </div>
       </section>
 
       <section className="hlc-system-strip" aria-label="System status">
@@ -337,7 +347,7 @@ export default function Dashboard() {
         </div>
       </section>}
 
-      <section className="hlc-dashboard-section hlc-dashboard-section-tight">
+      <section className="hlc-dashboard-section hlc-dashboard-section-tight hlc-dashboard-quick-section">
         <div className="hlc-section-heading">
           <div>
             <span className="hlc-section-eyebrow">Move fast</span>
@@ -396,7 +406,7 @@ export default function Dashboard() {
         </div>
       </section>
 
-      <section className="hlc-dashboard-section hlc-priority-panel">
+      <section className="hlc-dashboard-section hlc-priority-panel hlc-dashboard-priority-section">
         <div className="hlc-section-heading">
           <div>
             <span className="hlc-section-eyebrow">Operations</span>
@@ -431,7 +441,7 @@ export default function Dashboard() {
         </div>
       </section>
 
-      <section className="hlc-dashboard-section">
+      <section className="hlc-dashboard-section hlc-dashboard-workspace-section">
         <div className="hlc-section-heading">
           <div>
             <span className="hlc-section-eyebrow">Navigate</span>

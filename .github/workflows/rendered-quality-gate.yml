@@ -1,9 +1,13 @@
 name: HLC Rendered Quality Gate
 
 on:
+  push:
+    branches:
+      - 'postlaunch/mobile-a-plus-*'
   pull_request:
     branches:
       - main
+      - postlaunch/mobile-a-plus-20260826
   workflow_dispatch:
 
 permissions:

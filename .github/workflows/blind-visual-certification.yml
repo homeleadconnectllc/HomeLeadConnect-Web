@@ -1,0 +1,118 @@
+name: HLC Blind Visual Certification
+
+on:
+  push:
+    branches:
+      - 'postlaunch/mobile-five-star-*'
+  pull_request:
+    branches:
+      - main
+      - postlaunch/mobile-a-plus-20260826
+
+permissions:
+  contents: read
+
+jobs:
+  blind-visual:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      VITE_SUPABASE_URL: https://cguhtshclyybivvdnpig.supabase.co
+      VITE_SUPABASE_ANON_KEY: sb_publishable_MQioEyUGv8MNlowJgVyXYQ_kf5cyafA
+      VITE_AUTH_CAPTCHA_REQUIRED: false
+      HLC_BROWSER_EXECUTABLE: /usr/bin/google-chrome
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install project dependencies
+        run: npm ci
+      - name: Verify runner Chrome exists
+        run: test -x "$HLC_BROWSER_EXECUTABLE" && "$HLC_BROWSER_EXECUTABLE" --version
+      - name: Build exact candidate
+        run: npm run build
+      - name: Start rendered preview
+        run: |
+          set -euo pipefail
+          npm run preview -- --host 127.0.0.1 --port 4173 > /tmp/hlc-blind-preview.log 2>&1 &
+          echo $! > /tmp/hlc-blind-preview.pid
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:4173/ >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/hlc-blind-preview.log || true
+          exit 30
+      - name: Generate authenticated visual fixture
+        run: node scripts/blind-visual-certification.mjs
+      - name: Certify authenticated iPhone geometry
+        run: |
+          set -euo pipefail
+          FIXTURE="file://$GITHUB_WORKSPACE/artifacts/blind-visual/authenticated-fixture.html"
+          DOM="$GITHUB_WORKSPACE/artifacts/blind-visual/authenticated-iphone.dom.html"
+          PNG="$GITHUB_WORKSPACE/artifacts/blind-visual/authenticated-iphone.png"
+          "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --allow-file-access-from-files --window-size=390,844 --hide-scrollbars --dump-dom "$FIXTURE" > "$DOM"
+          "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --allow-file-access-from-files --window-size=390,844 --hide-scrollbars --screenshot="$PNG" --run-all-compositor-stages-before-draw "$FIXTURE"
+          if ! grep -q 'data-cert-status="pass"' "$DOM"; then
+            echo 'Authenticated iPhone blind certification failed:'
+            grep -o 'data-cert-viewport="[^"]*"' "$DOM" || true
+            grep -o 'data-cert-failures="[^"]*"' "$DOM" || true
+            exit 51
+          fi
+      - name: Certify authenticated Mac geometry
+        run: |
+          set -euo pipefail
+          FIXTURE="file://$GITHUB_WORKSPACE/artifacts/blind-visual/authenticated-fixture.html"
+          DOM="$GITHUB_WORKSPACE/artifacts/blind-visual/authenticated-mac.dom.html"
+          PNG="$GITHUB_WORKSPACE/artifacts/blind-visual/authenticated-mac.png"
+          "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --allow-file-access-from-files --window-size=1440,900 --hide-scrollbars --dump-dom "$FIXTURE" > "$DOM"
+          "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --allow-file-access-from-files --window-size=1440,900 --hide-scrollbars --screenshot="$PNG" --run-all-compositor-stages-before-draw "$FIXTURE"
+          if ! grep -q 'data-cert-status="pass"' "$DOM"; then
+            echo 'Authenticated Mac blind certification failed:'
+            grep -o 'data-cert-viewport="[^"]*"' "$DOM" || true
+            grep -o 'data-cert-failures="[^"]*"' "$DOM" || true
+            exit 52
+          fi
+      - name: Certify public iPhone routes render and capture
+        run: |
+          set -euo pipefail
+          for item in 'home:/:One front door' 'login:/login:Sign in' 'privacy:/privacy:Privacy' 'terms:/terms:Terms of Service' 'platform:/platform-disclosure:Platform and contractor disclosure'; do
+            name="${item%%:*}"; rest="${item#*:}"; route="${rest%%:*}"; expect="${rest#*:}"
+            url="http://127.0.0.1:4173$route"
+            dom="$GITHUB_WORKSPACE/artifacts/blind-visual/public-iphone-$name.dom.html"
+            png="$GITHUB_WORKSPACE/artifacts/blind-visual/public-iphone-$name.png"
+            "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --window-size=390,844 --hide-scrollbars --virtual-time-budget=5000 --dump-dom "$url" > "$dom"
+            if ! grep -Fqi "$expect" "$dom"; then
+              echo "Public iPhone route $route did not render expected content: $expect"
+              exit 61
+            fi
+            "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --window-size=390,844 --hide-scrollbars --virtual-time-budget=5000 --screenshot="$png" --run-all-compositor-stages-before-draw "$url"
+          done
+      - name: Certify public Mac routes render and capture
+        run: |
+          set -euo pipefail
+          for item in 'home:/:One front door' 'login:/login:Sign in' 'privacy:/privacy:Privacy'; do
+            name="${item%%:*}"; rest="${item#*:}"; route="${rest%%:*}"; expect="${rest#*:}"
+            url="http://127.0.0.1:4173$route"
+            dom="$GITHUB_WORKSPACE/artifacts/blind-visual/public-mac-$name.dom.html"
+            png="$GITHUB_WORKSPACE/artifacts/blind-visual/public-mac-$name.png"
+            "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --window-size=1440,900 --hide-scrollbars --virtual-time-budget=5000 --dump-dom "$url" > "$dom"
+            if ! grep -Fqi "$expect" "$dom"; then
+              echo "Public Mac route $route did not render expected content: $expect"
+              exit 62
+            fi
+            "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --window-size=1440,900 --hide-scrollbars --virtual-time-budget=5000 --screenshot="$png" --run-all-compositor-stages-before-draw "$url"
+          done
+      - name: Upload blind visual evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: blind-visual-${{ github.sha }}
+          path: |
+            artifacts/blind-visual/
+            /tmp/hlc-blind-preview.log
+          if-no-files-found: warn
+          retention-days: 14

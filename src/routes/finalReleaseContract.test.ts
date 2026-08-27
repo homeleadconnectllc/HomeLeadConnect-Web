@@ -127,15 +127,16 @@ test("production authentication runtime is Cloudflare-bound and fail-closed", ()
   assert.doesNotMatch(supabaseRuntime, /endsWith\("\.netlify\.app"\)/);
 });
 
-test("iPhone installation metadata links the optimized official HLC icon", () => {
-  assert.match(indexHtml, /rel="apple-touch-icon" href="\/hlc-icon\.jpeg"/);
+test("iPhone installation metadata links the canonical transparent HLC icon", () => {
+  assert.match(indexHtml, /rel="apple-touch-icon" href="\/hlc-logo-transparent\.png"/);
   assert.match(indexHtml, /rel="manifest" href="\/manifest\.webmanifest"/);
   assert.match(manifest, /"start_url": "\/app"/);
-  assert.match(manifest, /"src": "\/hlc-icon\.jpeg"/);
+  assert.match(manifest, /"src": "\/hlc-logo-transparent\.png"/);
   assert.match(manifest, /"sizes": "1024x1024"/);
-  assert.match(manifest, /"type": "image\/jpeg"/);
+  assert.match(manifest, /"type": "image\/png"/);
   assert.doesNotMatch(manifest, /hlc-touch-icon\.svg/);
   assert.doesNotMatch(manifest, /hlc-logo-final\.png/);
+  assert.doesNotMatch(manifest, /hlc-icon\.jpeg/);
   assert.match(main, /register\("\/sw\.js", \{ updateViaCache: "none" \}\)/);
   assert.match(main, /registration\.update\(\)/);
 });

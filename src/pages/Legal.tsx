@@ -13,7 +13,7 @@ function PrivacyPage() {
   return <>
     <header className="hlc-legal-brandbar">
       <Link to="/" aria-label="HomeLead Connect home">
-        <img className="hlc-legal-logo" src="/hlc-logo-final.png" alt="HomeLead Connect" />
+        <img className="hlc-legal-logo" src="/hlc-logo-transparent.png" alt="HomeLead Connect" />
       </Link>
       <div className="hlc-legal-status-copy">
         <div className="hlc-legal-status-title">HomeLead Connect Privacy Center</div>
