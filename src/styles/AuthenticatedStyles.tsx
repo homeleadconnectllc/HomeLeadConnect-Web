@@ -38,6 +38,7 @@ import "./mobile-a-plus-sprint-7-integrated-accessibility.css";
 import "./mobile-a-plus-final-device-corrections.css";
 import "./mobile-a-plus-final-device-gate-closure.css";
 import "./mobile-a-plus-final-device-round-2.css";
+import "./provider-professional-profile.css";
 import "./mobile-a-plus-final-device-round-3.css";
 
 export default function AuthenticatedStyles() {
