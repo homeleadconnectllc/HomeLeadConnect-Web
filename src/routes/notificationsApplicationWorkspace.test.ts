@@ -27,3 +27,11 @@ test("notifications retain a compact mobile operating layout", () => {
   assert.match(styles, /grid-template-columns: repeat\(2, minmax\(0, 1fr\)\);/);
   assert.match(styles, /\.hlc-notification-open span/);
 });
+
+test("notification failures provide an in-place recovery path and useful empty state", () => {
+  assert.match(notifications, /const loadNotifications = useCallback/);
+  assert.match(notifications, /Notifications are temporarily unavailable\./);
+  assert.match(notifications, />Try again</);
+  assert.match(notifications, /onClick=\{\(\) => void loadNotifications\(\)\}/);
+  assert.match(notifications, /You’re caught up\. New HLC events that need awareness or action will appear here in time order\./);
+});
