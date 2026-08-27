@@ -14,6 +14,7 @@ export default function MobileViewportAuthority() {
     const root = document.documentElement;
     const body = document.body;
     const viewport = window.visualViewport;
+    const fallbackReplayAttempted = new WeakSet<HTMLButtonElement>();
     let blurTimer = 0;
 
     const compactViewport = () => window.matchMedia("(max-width: 760px)").matches;
@@ -39,6 +40,22 @@ export default function MobileViewportAuthority() {
       body.classList.toggle("hlc-agent-open", agentOpen);
     };
 
+    const maybeSpeakVerifiedFallback = () => {
+      const dock = document.querySelector(".hlc-agent-dock.is-open");
+      if (!dock) return;
+      const voiceChecks = Array.from(dock.querySelectorAll<HTMLInputElement>('.hlc-ai-settings input[type="checkbox"]'));
+      const voiceEnabled = Boolean(voiceChecks[0]?.checked);
+      const autoSpeakEnabled = Boolean(voiceChecks[1]?.checked);
+      if (!voiceEnabled || !autoSpeakEnabled) return;
+      const alert = dock.querySelector<HTMLElement>(".hlc-ai-error");
+      if (!alert?.textContent?.toLowerCase().includes("verified hlc fallback guidance")) return;
+      const replayButtons = dock.querySelectorAll<HTMLButtonElement>(".hlc-ai-message.is-model .hlc-ai-replay");
+      const replay = replayButtons.item(replayButtons.length - 1);
+      if (!replay || replay.disabled || fallbackReplayAttempted.has(replay)) return;
+      fallbackReplayAttempted.add(replay);
+      replay.click();
+    };
+
     const syncAfterBlur = () => {
       window.clearTimeout(blurTimer);
       blurTimer = window.setTimeout(sync, 80);
@@ -62,8 +79,11 @@ export default function MobileViewportAuthority() {
 
     const resizeObserver = new ResizeObserver(sync);
     resizeObserver.observe(document.documentElement);
-    const mutationObserver = new MutationObserver(sync);
-    mutationObserver.observe(document.body, { attributes: true, subtree: true, attributeFilter: ["class"] });
+    const mutationObserver = new MutationObserver(() => {
+      sync();
+      window.requestAnimationFrame(maybeSpeakVerifiedFallback);
+    });
+    mutationObserver.observe(document.body, { attributes: true, childList: true, characterData: true, subtree: true, attributeFilter: ["class"] });
 
     viewport?.addEventListener("resize", sync);
     viewport?.addEventListener("scroll", sync);
@@ -72,6 +92,7 @@ export default function MobileViewportAuthority() {
     document.addEventListener("focusout", syncAfterBlur, true);
     document.addEventListener("click", handleClick, true);
     sync();
+    maybeSpeakVerifiedFallback();
 
     return () => {
       window.clearTimeout(blurTimer);
