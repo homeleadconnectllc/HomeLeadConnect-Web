@@ -24,17 +24,15 @@ const fixtureHtml = `<!doctype html><html><head><meta name="viewport" content="w
 const fixturePath = new URL('../artifacts/blind-visual/authenticated-fixture.html', import.meta.url);
 await writeFile(fixturePath, fixtureHtml);
 
-const browser = await chromium.launch({ headless: true });
+const launchOptions = { headless: true };
+if (process.env.HLC_BROWSER_EXECUTABLE) launchOptions.executablePath = process.env.HLC_BROWSER_EXECUTABLE;
+const browser = await chromium.launch(launchOptions);
 const failures = [];
 function fail(message) { failures.push(message); }
 function within(value, min, max) { return value >= min && value <= max; }
 
 async function certifyPage(page, label, screenshotName) {
-  const geometry = await page.evaluate(() => ({
-    viewport: { width: innerWidth, height: innerHeight },
-    scrollWidth: document.documentElement.scrollWidth,
-    bodyScrollWidth: document.body.scrollWidth,
-  }));
+  const geometry = await page.evaluate(() => ({ viewport: { width: innerWidth, height: innerHeight }, scrollWidth: document.documentElement.scrollWidth, bodyScrollWidth: document.body.scrollWidth }));
   if (geometry.scrollWidth > geometry.viewport.width + 1 || geometry.bodyScrollWidth > geometry.viewport.width + 1) fail(`${label}: horizontal overflow ${Math.max(geometry.scrollWidth, geometry.bodyScrollWidth)} > ${geometry.viewport.width}`);
   await page.screenshot({ path: new URL(`../artifacts/blind-visual/${screenshotName}`, import.meta.url).pathname, fullPage: true });
 }
@@ -94,8 +92,5 @@ for (const route of ['/', '/login', '/privacy']) {
 }
 
 await browser.close();
-if (failures.length) {
-  console.error('Blind visual certification FAILED:\n- ' + failures.join('\n- '));
-  process.exit(1);
-}
+if (failures.length) { console.error('Blind visual certification FAILED:\n- ' + failures.join('\n- ')); process.exit(1); }
 console.log('Blind visual certification PASS: iPhone + Mac geometry, controls, agent, nav, resources/legal, and public routes.');
