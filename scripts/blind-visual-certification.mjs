@@ -24,6 +24,7 @@ const certScript = String.raw`
   if (root.scrollWidth > innerWidth + 1 || document.body.scrollWidth > innerWidth + 1) fail('horizontal-overflow:' + Math.max(root.scrollWidth, document.body.scrollWidth) + '>' + innerWidth);
   if (innerWidth <= 720) {
     const lead = rect('[data-cert="lead"]');
+    const leadWorkspace = rect('.hlc-leads-workspace');
     const leadCopy = rect('.hlc-lead-identity-copy');
     const profileCells = [...document.querySelectorAll('[data-cert="profile"] > *')].map((el) => el.getBoundingClientRect());
     const header = rect('.hlc-navbar');
@@ -36,7 +37,7 @@ const certScript = String.raw`
     const resourceHeader = rect('.hlc-resources-header');
     const legalGuide = style('.hlc-legal-guide');
     const legalCard = style('.hlc-legal-card');
-    if (!lead || lead.width < innerWidth - 45) fail('lead-width:' + (lead?.width ?? 0));
+    if (!lead || !leadWorkspace || lead.width < leadWorkspace.width - 4) fail('lead-rail:' + (lead?.width ?? 0) + '/' + (leadWorkspace?.width ?? 0));
     if (!leadCopy || leadCopy.width < 240) fail('lead-copy-starved:' + (leadCopy?.width ?? 0));
     if (profileCells.some((cell) => cell.width < 150)) fail('profile-cells:' + profileCells.map((x) => Math.round(x.width)).join(','));
     if (!header || header.height > 76) fail('header-height:' + (header?.height ?? 0));
@@ -52,6 +53,7 @@ const certScript = String.raw`
   }
   document.body.dataset.certStatus = failures.length ? 'fail' : 'pass';
   document.body.dataset.certFailures = failures.join('|');
+  document.body.dataset.certViewport = innerWidth + 'x' + innerHeight;
   const result = document.createElement('pre');
   result.id = 'hlc-blind-cert-result';
   result.textContent = failures.length ? 'FAIL\\n' + failures.join('\\n') : 'PASS';
