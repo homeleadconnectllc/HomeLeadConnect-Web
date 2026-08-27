@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { ArrowUpRight, Bell, CheckCircle2, Inbox, Radio } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { ArrowUpRight, Bell, CheckCircle2, Inbox, Radio, RotateCw } from "lucide-react";
 import { Link } from "react-router-dom";
 import { listNotifications, markNotificationRead, type NotificationRecord } from "../../api/notifications";
 import { errorMessage } from "../../lib/errorMessage";
@@ -22,8 +22,22 @@ export default function Notifications() {
   const [loading,setLoading] = useState(true);
   const [error,setError] = useState("");
 
+  const loadNotifications = useCallback(async () => {
+    setLoading(true);
+    setError("");
+    try {
+      setItems(await listNotifications());
+    } catch (reason: unknown) {
+      setError(errorMessage(reason,"Unable to load notifications."));
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
     let active=true;
+    setLoading(true);
+    setError("");
     listNotifications().then((rows) => { if(active) setItems(rows); })
       .catch((reason:unknown) => { if(active) setError(errorMessage(reason,"Unable to load notifications.")); })
       .finally(() => { if(active) setLoading(false); });
@@ -69,11 +83,18 @@ export default function Notifications() {
       </div>
 
       {loading && <p className="hlc-notifications-state" role="status">Loading notifications…</p>}
-      {error && <p className="hlc-notifications-state hlc-notifications-error" role="alert">{error}</p>}
+      {error && <div className="hlc-notifications-state hlc-notifications-error" role="alert">
+        <strong>Notifications are temporarily unavailable.</strong>
+        <span>{error}</span>
+        <button type="button" onClick={() => void loadNotifications()} disabled={loading}>
+          <RotateCw size={16} aria-hidden="true" />
+          {loading ? "Retrying…" : "Try again"}
+        </button>
+      </div>}
       {!loading && !error && items.length===0 && <div className="hlc-notifications-empty">
         <Inbox size={24} aria-hidden="true" />
         <strong>No notifications yet</strong>
-        <span>New HLC events will appear here in time order.</span>
+        <span>You’re caught up. New HLC events that need awareness or action will appear here in time order.</span>
       </div>}
 
       <div className="hlc-notifications-list" aria-live="polite">
