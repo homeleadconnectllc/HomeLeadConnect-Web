@@ -37,6 +37,7 @@ import "./mobile-a-plus-sprint-6-account-portals-resources.css";
 import "./mobile-a-plus-sprint-7-integrated-accessibility.css";
 import "./mobile-a-plus-final-device-corrections.css";
 import "./mobile-a-plus-final-device-gate-closure.css";
+import "./mobile-a-plus-final-device-round-2.css";
 
 export default function AuthenticatedStyles() {
   return null;
