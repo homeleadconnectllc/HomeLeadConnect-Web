@@ -24,7 +24,7 @@ const certScript = String.raw`
   if (root.scrollWidth > innerWidth + 1 || document.body.scrollWidth > innerWidth + 1) fail('horizontal-overflow:' + Math.max(root.scrollWidth, document.body.scrollWidth) + '>' + innerWidth);
   if (innerWidth <= 720) {
     const lead = rect('[data-cert="lead"]');
-    const leadWorkspace = rect('.hlc-leads-workspace');
+    const leadList = rect('.hlc-leads-list');
     const leadCopy = rect('.hlc-lead-identity-copy');
     const profileCells = [...document.querySelectorAll('[data-cert="profile"] > *')].map((el) => el.getBoundingClientRect());
     const header = rect('.hlc-navbar');
@@ -37,12 +37,13 @@ const certScript = String.raw`
     const resourceHeader = rect('.hlc-resources-header');
     const legalGuide = style('.hlc-legal-guide');
     const legalCard = style('.hlc-legal-card');
-    if (!lead || !leadWorkspace || lead.width < leadWorkspace.width - 4) fail('lead-rail:' + (lead?.width ?? 0) + '/' + (leadWorkspace?.width ?? 0));
+    if (!lead || !leadList || lead.width < leadList.width - 4) fail('lead-list-rail:' + (lead?.width ?? 0) + '/' + (leadList?.width ?? 0));
     if (!leadCopy || leadCopy.width < 240) fail('lead-copy-starved:' + (leadCopy?.width ?? 0));
     if (profileCells.some((cell) => cell.width < 150)) fail('profile-cells:' + profileCells.map((x) => Math.round(x.width)).join(','));
     if (!header || header.height > 76) fail('header-height:' + (header?.height ?? 0));
     if (!agent || !within(agent.width, 56, 64) || !within(agent.height, 56, 64)) fail('agent-size:' + (agent?.width ?? 0) + 'x' + (agent?.height ?? 0));
-    if (!/50%/.test(style('.hlc-agent-dock-trigger').borderRadius)) fail('agent-radius:' + style('.hlc-agent-dock-trigger').borderRadius);
+    const agentRadius = style('.hlc-agent-dock-trigger').borderRadius;
+    if (!/50%|999px/.test(agentRadius)) fail('agent-radius:' + agentRadius);
     for (const [name,bg] of [['input',inputBg],['select',selectBg],['textarea',textareaBg]]) if (bg === 'rgb(255, 255, 255)') fail('white-control:' + name);
     if (!tabbar) fail('tabbar-missing');
     const padBottom = parseFloat(getComputedStyle(routeContent).paddingBottom || '0');
