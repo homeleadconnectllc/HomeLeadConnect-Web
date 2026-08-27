@@ -32,6 +32,7 @@ import "./mobile-a-plus-sprint-2-shell-closure.css";
 import "./mobile-a-plus-sprint-2-visual-closure.css";
 import "./mobile-a-plus-sprint-3-network.css";
 import "./mobile-a-plus-sprint-4-community-messages.css";
+import "./mobile-a-plus-sprint-5-community-participation.css";
 
 export default function AuthenticatedStyles() {
   return null;
