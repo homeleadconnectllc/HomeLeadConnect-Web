@@ -103,7 +103,7 @@ export default function AppLayout() {
       <Navbar />
       {session && (
         <Link className="hlc-desktop-page-brand" to="/dashboard" aria-label="HomeLead Connect dashboard">
-          <img src="/hlc-icon.jpeg" alt="HomeLead Connect LLC" />
+          <img src="/hlc-logo-transparent.png" alt="HomeLead Connect LLC" />
         </Link>
       )}
       {session && (
