@@ -36,7 +36,7 @@ const agentNavigation = [
   { label: "Diamond", route: "/customer-experience", purpose: "Customer Experience · community and recovery", avatar: "/brand/avatars/Diamond_Locked_HLC.png" },
 ];
 
-type MobileIconName = "home" | "work" | "network" | "community" | "messages" | "notifications" | "profile" | "more";
+type MobileIconName = "home" | "work" | "network" | "community" | "messages" | "notifications" | "profile" | "search" | "more";
 type MobileNavItem = { label: string; route: string; icon: MobileIconName; matches?: string[] };
 
 function MobileNavIcon({ name }: { name: MobileIconName }) {
@@ -47,6 +47,7 @@ function MobileNavIcon({ name }: { name: MobileIconName }) {
   if (name === "messages") return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v12H9l-5 4Z" /></svg>;
   if (name === "notifications") return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.8 10a5.2 5.2 0 0 1 10.4 0c0 5 2.2 5.1 2.2 7H4.6c0-1.9 2.2-2 2.2-7ZM9.7 20h4.6" /></svg>;
   if (name === "profile") return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4" /><path d="M5 21c.6-4.5 3-6.7 7-6.7s6.4 2.2 7 6.7" /></svg>;
+  if (name === "search") return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="5.5" /><path d="m15 15 5 5" /></svg>;
   return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.7" /><circle cx="12" cy="12" r="1.7" /><circle cx="19" cy="12" r="1.7" /></svg>;
 }
 
@@ -107,7 +108,7 @@ export default function Navbar() {
     }
     const portalHome = access.homeowner ? "/homeowner-portal" : access.contractor ? "/contractor-portal" : "/portal/accept";
     const portalLinks: MobileNavItem[] = [{ label: "Home", route: portalHome, icon: "home" }];
-    if (access.homeowner || access.contractor) portalLinks.push({ label: "Messages", route: "/messages", icon: "messages" }, { label: "Alerts", route: "/notifications", icon: "notifications" }, { label: "Profile", route: "/profile", icon: "profile" });
+    if (access.homeowner || access.contractor) portalLinks.push({ label: "Messages", route: "/messages", icon: "messages" }, { label: "Profile", route: "/profile", icon: "profile" });
     return portalLinks;
   }, [access.contractor, access.homeowner, access.role, accessResolved, showBusinessTools, signedIn]);
 
@@ -123,9 +124,7 @@ export default function Navbar() {
 
     return <>
       <div className="hlc-mobile-menu-heading"><span>{showBusinessTools ? "HLC workspace" : access.homeowner ? "Resident portal" : access.contractor ? "Professional portal" : "HLC account"}</span><strong>{showBusinessTools ? "Run HomeLead Connect." : "Your HomeLead Connect access."}</strong></div>
-      <button className="hlc-mobile-command-search-trigger" type="button" onClick={openGlobalSearch}><span className="hlc-mobile-command-search-icon" aria-hidden="true">⌕</span><span><strong>Search HLC</strong><small>Find work, people, tools and settings</small></span><b aria-hidden="true">→</b></button>
       <nav className="hlc-mobile-more-quick" aria-label="More quick actions">
-        <Link to="/notifications" onClick={closeMobileMenu}><MobileNavIcon name="notifications" /><span><strong>Notifications</strong><small>What needs attention</small></span></Link>
         <Link to="/profile" onClick={closeMobileMenu}><MobileNavIcon name="profile" /><span><strong>My profile</strong><small>Identity and preferences</small></span></Link>
         {showBusinessTools && <Link to="/settings" onClick={closeMobileMenu}><MobileNavIcon name="more" /><span><strong>Settings</strong><small>Workspace and account controls</small></span></Link>}
       </nav>
@@ -145,6 +144,10 @@ export default function Navbar() {
   return <>
     <nav className={`hlc-navbar ${mobileOpen ? "menu-is-open" : ""}`} role="navigation" aria-label="Main navigation">
       <Link className="hlc-navbar-brand" to={brandDestination} onClick={closeMobileMenu}><div className="hlc-navbar-logo"><img src={logo} alt="HomeLead Connect LLC" /></div><div className="hlc-navbar-brand-copy"><h2>HomeLead Connect</h2><span>{signedIn ? (showBusinessTools ? "HLC workspace" : access.homeowner ? "Resident portal" : access.contractor ? "Professional portal" : "HLC account") : "Home services network"}</span></div></Link>
+      {signedIn && accessResolved && (showBusinessTools || access.homeowner || access.contractor) && <div className="hlc-navbar-utilities" aria-label="Global tools">
+        <button type="button" className="hlc-navbar-utility" aria-label="Search HomeLead Connect" title="Search" onClick={openGlobalSearch}><MobileNavIcon name="search" /></button>
+        <Link className={`hlc-navbar-utility${location.pathname === "/notifications" ? " is-active" : ""}`} to="/notifications" aria-label="Open notifications" title="Notifications" onClick={closeMobileMenu}><MobileNavIcon name="notifications" /></Link>
+      </div>}
       <button type="button" className="hlc-navbar-toggle" aria-expanded={mobileOpen} aria-label={mobileOpen ? "Close menu" : "Open menu"} onClick={() => setMobileOpenAt(mobileOpen ? null : location.pathname)}>{mobileOpen ? "Close" : "Menu"}</button>
       <div className="hlc-navbar-links hlc-desktop-navigation">{renderMenuContents()}</div>
     </nav>
