@@ -48,6 +48,8 @@ test("chat runtime applies one evidence authorization fallback and audit mechani
   assert.match(chatRuntime, /provider_empty_response/);
   assert.match(chatRuntime, /KNOWLEDGE != AUTHORITY/);
   assert.match(chatRuntime, /Never expose the workspace identifier/);
+  const scopedFollowUpQueries = chatRuntime.match(/admin\.from\("follow_ups"\)[^\n]+\.eq\("workspace_id", workspaceId\)/g) ?? [];
+  assert.equal(scopedFollowUpQueries.length, 2);
 });
 
 test("handoff semantics carry the same minimum context regardless of specialist", () => {
