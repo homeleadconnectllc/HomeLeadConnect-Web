@@ -43,9 +43,9 @@ export default function CommunityStore() {
             {storeUrl ? (
               <a href={storeUrl} target="_blank" rel="noreferrer">Shop through fulfillment partner</a>
             ) : (
-              <button type="button" disabled title="Checkout activates when the third-party fulfillment storefront is connected.">
-                Checkout connection pending
-              </button>
+              <p className="hlc-community-product-checkout-status" role="status">
+                Checkout unavailable · storefront connection pending
+              </p>
             )}
           </article>
         ))}
