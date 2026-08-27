@@ -90,7 +90,10 @@
   /* Dark controls must win over legacy white form authorities. */
   .hlc-signed-in-shell input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
   .hlc-signed-in-shell select,
-  .hlc-signed-in-shell textarea {
+  .hlc-signed-in-shell textarea,
+  #root .hlc-signed-in-shell > .hlc-route-content input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  #root .hlc-signed-in-shell > .hlc-route-content select,
+  #root .hlc-signed-in-shell > .hlc-route-content textarea {
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
@@ -101,10 +104,12 @@
     -webkit-appearance: none !important;
     border: 1px solid rgba(148, 180, 219, .32) !important;
     border-radius: 8px !important;
+    background: #0d1d31 !important;
     background-color: #0d1d31 !important;
     background-image: none !important;
     color: #f8fbff !important;
     -webkit-text-fill-color: #f8fbff !important;
+    caret-color: #93c5fd !important;
     box-shadow: none !important;
     font-size: 16px !important;
     font-weight: 600 !important;
@@ -112,21 +117,58 @@
     text-align: left !important;
   }
 
-  .hlc-signed-in-shell textarea {
+  .hlc-signed-in-shell textarea,
+  #root .hlc-signed-in-shell > .hlc-route-content textarea {
     min-height: 96px !important;
     resize: vertical !important;
   }
 
-  .hlc-signed-in-shell select option {
+  .hlc-signed-in-shell select option,
+  #root .hlc-signed-in-shell > .hlc-route-content select option {
     background: #0d1d31 !important;
     color: #f8fbff !important;
   }
 
   .hlc-signed-in-shell input::placeholder,
-  .hlc-signed-in-shell textarea::placeholder {
+  .hlc-signed-in-shell textarea::placeholder,
+  #root .hlc-signed-in-shell > .hlc-route-content input::placeholder,
+  #root .hlc-signed-in-shell > .hlc-route-content textarea::placeholder {
     color: #8295ad !important;
     -webkit-text-fill-color: #8295ad !important;
     opacity: 1 !important;
+  }
+
+  /* Closed contextual agent must beat earlier high-specificity rectangular rules. */
+  #root .hlc-signed-in-shell .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger {
+    display: grid !important;
+    place-items: center !important;
+    width: 60px !important;
+    min-width: 60px !important;
+    max-width: 60px !important;
+    height: 60px !important;
+    min-height: 60px !important;
+    max-height: 60px !important;
+    padding: 3px !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(147, 197, 253, .5) !important;
+    border-radius: 50% !important;
+    background: #0c1e34 !important;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, .34) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger > img {
+    width: 52px !important;
+    min-width: 52px !important;
+    max-width: 52px !important;
+    height: 52px !important;
+    min-height: 52px !important;
+    max-height: 52px !important;
+    object-fit: cover !important;
+    border-radius: 50% !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger > span {
+    display: none !important;
   }
 
   /* Never allow mobile prose/metadata to collapse one character per line. */
