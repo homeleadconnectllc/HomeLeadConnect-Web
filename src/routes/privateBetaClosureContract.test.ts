@@ -1,0 +1,36 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+import { readFileSync } from "node:fs";
+
+const startHere = readFileSync(new URL("../pages/dashboard/StartHere.tsx", import.meta.url), "utf8");
+const styles = readFileSync(new URL("../styles/mobile-a-plus-private-beta-closure.css", import.meta.url), "utf8");
+const styleEntry = readFileSync(new URL("../styles/AuthenticatedStyles.tsx", import.meta.url), "utf8");
+
+test("Start Here is a searchable role-aware HLC App Directory", () => {
+  assert.match(startHere, /HOMELEAD CONNECT · APP DIRECTORY/);
+  assert.match(startHere, /Find anything in HLC/);
+  assert.match(startHere, /Search work, people, tools or settings/);
+  assert.match(startHere, /canAccessWorkspacePath/);
+  assert.match(startHere, /ecosystemNavigation/);
+});
+
+test("private beta closure owns full-screen mobile drawer and background scroll", () => {
+  assert.match(styles, /\.hlc-mobile-portal\s*\{/);
+  assert.match(styles, /position:\s*fixed\s*!important/);
+  assert.match(styles, /inset:\s*0\s*!important/);
+  assert.match(styles, /height:\s*100dvh\s*!important/);
+  assert.match(styles, /body:has\(\.hlc-mobile-portal\).*overflow:\s*hidden/s);
+  assert.match(styles, /body:has\(\[role="dialog"\]\).*overflow:\s*hidden/s);
+});
+
+test("private beta closure guarantees readable dark fields and keyboard agent yielding", () => {
+  assert.match(styles, /-webkit-text-fill-color:\s*#eef7ff/);
+  assert.match(styles, /::placeholder/);
+  assert.match(styles, /body\.hlc-keyboard-open \.hlc-agent-dock:not\(\.is-open\)/);
+});
+
+test("private beta closure stylesheet loads last", () => {
+  const closure = styleEntry.lastIndexOf('import "./mobile-a-plus-private-beta-closure.css"');
+  const previous = styleEntry.lastIndexOf('import "./mobile-a-plus-final-device-round-3.css"');
+  assert.ok(closure > previous);
+});
