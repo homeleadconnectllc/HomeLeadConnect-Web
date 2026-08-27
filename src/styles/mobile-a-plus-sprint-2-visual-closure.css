@@ -219,20 +219,25 @@
     height: 38px !important;
   }
 
-  /* Authenticated HLC Store must remain part of the dark operating system. */
-  .hlc-page-community-store article,
-  .hlc-page-community-store [class*="store-card"],
-  .hlc-page-community-store [class*="vendor-card"],
-  .hlc-page-community-store [class*="partner-card"] {
+  /* Authenticated HLC Store is embedded in /community-hub and must remain part of the dark operating system. */
+  .hlc-page-community-hub .hlc-community-store-workspace,
+  .hlc-page-community-hub .hlc-community-store,
+  .hlc-page-community-hub .hlc-community-store-grid,
+  .hlc-page-community-hub .hlc-community-product,
+  .hlc-page-community-hub .hlc-community-store-workspace article,
+  .hlc-page-community-hub .hlc-community-store-workspace [class*="store-card"],
+  .hlc-page-community-hub .hlc-community-store-workspace [class*="vendor-card"],
+  .hlc-page-community-hub .hlc-community-store-workspace [class*="partner-card"] {
     color: #eef6ff !important;
-    background: #10243d !important;
+    background-color: #10243d !important;
     border-color: rgba(148, 180, 219, .34) !important;
   }
 
-  .hlc-page-community-store article *,
-  .hlc-page-community-store [class*="store-card"] *,
-  .hlc-page-community-store [class*="vendor-card"] *,
-  .hlc-page-community-store [class*="partner-card"] * {
+  .hlc-page-community-hub .hlc-community-product *,
+  .hlc-page-community-hub .hlc-community-store-workspace article *,
+  .hlc-page-community-hub .hlc-community-store-workspace [class*="store-card"] *,
+  .hlc-page-community-hub .hlc-community-store-workspace [class*="vendor-card"] *,
+  .hlc-page-community-hub .hlc-community-store-workspace [class*="partner-card"] * {
     color: inherit !important;
   }
 
