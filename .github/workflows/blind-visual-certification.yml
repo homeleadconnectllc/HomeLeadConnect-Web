@@ -6,6 +6,7 @@ on:
       - 'postlaunch/mobile-five-star-*'
   pull_request:
     branches:
+      - main
       - postlaunch/mobile-a-plus-20260826
 
 permissions:
