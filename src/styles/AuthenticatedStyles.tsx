@@ -23,6 +23,7 @@ import "./five-star-mobile-secondary.css";
 import "./five-star-mobile-admin.css";
 import "./five-star-mobile-more.css";
 import "./five-star-brand-runtime.css";
+import "./five-star-mobile-physical-qa.css";
 
 export default function AuthenticatedStyles() {
   return null;
