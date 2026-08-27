@@ -5,25 +5,38 @@
 @media (max-width: 720px) {
   /* Dashboard: one owner, one vertical flow. No display:contents/grid competition. */
   .hlc-page-dashboard .hlc-command-center {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
     padding-left: 18px !important;
     padding-right: 18px !important;
+    box-sizing: border-box !important;
   }
 
   .hlc-page-dashboard .hlc-command-hero {
     display: block !important;
     width: 100% !important;
+    max-width: 100% !important;
     min-width: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
     margin: 0 !important;
-    padding: 18px 0 22px !important;
+    padding: 18px 0 16px !important;
+    box-sizing: border-box !important;
   }
 
   .hlc-page-dashboard .hlc-command-copy {
     display: flex !important;
     flex-direction: column !important;
     align-items: flex-start !important;
-    gap: 10px !important;
+    justify-content: flex-start !important;
+    gap: 8px !important;
     width: 100% !important;
+    max-width: 100% !important;
     min-width: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
   }
 
   .hlc-page-dashboard .hlc-command-kicker {
@@ -36,7 +49,7 @@
     white-space: normal !important;
     word-break: normal !important;
     overflow-wrap: normal !important;
-    font-size: clamp(11px, 3vw, 14px) !important;
+    font-size: clamp(11px, 2.9vw, 13px) !important;
     line-height: 1.2 !important;
     letter-spacing: .08em !important;
   }
@@ -44,37 +57,58 @@
   .hlc-page-dashboard .hlc-command-copy > h1 {
     width: 100% !important;
     max-width: 100% !important;
+    min-width: 0 !important;
     margin: 0 !important;
-    font-size: clamp(40px, 11vw, 54px) !important;
-    line-height: 1 !important;
+    font-size: clamp(34px, 8.5vw, 40px) !important;
+    line-height: 1.02 !important;
     text-align: left !important;
     white-space: normal !important;
     word-break: normal !important;
-    overflow-wrap: normal !important;
+    overflow-wrap: break-word !important;
   }
 
   .hlc-page-dashboard .hlc-command-copy > p {
     width: 100% !important;
-    max-width: 34ch !important;
+    max-width: 32ch !important;
+    min-width: 0 !important;
     margin: 0 !important;
     text-align: left !important;
-    line-height: 1.42 !important;
+    line-height: 1.38 !important;
   }
 
   .hlc-page-dashboard .hlc-command-hero-actions {
     display: flex !important;
     position: static !important;
+    inset: auto !important;
     width: 100% !important;
-    margin: 14px 0 0 !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    margin: 12px 0 0 !important;
     gap: 8px !important;
     justify-content: flex-start !important;
+    align-items: center !important;
+    transform: none !important;
   }
 
   .hlc-page-dashboard .hlc-command-icon-button {
+    position: static !important;
     width: 44px !important;
     min-width: 44px !important;
+    max-width: 44px !important;
     height: 44px !important;
     min-height: 44px !important;
+    max-height: 44px !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+
+  .hlc-page-dashboard .hlc-system-strip {
+    min-height: 0 !important;
+    height: auto !important;
+    margin: 0 0 16px !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
   }
 
   /* Dashboard/card density: compact information without oversized empty cards. */
@@ -88,6 +122,7 @@
   .hlc-page-dashboard .hlc-quick-action,
   .hlc-page-dashboard .hlc-pulse-card {
     min-height: 0 !important;
+    height: auto !important;
     padding-top: 14px !important;
     padding-bottom: 14px !important;
   }
@@ -112,6 +147,7 @@
   .hlc-page-analytics .hlc-analytics-kpi,
   .hlc-page-dashboard .hlc-analytics-kpi {
     min-height: 0 !important;
+    height: auto !important;
     padding: 16px !important;
   }
 
@@ -129,6 +165,7 @@
   .hlc-network-directory .hlc-command-hero {
     display: block !important;
     min-height: 0 !important;
+    height: auto !important;
     margin: 0 0 18px !important;
     padding: 14px 0 0 !important;
   }
@@ -181,17 +218,26 @@
     box-sizing: border-box !important;
   }
 
+  .hlc-page-providers .hlc-network-directory .hlc-settings-section label > select,
+  .hlc-page-network .hlc-network-directory .hlc-settings-section label > select,
+  .hlc-page-network-saved .hlc-network-directory .hlc-settings-section label > select,
   .hlc-network-directory select,
   .hlc-network-directory select:disabled {
-    color: #eef6ff !important;
+    color: #f7fbff !important;
+    background: #10243d !important;
     background-color: #10243d !important;
-    -webkit-text-fill-color: #eef6ff !important;
+    -webkit-text-fill-color: #f7fbff !important;
     opacity: 1 !important;
+    filter: none !important;
+    text-shadow: none !important;
+    font-weight: 700 !important;
+    color-scheme: dark !important;
   }
 
   .hlc-network-directory select option {
     color: #071426 !important;
     background: #fff !important;
+    -webkit-text-fill-color: #071426 !important;
   }
 
   .hlc-network-directory .hlc-account-inline-links[aria-label="Network tools"] {
@@ -239,6 +285,7 @@
 
   .hlc-page-community-hub .hlc-community-lane {
     min-height: 0 !important;
+    height: auto !important;
     margin: 0 0 16px !important;
   }
 
@@ -246,6 +293,7 @@
   .hlc-page-community-hub .hlc-community-row,
   .hlc-page-community-hub .hlc-community-context > section {
     min-height: 0 !important;
+    height: auto !important;
     padding: 14px !important;
   }
 
@@ -311,6 +359,130 @@
   .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger > img {
     width: 36px !important;
     height: 36px !important;
+  }
+
+  /* Expanded contextual agent is a bounded mobile sheet with one internal scroll owner. */
+  body.hlc-agent-open {
+    overflow: hidden !important;
+    touch-action: none !important;
+  }
+
+  .hlc-agent-dock.is-open {
+    position: fixed !important;
+    left: 10px !important;
+    right: 10px !important;
+    top: auto !important;
+    bottom: calc(var(--hlc-mobile-nav-box, 84px) + 10px + env(safe-area-inset-bottom)) !important;
+    width: auto !important;
+    max-width: none !important;
+    height: auto !important;
+    max-height: min(72dvh, 640px) !important;
+    margin: 0 !important;
+    z-index: 1200 !important;
+    overflow: hidden !important;
+    border-radius: 22px !important;
+    pointer-events: auto !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-agent-dock-panel {
+    position: static !important;
+    inset: auto !important;
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    max-height: min(72dvh, 640px) !important;
+    margin: 0 !important;
+    padding: 0 10px 18px !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
+    scroll-padding-top: 72px !important;
+    scroll-padding-bottom: 24px !important;
+    box-sizing: border-box !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-agent-dock-panel-head {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 4 !important;
+    margin: 0 -10px 10px !important;
+    padding: 10px !important;
+    background: #071426 !important;
+    border-bottom: 1px solid rgba(126, 178, 255, .28) !important;
+  }
+
+  .hlc-agent-dock.is-open > .hlc-agent-dock-trigger {
+    display: none !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-agent-tutorial,
+  .hlc-agent-dock.is-open .hlc-ai-chat,
+  .hlc-agent-dock.is-open .hlc-ai-transcript,
+  .hlc-agent-dock.is-open .hlc-ai-composer {
+    min-height: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-agent-tutorial {
+    padding: 12px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-ai-chat-head {
+    display: grid !important;
+    grid-template-columns: auto minmax(0, 1fr) !important;
+    gap: 8px 10px !important;
+    align-items: center !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-ai-language-control {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-ai-language-control select,
+  .hlc-agent-dock.is-open .hlc-ai-language-control select:disabled {
+    width: 100% !important;
+    max-width: 100% !important;
+    color: #f7fbff !important;
+    background: #10243d !important;
+    background-color: #10243d !important;
+    -webkit-text-fill-color: #f7fbff !important;
+    opacity: 1 !important;
+    font-weight: 700 !important;
+    color-scheme: dark !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-ai-language-control option {
+    color: #071426 !important;
+    background: #fff !important;
+    -webkit-text-fill-color: #071426 !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-ai-composer textarea {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-ai-composer-actions {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    gap: 8px !important;
+    width: 100% !important;
+  }
+
+  .hlc-agent-dock.is-open .hlc-ai-settings {
+    grid-column: 1 / -1 !important;
   }
 
   /* More drawer: one scroll owner with explicit safe-area and nav clearance. */
