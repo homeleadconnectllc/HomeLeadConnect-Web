@@ -24,6 +24,7 @@ import "./five-star-mobile-admin.css";
 import "./five-star-mobile-more.css";
 import "./five-star-brand-runtime.css";
 import "./five-star-mobile-physical-qa.css";
+import "./five-star-mobile-physical-resources.css";
 
 export default function AuthenticatedStyles() {
   return null;
