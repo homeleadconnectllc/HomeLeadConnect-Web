@@ -75,19 +75,35 @@ jobs:
             grep -o 'data-cert-failures="[^"]*"' "$DOM" || true
             exit 52
           fi
-      - name: Capture public iPhone routes
+      - name: Certify public iPhone routes render and capture
         run: |
           set -euo pipefail
-          for item in 'home:/' 'login:/login' 'privacy:/privacy' 'terms:/terms' 'platform:/platform-disclosure'; do
-            name="${item%%:*}"; route="${item#*:}"
-            "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --window-size=390,844 --hide-scrollbars --screenshot="$GITHUB_WORKSPACE/artifacts/blind-visual/public-iphone-$name.png" --run-all-compositor-stages-before-draw "http://127.0.0.1:4173$route"
+          for item in 'home:/:One front door' 'login:/login:Sign in' 'privacy:/privacy:Privacy' 'terms:/terms:Terms of Service' 'platform:/platform-disclosure:Platform and contractor disclosure'; do
+            name="${item%%:*}"; rest="${item#*:}"; route="${rest%%:*}"; expect="${rest#*:}"
+            url="http://127.0.0.1:4173$route"
+            dom="$GITHUB_WORKSPACE/artifacts/blind-visual/public-iphone-$name.dom.html"
+            png="$GITHUB_WORKSPACE/artifacts/blind-visual/public-iphone-$name.png"
+            "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --window-size=390,844 --hide-scrollbars --virtual-time-budget=5000 --dump-dom "$url" > "$dom"
+            if ! grep -Fqi "$expect" "$dom"; then
+              echo "Public iPhone route $route did not render expected content: $expect"
+              exit 61
+            fi
+            "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --window-size=390,844 --hide-scrollbars --virtual-time-budget=5000 --screenshot="$png" --run-all-compositor-stages-before-draw "$url"
           done
-      - name: Capture public Mac routes
+      - name: Certify public Mac routes render and capture
         run: |
           set -euo pipefail
-          for item in 'home:/' 'login:/login' 'privacy:/privacy'; do
-            name="${item%%:*}"; route="${item#*:}"
-            "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --window-size=1440,900 --hide-scrollbars --screenshot="$GITHUB_WORKSPACE/artifacts/blind-visual/public-mac-$name.png" --run-all-compositor-stages-before-draw "http://127.0.0.1:4173$route"
+          for item in 'home:/:One front door' 'login:/login:Sign in' 'privacy:/privacy:Privacy'; do
+            name="${item%%:*}"; rest="${item#*:}"; route="${rest%%:*}"; expect="${rest#*:}"
+            url="http://127.0.0.1:4173$route"
+            dom="$GITHUB_WORKSPACE/artifacts/blind-visual/public-mac-$name.dom.html"
+            png="$GITHUB_WORKSPACE/artifacts/blind-visual/public-mac-$name.png"
+            "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --window-size=1440,900 --hide-scrollbars --virtual-time-budget=5000 --dump-dom "$url" > "$dom"
+            if ! grep -Fqi "$expect" "$dom"; then
+              echo "Public Mac route $route did not render expected content: $expect"
+              exit 62
+            fi
+            "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --window-size=1440,900 --hide-scrollbars --virtual-time-budget=5000 --screenshot="$png" --run-all-compositor-stages-before-draw "$url"
           done
       - name: Upload blind visual evidence
         if: always()
