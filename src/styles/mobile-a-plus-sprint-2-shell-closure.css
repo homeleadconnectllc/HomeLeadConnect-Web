@@ -1,0 +1,233 @@
+/* Sprint 2 physical-iPhone shared-shell closure.
+ * Loaded last. One geometry contract for authenticated mobile chrome.
+ */
+@media (max-width: 720px) {
+  :root {
+    --hlc-mobile-nav-height: 76px;
+    --hlc-mobile-nav-safe: max(8px, env(safe-area-inset-bottom));
+    --hlc-mobile-nav-box: calc(var(--hlc-mobile-nav-height) + var(--hlc-mobile-nav-safe));
+    --hlc-mobile-content-clearance: calc(var(--hlc-mobile-nav-box) + 34px);
+    --hlc-mobile-agent-size: 48px;
+    --hlc-mobile-agent-gap: 12px;
+  }
+
+  /* The five-tab bar is the single persistent authenticated bottom edge. */
+  .hlc-mobile-tabbar {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 1800 !important;
+    width: 100% !important;
+    min-height: var(--hlc-mobile-nav-height) !important;
+    margin: 0 !important;
+    padding: 6px 8px var(--hlc-mobile-nav-safe) !important;
+    border-top: 1px solid rgba(148, 180, 219, .22) !important;
+    background: rgba(7, 20, 38, .985) !important;
+    backdrop-filter: blur(16px) !important;
+  }
+
+  .hlc-mobile-tabbar > a,
+  .hlc-mobile-tabbar > button {
+    min-width: 0 !important;
+    min-height: 52px !important;
+  }
+
+  /* More is part of the shell, not a second full-height page covering the nav. */
+  .hlc-mobile-portal {
+    position: fixed !important;
+    top: calc(62px + env(safe-area-inset-top)) !important;
+    right: 0 !important;
+    bottom: var(--hlc-mobile-nav-box) !important;
+    left: 0 !important;
+    inset: auto 0 var(--hlc-mobile-nav-box) 0 !important;
+    z-index: 1700 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    background: #071426 !important;
+  }
+
+  .hlc-mobile-portal-scroll {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: 100% !important;
+    margin: 0 !important;
+    padding: 16px 18px 24px !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+  }
+
+  .hlc-navbar.menu-is-open {
+    z-index: 1900 !important;
+  }
+
+  .hlc-navbar-groups {
+    display: grid !important;
+    gap: 8px !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .hlc-nav-group,
+  .hlc-nav-group + .hlc-nav-group {
+    min-height: 0 !important;
+    margin: 0 !important;
+  }
+
+  .hlc-nav-group[open] > .hlc-nav-menu {
+    display: grid !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    gap: 0 !important;
+  }
+
+  .hlc-nav-group:not([open]) > .hlc-nav-menu {
+    display: none !important;
+  }
+
+  .hlc-mobile-menu-utilities {
+    min-height: 0 !important;
+    margin: 12px 0 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* One reserved bottom inset for every authenticated route and final action. */
+  .hlc-signed-in-shell .hlc-route-content {
+    padding-bottom: var(--hlc-mobile-content-clearance) !important;
+  }
+
+  .hlc-signed-in-shell .hlc-route-content > main,
+  .hlc-command-center,
+  .hlc-job-detail,
+  .hlc-agent-workspace,
+  .hlc-community-workspace {
+    min-height: 0 !important;
+    padding-bottom: var(--hlc-mobile-content-clearance) !important;
+    overflow: visible !important;
+  }
+
+  .hlc-community-commandbar {
+    margin-bottom: 18px !important;
+  }
+
+  .hlc-community-store-workspace {
+    position: relative !important;
+    z-index: 1 !important;
+    margin-bottom: 16px !important;
+    padding-bottom: 16px !important;
+  }
+
+  /* Dashboard gets one deliberate mobile topline: kicker left, utilities right. */
+  .hlc-command-hero {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    grid-template-areas:
+      "kicker actions"
+      "title title"
+      "description description" !important;
+    column-gap: 10px !important;
+    row-gap: 10px !important;
+    align-items: center !important;
+  }
+
+  .hlc-command-copy {
+    display: contents !important;
+  }
+
+  .hlc-command-kicker {
+    grid-area: kicker !important;
+    justify-self: start !important;
+    align-self: center !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    text-align: left !important;
+    white-space: normal !important;
+  }
+
+  .hlc-command-copy > h1 {
+    grid-area: title !important;
+    margin: 0 !important;
+  }
+
+  .hlc-command-copy > p {
+    grid-area: description !important;
+    margin: 0 !important;
+  }
+
+  .hlc-command-hero-actions {
+    grid-area: actions !important;
+    position: static !important;
+    display: flex !important;
+    justify-self: end !important;
+    align-self: center !important;
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+    gap: 7px !important;
+  }
+
+  .hlc-command-icon-button {
+    width: 44px !important;
+    min-width: 44px !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    padding: 0 !important;
+  }
+
+  /* The closed agent launcher uses the same shared bottom geometry everywhere. */
+  .hlc-agent-dock:not(.is-open) {
+    position: fixed !important;
+    right: 8px !important;
+    bottom: calc(var(--hlc-mobile-nav-box) + var(--hlc-mobile-agent-gap)) !important;
+    width: var(--hlc-mobile-agent-size) !important;
+    max-width: var(--hlc-mobile-agent-size) !important;
+    z-index: 1600 !important;
+  }
+
+  .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger {
+    width: var(--hlc-mobile-agent-size) !important;
+    height: var(--hlc-mobile-agent-size) !important;
+    min-width: var(--hlc-mobile-agent-size) !important;
+    min-height: var(--hlc-mobile-agent-size) !important;
+    max-width: var(--hlc-mobile-agent-size) !important;
+    padding: 3px !important;
+    border-radius: 50% !important;
+  }
+
+  .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger > img {
+    width: 40px !important;
+    height: 40px !important;
+    max-width: 40px !important;
+  }
+
+  /* Reserve a small right-side reading gutter on the two dense pages where
+     physical-iPhone evidence showed the fixed launcher obscuring live content. */
+  .hlc-page-dashboard .hlc-command-center,
+  .hlc-page-community-hub .hlc-community-workspace {
+    padding-right: calc(18px + var(--hlc-mobile-agent-size)) !important;
+  }
+
+  /* Search and opened agent surfaces are modal layers above both shell rails. */
+  .hlc-command-search-backdrop {
+    z-index: 2200 !important;
+  }
+
+  .hlc-agent-dock.is-open {
+    z-index: 2300 !important;
+  }
+
+  body.hlc-agent-open .hlc-mobile-tabbar {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
