@@ -1,0 +1,116 @@
+/* Mobile A+ Sprint 2 — Work + Quick Actions. Compact-only action hierarchy. */
+.hlc-s2-mobile-overflow {
+  display: none;
+}
+
+.hlc-s2-desktop-secondary {
+  display: contents;
+}
+
+@media (max-width: 720px) {
+  .hlc-s2-desktop-secondary {
+    display: none !important;
+  }
+
+  .hlc-s2-mobile-overflow {
+    position: relative;
+    display: block;
+    flex: 0 0 auto;
+  }
+
+  .hlc-s2-mobile-overflow > summary {
+    display: inline-flex;
+    min-height: 38px;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 7px 10px;
+    border: 1px solid rgba(148, 180, 219, .22);
+    border-radius: 8px;
+    background: rgba(10, 25, 44, .74);
+    color: #d9e8f8;
+    font-size: .72rem;
+    font-weight: 700;
+    list-style: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .hlc-s2-mobile-overflow > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .hlc-s2-mobile-overflow[open] > summary {
+    border-color: rgba(56, 189, 248, .58);
+    background: rgba(14, 116, 144, .24);
+  }
+
+  .hlc-s2-overflow-menu {
+    position: absolute;
+    z-index: 40;
+    right: 0;
+    bottom: calc(100% + 7px);
+    display: grid;
+    min-width: min(220px, calc(100vw - 32px));
+    max-width: calc(100vw - 32px);
+    gap: 4px;
+    padding: 7px;
+    border: 1px solid rgba(148, 180, 219, .22);
+    border-radius: 10px;
+    background: #0a1728;
+    box-shadow: 0 14px 34px rgba(1, 8, 18, .42);
+  }
+
+  .hlc-s2-overflow-menu > a,
+  .hlc-s2-overflow-menu > button {
+    display: flex !important;
+    width: 100% !important;
+    min-height: 42px !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 8px !important;
+    padding: 9px 10px !important;
+    border: 0 !important;
+    border-radius: 7px !important;
+    background: transparent !important;
+    color: #d9e8f8 !important;
+    font-size: .78rem !important;
+    text-align: left !important;
+    text-decoration: none !important;
+  }
+
+  .hlc-s2-overflow-menu > a:active,
+  .hlc-s2-overflow-menu > button:active {
+    background: rgba(56, 189, 248, .12) !important;
+  }
+
+  .hlc-lead-actions,
+  .hlc-job-actions {
+    overflow: visible !important;
+  }
+
+  .hlc-job-actions {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto auto !important;
+    gap: 6px !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+
+  .hlc-job-actions > select {
+    min-width: 0 !important;
+    width: 100% !important;
+    min-height: 40px !important;
+    font-size: 16px !important;
+  }
+
+  .hlc-job-actions > .hlc-job-open,
+  .hlc-job-actions > .hlc-s2-mobile-overflow > summary {
+    min-height: 40px !important;
+    white-space: nowrap;
+  }
+
+  .hlc-followup-actions > button {
+    min-height: 40px !important;
+  }
+}
