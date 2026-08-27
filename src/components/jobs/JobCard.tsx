@@ -36,7 +36,7 @@ export default function JobCard({
       <div className="hlc-job-value-cell">
         <span className="hlc-job-cell-label">Value</span>
         <strong>{formatCurrency(Number(job.contract_value))}</strong>
-        <small>Estimate {job.source_estimate_id}</small>
+        <small>{job.source_estimate_id ? "LeadScope estimate linked" : "No source estimate"}</small>
       </div>
 
       <div className="hlc-job-actions">
