@@ -1,0 +1,260 @@
+/* HLC Five-Star secondary workspaces. */
+.hlc-system-health-workspace {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  color: #eaf2ff;
+}
+
+.hlc-system-health-header {
+  padding: 22px 0 20px;
+  border-bottom: 1px solid rgba(148, 180, 219, .18);
+}
+
+.hlc-system-health-header > p {
+  margin: 0 0 6px;
+  color: #60a5fa;
+  font-size: .72rem;
+  font-weight: 900;
+  letter-spacing: .09em;
+}
+
+.hlc-system-health-header h1 {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+}
+
+.hlc-system-health-header > span {
+  display: block;
+  max-width: 760px;
+  margin-top: 8px;
+  color: #9fb0c5;
+  line-height: 1.55;
+}
+
+.hlc-system-health-state {
+  display: grid;
+  gap: 4px;
+  margin-top: 18px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(148, 180, 219, .18);
+}
+
+.hlc-system-health-state span,
+.hlc-system-health-state small { color: #9fb0c5; }
+.hlc-system-health-state.is-error strong { color: #fecaca; }
+
+.hlc-system-health-list {
+  display: grid;
+  gap: 28px;
+  padding: 22px 0;
+}
+
+.hlc-system-health-group {
+  border-top: 1px solid rgba(148, 180, 219, .18);
+}
+
+.hlc-system-health-group-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0 8px;
+}
+
+.hlc-system-health-group-head small {
+  color: #7faeea;
+  font-size: .68rem;
+  font-weight: 900;
+  letter-spacing: .08em;
+}
+
+.hlc-system-health-group-head h2 {
+  margin: 3px 0 0;
+  font-size: 1.1rem;
+}
+
+.hlc-system-health-group-head > strong {
+  color: #9fb0c5;
+  font-size: .8rem;
+}
+
+.hlc-system-health-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  min-height: 68px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(148, 180, 219, .13);
+}
+
+.hlc-system-health-row > div:first-child {
+  display: grid;
+  gap: 3px;
+}
+
+.hlc-system-health-row > div:first-child strong { color: #f8fbff; }
+.hlc-system-health-row > div:first-child span { color: #9fb0c5; font-size: .8rem; }
+
+.hlc-system-health-row details {
+  position: relative;
+  color: #a9cfff;
+  font-size: .75rem;
+}
+
+.hlc-system-health-row summary {
+  min-height: 40px;
+  padding: 9px 10px;
+  cursor: pointer;
+  list-style: none;
+  border: 1px solid rgba(148, 180, 219, .2);
+  border-radius: 8px;
+  background: #0d1d31;
+}
+
+.hlc-system-health-row details[open] {
+  grid-column: 1 / -1;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid rgba(148, 180, 219, .16);
+  border-radius: 8px;
+  background: #0b1829;
+}
+
+.hlc-system-health-row details p { margin: 5px 0; color: #a8bad0; }
+.hlc-system-health-empty { padding: 14px 0; border-bottom: 1px solid rgba(148, 180, 219, .13); }
+.hlc-system-health-empty strong { display: block; }
+.hlc-system-health-empty span { display: block; margin-top: 4px; color: #9fb0c5; font-size: .8rem; }
+
+@media (max-width: 720px) {
+  /* Golden Workflow becomes a compact lifecycle timeline rather than cards. */
+  .hlc-workflow-page {
+    width: 100% !important;
+    margin: 0 !important;
+    gap: 0 !important;
+  }
+
+  .hlc-workflow-page > header {
+    gap: 6px !important;
+    padding: 12px 0 14px !important;
+    border: 0 !important;
+    border-bottom: 1px solid rgba(148, 180, 219, .18) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+  }
+
+  .hlc-workflow-page > header h1 {
+    font-size: 1.9rem !important;
+  }
+
+  .hlc-workflow-page > header > p:last-child {
+    display: -webkit-box !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    color: #9fb0c5 !important;
+    font-size: .78rem !important;
+    line-height: 1.4 !important;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .hlc-workflow-page > ol {
+    display: grid !important;
+    gap: 0 !important;
+    margin: 8px 0 18px !important;
+  }
+
+  .hlc-workflow-stage {
+    position: relative !important;
+    display: grid !important;
+    grid-template-columns: 34px minmax(0, 1fr) auto !important;
+    gap: 9px !important;
+    min-height: 62px !important;
+    padding: 9px 0 !important;
+    border: 0 !important;
+    border-bottom: 1px solid rgba(148, 180, 219, .14) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+  }
+
+  .hlc-workflow-stage-number {
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 50% !important;
+    background: #102744 !important;
+    color: #93c5fd !important;
+    font-size: .74rem !important;
+  }
+
+  .hlc-workflow-stage-copy h2 {
+    font-size: .9rem !important;
+  }
+
+  .hlc-workflow-stage-copy > p:first-of-type {
+    display: -webkit-box !important;
+    margin: 3px 0 0 !important;
+    overflow: hidden !important;
+    color: #9fb0c5 !important;
+    font-size: .67rem !important;
+    line-height: 1.3 !important;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  .hlc-workflow-stage-copy > p:last-child {
+    display: none !important;
+  }
+
+  .hlc-workflow-stage-action {
+    align-self: center !important;
+    justify-items: end !important;
+    gap: 2px !important;
+  }
+
+  .hlc-workflow-stage-action strong {
+    color: #f8fbff !important;
+    font-size: .9rem !important;
+  }
+
+  .hlc-workflow-stage-action a {
+    min-height: 36px !important;
+    padding: 7px 8px !important;
+    border-radius: 8px !important;
+    font-size: 0 !important;
+  }
+
+  .hlc-workflow-stage-action a::after {
+    content: "›";
+    font-size: 1rem;
+  }
+
+  .hlc-workflow-page > aside {
+    margin: 0 !important;
+    padding: 12px 0 !important;
+    border: 0 !important;
+    border-top: 1px solid rgba(245, 158, 11, .3) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    color: #d7e2f0 !important;
+    font-size: .75rem !important;
+  }
+
+  .hlc-system-health-header {
+    padding: 12px 0 14px;
+  }
+
+  .hlc-system-health-header h1 { font-size: 1.9rem; }
+  .hlc-system-health-header > span {
+    display: -webkit-box;
+    overflow: hidden;
+    font-size: .78rem;
+    line-height: 1.4;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .hlc-system-health-list { gap: 20px; padding: 14px 0; }
+  .hlc-system-health-row { grid-template-columns: minmax(0, 1fr) auto; gap: 8px; min-height: 60px; padding: 9px 0; }
+  .hlc-system-health-row > div:first-child span { font-size: .7rem; }
+  .hlc-system-health-row summary { min-height: 38px; padding: 8px; }
+}
