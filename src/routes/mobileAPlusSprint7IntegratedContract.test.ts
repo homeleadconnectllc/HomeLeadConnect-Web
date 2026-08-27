@@ -51,6 +51,6 @@ test("Sprint 7 integrated route sweep includes every major Mobile A+ acceptance 
     "/homeowner-portal", "/contractor-portal", "/settings", "/settings/billing", "/documents",
     "/help", "/tutorials", "/rules", "/call-center",
   ]) {
-    assert.ok(router.includes(`path=\"${route}\"`), `${route} must remain in the integrated acceptance route set`);
+    assert.ok(router.includes(`path="${route}"`), `${route} must remain in the integrated acceptance route set`);
   }
 });
