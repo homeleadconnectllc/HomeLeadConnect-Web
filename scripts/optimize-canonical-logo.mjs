@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { deflateSync, inflateSync, constants as zlibConstants } from "node:zlib";
 
 const target = process.argv[2] || "dist/hlc-logo-transparent.png";
@@ -159,7 +159,6 @@ for (let y = 0; y < height; y += 1) {
   previous = row;
 }
 
-// Losslessly recompress the canonical master without changing its pixels.
 const optimizedCore = encodeRgbaPng(pixels, width, height);
 let optimized = optimizedCore;
 if (ancillaryChunks.length) {
@@ -179,8 +178,6 @@ if (optimized.length < input.length) {
   console.log(`Canonical logo already optimal enough: ${input.length} bytes`);
 }
 
-// Generate a responsive UI derivative from the exact master pixels.
-// Premultiplied-alpha box averaging avoids bright/white halos at transparent edges.
 if (!Number.isInteger(derivativeSize) || derivativeSize < 32 || derivativeSize > Math.min(width, height)) {
   throw new Error(`Invalid derivative size ${derivativeSize}`);
 }
@@ -208,8 +205,7 @@ for (let dy = 0; dy < derivativeSize; dy += 1) {
       }
     }
     const dst = (dy * derivativeSize + dx) * 4;
-    const avgA = samples ? Math.round(sumA / samples) : 0;
-    small[dst + 3] = avgA;
+    small[dst + 3] = samples ? Math.round(sumA / samples) : 0;
     if (sumA > 0) {
       small[dst] = Math.round(sumRA / sumA);
       small[dst + 1] = Math.round(sumGA / sumA);
@@ -225,3 +221,17 @@ for (let dy = 0; dy < derivativeSize; dy += 1) {
 const derivative = encodeRgbaPng(small, derivativeSize, derivativeSize);
 writeFileSync(derivativeTarget, derivative);
 console.log(`Generated responsive logo derivative: ${derivativeTarget} (${derivativeSize}x${derivativeSize}, ${derivative.length} bytes)`);
+
+const assetsDir = "dist/assets";
+let publicBundleUpdated = false;
+for (const name of readdirSync(assetsDir)) {
+  if (!name.endsWith(".js")) continue;
+  const path = `${assetsDir}/${name}`;
+  const source = readFileSync(path, "utf8");
+  if (!source.includes("One front door.") || !source.includes("/hlc-logo-transparent.png")) continue;
+  const updated = source.replaceAll("/hlc-logo-transparent.png", "/hlc-logo-ui.png");
+  writeFileSync(path, updated);
+  publicBundleUpdated = true;
+  console.log(`Rewired public-home UI logo delivery in ${name}`);
+}
+if (!publicBundleUpdated) throw new Error("Could not locate compiled public-home bundle for responsive logo delivery");
