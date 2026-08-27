@@ -20,6 +20,7 @@ import "./mobile-a-plus.css";
 import "./five-star-mobile-foundation.css";
 import "./five-star-mobile-routes.css";
 import "./five-star-mobile-secondary.css";
+import "./five-star-mobile-admin.css";
 import "./five-star-brand-runtime.css";
 
 export default function AuthenticatedStyles() {
