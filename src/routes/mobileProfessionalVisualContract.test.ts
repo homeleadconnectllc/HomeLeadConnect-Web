@@ -7,6 +7,9 @@ const authenticatedStyles = readFileSync("src/styles/AuthenticatedStyles.tsx", "
 const mobileProfessional = readFileSync("src/styles/mobile-professional-certification.css", "utf8");
 const fiveStarFoundation = readFileSync("src/styles/five-star-mobile-foundation.css", "utf8");
 const fiveStarRoutes = readFileSync("src/styles/five-star-mobile-routes.css", "utf8");
+const physicalResources = readFileSync("src/styles/five-star-mobile-physical-resources.css", "utf8");
+const operationalGuide = readFileSync("src/pages/dashboard/OperationalGuide.tsx", "utf8");
+const legal = readFileSync("src/pages/Legal.tsx", "utf8");
 const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
 const commandSearch = readFileSync("src/components/search/GlobalCommandSearch.tsx", "utf8");
 
@@ -32,9 +35,13 @@ test("Five-Star authority loads after the legacy Mobile A+ layer", () => {
   const legacy = authenticatedStyles.indexOf('./mobile-a-plus.css');
   const foundation = authenticatedStyles.indexOf('./five-star-mobile-foundation.css');
   const routes = authenticatedStyles.indexOf('./five-star-mobile-routes.css');
+  const physical = authenticatedStyles.indexOf('./five-star-mobile-physical-qa.css');
+  const physicalResource = authenticatedStyles.indexOf('./five-star-mobile-physical-resources.css');
   assert.ok(legacy >= 0);
   assert.ok(foundation > legacy);
   assert.ok(routes > foundation);
+  assert.ok(physical > routes);
+  assert.ok(physicalResource > physical);
   assert.match(fiveStarFoundation, /--hlc-five-star-rail:\s*18px/);
   assert.match(fiveStarFoundation, /padding-bottom: calc\(var\(--hlc-five-star-nav-height\) \+ env\(safe-area-inset-bottom\) \+ 36px\) !important/);
   assert.match(fiveStarRoutes, /\.hlc-lead-row[\s\S]*border-bottom: 1px solid rgba\(148, 180, 219, \.16\) !important/);
@@ -57,4 +64,26 @@ test("Five-Star contextual agent reserves one circular mobile lane and one open 
   assert.match(fiveStarFoundation, /\.hlc-agent-dock:not\(\.is-open\) \.hlc-agent-dock-trigger[\s\S]*border-radius: 50% !important/);
   assert.match(fiveStarFoundation, /\.hlc-agent-dock\.is-open[\s\S]*height: min\(88dvh, 760px\) !important/);
   assert.match(fiveStarFoundation, /body\.hlc-agent-open \.hlc-mobile-tabbar[\s\S]*visibility: hidden/);
+});
+
+test("physical iPhone resource authority targets the exact Rules and Legal DOM", () => {
+  assert.match(operationalGuide, /className="hlc-resources-workspace"/);
+  assert.match(operationalGuide, /className="hlc-resources-header"/);
+  assert.match(operationalGuide, /className="hlc-resources-summary"/);
+  assert.match(operationalGuide, /className="hlc-resources-commandbar"/);
+  assert.match(operationalGuide, /className="hlc-resource-row"/);
+  assert.match(physicalResources, /\.hlc-signed-in-shell \.hlc-resources-header[\s\S]*min-height: 0 !important/);
+  assert.match(physicalResources, /\.hlc-signed-in-shell \.hlc-resources-summary[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\) !important/);
+  assert.match(physicalResources, /\.hlc-signed-in-shell \.hlc-resources-commandbar[\s\S]*overflow-x: auto !important/);
+  assert.match(physicalResources, /\.hlc-signed-in-shell \.hlc-resource-row[\s\S]*grid-template-columns: 30px minmax\(0, 1fr\) !important/);
+
+  assert.match(legal, /className="hlc-legal-page"/);
+  assert.match(legal, /className="hlc-legal-hero"/);
+  assert.match(legal, /className="hlc-legal-card"/);
+  assert.match(legal, /src="\/hlc-logo-transparent\.png"/);
+  assert.doesNotMatch(legal, /hlc-logo-final\.png/);
+  assert.match(physicalResources, /\.hlc-signed-in-shell \.hlc-legal-hero[\s\S]*min-height: 0 !important/);
+  assert.match(physicalResources, /\.hlc-signed-in-shell \.hlc-legal-guide[\s\S]*display: none !important/);
+  assert.match(physicalResources, /\.hlc-signed-in-shell \.hlc-legal-card[\s\S]*border-radius: 0 !important/);
+  assert.match(physicalResources, /\.hlc-signed-in-shell \.hlc-legal-nav[\s\S]*overflow-x: auto !important/);
 });
