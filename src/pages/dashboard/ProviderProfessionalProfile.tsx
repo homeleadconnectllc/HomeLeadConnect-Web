@@ -16,6 +16,7 @@ function initials(provider: Contractor) {
 export default function ProviderProfessionalProfile() {
   const { providerId } = useParams();
   const id = Number(providerId);
+  const validProviderId = Number.isFinite(id) && id > 0;
   const [provider, setProvider] = useState<Contractor | null>(null);
   const [services, setServices] = useState<ProviderService[]>([]);
   const [areas, setAreas] = useState<ServiceArea[]>([]);
@@ -23,19 +24,23 @@ export default function ProviderProfessionalProfile() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (!Number.isFinite(id) || id <= 0) { setError("Provider profile is unavailable."); return; }
+    if (!validProviderId) return;
+    let active = true;
     Promise.all([getContractor(id), listProviderServices(), listServiceAreas(), listProviderAvailability()])
       .then(([providerRow, serviceRows, areaRows, availabilityRows]) => {
+        if (!active) return;
         setProvider(providerRow);
         setServices(serviceRows.filter((row) => Number(row.contractor_id) === id));
         setAreas(areaRows.filter((row) => Number(row.contractor_id) === id));
         setAvailability(availabilityRows.find((row) => Number(row.contractor_id) === id) ?? null);
       })
-      .catch((reason) => setError(errorMessage(reason, "Provider profile could not be loaded.")));
-  }, [id]);
+      .catch((reason) => { if (active) setError(errorMessage(reason, "Provider profile could not be loaded.")); });
+    return () => { active = false; };
+  }, [id, validProviderId]);
 
   const location = useMemo(() => provider ? [provider.city, provider.state, provider.zip].filter(Boolean).join(", ") : "", [provider]);
 
+  if (!validProviderId) return <main className="hlc-provider-profile-page"><p role="alert" className="hlc-provider-profile-error">Provider profile is unavailable.</p><Link to="/providers">Back to providers</Link></main>;
   if (error) return <main className="hlc-provider-profile-page"><p role="alert" className="hlc-provider-profile-error">{error}</p><Link to="/providers">Back to providers</Link></main>;
   if (!provider) return <main className="hlc-provider-profile-page"><p role="status">Loading professional profile…</p></main>;
 
