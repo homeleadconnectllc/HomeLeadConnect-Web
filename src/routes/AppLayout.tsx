@@ -71,6 +71,30 @@ export default function AppLayout() {
   }, [sidebarCollapsed]);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const frame = window.requestAnimationFrame(() => {
+      if (location.hash) {
+        const id = decodeURIComponent(location.hash.slice(1));
+        const target = document.getElementById(id);
+        if (target) {
+          target.scrollIntoView({ block: "start" });
+          return;
+        }
+      }
+
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+
+      const routeContent = document.querySelector<HTMLElement>(".hlc-route-content");
+      if (routeContent) routeContent.scrollTop = 0;
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [location.pathname, location.hash]);
+
+  useEffect(() => {
     const logo = document.querySelector<HTMLElement>(".hlc-navbar-logo");
     if (!logo) return;
     const destination = session ? "/dashboard" : "/";
