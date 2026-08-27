@@ -2,6 +2,8 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { deflateSync, inflateSync, constants as zlibConstants } from "node:zlib";
 
 const target = process.argv[2] || "dist/hlc-logo-transparent.png";
+const derivativeTarget = process.argv[3] || "dist/hlc-logo-ui.png";
+const derivativeSize = Number(process.argv[4] || 96);
 const input = readFileSync(target);
 const signature = Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]);
 if (!input.subarray(0, 8).equals(signature)) throw new Error(`${target} is not a PNG`);
@@ -25,7 +27,80 @@ function chunk(type, data) {
   return out;
 }
 
-const chunks = [];
+function paeth(a, b, c) {
+  const p = a + b - c;
+  const pa = Math.abs(p - a);
+  const pb = Math.abs(p - b);
+  const pc = Math.abs(p - c);
+  return pa <= pb && pa <= pc ? a : pb <= pc ? b : c;
+}
+
+function filterPixels(pixels, width, height) {
+  const bpp = 4;
+  const rowBytes = width * bpp;
+  const filtered = Buffer.allocUnsafe(height * (rowBytes + 1));
+
+  function filteredRow(row, prev, filter) {
+    const out = Buffer.allocUnsafe(rowBytes);
+    let score = 0;
+    for (let x = 0; x < rowBytes; x += 1) {
+      const left = x >= bpp ? row[x - bpp] : 0;
+      const up = prev ? prev[x] : 0;
+      const upLeft = prev && x >= bpp ? prev[x - bpp] : 0;
+      let predictor = 0;
+      if (filter === 1) predictor = left;
+      else if (filter === 2) predictor = up;
+      else if (filter === 3) predictor = Math.floor((left + up) / 2);
+      else if (filter === 4) predictor = paeth(left, up, upLeft);
+      const encoded = (row[x] - predictor + 256) & 255;
+      out[x] = encoded;
+      const signed = encoded < 128 ? encoded : encoded - 256;
+      score += Math.abs(signed);
+    }
+    return { out, score };
+  }
+
+  for (let y = 0; y < height; y += 1) {
+    const row = pixels.subarray(y * rowBytes, (y + 1) * rowBytes);
+    const prev = y ? pixels.subarray((y - 1) * rowBytes, y * rowBytes) : null;
+    let bestFilter = 0;
+    let best = filteredRow(row, prev, 0);
+    for (let filter = 1; filter <= 4; filter += 1) {
+      const candidate = filteredRow(row, prev, filter);
+      if (candidate.score < best.score) {
+        best = candidate;
+        bestFilter = filter;
+      }
+    }
+    const start = y * (rowBytes + 1);
+    filtered[start] = bestFilter;
+    best.out.copy(filtered, start + 1);
+  }
+  return filtered;
+}
+
+function encodeRgbaPng(pixels, width, height) {
+  const ihdr = Buffer.alloc(13);
+  ihdr.writeUInt32BE(width, 0);
+  ihdr.writeUInt32BE(height, 4);
+  ihdr[8] = 8;
+  ihdr[9] = 6;
+  ihdr[10] = 0;
+  ihdr[11] = 0;
+  ihdr[12] = 0;
+  const compressed = deflateSync(filterPixels(pixels, width, height), {
+    level: 9,
+    strategy: zlibConstants.Z_FILTERED,
+  });
+  return Buffer.concat([
+    signature,
+    chunk("IHDR", ihdr),
+    chunk("IDAT", compressed),
+    chunk("IEND", Buffer.alloc(0)),
+  ]);
+}
+
+const ancillaryChunks = [];
 const idat = [];
 let width = 0;
 let height = 0;
@@ -45,7 +120,7 @@ while (offset < input.length) {
     interlace = data[12];
   }
   if (type === "IDAT") idat.push(data);
-  else chunks.push({ type, data: Buffer.from(data) });
+  else if (!["IHDR", "IEND"].includes(type)) ancillaryChunks.push({ type, data: Buffer.from(data) });
   offset += 12 + length;
   if (type === "IEND") break;
 }
@@ -59,14 +134,6 @@ const rowBytes = width * bpp;
 const inflated = inflateSync(Buffer.concat(idat));
 const expectedBytes = height * (rowBytes + 1);
 if (inflated.length !== expectedBytes) throw new Error(`Unexpected inflated size ${inflated.length}; expected ${expectedBytes}`);
-
-function paeth(a, b, c) {
-  const p = a + b - c;
-  const pa = Math.abs(p - a);
-  const pb = Math.abs(p - b);
-  const pc = Math.abs(p - c);
-  return pa <= pb && pa <= pc ? a : pb <= pc ? b : c;
-}
 
 const pixels = Buffer.allocUnsafe(height * rowBytes);
 let previous = Buffer.alloc(rowBytes);
@@ -92,66 +159,69 @@ for (let y = 0; y < height; y += 1) {
   previous = row;
 }
 
-function filteredRow(row, prev, filter) {
-  const out = Buffer.allocUnsafe(rowBytes);
-  let score = 0;
-  for (let x = 0; x < rowBytes; x += 1) {
-    const left = x >= bpp ? row[x - bpp] : 0;
-    const up = prev ? prev[x] : 0;
-    const upLeft = prev && x >= bpp ? prev[x - bpp] : 0;
-    let predictor = 0;
-    if (filter === 1) predictor = left;
-    else if (filter === 2) predictor = up;
-    else if (filter === 3) predictor = Math.floor((left + up) / 2);
-    else if (filter === 4) predictor = paeth(left, up, upLeft);
-    const encoded = (row[x] - predictor + 256) & 255;
-    out[x] = encoded;
-    const signed = encoded < 128 ? encoded : encoded - 256;
-    score += Math.abs(signed);
-  }
-  return { out, score };
+// Losslessly recompress the canonical master without changing its pixels.
+const optimizedCore = encodeRgbaPng(pixels, width, height);
+let optimized = optimizedCore;
+if (ancillaryChunks.length) {
+  const ihdrEnd = 33;
+  optimized = Buffer.concat([
+    optimizedCore.subarray(0, ihdrEnd),
+    ...ancillaryChunks.map(({ type, data }) => chunk(type, data)),
+    optimizedCore.subarray(ihdrEnd),
+  ]);
+}
+if (optimized.length < input.length) {
+  writeFileSync(target, optimized);
+  const saved = input.length - optimized.length;
+  const percent = ((saved / input.length) * 100).toFixed(1);
+  console.log(`Optimized canonical logo losslessly: ${input.length} -> ${optimized.length} bytes (${percent}% smaller)`);
+} else {
+  console.log(`Canonical logo already optimal enough: ${input.length} bytes`);
 }
 
-const filtered = Buffer.allocUnsafe(expectedBytes);
-for (let y = 0; y < height; y += 1) {
-  const row = pixels.subarray(y * rowBytes, (y + 1) * rowBytes);
-  const prev = y ? pixels.subarray((y - 1) * rowBytes, y * rowBytes) : null;
-  let bestFilter = 0;
-  let best = filteredRow(row, prev, 0);
-  for (let filter = 1; filter <= 4; filter += 1) {
-    const candidate = filteredRow(row, prev, filter);
-    if (candidate.score < best.score) {
-      best = candidate;
-      bestFilter = filter;
+// Generate a responsive UI derivative from the exact master pixels.
+// Premultiplied-alpha box averaging avoids bright/white halos at transparent edges.
+if (!Number.isInteger(derivativeSize) || derivativeSize < 32 || derivativeSize > Math.min(width, height)) {
+  throw new Error(`Invalid derivative size ${derivativeSize}`);
+}
+const small = Buffer.alloc(derivativeSize * derivativeSize * 4);
+for (let dy = 0; dy < derivativeSize; dy += 1) {
+  const sy0 = Math.floor((dy * height) / derivativeSize);
+  const sy1 = Math.max(sy0 + 1, Math.floor(((dy + 1) * height) / derivativeSize));
+  for (let dx = 0; dx < derivativeSize; dx += 1) {
+    const sx0 = Math.floor((dx * width) / derivativeSize);
+    const sx1 = Math.max(sx0 + 1, Math.floor(((dx + 1) * width) / derivativeSize));
+    let sumA = 0;
+    let sumRA = 0;
+    let sumGA = 0;
+    let sumBA = 0;
+    let samples = 0;
+    for (let sy = sy0; sy < sy1; sy += 1) {
+      for (let sx = sx0; sx < sx1; sx += 1) {
+        const src = (sy * width + sx) * 4;
+        const a = pixels[src + 3];
+        sumA += a;
+        sumRA += pixels[src] * a;
+        sumGA += pixels[src + 1] * a;
+        sumBA += pixels[src + 2] * a;
+        samples += 1;
+      }
+    }
+    const dst = (dy * derivativeSize + dx) * 4;
+    const avgA = samples ? Math.round(sumA / samples) : 0;
+    small[dst + 3] = avgA;
+    if (sumA > 0) {
+      small[dst] = Math.round(sumRA / sumA);
+      small[dst + 1] = Math.round(sumGA / sumA);
+      small[dst + 2] = Math.round(sumBA / sumA);
+    } else {
+      small[dst] = 0;
+      small[dst + 1] = 0;
+      small[dst + 2] = 0;
     }
   }
-  const targetStart = y * (rowBytes + 1);
-  filtered[targetStart] = bestFilter;
-  best.out.copy(filtered, targetStart + 1);
 }
 
-const compressed = deflateSync(filtered, {
-  level: 9,
-  strategy: zlibConstants.Z_FILTERED,
-});
-
-const output = [signature];
-let insertedIdat = false;
-for (const item of chunks) {
-  if (item.type === "IEND" && !insertedIdat) {
-    output.push(chunk("IDAT", compressed));
-    insertedIdat = true;
-  }
-  output.push(chunk(item.type, item.data));
-}
-const optimized = Buffer.concat(output);
-
-if (optimized.length >= input.length) {
-  console.log(`Canonical logo already optimal enough: ${input.length} bytes`);
-  process.exit(0);
-}
-
-writeFileSync(target, optimized);
-const saved = input.length - optimized.length;
-const percent = ((saved / input.length) * 100).toFixed(1);
-console.log(`Optimized canonical logo losslessly: ${input.length} -> ${optimized.length} bytes (${percent}% smaller)`);
+const derivative = encodeRgbaPng(small, derivativeSize, derivativeSize);
+writeFileSync(derivativeTarget, derivative);
+console.log(`Generated responsive logo derivative: ${derivativeTarget} (${derivativeSize}x${derivativeSize}, ${derivative.length} bytes)`);
