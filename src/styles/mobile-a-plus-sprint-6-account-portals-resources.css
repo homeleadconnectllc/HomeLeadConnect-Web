@@ -1,0 +1,176 @@
+/* Mobile A+ Sprint 6 — Account + Portals + Billing + Resources
+   Compact-only authority. Security, billing, workspace and portal data authority remain unchanged. */
+
+@media (max-width: 760px) {
+  .hlc-account-workspace,
+  .hlc-portal-workspace,
+  .hlc-resources-workspace {
+    min-width: 0;
+    width: min(100%, 100vw);
+    overflow-x: clip;
+    padding-bottom: calc(92px + env(safe-area-inset-bottom));
+  }
+
+  .hlc-account-header,
+  .hlc-portal-header,
+  .hlc-resources-header {
+    padding-inline: 16px;
+  }
+
+  .hlc-account-summary,
+  .hlc-portal-summary,
+  .hlc-resources-summary {
+    display: none;
+  }
+
+  .hlc-settings-ledger,
+  .hlc-portal-ledger,
+  .hlc-resources-ledger,
+  .hlc-manual-library,
+  .hlc-resources-escalation {
+    min-width: 0;
+    margin-inline: 16px;
+  }
+
+  .hlc-settings-section,
+  .hlc-portal-project,
+  .hlc-portal-subsection,
+  .hlc-portal-row,
+  .hlc-portal-file-row,
+  .hlc-resource-row,
+  .hlc-manual-row {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .hlc-account-field-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .hlc-account-workspace label,
+  .hlc-portal-workspace label {
+    min-width: 0;
+  }
+
+  .hlc-account-workspace input,
+  .hlc-account-workspace select,
+  .hlc-account-workspace textarea,
+  .hlc-portal-workspace input,
+  .hlc-portal-workspace select,
+  .hlc-portal-workspace textarea {
+    width: 100%;
+    max-width: 100%;
+    min-height: 44px;
+    font-size: 16px;
+  }
+
+  .hlc-account-form-actions,
+  .hlc-account-inline-links,
+  .hlc-portal-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .hlc-account-form-actions button,
+  .hlc-account-inline-links button,
+  .hlc-account-inline-links a,
+  .hlc-portal-actions button,
+  .hlc-portal-file-row button {
+    width: 100%;
+    min-height: 44px;
+  }
+
+  .hlc-billing-consent {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 10px;
+    align-items: start;
+  }
+
+  .hlc-billing-consent input[type="checkbox"] {
+    width: 28px;
+    height: 28px;
+    min-height: 28px;
+    margin-top: 2px;
+  }
+
+  .hlc-phone-row,
+  .hlc-portal-row,
+  .hlc-portal-file-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+    overflow-wrap: anywhere;
+  }
+
+  .hlc-portal-row ul,
+  .hlc-resource-copy ol {
+    padding-left: 22px;
+  }
+
+  .hlc-resources-commandbar {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    padding: 0 16px 8px;
+    scrollbar-width: none;
+  }
+
+  .hlc-resources-commandbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hlc-resources-commandbar a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    flex: 0 0 auto;
+  }
+
+  .hlc-resource-row,
+  .hlc-manual-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+    overflow-wrap: anywhere;
+  }
+
+  .hlc-resource-index {
+    width: fit-content;
+  }
+
+  .hlc-resource-actions,
+  .hlc-manual-row > div:last-child {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .hlc-resource-actions a,
+  .hlc-manual-row a,
+  .hlc-resources-escalation a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hlc-resource-copy,
+  .hlc-resource-copy p,
+  .hlc-resource-copy li,
+  .hlc-manual-row p,
+  .hlc-manual-row small,
+  .hlc-resources-escalation p {
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hlc-resources-commandbar {
+    scroll-behavior: auto;
+  }
+}
