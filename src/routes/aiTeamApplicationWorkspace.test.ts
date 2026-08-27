@@ -27,7 +27,7 @@ test("locked AI identities routes roles portraits accents and voice personas rem
   assert.match(agents, /id: "dion", name: "Dion", role: "Operations & BI AI"/);
   assert.match(agents, /route: "\/operations"/);
   assert.match(agents, /Dion_Locked_HLC\.png/);
-  assert.match(agents, /dion: "#6366F1"/);
+  assert.match(agents, /dion: "#38BDF8"/);
   assert.match(agents, /id: "diamond", name: "Diamond", role: "Customer Experience & Community AI"/);
   assert.match(agents, /route: "\/customer-experience"/);
   assert.match(agents, /Diamond_Locked_HLC\.png/);
