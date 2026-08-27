@@ -3,7 +3,12 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const authenticatedEntry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
+const authenticatedStyles = readFileSync("src/styles/AuthenticatedStyles.tsx", "utf8");
 const mobileProfessional = readFileSync("src/styles/mobile-professional-certification.css", "utf8");
+const fiveStarFoundation = readFileSync("src/styles/five-star-mobile-foundation.css", "utf8");
+const fiveStarRoutes = readFileSync("src/styles/five-star-mobile-routes.css", "utf8");
+const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
+const commandSearch = readFileSync("src/components/search/GlobalCommandSearch.tsx", "utf8");
 
 test("mobile professional certification layer loads last for signed-in workspaces", () => {
   assert.match(authenticatedEntry, /global-readability-certification\.css";\s*import "\.\/mobile-professional-certification\.css";/);
@@ -21,4 +26,35 @@ test("mobile agent and navigation occupy separate viewport lanes", () => {
   assert.match(mobileProfessional, /\.hlc-agent-dock:not\(\.is-open\)[\s\S]*bottom: calc\(92px \+ env\(safe-area-inset-bottom\)\) !important;/);
   assert.match(mobileProfessional, /\.hlc-agent-dock\.is-open[\s\S]*inset: 12px 12px calc\(82px \+ env\(safe-area-inset-bottom\)\) 12px !important;/);
   assert.match(mobileProfessional, /\.hlc-mobile-tabbar \{[\s\S]*z-index: 1600 !important;/);
+});
+
+test("Five-Star authority loads after the legacy Mobile A+ layer", () => {
+  const legacy = authenticatedStyles.indexOf('./mobile-a-plus.css');
+  const foundation = authenticatedStyles.indexOf('./five-star-mobile-foundation.css');
+  const routes = authenticatedStyles.indexOf('./five-star-mobile-routes.css');
+  assert.ok(legacy >= 0);
+  assert.ok(foundation > legacy);
+  assert.ok(routes > foundation);
+  assert.match(fiveStarFoundation, /--hlc-five-star-rail:\s*18px/);
+  assert.match(fiveStarFoundation, /padding-bottom: calc\(var\(--hlc-five-star-nav-height\) \+ env\(safe-area-inset-bottom\) \+ 36px\) !important/);
+  assert.match(fiveStarRoutes, /\.hlc-lead-row[\s\S]*border-bottom: 1px solid rgba\(148, 180, 219, \.16\) !important/);
+});
+
+test("More owns first-class Search alerts profile and settings without fixed Search geometry", () => {
+  assert.match(navbar, /hlc-mobile-command-search-trigger/);
+  assert.match(navbar, /hlc-mobile-more-quick/);
+  assert.match(navbar, />Notifications</);
+  assert.match(navbar, />My profile</);
+  assert.match(navbar, />Settings</);
+  assert.match(navbar, /dispatchEvent\(new Event\(OPEN_HLC_COMMAND_SEARCH\)\)/);
+  assert.doesNotMatch(commandSearch, /querySelector<HTMLElement>\("\.hlc-mobile-portal-scroll"\)/);
+  assert.doesNotMatch(commandSearch, /createPortal/);
+  assert.doesNotMatch(fiveStarFoundation, /\.hlc-mobile-command-search-trigger \{[\s\S]{0,320}position:\s*fixed/);
+});
+
+test("Five-Star contextual agent reserves one circular mobile lane and one open sheet", () => {
+  assert.match(fiveStarFoundation, /\.hlc-agent-dock:not\(\.is-open\)[\s\S]*width: 60px !important/);
+  assert.match(fiveStarFoundation, /\.hlc-agent-dock:not\(\.is-open\) \.hlc-agent-dock-trigger[\s\S]*border-radius: 50% !important/);
+  assert.match(fiveStarFoundation, /\.hlc-agent-dock\.is-open[\s\S]*height: min\(88dvh, 760px\) !important/);
+  assert.match(fiveStarFoundation, /body\.hlc-agent-open \.hlc-mobile-tabbar[\s\S]*visibility: hidden/);
 });
