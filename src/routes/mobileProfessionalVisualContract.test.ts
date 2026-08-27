@@ -8,6 +8,7 @@ const mobileProfessional = readFileSync("src/styles/mobile-professional-certific
 const fiveStarFoundation = readFileSync("src/styles/five-star-mobile-foundation.css", "utf8");
 const fiveStarRoutes = readFileSync("src/styles/five-star-mobile-routes.css", "utf8");
 const physicalResources = readFileSync("src/styles/five-star-mobile-physical-resources.css", "utf8");
+const globalUtilities = readFileSync("src/styles/global-launch-utility-header.css", "utf8");
 const operationalGuide = readFileSync("src/pages/dashboard/OperationalGuide.tsx", "utf8");
 const legal = readFileSync("src/pages/Legal.tsx", "utf8");
 const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
@@ -37,26 +38,32 @@ test("Five-Star authority loads after the legacy Mobile A+ layer", () => {
   const routes = authenticatedStyles.indexOf('./five-star-mobile-routes.css');
   const physical = authenticatedStyles.indexOf('./five-star-mobile-physical-qa.css');
   const physicalResource = authenticatedStyles.indexOf('./five-star-mobile-physical-resources.css');
+  const globalUtility = authenticatedStyles.indexOf('./global-launch-utility-header.css');
   assert.ok(legacy >= 0);
   assert.ok(foundation > legacy);
   assert.ok(routes > foundation);
   assert.ok(physical > routes);
   assert.ok(physicalResource > physical);
+  assert.ok(globalUtility > physicalResource);
   assert.match(fiveStarFoundation, /--hlc-five-star-rail:\s*18px/);
   assert.match(fiveStarFoundation, /padding-bottom: calc\(var\(--hlc-five-star-nav-height\) \+ env\(safe-area-inset-bottom\) \+ 36px\) !important/);
   assert.match(fiveStarRoutes, /\.hlc-lead-row[\s\S]*border-bottom: 1px solid rgba\(148, 180, 219, \.16\) !important/);
 });
 
-test("More owns first-class Search alerts profile and settings without fixed Search geometry", () => {
-  assert.match(navbar, /hlc-mobile-command-search-trigger/);
+test("Search and alerts are first-class global header utilities while More owns lower-frequency account actions", () => {
+  assert.match(navbar, /className="hlc-navbar-utilities"/);
+  assert.match(navbar, /aria-label="Search HomeLead Connect"/);
+  assert.match(navbar, /to="\/notifications" aria-label="Open notifications"/);
+  assert.match(navbar, /dispatchEvent\(new Event\(OPEN_HLC_COMMAND_SEARCH\)\)/);
   assert.match(navbar, /hlc-mobile-more-quick/);
-  assert.match(navbar, />Notifications</);
   assert.match(navbar, />My profile</);
   assert.match(navbar, />Settings</);
-  assert.match(navbar, /dispatchEvent\(new Event\(OPEN_HLC_COMMAND_SEARCH\)\)/);
+  assert.doesNotMatch(navbar, /hlc-mobile-command-search-trigger/);
+  assert.doesNotMatch(navbar, /portalLinks\.push\([^\n]*Alerts/);
   assert.doesNotMatch(commandSearch, /querySelector<HTMLElement>\("\.hlc-mobile-portal-scroll"\)/);
   assert.doesNotMatch(commandSearch, /createPortal/);
-  assert.doesNotMatch(fiveStarFoundation, /\.hlc-mobile-command-search-trigger \{[\s\S]{0,320}position:\s*fixed/);
+  assert.match(globalUtilities, /\.hlc-navbar-utility[\s\S]*width: 44px/);
+  assert.match(globalUtilities, /\.hlc-navbar-utility:focus-visible[\s\S]*outline: 2px solid/);
 });
 
 test("Five-Star contextual agent reserves one circular mobile lane and one open sheet", () => {
