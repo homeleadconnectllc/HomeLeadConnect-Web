@@ -31,9 +31,9 @@ const certScript = String.raw`
     const agent = rect('.hlc-agent-dock-trigger');
     const tabbar = rect('[data-cert="tabbar"]');
     const routeContent = document.querySelector('.hlc-route-content');
-    const inputBg = style('[data-cert="controls"] input').backgroundColor;
-    const selectBg = style('[data-cert="controls"] select').backgroundColor;
-    const textareaBg = style('[data-cert="controls"] textarea').backgroundColor;
+    const inputStyle = style('[data-cert="controls"] input');
+    const selectStyle = style('[data-cert="controls"] select');
+    const textareaStyle = style('[data-cert="controls"] textarea');
     const resourceHeader = rect('.hlc-resources-header');
     const legalGuide = style('.hlc-legal-guide');
     const legalCard = style('.hlc-legal-card');
@@ -44,7 +44,12 @@ const certScript = String.raw`
     if (!agent || !within(agent.width, 56, 64) || !within(agent.height, 56, 64)) fail('agent-size:' + (agent?.width ?? 0) + 'x' + (agent?.height ?? 0));
     const agentRadius = style('.hlc-agent-dock-trigger').borderRadius;
     if (!/50%|999px/.test(agentRadius)) fail('agent-radius:' + agentRadius);
-    for (const [name,bg] of [['input',inputBg],['select',selectBg],['textarea',textareaBg]]) if (bg === 'rgb(255, 255, 255)') fail('white-control:' + name);
+    for (const [name, controlStyle] of [['input', inputStyle], ['select', selectStyle], ['textarea', textareaStyle]]) {
+      const bg = controlStyle.backgroundColor || '';
+      const shadow = controlStyle.boxShadow || '';
+      const darkInsetPaint = /inset/i.test(shadow) && /13\s*,\s*29\s*,\s*49/.test(shadow);
+      if (bg === 'rgb(255, 255, 255)' && !darkInsetPaint) fail('white-control:' + name + ':bg=' + bg + ':shadow=' + shadow);
+    }
     if (!tabbar) fail('tabbar-missing');
     const padBottom = parseFloat(getComputedStyle(routeContent).paddingBottom || '0');
     if (tabbar && padBottom < tabbar.height + 24) fail('bottom-reservation:' + padBottom + '<' + (tabbar.height + 24));
