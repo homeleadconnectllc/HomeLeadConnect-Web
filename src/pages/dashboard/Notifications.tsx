@@ -36,8 +36,6 @@ export default function Notifications() {
 
   useEffect(() => {
     let active=true;
-    setLoading(true);
-    setError("");
     listNotifications().then((rows) => { if(active) setItems(rows); })
       .catch((reason:unknown) => { if(active) setError(errorMessage(reason,"Unable to load notifications.")); })
       .finally(() => { if(active) setLoading(false); });
