@@ -26,9 +26,11 @@ test("large signed-in surfaces remain dark and individual records have boundarie
   assert.match(ux, /button:not\([\s\S]*background:\s*#112744\s*!important[\s\S]*color:\s*#ffffff/i);
 });
 
-test("forms use labeled white controls with dark ink and clear focus", () => {
+test("signed-in forms use labeled dark controls with light ink and clear focus", () => {
   assert.match(ux, /label[\s\S]*--hlc-ux-label/i);
-  assert.match(ux, /background:\s*#ffffff\s*!important[\s\S]*--hlc-ux-control-ink/i);
+  assert.match(ux, /--hlc-ux-control-ink:\s*#f8fbff/i);
+  assert.match(ux, /background:\s*#0d1d31\s*!important[\s\S]*--hlc-ux-control-ink/i);
+  assert.doesNotMatch(ux, /background:\s*#ffffff\s*!important[\s\S]*--hlc-ux-control-ink/i);
   assert.match(ux, /outline:\s*3px solid rgba\(96,165,250,.28\)/i);
 });
 
