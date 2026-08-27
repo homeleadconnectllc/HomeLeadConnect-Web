@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const styles = readFileSync("src/styles/mobile-a-plus-final-device-corrections.css", "utf8");
+const round2 = readFileSync("src/styles/mobile-a-plus-final-device-round-2.css", "utf8");
 const styleEntry = readFileSync("src/styles/AuthenticatedStyles.tsx", "utf8");
 const viewportAuthority = readFileSync("src/components/MobileViewportAuthority.tsx", "utf8");
 const app = readFileSync("src/App.tsx", "utf8");
@@ -13,7 +14,10 @@ const nativeCalendarStyles = readFileSync("src/styles/hlc-native-calendar.css", 
 test("final device correction authority mounts after Sprint 7", () => {
   const sprint7 = styleEntry.indexOf("./mobile-a-plus-sprint-7-integrated-accessibility.css");
   const correction = styleEntry.indexOf("./mobile-a-plus-final-device-corrections.css");
+  const gateClosure = styleEntry.indexOf("./mobile-a-plus-final-device-gate-closure.css");
+  const round2Entry = styleEntry.indexOf("./mobile-a-plus-final-device-round-2.css");
   assert.ok(sprint7 >= 0 && correction > sprint7);
+  assert.ok(round2Entry > gateClosure && gateClosure > correction);
 });
 
 test("FD-01 keeps the agent inside the real visual viewport with transcript-owned scrolling", () => {
@@ -45,6 +49,34 @@ test("FD-05 makes Messages task-first on compact screens", () => {
   assert.match(styles, /\.hlc-messages-header > div:first-child > p:last-child,[\s\S]*\.hlc-messages-summary[\s\S]*display: none/);
   assert.match(styles, /\.hlc-message-start-fields[\s\S]*gap: 9px/);
   assert.match(styles, /body\.hlc-keyboard-open \.hlc-message-composer/);
+});
+
+test("FD-08 and FD-14 keep Community in one readable mobile column", () => {
+  assert.match(round2, /FD-08 \/ FD-14/);
+  assert.match(round2, /\.hlc-community-console,[\s\S]*grid-template-columns: minmax\(0, 1fr\) !important/);
+  assert.match(round2, /\.hlc-community-row-copy :is\(h3, p\)[\s\S]*word-break: normal !important/);
+  assert.match(round2, /\.hlc-community-store-grid[\s\S]*min-width: 0/);
+});
+
+test("FD-09 provider actions stay wide enough for deliberate touch actions", () => {
+  assert.match(round2, /FD-09/);
+  assert.match(round2, /\.hlc-s3-provider-actions[\s\S]*grid-template-columns: minmax\(0, 1fr\) minmax\(0, 1fr\) !important/);
+  assert.match(round2, /\.hlc-s3-provider-more[\s\S]*grid-column: 1 \/ -1 !important/);
+});
+
+test("FD-10 agent quick actions preserve full labels and yield to the keyboard", () => {
+  assert.match(round2, /FD-10/);
+  assert.match(round2, /\.hlc-ai-quick-prompts[\s\S]*overflow-x: auto !important/);
+  assert.match(round2, /\.hlc-ai-quick-prompts button[\s\S]*white-space: nowrap !important/);
+  assert.match(round2, /body\.hlc-keyboard-open \.hlc-ai-quick-prompts[\s\S]*display: none !important/);
+});
+
+test("FD-13 Scan Intake resets desktop grids on the actual documents workspace root", () => {
+  assert.match(round2, /FD-13/);
+  assert.match(round2, /\.hlc-documents-workspace[\s\S]*overflow-x: clip !important/);
+  assert.match(round2, /\.hlc-documents-header,[\s\S]*\.hlc-documents-form[\s\S]*grid-template-columns: minmax\(0, 1fr\) !important/);
+  assert.match(round2, /\.hlc-documents-summary span[\s\S]*grid-template-columns: minmax\(0, 1fr\) !important/);
+  assert.match(round2, /\.hlc-documents-guidance-row[\s\S]*grid-template-columns: 32px minmax\(0, 1fr\) !important/);
 });
 
 test("FD-15 pending Community checkout is status text, never a fake purchase control", () => {
