@@ -1,6 +1,6 @@
 /* Final global launch UX contract
    Screenshot-driven: clear record separation, self-explanatory forms, strong contrast,
-   compact mobile density, no white-on-white controls, and safe bottom-nav clearance. */
+   compact mobile density, no white control islands, and safe bottom-nav clearance. */
 
 #root .hlc-signed-in-shell {
   --hlc-ux-canvas: #071426;
@@ -11,7 +11,7 @@
   --hlc-ux-text: #f8fafc;
   --hlc-ux-muted: #c7d2e3;
   --hlc-ux-label: #93c5fd;
-  --hlc-ux-control-ink: #1f2937;
+  --hlc-ux-control-ink: #f8fbff;
 }
 
 /* Large signed-in surfaces never fall back to a light browser/card canvas. */
@@ -95,7 +95,7 @@
   border-color: #3b5f88 !important;
 }
 
-/* Buttons: never white-on-white. Inputs may remain white for clarity. */
+/* Buttons stay dark and readable. */
 #root .hlc-signed-in-shell > .hlc-route-content button:not(.hlc-agent-dock-trigger):not(.hlc-mobile-tabbar button) {
   background: #112744 !important;
   color: #ffffff !important;
@@ -117,7 +117,7 @@
   opacity: 1 !important;
 }
 
-/* Fields are obvious and labeled. */
+/* Fields are obvious, labeled, and native to the dark HLC workspace. */
 #root .hlc-signed-in-shell > .hlc-route-content label {
   gap: 7px !important;
   color: var(--hlc-ux-label) !important;
@@ -128,11 +128,24 @@
 #root .hlc-signed-in-shell > .hlc-route-content :is(input:not([type="checkbox"]):not([type="radio"]),select,textarea) {
   min-height: 46px !important;
   padding: 10px 12px !important;
-  border: 1.5px solid #9fb0c5 !important;
-  background: #ffffff !important;
+  color-scheme: dark !important;
+  border: 1.5px solid #3b5f88 !important;
+  background: #0d1d31 !important;
+  background-color: #0d1d31 !important;
   color: var(--hlc-ux-control-ink) !important;
   -webkit-text-fill-color: var(--hlc-ux-control-ink) !important;
-  box-shadow: inset 0 0 0 1px rgba(15,23,42,.04) !important;
+  box-shadow: inset 0 0 0 1px rgba(147,197,253,.08) !important;
+}
+
+#root .hlc-signed-in-shell > .hlc-route-content :is(input,textarea)::placeholder {
+  color: #8295ad !important;
+  -webkit-text-fill-color: #8295ad !important;
+  opacity: 1 !important;
+}
+
+#root .hlc-signed-in-shell > .hlc-route-content select option {
+  background: #0d1d31 !important;
+  color: #f8fbff !important;
 }
 
 #root .hlc-signed-in-shell > .hlc-route-content textarea {
@@ -141,7 +154,7 @@
 }
 
 #root .hlc-signed-in-shell > .hlc-route-content :is(input,select,textarea):focus {
-  border-color: #2563eb !important;
+  border-color: #60a5fa !important;
   outline: 3px solid rgba(96,165,250,.28) !important;
   outline-offset: 1px !important;
 }
