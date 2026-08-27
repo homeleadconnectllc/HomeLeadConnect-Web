@@ -8,6 +8,7 @@ import { canAccessWorkspacePath } from "../lib/accessPolicy";
 import { supabase } from "../lib/supabase";
 
 const logo = "/hlc-logo-transparent.png";
+const OPEN_HLC_COMMAND_SEARCH = "hlc:open-command-search";
 const declaredWorkspaceRoutes = new Set([
   "/dashboard", "/ecosystem", "/workflow", "/automations", "/hq", "/notifications",
   "/leads", "/estimator", "/jobs", "/calendar", "/follow-ups", "/operations",
@@ -133,30 +134,10 @@ export default function Navbar() {
     if (!signedIn || !accessResolved) return [];
     if (showBusinessTools && access.role) {
       const candidates: MobileNavItem[] = [
-        {
-          label: "Home",
-          route: "/dashboard",
-          icon: "home",
-          matches: ["/dashboard", "/workflow", "/ecosystem", "/automations", "/notifications", "/hq"],
-        },
-        {
-          label: "Work",
-          route: "/leads",
-          icon: "work",
-          matches: ["/leads", "/estimator", "/jobs", "/calendar", "/follow-ups", "/operations"],
-        },
-        {
-          label: "Network",
-          route: "/network",
-          icon: "network",
-          matches: ["/network", "/matching", "/map", "/providers", "/profiles"],
-        },
-        {
-          label: "Community",
-          route: "/community-hub",
-          icon: "community",
-          matches: ["/community-hub", "/community"],
-        },
+        { label: "Home", route: "/dashboard", icon: "home", matches: ["/dashboard", "/workflow", "/ecosystem", "/automations", "/notifications", "/hq"] },
+        { label: "Work", route: "/leads", icon: "work", matches: ["/leads", "/estimator", "/jobs", "/calendar", "/follow-ups", "/operations"] },
+        { label: "Network", route: "/network", icon: "network", matches: ["/network", "/matching", "/map", "/providers", "/profiles"] },
+        { label: "Community", route: "/community-hub", icon: "community", matches: ["/community-hub", "/community"] },
       ];
       return candidates.filter((item) => canAccessWorkspacePath(access.role, item.route));
     }
@@ -178,6 +159,11 @@ export default function Navbar() {
 
   function closeMobileMenu() {
     setMobileOpenAt(null);
+  }
+
+  function openGlobalSearch() {
+    closeMobileMenu();
+    window.requestAnimationFrame(() => window.dispatchEvent(new Event(OPEN_HLC_COMMAND_SEARCH)));
   }
 
   function toggleGroup(id: string) {
@@ -207,6 +193,12 @@ export default function Navbar() {
           <span>{showBusinessTools ? "HLC workspace" : access.homeowner ? "Resident portal" : access.contractor ? "Professional portal" : "HLC account"}</span>
           <strong>{showBusinessTools ? "Run HomeLead Connect." : "Your HomeLead Connect access."}</strong>
         </div>
+
+        <button className="hlc-mobile-command-search-trigger" type="button" onClick={openGlobalSearch}>
+          <span className="hlc-mobile-command-search-icon" aria-hidden="true">⌕</span>
+          <span><strong>Search HLC</strong><small>Find work, people, tools and settings</small></span>
+          <b aria-hidden="true">→</b>
+        </button>
 
         {showBusinessTools && <Link className="hlc-owner-home-link" to="/dashboard" onClick={closeMobileMenu}>
           <span><strong>Open Command Center</strong><small>Dashboard, live work and priorities</small></span>
