@@ -15,8 +15,8 @@ self.addEventListener("push", (event) => {
   const title = payload.title || "HomeLead Connect";
   const options = {
     body: payload.body || "You have a new HLC update.",
-    icon: "/hlc-icon.jpeg",
-    badge: "/hlc-icon.jpeg",
+    icon: "/hlc-logo-transparent.png",
+    badge: "/hlc-logo-transparent.png",
     data: { url: safeHlcNotificationTarget(payload.deep_link) },
     tag: payload.tag || undefined,
   };
