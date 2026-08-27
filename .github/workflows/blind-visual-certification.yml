@@ -51,16 +51,30 @@ jobs:
         run: |
           set -euo pipefail
           FIXTURE="file://$GITHUB_WORKSPACE/artifacts/blind-visual/authenticated-fixture.html"
-          "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --allow-file-access-from-files --window-size=390,844 --hide-scrollbars --dump-dom "$FIXTURE" > artifacts/blind-visual/authenticated-iphone.dom.html
-          grep -q 'data-cert-status="pass"' artifacts/blind-visual/authenticated-iphone.dom.html
-          "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --allow-file-access-from-files --window-size=390,844 --hide-scrollbars --screenshot="$GITHUB_WORKSPACE/artifacts/blind-visual/authenticated-iphone.png" --run-all-compositor-stages-before-draw "$FIXTURE"
+          DOM="$GITHUB_WORKSPACE/artifacts/blind-visual/authenticated-iphone.dom.html"
+          PNG="$GITHUB_WORKSPACE/artifacts/blind-visual/authenticated-iphone.png"
+          "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --allow-file-access-from-files --window-size=390,844 --hide-scrollbars --dump-dom "$FIXTURE" > "$DOM"
+          "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --allow-file-access-from-files --window-size=390,844 --hide-scrollbars --screenshot="$PNG" --run-all-compositor-stages-before-draw "$FIXTURE"
+          if ! grep -q 'data-cert-status="pass"' "$DOM"; then
+            echo 'Authenticated iPhone blind certification failed:'
+            grep -o 'data-cert-viewport="[^"]*"' "$DOM" || true
+            grep -o 'data-cert-failures="[^"]*"' "$DOM" || true
+            exit 51
+          fi
       - name: Certify authenticated Mac geometry
         run: |
           set -euo pipefail
           FIXTURE="file://$GITHUB_WORKSPACE/artifacts/blind-visual/authenticated-fixture.html"
-          "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --allow-file-access-from-files --window-size=1440,900 --hide-scrollbars --dump-dom "$FIXTURE" > artifacts/blind-visual/authenticated-mac.dom.html
-          grep -q 'data-cert-status="pass"' artifacts/blind-visual/authenticated-mac.dom.html
-          "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --allow-file-access-from-files --window-size=1440,900 --hide-scrollbars --screenshot="$GITHUB_WORKSPACE/artifacts/blind-visual/authenticated-mac.png" --run-all-compositor-stages-before-draw "$FIXTURE"
+          DOM="$GITHUB_WORKSPACE/artifacts/blind-visual/authenticated-mac.dom.html"
+          PNG="$GITHUB_WORKSPACE/artifacts/blind-visual/authenticated-mac.png"
+          "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --allow-file-access-from-files --window-size=1440,900 --hide-scrollbars --dump-dom "$FIXTURE" > "$DOM"
+          "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --allow-file-access-from-files --window-size=1440,900 --hide-scrollbars --screenshot="$PNG" --run-all-compositor-stages-before-draw "$FIXTURE"
+          if ! grep -q 'data-cert-status="pass"' "$DOM"; then
+            echo 'Authenticated Mac blind certification failed:'
+            grep -o 'data-cert-viewport="[^"]*"' "$DOM" || true
+            grep -o 'data-cert-failures="[^"]*"' "$DOM" || true
+            exit 52
+          fi
       - name: Capture public iPhone routes
         run: |
           set -euo pipefail
