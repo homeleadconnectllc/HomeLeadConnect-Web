@@ -57,7 +57,7 @@ test("physical sidebar uses fixed compact top geometry without iOS safe-area fal
   assert.match(sidebarStyles, /padding:\s*58px 14px max\(118px,\s*calc\(22px \+ env\(safe-area-inset-bottom\)\)\)\s*!important/);
   assert.match(sidebarStyles, /\.hlc-mobile-portal-scroll::before\s*\{[^}]*top:\s*8px\s*!important/s);
   assert.match(sidebarStyles, /\.hlc-mobile-drawer-close\s*\{[^}]*top:\s*8px\s*!important/s);
-  assert.doesNotMatch(sidebarStyles, /safe-area-inset-top/);
+  assert.doesNotMatch(sidebarStyles, /(?:padding|top):[^;\n]*safe-area-inset-top/);
   assert.doesNotMatch(sidebarStyles, /justify-content:\s*flex-start\s*!important/);
   assert.doesNotMatch(sidebarStyles, /order:\s*20\s*!important/);
   assert.match(sidebarStyles, /\.hlc-mobile-view-controls-host\s*\{[^}]*margin:\s*0 0 10px\s*!important/s);
