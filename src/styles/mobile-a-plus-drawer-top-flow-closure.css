@@ -1,0 +1,77 @@
+/* Physical iPhone drawer top-flow closure.
+   Final authority for the drawer header lane: Close participates in normal flow,
+   the single logo is anchored to the same scroll surface, and Search follows
+   immediately below without fixed-viewport clipping. */
+
+@media (max-width: 760px) {
+  body > .hlc-mobile-portal > .hlc-mobile-portal-scroll {
+    position: fixed !important;
+    inset: 0 !important;
+    display: block !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    margin: 0 !important;
+    padding: 8px 14px max(118px, calc(22px + env(safe-area-inset-bottom))) !important;
+    overflow-x: hidden !important;
+    overflow-y: scroll !important;
+    overscroll-behavior-y: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y !important;
+    background: #071426 !important;
+  }
+
+  body > .hlc-mobile-portal > .hlc-mobile-portal-scroll::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 8px !important;
+    left: 14px !important;
+    z-index: 20 !important;
+    display: block !important;
+    width: 42px !important;
+    height: 42px !important;
+    margin: 0 !important;
+    border: 1px solid rgba(96, 165, 250, .38) !important;
+    border-radius: 50% !important;
+    background-color: #1355c8 !important;
+    background-image: url("/hlc-logo-transparent.png") !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: 31px 31px !important;
+    box-shadow: 0 6px 18px rgba(2, 8, 18, .24) !important;
+    pointer-events: none !important;
+  }
+
+  body > .hlc-mobile-portal .hlc-mobile-drawer-close {
+    position: sticky !important;
+    top: 8px !important;
+    right: auto !important;
+    left: auto !important;
+    z-index: 40 !important;
+    display: flex !important;
+    width: fit-content !important;
+    min-width: 0 !important;
+    min-height: 42px !important;
+    margin: 0 0 8px auto !important;
+    padding: 8px 11px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 1px solid rgba(96, 165, 250, .42) !important;
+    border-radius: 10px !important;
+    background: #0d1d35 !important;
+    color: #f8fbff !important;
+    box-shadow: 0 8px 20px rgba(2, 8, 18, .28) !important;
+    transform: none !important;
+    white-space: nowrap !important;
+    pointer-events: auto !important;
+  }
+
+  body > .hlc-mobile-portal .hlc-mobile-command-search-trigger {
+    position: relative !important;
+    inset: auto !important;
+    clear: both !important;
+    display: flex !important;
+    width: 100% !important;
+    margin: 0 0 10px !important;
+    transform: none !important;
+  }
+}
