@@ -28,25 +28,33 @@ test("Diamond defines the shared quality baseline without becoming the male iden
   assert.match(maleProvider, /SHARED_QUALITY/);
   assert.match(maleProvider, /quality standard established by Diamond/);
   assert.match(maleProvider, /smooth, clean, stable, natural, conversational/);
+  assert.match(maleProvider, /ordinary phone-conversation volume with a fully voiced tone/);
+  assert.match(maleProvider, /Never whisper, murmur, speak under the breath/);
   assert.match(maleProvider, /Prioritize a believable regular human speaking voice/);
-  assert.match(maleProvider, /free of rasp, whisper, scratchiness, breathiness/);
 });
 
-test("Kendrell prioritizes plain natural male speech over dramatic depth", () => {
+test("male voice generation uses a pinned TTS snapshot for delivery consistency", () => {
+  assert.match(maleProvider, /const MODEL = "gpt-4o-mini-tts-2025-12-15"/);
+  assert.match(maleProvider, /model: MODEL/);
+});
+
+test("Kendrell stays natural while remaining fully voiced and audible", () => {
   assert.match(maleProvider, /kendrell:[\s\S]*providerVoice: "cedar"/);
   assert.match(maleProvider, /plain, smooth, natural adult male speaking voice/);
-  assert.match(maleProvider, /only mildly low, not deep for effect/);
-  assert.match(maleProvider, /believable everyday speech/);
-  assert.match(maleProvider, /without performing the role/);
-  assert.match(maleProvider, /Do not add cinematic depth, booming resonance, gravel, vocal fry/);
+  assert.match(maleProvider, /Speak clearly and fully at normal conversational volume/);
+  assert.match(maleProvider, /Every sentence must remain fully voiced and audible/);
+  assert.match(maleProvider, /do not soften into a whisper/);
+  assert.match(maleProvider, /Do not add cinematic depth, booming resonance, forced bass/);
   assert.match(maleProvider, /Kendrell is pronounced Ken-Drayl/);
 });
 
-test("Dion remains a distinct regular male operations voice", () => {
-  assert.match(maleProvider, /dion:[\s\S]*providerVoice: "ash"/);
-  assert.match(maleProvider, /regular adult male voice in a comfortable medium register/);
-  assert.match(maleProvider, /slightly quicker and crisper cadence than Kendrell/);
-  assert.match(maleProvider, /Never become raspy, whispery, scratchy/);
+test("Dion stays distinct while explicitly blocking whisper delivery", () => {
+  assert.match(maleProvider, /dion:[\s\S]*providerVoice: "cedar"/);
+  assert.match(maleProvider, /normal phone-conversation volume/);
+  assert.match(maleProvider, /brighter, quicker delivery than Kendrell/);
+  assert.match(maleProvider, /Speak fully voiced, never under the breath/);
+  assert.match(maleProvider, /Do not whisper, murmur, trail off/);
+  assert.match(maleProvider, /breathy onset, vocal fry, rasp, scratchiness, hushed delivery/);
   assert.match(maleProvider, /Dion is pronounced Dee-Yon/);
 });
 
@@ -55,7 +63,7 @@ test("male preview is isolated to Kendrell and Dion and preserves workspace auth
   assert.match(maleProvider, /This preview is only for Kendrell and Dion/);
   assert.match(maleProvider, /workspace_members/);
   assert.match(maleProvider, /Kendrell voice access requires an approved owner, manager, or supervisor role/);
-  assert.match(maleProvider, /verify_jwt|Authorization/);
+  assert.match(maleProvider, /Authorization/);
 });
 
 test("provider English speech preserves locked HLC pronunciations", () => {
