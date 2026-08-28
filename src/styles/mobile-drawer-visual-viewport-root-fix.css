@@ -1,9 +1,7 @@
 /* Physical iPhone drawer viewport root fix.
    The portal is the single fixed viewport owner. The document stays scroll-locked
-   without becoming another fixed containing block. The drawer scroll surface is
-   anchored directly to the portal origin; visualViewport.offsetTop must never be
-   applied as a drawer translation because iOS browsers can report browser-chrome
-   offsets that manufacture a blank band above the first useful drawer content. */
+   without becoming another fixed containing block. This final authority also owns
+   the drawer's top stack so older safe-area/header reserves cannot leak through. */
 
 @media (max-width: 760px) {
   html:has(body > .hlc-mobile-portal),
@@ -32,19 +30,67 @@
   body > .hlc-mobile-portal > .hlc-mobile-portal-scroll {
     position: absolute !important;
     inset: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+    align-content: flex-start !important;
     width: 100% !important;
     height: 100% !important;
     margin: 0 !important;
-    padding-top: 0 !important;
+    padding: 8px 14px max(118px, calc(22px + env(safe-area-inset-bottom))) !important;
+    padding-block-start: 8px !important;
+    scroll-padding-top: 0 !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
     transform: none !important;
   }
 
+  body > .hlc-mobile-portal > .hlc-mobile-portal-scroll::before,
+  body > .hlc-mobile-portal > .hlc-mobile-portal-scroll::after {
+    content: none !important;
+    display: none !important;
+  }
+
   body > .hlc-mobile-portal .hlc-mobile-drawer-close {
-    margin-top: 0 !important;
+    position: relative !important;
+    inset: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    align-self: flex-end !important;
+    flex: 0 0 auto !important;
+    min-height: 42px !important;
+    margin: 0 0 8px auto !important;
+    margin-block-start: 0 !important;
+    padding: 8px 11px !important;
+    transform: none !important;
+  }
+
+  body > .hlc-mobile-portal .hlc-mobile-menu-heading {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+
+  body > .hlc-mobile-portal .hlc-owner-home-link,
+  body > .hlc-mobile-portal .hlc-mobile-command-search-trigger,
+  body > .hlc-mobile-portal .hlc-mobile-view-controls-host,
+  body > .hlc-mobile-portal .hlc-mobile-more-quick {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    transform: none !important;
   }
 
   body > .hlc-mobile-portal .hlc-owner-home-link:first-of-type,
   body > .hlc-mobile-portal .hlc-mobile-command-search-trigger:first-of-type {
     margin-top: 0 !important;
+    margin-block-start: 0 !important;
   }
 }
