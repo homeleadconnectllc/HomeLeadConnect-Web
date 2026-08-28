@@ -48,13 +48,13 @@ test("Kendrell stays frozen on the accepted cedar profile", () => {
   assert.match(maleProvider, /Kendrell is pronounced Ken-Drayl/);
 });
 
-test("Dion uses a distinct full-voice profile that blocks whisper and rasp", () => {
-  assert.match(maleProvider, /dion:[\s\S]*providerVoice: "onyx"/);
-  assert.match(maleProvider, /clear chest resonance, not a breathy or hushed tone/);
-  assert.match(maleProvider, /ordinary phone-conversation volume/);
-  assert.match(maleProvider, /slightly quicker than Kendrell/);
-  assert.match(maleProvider, /Absolutely do not whisper, murmur, rasp, croak/);
-  assert.match(maleProvider, /vocal fry, gravel, scratchiness, breathy onset/);
+test("Dion uses the high-quality marin candidate with a strict full-voice male profile", () => {
+  assert.match(maleProvider, /dion:[\s\S]*providerVoice: "marin"/);
+  assert.match(maleProvider, /clean adult male voice, fully voiced and clearly projected/);
+  assert.match(maleProvider, /comfortable medium male register with smooth chest-supported tone/);
+  assert.match(maleProvider, /slightly quicker, crisper cadence than Kendrell/);
+  assert.match(maleProvider, /Do not whisper, murmur, speak under the breath, rasp, croak/);
+  assert.match(maleProvider, /vocal fry, breathiness, gravel, scratchiness, hushed delivery/);
   assert.match(maleProvider, /Dion is pronounced Dee-Yon/);
 });
 
