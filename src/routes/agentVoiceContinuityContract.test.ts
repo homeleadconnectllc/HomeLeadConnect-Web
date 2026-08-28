@@ -32,12 +32,13 @@ test("Diamond defines the shared quality baseline without becoming the male iden
   assert.match(maleProvider, /free of rasp, whisper, scratchiness, breathiness/);
 });
 
-test("Kendrell remains a distinct regular male executive voice", () => {
+test("Kendrell prioritizes plain natural male speech over dramatic depth", () => {
   assert.match(maleProvider, /kendrell:[\s\S]*providerVoice: "cedar"/);
-  assert.match(maleProvider, /regular adult male voice in a comfortable medium-low register/);
-  assert.match(maleProvider, /slightly slower measured cadence/);
-  assert.match(maleProvider, /Do not force the pitch downward/);
-  assert.match(maleProvider, /composed chief-of-staff/);
+  assert.match(maleProvider, /plain, smooth, natural adult male speaking voice/);
+  assert.match(maleProvider, /only mildly low, not deep for effect/);
+  assert.match(maleProvider, /believable everyday speech/);
+  assert.match(maleProvider, /without performing the role/);
+  assert.match(maleProvider, /Do not add cinematic depth, booming resonance, gravel, vocal fry/);
   assert.match(maleProvider, /Kendrell is pronounced Ken-Drayl/);
 });
 
