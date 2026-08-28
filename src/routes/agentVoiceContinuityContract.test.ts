@@ -11,7 +11,8 @@ test("Kendrell alone uses the authenticated high-quality streamed voice runtime"
   assert.match(voice, /if \(agentId === "kendrell"\)/);
   assert.match(voice, /speakKendrellNeuralText\(cleanText, locale, onPlaybackStart\)/);
   assert.match(kendrellVoice, /supabase\.auth\.getSession\(\)/);
-  assert.match(kendrellVoice, /functions\/v1\/hlc-agent-voice/);
+  assert.match(kendrellVoice, /KENDRELL_PREVIEW_FUNCTION = "hlc-agent-voice-kendrell-preview"/);
+  assert.match(kendrellVoice, /functions\/v1\/\$\{KENDRELL_PREVIEW_FUNCTION\}/);
   assert.match(kendrellVoice, /body: JSON\.stringify\(\{ agentId: "kendrell", text: text\.trim\(\), locale \}\)/);
   assert.match(kendrellVoice, /STREAM_SAMPLE_RATE = 24_000/);
   assert.match(kendrellVoice, /response\.body\.getReader\(\)/);
@@ -26,10 +27,13 @@ test("Kendrell provider is identity-locked to the deep steady executive benchmar
   assert.match(provider, /const VOICE_IDENTITY_LOCK/);
   assert.match(provider, /kendrell:[\s\S]*providerVoice: "cedar"/);
   assert.match(provider, /kendrell:[\s\S]*model: "gpt-4o-mini-tts"/);
-  assert.match(provider, /natural adult male executive operator/);
-  assert.match(provider, /consistent medium-low pitch/);
+  assert.match(provider, /deep to medium-low register/);
+  assert.match(provider, /calm executive authority/);
+  assert.match(provider, /slower measured cadence/);
+  assert.match(provider, /clean full resonance/);
+  assert.match(provider, /trusted chief-of-staff/);
   assert.match(provider, /Never whisper/);
-  assert.match(provider, /never sound breathy, raspy, scratchy/);
+  assert.match(provider, /Never sound breathy, raspy, scratchy/);
 });
 
 test("Dion and Diamond remain on the native-device path while their physical rounds are unchanged", () => {
@@ -67,6 +71,7 @@ test("native English speech preserves locked HLC pronunciations", () => {
 
 test("provider English speech preserves Kendrell canonical pronunciation", () => {
   assert.match(provider, /\.replace\(\/\\bKendrell\\b\/gi, "Ken-Drayl"\)/);
+  assert.match(provider, /\.replace\(\/\\bHLC\\b\/g, "H L C"\)/);
 });
 
 test("interactive speech remains authoritative and newer requests cancel older speech", () => {
