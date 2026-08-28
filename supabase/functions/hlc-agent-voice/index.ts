@@ -55,7 +55,7 @@ const voiceProfiles: Record<AgentId, VoiceProfile> = {
     providerVoice: "cedar",
     model: "gpt-4o-mini-tts",
     supportsInstructions: true,
-    direction: "Speak as a natural adult male executive operator: steady, confident, calm, lower-key, conversational, clean and full-voiced. Keep a consistent medium-low pitch, relaxed cadence, moderate vocal weight, and even intensity from reply to reply. Relaxed but not sleepy. Never whisper. Never sound breathy, raspy, scratchy, gravelly, spooky, theatrical, robotic, or like an announcer. Use normal conversational volume and smooth connected phrasing. The name Kendrell is pronounced Ken-Drayl.",
+    direction: "Use the locked Kendrell benchmark: a clearly adult male voice with a deep to medium-low register, calm executive authority, slower measured cadence, clean full resonance, and steady conversational confidence. Sound like a trusted chief-of-staff speaking one-to-one, not a performer. Keep the vocal identity consistent across every reply. Favor grounded chest resonance and smooth connected phrasing without forcing the pitch downward. Never whisper. Never sound breathy, raspy, scratchy, gravelly, spooky, theatrical, robotic, exaggerated, cartoonish, or like a radio announcer. Avoid sudden changes in pitch, energy, age, accent, or vocal weight. The name Kendrell is pronounced Ken-Drayl and HLC is spoken H L C.",
   },
   dion: {
     voice: "Sadaltager",
@@ -78,7 +78,8 @@ function applyCanonicalPronunciations(text: string, locale: AgentLocale) {
   return text
     .replace(/\bDiamond\b/gi, "Die-Men")
     .replace(/\bDion\b/gi, "Dee-Yon")
-    .replace(/\bKendrell\b/gi, "Ken-Drayl");
+    .replace(/\bKendrell\b/gi, "Ken-Drayl")
+    .replace(/\bHLC\b/g, "H L C");
 }
 
 async function requestSpeech(openaiKey: string, speechRequest: Record<string, unknown>): Promise<ProviderAttempt> {
