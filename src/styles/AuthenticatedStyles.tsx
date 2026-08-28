@@ -45,6 +45,7 @@ import "./mobile-a-plus-sidebar-final-closure.css";
 import "./mobile-a-plus-drawer-root-isolation.css";
 import "./mobile-a-plus-drawer-top-flow-closure.css";
 import "./mobile-drawer-remove-top-band.css";
+import "./mobile-drawer-visual-viewport-root-fix.css";
 
 export default function AuthenticatedStyles() {
   return null;
