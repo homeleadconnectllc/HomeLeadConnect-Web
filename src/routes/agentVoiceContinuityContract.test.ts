@@ -53,22 +53,18 @@ test("male voice generation uses a pinned TTS snapshot for delivery consistency"
   assert.match(maleProvider, /model: MODEL/);
 });
 
-test("Kendrell stays on the shared cedar profile", () => {
-  assert.match(maleProvider, /kendrell:[\s\S]*providerVoice: "cedar"/);
-  assert.match(maleProvider, /direction: ACCEPTED_CEDAR_DIRECTION/);
-  assert.match(maleProvider, /plain, smooth, natural adult male speaking voice/);
-  assert.match(maleProvider, /Speak clearly and fully at normal conversational volume/);
-  assert.match(maleProvider, /Every sentence must remain fully voiced and audible/);
-  assert.match(maleProvider, /do not soften into a whisper/);
-  assert.match(maleProvider, /Do not add cinematic depth, booming resonance, forced bass/);
+test("Kendrell keeps cedar but uses a clarity-first direction after physical QA", () => {
+  assert.match(maleProvider, /kendrell:[\s\S]*providerVoice: "cedar"[\s\S]*direction: KENDRELL_CLARITY_DIRECTION/);
+  assert.match(maleProvider, /comfortable medium register with an open, clear tone/);
+  assert.match(maleProvider, /crisp consonants, natural connected phrasing/);
+  assert.match(maleProvider, /without sounding slow, heavy, muffled, monotone, over-enunciated, or synthesized/);
+  assert.match(maleProvider, /Do not force a low pitch, chest-heavy resonance/);
   assert.match(maleProvider, /Kendrell is pronounced Ken-Drayl/);
 });
 
-test("Dion uses the exact accepted cedar provider direction and instruction path", () => {
+test("Dion remains frozen on the exact accepted cedar provider direction", () => {
   assert.match(maleProvider, /dion:[\s\S]*providerVoice: "cedar"[\s\S]*direction: ACCEPTED_CEDAR_DIRECTION/);
   assert.match(maleProvider, /const instructions = `\$\{IDENTITY_LOCK\} \$\{SHARED_QUALITY\} \$\{profileConfig\.direction\}/);
-  assert.doesNotMatch(maleProvider, /const instructions = agentId === "dion"/);
-  assert.doesNotMatch(maleProvider, /DION_CEDAR_DIRECTION/);
   assert.match(maleProvider, /Dion is pronounced Dee-Yon/);
 });
 
