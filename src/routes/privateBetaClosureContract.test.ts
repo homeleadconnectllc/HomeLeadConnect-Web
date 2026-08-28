@@ -40,7 +40,7 @@ test("physical sidebar keeps one circular identity and one fixed non-overlapping
   assert.match(sidebarStyles, /\.hlc-mobile-portal-scroll::before\s*\{[^}]*border-radius:\s*50%\s*!important/s);
   assert.match(sidebarStyles, /\.hlc-mobile-portal-scroll::before\s*\{[^}]*background-color:\s*#1355c8\s*!important/s);
   assert.match(sidebarStyles, /background-image:\s*url\("\/hlc-logo-transparent\.png"\)\s*!important/);
-  assert.match(sidebarStyles, /\.hlc-mobile-command-search-trigger\s*\{[^}]*margin:\s*0 0 12px\s*!important/s);
+  assert.match(sidebarStyles, /\.hlc-mobile-command-search-trigger\s*\{[^}]*margin:\s*0 0 10px\s*!important/s);
 });
 
 test("physical sidebar makes the drawer the sole vertical scroll owner", () => {
@@ -49,6 +49,14 @@ test("physical sidebar makes the drawer the sole vertical scroll owner", () => {
   assert.match(sidebarStyles, /\.hlc-mobile-portal-scroll\s*\{[^}]*touch-action:\s*pan-y\s*!important/s);
   assert.match(sidebarStyles, /body > \.hlc-mobile-portal ~ \.hlc-mobile-portal\s*\{[^}]*display:\s*none\s*!important/s);
   assert.match(sidebarStyles, /\.hlc-mobile-drawer-close ~ \.hlc-mobile-drawer-close\s*\{[^}]*display:\s*none\s*!important/s);
+});
+
+test("physical sidebar keeps compact top geometry with no auto utility spacer", () => {
+  assert.match(sidebarStyles, /padding:\s*max\(64px,\s*calc\(52px \+ env\(safe-area-inset-top\)\)\)/);
+  assert.match(sidebarStyles, /justify-content:\s*flex-start\s*!important/);
+  assert.match(sidebarStyles, /\.hlc-mobile-portal \.hlc-mobile-portal-scroll > \.hlc-mobile-view-controls-host\s*\{[^}]*flex:\s*0 0 auto\s*!important/s);
+  assert.match(sidebarStyles, /\.hlc-mobile-portal \.hlc-mobile-portal-scroll > \.hlc-mobile-view-controls-host\s*\{[^}]*margin:\s*0 0 10px\s*!important/s);
+  assert.match(sidebarStyles, /\.hlc-mobile-portal \.hlc-mobile-portal-scroll > \.hlc-mobile-view-controls-host\s*\{[^}]*top:\s*auto\s*!important/s);
 });
 
 test("mobile drawer uses App Directory instead of leaking duplicate desktop navigation rows", () => {
