@@ -1,0 +1,51 @@
+/* Physical iPhone drawer visual-viewport root fix.
+   The portal owns the viewport. The document is scroll-locked but must not be
+   another fixed containing block, which can offset fixed descendants on iOS. */
+
+@media (max-width: 760px) {
+  html:has(body > .hlc-mobile-portal),
+  body:has(> .hlc-mobile-portal) {
+    position: static !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: none !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
+    touch-action: none !important;
+  }
+
+  body > .hlc-mobile-portal {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+  }
+
+  body > .hlc-mobile-portal > .hlc-mobile-portal-scroll {
+    position: absolute !important;
+    inset: 0 !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding-top: 0 !important;
+    transform: none !important;
+  }
+
+  body > .hlc-mobile-portal .hlc-mobile-drawer-close {
+    margin-top: 0 !important;
+  }
+
+  body > .hlc-mobile-portal .hlc-owner-home-link:first-of-type,
+  body > .hlc-mobile-portal .hlc-mobile-command-search-trigger:first-of-type {
+    margin-top: 0 !important;
+  }
+}
