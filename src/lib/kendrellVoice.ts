@@ -77,28 +77,6 @@ function schedulePcmChunk(context: AudioContext, bytes: Uint8Array, startAt: num
   return scheduledAt + source.buffer.duration;
 }
 
-async function playContiguousPcm(
-  context: AudioContext,
-  bytes: Uint8Array,
-  controller: AbortController,
-  onPlaybackStart?: () => void,
-) {
-  if (bytes.byteLength % 2 === 1) bytes = bytes.subarray(0, bytes.byteLength - 1);
-  if (!bytes.byteLength) throw new Error("Agent voice returned no playable audio stream.");
-  await ensureAudioContextRunning(context);
-  if (controller.signal.aborted) return false;
-
-  const source = createPcmSource(context, bytes);
-  if (!source?.buffer) throw new Error("Agent voice returned no playable audio stream.");
-  const startAt = context.currentTime + STREAM_START_LEAD_SECONDS;
-  source.start(startAt);
-  onPlaybackStart?.();
-
-  const remainingMs = Math.max(0, Math.ceil((startAt + source.buffer.duration - context.currentTime) * 1000));
-  if (remainingMs) await new Promise<void>((resolve) => window.setTimeout(resolve, remainingMs));
-  return !controller.signal.aborted;
-}
-
 async function readVoiceError(response: Response, agentId: MaleAgentId) {
   let message = `${agentId === "kendrell" ? "Kendrell" : "Dion"} voice generation failed.`;
   try {
@@ -169,16 +147,11 @@ export async function speakMaleAgentNeuralText(
     if (!response.ok) throw new Error(await readVoiceError(response, agentId));
     if (!response.body) throw new Error("Agent voice returned no playable audio stream.");
 
-    // Dion's physical-iPhone evidence showed a clean initial instant followed by
-    // rasp/whisper during chunked playback. Assemble his PCM response into one
-    // continuous AudioBuffer so Safari never has to stitch many independent
-    // source nodes at network-chunk boundaries. Keep Kendrell's accepted path
-    // unchanged.
-    if (agentId === "dion") {
-      const bytes = new Uint8Array(await response.arrayBuffer());
-      return await playContiguousPcm(context, bytes, controller, onPlaybackStart);
-    }
-
+    // Physical iPhone evidence showed Dion stayed raspy/whispery even after
+    // switching him to Kendrell's accepted Cedar provider voice. Remove the
+    // Dion-only contiguous playback experiment and make both male agents use
+    // the exact same streamed PCM playback path that physically passed for
+    // Kendrell. This isolates remaining differences to the provider request.
     const reader = response.body.getReader();
     let nextPlaybackAt = context.currentTime + STREAM_START_LEAD_SECONDS;
     let carry: number | null = null;
