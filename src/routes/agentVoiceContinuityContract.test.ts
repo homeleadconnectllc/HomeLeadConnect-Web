@@ -9,7 +9,7 @@ const panel = readFileSync("src/components/agents/AgentChatPanel.tsx", "utf8");
 
 test("Kendrell and Dion use one isolated authenticated male-voice family", () => {
   assert.match(voice, /agentId === "kendrell" \|\| agentId === "dion"/);
-  assert.match(voice, /speakMaleAgentNeuralText\(agentId, speechText, locale, onPlaybackStart\)/);
+  assert.match(voice, /speakMaleAgentNeuralText\(agentId, cleanText, locale, onPlaybackStart\)/);
   assert.match(maleVoice, /supabase\.auth\.getSession\(\)/);
   assert.match(maleVoice, /MALE_VOICE_PREVIEW_FUNCTION = "hlc-agent-voice-male-preview"/);
   assert.match(maleVoice, /functions\/v1\/\$\{MALE_VOICE_PREVIEW_FUNCTION\}/);
@@ -17,19 +17,17 @@ test("Kendrell and Dion use one isolated authenticated male-voice family", () =>
   assert.match(maleVoice, /STREAM_SAMPLE_RATE = 24_000/);
 });
 
-test("Kendrell speech-only normalization keeps rendered chat unchanged while simplifying TTS punctuation", () => {
-  assert.match(voice, /function normalizeKendrellSpeechText/);
-  assert.match(voice, /speech-only normalization/);
-  assert.match(voice, /rendered chat text is/);
-  assert.match(voice, /replace\(\/\[\*_`>#\]\/g, ""\)/);
-  assert.match(voice, /replace\(\/\\s\*\[—–;\]\\s\*\/g, "\. "\)/);
-  assert.match(voice, /const speechText = agentId === "kendrell" \? normalizeKendrellSpeechText\(cleanText\) : cleanText/);
+test("Kendrell suppresses only the non-interactive room greeting race", () => {
+  assert.match(maleVoice, /Kendrell's failed physical rounds/);
+  assert.match(maleVoice, /room-level[\s\S]*proactive greeting/);
+  assert.match(maleVoice, /same tap that[\s\S]*starts Listen/);
+  assert.match(maleVoice, /if \(agentId === "kendrell" && !onPlaybackStart\) return false/);
+  assert.match(maleVoice, /Dion is[\s\S]*untouched/);
+  assert.doesNotMatch(voice, /normalizeKendrellSpeechText/);
 });
 
-test("Dion now uses the exact streamed PCM playback path that physically passed for Kendrell", () => {
-  assert.match(maleVoice, /both male agents use/);
-  assert.match(maleVoice, /exact same streamed PCM playback path/);
-  assert.match(maleVoice, /physically passed for/);
+test("Dion and Kendrell retain the same streamed PCM playback path", () => {
+  assert.match(maleVoice, /Both male agents use the same streamed PCM playback path/);
   assert.match(maleVoice, /const reader = response\.body\.getReader\(\)/);
   assert.doesNotMatch(maleVoice, /if \(agentId === "dion"\)[\s\S]*response\.arrayBuffer/);
   assert.doesNotMatch(maleVoice, /playContiguousPcm/);
@@ -55,7 +53,7 @@ test("male voice generation uses a pinned TTS snapshot for delivery consistency"
   assert.match(maleProvider, /model: MODEL/);
 });
 
-test("Kendrell stays frozen on the accepted cedar profile", () => {
+test("Kendrell stays on the shared cedar profile", () => {
   assert.match(maleProvider, /kendrell:[\s\S]*providerVoice: "cedar"/);
   assert.match(maleProvider, /direction: ACCEPTED_CEDAR_DIRECTION/);
   assert.match(maleProvider, /plain, smooth, natural adult male speaking voice/);
