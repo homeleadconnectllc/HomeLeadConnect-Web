@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useAuth } from "../hooks/useAuth";
+import { supabase } from "../lib/supabase";
 
 type ViewMode = "mobile" | "desktop";
 
@@ -100,15 +101,21 @@ export default function MobileViewControls() {
     }
   }
 
+  async function logout() {
+    await supabase.auth.signOut();
+    window.location.href = "/login";
+  }
+
   if (loading || !session || !compactDevice || !menuHost) return null;
 
   return createPortal(
-    <section className="hlc-mobile-menu-utilities" aria-label="Display options">
+    <section className="hlc-mobile-menu-utilities" aria-label="Display and account options">
       <span className="hlc-mobile-menu-utilities-label">View</span>
       <div className="hlc-mobile-menu-view-actions">
         <button type="button" className={viewMode === "mobile" ? "is-active" : undefined} aria-pressed={viewMode === "mobile"} onClick={() => chooseView("mobile")}>Mobile</button>
         <button type="button" className={viewMode === "desktop" ? "is-active" : undefined} aria-pressed={viewMode === "desktop"} onClick={() => chooseView("desktop")}>Desktop</button>
       </div>
+      <button type="button" className="hlc-mobile-early-signout" onClick={logout}>Sign out</button>
     </section>,
     menuHost,
   );
