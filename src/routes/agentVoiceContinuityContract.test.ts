@@ -17,13 +17,13 @@ test("Kendrell and Dion use one isolated authenticated male-voice family", () =>
   assert.match(maleVoice, /STREAM_SAMPLE_RATE = 24_000/);
 });
 
-test("Dion assembles provider PCM into one continuous Safari buffer", () => {
-  assert.match(maleVoice, /if \(agentId === "dion"\)/);
-  assert.match(maleVoice, /new Uint8Array\(await response\.arrayBuffer\(\)\)/);
-  assert.match(maleVoice, /playContiguousPcm\(context, bytes, controller, onPlaybackStart\)/);
-  assert.match(maleVoice, /continuous AudioBuffer/);
-  assert.match(maleVoice, /Keep Kendrell's accepted path/);
+test("Dion now uses the exact streamed PCM playback path that physically passed for Kendrell", () => {
+  assert.match(maleVoice, /both male agents use/);
+  assert.match(maleVoice, /exact same streamed PCM playback path/);
+  assert.match(maleVoice, /physically passed for/);
   assert.match(maleVoice, /const reader = response\.body\.getReader\(\)/);
+  assert.doesNotMatch(maleVoice, /if \(agentId === "dion"\)[\s\S]*response\.arrayBuffer/);
+  assert.doesNotMatch(maleVoice, /playContiguousPcm/);
 });
 
 test("male agents do not silently fall back to unrelated native identities", () => {
@@ -56,13 +56,12 @@ test("Kendrell stays frozen on the accepted cedar profile", () => {
   assert.match(maleProvider, /Kendrell is pronounced Ken-Drayl/);
 });
 
-test("Dion uses the physically proven cedar base with a distinct operations cadence", () => {
+test("Dion uses the accepted cedar provider base with a separate plain identity direction", () => {
   assert.match(maleProvider, /dion:[\s\S]*providerVoice: "cedar"/);
-  assert.match(maleProvider, /DION_CEDAR_DIRECTION/);
-  assert.match(maleProvider, /same clean, stable cedar voice base that passed physical iPhone testing for Kendrell/);
-  assert.match(maleProvider, /slightly quicker, more matter-of-fact operations cadence/);
+  assert.match(maleProvider, /DION_PLAIN_DIRECTION/);
   assert.match(maleProvider, /normal adult male voice at ordinary conversational volume/);
-  assert.match(maleProvider, /every word fully voiced, clear, direct, relaxed, and natural/);
+  assert.match(maleProvider, /clear, direct, relaxed, and natural/);
+  assert.match(maleProvider, /steady medium register and a normal speaking pace/);
   assert.match(maleProvider, /Do not perform a character or add a special vocal effect/);
   assert.match(maleProvider, /agentId === "dion"[\s\S]*profileConfig\.direction[\s\S]*: `\$\{IDENTITY_LOCK\} \$\{SHARED_QUALITY\}/);
   assert.match(maleProvider, /Dion is pronounced Dee-Yon/);
@@ -100,7 +99,7 @@ test("native selection remains available only as Diamond's existing path", () =>
   assert.match(voice, /return -10_000/);
 });
 
-test("newer speech requests cancel older streamed or contiguous playback", () => {
+test("newer speech requests cancel older streamed playback", () => {
   assert.match(voice, /const interactive = Boolean\(onPlaybackStart\);/);
   assert.match(voice, /if \(!interactive && activeInteractiveGeneration !== null\) return false;/);
   assert.match(voice, /const generation = \+\+speechGeneration/);
