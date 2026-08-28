@@ -65,6 +65,13 @@ export default function Navbar() {
     return () => { document.body.style.overflow = previous; };
   }, [mobileOpen]);
 
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => { if (event.key === "Escape") closeMobileMenu(); };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [mobileOpen]);
+
   async function logout() { await supabase.auth.signOut(); window.location.href = "/login"; }
   const signedInGroups = useMemo(() => {
     const hasPageAccess = (page: EcosystemPage) => {
@@ -129,7 +136,16 @@ export default function Navbar() {
     </>;
   }
 
-  const mobileDrawer = mobileOpen && typeof document !== "undefined" ? createPortal(<div className="hlc-mobile-portal" role="dialog" aria-modal="true" aria-label="HomeLead Connect navigation"><div className="hlc-mobile-portal-scroll">{renderMenuContents()}</div></div>, document.body) : null;
+  const mobileDrawer = mobileOpen && typeof document !== "undefined" ? createPortal(
+    <div className="hlc-mobile-portal" role="dialog" aria-modal="true" aria-label="HomeLead Connect navigation">
+      <div className="hlc-mobile-portal-scroll">
+        <button className="hlc-mobile-drawer-close" type="button" onClick={closeMobileMenu} aria-label="Close HomeLead Connect navigation">Close menu</button>
+        {renderMenuContents()}
+      </div>
+    </div>,
+    document.body,
+  ) : null;
+
   return <>
     <nav className={`hlc-navbar ${mobileOpen ? "menu-is-open" : ""}`} role="navigation" aria-label="Main navigation">
       <Link className="hlc-navbar-brand" to={brandDestination} onClick={closeMobileMenu}><div className="hlc-navbar-logo"><img src={logo} alt="HomeLead Connect LLC" /></div><div className="hlc-navbar-brand-copy"><h2>HomeLead Connect</h2><span>{signedIn ? (showBusinessTools ? "HLC workspace" : access.homeowner ? "Resident portal" : access.contractor ? "Professional portal" : "HLC account") : "Home services network"}</span></div></Link>
