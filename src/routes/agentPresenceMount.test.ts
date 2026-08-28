@@ -49,24 +49,22 @@ test("every canonical agent room gets one locale-specific proactive spoken greet
   assert.match(agentChatPanel, /stopAgentSpeech\(\)/);
 });
 
-test("agent voice stays explicit opt-in and rejects stale overlapping speech generations", () => {
+test("agent voice stays explicit opt-in and rejects stale overlapping native speech generations", () => {
   assert.match(agentVoice, /return \{ enabled: false, autoSpeak: false \}/);
   assert.match(agentVoice, /let speechGeneration = 0/);
   assert.match(agentVoice, /const generation = \+\+speechGeneration/);
-  assert.match(agentVoice, /if \(generation !== speechGeneration\) return false/);
+  assert.match(agentVoice, /generation !== speechGeneration/);
   assert.match(agentVoice, /speechGeneration \+= 1/);
-  assert.match(agentVoice, /activeSpeechAbortController\?\.abort\(\)/);
-  assert.match(agentVoice, /stopActiveSources\(\)/);
+  assert.match(agentVoice, /cancelNativeSpeech\(\)/);
+  assert.match(agentVoice, /window\.speechSynthesis\?\.cancel\(\)/);
 });
 
-test("agent speech streams 24k PCM and schedules chunks before the full response finishes", () => {
-  assert.match(agentVoice, /const STREAM_SAMPLE_RATE = 24_000/);
-  assert.match(agentVoice, /response\.body\.getReader\(\)/);
-  assert.match(agentVoice, /await reader\.read\(\)/);
-  assert.match(agentVoice, /pcm16ToFloat32/);
-  assert.match(agentVoice, /schedulePcmChunk/);
-  assert.match(agentVoice, /context\.createBuffer\(1, samples\.length, STREAM_SAMPLE_RATE\)/);
-  assert.match(agentVoice, /source\.start\(scheduledAt\)/);
-  assert.match(agentVoice, /contentType\.includes\("application\/json"\)/);
-  assert.match(agentVoice, /playLegacyBufferedResponse/);
+test("agent speech uses the free native device engine with clarity controls instead of PCM streaming", () => {
+  assert.match(agentVoice, /new SpeechSynthesisUtterance\(nativeSpeechText\(text, locale\)\)/);
+  assert.match(agentVoice, /utterance\.lang = locale/);
+  assert.match(agentVoice, /utterance\.rate = profile\.rate/);
+  assert.match(agentVoice, /utterance\.pitch = profile\.pitch/);
+  assert.match(agentVoice, /utterance\.volume = 1/);
+  assert.match(agentVoice, /window\.speechSynthesis\.speak\(utterance\)/);
+  assert.doesNotMatch(agentVoice, /STREAM_SAMPLE_RATE|schedulePcmChunk|pcm16ToFloat32|hlc-agent-voice/);
 });
