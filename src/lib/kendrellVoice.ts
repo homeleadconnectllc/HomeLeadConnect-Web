@@ -7,6 +7,7 @@ type AudioContextWindow = typeof window & {
 
 const STREAM_SAMPLE_RATE = 24_000;
 const STREAM_START_LEAD_SECONDS = 0.04;
+const KENDRELL_PREVIEW_FUNCTION = "hlc-agent-voice-kendrell-preview";
 
 let audioContext: AudioContext | null = null;
 let activeAbortController: AbortController | null = null;
@@ -123,7 +124,7 @@ export async function speakKendrellNeuralText(
   activeAbortController = controller;
 
   try {
-    const response = await fetch(`${supabaseConfig.url}/functions/v1/hlc-agent-voice`, {
+    const response = await fetch(`${supabaseConfig.url}/functions/v1/${KENDRELL_PREVIEW_FUNCTION}`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`,
