@@ -119,6 +119,15 @@ export async function speakMaleAgentNeuralText(
   locale: ResolvedAgentLocale,
   onPlaybackStart?: () => void,
 ) {
+  // Kendrell's failed physical rounds can be reproduced even with the exact same
+  // Cedar provider request and PCM playback path as Dion. His room-level
+  // proactive greeting is the remaining unique playback race: it is invoked
+  // without an interactive playback callback and can retry on the same tap that
+  // starts Listen. Suppress only that non-interactive room greeting for Kendrell
+  // so an explicit/response playback owns one audio stream at a time. Dion is
+  // untouched and remains on the physically accepted path.
+  if (agentId === "kendrell" && !onPlaybackStart) return false;
+
   const context = getAudioContext();
   if (!context) throw new Error("Agent voice playback is unavailable in this browser.");
   await ensureAudioContextRunning(context);
@@ -147,11 +156,9 @@ export async function speakMaleAgentNeuralText(
     if (!response.ok) throw new Error(await readVoiceError(response, agentId));
     if (!response.body) throw new Error("Agent voice returned no playable audio stream.");
 
-    // Physical iPhone evidence showed Dion stayed raspy/whispery even after
-    // switching him to Kendrell's accepted Cedar provider voice. Remove the
-    // Dion-only contiguous playback experiment and make both male agents use
-    // the exact same streamed PCM playback path that physically passed for
-    // Kendrell. This isolates remaining differences to the provider request.
+    // Both male agents use the same streamed PCM playback path. Dion is already
+    // physically accepted on this path; Kendrell's current experiment changes
+    // only whether a non-interactive room greeting may race explicit playback.
     const reader = response.body.getReader();
     let nextPlaybackAt = context.currentTime + STREAM_START_LEAD_SECONDS;
     let carry: number | null = null;
