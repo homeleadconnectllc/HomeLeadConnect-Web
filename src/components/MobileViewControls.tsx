@@ -28,9 +28,6 @@ function isCompactDevice() {
 }
 
 function readInitialViewMode(): ViewMode {
-  // A stale desktop preference must never make a physical phone boot into a
-  // compressed desktop canvas. Desktop remains available as an explicit choice
-  // from the mobile menu, but every new compact-device load starts mobile-safe.
   return isCompactDevice() ? "mobile" : readStoredViewMode();
 }
 
@@ -61,9 +58,24 @@ export default function MobileViewControls() {
 
   useEffect(() => {
     if (!session || !compactDevice) return;
+    let ownedHost: HTMLDivElement | null = null;
 
     const findMenuHost = () => {
-      const host = document.querySelector<HTMLElement>(".hlc-mobile-portal-scroll");
+      const menu = document.querySelector<HTMLElement>(".hlc-mobile-portal-scroll");
+      if (!menu) {
+        setMenuHost(null);
+        return;
+      }
+
+      let host = menu.querySelector<HTMLDivElement>(".hlc-mobile-view-controls-host");
+      if (!host) {
+        host = document.createElement("div");
+        host.className = "hlc-mobile-view-controls-host";
+        const groups = menu.querySelector<HTMLElement>(".hlc-navbar-groups");
+        if (groups) menu.insertBefore(host, groups);
+        else menu.append(host);
+        ownedHost = host;
+      }
       setMenuHost((current) => current === host ? current : host);
     };
 
@@ -74,6 +86,8 @@ export default function MobileViewControls() {
     return () => {
       window.cancelAnimationFrame(frame);
       observer.disconnect();
+      ownedHost?.remove();
+      setMenuHost(null);
     };
   }, [compactDevice, session]);
 
@@ -92,22 +106,8 @@ export default function MobileViewControls() {
     <section className="hlc-mobile-menu-utilities" aria-label="Display options">
       <span className="hlc-mobile-menu-utilities-label">View</span>
       <div className="hlc-mobile-menu-view-actions">
-        <button
-          type="button"
-          className={viewMode === "mobile" ? "is-active" : undefined}
-          aria-pressed={viewMode === "mobile"}
-          onClick={() => chooseView("mobile")}
-        >
-          Mobile
-        </button>
-        <button
-          type="button"
-          className={viewMode === "desktop" ? "is-active" : undefined}
-          aria-pressed={viewMode === "desktop"}
-          onClick={() => chooseView("desktop")}
-        >
-          Desktop
-        </button>
+        <button type="button" className={viewMode === "mobile" ? "is-active" : undefined} aria-pressed={viewMode === "mobile"} onClick={() => chooseView("mobile")}>Mobile</button>
+        <button type="button" className={viewMode === "desktop" ? "is-active" : undefined} aria-pressed={viewMode === "desktop"} onClick={() => chooseView("desktop")}>Desktop</button>
       </div>
     </section>,
     menuHost,
