@@ -18,6 +18,8 @@ export type AgentChatResponse = {
   locale?: ResolvedAgentLocale;
 };
 
+const CLIENT_AGENT_TIMEOUT_MS = 16_000;
+
 function browserTimeZone() {
   if (typeof Intl === "undefined") return "UTC";
   try {
@@ -57,9 +59,37 @@ export async function chatWithAgent(agentId: AgentId, message: string, history: 
     text: `${buildAgentLocaleDirective(locale)}\n${buildAgentLocaleQualityDirective(locale)}`,
   };
   const localeAwareHistory = [temporalDirective, localeDirective, ...history.slice(-6)];
-  const { data, error } = await supabase.functions.invoke("hlc-agent-chat", {
-    body: { agentId, message, history: localeAwareHistory, pagePath, locale, timeZone },
+
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<never>((_, reject) => {
+    timeoutId = setTimeout(() => reject(new Error("HLC_AGENT_CLIENT_TIMEOUT")), CLIENT_AGENT_TIMEOUT_MS);
   });
+
+  let invocation: Awaited<ReturnType<typeof supabase.functions.invoke>>;
+  try {
+    invocation = await Promise.race([
+      supabase.functions.invoke("hlc-agent-chat", {
+        body: { agentId, message, history: localeAwareHistory, pagePath, locale, timeZone },
+      }),
+      timeout,
+    ]);
+  } catch (reason) {
+    if (reason instanceof Error && reason.message === "HLC_AGENT_CLIENT_TIMEOUT") {
+      return {
+        agentId,
+        model: "hlc-client-timeout-fallback",
+        reply: getLocalizedAgentFallback(agentId, locale),
+        advisoryOnly: true,
+        fallback: true,
+        locale,
+      } satisfies AgentChatResponse;
+    }
+    throw reason;
+  } finally {
+    if (timeoutId) clearTimeout(timeoutId);
+  }
+
+  const { data, error } = invocation;
   if (error) {
     const context = (error as { context?: { json?: () => Promise<unknown> } }).context;
     if (context?.json) {
