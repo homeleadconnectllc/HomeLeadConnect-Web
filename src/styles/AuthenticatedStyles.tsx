@@ -43,6 +43,7 @@ import "./mobile-a-plus-final-device-round-3.css";
 import "./mobile-a-plus-private-beta-closure.css";
 import "./mobile-a-plus-sidebar-final-closure.css";
 import "./mobile-a-plus-drawer-root-isolation.css";
+import "./mobile-a-plus-drawer-top-flow-closure.css";
 
 export default function AuthenticatedStyles() {
   return null;
