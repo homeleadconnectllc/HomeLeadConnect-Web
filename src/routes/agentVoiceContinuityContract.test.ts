@@ -58,10 +58,10 @@ test("Kendrell stays frozen on the accepted cedar profile", () => {
 
 test("Dion uses the accepted cedar provider base with a separate plain identity direction", () => {
   assert.match(maleProvider, /dion:[\s\S]*providerVoice: "cedar"/);
-  assert.match(maleProvider, /DION_PLAIN_DIRECTION/);
+  assert.match(maleProvider, /DION_CEDAR_DIRECTION/);
   assert.match(maleProvider, /normal adult male voice at ordinary conversational volume/);
-  assert.match(maleProvider, /clear, direct, relaxed, and natural/);
-  assert.match(maleProvider, /steady medium register and a normal speaking pace/);
+  assert.match(maleProvider, /fully voiced, clear, direct, relaxed, and natural/);
+  assert.match(maleProvider, /steady medium register and normal speaking pace/);
   assert.match(maleProvider, /Do not perform a character or add a special vocal effect/);
   assert.match(maleProvider, /agentId === "dion"[\s\S]*profileConfig\.direction[\s\S]*: `\$\{IDENTITY_LOCK\} \$\{SHARED_QUALITY\}/);
   assert.match(maleProvider, /Dion is pronounced Dee-Yon/);
