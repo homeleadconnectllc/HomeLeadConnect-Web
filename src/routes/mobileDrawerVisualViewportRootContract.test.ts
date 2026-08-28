@@ -2,45 +2,46 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { readFileSync } from "node:fs";
 
-const styles = readFileSync(new URL("../styles/mobile-drawer-visual-viewport-root-fix.css", import.meta.url), "utf8");
+const styles = readFileSync(new URL("../styles/mobile-drawer-v2-authority.css", import.meta.url), "utf8");
 const navbar = readFileSync(new URL("../components/Navbar.tsx", import.meta.url), "utf8");
+const viewControls = readFileSync(new URL("../components/MobileViewControls.tsx", import.meta.url), "utf8");
 const styleEntry = readFileSync(new URL("../styles/AuthenticatedStyles.tsx", import.meta.url), "utf8");
 
-test("mobile drawer portal is the only fixed viewport owner", () => {
-  assert.match(styles, /html:has\(body > \.hlc-mobile-portal\),[\s\S]*position:\s*static\s*!important/);
-  assert.match(styles, /body:has\(> \.hlc-mobile-portal\)[\s\S]*position:\s*static\s*!important/);
-  assert.match(styles, /body > \.hlc-mobile-portal\s*\{[^}]*position:\s*fixed\s*!important/s);
+test("active mobile drawer uses an isolated namespace", () => {
+  assert.match(navbar, /className="hlc-drawer-v2"/);
+  assert.match(navbar, /className="hlc-drawer-v2-scroll"/);
+  assert.match(navbar, /className="hlc-drawer-v2-close"/);
+  assert.doesNotMatch(navbar, /className="hlc-mobile-portal"/);
+  assert.doesNotMatch(navbar, /className="hlc-mobile-portal-scroll"/);
+  assert.doesNotMatch(navbar, /className="hlc-mobile-drawer-close"/);
 });
 
-test("mobile drawer portal is anchored to the measured visual viewport", () => {
-  assert.match(styles, /body > \.hlc-mobile-portal\s*\{[^}]*top:\s*var\(--hlc-visual-viewport-top, 0px\)\s*!important/s);
-  assert.match(styles, /body > \.hlc-mobile-portal\s*\{[^}]*width:\s*var\(--hlc-visual-viewport-width, 100vw\)\s*!important/s);
-  assert.match(styles, /body > \.hlc-mobile-portal\s*\{[^}]*height:\s*var\(--hlc-visual-viewport-height, 100dvh\)\s*!important/s);
-  assert.doesNotMatch(styles, /top:\s*calc\(-1\s*\*/);
+test("drawer v2 has one fixed viewport owner and one scroll owner", () => {
+  assert.match(styles, /body > \.hlc-drawer-v2\s*\{[^}]*position:\s*fixed\s*!important/s);
+  assert.match(styles, /body > \.hlc-drawer-v2\s*\{[^}]*inset:\s*0\s*!important/s);
+  assert.match(styles, /\.hlc-drawer-v2-scroll\s*\{[^}]*position:\s*absolute\s*!important/s);
+  assert.match(styles, /\.hlc-drawer-v2-scroll\s*\{[^}]*inset:\s*0\s*!important/s);
+  assert.match(styles, /\.hlc-drawer-v2-scroll\s*\{[^}]*overflow-y:\s*auto\s*!important/s);
 });
 
-test("mobile drawer scroll surface owns an explicit compact top stack", () => {
-  assert.match(styles, /\.hlc-mobile-portal-scroll\s*\{[^}]*position:\s*absolute\s*!important/s);
-  assert.match(styles, /\.hlc-mobile-portal-scroll\s*\{[^}]*inset:\s*0\s*!important/s);
-  assert.match(styles, /\.hlc-mobile-portal-scroll\s*\{[^}]*display:\s*flex\s*!important/s);
-  assert.match(styles, /\.hlc-mobile-portal-scroll\s*\{[^}]*justify-content:\s*flex-start\s*!important/s);
-  assert.match(styles, /\.hlc-mobile-portal-scroll\s*\{[^}]*padding:\s*8px 14px max\(118px,[^}]*!important/s);
-  assert.match(styles, /\.hlc-mobile-portal-scroll\s*\{[^}]*padding-block-start:\s*8px\s*!important/s);
+test("drawer v2 contains no legacy top band", () => {
+  assert.match(styles, /\.hlc-drawer-v2-scroll\s*\{[^}]*padding:\s*8px 14px max\(96px,[^}]*!important/s);
+  assert.match(styles, /\.hlc-drawer-v2-close\s*\{[^}]*position:\s*relative\s*!important/s);
+  assert.match(styles, /\.hlc-drawer-v2-close\s*\{[^}]*margin:\s*0\s*!important/s);
+  assert.match(styles, /\.hlc-mobile-menu-heading[^}]*display:\s*none\s*!important/s);
+  assert.doesNotMatch(styles, /58px/);
+  assert.doesNotMatch(styles, /safe-area-inset-top/);
+  assert.doesNotMatch(styles, /--hlc-visual-viewport-top/);
 });
 
-test("mobile drawer top controls cannot reserve a legacy header band", () => {
-  assert.match(styles, /\.hlc-mobile-drawer-close\s*\{[^}]*position:\s*relative\s*!important/s);
-  assert.match(styles, /\.hlc-mobile-drawer-close\s*\{[^}]*margin:\s*0 0 8px auto\s*!important/s);
-  assert.match(styles, /\.hlc-mobile-menu-heading\s*\{[^}]*display:\s*none\s*!important/s);
-  assert.match(styles, /\.hlc-mobile-menu-heading\s*\{[^}]*height:\s*0\s*!important/s);
+test("drawer utilities and scroll reset target the isolated namespace", () => {
+  assert.match(viewControls, /querySelector<HTMLElement>\("\.hlc-drawer-v2-scroll"\)/);
+  assert.match(navbar, /querySelector<HTMLElement>\("body > \.hlc-drawer-v2 > \.hlc-drawer-v2-scroll"\)/);
+  assert.match(navbar, /scrollTo\(\{ top: 0, left: 0, behavior: "auto" \}\)/);
 });
 
-test("mobile drawer resets its own scroll surface to top whenever it opens", () => {
-  assert.match(navbar, /if \(!mobileOpen\) return;[\s\S]*requestAnimationFrame\(\(\) => \{[\s\S]*\.hlc-mobile-portal-scroll[\s\S]*scrollTo\(\{ top: 0, left: 0, behavior: "auto" \}\)/);
-});
-
-test("visual viewport root fix is the last authenticated mobile authority", () => {
-  const rootFix = styleEntry.lastIndexOf('import "./mobile-drawer-visual-viewport-root-fix.css"');
-  const prior = styleEntry.lastIndexOf('import "./mobile-drawer-remove-top-band.css"');
-  assert.ok(rootFix > prior);
+test("drawer v2 authority is loaded last", () => {
+  const v2 = styleEntry.lastIndexOf('import "./mobile-drawer-v2-authority.css"');
+  const legacy = styleEntry.lastIndexOf('import "./mobile-drawer-visual-viewport-root-fix.css"');
+  assert.ok(v2 > legacy);
 });
