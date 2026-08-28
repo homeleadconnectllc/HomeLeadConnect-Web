@@ -56,13 +56,14 @@ test("Kendrell stays frozen on the accepted cedar profile", () => {
   assert.match(maleProvider, /Kendrell is pronounced Ken-Drayl/);
 });
 
-test("Dion uses the high-quality marin candidate with a strict full-voice male profile", () => {
+test("Dion keeps marin but uses a deliberately plain minimal speaking direction", () => {
   assert.match(maleProvider, /dion:[\s\S]*providerVoice: "marin"/);
-  assert.match(maleProvider, /clean adult male voice, fully voiced and clearly projected/);
-  assert.match(maleProvider, /comfortable medium male register with smooth chest-supported tone/);
-  assert.match(maleProvider, /slightly quicker, crisper cadence than Kendrell/);
-  assert.match(maleProvider, /Do not whisper, murmur, speak under the breath, rasp, croak/);
-  assert.match(maleProvider, /vocal fry, breathiness, gravel, scratchiness, hushed delivery/);
+  assert.match(maleProvider, /DION_PLAIN_DIRECTION/);
+  assert.match(maleProvider, /normal adult male voice at ordinary conversational volume/);
+  assert.match(maleProvider, /clear, direct, relaxed, and natural/);
+  assert.match(maleProvider, /steady medium register and a normal speaking pace/);
+  assert.match(maleProvider, /Do not perform a character or add a special vocal effect/);
+  assert.match(maleProvider, /agentId === "dion"[\s\S]*profileConfig\.direction[\s\S]*: `\$\{IDENTITY_LOCK\} \$\{SHARED_QUALITY\}/);
   assert.match(maleProvider, /Dion is pronounced Dee-Yon/);
 });
 
