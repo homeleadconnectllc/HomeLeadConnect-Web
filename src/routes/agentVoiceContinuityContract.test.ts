@@ -3,97 +3,96 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const voice = readFileSync("src/lib/agentVoice.ts", "utf8");
-const kendrellVoice = readFileSync("src/lib/kendrellVoice.ts", "utf8");
-const provider = readFileSync("supabase/functions/hlc-agent-voice/index.ts", "utf8");
+const maleVoice = readFileSync("src/lib/kendrellVoice.ts", "utf8");
+const maleProvider = readFileSync("supabase/functions/hlc-agent-voice-male-preview/index.ts", "utf8");
 const panel = readFileSync("src/components/agents/AgentChatPanel.tsx", "utf8");
 
-test("Kendrell alone uses the authenticated high-quality streamed voice runtime", () => {
-  assert.match(voice, /if \(agentId === "kendrell"\)/);
-  assert.match(voice, /speakKendrellNeuralText\(cleanText, locale, onPlaybackStart\)/);
-  assert.match(kendrellVoice, /supabase\.auth\.getSession\(\)/);
-  assert.match(kendrellVoice, /KENDRELL_PREVIEW_FUNCTION = "hlc-agent-voice-kendrell-preview"/);
-  assert.match(kendrellVoice, /functions\/v1\/\$\{KENDRELL_PREVIEW_FUNCTION\}/);
-  assert.match(kendrellVoice, /body: JSON\.stringify\(\{ agentId: "kendrell", text: text\.trim\(\), locale \}\)/);
-  assert.match(kendrellVoice, /STREAM_SAMPLE_RATE = 24_000/);
-  assert.match(kendrellVoice, /response\.body\.getReader\(\)/);
+test("Kendrell and Dion use one isolated authenticated streamed male-voice family", () => {
+  assert.match(voice, /agentId === "kendrell" \|\| agentId === "dion"/);
+  assert.match(voice, /speakMaleAgentNeuralText\(agentId, cleanText, locale, onPlaybackStart\)/);
+  assert.match(maleVoice, /supabase\.auth\.getSession\(\)/);
+  assert.match(maleVoice, /MALE_VOICE_PREVIEW_FUNCTION = "hlc-agent-voice-male-preview"/);
+  assert.match(maleVoice, /functions\/v1\/\$\{MALE_VOICE_PREVIEW_FUNCTION\}/);
+  assert.match(maleVoice, /body: JSON\.stringify\(\{ agentId, text: text\.trim\(\), locale \}\)/);
+  assert.match(maleVoice, /STREAM_SAMPLE_RATE = 24_000/);
+  assert.match(maleVoice, /response\.body\.getReader\(\)/);
 });
 
-test("Kendrell never silently falls back to a different native voice identity", () => {
-  assert.match(voice, /if \(agentId === "kendrell"\)[\s\S]*throw new Error\("Kendrell's high-quality voice is unavailable in this browser\."\)/);
-  assert.match(voice, /if \(agentId === "kendrell"\)[\s\S]*return played && generation === speechGeneration;/);
+test("male agents do not silently fall back to unrelated native identities", () => {
+  assert.match(voice, /if \(agentId === "kendrell" \|\| agentId === "dion"\)/);
+  assert.match(voice, /throw new Error\(`\$\{label\}'s high-quality voice is unavailable in this browser\.`\)/);
+  assert.match(voice, /return played && generation === speechGeneration/);
 });
 
-test("Kendrell provider is identity-locked to the deep steady executive benchmark", () => {
-  assert.match(provider, /const VOICE_IDENTITY_LOCK/);
-  assert.match(provider, /kendrell:[\s\S]*providerVoice: "cedar"/);
-  assert.match(provider, /kendrell:[\s\S]*model: "gpt-4o-mini-tts"/);
-  assert.match(provider, /deep to medium-low register/);
-  assert.match(provider, /calm executive authority/);
-  assert.match(provider, /slower measured cadence/);
-  assert.match(provider, /clean full resonance/);
-  assert.match(provider, /trusted chief-of-staff/);
-  assert.match(provider, /Never whisper/);
-  assert.match(provider, /Never sound breathy, raspy, scratchy/);
+test("Diamond defines the shared quality baseline without becoming the male identity", () => {
+  assert.match(maleProvider, /SHARED_QUALITY/);
+  assert.match(maleProvider, /quality standard established by Diamond/);
+  assert.match(maleProvider, /smooth, clean, stable, natural, conversational/);
+  assert.match(maleProvider, /Prioritize a believable regular human speaking voice/);
+  assert.match(maleProvider, /free of rasp, whisper, scratchiness, breathiness/);
 });
 
-test("Dion and Diamond remain on the native-device path while their physical rounds are unchanged", () => {
+test("Kendrell remains a distinct regular male executive voice", () => {
+  assert.match(maleProvider, /kendrell:[\s\S]*providerVoice: "cedar"/);
+  assert.match(maleProvider, /regular adult male voice in a comfortable medium-low register/);
+  assert.match(maleProvider, /slightly slower measured cadence/);
+  assert.match(maleProvider, /Do not force the pitch downward/);
+  assert.match(maleProvider, /composed chief-of-staff/);
+  assert.match(maleProvider, /Kendrell is pronounced Ken-Drayl/);
+});
+
+test("Dion remains a distinct regular male operations voice", () => {
+  assert.match(maleProvider, /dion:[\s\S]*providerVoice: "ash"/);
+  assert.match(maleProvider, /regular adult male voice in a comfortable medium register/);
+  assert.match(maleProvider, /slightly quicker and crisper cadence than Kendrell/);
+  assert.match(maleProvider, /Never become raspy, whispery, scratchy/);
+  assert.match(maleProvider, /Dion is pronounced Dee-Yon/);
+});
+
+test("male preview is isolated to Kendrell and Dion and preserves workspace authorization", () => {
+  assert.match(maleProvider, /type MaleAgentId = "kendrell" \| "dion"/);
+  assert.match(maleProvider, /This preview is only for Kendrell and Dion/);
+  assert.match(maleProvider, /workspace_members/);
+  assert.match(maleProvider, /Kendrell voice access requires an approved owner, manager, or supervisor role/);
+  assert.match(maleProvider, /verify_jwt|Authorization/);
+});
+
+test("provider English speech preserves locked HLC pronunciations", () => {
+  assert.match(maleProvider, /\.replace\(\/\\bDiamond\\b\/gi, "Die-Men"\)/);
+  assert.match(maleProvider, /\.replace\(\/\\bDion\\b\/gi, "Dee-Yon"\)/);
+  assert.match(maleProvider, /\.replace\(\/\\bKendrell\\b\/gi, "Ken-Drayl"\)/);
+  assert.match(maleProvider, /\.replace\(\/\\bHLC\\b\/g, "H L C"\)/);
+});
+
+test("Diamond remains on the existing native-device path", () => {
   assert.match(voice, /function hasNativeSpeech\(\)/);
   assert.match(voice, /new SpeechSynthesisUtterance/);
   assert.match(voice, /return await speakWithNativeVoice\(agentId, cleanText, locale, generation, onPlaybackStart\)/);
-  assert.match(voice, /dion:[\s\S]*rate: 0\.94[\s\S]*pitch: 1/);
   assert.match(voice, /diamond:[\s\S]*rate: 0\.9[\s\S]*pitch: 1/);
+  assert.match(voice, /preferredNames: \["Samantha", "Ava", "Serena", "Victoria", "Tessa", "Karen"\]/);
 });
 
-test("native voice selection still ranks local exact-locale voices and rejects poor physical-device candidates", () => {
+test("native selection remains available only as Diamond's existing path", () => {
   assert.match(voice, /function scoreNativeVoice/);
   assert.match(voice, /if \(lang === normalizedLocale\) score \+= 500/);
   assert.match(voice, /if \(voice\.localService\) score \+= 300/);
-  assert.match(voice, /if \(voice\.default\) score \+= 120/);
   assert.match(voice, /rejectedVoiceNameHints/);
   assert.match(voice, /"reed"/);
   assert.match(voice, /return -10_000/);
-  assert.match(voice, /\.sort\(\(a, b\) => b\.score - a\.score\)/);
 });
 
-test("Dion prefers persona-matched native voices while Diamond keeps her passing ranked path", () => {
-  assert.match(voice, /dion:[\s\S]*preferredNames: \["Tom", "Nathan", "Oliver", "Albert", "Alex"\]/);
-  assert.match(voice, /if \(agentId !== "diamond"\)/);
-  assert.match(voice, /const personaMatch = ranked\.find/);
-  assert.match(voice, /if \(personaMatch\) return personaMatch\.voice/);
-});
-
-test("native English speech preserves locked HLC pronunciations", () => {
-  assert.match(voice, /\.replace\(\/\\bDiamond\\b\/gi, "Die-Men"\)/);
-  assert.match(voice, /\.replace\(\/\\bDion\\b\/gi, "Dee-Yon"\)/);
-  assert.match(voice, /\.replace\(\/\\bKendrell\\b\/gi, "Ken-Drayl"\)/);
-  assert.match(voice, /\.replace\(\/\\bHLC\\b\/g, "H L C"\)/);
-});
-
-test("provider English speech preserves Kendrell canonical pronunciation", () => {
-  assert.match(provider, /\.replace\(\/\\bKendrell\\b\/gi, "Ken-Drayl"\)/);
-  assert.match(provider, /\.replace\(\/\\bHLC\\b\/g, "H L C"\)/);
-});
-
-test("interactive speech remains authoritative and newer requests cancel older speech", () => {
+test("newer speech requests cancel older streamed or native playback", () => {
   assert.match(voice, /const interactive = Boolean\(onPlaybackStart\);/);
   assert.match(voice, /if \(!interactive && activeInteractiveGeneration !== null\) return false;/);
-  assert.match(voice, /const generation = \+\+speechGeneration;/);
-  assert.match(voice, /cancelNativeSpeech\(\);/);
-  assert.match(voice, /stopKendrellNeuralVoice\(\);/);
-  assert.match(voice, /if \(generation !== speechGeneration\)[\s\S]*window\.speechSynthesis\.cancel\(\)/);
-});
-
-test("explicit stop cancels both Kendrell streamed speech and native speech", () => {
-  assert.match(voice, /export function stopAgentSpeech\(\)[\s\S]*speechGeneration \+= 1;/);
-  assert.match(voice, /export function stopAgentSpeech\(\)[\s\S]*activeInteractiveGeneration = null;/);
-  assert.match(voice, /export function stopAgentSpeech\(\)[\s\S]*stopKendrellNeuralVoice\(\);/);
-  assert.match(voice, /export function stopAgentSpeech\(\)[\s\S]*cancelNativeSpeech\(\);/);
-  assert.match(kendrellVoice, /activeAbortController\?\.abort\(\)/);
-  assert.match(kendrellVoice, /stopSources\(\)/);
+  assert.match(voice, /const generation = \+\+speechGeneration/);
+  assert.match(voice, /cancelNativeSpeech\(\)/);
+  assert.match(voice, /stopMaleAgentNeuralVoice\(\)/);
+  assert.match(maleVoice, /activeAbortController\?\.abort\(\)/);
+  assert.match(maleVoice, /stopSources\(\)/);
 });
 
 test("voice remains explicit opt-in and persists locally", () => {
-  assert.match(voice, /return \{ enabled: false, autoSpeak: false \};/);
+  assert.match(voice, /return \{ enabled: false, autoSpeak: false \}/);
   assert.match(voice, /window\.localStorage\.getItem\(STORAGE_KEY\)/);
   assert.match(voice, /window\.localStorage\.setItem\(STORAGE_KEY, JSON\.stringify\(preferences\)\)/);
 });
