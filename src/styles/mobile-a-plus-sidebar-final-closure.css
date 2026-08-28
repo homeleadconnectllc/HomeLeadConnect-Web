@@ -1,6 +1,5 @@
 /* Physical iPhone sidebar + agent input closure.
-   Final compact-device authority. The mobile drawer intentionally uses App Directory
-   as the complete navigation surface instead of duplicating the desktop <details> tree. */
+   Final compact-device authority. Mobile uses App Directory as the complete navigation surface. */
 
 @media (max-width: 760px) {
   html:has(body > .hlc-mobile-portal),
@@ -19,7 +18,6 @@
     pointer-events: none !important;
   }
 
-  /* If a stale second portal ever mounts, only the first drawer may render or receive input. */
   body > .hlc-mobile-portal ~ .hlc-mobile-portal {
     display: none !important;
     visibility: hidden !important;
@@ -61,21 +59,17 @@
     display: none !important;
   }
 
-  /* The drawer itself is the only vertical scroll owner. The top padding now only
-     reserves the actual fixed brand/close lane; no artificial header spacer remains. */
+  /* Normal block flow is deliberate. No flex ordering or injected-item reordering. */
   .hlc-mobile-portal-scroll {
     position: fixed !important;
     inset: 0 !important;
     z-index: 1 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: flex-start !important;
-    align-content: flex-start !important;
+    display: block !important;
     width: 100vw !important;
     height: 100dvh !important;
     max-height: 100dvh !important;
     margin: 0 !important;
-    padding: max(64px, calc(52px + env(safe-area-inset-top))) 14px max(118px, calc(22px + env(safe-area-inset-bottom))) !important;
+    padding: calc(58px + min(env(safe-area-inset-top), 10px)) 14px max(118px, calc(22px + env(safe-area-inset-bottom))) !important;
     overflow-x: hidden !important;
     overflow-y: scroll !important;
     overscroll-behavior-y: contain !important;
@@ -88,11 +82,10 @@
     contain: layout paint !important;
   }
 
-  /* One compact brand mark in the fixed top lane. */
   .hlc-mobile-portal-scroll::before {
     content: "" !important;
     position: fixed !important;
-    top: max(8px, env(safe-area-inset-top)) !important;
+    top: calc(8px + min(env(safe-area-inset-top), 10px)) !important;
     left: 14px !important;
     z-index: 30 !important;
     display: block !important;
@@ -110,11 +103,9 @@
     box-shadow: 0 6px 18px rgba(2, 8, 18, .24) !important;
   }
 
-  /* One fixed close control, aligned to the same compact top lane. */
   .hlc-mobile-drawer-close {
-    order: 1 !important;
     position: fixed !important;
-    top: max(8px, env(safe-area-inset-top)) !important;
+    top: calc(8px + min(env(safe-area-inset-top), 10px)) !important;
     right: 14px !important;
     left: auto !important;
     z-index: 40 !important;
@@ -126,8 +117,6 @@
     min-height: 42px !important;
     margin: 0 !important;
     padding: 8px 11px !important;
-    float: none !important;
-    transform: none !important;
     border: 1px solid rgba(96, 165, 250, .42) !important;
     border-radius: 10px !important;
     background: #0d1d35 !important;
@@ -140,12 +129,11 @@
     white-space: nowrap !important;
     pointer-events: auto !important;
     touch-action: manipulation !important;
+    transform: none !important;
   }
 
   .hlc-mobile-drawer-close::before,
-  .hlc-mobile-drawer-close::after {
-    content: none !important;
-  }
+  .hlc-mobile-drawer-close::after { content: none !important; }
 
   .hlc-mobile-portal-scroll > .hlc-mobile-drawer-close ~ .hlc-mobile-drawer-close {
     display: none !important;
@@ -155,36 +143,34 @@
     display: none !important;
   }
 
-  /* Search and the utility host are normal compact flex items. Explicit flex/margins
-     prevent older mobile navigation rules from creating an automatic vertical spacer. */
-  .hlc-mobile-portal .hlc-mobile-portal-scroll > .hlc-mobile-command-search-trigger {
-    order: 10 !important;
+  .hlc-mobile-portal .hlc-mobile-portal-scroll > .hlc-mobile-command-search-trigger,
+  .hlc-mobile-portal .hlc-mobile-portal-scroll > .hlc-mobile-view-controls-host,
+  .hlc-mobile-portal .hlc-mobile-portal-scroll > .hlc-mobile-more-quick,
+  .hlc-mobile-portal .hlc-mobile-portal-scroll > .hlc-owner-home-link {
     position: relative !important;
-    z-index: 1 !important;
-    flex: 0 0 auto !important;
-    align-self: stretch !important;
-    width: 100% !important;
-    min-height: 0 !important;
-    margin: 0 0 10px !important;
-    padding-top: 0 !important;
+    inset: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    float: none !important;
+    clear: both !important;
     transform: none !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+  }
+
+  .hlc-mobile-portal .hlc-mobile-portal-scroll > .hlc-mobile-command-search-trigger {
+    display: flex !important;
+    margin: 0 0 10px !important;
   }
 
   .hlc-mobile-portal .hlc-mobile-portal-scroll > .hlc-mobile-view-controls-host {
-    order: 20 !important;
     display: block !important;
-    flex: 0 0 auto !important;
-    align-self: stretch !important;
-    width: 100% !important;
-    min-height: 0 !important;
-    height: auto !important;
     margin: 0 0 10px !important;
     padding: 0 !important;
-    inset: auto !important;
-    position: relative !important;
-    top: auto !important;
-    bottom: auto !important;
-    transform: none !important;
   }
 
   .hlc-mobile-portal .hlc-mobile-view-controls-host .hlc-mobile-menu-utilities {
@@ -214,24 +200,12 @@
     font-weight: 850 !important;
   }
 
-  .hlc-mobile-portal .hlc-mobile-portal-scroll > .hlc-mobile-more-quick {
-    order: 30 !important;
-    flex: 0 0 auto !important;
-    width: 100% !important;
-    margin: 0 0 10px !important;
-  }
-
+  .hlc-mobile-portal .hlc-mobile-portal-scroll > .hlc-mobile-more-quick,
   .hlc-mobile-portal .hlc-mobile-portal-scroll > .hlc-owner-home-link {
-    order: 40 !important;
-    flex: 0 0 auto !important;
-    width: 100% !important;
-    min-height: 44px !important;
     margin: 0 0 10px !important;
   }
 
-  /* App Directory is the complete role-aware mobile navigation surface. */
   .hlc-mobile-portal-scroll .hlc-navbar-groups {
-    order: 50 !important;
     display: none !important;
     visibility: hidden !important;
     width: 0 !important;
@@ -241,10 +215,6 @@
     padding: 0 !important;
     border: 0 !important;
     overflow: hidden !important;
-  }
-
-  .hlc-mobile-portal-scroll > .hlc-nav-access-note {
-    order: 55 !important;
   }
 
   .hlc-mobile-portal-scroll > .hlc-nav-logout {
