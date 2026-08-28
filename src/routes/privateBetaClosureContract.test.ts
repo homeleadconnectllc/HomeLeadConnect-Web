@@ -30,11 +30,12 @@ test("private beta closure guarantees readable dark fields and keyboard agent yi
   assert.match(styles, /body\.hlc-keyboard-open \.hlc-agent-dock:not\(\.is-open\)/);
 });
 
-test("physical sidebar uses one opaque fixed close authority and hides the underlying shell", () => {
+test("physical sidebar uses one compact opaque close authority and hides the underlying shell", () => {
   assert.match(sidebarStyles, /body:has\(\.hlc-mobile-portal\) #root \.hlc-navbar/);
   assert.match(sidebarStyles, /\.hlc-mobile-drawer-close\s*\{[\s\S]*position:\s*fixed\s*!important/);
   assert.match(sidebarStyles, /background:\s*#071426\s*!important/);
-  assert.match(sidebarStyles, /padding:\s*calc\(72px \+ env\(safe-area-inset-top\)\)/);
+  assert.match(sidebarStyles, /padding:\s*calc\(52px \+ env\(safe-area-inset-top\)\)/);
+  assert.match(sidebarStyles, /min-height:\s*calc\(48px \+ env\(safe-area-inset-top\)\)/);
   assert.match(sidebarStyles, /touch-action:\s*pan-y/);
 });
 
