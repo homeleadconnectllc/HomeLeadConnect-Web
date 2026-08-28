@@ -44,8 +44,8 @@ const KENDRELL_CLARITY_DIRECTION = "Use a clean, natural adult male speaking voi
 
 const voiceProfiles: Record<MaleAgentId, VoiceProfile> = {
   kendrell: {
-    providerVoice: "cedar",
-    publicVoice: "Kendrell Standard",
+    providerVoice: "verse",
+    publicVoice: "Kendrell Clear",
     direction: KENDRELL_CLARITY_DIRECTION,
   },
   dion: {
