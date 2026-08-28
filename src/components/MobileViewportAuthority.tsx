@@ -79,9 +79,6 @@ export default function MobileViewportAuthority() {
       const keyboardInset = Math.max(0, window.innerHeight - visualHeight - visualTop);
       const focusedEditable = isEditable(document.activeElement);
       const viewportKeyboardEvidence = keyboardInset > 120;
-      // Real iPhone Safari does not always report a stable visualViewport delta.
-      // On compact screens, focused text entry is authoritative keyboard evidence;
-      // visualViewport remains a secondary signal for geometry and dismissal.
       const keyboardOpen = compactViewport() && (focusedEditable || viewportKeyboardEvidence);
       const agentOpen = Boolean(document.querySelector(".hlc-agent-dock.is-open"));
 
@@ -119,7 +116,10 @@ export default function MobileViewportAuthority() {
       const preparing = replay.disabled && replay.textContent?.trim().toLowerCase().startsWith("preparing");
       if (!preparing) {
         const existing = preparingTimers.get(replay);
-        if (existing) window.clearTimeout(existing);
+        if (existing) {
+          window.clearTimeout(existing);
+          preparingTimers.delete(replay);
+        }
         return;
       }
       if (preparingTimers.has(replay) || nativeFallbackAttempted.has(replay)) return;
@@ -152,6 +152,24 @@ export default function MobileViewportAuthority() {
 
     const handleClick = (event: MouseEvent) => {
       const target = event.target instanceof Element ? event.target : null;
+      const replay = target?.closest<HTMLButtonElement>(".hlc-ai-replay");
+
+      // Free-first mobile authority: a real replay/Listen action on compact devices
+      // speaks locally immediately. Do not let unavailable neural TTS put iPhone
+      // playback back into the Preparing state before device speech gets a chance.
+      if (compactViewport() && replay) {
+        const dock = replay.closest(".hlc-agent-dock.is-open");
+        const text = replay.closest(".hlc-ai-message.is-model")?.querySelector("p")?.textContent?.trim();
+        if (dock && text && "speechSynthesis" in window && typeof SpeechSynthesisUtterance !== "undefined") {
+          event.preventDefault();
+          event.stopPropagation();
+          nativeFallbackAttempted.add(replay);
+          stopAgentSpeech();
+          speakNativeFallback(dock, text);
+          return;
+        }
+      }
+
       const voiceSummary = target?.closest(".hlc-ai-settings > summary");
       if (!voiceSummary) return;
       const settings = voiceSummary.parentElement;
@@ -169,7 +187,12 @@ export default function MobileViewportAuthority() {
         enforceFreeVoiceFailover();
       });
     });
-    mutationObserver.observe(document.body, { attributes: true, childList: true, characterData: true, subtree: true, attributeFilter: ["class"] });
+    mutationObserver.observe(document.body, { attributes: true, childList: true, characterData: true, subtree: true, attributeFilter: ["class", "disabled"] });
+
+    // Safari can preserve a React Preparing state without emitting the exact mutation
+    // sequence expected by a state observer. Poll only while the app is mounted so the
+    // free failover is guaranteed to notice a stalled visible replay control.
+    const freeVoicePoll = window.setInterval(enforceFreeVoiceFailover, 250);
 
     viewport?.addEventListener("resize", sync);
     viewport?.addEventListener("scroll", sync);
@@ -183,6 +206,7 @@ export default function MobileViewportAuthority() {
 
     return () => {
       window.clearTimeout(blurTimer);
+      window.clearInterval(freeVoicePoll);
       resizeObserver.disconnect();
       mutationObserver.disconnect();
       viewport?.removeEventListener("resize", sync);
