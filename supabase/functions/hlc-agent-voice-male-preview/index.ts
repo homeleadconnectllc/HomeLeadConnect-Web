@@ -39,6 +39,7 @@ const localeDirections: Record<AgentLocale, string> = {
 
 const SHARED_QUALITY = "Match the HLC voice-family quality standard established by Diamond: smooth, clean, stable, natural, conversational, and easy to understand on an iPhone speaker. Speak at ordinary phone-conversation volume with a fully voiced tone from the first word through the last. Never whisper, murmur, speak under the breath, trail off into softness, or use breathy, raspy, scratchy, gravelly, theatrical, novelty, or exaggerated delivery. Prioritize a believable regular human speaking voice over an impressive or dramatic voice.";
 const IDENTITY_LOCK = "Keep one recognizable vocal identity across every reply. Do not change apparent speaker, age, accent, baseline pitch range, vocal weight, resonance, or speaking style because of the wording. Use only small natural inflection changes.";
+const DION_PLAIN_DIRECTION = "Speak in a normal adult male voice at ordinary conversational volume. Be clear, direct, relaxed, and natural. Use a steady medium register and a normal speaking pace. Do not perform a character or add a special vocal effect. Keep the same ordinary speaking voice from the first word to the last. The name Dion is pronounced Dee-Yon and HLC is spoken H L C.";
 
 const voiceProfiles: Record<MaleAgentId, VoiceProfile> = {
   kendrell: {
@@ -49,7 +50,7 @@ const voiceProfiles: Record<MaleAgentId, VoiceProfile> = {
   dion: {
     providerVoice: "marin",
     publicVoice: "Dion Standard",
-    direction: "Render Dion as a clean adult male voice, fully voiced and clearly projected at normal phone-conversation volume. Use a comfortable medium male register with smooth chest-supported tone, clean consonants, and a slightly quicker, crisper cadence than Kendrell. He should sound like a practical operations and BI lead speaking directly and naturally, not like a performer. Keep vocal energy present from the first word through every sentence ending. Do not whisper, murmur, speak under the breath, rasp, croak, use vocal fry, breathiness, gravel, scratchiness, hushed delivery, trailing softness, nasal thinness, or dramatic styling. The name Dion is pronounced Dee-Yon and HLC is spoken H L C.",
+    direction: DION_PLAIN_DIRECTION,
   },
 };
 
@@ -126,12 +127,15 @@ Deno.serve(async (request) => {
   }
 
   const profileConfig = voiceProfiles[agentId];
+  const instructions = agentId === "dion"
+    ? `${profileConfig.direction} ${localeDirections[locale]} Preserve names, numbers, prices, dates, times, consent language, scheduling details, and confirmations exactly in meaning.`
+    : `${IDENTITY_LOCK} ${SHARED_QUALITY} ${profileConfig.direction} ${localeDirections[locale]} Preserve names, numbers, prices, dates, times, consent language, scheduling details, and confirmations exactly in meaning.`;
   const speechRequest = {
     model: MODEL,
     voice: profileConfig.providerVoice,
     input: applyCanonicalPronunciations(text, locale),
     response_format: "pcm",
-    instructions: `${IDENTITY_LOCK} ${SHARED_QUALITY} ${profileConfig.direction} ${localeDirections[locale]} Preserve names, numbers, prices, dates, times, consent language, scheduling details, and confirmations exactly in meaning.`,
+    instructions,
   };
 
   let providerResponse: Response;
