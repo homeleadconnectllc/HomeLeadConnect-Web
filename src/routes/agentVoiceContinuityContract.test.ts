@@ -18,19 +18,20 @@ test("Kendrell and Dion use one isolated authenticated male-voice family", () =>
 });
 
 test("Kendrell suppresses only the non-interactive room greeting race", () => {
-  assert.match(maleVoice, /Kendrell's failed physical rounds/);
-  assert.match(maleVoice, /room-level[\s\S]*proactive greeting/);
-  assert.match(maleVoice, /same tap that[\s\S]*starts Listen/);
+  assert.match(maleVoice, /proactive room greeting can race/);
   assert.match(maleVoice, /if \(agentId === "kendrell" && !onPlaybackStart\) return false/);
-  assert.match(maleVoice, /Dion is[\s\S]*untouched/);
+  assert.match(maleVoice, /Dion remains untouched/);
   assert.doesNotMatch(voice, /normalizeKendrellSpeechText/);
 });
 
-test("Dion and Kendrell retain the same streamed PCM playback path", () => {
-  assert.match(maleVoice, /Both male agents use the same streamed PCM playback path/);
+test("Kendrell contiguous PCM A/B is isolated while Dion stays on accepted streaming", () => {
+  assert.match(maleVoice, /Kendrell's latest physical result is close but still slightly muffled\/robotic/);
+  assert.match(maleVoice, /if \(agentId === "kendrell"\)/);
+  assert.match(maleVoice, /new Uint8Array\(await response\.arrayBuffer\(\)\)/);
+  assert.match(maleVoice, /playContiguousPcm\(context, bytes, controller, onPlaybackStart\)/);
+  assert.match(maleVoice, /Dion stays on the exact streamed path that physically passed/);
   assert.match(maleVoice, /const reader = response\.body\.getReader\(\)/);
   assert.doesNotMatch(maleVoice, /if \(agentId === "dion"\)[\s\S]*response\.arrayBuffer/);
-  assert.doesNotMatch(maleVoice, /playContiguousPcm/);
 });
 
 test("male agents do not silently fall back to unrelated native identities", () => {
@@ -100,7 +101,7 @@ test("native selection remains available only as Diamond's existing path", () =>
   assert.match(voice, /return -10_000/);
 });
 
-test("newer speech requests cancel older streamed playback", () => {
+test("newer speech requests cancel older playback", () => {
   assert.match(voice, /const interactive = Boolean\(onPlaybackStart\);/);
   assert.match(voice, /if \(!interactive && activeInteractiveGeneration !== null\) return false;/);
   assert.match(voice, /const generation = \+\+speechGeneration/);
