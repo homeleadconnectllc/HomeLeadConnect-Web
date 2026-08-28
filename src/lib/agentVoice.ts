@@ -11,9 +11,33 @@ type AudioContextWindow = typeof window & {
   webkitAudioContext?: typeof AudioContext;
 };
 
+type NativeVoiceProfile = {
+  rate: number;
+  pitch: number;
+  preferredNames: string[];
+};
+
 const STORAGE_KEY = "hlc.agentVoicePreferences.v3";
 const STREAM_SAMPLE_RATE = 24_000;
 const STREAM_START_LEAD_SECONDS = 0.04;
+
+const nativeVoiceProfiles: Record<AgentId, NativeVoiceProfile> = {
+  kendrell: {
+    rate: 0.9,
+    pitch: 0.86,
+    preferredNames: ["Aaron", "Daniel", "Alex", "Arthur", "Fred", "Ralph"],
+  },
+  dion: {
+    rate: 1.02,
+    pitch: 0.94,
+    preferredNames: ["Evan", "Tom", "Nathan", "Oliver", "Reed", "Albert"],
+  },
+  diamond: {
+    rate: 0.97,
+    pitch: 1.08,
+    preferredNames: ["Samantha", "Ava", "Serena", "Karen", "Victoria", "Tessa"],
+  },
+};
 
 function defaultPreferences(): AgentVoicePreferences {
   return { enabled: false, autoSpeak: false };
@@ -63,24 +87,34 @@ async function ensureAudioContextRunning(context: AudioContext) {
   }
 }
 
+function hasNativeSpeech() {
+  return typeof window !== "undefined" && "speechSynthesis" in window && typeof SpeechSynthesisUtterance !== "undefined";
+}
+
 export function isAgentAudioSupported() {
   if (typeof window === "undefined") return false;
   const audioWindow = window as AudioContextWindow;
-  return Boolean(window.AudioContext || audioWindow.webkitAudioContext);
+  return Boolean(window.AudioContext || audioWindow.webkitAudioContext || hasNativeSpeech());
 }
 
 export async function prepareAgentAudio() {
   const context = getAudioContext();
-  if (!context) throw new Error("Spoken replies are unavailable in this browser.");
+  if (context) {
+    await ensureAudioContextRunning(context);
+    const silentBuffer = context.createBuffer(1, 1, context.sampleRate);
+    const silentSource = context.createBufferSource();
+    silentSource.buffer = silentBuffer;
+    silentSource.connect(context.destination);
+    silentSource.start(0);
+    return true;
+  }
 
-  await ensureAudioContextRunning(context);
+  if (hasNativeSpeech()) {
+    window.speechSynthesis.getVoices();
+    return true;
+  }
 
-  const silentBuffer = context.createBuffer(1, 1, context.sampleRate);
-  const silentSource = context.createBufferSource();
-  silentSource.buffer = silentBuffer;
-  silentSource.connect(context.destination);
-  silentSource.start(0);
-  return true;
+  throw new Error("Spoken replies are unavailable in this browser.");
 }
 
 function cancelNativeSpeech() {
@@ -198,6 +232,66 @@ async function playLegacyBufferedResponse(
   return generation === speechGeneration;
 }
 
+function nativeSpeechText(text: string, locale: ResolvedAgentLocale) {
+  if (locale !== "en-US") return text;
+  return text
+    .replace(/\bDiamond\b/gi, "Die-Men")
+    .replace(/\bDion\b/gi, "Dee-Yon")
+    .replace(/\bKendrell\b/gi, "Ken-Drayl");
+}
+
+function selectNativeVoice(agentId: AgentId, locale: ResolvedAgentLocale) {
+  if (!hasNativeSpeech()) return null;
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return null;
+  const normalizedLocale = locale.toLowerCase();
+  const language = normalizedLocale.split("-")[0];
+  const localeVoices = voices.filter((voice) => voice.lang.toLowerCase() === normalizedLocale);
+  const languageVoices = voices.filter((voice) => voice.lang.toLowerCase().startsWith(`${language}-`));
+  const candidates = localeVoices.length ? localeVoices : languageVoices.length ? languageVoices : voices;
+  const preferredNames = nativeVoiceProfiles[agentId].preferredNames.map((name) => name.toLowerCase());
+  return candidates.find((voice) => preferredNames.some((name) => voice.name.toLowerCase().includes(name)))
+    ?? candidates.find((voice) => voice.default)
+    ?? candidates[0]
+    ?? null;
+}
+
+async function speakWithNativeVoice(
+  agentId: AgentId,
+  text: string,
+  locale: ResolvedAgentLocale,
+  generation: number,
+  onPlaybackStart?: () => void,
+) {
+  if (!hasNativeSpeech() || generation !== speechGeneration) return false;
+  cancelNativeSpeech();
+
+  const profile = nativeVoiceProfiles[agentId];
+  const utterance = new SpeechSynthesisUtterance(nativeSpeechText(text, locale));
+  utterance.lang = locale;
+  utterance.rate = profile.rate;
+  utterance.pitch = profile.pitch;
+  utterance.volume = 1;
+  const voice = selectNativeVoice(agentId, locale);
+  if (voice) utterance.voice = voice;
+
+  return await new Promise<boolean>((resolve) => {
+    let started = false;
+    utterance.onstart = () => {
+      if (generation !== speechGeneration) {
+        window.speechSynthesis.cancel();
+        resolve(false);
+        return;
+      }
+      started = true;
+      onPlaybackStart?.();
+    };
+    utterance.onend = () => resolve(started && generation === speechGeneration);
+    utterance.onerror = () => resolve(false);
+    window.speechSynthesis.speak(utterance);
+  });
+}
+
 export async function speakAgentText(
   agentId: AgentId,
   text: string,
@@ -213,10 +307,6 @@ export async function speakAgentText(
   const interactive = Boolean(onPlaybackStart);
   if (!interactive && activeInteractiveGeneration !== null) return false;
 
-  const context = getAudioContext();
-  if (!context) throw new Error("Spoken replies are unavailable in this browser.");
-  await ensureAudioContextRunning(context);
-
   const generation = ++speechGeneration;
   if (interactive) activeInteractiveGeneration = generation;
   activeSpeechAbortController?.abort();
@@ -224,85 +314,111 @@ export async function speakAgentText(
   cancelNativeSpeech();
   stopActiveSources();
 
+  const context = getAudioContext();
+  if (!context) {
+    try {
+      return await speakWithNativeVoice(agentId, cleanText, locale, generation, onPlaybackStart);
+    } finally {
+      if (activeInteractiveGeneration === generation) activeInteractiveGeneration = null;
+    }
+  }
+
+  await ensureAudioContextRunning(context);
   const { data: sessionData } = await supabase.auth.getSession();
   if (generation !== speechGeneration) return false;
   const accessToken = sessionData.session?.access_token;
-  if (!accessToken) throw new Error("Authentication is required for agent voice.");
+
+  // Free-first resilience: if authenticated neural TTS cannot be attempted, use the
+  // browser/device speech engine rather than making agent voice a paid dependency.
+  if (!accessToken) {
+    try {
+      return await speakWithNativeVoice(agentId, cleanText, locale, generation, onPlaybackStart);
+    } finally {
+      if (activeInteractiveGeneration === generation) activeInteractiveGeneration = null;
+    }
+  }
 
   const controller = new AbortController();
   activeSpeechAbortController = controller;
 
   try {
-    let response: Response;
     try {
-      response = await fetch(`${supabaseConfig.url}/functions/v1/hlc-agent-voice`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          apikey: supabaseConfig.anonKey,
-          "Content-Type": "application/json",
-        },
-        signal: controller.signal,
-        body: JSON.stringify({ agentId, text: cleanText, locale }),
-      });
+      let response: Response;
+      try {
+        response = await fetch(`${supabaseConfig.url}/functions/v1/hlc-agent-voice`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            apikey: supabaseConfig.anonKey,
+            "Content-Type": "application/json",
+          },
+          signal: controller.signal,
+          body: JSON.stringify({ agentId, text: cleanText, locale }),
+        });
+      } catch (reason) {
+        if (controller.signal.aborted || generation !== speechGeneration) return false;
+        throw reason;
+      }
+
+      if (generation !== speechGeneration) return false;
+      if (!response.ok) await throwVoiceResponseError(response);
+
+      const contentType = response.headers.get("content-type")?.toLowerCase() ?? "";
+      if (contentType.includes("application/json")) {
+        return await playLegacyBufferedResponse(context, response, generation, onPlaybackStart);
+      }
+
+      if (!response.body) throw new Error("Neural voice returned no playable audio stream.");
+
+      const reader = response.body.getReader();
+      let nextPlaybackAt = context.currentTime + STREAM_START_LEAD_SECONDS;
+      let carry: number | null = null;
+      let started = false;
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        if (generation !== speechGeneration) {
+          await reader.cancel();
+          return false;
+        }
+        if (!value?.byteLength) continue;
+
+        let bytes = value;
+        if (carry !== null) {
+          const combined = new Uint8Array(value.byteLength + 1);
+          combined[0] = carry;
+          combined.set(value, 1);
+          bytes = combined;
+          carry = null;
+        }
+        if (bytes.byteLength % 2 === 1) {
+          carry = bytes[bytes.byteLength - 1];
+          bytes = bytes.subarray(0, bytes.byteLength - 1);
+        }
+        if (!bytes.byteLength) continue;
+
+        // iOS can suspend WebAudio again while the network request is in flight.
+        // Resume immediately before every scheduled chunk so a successful TTS
+        // response cannot silently become inaudible playback.
+        await ensureAudioContextRunning(context);
+        if (generation !== speechGeneration) return false;
+        nextPlaybackAt = schedulePcmChunk(context, bytes, nextPlaybackAt);
+        if (!started) {
+          started = true;
+          onPlaybackStart?.();
+        }
+      }
+
+      if (!started) throw new Error("Neural voice returned no playable audio stream.");
+      await waitForScheduledPlayback(context, nextPlaybackAt, generation);
+      return started && generation === speechGeneration;
     } catch (reason) {
       if (controller.signal.aborted || generation !== speechGeneration) return false;
+      const played = await speakWithNativeVoice(agentId, cleanText, locale, generation, onPlaybackStart);
+      if (played) return true;
       throw reason;
     }
-
-    if (generation !== speechGeneration) return false;
-    if (!response.ok) await throwVoiceResponseError(response);
-
-    const contentType = response.headers.get("content-type")?.toLowerCase() ?? "";
-    if (contentType.includes("application/json")) {
-      return await playLegacyBufferedResponse(context, response, generation, onPlaybackStart);
-    }
-
-    if (!response.body) throw new Error("Neural voice returned no playable audio stream.");
-
-    const reader = response.body.getReader();
-    let nextPlaybackAt = context.currentTime + STREAM_START_LEAD_SECONDS;
-    let carry: number | null = null;
-    let started = false;
-
-    while (true) {
-      const { value, done } = await reader.read();
-      if (done) break;
-      if (generation !== speechGeneration) {
-        await reader.cancel();
-        return false;
-      }
-      if (!value?.byteLength) continue;
-
-      let bytes = value;
-      if (carry !== null) {
-        const combined = new Uint8Array(value.byteLength + 1);
-        combined[0] = carry;
-        combined.set(value, 1);
-        bytes = combined;
-        carry = null;
-      }
-      if (bytes.byteLength % 2 === 1) {
-        carry = bytes[bytes.byteLength - 1];
-        bytes = bytes.subarray(0, bytes.byteLength - 1);
-      }
-      if (!bytes.byteLength) continue;
-
-      // iOS can suspend WebAudio again while the network request is in flight.
-      // Resume immediately before every scheduled chunk so a successful TTS
-      // response cannot silently become inaudible playback.
-      await ensureAudioContextRunning(context);
-      if (generation !== speechGeneration) return false;
-      nextPlaybackAt = schedulePcmChunk(context, bytes, nextPlaybackAt);
-      if (!started) {
-        started = true;
-        onPlaybackStart?.();
-      }
-    }
-
-    if (!started) throw new Error("Neural voice returned no playable audio stream.");
-    await waitForScheduledPlayback(context, nextPlaybackAt, generation);
-    return started && generation === speechGeneration;
   } finally {
     if (activeSpeechAbortController === controller) activeSpeechAbortController = null;
     if (activeInteractiveGeneration === generation) activeInteractiveGeneration = null;
