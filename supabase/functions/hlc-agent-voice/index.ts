@@ -137,7 +137,6 @@ Deno.serve(async (request) => {
     voice: profileConfig.providerVoice,
     input: applyCanonicalPronunciations(text, locale),
     response_format: "pcm",
-    stream_format: "audio",
   };
   if (profileConfig.supportsInstructions) {
     speechRequest.instructions = `${VOICE_IDENTITY_LOCK} ${profileConfig.direction} ${localeDirections[locale]} Preserve names, numbers, prices, dates, times, consent language, scheduling details, and confirmations exactly in meaning.`;
