@@ -34,6 +34,14 @@ test("drawer v2 contains no legacy top band", () => {
   assert.doesNotMatch(styles, /--hlc-visual-viewport-top/);
 });
 
+test("drawer utilities remain in normal flow without stray legacy chevrons", () => {
+  assert.match(styles, /\.hlc-mobile-menu-utilities\s*\{[^}]*position:\s*relative\s*!important/s);
+  assert.match(styles, /\.hlc-mobile-menu-utilities\s*\{[^}]*max-height:\s*none\s*!important/s);
+  assert.match(styles, /\.hlc-mobile-early-signout\s*\{[^}]*position:\s*relative\s*!important/s);
+  assert.match(styles, /\.hlc-mobile-early-signout\s*\{[^}]*max-height:\s*none\s*!important/s);
+  assert.match(styles, /\.hlc-mobile-more-quick > a::before,[\s\S]*\.hlc-mobile-more-quick > a::after\s*\{[^}]*content:\s*none\s*!important/s);
+});
+
 test("drawer utilities and scroll reset target the isolated namespace", () => {
   assert.match(viewControls, /querySelector<HTMLElement>\("\.hlc-drawer-v2-scroll"\)/);
   assert.match(navbar, /querySelector<HTMLElement>\("body > \.hlc-drawer-v2 > \.hlc-drawer-v2-scroll"\)/);
