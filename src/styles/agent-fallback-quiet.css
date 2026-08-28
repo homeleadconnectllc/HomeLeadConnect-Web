@@ -1,0 +1,5 @@
+/* Keep verified fallback behavior available without presenting it as a warning banner.
+   Genuine runtime/input/voice errors still use .hlc-ai-error outside fallback mode. */
+.hlc-ai-chat[data-response-mode="fallback"] > .hlc-ai-error {
+  display: none;
+}
