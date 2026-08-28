@@ -1,7 +1,9 @@
-/* Physical iPhone drawer viewport root fix.
-   The portal is the single fixed viewport owner. The document stays scroll-locked
-   without becoming another fixed containing block. This final authority also owns
-   the drawer's top stack so older safe-area/header reserves cannot leak through. */
+/* Physical iPhone drawer visual-viewport closure.
+   The document remains scroll-locked without becoming a fixed containing block.
+   The portal itself is anchored to the browser's measured visual viewport so iOS
+   browser chrome cannot leave a layout-viewport band above the useful drawer UI.
+   The scroll surface stays at inset: 0 inside that portal; offsetTop is never used
+   as a negative translation on drawer content. */
 
 @media (max-width: 760px) {
   html:has(body > .hlc-mobile-portal),
@@ -19,9 +21,14 @@
 
   body > .hlc-mobile-portal {
     position: fixed !important;
-    inset: 0 !important;
-    width: 100vw !important;
-    height: 100dvh !important;
+    inset: auto !important;
+    top: var(--hlc-visual-viewport-top, 0px) !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: 0 !important;
+    width: var(--hlc-visual-viewport-width, 100vw) !important;
+    height: var(--hlc-visual-viewport-height, 100dvh) !important;
+    max-height: var(--hlc-visual-viewport-height, 100dvh) !important;
     margin: 0 !important;
     padding: 0 !important;
     transform: none !important;
