@@ -7,7 +7,7 @@ const maleVoice = readFileSync("src/lib/kendrellVoice.ts", "utf8");
 const maleProvider = readFileSync("supabase/functions/hlc-agent-voice-male-preview/index.ts", "utf8");
 const panel = readFileSync("src/components/agents/AgentChatPanel.tsx", "utf8");
 
-test("Kendrell and Dion use one isolated authenticated streamed male-voice family", () => {
+test("Kendrell and Dion use one isolated authenticated male-voice family", () => {
   assert.match(voice, /agentId === "kendrell" \|\| agentId === "dion"/);
   assert.match(voice, /speakMaleAgentNeuralText\(agentId, cleanText, locale, onPlaybackStart\)/);
   assert.match(maleVoice, /supabase\.auth\.getSession\(\)/);
@@ -15,7 +15,15 @@ test("Kendrell and Dion use one isolated authenticated streamed male-voice famil
   assert.match(maleVoice, /functions\/v1\/\$\{MALE_VOICE_PREVIEW_FUNCTION\}/);
   assert.match(maleVoice, /body: JSON\.stringify\(\{ agentId, text: text\.trim\(\), locale \}\)/);
   assert.match(maleVoice, /STREAM_SAMPLE_RATE = 24_000/);
-  assert.match(maleVoice, /response\.body\.getReader\(\)/);
+});
+
+test("Dion assembles provider PCM into one continuous Safari buffer", () => {
+  assert.match(maleVoice, /if \(agentId === "dion"\)/);
+  assert.match(maleVoice, /new Uint8Array\(await response\.arrayBuffer\(\)\)/);
+  assert.match(maleVoice, /playContiguousPcm\(context, bytes, controller, onPlaybackStart\)/);
+  assert.match(maleVoice, /continuous AudioBuffer/);
+  assert.match(maleVoice, /Keep Kendrell's accepted path/);
+  assert.match(maleVoice, /const reader = response\.body\.getReader\(\)/);
 });
 
 test("male agents do not silently fall back to unrelated native identities", () => {
@@ -90,7 +98,7 @@ test("native selection remains available only as Diamond's existing path", () =>
   assert.match(voice, /return -10_000/);
 });
 
-test("newer speech requests cancel older streamed or native playback", () => {
+test("newer speech requests cancel older streamed or contiguous playback", () => {
   assert.match(voice, /const interactive = Boolean\(onPlaybackStart\);/);
   assert.match(voice, /if \(!interactive && activeInteractiveGeneration !== null\) return false;/);
   assert.match(voice, /const generation = \+\+speechGeneration/);
