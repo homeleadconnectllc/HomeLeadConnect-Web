@@ -12,7 +12,10 @@ type NativeVoiceProfile = {
   preferredNames: string[];
 };
 
+type AgentNativeVoiceSelections = Partial<Record<AgentId, string>>;
+
 const STORAGE_KEY = "hlc.agentVoicePreferences.v4";
+const NATIVE_VOICE_SELECTION_KEY = "hlc.agentNativeVoiceSelections.v1";
 
 // Free-only HLC voice policy: the browser/device speech engine is the complete
 // spoken-reply runtime. Persona comes primarily from voice selection; rate and
@@ -21,12 +24,12 @@ const nativeVoiceProfiles: Record<AgentId, NativeVoiceProfile> = {
   kendrell: {
     rate: 0.92,
     pitch: 0.98,
-    preferredNames: ["Daniel", "Aaron", "Alex", "Arthur", "Ralph"],
+    preferredNames: ["Daniel", "Aaron", "Alex", "Arthur", "Ralph", "Cora"],
   },
   dion: {
     rate: 0.94,
     pitch: 1,
-    preferredNames: ["Tom", "Nathan", "Oliver", "Albert", "Alex"],
+    preferredNames: ["Tom", "Nathan", "Oliver", "Albert", "Alex", "Cora"],
   },
   diamond: {
     rate: 0.9,
@@ -84,6 +87,32 @@ export function getAgentVoicePreferences(): AgentVoicePreferences {
 export function saveAgentVoicePreferences(preferences: AgentVoicePreferences) {
   if (typeof window === "undefined") return;
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(preferences));
+}
+
+export function getAgentNativeVoiceSelection(agentId: AgentId) {
+  if (typeof window === "undefined") return "";
+  try {
+    const stored = window.localStorage.getItem(NATIVE_VOICE_SELECTION_KEY);
+    if (!stored) return "";
+    const parsed = JSON.parse(stored) as AgentNativeVoiceSelections;
+    return typeof parsed[agentId] === "string" ? parsed[agentId] ?? "" : "";
+  } catch {
+    return "";
+  }
+}
+
+export function saveAgentNativeVoiceSelection(agentId: AgentId, voiceUri: string) {
+  if (typeof window === "undefined") return;
+  let selections: AgentNativeVoiceSelections = {};
+  try {
+    const stored = window.localStorage.getItem(NATIVE_VOICE_SELECTION_KEY);
+    if (stored) selections = JSON.parse(stored) as AgentNativeVoiceSelections;
+  } catch {
+    selections = {};
+  }
+  if (voiceUri) selections[agentId] = voiceUri;
+  else delete selections[agentId];
+  window.localStorage.setItem(NATIVE_VOICE_SELECTION_KEY, JSON.stringify(selections));
 }
 
 function hasNativeSpeech() {
@@ -158,15 +187,22 @@ function selectNativeVoice(agentId: AgentId, locale: ResolvedAgentLocale) {
   const voices = window.speechSynthesis.getVoices();
   if (!voices.length) return null;
 
+  // A voice explicitly chosen on this device is authoritative. iOS voice names
+  // and defaults can shift as voices load, but voiceURI is the stable identifier
+  // exposed by SpeechSynthesisVoice for the current device/browser.
+  const lockedVoiceUri = getAgentNativeVoiceSelection(agentId);
+  if (lockedVoiceUri) {
+    const lockedVoice = voices.find((voice) => voice.voiceURI === lockedVoiceUri);
+    if (lockedVoice) return lockedVoice;
+  }
+
   const ranked = [...voices]
     .map((voice) => ({ voice, score: scoreNativeVoice(voice, agentId, locale) }))
     .filter(({ score }) => score > -10_000)
     .sort((a, b) => b.score - a.score);
 
-  // Physical iPhone QA confirmed Diamond is already acceptable. Preserve her
-  // quality-ranked behavior. Kendrell and Dion require a clearly persona-matched
-  // male-named native voice when one exists on the device rather than falling
-  // through to a generic default voice.
+  // Physical iPhone QA confirmed Diamond is closest to acceptable. Preserve her
+  // quality-ranked behavior until a device-specific voice is explicitly saved.
   if (agentId !== "diamond") {
     const preferredNames = nativeVoiceProfiles[agentId].preferredNames.map((value) => value.toLowerCase());
     const personaMatch = ranked.find(({ voice }) => {
