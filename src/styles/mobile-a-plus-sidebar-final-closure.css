@@ -9,8 +9,6 @@
     touch-action: none !important;
   }
 
-  /* Do not leave the normal HLC navbar/logo visible behind or above the drawer.
-     The nav itself already owns menu-is-open, so this does not depend on :has(). */
   #root .hlc-navbar.menu-is-open,
   body:has(.hlc-mobile-portal) #root .hlc-navbar,
   body:has(.hlc-mobile-portal) #root .hlc-mobile-tabbar,
@@ -38,8 +36,14 @@
     color: #f8fbff !important;
   }
 
-  /* One continuous scroll surface. Flex ordering lets the important account
-     controls sit above the long navigation groups regardless of DOM insertion. */
+  /* Kill legacy drawer badges/labels. The scroll surface owns the single logo. */
+  .hlc-mobile-portal::before,
+  .hlc-mobile-portal::after,
+  .hlc-mobile-portal-scroll::after {
+    content: none !important;
+    display: none !important;
+  }
+
   .hlc-mobile-portal-scroll {
     position: absolute !important;
     inset: 0 !important;
@@ -52,14 +56,14 @@
     height: 100dvh !important;
     max-height: 100dvh !important;
     margin: 0 !important;
-    padding: 8px 14px max(110px, calc(18px + env(safe-area-inset-bottom))) !important;
+    padding: 8px 14px max(118px, calc(22px + env(safe-area-inset-bottom))) !important;
     overflow-x: hidden !important;
     overflow-y: auto !important;
     overscroll-behavior: contain !important;
     -webkit-overflow-scrolling: touch;
     background: #071426 !important;
     box-shadow: none !important;
-    scroll-padding-top: 8px !important;
+    scroll-padding-top: 58px !important;
     touch-action: pan-y !important;
   }
 
@@ -70,21 +74,29 @@
     top: max(8px, env(safe-area-inset-top)) !important;
     left: 14px !important;
     z-index: 3 !important;
-    width: 44px !important;
-    height: 44px !important;
+    display: block !important;
+    width: 52px !important;
+    height: 52px !important;
     margin: 0 !important;
     border: 0 !important;
     border-radius: 50% !important;
     pointer-events: none !important;
-    background: transparent url("/hlc-logo-transparent.png") center / contain no-repeat !important;
+    background-color: transparent !important;
+    background-image: url("/hlc-logo-transparent.png") !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: contain !important;
   }
 
+  /* Close remains reachable while the drawer scrolls. */
   .hlc-mobile-drawer-close {
-    position: absolute !important;
+    order: 1 !important;
+    position: sticky !important;
     top: max(8px, env(safe-area-inset-top)) !important;
-    right: 14px !important;
+    right: auto !important;
     left: auto !important;
-    z-index: 4 !important;
+    z-index: 20 !important;
+    align-self: flex-end !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -93,11 +105,11 @@
     min-height: 44px !important;
     margin: 0 !important;
     padding: 9px 12px !important;
-    border: 1px solid rgba(96, 165, 250, .38) !important;
+    border: 1px solid rgba(96, 165, 250, .42) !important;
     border-radius: 10px !important;
     background: #0d1d35 !important;
     color: #f8fbff !important;
-    box-shadow: none !important;
+    box-shadow: 0 8px 20px rgba(2, 8, 18, .28) !important;
     font: inherit !important;
     font-size: 15px !important;
     font-weight: 900 !important;
@@ -113,14 +125,12 @@
     display: none !important;
   }
 
-  /* Search remains the first real task after the compact identity row. */
   .hlc-mobile-portal-scroll .hlc-mobile-command-search-trigger {
     order: 10 !important;
-    margin-top: calc(50px + max(0px, env(safe-area-inset-top))) !important;
+    margin-top: 8px !important;
     margin-bottom: 8px !important;
   }
 
-  /* Display mode + sign out are intentionally second, before any long menus. */
   .hlc-mobile-view-controls-host {
     order: 20 !important;
     display: block !important;
@@ -164,29 +174,111 @@
     margin-bottom: 8px !important;
   }
 
+  /* Long navigation groups must render as labeled controls, never empty lines. */
   .hlc-mobile-portal-scroll .hlc-navbar-groups {
     order: 50 !important;
-    padding-bottom: 10px !important;
+    display: grid !important;
+    gap: 7px !important;
+    width: 100% !important;
+    padding: 2px 0 14px !important;
+    border: 0 !important;
+  }
+
+  .hlc-mobile-portal-scroll .hlc-nav-group {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 1px solid rgba(148, 163, 184, .18) !important;
+    border-radius: 10px !important;
+    overflow: hidden !important;
+    background: #091b30 !important;
+    color: #eef7ff !important;
+  }
+
+  .hlc-mobile-portal-scroll .hlc-nav-group > summary {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    min-height: 44px !important;
+    margin: 0 !important;
+    padding: 11px 13px !important;
+    border: 0 !important;
+    background: #0a1c30 !important;
+    color: #eef7ff !important;
+    list-style: none !important;
+    cursor: pointer !important;
+  }
+
+  .hlc-mobile-portal-scroll .hlc-nav-group > summary::-webkit-details-marker {
+    display: none !important;
+  }
+
+  .hlc-mobile-portal-scroll .hlc-nav-group > summary span,
+  .hlc-mobile-portal-scroll .hlc-nav-group > summary small {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    clip: auto !important;
+    overflow: visible !important;
+    white-space: normal !important;
+  }
+
+  .hlc-mobile-portal-scroll .hlc-nav-group > summary span {
+    color: #f8fbff !important;
+    font-weight: 850 !important;
+  }
+
+  .hlc-mobile-portal-scroll .hlc-nav-group > summary small {
+    color: #9eb4ca !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+  }
+
+  .hlc-mobile-portal-scroll .hlc-nav-group:not([open]) > .hlc-nav-menu {
+    display: none !important;
+  }
+
+  .hlc-mobile-portal-scroll .hlc-nav-group[open] > .hlc-nav-menu {
+    display: grid !important;
+    width: 100% !important;
+    gap: 0 !important;
+    border-top: 1px solid rgba(148, 163, 184, .16) !important;
+    background: #071426 !important;
+  }
+
+  .hlc-mobile-portal-scroll .hlc-nav-menu > a {
+    display: grid !important;
+    min-height: 44px !important;
+    padding: 11px 13px !important;
+    border: 0 !important;
+    border-bottom: 1px solid rgba(148, 163, 184, .12) !important;
+    color: #eef7ff !important;
+    background: #071426 !important;
+    text-decoration: none !important;
+  }
+
+  .hlc-mobile-portal-scroll .hlc-nav-menu > a:last-child {
+    border-bottom: 0 !important;
   }
 
   .hlc-mobile-portal-scroll > .hlc-nav-access-note {
     order: 55 !important;
   }
 
-  /* Mobile owns one reachable sign-out action with the display controls. */
   .hlc-mobile-portal-scroll > .hlc-nav-logout {
     display: none !important;
   }
 
   .hlc-mobile-portal-scroll .hlc-owner-home-link,
-  .hlc-mobile-portal-scroll .hlc-mobile-more-quick > a,
-  .hlc-mobile-portal-scroll .hlc-nav-group > summary,
-  .hlc-mobile-portal-scroll .hlc-nav-menu > a {
+  .hlc-mobile-portal-scroll .hlc-mobile-more-quick > a {
     min-height: 44px !important;
   }
 
-  /* Physical iPhone evidence: global light-text authority was winning over the
-     white agent composer. White controls must use dark readable ink. */
   #root .hlc-ai-composer textarea {
     background: #ffffff !important;
     color: #0f172a !important;
