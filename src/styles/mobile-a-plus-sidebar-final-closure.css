@@ -61,26 +61,28 @@
     display: none !important;
   }
 
-  /* The drawer itself is the only vertical scroll owner. It is fixed to the visual
-     viewport so touch gestures cannot fall through to the document behind it. */
+  /* The drawer itself is the only vertical scroll owner. The top padding now only
+     reserves the actual fixed brand/close lane; no artificial header spacer remains. */
   .hlc-mobile-portal-scroll {
     position: fixed !important;
     inset: 0 !important;
     z-index: 1 !important;
     display: flex !important;
     flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-content: flex-start !important;
     width: 100vw !important;
     height: 100dvh !important;
     max-height: 100dvh !important;
     margin: 0 !important;
-    padding: max(82px, calc(66px + env(safe-area-inset-top))) 14px max(118px, calc(22px + env(safe-area-inset-bottom))) !important;
+    padding: max(64px, calc(52px + env(safe-area-inset-top))) 14px max(118px, calc(22px + env(safe-area-inset-bottom))) !important;
     overflow-x: hidden !important;
     overflow-y: scroll !important;
     overscroll-behavior-y: contain !important;
     -webkit-overflow-scrolling: touch !important;
     background: #071426 !important;
     box-shadow: none !important;
-    scroll-padding-top: 12px !important;
+    scroll-padding-top: 8px !important;
     touch-action: pan-y !important;
     pointer-events: auto !important;
     contain: layout paint !important;
@@ -90,12 +92,12 @@
   .hlc-mobile-portal-scroll::before {
     content: "" !important;
     position: fixed !important;
-    top: max(14px, env(safe-area-inset-top)) !important;
+    top: max(8px, env(safe-area-inset-top)) !important;
     left: 14px !important;
     z-index: 30 !important;
     display: block !important;
-    width: 46px !important;
-    height: 46px !important;
+    width: 42px !important;
+    height: 42px !important;
     margin: 0 !important;
     border: 1px solid rgba(96, 165, 250, .38) !important;
     border-radius: 50% !important;
@@ -104,16 +106,15 @@
     background-image: url("/hlc-logo-transparent.png") !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
-    background-size: 34px 34px !important;
+    background-size: 31px 31px !important;
     box-shadow: 0 6px 18px rgba(2, 8, 18, .24) !important;
   }
 
-  /* One fixed close control. It is removed from the scroll flow entirely so iOS
-     cannot paint a sticky duplicate while compositing the drawer. */
+  /* One fixed close control, aligned to the same compact top lane. */
   .hlc-mobile-drawer-close {
     order: 1 !important;
     position: fixed !important;
-    top: max(14px, env(safe-area-inset-top)) !important;
+    top: max(8px, env(safe-area-inset-top)) !important;
     right: 14px !important;
     left: auto !important;
     z-index: 40 !important;
@@ -122,9 +123,9 @@
     justify-content: center !important;
     width: auto !important;
     min-width: 0 !important;
-    min-height: 44px !important;
+    min-height: 42px !important;
     margin: 0 !important;
-    padding: 9px 12px !important;
+    padding: 8px 11px !important;
     float: none !important;
     transform: none !important;
     border: 1px solid rgba(96, 165, 250, .42) !important;
@@ -146,7 +147,6 @@
     content: none !important;
   }
 
-  /* Defensive single-control guard if a duplicate close node slips into one portal. */
   .hlc-mobile-portal-scroll > .hlc-mobile-drawer-close ~ .hlc-mobile-drawer-close {
     display: none !important;
   }
@@ -155,23 +155,39 @@
     display: none !important;
   }
 
-  .hlc-mobile-portal-scroll .hlc-mobile-command-search-trigger {
+  /* Search and the utility host are normal compact flex items. Explicit flex/margins
+     prevent older mobile navigation rules from creating an automatic vertical spacer. */
+  .hlc-mobile-portal .hlc-mobile-portal-scroll > .hlc-mobile-command-search-trigger {
     order: 10 !important;
     position: relative !important;
     z-index: 1 !important;
+    flex: 0 0 auto !important;
+    align-self: stretch !important;
     width: 100% !important;
-    margin: 0 0 12px !important;
+    min-height: 0 !important;
+    margin: 0 0 10px !important;
+    padding-top: 0 !important;
     transform: none !important;
   }
 
-  .hlc-mobile-view-controls-host {
+  .hlc-mobile-portal .hlc-mobile-portal-scroll > .hlc-mobile-view-controls-host {
     order: 20 !important;
     display: block !important;
+    flex: 0 0 auto !important;
+    align-self: stretch !important;
     width: 100% !important;
+    min-height: 0 !important;
+    height: auto !important;
     margin: 0 0 10px !important;
+    padding: 0 !important;
+    inset: auto !important;
+    position: relative !important;
+    top: auto !important;
+    bottom: auto !important;
+    transform: none !important;
   }
 
-  .hlc-mobile-view-controls-host .hlc-mobile-menu-utilities {
+  .hlc-mobile-portal .hlc-mobile-view-controls-host .hlc-mobile-menu-utilities {
     margin: 0 !important;
     padding: 9px !important;
   }
@@ -198,14 +214,16 @@
     font-weight: 850 !important;
   }
 
-  .hlc-mobile-portal-scroll .hlc-mobile-more-quick {
+  .hlc-mobile-portal .hlc-mobile-portal-scroll > .hlc-mobile-more-quick {
     order: 30 !important;
+    flex: 0 0 auto !important;
     width: 100% !important;
     margin: 0 0 10px !important;
   }
 
-  .hlc-mobile-portal-scroll .hlc-owner-home-link {
+  .hlc-mobile-portal .hlc-mobile-portal-scroll > .hlc-owner-home-link {
     order: 40 !important;
+    flex: 0 0 auto !important;
     width: 100% !important;
     min-height: 44px !important;
     margin: 0 0 10px !important;
