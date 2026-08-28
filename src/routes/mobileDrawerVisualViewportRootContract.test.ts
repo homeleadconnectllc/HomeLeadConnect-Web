@@ -42,6 +42,10 @@ test("drawer utilities remain in normal flow without stray legacy chevrons", () 
   assert.match(styles, /\.hlc-mobile-more-quick > a::before,[\s\S]*\.hlc-mobile-more-quick > a::after\s*\{[^}]*content:\s*none\s*!important/s);
 });
 
+test("drawer top-level sections cannot flex-shrink into one another", () => {
+  assert.match(styles, /\.hlc-owner-home-link,[\s\S]*\.hlc-mobile-command-search-trigger,[\s\S]*\.hlc-mobile-view-controls-host,[\s\S]*\.hlc-mobile-more-quick\s*\{[^}]*flex:\s*0 0 auto\s*!important/s);
+});
+
 test("drawer utilities and scroll reset target the isolated namespace", () => {
   assert.match(viewControls, /querySelector<HTMLElement>\("\.hlc-drawer-v2-scroll"\)/);
   assert.match(navbar, /querySelector<HTMLElement>\("body > \.hlc-drawer-v2 > \.hlc-drawer-v2-scroll"\)/);
