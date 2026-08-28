@@ -68,7 +68,7 @@ export default function Navbar() {
   useEffect(() => {
     if (!mobileOpen) return;
     const frame = window.requestAnimationFrame(() => {
-      const scrollSurface = document.querySelector<HTMLElement>("body > .hlc-mobile-portal > .hlc-mobile-portal-scroll");
+      const scrollSurface = document.querySelector<HTMLElement>("body > .hlc-drawer-v2 > .hlc-drawer-v2-scroll");
       scrollSurface?.scrollTo({ top: 0, left: 0, behavior: "auto" });
     });
     return () => window.cancelAnimationFrame(frame);
@@ -146,9 +146,9 @@ export default function Navbar() {
   }
 
   const mobileDrawer = mobileOpen && typeof document !== "undefined" ? createPortal(
-    <div className="hlc-mobile-portal" role="dialog" aria-modal="true" aria-label="HomeLead Connect navigation">
-      <div className="hlc-mobile-portal-scroll">
-        <button className="hlc-mobile-drawer-close" type="button" onClick={closeMobileMenu} aria-label="Close HomeLead Connect navigation">Close menu</button>
+    <div className="hlc-drawer-v2" role="dialog" aria-modal="true" aria-label="HomeLead Connect navigation">
+      <div className="hlc-drawer-v2-scroll">
+        <button className="hlc-drawer-v2-close" type="button" onClick={closeMobileMenu} aria-label="Close HomeLead Connect navigation">Close menu</button>
         {renderMenuContents()}
       </div>
     </div>,
