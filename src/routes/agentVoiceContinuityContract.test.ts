@@ -49,8 +49,9 @@ test("Diamond defines the shared quality baseline without becoming the male iden
   assert.match(maleProvider, /Prioritize a believable regular human speaking voice/);
 });
 
-test("male voice generation uses a pinned TTS snapshot for delivery consistency", () => {
-  assert.match(maleProvider, /const MODEL = "gpt-4o-mini-tts-2025-12-15"/);
+test("male voice generation uses the current GPT-4o mini TTS alias for shared clarity A/B", () => {
+  assert.match(maleProvider, /const MODEL = "gpt-4o-mini-tts"/);
+  assert.doesNotMatch(maleProvider, /gpt-4o-mini-tts-2025-12-15/);
   assert.match(maleProvider, /model: MODEL/);
 });
 
