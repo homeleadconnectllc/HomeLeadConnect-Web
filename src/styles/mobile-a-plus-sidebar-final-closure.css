@@ -59,7 +59,9 @@
     display: none !important;
   }
 
-  /* Normal block flow is deliberate. No flex ordering or injected-item reordering. */
+  /* iOS browsers already expose the usable visual viewport to this fixed portal.
+     Do not add env(safe-area-inset-top) here: older WebKit can reject min(env(...))
+     and fall back to legacy full-inset rules, creating a large dead band. */
   .hlc-mobile-portal-scroll {
     position: fixed !important;
     inset: 0 !important;
@@ -69,7 +71,7 @@
     height: 100dvh !important;
     max-height: 100dvh !important;
     margin: 0 !important;
-    padding: calc(58px + min(env(safe-area-inset-top), 10px)) 14px max(118px, calc(22px + env(safe-area-inset-bottom))) !important;
+    padding: 58px 14px max(118px, calc(22px + env(safe-area-inset-bottom))) !important;
     overflow-x: hidden !important;
     overflow-y: scroll !important;
     overscroll-behavior-y: contain !important;
@@ -85,7 +87,7 @@
   .hlc-mobile-portal-scroll::before {
     content: "" !important;
     position: fixed !important;
-    top: calc(8px + min(env(safe-area-inset-top), 10px)) !important;
+    top: 8px !important;
     left: 14px !important;
     z-index: 30 !important;
     display: block !important;
@@ -105,7 +107,7 @@
 
   .hlc-mobile-drawer-close {
     position: fixed !important;
-    top: calc(8px + min(env(safe-area-inset-top), 10px)) !important;
+    top: 8px !important;
     right: 14px !important;
     left: auto !important;
     z-index: 40 !important;
