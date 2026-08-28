@@ -15,7 +15,7 @@ const json = (body: Record<string, unknown>, status = 200) => new Response(JSON.
 
 const VOICE_PROVIDER_TIMEOUT_MS = 8_000;
 const PCM_SAMPLE_RATE = 24_000;
-const MODEL = "gpt-4o-mini-tts";
+const MODEL = "gpt-4o-mini-tts-2025-12-15";
 
 type MaleAgentId = "kendrell" | "dion";
 type AgentLocale = "en-US" | "es-US" | "fr-FR" | "pt-BR" | "zh-CN" | "ar-SA";
@@ -37,14 +37,14 @@ const localeDirections: Record<AgentLocale, string> = {
   "ar-SA": "Use natural clear Arabic appropriate for a Saudi/Gulf audience.",
 };
 
-const SHARED_QUALITY = "Match the HLC voice-family quality standard established by Diamond: smooth, clean, stable, natural, conversational, easy to understand on an iPhone speaker, and free of rasp, whisper, scratchiness, breathiness, theatrical delivery, exaggerated bass, novelty effects, or abrupt identity changes. Prioritize a believable regular human speaking voice over an impressive or dramatic voice.";
+const SHARED_QUALITY = "Match the HLC voice-family quality standard established by Diamond: smooth, clean, stable, natural, conversational, and easy to understand on an iPhone speaker. Speak at ordinary phone-conversation volume with a fully voiced tone from the first word through the last. Never whisper, murmur, speak under the breath, trail off into softness, or use breathy, raspy, scratchy, gravelly, theatrical, novelty, or exaggerated delivery. Prioritize a believable regular human speaking voice over an impressive or dramatic voice.";
 const IDENTITY_LOCK = "Keep one recognizable vocal identity across every reply. Do not change apparent speaker, age, accent, baseline pitch range, vocal weight, resonance, or speaking style because of the wording. Use only small natural inflection changes.";
 
 const voiceProfiles: Record<MaleAgentId, VoiceProfile> = {
   kendrell: {
     providerVoice: "cedar",
     publicVoice: "Kendrell Standard",
-    direction: "Use a plain, smooth, natural adult male speaking voice. Keep the pitch comfortable and only mildly low, not deep for effect. Speak at a normal conversational volume and moderate pace with calm, steady confidence. The priority is believable everyday speech that sounds clean and relaxed on a phone speaker. Sound like a composed chief-of-staff speaking directly to one person, without performing the role. Do not add cinematic depth, booming resonance, gravel, vocal fry, breathiness, whisper, rasp, exaggerated authority, dramatic pauses, announcer delivery, or forced bass. Keep phrasing simple, connected, and effortless. The name Kendrell is pronounced Ken-Drayl and HLC is spoken H L C.",
+    direction: "Use a plain, smooth, natural adult male speaking voice in a comfortable mildly low register. Speak clearly and fully at normal conversational volume, with calm steady confidence and a moderate measured pace. Every sentence must remain fully voiced and audible; do not soften into a whisper at sentence starts, pauses, or endings. The priority is believable everyday speech that sounds clean and relaxed on a phone speaker. Sound like a composed chief-of-staff speaking directly to one person without performing the role. Do not add cinematic depth, booming resonance, forced bass, gravel, vocal fry, breathiness, whisper, rasp, exaggerated authority, dramatic pauses, or announcer delivery. Keep phrasing simple, connected, and effortless. The name Kendrell is pronounced Ken-Drayl and HLC is spoken H L C.",
   },
   dion: {
     providerVoice: "cedar",
