@@ -14,7 +14,7 @@ test("compact devices expose Mobile/Desktop inside the More menu instead of a fi
   assert.match(controls, /hlc-view-mode/);
   assert.match(controls, /width=device-width/);
   assert.match(controls, /width=1180/);
-  assert.match(controls, /hlc-mobile-portal-scroll/);
+  assert.match(controls, /hlc-drawer-v2-scroll/);
   assert.match(controls, />\s*Mobile\s*</);
   assert.match(controls, />\s*Desktop\s*</);
   assert.doesNotMatch(controls, /hlc-mobile-side-controls/);
