@@ -15,25 +15,46 @@ type NativeVoiceProfile = {
 const STORAGE_KEY = "hlc.agentVoicePreferences.v4";
 
 // Free-only HLC voice policy: the browser/device speech engine is the complete
-// spoken-reply runtime. These settings favor intelligibility on phone speakers
-// while preserving a distinct operational character for each agent.
+// spoken-reply runtime. Persona comes primarily from voice selection; rate and
+// pitch stay conservative so intelligibility wins on phone speakers.
 const nativeVoiceProfiles: Record<AgentId, NativeVoiceProfile> = {
   kendrell: {
-    rate: 0.9,
-    pitch: 0.94,
-    preferredNames: ["Aaron", "Daniel", "Alex", "Arthur", "Ralph", "Fred"],
+    rate: 0.92,
+    pitch: 0.98,
+    preferredNames: ["Daniel", "Aaron", "Alex", "Arthur", "Ralph"],
   },
   dion: {
     rate: 0.94,
-    pitch: 0.98,
-    preferredNames: ["Evan", "Tom", "Nathan", "Oliver", "Reed", "Albert"],
+    pitch: 1,
+    preferredNames: ["Reed", "Oliver", "Nathan", "Albert", "Tom"],
   },
   diamond: {
-    rate: 0.92,
-    pitch: 1.02,
-    preferredNames: ["Samantha", "Ava", "Serena", "Karen", "Victoria", "Tessa"],
+    rate: 0.9,
+    pitch: 1,
+    preferredNames: ["Samantha", "Ava", "Serena", "Victoria", "Tessa", "Karen"],
   },
 };
+
+// iOS/macOS can expose novelty/effect voices alongside normal accessibility
+// voices. They are free too, but they are poor defaults for operational speech.
+const rejectedVoiceNameHints = [
+  "whisper",
+  "bad news",
+  "good news",
+  "bells",
+  "bubbles",
+  "cellos",
+  "boing",
+  "bahh",
+  "deranged",
+  "hysterical",
+  "organ",
+  "superstar",
+  "trinoids",
+  "zarvox",
+];
+
+const qualityVoiceNameHints = ["premium", "enhanced", "natural"];
 
 function defaultPreferences(): AgentVoicePreferences {
   return { enabled: false, autoSpeak: false };
@@ -98,28 +119,49 @@ function nativeSpeechText(text: string, locale: ResolvedAgentLocale) {
     .replace(/\bHLC\b/g, "H L C");
 }
 
+function scoreNativeVoice(
+  voice: SpeechSynthesisVoice,
+  agentId: AgentId,
+  locale: ResolvedAgentLocale,
+) {
+  const name = voice.name.toLowerCase();
+  const lang = voice.lang.toLowerCase();
+  const normalizedLocale = locale.toLowerCase();
+  const language = normalizedLocale.split("-")[0];
+  const preferredNames = nativeVoiceProfiles[agentId].preferredNames.map((value) => value.toLowerCase());
+
+  if (rejectedVoiceNameHints.some((hint) => name.includes(hint))) return -10_000;
+
+  let score = 0;
+  if (lang === normalizedLocale) score += 500;
+  else if (lang.startsWith(`${language}-`)) score += 250;
+  else score -= 500;
+
+  // A device-local voice is preferred because it is free, dependable, and does
+  // not rely on a network provider. Default voices are usually maintained by
+  // the OS for general speech rather than novelty effects.
+  if (voice.localService) score += 300;
+  if (voice.default) score += 120;
+
+  const preferredIndex = preferredNames.findIndex((preferred) => name.includes(preferred));
+  if (preferredIndex >= 0) score += 220 - preferredIndex * 20;
+
+  if (qualityVoiceNameHints.some((hint) => name.includes(hint))) score += 80;
+
+  return score;
+}
+
 function selectNativeVoice(agentId: AgentId, locale: ResolvedAgentLocale) {
   if (!hasNativeSpeech()) return null;
   const voices = window.speechSynthesis.getVoices();
   if (!voices.length) return null;
 
-  const normalizedLocale = locale.toLowerCase();
-  const language = normalizedLocale.split("-")[0];
-  const exactLocale = voices.filter((voice) => voice.lang.toLowerCase() === normalizedLocale);
-  const sameLanguage = voices.filter((voice) => voice.lang.toLowerCase().startsWith(`${language}-`));
-  const candidates = exactLocale.length ? exactLocale : sameLanguage.length ? sameLanguage : voices;
-  const localCandidates = candidates.filter((voice) => voice.localService);
-  const pool = localCandidates.length ? localCandidates : candidates;
-  const preferredNames = nativeVoiceProfiles[agentId].preferredNames.map((name) => name.toLowerCase());
+  const ranked = [...voices]
+    .map((voice) => ({ voice, score: scoreNativeVoice(voice, agentId, locale) }))
+    .filter(({ score }) => score > -10_000)
+    .sort((a, b) => b.score - a.score);
 
-  // Prefer a known clear local voice for the agent persona. If that exact voice is
-  // unavailable, prefer the device's local default before any remote/browser voice.
-  return pool.find((voice) => preferredNames.some((name) => voice.name.toLowerCase().includes(name)))
-    ?? pool.find((voice) => voice.default)
-    ?? pool[0]
-    ?? candidates.find((voice) => voice.default)
-    ?? candidates[0]
-    ?? null;
+  return ranked[0]?.voice ?? null;
 }
 
 async function speakWithNativeVoice(
