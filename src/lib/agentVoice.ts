@@ -161,6 +161,23 @@ function nativeSpeechText(text: string, locale: ResolvedAgentLocale) {
     .replace(/\bHLC\b/g, "H L C");
 }
 
+function normalizeKendrellSpeechText(text: string) {
+  // Kendrell's physical-iPhone failures persist even with Dion's accepted Cedar
+  // provider request and the same playback path. Keep the words intact while
+  // removing formatting and heavy punctuation that can push TTS into soft,
+  // trailing delivery. This is speech-only normalization; rendered chat text is
+  // unchanged.
+  return text
+    .replace(/```[\s\S]*?```/g, (block) => block.replace(/```[^\n]*\n?/g, "").replace(/```/g, ""))
+    .replace(/[*_`>#]/g, "")
+    .replace(/^\s*[-•]\s+/gm, "")
+    .replace(/\s*[—–;]\s*/g, ". ")
+    .replace(/\s*:\s+/g, ". ")
+    .replace(/\s+/g, " ")
+    .replace(/\.\s*\.+/g, ". ")
+    .trim();
+}
+
 function scoreNativeVoice(
   voice: SpeechSynthesisVoice,
   agentId: AgentId,
@@ -281,7 +298,8 @@ export async function speakAgentText(
         const label = agentId === "kendrell" ? "Kendrell" : "Dion";
         throw new Error(`${label}'s high-quality voice is unavailable in this browser.`);
       }
-      const played = await speakMaleAgentNeuralText(agentId, cleanText, locale, onPlaybackStart);
+      const speechText = agentId === "kendrell" ? normalizeKendrellSpeechText(cleanText) : cleanText;
+      const played = await speakMaleAgentNeuralText(agentId, speechText, locale, onPlaybackStart);
       return played && generation === speechGeneration;
     }
 
