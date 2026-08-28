@@ -13,13 +13,22 @@ test("mobile drawer portal is the only fixed viewport owner", () => {
   assert.match(styles, /body > \.hlc-mobile-portal\s*\{[^}]*inset:\s*0\s*!important/s);
 });
 
-test("mobile drawer scroll surface is anchored to portal origin with no visual viewport translation", () => {
+test("mobile drawer scroll surface owns an explicit compact top stack", () => {
   assert.match(styles, /\.hlc-mobile-portal-scroll\s*\{[^}]*position:\s*absolute\s*!important/s);
   assert.match(styles, /\.hlc-mobile-portal-scroll\s*\{[^}]*inset:\s*0\s*!important/s);
-  assert.match(styles, /\.hlc-mobile-portal-scroll\s*\{[^}]*height:\s*100%\s*!important/s);
-  assert.match(styles, /\.hlc-mobile-portal-scroll\s*\{[^}]*padding-top:\s*0\s*!important/s);
+  assert.match(styles, /\.hlc-mobile-portal-scroll\s*\{[^}]*display:\s*flex\s*!important/s);
+  assert.match(styles, /\.hlc-mobile-portal-scroll\s*\{[^}]*justify-content:\s*flex-start\s*!important/s);
+  assert.match(styles, /\.hlc-mobile-portal-scroll\s*\{[^}]*padding:\s*8px 14px max\(118px,[^}]*!important/s);
+  assert.match(styles, /\.hlc-mobile-portal-scroll\s*\{[^}]*padding-block-start:\s*8px\s*!important/s);
   assert.doesNotMatch(styles, /--hlc-visual-viewport-top/);
   assert.doesNotMatch(styles, /calc\(-1\s*\*/);
+});
+
+test("mobile drawer top controls cannot reserve a legacy header band", () => {
+  assert.match(styles, /\.hlc-mobile-drawer-close\s*\{[^}]*position:\s*relative\s*!important/s);
+  assert.match(styles, /\.hlc-mobile-drawer-close\s*\{[^}]*margin:\s*0 0 8px auto\s*!important/s);
+  assert.match(styles, /\.hlc-mobile-menu-heading\s*\{[^}]*display:\s*none\s*!important/s);
+  assert.match(styles, /\.hlc-mobile-menu-heading\s*\{[^}]*height:\s*0\s*!important/s);
 });
 
 test("mobile drawer resets its own scroll surface to top whenever it opens", () => {
