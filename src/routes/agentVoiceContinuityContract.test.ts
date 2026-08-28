@@ -54,8 +54,8 @@ test("male voice generation uses a pinned TTS snapshot for delivery consistency"
   assert.match(maleProvider, /model: MODEL/);
 });
 
-test("Kendrell keeps cedar but uses a clarity-first direction after physical QA", () => {
-  assert.match(maleProvider, /kendrell:[\s\S]*providerVoice: "cedar"[\s\S]*direction: KENDRELL_CLARITY_DIRECTION/);
+test("Kendrell uses verse with the clarity-first direction after robotic physical QA", () => {
+  assert.match(maleProvider, /kendrell:[\s\S]*providerVoice: "verse"[\s\S]*publicVoice: "Kendrell Clear"[\s\S]*direction: KENDRELL_CLARITY_DIRECTION/);
   assert.match(maleProvider, /comfortable medium register with an open, clear tone/);
   assert.match(maleProvider, /crisp consonants, natural connected phrasing/);
   assert.match(maleProvider, /without sounding slow, heavy, muffled, monotone, over-enunciated, or synthesized/);
