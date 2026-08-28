@@ -32,15 +32,17 @@ test("private beta closure guarantees readable dark fields and keyboard agent yi
   assert.match(styles, /body\.hlc-keyboard-open \.hlc-agent-dock:not\(\.is-open\)/);
 });
 
-test("physical sidebar uses only compact in-flow corner identity and close controls", () => {
+test("physical sidebar keeps one compact identity and a persistent reachable close control", () => {
   assert.match(sidebarStyles, /body:has\(\.hlc-mobile-portal\) #root \.hlc-navbar/);
   assert.match(sidebarStyles, /\.hlc-mobile-portal-scroll\s*\{[^}]*padding:\s*8px 14px/s);
-  assert.match(sidebarStyles, /\.hlc-mobile-drawer-close\s*\{[^}]*position:\s*absolute\s*!important/s);
-  assert.match(sidebarStyles, /\.hlc-mobile-drawer-close\s*\{[^}]*right:\s*14px\s*!important/s);
+  assert.match(sidebarStyles, /\.hlc-mobile-drawer-close\s*\{[^}]*position:\s*sticky\s*!important/s);
+  assert.match(sidebarStyles, /\.hlc-mobile-drawer-close\s*\{[^}]*align-self:\s*flex-end\s*!important/s);
   assert.match(sidebarStyles, /\.hlc-mobile-drawer-close\s*\{[^}]*width:\s*auto\s*!important/s);
-  assert.match(sidebarStyles, /\.hlc-mobile-portal-scroll::before\s*\{[^}]*hlc-logo-transparent\.png/s);
-  assert.match(sidebarStyles, /background:\s*transparent url\("\/hlc-logo-transparent\.png"\)/);
+  assert.match(sidebarStyles, /\.hlc-mobile-portal-scroll::before\s*\{[^}]*background-image:\s*url\("\/hlc-logo-transparent\.png"\)\s*!important/s);
+  assert.match(sidebarStyles, /\.hlc-mobile-portal::before,[\s\S]*content:\s*none\s*!important/);
   assert.match(sidebarStyles, /\.hlc-mobile-menu-heading\s*\{[\s\S]*display:\s*none\s*!important/);
+  assert.match(sidebarStyles, /\.hlc-nav-group > summary\s*\{[^}]*display:\s*flex\s*!important/s);
+  assert.match(sidebarStyles, /\.hlc-nav-group > summary span,[\s\S]*visibility:\s*visible\s*!important/);
   assert.match(sidebarStyles, /touch-action:\s*pan-y/);
 });
 
