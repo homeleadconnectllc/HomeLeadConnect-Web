@@ -18,6 +18,11 @@ export type AgentChatResponse = {
   locale?: ResolvedAgentLocale;
 };
 
+type AgentInvokeResult = {
+  data: AgentChatResponse | null;
+  error: unknown;
+};
+
 const CLIENT_AGENT_TIMEOUT_MS = 16_000;
 
 function browserTimeZone() {
@@ -65,14 +70,14 @@ export async function chatWithAgent(agentId: AgentId, message: string, history: 
     timeoutId = setTimeout(() => reject(new Error("HLC_AGENT_CLIENT_TIMEOUT")), CLIENT_AGENT_TIMEOUT_MS);
   });
 
-  let invocation: Awaited<ReturnType<typeof supabase.functions.invoke>>;
+  let invocation: AgentInvokeResult;
   try {
     invocation = await Promise.race([
-      supabase.functions.invoke("hlc-agent-chat", {
+      supabase.functions.invoke<AgentChatResponse>("hlc-agent-chat", {
         body: { agentId, message, history: localeAwareHistory, pagePath, locale, timeZone },
       }),
       timeout,
-    ]);
+    ]) as AgentInvokeResult;
   } catch (reason) {
     if (reason instanceof Error && reason.message === "HLC_AGENT_CLIENT_TIMEOUT") {
       return {
@@ -103,10 +108,9 @@ export async function chatWithAgent(agentId: AgentId, message: string, history: 
     throw error;
   }
   if (!data?.reply) throw new Error("AI provider returned no response.");
-  const response = data as AgentChatResponse;
   return {
-    ...response,
+    ...data,
     locale,
-    reply: response.fallback ? getLocalizedAgentFallback(agentId, locale) : response.reply,
+    reply: data.fallback ? getLocalizedAgentFallback(agentId, locale) : data.reply,
   };
 }
