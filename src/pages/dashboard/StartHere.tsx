@@ -56,6 +56,12 @@ export default function StartHere() {
       </label>
     </header>
 
+    {showBusinessTools && <section className="hlc-app-directory-first-day" aria-label="First-day checklist">
+      <strong>First-day checklist</strong>
+      <span>Before live use: confirm workspace settings, team access, phone workflow, one complete service workflow, notifications and follow-ups.</span>
+      <div><Link to="/settings">Settings</Link><Link to="/team">Team</Link><Link to="/workflow">Workflow</Link><Link to="/call-center">Call Center</Link></div>
+    </section>}
+
     <section className="hlc-app-directory-quick" aria-label="HLC quick destinations">
       {extras.map((item) => <Link key={item.route} to={item.route}><strong>{item.label}</strong><span>{item.purpose}</span><b aria-hidden="true">→</b></Link>)}
     </section>
