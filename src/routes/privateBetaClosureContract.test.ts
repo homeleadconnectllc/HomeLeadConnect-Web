@@ -32,18 +32,21 @@ test("private beta closure guarantees readable dark fields and keyboard agent yi
   assert.match(styles, /body\.hlc-keyboard-open \.hlc-agent-dock:not\(\.is-open\)/);
 });
 
-test("physical sidebar keeps one compact identity and a persistent reachable close control", () => {
+test("physical sidebar keeps one circular identity and a persistent non-overlapping close lane", () => {
   assert.match(sidebarStyles, /body:has\(\.hlc-mobile-portal\) #root \.hlc-navbar/);
-  assert.match(sidebarStyles, /\.hlc-mobile-portal-scroll\s*\{[^}]*padding:\s*8px 14px/s);
   assert.match(sidebarStyles, /\.hlc-mobile-drawer-close\s*\{[^}]*position:\s*sticky\s*!important/s);
-  assert.match(sidebarStyles, /\.hlc-mobile-drawer-close\s*\{[^}]*align-self:\s*flex-end\s*!important/s);
-  assert.match(sidebarStyles, /\.hlc-mobile-drawer-close\s*\{[^}]*width:\s*auto\s*!important/s);
-  assert.match(sidebarStyles, /\.hlc-mobile-portal-scroll::before\s*\{[^}]*background-image:\s*url\("\/hlc-logo-transparent\.png"\)\s*!important/s);
-  assert.match(sidebarStyles, /\.hlc-mobile-portal::before,[\s\S]*content:\s*none\s*!important/);
-  assert.match(sidebarStyles, /\.hlc-mobile-menu-heading\s*\{[\s\S]*display:\s*none\s*!important/);
-  assert.match(sidebarStyles, /\.hlc-nav-group > summary\s*\{[^}]*display:\s*flex\s*!important/s);
-  assert.match(sidebarStyles, /\.hlc-nav-group > summary span,[\s\S]*visibility:\s*visible\s*!important/);
+  assert.match(sidebarStyles, /\.hlc-mobile-drawer-close\s*\{[^}]*margin:\s*0 0 18px\s*!important/s);
+  assert.match(sidebarStyles, /\.hlc-mobile-portal-scroll::before\s*\{[^}]*border-radius:\s*50%\s*!important/s);
+  assert.match(sidebarStyles, /\.hlc-mobile-portal-scroll::before\s*\{[^}]*background-color:\s*#1355c8\s*!important/s);
+  assert.match(sidebarStyles, /background-image:\s*url\("\/hlc-logo-transparent\.png"\)\s*!important/);
+  assert.match(sidebarStyles, /\.hlc-mobile-command-search-trigger\s*\{[^}]*margin:\s*0 0 12px\s*!important/s);
   assert.match(sidebarStyles, /touch-action:\s*pan-y/);
+});
+
+test("mobile drawer uses App Directory instead of leaking duplicate desktop navigation rows", () => {
+  assert.match(sidebarStyles, /\.hlc-mobile-portal-scroll \.hlc-navbar-groups\s*\{[^}]*display:\s*none\s*!important/s);
+  assert.match(sidebarStyles, /\.hlc-mobile-portal-scroll \.hlc-navbar-groups\s*\{[^}]*height:\s*0\s*!important/s);
+  assert.match(startHere, /ecosystemNavigation/);
 });
 
 test("mobile view controls keep sign out reachable before long navigation groups", () => {
