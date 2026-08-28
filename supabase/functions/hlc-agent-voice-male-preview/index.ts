@@ -15,7 +15,7 @@ const json = (body: Record<string, unknown>, status = 200) => new Response(JSON.
 
 const VOICE_PROVIDER_TIMEOUT_MS = 8_000;
 const PCM_SAMPLE_RATE = 24_000;
-const MODEL = "gpt-4o-mini-tts-2025-12-15";
+const MODEL = "gpt-4o-mini-tts";
 
 type MaleAgentId = "kendrell" | "dion";
 type AgentLocale = "en-US" | "es-US" | "fr-FR" | "pt-BR" | "zh-CN" | "ar-SA";
