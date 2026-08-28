@@ -61,7 +61,7 @@ const quickPrompts: Record<ResolvedAgentLocale, Record<AgentId, string[]>> = {
   "pt-BR": {
     kendrell: ["O que precisa da minha atenção?", "Resuma este espaço de trabalho", "O que devo fazer agora?"],
     dion: ["O que está bloqueado nas operações?", "Mostre minhas próximas ações", "Resuma a carga de trabalho de hoje"],
-    diamond: ["Qual cliente precisa de atenção?", "Resuma os mensagens recentes", "Qual acompanhamento é mais importante?"],
+    diamond: ["Qual cliente precisa de atenção?", "Resuma as mensagens recentes", "Qual acompanhamento é mais importante?"],
   },
   "zh-CN": {
     kendrell: ["什么需要我关注？", "总结这个工作区", "我下一步该做什么？"],
