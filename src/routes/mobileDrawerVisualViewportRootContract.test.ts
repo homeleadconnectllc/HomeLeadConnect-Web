@@ -10,7 +10,13 @@ test("mobile drawer portal is the only fixed viewport owner", () => {
   assert.match(styles, /html:has\(body > \.hlc-mobile-portal\),[\s\S]*position:\s*static\s*!important/);
   assert.match(styles, /body:has\(> \.hlc-mobile-portal\)[\s\S]*position:\s*static\s*!important/);
   assert.match(styles, /body > \.hlc-mobile-portal\s*\{[^}]*position:\s*fixed\s*!important/s);
-  assert.match(styles, /body > \.hlc-mobile-portal\s*\{[^}]*inset:\s*0\s*!important/s);
+});
+
+test("mobile drawer portal is anchored to the measured visual viewport", () => {
+  assert.match(styles, /body > \.hlc-mobile-portal\s*\{[^}]*top:\s*var\(--hlc-visual-viewport-top, 0px\)\s*!important/s);
+  assert.match(styles, /body > \.hlc-mobile-portal\s*\{[^}]*width:\s*var\(--hlc-visual-viewport-width, 100vw\)\s*!important/s);
+  assert.match(styles, /body > \.hlc-mobile-portal\s*\{[^}]*height:\s*var\(--hlc-visual-viewport-height, 100dvh\)\s*!important/s);
+  assert.doesNotMatch(styles, /top:\s*calc\(-1\s*\*/);
 });
 
 test("mobile drawer scroll surface owns an explicit compact top stack", () => {
@@ -20,8 +26,6 @@ test("mobile drawer scroll surface owns an explicit compact top stack", () => {
   assert.match(styles, /\.hlc-mobile-portal-scroll\s*\{[^}]*justify-content:\s*flex-start\s*!important/s);
   assert.match(styles, /\.hlc-mobile-portal-scroll\s*\{[^}]*padding:\s*8px 14px max\(118px,[^}]*!important/s);
   assert.match(styles, /\.hlc-mobile-portal-scroll\s*\{[^}]*padding-block-start:\s*8px\s*!important/s);
-  assert.doesNotMatch(styles, /--hlc-visual-viewport-top/);
-  assert.doesNotMatch(styles, /calc\(-1\s*\*/);
 });
 
 test("mobile drawer top controls cannot reserve a legacy header band", () => {
