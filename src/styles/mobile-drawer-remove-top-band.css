@@ -1,0 +1,25 @@
+@media (max-width: 760px) {
+  body > .hlc-mobile-portal > .hlc-mobile-portal-scroll {
+    padding-top: 8px !important;
+  }
+
+  body > .hlc-mobile-portal > .hlc-mobile-portal-scroll::before,
+  body > .hlc-mobile-portal > .hlc-mobile-portal-scroll::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  body > .hlc-mobile-portal .hlc-mobile-drawer-close {
+    position: relative !important;
+    inset: auto !important;
+    margin: 0 0 8px auto !important;
+  }
+
+  body > .hlc-mobile-portal .hlc-owner-home-link,
+  body > .hlc-mobile-portal .hlc-mobile-command-search-trigger {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    transform: none !important;
+  }
+}
