@@ -96,6 +96,7 @@
   body > .hlc-drawer-v2 .hlc-mobile-more-quick {
     position: relative !important;
     inset: auto !important;
+    flex: 0 0 auto !important;
     width: 100% !important;
     min-width: 0 !important;
     height: auto !important;
