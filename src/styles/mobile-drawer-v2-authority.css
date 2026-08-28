@@ -1,0 +1,254 @@
+/* Isolated Mobile A+ drawer authority.
+   This namespace intentionally does not reuse .hlc-mobile-portal* so legacy
+   sidebar experiments cannot participate in the active drawer cascade. */
+
+@media (max-width: 760px) {
+  body:has(> .hlc-drawer-v2) {
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
+    touch-action: none !important;
+  }
+
+  body:has(> .hlc-drawer-v2) > #root {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  body > .hlc-drawer-v2 {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 2147483000 !important;
+    display: block !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    background: #071426 !important;
+    color: #f8fbff !important;
+    isolation: isolate !important;
+    overscroll-behavior: contain !important;
+  }
+
+  body > .hlc-drawer-v2::before,
+  body > .hlc-drawer-v2::after,
+  body > .hlc-drawer-v2 > .hlc-drawer-v2-scroll::before,
+  body > .hlc-drawer-v2 > .hlc-drawer-v2-scroll::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  body > .hlc-drawer-v2 > .hlc-drawer-v2-scroll {
+    position: absolute !important;
+    inset: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-start !important;
+    align-items: stretch !important;
+    gap: 10px !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 8px 14px max(96px, calc(18px + env(safe-area-inset-bottom))) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior-y: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+    scroll-padding: 0 !important;
+    background: #071426 !important;
+    box-sizing: border-box !important;
+    touch-action: pan-y !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-drawer-v2-close {
+    position: relative !important;
+    inset: auto !important;
+    align-self: flex-end !important;
+    flex: 0 0 auto !important;
+    min-width: 0 !important;
+    min-height: 42px !important;
+    margin: 0 !important;
+    padding: 8px 11px !important;
+    border: 1px solid rgba(96,165,250,.42) !important;
+    border-radius: 10px !important;
+    background: #0d1d35 !important;
+    color: #f8fbff !important;
+    box-shadow: none !important;
+    font: inherit !important;
+    font-size: 15px !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+    transform: none !important;
+    touch-action: manipulation !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-menu-heading,
+  body > .hlc-drawer-v2 .hlc-navbar-groups,
+  body > .hlc-drawer-v2 > .hlc-drawer-v2-scroll > .hlc-nav-logout {
+    display: none !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-owner-home-link,
+  body > .hlc-drawer-v2 .hlc-mobile-command-search-trigger,
+  body > .hlc-drawer-v2 .hlc-mobile-view-controls-host,
+  body > .hlc-drawer-v2 .hlc-mobile-more-quick {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding-block-start: 0 !important;
+    transform: none !important;
+    order: initial !important;
+    box-sizing: border-box !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-owner-home-link,
+  body > .hlc-drawer-v2 .hlc-mobile-command-search-trigger {
+    display: flex !important;
+    align-items: center !important;
+    gap: 11px !important;
+    min-height: 64px !important;
+    padding: 12px 14px !important;
+    border: 1px solid rgba(96,165,250,.28) !important;
+    border-radius: 12px !important;
+    background: #0a1d34 !important;
+    color: #f8fbff !important;
+    text-decoration: none !important;
+    box-shadow: none !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-owner-home-link > span,
+  body > .hlc-drawer-v2 .hlc-mobile-command-search-trigger > span:not(.hlc-mobile-command-search-icon) {
+    display: grid !important;
+    gap: 3px !important;
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-owner-home-link strong,
+  body > .hlc-drawer-v2 .hlc-mobile-command-search-trigger strong {
+    color: #f8fbff !important;
+    font-size: 16px !important;
+    line-height: 1.2 !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-owner-home-link small,
+  body > .hlc-drawer-v2 .hlc-mobile-command-search-trigger small {
+    color: #aebfd0 !important;
+    font-size: 13px !important;
+    line-height: 1.3 !important;
+    white-space: normal !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-command-search-icon {
+    flex: 0 0 auto !important;
+    font-size: 22px !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-view-controls-host {
+    display: block !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-menu-utilities {
+    display: grid !important;
+    gap: 8px !important;
+    margin: 0 !important;
+    padding: 10px !important;
+    border: 1px solid rgba(148,163,184,.18) !important;
+    border-radius: 12px !important;
+    background: #091a2d !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-menu-utilities-label {
+    color: #9fb4c9 !important;
+    font-size: 12px !important;
+    font-weight: 900 !important;
+    letter-spacing: .06em !important;
+    text-transform: uppercase !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-menu-view-actions {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-menu-view-actions button,
+  body > .hlc-drawer-v2 .hlc-mobile-early-signout {
+    min-height: 42px !important;
+    border-radius: 9px !important;
+    font: inherit !important;
+    font-weight: 850 !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-menu-view-actions button {
+    border: 1px solid rgba(96,165,250,.28) !important;
+    background: #0d2848 !important;
+    color: #dcecff !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-menu-view-actions button.is-active {
+    border-color: rgba(96,165,250,.68) !important;
+    background: #123b68 !important;
+    color: #ffffff !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-early-signout {
+    width: 100% !important;
+    margin: 0 !important;
+    border: 1px solid rgba(248,113,113,.32) !important;
+    background: rgba(127,29,29,.18) !important;
+    color: #fecaca !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-more-quick {
+    display: grid !important;
+    gap: 8px !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-more-quick > a {
+    display: grid !important;
+    grid-template-columns: 24px minmax(0,1fr) !important;
+    align-items: center !important;
+    gap: 10px !important;
+    min-height: 56px !important;
+    margin: 0 !important;
+    padding: 11px 13px !important;
+    border: 1px solid rgba(148,163,184,.16) !important;
+    border-radius: 11px !important;
+    background: #091a2d !important;
+    color: #eef7ff !important;
+    text-decoration: none !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-more-quick svg {
+    width: 22px !important;
+    height: 22px !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 1.8 !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-more-quick > a > span {
+    display: grid !important;
+    gap: 2px !important;
+    min-width: 0 !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-more-quick strong {
+    color: #f8fbff !important;
+    font-size: 15px !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-more-quick small {
+    color: #aebfd0 !important;
+    font-size: 13px !important;
+    line-height: 1.3 !important;
+    white-space: normal !important;
+  }
+}
