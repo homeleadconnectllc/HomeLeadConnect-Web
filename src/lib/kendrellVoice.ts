@@ -5,9 +5,11 @@ type AudioContextWindow = typeof window & {
   webkitAudioContext?: typeof AudioContext;
 };
 
+type MaleAgentId = "kendrell" | "dion";
+
 const STREAM_SAMPLE_RATE = 24_000;
 const STREAM_START_LEAD_SECONDS = 0.04;
-const KENDRELL_PREVIEW_FUNCTION = "hlc-agent-voice-kendrell-preview";
+const MALE_VOICE_PREVIEW_FUNCTION = "hlc-agent-voice-male-preview";
 
 let audioContext: AudioContext | null = null;
 let activeAbortController: AbortController | null = null;
@@ -26,7 +28,7 @@ function getAudioContext() {
 async function ensureAudioContextRunning(context: AudioContext) {
   if (context.state === "suspended") await context.resume();
   if (context.state !== "running") {
-    throw new Error("Tap the voice control again to enable Kendrell audio playback.");
+    throw new Error("Tap the voice control again to enable agent audio playback.");
   }
 }
 
@@ -69,8 +71,8 @@ function schedulePcmChunk(context: AudioContext, bytes: Uint8Array, startAt: num
   return scheduledAt + buffer.duration;
 }
 
-async function readVoiceError(response: Response) {
-  let message = "Kendrell voice generation failed.";
+async function readVoiceError(response: Response, agentId: MaleAgentId) {
+  let message = `${agentId === "kendrell" ? "Kendrell" : "Dion"} voice generation failed.`;
   try {
     const payload = await response.json() as { error?: string };
     if (payload?.error) message = payload.error;
@@ -80,15 +82,15 @@ async function readVoiceError(response: Response) {
   return message;
 }
 
-export function isKendrellNeuralVoiceSupported() {
+export function isMaleAgentNeuralVoiceSupported() {
   if (typeof window === "undefined") return false;
   const audioWindow = window as AudioContextWindow;
   return Boolean(window.AudioContext || audioWindow.webkitAudioContext);
 }
 
-export async function prepareKendrellNeuralVoice() {
+export async function prepareMaleAgentNeuralVoice() {
   const context = getAudioContext();
-  if (!context) throw new Error("Kendrell voice playback is unavailable in this browser.");
+  if (!context) throw new Error("Agent voice playback is unavailable in this browser.");
   await ensureAudioContextRunning(context);
 
   const silentBuffer = context.createBuffer(1, 1, context.sampleRate);
@@ -99,32 +101,33 @@ export async function prepareKendrellNeuralVoice() {
   return true;
 }
 
-export function stopKendrellNeuralVoice() {
+export function stopMaleAgentNeuralVoice() {
   activeAbortController?.abort();
   activeAbortController = null;
   stopSources();
 }
 
-export async function speakKendrellNeuralText(
+export async function speakMaleAgentNeuralText(
+  agentId: MaleAgentId,
   text: string,
   locale: ResolvedAgentLocale,
   onPlaybackStart?: () => void,
 ) {
   const context = getAudioContext();
-  if (!context) throw new Error("Kendrell voice playback is unavailable in this browser.");
+  if (!context) throw new Error("Agent voice playback is unavailable in this browser.");
   await ensureAudioContextRunning(context);
 
-  stopKendrellNeuralVoice();
+  stopMaleAgentNeuralVoice();
 
   const { data: sessionData } = await supabase.auth.getSession();
   const accessToken = sessionData.session?.access_token;
-  if (!accessToken) throw new Error("Authentication is required for Kendrell voice.");
+  if (!accessToken) throw new Error("Authentication is required for agent voice.");
 
   const controller = new AbortController();
   activeAbortController = controller;
 
   try {
-    const response = await fetch(`${supabaseConfig.url}/functions/v1/${KENDRELL_PREVIEW_FUNCTION}`, {
+    const response = await fetch(`${supabaseConfig.url}/functions/v1/${MALE_VOICE_PREVIEW_FUNCTION}`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -132,11 +135,11 @@ export async function speakKendrellNeuralText(
         "Content-Type": "application/json",
       },
       signal: controller.signal,
-      body: JSON.stringify({ agentId: "kendrell", text: text.trim(), locale }),
+      body: JSON.stringify({ agentId, text: text.trim(), locale }),
     });
 
-    if (!response.ok) throw new Error(await readVoiceError(response));
-    if (!response.body) throw new Error("Kendrell voice returned no playable audio stream.");
+    if (!response.ok) throw new Error(await readVoiceError(response, agentId));
+    if (!response.body) throw new Error("Agent voice returned no playable audio stream.");
 
     const reader = response.body.getReader();
     let nextPlaybackAt = context.currentTime + STREAM_START_LEAD_SECONDS;
@@ -175,7 +178,7 @@ export async function speakKendrellNeuralText(
       }
     }
 
-    if (!started) throw new Error("Kendrell voice returned no playable audio stream.");
+    if (!started) throw new Error("Agent voice returned no playable audio stream.");
     const remainingMs = Math.max(0, Math.ceil((nextPlaybackAt - context.currentTime) * 1000));
     if (remainingMs) await new Promise<void>((resolve) => window.setTimeout(resolve, remainingMs));
     return !controller.signal.aborted;
