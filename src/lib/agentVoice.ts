@@ -1,5 +1,11 @@
 import type { AgentId } from "../ai/agents";
 import type { ResolvedAgentLocale } from "./agentLocale";
+import {
+  isKendrellNeuralVoiceSupported,
+  prepareKendrellNeuralVoice,
+  speakKendrellNeuralText,
+  stopKendrellNeuralVoice,
+} from "./kendrellVoice";
 
 export type AgentVoicePreferences = {
   enabled: boolean;
@@ -17,9 +23,9 @@ type AgentNativeVoiceSelections = Partial<Record<AgentId, string>>;
 const STORAGE_KEY = "hlc.agentVoicePreferences.v4";
 const NATIVE_VOICE_SELECTION_KEY = "hlc.agentNativeVoiceSelections.v1";
 
-// Free-only HLC voice policy: the browser/device speech engine is the complete
-// spoken-reply runtime. Persona comes primarily from voice selection; rate and
-// pitch stay conservative so intelligibility wins on phone speakers.
+// Kendrell uses the dedicated neural runtime so his live voice can stay aligned
+// with the locked deep executive benchmark. Dion and Diamond remain on the
+// device-native path until their own physical-device voice rounds are complete.
 const nativeVoiceProfiles: Record<AgentId, NativeVoiceProfile> = {
   kendrell: {
     rate: 0.92,
@@ -38,9 +44,6 @@ const nativeVoiceProfiles: Record<AgentId, NativeVoiceProfile> = {
   },
 };
 
-// iOS/macOS can expose novelty/effect voices alongside normal accessibility
-// voices. They are free too, but they are poor defaults for operational speech.
-// Reed is excluded because physical iPhone QA found that device voice scratchy.
 const rejectedVoiceNameHints = [
   "whisper",
   "bad news",
@@ -122,14 +125,23 @@ function hasNativeSpeech() {
 }
 
 export function isAgentAudioSupported() {
-  return hasNativeSpeech();
+  return hasNativeSpeech() || isKendrellNeuralVoiceSupported();
 }
 
 export async function prepareAgentAudio() {
-  if (!hasNativeSpeech()) {
-    throw new Error("Spoken replies are unavailable in this browser.");
+  let prepared = false;
+
+  if (isKendrellNeuralVoiceSupported()) {
+    await prepareKendrellNeuralVoice();
+    prepared = true;
   }
-  window.speechSynthesis.getVoices();
+
+  if (hasNativeSpeech()) {
+    window.speechSynthesis.getVoices();
+    prepared = true;
+  }
+
+  if (!prepared) throw new Error("Spoken replies are unavailable in this browser.");
   return true;
 }
 
@@ -168,9 +180,6 @@ function scoreNativeVoice(
   else if (lang.startsWith(`${language}-`)) score += 250;
   else score -= 500;
 
-  // A device-local voice is preferred because it is free, dependable, and does
-  // not rely on a network provider. Default voices are usually maintained by
-  // the OS for general speech rather than novelty effects.
   if (voice.localService) score += 300;
   if (voice.default) score += 120;
 
@@ -187,9 +196,6 @@ function selectNativeVoice(agentId: AgentId, locale: ResolvedAgentLocale) {
   const voices = window.speechSynthesis.getVoices();
   if (!voices.length) return null;
 
-  // A voice explicitly chosen on this device is authoritative. iOS voice names
-  // and defaults can shift as voices load, but voiceURI is the stable identifier
-  // exposed by SpeechSynthesisVoice for the current device/browser.
   const lockedVoiceUri = getAgentNativeVoiceSelection(agentId);
   if (lockedVoiceUri) {
     const lockedVoice = voices.find((voice) => voice.voiceURI === lockedVoiceUri);
@@ -201,8 +207,6 @@ function selectNativeVoice(agentId: AgentId, locale: ResolvedAgentLocale) {
     .filter(({ score }) => score > -10_000)
     .sort((a, b) => b.score - a.score);
 
-  // Physical iPhone QA confirmed Diamond is closest to acceptable. Preserve her
-  // quality-ranked behavior until a device-specific voice is explicitly saved.
   if (agentId !== "diamond") {
     const preferredNames = nativeVoiceProfiles[agentId].preferredNames.map((value) => value.toLowerCase());
     const personaMatch = ranked.find(({ voice }) => {
@@ -257,23 +261,33 @@ export async function speakAgentText(
   locale: ResolvedAgentLocale = "en-US",
   onPlaybackStart?: () => void,
 ) {
-  if (typeof window === "undefined" || !hasNativeSpeech()) {
+  if (typeof window === "undefined") {
     throw new Error("Spoken replies are unavailable in this browser.");
   }
 
   const cleanText = text.trim();
   if (!cleanText) return false;
 
-  // Interactive chat/replay speech is authoritative. Background greeting or
-  // briefing speech must never interrupt a user-requested spoken reply.
   const interactive = Boolean(onPlaybackStart);
   if (!interactive && activeInteractiveGeneration !== null) return false;
 
   const generation = ++speechGeneration;
   if (interactive) activeInteractiveGeneration = generation;
   cancelNativeSpeech();
+  stopKendrellNeuralVoice();
 
   try {
+    if (agentId === "kendrell") {
+      if (!isKendrellNeuralVoiceSupported()) {
+        throw new Error("Kendrell's high-quality voice is unavailable in this browser.");
+      }
+      const played = await speakKendrellNeuralText(cleanText, locale, onPlaybackStart);
+      return played && generation === speechGeneration;
+    }
+
+    if (!hasNativeSpeech()) {
+      throw new Error("Spoken replies are unavailable in this browser.");
+    }
     return await speakWithNativeVoice(agentId, cleanText, locale, generation, onPlaybackStart);
   } finally {
     if (activeInteractiveGeneration === generation) activeInteractiveGeneration = null;
@@ -284,5 +298,6 @@ export function stopAgentSpeech() {
   if (typeof window === "undefined") return;
   speechGeneration += 1;
   activeInteractiveGeneration = null;
+  stopKendrellNeuralVoice();
   cancelNativeSpeech();
 }
