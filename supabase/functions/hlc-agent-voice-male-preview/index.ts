@@ -44,7 +44,7 @@ const voiceProfiles: Record<MaleAgentId, VoiceProfile> = {
   kendrell: {
     providerVoice: "cedar",
     publicVoice: "Kendrell Standard",
-    direction: "Use a regular adult male voice in a comfortable medium-low register. Calm, steady, confident and executive, with a slightly slower measured cadence. Do not force the pitch downward and do not try to sound cinematic, booming, gravelly or unusually deep. Sound like a composed chief-of-staff speaking one-to-one. The name Kendrell is pronounced Ken-Drayl and HLC is spoken H L C.",
+    direction: "Use a plain, smooth, natural adult male speaking voice. Keep the pitch comfortable and only mildly low, not deep for effect. Speak at a normal conversational volume and moderate pace with calm, steady confidence. The priority is believable everyday speech that sounds clean and relaxed on a phone speaker. Sound like a composed chief-of-staff speaking directly to one person, without performing the role. Do not add cinematic depth, booming resonance, gravel, vocal fry, breathiness, whisper, rasp, exaggerated authority, dramatic pauses, announcer delivery, or forced bass. Keep phrasing simple, connected, and effortless. The name Kendrell is pronounced Ken-Drayl and HLC is spoken H L C.",
   },
   dion: {
     providerVoice: "ash",
