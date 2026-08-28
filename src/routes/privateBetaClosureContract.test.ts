@@ -4,6 +4,7 @@ import { readFileSync } from "node:fs";
 
 const startHere = readFileSync(new URL("../pages/dashboard/StartHere.tsx", import.meta.url), "utf8");
 const styles = readFileSync(new URL("../styles/mobile-a-plus-private-beta-closure.css", import.meta.url), "utf8");
+const sidebarStyles = readFileSync(new URL("../styles/mobile-a-plus-sidebar-final-closure.css", import.meta.url), "utf8");
 const styleEntry = readFileSync(new URL("../styles/AuthenticatedStyles.tsx", import.meta.url), "utf8");
 
 test("Start Here is a searchable role-aware HLC App Directory", () => {
@@ -29,8 +30,16 @@ test("private beta closure guarantees readable dark fields and keyboard agent yi
   assert.match(styles, /body\.hlc-keyboard-open \.hlc-agent-dock:not\(\.is-open\)/);
 });
 
-test("private beta closure stylesheet loads last", () => {
+test("physical sidebar uses one opaque fixed close authority and hides the underlying shell", () => {
+  assert.match(sidebarStyles, /body:has\(\.hlc-mobile-portal\) #root \.hlc-navbar/);
+  assert.match(sidebarStyles, /\.hlc-mobile-drawer-close\s*\{[\s\S]*position:\s*fixed\s*!important/);
+  assert.match(sidebarStyles, /background:\s*#071426\s*!important/);
+  assert.match(sidebarStyles, /padding:\s*calc\(72px \+ env\(safe-area-inset-top\)\)/);
+  assert.match(sidebarStyles, /touch-action:\s*pan-y/);
+});
+
+test("sidebar closure is the last authenticated mobile authority", () => {
+  const sidebar = styleEntry.lastIndexOf('import "./mobile-a-plus-sidebar-final-closure.css"');
   const closure = styleEntry.lastIndexOf('import "./mobile-a-plus-private-beta-closure.css"');
-  const previous = styleEntry.lastIndexOf('import "./mobile-a-plus-final-device-round-3.css"');
-  assert.ok(closure > previous);
+  assert.ok(sidebar > closure);
 });
