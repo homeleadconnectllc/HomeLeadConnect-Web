@@ -31,11 +31,12 @@ test("every HLC agent interaction receives local temporal context without treati
   assert.match(chatClient, /timeZone/);
 });
 
-test("agent voice streams OpenAI PCM speech while preserving canonical HLC voice identities, locale behavior, and access boundaries", () => {
+test("agent voice streams OpenAI PCM speech with primary plus resilient fallback models", () => {
   assert.match(voice, /Deno\.env\.get\("OPENAI_API_KEY"\)/);
   assert.match(voice, /https:\/\/api\.openai\.com\/v1\/audio\/speech/);
   assert.match(voice, /gpt-4o-mini-tts/);
   assert.match(voice, /tts-1-hd/);
+  assert.match(voice, /FALLBACK_VOICE_MODEL = "tts-1"/);
   assert.doesNotMatch(voice, /generativelanguage\.googleapis\.com/);
   assert.match(voice, /response_format: "pcm"/);
   assert.doesNotMatch(voice, /stream_format/);
@@ -43,7 +44,7 @@ test("agent voice streams OpenAI PCM speech while preserving canonical HLC voice
   assert.match(voice, /"Content-Type": "audio\/pcm"/);
   assert.match(voice, /"X-HLC-Sample-Rate": String\(PCM_SAMPLE_RATE\)/);
   assert.match(voice, /"X-HLC-Locale": locale/);
-  assert.match(voice, /"X-HLC-Provider": profileConfig\.model/);
+  assert.match(voice, /"X-HLC-Provider": usedModel/);
   assert.doesNotMatch(voice, /audioBase64/);
   assert.doesNotMatch(voice, /providerResponse\.arrayBuffer\(\)/);
   assert.match(voice, /voice: "Schedar"/);
