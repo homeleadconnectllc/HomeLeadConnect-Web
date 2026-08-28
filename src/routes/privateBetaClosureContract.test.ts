@@ -36,9 +36,9 @@ test("physical sidebar uses corner identity instead of a full-width masthead", (
   assert.match(sidebarStyles, /body:has\(\.hlc-mobile-portal\) #root \.hlc-navbar/);
   assert.match(sidebarStyles, /\.hlc-mobile-drawer-close\s*\{[\s\S]*position:\s*fixed\s*!important/);
   assert.match(sidebarStyles, /\.hlc-mobile-drawer-close\s*\{[\s\S]*right:\s*14px\s*!important/);
+  assert.match(sidebarStyles, /\.hlc-mobile-drawer-close\s*\{[^}]*width:\s*auto\s*!important/);
   assert.match(sidebarStyles, /\.hlc-mobile-portal-scroll::before\s*\{[\s\S]*hlc-logo-transparent\.png/);
   assert.match(sidebarStyles, /\.hlc-mobile-menu-heading\s*\{[\s\S]*display:\s*none\s*!important/);
-  assert.doesNotMatch(sidebarStyles, /\.hlc-mobile-drawer-close\s*\{[\s\S]*width:\s*100%\s*!important/);
   assert.match(sidebarStyles, /touch-action:\s*pan-y/);
 });
 
