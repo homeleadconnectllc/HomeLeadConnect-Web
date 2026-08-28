@@ -7,7 +7,6 @@ const localeQuality = readFileSync("src/lib/agentLocaleQuality.ts", "utf8");
 const panel = readFileSync("src/components/agents/AgentChatPanel.tsx", "utf8");
 const chatApi = readFileSync("src/api/agentChat.ts", "utf8");
 const voiceClient = readFileSync("src/lib/agentVoice.ts", "utf8");
-const voiceEdge = readFileSync("supabase/functions/hlc-agent-voice/index.ts", "utf8");
 const styles = readFileSync("src/styles/agent-multilingual.css", "utf8");
 const styleEntry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 
@@ -51,24 +50,23 @@ test("all supported languages enforce native on-topic evidence-based HLC guidanc
   assert.match(chatApi, /body: \{ agentId, message, history: localeAwareHistory, pagePath, locale, timeZone \}/);
 });
 
-test("voice input and neural playback both follow the resolved locale", () => {
+test("voice input and free native playback both follow the resolved locale", () => {
   assert.match(panel, /recognition\.lang = activeLocale/);
   assert.match(panel, /speakAgentText\(agentId, text, locale, \(\) => setVoicePhase\("speaking"\)\)/);
-  assert.match(voiceClient, /body: JSON\.stringify\(\{ agentId, text: cleanText, locale \}\)/);
-  assert.match(voiceEdge, /Use Spanish pronunciation and rhythm/);
-  assert.match(voiceEdge, /Use French pronunciation and rhythm/);
-  assert.match(voiceEdge, /Use Brazilian Portuguese pronunciation and rhythm/);
-  assert.match(voiceEdge, /Use Mandarin pronunciation and rhythm/);
-  assert.match(voiceEdge, /Use Arabic pronunciation and rhythm/);
-  assert.match(voiceEdge, /if \(locale !== "en-US"\) return text/);
+  assert.match(voiceClient, /new SpeechSynthesisUtterance\(nativeSpeechText\(text, locale\)\)/);
+  assert.match(voiceClient, /utterance\.lang = locale/);
+  assert.match(voiceClient, /const normalizedLocale = locale\.toLowerCase\(\)/);
+  assert.match(voiceClient, /const sameLanguage = voices\.filter/);
+  assert.match(voiceClient, /if \(locale !== "en-US"\) return text/);
+  assert.doesNotMatch(voiceClient, /hlc-agent-voice|audio\/speech|response_format/);
 });
 
-test("Kendrell pronunciation and single authoritative playback remain launch-locked", () => {
-  assert.match(voiceEdge, /pronounced Ken-Drayl/);
-  assert.match(voiceEdge, /replace\(\/\\bKendrell\\b\/gi, "Ken-Drayl"\)/);
+test("Kendrell pronunciation and single authoritative native playback remain launch-locked", () => {
+  assert.match(voiceClient, /replace\(\/\\bKendrell\\b\/gi, "Ken-Drayl"\)/);
   assert.match(voiceClient, /const generation = \+\+speechGeneration/);
-  assert.match(voiceClient, /activeSpeechAbortController\?\.abort\(\)/);
-  assert.match(voiceClient, /stopActiveSources\(\)/);
+  assert.match(voiceClient, /activeInteractiveGeneration/);
+  assert.match(voiceClient, /cancelNativeSpeech\(\)/);
+  assert.match(voiceClient, /window\.speechSynthesis\?\.cancel\(\)/);
 });
 
 test("multilingual controls remain rendered on desktop and mobile", () => {
