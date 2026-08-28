@@ -56,7 +56,8 @@ test("voice input and free native playback both follow the resolved locale", () 
   assert.match(voiceClient, /new SpeechSynthesisUtterance\(nativeSpeechText\(text, locale\)\)/);
   assert.match(voiceClient, /utterance\.lang = locale/);
   assert.match(voiceClient, /const normalizedLocale = locale\.toLowerCase\(\)/);
-  assert.match(voiceClient, /const sameLanguage = voices\.filter/);
+  assert.match(voiceClient, /const language = normalizedLocale\.split\("-"\)\[0\]/);
+  assert.match(voiceClient, /lang\.startsWith\(`\$\{language\}-`\)/);
   assert.match(voiceClient, /if \(locale !== "en-US"\) return text/);
   assert.doesNotMatch(voiceClient, /hlc-agent-voice|audio\/speech|response_format/);
 });
