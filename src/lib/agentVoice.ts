@@ -24,12 +24,12 @@ const nativeVoiceProfiles: Record<AgentId, NativeVoiceProfile> = {
   kendrell: {
     rate: 0.92,
     pitch: 0.98,
-    preferredNames: ["Daniel", "Aaron", "Alex", "Arthur", "Ralph", "Cora"],
+    preferredNames: ["Daniel", "Aaron", "Alex", "Arthur", "Ralph"],
   },
   dion: {
     rate: 0.94,
     pitch: 1,
-    preferredNames: ["Tom", "Nathan", "Oliver", "Albert", "Alex", "Cora"],
+    preferredNames: ["Tom", "Nathan", "Oliver", "Albert", "Alex"],
   },
   diamond: {
     rate: 0.9,
