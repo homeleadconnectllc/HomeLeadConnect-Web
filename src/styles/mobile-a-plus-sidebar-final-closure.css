@@ -37,54 +37,65 @@
     height: 100% !important;
     max-height: none !important;
     margin: 0 !important;
-    padding: calc(44px + env(safe-area-inset-top)) 14px max(10px, env(safe-area-inset-bottom)) !important;
+    padding: calc(58px + env(safe-area-inset-top)) 14px max(10px, env(safe-area-inset-bottom)) !important;
     overflow-x: hidden !important;
     overflow-y: auto !important;
     overscroll-behavior: contain !important;
     -webkit-overflow-scrolling: touch;
     background: #071426 !important;
     box-shadow: none !important;
-    scroll-padding-top: calc(44px + env(safe-area-inset-top)) !important;
+    scroll-padding-top: calc(58px + env(safe-area-inset-top)) !important;
     touch-action: pan-y;
   }
 
+  /* Corner controls replace the former full-width drawer masthead. */
   .hlc-mobile-drawer-close {
     position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
+    top: calc(8px + env(safe-area-inset-top)) !important;
+    right: 14px !important;
+    left: auto !important;
     z-index: 2147483002 !important;
-    width: 100% !important;
-    min-height: calc(42px + env(safe-area-inset-top)) !important;
+    width: auto !important;
+    min-width: 72px !important;
+    min-height: 44px !important;
     margin: 0 !important;
-    padding: max(6px, env(safe-area-inset-top)) 14px 6px !important;
-    display: flex !important;
-    align-items: flex-end !important;
-    justify-content: flex-end !important;
-    border: 0 !important;
-    border-bottom: 1px solid rgba(148, 163, 184, .20) !important;
-    border-radius: 0 !important;
-    background: #071426 !important;
+    padding: 10px 13px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 1px solid rgba(96, 165, 250, .38) !important;
+    border-radius: 10px !important;
+    background: #0d1d35 !important;
     color: #f8fbff !important;
     box-shadow: none !important;
     font: inherit !important;
     font-weight: 900 !important;
     line-height: 1 !important;
-    text-align: right !important;
     white-space: nowrap !important;
   }
 
   .hlc-mobile-drawer-close::before { content: none !important; }
 
-  /* The mobile drawer already communicates workspace context through its links.
-     Remove the repeated workspace masthead so display controls and navigation
-     arrive in the first viewport instead of being pushed below the fold. */
+  /* The HLC mark itself is the left corner identity. No full-width bar. */
+  .hlc-mobile-portal-scroll::before {
+    content: "";
+    position: fixed;
+    top: calc(8px + env(safe-area-inset-top));
+    left: 14px;
+    z-index: 2147483002;
+    width: 46px;
+    height: 46px;
+    pointer-events: none;
+    border-radius: 50%;
+    background: url("/hlc-logo-transparent.png") center / contain no-repeat;
+  }
+
   .hlc-mobile-portal-scroll .hlc-mobile-menu-heading {
     display: none !important;
   }
 
   .hlc-mobile-portal-scroll .hlc-mobile-command-search-trigger {
-    margin-top: 6px !important;
+    margin-top: 0 !important;
     margin-bottom: 8px !important;
   }
 
@@ -102,29 +113,36 @@
     padding: 10px !important;
   }
 
-  .hlc-mobile-view-controls-host .hlc-mobile-menu-view-actions button {
+  .hlc-mobile-view-controls-host .hlc-mobile-menu-view-actions button,
+  .hlc-mobile-view-controls-host .hlc-mobile-early-signout {
     min-height: 44px !important;
+  }
+
+  .hlc-mobile-early-signout {
+    width: 100% !important;
+    margin-top: 2px !important;
+    border: 1px solid rgba(248, 113, 113, .32) !important;
+    border-radius: 10px !important;
+    background: rgba(127, 29, 29, .18) !important;
+    color: #fecaca !important;
+    font: inherit !important;
+    font-weight: 850 !important;
+  }
+
+  /* Mobile now has a reachable sign-out action beside the display controls. */
+  .hlc-mobile-portal-scroll > .hlc-nav-logout {
+    display: none !important;
   }
 
   .hlc-mobile-portal-scroll .hlc-owner-home-link,
   .hlc-mobile-portal-scroll .hlc-mobile-more-quick > a,
   .hlc-mobile-portal-scroll .hlc-nav-group > summary,
-  .hlc-mobile-portal-scroll .hlc-nav-menu > a,
-  .hlc-mobile-portal-scroll .hlc-nav-logout {
+  .hlc-mobile-portal-scroll .hlc-nav-menu > a {
     min-height: 44px !important;
   }
 
-  .hlc-mobile-portal-scroll .hlc-navbar-groups { padding-bottom: 6px !important; }
-  .hlc-mobile-portal-scroll .hlc-nav-logout { margin-bottom: 4px !important; }
-
-  .hlc-mobile-portal-scroll::before {
-    content: "";
-    position: fixed;
-    inset: 0 0 auto 0;
-    height: calc(42px + env(safe-area-inset-top));
-    z-index: 2147483001;
-    pointer-events: none;
-    background: #071426;
+  .hlc-mobile-portal-scroll .hlc-navbar-groups {
+    padding-bottom: 10px !important;
   }
 
   /* Physical iPhone evidence: global light-text authority was winning over the
