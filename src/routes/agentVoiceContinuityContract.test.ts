@@ -5,6 +5,8 @@ import test from "node:test";
 const voice = readFileSync("src/lib/agentVoice.ts", "utf8");
 const voiceRuntime = readFileSync("supabase/functions/hlc-agent-voice/index.ts", "utf8");
 
+// Free-first release policy: paid neural TTS is an enhancement, never a requirement for audible HLC guidance.
+
 test("streamed agent voice schedules PCM chunks continuously instead of restarting playback per chunk", () => {
   assert.match(voice, /let nextPlaybackAt = context\.currentTime \+ STREAM_START_LEAD_SECONDS;/);
   assert.match(voice, /nextPlaybackAt = schedulePcmChunk\(context, bytes, nextPlaybackAt\);/);
