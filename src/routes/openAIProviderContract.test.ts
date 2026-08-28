@@ -36,7 +36,9 @@ test("spoken agent output is free native-device speech and does not call the leg
   assert.match(voiceClient, /function hasNativeSpeech\(\)/);
   assert.match(voiceClient, /new SpeechSynthesisUtterance\(nativeSpeechText\(text, locale\)\)/);
   assert.match(voiceClient, /window\.speechSynthesis\.speak\(utterance\)/);
-  assert.match(voiceClient, /const localCandidates = candidates\.filter\(\(voice\) => voice\.localService\)/);
+  assert.match(voiceClient, /function scoreNativeVoice/);
+  assert.match(voiceClient, /if \(voice\.localService\) score \+= 300/);
+  assert.match(voiceClient, /rejectedVoiceNameHints/);
   assert.doesNotMatch(voiceClient, /hlc-agent-voice|api\.openai\.com\/v1\/audio\/speech|gpt-4o-mini-tts|tts-1-hd|FALLBACK_VOICE_MODEL|response_format/);
   assert.match(voiceClient, /replace\(\/\\bDiamond\\b\/gi, "Die-Men"\)/);
   assert.match(voiceClient, /replace\(\/\\bKendrell\\b\/gi, "Ken-Drayl"\)/);
