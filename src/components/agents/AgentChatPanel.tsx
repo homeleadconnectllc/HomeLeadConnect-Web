@@ -61,7 +61,7 @@ const quickPrompts: Record<ResolvedAgentLocale, Record<AgentId, string[]>> = {
   "pt-BR": {
     kendrell: ["O que precisa da minha atenção?", "Resuma este espaço de trabalho", "O que devo fazer agora?"],
     dion: ["O que está bloqueado nas operações?", "Mostre minhas próximas ações", "Resuma a carga de trabalho de hoje"],
-    diamond: ["Qual cliente precisa de atenção?", "Resuma as mensagens recentes", "Qual acompanhamento é mais importante?"],
+    diamond: ["Qual cliente precisa de atenção?", "Resuma os mensagens recentes", "Qual acompanhamento é mais importante?"],
   },
   "zh-CN": {
     kendrell: ["什么需要我关注？", "总结这个工作区", "我下一步该做什么？"],
@@ -96,6 +96,8 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
   const [activeLocale, setActiveLocale] = useState<ResolvedAgentLocale>(() => resolveAgentLocale(getAgentLocalePreference(), "", browserLocale));
   const [voicePreferences, setVoicePreferences] = useState<AgentVoicePreferences>(() => getAgentVoicePreferences());
   const recognitionRef = useRef<RecognitionLike | null>(null);
+  const previousAgentIdRef = useRef<AgentId>(agentId);
+  const agentGenerationRef = useRef(0);
   const recognitionSupported = typeof window !== "undefined" && Boolean(getRecognitionConstructor());
   const speechOutputSupported = isAgentAudioSupported();
   const sendDisabled = busy || draft.trim().length === 0;
@@ -103,6 +105,28 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
   const voiceBusy = voicePhase !== "idle";
   const presence: PresenceState = listening ? "listening" : voicePhase === "speaking" ? "speaking" : voicePhase === "preparing" ? "preparing" : busy ? "thinking" : "available";
   const copy = getAgentUiCopy(activeLocale);
+
+  // Agent tabs can reuse this component instance. Treat an agentId change as a
+  // hard conversation boundary so stale speech, dictation, transcript state, or
+  // an in-flight response from the previous agent can never bleed into the next.
+  useEffect(() => {
+    if (previousAgentIdRef.current === agentId) return;
+    previousAgentIdRef.current = agentId;
+    agentGenerationRef.current += 1;
+    try { recognitionRef.current?.stop(); } catch { /* dictation may already be stopped */ }
+    recognitionRef.current = null;
+    stopAgentSpeech();
+    setMessages([]);
+    setDraft("");
+    setBusy(false);
+    setListening(false);
+    setError("");
+    setFallbackMode(false);
+    setVoicePhase("idle");
+    const preference = getAgentLocalePreference();
+    setLocalePreference(preference);
+    setActiveLocale(resolveAgentLocale(preference, "", browserLocale));
+  }, [agentId, browserLocale]);
 
   useEffect(() => {
     if (!speechOutputSupported || !voicePreferences.enabled || !voicePreferences.autoSpeak) return;
@@ -180,6 +204,7 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
   async function sendMessage(text: string) {
     const clean = text.trim();
     if (!clean || busy) return;
+    const requestGeneration = agentGenerationRef.current;
     const resolvedLocale = resolveAgentLocale(localePreference, clean, browserLocale);
     setActiveLocale(resolvedLocale);
 
@@ -194,6 +219,7 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
     setMessages([...prior, { role: "user", text: clean }]);
     try {
       const response = await chatWithAgent(agentId, clean, prior, resolvedLocale);
+      if (requestGeneration !== agentGenerationRef.current) return;
       const responseLocale = response.locale || resolvedLocale;
       setActiveLocale(responseLocale);
       const previousModelReply = [...prior].reverse().find((item) => item.role === "model")?.text.trim() ?? "";
@@ -211,10 +237,11 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
 
       if (!response.fallback && voicePreferences.enabled && voicePreferences.autoSpeak) void speak(response.reply, false, responseLocale);
     } catch (reason) {
+      if (requestGeneration !== agentGenerationRef.current) return;
       setFallbackMode(false);
       setError(errorMessage(reason, `${agentName} is temporarily unavailable. Try again in a moment.`));
     } finally {
-      setBusy(false);
+      if (requestGeneration === agentGenerationRef.current) setBusy(false);
     }
   }
 
