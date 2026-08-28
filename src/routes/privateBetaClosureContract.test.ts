@@ -51,12 +51,12 @@ test("physical sidebar makes the drawer the sole vertical scroll owner", () => {
   assert.match(sidebarStyles, /\.hlc-mobile-drawer-close ~ \.hlc-mobile-drawer-close\s*\{[^}]*display:\s*none\s*!important/s);
 });
 
-test("physical sidebar keeps compact top geometry with no auto utility spacer", () => {
-  assert.match(sidebarStyles, /padding:\s*max\(64px,\s*calc\(52px \+ env\(safe-area-inset-top\)\)\)/);
-  assert.match(sidebarStyles, /justify-content:\s*flex-start\s*!important/);
-  assert.match(sidebarStyles, /\.hlc-mobile-portal \.hlc-mobile-portal-scroll > \.hlc-mobile-view-controls-host\s*\{[^}]*flex:\s*0 0 auto\s*!important/s);
-  assert.match(sidebarStyles, /\.hlc-mobile-portal \.hlc-mobile-portal-scroll > \.hlc-mobile-view-controls-host\s*\{[^}]*margin:\s*0 0 10px\s*!important/s);
-  assert.match(sidebarStyles, /\.hlc-mobile-portal \.hlc-mobile-portal-scroll > \.hlc-mobile-view-controls-host\s*\{[^}]*top:\s*auto\s*!important/s);
+test("physical sidebar uses normal block flow and caps browser safe-area inflation", () => {
+  assert.match(sidebarStyles, /\.hlc-mobile-portal-scroll\s*\{[^}]*display:\s*block\s*!important/s);
+  assert.match(sidebarStyles, /padding:\s*calc\(58px \+ min\(env\(safe-area-inset-top\), 10px\)\)/);
+  assert.doesNotMatch(sidebarStyles, /justify-content:\s*flex-start\s*!important/);
+  assert.doesNotMatch(sidebarStyles, /order:\s*20\s*!important/);
+  assert.match(sidebarStyles, /\.hlc-mobile-view-controls-host\s*\{[^}]*margin:\s*0 0 10px\s*!important/s);
 });
 
 test("mobile drawer uses App Directory instead of leaking duplicate desktop navigation rows", () => {
@@ -65,9 +65,10 @@ test("mobile drawer uses App Directory instead of leaking duplicate desktop navi
   assert.match(startHere, /ecosystemNavigation/);
 });
 
-test("mobile view controls keep sign out reachable before long navigation groups", () => {
+test("mobile view controls are inserted in natural DOM order directly before App Directory", () => {
   assert.match(viewControls, /hlc-mobile-view-controls-host/);
-  assert.match(viewControls, /insertBefore\(host, groups\)/);
+  assert.match(viewControls, /const quickActions = menu\.querySelector<HTMLElement>\("\.hlc-mobile-more-quick"\)/);
+  assert.match(viewControls, /insertBefore\(host, quickActions\)/);
   assert.match(viewControls, />Mobile</);
   assert.match(viewControls, />Desktop</);
   assert.match(viewControls, /hlc-mobile-early-signout/);
