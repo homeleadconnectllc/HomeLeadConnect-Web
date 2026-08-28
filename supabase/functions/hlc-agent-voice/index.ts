@@ -13,8 +13,9 @@ const json = (body: Record<string, unknown>, status = 200) => new Response(JSON.
   headers: { ...cors, "Content-Type": "application/json", "Cache-Control": "no-store" },
 });
 
-const VOICE_PROVIDER_TIMEOUT_MS = 12_000;
+const VOICE_PROVIDER_TIMEOUT_MS = 8_000;
 const PCM_SAMPLE_RATE = 24_000;
+const FALLBACK_VOICE_MODEL = "tts-1";
 
 type AgentId = "kendrell" | "dion" | "diamond";
 type ContextKind = "internal" | "resident_portal" | "professional_portal";
@@ -27,6 +28,12 @@ type VoiceProfile = {
   model: VoiceModel;
   supportsInstructions: boolean;
   direction: string;
+};
+
+type ProviderAttempt = {
+  response: Response | null;
+  timedOut: boolean;
+  networkError: boolean;
 };
 
 const supportedLocales = new Set<AgentLocale>(["en-US", "es-US", "fr-FR", "pt-BR", "zh-CN", "ar-SA"]);
@@ -72,6 +79,38 @@ function applyCanonicalPronunciations(text: string, locale: AgentLocale) {
     .replace(/\bDiamond\b/gi, "Die-Men")
     .replace(/\bDion\b/gi, "Dee-Yon")
     .replace(/\bKendrell\b/gi, "Ken-Drayl");
+}
+
+async function requestSpeech(openaiKey: string, speechRequest: Record<string, unknown>): Promise<ProviderAttempt> {
+  const controller = new AbortController();
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<null>((resolve) => {
+    timeoutId = setTimeout(() => {
+      controller.abort("voice_provider_timeout");
+      resolve(null);
+    }, VOICE_PROVIDER_TIMEOUT_MS);
+  });
+
+  try {
+    const request = fetch("https://api.openai.com/v1/audio/speech", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${openaiKey}`,
+        "Content-Type": "application/json",
+      },
+      signal: controller.signal,
+      body: JSON.stringify(speechRequest),
+    }).catch((reason) => {
+      if (!controller.signal.aborted) console.error("OpenAI TTS network error", reason instanceof Error ? reason.message.slice(0, 300) : "unknown");
+      return null;
+    });
+
+    const response = await Promise.race([request, timeout]);
+    if (!response) return { response: null, timedOut: controller.signal.aborted, networkError: !controller.signal.aborted };
+    return { response, timedOut: false, networkError: false };
+  } finally {
+    if (timeoutId) clearTimeout(timeoutId);
+  }
 }
 
 Deno.serve(async (request) => {
@@ -129,44 +168,47 @@ Deno.serve(async (request) => {
   if (contextKind === "professional_portal" && agentId !== "dion") return json({ error: "Dion is the professional portal assistant." }, 403);
 
   const profileConfig = voiceProfiles[agentId];
-  const providerAbort = new AbortController();
-  const timeoutId = setTimeout(() => providerAbort.abort("voice_provider_timeout"), VOICE_PROVIDER_TIMEOUT_MS);
-
-  const speechRequest: Record<string, unknown> = {
+  const primaryRequest: Record<string, unknown> = {
     model: profileConfig.model,
     voice: profileConfig.providerVoice,
     input: applyCanonicalPronunciations(text, locale),
     response_format: "pcm",
   };
   if (profileConfig.supportsInstructions) {
-    speechRequest.instructions = `${VOICE_IDENTITY_LOCK} ${profileConfig.direction} ${localeDirections[locale]} Preserve names, numbers, prices, dates, times, consent language, scheduling details, and confirmations exactly in meaning.`;
+    primaryRequest.instructions = `${VOICE_IDENTITY_LOCK} ${profileConfig.direction} ${localeDirections[locale]} Preserve names, numbers, prices, dates, times, consent language, scheduling details, and confirmations exactly in meaning.`;
   }
 
-  let providerResponse: Response;
-  try {
-    providerResponse = await fetch("https://api.openai.com/v1/audio/speech", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${openaiKey}`,
-        "Content-Type": "application/json",
-      },
-      signal: providerAbort.signal,
-      body: JSON.stringify(speechRequest),
-    });
-  } catch (reason) {
-    clearTimeout(timeoutId);
-    if (providerAbort.signal.aborted) {
-      console.error("OpenAI TTS provider timeout", VOICE_PROVIDER_TIMEOUT_MS);
-      return json({ error: "Voice generation took too long. Continue with the text reply.", code: "VOICE_PROVIDER_TIMEOUT", retryable: true, fallbackToText: true }, 504);
+  let usedModel = profileConfig.model as string;
+  let attempt = await requestSpeech(openaiKey, primaryRequest);
+  let providerResponse = attempt.response;
+
+  if (!providerResponse?.ok) {
+    if (providerResponse) {
+      const providerText = (await providerResponse.text()).slice(0, 500);
+      console.error("OpenAI TTS primary provider error", providerResponse.status, providerText);
+    } else if (attempt.timedOut) {
+      console.error("OpenAI TTS primary provider timeout", VOICE_PROVIDER_TIMEOUT_MS);
     }
-    console.error("OpenAI TTS network error", reason instanceof Error ? reason.message.slice(0, 300) : "unknown");
-    return json({ error: "Voice generation is temporarily unavailable. Continue with the text reply.", code: "VOICE_PROVIDER_NETWORK_ERROR", retryable: true, fallbackToText: true }, 502);
+
+    usedModel = FALLBACK_VOICE_MODEL;
+    const fallbackRequest: Record<string, unknown> = {
+      model: FALLBACK_VOICE_MODEL,
+      voice: profileConfig.providerVoice,
+      input: applyCanonicalPronunciations(text, locale),
+      response_format: "pcm",
+    };
+    attempt = await requestSpeech(openaiKey, fallbackRequest);
+    providerResponse = attempt.response;
   }
-  clearTimeout(timeoutId);
+
+  if (!providerResponse) {
+    const code = attempt.timedOut ? "VOICE_PROVIDER_TIMEOUT" : "VOICE_PROVIDER_NETWORK_ERROR";
+    return json({ error: "Voice generation is temporarily unavailable. Continue with the text reply.", code, retryable: true, fallbackToText: true }, attempt.timedOut ? 504 : 502);
+  }
 
   if (!providerResponse.ok) {
     const providerText = (await providerResponse.text()).slice(0, 500);
-    console.error("OpenAI TTS provider error", providerResponse.status, providerText);
+    console.error("OpenAI TTS fallback provider error", providerResponse.status, providerText);
     return json({ error: "Voice generation is temporarily unavailable. Continue with the text reply.", code: `VOICE_PROVIDER_${providerResponse.status}`, retryable: providerResponse.status === 429 || providerResponse.status >= 500, fallbackToText: true }, 502);
   }
 
@@ -182,7 +224,7 @@ Deno.serve(async (request) => {
       "Cache-Control": "no-store, no-transform",
       "X-Content-Type-Options": "nosniff",
       "X-HLC-Agent": agentId,
-      "X-HLC-Provider": profileConfig.model,
+      "X-HLC-Provider": usedModel,
       "X-HLC-Voice": profileConfig.voice,
       "X-HLC-Locale": locale,
       "X-HLC-Sample-Rate": String(PCM_SAMPLE_RATE),
