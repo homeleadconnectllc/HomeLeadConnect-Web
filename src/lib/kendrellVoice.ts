@@ -77,6 +77,37 @@ function schedulePcmChunk(context: AudioContext, bytes: Uint8Array, startAt: num
   return scheduledAt + source.buffer.duration;
 }
 
+async function playContiguousPcm(
+  context: AudioContext,
+  bytes: Uint8Array,
+  controller: AbortController,
+  onPlaybackStart?: () => void,
+) {
+  const evenBytes = bytes.byteLength % 2 === 0 ? bytes : bytes.subarray(0, bytes.byteLength - 1);
+  const source = createPcmSource(context, evenBytes);
+  if (!source?.buffer) throw new Error("Agent voice returned no playable audio stream.");
+
+  await ensureAudioContextRunning(context);
+  if (controller.signal.aborted) return false;
+
+  return await new Promise<boolean>((resolve) => {
+    let settled = false;
+    const finish = (played: boolean) => {
+      if (settled) return;
+      settled = true;
+      resolve(played && !controller.signal.aborted);
+    };
+    const previousOnEnded = source.onended;
+    source.onended = (event) => {
+      previousOnEnded?.call(source, event);
+      finish(true);
+    };
+    controller.signal.addEventListener("abort", () => finish(false), { once: true });
+    source.start(context.currentTime + STREAM_START_LEAD_SECONDS);
+    onPlaybackStart?.();
+  });
+}
+
 async function readVoiceError(response: Response, agentId: MaleAgentId) {
   let message = `${agentId === "kendrell" ? "Kendrell" : "Dion"} voice generation failed.`;
   try {
@@ -119,13 +150,9 @@ export async function speakMaleAgentNeuralText(
   locale: ResolvedAgentLocale,
   onPlaybackStart?: () => void,
 ) {
-  // Kendrell's failed physical rounds can be reproduced even with the exact same
-  // Cedar provider request and PCM playback path as Dion. His room-level
-  // proactive greeting is the remaining unique playback race: it is invoked
-  // without an interactive playback callback and can retry on the same tap that
-  // starts Listen. Suppress only that non-interactive room greeting for Kendrell
-  // so an explicit/response playback owns one audio stream at a time. Dion is
-  // untouched and remains on the physically accepted path.
+  // Kendrell's proactive room greeting can race the explicit Listen path on iOS.
+  // Keep that non-interactive greeting suppressed so one Kendrell stream owns the
+  // audio output. Dion remains untouched on the already accepted path.
   if (agentId === "kendrell" && !onPlaybackStart) return false;
 
   const context = getAudioContext();
@@ -156,9 +183,16 @@ export async function speakMaleAgentNeuralText(
     if (!response.ok) throw new Error(await readVoiceError(response, agentId));
     if (!response.body) throw new Error("Agent voice returned no playable audio stream.");
 
-    // Both male agents use the same streamed PCM playback path. Dion is already
-    // physically accepted on this path; Kendrell's current experiment changes
-    // only whether a non-interactive room greeting may race explicit playback.
+    // Kendrell's latest physical result is close but still slightly muffled/robotic.
+    // Buffer his PCM response into one continuous AudioBuffer so iOS never hears
+    // chunk-boundary scheduling artifacts. This is a Kendrell-only transport A/B;
+    // Dion stays on the exact streamed path that physically passed.
+    if (agentId === "kendrell") {
+      const bytes = new Uint8Array(await response.arrayBuffer());
+      if (controller.signal.aborted) return false;
+      return await playContiguousPcm(context, bytes, controller, onPlaybackStart);
+    }
+
     const reader = response.body.getReader();
     let nextPlaybackAt = context.currentTime + STREAM_START_LEAD_SECONDS;
     let carry: number | null = null;
