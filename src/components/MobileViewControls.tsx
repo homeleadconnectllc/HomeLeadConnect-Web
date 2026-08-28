@@ -72,8 +72,8 @@ export default function MobileViewControls() {
       if (!host) {
         host = document.createElement("div");
         host.className = "hlc-mobile-view-controls-host";
-        const groups = menu.querySelector<HTMLElement>(".hlc-navbar-groups");
-        if (groups) menu.insertBefore(host, groups);
+        const quickActions = menu.querySelector<HTMLElement>(".hlc-mobile-more-quick");
+        if (quickActions) menu.insertBefore(host, quickActions);
         else menu.append(host);
         ownedHost = host;
       }
