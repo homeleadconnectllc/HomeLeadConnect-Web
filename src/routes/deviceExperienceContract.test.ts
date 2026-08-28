@@ -23,7 +23,7 @@ test("agents proactively brief users from verified HLC context without waiting f
 
 test("mobile receives one compact session greeting while agent voice remains explicit opt-in", () => {
   assert.match(agentVoice, /return \{ enabled: false, autoSpeak: false \}/);
-  assert.match(agentVoice, /hlc\.agentVoicePreferences\.v3/);
+  assert.match(agentVoice, /hlc\.agentVoicePreferences\.v4/);
   assert.match(agentDock, /hlc\.agentBriefing\.v2:/);
   assert.match(agentDock, /alreadyShown/);
   assert.match(agentDock, /if \(!briefingVisible \|\| !preferences\.enabled \|\| !preferences\.autoSpeak/);
