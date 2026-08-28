@@ -19,17 +19,20 @@ test("active HLC agent speech is native-device only", () => {
 });
 
 test("free native profiles are clarity-first and remain distinct", () => {
-  assert.match(voice, /kendrell:[\s\S]*rate: 0\.9[\s\S]*pitch: 0\.94/);
-  assert.match(voice, /dion:[\s\S]*rate: 0\.94[\s\S]*pitch: 0\.98/);
-  assert.match(voice, /diamond:[\s\S]*rate: 0\.92[\s\S]*pitch: 1\.02/);
+  assert.match(voice, /kendrell:[\s\S]*rate: 0\.92[\s\S]*pitch: 0\.98/);
+  assert.match(voice, /dion:[\s\S]*rate: 0\.94[\s\S]*pitch: 1/);
+  assert.match(voice, /diamond:[\s\S]*rate: 0\.9[\s\S]*pitch: 1/);
   assert.match(voice, /preferredNames/);
 });
 
-test("voice selection prefers local device voices before remote browser voices", () => {
-  assert.match(voice, /const localCandidates = candidates\.filter\(\(voice\) => voice\.localService\);/);
-  assert.match(voice, /const pool = localCandidates\.length \? localCandidates : candidates;/);
-  assert.match(voice, /pool\.find\(\(voice\) => preferredNames\.some/);
-  assert.match(voice, /pool\.find\(\(voice\) => voice\.default\)/);
+test("voice selection ranks local exact-locale voices and rejects novelty effects", () => {
+  assert.match(voice, /function scoreNativeVoice/);
+  assert.match(voice, /if \(lang === normalizedLocale\) score \+= 500/);
+  assert.match(voice, /if \(voice\.localService\) score \+= 300/);
+  assert.match(voice, /if \(voice\.default\) score \+= 120/);
+  assert.match(voice, /rejectedVoiceNameHints/);
+  assert.match(voice, /return -10_000/);
+  assert.match(voice, /\.sort\(\(a, b\) => b\.score - a\.score\)/);
 });
 
 test("native English speech preserves locked HLC pronunciations", () => {
