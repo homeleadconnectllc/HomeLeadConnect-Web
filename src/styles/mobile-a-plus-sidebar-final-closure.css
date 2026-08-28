@@ -30,28 +30,30 @@
     color: #f8fbff !important;
   }
 
+  /* The drawer is now one continuous scroll surface. There is no masthead bar.
+     Only the corner logo + close control consume the first compact row. */
   .hlc-mobile-portal-scroll {
     position: absolute !important;
     inset: 0 !important;
+    display: block !important;
     width: 100% !important;
     height: 100% !important;
     max-height: none !important;
     margin: 0 !important;
-    padding: calc(58px + env(safe-area-inset-top)) 14px max(10px, env(safe-area-inset-bottom)) !important;
+    padding: 8px 14px max(10px, env(safe-area-inset-bottom)) !important;
     overflow-x: hidden !important;
     overflow-y: auto !important;
     overscroll-behavior: contain !important;
     -webkit-overflow-scrolling: touch;
     background: #071426 !important;
     box-shadow: none !important;
-    scroll-padding-top: calc(58px + env(safe-area-inset-top)) !important;
+    scroll-padding-top: 8px !important;
     touch-action: pan-y;
   }
 
-  /* Corner controls replace the former full-width drawer masthead. */
   .hlc-mobile-drawer-close {
-    position: fixed !important;
-    top: calc(8px + env(safe-area-inset-top)) !important;
+    position: absolute !important;
+    top: max(8px, env(safe-area-inset-top)) !important;
     right: 14px !important;
     left: auto !important;
     z-index: 2147483002 !important;
@@ -72,30 +74,33 @@
     font-weight: 900 !important;
     line-height: 1 !important;
     white-space: nowrap !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
   }
 
   .hlc-mobile-drawer-close::before { content: none !important; }
 
-  /* The HLC mark itself is the left corner identity. No full-width bar. */
+  /* Small in-drawer identity only; deliberately no full-width strip behind it. */
   .hlc-mobile-portal-scroll::before {
     content: "";
-    position: fixed;
-    top: calc(8px + env(safe-area-inset-top));
+    position: absolute;
+    top: max(8px, env(safe-area-inset-top));
     left: 14px;
-    z-index: 2147483002;
+    z-index: 2147483001;
     width: 46px;
     height: 46px;
     pointer-events: none;
     border-radius: 50%;
-    background: url("/hlc-logo-transparent.png") center / contain no-repeat;
+    background: transparent url("/hlc-logo-transparent.png") center / contain no-repeat;
   }
 
   .hlc-mobile-portal-scroll .hlc-mobile-menu-heading {
     display: none !important;
   }
 
+  /* Reserve only one compact control row, then begin real navigation immediately. */
   .hlc-mobile-portal-scroll .hlc-mobile-command-search-trigger {
-    margin-top: 0 !important;
+    margin-top: calc(54px + max(0px, env(safe-area-inset-top))) !important;
     margin-bottom: 8px !important;
   }
 
@@ -129,7 +134,7 @@
     font-weight: 850 !important;
   }
 
-  /* Mobile now has a reachable sign-out action beside the display controls. */
+  /* Mobile owns one reachable sign-out action beside display controls. */
   .hlc-mobile-portal-scroll > .hlc-nav-logout {
     display: none !important;
   }
