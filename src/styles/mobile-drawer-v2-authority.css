@@ -100,8 +100,10 @@
     min-width: 0 !important;
     height: auto !important;
     min-height: 0 !important;
+    max-height: none !important;
     margin: 0 !important;
     padding-block-start: 0 !important;
+    overflow: visible !important;
     transform: none !important;
     order: initial !important;
     box-sizing: border-box !important;
@@ -155,13 +157,22 @@
   }
 
   body > .hlc-drawer-v2 .hlc-mobile-menu-utilities {
+    position: relative !important;
+    inset: auto !important;
     display: grid !important;
     gap: 8px !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
     margin: 0 !important;
     padding: 10px !important;
+    overflow: visible !important;
     border: 1px solid rgba(148,163,184,.18) !important;
     border-radius: 12px !important;
     background: #091a2d !important;
+    transform: none !important;
+    box-sizing: border-box !important;
   }
 
   body > .hlc-drawer-v2 .hlc-mobile-menu-utilities-label {
@@ -173,9 +184,16 @@
   }
 
   body > .hlc-drawer-v2 .hlc-mobile-menu-view-actions {
+    position: relative !important;
+    inset: auto !important;
     display: grid !important;
     grid-template-columns: 1fr 1fr !important;
     gap: 8px !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    transform: none !important;
   }
 
   body > .hlc-drawer-v2 .hlc-mobile-menu-view-actions button,
@@ -199,11 +217,24 @@
   }
 
   body > .hlc-drawer-v2 .hlc-mobile-early-signout {
+    position: relative !important;
+    inset: auto !important;
+    z-index: auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     width: 100% !important;
+    height: auto !important;
+    min-height: 42px !important;
+    max-height: none !important;
     margin: 0 !important;
+    padding: 9px 12px !important;
+    overflow: visible !important;
     border: 1px solid rgba(248,113,113,.32) !important;
     background: rgba(127,29,29,.18) !important;
     color: #fecaca !important;
+    transform: none !important;
+    box-sizing: border-box !important;
   }
 
   body > .hlc-drawer-v2 .hlc-mobile-more-quick {
@@ -212,18 +243,34 @@
   }
 
   body > .hlc-drawer-v2 .hlc-mobile-more-quick > a {
+    position: relative !important;
+    inset: auto !important;
     display: grid !important;
     grid-template-columns: 24px minmax(0,1fr) !important;
     align-items: center !important;
     gap: 10px !important;
     min-height: 56px !important;
+    max-height: none !important;
     margin: 0 !important;
     padding: 11px 13px !important;
+    overflow: hidden !important;
     border: 1px solid rgba(148,163,184,.16) !important;
     border-radius: 11px !important;
     background: #091a2d !important;
     color: #eef7ff !important;
     text-decoration: none !important;
+    transform: none !important;
+    box-sizing: border-box !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-more-quick > a::before,
+  body > .hlc-drawer-v2 .hlc-mobile-more-quick > a::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-more-quick > a > b {
+    display: none !important;
   }
 
   body > .hlc-drawer-v2 .hlc-mobile-more-quick svg {
