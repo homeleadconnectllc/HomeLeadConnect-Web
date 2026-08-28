@@ -5,6 +5,7 @@ import { readFileSync } from "node:fs";
 const startHere = readFileSync(new URL("../pages/dashboard/StartHere.tsx", import.meta.url), "utf8");
 const styles = readFileSync(new URL("../styles/mobile-a-plus-private-beta-closure.css", import.meta.url), "utf8");
 const sidebarStyles = readFileSync(new URL("../styles/mobile-a-plus-sidebar-final-closure.css", import.meta.url), "utf8");
+const drawerIsolation = readFileSync(new URL("../styles/mobile-a-plus-drawer-root-isolation.css", import.meta.url), "utf8");
 const viewControls = readFileSync(new URL("../components/MobileViewControls.tsx", import.meta.url), "utf8");
 const agentChat = readFileSync(new URL("../api/agentChat.ts", import.meta.url), "utf8");
 const styleEntry = readFileSync(new URL("../styles/AuthenticatedStyles.tsx", import.meta.url), "utf8");
@@ -57,6 +58,15 @@ test("physical sidebar uses normal block flow and caps browser safe-area inflati
   assert.doesNotMatch(sidebarStyles, /justify-content:\s*flex-start\s*!important/);
   assert.doesNotMatch(sidebarStyles, /order:\s*20\s*!important/);
   assert.match(sidebarStyles, /\.hlc-mobile-view-controls-host\s*\{[^}]*margin:\s*0 0 10px\s*!important/s);
+});
+
+test("mobile drawer hides the entire underlying authenticated root while portal owns the viewport", () => {
+  assert.match(drawerIsolation, /body:has\(> \.hlc-mobile-portal\) > #root\s*\{[^}]*visibility:\s*hidden\s*!important/s);
+  assert.match(drawerIsolation, /body:has\(> \.hlc-mobile-portal\) > #root\s*\{[^}]*opacity:\s*0\s*!important/s);
+  assert.match(drawerIsolation, /body > \.hlc-mobile-portal\s*\{[^}]*visibility:\s*visible\s*!important/s);
+  const isolation = styleEntry.lastIndexOf('import "./mobile-a-plus-drawer-root-isolation.css"');
+  const sidebar = styleEntry.lastIndexOf('import "./mobile-a-plus-sidebar-final-closure.css"');
+  assert.ok(isolation > sidebar);
 });
 
 test("mobile drawer uses App Directory instead of leaking duplicate desktop navigation rows", () => {
