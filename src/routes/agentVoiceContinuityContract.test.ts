@@ -38,6 +38,28 @@ test("canonical agent voices retain their primary models with a shared tts-1 res
   assert.match(voiceRuntime, /X-HLC-Provider": usedModel/);
 });
 
+test("free browser and device speech is a final fallback when neural TTS is unavailable", () => {
+  assert.match(voice, /function hasNativeSpeech\(\)/);
+  assert.match(voice, /speechSynthesis/);
+  assert.match(voice, /new SpeechSynthesisUtterance/);
+  assert.match(voice, /speakWithNativeVoice\(agentId, cleanText, locale, generation, onPlaybackStart\)/);
+  assert.match(voice, /if \(!accessToken\)[\s\S]*speakWithNativeVoice/);
+  assert.match(voice, /catch \(reason\)[\s\S]*const played = await speakWithNativeVoice/);
+});
+
+test("free system fallback keeps Kendrell Dion and Diamond distinct", () => {
+  assert.match(voice, /kendrell:[\s\S]*rate: 0\.9[\s\S]*pitch: 0\.86/);
+  assert.match(voice, /dion:[\s\S]*rate: 1\.02[\s\S]*pitch: 0\.94/);
+  assert.match(voice, /diamond:[\s\S]*rate: 0\.97[\s\S]*pitch: 1\.08/);
+  assert.match(voice, /preferredNames/);
+});
+
+test("native English fallback preserves locked agent-name pronunciation", () => {
+  assert.match(voice, /\.replace\(\/\\bDiamond\\b\/gi, "Die-Men"\)/);
+  assert.match(voice, /\.replace\(\/\\bDion\\b\/gi, "Dee-Yon"\)/);
+  assert.match(voice, /\.replace\(\/\\bKendrell\\b\/gi, "Ken-Drayl"\)/);
+});
+
 test("instruction-based identity locking stays enabled only on the instruction-capable primary request", () => {
   assert.match(voiceRuntime, /const VOICE_IDENTITY_LOCK =/);
   assert.match(voiceRuntime, /Maintain one stable vocal identity across every reply/);
