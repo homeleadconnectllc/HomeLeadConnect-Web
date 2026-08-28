@@ -47,9 +47,9 @@ const voiceProfiles: Record<MaleAgentId, VoiceProfile> = {
     direction: "Use a plain, smooth, natural adult male speaking voice. Keep the pitch comfortable and only mildly low, not deep for effect. Speak at a normal conversational volume and moderate pace with calm, steady confidence. The priority is believable everyday speech that sounds clean and relaxed on a phone speaker. Sound like a composed chief-of-staff speaking directly to one person, without performing the role. Do not add cinematic depth, booming resonance, gravel, vocal fry, breathiness, whisper, rasp, exaggerated authority, dramatic pauses, announcer delivery, or forced bass. Keep phrasing simple, connected, and effortless. The name Kendrell is pronounced Ken-Drayl and HLC is spoken H L C.",
   },
   dion: {
-    providerVoice: "ash",
+    providerVoice: "cedar",
     publicVoice: "Dion Standard",
-    direction: "Use a regular adult male voice in a comfortable medium register. Clean, smooth, precise and practical, with a slightly quicker and crisper cadence than Kendrell. Keep it natural and conversational rather than announcer-like. Never become raspy, whispery, scratchy, nasal or overly sharp. The name Dion is pronounced Dee-Yon and HLC is spoken H L C.",
+    direction: "Use a clear adult male speaking voice at normal phone-conversation volume, with a comfortable medium register and a brighter, quicker delivery than Kendrell. Speak fully voiced, never under the breath. Keep every word crisp, direct, and easy to understand on an iPhone speaker. The style should feel like a practical operations analyst giving a concise update: smooth, natural, alert, and professional, but not theatrical. Do not whisper, murmur, trail off, use a breathy onset, vocal fry, rasp, scratchiness, hushed delivery, excessive softness, or nasal sharpness. Keep the same recognizable identity from reply to reply. The name Dion is pronounced Dee-Yon and HLC is spoken H L C.",
   },
 };
 
