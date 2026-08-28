@@ -9,12 +9,21 @@ const panel = readFileSync("src/components/agents/AgentChatPanel.tsx", "utf8");
 
 test("Kendrell and Dion use one isolated authenticated male-voice family", () => {
   assert.match(voice, /agentId === "kendrell" \|\| agentId === "dion"/);
-  assert.match(voice, /speakMaleAgentNeuralText\(agentId, cleanText, locale, onPlaybackStart\)/);
+  assert.match(voice, /speakMaleAgentNeuralText\(agentId, speechText, locale, onPlaybackStart\)/);
   assert.match(maleVoice, /supabase\.auth\.getSession\(\)/);
   assert.match(maleVoice, /MALE_VOICE_PREVIEW_FUNCTION = "hlc-agent-voice-male-preview"/);
   assert.match(maleVoice, /functions\/v1\/\$\{MALE_VOICE_PREVIEW_FUNCTION\}/);
   assert.match(maleVoice, /body: JSON\.stringify\(\{ agentId, text: text\.trim\(\), locale \}\)/);
   assert.match(maleVoice, /STREAM_SAMPLE_RATE = 24_000/);
+});
+
+test("Kendrell speech-only normalization keeps rendered chat unchanged while simplifying TTS punctuation", () => {
+  assert.match(voice, /function normalizeKendrellSpeechText/);
+  assert.match(voice, /speech-only normalization/);
+  assert.match(voice, /rendered chat text is/);
+  assert.match(voice, /replace\(\/\[\*_`>#\]\/g, ""\)/);
+  assert.match(voice, /replace\(\/\\s\*\[—–;\]\\s\*\/g, "\. "\)/);
+  assert.match(voice, /const speechText = agentId === "kendrell" \? normalizeKendrellSpeechText\(cleanText\) : cleanText/);
 });
 
 test("Dion now uses the exact streamed PCM playback path that physically passed for Kendrell", () => {
