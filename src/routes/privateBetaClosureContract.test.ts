@@ -32,15 +32,23 @@ test("private beta closure guarantees readable dark fields and keyboard agent yi
   assert.match(styles, /body\.hlc-keyboard-open \.hlc-agent-dock:not\(\.is-open\)/);
 });
 
-test("physical sidebar keeps one circular identity and a persistent non-overlapping close lane", () => {
-  assert.match(sidebarStyles, /body:has\(\.hlc-mobile-portal\) #root \.hlc-navbar/);
-  assert.match(sidebarStyles, /\.hlc-mobile-drawer-close\s*\{[^}]*position:\s*sticky\s*!important/s);
-  assert.match(sidebarStyles, /\.hlc-mobile-drawer-close\s*\{[^}]*margin:\s*0 0 18px\s*!important/s);
+test("physical sidebar keeps one circular identity and one fixed non-overlapping close lane", () => {
+  assert.match(sidebarStyles, /html:has\(body > \.hlc-mobile-portal\),[\s\S]*position:\s*fixed\s*!important/);
+  assert.match(sidebarStyles, /body:has\(> \.hlc-mobile-portal\)[\s\S]*overflow:\s*hidden\s*!important/);
+  assert.match(sidebarStyles, /\.hlc-mobile-drawer-close\s*\{[^}]*position:\s*fixed\s*!important/s);
+  assert.match(sidebarStyles, /\.hlc-mobile-drawer-close\s*\{[^}]*right:\s*14px\s*!important/s);
   assert.match(sidebarStyles, /\.hlc-mobile-portal-scroll::before\s*\{[^}]*border-radius:\s*50%\s*!important/s);
   assert.match(sidebarStyles, /\.hlc-mobile-portal-scroll::before\s*\{[^}]*background-color:\s*#1355c8\s*!important/s);
   assert.match(sidebarStyles, /background-image:\s*url\("\/hlc-logo-transparent\.png"\)\s*!important/);
   assert.match(sidebarStyles, /\.hlc-mobile-command-search-trigger\s*\{[^}]*margin:\s*0 0 12px\s*!important/s);
-  assert.match(sidebarStyles, /touch-action:\s*pan-y/);
+});
+
+test("physical sidebar makes the drawer the sole vertical scroll owner", () => {
+  assert.match(sidebarStyles, /\.hlc-mobile-portal-scroll\s*\{[^}]*position:\s*fixed\s*!important/s);
+  assert.match(sidebarStyles, /\.hlc-mobile-portal-scroll\s*\{[^}]*overflow-y:\s*scroll\s*!important/s);
+  assert.match(sidebarStyles, /\.hlc-mobile-portal-scroll\s*\{[^}]*touch-action:\s*pan-y\s*!important/s);
+  assert.match(sidebarStyles, /body > \.hlc-mobile-portal ~ \.hlc-mobile-portal\s*\{[^}]*display:\s*none\s*!important/s);
+  assert.match(sidebarStyles, /\.hlc-mobile-drawer-close ~ \.hlc-mobile-drawer-close\s*\{[^}]*display:\s*none\s*!important/s);
 });
 
 test("mobile drawer uses App Directory instead of leaking duplicate desktop navigation rows", () => {
