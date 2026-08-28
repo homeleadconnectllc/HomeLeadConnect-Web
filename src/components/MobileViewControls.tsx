@@ -62,7 +62,7 @@ export default function MobileViewControls() {
     let ownedHost: HTMLDivElement | null = null;
 
     const findMenuHost = () => {
-      const menu = document.querySelector<HTMLElement>(".hlc-mobile-portal-scroll");
+      const menu = document.querySelector<HTMLElement>(".hlc-drawer-v2-scroll");
       if (!menu) {
         setMenuHost(null);
         return;
