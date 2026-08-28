@@ -38,7 +38,7 @@ test("male voice generation uses a pinned TTS snapshot for delivery consistency"
   assert.match(maleProvider, /model: MODEL/);
 });
 
-test("Kendrell stays natural while remaining fully voiced and audible", () => {
+test("Kendrell stays frozen on the accepted cedar profile", () => {
   assert.match(maleProvider, /kendrell:[\s\S]*providerVoice: "cedar"/);
   assert.match(maleProvider, /plain, smooth, natural adult male speaking voice/);
   assert.match(maleProvider, /Speak clearly and fully at normal conversational volume/);
@@ -48,13 +48,13 @@ test("Kendrell stays natural while remaining fully voiced and audible", () => {
   assert.match(maleProvider, /Kendrell is pronounced Ken-Drayl/);
 });
 
-test("Dion stays distinct while explicitly blocking whisper delivery", () => {
-  assert.match(maleProvider, /dion:[\s\S]*providerVoice: "cedar"/);
-  assert.match(maleProvider, /normal phone-conversation volume/);
-  assert.match(maleProvider, /brighter, quicker delivery than Kendrell/);
-  assert.match(maleProvider, /Speak fully voiced, never under the breath/);
-  assert.match(maleProvider, /Do not whisper, murmur, trail off/);
-  assert.match(maleProvider, /breathy onset, vocal fry, rasp, scratchiness, hushed delivery/);
+test("Dion uses a distinct full-voice profile that blocks whisper and rasp", () => {
+  assert.match(maleProvider, /dion:[\s\S]*providerVoice: "onyx"/);
+  assert.match(maleProvider, /clear chest resonance, not a breathy or hushed tone/);
+  assert.match(maleProvider, /ordinary phone-conversation volume/);
+  assert.match(maleProvider, /slightly quicker than Kendrell/);
+  assert.match(maleProvider, /Absolutely do not whisper, murmur, rasp, croak/);
+  assert.match(maleProvider, /vocal fry, gravel, scratchiness, breathy onset/);
   assert.match(maleProvider, /Dion is pronounced Dee-Yon/);
 });
 
