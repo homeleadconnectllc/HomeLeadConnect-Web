@@ -23,7 +23,7 @@ test("mobile drawer scroll surface is anchored to portal origin with no visual v
 });
 
 test("mobile drawer resets its own scroll surface to top whenever it opens", () => {
-  assert.match(navbar, /if \(!mobileOpen\) return;[\s\S]*requestAnimationFrame\(\(\) => \{[\s\S]*\.hlc-mobile-portal-scroll[\s\S]*scrollTo\(\{ top: 0, left: 0, behavior: \"auto\" \}\)/);
+  assert.match(navbar, /if \(!mobileOpen\) return;[\s\S]*requestAnimationFrame\(\(\) => \{[\s\S]*\.hlc-mobile-portal-scroll[\s\S]*scrollTo\(\{ top: 0, left: 0, behavior: "auto" \}\)/);
 });
 
 test("visual viewport root fix is the last authenticated mobile authority", () => {
