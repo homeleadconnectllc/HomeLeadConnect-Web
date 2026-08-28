@@ -12,10 +12,14 @@ const extraDestinations = [
   { label: "Subscription & billing", route: "/settings/billing", purpose: "Review the workspace plan and billing controls." },
 ];
 
+const directoryAliases = new Set(["index", "directory", "app directory", "contents", "table of contents"]);
+
 export default function StartHere() {
   const access = useAccountAccess();
   const [query, setQuery] = useState("");
   const showBusinessTools = access.business && Boolean(access.role);
+  const normalizedQuery = query.trim().toLowerCase();
+  const needle = directoryAliases.has(normalizedQuery) ? "" : normalizedQuery;
 
   const groups = useMemo(() => {
     const visible = ecosystemNavigation.map((group) => ({
@@ -29,19 +33,17 @@ export default function StartHere() {
       }),
     })).filter((group) => group.pages.length > 0);
 
-    const needle = query.trim().toLowerCase();
     if (!needle) return visible;
     return visible.map((group) => ({
       ...group,
       pages: group.pages.filter((page) => `${page.label} ${page.purpose} ${group.label}`.toLowerCase().includes(needle)),
     })).filter((group) => group.pages.length > 0);
-  }, [access.business, access.contractor, access.homeowner, access.role, query, showBusinessTools]);
+  }, [access.business, access.contractor, access.homeowner, access.role, needle, showBusinessTools]);
 
   const extras = extraDestinations.filter((item) => {
     if (item.route === "/hq" && (!showBusinessTools || !access.role || !canAccessWorkspacePath(access.role, "/hq"))) return false;
     if (item.route === "/settings/billing" && !showBusinessTools) return false;
     if ((item.route === "/messages" || item.route === "/documents") && !(showBusinessTools || access.homeowner || access.contractor)) return false;
-    const needle = query.trim().toLowerCase();
     return !needle || `${item.label} ${item.purpose}`.toLowerCase().includes(needle);
   });
 
@@ -59,7 +61,12 @@ export default function StartHere() {
     {showBusinessTools && <section className="hlc-app-directory-first-day" aria-label="First-day checklist">
       <strong>First-day checklist</strong>
       <span>Before live use: confirm workspace settings, team access, phone workflow, one complete service workflow, notifications and follow-ups.</span>
-      <div><Link to="/settings">Settings</Link><Link to="/team">Team</Link><Link to="/workflow">Workflow</Link><Link to="/call-center">Call Center</Link></div>
+      <nav aria-label="First-day checklist destinations">
+        <Link to="/settings">Settings</Link>
+        <Link to="/team">Team</Link>
+        <Link to="/workflow">Workflow</Link>
+        <Link to="/call-center">Call Center</Link>
+      </nav>
     </section>}
 
     <section className="hlc-app-directory-quick" aria-label="HLC quick destinations">
@@ -73,7 +80,7 @@ export default function StartHere() {
           {group.pages.map((page) => <Link key={page.route} to={page.route}><span><strong>{page.label}</strong><small>{page.purpose}</small></span><b aria-hidden="true">→</b></Link>)}
         </div>
       </article>)}
-      {groups.length === 0 && extras.length === 0 && <div className="hlc-app-directory-empty"><strong>No matching HLC destination.</strong><span>Try a shorter search such as “jobs”, “messages”, “profile” or “billing”.</span></div>}
+      {needle && groups.length === 0 && extras.length === 0 && <div className="hlc-app-directory-empty"><strong>No matching HLC destination.</strong><span>Try a shorter search such as “jobs”, “messages”, “profile” or “billing”.</span></div>}
     </section>
 
     <section className="hlc-app-directory-support" aria-label="Support and escalation">
