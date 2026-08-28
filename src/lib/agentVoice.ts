@@ -1,10 +1,10 @@
 import type { AgentId } from "../ai/agents";
 import type { ResolvedAgentLocale } from "./agentLocale";
 import {
-  isKendrellNeuralVoiceSupported,
-  prepareKendrellNeuralVoice,
-  speakKendrellNeuralText,
-  stopKendrellNeuralVoice,
+  isMaleAgentNeuralVoiceSupported,
+  prepareMaleAgentNeuralVoice,
+  speakMaleAgentNeuralText,
+  stopMaleAgentNeuralVoice,
 } from "./kendrellVoice";
 
 export type AgentVoicePreferences = {
@@ -23,9 +23,8 @@ type AgentNativeVoiceSelections = Partial<Record<AgentId, string>>;
 const STORAGE_KEY = "hlc.agentVoicePreferences.v4";
 const NATIVE_VOICE_SELECTION_KEY = "hlc.agentNativeVoiceSelections.v1";
 
-// Kendrell uses the dedicated neural runtime so his live voice can stay aligned
-// with the locked deep executive benchmark. Dion and Diamond remain on the
-// device-native path until their own physical-device voice rounds are complete.
+// Kendrell and Dion share one high-quality streamed voice family while keeping
+// separate male identities. Diamond remains on her already-accepted native path.
 const nativeVoiceProfiles: Record<AgentId, NativeVoiceProfile> = {
   kendrell: {
     rate: 0.92,
@@ -125,14 +124,14 @@ function hasNativeSpeech() {
 }
 
 export function isAgentAudioSupported() {
-  return hasNativeSpeech() || isKendrellNeuralVoiceSupported();
+  return hasNativeSpeech() || isMaleAgentNeuralVoiceSupported();
 }
 
 export async function prepareAgentAudio() {
   let prepared = false;
 
-  if (isKendrellNeuralVoiceSupported()) {
-    await prepareKendrellNeuralVoice();
+  if (isMaleAgentNeuralVoiceSupported()) {
+    await prepareMaleAgentNeuralVoice();
     prepared = true;
   }
 
@@ -274,14 +273,15 @@ export async function speakAgentText(
   const generation = ++speechGeneration;
   if (interactive) activeInteractiveGeneration = generation;
   cancelNativeSpeech();
-  stopKendrellNeuralVoice();
+  stopMaleAgentNeuralVoice();
 
   try {
-    if (agentId === "kendrell") {
-      if (!isKendrellNeuralVoiceSupported()) {
-        throw new Error("Kendrell's high-quality voice is unavailable in this browser.");
+    if (agentId === "kendrell" || agentId === "dion") {
+      if (!isMaleAgentNeuralVoiceSupported()) {
+        const label = agentId === "kendrell" ? "Kendrell" : "Dion";
+        throw new Error(`${label}'s high-quality voice is unavailable in this browser.`);
       }
-      const played = await speakKendrellNeuralText(cleanText, locale, onPlaybackStart);
+      const played = await speakMaleAgentNeuralText(agentId, cleanText, locale, onPlaybackStart);
       return played && generation === speechGeneration;
     }
 
@@ -298,6 +298,6 @@ export function stopAgentSpeech() {
   if (typeof window === "undefined") return;
   speechGeneration += 1;
   activeInteractiveGeneration = null;
-  stopKendrellNeuralVoice();
+  stopMaleAgentNeuralVoice();
   cancelNativeSpeech();
 }
