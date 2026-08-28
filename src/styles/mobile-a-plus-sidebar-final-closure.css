@@ -1,0 +1,121 @@
+/* Physical iPhone sidebar closure.
+   One opaque top control owns dismissal; menu content scrolls below it without bleeding behind.
+   The underlying application shell remains inert and visually absent while the dialog is open. */
+
+@media (max-width: 760px) {
+  body:has(.hlc-mobile-portal) {
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
+    touch-action: none;
+  }
+
+  /* The portal is the only visible mobile navigation layer. */
+  body:has(.hlc-mobile-portal) #root .hlc-navbar,
+  body:has(.hlc-mobile-portal) #root .hlc-mobile-tabbar,
+  body:has(.hlc-mobile-portal) #root .hlc-agent-dock,
+  body:has(.hlc-mobile-portal) #root .hlc-proactive-briefing {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  .hlc-mobile-portal {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 2147483000 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
+    background: #071426 !important;
+    color: #f8fbff !important;
+  }
+
+  .hlc-mobile-portal-scroll {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100dvh !important;
+    margin: 0 !important;
+    padding: calc(72px + env(safe-area-inset-top)) 16px max(28px, env(safe-area-inset-bottom)) !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain !important;
+    -webkit-overflow-scrolling: touch;
+    background: #071426 !important;
+    box-shadow: none !important;
+    scroll-padding-top: calc(72px + env(safe-area-inset-top)) !important;
+    touch-action: pan-y;
+  }
+
+  /* Single fixed header: opaque, compact and always reachable. */
+  .hlc-mobile-drawer-close {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 2147483002 !important;
+    width: 100vw !important;
+    min-height: calc(64px + env(safe-area-inset-top)) !important;
+    margin: 0 !important;
+    padding: max(10px, env(safe-area-inset-top)) 18px 10px !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: space-between !important;
+    gap: 16px !important;
+    border: 0 !important;
+    border-bottom: 1px solid rgba(148, 163, 184, .24) !important;
+    border-radius: 0 !important;
+    background: #071426 !important;
+    color: #f8fbff !important;
+    box-shadow: 0 8px 18px rgba(2, 8, 18, .22) !important;
+    font: inherit !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    text-align: right !important;
+    white-space: nowrap !important;
+  }
+
+  .hlc-mobile-drawer-close::before {
+    content: "HomeLead Connect";
+    color: #f8fbff;
+    font-size: 16px;
+    font-weight: 900;
+    line-height: 1;
+    text-align: left;
+  }
+
+  /* Tighten only excess drawer whitespace; touch controls remain at least 44px high. */
+  .hlc-mobile-portal-scroll .hlc-mobile-menu-heading {
+    margin-top: 0 !important;
+    padding-top: 8px !important;
+    padding-bottom: 12px !important;
+  }
+
+  .hlc-mobile-portal-scroll .hlc-mobile-command-search-trigger,
+  .hlc-mobile-portal-scroll .hlc-owner-home-link,
+  .hlc-mobile-portal-scroll .hlc-mobile-more-quick > a,
+  .hlc-mobile-portal-scroll .hlc-nav-group > summary,
+  .hlc-mobile-portal-scroll .hlc-nav-menu > a,
+  .hlc-mobile-portal-scroll .hlc-nav-logout {
+    min-height: 44px !important;
+  }
+
+  .hlc-mobile-portal-scroll .hlc-navbar-groups {
+    padding-bottom: 12px !important;
+  }
+
+  /* Never allow scrolled drawer text to paint through the fixed header. */
+  .hlc-mobile-portal-scroll::before {
+    content: "";
+    position: fixed;
+    inset: 0 0 auto 0;
+    height: calc(64px + env(safe-area-inset-top));
+    z-index: 2147483001;
+    pointer-events: none;
+    background: #071426;
+  }
+}
