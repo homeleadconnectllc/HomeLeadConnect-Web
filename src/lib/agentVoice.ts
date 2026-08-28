@@ -26,7 +26,7 @@ const nativeVoiceProfiles: Record<AgentId, NativeVoiceProfile> = {
   dion: {
     rate: 0.94,
     pitch: 1,
-    preferredNames: ["Reed", "Oliver", "Nathan", "Albert", "Tom"],
+    preferredNames: ["Tom", "Nathan", "Oliver", "Albert", "Alex"],
   },
   diamond: {
     rate: 0.9,
@@ -37,6 +37,7 @@ const nativeVoiceProfiles: Record<AgentId, NativeVoiceProfile> = {
 
 // iOS/macOS can expose novelty/effect voices alongside normal accessibility
 // voices. They are free too, but they are poor defaults for operational speech.
+// Reed is excluded because physical iPhone QA found that device voice scratchy.
 const rejectedVoiceNameHints = [
   "whisper",
   "bad news",
@@ -52,6 +53,7 @@ const rejectedVoiceNameHints = [
   "superstar",
   "trinoids",
   "zarvox",
+  "reed",
 ];
 
 const qualityVoiceNameHints = ["premium", "enhanced", "natural"];
@@ -144,7 +146,7 @@ function scoreNativeVoice(
   if (voice.default) score += 120;
 
   const preferredIndex = preferredNames.findIndex((preferred) => name.includes(preferred));
-  if (preferredIndex >= 0) score += 220 - preferredIndex * 20;
+  if (preferredIndex >= 0) score += 700 - preferredIndex * 40;
 
   if (qualityVoiceNameHints.some((hint) => name.includes(hint))) score += 80;
 
@@ -160,6 +162,19 @@ function selectNativeVoice(agentId: AgentId, locale: ResolvedAgentLocale) {
     .map((voice) => ({ voice, score: scoreNativeVoice(voice, agentId, locale) }))
     .filter(({ score }) => score > -10_000)
     .sort((a, b) => b.score - a.score);
+
+  // Physical iPhone QA confirmed Diamond is already acceptable. Preserve her
+  // quality-ranked behavior. Kendrell and Dion require a clearly persona-matched
+  // male-named native voice when one exists on the device rather than falling
+  // through to a generic default voice.
+  if (agentId !== "diamond") {
+    const preferredNames = nativeVoiceProfiles[agentId].preferredNames.map((value) => value.toLowerCase());
+    const personaMatch = ranked.find(({ voice }) => {
+      const name = voice.name.toLowerCase();
+      return preferredNames.some((preferred) => name.includes(preferred));
+    });
+    if (personaMatch) return personaMatch.voice;
+  }
 
   return ranked[0]?.voice ?? null;
 }
