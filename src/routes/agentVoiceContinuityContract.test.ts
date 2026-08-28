@@ -25,14 +25,23 @@ test("free native profiles are clarity-first and remain distinct", () => {
   assert.match(voice, /preferredNames/);
 });
 
-test("voice selection ranks local exact-locale voices and rejects novelty effects", () => {
+test("voice selection ranks local exact-locale voices and rejects poor physical-device candidates", () => {
   assert.match(voice, /function scoreNativeVoice/);
   assert.match(voice, /if \(lang === normalizedLocale\) score \+= 500/);
   assert.match(voice, /if \(voice\.localService\) score \+= 300/);
   assert.match(voice, /if \(voice\.default\) score \+= 120/);
   assert.match(voice, /rejectedVoiceNameHints/);
+  assert.match(voice, /"reed"/);
   assert.match(voice, /return -10_000/);
   assert.match(voice, /\.sort\(\(a, b\) => b\.score - a\.score\)/);
+});
+
+test("Kendrell and Dion prefer persona-matched male-named native voices while Diamond keeps her passing ranked path", () => {
+  assert.match(voice, /kendrell:[\s\S]*preferredNames: \["Daniel", "Aaron", "Alex", "Arthur", "Ralph"\]/);
+  assert.match(voice, /dion:[\s\S]*preferredNames: \["Tom", "Nathan", "Oliver", "Albert", "Alex"\]/);
+  assert.match(voice, /if \(agentId !== "diamond"\)/);
+  assert.match(voice, /const personaMatch = ranked\.find/);
+  assert.match(voice, /if \(personaMatch\) return personaMatch\.voice/);
 });
 
 test("native English speech preserves locked HLC pronunciations", () => {
