@@ -52,9 +52,12 @@ test("physical sidebar makes the drawer the sole vertical scroll owner", () => {
   assert.match(sidebarStyles, /\.hlc-mobile-drawer-close ~ \.hlc-mobile-drawer-close\s*\{[^}]*display:\s*none\s*!important/s);
 });
 
-test("physical sidebar uses normal block flow and caps browser safe-area inflation", () => {
+test("physical sidebar uses fixed compact top geometry without iOS safe-area fallback", () => {
   assert.match(sidebarStyles, /\.hlc-mobile-portal-scroll\s*\{[^}]*display:\s*block\s*!important/s);
-  assert.match(sidebarStyles, /padding:\s*calc\(58px \+ min\(env\(safe-area-inset-top\), 10px\)\)/);
+  assert.match(sidebarStyles, /padding:\s*58px 14px max\(118px,\s*calc\(22px \+ env\(safe-area-inset-bottom\)\)\)\s*!important/);
+  assert.match(sidebarStyles, /\.hlc-mobile-portal-scroll::before\s*\{[^}]*top:\s*8px\s*!important/s);
+  assert.match(sidebarStyles, /\.hlc-mobile-drawer-close\s*\{[^}]*top:\s*8px\s*!important/s);
+  assert.doesNotMatch(sidebarStyles, /safe-area-inset-top/);
   assert.doesNotMatch(sidebarStyles, /justify-content:\s*flex-start\s*!important/);
   assert.doesNotMatch(sidebarStyles, /order:\s*20\s*!important/);
   assert.match(sidebarStyles, /\.hlc-mobile-view-controls-host\s*\{[^}]*margin:\s*0 0 10px\s*!important/s);
