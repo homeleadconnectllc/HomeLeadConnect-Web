@@ -98,7 +98,21 @@ function publicHomeMarkup() {
 }
 
 if (isPublicHome) {
-  rootElement.innerHTML = publicHomeMarkup();
+  const seededMain = rootElement.querySelector<HTMLElement>("main[data-hlc-public-home-main]");
+  if (rootElement.dataset.hlcPublicHomeSeeded === "true" && seededMain) {
+    const template = document.createElement("template");
+    template.innerHTML = publicHomeMarkup();
+    const fullMain = template.content.querySelector<HTMLElement>("main.hlc-home");
+    const supplementalStyle = template.content.querySelector("style");
+    if (supplementalStyle) rootElement.prepend(supplementalStyle.cloneNode(true));
+    if (fullMain) {
+      Array.from(fullMain.children).slice(2).forEach((child) => seededMain.appendChild(child.cloneNode(true)));
+    }
+    const footer = template.content.querySelector("footer");
+    if (footer) rootElement.appendChild(footer.cloneNode(true));
+  } else {
+    rootElement.innerHTML = publicHomeMarkup();
+  }
 } else {
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
