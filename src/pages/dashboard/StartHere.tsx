@@ -75,5 +75,11 @@ export default function StartHere() {
       </article>)}
       {groups.length === 0 && extras.length === 0 && <div className="hlc-app-directory-empty"><strong>No matching HLC destination.</strong><span>Try a shorter search such as “jobs”, “messages”, “profile” or “billing”.</span></div>}
     </section>
+
+    <section className="hlc-app-directory-support" aria-label="Support and escalation">
+      <strong>Support and escalation</strong>
+      <span>If work is blocked or something looks wrong, use the Help Center for the next safe action and escalation path.</span>
+      <Link to="/help">Open Help Center →</Link>
+    </section>
   </main>;
 }
