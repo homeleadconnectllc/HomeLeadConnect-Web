@@ -67,6 +67,15 @@ export default function Navbar() {
 
   useEffect(() => {
     if (!mobileOpen) return;
+    const frame = window.requestAnimationFrame(() => {
+      const scrollSurface = document.querySelector<HTMLElement>("body > .hlc-mobile-portal > .hlc-mobile-portal-scroll");
+      scrollSurface?.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [mobileOpen]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
     const onKeyDown = (event: KeyboardEvent) => { if (event.key === "Escape") closeMobileMenu(); };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
