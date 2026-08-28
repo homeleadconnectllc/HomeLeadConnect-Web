@@ -39,18 +39,18 @@ const localeDirections: Record<AgentLocale, string> = {
 
 const SHARED_QUALITY = "Match the HLC voice-family quality standard established by Diamond: smooth, clean, stable, natural, conversational, and easy to understand on an iPhone speaker. Speak at ordinary phone-conversation volume with a fully voiced tone from the first word through the last. Never whisper, murmur, speak under the breath, trail off into softness, or use breathy, raspy, scratchy, gravelly, theatrical, novelty, or exaggerated delivery. Prioritize a believable regular human speaking voice over an impressive or dramatic voice.";
 const IDENTITY_LOCK = "Keep one recognizable vocal identity across every reply. Do not change apparent speaker, age, accent, baseline pitch range, vocal weight, resonance, or speaking style because of the wording. Use only small natural inflection changes.";
-const DION_CEDAR_DIRECTION = "Use the same clean, stable cedar voice base that passed physical iPhone testing for Kendrell, but deliver Dion with a slightly quicker, more matter-of-fact operations cadence. Speak in a normal adult male voice at ordinary conversational volume. Keep every word fully voiced, clear, direct, relaxed, and natural. Use a steady medium register and normal speaking pace. Do not perform a character or add a special vocal effect. The name Dion is pronounced Dee-Yon and HLC is spoken H L C.";
+const ACCEPTED_CEDAR_DIRECTION = "Use a plain, smooth, natural adult male speaking voice in a comfortable mildly low register. Speak clearly and fully at normal conversational volume, with calm steady confidence and a moderate measured pace. Every sentence must remain fully voiced and audible; do not soften into a whisper at sentence starts, pauses, or endings. The priority is believable everyday speech that sounds clean and relaxed on a phone speaker. Sound like a composed chief-of-staff speaking directly to one person without performing the role. Do not add cinematic depth, booming resonance, forced bass, gravel, vocal fry, breathiness, whisper, rasp, exaggerated authority, dramatic pauses, or announcer delivery. Keep phrasing simple, connected, and effortless. Kendrell is pronounced Ken-Drayl, Dion is pronounced Dee-Yon, and HLC is spoken H L C.";
 
 const voiceProfiles: Record<MaleAgentId, VoiceProfile> = {
   kendrell: {
     providerVoice: "cedar",
     publicVoice: "Kendrell Standard",
-    direction: "Use a plain, smooth, natural adult male speaking voice in a comfortable mildly low register. Speak clearly and fully at normal conversational volume, with calm steady confidence and a moderate measured pace. Every sentence must remain fully voiced and audible; do not soften into a whisper at sentence starts, pauses, or endings. The priority is believable everyday speech that sounds clean and relaxed on a phone speaker. Sound like a composed chief-of-staff speaking directly to one person without performing the role. Do not add cinematic depth, booming resonance, forced bass, gravel, vocal fry, breathiness, whisper, rasp, exaggerated authority, dramatic pauses, or announcer delivery. Keep phrasing simple, connected, and effortless. The name Kendrell is pronounced Ken-Drayl and HLC is spoken H L C.",
+    direction: ACCEPTED_CEDAR_DIRECTION,
   },
   dion: {
     providerVoice: "cedar",
     publicVoice: "Dion Standard",
-    direction: DION_CEDAR_DIRECTION,
+    direction: ACCEPTED_CEDAR_DIRECTION,
   },
 };
 
@@ -127,9 +127,7 @@ Deno.serve(async (request) => {
   }
 
   const profileConfig = voiceProfiles[agentId];
-  const instructions = agentId === "dion"
-    ? `${profileConfig.direction} ${localeDirections[locale]} Preserve names, numbers, prices, dates, times, consent language, scheduling details, and confirmations exactly in meaning.`
-    : `${IDENTITY_LOCK} ${SHARED_QUALITY} ${profileConfig.direction} ${localeDirections[locale]} Preserve names, numbers, prices, dates, times, consent language, scheduling details, and confirmations exactly in meaning.`;
+  const instructions = `${IDENTITY_LOCK} ${SHARED_QUALITY} ${profileConfig.direction} ${localeDirections[locale]} Preserve names, numbers, prices, dates, times, consent language, scheduling details, and confirmations exactly in meaning.`;
   const speechRequest = {
     model: MODEL,
     voice: profileConfig.providerVoice,
