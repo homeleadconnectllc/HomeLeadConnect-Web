@@ -68,6 +68,12 @@ export default function MobileViewControls() {
         return;
       }
 
+      const search = menu.querySelector<HTMLElement>(".hlc-mobile-command-search-trigger");
+      const ownerHome = menu.querySelector<HTMLElement>(".hlc-owner-home-link");
+      if (ownerHome && search && ownerHome.nextElementSibling !== search) {
+        menu.insertBefore(ownerHome, search);
+      }
+
       let host = menu.querySelector<HTMLDivElement>(".hlc-mobile-view-controls-host");
       if (!host) {
         host = document.createElement("div");
