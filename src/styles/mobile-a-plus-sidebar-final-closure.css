@@ -1,6 +1,4 @@
-/* Physical iPhone sidebar closure.
-   True edge-to-edge drawer: no fake top/bottom room, one reachable close control,
-   and the underlying application shell stays inert and visually absent. */
+/* Physical iPhone sidebar + agent input closure. */
 
 @media (max-width: 760px) {
   body:has(.hlc-mobile-portal) {
@@ -39,19 +37,17 @@
     height: 100% !important;
     max-height: none !important;
     margin: 0 !important;
-    padding: calc(52px + env(safe-area-inset-top)) 16px max(12px, env(safe-area-inset-bottom)) !important;
+    padding: calc(44px + env(safe-area-inset-top)) 14px max(10px, env(safe-area-inset-bottom)) !important;
     overflow-x: hidden !important;
     overflow-y: auto !important;
     overscroll-behavior: contain !important;
     -webkit-overflow-scrolling: touch;
     background: #071426 !important;
     box-shadow: none !important;
-    scroll-padding-top: calc(52px + env(safe-area-inset-top)) !important;
+    scroll-padding-top: calc(44px + env(safe-area-inset-top)) !important;
     touch-action: pan-y;
   }
 
-  /* Compact single close authority. It owns only the safe-area/header strip,
-     rather than forcing the menu content down by a desktop-sized header. */
   .hlc-mobile-drawer-close {
     position: fixed !important;
     top: 0 !important;
@@ -59,9 +55,9 @@
     right: 0 !important;
     z-index: 2147483002 !important;
     width: 100% !important;
-    min-height: calc(48px + env(safe-area-inset-top)) !important;
+    min-height: calc(42px + env(safe-area-inset-top)) !important;
     margin: 0 !important;
-    padding: max(8px, env(safe-area-inset-top)) 16px 8px !important;
+    padding: max(6px, env(safe-area-inset-top)) 14px 6px !important;
     display: flex !important;
     align-items: flex-end !important;
     justify-content: flex-end !important;
@@ -80,13 +76,36 @@
 
   .hlc-mobile-drawer-close::before { content: none !important; }
 
+  /* The mobile drawer already communicates workspace context through its links.
+     Remove the repeated workspace masthead so display controls and navigation
+     arrive in the first viewport instead of being pushed below the fold. */
   .hlc-mobile-portal-scroll .hlc-mobile-menu-heading {
-    margin-top: 0 !important;
-    padding-top: 4px !important;
-    padding-bottom: 10px !important;
+    display: none !important;
   }
 
-  .hlc-mobile-portal-scroll .hlc-mobile-command-search-trigger,
+  .hlc-mobile-portal-scroll .hlc-mobile-command-search-trigger {
+    margin-top: 6px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .hlc-mobile-portal-scroll .hlc-mobile-more-quick {
+    margin-bottom: 8px !important;
+  }
+
+  .hlc-mobile-view-controls-host {
+    display: block !important;
+    margin: 8px 0 10px !important;
+  }
+
+  .hlc-mobile-view-controls-host .hlc-mobile-menu-utilities {
+    margin: 0 !important;
+    padding: 10px !important;
+  }
+
+  .hlc-mobile-view-controls-host .hlc-mobile-menu-view-actions button {
+    min-height: 44px !important;
+  }
+
   .hlc-mobile-portal-scroll .hlc-owner-home-link,
   .hlc-mobile-portal-scroll .hlc-mobile-more-quick > a,
   .hlc-mobile-portal-scroll .hlc-nav-group > summary,
@@ -95,15 +114,32 @@
     min-height: 44px !important;
   }
 
-  .hlc-mobile-portal-scroll .hlc-navbar-groups { padding-bottom: 8px !important; }
+  .hlc-mobile-portal-scroll .hlc-navbar-groups { padding-bottom: 6px !important; }
+  .hlc-mobile-portal-scroll .hlc-nav-logout { margin-bottom: 4px !important; }
 
   .hlc-mobile-portal-scroll::before {
     content: "";
     position: fixed;
     inset: 0 0 auto 0;
-    height: calc(48px + env(safe-area-inset-top));
+    height: calc(42px + env(safe-area-inset-top));
     z-index: 2147483001;
     pointer-events: none;
     background: #071426;
+  }
+
+  /* Physical iPhone evidence: global light-text authority was winning over the
+     white agent composer. White controls must use dark readable ink. */
+  #root .hlc-ai-composer textarea {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
+    caret-color: #2563eb !important;
+    opacity: 1 !important;
+  }
+
+  #root .hlc-ai-composer textarea::placeholder {
+    color: #64748b !important;
+    -webkit-text-fill-color: #64748b !important;
+    opacity: 1 !important;
   }
 }
