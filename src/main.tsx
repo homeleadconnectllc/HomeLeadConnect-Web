@@ -23,17 +23,29 @@ const rootElement = document.getElementById("root")!;
 function publicHomeMarkup() {
   const year = new Date().getFullYear();
   return `
+    <style>
+      .hlc-home { text-rendering: auto; }
+      .hlc-home > section:not(.hlc-home-hero) { content-visibility: auto; contain-intrinsic-size: 640px; }
+      @media (max-width: 600px) {
+        .hlc-home { padding: 12px 16px 32px !important; }
+        .hlc-home > header { position: relative !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+        .hlc-home-hero { padding: 24px 0 30px !important; }
+        .hlc-home-hero h1 { font-size: 36px !important; line-height: 1.06 !important; letter-spacing: -1.2px !important; max-width: 390px; }
+        .hlc-home-hero p { font-size: 17px !important; }
+        .hlc-home-hero-actions { margin-top: 22px !important; }
+      }
+    </style>
     <main class="hlc-home" style="min-height:100vh;padding:0 20px 48px;background:#081426;color:#f8fafc">
-      <header style="position:sticky;top:0;z-index:30;max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px;padding:10px 0;background:rgba(8,20,38,.96);border-bottom:1px solid rgba(199,210,227,.10);backdrop-filter:blur(14px)">
+      <header style="position:sticky;top:0;z-index:30;max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px;padding:10px 0;background:#081426;border-bottom:1px solid rgba(199,210,227,.10)">
         <a href="/" aria-label="HomeLead Connect home" style="display:flex;align-items:center;min-width:0;text-decoration:none;color:#fff">
           <img src="/hlc-logo-transparent.png" alt="HomeLead Connect LLC" loading="eager" decoding="async" width="40" height="40" style="display:block;height:40px;width:40px;object-fit:contain;border-radius:50%;background:transparent;filter:drop-shadow(0 1px 2px rgba(0,0,0,.35))" />
         </a>
         <a data-route-to="/app" href="/app" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 14px;border:1px solid rgba(147,197,253,.32);border-radius:8px;background:#10243e;color:#fff;font-weight:800;text-decoration:none;white-space:nowrap">Open HLC</a>
       </header>
 
-      <section class="hlc-home-hero" style="max-width:980px;margin:0 auto;text-align:center;padding:clamp(52px,10vw,92px) 0 44px">
+      <section class="hlc-home-hero" style="max-width:980px;margin:0 auto;text-align:center;padding:clamp(40px,8vw,72px) 0 40px">
         <p class="hlc-home-hero-kicker" style="margin:0;color:#60a5fa;font-size:13px;font-weight:900;letter-spacing:.12em">HOMELEAD CONNECT</p>
-        <h1 class="hlc-home-hero-title" style="font-size:clamp(42px,8vw,76px);line-height:1.02;letter-spacing:-2.5px;margin:14px auto 22px;color:#f8fafc">One front door.<br />One connected home-services ecosystem.</h1>
+        <h1 class="hlc-home-hero-title" style="font-size:clamp(40px,7vw,68px);line-height:1.04;letter-spacing:-2px;margin:14px auto 22px;color:#f8fafc">One front door.<br />One connected home-services ecosystem.</h1>
         <p class="hlc-home-hero-copy" style="max-width:760px;margin:0 auto;font-size:clamp(18px,3.8vw,21px);line-height:1.6;color:#c7d2e3">Request help, connect with providers, join the community, manage work, and reach the HomeLead Connect workspace from one identity.</p>
         <div class="hlc-home-hero-actions" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:30px">
           <a href="/pricing" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 20px;border-radius:8px;background:#2563eb;color:#fff;font-weight:900;text-decoration:none">Start 14-Day Free Trial</a>
@@ -73,7 +85,7 @@ function publicHomeMarkup() {
         </div>
       </section>
     </main>
-    <footer style="background:#06101f;color:#9fb0c5;text-align:center;padding:26px 20px;border-top:1px solid rgba(199,210,227,.10)">
+    <footer style="content-visibility:auto;contain-intrinsic-size:120px;background:#06101f;color:#9fb0c5;text-align:center;padding:26px 20px;border-top:1px solid rgba(199,210,227,.10)">
       <img src="/hlc-logo-transparent.png" alt="" loading="lazy" decoding="async" width="28" height="28" style="display:block;height:28px;width:28px;object-fit:contain;border-radius:50%;background:transparent;margin:0 auto 14px;opacity:.78" />
       <nav aria-label="Legal and accessibility" style="display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:10px 18px;margin-bottom:12px">
         <a style="color:#bfdbfe;font-weight:600" href="/privacy">Privacy</a>
