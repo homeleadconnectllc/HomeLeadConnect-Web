@@ -40,12 +40,13 @@ const localeDirections: Record<AgentLocale, string> = {
 const SHARED_QUALITY = "Match the HLC voice-family quality standard established by Diamond: smooth, clean, stable, natural, conversational, and easy to understand on an iPhone speaker. Speak at ordinary phone-conversation volume with a fully voiced tone from the first word through the last. Never whisper, murmur, speak under the breath, trail off into softness, or use breathy, raspy, scratchy, gravelly, theatrical, novelty, or exaggerated delivery. Prioritize a believable regular human speaking voice over an impressive or dramatic voice.";
 const IDENTITY_LOCK = "Keep one recognizable vocal identity across every reply. Do not change apparent speaker, age, accent, baseline pitch range, vocal weight, resonance, or speaking style because of the wording. Use only small natural inflection changes.";
 const ACCEPTED_CEDAR_DIRECTION = "Use a plain, smooth, natural adult male speaking voice in a comfortable mildly low register. Speak clearly and fully at normal conversational volume, with calm steady confidence and a moderate measured pace. Every sentence must remain fully voiced and audible; do not soften into a whisper at sentence starts, pauses, or endings. The priority is believable everyday speech that sounds clean and relaxed on a phone speaker. Sound like a composed chief-of-staff speaking directly to one person without performing the role. Do not add cinematic depth, booming resonance, forced bass, gravel, vocal fry, breathiness, whisper, rasp, exaggerated authority, dramatic pauses, or announcer delivery. Keep phrasing simple, connected, and effortless. Kendrell is pronounced Ken-Drayl, Dion is pronounced Dee-Yon, and HLC is spoken H L C.";
+const KENDRELL_CLARITY_DIRECTION = "Use a clean, natural adult male speaking voice in a comfortable medium register with an open, clear tone. Keep the voice forward and easy to understand on a phone speaker, with crisp consonants, natural connected phrasing, and ordinary conversational pace. Sound calm and confident without sounding slow, heavy, muffled, monotone, over-enunciated, or synthesized. Use normal human inflection and smooth sentence-to-sentence flow. Do not force a low pitch, chest-heavy resonance, dramatic authority, announcer delivery, or robotic precision. Keep every word fully voiced and distinct through sentence endings. Kendrell is pronounced Ken-Drayl and HLC is spoken H L C.";
 
 const voiceProfiles: Record<MaleAgentId, VoiceProfile> = {
   kendrell: {
     providerVoice: "cedar",
     publicVoice: "Kendrell Standard",
-    direction: ACCEPTED_CEDAR_DIRECTION,
+    direction: KENDRELL_CLARITY_DIRECTION,
   },
   dion: {
     providerVoice: "cedar",
