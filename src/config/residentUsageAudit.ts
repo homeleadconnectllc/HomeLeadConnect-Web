@@ -20,11 +20,10 @@ export const residentUsageAudit: ResidentUsageAuditRow[] = [
   },
   {
     stage: "Qualify",
-    status: "partial",
+    status: "connected",
     currentSurface: "/homeowner-portal/requests + /messages",
-    evidence: "The portal can show that a request exists and gives a direct Add information handoff to Messages when LeadScope details are not yet shared.",
-    gap: "missing_completion_state",
-    correction: "Expose an evidence-backed qualification-complete state when the portal data contract can provide it; do not infer qualification from missing estimates.",
+    evidence: "The resident request view now exposes a conservative Information review state. An estimate or job is treated only as downstream evidence that information review has completed; otherwise the portal explicitly remains In progress and keeps Add information available.",
+    correction: "Keep qualification state conservative: never mark it complete from absence, timing, or guessed lead status; only use resident-visible downstream evidence until an explicit qualification field exists.",
   },
   {
     stage: "Estimate",
