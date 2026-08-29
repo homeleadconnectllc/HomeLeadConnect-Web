@@ -3,6 +3,9 @@ import fs from "node:fs";
 import test from "node:test";
 
 const migration = fs.readFileSync(new URL("../../supabase/migrations/20260829112000_phase3_external_user_backend_contracts.sql", import.meta.url), "utf8");
+const checkout = fs.readFileSync(new URL("../../supabase/functions/resident-job-checkout/index.ts", import.meta.url), "utf8");
+const webhook = fs.readFileSync(new URL("../../supabase/functions/stripe-webhook/index.ts", import.meta.url), "utf8");
+const resident = fs.readFileSync(new URL("../pages/portal/HomeownerPortal.tsx", import.meta.url), "utf8");
 
 test("phase 3 creates separate portal-safe records instead of weakening internal RLS", () => {
   for (const table of ["resident_provider_matches", "resident_job_payments", "provider_job_progress", "operations_exception_dispositions"]) {
@@ -26,6 +29,21 @@ test("resident payment stays separate from workspace subscription billing", () =
   assert.match(migration, /attach_resident_job_checkout/);
   assert.match(migration, /set_resident_job_payment_provider_state/);
   assert.doesNotMatch(migration, /(?:from|insert into|update|alter table|delete from) public\.subscriptions/i);
+});
+
+test("resident payment cancellation and refund paths recover truthfully", () => {
+  assert.match(checkout, /\["paid","refunded"\]\.includes\(payment\.status\)/);
+  assert.match(checkout, /\["failed","cancelled"\]\.includes\(payment\.status\)\?crypto\.randomUUID\(\):payment\.id/);
+  assert.match(resident, /"pending","checkout_created","processing","failed","cancelled"/);
+  assert.match(resident, /The previous secure checkout expired or was cancelled before payment completed/);
+  assert.match(resident, /\["pending","failed","cancelled"\]\.includes\(payment\.status\)/);
+  assert.match(webhook, /checkout\.session\.expired/);
+  assert.match(webhook, /p_status:"cancelled"/);
+  assert.match(webhook, /stripe_checkout_expired/);
+  assert.match(webhook, /charge\.refunded/);
+  assert.match(webhook, /charge\.amount_refunded>=charge\.amount/);
+  assert.match(webhook, /external_payment_intent_id/);
+  assert.match(webhook, /p_status:"refunded"/);
 });
 
 test("resident review and referral mutations require portal linkage", () => {
