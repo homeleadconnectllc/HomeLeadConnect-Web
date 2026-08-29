@@ -8,6 +8,9 @@ import { partnerUsageAudit } from "../config/partnerUsageAudit.ts";
 const router = fs.readFileSync(new URL("./AppRouter.tsx", import.meta.url), "utf8");
 const dashboard = fs.readFileSync(new URL("../pages/dashboard/Dashboard.tsx", import.meta.url), "utf8");
 const settings = fs.readFileSync(new URL("../pages/dashboard/Settings.tsx", import.meta.url), "utf8");
+const followUps = fs.readFileSync(new URL("../api/followUps.ts", import.meta.url), "utf8");
+const notifications = fs.readFileSync(new URL("../api/notifications.ts", import.meta.url), "utf8");
+const automations = fs.readFileSync(new URL("../api/automations.ts", import.meta.url), "utf8");
 
 test("operations journey has canonical work entry and truthful exception closure status", () => {
   assert.deepEqual(operationsUsageAudit.map((row) => [row.stage, row.status]), [
@@ -18,6 +21,20 @@ test("operations journey has canonical work entry and truthful exception closure
   for (const route of ["/leads", "/jobs", "/calendar", "/follow-ups", "/operations", "/automations", "/notifications"]) {
     assert.ok(router.includes(`path="${route}"`), `missing operations route ${route}`);
   }
+});
+
+test("operations exception audit distinguishes acknowledgement execution outcomes and true completion", () => {
+  const exception = operationsUsageAudit.find((row) => row.stage === "Exception");
+  assert.match(followUps, /status: "completed"/);
+  assert.match(followUps, /completed_at/);
+  assert.match(notifications, /markNotificationRead/);
+  assert.match(automations, /"succeeded"/);
+  assert.match(automations, /"failed"/);
+  assert.match(automations, /"blocked"/);
+  assert.match(exception?.evidence || "", /read acknowledgement only, which is not resolution/i);
+  assert.match(exception?.evidence || "", /read-only browser access/i);
+  assert.match(exception?.correction || "", /Do not label .* resolved until its backend exposes an authorized durable resolution mutation/i);
+  assert.match(exception?.correction || "", /Preserve the affected-record deep link/i);
 });
 
 test("customer experience journey keeps assistance and trust inside internal evidence-backed workspaces", () => {
