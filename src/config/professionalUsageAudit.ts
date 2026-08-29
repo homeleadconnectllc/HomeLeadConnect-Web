@@ -11,42 +11,9 @@ export type ProfessionalUsageAuditRow = {
 };
 
 export const professionalUsageAudit: ProfessionalUsageAuditRow[] = [
-  {
-    stage: "Onboard",
-    status: "partial",
-    currentSurface: "/professional-application + /contractor-portal/profile",
-    evidence: "Professional application and portal-safe self-service profile exist, but verification/license/eligibility completion is intentionally outside the self-service profile contract.",
-    gap: "missing_completion_state",
-    correction: "Expose evidence-backed application/verification status when a portal-safe verification contract exists; never infer approval from profile completion.",
-  },
-  {
-    stage: "Availability",
-    status: "connected",
-    currentSurface: "/contractor-portal/services",
-    evidence: "Provider-declared services, service areas, accepting-work state, note, and next-available date are portal-authorized and editable.",
-    correction: "Keep provider-declared facts distinct from verification, ranking, dispatch, or guaranteed availability.",
-  },
-  {
-    stage: "Opportunity",
-    status: "connected",
-    currentSurface: "/contractor-portal",
-    evidence: "Real portal assignments expose customer/job context and durable Accept offer / Reject offer decisions.",
-    correction: "Keep offered work as the highest-priority professional next action when present.",
-  },
-  {
-    stage: "Service",
-    status: "partial",
-    currentSurface: "/contractor-portal + /messages + /contractor-portal/documents",
-    evidence: "Assignments, appointments, customer context, messages, and shared documents are portal-safe. Internal /jobs and /calendar are not portal-safe and cannot be used as the provider's completion workflow.",
-    gap: "missing_completion_state",
-    correction: "Add portal-authorized job progress/completion actions only when the backend exposes provider-owned status mutation authority.",
-  },
-  {
-    stage: "Performance",
-    status: "blocked",
-    currentSurface: "No portal-scoped performance/reputation surface",
-    evidence: "Existing analytics, Operations, and Community review surfaces are nested under internal WorkspaceLayout or depend on internal workspace context.",
-    gap: "broken_handoff",
-    correction: "Create a professional portal performance/reputation view from provider-authorized completed work and reviews; do not route providers into internal analytics/community workspaces.",
-  },
+  { stage: "Onboard", status: "connected", currentSurface: "/professional-application + /contractor-portal/profile + /contractor-portal", evidence: "Candidate exposes management-owned verification status to the linked provider while preserving portal-safe profile setup. Professional accounts cannot self-approve.", correction: "Keep verification management-owned and provider-visible; never infer approval from profile completion." },
+  { stage: "Availability", status: "connected", currentSurface: "/contractor-portal/services", evidence: "Provider-declared services, service areas, accepting-work state, note, and next-available date are portal-authorized and editable.", correction: "Keep provider-declared facts distinct from verification, ranking, dispatch, or guaranteed availability." },
+  { stage: "Opportunity", status: "connected", currentSurface: "/contractor-portal", evidence: "Real portal assignments expose customer/job context and durable Accept offer / Reject offer decisions.", correction: "Keep offered work as the highest-priority professional next action when present." },
+  { stage: "Service", status: "connected", currentSurface: "/contractor-portal + /messages + /contractor-portal/documents", evidence: "Accepted assignments can record provider-owned started/in-progress/blocked/completed evidence while canonical crm_jobs lifecycle authority remains with HLC operations. Scheduled appointments, messages, and documents remain portal-safe.", correction: "Keep provider progress as evidence and never silently rewrite canonical job status from the contractor portal." },
+  { stage: "Performance", status: "connected", currentSurface: "/contractor-portal", evidence: "Candidate portal shows provider-authorized accepted assignment counts, completed HLC jobs, provider completion reports, published review count, and average rating without routing professionals into internal analytics or Community workspaces.", correction: "Keep performance derived from authorized recorded work and published reviews only." },
 ];
