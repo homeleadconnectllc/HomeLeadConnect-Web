@@ -38,3 +38,30 @@ test("operations exceptions expose durable disposition without equating read sta
   assert.match(notifications,/does not pretend the source record changed/);
   assert.match(phase3,/operations_exception_dispositions/);
 });
+
+test("resident journey exposes explicit recovery for payment and action failures",()=>{
+  assert.match(resident,/Payment needs attention/);
+  assert.match(resident,/failed/);
+  assert.match(resident,/Retry secure checkout/);
+  assert.match(resident,/Unable to start secure checkout/);
+  assert.match(resident,/Unable to complete that action/);
+  assert.match(resident,/Report an issue|Messages|Message/i);
+});
+
+test("professional journey preserves recovery handoffs instead of silently changing canonical jobs",()=>{
+  assert.match(professional,/Unable to load professional work/);
+  assert.match(professional,/Unable to complete that action/);
+  assert.match(professional,/Message about work/);
+  assert.match(professional,/blocked/);
+  assert.match(professional,/Provider progress is evidence only/);
+  assert.match(professional,/HLC operations retains authority over the canonical job lifecycle/);
+});
+
+test("external persona routes remain separated from internal workspace authority",()=>{
+  assert.ok(router.includes('path="/homeowner-portal"'));
+  assert.ok(router.includes('path="/contractor-portal"'));
+  assert.ok(router.includes('path="/partner-portal"'));
+  assert.doesNotMatch(resident,/to="\/operations"|to="\/analytics"|to="\/community\/reviews"/);
+  assert.doesNotMatch(professional,/to="\/jobs"|to="\/operations"|to="\/analytics"/);
+  assert.doesNotMatch(partner,/to="\/operations"|to="\/analytics"|to="\/community\/referrals"/);
+});
