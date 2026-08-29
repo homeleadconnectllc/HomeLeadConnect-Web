@@ -20,10 +20,9 @@ export const operationsUsageAudit: OperationsUsageAuditRow[] = [
   },
   {
     stage: "Exception",
-    status: "partial",
+    status: "connected",
     currentSurface: "/operations + /notifications + /automations + /follow-ups",
-    evidence: "The exception sources are now classified by their real durable authority. Follow-ups support a true completed state. Automation jobs persist succeeded, failed, or blocked execution outcomes. Notifications support read acknowledgement only, which is not resolution. AI handoffs and owner-attention items expose status/resolution columns but production currently grants read-only browser access and exposes no authorized resolution RPC, so they cannot truthfully offer resolved, escalated, or deferred completion actions yet.",
-    gap: "missing_completion_state",
-    correction: "Use the owning record's real terminal state when it exists: complete follow-ups in /follow-ups, inspect persisted automation outcomes in /automations, and treat notification read_at only as acknowledgement. Do not label a notification, failed automation, agent handoff, or owner-attention item resolved until its backend exposes an authorized durable resolution mutation. Preserve the affected-record deep link for every exception.",
+    evidence: "The candidate now provides a management-authorized durable exception disposition record for resolved, escalated, or deferred outcomes while preserving the source record and affected-route link. Follow-ups still use their own completed state, automation jobs retain their persisted execution outcomes, and notification read state remains acknowledgement rather than resolution.",
+    correction: "Keep disposition separate from source-system truth: record the management handling outcome, preserve the affected-record deep link, and never rewrite a source notification, failed automation, agent handoff, or owner-attention record merely to make an exception look closed.",
   },
 ];
