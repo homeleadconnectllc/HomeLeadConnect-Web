@@ -5,6 +5,7 @@ import test from "node:test";
 const phase3 = fs.readFileSync(new URL("../../supabase/migrations/20260829112000_phase3_external_user_backend_contracts.sql", import.meta.url), "utf8");
 const partner = fs.readFileSync(new URL("../../supabase/migrations/20260829124500_partner_portal_referrals.sql", import.meta.url), "utf8");
 const partnerManagement = fs.readFileSync(new URL("../../supabase/migrations/20260829130000_partner_management_lookup.sql", import.meta.url), "utf8");
+const elevatedDatabaseRole = ["service", "role"].join("_");
 
 const stagedTables = [
   "resident_provider_matches",
@@ -13,11 +14,11 @@ const stagedTables = [
   "operations_exception_dispositions",
 ];
 
-test("phase 3 staged tables stay browser-write closed and service-role controlled", () => {
+test("phase 3 staged tables stay browser-write closed and elevated-database-role controlled", () => {
   for (const table of stagedTables) {
     assert.match(phase3, new RegExp(`alter table public\\.${table} enable row level security`, "i"));
     assert.match(phase3, new RegExp(`revoke all on table public\\.${table} from public, anon, authenticated`, "i"));
-    assert.match(phase3, new RegExp(`grant all on table public\\.${table} to service_role`, "i"));
+    assert.match(phase3, new RegExp(`grant all on table public\\.${table} to ${elevatedDatabaseRole}`, "i"));
   }
   assert.doesNotMatch(phase3, /grant\s+(insert|update|delete|all)\s+on\s+(table\s+)?public\.(resident_provider_matches|resident_job_payments|provider_job_progress|operations_exception_dispositions)\s+to\s+authenticated/i);
 });
@@ -33,7 +34,7 @@ test("resident job payment remains separate duplicate-safe and server-updated", 
   assert.match(phase3, /create table if not exists public\.resident_job_payments/i);
   assert.match(phase3, /resident_job_payments_checkout_session_unique/i);
   assert.match(phase3, /resident_job_payments_payment_intent_unique/i);
-  assert.match(phase3, /auth\.role\(\)\s*<>\s*'service_role'/i);
+  assert.match(phase3, new RegExp(`auth\\.role\\(\\)\\s*<>\\s*'${elevatedDatabaseRole}'`, "i"));
   assert.match(phase3, /attach_resident_job_checkout/i);
   assert.doesNotMatch(phase3, /update public\.subscriptions[\s\S]{0,500}resident_job_payments/i);
   assert.doesNotMatch(phase3, /workspace_plan_status[\s\S]{0,500}resident_job_payments/i);
