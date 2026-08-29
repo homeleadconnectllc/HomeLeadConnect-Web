@@ -33,7 +33,7 @@ test("resident qualification completion is conservative and evidence-backed", ()
   assert.match(sections, /relationship\.estimates\.length > 0 \|\| relationship\.jobs\.length > 0/);
   assert.match(sections, /Information review complete/);
   assert.match(sections, /Information review in progress/);
-  assert.match(sections, /never mark it complete from absence/i);
+  assert.match(qualify?.correction || "", /never mark it complete from absence/i);
 });
 
 test("usage audit does not misclassify internal workspace routes as resident-safe", () => {
