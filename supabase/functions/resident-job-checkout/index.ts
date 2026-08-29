@@ -21,7 +21,7 @@ Deno.serve(async(request)=>{
   if(["paid","refunded","cancelled"].includes(payment.status))return json({error:`Payment is already ${payment.status}.`},409);
   const cents=Math.round(Number(payment.amount)*100);if(!Number.isFinite(cents)||cents<50)return json({error:"Payment amount is invalid."},409);
 
-  const stripe=new Stripe(stripeKey);const session=await stripe.checkout.sessions.create({
+  const stripe=new Stripe(stripeKey);const retryKey=payment.status==="failed"?crypto.randomUUID():payment.id;const session=await stripe.checkout.sessions.create({
     mode:"payment",
     customer_email:userData.user.email||undefined,
     line_items:[{quantity:1,price_data:{currency:payment.currency||"usd",unit_amount:cents,product_data:{name:"HomeLead Connect service payment",description:"Payment for a service job linked to your resident portal."}}}],
@@ -29,7 +29,7 @@ Deno.serve(async(request)=>{
     payment_intent_data:{metadata:{hlc_payment_kind:"resident_job",resident_payment_id:payment.id,resident_user_id:userData.user.id}},
     success_url:`${appUrl.replace(/\/$/,"")}/homeowner-portal?payment=returned`,
     cancel_url:`${appUrl.replace(/\/$/,"")}/homeowner-portal?payment=cancelled`,
-  },{idempotencyKey:`resident-job-checkout:${payment.id}`});
+  },{idempotencyKey:`resident-job-checkout:${retryKey}`});
   if(!session.url)return json({error:"Stripe did not return a checkout URL."},502);
   const admin=createClient(url,service,{auth:{persistSession:false}});const{error:attachError}=await admin.rpc("attach_resident_job_checkout",{p_payment_id:payment.id,p_resident_user_id:userData.user.id,p_checkout_session_id:session.id,p_checkout_url:session.url});
   if(attachError)return json({error:"Unable to attach the secure checkout session."},500);
