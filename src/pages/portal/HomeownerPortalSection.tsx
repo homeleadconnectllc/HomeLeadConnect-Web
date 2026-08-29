@@ -7,6 +7,28 @@ import { errorMessage } from "../../lib/errorMessage";
 
 type PortalSection = "requests" | "appointments" | "jobs";
 
+type QualificationState = {
+  label: string;
+  detail: string;
+  complete: boolean;
+};
+
+function resolveQualificationState(relationship: HomeownerPortalRelationship): QualificationState {
+  const hasDownstreamEvidence = relationship.estimates.length > 0 || relationship.jobs.length > 0;
+  if (hasDownstreamEvidence) {
+    return {
+      label: "Information review complete",
+      detail: "Your request has already advanced beyond information collection into LeadScope or active job work.",
+      complete: true,
+    };
+  }
+  return {
+    label: "Information review in progress",
+    detail: "HLC is still collecting or reviewing the details needed for the next service step.",
+    complete: false,
+  };
+}
+
 export default function HomeownerPortalSection({ section }: { section: PortalSection }) {
   const [relationships, setRelationships] = useState<HomeownerPortalRelationship[]>([]);
   const [loading, setLoading] = useState(true);
@@ -78,6 +100,7 @@ function RequestList({ relationships }: { relationships: HomeownerPortalRelation
   return relationships.map((relationship) => {
     const sentEstimate = relationship.estimates.find((estimate) => estimate.status === "sent");
     const hasScheduledAppointment = relationship.jobs.some((job) => job.appointments.some((appointment) => appointment.status === "scheduled"));
+    const qualification = resolveQualificationState(relationship);
     const next = sentEstimate
       ? { label: "Estimate waiting for your decision", route: "/homeowner-portal", action: "Review estimate" }
       : hasScheduledAppointment
@@ -92,10 +115,12 @@ function RequestList({ relationships }: { relationships: HomeownerPortalRelation
       <p style={eyebrowStyle}>Request #{relationship.lead_id}</p>
       <h2 style={{ marginTop: 4 }}>{relationship.homeowner_name || "Service request"}</h2>
       <dl style={factsStyle}>
+        <div><dt>Information review</dt><dd>{qualification.complete ? "Complete" : "In progress"}</dd></div>
         <div><dt>LeadScope estimates</dt><dd>{relationship.estimates.length}</dd></div>
         <div><dt>Jobs</dt><dd>{relationship.jobs.length}</dd></div>
         <div><dt>Latest stage</dt><dd>{relationship.jobs.length > 0 ? "Job" : relationship.estimates.length > 0 ? "LeadScope" : "Request"}</dd></div>
       </dl>
+      <p><strong>{qualification.label}.</strong> {qualification.detail}</p>
       {relationship.estimates.length === 0
         ? <p>LeadScope details have not been shared yet.</p>
         : <ul>{relationship.estimates.map((estimate) => <li key={estimate.id}>{formatCurrency(Number(estimate.total))} estimate · {estimate.status}</li>)}</ul>}
