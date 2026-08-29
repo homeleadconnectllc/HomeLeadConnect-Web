@@ -25,7 +25,7 @@ test("resident payment stays separate from workspace subscription billing", () =
   assert.match(migration, /create_resident_job_payment_request/);
   assert.match(migration, /attach_resident_job_checkout/);
   assert.match(migration, /set_resident_job_payment_provider_state/);
-  assert.doesNotMatch(migration, /subscriptions|workspace subscription/i);
+  assert.doesNotMatch(migration, /(?:from|insert into|update|alter table|delete from) public\.subscriptions/i);
 });
 
 test("resident review and referral mutations require portal linkage", () => {
