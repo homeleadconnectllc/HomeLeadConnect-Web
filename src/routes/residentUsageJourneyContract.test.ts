@@ -36,6 +36,16 @@ test("resident qualification completion is conservative and evidence-backed", ()
   assert.match(qualify?.correction || "", /never mark it complete from absence/i);
 });
 
+test("resident completed jobs expose a truthful completion and issue path", () => {
+  const complete = residentUsageAudit.find((row) => row.stage === "Complete");
+  assert.equal(complete?.status, "connected");
+  assert.equal(complete?.gap, undefined);
+  assert.match(sections, /job\.status === "completed"/);
+  assert.match(sections, /Service complete/);
+  assert.match(sections, /Report an issue with this service/);
+  assert.match(sections, /without silently changing the recorded job status/);
+});
+
 test("usage audit does not misclassify internal workspace routes as resident-safe", () => {
   const match = residentUsageAudit.find((row) => row.stage === "Match");
   const review = residentUsageAudit.find((row) => row.stage === "Review");
