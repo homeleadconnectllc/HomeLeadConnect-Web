@@ -90,6 +90,11 @@ export default function HomeownerPortalSection({ section }: { section: PortalSec
         <p>Status: <strong>{job.status}</strong></p>
         <p>Contract value: {formatCurrency(Number(job.contract_value))}</p>
         <p>{job.appointments.length} linked appointment{job.appointments.length === 1 ? "" : "s"}</p>
+        {job.status === "completed" && <section aria-label="Service completion" style={completionStyle}>
+          <strong>Service complete</strong>
+          <p>This job is recorded as completed. If something still needs attention, report the issue to HLC so it can be reviewed without silently changing the recorded job status.</p>
+          <Link to="/messages">Report an issue with this service</Link>
+        </section>}
         <div style={navStyle}><Link to="/messages">Open messages</Link><Link to="/homeowner-portal/documents">Open documents</Link>{job.appointments.length > 0 && <Link to="/homeowner-portal/appointments">Open appointments</Link>}</div>
       </article>))}
   </main>;
@@ -138,6 +143,7 @@ const heroStyle = { padding: "clamp(22px, 5vw, 40px)", borderRadius: 22, color: 
 const eyebrowStyle = { margin: 0, color: "#2563eb", fontWeight: 900, textTransform: "uppercase" as const, letterSpacing: ".04em" };
 const navStyle = { display: "flex", flexWrap: "wrap" as const, gap: 14 };
 const cardStyle = { padding: 20, border: "1px solid #dbeafe", borderRadius: 16, background: "#fff" };
+const completionStyle = { margin: "16px 0", padding: 16, border: "1px solid #cbd5e1", borderRadius: 12, background: "#f8fafc" };
 const emptyStyle = { padding: 24, border: "1px dashed #94a3b8", borderRadius: 16, background: "#f8fafc" };
 const factsStyle = { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(140px,1fr))", gap: 12 };
 const errorStyle = { color: "#b91c1c", padding: 16, border: "1px solid #fecaca", borderRadius: 12 };
