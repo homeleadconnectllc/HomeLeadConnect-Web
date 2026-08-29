@@ -11,19 +11,21 @@ const settings = fs.readFileSync(new URL("../pages/dashboard/Settings.tsx", impo
 const followUps = fs.readFileSync(new URL("../api/followUps.ts", import.meta.url), "utf8");
 const notifications = fs.readFileSync(new URL("../api/notifications.ts", import.meta.url), "utf8");
 const automations = fs.readFileSync(new URL("../api/automations.ts", import.meta.url), "utf8");
+const operationsExceptions = fs.readFileSync(new URL("../api/operationsExceptions.ts", import.meta.url), "utf8");
+const partners = fs.readFileSync(new URL("../api/partners.ts", import.meta.url), "utf8");
 
-test("operations journey has canonical work entry and truthful exception closure status", () => {
+test("operations journey has canonical work entry and durable candidate exception closure", () => {
   assert.deepEqual(operationsUsageAudit.map((row) => [row.stage, row.status]), [
     ["Operate", "connected"],
-    ["Exception", "partial"],
+    ["Exception", "connected"],
   ]);
-  assert.equal(operationsUsageAudit.find((row) => row.stage === "Exception")?.gap, "missing_completion_state");
+  assert.equal(operationsUsageAudit.find((row) => row.stage === "Exception")?.gap, undefined);
   for (const route of ["/leads", "/jobs", "/calendar", "/follow-ups", "/operations", "/automations", "/notifications"]) {
     assert.ok(router.includes(`path="${route}"`), `missing operations route ${route}`);
   }
 });
 
-test("operations exception audit distinguishes acknowledgement execution outcomes and true completion", () => {
+test("operations exception audit distinguishes disposition acknowledgement and execution outcomes", () => {
   const exception = operationsUsageAudit.find((row) => row.stage === "Exception");
   assert.match(followUps, /status: "completed"/);
   assert.match(followUps, /completed_at/);
@@ -31,10 +33,10 @@ test("operations exception audit distinguishes acknowledgement execution outcome
   assert.match(automations, /"succeeded"/);
   assert.match(automations, /"failed"/);
   assert.match(automations, /"blocked"/);
-  assert.match(exception?.evidence || "", /read acknowledgement only, which is not resolution/i);
-  assert.match(exception?.evidence || "", /read-only browser access/i);
-  assert.match(exception?.correction || "", /Do not label .* resolved until its backend exposes an authorized durable resolution mutation/i);
-  assert.match(exception?.correction || "", /Preserve the affected-record deep link/i);
+  assert.match(operationsExceptions, /record_operations_exception_disposition/);
+  assert.match(exception?.evidence || "", /read state remains acknowledgement rather than resolution/i);
+  assert.match(exception?.correction || "", /Keep disposition separate from source-system truth/i);
+  assert.match(exception?.correction || "", /preserve the affected-record deep link/i);
 });
 
 test("customer experience journey keeps assistance and trust inside internal evidence-backed workspaces", () => {
@@ -47,17 +49,17 @@ test("customer experience journey keeps assistance and trust inside internal evi
   }
 });
 
-test("partner journey is not falsely certified through internal community tooling", () => {
+test("partner journey uses dedicated external entry and partner-scoped relationship status", () => {
   assert.deepEqual(partnerUsageAudit.map((row) => [row.stage, row.status]), [
-    ["Refer", "partial"],
-    ["Relationship", "blocked"],
+    ["Refer", "connected"],
+    ["Relationship", "connected"],
   ]);
-  assert.equal(partnerUsageAudit.find((row) => row.stage === "Refer")?.gap, "missing_entry");
-  assert.equal(partnerUsageAudit.find((row) => row.stage === "Relationship")?.gap, "broken_handoff");
-  assert.ok(router.includes('path="/request-service"'));
-  assert.ok(router.includes('path="/professional-application"'));
-  assert.ok(router.includes('path="/contact"'));
-  assert.doesNotMatch(router, /path="\/partner(?:\/|")/);
+  assert.equal(partnerUsageAudit.find((row) => row.stage === "Refer")?.gap, undefined);
+  assert.equal(partnerUsageAudit.find((row) => row.stage === "Relationship")?.gap, undefined);
+  assert.ok(router.includes('path="/partners"'));
+  assert.ok(router.includes('path="/partner-portal"'));
+  assert.match(partners, /get_partner_portal_data/);
+  assert.match(partners, /partner_create_referral/);
 });
 
 test("owner and internal user homes continue to expose attention and truthful control state", () => {
