@@ -10,7 +10,7 @@ test("production-ready contractor portal RPCs are not falsely classified as miss
   assert.match(byId.get("contractor-portal-profile-setup")?.productionEvidence || "", /get_linked_provider_setup/);
 });
 
-test("external-user backend work remains explicitly classified until portal-authorized contracts exist", () => {
+test("external-user backend contracts are candidate-ready without claiming production promotion", () => {
   for (const id of [
     "resident-provider-matching",
     "resident-job-payment",
@@ -21,8 +21,12 @@ test("external-user backend work remains explicitly classified until portal-auth
     "provider-performance",
     "operations-exception-resolution",
   ]) {
-    assert.equal(byId.get(id)?.state, "missing", `${id} must remain missing until its backend contract exists`);
+    const contract = byId.get(id);
+    assert.equal(contract?.state, "ready", `${id} must be candidate-ready after rehearsal verification`);
+    assert.match(contract?.nextAction || "", /promot/i, `${id} must still require an explicit production-promotion step`);
   }
+  assert.match(byId.get("resident-provider-matching")?.productionEvidence || "", /Production does not yet contain/i);
+  assert.match(byId.get("resident-job-payment")?.productionEvidence || "", /Production subscription billing remains separate and unchanged/i);
 });
 
 test("production community review workspace linkage is preserved rather than 'fixed' again", () => {
