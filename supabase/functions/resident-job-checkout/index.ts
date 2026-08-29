@@ -18,10 +18,10 @@ Deno.serve(async(request)=>{
   const{data:visible,error:visibleError}=await userClient.rpc("get_homeowner_portal_payments");if(visibleError)return json({error:"Resident payment access is unavailable."},403);
   const payment=(Array.isArray(visible)?visible:[]).find((row)=>row?.id===payload.paymentId) as {id:string;amount:number;currency:string;status:string}|undefined;
   if(!payment)return json({error:"Payment request is not authorized for this resident account."},403);
-  if(["paid","refunded","cancelled"].includes(payment.status))return json({error:`Payment is already ${payment.status}.`},409);
+  if(["paid","refunded"].includes(payment.status))return json({error:`Payment is already ${payment.status}.`},409);
   const cents=Math.round(Number(payment.amount)*100);if(!Number.isFinite(cents)||cents<50)return json({error:"Payment amount is invalid."},409);
 
-  const stripe=new Stripe(stripeKey);const retryKey=payment.status==="failed"?crypto.randomUUID():payment.id;const session=await stripe.checkout.sessions.create({
+  const stripe=new Stripe(stripeKey);const retryKey=["failed","cancelled"].includes(payment.status)?crypto.randomUUID():payment.id;const session=await stripe.checkout.sessions.create({
     mode:"payment",
     customer_email:userData.user.email||undefined,
     line_items:[{quantity:1,price_data:{currency:payment.currency||"usd",unit_amount:cents,product_data:{name:"HomeLead Connect service payment",description:"Payment for a service job linked to your resident portal."}}}],
