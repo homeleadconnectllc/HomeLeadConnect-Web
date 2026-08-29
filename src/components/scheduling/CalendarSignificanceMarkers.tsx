@@ -25,7 +25,23 @@ function localDateKey(value: string) {
   return `${year}-${month}-${day}`;
 }
 
-function markVisibleMonth(root: Element, itemDates: Set<string>) {
+function incrementDateCount(counts: Map<string, number>, value: string) {
+  const key = localDateKey(value);
+  counts.set(key, (counts.get(key) ?? 0) + 1);
+}
+
+function ensureLegend(root: Element) {
+  const miniMonth = root.querySelector<HTMLElement>(".hlc-calendar-mini-month");
+  if (!miniMonth || miniMonth.querySelector(".hlc-calendar-mini-legend")) return;
+
+  const legend = document.createElement("div");
+  legend.className = "hlc-calendar-mini-legend";
+  legend.setAttribute("aria-label", "Calendar marker legend");
+  legend.innerHTML = '<span class="hlc-calendar-mini-legend-dot" aria-hidden="true"></span><span>Scheduled work</span>';
+  miniMonth.appendChild(legend);
+}
+
+function markVisibleMonth(root: Element, itemDates: Map<string, number>) {
   const heading = root.querySelector<HTMLElement>(".hlc-calendar-mini-heading strong");
   if (!heading) return;
 
@@ -38,11 +54,25 @@ function markVisibleMonth(root: Element, itemDates: Set<string>) {
     const day = Number(button.textContent?.trim());
     if (!Number.isInteger(day)) return;
     const key = `${year}-${String(monthIndex + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-    const hasItems = itemDates.has(key);
+    const count = itemDates.get(key) ?? 0;
+    const hasItems = count > 0;
+    const dateLabel = `${monthName} ${day}, ${year}`;
+
     button.classList.toggle("has-items", hasItems);
-    if (hasItems) button.setAttribute("data-has-items", "true");
-    else button.removeAttribute("data-has-items");
+    button.setAttribute("aria-label", hasItems ? `${dateLabel}, ${count} scheduled ${count === 1 ? "item" : "items"}` : dateLabel);
+
+    if (hasItems) {
+      button.setAttribute("data-has-items", "true");
+      button.setAttribute("data-scheduled-count", String(count));
+      button.title = `${count} scheduled ${count === 1 ? "item" : "items"}`;
+    } else {
+      button.removeAttribute("data-has-items");
+      button.removeAttribute("data-scheduled-count");
+      button.removeAttribute("title");
+    }
   });
+
+  ensureLegend(root);
 }
 
 export default function CalendarSignificanceMarkers() {
@@ -62,17 +92,17 @@ export default function CalendarSignificanceMarkers() {
         ]);
         if (cancelled) return;
 
-        const itemDates = new Set<string>();
+        const scheduledDates = new Map<string, number>();
         appointments
-          .filter((appointment) => appointment.status !== "cancelled")
-          .forEach((appointment) => itemDates.add(localDateKey(appointment.appointment_date)));
+          .filter((appointment) => appointment.status === "scheduled")
+          .forEach((appointment) => incrementDateCount(scheduledDates, appointment.appointment_date));
         events
-          .filter((event) => event.status !== "cancelled")
-          .forEach((event) => itemDates.add(localDateKey(event.start_at)));
+          .filter((event) => event.status === "scheduled")
+          .forEach((event) => incrementDateCount(scheduledDates, event.start_at));
 
-        markVisibleMonth(calendarRoot, itemDates);
+        markVisibleMonth(calendarRoot, scheduledDates);
       } catch {
-        // Calendar significance markers are visual enhancement only.
+        // Calendar significance markers are a visual enhancement only.
       }
     }
 
@@ -89,6 +119,7 @@ export default function CalendarSignificanceMarkers() {
       cancelled = true;
       observer.disconnect();
       if (timer) window.clearTimeout(timer);
+      calendarRoot.querySelector(".hlc-calendar-mini-legend")?.remove();
     };
   }, []);
 
