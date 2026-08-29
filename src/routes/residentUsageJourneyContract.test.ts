@@ -5,14 +5,15 @@ import { residentUsageAudit } from "../config/residentUsageAudit.ts";
 
 const portal = fs.readFileSync(new URL("../pages/portal/HomeownerPortal.tsx", import.meta.url), "utf8");
 const sections = fs.readFileSync(new URL("../pages/portal/HomeownerPortalSection.tsx", import.meta.url), "utf8");
-const router = fs.readFileSync(new URL("./AppRouter.tsx", import.meta.url), "utf8");
-const workspaceLayout = fs.readFileSync(new URL("../layouts/WorkspaceLayout.tsx", import.meta.url), "utf8");
 
 test("resident overview always exposes a real next action instead of a dead-end dashboard", () => {
   assert.match(portal, /resolveResidentNextStep/);
   assert.match(portal, /to="\/request-service">New request/);
   assert.match(portal, /WHAT'S NEXT/);
   assert.match(portal, /Review your estimate/);
+  assert.match(portal, /Review your provider match/);
+  assert.match(portal, /Payment needs attention/);
+  assert.match(portal, /Share your completed-service review/);
   assert.match(portal, /Your visit is scheduled/);
   assert.match(portal, /Track your active service/);
 });
@@ -33,7 +34,6 @@ test("resident qualification completion is conservative and evidence-backed", ()
   assert.match(sections, /relationship\.estimates\.length > 0 \|\| relationship\.jobs\.length > 0/);
   assert.match(sections, /Information review complete/);
   assert.match(sections, /Information review in progress/);
-  assert.match(qualify?.correction || "", /never mark it complete from absence/i);
 });
 
 test("resident completed jobs expose a truthful completion and issue path", () => {
@@ -46,31 +46,23 @@ test("resident completed jobs expose a truthful completion and issue path", () =
   assert.match(sections, /without silently changing the recorded job status/);
 });
 
-test("usage audit does not misclassify internal workspace routes as resident-safe", () => {
-  const match = residentUsageAudit.find((row) => row.stage === "Match");
-  const review = residentUsageAudit.find((row) => row.stage === "Review");
-  const referral = residentUsageAudit.find((row) => row.stage === "Referral / Repeat");
-  assert.equal(match?.status, "blocked");
-  assert.equal(match?.gap, "broken_handoff");
-  assert.equal(review?.status, "blocked");
-  assert.equal(review?.gap, "broken_handoff");
-  assert.equal(referral?.status, "partial");
-  assert.equal(referral?.gap, "broken_handoff");
-  assert.match(router, /<Route element=\{<WorkspaceLayout\/>\}>/);
-  assert.match(workspaceLayout, /if \(resolution\.destination !== "\/dashboard"\) return <Navigate/);
+test("resident candidate closes match payment review and referral inside portal authority", () => {
+  for (const stage of ["Match", "Payment", "Review", "Referral / Repeat"]) {
+    const row = residentUsageAudit.find((item) => item.stage === stage);
+    assert.equal(row?.status, "connected", `${stage} should be connected in the candidate`);
+    assert.equal(row?.gap, undefined);
+  }
+  assert.match(portal, /getHomeownerPortalMatches/);
+  assert.match(portal, /decideHomeownerProviderMatch/);
+  assert.match(portal, /createResidentJobCheckout/);
+  assert.match(portal, /createHomeownerReview/);
+  assert.match(portal, /createHomeownerReferral/);
+  assert.doesNotMatch(portal, /to="\/matching"|to="\/community\/reviews"|to="\/community\/referrals"/);
 });
 
 test("resident lifecycle audit covers every canonical stage exactly once", () => {
   assert.deepEqual(residentUsageAudit.map((row) => row.stage), [
-    "Request",
-    "Qualify",
-    "Estimate",
-    "Match",
-    "Schedule",
-    "Job",
-    "Complete",
-    "Payment",
-    "Review",
-    "Referral / Repeat",
+    "Request", "Qualify", "Estimate", "Match", "Schedule", "Job", "Complete", "Payment", "Review", "Referral / Repeat",
   ]);
+  assert.ok(residentUsageAudit.every((row) => row.status === "connected"));
 });
