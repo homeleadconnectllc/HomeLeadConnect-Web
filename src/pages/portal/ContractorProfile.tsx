@@ -81,7 +81,7 @@ export default function ContractorProfile() {
       <Link to="/contractor-portal/profile" aria-current="page">Business profile</Link>
       <Link to="/contractor-portal/services">Services and service areas</Link>
       <Link to="/messages">Messages</Link>
-      <Link to="/documents">Documents</Link>
+      <Link to="/contractor-portal/documents">Documents</Link>
     </nav>
     {loading && <p role="status">Loading linked businesses…</p>}
     {error && <p role="alert" style={errorStyle}>{error}</p>}
@@ -89,6 +89,7 @@ export default function ContractorProfile() {
     {!loading && !error && data.links.length === 0 && <section style={emptyStyle}>
       <h2>No linked business</h2>
       <p>This account does not currently have an authorized contractor-company relationship. An approved invitation is required; an email match alone does not grant access.</p>
+      <p><Link to="/professional-application">Open professional application</Link></p>
     </section>}
 
     {profiles.map((profile) => <form key={profile.id} onSubmit={(event) => void submit(event, profile)} style={cardStyle}>
@@ -120,6 +121,7 @@ export default function ContractorProfile() {
       <button type="submit" disabled={busyId !== null} style={primaryButtonStyle}>{busyId === profile.id ? "Saving…" : "Save professional profile"}</button>
       <p style={boundaryStyle}>This self-service form cannot change HLC verification state, license approval, provider eligibility, assignment authority, workspace membership, map coordinates, billing, or internal staff roles.</p>
       <p><strong>Current portal work:</strong> {data.assignments.filter((assignment) => assignment.contractor_id === profile.id).length} offer(s) or assignment(s)</p>
+      <p><Link to="/contractor-portal/services">Continue to services & availability</Link></p>
     </form>)}
   </main>;
 }
