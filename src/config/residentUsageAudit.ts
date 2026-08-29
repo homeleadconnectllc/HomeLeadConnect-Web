@@ -56,11 +56,10 @@ export const residentUsageAudit: ResidentUsageAuditRow[] = [
   },
   {
     stage: "Complete",
-    status: "partial",
-    currentSurface: "/homeowner-portal/jobs",
-    evidence: "Completed job status is visible, but the portal does not yet expose a resident confirmation/reopen decision.",
-    gap: "missing_completion_state",
-    correction: "Add an evidence-backed resident completion/issue-resolution action only when the backend contract supports that mutation.",
+    status: "connected",
+    currentSurface: "/homeowner-portal/jobs + /messages",
+    evidence: "Completed jobs now render an explicit Service complete state plus a resident-safe Report an issue handoff to Messages. The portal does not pretend that sending an issue report silently mutates or reopens the canonical job record.",
+    correction: "Keep completion derived from the canonical job status and keep issue escalation explicit until a dedicated resident reopen mutation exists.",
   },
   {
     stage: "Payment",
