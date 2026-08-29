@@ -25,6 +25,17 @@ test("resident request appointment and job sections keep contextual handoffs vis
   assert.match(sections, /Add information/);
 });
 
+test("resident qualification completion is conservative and evidence-backed", () => {
+  const qualify = residentUsageAudit.find((row) => row.stage === "Qualify");
+  assert.equal(qualify?.status, "connected");
+  assert.equal(qualify?.gap, undefined);
+  assert.match(sections, /function resolveQualificationState/);
+  assert.match(sections, /relationship\.estimates\.length > 0 \|\| relationship\.jobs\.length > 0/);
+  assert.match(sections, /Information review complete/);
+  assert.match(sections, /Information review in progress/);
+  assert.match(sections, /never mark it complete from absence/i);
+});
+
 test("usage audit does not misclassify internal workspace routes as resident-safe", () => {
   const match = residentUsageAudit.find((row) => row.stage === "Match");
   const review = residentUsageAudit.find((row) => row.stage === "Review");
