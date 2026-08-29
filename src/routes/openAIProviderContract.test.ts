@@ -3,8 +3,9 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const chat = readFileSync(new URL("../../supabase/functions/hlc-agent-chat/index.ts", import.meta.url), "utf8");
-const voice = readFileSync(new URL("../../supabase/functions/hlc-agent-voice/index.ts", import.meta.url), "utf8");
+const legacyVoice = readFileSync(new URL("../../supabase/functions/hlc-agent-voice/index.ts", import.meta.url), "utf8");
 const chatClient = readFileSync(new URL("../api/agentChat.ts", import.meta.url), "utf8");
+const voiceClient = readFileSync(new URL("../lib/agentVoice.ts", import.meta.url), "utf8");
 
 test("agent chat uses the server-side OpenAI Responses API without weakening HLC authorization", () => {
   assert.match(chat, /Deno\.env\.get\("OPENAI_API_KEY"\)/);
@@ -31,41 +32,20 @@ test("every HLC agent interaction receives local temporal context without treati
   assert.match(chatClient, /timeZone/);
 });
 
-test("agent voice uses streamed OpenAI speech while preserving canonical HLC voice identities, locale behavior, and access boundaries", () => {
-  assert.match(voice, /Deno\.env\.get\("OPENAI_API_KEY"\)/);
-  assert.match(voice, /https:\/\/api\.openai\.com\/v1\/audio\/speech/);
-  assert.match(voice, /gpt-4o-mini-tts/);
-  assert.match(voice, /tts-1-hd/);
-  assert.doesNotMatch(voice, /generativelanguage\.googleapis\.com/);
-  assert.match(voice, /response_format: "pcm"/);
-  assert.match(voice, /stream_format: "audio"/);
-  assert.match(voice, /new Response\(providerResponse\.body/);
-  assert.match(voice, /"Content-Type": "audio\/pcm"/);
-  assert.match(voice, /"X-HLC-Sample-Rate": String\(PCM_SAMPLE_RATE\)/);
-  assert.match(voice, /"X-HLC-Locale": locale/);
-  assert.match(voice, /"X-HLC-Provider": profileConfig\.model/);
-  assert.doesNotMatch(voice, /audioBase64/);
-  assert.doesNotMatch(voice, /providerResponse\.arrayBuffer\(\)/);
-  assert.match(voice, /voice: "Schedar"/);
-  assert.match(voice, /providerVoice: "cedar"/);
-  assert.match(voice, /The name Kendrell is pronounced Ken-Drayl/);
-  assert.match(voice, /voice: "Sadaltager"/);
-  assert.match(voice, /providerVoice: "ash"/);
-  assert.match(voice, /The name Dion is pronounced Dee-Yon/);
-  assert.match(voice, /voice: "Sulafat"/);
-  assert.match(voice, /providerVoice: "coral"/);
-  assert.match(voice, /The name Diamond is pronounced Die-Men/);
-  assert.match(voice, /replace\(\/\\bDiamond\\b\/gi, "Die-Men"\)/);
-  assert.match(voice, /replace\(\/\\bKendrell\\b\/gi, "Ken-Drayl"\)/);
-  assert.match(voice, /replace\(\/\\bDion\\b\/gi, "Dee-Yon"\)/);
-  assert.match(voice, /if \(locale !== "en-US"\) return text;/);
-  assert.match(voice, /input: applyCanonicalPronunciations\(text, locale\)/);
-  assert.match(voice, /Use Spanish pronunciation and rhythm/);
-  assert.match(voice, /Use French pronunciation and rhythm/);
-  assert.match(voice, /Use Brazilian Portuguese pronunciation and rhythm/);
-  assert.match(voice, /Use Mandarin pronunciation and rhythm/);
-  assert.match(voice, /Use Arabic pronunciation and rhythm/);
-  assert.match(voice, /Kendrell voice access requires an approved owner, manager, or supervisor role/);
-  assert.match(voice, /Diamond is the resident portal assistant/);
-  assert.match(voice, /Dion is the professional portal assistant/);
+test("spoken agent output is free native-device speech and does not call the legacy paid TTS endpoint", () => {
+  assert.match(voiceClient, /function hasNativeSpeech\(\)/);
+  assert.match(voiceClient, /new SpeechSynthesisUtterance\(nativeSpeechText\(text, locale\)\)/);
+  assert.match(voiceClient, /window\.speechSynthesis\.speak\(utterance\)/);
+  assert.match(voiceClient, /function scoreNativeVoice/);
+  assert.match(voiceClient, /if \(voice\.localService\) score \+= 300/);
+  assert.match(voiceClient, /rejectedVoiceNameHints/);
+  assert.doesNotMatch(voiceClient, /hlc-agent-voice|api\.openai\.com\/v1\/audio\/speech|gpt-4o-mini-tts|tts-1-hd|FALLBACK_VOICE_MODEL|response_format/);
+  assert.match(voiceClient, /replace\(\/\\bDiamond\\b\/gi, "Die-Men"\)/);
+  assert.match(voiceClient, /replace\(\/\\bKendrell\\b\/gi, "Ken-Drayl"\)/);
+  assert.match(voiceClient, /replace\(\/\\bDion\\b\/gi, "Dee-Yon"\)/);
+  assert.match(voiceClient, /replace\(\/\\bHLC\\b\/g, "H L C"\)/);
+
+  // The historical server function may remain in the repository for rollback/audit,
+  // but it is not the active HLC spoken-reply dependency.
+  assert.match(legacyVoice, /Deno\.serve/);
 });

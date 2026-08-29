@@ -22,7 +22,7 @@ function isEligibleField(target: EventTarget | null): target is EditableField {
   if (target.closest("[data-smart-compose='off'], [role='dialog'][data-smart-compose='off']")) return false;
   if (target instanceof HTMLTextAreaElement) return true;
   const type = (target.type || "text").toLowerCase();
-  return type === "text" || type === "search";
+  return type === "text";
 }
 
 function suggestionsFor(pathname: string, value: string) {

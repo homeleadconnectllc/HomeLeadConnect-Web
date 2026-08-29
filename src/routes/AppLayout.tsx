@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useLayoutEffect, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -50,6 +50,23 @@ function stableRouteClass(pathname: string) {
   return slug ? `hlc-page-${slug}` : "hlc-page-home";
 }
 
+function resetRouteScroll() {
+  const scrollingElement = document.scrollingElement as HTMLElement | null;
+  window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  if (scrollingElement) scrollingElement.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+
+  document
+    .querySelectorAll<HTMLElement>(
+      ".hlc-route-content, .hlc-mobile-portal-scroll, .hlc-command-search-panel, .hlc-agent-dock-panel, main",
+    )
+    .forEach((element) => {
+      element.scrollTop = 0;
+      element.scrollLeft = 0;
+    });
+}
+
 export default function AppLayout() {
   const { session } = useAuth();
   const location = useLocation();
@@ -69,6 +86,37 @@ export default function AppLayout() {
     if (typeof window === "undefined") return;
     window.localStorage.setItem(SIDEBAR_COLLAPSED_KEY, sidebarCollapsed ? "1" : "0");
   }, [sidebarCollapsed]);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !("scrollRestoration" in window.history)) return;
+    const previous = window.history.scrollRestoration;
+    window.history.scrollRestoration = "manual";
+    return () => {
+      window.history.scrollRestoration = previous;
+    };
+  }, []);
+
+  useLayoutEffect(() => {
+    if (typeof window === "undefined") return;
+
+    if (location.hash) {
+      const id = decodeURIComponent(location.hash.slice(1));
+      const target = document.getElementById(id);
+      if (target) {
+        target.scrollIntoView({ block: "start" });
+        return;
+      }
+    }
+
+    resetRouteScroll();
+    const frame = window.requestAnimationFrame(resetRouteScroll);
+    const timer = window.setTimeout(resetRouteScroll, 80);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.clearTimeout(timer);
+    };
+  }, [location.key, location.pathname, location.hash]);
 
   useEffect(() => {
     const logo = document.querySelector<HTMLElement>(".hlc-navbar-logo");

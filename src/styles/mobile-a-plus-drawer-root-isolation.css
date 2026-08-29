@@ -1,0 +1,17 @@
+/* Final physical-device drawer isolation.
+   The mobile navigation portal is mounted directly under <body>; the authenticated app
+   remains under #root. While the portal is open, hide the entire underlying app surface
+   so no legacy shell/header/brand layer can bleed through behind the drawer. */
+
+@media (max-width: 760px) {
+  body:has(> .hlc-mobile-portal) > #root {
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  body > .hlc-mobile-portal {
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+}

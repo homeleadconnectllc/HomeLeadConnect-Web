@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Calculator, CalendarClock, Mail, Phone } from "lucide-react";
+import { Calculator, CalendarClock, Mail, MoreHorizontal, Phone } from "lucide-react";
 import type { CSSProperties } from "react";
 import type { LeadRecord } from "../../api/leads";
 import PortalInviteButton from "../portal/PortalInviteButton";
@@ -26,6 +26,13 @@ export default function LeadCard({ lead }: { lead: LeadRecord }) {
   const accent = leadAccent(lead);
   const rowStyle = { "--lead-accent": accent } as CSSProperties;
   const residentType = residentTypeFromNotes(lead.notes);
+
+  const secondaryActions = (
+    <>
+      {lead.phone && <Link to={`/manual-communications?contact=lead:${lead.id}&channel=call`}><Phone size={15} aria-hidden="true" />Call</Link>}
+      <PortalInviteButton role="homeowner" targetId={lead.id} email={lead.email} label="Invite" />
+    </>
+  );
 
   return (
     <article className="hlc-lead-row" style={rowStyle}>
@@ -56,8 +63,11 @@ export default function LeadCard({ lead }: { lead: LeadRecord }) {
       <div className="hlc-lead-actions" aria-label={`Actions for ${lead.full_name || "lead"}`}>
         <Link className="hlc-lead-action-primary" to={`/estimator?lead=${lead.id}`}><Calculator size={15} aria-hidden="true" />Estimate</Link>
         <Link to={`/follow-ups?lead=${lead.id_uuid}`}><CalendarClock size={15} aria-hidden="true" />Follow up</Link>
-        {lead.phone && <Link to={`/manual-communications?contact=lead:${lead.id}&channel=call`}><Phone size={15} aria-hidden="true" />Call</Link>}
-        <PortalInviteButton role="homeowner" targetId={lead.id} email={lead.email} label="Invite" />
+        <span className="hlc-s2-desktop-secondary">{secondaryActions}</span>
+        <details className="hlc-s2-mobile-overflow">
+          <summary aria-label={`More actions for ${lead.full_name || "lead"}`}><MoreHorizontal size={17} aria-hidden="true" /><span>More</span></summary>
+          <div className="hlc-s2-overflow-menu">{secondaryActions}</div>
+        </details>
       </div>
     </article>
   );

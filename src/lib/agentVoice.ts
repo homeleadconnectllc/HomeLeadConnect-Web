@@ -1,27 +1,72 @@
 import type { AgentId } from "../ai/agents";
 import type { ResolvedAgentLocale } from "./agentLocale";
-import { supabase, supabaseConfig } from "./supabase";
+import {
+  isMaleAgentNeuralVoiceSupported,
+  prepareMaleAgentNeuralVoice,
+  speakMaleAgentNeuralText,
+  stopMaleAgentNeuralVoice,
+} from "./kendrellVoice";
 
 export type AgentVoicePreferences = {
   enabled: boolean;
   autoSpeak: boolean;
 };
 
-type AudioContextWindow = typeof window & {
-  webkitAudioContext?: typeof AudioContext;
+type NativeVoiceProfile = {
+  rate: number;
+  pitch: number;
+  preferredNames: string[];
 };
 
-const STORAGE_KEY = "hlc.agentVoicePreferences.v3";
-const STREAM_SAMPLE_RATE = 24_000;
-const STREAM_START_LEAD_SECONDS = 0.04;
+type AgentNativeVoiceSelections = Partial<Record<AgentId, string>>;
+
+const STORAGE_KEY = "hlc.agentVoicePreferences.v4";
+const NATIVE_VOICE_SELECTION_KEY = "hlc.agentNativeVoiceSelections.v1";
+
+// Kendrell and Dion share one high-quality streamed voice family while keeping
+// separate male identities. Diamond remains on her already-accepted native path.
+const nativeVoiceProfiles: Record<AgentId, NativeVoiceProfile> = {
+  kendrell: {
+    rate: 0.92,
+    pitch: 0.98,
+    preferredNames: ["Daniel", "Aaron", "Alex", "Arthur", "Ralph"],
+  },
+  dion: {
+    rate: 0.94,
+    pitch: 1,
+    preferredNames: ["Tom", "Nathan", "Oliver", "Albert", "Alex"],
+  },
+  diamond: {
+    rate: 0.9,
+    pitch: 1,
+    preferredNames: ["Samantha", "Ava", "Serena", "Victoria", "Tessa", "Karen"],
+  },
+};
+
+const rejectedVoiceNameHints = [
+  "whisper",
+  "bad news",
+  "good news",
+  "bells",
+  "bubbles",
+  "cellos",
+  "boing",
+  "bahh",
+  "deranged",
+  "hysterical",
+  "organ",
+  "superstar",
+  "trinoids",
+  "zarvox",
+  "reed",
+];
+
+const qualityVoiceNameHints = ["premium", "enhanced", "natural"];
 
 function defaultPreferences(): AgentVoicePreferences {
   return { enabled: false, autoSpeak: false };
 }
 
-let audioContext: AudioContext | null = null;
-const activeSources = new Set<AudioBufferSourceNode>();
-let activeSpeechAbortController: AbortController | null = null;
 let speechGeneration = 0;
 let activeInteractiveGeneration: number | null = null;
 
@@ -46,40 +91,56 @@ export function saveAgentVoicePreferences(preferences: AgentVoicePreferences) {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(preferences));
 }
 
-function getAudioContext() {
-  if (typeof window === "undefined") return null;
-  if (audioContext) return audioContext;
-  const audioWindow = window as AudioContextWindow;
-  const Constructor = window.AudioContext || audioWindow.webkitAudioContext;
-  if (!Constructor) return null;
-  audioContext = new Constructor();
-  return audioContext;
-}
-
-async function ensureAudioContextRunning(context: AudioContext) {
-  if (context.state === "suspended") await context.resume();
-  if (context.state !== "running") {
-    throw new Error("Tap the voice control again to enable audio playback.");
+export function getAgentNativeVoiceSelection(agentId: AgentId) {
+  if (typeof window === "undefined") return "";
+  try {
+    const stored = window.localStorage.getItem(NATIVE_VOICE_SELECTION_KEY);
+    if (!stored) return "";
+    const parsed = JSON.parse(stored) as AgentNativeVoiceSelections;
+    return typeof parsed[agentId] === "string" ? parsed[agentId] ?? "" : "";
+  } catch {
+    return "";
   }
 }
 
+export function saveAgentNativeVoiceSelection(agentId: AgentId, voiceUri: string) {
+  if (typeof window === "undefined") return;
+  let selections: AgentNativeVoiceSelections = {};
+  try {
+    const stored = window.localStorage.getItem(NATIVE_VOICE_SELECTION_KEY);
+    if (stored) selections = JSON.parse(stored) as AgentNativeVoiceSelections;
+  } catch {
+    selections = {};
+  }
+  if (voiceUri) selections[agentId] = voiceUri;
+  else delete selections[agentId];
+  window.localStorage.setItem(NATIVE_VOICE_SELECTION_KEY, JSON.stringify(selections));
+}
+
+function hasNativeSpeech() {
+  return typeof window !== "undefined"
+    && "speechSynthesis" in window
+    && typeof SpeechSynthesisUtterance !== "undefined";
+}
+
 export function isAgentAudioSupported() {
-  if (typeof window === "undefined") return false;
-  const audioWindow = window as AudioContextWindow;
-  return Boolean(window.AudioContext || audioWindow.webkitAudioContext);
+  return hasNativeSpeech() || isMaleAgentNeuralVoiceSupported();
 }
 
 export async function prepareAgentAudio() {
-  const context = getAudioContext();
-  if (!context) throw new Error("Spoken replies are unavailable in this browser.");
+  let prepared = false;
 
-  await ensureAudioContextRunning(context);
+  if (isMaleAgentNeuralVoiceSupported()) {
+    await prepareMaleAgentNeuralVoice();
+    prepared = true;
+  }
 
-  const silentBuffer = context.createBuffer(1, 1, context.sampleRate);
-  const silentSource = context.createBufferSource();
-  silentSource.buffer = silentBuffer;
-  silentSource.connect(context.destination);
-  silentSource.start(0);
+  if (hasNativeSpeech()) {
+    window.speechSynthesis.getVoices();
+    prepared = true;
+  }
+
+  if (!prepared) throw new Error("Spoken replies are unavailable in this browser.");
   return true;
 }
 
@@ -91,111 +152,106 @@ function cancelNativeSpeech() {
   }
 }
 
-function stopActiveSources() {
-  for (const source of activeSources) {
-    try {
-      source.stop();
-    } catch {
-      // Source may already have ended.
-    }
-    try {
-      source.disconnect();
-    } catch {
-      // Source may already be disconnected.
-    }
+function nativeSpeechText(text: string, locale: ResolvedAgentLocale) {
+  if (locale !== "en-US") return text;
+  return text
+    .replace(/\bDiamond\b/gi, "Die-Men")
+    .replace(/\bDion\b/gi, "Dee-Yon")
+    .replace(/\bKendrell\b/gi, "Ken-Drayl")
+    .replace(/\bHLC\b/g, "H L C");
+}
+
+function scoreNativeVoice(
+  voice: SpeechSynthesisVoice,
+  agentId: AgentId,
+  locale: ResolvedAgentLocale,
+) {
+  const name = voice.name.toLowerCase();
+  const lang = voice.lang.toLowerCase();
+  const normalizedLocale = locale.toLowerCase();
+  const language = normalizedLocale.split("-")[0];
+  const preferredNames = nativeVoiceProfiles[agentId].preferredNames.map((value) => value.toLowerCase());
+
+  if (rejectedVoiceNameHints.some((hint) => name.includes(hint))) return -10_000;
+
+  let score = 0;
+  if (lang === normalizedLocale) score += 500;
+  else if (lang.startsWith(`${language}-`)) score += 250;
+  else score -= 500;
+
+  if (voice.localService) score += 300;
+  if (voice.default) score += 120;
+
+  const preferredIndex = preferredNames.findIndex((preferred) => name.includes(preferred));
+  if (preferredIndex >= 0) score += 700 - preferredIndex * 40;
+
+  if (qualityVoiceNameHints.some((hint) => name.includes(hint))) score += 80;
+
+  return score;
+}
+
+function selectNativeVoice(agentId: AgentId, locale: ResolvedAgentLocale) {
+  if (!hasNativeSpeech()) return null;
+  const voices = window.speechSynthesis.getVoices();
+  if (!voices.length) return null;
+
+  const lockedVoiceUri = getAgentNativeVoiceSelection(agentId);
+  if (lockedVoiceUri) {
+    const lockedVoice = voices.find((voice) => voice.voiceURI === lockedVoiceUri);
+    if (lockedVoice) return lockedVoice;
   }
-  activeSources.clear();
-}
 
-function base64ToArrayBuffer(base64: string) {
-  const binary = atob(base64);
-  const bytes = new Uint8Array(binary.length);
-  for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
-  return bytes.buffer;
-}
+  const ranked = [...voices]
+    .map((voice) => ({ voice, score: scoreNativeVoice(voice, agentId, locale) }))
+    .filter(({ score }) => score > -10_000)
+    .sort((a, b) => b.score - a.score);
 
-function pcm16ToFloat32(bytes: Uint8Array) {
-  const sampleCount = Math.floor(bytes.byteLength / 2);
-  const samples = new Float32Array(sampleCount);
-  const view = new DataView(bytes.buffer, bytes.byteOffset, sampleCount * 2);
-  for (let index = 0; index < sampleCount; index += 1) {
-    const value = view.getInt16(index * 2, true);
-    samples[index] = value < 0 ? value / 0x8000 : value / 0x7fff;
+  if (agentId !== "diamond") {
+    const preferredNames = nativeVoiceProfiles[agentId].preferredNames.map((value) => value.toLowerCase());
+    const personaMatch = ranked.find(({ voice }) => {
+      const name = voice.name.toLowerCase();
+      return preferredNames.some((preferred) => name.includes(preferred));
+    });
+    if (personaMatch) return personaMatch.voice;
   }
-  return samples;
+
+  return ranked[0]?.voice ?? null;
 }
 
-function schedulePcmChunk(context: AudioContext, bytes: Uint8Array, startAt: number) {
-  const samples = pcm16ToFloat32(bytes);
-  if (!samples.length) return startAt;
-
-  const buffer = context.createBuffer(1, samples.length, STREAM_SAMPLE_RATE);
-  buffer.copyToChannel(samples, 0);
-  const source = context.createBufferSource();
-  source.buffer = buffer;
-  source.connect(context.destination);
-  source.onended = () => {
-    activeSources.delete(source);
-    try { source.disconnect(); } catch { /* already disconnected */ }
-  };
-  activeSources.add(source);
-
-  const scheduledAt = Math.max(startAt, context.currentTime + STREAM_START_LEAD_SECONDS);
-  source.start(scheduledAt);
-  return scheduledAt + buffer.duration;
-}
-
-async function waitForScheduledPlayback(context: AudioContext, scheduledEnd: number, generation: number) {
-  const remainingMs = Math.max(0, Math.ceil((scheduledEnd - context.currentTime) * 1000));
-  if (!remainingMs) return;
-  await new Promise<void>((resolve) => window.setTimeout(resolve, remainingMs));
-  if (generation !== speechGeneration) return;
-}
-
-async function throwVoiceResponseError(response: Response) {
-  let message = "Neural voice generation failed.";
-  try {
-    const payload = await response.json() as { error?: string };
-    if (payload?.error) message = payload.error;
-  } catch {
-    // Preserve the generic message when the response is not JSON.
-  }
-  throw new Error(message);
-}
-
-async function playLegacyBufferedResponse(
-  context: AudioContext,
-  response: Response,
+async function speakWithNativeVoice(
+  agentId: AgentId,
+  text: string,
+  locale: ResolvedAgentLocale,
   generation: number,
   onPlaybackStart?: () => void,
 ) {
-  const payload = await response.json() as { audioBase64?: string } | null;
-  if (generation !== speechGeneration) return false;
-  if (!payload?.audioBase64) throw new Error("Neural voice returned no playable audio.");
+  if (!hasNativeSpeech() || generation !== speechGeneration) return false;
+  cancelNativeSpeech();
 
-  const encodedAudio = base64ToArrayBuffer(payload.audioBase64);
-  const decodedAudio = await context.decodeAudioData(encodedAudio.slice(0));
-  if (generation !== speechGeneration) return false;
+  const profile = nativeVoiceProfiles[agentId];
+  const utterance = new SpeechSynthesisUtterance(nativeSpeechText(text, locale));
+  utterance.lang = locale;
+  utterance.rate = profile.rate;
+  utterance.pitch = profile.pitch;
+  utterance.volume = 1;
+  const voice = selectNativeVoice(agentId, locale);
+  if (voice) utterance.voice = voice;
 
-  await ensureAudioContextRunning(context);
-  if (generation !== speechGeneration) return false;
-
-  stopActiveSources();
-  const source = context.createBufferSource();
-  source.buffer = decodedAudio;
-  source.connect(context.destination);
-  const ended = new Promise<void>((resolve) => {
-    source.onended = () => {
-      activeSources.delete(source);
-      try { source.disconnect(); } catch { /* already disconnected */ }
-      resolve();
+  return await new Promise<boolean>((resolve) => {
+    let started = false;
+    utterance.onstart = () => {
+      if (generation !== speechGeneration) {
+        window.speechSynthesis.cancel();
+        resolve(false);
+        return;
+      }
+      started = true;
+      onPlaybackStart?.();
     };
+    utterance.onend = () => resolve(started && generation === speechGeneration);
+    utterance.onerror = () => resolve(false);
+    window.speechSynthesis.speak(utterance);
   });
-  activeSources.add(source);
-  source.start(0);
-  onPlaybackStart?.();
-  await ended;
-  return generation === speechGeneration;
 }
 
 export async function speakAgentText(
@@ -204,107 +260,36 @@ export async function speakAgentText(
   locale: ResolvedAgentLocale = "en-US",
   onPlaybackStart?: () => void,
 ) {
-  if (typeof window === "undefined") throw new Error("Spoken replies are unavailable in this browser.");
+  if (typeof window === "undefined") {
+    throw new Error("Spoken replies are unavailable in this browser.");
+  }
+
   const cleanText = text.trim();
   if (!cleanText) return false;
 
-  // Calls with an actual playback-start callback are interactive chat/replay speech.
-  // Background greeting/briefing speech must never interrupt that authoritative stream.
   const interactive = Boolean(onPlaybackStart);
   if (!interactive && activeInteractiveGeneration !== null) return false;
 
-  const context = getAudioContext();
-  if (!context) throw new Error("Spoken replies are unavailable in this browser.");
-  await ensureAudioContextRunning(context);
-
   const generation = ++speechGeneration;
   if (interactive) activeInteractiveGeneration = generation;
-  activeSpeechAbortController?.abort();
-  activeSpeechAbortController = null;
   cancelNativeSpeech();
-  stopActiveSources();
-
-  const { data: sessionData } = await supabase.auth.getSession();
-  if (generation !== speechGeneration) return false;
-  const accessToken = sessionData.session?.access_token;
-  if (!accessToken) throw new Error("Authentication is required for agent voice.");
-
-  const controller = new AbortController();
-  activeSpeechAbortController = controller;
+  stopMaleAgentNeuralVoice();
 
   try {
-    let response: Response;
-    try {
-      response = await fetch(`${supabaseConfig.url}/functions/v1/hlc-agent-voice`, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          apikey: supabaseConfig.anonKey,
-          "Content-Type": "application/json",
-        },
-        signal: controller.signal,
-        body: JSON.stringify({ agentId, text: cleanText, locale }),
-      });
-    } catch (reason) {
-      if (controller.signal.aborted || generation !== speechGeneration) return false;
-      throw reason;
+    if (agentId === "kendrell" || agentId === "dion") {
+      if (!isMaleAgentNeuralVoiceSupported()) {
+        const label = agentId === "kendrell" ? "Kendrell" : "Dion";
+        throw new Error(`${label}'s high-quality voice is unavailable in this browser.`);
+      }
+      const played = await speakMaleAgentNeuralText(agentId, cleanText, locale, onPlaybackStart);
+      return played && generation === speechGeneration;
     }
 
-    if (generation !== speechGeneration) return false;
-    if (!response.ok) await throwVoiceResponseError(response);
-
-    const contentType = response.headers.get("content-type")?.toLowerCase() ?? "";
-    if (contentType.includes("application/json")) {
-      return await playLegacyBufferedResponse(context, response, generation, onPlaybackStart);
+    if (!hasNativeSpeech()) {
+      throw new Error("Spoken replies are unavailable in this browser.");
     }
-
-    if (!response.body) throw new Error("Neural voice returned no playable audio stream.");
-
-    const reader = response.body.getReader();
-    let nextPlaybackAt = context.currentTime + STREAM_START_LEAD_SECONDS;
-    let carry: number | null = null;
-    let started = false;
-
-    while (true) {
-      const { value, done } = await reader.read();
-      if (done) break;
-      if (generation !== speechGeneration) {
-        await reader.cancel();
-        return false;
-      }
-      if (!value?.byteLength) continue;
-
-      let bytes = value;
-      if (carry !== null) {
-        const combined = new Uint8Array(value.byteLength + 1);
-        combined[0] = carry;
-        combined.set(value, 1);
-        bytes = combined;
-        carry = null;
-      }
-      if (bytes.byteLength % 2 === 1) {
-        carry = bytes[bytes.byteLength - 1];
-        bytes = bytes.subarray(0, bytes.byteLength - 1);
-      }
-      if (!bytes.byteLength) continue;
-
-      // iOS can suspend WebAudio again while the network request is in flight.
-      // Resume immediately before every scheduled chunk so a successful TTS
-      // response cannot silently become inaudible playback.
-      await ensureAudioContextRunning(context);
-      if (generation !== speechGeneration) return false;
-      nextPlaybackAt = schedulePcmChunk(context, bytes, nextPlaybackAt);
-      if (!started) {
-        started = true;
-        onPlaybackStart?.();
-      }
-    }
-
-    if (!started) throw new Error("Neural voice returned no playable audio stream.");
-    await waitForScheduledPlayback(context, nextPlaybackAt, generation);
-    return started && generation === speechGeneration;
+    return await speakWithNativeVoice(agentId, cleanText, locale, generation, onPlaybackStart);
   } finally {
-    if (activeSpeechAbortController === controller) activeSpeechAbortController = null;
     if (activeInteractiveGeneration === generation) activeInteractiveGeneration = null;
   }
 }
@@ -313,8 +298,6 @@ export function stopAgentSpeech() {
   if (typeof window === "undefined") return;
   speechGeneration += 1;
   activeInteractiveGeneration = null;
-  activeSpeechAbortController?.abort();
-  activeSpeechAbortController = null;
+  stopMaleAgentNeuralVoice();
   cancelNativeSpeech();
-  stopActiveSources();
 }

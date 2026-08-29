@@ -68,21 +68,21 @@ test("My Profile preserves participant preferences and authorization boundary", 
 
 test("resident portal preserves shared relationship decisions appointments and documents", () => {
   assert.match(resident, /getHomeownerPortalData\(\)/);
-  assert.match(resident, /decideHomeownerEstimate\(id, decision\)/);
-  assert.match(resident, /decision: "accepted" \| "rejected"/);
+  assert.match(resident, /decideHomeownerEstimate\(est\.id,"accepted"\)/);
+  assert.match(resident, /decideHomeownerEstimate\(est\.id,"rejected"\)/);
   assert.match(resident, /listDocuments\(\)/);
-  assert.match(resident, /getDocumentUrl\(document\.id, document\.storage_path\)/);
-  assert.match(resident, /appointment_end_at/);
+  assert.match(resident, /getDocumentUrl\(document\.id,document\.storage_path\)/);
+  assert.match(resident, /appointment_date/);
   assert.match(resident, /hlc-portal-workspace is-resident/);
 });
 
 test("professional portal preserves company links offer decisions appointments and documents", () => {
   assert.match(professional, /getContractorPortalData\(\)/);
-  assert.match(professional, /decideContractorAssignment\(id, decision\)/);
-  assert.match(professional, /decision: "accepted" \| "rejected"/);
+  assert.match(professional, /decideContractorAssignment\(assignment\.id,"accepted"\)/);
+  assert.match(professional, /decideContractorAssignment\(assignment\.id,"rejected"\)/);
   assert.match(professional, /listDocuments\(\)/);
-  assert.match(professional, /getDocumentUrl\(document\.id, document\.storage_path\)/);
-  assert.match(professional, /appointment_end_at/);
+  assert.match(professional, /getDocumentUrl\(document\.id,document\.storage_path\)/);
+  assert.match(professional, /appointment_date/);
   assert.match(professional, /hlc-portal-workspace is-professional/);
 });
 

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useAuth } from "../hooks/useAuth";
+import { supabase } from "../lib/supabase";
 
 type ViewMode = "mobile" | "desktop";
 
@@ -28,9 +29,6 @@ function isCompactDevice() {
 }
 
 function readInitialViewMode(): ViewMode {
-  // A stale desktop preference must never make a physical phone boot into a
-  // compressed desktop canvas. Desktop remains available as an explicit choice
-  // from the mobile menu, but every new compact-device load starts mobile-safe.
   return isCompactDevice() ? "mobile" : readStoredViewMode();
 }
 
@@ -61,9 +59,30 @@ export default function MobileViewControls() {
 
   useEffect(() => {
     if (!session || !compactDevice) return;
+    let ownedHost: HTMLDivElement | null = null;
 
     const findMenuHost = () => {
-      const host = document.querySelector<HTMLElement>(".hlc-mobile-portal-scroll");
+      const menu = document.querySelector<HTMLElement>(".hlc-drawer-v2-scroll");
+      if (!menu) {
+        setMenuHost(null);
+        return;
+      }
+
+      const search = menu.querySelector<HTMLElement>(".hlc-mobile-command-search-trigger");
+      const ownerHome = menu.querySelector<HTMLElement>(".hlc-owner-home-link");
+      if (ownerHome && search && ownerHome.nextElementSibling !== search) {
+        menu.insertBefore(ownerHome, search);
+      }
+
+      let host = menu.querySelector<HTMLDivElement>(".hlc-mobile-view-controls-host");
+      if (!host) {
+        host = document.createElement("div");
+        host.className = "hlc-mobile-view-controls-host";
+        const quickActions = menu.querySelector<HTMLElement>(".hlc-mobile-more-quick");
+        if (quickActions) menu.insertBefore(host, quickActions);
+        else menu.append(host);
+        ownedHost = host;
+      }
       setMenuHost((current) => current === host ? current : host);
     };
 
@@ -74,6 +93,8 @@ export default function MobileViewControls() {
     return () => {
       window.cancelAnimationFrame(frame);
       observer.disconnect();
+      ownedHost?.remove();
+      setMenuHost(null);
     };
   }, [compactDevice, session]);
 
@@ -86,29 +107,21 @@ export default function MobileViewControls() {
     }
   }
 
+  async function logout() {
+    await supabase.auth.signOut();
+    window.location.href = "/login";
+  }
+
   if (loading || !session || !compactDevice || !menuHost) return null;
 
   return createPortal(
-    <section className="hlc-mobile-menu-utilities" aria-label="Display options">
+    <section className="hlc-mobile-menu-utilities" aria-label="Display and account options">
       <span className="hlc-mobile-menu-utilities-label">View</span>
       <div className="hlc-mobile-menu-view-actions">
-        <button
-          type="button"
-          className={viewMode === "mobile" ? "is-active" : undefined}
-          aria-pressed={viewMode === "mobile"}
-          onClick={() => chooseView("mobile")}
-        >
-          Mobile
-        </button>
-        <button
-          type="button"
-          className={viewMode === "desktop" ? "is-active" : undefined}
-          aria-pressed={viewMode === "desktop"}
-          onClick={() => chooseView("desktop")}
-        >
-          Desktop
-        </button>
+        <button type="button" className={viewMode === "mobile" ? "is-active" : undefined} aria-pressed={viewMode === "mobile"} onClick={() => chooseView("mobile")}>Mobile</button>
+        <button type="button" className={viewMode === "desktop" ? "is-active" : undefined} aria-pressed={viewMode === "desktop"} onClick={() => chooseView("desktop")}>Desktop</button>
       </div>
+      <button type="button" className="hlc-mobile-early-signout" onClick={logout}>Sign out</button>
     </section>,
     menuHost,
   );

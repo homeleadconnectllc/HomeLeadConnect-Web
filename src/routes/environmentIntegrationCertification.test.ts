@@ -36,7 +36,7 @@ test("Stripe entitlement remains signed-webhook derived and duplicate safe", () 
   assert.match(webhook, /Stripe-Signature/);
   assert.match(webhook, /constructEventAsync/);
   assert.match(webhook, /stripe_webhook_events/);
-  assert.match(webhook, /duplicate: true/);
+  assert.match(webhook, /duplicate\s*:\s*true/);
   assert.match(webhook, /workspace_plan_status/);
   assert.match(webhook, /subscription\.metadata\.workspace_id/);
   assert.match(webhook, /price does not match HLC V1/i);

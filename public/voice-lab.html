@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#06111f" />
+  <title>HLC Native Voice Lab</title>
+  <style>
+    :root{color-scheme:dark;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#06111f;color:#f7fbff}
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100vh;background:#06111f;padding:max(24px,env(safe-area-inset-top)) 18px max(28px,env(safe-area-inset-bottom))}
+    main{max-width:760px;margin:0 auto}
+    h1{font-size:1.55rem;margin:0 0 8px}
+    p{color:#b9c7d8;line-height:1.5}
+    .note{border-left:3px solid #3da9fc;padding:10px 12px;background:#0b1b2d;border-radius:8px;margin:16px 0}
+    .controls{display:grid;gap:10px;margin:18px 0}
+    label{font-weight:650}
+    select,button{font:inherit;min-height:48px;border-radius:10px;border:1px solid #36506d}
+    select{width:100%;background:#0b1b2d;color:#fff;padding:10px 12px}
+    button{background:#12345a;color:#fff;padding:10px 14px;font-weight:700}
+    button:active{transform:translateY(1px)}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .voice{padding:14px 0;border-top:1px solid #20354c}
+    .voice strong{display:block;font-size:1rem}
+    .voice.is-saved{background:#0b1b2d;border-radius:10px;padding:14px 12px;margin-top:8px}
+    .voice.is-cora strong::after{content:" · Cora candidate";font-size:.78rem;color:#9ac7f0}
+    .meta{font-size:.85rem;color:#8fa5bd;margin:4px 0 10px;word-break:break-word}
+    .actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .voice button{width:100%;background:#0d2a49}
+    .voice button.save{background:#173f2d}
+    #status,#saved{font-weight:650;color:#d9e8f7}
+    @media(max-width:520px){.row,.actions{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<main>
+  <h1>HLC Native Voice Lab</h1>
+  <p>This page uses only the voices already exposed by your iPhone/browser. Nothing is uploaded and no paid voice service is used.</p>
+  <div class="note"><strong>Goal:</strong> lock one exact stable voice for Kendrell, then one clean non-scratchy voice for Dion. Diamond stays untouched. Cora is highlighted if your iPhone exposes it.</div>
+  <div class="controls">
+    <label for="agent">Agent to test and save</label>
+    <select id="agent">
+      <option value="kendrell">Kendrell — calm executive</option>
+      <option value="dion">Dion — crisp operations</option>
+    </select>
+    <div class="row">
+      <button id="refresh" type="button">Refresh device voices</button>
+      <button id="stop" type="button">Stop speaking</button>
+    </div>
+    <div id="saved" role="status">No saved voice checked yet.</div>
+    <div id="status" role="status">Loading device voices…</div>
+  </div>
+  <section id="voices" aria-live="polite"></section>
+</main>
+<script>
+(() => {
+  const synth = window.speechSynthesis;
+  const list = document.getElementById('voices');
+  const status = document.getElementById('status');
+  const saved = document.getElementById('saved');
+  const agent = document.getElementById('agent');
+  const selectionKey = 'hlc.agentNativeVoiceSelections.v1';
+  const phrases = {
+    kendrell: "My name is Ken-Drayl. I am your H L C command agent. I will keep this clear, calm, and direct.",
+    dion: "My name is Dee-Yon. I am your H L C operations agent. I will keep the work clear, practical, and organized."
+  };
+
+  function getSelections() {
+    try { return JSON.parse(localStorage.getItem(selectionKey) || '{}') || {}; }
+    catch { return {}; }
+  }
+
+  function setSelection(agentId, voiceURI) {
+    const selections = getSelections();
+    selections[agentId] = voiceURI;
+    localStorage.setItem(selectionKey, JSON.stringify(selections));
+  }
+
+  function acceptable(v) {
+    const n = v.name.toLowerCase();
+    const rejected = ['whisper','bad news','good news','bells','bubbles','cellos','boing','bahh','deranged','hysterical','organ','superstar','trinoids','zarvox','reed'];
+    return /^en([-_]|$)/i.test(v.lang || '') && !rejected.some(x => n.includes(x));
+  }
+
+  function render() {
+    const currentAgent = agent.value;
+    const selections = getSelections();
+    const savedUri = selections[currentAgent] || '';
+    const voices = synth.getVoices().filter(acceptable).sort((a,b) => {
+      const aCora = /cora/i.test(a.name);
+      const bCora = /cora/i.test(b.name);
+      if (aCora !== bCora) return aCora ? -1 : 1;
+      if (a.localService !== b.localService) return a.localService ? -1 : 1;
+      if (a.default !== b.default) return a.default ? -1 : 1;
+      return a.name.localeCompare(b.name);
+    });
+    list.innerHTML = '';
+    const savedVoice = voices.find((voice) => voice.voiceURI === savedUri);
+    saved.textContent = savedVoice
+      ? `${currentAgent === 'kendrell' ? 'Kendrell' : 'Dion'} saved voice: ${savedVoice.name}`
+      : `${currentAgent === 'kendrell' ? 'Kendrell' : 'Dion'} has no available saved voice on this device yet.`;
+    status.textContent = voices.length ? `${voices.length} usable English device/browser voices found.` : 'No English voices are visible yet. Tap Refresh device voices.';
+    voices.forEach((voice, index) => {
+      const item = document.createElement('article');
+      item.className = `voice${voice.voiceURI === savedUri ? ' is-saved' : ''}${/cora/i.test(voice.name) ? ' is-cora' : ''}`;
+      const title = document.createElement('strong');
+      title.textContent = `${index + 1}. ${voice.name}${voice.voiceURI === savedUri ? ' · SAVED' : ''}`;
+      const meta = document.createElement('div');
+      meta.className = 'meta';
+      meta.textContent = `${voice.lang} · ${voice.localService ? 'local device' : 'browser/remote'}${voice.default ? ' · default' : ''} · ${voice.voiceURI}`;
+      const actions = document.createElement('div');
+      actions.className = 'actions';
+      const play = document.createElement('button');
+      play.type = 'button';
+      play.textContent = `Play ${voice.name}`;
+      play.addEventListener('click', () => {
+        synth.cancel();
+        const u = new SpeechSynthesisUtterance(phrases[agent.value]);
+        u.voice = voice;
+        u.lang = voice.lang || 'en-US';
+        u.rate = agent.value === 'kendrell' ? 0.92 : 0.94;
+        u.pitch = agent.value === 'kendrell' ? 0.98 : 1;
+        u.volume = 1;
+        status.textContent = `Playing: ${voice.name}`;
+        u.onend = () => { status.textContent = `Finished: ${voice.name}`; };
+        u.onerror = () => { status.textContent = `Could not play: ${voice.name}`; };
+        synth.speak(u);
+      });
+      const save = document.createElement('button');
+      save.type = 'button';
+      save.className = 'save';
+      save.textContent = `Use for ${currentAgent === 'kendrell' ? 'Kendrell' : 'Dion'}`;
+      save.addEventListener('click', () => {
+        synth.cancel();
+        setSelection(currentAgent, voice.voiceURI);
+        status.textContent = `Saved ${voice.name} for ${currentAgent === 'kendrell' ? 'Kendrell' : 'Dion'}.`;
+        render();
+      });
+      actions.append(play, save);
+      item.append(title, meta, actions);
+      list.appendChild(item);
+    });
+  }
+
+  agent.addEventListener('change', () => { synth.cancel(); render(); });
+  document.getElementById('refresh').addEventListener('click', render);
+  document.getElementById('stop').addEventListener('click', () => { synth.cancel(); status.textContent = 'Stopped.'; });
+  if ('onvoiceschanged' in synth) synth.onvoiceschanged = render;
+  render();
+  setTimeout(render, 300);
+  setTimeout(render, 1200);
+})();
+</script>
+</body>
+</html>

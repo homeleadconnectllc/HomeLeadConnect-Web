@@ -85,5 +85,7 @@ test("Community Store is fulfillment-gated and never claims HLC inventory or del
   assert.match(communityStore, /VITE_HLC_MERCH_STORE_URL/);
   assert.match(communityStore, /third-party fulfillment provider/i);
   assert.match(communityStore, /does not represent an item as stocked, printed, shipped or delivered/i);
-  assert.match(communityStore, /Checkout connection pending/);
+  assert.match(communityStore, /Checkout unavailable · storefront connection pending/);
+  assert.match(communityStore, /role="status"/);
+  assert.doesNotMatch(communityStore, /<button[^>]*disabled[\s\S]*Checkout/);
 });

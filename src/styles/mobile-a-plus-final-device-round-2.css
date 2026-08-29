@@ -1,0 +1,191 @@
+/* Mobile A+ final physical-device correction round 2.
+   Compact-only closure for already-evidenced Community, Scan Intake, Network,
+   agent quick-action and important-text failures. Desktop remains untouched. */
+
+@media (max-width: 760px) {
+  /* FD-08 / FD-14 — Community must resolve to one contained readable column. */
+  .hlc-community-workspace,
+  .hlc-community-workspace *,
+  .hlc-community-store-workspace,
+  .hlc-community-store,
+  .hlc-community-store-grid,
+  .hlc-community-product {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .hlc-community-console,
+  .hlc-community-directory,
+  .hlc-community-lane,
+  .hlc-community-row-list,
+  .hlc-community-row,
+  .hlc-community-context,
+  .hlc-community-store-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .hlc-community-row-copy :is(h3, p),
+  .hlc-community-context :is(h2, h3, p),
+  .hlc-community-product :is(h3, p),
+  .hlc-community-store-head :is(h2, p),
+  .hlc-community-store-disclosure {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+  }
+
+  /* FD-13 — Scan Intake uses .hlc-documents-workspace, which was outside the
+     Sprint 6 resource root. Reset every desktop grid before the phone paints. */
+  .hlc-documents-workspace,
+  .hlc-documents-workspace *,
+  .hlc-documents-header,
+  .hlc-documents-summary,
+  .hlc-documents-console,
+  .hlc-documents-intake,
+  .hlc-documents-guidance,
+  .hlc-documents-form,
+  .hlc-documents-file-input,
+  .hlc-documents-guidance-list,
+  .hlc-documents-guidance-row {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .hlc-documents-workspace {
+    width: min(100% - 24px, 1440px) !important;
+    overflow-x: clip !important;
+  }
+
+  .hlc-documents-header,
+  .hlc-documents-summary,
+  .hlc-documents-console,
+  .hlc-documents-form {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .hlc-documents-summary span {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 2px !important;
+    padding: 10px 0 !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid rgba(148, 163, 184, .14) !important;
+  }
+
+  .hlc-documents-summary span:last-child {
+    border-bottom: 0 !important;
+  }
+
+  .hlc-documents-form label,
+  .hlc-documents-form label:first-child,
+  .hlc-documents-file-input {
+    grid-column: 1 !important;
+    width: 100% !important;
+  }
+
+  .hlc-documents-form :is(input, select, button) {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .hlc-documents-guidance {
+    border-left: 0 !important;
+    border-top: 1px solid rgba(148, 163, 184, .14) !important;
+    padding: 18px 0 0 !important;
+  }
+
+  .hlc-documents-guidance-row {
+    grid-template-columns: 32px minmax(0, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  .hlc-documents-workspace :is(h1, h2, h3, p, span, small, strong, label) {
+    white-space: normal !important;
+    text-overflow: clip !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+  }
+
+  /* FD-09 — Provider actions get two deliberate rows instead of three narrow
+     columns. Primary actions stay visible; More owns secondary actions. */
+  .hlc-s3-provider-row,
+  .hlc-s3-provider-row > div,
+  .hlc-s3-provider-actions {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .hlc-s3-provider-actions {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  .hlc-s3-provider-more {
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+  }
+
+  .hlc-s3-provider-more > summary {
+    width: 100% !important;
+  }
+
+  .hlc-s3-provider-row > div:first-child :is(strong, span, small, a),
+  .hlc-s3-provider-actions :is(a, button, summary) {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .hlc-s3-provider-row > div:first-child :is(strong, span, small),
+  .hlc-s3-provider-row > div:first-child a {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+  }
+
+  /* FD-10 — quick actions are one intentional horizontal lane with full labels. */
+  #root .hlc-signed-in-shell .hlc-agent-dock.is-open .hlc-ai-quick-prompts {
+    display: flex !important;
+    grid-template-columns: none !important;
+    flex-wrap: nowrap !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-snap-type: x proximity !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  #root .hlc-signed-in-shell .hlc-agent-dock.is-open .hlc-ai-quick-prompts button {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    max-width: min(82vw, 300px) !important;
+    min-height: 44px !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    scroll-snap-align: start !important;
+  }
+
+  body.hlc-keyboard-open .hlc-ai-quick-prompts {
+    display: none !important;
+  }
+
+  /* FD-14 — important task/status copy must wrap rather than disappear. */
+  .hlc-signed-in-shell :is(
+    .hlc-calendar-date-label,
+    .hlc-calendar-event-heading strong,
+    .hlc-calendar-event-copy small,
+    .hlc-account-status,
+    .hlc-documents-status
+  ) {
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    overflow-wrap: break-word !important;
+  }
+}

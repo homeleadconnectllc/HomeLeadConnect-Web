@@ -2,100 +2,24 @@ import { useEffect, useMemo, useState } from "react";
 import { ArrowUpRight, Bell, CheckCircle2, Inbox, Radio } from "lucide-react";
 import { Link } from "react-router-dom";
 import { listNotifications, markNotificationRead, type NotificationRecord } from "../../api/notifications";
+import { listOperationsExceptionDispositions, recordOperationsExceptionDisposition, type OperationsExceptionDisposition } from "../../api/operationsExceptions";
 import { errorMessage } from "../../lib/errorMessage";
+import { useAccountAccess } from "../../hooks/useAccountAccess";
 import "../../styles/notifications-workspace.css";
 
-function formatNotificationTime(value: string) {
-  const date = new Date(value);
-  return Number.isNaN(date.getTime())
-    ? "Time unavailable"
-    : new Intl.DateTimeFormat(undefined, {
-        month: "short",
-        day: "numeric",
-        hour: "numeric",
-        minute: "2-digit",
-      }).format(date);
-}
-
-export default function Notifications() {
-  const [items,setItems] = useState<NotificationRecord[]>([]);
-  const [loading,setLoading] = useState(true);
-  const [error,setError] = useState("");
-
-  useEffect(() => {
-    let active=true;
-    listNotifications().then((rows) => { if(active) setItems(rows); })
-      .catch((reason:unknown) => { if(active) setError(errorMessage(reason,"Unable to load notifications.")); })
-      .finally(() => { if(active) setLoading(false); });
-    return () => { active=false; };
-  }, []);
-
-  async function read(item: NotificationRecord) {
-    if (!item.read_at) {
-      try { await markNotificationRead(item.id); setItems((current) => current.map((row) => row.id===item.id ? {...row,read_at:new Date().toISOString()} : row)); }
-      catch (reason) { setError(errorMessage(reason,"Unable to mark the notification read.")); return; }
-    }
-  }
-
-  const unreadCount = useMemo(() => items.filter((item) => !item.read_at).length, [items]);
-  const latest = items[0]?.created_at ? formatNotificationTime(items[0].created_at) : "No activity";
-
-  return <main className="hlc-notifications-workspace">
-    <header className="hlc-notifications-header">
-      <div>
-        <span className="hlc-notifications-kicker"><Bell size={15} aria-hidden="true" /> Command inbox</span>
-        <h1>Notifications</h1>
-        <p>Assignment, appointment, conversation and telephony events land here as an operating queue.</p>
-      </div>
-      <div className="hlc-notifications-live" aria-label="Notification feed status">
-        <Radio size={15} aria-hidden="true" />
-        Live event feed
-      </div>
-    </header>
-
-    <section className="hlc-notifications-summary" aria-label="Notification summary">
-      <div><span>Unread</span><strong>{loading ? "—" : unreadCount}</strong></div>
-      <div><span>Total</span><strong>{loading ? "—" : items.length}</strong></div>
-      <div><span>Latest</span><strong className="hlc-notifications-latest">{loading ? "Loading…" : latest}</strong></div>
-    </section>
-
-    <section className="hlc-notifications-queue" aria-labelledby="notification-queue-heading">
-      <div className="hlc-notifications-queue-heading">
-        <div>
-          <span>Operations</span>
-          <h2 id="notification-queue-heading">Event queue</h2>
-        </div>
-        {!loading && !error && <span>{unreadCount ? `${unreadCount} need attention` : "All caught up"}</span>}
-      </div>
-
-      {loading && <p className="hlc-notifications-state" role="status">Loading notifications…</p>}
-      {error && <p className="hlc-notifications-state hlc-notifications-error" role="alert">{error}</p>}
-      {!loading && !error && items.length===0 && <div className="hlc-notifications-empty">
-        <Inbox size={24} aria-hidden="true" />
-        <strong>No notifications yet</strong>
-        <span>New HLC events will appear here in time order.</span>
-      </div>}
-
-      <div className="hlc-notifications-list" aria-live="polite">
-        {items.map((item) => {
-          const unread = !item.read_at;
-          return <article key={item.id} className={`hlc-notification-row${unread ? " is-unread" : ""}`}>
-            <span className="hlc-notification-status" aria-hidden="true">{unread ? <span /> : <CheckCircle2 size={16} />}</span>
-            <div className="hlc-notification-copy">
-              <div className="hlc-notification-title-line">
-                <h3>{item.title}</h3>
-                {unread && <span>New</span>}
-              </div>
-              <p>{item.body}</p>
-              <time dateTime={item.created_at}>{formatNotificationTime(item.created_at)}</time>
-            </div>
-            <Link className="hlc-notification-open" to={item.deep_link || "/notifications"} onClick={() => void read(item)}>
-              <span>Open</span>
-              <ArrowUpRight size={16} aria-hidden="true" />
-            </Link>
-          </article>;
-        })}
-      </div>
-    </section>
-  </main>;
+function formatNotificationTime(value:string){const date=new Date(value);return Number.isNaN(date.getTime())?"Time unavailable":new Intl.DateTimeFormat(undefined,{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}).format(date);}
+export default function Notifications(){
+  const account=useAccountAccess();const management=["owner","manager","admin"].includes(account.role??"");
+  const[items,setItems]=useState<NotificationRecord[]>([]);const[dispositions,setDispositions]=useState<OperationsExceptionDisposition[]>([]);const[notes,setNotes]=useState<Record<string,string>>({});const[loading,setLoading]=useState(true);const[error,setError]=useState("");const[busy,setBusy]=useState("");
+  useEffect(()=>{let active=true;Promise.all([listNotifications(),management?listOperationsExceptionDispositions():Promise.resolve([])]).then(([rows,history])=>{if(active){setItems(rows);setDispositions(history);}}).catch((reason:unknown)=>{if(active)setError(errorMessage(reason,"Unable to load notifications."));}).finally(()=>{if(active)setLoading(false);});return()=>{active=false;};},[management]);
+  async function read(item:NotificationRecord){if(!item.read_at){try{await markNotificationRead(item.id);setItems(current=>current.map(row=>row.id===item.id?{...row,read_at:new Date().toISOString()}:row));}catch(reason){setError(errorMessage(reason,"Unable to mark the notification read."));}}}
+  async function disposition(item:NotificationRecord,next:OperationsExceptionDisposition["disposition"]){setBusy(item.id);setError("");try{await recordOperationsExceptionDisposition({sourceType:"notification",sourceId:item.id,disposition:next,note:notes[item.id]??"",affectedRoute:item.deep_link||"/notifications"});const history=await listOperationsExceptionDispositions();setDispositions(history);await read(item);}catch(reason){setError(errorMessage(reason,"Unable to record the exception outcome."));}finally{setBusy("");}}
+  const unreadCount=useMemo(()=>items.filter(item=>!item.read_at).length,[items]);const latest=items[0]?.created_at?formatNotificationTime(items[0].created_at):"No activity";
+  const latestBySource=useMemo(()=>{const map=new Map<string,OperationsExceptionDisposition>();for(const row of dispositions){const key=`${row.source_type}:${row.source_id}`;if(!map.has(key))map.set(key,row);}return map;},[dispositions]);
+  return <main className="hlc-notifications-workspace"><header className="hlc-notifications-header"><div><span className="hlc-notifications-kicker"><Bell size={15} aria-hidden="true"/> Command inbox</span><h1>Notifications</h1><p>Assignment, appointment, conversation and telephony events land here as an operating queue.</p></div><div className="hlc-notifications-live" aria-label="Notification feed status"><Radio size={15} aria-hidden="true"/>Live event feed</div></header>
+    <section className="hlc-notifications-summary" aria-label="Notification summary"><div><span>Unread</span><strong>{loading?"—":unreadCount}</strong></div><div><span>Total</span><strong>{loading?"—":items.length}</strong></div><div><span>Latest</span><strong className="hlc-notifications-latest">{loading?"Loading…":latest}</strong></div></section>
+    <section className="hlc-notifications-queue" aria-labelledby="notification-queue-heading"><div className="hlc-notifications-queue-heading"><div><span>Operations</span><h2 id="notification-queue-heading">Event queue</h2></div>{!loading&&!error&&<span>{unreadCount?`${unreadCount} need attention`:"All caught up"}</span>}</div>
+      {loading&&<p className="hlc-notifications-state" role="status">Loading notifications…</p>}{error&&<p className="hlc-notifications-state hlc-notifications-error" role="alert">{error}</p>}{!loading&&!error&&items.length===0&&<div className="hlc-notifications-empty"><Inbox size={24} aria-hidden="true"/><strong>No notifications yet</strong><span>New HLC events will appear here in time order.</span></div>}
+      <div className="hlc-notifications-list" aria-live="polite">{items.map(item=>{const unread=!item.read_at;const outcome=latestBySource.get(`notification:${item.id}`);return <article key={item.id} className={`hlc-notification-row${unread?" is-unread":""}`}><span className="hlc-notification-status" aria-hidden="true">{unread?<span/>:<CheckCircle2 size={16}/>}</span><div className="hlc-notification-copy"><div className="hlc-notification-title-line"><h3>{item.title}</h3>{unread&&<span>New</span>}</div><p>{item.body}</p><time dateTime={item.created_at}>{formatNotificationTime(item.created_at)}</time>{outcome&&<p><strong>Exception outcome:</strong> {outcome.disposition}{outcome.note?` — ${outcome.note}`:""}</p>}{management&&!outcome&&<div><label>Outcome note<textarea value={notes[item.id]??""} onChange={event=>setNotes(current=>({...current,[item.id]:event.target.value}))}/></label><div className="hlc-portal-actions">{(["resolved","escalated","deferred"] as OperationsExceptionDisposition["disposition"][]).map(next=><button type="button" key={next} disabled={busy===item.id} onClick={()=>void disposition(item,next)}>{next}</button>)}</div><small>This records an operations disposition; it does not pretend the source record changed.</small></div>}</div><Link className="hlc-notification-open" to={item.deep_link||"/notifications"} onClick={()=>void read(item)}><span>Open</span><ArrowUpRight size={16} aria-hidden="true"/></Link></article>;})}</div>
+    </section></main>;
 }

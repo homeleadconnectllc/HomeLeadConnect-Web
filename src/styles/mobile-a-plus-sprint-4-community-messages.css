@@ -1,0 +1,215 @@
+/* Mobile A+ Sprint 4 — Community + Messages + Voice
+   Compact-only authority. Desktop presentation remains untouched. */
+
+@media (max-width: 760px) {
+  .hlc-community-workspace,
+  .hlc-messages-workspace {
+    min-width: 0;
+    overflow-x: clip;
+  }
+
+  .hlc-community-header,
+  .hlc-messages-header {
+    padding-inline: 16px;
+  }
+
+  .hlc-community-summary {
+    display: none;
+  }
+
+  .hlc-community-commandbar {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-snap-type: x proximity;
+    padding: 0 16px 8px;
+    scrollbar-width: none;
+  }
+
+  .hlc-community-commandbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .hlc-community-commandbar > * {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+
+  .hlc-community-console {
+    display: block;
+    min-width: 0;
+  }
+
+  .hlc-community-directory,
+  .hlc-community-lane,
+  .hlc-community-row-list,
+  .hlc-community-row,
+  .hlc-community-row-copy {
+    min-width: 0;
+  }
+
+  .hlc-community-lane {
+    padding-inline: 16px;
+  }
+
+  .hlc-community-lane-head {
+    align-items: flex-start;
+  }
+
+  .hlc-community-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .hlc-community-row > a {
+    min-height: 44px;
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hlc-community-context {
+    margin: 16px;
+  }
+
+  .hlc-community-context-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .hlc-community-context-actions a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hlc-community-store-workspace {
+    padding-inline: 16px;
+  }
+
+  .hlc-message-quick-compose,
+  .hlc-messages-console,
+  .hlc-messages-thread,
+  .hlc-messages-inbox,
+  .hlc-message-stream,
+  .hlc-message-composer,
+  .hlc-voice-note-console {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .hlc-message-quick-compose {
+    margin-inline: 16px;
+  }
+
+  .hlc-message-quick-compose select,
+  .hlc-message-quick-compose input,
+  .hlc-message-quick-compose textarea,
+  .hlc-message-composer textarea {
+    width: 100%;
+    max-width: 100%;
+    font-size: 16px;
+  }
+
+  .hlc-message-delivery-choice {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .hlc-message-delivery-choice label,
+  .hlc-message-primary-send,
+  .hlc-message-composer button,
+  .hlc-voice-note-list button,
+  .hlc-voice-note-console summary {
+    min-height: 44px;
+  }
+
+  .hlc-messages-console {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    padding: 0 16px calc(92px + env(safe-area-inset-bottom));
+  }
+
+  .hlc-messages-inbox-list {
+    max-height: min(38vh, 340px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .hlc-message-inbox-row {
+    min-height: 58px;
+    width: 100%;
+  }
+
+  .hlc-message-stream {
+    max-height: min(44vh, 420px);
+    overflow-y: auto;
+    overflow-wrap: anywhere;
+    overscroll-behavior: contain;
+  }
+
+  .hlc-message-entry,
+  .hlc-message-entry p,
+  .hlc-message-inbox-main,
+  .hlc-message-inbox-main small {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .hlc-message-composer {
+    position: sticky;
+    bottom: calc(72px + env(safe-area-inset-bottom));
+    z-index: 12;
+    padding: 12px;
+    background: rgba(6, 20, 39, 0.97);
+    backdrop-filter: blur(14px);
+    border-radius: 14px;
+  }
+
+  .hlc-message-composer textarea {
+    min-height: 96px;
+    max-height: 34vh;
+    resize: vertical;
+  }
+
+  .hlc-message-composer-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .hlc-message-composer-actions button {
+    width: 100%;
+  }
+
+  .hlc-voice-note-list {
+    min-width: 0;
+  }
+
+  .hlc-voice-note-list button {
+    width: 100%;
+    min-width: 0;
+  }
+
+  @supports (height: 100dvh) {
+    .hlc-message-stream {
+      max-height: 44dvh;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hlc-community-commandbar {
+    scroll-behavior: auto;
+  }
+}

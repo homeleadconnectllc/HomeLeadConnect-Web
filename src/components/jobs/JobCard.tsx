@@ -1,3 +1,4 @@
+import { MoreHorizontal } from "lucide-react";
 import { formatCurrency } from "../../lib/estimator/calculations";
 import type { CrmJob, CrmJobStatus } from "../../lib/types/database";
 import { Link } from "react-router-dom";
@@ -14,6 +15,13 @@ export default function JobCard({
   disabled?: boolean;
 }) {
   const leadRecord = job.lead_id == null ? null : encodeURIComponent(String(job.lead_id));
+  const secondaryActions = (
+    <>
+      {leadRecord && <Link to={`/follow-ups?leadRecord=${leadRecord}`}>Schedule follow-up</Link>}
+      {leadRecord && <Link to={`/manual-communications?channel=call&direction=outbound&contact=lead:${leadRecord}`}>Prepare call</Link>}
+      <Link to={`/documents?entityType=job&entityId=${encodeURIComponent(job.id)}`}>Attach evidence</Link>
+    </>
+  );
 
   return (
     <article className="hlc-job-row">
@@ -28,7 +36,7 @@ export default function JobCard({
       <div className="hlc-job-value-cell">
         <span className="hlc-job-cell-label">Value</span>
         <strong>{formatCurrency(Number(job.contract_value))}</strong>
-        <small>Estimate {job.source_estimate_id}</small>
+        <small>{job.source_estimate_id ? "LeadScope estimate linked" : "No source estimate"}</small>
       </div>
 
       <div className="hlc-job-actions">
@@ -48,9 +56,11 @@ export default function JobCard({
           ))}
         </select>
         <Link className="hlc-job-open" to={`/jobs/${job.id}`}>Open job</Link>
-        {leadRecord && <Link to={`/follow-ups?leadRecord=${leadRecord}`}>Schedule follow-up</Link>}
-        {leadRecord && <Link to={`/manual-communications?channel=call&direction=outbound&contact=lead:${leadRecord}`}>Prepare call</Link>}
-        <Link to={`/documents?entityType=job&entityId=${encodeURIComponent(job.id)}`}>Attach evidence</Link>
+        <span className="hlc-s2-desktop-secondary">{secondaryActions}</span>
+        <details className="hlc-s2-mobile-overflow">
+          <summary aria-label={`More actions for ${job.name}`}><MoreHorizontal size={17} aria-hidden="true" /><span>More</span></summary>
+          <div className="hlc-s2-overflow-menu">{secondaryActions}</div>
+        </details>
       </div>
     </article>
   );

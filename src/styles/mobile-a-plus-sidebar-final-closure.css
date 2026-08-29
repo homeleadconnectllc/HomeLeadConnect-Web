@@ -1,0 +1,243 @@
+/* Physical iPhone sidebar + agent input closure.
+   Final compact-device authority. Mobile uses App Directory as the complete navigation surface. */
+
+@media (max-width: 760px) {
+  html:has(body > .hlc-mobile-portal),
+  body:has(> .hlc-mobile-portal) {
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
+    touch-action: none !important;
+  }
+
+  body:has(> .hlc-mobile-portal) > #root {
+    pointer-events: none !important;
+  }
+
+  body > .hlc-mobile-portal ~ .hlc-mobile-portal {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  #root .hlc-navbar.menu-is-open,
+  body:has(.hlc-mobile-portal) #root .hlc-navbar,
+  body:has(.hlc-mobile-portal) #root .hlc-mobile-tabbar,
+  body:has(.hlc-mobile-portal) #root .hlc-agent-dock,
+  body:has(.hlc-mobile-portal) #root .hlc-proactive-briefing {
+    display: none !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+
+  .hlc-mobile-portal {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 2147483000 !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    min-height: 100dvh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
+    background: #071426 !important;
+    color: #f8fbff !important;
+    pointer-events: auto !important;
+    isolation: isolate !important;
+    contain: layout paint !important;
+  }
+
+  .hlc-mobile-portal::before,
+  .hlc-mobile-portal::after,
+  .hlc-mobile-portal-scroll::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  /* iOS browsers already expose the usable visual viewport to this fixed portal.
+     Do not add env(safe-area-inset-top) here: older WebKit can reject min(env(...))
+     and fall back to legacy full-inset rules, creating a large dead band. */
+  .hlc-mobile-portal-scroll {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 1 !important;
+    display: block !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    margin: 0 !important;
+    padding: 58px 14px max(118px, calc(22px + env(safe-area-inset-bottom))) !important;
+    overflow-x: hidden !important;
+    overflow-y: scroll !important;
+    overscroll-behavior-y: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+    background: #071426 !important;
+    box-shadow: none !important;
+    scroll-padding-top: 8px !important;
+    touch-action: pan-y !important;
+    pointer-events: auto !important;
+    contain: layout paint !important;
+  }
+
+  .hlc-mobile-portal-scroll::before {
+    content: "" !important;
+    position: fixed !important;
+    top: 8px !important;
+    left: 14px !important;
+    z-index: 30 !important;
+    display: block !important;
+    width: 42px !important;
+    height: 42px !important;
+    margin: 0 !important;
+    border: 1px solid rgba(96, 165, 250, .38) !important;
+    border-radius: 50% !important;
+    pointer-events: none !important;
+    background-color: #1355c8 !important;
+    background-image: url("/hlc-logo-transparent.png") !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    background-size: 31px 31px !important;
+    box-shadow: 0 6px 18px rgba(2, 8, 18, .24) !important;
+  }
+
+  .hlc-mobile-drawer-close {
+    position: fixed !important;
+    top: 8px !important;
+    right: 14px !important;
+    left: auto !important;
+    z-index: 40 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: auto !important;
+    min-width: 0 !important;
+    min-height: 42px !important;
+    margin: 0 !important;
+    padding: 8px 11px !important;
+    border: 1px solid rgba(96, 165, 250, .42) !important;
+    border-radius: 10px !important;
+    background: #0d1d35 !important;
+    color: #f8fbff !important;
+    box-shadow: 0 8px 20px rgba(2, 8, 18, .28) !important;
+    font: inherit !important;
+    font-size: 15px !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+    transform: none !important;
+  }
+
+  .hlc-mobile-drawer-close::before,
+  .hlc-mobile-drawer-close::after { content: none !important; }
+
+  .hlc-mobile-portal-scroll > .hlc-mobile-drawer-close ~ .hlc-mobile-drawer-close {
+    display: none !important;
+  }
+
+  .hlc-mobile-portal-scroll .hlc-mobile-menu-heading {
+    display: none !important;
+  }
+
+  .hlc-mobile-portal .hlc-mobile-portal-scroll > .hlc-mobile-command-search-trigger,
+  .hlc-mobile-portal .hlc-mobile-portal-scroll > .hlc-mobile-view-controls-host,
+  .hlc-mobile-portal .hlc-mobile-portal-scroll > .hlc-mobile-more-quick,
+  .hlc-mobile-portal .hlc-mobile-portal-scroll > .hlc-owner-home-link {
+    position: relative !important;
+    inset: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    float: none !important;
+    clear: both !important;
+    transform: none !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+  }
+
+  .hlc-mobile-portal .hlc-mobile-portal-scroll > .hlc-mobile-command-search-trigger {
+    display: flex !important;
+    margin: 0 0 10px !important;
+  }
+
+  .hlc-mobile-portal .hlc-mobile-portal-scroll > .hlc-mobile-view-controls-host {
+    display: block !important;
+    margin: 0 0 10px !important;
+    padding: 0 !important;
+  }
+
+  .hlc-mobile-portal .hlc-mobile-view-controls-host .hlc-mobile-menu-utilities {
+    margin: 0 !important;
+    padding: 9px !important;
+  }
+
+  .hlc-mobile-view-controls-host .hlc-mobile-menu-view-actions {
+    gap: 8px !important;
+  }
+
+  .hlc-mobile-view-controls-host .hlc-mobile-menu-view-actions button,
+  .hlc-mobile-view-controls-host .hlc-mobile-early-signout {
+    min-height: 42px !important;
+  }
+
+  .hlc-mobile-early-signout {
+    width: 100% !important;
+    margin-top: 6px !important;
+    padding: 8px 12px !important;
+    border: 1px solid rgba(248, 113, 113, .32) !important;
+    border-radius: 10px !important;
+    background: rgba(127, 29, 29, .18) !important;
+    color: #fecaca !important;
+    font: inherit !important;
+    font-size: 15px !important;
+    font-weight: 850 !important;
+  }
+
+  .hlc-mobile-portal .hlc-mobile-portal-scroll > .hlc-mobile-more-quick,
+  .hlc-mobile-portal .hlc-mobile-portal-scroll > .hlc-owner-home-link {
+    margin: 0 0 10px !important;
+  }
+
+  .hlc-mobile-portal-scroll .hlc-navbar-groups {
+    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .hlc-mobile-portal-scroll > .hlc-nav-logout {
+    display: none !important;
+  }
+
+  .hlc-mobile-portal-scroll .hlc-mobile-more-quick > a {
+    min-height: 44px !important;
+  }
+
+  #root .hlc-ai-composer textarea {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
+    caret-color: #2563eb !important;
+    opacity: 1 !important;
+  }
+
+  #root .hlc-ai-composer textarea::placeholder {
+    color: #64748b !important;
+    -webkit-text-fill-color: #64748b !important;
+    opacity: 1 !important;
+  }
+}

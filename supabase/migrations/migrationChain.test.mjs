@@ -3,12 +3,38 @@ import { readdirSync, readFileSync } from "node:fs";
 import test from "node:test";
 
 const migrationFiles = readdirSync("supabase/migrations").filter((name) => /^\d+_.+\.sql$/.test(name)).sort();
+const stagedUnpromotedFiles = [
+  "20260829112000_phase3_external_user_backend_contracts.sql",
+  "20260829124500_partner_portal_referrals.sql",
+  "20260829130000_partner_management_lookup.sql",
+  "20260829133000_phase3_external_user_performance_indexes.sql",
+];
+const productionPlanFiles = migrationFiles.filter((name) => !stagedUnpromotedFiles.includes(name));
 const plan = readFileSync("supabase/RELEASE_MIGRATION_PLAN.md", "utf8");
 const plannedFiles = [...plan.matchAll(/^\d+\. `([^`]+\.sql)`$/gm)].map((match) => match[1]);
 
-test("release plan lists every local launch migration exactly once and in filename order", () => {
-  assert.deepEqual(plannedFiles, migrationFiles);
+test("production release plan lists every production migration exactly once and in filename order", () => {
+  assert.deepEqual(plannedFiles, productionPlanFiles);
   assert.equal(new Set(plannedFiles).size, plannedFiles.length);
+});
+
+test("phase 3 migrations remain explicitly staged until promotion is authorized", () => {
+  for (const file of stagedUnpromotedFiles) assert.ok(migrationFiles.includes(file), `${file} is missing`);
+  for (const file of stagedUnpromotedFiles) assert.ok(!plannedFiles.includes(file), `${file} must not enter the production release plan before promotion approval`);
+});
+
+test("phase 3 external-user foreign keys have covering indexes before promotion", () => {
+  const migration = readFileSync(
+    "supabase/migrations/20260829133000_phase3_external_user_performance_indexes.sql",
+    "utf8",
+  );
+  for (const indexName of [
+    "resident_provider_matches_lead_id_idx",
+    "resident_provider_matches_contractor_id_idx",
+    "resident_job_payments_job_id_idx",
+    "provider_job_progress_job_id_idx",
+    "provider_job_progress_contractor_id_idx",
+  ]) assert.match(migration, new RegExp(indexName, "i"));
 });
 
 test("all pending SQL migrations are non-empty", () => {

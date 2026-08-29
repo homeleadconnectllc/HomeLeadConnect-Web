@@ -1,0 +1,31 @@
+/* Blind-visual gate closure: preserve the certified 60x60 agent hit target
+   while keeping the visible portrait compact to reduce content obstruction. */
+@media (max-width: 760px) {
+  #root .hlc-signed-in-shell .hlc-agent-dock:not(.is-open) {
+    max-width: 60px !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger {
+    width: 60px !important;
+    min-width: 60px !important;
+    max-width: 60px !important;
+    height: 60px !important;
+    min-height: 60px !important;
+    max-height: 60px !important;
+    padding: 8px !important;
+    border-color: transparent !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger > img {
+    width: 42px !important;
+    min-width: 42px !important;
+    max-width: 42px !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    max-height: 42px !important;
+    border: 1px solid rgba(147, 197, 253, .5) !important;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, .28) !important;
+  }
+}

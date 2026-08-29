@@ -1,0 +1,274 @@
+/* Mobile A+ final physical-device correction round 3.
+   Real iPhone evidence is authoritative for calendar semantics, horizontal text,
+   document rows, and keyboard-owned viewport lanes. Desktop is untouched. */
+
+@media (max-width: 760px) {
+  /* FD-17 — one calendar state language: red = scheduled work, large = today,
+     ring = selected. Never stack multiple pseudo-dot meanings. */
+  .hlc-native-calendar .hlc-calendar-mini-grid {
+    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+    gap: 5px !important;
+  }
+
+  .hlc-native-calendar .hlc-calendar-mini-grid > span,
+  .hlc-native-calendar .hlc-calendar-mini-grid button {
+    min-width: 0 !important;
+    min-height: 46px !important;
+    aspect-ratio: auto !important;
+    border: 0 !important;
+    border-radius: 10px !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+  }
+
+  .hlc-native-calendar .hlc-calendar-mini-grid button::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  .hlc-native-calendar .hlc-calendar-mini-grid button.has-items::before {
+    content: "" !important;
+    position: absolute !important;
+    left: 50% !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: 4px !important;
+    display: block !important;
+    width: 7px !important;
+    height: 7px !important;
+    border: 0 !important;
+    border-radius: 999px !important;
+    background: #ff4d5e !important;
+    box-shadow: 0 0 0 2px rgba(255, 77, 94, .12) !important;
+    transform: translateX(-50%) !important;
+  }
+
+  .hlc-native-calendar .hlc-calendar-mini-grid button.today {
+    z-index: 2 !important;
+    color: #fff !important;
+    background: rgba(36, 116, 238, .30) !important;
+    box-shadow: inset 0 0 0 2px #63b3ff !important;
+    font-size: 22px !important;
+    font-weight: 950 !important;
+  }
+
+  .hlc-native-calendar .hlc-calendar-mini-grid button.selected:not(.today) {
+    color: #fff !important;
+    background: rgba(30, 73, 130, .34) !important;
+    box-shadow: inset 0 0 0 1px rgba(147, 197, 253, .8) !important;
+  }
+
+  .hlc-native-calendar .hlc-calendar-mini-grid button.has-items.today::before,
+  .hlc-native-calendar .hlc-calendar-mini-grid button.has-items.selected::before {
+    background: #ff4d5e !important;
+    box-shadow: 0 0 0 2px rgba(255, 77, 94, .14) !important;
+  }
+
+  .hlc-native-calendar .hlc-calendar-mini-legend {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px !important;
+    margin: 10px 0 2px !important;
+    min-height: 20px !important;
+    color: rgba(226, 232, 240, .78) !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    line-height: 1.2 !important;
+  }
+
+  .hlc-native-calendar .hlc-calendar-mini-legend-dot {
+    width: 7px !important;
+    height: 7px !important;
+    flex: 0 0 7px !important;
+    border-radius: 999px !important;
+    background: #ff4d5e !important;
+    box-shadow: 0 0 0 2px rgba(255, 77, 94, .12) !important;
+  }
+
+  /* FD-18 — summary information reads across the phone, never as tall/narrow
+     desktop cards that force labels into vertical-looking stacks. */
+  .hlc-native-calendar .hlc-calendar-kpis {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    width: 100% !important;
+    margin-bottom: 14px !important;
+  }
+
+  .hlc-native-calendar .hlc-calendar-kpis article {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 4px 10px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 76px !important;
+    padding: 10px 12px !important;
+    border-radius: 10px !important;
+  }
+
+  .hlc-native-calendar .hlc-calendar-kpi-icon {
+    display: none !important;
+  }
+
+  .hlc-native-calendar .hlc-calendar-kpis article div {
+    display: grid !important;
+    grid-column: 1 / -1 !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: baseline !important;
+    gap: 2px 8px !important;
+    min-width: 0 !important;
+  }
+
+  .hlc-native-calendar .hlc-calendar-kpis :is(small, strong, span) {
+    width: auto !important;
+    min-width: 0 !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: normal !important;
+    text-orientation: mixed !important;
+    writing-mode: horizontal-tb !important;
+  }
+
+  .hlc-native-calendar .hlc-calendar-kpis small {
+    grid-column: 1 !important;
+    font-size: 11px !important;
+  }
+
+  .hlc-native-calendar .hlc-calendar-kpis strong {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    margin: 0 !important;
+    font-size: 24px !important;
+  }
+
+  .hlc-native-calendar .hlc-calendar-kpis article div > span {
+    grid-column: 1 / -1 !important;
+    font-size: 11px !important;
+  }
+
+  /* FD-13/14/18 — document operations must use normal horizontal language.
+     Metadata becomes a contained row below the filename instead of stealing
+     most of the filename column. */
+  .hlc-documents-workspace :is(
+    h1, h2, h3, p, span, small, strong, label, button, a
+  ) {
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+  }
+
+  .hlc-documents-workspace .hlc-resources-commandbar {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    width: 100% !important;
+    overflow: visible !important;
+    padding: 0 0 10px !important;
+  }
+
+  .hlc-documents-workspace .hlc-resources-commandbar :is(a, span) {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 0 !important;
+    min-height: 44px !important;
+    padding: 8px 10px !important;
+    white-space: normal !important;
+    text-align: center !important;
+    line-height: 1.25 !important;
+  }
+
+  .hlc-documents-library,
+  .hlc-documents-file-list,
+  .hlc-document-row,
+  .hlc-document-row-main,
+  .hlc-document-row-meta {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  .hlc-document-row {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px !important;
+    padding: 16px 0 !important;
+  }
+
+  .hlc-document-row-main {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 5px !important;
+  }
+
+  .hlc-document-row-main :is(button, span, small) {
+    width: 100% !important;
+    max-width: 100% !important;
+    white-space: normal !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+    line-height: 1.35 !important;
+    text-align: left !important;
+  }
+
+  .hlc-document-row-meta {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+    padding-top: 10px !important;
+    border-top: 1px solid rgba(148, 163, 184, .14) !important;
+    text-align: left !important;
+  }
+
+  .hlc-document-row-meta :is(strong, span, small) {
+    min-width: 0 !important;
+    white-space: normal !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
+    line-height: 1.25 !important;
+  }
+
+  .hlc-documents-section-head {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: end !important;
+    gap: 8px !important;
+  }
+
+  .hlc-documents-section-head > :is(small, strong) {
+    max-width: 42vw !important;
+    text-align: right !important;
+  }
+
+  /* FD-21 — once the user is typing, the keyboard owns the bottom viewport.
+     Both real tabbar and closed contextual avatar must fully yield. */
+  body.hlc-keyboard-open #root .hlc-mobile-tabbar,
+  body.hlc-keyboard-open #root .hlc-signed-in-shell .hlc-agent-dock:not(.is-open),
+  body.hlc-keyboard-open #root .hlc-agent-proactive-briefing {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  body.hlc-keyboard-open #root .hlc-route-content,
+  body.hlc-keyboard-open #root main {
+    padding-bottom: max(20px, env(safe-area-inset-bottom)) !important;
+    scroll-padding-bottom: 20px !important;
+  }
+
+  /* Dense evidence pages should not put a floating face over form fields or
+     record metadata; contextual agent remains available from other app entry points. */
+  .hlc-documents-workspace ~ .hlc-agent-dock:not(.is-open) {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}

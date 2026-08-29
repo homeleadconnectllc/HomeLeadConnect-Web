@@ -131,7 +131,27 @@ export default function NetworkDirectory({ savedOnly = false }: { savedOnly?: bo
     }
   }
 
-  return <main className="hlc-command-center hlc-network-directory">
+  const filterFields = <>
+    <label>Trade or service
+      <select value={trade} onChange={(event) => setTrade(event.target.value)}>
+        <option value="all">All trades</option>
+        {trades.map((value) => <option key={value} value={value}>{value}</option>)}
+      </select>
+    </label>
+    <label>Location
+      <input value={location} onChange={(event) => setLocation(event.target.value)} placeholder="City, state or ZIP" />
+    </label>
+    <label>Availability evidence
+      <select value={availabilityFilter} onChange={(event) => setAvailabilityFilter(event.target.value as AvailabilityFilter)}>
+        <option value="all">All states</option>
+        <option value="available">Declared available</option>
+        <option value="unavailable">Declared unavailable</option>
+        <option value="undeclared">Not declared</option>
+      </select>
+    </label>
+  </>;
+
+  return <main className="hlc-command-center hlc-network-directory hlc-s3-network-directory">
     <section className="hlc-command-hero">
       <div className="hlc-command-copy">
         <div className="hlc-command-kicker"><UsersRound size={15} aria-hidden="true" />HLC Network</div>
@@ -140,31 +160,30 @@ export default function NetworkDirectory({ savedOnly = false }: { savedOnly?: bo
       </div>
     </section>
 
-    <section className="hlc-settings-section" aria-label="Provider discovery filters">
+    <section className="hlc-s3-network-search" aria-label="Provider search">
       <label>Search providers
         <span className="hlc-input-with-icon"><Search size={16} aria-hidden="true" /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Company, provider, trade, city or ZIP" /></span>
       </label>
-      <label>Trade or service
-        <select value={trade} onChange={(event) => setTrade(event.target.value)}>
-          <option value="all">All trades</option>
-          {trades.map((value) => <option key={value} value={value}>{value}</option>)}
-        </select>
-      </label>
-      <label>Location
-        <input value={location} onChange={(event) => setLocation(event.target.value)} placeholder="City, state or ZIP" />
-      </label>
-      <label>Availability evidence
-        <select value={availabilityFilter} onChange={(event) => setAvailabilityFilter(event.target.value as AvailabilityFilter)}>
-          <option value="all">All states</option>
-          <option value="available">Declared available</option>
-          <option value="unavailable">Declared unavailable</option>
-          <option value="undeclared">Not declared</option>
-        </select>
-      </label>
+      <div className="hlc-s3-network-view-toggle" aria-label="Network view">
+        <Link to="/providers" aria-current={!savedOnly ? "page" : undefined}>List</Link>
+        <Link to="/map">Map</Link>
+      </div>
     </section>
 
-    <nav className="hlc-account-inline-links" aria-label="Network tools">
-      <Link to="/network/map">Map</Link>
+    <section className="hlc-settings-section hlc-s3-network-filters-desktop" aria-label="Provider discovery filters">
+      {filterFields}
+    </section>
+
+    <details className="hlc-s3-network-filter-sheet">
+      <summary>Filters</summary>
+      <div className="hlc-s3-network-filter-sheet-panel" aria-label="Provider discovery filters">
+        <div className="hlc-s3-network-filter-sheet-head"><strong>Filter providers</strong><span>Trade, location and availability</span></div>
+        {filterFields}
+        <button type="button" onClick={(event) => event.currentTarget.closest("details")?.removeAttribute("open")}>Show {visible.length} providers</button>
+      </div>
+    </details>
+
+    <nav className="hlc-account-inline-links hlc-s3-network-tools" aria-label="Network tools">
       <Link to="/matching">Matching</Link>
       <Link to="/network/service-areas">Manage service areas</Link>
       <Link to="/network/availability">Manage availability</Link>
@@ -174,23 +193,27 @@ export default function NetworkDirectory({ savedOnly = false }: { savedOnly?: bo
     {loading && <p role="status">Loading provider evidence…</p>}
     {error && <p role="alert" className="hlc-account-status is-error">{error}</p>}
 
-    {!loading && <section className="hlc-phone-list" aria-label={`${visible.length} matching provider records`}>
+    {!loading && <section className="hlc-phone-list hlc-s3-provider-results" aria-label={`${visible.length} matching provider records`}>
       {visible.map(({ provider, services: providerServices, areas: providerAreas, availability: providerAvailability, saved: isSaved }) => {
         const locationLabel = [text(provider.city), text(provider.state), text(provider.zip)].filter(Boolean).join(", ");
         const state = providerAvailability ? (providerAvailability.available ? "Declared available" : "Declared unavailable") : "Availability not declared";
-        return <article className="hlc-phone-row" key={provider.id}>
+        const secondaryActions = <>
+          {provider.phone && <a href={`tel:${provider.phone}`}>Call</a>}
+          {provider.email && <a href={`mailto:${provider.email}`}>Email</a>}
+          <Link to="/jobs">Work &amp; offers</Link>
+        </>;
+        return <article className="hlc-phone-row hlc-s3-provider-row" key={provider.id}>
           <div>
             <strong><Link to={`/providers/${provider.id}`}>{providerName(provider)}</Link></strong>
             <span>{text(provider.specialty) || providerServices.map((row) => row.service_name).join(" · ") || "Trade not recorded"}</span>
             <small><MapPin size={13} aria-hidden="true" /> {locationLabel || providerAreas.map((row) => [row.city, row.state, row.zip].filter(Boolean).join(", ")).filter(Boolean).join(" · ") || "Service territory not recorded"}</small>
             <small>{state}{providerAvailability?.next_available_at ? ` · next ${new Date(providerAvailability.next_available_at).toLocaleString()}` : ""}</small>
           </div>
-          <div className="hlc-account-inline-links">
+          <div className="hlc-account-inline-links hlc-s3-provider-actions">
             <Link to={`/providers/${provider.id}`}>View profile</Link>
-            {provider.phone && <a href={`tel:${provider.phone}`}>Call</a>}
-            {provider.email && <a href={`mailto:${provider.email}`}>Email</a>}
-            <Link to="/jobs">Work &amp; offers</Link>
             <button type="button" disabled={busyProvider === Number(provider.id)} onClick={() => void toggleSaved(Number(provider.id))}><Bookmark size={14} aria-hidden="true" /> {isSaved ? "Unsave" : "Save"}</button>
+            <span className="hlc-s3-provider-secondary-desktop">{secondaryActions}</span>
+            <details className="hlc-s3-provider-more"><summary>More</summary><div>{secondaryActions}</div></details>
           </div>
         </article>;
       })}

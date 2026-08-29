@@ -1,0 +1,140 @@
+/* Mobile A+ Sprint 7 — integrated accessibility + whole-app compact certification authority.
+   Web baseline: WCAG 2.2. iPhone usability target: Apple 44x44 pt-class controls where practical. */
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-bottom: calc(120px + env(safe-area-inset-bottom));
+}
+
+:focus-visible {
+  outline: 3px solid #8ec5ff;
+  outline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  body {
+    min-width: 0;
+    overflow-x: clip;
+  }
+
+  main,
+  section,
+  article,
+  aside,
+  nav,
+  form,
+  fieldset,
+  div {
+    min-width: 0;
+  }
+
+  img,
+  svg,
+  video,
+  audio,
+  canvas,
+  iframe {
+    max-width: 100%;
+  }
+
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,
+  textarea {
+    max-width: 100%;
+    font-size: 16px;
+  }
+
+  button,
+  summary,
+  [role="button"],
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  button,
+  summary,
+  a,
+  input,
+  select,
+  textarea,
+  [tabindex]:not([tabindex="-1"]) {
+    scroll-margin-top: 16px;
+    scroll-margin-bottom: calc(128px + env(safe-area-inset-bottom));
+  }
+
+  p,
+  li,
+  dd,
+  dt,
+  td,
+  th,
+  label,
+  small,
+  strong,
+  span {
+    overflow-wrap: anywhere;
+  }
+
+  table {
+    max-width: 100%;
+  }
+
+  [role="dialog"],
+  dialog {
+    max-width: calc(100vw - 24px);
+    max-height: calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    overflow: auto;
+  }
+
+  [aria-disabled="true"],
+  :disabled {
+    cursor: not-allowed;
+  }
+
+  [aria-pressed="true"],
+  [aria-current="page"],
+  [aria-current="true"] {
+    text-decoration-thickness: max(2px, 0.12em);
+    text-underline-offset: 0.2em;
+  }
+
+  .hlc-mobile-bottom-nav,
+  .hlc-bottom-nav,
+  [data-mobile-bottom-nav] {
+    padding-bottom: max(env(safe-area-inset-bottom), 8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media (forced-colors: active) {
+  :focus-visible {
+    outline: 3px solid CanvasText;
+  }
+
+  [aria-pressed="true"],
+  [aria-current="page"],
+  [aria-current="true"] {
+    outline: 2px solid CanvasText;
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :focus-visible {
+    outline-width: 4px;
+  }
+}
