@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
-import { residentUsageAudit } from "../config/residentUsageAudit";
+import { residentUsageAudit } from "../config/residentUsageAudit.ts";
 
 const portal = fs.readFileSync(new URL("../pages/portal/HomeownerPortal.tsx", import.meta.url), "utf8");
 const sections = fs.readFileSync(new URL("../pages/portal/HomeownerPortalSection.tsx", import.meta.url), "utf8");
