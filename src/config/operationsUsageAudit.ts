@@ -21,9 +21,9 @@ export const operationsUsageAudit: OperationsUsageAuditRow[] = [
   {
     stage: "Exception",
     status: "partial",
-    currentSurface: "/operations + /notifications + /automations",
-    evidence: "Dion's Operations workspace, notification triage, automation history/errors, and system health surfaces exist, but not every failure class has a single durable resolved/escalated/deferred mutation exposed from the exception surface itself.",
+    currentSurface: "/operations + /notifications + /automations + /follow-ups",
+    evidence: "The exception sources are now classified by their real durable authority. Follow-ups support a true completed state. Automation jobs persist succeeded, failed, or blocked execution outcomes. Notifications support read acknowledgement only, which is not resolution. AI handoffs and owner-attention items expose status/resolution columns but production currently grants read-only browser access and exposes no authorized resolution RPC, so they cannot truthfully offer resolved, escalated, or deferred completion actions yet.",
     gap: "missing_completion_state",
-    correction: "For each exception type, preserve the affected-record link and add an evidence-backed resolved, escalated, or deliberately deferred completion state when the owning backend supports it.",
+    correction: "Use the owning record's real terminal state when it exists: complete follow-ups in /follow-ups, inspect persisted automation outcomes in /automations, and treat notification read_at only as acknowledgement. Do not label a notification, failed automation, agent handoff, or owner-attention item resolved until its backend exposes an authorized durable resolution mutation. Preserve the affected-record deep link for every exception.",
   },
 ];
