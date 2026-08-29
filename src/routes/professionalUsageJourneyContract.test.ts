@@ -6,14 +6,14 @@ import { professionalUsageAudit } from "../config/professionalUsageAudit.ts";
 const portal = fs.readFileSync(new URL("../pages/portal/ContractorPortal.tsx", import.meta.url), "utf8");
 const profile = fs.readFileSync(new URL("../pages/portal/ContractorProfile.tsx", import.meta.url), "utf8");
 const services = fs.readFileSync(new URL("../pages/portal/ContractorPortalServices.tsx", import.meta.url), "utf8");
-const router = fs.readFileSync(new URL("./AppRouter.tsx", import.meta.url), "utf8");
-const workspaceLayout = fs.readFileSync(new URL("../layouts/WorkspaceLayout.tsx", import.meta.url), "utf8");
 
 test("professional dashboard prioritizes real next actions and portal-safe tools", () => {
   assert.match(portal, /resolveProfessionalNextStep/);
   assert.match(portal, /WHAT'S NEXT/);
+  assert.match(portal, /Complete provider verification/);
   assert.match(portal, /Review your work offer/);
   assert.match(portal, /Prepare for scheduled work/);
+  assert.match(portal, /Update active work/);
   assert.match(portal, /Keep your work profile ready/);
   assert.match(portal, /to="\/contractor-portal\/documents">Documents/);
 });
@@ -26,23 +26,20 @@ test("professional profile and setup stay inside portal authorization", () => {
   assert.match(services, /Save availability/);
 });
 
-test("professional usage audit does not certify internal workspace pages as provider-safe", () => {
-  const service = professionalUsageAudit.find((row) => row.stage === "Service");
-  const performance = professionalUsageAudit.find((row) => row.stage === "Performance");
-  assert.equal(service?.status, "partial");
-  assert.equal(service?.gap, "missing_completion_state");
-  assert.equal(performance?.status, "blocked");
-  assert.equal(performance?.gap, "broken_handoff");
-  assert.match(router, /<Route element=\{<WorkspaceLayout\/>\}>/);
-  assert.match(workspaceLayout, /if \(resolution\.destination !== "\/dashboard"\) return <Navigate/);
+test("professional candidate closes verification service and performance without internal workspace authority", () => {
+  for (const stage of ["Onboard", "Availability", "Opportunity", "Service", "Performance"]) {
+    const row = professionalUsageAudit.find((item) => item.stage === stage);
+    assert.equal(row?.status, "connected", `${stage} should be connected in the candidate`);
+    assert.equal(row?.gap, undefined);
+  }
+  assert.match(portal, /getLinkedProviderVerification/);
+  assert.match(portal, /recordContractorJobProgress/);
+  assert.match(portal, /getLinkedProviderPerformance/);
+  assert.match(portal, /Provider progress is evidence only/);
+  assert.doesNotMatch(portal, /to="\/jobs"|to="\/analytics"|to="\/community\/reviews"/);
 });
 
 test("professional lifecycle audit covers the canonical provider journey", () => {
-  assert.deepEqual(professionalUsageAudit.map((row) => row.stage), [
-    "Onboard",
-    "Availability",
-    "Opportunity",
-    "Service",
-    "Performance",
-  ]);
+  assert.deepEqual(professionalUsageAudit.map((row) => row.stage), ["Onboard", "Availability", "Opportunity", "Service", "Performance"]);
+  assert.ok(professionalUsageAudit.every((row) => row.status === "connected"));
 });
