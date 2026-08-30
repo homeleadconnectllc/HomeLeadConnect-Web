@@ -155,8 +155,8 @@ async function buildInternalSnapshot(admin: ReturnType<typeof createClient>, wor
     unreadNotifications,
   ] = await Promise.all([
     admin.from("leads").select("priority,sla_status").eq("workspace_id", workspaceId).eq("archived", false).limit(1000),
-    admin.from("follow_ups").select("id", { count: "exact", head: true }).eq("status", "pending").lte("scheduled_for", dayAheadIso),
-    admin.from("follow_ups").select("id", { count: "exact", head: true }).eq("status", "pending").lt("scheduled_for", nowIso),
+    admin.from("follow_ups").select("id", { count: "exact", head: true }).eq("workspace_id", workspaceId).eq("status", "pending").lte("scheduled_for", dayAheadIso),
+    admin.from("follow_ups").select("id", { count: "exact", head: true }).eq("workspace_id", workspaceId).eq("status", "pending").lt("scheduled_for", nowIso),
     admin.from("crm_jobs").select("id", { count: "exact", head: true }).eq("workspace_id", workspaceId).in("status", ["pending", "active"]),
     admin.from("crm_jobs").select("id", { count: "exact", head: true }).eq("workspace_id", workspaceId).eq("status", "completed"),
     admin.from("job_assignments").select("id", { count: "exact", head: true }).eq("workspace_id", workspaceId).eq("status", "offered"),
