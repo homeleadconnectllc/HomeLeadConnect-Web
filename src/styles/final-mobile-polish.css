@@ -2,34 +2,41 @@
    Narrowly scopes the two production visual regressions found during the live iPhone acceptance sweep. */
 
 @media (max-width: 720px) {
-  .hlc-command-hero {
+  .hlc-command-center .hlc-command-hero {
     display: grid !important;
-    grid-template-columns: minmax(0, 1fr) auto !important;
+    grid-template-columns: minmax(0, 1fr) !important;
     align-items: start !important;
     width: 100% !important;
+    gap: 14px !important;
   }
 
-  .hlc-command-copy {
-    min-width: 0 !important;
-    width: 100% !important;
-  }
-
-  .hlc-command-copy h1,
-  .hlc-command-center h1 {
+  .hlc-command-center .hlc-command-copy {
     display: block !important;
     width: 100% !important;
     min-width: 0 !important;
     max-width: none !important;
-    white-space: normal !important;
-    word-break: normal !important;
-    overflow-wrap: normal !important;
-    writing-mode: horizontal-tb !important;
-    text-orientation: mixed !important;
   }
 
-  .hlc-command-hero-actions {
+  .hlc-command-center .hlc-command-copy h1,
+  .hlc-command-center h1 {
+    display: block !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    font-size: clamp(1.9rem, 9vw, 2.45rem) !important;
+    writing-mode: horizontal-tb !important;
+    text-orientation: mixed !important;
+    white-space: nowrap !important;
+    overflow-wrap: normal !important;
+    word-break: keep-all !important;
+  }
+
+  .hlc-command-center .hlc-command-hero-actions {
+    grid-column: 1 !important;
     display: flex !important;
-    flex: 0 0 auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    justify-self: start !important;
     gap: 8px !important;
   }
 }
