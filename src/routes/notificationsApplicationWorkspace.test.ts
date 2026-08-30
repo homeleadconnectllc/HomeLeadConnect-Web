@@ -27,3 +27,12 @@ test("notifications retain a compact mobile operating layout", () => {
   assert.match(styles, /grid-template-columns: repeat\(2, minmax\(0, 1fr\)\);/);
   assert.match(styles, /\.hlc-notification-open span/);
 });
+
+test("notification failures provide in-place recovery without losing operations history", () => {
+  assert.match(notifications, /async function retryLoad\(\)/);
+  assert.match(notifications, /Promise\.all\(\[listNotifications\(\),management\?listOperationsExceptionDispositions\(\):Promise\.resolve\(\[\]\)\]\)/);
+  assert.match(notifications, /Notifications are temporarily unavailable\./);
+  assert.match(notifications, /loading\?"Retrying…":"Try again"/);
+  assert.match(notifications, /onClick=\{\(\)=>void retryLoad\(\)\}/);
+  assert.match(notifications, /You’re caught up\. New HLC events that need awareness or action will appear here in time order\./);
+});
