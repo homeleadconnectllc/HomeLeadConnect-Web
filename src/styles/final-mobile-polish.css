@@ -1,5 +1,11 @@
 /* Final post-Carrd mobile polish.
-   Narrowly scopes the two production visual regressions found during the live iPhone acceptance sweep. */
+   Narrowly scopes the two production visual regressions found during the live iPhone acceptance sweep.
+
+   Root cause note: the physical iPhone browser can present a layout viewport wider
+   than the 720px CSS breakpoint even though the device itself is compact. index.html
+   already stamps html.hlc-compact-device from the physical screen short side, so the
+   Command Center repair must bind to that device authority as well as the media query.
+*/
 
 @media (max-width: 720px) {
   .hlc-command-center .hlc-command-hero {
@@ -39,4 +45,43 @@
     justify-self: start !important;
     gap: 8px !important;
   }
+}
+
+/* Physical-device authority: do not depend solely on CSS layout viewport width. */
+html.hlc-compact-device .hlc-command-center .hlc-command-hero {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  align-items: start !important;
+  width: 100% !important;
+  gap: 14px !important;
+}
+
+html.hlc-compact-device .hlc-command-center .hlc-command-copy {
+  display: block !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+}
+
+html.hlc-compact-device .hlc-command-center .hlc-command-copy h1,
+html.hlc-compact-device .hlc-command-center h1 {
+  display: block !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  font-size: clamp(1.9rem, 9vw, 2.45rem) !important;
+  writing-mode: horizontal-tb !important;
+  text-orientation: mixed !important;
+  white-space: nowrap !important;
+  overflow-wrap: normal !important;
+  word-break: keep-all !important;
+}
+
+html.hlc-compact-device .hlc-command-center .hlc-command-hero-actions {
+  grid-column: 1 !important;
+  display: flex !important;
+  width: auto !important;
+  min-width: 0 !important;
+  justify-self: start !important;
+  gap: 8px !important;
 }
