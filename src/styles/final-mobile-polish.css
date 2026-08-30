@@ -60,8 +60,9 @@
   }
 
   /* The global visual-pizzazz main::before glow reads like a stray artifact on
-     the compact Command Center. Remove it here without changing other routes. */
-  .hlc-route-content > main.hlc-command-center::before {
+     compact Command Center and auth surfaces. Remove it only from those routes. */
+  .hlc-route-content > main.hlc-command-center::before,
+  .hlc-route-content > main.hlc-auth-shell::before {
     content: none !important;
     display: none !important;
     background: none !important;
@@ -120,7 +121,8 @@ html.hlc-compact-device .hlc-command-center .hlc-command-hero-actions {
   gap: 8px !important;
 }
 
-html.hlc-compact-device .hlc-route-content > main.hlc-command-center::before {
+html.hlc-compact-device .hlc-route-content > main.hlc-command-center::before,
+html.hlc-compact-device .hlc-route-content > main.hlc-auth-shell::before {
   content: none !important;
   display: none !important;
   background: none !important;
