@@ -13,6 +13,7 @@ type AuthMode = "password" | "magic" | "phone";
 
 const phoneAuthEnabled = import.meta.env.VITE_PHONE_AUTH_ENABLED === "true";
 const socialAuthEnabled = import.meta.env.VITE_SOCIAL_AUTH_ENABLED === "true";
+const SIGN_IN_TIMEOUT_MS = 15_000;
 
 const oauthProviders: Array<{ provider: Provider; label: string }> = [
   { provider: "google", label: "Continue with Google" },
@@ -23,6 +24,16 @@ const oauthProviders: Array<{ provider: Provider; label: string }> = [
 function safeNext(search: string) {
   const raw = new URLSearchParams(search).get("next")?.trim() || "";
   return raw.startsWith("/") && !raw.startsWith("//") ? raw : null;
+}
+
+function withTimeout<T>(promise: PromiseLike<T>, timeoutMs: number): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const timeoutId = window.setTimeout(() => reject(new Error("HLC_SIGN_IN_TIMEOUT")), timeoutMs);
+    Promise.resolve(promise).then(
+      (value) => { window.clearTimeout(timeoutId); resolve(value); },
+      (reason) => { window.clearTimeout(timeoutId); reject(reason); },
+    );
+  });
 }
 
 export default function Login() {
@@ -57,11 +68,26 @@ export default function Login() {
     trackAnalyticsEvent("sign_in_started", { method: "password" });
     setBusy(true); resetStatus();
     if (!isSupabaseConfigured()) { setError(supabaseConfigMessage); setBusy(false); return; }
-    const { error: authError } = await supabase.auth.signInWithPassword({ email, password, options: { captchaToken: captchaToken || undefined } });
-    resetCaptcha(); setBusy(false);
-    if (authError) { setError(errorMessage(authError, "Unable to sign in.")); return; }
-    trackAnalyticsEvent("sign_in_completed", { method: "password" });
-    navigate(destination(), { replace: true });
+
+    try {
+      const { error: authError } = await withTimeout(
+        supabase.auth.signInWithPassword({ email, password, options: { captchaToken: captchaToken || undefined } }),
+        SIGN_IN_TIMEOUT_MS,
+      );
+      resetCaptcha();
+      if (authError) { setError(errorMessage(authError, "Unable to sign in.")); return; }
+      trackAnalyticsEvent("sign_in_completed", { method: "password" });
+      navigate(destination(), { replace: true });
+    } catch (authError) {
+      resetCaptcha();
+      if (authError instanceof Error && authError.message === "HLC_SIGN_IN_TIMEOUT") {
+        setError("Sign-in took too long. Check your connection and try again.");
+      } else {
+        setError(errorMessage(authError, "Unable to sign in. Please try again."));
+      }
+    } finally {
+      setBusy(false);
+    }
   }
 
   async function sendMagicLink(event: FormEvent<HTMLFormElement>) {
