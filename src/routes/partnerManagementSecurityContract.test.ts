@@ -34,3 +34,13 @@ test("partner referral status mutation rejects stale profile authority without m
   assert.match(body, /wm\.user_id = auth\.uid\(\)/);
   assert.match(body, /where id = p_referral_id\s+and workspace_id = v_workspace/);
 });
+
+test("operations exception history rejects stale management profile authority without membership", () => {
+  const body = functionBody("list_operations_exception_dispositions");
+  assert.match(body, /auth\.uid\(\) is null/);
+  assert.match(body, /v_role not in \('owner','manager','admin'\)/);
+  assert.match(body, /from public\.workspace_members wm/);
+  assert.match(body, /wm\.workspace_id = v_workspace/);
+  assert.match(body, /wm\.user_id = auth\.uid\(\)/);
+  assert.match(body, /where d\.workspace_id = v_workspace/);
+});
