@@ -48,7 +48,7 @@ export default function RequestService() {
 
   return <main style={pageStyle}>
     <section style={heroStyle}>
-      <img src="/branding/hlc-logo-full.png" alt="HomeLead Connect" style={logoStyle} />
+      <img src="/hlc-logo-transparent.png" alt="HomeLead Connect" style={logoStyle} />
       <p style={eyebrowStyle}>HOMELEAD CONNECT · SERVICE REQUEST</p>
       <h1 style={titleStyle}>Tell us what your home needs.</h1>
       <p style={introStyle}>Renters, homeowners, property managers, and everyday households can start with one request. HLC keeps review, provider coordination, scheduling, and communication connected from there.</p>
