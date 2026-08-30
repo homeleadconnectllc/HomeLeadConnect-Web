@@ -35,13 +35,14 @@ export const HLC_AGENT_VOICE_QUALITY_CONTRACT = [
   "no browser speech-synthesis fallback impersonates the HLC agent",
 ] as const;
 
-export const HLC_AGENT_SHARED_RUNTIME_LIMITS = {
+export const HLC_AGENT_RUNTIME_LIMITS = {
   maxUserMessageCharacters: 4000,
   maxSpeechCharacters: 4000,
   maxConversationHistoryItems: 8,
-  providerTimeoutMs: 12000,
+  chatProviderTimeoutMs: 12000,
+  voiceProviderTimeoutMs: 8000,
   pcmSampleRate: 24000,
 } as const;
 
 export const HLC_AGENT_PARITY_PRINCIPLE =
-  "Kendrell, Dion, and Diamond share the same evidence, authorization, safety, recovery, handoff, interruption, locale, audit, and reliability standards. Their role, expertise, wording, cadence, voice identity, and authorized audiences may differ.";
+  "Kendrell, Dion, and Diamond share the same evidence, authorization, safety, recovery, handoff, interruption, locale, audit, and reliability standards. Their role, expertise, wording, cadence, voice identity, authorized audiences, and transport-specific latency budgets may differ.";
