@@ -11,6 +11,7 @@
   .hlc-command-center .hlc-command-hero {
     display: grid !important;
     grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: auto auto !important;
     align-items: start !important;
     width: 100% !important;
     gap: 14px !important;
@@ -18,6 +19,8 @@
 
   .hlc-command-center .hlc-command-copy {
     display: block !important;
+    grid-column: 1 !important;
+    grid-row: 1 !important;
     width: 100% !important;
     min-width: 0 !important;
     max-width: none !important;
@@ -38,11 +41,21 @@
   }
 
   .hlc-command-center .hlc-command-hero-actions {
+    position: static !important;
+    inset: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
     grid-column: 1 !important;
+    grid-row: 2 !important;
     display: flex !important;
     width: auto !important;
     min-width: 0 !important;
+    margin: 0 !important;
     justify-self: start !important;
+    align-self: start !important;
     gap: 8px !important;
   }
 }
@@ -51,6 +64,7 @@
 html.hlc-compact-device .hlc-command-center .hlc-command-hero {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) !important;
+  grid-template-rows: auto auto !important;
   align-items: start !important;
   width: 100% !important;
   gap: 14px !important;
@@ -58,6 +72,8 @@ html.hlc-compact-device .hlc-command-center .hlc-command-hero {
 
 html.hlc-compact-device .hlc-command-center .hlc-command-copy {
   display: block !important;
+  grid-column: 1 !important;
+  grid-row: 1 !important;
   width: 100% !important;
   min-width: 0 !important;
   max-width: none !important;
@@ -78,10 +94,20 @@ html.hlc-compact-device .hlc-command-center h1 {
 }
 
 html.hlc-compact-device .hlc-command-center .hlc-command-hero-actions {
+  position: static !important;
+  inset: auto !important;
+  top: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  left: auto !important;
+  transform: none !important;
   grid-column: 1 !important;
+  grid-row: 2 !important;
   display: flex !important;
   width: auto !important;
   min-width: 0 !important;
+  margin: 0 !important;
   justify-self: start !important;
+  align-self: start !important;
   gap: 8px !important;
 }
