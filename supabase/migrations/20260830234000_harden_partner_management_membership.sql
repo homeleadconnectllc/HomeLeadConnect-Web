@@ -1,4 +1,4 @@
--- Harden partner-management SECURITY DEFINER RPCs against stale profile workspace/role state.
+-- Harden management SECURITY DEFINER RPCs against stale profile workspace/role state.
 -- These functions already require a management role; this migration additionally requires
 -- an active workspace_members row for the authenticated user before any read or mutation.
 
@@ -127,5 +127,55 @@ begin
   if not found then
     raise exception 'Referral is not in the current workspace.' using errcode='42501';
   end if;
+end;
+$function$;
+
+create or replace function public.list_operations_exception_dispositions(
+  p_limit integer default 100
+)
+returns jsonb
+language plpgsql
+stable
+security definer
+set search_path to ''
+as $function$
+declare
+  v_workspace uuid;
+  v_role text;
+  v_result jsonb;
+begin
+  if auth.uid() is null then
+    raise exception 'Authentication is required.' using errcode='42501';
+  end if;
+
+  select p.workspace_id, lower(coalesce(p.role,''))
+    into v_workspace, v_role
+  from public.profiles p
+  where p.user_id = auth.uid();
+
+  if v_workspace is null or v_role not in ('owner','manager','admin') then
+    raise exception 'Operations management access is required.' using errcode='42501';
+  end if;
+
+  if not exists (
+    select 1
+    from public.workspace_members wm
+    where wm.workspace_id = v_workspace
+      and wm.user_id = auth.uid()
+  ) then
+    raise exception 'Workspace membership is required.' using errcode='42501';
+  end if;
+
+  select coalesce(jsonb_agg(to_jsonb(x) order by x.created_at desc),'[]'::jsonb)
+    into v_result
+  from (
+    select d.id,d.source_type,d.source_id,d.disposition,d.note,d.affected_route,d.created_by,d.created_at
+    from public.operations_exception_dispositions d
+    where d.workspace_id = v_workspace
+    order by d.created_at desc
+    limit greatest(1,least(coalesce(p_limit,100),500))
+  ) x;
+
+  return v_result;
 end;
 $function$;
