@@ -23,10 +23,15 @@
     -webkit-text-fill-color: #172033 !important;
   }
 
+  body.hlc-page-manual-communications #root .hlc-route-content [role="group"][aria-label="Choose call or text"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
   body.hlc-page-manual-communications #root .hlc-route-content [role="group"][aria-label="Choose call or text"] > button {
     min-width: 0 !important;
     min-height: 112px !important;
-    padding: 12px 10px !important;
+    padding: 12px 8px !important;
     align-content: start !important;
     border: 2px solid #456589 !important;
     background: #142943 !important;
@@ -58,12 +63,17 @@
   }
 
   body.hlc-page-manual-communications #root .hlc-route-content [role="group"][aria-label="Choose call or text"] > button span {
-    font-size: 14px !important;
-    line-height: 1.25 !important;
+    font-size: 13px !important;
+    line-height: 1.2 !important;
     font-weight: 700 !important;
     overflow-wrap: normal !important;
     word-break: normal !important;
     hyphens: none !important;
+  }
+
+  body.hlc-page-manual-communications #root .hlc-route-content [role="group"][aria-label="Choose call or text"] > button span:last-child {
+    white-space: nowrap !important;
+    max-width: 100% !important;
   }
 
   body.hlc-page-manual-communications #root .hlc-route-content [aria-labelledby="manual-step-open"] {
