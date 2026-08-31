@@ -2,16 +2,19 @@ import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { listJobs, updateJobStatus } from "../../api/jobs";
 import JobCard from "../../components/jobs/JobCard";
+import { useAccountAccess } from "../../hooks/useAccountAccess";
 import type { CrmJob, CrmJobStatus } from "../../lib/types/database";
 import { errorMessage } from "../../lib/errorMessage";
 
 export default function Jobs() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const account = useAccountAccess();
   const [jobs, setJobs] = useState<CrmJob[]>([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [busyJobId, setBusyJobId] = useState<string | null>(null);
   const [message, setMessage] = useState("");
+  const canManageLifecycle = account.role === "owner" || account.role === "manager";
 
   useEffect(() => {
     listJobs()
@@ -42,6 +45,7 @@ export default function Jobs() {
   }), [visibleJobs]);
 
   async function changeStatus(job: CrmJob, status: CrmJobStatus) {
+    if (!canManageLifecycle) return;
     setError("");
     setMessage("");
     setBusyJobId(job.id);
@@ -78,6 +82,12 @@ export default function Jobs() {
         </div>
       )}
 
+      {!account.loading && !canManageLifecycle && (
+        <div className="hlc-jobs-state" role="status">
+          Job lifecycle status is read-only for this role. A manager or owner must approve canonical status changes.
+        </div>
+      )}
+
       <section className="hlc-jobs-summary" aria-label="Job status summary">
         <span><strong>{summary.total}</strong><small>Total jobs</small></span>
         <span><strong>{summary.pending}</strong><small>Pending</small></span>
@@ -107,7 +117,8 @@ export default function Jobs() {
             <JobCard
               key={job.id}
               job={job}
-              disabled={busyJobId === job.id}
+              disabled={busyJobId === job.id || account.loading}
+              canManageLifecycle={canManageLifecycle}
               onStatusChange={changeStatus}
             />
           ))}
