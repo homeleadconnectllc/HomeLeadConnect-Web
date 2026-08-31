@@ -47,51 +47,23 @@ export async function getEstimate(id: string): Promise<Estimate> {
 }
 
 export async function saveEstimate(input: SaveEstimateInput): Promise<Estimate> {
-  const workspaceId = await getCurrentWorkspaceId();
-  const estimateValues = {
-    lead_id: input.leadId,
-    status: input.status,
-    markup_percent: input.markupPercent,
-    subtotal: input.subtotal,
-    markup_amount: input.markupAmount,
-    total: input.total,
-  };
-
-  const query = input.id
-    ? supabase
-        .from("estimates")
-        .update(estimateValues)
-        .eq("workspace_id", workspaceId)
-        .eq("id", input.id)
-    : supabase.from("estimates").insert({
-        ...estimateValues,
-        workspace_id: workspaceId,
-      });
-
-  const { data, error } = await query.select(estimateColumns).single();
-  if (error) throw error;
-
-  const estimate = data as Estimate;
-
-  if (input.id) {
-    const { error: deleteError } = await supabase
-      .from("estimate_lines")
-      .delete()
-      .eq("estimate_id", estimate.id);
-    if (deleteError) throw deleteError;
-  }
-
-  const { error: lineError } = await supabase.from("estimate_lines").insert(
-    input.lines.map((line, sortOrder) => ({
-      estimate_id: estimate.id,
+  const { data, error } = await supabase.rpc("save_estimate_with_lines", {
+    p_estimate_id: input.id ?? null,
+    p_lead_id: input.leadId,
+    p_status: input.status,
+    p_markup_percent: input.markupPercent,
+    p_subtotal: input.subtotal,
+    p_markup_amount: input.markupAmount,
+    p_total: input.total,
+    p_lines: input.lines.map((line) => ({
       description: line.description.trim() || "Untitled item",
       quantity: line.quantity,
-      unit_cost: line.unitCost,
-      sort_order: sortOrder,
+      unitCost: line.unitCost,
     })),
-  );
+  });
 
-  if (lineError) throw lineError;
+  if (error) throw error;
+  const estimate = data as Estimate;
   return getEstimate(estimate.id);
 }
 
@@ -99,15 +71,10 @@ export async function updateEstimateStatus(
   id: string,
   status: Exclude<EstimateStatus, "converted">,
 ): Promise<Estimate> {
-  const workspaceId = await getCurrentWorkspaceId();
-  const { data, error } = await supabase
-    .from("estimates")
-    .update({ status })
-    .eq("workspace_id", workspaceId)
-    .eq("id", id)
-    .neq("status", "converted")
-    .select(estimateColumns)
-    .single();
+  const { data, error } = await supabase.rpc("set_estimate_status", {
+    p_estimate_id: id,
+    p_status: status,
+  });
 
   if (error) throw error;
   return data as Estimate;
