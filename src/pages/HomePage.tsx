@@ -26,7 +26,7 @@ export default function HomePage() {
             <a className="hlc-btn hlc-btn-primary" href="/request-service" data-route-to="/request-service">Request Home Service</a>
             <a className="hlc-btn hlc-btn-secondary" href="/professionals">For Professionals</a>
           </div>
-          <div className="hlc-home-utility-links"><a href="/login">Sign In</a><a href="/register">Create My HLC Account</a><a href="/contact">Contact HLC</a></div>
+          <div className="hlc-home-utility-links"><a href="/login">Sign In</a><a href="/register">Create Account</a><a href="/app" data-route-to="/app">Open HLC App</a><a href="/contact">Contact HLC</a></div>
         </div>
         <div className="hlc-home-hero-visual" aria-label="HomeLead Connect home-service connection">
           <img src={heroImage} alt="A connected home-service experience" />
