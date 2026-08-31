@@ -41,6 +41,15 @@ type ContactOption = {
   followUpLeadId?: string;
 };
 
+const LOAD_TIMEOUT_MS = 6000;
+
+function withTimeout<T>(promise: Promise<T>, fallback: T, timeoutMs = LOAD_TIMEOUT_MS): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<T>((resolve) => window.setTimeout(() => resolve(fallback), timeoutMs)),
+  ]);
+}
+
 const reasonLabels: Record<string, string> = {
   provider_not_connected: "The selected provider is not connected for this workspace.",
   destination_missing: "The selected contact has no phone number.",
@@ -110,56 +119,55 @@ export default function ManualCommunications() {
   const nativeTarget = selected ? normalizeNativePhoneTarget(selected.phone) : "";
 
   async function reload() {
-    try {
-      const [leadRows, contractorRows, activityRows, conversationRows, canConfigure] = await Promise.all([
-        listLeads(), listContractors(), listManualCommunicationActivity(), listConversations(), canManageCommunications(session?.user.id),
-      ]);
-      setLeads(leadRows);
-      setContractors(contractorRows);
-      setHistory(activityRows);
-      setConversations(conversationRows);
-      setCanConfigureGoogleVoice(canConfigure);
-      try {
-        const configuration = await getGoogleVoiceConfiguration();
-        setConfiguredNumber(configuration?.sender_identity || "");
-        setNumberInput(configuration?.sender_identity || "");
-      } catch {
-        setConfiguredNumber("");
-      }
-    } catch (reason) {
-      setError(errorMessage(reason, "Unable to load manual communications."));
-    } finally {
-      setLoading(false);
-    }
+    const [leadRows, contractorRows] = await Promise.all([
+      withTimeout(listLeads(), [] as Lead[]),
+      withTimeout(listContractors(), [] as Contractor[]),
+    ]);
+    setLeads(leadRows);
+    setContractors(contractorRows);
+
+    void withTimeout(listManualCommunicationActivity(), [] as ManualCommunicationActivity[]).then(setHistory);
+    void withTimeout(listConversations(), [] as Conversation[]).then(setConversations);
+    void withTimeout(canManageCommunications(session?.user.id), false).then(setCanConfigureGoogleVoice);
+    void withTimeout(getGoogleVoiceConfiguration(), null).then((configuration) => {
+      setConfiguredNumber(configuration?.sender_identity || "");
+      setNumberInput(configuration?.sender_identity || "");
+    }).catch(() => setConfiguredNumber(""));
   }
 
   useEffect(() => {
     let active = true;
+
     Promise.all([
-      listLeads(),
-      listContractors(),
-      listManualCommunicationActivity(),
-      listConversations(),
-      canManageCommunications(session?.user.id),
+      withTimeout(listLeads(), [] as Lead[]),
+      withTimeout(listContractors(), [] as Contractor[]),
     ])
-      .then(async ([leadRows, contractorRows, activityRows, conversationRows, canConfigure]) => {
+      .then(([leadRows, contractorRows]) => {
         if (!active) return;
         setLeads(leadRows);
         setContractors(contractorRows);
-        setHistory(activityRows);
-        setConversations(conversationRows);
-        setCanConfigureGoogleVoice(canConfigure);
-        try {
-          const configuration = await getGoogleVoiceConfiguration();
-          if (!active) return;
-          setConfiguredNumber(configuration?.sender_identity || "");
-          setNumberInput(configuration?.sender_identity || "");
-        } catch {
-          if (active) setConfiguredNumber("");
-        }
       })
-      .catch((reason: unknown) => { if (active) setError(errorMessage(reason, "Unable to load manual communications.")); })
-      .finally(() => { if (active) setLoading(false); });
+      .catch((reason: unknown) => {
+        if (active) setError(errorMessage(reason, "Unable to load contacts for manual communications."));
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+
+    void withTimeout(listManualCommunicationActivity(), [] as ManualCommunicationActivity[])
+      .then((activityRows) => { if (active) setHistory(activityRows); });
+    void withTimeout(listConversations(), [] as Conversation[])
+      .then((conversationRows) => { if (active) setConversations(conversationRows); });
+    void withTimeout(canManageCommunications(session?.user.id), false)
+      .then((canConfigure) => { if (active) setCanConfigureGoogleVoice(canConfigure); });
+    void withTimeout(getGoogleVoiceConfiguration(), null)
+      .then((configuration) => {
+        if (!active) return;
+        setConfiguredNumber(configuration?.sender_identity || "");
+        setNumberInput(configuration?.sender_identity || "");
+      })
+      .catch(() => { if (active) setConfiguredNumber(""); });
+
     return () => { active = false; };
   }, [session?.user.id]);
 
