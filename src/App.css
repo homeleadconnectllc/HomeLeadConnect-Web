@@ -94,3 +94,57 @@ button{
 .card h3{
   margin-bottom:12px;
 }
+
+/* Lane 3: public request visual authority */
+.hlc-request-service .hlc-journey-step > div{
+  min-width:0;
+  display:grid;
+  gap:6px;
+}
+
+.hlc-request-service .hlc-journey-step strong,
+.hlc-request-service .hlc-journey-step > div > span{
+  display:block;
+  overflow-wrap:anywhere;
+}
+
+.hlc-request-service input,
+.hlc-request-service textarea,
+.hlc-request-service select{
+  background:#f8fafc !important;
+  color:#0f172a !important;
+  -webkit-text-fill-color:#0f172a !important;
+  opacity:1 !important;
+}
+
+.hlc-request-service input::placeholder,
+.hlc-request-service textarea::placeholder{
+  color:#64748b !important;
+  -webkit-text-fill-color:#64748b !important;
+  opacity:1 !important;
+}
+
+@media (max-width:720px){
+  .hlc-request-service .hlc-journey-step{
+    align-items:flex-start !important;
+    text-align:left !important;
+  }
+
+  .hlc-request-service .hlc-journey-step strong{
+    font-size:13px !important;
+    line-height:1.25 !important;
+  }
+
+  .hlc-request-service .hlc-journey-step > div > span{
+    font-size:12px !important;
+    line-height:1.4 !important;
+  }
+
+  .hlc-request-service .hlc-journey:not(.hlc-journey-compact){
+    grid-template-columns:1fr !important;
+  }
+
+  .hlc-request-service .hlc-journey:not(.hlc-journey-compact) .hlc-journey-step{
+    min-height:auto !important;
+  }
+}
