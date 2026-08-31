@@ -49,3 +49,14 @@ test("Lane 2 mobile authority is loaded last and locks compact progressive contr
   assert.match(authority, /grid-template-columns: 1fr !important;/);
   assert.match(authority, /min-height: 120px !important;/);
 });
+
+test("Lane 2 mobile subject and inbox remain compact dark application surfaces", () => {
+  assert.match(authority, /\.hlc-message-subject-details \{/);
+  assert.match(authority, /background: #0d1b2f !important;/);
+  assert.match(authority, /\.hlc-message-subject-details input \{/);
+  assert.match(authority, /background: #0a192c !important;/);
+  assert.match(authority, /color: #f8fafc !important;/);
+  assert.match(authority, /\.hlc-message-subject-details input::placeholder/);
+  assert.match(authority, /min-height: 68px !important;/);
+  assert.match(authority, /grid-template-columns: minmax\(0, 1fr\) auto !important;/);
+});
