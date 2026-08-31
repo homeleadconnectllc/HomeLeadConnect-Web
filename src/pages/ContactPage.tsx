@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import heroImage from "../assets/hero.png";
 import "../styles/public-utility-flat.css";
 
 const paths = [
@@ -8,7 +9,7 @@ const paths = [
 ] as const;
 
 export default function ContactPage() {
-  return <main className="hlc-utility-page"><div className="hlc-utility-shell">
+  return <main className="hlc-utility-page hlc-contact-page"><div className="hlc-utility-shell">
     <header className="hlc-utility-header">
       <div>
         <p className="hlc-utility-kicker">HomeLead Connect · Contact</p>
@@ -26,6 +27,11 @@ export default function ContactPage() {
     <section className="hlc-utility-contact-grid" aria-label="HomeLead Connect business contact">
       <div><p className="hlc-utility-section-label">Business contact</p><h2 className="hlc-utility-title" style={{fontSize:"clamp(1.8rem,4vw,2.8rem)"}}>HomeLead Connect LLC</h2><p className="hlc-utility-lead">Serving the Pennsylvania launch market with a connected platform for residents, professionals, and participating businesses.</p></div>
       <div className="hlc-utility-contact-details"><div><span className="hlc-utility-detail-label">Founder / Owner</span><strong>Antoine Washington</strong></div><div><span className="hlc-utility-detail-label">Email</span><a href="mailto:homeleadconnect@gmail.com">homeleadconnect@gmail.com</a></div><div><span className="hlc-utility-detail-label">Phone</span><a href="tel:+17172881785">717-288-1785</a></div><div><span className="hlc-utility-detail-label">Web</span><a href="https://homeleadconnect.org">homeleadconnect.org</a></div></div>
+    </section>
+
+    <section className="hlc-contact-visual" aria-label="Connected home service support">
+      <div className="hlc-contact-visual-copy"><p className="hlc-utility-section-label">Connected home help</p><h2>A clearer path from a home need to the right next step.</h2><p>HomeLead Connect brings the request, communication, coordination, and next-step guidance into one organized experience.</p></div>
+      <div className="hlc-contact-visual-media"><img src={heroImage} alt="Home service support and a connected resident experience" loading="lazy" /></div>
     </section>
 
     <section className="hlc-utility-focus"><p className="hlc-utility-section-label">Ready when you are</p><h2>Start with the right HLC path.</h2><p>Service requests enter the HLC workflow for review. Submitting a request does not guarantee provider assignment, pricing, or an appointment.</p><div className="hlc-utility-actions"><Link className="hlc-utility-primary" to="/request-service">Request service →</Link></div></section>
