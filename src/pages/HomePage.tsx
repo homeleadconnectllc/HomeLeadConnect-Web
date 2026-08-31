@@ -8,16 +8,21 @@ const features = [
 ];
 
 const linkStyle = { color: "#bfdbfe", fontWeight: 800, textDecoration: "none" } as const;
+const accountButtonStyle = { padding: "10px 12px", border: "1px solid #365777", borderRadius: 8, fontWeight: 800, textDecoration: "none" } as const;
 
 export default function HomePage() {
   return <>
     <main className="hlc-home" style={{minHeight:"100vh",padding:"0 22px 48px",background:"#071426",color:"#f8fafc"}}>
-      <header style={{position:"sticky",top:0,zIndex:20,maxWidth:1100,margin:"0 auto",display:"flex",alignItems:"center",justifyContent:"space-between",gap:16,padding:"14px 0",background:"rgba(7,20,38,.96)",borderBottom:"1px solid #28415f",backdropFilter:"blur(12px)"}}>
+      <header style={{position:"sticky",top:0,zIndex:20,maxWidth:1100,margin:"0 auto",display:"flex",alignItems:"center",justifyContent:"space-between",gap:16,padding:"14px 0",background:"rgba(7,20,38,.96)",borderBottom:"1px solid #28415f",backdropFilter:"blur(12px)",flexWrap:"wrap"}}>
         <a href="/" aria-label="HomeLead Connect home" style={{display:"flex",alignItems:"center",gap:12,color:"#fff",textDecoration:"none",minWidth:0}}>
           <img src="/hlc-icon.jpeg" alt="" width={52} height={52} loading="lazy" decoding="async" style={{width:52,height:52,objectFit:"contain",borderRadius:10}} />
           <span style={{fontWeight:900,fontSize:"clamp(18px,4vw,24px)",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>HomeLead Connect</span>
         </a>
-        <a href="/app" style={{...linkStyle,padding:"10px 12px",border:"1px solid #365777",borderRadius:8}}>Open HLC</a>
+        <nav aria-label="Account access" style={{display:"flex",alignItems:"center",justifyContent:"flex-end",gap:8,flexWrap:"wrap"}}>
+          <a href="/login" style={{...accountButtonStyle,color:"#dbeafe",background:"transparent"}}>Sign In</a>
+          <a href="/register" style={{...accountButtonStyle,color:"#fff",background:"#2563eb",borderColor:"#2563eb"}}>Create Account</a>
+          <a href="/app" style={{...accountButtonStyle,color:"#bfdbfe",background:"#112744"}}>Open HLC</a>
+        </nav>
       </header>
 
       <section className="hlc-home-hero" style={{maxWidth:1100,margin:"0 auto",textAlign:"center",padding:"clamp(48px,10vw,88px) 0 46px"}}>
@@ -26,9 +31,9 @@ export default function HomePage() {
         <h1 className="hlc-home-hero-title" style={{fontSize:"clamp(42px,8vw,80px)",lineHeight:1.02,letterSpacing:"-2.5px",margin:"12px auto 20px",color:"#f8fafc"}}>One front door.<br/>One connected home-services ecosystem.</h1>
         <p className="hlc-home-hero-copy" style={{maxWidth:760,margin:"0 auto",fontSize:"clamp(18px,4vw,21px)",lineHeight:1.6,color:"#b6c5d8"}}>Request help, connect with providers, join the community, manage work, and reach the HomeLead Connect workspace from one identity.</p>
         <div className="hlc-home-hero-actions" style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap",marginTop:28}}>
-          <a href="/pricing" style={{padding:"13px 20px",borderRadius:8,background:"#2563eb",color:"#fff",fontWeight:900,textDecoration:"none"}}>Start 14-Day Free Trial</a>
+          <a href="/register" style={{padding:"13px 20px",borderRadius:8,background:"#2563eb",color:"#fff",fontWeight:900,textDecoration:"none"}}>Create My HLC Account</a>
           <a data-route-to="/request-service" href="/request-service" style={{padding:"13px 20px",borderRadius:8,background:"#112744",border:"1px solid #365777",color:"#fff",fontWeight:800,textDecoration:"none"}}>Get Help Now</a>
-          <a data-route-to="/app" href="/app" style={{padding:"13px 20px",borderRadius:8,background:"transparent",border:"1px solid #365777",color:"#dbeafe",fontWeight:800,textDecoration:"none"}}>Open HomeLead Connect</a>
+          <a href="/login" style={{padding:"13px 20px",borderRadius:8,background:"transparent",border:"1px solid #365777",color:"#dbeafe",fontWeight:800,textDecoration:"none"}}>Sign In</a>
         </div>
         <p className="hlc-home-hero-note" style={{marginTop:14,color:"#9fb0c5",fontSize:14}}>For participating businesses: 14 days free, then $49.99/month. Payment method required.</p>
       </section>
@@ -45,7 +50,8 @@ export default function HomePage() {
         <h2 style={{margin:"10px auto 12px",color:"#fff",fontSize:"clamp(28px,5vw,42px)"}}>Try the connected HLC workspace free for 14 days.</h2>
         <p style={{color:"#b6c5d8",lineHeight:1.65,maxWidth:760,margin:"0 auto"}}>Run leads, estimates, jobs, scheduling, messages, documents, workflow, analytics, and your HLC AI team from one workspace. Continue for $49.99/month after the trial.</p>
         <div style={{display:"flex",gap:14,justifyContent:"center",alignItems:"center",flexWrap:"wrap",marginTop:22}}>
-          <a href="/pricing" style={{padding:"13px 20px",borderRadius:8,background:"#2563eb",color:"#fff",fontWeight:900,textDecoration:"none"}}>See Pricing & Start Trial</a>
+          <a href="/register" style={{padding:"13px 20px",borderRadius:8,background:"#2563eb",color:"#fff",fontWeight:900,textDecoration:"none"}}>Create Business Account</a>
+          <a href="/pricing" style={linkStyle}>See pricing</a>
           <a href="/login?next=/settings" style={linkStyle}>Manage existing subscription</a>
         </div>
       </section>
@@ -54,6 +60,8 @@ export default function HomePage() {
         <h2 style={{margin:"0 auto 12px",color:"#fff"}}>Everything branches from HomeLead Connect.</h2>
         <p style={{color:"#b6c5d8",lineHeight:1.65,maxWidth:860,margin:"0 auto"}}>Public information, service requests, authentication, resident and professional portals, Community, Network & Map, CRM operations, scheduling, communications, documents, billing, workflows, analytics, and the HLC AI team all belong to one connected system.</p>
         <div style={{display:"flex",gap:"12px 18px",justifyContent:"center",alignItems:"center",flexWrap:"wrap",marginTop:20}}>
+          <a href="/login" style={linkStyle}>Sign in</a>
+          <a href="/register" style={linkStyle}>Create account</a>
           <a href="/pricing" style={linkStyle}>Pricing & free trial</a>
           <a href="/how-it-works" style={linkStyle}>How it works</a>
           <a data-route-to="/community" href="/community" style={linkStyle}>Community</a>
