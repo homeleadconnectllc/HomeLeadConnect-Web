@@ -6,6 +6,7 @@ const styles = readFileSync("src/styles/mobile-a-plus-final-device-corrections.c
 const round2 = readFileSync("src/styles/mobile-a-plus-final-device-round-2.css", "utf8");
 const round3 = readFileSync("src/styles/mobile-a-plus-final-device-round-3.css", "utf8");
 const providerStyles = readFileSync("src/styles/provider-professional-profile.css", "utf8");
+const softLaunchDashboard = readFileSync("src/styles/soft-launch-mobile-dashboard-authority.css", "utf8");
 const styleEntry = readFileSync("src/styles/AuthenticatedStyles.tsx", "utf8");
 const viewportAuthority = readFileSync("src/components/MobileViewportAuthority.tsx", "utf8");
 const app = readFileSync("src/App.tsx", "utf8");
@@ -25,6 +26,18 @@ test("final device correction authorities remain ordered after Sprint 7", () => 
   assert.ok(sprint7 >= 0 && correction > sprint7);
   assert.ok(round2Entry > gateClosure && gateClosure > correction);
   assert.ok(round3Entry > providerEntry && providerEntry > round2Entry);
+});
+
+test("soft-launch dashboard authority loads last and protects greeting plus KPI columns", () => {
+  const finalMobilePolish = styleEntry.indexOf("./final-mobile-polish.css");
+  const softLaunchEntry = styleEntry.indexOf("./soft-launch-mobile-dashboard-authority.css");
+  assert.ok(finalMobilePolish >= 0 && softLaunchEntry > finalMobilePolish);
+  assert.match(softLaunchDashboard, /\.hlc-page-dashboard \.hlc-command-center[\s\S]*padding-top: max\(24px, calc\(env\(safe-area-inset-top\) \+ 18px\)\) !important/);
+  assert.match(softLaunchDashboard, /\.hlc-command-copy h1[\s\S]*overflow: visible !important/);
+  assert.match(softLaunchDashboard, /\.hlc-metric-card[\s\S]*grid-template-columns: 56px minmax\(54px, \.8fr\) minmax\(108px, 1\.2fr\) !important/);
+  assert.match(softLaunchDashboard, /\.hlc-metric-card > strong[\s\S]*grid-column: 2 !important[\s\S]*text-align: center !important/);
+  assert.match(softLaunchDashboard, /\.hlc-metric-card > span:last-child[\s\S]*grid-column: 3 !important[\s\S]*text-align: right !important/);
+  assert.match(softLaunchDashboard, /html\.hlc-compact-device \.hlc-page-dashboard/);
 });
 
 test("FD-01 keeps the agent inside the real visual viewport with transcript-owned scrolling", () => {
