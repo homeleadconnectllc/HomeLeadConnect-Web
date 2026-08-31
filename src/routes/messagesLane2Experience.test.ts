@@ -33,7 +33,7 @@ test("conversation and recipient loading are independent", () => {
 test("Messages uses simpler user-facing communication language", () => {
   assert.match(messages, />HLC message<\/strong>/);
   assert.match(messages, />Email<\/strong>/);
-  assert.match(messages, />Send message<\/button>/);
+  assert.match(messages, /"Send message"/);
   assert.match(messages, />Reply<\/label>/);
   assert.doesNotMatch(messages, />Internal<\/strong>/);
   assert.doesNotMatch(messages, /Internal reply/);
