@@ -1,0 +1,42 @@
+/* Canonical HLC logo geometry authority.
+ * Preserve the blue circular mark and everything inside it.
+ * Remove all white square/rounded-square presentation outside the circle.
+ */
+
+.hlc-navbar-logo,
+.hlc-auth-logo-link img,
+.hlc-public-footer-mark,
+.hlc-public-footer-mark img,
+.hlc-desktop-page-brand img {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.hlc-navbar-logo,
+.hlc-public-footer-mark {
+  border-radius: 50% !important;
+  overflow: hidden !important;
+}
+
+.hlc-navbar-logo img,
+.hlc-auth-logo-link img,
+.hlc-public-footer-mark img,
+.hlc-desktop-page-brand img {
+  display: block;
+  padding: 0 !important;
+  border-radius: 50% !important;
+  object-fit: cover !important;
+  clip-path: circle(50% at 50% 50%);
+}
+
+.hlc-auth-logo-link img {
+  width: 58px;
+  height: 58px;
+}
+
+.hlc-public-footer-mark img,
+.hlc-navbar-logo img,
+.hlc-desktop-page-brand img {
+  width: 100%;
+  height: 100%;
+}
