@@ -4,6 +4,8 @@ import test from "node:test";
 import { inflateSync } from "node:zlib";
 
 const brandLock = readFileSync("src/styles/hlc-brand-lock.css", "utf8");
+const logoGeometry = readFileSync("src/styles/global-logo-geometry.css", "utf8");
+const appEntry = readFileSync("src/App.tsx", "utf8");
 const mainEntry = readFileSync("src/main.tsx", "utf8") + readFileSync("src/styles/app-shell-entry.ts", "utf8").replaceAll('import "./', 'import "./styles/');
 const authenticatedEntry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
@@ -96,6 +98,15 @@ test("canonical HLC logo asset is a 1024px RGBA PNG with a clean transparent out
     assert.equal(pngAlphaAt(transparentLogo, x, y), 0, `logo outer-band pixel ${x},${y} must be fully transparent`);
   }
   assert.equal(pngAlphaAt(transparentLogo, center, center), 255, "logo center must remain fully opaque");
+});
+
+test("shared logo presentation removes white outer corners without altering the canonical asset", () => {
+  assert.match(appEntry, /global-logo-geometry\.css/);
+  assert.match(logoGeometry, /\.hlc-navbar-logo[\s\S]*background:\s*transparent\s*!important/);
+  assert.match(logoGeometry, /\.hlc-auth-logo-link img[\s\S]*padding:\s*0\s*!important/);
+  assert.match(logoGeometry, /\.hlc-public-footer-mark[\s\S]*border-radius:\s*50%\s*!important/);
+  assert.match(logoGeometry, /clip-path:\s*circle\(50% at 50% 50%\)/);
+  assert.doesNotMatch(logoGeometry, /background:\s*#fff(?:fff)?/i);
 });
 
 test("active HLC brand surfaces reject legacy and placeholder logo references", () => {
