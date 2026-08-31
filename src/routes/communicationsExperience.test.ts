@@ -4,6 +4,8 @@ import test from "node:test";
 
 const callCenter = readFileSync("src/pages/dashboard/CallCenter.tsx", "utf8");
 const manualCommunications = readFileSync("src/pages/dashboard/ManualCommunications.tsx", "utf8");
+const manualCommunicationsMobile = readFileSync("src/styles/soft-launch-manual-communications-authority.css", "utf8");
+const authenticatedStyles = readFileSync("src/styles/AuthenticatedStyles.tsx", "utf8");
 const postCallAutomation = readFileSync("src/lib/postCallAutomation.ts", "utf8");
 const messages = readFileSync("src/pages/dashboard/Messages.tsx", "utf8");
 const messagesApi = readFileSync("src/api/messages.ts", "utf8");
@@ -44,6 +46,17 @@ test("manual communications is action-first while preserving canonical handoff a
   assert.match(manualCommunications, /quickSaveOutcome/);
   assert.match(manualCommunications, /logManualCommunicationActivity/);
   assert.match(manualCommunications, /createFollowUp/);
+});
+
+test("manual communications iPhone authority keeps controls readable and action cards compact", () => {
+  assert.ok(
+    authenticatedStyles.indexOf("soft-launch-manual-communications-authority.css") > authenticatedStyles.indexOf("soft-launch-mobile-dashboard-authority.css"),
+    "manual communications soft-launch authority must load last",
+  );
+  assert.match(manualCommunicationsMobile, /:is\(input, select, textarea\)[\s\S]*background: #ffffff !important;[\s\S]*color: #172033 !important;/);
+  assert.match(manualCommunicationsMobile, /::placeholder[\s\S]*color: #536176 !important;[\s\S]*opacity: 1 !important;/);
+  assert.match(manualCommunicationsMobile, /aria-label="Choose call or text"\][\s\S]*button span[\s\S]*font-size: 14px !important;[\s\S]*word-break: normal !important;/);
+  assert.match(manualCommunicationsMobile, /body\.hlc-page-manual-communications \.hlc-agent-dock:not\(\.is-open\)[\s\S]*transform: scale\(0\.8\) !important;/);
 });
 
 test("free Google Voice handoff returns to the canonical outcome and follow-up flow", () => {
