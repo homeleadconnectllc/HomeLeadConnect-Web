@@ -7,6 +7,8 @@ const paths = [
   { eyebrow: "PLATFORM", title: "Account & business support", body: "Questions about HLC, workspace access, partnerships or the platform can go directly to our business contact.", to: "mailto:homeleadconnect@gmail.com", action: "Email HomeLead Connect" },
 ] as const;
 
+const CONTACT_HOME_IMAGE = "https://images.unsplash.com/photo-1517581177682-a085bb7ffb15?auto=format&fit=crop&w=1400&q=82";
+
 export default function ContactPage() {
   return <main className="hlc-utility-page hlc-contact-page"><div className="hlc-utility-shell">
     <header className="hlc-utility-header">
@@ -19,6 +21,19 @@ export default function ContactPage() {
       <div className="hlc-utility-summary" aria-label="Contact pathways"><span><strong>Residents</strong><small>Service requests</small></span><span><strong>Professionals</strong><small>Network participation</small></span><span><strong>Platform</strong><small>Account support</small></span></div>
     </header>
 
+    <section className="hlc-contact-photo-story" aria-label="Home service connection">
+      <div className="hlc-contact-photo-wrap">
+        <img src={CONTACT_HOME_IMAGE} alt="A residential home improvement project in progress" loading="eager" referrerPolicy="no-referrer" />
+        <div className="hlc-contact-photo-badge"><span>Resident-first</span><strong>Home help starts with a clear request.</strong></div>
+      </div>
+      <div className="hlc-contact-photo-copy">
+        <p className="hlc-utility-section-label">One connection point</p>
+        <h2>Tell us what the home needs. We help organize the next step.</h2>
+        <p>From everyday repairs to larger projects, HomeLead Connect helps residents get the request into one organized path while professionals have a clear place to connect with opportunities.</p>
+        <div className="hlc-contact-visual-tags" aria-label="Available contact paths"><span>Residents</span><span>Professionals</span><span>Platform support</span></div>
+      </div>
+    </section>
+
     <section className="hlc-utility-paths" aria-label="Contact paths">
       {paths.map((item) => <article className="hlc-utility-path" key={item.title}><p className="hlc-utility-section-label">{item.eyebrow}</p><div><h2>{item.title}</h2><p>{item.body}</p></div>{item.to.startsWith("mailto:") ? <a className="hlc-utility-link" href={item.to}>{item.action} →</a> : <Link className="hlc-utility-link" to={item.to}>{item.action} →</Link>}</article>)}
     </section>
@@ -26,18 +41,6 @@ export default function ContactPage() {
     <section className="hlc-utility-contact-grid" aria-label="HomeLead Connect business contact">
       <div><p className="hlc-utility-section-label">Business contact</p><h2 className="hlc-utility-title" style={{fontSize:"clamp(1.8rem,4vw,2.8rem)"}}>HomeLead Connect LLC</h2><p className="hlc-utility-lead">Serving the Pennsylvania launch market with a connected platform for residents, professionals, and participating businesses.</p></div>
       <div className="hlc-utility-contact-details"><div><span className="hlc-utility-detail-label">Founder / Owner</span><strong>Antoine Washington</strong></div><div><span className="hlc-utility-detail-label">Email</span><a href="mailto:homeleadconnect@gmail.com">homeleadconnect@gmail.com</a></div><div><span className="hlc-utility-detail-label">Phone</span><a href="tel:+17172881785">717-288-1785</a></div><div><span className="hlc-utility-detail-label">Web</span><a href="https://homeleadconnect.org">homeleadconnect.org</a></div></div>
-    </section>
-
-    <section className="hlc-contact-visual" aria-label="HomeLead Connect service pathways">
-      <div className="hlc-contact-visual-media">
-        <img src="/hlc-logo-transparent.png" alt="HomeLead Connect" loading="lazy" />
-      </div>
-      <div className="hlc-contact-visual-copy">
-        <p className="hlc-utility-section-label">One connection point</p>
-        <h2>Home help, professional opportunities, and platform support.</h2>
-        <p>Choose the path that matches what you need. HLC keeps the next step clear without crowding the page.</p>
-        <div className="hlc-contact-visual-tags" aria-label="Available contact paths"><span>Residents</span><span>Professionals</span><span>Platform</span></div>
-      </div>
     </section>
 
     <section className="hlc-utility-focus"><p className="hlc-utility-section-label">Ready when you are</p><h2>Start with the right HLC path.</h2><p>Service requests enter the HLC workflow for review. Submitting a request does not guarantee provider assignment, pricing, or an appointment.</p><div className="hlc-utility-actions"><Link className="hlc-utility-primary" to="/request-service">Request service →</Link></div></section>
