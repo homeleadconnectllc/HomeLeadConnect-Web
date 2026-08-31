@@ -48,6 +48,17 @@ test("manual communications is action-first while preserving canonical handoff a
   assert.match(manualCommunications, /createFollowUp/);
 });
 
+test("manual communications fail-open loading cannot be held hostage by supporting records", () => {
+  assert.match(manualCommunications, /const LOAD_TIMEOUT_MS = 6000/);
+  assert.match(manualCommunications, /function withTimeout<T>/);
+  assert.match(manualCommunications, /withTimeout\(listLeads\(\), \[\] as Lead\[\]\)/);
+  assert.match(manualCommunications, /withTimeout\(listContractors\(\), \[\] as Contractor\[\]\)/);
+  assert.match(manualCommunications, /void withTimeout\(listManualCommunicationActivity\(\), \[\] as ManualCommunicationActivity\[\]\)/);
+  assert.match(manualCommunications, /void withTimeout\(listConversations\(\), \[\] as Conversation\[\]\)/);
+  assert.match(manualCommunications, /finally\(\(\) => \{\s*if \(active\) setLoading\(false\);\s*\}\)/);
+  assert.doesNotMatch(manualCommunications, /Promise\.all\(\[\s*listLeads\(\),\s*listContractors\(\),\s*listManualCommunicationActivity\(\),\s*listConversations\(\),\s*canManageCommunications/);
+});
+
 test("manual communications iPhone selection feedback is rendered directly and controls stay readable", () => {
   assert.ok(
     authenticatedStyles.indexOf("soft-launch-manual-communications-authority.css") > authenticatedStyles.indexOf("soft-launch-mobile-dashboard-authority.css"),
