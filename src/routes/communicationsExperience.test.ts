@@ -24,17 +24,45 @@ test("Call Center exposes persisted call history and intelligent outcome logging
   assert.match(callCenter, /Human confirmation required/);
 });
 
-test("free Google Voice handoff returns to a one-tap canonical outcome and follow-up flow", () => {
+test("manual communications is action-first while preserving canonical handoff and outcome logging", () => {
+  const contact = manualCommunications.indexOf("Who are you contacting?");
+  const channel = manualCommunications.indexOf("How do you want to reach them?");
+  const open = manualCommunications.indexOf("Check &amp; open");
+  const outcome = manualCommunications.indexOf("Record what happened");
+  const advanced = manualCommunications.indexOf("Advanced options");
+  const compliance = manualCommunications.indexOf("How HLC records manual calls and texts");
+
+  assert.ok(contact >= 0 && channel > contact && open > channel && outcome > open);
+  assert.ok(advanced > outcome && compliance > advanced);
+  assert.match(manualCommunications, /Open Phone App/);
+  assert.match(manualCommunications, /Open Messages/);
+  assert.match(manualCommunications, /aria-pressed=\{channel === "call"\}/);
+  assert.match(manualCommunications, /aria-pressed=\{channel === "sms"\}/);
+  assert.match(manualCommunications, /Check before \$\{channel === "call" \? "calling" : "texting"\}/);
+  assert.match(manualCommunications, /Only record the result after the call or text actually happened/);
   assert.match(manualCommunications, /startCallHandoff/);
-  assert.match(manualCommunications, /SMART POST-CALL/);
   assert.match(manualCommunications, /quickSaveOutcome/);
   assert.match(manualCommunications, /logManualCommunicationActivity/);
   assert.match(manualCommunications, /createFollowUp/);
+});
+
+test("free Google Voice handoff returns to the canonical outcome and follow-up flow", () => {
+  assert.match(manualCommunications, /Open Google Voice/);
+  assert.match(manualCommunications, /What happened with \{selected\.label\}/);
   assert.match(postCallAutomation, /window\.sessionStorage/);
   assert.match(postCallAutomation, /beginPendingManualCall/);
   assert.match(postCallAutomation, /No answer/);
   assert.match(postCallAutomation, /Callback requested/);
   assert.match(postCallAutomation, /suggestedFollowUpLocal/);
+});
+
+test("manual communication compliance stays visible but secondary to the task flow", () => {
+  assert.match(manualCommunications, /<details style=\{advancedStyle\}>/);
+  assert.match(manualCommunications, /How HLC records manual calls and texts/);
+  assert.match(manualCommunications, /HLC opens the selected device\/provider after a compliance check/);
+  assert.match(manualCommunications, /It does not claim a call connected, a text delivered, or a provider synchronized unless provider evidence proves it/);
+  assert.match(manualCommunications, /checkNativeDeviceAction/);
+  assert.match(manualCommunications, /checkGoogleVoiceAction/);
 });
 
 test("Messages exposes persisted chat history from canonical conversations", () => {
