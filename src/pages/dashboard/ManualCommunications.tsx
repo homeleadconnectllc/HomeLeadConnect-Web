@@ -350,7 +350,7 @@ export default function ManualCommunications() {
           <label style={labelStyle}>Outcome<input required maxLength={80} value={outcome} onChange={(event) => setOutcome(event.target.value)} placeholder="For example: spoke with homeowner" /></label>
           <label style={labelStyle}>Notes<textarea maxLength={2000} value={notes} onChange={(event) => setNotes(event.target.value)} placeholder="Optional details" /></label>
           {selected?.type === "lead" && <label style={labelStyle}>Optional follow-up date and time<input type="datetime-local" value={followUpAt} onChange={(event) => setFollowUpAt(event.target.value)} /></label>}
-          <button style={secondaryPrimaryStyle} disabled={busy || !selected || !outcome.trim() || (direction === "outbound" && check?.decision !== "ALLOW")} type="submit">{busy ? "Saving…" : "Save Outcome"}</button>
+          <button aria-label="Save operator-reported activity" style={secondaryPrimaryStyle} disabled={busy || !selected || !outcome.trim() || (direction === "outbound" && check?.decision !== "ALLOW")} type="submit">{busy ? "Saving…" : "Save Outcome"}</button>
         </div>
       </section>
 
@@ -379,6 +379,11 @@ export default function ManualCommunications() {
         <p style={helperStyle}>Device-native calling works without this. Saving a number only enables Google Voice as an additional manual channel; it does not connect a private API.</p>
         <button disabled={busy} type="submit">{busy ? "Saving…" : "Enable optional Google Voice logging"}</button>
       </form>
+    </details>}
+
+    {!loading && !canConfigureGoogleVoice && !configuredNumber && <details style={supportingDetailsStyle}>
+      <summary style={advancedSummaryStyle}>Optional Google Voice setup</summary>
+      <p style={helperStyle}>Google Voice workspace setup is limited to an HLC owner or manager. You can continue using the device-native Call and Text workflow above.</p>
     </details>}
 
     {!loading && configuredNumber && <details style={supportingDetailsStyle}>
