@@ -75,11 +75,13 @@ export default function AppLayout() {
     if (typeof window === "undefined") return false;
     return window.localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === "1";
   });
-  const showAudioDevices = Boolean(session) && (location.pathname === "/settings" || location.pathname === "/call-center");
-  const showFieldDevices = Boolean(session) && location.pathname === "/settings";
-  const showAnalytics = Boolean(session) && location.pathname === "/dashboard";
-  const showContextualAgent = Boolean(session) && isAgentRoute(location.pathname);
-  const routePersonaClass = session ? personaRouteClass(location.pathname) : "";
+  const focusedPublicIntake = location.pathname === "/request-service";
+  const signedInWorkspaceShell = Boolean(session) && !focusedPublicIntake;
+  const showAudioDevices = signedInWorkspaceShell && (location.pathname === "/settings" || location.pathname === "/call-center");
+  const showFieldDevices = signedInWorkspaceShell && location.pathname === "/settings";
+  const showAnalytics = signedInWorkspaceShell && location.pathname === "/dashboard";
+  const showContextualAgent = signedInWorkspaceShell && isAgentRoute(location.pathname);
+  const routePersonaClass = signedInWorkspaceShell ? personaRouteClass(location.pathname) : "";
   const routeClass = stableRouteClass(location.pathname);
 
   useEffect(() => {
@@ -119,6 +121,7 @@ export default function AppLayout() {
   }, [location.key, location.pathname, location.hash]);
 
   useEffect(() => {
+    if (focusedPublicIntake) return;
     const logo = document.querySelector<HTMLElement>(".hlc-navbar-logo");
     if (!logo) return;
     const destination = session ? "/dashboard" : "/";
@@ -143,18 +146,18 @@ export default function AppLayout() {
       logo.removeAttribute("aria-label");
       logo.classList.remove("hlc-navbar-logo-home");
     };
-  }, [navigate, session]);
+  }, [focusedPublicIntake, navigate, session]);
 
   return (
-    <div className={`hlc-app-shell ${session ? "hlc-signed-in-shell" : "hlc-public-shell"} ${routeClass}${session && sidebarCollapsed ? " hlc-sidebar-is-collapsed" : ""}${routePersonaClass ? ` ${routePersonaClass}` : ""}`}>
+    <div className={`hlc-app-shell ${signedInWorkspaceShell ? "hlc-signed-in-shell" : "hlc-public-shell"} ${routeClass}${signedInWorkspaceShell && sidebarCollapsed ? " hlc-sidebar-is-collapsed" : ""}${routePersonaClass ? ` ${routePersonaClass}` : ""}${focusedPublicIntake ? " hlc-focused-public-intake" : ""}`}>
       <AnalyticsTracker />
-      <Navbar />
-      {session && (
+      {!focusedPublicIntake && <Navbar />}
+      {signedInWorkspaceShell && (
         <Link className="hlc-desktop-page-brand" to="/dashboard" aria-label="HomeLead Connect dashboard">
           <img src="/hlc-logo-transparent.png" alt="HomeLead Connect LLC" />
         </Link>
       )}
-      {session && (
+      {signedInWorkspaceShell && (
         <button
           className="hlc-desktop-sidebar-toggle"
           type="button"
@@ -174,12 +177,12 @@ export default function AppLayout() {
           {showFieldDevices && <FieldDeviceCenter />}
         </Suspense>
       </div>
-      {!session && <Footer />}
+      {(!session || focusedPublicIntake) && <Footer />}
       <Suspense fallback={null}>
-        {session && <WorkspaceGuidance />}
-        {session && <DesktopAgentTeamRail />}
+        {signedInWorkspaceShell && <WorkspaceGuidance />}
+        {signedInWorkspaceShell && <DesktopAgentTeamRail />}
         {showContextualAgent && <ContextualAgentDock />}
-        {session && <GlobalCommandSearch />}
+        {signedInWorkspaceShell && <GlobalCommandSearch />}
       </Suspense>
     </div>
   );
