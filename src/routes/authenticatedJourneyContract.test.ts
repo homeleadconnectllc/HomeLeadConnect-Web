@@ -51,7 +51,7 @@ test("lead, message, job and schedule surfaces expose launch-critical states", (
   assert.match(messages, /Loading conversations…/);
   assert.match(messages, /role="alert"/);
   assert.match(messages, /role="status"/);
-  assert.match(messages, /No chat history yet\./);
+  assert.match(messages, /No conversations yet\. Start a new message when you are ready\./);
   assert.match(messages, /No messages have been recorded in this conversation yet\./);
   assert.match(messages, /disabled=\{busy/);
 
