@@ -320,8 +320,16 @@ export default function ManualCommunications() {
         <div style={stepBodyStyle}>
           <h2 id="manual-step-channel" style={stepHeadingStyle}>How do you want to reach them?</h2>
           <div style={channelGridStyle} role="group" aria-label="Choose call or text">
-            <button type="button" aria-pressed={channel === "call"} style={channel === "call" ? channelButtonActiveStyle : channelButtonStyle} onClick={() => { setChannel("call"); resetCheck(); }}>📞 <strong>Call</strong><span>Use your phone app</span></button>
-            <button type="button" aria-pressed={channel === "sms"} style={channel === "sms" ? channelButtonActiveStyle : channelButtonStyle} onClick={() => { setChannel("sms"); resetCheck(); }}>💬 <strong>Text</strong><span>Use your messages app</span></button>
+            <button type="button" aria-pressed={channel === "call"} style={channel === "call" ? channelButtonActiveStyle : channelButtonStyle} onClick={() => { setChannel("call"); resetCheck(); }}>
+              <span aria-hidden="true">📞</span>
+              <strong>{channel === "call" ? "✓ Call selected" : "Call"}</strong>
+              <span>{channel === "call" ? "Step 3 next" : "Phone app"}</span>
+            </button>
+            <button type="button" aria-pressed={channel === "sms"} style={channel === "sms" ? channelButtonActiveStyle : channelButtonStyle} onClick={() => { setChannel("sms"); resetCheck(); }}>
+              <span aria-hidden="true">💬</span>
+              <strong>{channel === "sms" ? "✓ Text selected" : "Text"}</strong>
+              <span>{channel === "sms" ? "Step 3 next" : "Messages app"}</span>
+            </button>
           </div>
         </div>
       </section>
