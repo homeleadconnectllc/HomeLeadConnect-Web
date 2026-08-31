@@ -1,0 +1,143 @@
+/* Soft-launch mobile dashboard authority.
+   Narrowly fixes two production findings from real iPhone evidence:
+   1) the Command Center greeting must never be clipped beneath the mobile header;
+   2) all four KPI rows must share identical icon/value/label columns.
+   Desktop presentation is intentionally untouched. */
+
+@media (max-width: 760px) {
+  .hlc-page-dashboard .hlc-command-center {
+    margin-top: 0 !important;
+    padding-top: max(24px, calc(env(safe-area-inset-top) + 18px)) !important;
+    transform: none !important;
+  }
+
+  .hlc-page-dashboard .hlc-command-center .hlc-command-hero,
+  .hlc-page-dashboard .hlc-command-center .hlc-command-copy,
+  .hlc-page-dashboard .hlc-command-center .hlc-command-copy h1 {
+    overflow: visible !important;
+    clip-path: none !important;
+    transform: none !important;
+  }
+
+  .hlc-page-dashboard .hlc-command-center .hlc-command-hero {
+    min-height: 0 !important;
+    margin-top: 0 !important;
+    padding-top: 8px !important;
+  }
+
+  .hlc-page-dashboard .hlc-command-center .hlc-command-copy h1 {
+    margin-top: 0 !important;
+    padding-top: .08em !important;
+    line-height: 1.08 !important;
+  }
+
+  .hlc-page-dashboard .hlc-command-center .hlc-metric-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    width: 100% !important;
+    gap: 10px !important;
+  }
+
+  .hlc-page-dashboard .hlc-command-center .hlc-metric-card {
+    display: grid !important;
+    grid-template-columns: 56px minmax(54px, .8fr) minmax(108px, 1.2fr) !important;
+    align-items: center !important;
+    width: 100% !important;
+    min-height: 76px !important;
+    gap: 10px !important;
+    padding: 12px 14px !important;
+    text-align: left !important;
+  }
+
+  .hlc-page-dashboard .hlc-command-center .hlc-metric-card .hlc-metric-icon {
+    grid-column: 1 !important;
+    justify-self: start !important;
+    margin: 0 !important;
+  }
+
+  .hlc-page-dashboard .hlc-command-center .hlc-metric-card > strong {
+    grid-column: 2 !important;
+    justify-self: center !important;
+    width: 100% !important;
+    margin: 0 !important;
+    text-align: center !important;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hlc-page-dashboard .hlc-command-center .hlc-metric-card > span:last-child {
+    grid-column: 3 !important;
+    justify-self: stretch !important;
+    width: 100% !important;
+    margin: 0 !important;
+    text-align: right !important;
+  }
+}
+
+/* Physical-device authority for compact iPhones whose CSS layout viewport can
+   report wider than the breakpoint during browser chrome transitions. */
+html.hlc-compact-device .hlc-page-dashboard .hlc-command-center {
+  margin-top: 0 !important;
+  padding-top: max(24px, calc(env(safe-area-inset-top) + 18px)) !important;
+  transform: none !important;
+}
+
+html.hlc-compact-device .hlc-page-dashboard .hlc-command-center .hlc-command-hero,
+html.hlc-compact-device .hlc-page-dashboard .hlc-command-center .hlc-command-copy,
+html.hlc-compact-device .hlc-page-dashboard .hlc-command-center .hlc-command-copy h1 {
+  overflow: visible !important;
+  clip-path: none !important;
+  transform: none !important;
+}
+
+html.hlc-compact-device .hlc-page-dashboard .hlc-command-center .hlc-command-hero {
+  min-height: 0 !important;
+  margin-top: 0 !important;
+  padding-top: 8px !important;
+}
+
+html.hlc-compact-device .hlc-page-dashboard .hlc-command-center .hlc-command-copy h1 {
+  margin-top: 0 !important;
+  padding-top: .08em !important;
+  line-height: 1.08 !important;
+}
+
+html.hlc-compact-device .hlc-page-dashboard .hlc-command-center .hlc-metric-grid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  width: 100% !important;
+  gap: 10px !important;
+}
+
+html.hlc-compact-device .hlc-page-dashboard .hlc-command-center .hlc-metric-card {
+  display: grid !important;
+  grid-template-columns: 56px minmax(54px, .8fr) minmax(108px, 1.2fr) !important;
+  align-items: center !important;
+  width: 100% !important;
+  min-height: 76px !important;
+  gap: 10px !important;
+  padding: 12px 14px !important;
+  text-align: left !important;
+}
+
+html.hlc-compact-device .hlc-page-dashboard .hlc-command-center .hlc-metric-card .hlc-metric-icon {
+  grid-column: 1 !important;
+  justify-self: start !important;
+  margin: 0 !important;
+}
+
+html.hlc-compact-device .hlc-page-dashboard .hlc-command-center .hlc-metric-card > strong {
+  grid-column: 2 !important;
+  justify-self: center !important;
+  width: 100% !important;
+  margin: 0 !important;
+  text-align: center !important;
+  font-variant-numeric: tabular-nums;
+}
+
+html.hlc-compact-device .hlc-page-dashboard .hlc-command-center .hlc-metric-card > span:last-child {
+  grid-column: 3 !important;
+  justify-self: stretch !important;
+  width: 100% !important;
+  margin: 0 !important;
+  text-align: right !important;
+}

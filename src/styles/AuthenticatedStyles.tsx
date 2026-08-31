@@ -49,6 +49,7 @@ import "./mobile-drawer-remove-top-band.css";
 import "./mobile-drawer-visual-viewport-root-fix.css";
 import "./mobile-drawer-v2-authority.css";
 import "./final-mobile-polish.css";
+import "./soft-launch-mobile-dashboard-authority.css";
 
 export default function AuthenticatedStyles() {
   return <MobileNavigationDialogAccessibility />;
