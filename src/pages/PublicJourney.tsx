@@ -3,11 +3,23 @@ import "../styles/public-premium.css";
 
 type PublicJourneyKey = "services" | "pricing" | "trust" | "professionals" | "demo";
 
-const content: Record<PublicJourneyKey, { title: string; intro: string; sections: Array<[string, string]>; primary: [string, string]; kicker: string }> = {
+type JourneyContent = {
+  title: string;
+  intro: string;
+  sections: Array<[string, string]>;
+  primary: [string, string];
+  kicker: string;
+  image: string;
+  imageAlt: string;
+};
+
+const content: Record<PublicJourneyKey, JourneyContent> = {
   services: {
     kicker: "Connected home services",
     title: "One service journey. Every important step connected.",
     intro: "Start with the service you need, then HLC keeps the request, scope, provider coordination, schedule and communication connected.",
+    image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1600&q=82",
+    imageAlt: "Residential service professional working inside a home",
     sections: [
       ["Property and remodeling", "Painting, roofing, HVAC, cleaning, moving and other approved home-service categories."],
       ["One request history", "Photos, notes, appointments, messages and outcomes stay attached to the canonical request."],
@@ -19,6 +31,8 @@ const content: Record<PublicJourneyKey, { title: string; intro: string; sections
     kicker: "HLC business workspace",
     title: "Simple access to the connected workspace.",
     intro: "Residents can request and coordinate service through HLC without a SaaS subscription. Participating businesses can start with a 14-day free business trial, then continue at $49.99 per month.",
+    image: "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1600&q=82",
+    imageAlt: "Small business team reviewing work together",
     sections: [
       ["14-day free business trial", "Create your company workspace and complete subscription setup. A payment method is required to begin the business trial."],
       ["$49.99 per month after the trial", "The participating-business HLC workspace subscription is $49.99 per month after the 14-day trial period."],
@@ -31,6 +45,8 @@ const content: Record<PublicJourneyKey, { title: string; intro: string; sections
     kicker: "Trust + platform clarity",
     title: "Clear roles. Scoped access. Human decisions.",
     intro: "HomeLead Connect LLC is a Pennsylvania-first technology, referral and coordination platform—not the contractor performing the work.",
+    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1600&q=82",
+    imageAlt: "Residential property representing transparent home-service coordination",
     sections: [
       ["Truthful records", "HLC separates requests, estimates, offers, assignments, appointments, messages and completion outcomes."],
       ["Privacy by role", "Private workspace and portal information requires an authorized account relationship."],
@@ -42,6 +58,8 @@ const content: Record<PublicJourneyKey, { title: string; intro: string; sections
     kicker: "For businesses + trades",
     title: "Build your provider presence inside one connected system.",
     intro: "Businesses, contractors, subcontractors and trades use one professional journey from application through profile, opportunities, scheduling and work history.",
+    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1600&q=82",
+    imageAlt: "Professional trade worker on an active project",
     sections: [
       ["Business profile", "Services, territory, team, contact details and approved verification evidence."],
       ["Opportunities", "Explicit provider offers with accept or decline state—never silent assignment."],
@@ -53,6 +71,8 @@ const content: Record<PublicJourneyKey, { title: string; intro: string; sections
     kicker: "See HLC in context",
     title: "A demo built around the journey you actually need.",
     intro: "Tell HLC which journey you need to see. Demo requests are reviewed before workspace or portal access is issued.",
+    image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1600&q=82",
+    imageAlt: "Team reviewing a digital workspace together",
     sections: [
       ["Owner and business demo", "See CRM, LeadScope, matching, scheduling, communications and agent workspaces."],
       ["Provider demo", "See profiles, offers, assignment acceptance, jobs, schedule and documents."],
@@ -79,6 +99,10 @@ export default function PublicJourney({ page }: { page: PublicJourneyKey }) {
           {pricing && <Link className="hlc-public-secondary" to="/terms">Subscription terms</Link>}
         </div>
       </header>
+
+      <figure className="hlc-public-visual">
+        <img src={item.image} alt={item.imageAlt} loading="eager" referrerPolicy="no-referrer" />
+      </figure>
 
       {pricing && <section className="hlc-public-offer" aria-label="Business workspace subscription">
         <p className="hlc-public-offer-label">HLC BUSINESS WORKSPACE</p>
