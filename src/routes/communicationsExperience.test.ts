@@ -48,13 +48,15 @@ test("manual communications is action-first while preserving canonical handoff a
   assert.match(manualCommunications, /createFollowUp/);
 });
 
-test("manual communications iPhone authority keeps controls readable and action cards compact", () => {
+test("manual communications iPhone authority keeps controls readable and makes Call/Text selection explicit", () => {
   assert.ok(
     authenticatedStyles.indexOf("soft-launch-manual-communications-authority.css") > authenticatedStyles.indexOf("soft-launch-mobile-dashboard-authority.css"),
     "manual communications soft-launch authority must load last",
   );
-  assert.match(manualCommunicationsMobile, /:is\(input, select, textarea\)[\s\S]*background: #ffffff !important;[\s\S]*color: #172033 !important;/);
+  assert.match(manualCommunicationsMobile, /body\.hlc-page-manual-communications #root \.hlc-route-content :is\(input, select, textarea\)[\s\S]*background: #ffffff !important;[\s\S]*color: #172033 !important;/);
   assert.match(manualCommunicationsMobile, /::placeholder[\s\S]*color: #536176 !important;[\s\S]*opacity: 1 !important;/);
+  assert.match(manualCommunicationsMobile, /button\[aria-pressed="true"\][\s\S]*border-color: #38bdf8 !important;[\s\S]*background: #0f3554 !important;/);
+  assert.match(manualCommunicationsMobile, /content: "✓ Selected · Step 3 next"/);
   assert.match(manualCommunicationsMobile, /aria-label="Choose call or text"\][\s\S]*button span[\s\S]*font-size: 14px !important;[\s\S]*word-break: normal !important;/);
   assert.match(manualCommunicationsMobile, /body\.hlc-page-manual-communications \.hlc-agent-dock:not\(\.is-open\)[\s\S]*transform: scale\(0\.8\) !important;/);
 });
