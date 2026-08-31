@@ -1,0 +1,91 @@
+/* HLC soft-launch mobile dashboard regression authority.
+   Evidence: production iPhone screenshot showed the fourth KPI value drifting
+   horizontally relative to the first three. Keep the approved stacked metric
+   presentation while making every row use one identical icon/value/label grid.
+   This file intentionally does not change the dashboard hero/header relationship:
+   the authenticated header is sticky and remains in normal document flow, so a
+   partially hidden greeting in a scrolled screenshot is not by itself proof of
+   an initial-load overlap regression. */
+
+@media (max-width: 760px), (max-device-width: 760px) {
+  #root .hlc-signed-in-shell .hlc-command-center .hlc-metric-grid {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 10px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-command-center .hlc-metric-card {
+    display: grid !important;
+    grid-template-columns: 58px minmax(0, 1fr) minmax(0, 1fr) !important;
+    align-items: center !important;
+    gap: 12px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 72px !important;
+    padding: 12px 14px !important;
+    text-align: left !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-command-center .hlc-metric-card .hlc-metric-icon {
+    grid-column: 1 !important;
+    justify-self: start !important;
+    margin: 0 !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-command-center .hlc-metric-card > strong {
+    grid-column: 2 !important;
+    justify-self: center !important;
+    align-self: center !important;
+    width: 100% !important;
+    margin: 0 !important;
+    text-align: center !important;
+    line-height: 1 !important;
+    font-variant-numeric: tabular-nums !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-command-center .hlc-metric-card > span:last-child {
+    grid-column: 3 !important;
+    justify-self: end !important;
+    align-self: center !important;
+    width: 100% !important;
+    margin: 0 !important;
+    text-align: right !important;
+  }
+}
+
+html.hlc-compact-device #root .hlc-signed-in-shell .hlc-command-center .hlc-metric-grid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 10px !important;
+  width: 100% !important;
+}
+
+html.hlc-compact-device #root .hlc-signed-in-shell .hlc-command-center .hlc-metric-card {
+  display: grid !important;
+  grid-template-columns: 58px minmax(0, 1fr) minmax(0, 1fr) !important;
+  align-items: center !important;
+  gap: 12px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 72px !important;
+  padding: 12px 14px !important;
+}
+
+html.hlc-compact-device #root .hlc-signed-in-shell .hlc-command-center .hlc-metric-card > strong {
+  grid-column: 2 !important;
+  justify-self: center !important;
+  width: 100% !important;
+  margin: 0 !important;
+  text-align: center !important;
+  font-variant-numeric: tabular-nums !important;
+}
+
+html.hlc-compact-device #root .hlc-signed-in-shell .hlc-command-center .hlc-metric-card > span:last-child {
+  grid-column: 3 !important;
+  justify-self: end !important;
+  width: 100% !important;
+  margin: 0 !important;
+  text-align: right !important;
+}
