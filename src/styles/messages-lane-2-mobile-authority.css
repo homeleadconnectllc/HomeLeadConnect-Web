@@ -83,8 +83,11 @@
 
   body #root .hlc-messages-progressive-inbox .hlc-message-inbox-row {
     width: 100%;
-    min-height: 78px !important;
-    padding: 13px 14px !important;
+    min-height: 68px !important;
+    padding: 11px 12px !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: 10px !important;
   }
 
   body #root .hlc-message-inbox-main,
@@ -92,11 +95,28 @@
     min-width: 0;
   }
 
+  body #root .hlc-message-inbox-main {
+    gap: 4px !important;
+  }
+
   body #root .hlc-message-inbox-main small {
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
+  }
+
+  body #root .hlc-message-inbox-meta {
+    display: grid !important;
+    justify-items: end !important;
+    text-align: right !important;
+    gap: 3px !important;
+  }
+
+  body #root .hlc-message-inbox-meta small {
+    max-width: 132px !important;
+    white-space: normal !important;
+    line-height: 1.25 !important;
   }
 
   body #root .hlc-messages-view-toolbar {
@@ -152,6 +172,63 @@
     min-height: 150px !important;
     max-height: 40dvh !important;
     font-size: 16px !important;
+  }
+
+  body #root .hlc-message-subject-details {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 1px solid rgba(96, 165, 250, .28) !important;
+    border-radius: 12px !important;
+    background: #0d1b2f !important;
+    color: #f8fafc !important;
+    overflow: hidden !important;
+  }
+
+  body #root .hlc-message-subject-details > summary {
+    min-height: 46px !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 10px 12px !important;
+    background: #0d1b2f !important;
+    color: #f8fafc !important;
+    font-weight: 800 !important;
+    cursor: pointer !important;
+    list-style-position: inside !important;
+  }
+
+  body #root .hlc-message-subject-details[open] > summary {
+    border-bottom: 1px solid rgba(148, 163, 184, .18) !important;
+  }
+
+  body #root .hlc-message-subject-details > label {
+    display: grid !important;
+    gap: 7px !important;
+    padding: 11px 12px 12px !important;
+    background: #0d1b2f !important;
+    color: #e8eef8 !important;
+    font-size: .92rem !important;
+    font-weight: 800 !important;
+  }
+
+  body #root .hlc-message-subject-details input {
+    width: 100% !important;
+    min-height: 48px !important;
+    margin: 0 !important;
+    padding: 10px 12px !important;
+    border: 1px solid #28415f !important;
+    border-radius: 8px !important;
+    background: #0a192c !important;
+    color: #f8fafc !important;
+    font-size: 16px !important;
+    box-shadow: none !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+  }
+
+  body #root .hlc-message-subject-details input::placeholder {
+    color: #9fb0c5 !important;
+    opacity: 1 !important;
   }
 
   body #root .hlc-message-primary-send {
