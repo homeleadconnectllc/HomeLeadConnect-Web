@@ -116,10 +116,7 @@ export default function Messages() {
   const sendEmailCopy = deliveryMode === "email";
 
   useEffect(() => {
-    if (!selectedId) {
-      setVoiceNotes([]);
-      return;
-    }
+    if (!selectedId) return;
     listVoiceNotes(selectedId)
       .then(setVoiceNotes)
       .catch((reason: unknown) => setError(errorMessage(reason, "Unable to load voice notes.")));
@@ -128,11 +125,13 @@ export default function Messages() {
   function openInbox() {
     setView("inbox");
     setSelectedId(null);
+    setVoiceNotes([]);
     setReply("");
     setMessage("");
   }
 
   function openConversation(id: string) {
+    setVoiceNotes([]);
     setSelectedId(id);
     setView("thread");
     setError("");
@@ -142,6 +141,7 @@ export default function Messages() {
   function openNewMessage() {
     setView("compose");
     setSelectedId(null);
+    setVoiceNotes([]);
     setError("");
     setMessage("");
     if (!recipientsLoading && recipients.length === 0 && recipientError) void loadRecipients();
@@ -165,6 +165,7 @@ export default function Messages() {
     try {
       const id = await startPortalConversation({ recipient, subject: draftSubject, body: draftBody });
       await loadConversations();
+      setVoiceNotes([]);
       setSelectedId(id);
       setView("thread");
 
