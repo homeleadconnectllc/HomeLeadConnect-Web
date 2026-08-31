@@ -46,34 +46,36 @@ export default function RequestService() {
     </section>
   </main>;
 
-  return <main style={pageStyle}>
-    <section style={heroStyle}>
+  return <main className="hlc-request-service" style={pageStyle}>
+    <style>{`
+      @media (max-width: 720px) {
+        .hlc-request-service { width: calc(100% - 20px) !important; margin: 10px auto 36px !important; gap: 12px !important; }
+        .hlc-request-hero { padding: 18px 14px !important; }
+        .hlc-request-hero img { max-height: 54px !important; width: 92px !important; margin-bottom: 8px !important; }
+        .hlc-request-hero h1 { font-size: 2rem !important; line-height: 1.02 !important; margin: 8px auto 10px !important; }
+        .hlc-request-intro { font-size: 15px !important; line-height: 1.45 !important; }
+        .hlc-request-steps { display: none !important; }
+        .hlc-request-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+        .hlc-request-form-card { order: 1; padding: 18px 16px !important; }
+        .hlc-request-aside { order: 2; padding: 18px 16px !important; }
+      }
+    `}</style>
+
+    <section className="hlc-request-hero" style={heroStyle}>
       <img src="/hlc-logo-transparent.png" alt="HomeLead Connect" style={logoStyle} />
       <p style={eyebrowStyle}>HOMELEAD CONNECT · SERVICE REQUEST</p>
       <h1 style={titleStyle}>Tell us what your home needs.</h1>
-      <p style={introStyle}>Renters, homeowners, property managers, and everyday households can start with one request. HLC keeps review, provider coordination, scheduling, and communication connected from there.</p>
-      <div style={stepsStyle} aria-label="Service request process">
+      <a href="#request-form" style={heroButtonStyle}>Start My Request ↓</a>
+      <p className="hlc-request-intro" style={introStyle}>Renters, homeowners, property managers, and everyday households can start with one request. HLC keeps review, provider coordination, scheduling, and communication connected from there.</p>
+      <div className="hlc-request-steps" style={stepsStyle} aria-label="Service request process">
         <span style={stepStyle}><b>01</b> Tell us what you need</span>
         <span style={stepStyle}><b>02</b> HLC reviews the request</span>
         <span style={stepStyle}><b>03</b> Coordinate next steps</span>
       </div>
     </section>
 
-    <section style={contentGridStyle}>
-      <aside style={asideStyle}>
-        <p style={darkEyebrowStyle}>A BETTER FRONT DOOR</p>
-        <h2 style={asideTitleStyle}>One request. Clear next steps.</h2>
-        <p style={asideCopyStyle}>Use this form for repairs, maintenance, improvements, moving, cleaning, HVAC, painting, roofing, and other home-service needs supported by the HLC network.</p>
-        <div style={trustListStyle}>
-          <p><strong>Renters are welcome</strong><br/><span>Select renter below so HLC can keep your household context visible.</span></p>
-          <p><strong>Protected intake</strong><br/><span>Your request enters HLC’s controlled workflow.</span></p>
-          <p><strong>No marketing enrollment</strong><br/><span>Submitting this form does not opt you into marketing messages.</span></p>
-          <p><strong>No false promises</strong><br/><span>Provider assignment, pricing, and appointments are confirmed separately.</span></p>
-        </div>
-        <Link to="/contact" style={asideLinkStyle}>Need another kind of help? Contact HLC →</Link>
-      </aside>
-
-      <div style={formCardStyle}>
+    <section className="hlc-request-grid" style={contentGridStyle}>
+      <div id="request-form" className="hlc-request-form-card" style={formCardStyle}>
         <div style={formHeadingStyle}>
           <p style={darkEyebrowStyle}>SERVICE DETAILS</p>
           <h2 style={formTitleStyle}>Start your request</h2>
@@ -102,6 +104,19 @@ export default function RequestService() {
           <button disabled={busy} type="submit" style={{ ...submitStyle, opacity: busy ? .65 : 1 }}>{busy ? "Sending request…" : "Send request to HomeLead Connect →"}</button>
         </form>
       </div>
+
+      <aside className="hlc-request-aside" style={asideStyle}>
+        <p style={darkEyebrowStyle}>A BETTER FRONT DOOR</p>
+        <h2 style={asideTitleStyle}>One request. Clear next steps.</h2>
+        <p style={asideCopyStyle}>Use this form for repairs, maintenance, improvements, moving, cleaning, HVAC, painting, roofing, and other home-service needs supported by the HLC network.</p>
+        <div style={trustListStyle}>
+          <p><strong>Renters are welcome</strong><br/><span>Select renter below so HLC can keep your household context visible.</span></p>
+          <p><strong>Protected intake</strong><br/><span>Your request enters HLC’s controlled workflow.</span></p>
+          <p><strong>No marketing enrollment</strong><br/><span>Submitting this form does not opt you into marketing messages.</span></p>
+          <p><strong>No false promises</strong><br/><span>Provider assignment, pricing, and appointments are confirmed separately.</span></p>
+        </div>
+        <Link to="/contact" style={asideLinkStyle}>Need another kind of help? Contact HLC →</Link>
+      </aside>
     </section>
   </main>;
 }
@@ -111,6 +126,7 @@ const heroStyle = { overflow: "hidden", borderRadius: 4, padding: "clamp(30px,7v
 const logoStyle = { width: "min(220px,58vw)", maxHeight: 76, objectFit: "contain" as const, margin: "0 auto 18px" };
 const eyebrowStyle = { margin: 0, color: "#93c5fd", fontSize: 11, fontWeight: 900, letterSpacing: ".16em" };
 const titleStyle = { margin: "10px auto 14px", color: "#fff", fontSize: "clamp(2rem,5.5vw,4.4rem)", lineHeight: 1, letterSpacing: "-.045em", maxWidth: 850 };
+const heroButtonStyle = { display: "inline-flex", alignItems: "center", justifyContent: "center", minHeight: 48, margin: "0 auto 16px", padding: "12px 20px", borderRadius: 4, color: "#fff", background: "linear-gradient(135deg,#2563eb,#0ea5e9)", textDecoration: "none", fontWeight: 900, boxShadow: "0 12px 28px rgba(37,99,235,.24)" };
 const introStyle = { maxWidth: 760, margin: "0 auto", color: "#dbeafe", fontSize: "clamp(16px,2vw,20px)", lineHeight: 1.65, fontWeight: 600 };
 const stepsStyle = { display: "flex", flexWrap: "wrap" as const, justifyContent: "center", gap: 10, marginTop: 26 };
 const stepStyle = { display: "inline-flex", gap: 8, alignItems: "center", minHeight: 42, padding: "9px 13px", borderRadius: 4, color: "#e0f2fe", background: "rgba(255,255,255,.07)", border: "1px solid rgba(147,197,253,.22)", fontSize: 13, fontWeight: 800 };
