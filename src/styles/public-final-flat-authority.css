@@ -278,6 +278,28 @@
   color: #9fc5ff !important;
 }
 
+/* Lane 3 request form: readable native controls on iPhone/Safari. */
+#root .hlc-app-shell.hlc-public-shell.hlc-page-request-service .hlc-route-content .hlc-request-service :where(input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
+  background: #f8fafc !important;
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+  caret-color: #0f172a !important;
+  opacity: 1 !important;
+  color-scheme: light !important;
+  border-color: #94a3b8 !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-request-service .hlc-route-content .hlc-request-service :where(input, textarea)::placeholder {
+  color: #475569 !important;
+  -webkit-text-fill-color: #475569 !important;
+  opacity: 1 !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-request-service .hlc-route-content .hlc-request-service select option {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
 /* Home: increase contrast and keep content as flat bands. */
 #root .hlc-app-shell.hlc-public-shell.hlc-page-home .hlc-home {
   background: #07111f !important;
