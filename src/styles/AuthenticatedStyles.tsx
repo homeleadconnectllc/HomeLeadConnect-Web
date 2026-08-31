@@ -50,6 +50,7 @@ import "./mobile-drawer-visual-viewport-root-fix.css";
 import "./mobile-drawer-v2-authority.css";
 import "./final-mobile-polish.css";
 import "./soft-launch-mobile-dashboard-authority.css";
+import "./soft-launch-manual-communications-authority.css";
 
 export default function AuthenticatedStyles() {
   return <MobileNavigationDialogAccessibility />;
