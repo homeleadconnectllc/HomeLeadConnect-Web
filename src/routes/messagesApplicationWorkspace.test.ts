@@ -8,10 +8,12 @@ const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 const api = readFileSync("src/api/messages.ts", "utf8");
 const recorder = readFileSync("src/components/messages/VoiceNoteRecorder.tsx", "utf8");
 
-test("Messages uses a dedicated communications console instead of panel cards", () => {
+test("Messages uses a dedicated progressive communications workspace instead of panel cards", () => {
   assert.match(page, /hlc-messages-workspace/);
   assert.match(page, /COMMUNICATIONS/);
-  assert.match(page, /hlc-messages-console/);
+  assert.match(page, /data-messages-view=\{view\}/);
+  assert.match(page, /hlc-messages-progressive-inbox/);
+  assert.match(page, /hlc-messages-progressive-thread/);
   assert.match(page, /hlc-message-inbox-row/);
   assert.match(page, /hlc-message-entry/);
   assert.doesNotMatch(page, /panelStyle|messageStyle|conversationButtonStyle/);
@@ -29,7 +31,7 @@ test("Messages preserves canonical conversations, deliberate email, replies and 
   assert.match(page, /composeVoiceNote/);
 });
 
-test("Messages specialization mounts before final authority and collapses to one mobile workspace", () => {
+test("Messages specialization remains beneath final authority while Lane 2 owns compact progressive layout", () => {
   const routeIndex = entry.indexOf("./messages-application-workspace.css");
   const finalIndex = entry.indexOf("./application-workspace-ui.css");
   assert.ok(routeIndex >= 0);

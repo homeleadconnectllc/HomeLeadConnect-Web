@@ -95,18 +95,20 @@ test("manual communication compliance stays visible but secondary to the task fl
   assert.match(manualCommunications, /checkGoogleVoiceAction/);
 });
 
-test("Messages exposes persisted chat history from canonical conversations", () => {
+test("Messages exposes persisted conversation history through the progressive thread view", () => {
   assert.match(messages, /listConversations/);
-  assert.match(messages, /aria-label="Chat history"/);
-  assert.match(messages, /ACTIVE CONVERSATION/);
-  assert.match(messages, /Persisted conversation history/);
-  assert.match(messages, /conversation\.messages\.length/);
+  assert.match(messages, /aria-label="Conversation history"/);
+  assert.match(messages, />CONVERSATION</);
+  assert.match(messages, /No messages have been recorded in this conversation yet\./);
+  assert.match(messages, /selected\.messages\.length/);
+  assert.match(messages, /setView\("thread"\)/);
 });
 
 test("Messages can deliberately send a portal message through the canonical email transport", () => {
   assert.match(messages, /sendPortalEmail/);
-  assert.match(messages, /Also send this by email/);
-  assert.match(messages, /Start conversation \+ send email/);
+  assert.match(messages, />Email<\/strong>/);
+  assert.match(messages, /Send an email and save it here/);
+  assert.match(messages, /sendEmailCopy/);
   assert.match(messagesApi, /functions\.invoke\("send-communication"/);
   assert.match(messagesApi, /channel: "email"/);
   assert.match(messagesApi, /subjectId/);
