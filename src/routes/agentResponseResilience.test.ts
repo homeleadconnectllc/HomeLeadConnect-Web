@@ -17,6 +17,14 @@ test("agent chat preserves bounded conversation history, route context, temporal
   assert.match(edgeFunction, /Stay in that agent identity for the entire conversation/);
 });
 
+test("agent service-role follow-up metrics remain tenant-scoped through the linked lead", () => {
+  const joinedQueries = edgeFunction.match(/from\("follow_ups"\)\.select\("id,lead:leads!inner\(workspace_id\)"/g) ?? [];
+  const workspaceFilters = edgeFunction.match(/\.eq\("lead\.workspace_id", workspaceId\)/g) ?? [];
+  assert.equal(joinedQueries.length, 2);
+  assert.equal(workspaceFilters.length, 2);
+  assert.doesNotMatch(edgeFunction, /from\("follow_ups"\)\.select\("id", \{ count: "exact", head: true \}\)\.eq\("status"/);
+});
+
 test("fallback responses are explicitly surfaced instead of impersonating a fresh live answer", () => {
   assert.match(panel, /data-response-mode=\{fallbackMode \? "fallback" : "live"\}/);
   assert.match(locale, /verifiedFallback: "Verified fallback"/);

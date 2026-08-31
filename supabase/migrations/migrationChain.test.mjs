@@ -8,6 +8,8 @@ const stagedUnpromotedFiles = [
   "20260829124500_partner_portal_referrals.sql",
   "20260829130000_partner_management_lookup.sql",
   "20260829133000_phase3_external_user_performance_indexes.sql",
+  "20260830234000_harden_partner_management_membership.sql",
+  "20260831042000_workflow_integrity_hardening.sql",
 ];
 const productionPlanFiles = migrationFiles.filter((name) => !stagedUnpromotedFiles.includes(name));
 const plan = readFileSync("supabase/RELEASE_MIGRATION_PLAN.md", "utf8");
@@ -18,7 +20,7 @@ test("production release plan lists every production migration exactly once and 
   assert.equal(new Set(plannedFiles).size, plannedFiles.length);
 });
 
-test("phase 3 migrations remain explicitly staged until promotion is authorized", () => {
+test("unpromoted migrations remain explicitly staged until promotion is authorized", () => {
   for (const file of stagedUnpromotedFiles) assert.ok(migrationFiles.includes(file), `${file} is missing`);
   for (const file of stagedUnpromotedFiles) assert.ok(!plannedFiles.includes(file), `${file} must not enter the production release plan before promotion approval`);
 });

@@ -9,6 +9,17 @@ export type JobDetailRecord = CrmJob & {
   source_estimate: { status: string; total: number } | null;
 };
 
+const lifecycleTransitions: Record<CrmJobStatus, CrmJobStatus[]> = {
+  pending: ["active", "cancelled"],
+  active: ["completed", "cancelled"],
+  completed: [],
+  cancelled: [],
+};
+
+export function allowedJobStatusTransitions(status: CrmJobStatus): CrmJobStatus[] {
+  return lifecycleTransitions[status];
+}
+
 export async function listJobs(): Promise<CrmJob[]> {
   const workspaceId = await getCurrentWorkspaceId();
   const { data, error } = await supabase
@@ -25,14 +36,10 @@ export async function updateJobStatus(
   id: string,
   status: CrmJobStatus,
 ): Promise<CrmJob> {
-  const workspaceId = await getCurrentWorkspaceId();
-  const { data, error } = await supabase
-    .from("crm_jobs")
-    .update({ status })
-    .eq("workspace_id", workspaceId)
-    .eq("id", id)
-    .select(jobColumns)
-    .single();
+  const { data, error } = await supabase.rpc("transition_crm_job", {
+    p_job_id: id,
+    p_status: status,
+  });
 
   if (error) throw error;
   return data as CrmJob;

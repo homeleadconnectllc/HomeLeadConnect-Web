@@ -30,7 +30,7 @@ export type AgentManifest = {
 
 export const agentDepartmentAccents = {
   kendrell: "#F59E0B",
-  dion: "#6366F1",
+  dion: "#38BDF8",
   diamond: "#10B981",
 } as const satisfies Record<AgentId, string>;
 
