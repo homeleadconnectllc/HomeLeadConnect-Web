@@ -11,6 +11,7 @@ export default function ContactPage() {
   return <main className="hlc-utility-page"><div className="hlc-utility-shell">
     <header className="hlc-utility-header">
       <div>
+        <div className="hlc-utility-brand"><img className="hlc-utility-logo" src="/branding/hlc-logo-full.png" alt="HomeLead Connect" /></div>
         <p className="hlc-utility-kicker">HomeLead Connect · Contact</p>
         <h1 className="hlc-utility-title">How can we help?</h1>
         <p className="hlc-utility-lead">One place for home-service requests, professional opportunities, and HomeLead Connect platform support.</p>
