@@ -21,7 +21,7 @@ export default function HomePage() {
         <nav aria-label="Account access" style={{display:"flex",alignItems:"center",justifyContent:"flex-end",gap:8,flexWrap:"wrap"}}>
           <a href="/login" style={{...accountButtonStyle,color:"#dbeafe",background:"transparent"}}>Sign In</a>
           <a href="/register" style={{...accountButtonStyle,color:"#fff",background:"#2563eb",borderColor:"#2563eb"}}>Create Account</a>
-          <a href="/app" style={{...accountButtonStyle,color:"#bfdbfe",background:"#112744"}}>Open HLC</a>
+          <a data-route-to="/app" href="/app" style={{...accountButtonStyle,color:"#bfdbfe",background:"#112744"}}>Open HLC</a>
         </nav>
       </header>
 
