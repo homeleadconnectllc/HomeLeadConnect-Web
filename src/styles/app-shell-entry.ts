@@ -28,3 +28,4 @@ import "./hlc-brand-lock.css";
 import "./legacy-device-compat.css";
 import "./final-release-guard.css";
 import "./mobile-release-fix.css";
+import "./hlc-adaptive-visual-rebalance.css";
