@@ -1,0 +1,118 @@
+/* HLC global visual authority — post-launch visual-system rebuild.
+   Loaded last for authenticated surfaces. Keeps interaction semantics intact while
+   reducing the repetitive wall-to-wall navy/outlined-card treatment. */
+
+:root {
+  --hlc-visual-ink: #07111f;
+  --hlc-visual-navy: #0a1b30;
+  --hlc-visual-panel: #10243d;
+  --hlc-visual-cream: #f7f2e8;
+  --hlc-visual-sand: #e9dfce;
+  --hlc-visual-green: #173f37;
+  --hlc-visual-text: #f8fafc;
+  --hlc-visual-muted: #c2cede;
+  --hlc-visual-line: rgba(203, 213, 225, .16);
+  --hlc-visual-radius: 18px;
+}
+
+/* Give the product one intentional background rather than dozens of competing
+   route backgrounds. Individual functional components keep their own state colors. */
+body:has(.hlc-app-shell) {
+  background:
+    radial-gradient(circle at 10% -8%, rgba(56,189,248,.12), transparent 28rem),
+    radial-gradient(circle at 92% 8%, rgba(16,185,129,.08), transparent 25rem),
+    linear-gradient(180deg, #06101e 0%, #09182a 48%, #071321 100%);
+}
+
+.hlc-route-content {
+  isolation: isolate;
+}
+
+/* Shared page rhythm: tighter dead space, wider readable content, and a clear
+   distinction between page canvas and actionable surfaces. */
+.hlc-route-content > main:not(.hlc-public-page),
+.hlc-route-content > section {
+  --hlc-page-inline: clamp(16px, 3vw, 34px);
+}
+
+.hlc-route-content :is(h1, h2, h3) {
+  text-wrap: balance;
+}
+
+.hlc-route-content :is(p, li, label, small) {
+  text-wrap: pretty;
+}
+
+/* Repeated cards should feel like grouped product surfaces, not wireframes. */
+.hlc-route-content :is(
+  .hlc-metric-card,
+  .hlc-pulse-card,
+  .hlc-agent-card,
+  .hlc-priority-card,
+  .hlc-provider-card,
+  .hlc-community-card,
+  .hlc-data-card
+) {
+  border-color: var(--hlc-visual-line);
+  border-radius: var(--hlc-visual-radius);
+  box-shadow: 0 14px 34px rgba(1, 7, 16, .14);
+}
+
+/* Agent art is a first-class product visual only where an agent is actually
+   part of the workflow. */
+.hlc-agent-portrait-wrap {
+  overflow: hidden;
+  border-radius: 16px;
+  background: linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.015));
+}
+
+.hlc-agent-portrait {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+/* Empty operational states should never become a giant navy void. Existing
+   empty-state markup receives a compact, visually distinct treatment without
+   changing its wording or actions. */
+.hlc-route-content :is(.empty-state, .hlc-empty-state, [data-empty-state="true"]) {
+  min-height: 180px;
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: 10px;
+  padding: clamp(22px, 5vw, 40px);
+  border: 1px solid var(--hlc-visual-line);
+  border-radius: var(--hlc-visual-radius);
+  background:
+    radial-gradient(circle at 88% 12%, rgba(56,189,248,.12), transparent 13rem),
+    linear-gradient(145deg, rgba(16,36,61,.94), rgba(8,24,42,.94));
+}
+
+/* Mobile: preserve vertical real estate for the work itself. */
+@media (max-width: 700px) {
+  .hlc-route-content > main:not(.hlc-public-page) {
+    padding-top: clamp(12px, 3vw, 20px);
+    padding-bottom: clamp(72px, 14vw, 96px);
+  }
+
+  .hlc-route-content :is(.hlc-dashboard-section, .hlc-section, section) +
+  :is(.hlc-dashboard-section, .hlc-section, section) {
+    margin-top: clamp(18px, 5vw, 28px);
+  }
+
+  .hlc-route-content :is(.empty-state, .hlc-empty-state, [data-empty-state="true"]) {
+    min-height: 150px;
+    padding: 22px 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hlc-route-content *,
+  .hlc-route-content *::before,
+  .hlc-route-content *::after {
+    scroll-behavior: auto !important;
+  }
+}
