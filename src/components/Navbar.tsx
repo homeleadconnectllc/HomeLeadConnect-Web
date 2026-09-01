@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link, useLocation } from "react-router-dom";
-import { ecosystemNavigation, type EcosystemPage } from "../config/ecosystem";
+import { ecosystemNavigation } from "../config/navigationPlacement";
+import type { EcosystemPage } from "../config/ecosystem";
 import { useAuth } from "../hooks/useAuth";
 import { useAccountAccess } from "../hooks/useAccountAccess";
 import { canAccessWorkspacePath } from "../lib/accessPolicy";
@@ -10,14 +11,17 @@ import { supabase } from "../lib/supabase";
 const logo = "/hlc-logo-transparent.png";
 const OPEN_HLC_COMMAND_SEARCH = "hlc:open-command-search";
 const declaredWorkspaceRoutes = new Set([
-  "/dashboard", "/ecosystem", "/workflow", "/automations", "/hq", "/notifications",
+  "/dashboard", "/ecosystem", "/workflow", "/automations", "/hq", "/notifications", "/analytics",
   "/work", "/work/matching", "/leads", "/estimator", "/jobs", "/calendar", "/follow-ups", "/operations",
   "/call-center", "/messages", "/manual-communications", "/customer-experience",
   "/documents", "/settings", "/team", "/homeowner-portal", "/contractor-portal", "/network",
   "/map", "/profiles", "/providers", "/matching", "/community-hub", "/community/swipe",
+  "/community/discover", "/community/messages", "/community/challenges", "/community/academy", "/community/groups",
   "/community/discussions", "/community/reviews", "/community/referrals",
-  "/community/events", "/community/moderation", "/help", "/tutorials", "/rules",
-  "/profile", "/settings/billing",
+  "/community/events", "/community/moderation",
+  "/academy", "/academy/roleplay", "/academy/library",
+  "/resources", "/resources/materials", "/resources/suppliers", "/resources/forms",
+  "/help", "/tutorials", "/rules", "/profile", "/settings/billing",
 ]);
 
 const companyTeamPage: EcosystemPage = {
@@ -102,7 +106,7 @@ export default function Navbar() {
     }).filter((group) => group.pages.length > 0);
   }, [access]);
 
-  const currentGroup = agentRoutes.has(location.pathname) ? "ai-team" : signedInGroups.find((group) => group.pages.some((page) => page.route === location.pathname))?.id ?? "command";
+  const currentGroup = agentRoutes.has(location.pathname) ? "ai-team" : signedInGroups.find((group) => group.pages.some((page) => pathMatchesPrefix(location.pathname, page.route)))?.id ?? "command";
   const openGroup = openGroupState?.pathname === location.pathname ? openGroupState.id : currentGroup;
   const signedIn = !loading && Boolean(session);
   const accessResolved = !session || (!access.loading && access.userId === session.user.id);
@@ -111,10 +115,10 @@ export default function Navbar() {
   const mobilePrimaryLinks = useMemo<MobileNavItem[]>(() => {
     if (!signedIn || !accessResolved) return [];
     if (showBusinessTools && access.role) return [
-      { label: "Home", route: "/dashboard", icon: "home", matches: ["/dashboard", "/workflow", "/ecosystem", "/automations", "/notifications", "/hq"] },
+      { label: "Home", route: "/dashboard", icon: "home", matches: ["/dashboard", "/workflow", "/ecosystem", "/automations", "/notifications", "/hq", "/analytics"] },
       { label: "Work", route: "/work", icon: "work", matches: ["/work", "/leads", "/estimator", "/jobs", "/calendar", "/follow-ups", "/operations", "/call-center"] },
-      { label: "Network", route: "/network", icon: "network", matches: ["/network", "/map", "/providers", "/profiles"] },
-      { label: "Community", route: "/community-hub", icon: "community", matches: ["/community-hub", "/community", "/matching"] },
+      { label: "Network", route: "/network", icon: "network", matches: ["/network", "/map", "/providers", "/profiles", "/matching"] },
+      { label: "Community", route: "/community-hub", icon: "community", matches: ["/community-hub", "/community"] },
     ].filter((item) => canAccessWorkspacePath(access.role, item.route)) as MobileNavItem[];
     const portalHome = access.homeowner ? "/homeowner-portal" : access.contractor ? "/contractor-portal" : "/portal/accept";
     const portalLinks: MobileNavItem[] = [{ label: "Home", route: portalHome, icon: "home" }];
@@ -143,7 +147,7 @@ export default function Navbar() {
       {showBusinessTools && <Link className="hlc-owner-home-link" to="/dashboard" onClick={closeMobileMenu}><span><strong>Open Command Center</strong><small>Dashboard, live work and priorities</small></span><b aria-hidden="true">→</b></Link>}
       <div className="hlc-navbar-groups" aria-label="Signed-in HLC areas">
         {showBusinessTools && access.role && <details className="hlc-nav-group hlc-nav-agent-group" open={openGroup === "ai-team"}><summary onClick={(event) => { event.preventDefault(); toggleGroup("ai-team"); }}><span>AI Team</span><small>{agentNavigation.filter((agent) => canAccessWorkspacePath(access.role, agent.route)).length}</small></summary><div className="hlc-nav-menu hlc-agent-nav-menu">{agentNavigation.filter((agent) => canAccessWorkspacePath(access.role, agent.route)).map((agent) => <Link className="hlc-agent-nav-link" aria-current={location.pathname === agent.route ? "page" : undefined} key={agent.route} onClick={closeMobileMenu} to={agent.route}><img src={agent.avatar} alt="" aria-hidden="true" /><span className="hlc-agent-nav-copy"><strong>{agent.label}</strong><small>{agent.purpose}</small></span></Link>)}</div></details>}
-        {signedInGroups.map((group) => <details className="hlc-nav-group" key={group.id} open={openGroup === group.id}><summary onClick={(event) => { event.preventDefault(); toggleGroup(group.id); }}><span>{group.label}</span><small>{group.pages.length}</small></summary><div className="hlc-nav-menu">{group.pages.map((page) => <Link aria-current={location.pathname === page.route ? "page" : undefined} key={page.route} onClick={closeMobileMenu} to={page.route}><span>{page.label}</span><small>{page.purpose}</small></Link>)}</div></details>)}
+        {signedInGroups.map((group) => <details className="hlc-nav-group" key={group.id} open={openGroup === group.id}><summary onClick={(event) => { event.preventDefault(); toggleGroup(group.id); }}><span>{group.label}</span><small>{group.pages.length}</small></summary><div className="hlc-nav-menu">{group.pages.map((page) => <Link aria-current={pathMatchesPrefix(location.pathname, page.route) ? "page" : undefined} key={page.route} onClick={closeMobileMenu} to={page.route}><span>{page.label}</span><small>{page.purpose}</small></Link>)}</div></details>)}
       </div>
       {!accessResolved && <p className="hlc-nav-access-note">Loading account access…</p>}
       {accessResolved && access.business && !access.role && <p className="hlc-nav-access-note">Internal role not assigned. Workspace control surfaces are hidden.</p>}
