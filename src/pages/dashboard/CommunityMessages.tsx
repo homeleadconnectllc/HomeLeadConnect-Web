@@ -45,11 +45,14 @@ export default function CommunityMessages() {
   }, []);
 
   useEffect(() => {
-    if (!selectedPeerId) { setMessages([]); return; }
+    if (!selectedPeerId) return;
     let active = true;
-    setError("");
     void listCommunityMessages(selectedPeerId)
-      .then((rows) => { if (active) setMessages(rows); })
+      .then((rows) => {
+        if (!active) return;
+        setMessages(rows);
+        setError("");
+      })
       .catch((reason) => { if (active) setError(errorMessage(reason, "Unable to load this Community conversation.")); });
     return () => { active = false; };
   }, [selectedPeerId]);
