@@ -45,7 +45,10 @@
     padding: 0 !important;
     overflow: hidden !important;
     overscroll-behavior: none !important;
-    background: #071426 !important;
+    background:
+      radial-gradient(circle at 18% 8%, rgba(56,189,248,.10), transparent 26%),
+      radial-gradient(circle at 82% 18%, rgba(16,185,129,.10), transparent 30%),
+      linear-gradient(180deg, #071426 0%, #091b30 58%, #071426 100%) !important;
     color: #f8fbff !important;
     pointer-events: auto !important;
     isolation: isolate !important;
@@ -76,7 +79,7 @@
     overflow-y: scroll !important;
     overscroll-behavior-y: contain !important;
     -webkit-overflow-scrolling: touch !important;
-    background: #071426 !important;
+    background: transparent !important;
     box-shadow: none !important;
     scroll-padding-top: 8px !important;
     touch-action: pan-y !important;
@@ -121,9 +124,10 @@
     padding: 8px 11px !important;
     border: 1px solid rgba(96, 165, 250, .42) !important;
     border-radius: 10px !important;
-    background: #0d1d35 !important;
+    background: rgba(13,29,53,.92) !important;
     color: #f8fbff !important;
     box-shadow: 0 8px 20px rgba(2, 8, 18, .28) !important;
+    backdrop-filter: blur(12px) !important;
     font: inherit !important;
     font-size: 15px !important;
     font-weight: 900 !important;
@@ -166,7 +170,24 @@
 
   .hlc-mobile-portal .hlc-mobile-portal-scroll > .hlc-mobile-command-search-trigger {
     display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
     margin: 0 0 10px !important;
+    padding: 13px 14px !important;
+    border: 1px solid rgba(56,189,248,.28) !important;
+    border-radius: 16px !important;
+    background: linear-gradient(135deg, rgba(13,29,53,.96), rgba(14,39,62,.86)) !important;
+    box-shadow: 0 16px 30px rgba(2,8,18,.18) !important;
+  }
+
+  .hlc-mobile-portal .hlc-mobile-command-search-trigger strong,
+  .hlc-mobile-portal .hlc-mobile-command-search-trigger small {
+    display: block !important;
+  }
+
+  .hlc-mobile-portal .hlc-mobile-command-search-trigger small {
+    color: #b9c8d9 !important;
+    margin-top: 2px !important;
   }
 
   .hlc-mobile-portal .hlc-mobile-portal-scroll > .hlc-mobile-view-controls-host {
@@ -178,6 +199,9 @@
   .hlc-mobile-portal .hlc-mobile-view-controls-host .hlc-mobile-menu-utilities {
     margin: 0 !important;
     padding: 9px !important;
+    border: 1px solid rgba(148,163,184,.16) !important;
+    border-radius: 14px !important;
+    background: rgba(8,25,44,.72) !important;
   }
 
   .hlc-mobile-view-controls-host .hlc-mobile-menu-view-actions {
@@ -207,6 +231,60 @@
     margin: 0 0 10px !important;
   }
 
+  .hlc-mobile-portal-scroll .hlc-mobile-more-quick {
+    display: grid !important;
+    gap: 8px !important;
+  }
+
+  .hlc-mobile-portal-scroll .hlc-mobile-more-quick > a,
+  .hlc-mobile-portal-scroll > .hlc-owner-home-link {
+    min-height: 44px !important;
+    padding: 12px 13px !important;
+    border: 1px solid rgba(148,163,184,.16) !important;
+    border-radius: 14px !important;
+    background: rgba(8,25,44,.70) !important;
+    box-shadow: 0 10px 24px rgba(2,8,18,.12) !important;
+  }
+
+  .hlc-mobile-portal-scroll .hlc-mobile-more-quick > a {
+    display: grid !important;
+    grid-template-columns: 28px minmax(0,1fr) !important;
+    gap: 10px !important;
+    align-items: center !important;
+  }
+
+  .hlc-mobile-portal-scroll .hlc-mobile-more-quick > a svg {
+    width: 22px !important;
+    height: 22px !important;
+    stroke: #7dd3fc !important;
+    fill: none !important;
+    stroke-width: 1.8 !important;
+  }
+
+  .hlc-mobile-portal-scroll .hlc-mobile-more-quick > a strong,
+  .hlc-mobile-portal-scroll .hlc-mobile-more-quick > a small,
+  .hlc-mobile-portal-scroll > .hlc-owner-home-link strong,
+  .hlc-mobile-portal-scroll > .hlc-owner-home-link small {
+    display: block !important;
+  }
+
+  .hlc-mobile-portal-scroll .hlc-mobile-more-quick > a small,
+  .hlc-mobile-portal-scroll > .hlc-owner-home-link small {
+    margin-top: 2px !important;
+    color: #b9c8d9 !important;
+    font-size: 12px !important;
+    line-height: 1.35 !important;
+  }
+
+  .hlc-mobile-portal-scroll > .hlc-owner-home-link {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    border-color: rgba(16,185,129,.28) !important;
+    background: linear-gradient(135deg, rgba(18,59,51,.78), rgba(8,25,44,.82)) !important;
+  }
+
   .hlc-mobile-portal-scroll .hlc-navbar-groups {
     display: none !important;
     visibility: hidden !important;
@@ -221,10 +299,6 @@
 
   .hlc-mobile-portal-scroll > .hlc-nav-logout {
     display: none !important;
-  }
-
-  .hlc-mobile-portal-scroll .hlc-mobile-more-quick > a {
-    min-height: 44px !important;
   }
 
   #root .hlc-ai-composer textarea {
