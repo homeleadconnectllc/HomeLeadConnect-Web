@@ -7,7 +7,10 @@ const router = readFileSync("src/routes/AppRouter.tsx", "utf8");
 const styles = readFileSync("src/styles/community-application-workspace.css", "utf8");
 const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 const messages = readFileSync("src/pages/dashboard/CommunityMessages.tsx", "utf8");
+const discover = readFileSync("src/pages/dashboard/CommunityDiscover.tsx", "utf8");
+const relationshipApi = readFileSync("src/api/communityRelationships.ts", "utf8");
 const relationshipMigration = readFileSync("supabase/migrations/20260901131500_community_member_relationship_foundation.sql", "utf8");
+const messengerMigration = readFileSync("supabase/migrations/20260901142500_community_private_messenger.sql", "utf8");
 
 test("Community uses a dedicated participation workspace instead of generic destination cards", () => {
   assert.match(page, /hlc-community-workspace/);
@@ -78,6 +81,8 @@ test("Community member identity extends the existing profile instead of creating
   assert.match(relationshipMigration, /community_bio/);
   assert.doesNotMatch(relationshipMigration, /create table if not exists public\.community_member_profiles/);
   assert.match(relationshipMigration, /community_discover_members\(\)/);
+  assert.match(discover, /listCommunityMembers/);
+  assert.match(discover, /requestCommunityConnection/);
 });
 
 test("Community relationships are explicit, participant-scoped, and required before private messaging", () => {
@@ -90,6 +95,14 @@ test("Community relationships are explicit, participant-scoped, and required bef
   assert.match(relationshipMigration, /community_respond_connection\(connection_id uuid, accept_connection boolean\)/);
   assert.match(relationshipMigration, /community_can_message\(peer_user_id uuid\)/);
   assert.match(relationshipMigration, /where c\.status = 'accepted'/);
-  assert.match(messages, /accepted Community relationships/);
-  assert.match(messages, /Operational customer, lead, appointment, and job communication stays in core HLC Messages/);
+  assert.match(messengerMigration, /create table if not exists public\.community_private_messages/);
+  assert.match(messengerMigration, /accepted community relationship required/);
+  assert.match(messengerMigration, /community_send_message\(peer_user_id uuid, message_body text\)/);
+  assert.match(messengerMigration, /community_list_messages\(peer_user_id uuid\)/);
+  assert.match(messengerMigration, /community_block_connection\(peer_user_id uuid\)/);
+  assert.match(relationshipApi, /community_list_relationships/);
+  assert.match(relationshipApi, /community_send_message/);
+  assert.match(messages, /listCommunityRelationships/);
+  assert.match(messages, /sendCommunityMessage/);
+  assert.match(messages, /operational HLC Messages/);
 });
