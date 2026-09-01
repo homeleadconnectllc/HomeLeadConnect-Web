@@ -129,13 +129,28 @@
   fill: currentColor;
 }
 
-.hlc-route-visual-path {
+.hlc-route-visual-path,
+.hlc-route-visual-soft {
   fill: none;
-  stroke: url(#hlc-route-gradient-command);
   stroke: currentColor;
-  stroke-width: 5;
   stroke-linecap: round;
-  opacity: .78;
+  stroke-linejoin: round;
+}
+
+.hlc-route-visual-path {
+  stroke-width: 5;
+  opacity: .82;
+}
+
+.hlc-route-visual-soft {
+  stroke-width: 2.5;
+  opacity: .30;
+}
+
+.hlc-route-visual-label {
+  fill: color-mix(in srgb, var(--hlc-route-accent) 72%, white);
+  font: 800 12px/1 var(--hlc-font-sans);
+  letter-spacing: .08em;
 }
 
 .hlc-route-visual-bars { opacity: .28; }
@@ -186,11 +201,10 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .hlc-route-visual-orbit-dot {
-    transform-origin: 310px 148px;
-    animation: hlc-route-orbit 7s linear infinite;
+    animation: hlc-route-pulse 2.8s ease-in-out infinite alternate;
   }
 }
 
-@keyframes hlc-route-orbit {
-  to { transform: rotate(360deg); }
+@keyframes hlc-route-pulse {
+  to { opacity: 1; filter: drop-shadow(0 0 10px currentColor); }
 }
