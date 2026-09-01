@@ -3,8 +3,14 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const page = readFileSync("src/pages/dashboard/CommunityHub.tsx", "utf8");
+const router = readFileSync("src/routes/AppRouter.tsx", "utf8");
 const styles = readFileSync("src/styles/community-application-workspace.css", "utf8");
 const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
+const messages = readFileSync("src/pages/dashboard/CommunityMessages.tsx", "utf8");
+const discover = readFileSync("src/pages/dashboard/CommunityDiscover.tsx", "utf8");
+const relationshipApi = readFileSync("src/api/communityRelationships.ts", "utf8");
+const relationshipMigration = readFileSync("supabase/migrations/20260901131500_community_member_relationship_foundation.sql", "utf8");
+const messengerMigration = readFileSync("supabase/migrations/20260901142500_community_private_messenger.sql", "utf8");
 
 test("Community uses a dedicated participation workspace instead of generic destination cards", () => {
   assert.match(page, /hlc-community-workspace/);
@@ -15,11 +21,15 @@ test("Community uses a dedicated participation workspace instead of generic dest
   assert.doesNotMatch(page, /borderRadius: 18|boxShadow: "0 10px 26px|gridTemplateColumns: "repeat\(auto-fit/);
 });
 
-test("Community preserves discovery, participation, trust, moderation, store and service handoffs", () => {
+test("Community preserves premium discovery, participation, trust, moderation, and service boundaries", () => {
+  assert.match(page, /\/community\/discover/);
+  assert.match(page, /\/community\/swipe/);
+  assert.match(page, /\/community\/messages/);
+  assert.match(page, /\/community\/challenges/);
+  assert.match(page, /\/community\/academy/);
   assert.match(page, /\/providers/);
-  assert.match(page, /\/map/);
-  assert.match(page, /\/matching/);
-  assert.match(page, /\/network\/eligibility/);
+  assert.match(page, /\/network\/map/);
+  assert.match(page, /\/work\/matching/);
   assert.match(page, /\/community\/discussions/);
   assert.match(page, /\/community\/groups/);
   assert.match(page, /\/community\/events/);
@@ -29,8 +39,19 @@ test("Community preserves discovery, participation, trust, moderation, store and
   assert.match(page, /CommunityStore/);
   assert.match(page, /Discovery is not dispatch/);
   assert.match(page, /\/request-service/);
-  assert.match(page, /\/workflow/);
+  assert.match(page, /\/work/);
   assert.match(page, /DIAMOND · CX CONTEXT/);
+});
+
+test("Community Premium canonical routes are declared while operational messages remain separate", () => {
+  assert.match(router, /path="\/community\/discover"/);
+  assert.match(router, /path="\/community\/swipe"/);
+  assert.match(router, /path="\/community\/messages"/);
+  assert.match(router, /path="\/community\/challenges"/);
+  assert.match(router, /path="\/community\/academy"/);
+  assert.match(router, /path="\/messages" element=\{<Messages\/>\}/);
+  assert.match(router, /path="\/work\/matching" element=\{<EligibilityFit\/>\}/);
+  assert.match(router, /path="\/matching" element=\{<CommunityMatchDeck\/>\}/);
 });
 
 test("Community specialization mounts before final authority and collapses safely on mobile", () => {
@@ -51,4 +72,37 @@ test("Community is natively dark with restrained navigation and divider rows", (
   assert.match(styles, /\.hlc-community-row\{[^}]*background:transparent!important/);
   assert.match(styles, /\.hlc-community-context section\{[^}]*background:transparent!important/);
   assert.doesNotMatch(styles, /background:(?:#fff|#ffffff|#edf5ff|#eef6ff|#f8fbff)/i);
+});
+
+test("Community member identity extends the existing profile instead of creating a second identity table", () => {
+  assert.match(relationshipMigration, /alter table public\.profiles/);
+  assert.match(relationshipMigration, /community_discoverable/);
+  assert.match(relationshipMigration, /community_headline/);
+  assert.match(relationshipMigration, /community_bio/);
+  assert.doesNotMatch(relationshipMigration, /create table if not exists public\.community_member_profiles/);
+  assert.match(relationshipMigration, /community_discover_members\(\)/);
+  assert.match(discover, /listCommunityMembers/);
+  assert.match(discover, /requestCommunityConnection/);
+});
+
+test("Community relationships are explicit, participant-scoped, and required before private messaging", () => {
+  assert.match(relationshipMigration, /create table if not exists public\.community_connections/);
+  assert.match(relationshipMigration, /status in \('pending', 'accepted', 'declined', 'blocked'\)/);
+  assert.match(relationshipMigration, /requester_user_id = \(select auth\.uid\(\)\)/);
+  assert.match(relationshipMigration, /addressee_user_id = \(select auth\.uid\(\)\)/);
+  assert.match(relationshipMigration, /revoke insert, update, delete on public\.community_connections from authenticated/);
+  assert.match(relationshipMigration, /community_request_connection\(peer_user_id uuid\)/);
+  assert.match(relationshipMigration, /community_respond_connection\(connection_id uuid, accept_connection boolean\)/);
+  assert.match(relationshipMigration, /community_can_message\(peer_user_id uuid\)/);
+  assert.match(relationshipMigration, /where c\.status = 'accepted'/);
+  assert.match(messengerMigration, /create table if not exists public\.community_private_messages/);
+  assert.match(messengerMigration, /accepted community relationship required/);
+  assert.match(messengerMigration, /community_send_message\(peer_user_id uuid, message_body text\)/);
+  assert.match(messengerMigration, /community_list_messages\(peer_user_id uuid\)/);
+  assert.match(messengerMigration, /community_block_connection\(peer_user_id uuid\)/);
+  assert.match(relationshipApi, /community_list_relationships/);
+  assert.match(relationshipApi, /community_send_message/);
+  assert.match(messages, /listCommunityRelationships/);
+  assert.match(messages, /sendCommunityMessage/);
+  assert.match(messages, /operational HLC Messages/);
 });

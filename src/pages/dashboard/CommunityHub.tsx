@@ -3,33 +3,37 @@ import CommunityStore from "../../components/community/CommunityStore";
 
 const hubSections = [
   {
-    group: "Find & connect",
-    description: "Provider discovery and factual network evidence stay separate from assignment, pricing, and dispatch.",
+    group: "Discover & connect",
+    description: "Community discovery stays social and consent-based. Real assignment, pricing, scheduling, and dispatch remain in Work.",
     items: [
-      { title: "Provider Directory", body: "Browse canonical provider records and service capabilities.", to: "/providers", action: "Browse providers", meta: "Directory" },
-      { title: "Provider Map", body: "Explore stored provider locations without implying distance, routing, ETA, or live tracking.", to: "/map", action: "Open map", meta: "Location evidence" },
-      { title: "Community Matching", body: "Swipe through provider profiles, save people to revisit, and open full profiles for detail.", to: "/matching", action: "Start matching", meta: "Discovery" },
-      { title: "Eligibility & Fit", body: "Review service-area, availability, and eligibility evidence used for operational fit decisions.", to: "/network/eligibility", action: "Review fit evidence", meta: "Operational evidence" },
-      { title: "Service Areas", body: "See recorded coverage areas for providers in the HLC Network.", to: "/network/service-areas", action: "View service areas", meta: "Coverage" },
-      { title: "Availability", body: "Review provider availability records that have actually been stored in HLC.", to: "/network/availability", action: "View availability", meta: "Availability" },
+      { title: "Discover", body: "Browse recorded HLC provider profiles with visual service and location context.", to: "/community/discover", action: "Start discovering", meta: "For you" },
+      { title: "Community Matching · Swipe Match", body: "Like, pass, and save profiles in the Community discovery deck without assigning real work.", to: "/community/swipe", action: "Open Swipe Match", meta: "Premium discovery" },
+      { title: "Private Messenger", body: "Community private conversations unlock only through an accepted relationship or other explicit permission.", to: "/community/messages", action: "Open Messenger", meta: "Relationships" },
+      { title: "Provider Directory", body: "Browse canonical provider records and service capabilities.", to: "/providers", action: "Browse providers", meta: "Network" },
+      { title: "Provider Map", body: "Explore stored provider locations without implying distance, routing, ETA, or live tracking.", to: "/network/map", action: "Open map", meta: "Spatial context" },
+      { title: "Service Areas", body: "Review provider-declared service coverage recorded in HLC without treating coverage as an assignment or guarantee.", to: "/network/service-areas", action: "Review service areas", meta: "Coverage" },
+      { title: "Availability", body: "Review recorded provider availability as planning evidence; availability does not by itself create an offer, assignment, or appointment.", to: "/network/availability", action: "Review availability", meta: "Capacity" },
+      { title: "Eligibility & Fit", body: "Review service-area, availability, and eligibility evidence used for operational fit decisions.", to: "/work/matching", action: "Review operational fit", meta: "Work boundary" },
       { title: "Saved Providers", body: "Keep providers you want to revisit in one connected list.", to: "/network/saved", action: "Open saved providers", meta: "Saved" },
     ],
   },
   {
     group: "Participate",
-    description: "Community activity is organized around durable conversations, groups, and dated updates.",
+    description: "Community activity is organized around useful conversations, local events, learning, challenges, and shared interests.",
     items: [
       { title: "Discussions", body: "Ask questions, share updates, and participate in Community conversations.", to: "/community/discussions", action: "Open discussions", meta: "Conversation" },
       { title: "Groups", body: "Organize Community participation around useful shared topics and interests.", to: "/community/groups", action: "Open groups", meta: "Shared interests" },
       { title: "Events & Updates", body: "See dated Community events and updates recorded inside HLC.", to: "/community/events", action: "View events", meta: "Activity" },
+      { title: "Challenges", body: "Build momentum through quality-based workflow, Academy, Community, and team challenges.", to: "/community/challenges", action: "View challenges", meta: "Progress" },
+      { title: "Community Academy", body: "Enter HLC learning through Diamond, Dion, and Kendrell without duplicating the canonical knowledge source.", to: "/community/academy", action: "Open Academy", meta: "Learning" },
     ],
   },
   {
     group: "Trust & growth",
-    description: "Trust signals are tied to recorded HLC activity, with explicit safety and moderation boundaries.",
+    description: "Trust signals stay evidence-based, with reviews, referrals, privacy, and moderation clearly separated.",
     items: [
       { title: "Completion-linked Reviews", body: "Reviews require eligible completed HLC work instead of free-floating rating claims.", to: "/community/reviews", action: "Open reviews", meta: "Verified workflow" },
-      { title: "Referrals", body: "Record referral attribution without automatically enrolling or contacting another person.", to: "/community/referrals", action: "Open referrals", meta: "Attribution" },
+      { title: "Referrals", body: "Record referral attribution without automatically enrolling or contacting another person.", to: "/community/referrals", action: "Open referrals", meta: "Introductions" },
       { title: "Rules & Safety", body: "Review Community conduct, privacy, safety, and operating expectations.", to: "/rules", action: "Read rules", meta: "Policy" },
       { title: "Moderation", body: "Report Community content and route review through the authorized moderation path.", to: "/community/moderation", action: "Open moderation", meta: "Safety review" },
     ],
@@ -37,11 +41,11 @@ const hubSections = [
 ] as const;
 
 const quickLinks = [
-  ["Directory", "/providers"],
-  ["Map", "/map"],
-  ["Matching", "/matching"],
-  ["Discussions", "/community/discussions"],
-  ["Reviews", "/community/reviews"],
+  ["Discover", "/community/discover"],
+  ["Swipe", "/community/swipe"],
+  ["Messages", "/community/messages"],
+  ["Challenges", "/community/challenges"],
+  ["Academy", "/community/academy"],
   ["Events", "/community/events"],
 ] as const;
 
@@ -54,12 +58,12 @@ export default function CommunityHub() {
         <div>
           <p className="hlc-community-kicker">COMMUNITY OPERATIONS</p>
           <h1>Community</h1>
-          <p>Find providers, participate in HLC conversations, follow community activity, and use completion-linked trust signals without blurring discovery into assignment or endorsement.</p>
+          <p>What’s happening, who should you connect with, and what should you do next? Community brings discovery, relationships, learning, events, referrals, and progress together without blurring social activity into operational assignment.</p>
         </div>
         <div className="hlc-community-summary" aria-label="Community workspace summary">
           <span><strong>{destinationCount}</strong><small>Connected destinations</small></span>
           <span><strong>3</strong><small>Operating lanes</small></span>
-          <span><strong>Recorded</strong><small>Trust evidence</small></span>
+          <span><strong>Evidence</strong><small>Before trust claims</small></span>
         </div>
       </header>
 
@@ -74,7 +78,7 @@ export default function CommunityHub() {
             <section className="hlc-community-lane" key={section.group}>
               <header className="hlc-community-lane-head">
                 <div>
-                  <span>WORKSPACE LANE</span>
+                  <span>COMMUNITY LANE</span>
                   <h2>{section.group}</h2>
                   <p>{section.description}</p>
                 </div>
@@ -99,16 +103,16 @@ export default function CommunityHub() {
         <aside className="hlc-community-context" aria-label="Community operating boundaries">
           <section>
             <span>DIAMOND · CX CONTEXT</span>
-            <h2>Community should stay useful, safe, and human.</h2>
-            <p>Customer-experience guidance belongs alongside the work, while provider facts, moderation decisions, reviews, and referrals remain grounded in their canonical HLC records.</p>
+            <h2>Community should stay useful, safe, visual, and human.</h2>
+            <p>Diamond guides Community and customer experience while provider facts, moderation, reviews, referrals, and service work remain grounded in canonical HLC records.</p>
           </section>
           <section>
             <span>OPERATING BOUNDARY</span>
             <h3>Discovery is not dispatch.</h3>
-            <p>Community and Network help people explore. Provider assignment, pricing, scheduling, and completion remain separate recorded workflow steps.</p>
+            <p>Community helps people explore and connect. Operational matching, assignment, scheduling, pricing, and completion remain separate deliberate Work steps.</p>
             <div className="hlc-community-context-actions">
               <Link to="/request-service">Request service</Link>
-              <Link to="/workflow">Open workflow</Link>
+              <Link to="/work">Open Work</Link>
             </div>
           </section>
         </aside>
