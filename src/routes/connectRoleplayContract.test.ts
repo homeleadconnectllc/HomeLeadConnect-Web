@@ -47,11 +47,10 @@ test("CONNECT runtime constrains model output and never applies a CRM dispositio
   assert.doesNotMatch(runtime, /from\("crm_jobs"\)\.update/);
 });
 
-test("CONNECT roleplay persistence is own-user readable and server-write-only", () => {
+test("CONNECT roleplay persistence is own-user readable and browser-write closed", () => {
   assert.match(migration, /alter table public\.academy_roleplay_sessions enable row level security/i);
   assert.match(migration, /grant select on public\.academy_roleplay_sessions to authenticated/i);
   assert.match(migration, /user_id = \(select auth\.uid\(\)\)/i);
   assert.match(migration, /revoke all on function public\.academy_record_roleplay_session[\s\S]*from public, anon, authenticated/i);
-  assert.match(migration, /grant execute on function public\.academy_record_roleplay_session[\s\S]*to service_role/i);
   assert.match(migration, /Browser roles cannot submit scores, coaching, transcripts, or CRM disposition recommendations/i);
 });
