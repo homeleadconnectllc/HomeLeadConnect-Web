@@ -2,7 +2,7 @@ import {
   ecosystemNavigation as baseNavigation,
   type EcosystemNavigationGroup,
   type EcosystemPage,
-} from "./ecosystem";
+} from "./ecosystem.ts";
 
 const page = (
   label: string,
