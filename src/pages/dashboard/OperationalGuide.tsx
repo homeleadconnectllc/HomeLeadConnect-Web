@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { BookOpenCheck, GraduationCap, LifeBuoy, ShieldCheck, type LucideIcon } from "lucide-react";
 import { objectionGuides, scriptLibrary } from "../../data/scriptLibrary";
 
 type GuidePage = "help" | "tutorials" | "rules";
@@ -46,6 +47,24 @@ const pageCopy = {
   rules: { kicker: "OPERATING BOUNDARIES", title: "Rules & Safety", body: "Operate HLC without bypassing privacy, authorization, consent, billing, provider, or community safeguards.", count: ruleItems.length },
 } as const;
 
+const resourceSignals: Record<GuidePage, { icon: LucideIcon; label: string; body: string }[]> = {
+  help: [
+    { icon: LifeBuoy, label: "Recover the workflow", body: "Start with the blocked page or record and follow the shortest safe recovery path." },
+    { icon: BookOpenCheck, label: "Use proven guidance", body: "Keep manuals, approved scripts, and operating steps beside the work." },
+    { icon: ShieldCheck, label: "Escalate with evidence", body: "Preserve the page, time, record, and expected result without sharing secrets." },
+  ],
+  tutorials: [
+    { icon: GraduationCap, label: "Learn by role", body: "Owners, operators, technicians, residents, and professionals each get a focused path." },
+    { icon: BookOpenCheck, label: "Practice the workflow", body: "Move through the real HLC sequence instead of memorizing disconnected features." },
+    { icon: ShieldCheck, label: "Keep authority clear", body: "Training never replaces permissions, consent, or required lifecycle gates." },
+  ],
+  rules: [
+    { icon: ShieldCheck, label: "Protect access", body: "Individual accounts, correct roles, and workspace boundaries remain mandatory." },
+    { icon: BookOpenCheck, label: "Preserve truthful records", body: "Provider, communication, completion, review, and AI claims require evidence." },
+    { icon: LifeBuoy, label: "Stop and escalate", body: "Pause affected actions when privacy, billing, authorization, or automation looks wrong." },
+  ],
+};
+
 export default function OperationalGuide({ page }: { page: GuidePage }) {
   const copy = pageCopy[page];
   const items = page === "help" ? helpItems : page === "tutorials" ? tutorialItems : ruleItems;
@@ -63,6 +82,10 @@ export default function OperationalGuide({ page }: { page: GuidePage }) {
       <Link to="/documents">Documents</Link>
       <Link to="/call-center">Call Center</Link>
     </nav>
+
+    <section className={`hlc-resources-signal-strip is-${page}`} aria-label={`${copy.title} operating signals`}>
+      {resourceSignals[page].map(({ icon: Icon, label, body }) => <div key={label}><Icon aria-hidden="true" /><span><strong>{label}</strong><small>{body}</small></span></div>)}
+    </section>
 
     {(page === "help" || page === "tutorials") && <ManualLibrary />}
     {page === "help" && <ScriptLibrary />}

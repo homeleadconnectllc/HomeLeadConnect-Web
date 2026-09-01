@@ -8,6 +8,7 @@ const router = readFileSync("src/routes/AppRouter.tsx", "utf8");
 const guides = readFileSync("src/pages/dashboard/OperationalGuide.tsx", "utf8");
 const styles = readFileSync("src/styles/documents-resources-application-workspace.css", "utf8");
 const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
+const visualStyles = readFileSync("src/styles/documents-resources-visual-wave.css", "utf8");
 
 test("Documents uses a dedicated evidence workspace instead of inline card composition", () => {
   assert.match(documents, /hlc-documents-workspace/);
@@ -96,4 +97,17 @@ test("Documents and Resources are natively dark without pale form or command-bar
   assert.match(styles, /\.hlc-documents-guidance-row>strong\{[^}]*rgba\(47,128,255,\.14\)/);
   assert.match(styles, /\.hlc-resources-commandbar a:hover,[\s\S]*rgba\(47,128,255,\.1\)/);
   assert.doesNotMatch(styles, /background:(?:#fff|#ffffff|#fbfdff|#e7f1fb|#edf5ff)/i);
+});
+
+test("Documents and Resources expose visual operating narratives without changing backend claims", () => {
+  assert.match(documents, /hlc-documents-operating-strip/);
+  assert.match(documents, /Capture the source/);
+  assert.match(documents, /Connect the record/);
+  assert.match(documents, /Control access/);
+  assert.match(guides, /hlc-resources-signal-strip/);
+  assert.match(guides, /resourceSignals\[page\]/);
+  assert.match(visualStyles, /\.hlc-documents-operating-strip/);
+  assert.match(visualStyles, /\.hlc-resources-signal-strip/);
+  assert.match(visualStyles, /@media\(max-width:720px\)/);
+  assert.doesNotMatch(documents, /OCR complete|Signature complete|Signed successfully/);
 });
