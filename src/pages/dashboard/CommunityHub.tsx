@@ -11,6 +11,8 @@ const hubSections = [
       { title: "Private Messenger", body: "Community private conversations unlock only through an accepted relationship or other explicit permission.", to: "/community/messages", action: "Open Messenger", meta: "Relationships" },
       { title: "Provider Directory", body: "Browse canonical provider records and service capabilities.", to: "/providers", action: "Browse providers", meta: "Network" },
       { title: "Provider Map", body: "Explore stored provider locations without implying distance, routing, ETA, or live tracking.", to: "/network/map", action: "Open map", meta: "Spatial context" },
+      { title: "Service Areas", body: "Review provider-declared service coverage recorded in HLC without treating coverage as an assignment or guarantee.", to: "/network/service-areas", action: "Review service areas", meta: "Coverage" },
+      { title: "Availability", body: "Review recorded provider availability as planning evidence; availability does not by itself create an offer, assignment, or appointment.", to: "/network/availability", action: "Review availability", meta: "Capacity" },
       { title: "Eligibility & Fit", body: "Review service-area, availability, and eligibility evidence used for operational fit decisions.", to: "/work/matching", action: "Review operational fit", meta: "Work boundary" },
       { title: "Saved Providers", body: "Keep providers you want to revisit in one connected list.", to: "/network/saved", action: "Open saved providers", meta: "Saved" },
     ],
