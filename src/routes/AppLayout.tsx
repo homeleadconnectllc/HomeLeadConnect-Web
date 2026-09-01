@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useLayoutEffect, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import RouteVisualBanner from "../components/RouteVisualBanner";
 import AnalyticsTracker from "../components/analytics/AnalyticsTracker";
 import { useAuth } from "../hooks/useAuth";
 
@@ -170,6 +171,7 @@ export default function AppLayout() {
         </button>
       )}
       <div className="hlc-route-content">
+        {(signedInWorkspaceShell || (!session && location.pathname !== "/")) && <RouteVisualBanner />}
         <Outlet />
         <Suspense fallback={null}>
           {showAnalytics && <AnalyticsKpis />}
