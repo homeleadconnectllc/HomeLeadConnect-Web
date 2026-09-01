@@ -25,3 +25,4 @@ import "./legacy-device-compat.css";
 import "./final-release-guard.css";
 import "./mobile-release-fix.css";
 import "./hlc-global-visual-foundation.css";
+import "./hlc-visual-storytelling.css";
