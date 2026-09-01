@@ -6,6 +6,8 @@ const page = readFileSync("src/pages/dashboard/CommunityHub.tsx", "utf8");
 const router = readFileSync("src/routes/AppRouter.tsx", "utf8");
 const styles = readFileSync("src/styles/community-application-workspace.css", "utf8");
 const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
+const messages = readFileSync("src/pages/dashboard/CommunityMessages.tsx", "utf8");
+const relationshipMigration = readFileSync("supabase/migrations/20260901131500_community_member_relationship_foundation.sql", "utf8");
 
 test("Community uses a dedicated participation workspace instead of generic destination cards", () => {
   assert.match(page, /hlc-community-workspace/);
@@ -67,4 +69,27 @@ test("Community is natively dark with restrained navigation and divider rows", (
   assert.match(styles, /\.hlc-community-row\{[^}]*background:transparent!important/);
   assert.match(styles, /\.hlc-community-context section\{[^}]*background:transparent!important/);
   assert.doesNotMatch(styles, /background:(?:#fff|#ffffff|#edf5ff|#eef6ff|#f8fbff)/i);
+});
+
+test("Community member identity extends the existing profile instead of creating a second identity table", () => {
+  assert.match(relationshipMigration, /alter table public\.profiles/);
+  assert.match(relationshipMigration, /community_discoverable/);
+  assert.match(relationshipMigration, /community_headline/);
+  assert.match(relationshipMigration, /community_bio/);
+  assert.doesNotMatch(relationshipMigration, /create table if not exists public\.community_member_profiles/);
+  assert.match(relationshipMigration, /community_discover_members\(\)/);
+});
+
+test("Community relationships are explicit, participant-scoped, and required before private messaging", () => {
+  assert.match(relationshipMigration, /create table if not exists public\.community_connections/);
+  assert.match(relationshipMigration, /status in \('pending', 'accepted', 'declined', 'blocked'\)/);
+  assert.match(relationshipMigration, /requester_user_id = \(select auth\.uid\(\)\)/);
+  assert.match(relationshipMigration, /addressee_user_id = \(select auth\.uid\(\)\)/);
+  assert.match(relationshipMigration, /revoke insert, update, delete on public\.community_connections from authenticated/);
+  assert.match(relationshipMigration, /community_request_connection\(peer_user_id uuid\)/);
+  assert.match(relationshipMigration, /community_respond_connection\(connection_id uuid, accept_connection boolean\)/);
+  assert.match(relationshipMigration, /community_can_message\(peer_user_id uuid\)/);
+  assert.match(relationshipMigration, /where c\.status = 'accepted'/);
+  assert.match(messages, /accepted Community relationships/);
+  assert.match(messages, /Operational customer, lead, appointment, and job communication stays in core HLC Messages/);
 });
