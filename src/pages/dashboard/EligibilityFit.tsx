@@ -38,13 +38,14 @@ export default function EligibilityFit() {
   return (
     <main className="hlc-eligibility-page" style={{ width: "min(1120px, calc(100% - 28px))", margin: "34px auto 76px" }}>
       <header className="hlc-premium-panel" style={{ padding: 28, marginBottom: 22, textAlign: "center" }}>
-        <p style={{ margin: "0 0 8px", fontWeight: 900, letterSpacing: ".12em", textTransform: "uppercase", color: "#2563eb" }}>HLC Network · Operations</p>
+        <p style={{ margin: "0 0 8px", fontWeight: 900, letterSpacing: ".12em", textTransform: "uppercase", color: "#2563eb" }}>HLC Work · Operational Matching</p>
         <h1 style={{ margin: "0 0 12px", fontSize: "clamp(2rem, 5vw, 4rem)" }}>Eligibility &amp; Fit</h1>
         <p style={{ margin: "0 auto", maxWidth: 760, color: "#475569" }}>
           Review factual provider coverage, availability, trade, location, and recorded status before an offer, assignment, or scheduling decision. This operational evidence is separate from the Community swipe experience.
         </p>
         <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginTop: 18 }}>
-          <Link to="/matching" style={{ fontWeight: 800 }}>Open Community Matching</Link>
+          <Link to="/work" style={{ fontWeight: 800 }}>Back to Work</Link>
+          <Link to="/community/swipe" style={{ fontWeight: 800 }}>Open Community Swipe</Link>
           <Link to="/providers" style={{ fontWeight: 800 }}>Provider directory</Link>
         </div>
       </header>

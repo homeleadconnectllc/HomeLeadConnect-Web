@@ -1,4 +1,5 @@
 import { trackAnalyticsEvent } from "../../api/analytics";
+import { Link } from "react-router-dom";
 
 type Retailer = {
   name: string;
@@ -54,6 +55,7 @@ export default function MaterialShopLinks() {
       <p style={disclaimerStyle}>
         HomeLead Connect is not the seller. Product price, stock, delivery, warranties, returns, taxes, and purchase terms are controlled by the third-party retailer. Verify material specifications before adding costs to a LeadScope estimate.
       </p>
+      <p style={{ marginBottom: 0 }}><Link to="/resources/materials" style={{ fontWeight: 900 }}>Open the HLC material plan →</Link></p>
     </section>
   );
 }
