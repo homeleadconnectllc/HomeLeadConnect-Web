@@ -41,7 +41,7 @@ export default function EligibilityFit() {
         <p style={{ margin: "0 0 8px", fontWeight: 900, letterSpacing: ".12em", textTransform: "uppercase", color: "#2563eb" }}>HLC Work · Operational Matching</p>
         <h1 style={{ margin: "0 0 12px", fontSize: "clamp(2rem, 5vw, 4rem)" }}>Eligibility &amp; Fit</h1>
         <p style={{ margin: "0 auto", maxWidth: 760, color: "#475569" }}>
-          Review factual provider coverage, availability, trade, location, and recorded status before an offer, assignment, or scheduling decision. This operational evidence is separate from Community Swipe discovery.
+          Review factual provider coverage, availability, trade, location, and recorded status before an offer, assignment, or scheduling decision. This operational evidence is separate from the Community swipe experience.
         </p>
         <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", marginTop: 18 }}>
           <Link to="/work" style={{ fontWeight: 800 }}>Back to Work</Link>
