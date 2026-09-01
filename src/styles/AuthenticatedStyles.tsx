@@ -37,6 +37,8 @@ import "./mobile-a-plus-sprint-5-community-participation.css";
 import "./mobile-a-plus-sprint-6-account-portals-resources.css";
 import "./mobile-a-plus-sprint-7-integrated-accessibility.css";
 import "./mobile-a-plus-final-device-corrections.css";
+import "./calendar-marker-semantics.css";
+import "./mobile-navigation-accessibility.css";
 import "./mobile-a-plus-final-device-gate-closure.css";
 import "./mobile-a-plus-final-device-round-2.css";
 import "./provider-professional-profile.css";
@@ -56,6 +58,7 @@ import "./e6-trial-entitlements.css";
 import "./messages-lane-2-mobile-authority.css";
 import "./hlc-global-visual-foundation.css";
 import "./hlc-route-visual-banners.css";
+import "./hlc-route-body-visuals.css";
 
 export default function AuthenticatedStyles() {
   return <MobileNavigationDialogAccessibility />;
