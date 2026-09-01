@@ -117,11 +117,11 @@ export default function CommunityMessages() {
         </div>
       </section>}
 
-      <section style={{ display: "grid", gridTemplateColumns: "minmax(220px, .75fr) minmax(0, 2fr)", gap: 16, marginTop: 20 }}>
-        <aside className="hlc-premium-panel" style={{ padding: 16 }} aria-label="Accepted Community connections">
+      <section style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))", gap: 16, marginTop: 20 }}>
+        <aside className="hlc-premium-panel" style={{ padding: 16, minWidth: 0 }} aria-label="Accepted Community connections">
           <h2 style={{ marginTop: 0 }}>Connections</h2>
           <div style={{ display: "grid", gap: 8 }}>
-            {accepted.map((item) => <button key={item.connection_id} type="button" onClick={() => setSelectedPeerId(item.peer_user_id)} aria-pressed={selectedPeerId === item.peer_user_id} style={{ minHeight: 48, textAlign: "left" }}>
+            {accepted.map((item) => <button key={item.connection_id} type="button" onClick={() => setSelectedPeerId(item.peer_user_id)} aria-pressed={selectedPeerId === item.peer_user_id} style={{ minHeight: 48, textAlign: "left", overflowWrap: "anywhere" }}>
               <strong>{item.peer_full_name || "HLC member"}</strong><br />
               <small>{item.peer_role || "Community member"}</small>
             </button>)}
@@ -132,19 +132,19 @@ export default function CommunityMessages() {
         <section className="hlc-premium-panel" style={{ padding: 18, minWidth: 0 }} aria-label="Community conversation">
           {!selected ? <div className="hlc-premium-empty"><h2>No open Community conversation.</h2><p>Accept a connection request or connect with a member in Discover first.</p><Link to="/community/discover" style={{ fontWeight: 900 }}>Discover members →</Link></div> : <>
             <header style={{ borderBottom: "1px solid rgba(148,163,184,.24)", paddingBottom: 12, marginBottom: 14 }}>
-              <h2 style={{ margin: 0 }}>{selected.peer_full_name || "HLC member"}</h2>
-              <p style={{ margin: "5px 0 0" }}>{selected.peer_headline || "Accepted Community connection"}</p>
+              <h2 style={{ margin: 0, overflowWrap: "anywhere" }}>{selected.peer_full_name || "HLC member"}</h2>
+              <p style={{ margin: "5px 0 0", overflowWrap: "anywhere" }}>{selected.peer_headline || "Accepted Community connection"}</p>
             </header>
             <div aria-live="polite" style={{ display: "grid", gap: 10, maxHeight: 440, overflowY: "auto", paddingBottom: 10 }}>
-              {messages.map((message) => <article key={message.id} style={{ padding: 12, borderRadius: 12, background: "rgba(148,163,184,.12)" }}>
-                <p style={{ margin: 0, whiteSpace: "pre-wrap" }}>{message.body}</p>
+              {messages.map((message) => <article key={message.id} style={{ padding: 12, borderRadius: 12, background: "rgba(148,163,184,.12)", minWidth: 0 }}>
+                <p style={{ margin: 0, whiteSpace: "pre-wrap", overflowWrap: "anywhere" }}>{message.body}</p>
                 <small>{new Date(message.created_at).toLocaleString()}</small>
               </article>)}
               {!messages.length && <p>No messages yet. This conversation is unlocked because the relationship is accepted.</p>}
             </div>
-            <form onSubmit={send} style={{ display: "grid", gap: 10, marginTop: 14 }}>
+            <form onSubmit={send} style={{ display: "grid", gap: 10, marginTop: 14, minWidth: 0 }}>
               <label htmlFor="community-message-draft" style={{ fontWeight: 800 }}>Message</label>
-              <textarea id="community-message-draft" value={draft} onChange={(event) => setDraft(event.target.value)} maxLength={4000} rows={4} placeholder="Write a Community message…" />
+              <textarea id="community-message-draft" value={draft} onChange={(event) => setDraft(event.target.value)} maxLength={4000} rows={4} placeholder="Write a Community message…" style={{ width: "100%", maxWidth: "100%", boxSizing: "border-box" }} />
               <button type="submit" disabled={busy || !draft.trim()} style={{ minHeight: 46 }}>Send Community message</button>
             </form>
           </>}
