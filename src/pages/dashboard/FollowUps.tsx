@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type CSSProperties, type FormEvent } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { ArrowRight, CheckCircle2, Clock3, Flame, ListTodo } from "lucide-react";
 import { createFollowUp, completeFollowUp, listFollowUps } from "../../api/followUps";
@@ -118,7 +118,7 @@ export default function FollowUps() {
 
       <section className="hlc-followups-visual-pulse" aria-label="Follow-up operating pulse">
         <div className="hlc-followups-completion-card">
-          <div className="hlc-followups-completion-ring" style={{ "--hlc-followup-completion": `${completionRate}%` } as React.CSSProperties}>
+          <div className="hlc-followups-completion-ring" style={{ "--hlc-followup-completion": `${completionRate}%` } as CSSProperties}>
             <span><strong>{completionRate}%</strong><small>complete</small></span>
           </div>
           <div>
