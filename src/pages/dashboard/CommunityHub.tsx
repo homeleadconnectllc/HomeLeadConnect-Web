@@ -7,7 +7,7 @@ const hubSections = [
     description: "Community discovery stays social and consent-based. Real assignment, pricing, scheduling, and dispatch remain in Work.",
     items: [
       { title: "Discover", body: "Browse recorded HLC provider profiles with visual service and location context.", to: "/community/discover", action: "Start discovering", meta: "For you" },
-      { title: "Swipe Match", body: "Like, pass, and save profiles in the Community discovery deck without assigning real work.", to: "/community/swipe", action: "Open Swipe Match", meta: "Premium discovery" },
+      { title: "Community Matching · Swipe Match", body: "Like, pass, and save profiles in the Community discovery deck without assigning real work.", to: "/community/swipe", action: "Open Swipe Match", meta: "Premium discovery" },
       { title: "Private Messenger", body: "Community private conversations unlock only through an accepted relationship or other explicit permission.", to: "/community/messages", action: "Open Messenger", meta: "Relationships" },
       { title: "Provider Directory", body: "Browse canonical provider records and service capabilities.", to: "/providers", action: "Browse providers", meta: "Network" },
       { title: "Provider Map", body: "Explore stored provider locations without implying distance, routing, ETA, or live tracking.", to: "/network/map", action: "Open map", meta: "Spatial context" },
