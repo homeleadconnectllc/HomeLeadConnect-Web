@@ -178,8 +178,17 @@ export default function CommunityMatchDeck() {
               onPointerCancel={() => { startX.current = null; setOffsetX(0); }}
               style={{ transform: `translateX(${offsetX}px) rotate(${offsetX / 28}deg)` }}
             >
-              <div className="hlc-match-visual" aria-hidden="true">
-                <span>{initials(current)}</span>
+              <div className="hlc-match-visual">
+                <img
+                  src={serviceVisual(current).src}
+                  alt={serviceVisual(current).alt}
+                  loading="eager"
+                  decoding="async"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="hlc-match-visual-shade" aria-hidden="true" />
+                <span className="hlc-match-provider-mark" aria-hidden="true">{initials(current)}</span>
+                <span className="hlc-match-service-label">{current.specialty || "Home service professional"}</span>
               </div>
               <div className="hlc-match-card-body">
                 <div className="hlc-match-card-heading">
@@ -214,7 +223,7 @@ export default function CommunityMatchDeck() {
               {offsetX < -28 && <div className="hlc-match-swipe-stamp is-pass">PASS</div>}
             </article>
           ) : (
-            <div className="hlc-match-empty">
+            <div className="hlc-match-empty" data-empty-state="true">
               <div className="hlc-match-empty-icon">✓</div>
               <h2>You reached the end of this deck.</h2>
               <p>Review your liked providers, reset passes, or return later when more provider records are available.</p>
@@ -254,7 +263,10 @@ export default function CommunityMatchDeck() {
           <div className="hlc-match-liked-grid">
             {likedProviders.map((provider) => (
               <article key={provider.id}>
-                <div className="hlc-match-mini-avatar">{initials(provider)}</div>
+                <div className="hlc-match-mini-avatar">
+                  <img src={serviceVisual(provider).src} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" />
+                  <span aria-hidden="true">{initials(provider)}</span>
+                </div>
                 <div>
                   <h3>{displayName(provider)}</h3>
                   <p>{provider.specialty || "Service provider"}</p>
@@ -264,7 +276,11 @@ export default function CommunityMatchDeck() {
             ))}
           </div>
         ) : (
-          <p className="hlc-match-muted">Tap Like or swipe right and your saved picks will appear here.</p>
+          <div className="hlc-match-liked-empty" data-empty-state="true">
+            <strong>Your saved provider shortlist starts here.</strong>
+            <p className="hlc-match-muted">Tap Like or swipe right and your saved picks will appear here with their service context.</p>
+            <Link to="/network">Browse the full provider network</Link>
+          </div>
         )}
       </section>
     </main>
@@ -282,4 +298,30 @@ function initials(provider: Contractor) {
     .slice(0, 2)
     .map((word) => word[0]?.toUpperCase())
     .join("") || "HLC";
+}
+
+function serviceVisual(provider: Contractor) {
+  const specialty = (provider.specialty || "").toLowerCase();
+  if (/clean|maid|janitor/.test(specialty)) {
+    return {
+      src: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1200&q=82",
+      alt: "Professional home cleaning service in progress",
+    };
+  }
+  if (/roof|gutter|siding/.test(specialty)) {
+    return {
+      src: "https://images.unsplash.com/photo-1632759145351-1d592919f522?auto=format&fit=crop&w=1200&q=82",
+      alt: "Residential roofing and exterior service work",
+    };
+  }
+  if (/hvac|heat|cool|air|electric|plumb/.test(specialty)) {
+    return {
+      src: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?auto=format&fit=crop&w=1200&q=82",
+      alt: "Skilled home systems professional at work",
+    };
+  }
+  return {
+    src: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=82",
+    alt: "Home service professional working on a residential project",
+  };
 }
