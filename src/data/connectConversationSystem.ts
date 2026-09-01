@@ -1,5 +1,5 @@
-import { intelligentDispositions } from "./intelligentDispositions";
-import { objectionGuides, scriptLibrary, type HlcScript, type ScriptAudience, type ScriptChannel } from "./scriptLibrary";
+import { intelligentDispositions } from "./intelligentDispositions.ts";
+import { objectionGuides, scriptLibrary, type HlcScript, type ScriptAudience, type ScriptChannel } from "./scriptLibrary.ts";
 
 export const CONNECT_FRAMEWORK = [
   { key: "C", name: "Context", purpose: "Identify HLC accurately and connect the conversation to the resident, professional, request, or workflow." },
