@@ -10,8 +10,8 @@ import { supabase } from "../lib/supabase";
 const logo = "/hlc-logo-transparent.png";
 const OPEN_HLC_COMMAND_SEARCH = "hlc:open-command-search";
 const declaredWorkspaceRoutes = new Set([
-  "/dashboard", "/work", "/work/matching", "/ecosystem", "/workflow", "/automations", "/hq", "/notifications",
-  "/leads", "/estimator", "/jobs", "/calendar", "/follow-ups", "/operations",
+  "/dashboard", "/ecosystem", "/workflow", "/automations", "/hq", "/notifications",
+  "/work", "/work/matching", "/leads", "/estimator", "/jobs", "/calendar", "/follow-ups", "/operations",
   "/call-center", "/messages", "/manual-communications", "/customer-experience",
   "/documents", "/settings", "/team", "/homeowner-portal", "/contractor-portal", "/network",
   "/map", "/profiles", "/providers", "/matching", "/community-hub", "/community/swipe",
@@ -31,6 +31,11 @@ const agentNavigation = [
   { label: "Diamond", route: "/customer-experience", purpose: "Customer Experience · community and recovery", avatar: "/brand/avatars/Diamond_Locked_HLC.png" },
 ];
 
+// Preserve the historical Work entry as an active-state alias while the canonical parent becomes /work.
+const legacyMobileRouteAliases = [
+  { label: "Work", route: "/leads", canonicalRoute: "/work" },
+] as const;
+
 type MobileIconName = "home" | "work" | "network" | "community" | "messages" | "notifications" | "profile" | "more";
 type MobileNavItem = { label: string; route: string; icon: MobileIconName; matches?: string[] };
 function MobileNavIcon({ name }: { name: MobileIconName }) {
@@ -46,6 +51,7 @@ function MobileNavIcon({ name }: { name: MobileIconName }) {
 function pathMatchesPrefix(pathname: string, prefix: string) { return pathname === prefix || pathname.startsWith(`${prefix}/`); }
 function mobileRouteIsActive(pathname: string, item: MobileNavItem) {
   if (item.matches?.some((prefix) => pathMatchesPrefix(pathname, prefix))) return true;
+  if (legacyMobileRouteAliases.some((alias) => alias.canonicalRoute === item.route && pathMatchesPrefix(pathname, alias.route))) return true;
   if (item.route === "/dashboard" || item.route === "/homeowner-portal" || item.route === "/contractor-portal") return pathname === item.route;
   return pathMatchesPrefix(pathname, item.route);
 }
