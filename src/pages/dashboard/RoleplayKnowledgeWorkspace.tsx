@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import ConnectRoleplaySession from "../../components/academy/ConnectRoleplaySession";
 import {
   CONNECT_BEHAVIOR_RULE,
   CONNECT_FRAMEWORK,
@@ -77,6 +78,7 @@ export default function RoleplayKnowledgeWorkspace() {
   const params = useMemo(() => new URLSearchParams(location.search), [location.search]);
   const requestedScenario = params.get("scenario") ?? "resident-new-request";
   const selectedScenario = getConnectScenario(requestedScenario) ?? getConnectScenario("resident-new-request");
+  const requestedVariant = variantOrder.includes(params.get("variant") as ConnectVariant) ? params.get("variant") as ConnectVariant : "standard";
   const [query, setQuery] = useState("");
   const [teacher, setTeacher] = useState<AcademyTeacher | "all">("all");
   const knowledgeResults = useMemo(
@@ -133,6 +135,7 @@ export default function RoleplayKnowledgeWorkspace() {
           </section>
 
           {selectedScenario && <section style={{ marginTop: 20 }}><ScenarioStudy scenario={selectedScenario} /></section>}
+          {selectedScenario && <ConnectRoleplaySession key={`${selectedScenario.id}:${requestedVariant}`} scenario={selectedScenario} initialVariant={requestedVariant} />}
 
           <section className="hlc-premium-panel" style={{ padding: 22, marginTop: 20 }}>
             <h2 style={{ marginTop: 0 }}>100-point coaching standard</h2>
@@ -144,7 +147,7 @@ export default function RoleplayKnowledgeWorkspace() {
                 </div>
               ))}
             </div>
-            <p style={{ marginBottom: 0, fontWeight: 800 }}>Reactive AI conversation, score persistence, coaching feedback, retry progression, and controlled CRM disposition preparation are still required before E3 can advance to VERIFIED.</p>
+            <p style={{ marginBottom: 0, fontWeight: 800 }}>The source path now includes reactive roleplay, trusted score persistence, coach feedback, retry progression, and recommendation-only CRM disposition preparation. E3 still requires exact-head runtime, security, CI, and rendered evidence before any status advancement.</p>
           </section>
         </>
       ) : (
