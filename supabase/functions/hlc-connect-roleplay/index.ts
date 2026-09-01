@@ -1,10 +1,10 @@
 import { createClient } from "npm:@supabase/supabase-js@2.57.4";
 import {
-  CONNECT_FRAMEWORK,
-  CONNECT_SCORING_RUBRIC,
-  getConnectScenario,
-  type ConnectVariant,
-} from "../../../src/data/connectConversationSystem.ts";
+  RUNTIME_CONNECT_FRAMEWORK as CONNECT_FRAMEWORK,
+  RUNTIME_CONNECT_SCORING_RUBRIC as CONNECT_SCORING_RUBRIC,
+  getRuntimeConnectScenario as getConnectScenario,
+  type RuntimeConnectVariant as ConnectVariant,
+} from "./connectRuntimeContract.ts";
 
 const cors = {
   "Access-Control-Allow-Origin": "*",
