@@ -36,7 +36,7 @@ test("mobile receives one compact session greeting while agent voice remains exp
 test("mobile field-work navigation remains canonical while agent presentation stays contextual", () => {
   assert.match(navbar, /className="hlc-mobile-tabbar"/);
   assert.match(navbar, /label:\s*"Home",[\s\S]*?route:\s*"\/dashboard"/);
-  assert.match(navbar, /label:\s*"Work",[\s\S]*?route:\s*"\/leads"/);
+  assert.match(navbar, /label:\s*"Work",[\s\S]*?route:\s*"\/work"/);
   assert.match(navbar, /label:\s*"Network",[\s\S]*?route:\s*"\/network"/);
   assert.match(navbar, /label:\s*"Community",[\s\S]*?route:\s*"\/community-hub"/);
   assert.match(navbar, /aria-label=\{mobileOpen \? "Close all HLC areas" : "Open all HLC areas"\}/);
