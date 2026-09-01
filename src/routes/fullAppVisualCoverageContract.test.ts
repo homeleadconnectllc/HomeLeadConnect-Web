@@ -3,6 +3,11 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 const router = readFileSync(new URL("./AppRouter.tsx", import.meta.url), "utf8");
+const appLayout = readFileSync(new URL("./AppLayout.tsx", import.meta.url), "utf8");
+const routeVisualBanner = readFileSync(new URL("../components/RouteVisualBanner.tsx", import.meta.url), "utf8");
+const appShellEntry = readFileSync(new URL("../styles/app-shell-entry.ts", import.meta.url), "utf8");
+const authenticatedStyles = readFileSync(new URL("../styles/AuthenticatedStyles.tsx", import.meta.url), "utf8");
+const routeVisualStyles = readFileSync(new URL("../styles/hlc-route-visual-banners.css", import.meta.url), "utf8");
 const authenticatedEntry = readFileSync(new URL("../styles/authenticated-entry.ts", import.meta.url), "utf8");
 const authority = readFileSync(new URL("../styles/full-app-visual-reference-authority.css", import.meta.url), "utf8");
 
@@ -36,6 +41,30 @@ test("whole-app visual reference authority is loaded in authenticated style orde
   assert.match(authority, /section:has\(> article\)/);
   assert.match(authority, /input, select, textarea/);
   assert.match(authority, /Mobile is a reorganized workspace/);
+});
+
+test("global visual storytelling is mounted once at the shared route shell", () => {
+  assert.match(appLayout, /RouteVisualBanner/);
+  assert.match(appLayout, /<RouteVisualBanner\s*\/>/);
+  assert.match(appShellEntry, /hlc-global-visual-foundation\.css/);
+  assert.match(appShellEntry, /hlc-visual-storytelling\.css/);
+  assert.match(appShellEntry, /hlc-route-visual-banners\.css/);
+  assert.match(authenticatedStyles, /hlc-global-visual-foundation\.css/);
+  assert.match(authenticatedStyles, /hlc-route-visual-banners\.css/);
+});
+
+test("major product families receive distinct visual anchors instead of one cloned banner", () => {
+  for (const tone of ["command", "work", "network", "community", "academy", "resources", "account", "ai", "public"]) {
+    assert.match(routeVisualBanner, new RegExp(`tone: \\"${tone}\\"`));
+    assert.match(routeVisualStyles, new RegExp(`hlc-route-visual-${tone}`));
+  }
+  assert.match(routeVisualBanner, /academy\/roleplay/);
+  assert.match(routeVisualBanner, /community-hub/);
+  assert.match(routeVisualBanner, /network/);
+  assert.match(routeVisualBanner, /settings/);
+  assert.match(routeVisualBanner, /brand\/avatars\/Kendrell_Locked_HLC\.png/);
+  assert.match(routeVisualBanner, /brand\/avatars\/Dion_Locked_HLC\.png/);
+  assert.match(routeVisualBanner, /brand\/avatars\/Diamond_Locked_HLC\.png/);
 });
 
 test("legacy inline light surfaces cannot punch through the shared dark workspace", () => {
