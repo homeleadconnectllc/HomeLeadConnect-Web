@@ -160,7 +160,7 @@ export default function Leads() {
         {!loading && !error && leads.length === 0 && (
           <div className="hlc-leads-empty" data-empty-state="true">
             <UsersRound size={28} aria-hidden="true" />
-            <strong>No leads yet</strong>
+            <strong>No leads found.</strong>
             <span>Add the first household or service opportunity to begin the pipeline.</span>
             <button type="button" onClick={() => setShowAddLead(true)}>Add first lead</button>
           </div>
