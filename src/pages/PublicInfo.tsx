@@ -6,31 +6,43 @@ const content = {
     kicker: "About HomeLead Connect",
     title: "A connected operating layer for home-service work.",
     body: "HomeLead Connect LLC is a Pennsylvania-first home-services technology platform founded, owned, created, and developed by Antoine Washington. HLC connects service requests, LeadScope estimates, provider coordination, scheduling, jobs, communications, documents, workflow automation, analytics, and customer follow-through in one operating system.",
+    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1600&q=82",
+    imageAlt: "Welcoming residential home exterior",
   },
   homeowners: {
     kicker: "For residents",
     title: "Request help without losing the thread.",
     body: "Submit a service request for review. A submitted request does not guarantee contractor assignment, pricing, or an appointment.",
+    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=82",
+    imageAlt: "Bright finished residential living space",
   },
   contractors: {
     kicker: "For professionals",
     title: "Provider access built around explicit invitations and work history.",
     body: "HomeLead Connect supports professional profiles, provider records, job offers, assignment history, service areas, availability, scheduling, and protected portal access for participating businesses and service professionals.",
+    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1600&q=82",
+    imageAlt: "Home-service professional working on a residential project",
   },
   how: {
     kicker: "How HLC works",
     title: "One request becomes a traceable service journey.",
     body: "The HLC workflow keeps Request → Lead → LeadScope/Estimate → Provider coordination → Schedule → Job → Completion as explicit stages. Submitting a request does not skip later review, acceptance, pricing, or scheduling steps.",
+    image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1600&q=82",
+    imageAlt: "Home-service work being completed inside a residence",
   },
   leadscope: {
     kicker: "LeadScope",
     title: "Scope and estimating with an auditable path to the job.",
     body: "LeadScope is HomeLead Connect's itemized estimating and scoping workflow. It records quantities, unit costs, estimate-level markup, status, and an explicit conversion from an accepted estimate to a CRM job. It does not invent pricing or guarantee a final project price.",
+    image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=82",
+    imageAlt: "Plans and measurements for a building project",
   },
   community: {
     kicker: "Community + Network",
     title: "Discover, connect, and move into a real HLC workflow.",
     body: "Find providers, explore service coverage, participate in Community, and move from discovery into a real HomeLead Connect service workflow. Provider records, map locations, availability, reviews, and matching results are shown only when HLC has canonical data for them.",
+    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1600&q=82",
+    imageAlt: "People connecting together in a community setting",
   },
 } as const;
 
@@ -65,6 +77,10 @@ export default function PublicInfo({ page }: { page: keyof typeof content }) {
           <Link className="hlc-public-secondary" to="/contact">Contact HLC</Link>
         </div>
       </header>
+
+      <figure className="hlc-public-visual">
+        <img src={item.image} alt={item.imageAlt} loading="eager" referrerPolicy="no-referrer" />
+      </figure>
 
       {page === "about" && <section className="hlc-public-grid" aria-label="HomeLead Connect ownership and credits">
         <article className="hlc-public-card"><p className="hlc-public-card-label">Founder & builder</p><h2>Antoine Washington</h2><p><strong>Founder · Owner · Product Creator · Lead Developer · Technical Architect</strong></p><p>Antoine Washington leads the HLC product vision, application build, workflow design, technical implementation, operating systems, and launch hardening.</p></article>

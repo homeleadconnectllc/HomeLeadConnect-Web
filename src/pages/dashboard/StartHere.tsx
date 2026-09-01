@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ecosystemNavigation } from "../../config/ecosystem";
 import { useAccountAccess } from "../../hooks/useAccountAccess";
 import { canAccessWorkspacePath } from "../../lib/accessPolicy";
+import "../../styles/start-here-visual-wave.css";
 
 const extraDestinations = [
   { label: "Start a service request", route: "/request-service", purpose: "Request home help and begin the HLC service workflow." },

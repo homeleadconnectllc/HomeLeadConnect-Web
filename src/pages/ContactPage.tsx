@@ -7,11 +7,12 @@ const paths = [
   { eyebrow: "PLATFORM", title: "Account & business support", body: "Questions about HLC, workspace access, partnerships or the platform can go directly to our business contact.", to: "mailto:homeleadconnect@gmail.com", action: "Email HomeLead Connect" },
 ] as const;
 
+const CONTACT_HOME_IMAGE = "https://images.unsplash.com/photo-1517581177682-a085bb7ffb15?auto=format&fit=crop&w=1400&q=82";
+
 export default function ContactPage() {
-  return <main className="hlc-utility-page"><div className="hlc-utility-shell">
+  return <main className="hlc-utility-page hlc-contact-page"><div className="hlc-utility-shell">
     <header className="hlc-utility-header">
       <div>
-        <div className="hlc-utility-brand"><img className="hlc-utility-logo" src="/branding/hlc-logo-full.png" alt="HomeLead Connect" /></div>
         <p className="hlc-utility-kicker">HomeLead Connect · Contact</p>
         <h1 className="hlc-utility-title">How can we help?</h1>
         <p className="hlc-utility-lead">One place for home-service requests, professional opportunities, and HomeLead Connect platform support.</p>
@@ -19,6 +20,19 @@ export default function ContactPage() {
       </div>
       <div className="hlc-utility-summary" aria-label="Contact pathways"><span><strong>Residents</strong><small>Service requests</small></span><span><strong>Professionals</strong><small>Network participation</small></span><span><strong>Platform</strong><small>Account support</small></span></div>
     </header>
+
+    <section className="hlc-contact-photo-story" aria-label="Home service connection">
+      <div className="hlc-contact-photo-wrap">
+        <img src={CONTACT_HOME_IMAGE} alt="A residential home improvement project in progress" loading="eager" referrerPolicy="no-referrer" />
+        <div className="hlc-contact-photo-badge"><span>Resident-first</span><strong>Home help starts with a clear request.</strong></div>
+      </div>
+      <div className="hlc-contact-photo-copy">
+        <p className="hlc-utility-section-label">One connection point</p>
+        <h2>Tell us what the home needs. We help organize the next step.</h2>
+        <p>From everyday repairs to larger projects, HomeLead Connect helps residents get the request into one organized path while professionals have a clear place to connect with opportunities.</p>
+        <div className="hlc-contact-visual-tags" aria-label="Available contact paths"><span>Residents</span><span>Professionals</span><span>Platform support</span></div>
+      </div>
+    </section>
 
     <section className="hlc-utility-paths" aria-label="Contact paths">
       {paths.map((item) => <article className="hlc-utility-path" key={item.title}><p className="hlc-utility-section-label">{item.eyebrow}</p><div><h2>{item.title}</h2><p>{item.body}</p></div>{item.to.startsWith("mailto:") ? <a className="hlc-utility-link" href={item.to}>{item.action} →</a> : <Link className="hlc-utility-link" to={item.to}>{item.action} →</Link>}</article>)}

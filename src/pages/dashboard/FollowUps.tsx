@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type CSSProperties, type FormEvent } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import { ArrowRight, CheckCircle2, Clock3, Flame, ListTodo } from "lucide-react";
 import { createFollowUp, completeFollowUp, listFollowUps } from "../../api/followUps";
 import { listLeads } from "../../api/leads";
 import { errorMessage } from "../../lib/errorMessage";
@@ -95,17 +96,47 @@ export default function FollowUps() {
     overdue: items.filter((item) => dueState(item, now) === "overdue").length,
     completed: items.filter((item) => item.status === "completed").length,
   }), [items, now]);
+  const total = items.length;
+  const completionRate = total ? Math.round((summary.completed / total) * 100) : 0;
+  const queueSignals = [
+    { label: "Pending", value: summary.pending, icon: ListTodo, tone: "pending" },
+    { label: "Due today", value: summary.today, icon: Clock3, tone: "today" },
+    { label: "Overdue", value: summary.overdue, icon: Flame, tone: "overdue" },
+    { label: "Completed", value: summary.completed, icon: CheckCircle2, tone: "completed" },
+  ];
 
   return (
     <main className="hlc-followups-workspace">
-      <header className="hlc-followups-header">
+      <header className="hlc-followups-header hlc-followups-hero">
         <div>
           <p className="hlc-followups-kicker">RELATIONSHIP QUEUE</p>
           <h1>Follow-ups</h1>
           <p>Keep every promised callback visible, timed, and connected to the lead that needs the next touch.</p>
         </div>
-        <Link className="hlc-followups-leads-link" to="/leads">Open leads</Link>
+        <Link className="hlc-followups-leads-link" to="/leads">Open leads <ArrowRight size={15} aria-hidden="true" /></Link>
       </header>
+
+      <section className="hlc-followups-visual-pulse" aria-label="Follow-up operating pulse">
+        <div className="hlc-followups-completion-card">
+          <div className="hlc-followups-completion-ring" style={{ "--hlc-followup-completion": `${completionRate}%` } as CSSProperties}>
+            <span><strong>{completionRate}%</strong><small>complete</small></span>
+          </div>
+          <div>
+            <small>Queue health</small>
+            <strong>{summary.overdue > 0 ? `${summary.overdue} overdue` : summary.pending > 0 ? `${summary.pending} pending` : "Queue clear"}</strong>
+            <p>{total ? `${summary.completed} of ${total} recorded follow-ups are complete.` : "Schedule the first next touch to start the queue."}</p>
+          </div>
+        </div>
+        <div className="hlc-followups-signal-grid">
+          {queueSignals.map(({ label, value, icon: Icon, tone }) => (
+            <article className={`hlc-followups-signal is-${tone}`} key={label}>
+              <span className="hlc-followups-signal-icon"><Icon size={18} aria-hidden="true" /></span>
+              <div><strong>{value}</strong><small>{label}</small></div>
+              <span className="hlc-followups-signal-track" aria-hidden="true"><i style={{ width: `${total ? Math.max(4, Math.round((value / total) * 100)) : 0}%` }} /></span>
+            </article>
+          ))}
+        </div>
+      </section>
 
       <section className="hlc-followups-summary" aria-label="Follow-up summary">
         <span><strong>{summary.pending}</strong><small>Pending</small></span>
@@ -151,7 +182,7 @@ export default function FollowUps() {
           <div className="hlc-followup-column-head" aria-hidden="true">
             <span>Lead / context</span><span>Due</span><span>Status / action</span>
           </div>
-          {!loading && items.length === 0 && <div className="hlc-followups-empty"><strong>No follow-ups yet.</strong><span>Schedule the next customer touch from this workspace or from a lead.</span></div>}
+          {!loading && items.length === 0 && <div className="hlc-followups-empty" data-empty-state="true"><strong>No follow-ups yet.</strong><span>Schedule the next customer touch from this workspace or from a lead.</span></div>}
           <div className="hlc-followup-list">
             {orderedItems.map((item) => {
               const state = dueState(item, now);

@@ -103,7 +103,7 @@ export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
     }, 80);
   }
 
-  return <main className="hlc-agent-workspace" style={pageStyle}>
+  return <main className="hlc-agent-workspace" data-agent={agentId} style={pageStyle}>
     {agentId === "kendrell" && <KendrellMemorial />}
     <header className="hlc-agent-command-hero" style={{ ...heroStyle, borderColor: agent.accent }}>
       <div style={{ display: "grid", gap: 12, alignContent: "center" }}>
@@ -120,9 +120,14 @@ export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
         {agentId === "kendrell" && <small className="hlc-symbolic-portrait-note">Symbolic Kendrell AI visual — not a historical photograph</small>}
       </div>
     </header>
-    <p style={noticeStyle}><strong>Your workspace is protected.</strong> {agent.name} can explain information and recommend actions using only what your current role is allowed to access. Restricted changes still require the correct HLC role.</p>
+    <section className="hlc-agent-command-signals" aria-label={`${agent.name} command signals`}>
+      <div><small>Command scope</small><strong>{capabilityCatalog[agentId].length} configured capabilities</strong></div>
+      <div><small>Recorded activity</small><strong>{runs.length} authenticated runs</strong></div>
+      <div><small>Agent continuity</small><strong>{handoffs.length} persisted handoffs</strong></div>
+    </section>
+    <p className="hlc-agent-protection-notice" style={noticeStyle}><strong>Your workspace is protected.</strong> {agent.name} can explain information and recommend actions using only what your current role is allowed to access. Restricted changes still require the correct HLC role.</p>
     <AgentChatPanel agentId={agentId} agentName={agent.name} accent={agent.accent} />
-    {showNudge && <aside aria-label={`${agent.name} guidance`} style={{ ...nudgeStyle, borderColor: agent.accent }}><div><strong>{agent.name} can help here.</strong><p style={{ marginBottom: 0 }}>{error ? "I can explain the failure and the safest available next step." : agent.guidance[0]}</p></div><div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}><button type="button" onClick={() => { setGuidanceOpen(true); setShowNudge(false); }}>Show guidance</button><button type="button" onClick={() => setShowNudge(false)}>Dismiss</button></div></aside>}
+    {showNudge && <aside className="hlc-agent-context-nudge" aria-label={`${agent.name} guidance`} style={{ ...nudgeStyle, borderColor: agent.accent }}><div><strong>{agent.name} can help here.</strong><p style={{ marginBottom: 0 }}>{error ? "I can explain the failure and the safest available next step." : agent.guidance[0]}</p></div><div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}><button type="button" onClick={() => { setGuidanceOpen(true); setShowNudge(false); }}>Show guidance</button><button type="button" onClick={() => setShowNudge(false)}>Dismiss</button></div></aside>}
     {loading && <p>Loading authenticated workspace context…</p>}
     {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
     {message && <p role="status" style={{ color: message.includes("completed") || message.includes("persisted") ? "#1d4ed8" : "#334155" }}>{message}</p>}
@@ -138,11 +143,11 @@ export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
           return <button className="hlc-agent-action-button" type="button" disabled={busy || ownerOnlyBlocked} key={capability.id} onClick={() => run(capability.id)}><strong>{experience.title}</strong><span>{ownerOnlyBlocked ? "Switch to Antoine's owner workspace to use this." : experience.description}</span></button>;
         })}</div>
       </section>
-      <section style={panelStyle}><h2>Most recent result</h2>{result ? <FriendlyResult value={result} /> : <p>Choose an action to see its result here.</p>}</section>
+      <section className="hlc-agent-result" style={panelStyle}><h2>Most recent result</h2>{result ? <FriendlyResult value={result} /> : <p>Choose an action to see its result here.</p>}</section>
     </div>}
     {agentId !== "kendrell" && <form onSubmit={handoff} style={{ ...panelStyle, marginTop: 20 }}><h2>Handoff to {agentId === "diamond" ? "Dion" : "Kendrell"}</h2><p>{handoffCopy}</p><p>The source agent remains attributable; the destination agent does not impersonate it.</p><label>Reason<textarea required minLength={3} maxLength={500} value={handoffReason} onChange={(event) => setHandoffReason(event.target.value)} /></label><button disabled={busy} type="submit">Persist handoff</button></form>}
-    <section style={{ ...panelStyle, marginTop: 20 }}><h2>Recent activity</h2>{runs.length === 0 ? <p>No activity yet.</p> : runs.map((runItem) => <article key={runItem.id} style={historyStyle}><div style={historyHeadingStyle}><strong>{friendlyCapabilityName(runItem.capability_id)}</strong><span style={statusPillStyle(runItem.status)}>{friendlyStatus(runItem.status)}</span></div><small>{new Date(runItem.created_at).toLocaleString()}</small>{runItem.error_summary && <p>{runItem.error_summary}</p>}</article>)}</section>
-    <section style={{ ...panelStyle, marginTop: 20 }}><h2>Work sent between HLC agents</h2>{handoffs.length === 0 ? <p>No work has been sent to another agent.</p> : handoffs.map((item) => <article key={item.id} style={historyStyle}><div style={historyHeadingStyle}><strong>{agents[item.source_agent].name} → {agents[item.destination_agent].name}</strong><span style={statusPillStyle(item.status)}>{friendlyStatus(item.status)}</span></div><p>{item.reason}</p><small>{new Date(item.created_at).toLocaleString()}</small></article>)}</section>
+    <section className="hlc-agent-activity-ledger" style={{ ...panelStyle, marginTop: 20 }}><h2>Recent activity</h2>{runs.length === 0 ? <p>No activity yet.</p> : runs.map((runItem) => <article key={runItem.id} style={historyStyle}><div style={historyHeadingStyle}><strong>{friendlyCapabilityName(runItem.capability_id)}</strong><span style={statusPillStyle(runItem.status)}>{friendlyStatus(runItem.status)}</span></div><small>{new Date(runItem.created_at).toLocaleString()}</small>{runItem.error_summary && <p>{runItem.error_summary}</p>}</article>)}</section>
+    <section className="hlc-agent-handoff-ledger" style={{ ...panelStyle, marginTop: 20 }}><h2>Work sent between HLC agents</h2>{handoffs.length === 0 ? <p>No work has been sent to another agent.</p> : handoffs.map((item) => <article key={item.id} style={historyStyle}><div style={historyHeadingStyle}><strong>{agents[item.source_agent].name} → {agents[item.destination_agent].name}</strong><span style={statusPillStyle(item.status)}>{friendlyStatus(item.status)}</span></div><p>{item.reason}</p><small>{new Date(item.created_at).toLocaleString()}</small></article>)}</section>
     {selectedLead && <p style={{ color: "#64748b" }}>Current authorized context: {selectedLead.full_name || `Lead #${selectedLead.id}`}</p>}
     <button type="button" aria-label={`Open ${agent.name} help`} onClick={() => setGuidanceOpen(true)} style={{ ...floatingButtonStyle, borderColor: agent.accent }}><span aria-hidden="true">?</span><span>{agent.name}</span></button>
     {guidanceOpen && createPortal(<div className="hlc-agent-guidance-overlay" role="presentation" style={overlayStyle} onMouseDown={(event) => { if (event.target === event.currentTarget) setGuidanceOpen(false); }}>

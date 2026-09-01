@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import type { FormEvent } from "react";
-import { Plus, Search, SlidersHorizontal, UsersRound } from "lucide-react";
+import { ArrowUpRight, Plus, Search, SlidersHorizontal, UsersRound } from "lucide-react";
 import { createLead, listLeads, type LeadRecord } from "../../api/leads";
 import LeadCard from "../../components/leads/LeadCard";
 import { errorMessage } from "../../lib/errorMessage";
@@ -14,6 +14,11 @@ function createLeadErrorMessage(reason: unknown) {
     return "Your workspace has reached its lead limit. Review your subscription or contact support before adding another lead.";
   }
   return message;
+}
+
+function stageLabel(lead: LeadRecord) {
+  const value = String(lead.stage || lead.status || "Unstaged").trim();
+  return value || "Unstaged";
 }
 
 export default function Leads() {
@@ -66,6 +71,18 @@ export default function Leads() {
       .filter(Boolean).some((value) => String(value).toLowerCase().includes(normalized)));
   }, [leads, query]);
 
+  const pipelineDistribution = useMemo(() => {
+    const counts = new Map<string, number>();
+    leads.forEach((lead) => {
+      const label = stageLabel(lead);
+      counts.set(label, (counts.get(label) || 0) + 1);
+    });
+    return Array.from(counts.entries())
+      .map(([label, count]) => ({ label, count }))
+      .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
+  }, [leads]);
+
+  const maxPipelineCount = Math.max(1, ...pipelineDistribution.map((item) => item.count));
   const newLeadCount = leads.filter((lead) => [lead.stage, lead.status].filter(Boolean).some((value) => String(value).toLowerCase() === "new")).length;
   const highPriorityCount = leads.filter((lead) => lead.priority?.toLowerCase() === "high").length;
   const scheduledCount = leads.filter((lead) => Boolean(lead.appointment_at)).length;
@@ -83,11 +100,29 @@ export default function Leads() {
         </button>
       </header>
 
-      <section className="hlc-leads-summary" aria-label="Lead summary">
-        <span><strong>{leads.length}</strong><small>Total</small></span>
-        <span><strong>{newLeadCount}</strong><small>New</small></span>
-        <span><strong>{highPriorityCount}</strong><small>High priority</small></span>
-        <span><strong>{scheduledCount}</strong><small>Scheduled</small></span>
+      <section className="hlc-leads-overview" aria-label="Lead pipeline overview">
+        <div className="hlc-leads-summary" aria-label="Lead summary">
+          <span><strong>{leads.length}</strong><small>Total</small></span>
+          <span><strong>{newLeadCount}</strong><small>New</small></span>
+          <span><strong>{highPriorityCount}</strong><small>High priority</small></span>
+          <span><strong>{scheduledCount}</strong><small>Scheduled</small></span>
+        </div>
+        <div className="hlc-leads-stage-visual" aria-label="Persisted lead stage distribution">
+          <div className="hlc-leads-stage-heading">
+            <div><small>Live pipeline shape</small><strong>Where current opportunities sit</strong></div>
+            <ArrowUpRight size={18} aria-hidden="true" />
+          </div>
+          {pipelineDistribution.length ? (
+            <div className="hlc-leads-stage-bars">
+              {pipelineDistribution.slice(0, 6).map((item) => (
+                <div className="hlc-leads-stage-row" key={item.label}>
+                  <div><span>{item.label}</span><strong>{item.count}</strong></div>
+                  <span className="hlc-leads-stage-track" aria-hidden="true"><i style={{ width: `${Math.max(8, (item.count / maxPipelineCount) * 100)}%` }} /></span>
+                </div>
+              ))}
+            </div>
+          ) : <p className="hlc-leads-stage-empty">Stage distribution will appear when leads are added.</p>}
+        </div>
       </section>
 
       <section className="hlc-leads-toolbar" aria-label="Lead tools">
@@ -122,7 +157,14 @@ export default function Leads() {
         <div className="hlc-leads-column-head" aria-hidden="true"><span>Household</span><span>Pipeline</span><span>Actions</span></div>
         {loading && <p className="hlc-leads-state">Loading leads…</p>}
         {error && <p role="alert" className="hlc-leads-error">{error}</p>}
-        {!loading && !error && leads.length === 0 && <p className="hlc-leads-state">No leads found.</p>}
+        {!loading && !error && leads.length === 0 && (
+          <div className="hlc-leads-empty" data-empty-state="true">
+            <UsersRound size={28} aria-hidden="true" />
+            <strong>No leads found.</strong>
+            <span>Add the first household or service opportunity to begin the pipeline.</span>
+            <button type="button" onClick={() => setShowAddLead(true)}>Add first lead</button>
+          </div>
+        )}
         {!loading && !error && leads.length > 0 && visibleLeads.length === 0 && (
           <div className="hlc-leads-empty"><UsersRound size={24} aria-hidden="true" /><strong>No matching leads</strong><span>Try a different resident type, name, number, email, stage, priority, source, or lead code.</span></div>
         )}

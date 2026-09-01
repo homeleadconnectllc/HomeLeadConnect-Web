@@ -46,7 +46,7 @@
 .hlc-public-logo { width:clamp(118px,16vw,170px); height:auto; object-fit:contain; }
 .hlc-public-kicker { margin:0 0 10px; color:#76b7ff; font-size:.74rem; font-weight:900; letter-spacing:.16em; text-transform:uppercase; }
 .hlc-public-hero h1 { max-width:840px; margin:0; color:#fff; font-size:clamp(2.05rem,5vw,4rem); line-height:1; letter-spacing:-.04em; }
-.hlc-public-hero-copy { max-width:820px; margin:18px 0 0; color:#b9c8da; font-size:clamp(1rem,2vw,1.14rem); line-height:1.7; font-weight:560; }
+.hlc-public-hero-copy { max-width:820px; margin:18px 0 0; color:#c8d5e6; font-size:clamp(1rem,2vw,1.14rem); line-height:1.7; font-weight:600; }
 
 .hlc-public-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:24px; }
 .hlc-public-primary,
@@ -68,6 +68,32 @@
 .hlc-public-primary:hover { background:#2374eb; }
 .hlc-public-secondary:hover { border-color:rgba(47,128,255,.5); background:#112943; }
 .hlc-public-link:hover { color:#fff; }
+
+/* Image-led visual band: every public route receives a purposeful, page-specific image.
+   The fixed aspect ratio and object-fit keep mobile crops controlled and prevent giant image walls. */
+.hlc-public-visual {
+  position: relative;
+  margin: 0;
+  min-height: 260px;
+  max-height: 430px;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(199,210,227,.16);
+  background:#0b1a2d;
+}
+.hlc-public-visual::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(7,17,31,.05),rgba(7,17,31,.36));
+  pointer-events:none;
+}
+.hlc-public-visual img {
+  display:block;
+  width:100%;
+  height:clamp(260px,38vw,430px);
+  object-fit:cover;
+  object-position:center;
+}
 
 .hlc-public-grid {
   display:grid;
@@ -93,10 +119,10 @@
   box-shadow:none;
 }
 .hlc-public-card::before { content:""; position:absolute; inset:0 auto 0 0; width:2px; background:rgba(47,128,255,.48); }
-.hlc-public-card-label { margin:0; color:#7f91aa; font-size:.72rem; font-weight:900; letter-spacing:.12em; text-transform:uppercase; }
+.hlc-public-card-label { margin:0; color:#9bacbf; font-size:.72rem; font-weight:900; letter-spacing:.12em; text-transform:uppercase; }
 .hlc-public-card h2 { margin:9px 0 10px; color:#f8fafc; font-size:1.18rem; line-height:1.24; }
 .hlc-public-card p,
-.hlc-public-card li { color:#aebbd0; line-height:1.68; font-weight:540; }
+.hlc-public-card li { color:#c0ccdc; line-height:1.68; font-weight:560; }
 .hlc-public-card p:last-child { margin-bottom:0; }
 .hlc-public-card ul { margin:12px 0 0; padding-left:20px; }
 
@@ -114,16 +140,16 @@
 .hlc-public-offer-label { margin:0; color:#76b7ff; font-size:.74rem; font-weight:900; letter-spacing:.14em; }
 .hlc-public-price { display:flex; flex-wrap:wrap; align-items:baseline; justify-content:center; gap:10px; margin-top:10px; }
 .hlc-public-price strong { font-size:clamp(2rem,6vw,3.5rem); line-height:1; color:#fff; letter-spacing:-.045em; }
-.hlc-public-price span { font-size:1.05rem; font-weight:850; color:#b9c8da; }
-.hlc-public-offer p { max-width:720px; margin:14px auto 0; color:#aebbd0; line-height:1.7; }
+.hlc-public-price span { font-size:1.05rem; font-weight:850; color:#c8d5e6; }
+.hlc-public-offer p { max-width:720px; margin:14px auto 0; color:#c0ccdc; line-height:1.7; }
 
 .hlc-public-form-wrap { display:grid; grid-template-columns:minmax(0,.72fr) minmax(0,1.28fr); gap:0; align-items:stretch; border:1px solid rgba(199,210,227,.14); border-radius:8px; overflow:hidden; }
 .hlc-public-sidecard { padding:26px; color:#dbe7f5; border-radius:0; background:#0b1a2d; box-shadow:none; }
 .hlc-public-sidecard h2 { margin-top:0; color:#fff; }
 .hlc-public-sidecard p,
-.hlc-public-sidecard li { color:#aebbd0; line-height:1.68; }
+.hlc-public-sidecard li { color:#c0ccdc; line-height:1.68; }
 .hlc-public-form { display:grid; gap:15px; padding:clamp(20px,4vw,30px); color:#f8fafc; border:0; border-left:1px solid rgba(199,210,227,.14); border-radius:0; background:#0c1a2e; box-shadow:none; }
-.hlc-public-form label { display:grid; gap:7px; color:#cbd8e8; font-weight:760; }
+.hlc-public-form label { display:grid; gap:7px; color:#d9e4f1; font-weight:760; }
 .hlc-public-form input,
 .hlc-public-form textarea {
   width:100%;
@@ -142,7 +168,7 @@
 .hlc-public-form textarea:focus { border-color:rgba(47,128,255,.72); box-shadow:0 0 0 3px rgba(47,128,255,.12); }
 .hlc-public-form button { min-height:46px; border:1px solid transparent; border-radius:8px; padding:11px 16px; background:#2f80ff; color:#fff; font:inherit; font-weight:900; cursor:pointer; box-shadow:none; }
 .hlc-public-form button:disabled { opacity:.58; cursor:wait; }
-.hlc-public-consent { grid-template-columns:auto 1fr!important; align-items:start!important; gap:10px!important; font-weight:620!important; color:#aebbd0!important; }
+.hlc-public-consent { grid-template-columns:auto 1fr!important; align-items:start!important; gap:10px!important; font-weight:620!important; color:#c0ccdc!important; }
 .hlc-public-consent input { width:auto; margin-top:4px; box-shadow:none; }
 .hlc-public-alert { border-left:3px solid #f59e0b; background:rgba(245,158,11,.08); color:#f7d7a5; padding:13px 15px; font-weight:720; }
 .hlc-public-success { text-align:center; }
@@ -165,13 +191,17 @@
   .hlc-public-brand { margin-bottom:18px; }
   .hlc-public-logo { width:132px; }
   .hlc-public-hero h1 { font-size:clamp(1.95rem,10vw,2.7rem); line-height:1.02; }
-  .hlc-public-hero-copy { font-size:.96rem; line-height:1.62; }
+  .hlc-public-hero-copy { font-size:1rem; line-height:1.62; }
   .hlc-public-actions { display:grid; grid-template-columns:1fr; }
   .hlc-public-primary,
   .hlc-public-secondary { width:100%; box-sizing:border-box; }
+  .hlc-public-visual { min-height:220px; max-height:300px; }
+  .hlc-public-visual img { height:clamp(220px,64vw,300px); object-position:center center; }
   .hlc-public-grid,
   .hlc-public-nav-cards { grid-template-columns:1fr; }
   .hlc-public-card { padding:19px 18px; border-right:0; }
+  .hlc-public-card p,
+  .hlc-public-card li { font-size:1rem; }
   .hlc-public-form,
   .hlc-public-sidecard { padding:19px 18px; }
   .hlc-public-offer { padding:24px 0; }

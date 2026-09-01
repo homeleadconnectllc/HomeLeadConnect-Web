@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { Link, useSearchParams } from "react-router-dom";
+import { FileUp, Link2, ShieldCheck } from "lucide-react";
 import {
   getDocumentUrl,
   listDocuments,
@@ -137,6 +138,12 @@ export default function Documents() {
         <span aria-disabled="true" title="OCR processing backend is not connected yet">OCR extraction · setup pending</span>
         <span aria-disabled="true" title="Electronic signature backend is not connected yet">E-signatures · setup pending</span>
       </nav>
+
+      <section className="hlc-documents-operating-strip" aria-label="Document evidence workflow">
+        <div><FileUp aria-hidden="true" /><span><strong>Capture the source</strong><small>Upload the original document, photo, video, or scan before interpretation.</small></span></div>
+        <div><Link2 aria-hidden="true" /><span><strong>Connect the record</strong><small>Keep evidence attached to the lead, estimate, job, appointment, provider, or conversation.</small></span></div>
+        <div><ShieldCheck aria-hidden="true" /><span><strong>Control access</strong><small>Choose workspace-only, resident-shared, or professional-shared visibility deliberately.</small></span></div>
+      </section>
 
       <div className="hlc-documents-console">
         <section className="hlc-documents-intake" aria-labelledby="hlc-document-intake-title">
