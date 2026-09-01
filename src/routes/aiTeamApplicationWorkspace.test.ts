@@ -5,6 +5,7 @@ import test from "node:test";
 const workspace = readFileSync("src/pages/dashboard/AgentWorkspace.tsx", "utf8");
 const agents = readFileSync("src/ai/agents.ts", "utf8");
 const styles = readFileSync("src/styles/ai-team-application-workspace.css", "utf8");
+const visualStyles = readFileSync("src/styles/ai-team-visual-wave.css", "utf8");
 const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 
 test("AI Team retains one serious command workspace for all three canonical agents", () => {
@@ -67,4 +68,23 @@ test("AI command workspaces are natively dark while preserving role-owned accent
   assert.match(styles, /\.hlc-agent-guidance-drawer\{[^}]*background:#0b192b!important/);
   assert.doesNotMatch(styles, /background:(?:#fff|#ffffff|#fbfdff|#eef5fc|#eef6ff|#f8fbff)!important/i);
   assert.match(workspace, /style=\{\{ \.\.\.heroStyle, borderColor: agent\.accent \}\}/);
+});
+
+test("AI Team visual authority reports real command signals without widening authority", () => {
+  const baseIndex = entry.indexOf("./ai-team-application-workspace.css");
+  const visualIndex = entry.indexOf("./ai-team-visual-wave.css");
+  const finalIndex = entry.indexOf("./application-workspace-ui.css");
+  assert.ok(visualIndex > baseIndex);
+  assert.ok(finalIndex > visualIndex);
+  assert.match(workspace, /data-agent=\{agentId\}/);
+  assert.match(workspace, /hlc-agent-command-signals/);
+  assert.match(workspace, /capabilityCatalog\[agentId\]\.length/);
+  assert.match(workspace, /runs\.length/);
+  assert.match(workspace, /handoffs\.length/);
+  assert.match(visualStyles, /\.hlc-agent-command-signals/);
+  assert.match(visualStyles, /\[data-agent="kendrell"\]/);
+  assert.match(visualStyles, /\[data-agent="dion"\]/);
+  assert.match(visualStyles, /\[data-agent="diamond"\]/);
+  assert.match(visualStyles, /@media\(max-width:720px\)/);
+  assert.doesNotMatch(visualStyles, /background:(?:#fff|#ffffff|#fbfdff|#eef5fc|#eef6ff|#f8fbff)/i);
 });
