@@ -10,11 +10,11 @@ import { supabase } from "../lib/supabase";
 const logo = "/hlc-logo-transparent.png";
 const OPEN_HLC_COMMAND_SEARCH = "hlc:open-command-search";
 const declaredWorkspaceRoutes = new Set([
-  "/dashboard", "/ecosystem", "/workflow", "/automations", "/hq", "/notifications",
+  "/dashboard", "/work", "/work/matching", "/ecosystem", "/workflow", "/automations", "/hq", "/notifications",
   "/leads", "/estimator", "/jobs", "/calendar", "/follow-ups", "/operations",
   "/call-center", "/messages", "/manual-communications", "/customer-experience",
   "/documents", "/settings", "/team", "/homeowner-portal", "/contractor-portal", "/network",
-  "/map", "/profiles", "/providers", "/matching", "/community-hub",
+  "/map", "/profiles", "/providers", "/matching", "/community-hub", "/community/swipe",
   "/community/discussions", "/community/reviews", "/community/referrals",
   "/community/events", "/community/moderation", "/help", "/tutorials", "/rules",
   "/profile", "/settings/billing",
@@ -106,9 +106,9 @@ export default function Navbar() {
     if (!signedIn || !accessResolved) return [];
     if (showBusinessTools && access.role) return [
       { label: "Home", route: "/dashboard", icon: "home", matches: ["/dashboard", "/workflow", "/ecosystem", "/automations", "/notifications", "/hq"] },
-      { label: "Work", route: "/leads", icon: "work", matches: ["/leads", "/estimator", "/jobs", "/calendar", "/follow-ups", "/operations"] },
-      { label: "Network", route: "/network", icon: "network", matches: ["/network", "/matching", "/map", "/providers", "/profiles"] },
-      { label: "Community", route: "/community-hub", icon: "community", matches: ["/community-hub", "/community"] },
+      { label: "Work", route: "/work", icon: "work", matches: ["/work", "/leads", "/estimator", "/jobs", "/calendar", "/follow-ups", "/operations", "/call-center"] },
+      { label: "Network", route: "/network", icon: "network", matches: ["/network", "/map", "/providers", "/profiles"] },
+      { label: "Community", route: "/community-hub", icon: "community", matches: ["/community-hub", "/community", "/matching"] },
     ].filter((item) => canAccessWorkspacePath(access.role, item.route)) as MobileNavItem[];
     const portalHome = access.homeowner ? "/homeowner-portal" : access.contractor ? "/contractor-portal" : "/portal/accept";
     const portalLinks: MobileNavItem[] = [{ label: "Home", route: portalHome, icon: "home" }];
