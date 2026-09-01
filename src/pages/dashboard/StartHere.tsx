@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ecosystemNavigation } from "../../config/ecosystem";
+import { ecosystemNavigation } from "../../config/navigationPlacement";
 import { useAccountAccess } from "../../hooks/useAccountAccess";
 import { canAccessWorkspacePath } from "../../lib/accessPolicy";
 
