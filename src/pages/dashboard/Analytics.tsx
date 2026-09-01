@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, type CSSProperties } from "react";
 import { BarChart3, Eye, RefreshCw, Route, ShieldCheck, UsersRound } from "lucide-react";
 import AnalyticsKpis from "../../components/analytics/AnalyticsKpis";
 import {
@@ -134,7 +134,7 @@ export default function Analytics() {
             <article className="hlc-analytics-quality-card">
               <span>Known source coverage</span>
               <strong>{percent(growth?.attribution_known_rate)}</strong>
-              <div className="hlc-analytics-ring" style={{ "--hlc-ring-value": `${boundedPercent(growth?.attribution_known_rate) * 3.6}deg` } as React.CSSProperties}><span>{growth?.known_source_leads ?? 0}<small>known</small></span></div>
+              <div className="hlc-analytics-ring" style={{ "--hlc-ring-value": `${boundedPercent(growth?.attribution_known_rate) * 3.6}deg` } as CSSProperties}><span>{growth?.known_source_leads ?? 0}<small>known</small></span></div>
               <p>{growth?.known_source_leads ?? 0} of {growth?.total_leads ?? 0} recent leads have attributable source evidence.</p>
             </article>
             <article className="hlc-analytics-quality-card is-debt">
