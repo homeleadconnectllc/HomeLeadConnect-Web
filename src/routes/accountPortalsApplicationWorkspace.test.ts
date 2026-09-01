@@ -7,7 +7,9 @@ const connections = readFileSync("src/components/settings/IntegrationsConnection
 const profile = readFileSync("src/pages/dashboard/MyProfile.tsx", "utf8");
 const resident = readFileSync("src/pages/portal/HomeownerPortal.tsx", "utf8");
 const professional = readFileSync("src/pages/portal/ContractorPortal.tsx", "utf8");
+const team = readFileSync("src/pages/dashboard/Team.tsx", "utf8");
 const styles = readFileSync("src/styles/account-portals-application-workspace.css", "utf8");
+const visualStyles = readFileSync("src/styles/account-portals-visual-wave.css", "utf8");
 const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 
 test("account surfaces use dedicated control workspaces instead of generic cards", () => {
@@ -104,4 +106,28 @@ test("account and portal screens are natively dark with divider-based controls",
   assert.match(styles, /\.hlc-account-form-actions button,[\s\S]*background:#112744/);
   assert.match(styles, /\.hlc-portal-row\{[^}]*background:transparent!important/);
   assert.doesNotMatch(styles, /background:(?:#fff|#ffffff|#fbfdff|#eef5fc)/i);
+});
+
+test("Company Team joins the account workspace without changing invitation authority", () => {
+  assert.match(team, /hlc-account-workspace hlc-team-workspace/);
+  assert.match(team, /ACCESS · TEAM/);
+  assert.match(team, /hlc-team-row/);
+  assert.match(team, /createWorkspaceInvitation\(email, role\)/);
+  assert.match(team, /removeWorkspaceMember\(member\.user_id\)/);
+  assert.match(team, /revokeWorkspaceInvitation\(invitation\.id\)/);
+  assert.match(team, /member\.member_role !== "owner"/);
+  assert.doesNotMatch(team, /style=\{|pageStyle|cardStyle|rowStyle|background: "#fff"/);
+});
+
+test("Account and Portal visual authority enriches hierarchy while staying mobile safe", () => {
+  const routeIndex = entry.indexOf("./account-portals-visual-wave.css");
+  const finalIndex = entry.indexOf("./application-workspace-ui.css");
+  assert.ok(routeIndex >= 0);
+  assert.ok(finalIndex > routeIndex);
+  assert.match(visualStyles, /\.hlc-account-workspace \.hlc-account-header/);
+  assert.match(visualStyles, /\.hlc-portal-workspace\.is-resident/);
+  assert.match(visualStyles, /\.hlc-portal-workspace\.is-professional/);
+  assert.match(visualStyles, /\.hlc-team-row/);
+  assert.match(visualStyles, /@media\(max-width:720px\)/);
+  assert.doesNotMatch(visualStyles, /background:(?:#fff|#ffffff|#fbfdff|#eef5fc)/i);
 });

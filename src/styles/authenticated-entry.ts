@@ -46,6 +46,7 @@ import "./community-application-workspace.css";
 import "./documents-resources-application-workspace.css";
 import "./documents-resources-visual-wave.css";
 import "./account-portals-application-workspace.css";
+import "./account-portals-visual-wave.css";
 import "./ai-team-application-workspace.css";
 import "./professional-flat-surface-system.css";
 import "./application-workspace-ui.css";

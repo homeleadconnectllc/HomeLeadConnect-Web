@@ -101,33 +101,38 @@ export default function Team() {
     } finally { setBusy(false); }
   }
 
-  return <main style={pageStyle}>
-    <h1>Company team</h1>
-    <p>Invite managers and technicians into this company workspace without sharing passwords. Invitations are email-bound, single-use, and expire after 24 hours.</p>
+  const pendingInvitations = invitations.filter((invitation) => invitationState(invitation) === "Pending").length;
+
+  return <main className="hlc-account-workspace hlc-team-workspace">
+    <header className="hlc-account-header">
+      <div><p className="hlc-account-kicker">ACCESS · TEAM</p><h1>Company team</h1><p>Invite managers and technicians into this company workspace without sharing passwords. Invitations are email-bound, single-use, and expire after 24 hours.</p></div>
+      <div className="hlc-account-summary"><span><strong>{members.length}</strong><small>Current members</small></span><span><strong>{pendingInvitations}</strong><small>Pending invitations</small></span><span><strong>2</strong><small>Assignable roles</small></span></div>
+    </header>
     {loading && <p role="status">Loading team…</p>}
-    {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
-    {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
+    {error && <p role="alert" className="hlc-account-status is-error">{error}</p>}
+    {message && <p role="status" className="hlc-account-status is-success">{message}</p>}
 
     {!loading && <>
-      <section style={cardStyle} aria-labelledby="invite-team-heading">
-        <h2 id="invite-team-heading">Invite a team member</h2>
-        <form onSubmit={invite} style={{ display: "grid", gap: 10 }}>
+      <section className="hlc-settings-section hlc-team-invite" aria-labelledby="invite-team-heading">
+        <div className="hlc-account-section-head"><div><span>SECURE INVITATION</span><h2 id="invite-team-heading">Invite a team member</h2></div><small>Expires in 24 hours</small></div>
+        <form onSubmit={invite} className="hlc-account-field-grid">
           <label>Email<input required type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} /></label>
           <label>Role<select value={role} onChange={(event) => setRole(event.target.value as "manager" | "technician")}>
             <option value="technician">Technician</option>
             <option value="manager">Manager</option>
           </select></label>
-          <button type="submit" disabled={busy || !email.trim()}>{busy ? "Working…" : "Create secure invitation"}</button>
+          <div className="hlc-account-form-actions is-wide"><span>Only the intended email can accept this invitation.</span><button type="submit" disabled={busy || !email.trim()}>{busy ? "Working…" : "Create secure invitation"}</button></div>
         </form>
-        {inviteLink && <div style={{ display: "grid", gap: 8 }}>
+        {inviteLink && <div className="hlc-team-invite-link">
           <label>Secure invitation link<input readOnly value={inviteLink} onFocus={(event) => event.currentTarget.select()} /></label>
           <button type="button" onClick={() => void copyInvite()}>Copy invitation link</button>
         </div>}
       </section>
 
-      <section style={cardStyle} aria-labelledby="team-members-heading">
-        <h2 id="team-members-heading">Current members</h2>
-        {members.length === 0 ? <p>No team members are visible.</p> : members.map((member) => <article key={member.user_id} style={rowStyle}>
+      <div className="hlc-team-ledger">
+      <section className="hlc-settings-section" aria-labelledby="team-members-heading">
+        <div className="hlc-account-section-head"><div><span>MEMBERSHIP</span><h2 id="team-members-heading">Current members</h2></div><strong>{members.length}</strong></div>
+        {members.length === 0 ? <p>No team members are visible.</p> : members.map((member) => <article key={member.user_id} className="hlc-team-row">
           <div>
             <strong>{member.full_name || member.email || "Team member"}</strong>
             <div>{member.email || "Email unavailable"}</div>
@@ -137,11 +142,11 @@ export default function Team() {
         </article>)}
       </section>
 
-      <section style={cardStyle} aria-labelledby="team-invitations-heading">
-        <h2 id="team-invitations-heading">Invitations</h2>
+      <section className="hlc-settings-section" aria-labelledby="team-invitations-heading">
+        <div className="hlc-account-section-head"><div><span>INVITATION REGISTER</span><h2 id="team-invitations-heading">Invitations</h2></div><strong>{invitations.length}</strong></div>
         {invitations.length === 0 ? <p>No invitations yet.</p> : invitations.map((invitation) => {
           const state = invitationState(invitation);
-          return <article key={invitation.id} style={rowStyle}>
+          return <article key={invitation.id} className="hlc-team-row">
             <div>
               <strong>{invitation.intended_email}</strong>
               <div>{invitation.role} · {state}</div>
@@ -151,10 +156,7 @@ export default function Team() {
           </article>;
         })}
       </section>
+      </div>
     </>}
   </main>;
 }
-
-const pageStyle = { width: "min(900px, calc(100% - 32px))", margin: "32px auto", fontFamily: "system-ui, sans-serif" };
-const cardStyle = { display: "grid", gap: 12, marginTop: 20, padding: 20, border: "1px solid #e2e8f0", borderRadius: 14, background: "#fff" };
-const rowStyle = { display: "flex", justifyContent: "space-between", gap: 16, alignItems: "center", padding: 12, border: "1px solid #e2e8f0", borderRadius: 10 };
