@@ -8,6 +8,7 @@ import {
   mobilePrimaryNavigation,
   settingsArchitecture,
 } from "./applicationInformationArchitecture.ts";
+import { ecosystemNavigation } from "./navigationPlacement.ts";
 
 test("mobile navigation stays limited to five top-level destinations", () => {
   assert.deepEqual(
@@ -27,6 +28,42 @@ test("application navigation uses exactly the locked five parent groups", () => 
 test("all routed application pages are unique inside the IA registry", () => {
   const routedItems = applicationNavigation.flatMap((group) => group.items.map((item) => item.route));
   const duplicates = routedItems.filter((route, index) => routedItems.indexOf(route) !== index);
+  assert.deepEqual(duplicates, []);
+});
+
+test("production navigation exposes major E1-E7 destinations under their intended parents", () => {
+  const routeToGroup = new Map(
+    ecosystemNavigation.flatMap((group) => group.pages.map((item) => [item.route, group.id] as const)),
+  );
+  const requiredRoutes = [
+    "/work",
+    "/analytics",
+    "/matching",
+    "/community/discover",
+    "/community/messages",
+    "/community/challenges",
+    "/community/academy",
+    "/community/groups",
+    "/resources",
+    "/resources/materials",
+    "/resources/suppliers",
+    "/resources/forms",
+    "/academy",
+    "/academy/roleplay",
+    "/academy/library",
+  ];
+  for (const route of requiredRoutes) {
+    assert.ok(routeToGroup.has(route), `production navigation is missing ${route}`);
+  }
+  assert.equal(routeToGroup.get("/matching"), "network");
+  assert.equal(routeToGroup.get("/analytics"), "command");
+  assert.equal(routeToGroup.get("/academy"), "academy");
+  assert.equal(routeToGroup.get("/academy/roleplay"), "academy");
+  assert.equal(routeToGroup.get("/resources"), "resources");
+  assert.equal(routeToGroup.get("/community/discover"), "community");
+
+  const routes = ecosystemNavigation.flatMap((group) => group.pages.map((item) => item.route));
+  const duplicates = routes.filter((route, index) => routes.indexOf(route) !== index);
   assert.deepEqual(duplicates, []);
 });
 
