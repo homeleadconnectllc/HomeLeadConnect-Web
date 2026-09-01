@@ -13,17 +13,15 @@ const hostedProductionPublishableKey = "sb_publishable_MQioEyUGv8MNlowJgVyXYQ_kf
 const e3IsolatedPreviewUrl = "https://agfwqnirspmptjiqrrtk.supabase.co";
 const e3IsolatedPreviewPublishableKey = "sb_publishable_oe-fZIb14XWNWgk5-0pPfw_Xqb0dqYv";
 
-function currentHostname() {
-  if (typeof window === "undefined") return "";
-  return window.location.hostname.toLowerCase();
-}
-
 function isHostedHlcRuntime() {
-  return currentHostname() === "app.homeleadconnect.org";
+  if (typeof window === "undefined") return false;
+  const host = window.location.hostname.toLowerCase();
+  return host === "app.homeleadconnect.org";
 }
 
 function isCloudflarePreviewRuntime() {
-  const host = currentHostname();
+  if (typeof window === "undefined") return false;
+  const host = window.location.hostname.toLowerCase();
   return host === "homeleadconnect-web.pages.dev" || host.endsWith(".homeleadconnect-web.pages.dev");
 }
 
