@@ -81,11 +81,10 @@ function normalizeFinish(raw: FinishPayload, allowedDispositionIds: string[]) {
   const rubricScores: Record<string, number> = {};
   for (const item of CONNECT_SCORING_RUBRIC) {
     const candidate = Number(raw.rubricScores?.[item.id] ?? 0);
-    rubricScores[item.id] = Math.max(0, Math.min(item.weight, Number.isFinite(candidate) ? Math.round(candidate) : 0));
+    const maximum = Number(maximums[item.id] ?? item.weight);
+    rubricScores[item.id] = Math.max(0, Math.min(maximum, Number.isFinite(candidate) ? Math.round(candidate) : 0));
   }
-  const computed = Object.values(rubricScores).reduce((sum, value) => sum + value, 0);
-  const modelScore = Number(raw.score);
-  const score = Number.isFinite(modelScore) ? Math.max(0, Math.min(100, Math.round(modelScore))) : computed;
+  const score = Object.values(rubricScores).reduce((sum, value) => sum + value, 0);
   const disposition = raw.recommendedDispositionId && allowedDispositionIds.includes(raw.recommendedDispositionId)
     ? raw.recommendedDispositionId
     : null;
