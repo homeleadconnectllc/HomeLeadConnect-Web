@@ -3,21 +3,40 @@ import { createClient } from "@supabase/supabase-js";
 const envSupabaseUrl = import.meta.env.VITE_SUPABASE_URL || "";
 const envSupabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || "";
 
-// The production custom hostname is pinned to the canonical project. Non-production
-// runtimes must honor their explicit environment so preview/test activity cannot
-// drift into production. The publishable key is browser-safe; privileged access
-// still depends on RLS, authenticated JWTs, and server-side keys.
+// The production custom hostname is pinned to the canonical project. E3 Cloudflare
+// preview deployments are pinned to the isolated reconciliation project so runtime
+// certification cannot drift into production even if preview environment variables do.
+// Publishable keys are browser-safe; privileged access still depends on RLS,
+// authenticated JWTs, and server-side keys.
 const hostedProductionUrl = "https://cguhtshclyybivvdnpig.supabase.co";
 const hostedProductionPublishableKey = "sb_publishable_MQioEyUGv8MNlowJgVyXYQ_kf5cyafA";
+const e3IsolatedPreviewUrl = "https://agfwqnirspmptjiqrrtk.supabase.co";
+const e3IsolatedPreviewPublishableKey = "sb_publishable_oe-fZIb14XWNWgk5-0pPfw_Xqb0dqYv";
 
-function isHostedHlcRuntime() {
-  if (typeof window === "undefined") return false;
-  const host = window.location.hostname.toLowerCase();
-  return host === "app.homeleadconnect.org";
+function currentHostname() {
+  if (typeof window === "undefined") return "";
+  return window.location.hostname.toLowerCase();
 }
 
-const supabaseUrl = isHostedHlcRuntime() ? hostedProductionUrl : envSupabaseUrl;
-const supabaseAnonKey = isHostedHlcRuntime() ? hostedProductionPublishableKey : envSupabaseAnonKey;
+function isHostedHlcRuntime() {
+  return currentHostname() === "app.homeleadconnect.org";
+}
+
+function isCloudflarePreviewRuntime() {
+  const host = currentHostname();
+  return host === "homeleadconnect-web.pages.dev" || host.endsWith(".homeleadconnect-web.pages.dev");
+}
+
+const supabaseUrl = isHostedHlcRuntime()
+  ? hostedProductionUrl
+  : isCloudflarePreviewRuntime()
+    ? e3IsolatedPreviewUrl
+    : envSupabaseUrl;
+const supabaseAnonKey = isHostedHlcRuntime()
+  ? hostedProductionPublishableKey
+  : isCloudflarePreviewRuntime()
+    ? e3IsolatedPreviewPublishableKey
+    : envSupabaseAnonKey;
 
 export const supabaseConfig = {
   url: supabaseUrl,
