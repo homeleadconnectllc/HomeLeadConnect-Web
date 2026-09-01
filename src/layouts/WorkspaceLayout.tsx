@@ -4,9 +4,8 @@ import { useAuth } from "../hooks/useAuth";
 import { getBillingStatus, type BillingStatus } from "../api/billing";
 import { evaluateBillingAccess, resolveEntitlementState } from "../lib/billing/entitlement";
 import { errorMessage } from "../lib/errorMessage";
-import { resolveUserDestination, type HlcDestination } from "../lib/accessDestination";
-import { canAccessWorkspacePath, normalizeInternalRole, type InternalRole } from "../lib/accessPolicy";
-import { supabase } from "../lib/supabase";
+import { resolveActiveWorkspaceRole, resolveUserDestination, type HlcDestination } from "../lib/accessDestination";
+import { canAccessWorkspacePath, type InternalRole } from "../lib/accessPolicy";
 
 type WorkspaceResolution = {
   userId: string;
@@ -30,17 +29,16 @@ export default function WorkspaceLayout() {
 
     Promise.all([
       resolveUserDestination(userId),
-      supabase.from("profiles").select("role").eq("user_id", userId).maybeSingle(),
+      resolveActiveWorkspaceRole(userId),
       billingEnabled
         ? getBillingStatus().then((status) => ({ status, error: null })).catch((reason: unknown) => ({ status: null, error: reason }))
         : Promise.resolve({ status: null, error: null }),
-    ]).then(([destination, profileResult, billingResult]) => {
+    ]).then(([destination, role, billingResult]) => {
       if (!active) return;
-      if (profileResult.error) throw profileResult.error;
       setResolution({
         userId,
         destination,
-        role: normalizeInternalRole(profileResult.data?.role),
+        role,
         billing: billingResult.status,
         billingError: Boolean(billingResult.error),
         accessError: "",
@@ -56,7 +54,7 @@ export default function WorkspaceLayout() {
   if (!session || !resolution || resolution.userId !== session.user.id) return <main style={{ padding: 32 }}><p>Checking workspace access…</p></main>;
   if (resolution.accessError) return <main style={{ padding: 32 }}><h1>Workspace access unavailable</h1><p role="alert">{resolution.accessError}</p><p>Try again after the connection is restored. No workspace access decision was changed.</p></main>;
   if (resolution.destination !== "/dashboard") return <Navigate to={resolution.destination || "/portal/accept"} replace />;
-  if (!resolution.role) return <main style={{ padding: 32 }}><h1>Internal access not assigned</h1><p role="alert">This account has workspace membership but no recognized HLC internal role.</p><p>Customer and provider accounts should use their assigned portal. Internal access requires an owner, manager, or technician role.</p></main>;
+  if (!resolution.role) return <main style={{ padding: 32 }}><h1>Internal access not assigned</h1><p role="alert">This account has workspace membership but no recognized HLC internal role for the selected workspace.</p><p>Customer and provider accounts should use their assigned portal. Internal access requires an owner, manager, or technician membership role.</p></main>;
   if (!canAccessWorkspacePath(resolution.role, location.pathname)) return <main style={{ padding: 32 }}><h1>Access restricted</h1><p role="alert">Your HLC role does not allow this area.</p><p>This page is limited to authorized internal roles and cannot be opened by direct URL.</p><Link to="/dashboard">Return to Dashboard</Link></main>;
 
   const entitlementInput = { billingEnabled, pathname: location.pathname, status: resolution.billing?.status ?? null, isActive: resolution.billing?.is_active ?? null, verificationFailed: resolution.billingError };
