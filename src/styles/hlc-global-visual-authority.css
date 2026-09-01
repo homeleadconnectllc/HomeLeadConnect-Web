@@ -1,6 +1,6 @@
 /* HLC global visual authority — post-launch visual-system rebuild.
-   Loaded last for authenticated surfaces. Keeps interaction semantics intact while
-   reducing the repetitive wall-to-wall navy/outlined-card treatment. */
+   Loaded beneath the protected Messages Lane 2 authority. Keeps interaction
+   semantics intact while reducing repetitive wall-to-wall navy treatment. */
 
 :root {
   --hlc-visual-ink: #07111f;
@@ -15,8 +15,6 @@
   --hlc-visual-radius: 18px;
 }
 
-/* Give the product one intentional background rather than dozens of competing
-   route backgrounds. Individual functional components keep their own state colors. */
 body:has(.hlc-app-shell) {
   background:
     radial-gradient(circle at 10% -8%, rgba(56,189,248,.12), transparent 28rem),
@@ -24,26 +22,16 @@ body:has(.hlc-app-shell) {
     linear-gradient(180deg, #06101e 0%, #09182a 48%, #071321 100%);
 }
 
-.hlc-route-content {
-  isolation: isolate;
-}
+.hlc-route-content { isolation: isolate; }
 
-/* Shared page rhythm: tighter dead space, wider readable content, and a clear
-   distinction between page canvas and actionable surfaces. */
 .hlc-route-content > main:not(.hlc-public-page),
 .hlc-route-content > section {
   --hlc-page-inline: clamp(16px, 3vw, 34px);
 }
 
-.hlc-route-content :is(h1, h2, h3) {
-  text-wrap: balance;
-}
+.hlc-route-content :is(h1, h2, h3) { text-wrap: balance; }
+.hlc-route-content :is(p, li, label, small) { text-wrap: pretty; }
 
-.hlc-route-content :is(p, li, label, small) {
-  text-wrap: pretty;
-}
-
-/* Repeated cards should feel like grouped product surfaces, not wireframes. */
 .hlc-route-content :is(
   .hlc-metric-card,
   .hlc-pulse-card,
@@ -58,8 +46,6 @@ body:has(.hlc-app-shell) {
   box-shadow: 0 14px 34px rgba(1, 7, 16, .14);
 }
 
-/* Agent art is a first-class product visual only where an agent is actually
-   part of the workflow. */
 .hlc-agent-portrait-wrap {
   overflow: hidden;
   border-radius: 16px;
@@ -74,9 +60,6 @@ body:has(.hlc-app-shell) {
   object-position: center top;
 }
 
-/* Empty operational states should never become a giant navy void. Existing
-   empty-state markup receives a compact, visually distinct treatment without
-   changing its wording or actions. */
 .hlc-route-content :is(.empty-state, .hlc-empty-state, [data-empty-state="true"]) {
   min-height: 180px;
   display: grid;
@@ -91,7 +74,127 @@ body:has(.hlc-app-shell) {
     linear-gradient(145deg, rgba(16,36,61,.94), rgba(8,24,42,.94));
 }
 
-/* Mobile: preserve vertical real estate for the work itself. */
+/* Community Matching becomes image-led rather than initials-led. The imagery is
+   service-category context, while provider identity continues to come only from
+   recorded HLC data. */
+.hlc-match-page {
+  max-width: 1180px;
+  margin-inline: auto;
+}
+
+.hlc-match-hero {
+  max-width: 760px;
+}
+
+.hlc-match-card-active {
+  overflow: hidden;
+  border: 1px solid rgba(203,213,225,.17);
+  border-radius: 24px;
+  background: linear-gradient(180deg, rgba(11,28,48,.98), rgba(7,20,36,.98));
+  box-shadow: 0 26px 60px rgba(1,7,16,.34);
+}
+
+.hlc-match-visual {
+  position: relative;
+  min-height: clamp(250px, 34vw, 390px);
+  overflow: hidden;
+  background: #0b1c30;
+}
+
+.hlc-match-visual > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1.01);
+}
+
+.hlc-match-visual-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(4,12,22,.05) 25%, rgba(4,12,22,.78) 100%);
+  pointer-events: none;
+}
+
+.hlc-match-provider-mark {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border: 1px solid rgba(255,255,255,.42);
+  border-radius: 16px;
+  background: rgba(6,17,31,.82);
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: .04em;
+  backdrop-filter: blur(10px);
+}
+
+.hlc-match-service-label {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  max-width: calc(100% - 92px);
+  padding: 9px 12px;
+  border-radius: 999px;
+  background: rgba(247,242,232,.94);
+  color: #122034;
+  font-size: .82rem;
+  font-weight: 750;
+  line-height: 1.15;
+}
+
+.hlc-match-card-body {
+  padding: clamp(20px, 4vw, 30px);
+}
+
+.hlc-match-liked-grid > article {
+  overflow: hidden;
+  border: 1px solid var(--hlc-visual-line);
+  border-radius: 18px;
+  background: rgba(12,31,52,.72);
+}
+
+.hlc-match-mini-avatar {
+  position: relative;
+  width: 76px;
+  min-width: 76px;
+  height: 76px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #0b1c30;
+}
+
+.hlc-match-mini-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hlc-match-mini-avatar span {
+  position: absolute;
+  inset: auto 6px 6px auto;
+  display: grid;
+  place-items: center;
+  min-width: 28px;
+  height: 28px;
+  padding-inline: 5px;
+  border-radius: 9px;
+  background: rgba(6,17,31,.86);
+  color: #fff;
+  font-size: .68rem;
+  font-weight: 800;
+}
+
+.hlc-match-liked-empty {
+  max-width: 760px;
+}
+
 @media (max-width: 700px) {
   .hlc-route-content > main:not(.hlc-public-page) {
     padding-top: clamp(12px, 3vw, 20px);
@@ -107,6 +210,29 @@ body:has(.hlc-app-shell) {
     min-height: 150px;
     padding: 22px 18px;
   }
+
+  .hlc-match-card-active { border-radius: 20px; }
+
+  .hlc-match-visual {
+    min-height: clamp(230px, 74vw, 320px);
+  }
+
+  .hlc-match-provider-mark {
+    left: 14px;
+    bottom: 14px;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+  }
+
+  .hlc-match-service-label {
+    right: 14px;
+    bottom: 14px;
+    max-width: calc(100% - 82px);
+    font-size: .77rem;
+  }
+
+  .hlc-match-card-body { padding: 18px 16px 20px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
