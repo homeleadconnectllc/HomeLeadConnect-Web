@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const page = readFileSync("src/pages/dashboard/CommunityHub.tsx", "utf8");
+const router = readFileSync("src/routes/AppRouter.tsx", "utf8");
 const styles = readFileSync("src/styles/community-application-workspace.css", "utf8");
 const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 
@@ -15,11 +16,15 @@ test("Community uses a dedicated participation workspace instead of generic dest
   assert.doesNotMatch(page, /borderRadius: 18|boxShadow: "0 10px 26px|gridTemplateColumns: "repeat\(auto-fit/);
 });
 
-test("Community preserves discovery, participation, trust, moderation, store and service handoffs", () => {
+test("Community preserves premium discovery, participation, trust, moderation, and service boundaries", () => {
+  assert.match(page, /\/community\/discover/);
+  assert.match(page, /\/community\/swipe/);
+  assert.match(page, /\/community\/messages/);
+  assert.match(page, /\/community\/challenges/);
+  assert.match(page, /\/community\/academy/);
   assert.match(page, /\/providers/);
-  assert.match(page, /\/map/);
-  assert.match(page, /\/matching/);
-  assert.match(page, /\/network\/eligibility/);
+  assert.match(page, /\/network\/map/);
+  assert.match(page, /\/work\/matching/);
   assert.match(page, /\/community\/discussions/);
   assert.match(page, /\/community\/groups/);
   assert.match(page, /\/community\/events/);
@@ -29,8 +34,19 @@ test("Community preserves discovery, participation, trust, moderation, store and
   assert.match(page, /CommunityStore/);
   assert.match(page, /Discovery is not dispatch/);
   assert.match(page, /\/request-service/);
-  assert.match(page, /\/workflow/);
+  assert.match(page, /\/work/);
   assert.match(page, /DIAMOND · CX CONTEXT/);
+});
+
+test("Community Premium canonical routes are declared while operational messages remain separate", () => {
+  assert.match(router, /path="\/community\/discover"/);
+  assert.match(router, /path="\/community\/swipe"/);
+  assert.match(router, /path="\/community\/messages"/);
+  assert.match(router, /path="\/community\/challenges"/);
+  assert.match(router, /path="\/community\/academy"/);
+  assert.match(router, /path="\/messages" element=\{<Messages\/>\}/);
+  assert.match(router, /path="\/work\/matching" element=\{<EligibilityFit\/>\}/);
+  assert.match(router, /path="\/matching" element=\{<CommunityMatchDeck\/>\}/);
 });
 
 test("Community specialization mounts before final authority and collapses safely on mobile", () => {
