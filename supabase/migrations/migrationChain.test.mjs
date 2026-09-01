@@ -13,6 +13,7 @@ const stagedUnpromotedFiles = [
   "20260901131500_community_member_relationship_foundation.sql",
   "20260901142500_community_private_messenger.sql",
   "20260901144500_community_rpc_privilege_hardening.sql",
+  "20260901163000_academy_progress_runtime.sql",
 ];
 const productionPlanFiles = migrationFiles.filter((name) => !stagedUnpromotedFiles.includes(name));
 const plan = readFileSync("supabase/RELEASE_MIGRATION_PLAN.md", "utf8");
