@@ -53,6 +53,9 @@ export const ACADEMY_TRACKS: readonly AcademyTrack[] = [
   },
 ] as const;
 
+// Lower-case alias retained for consumers created during the E2 wiring pass.
+export const academyTracks: readonly AcademyTrack[] = ACADEMY_TRACKS;
+
 export type AcademyActivityKind = "lesson" | "practice" | "simulation" | "assessment" | "application";
 
 const XP_BY_ACTIVITY: Record<AcademyActivityKind, number> = {
