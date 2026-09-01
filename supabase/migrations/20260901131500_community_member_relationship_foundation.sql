@@ -33,8 +33,8 @@ create table if not exists public.community_connections (
 
 create unique index if not exists community_connections_unique_pair
   on public.community_connections (
-    least(requester_user_id, addressee_user_id),
-    greatest(requester_user_id, addressee_user_id)
+    (least(requester_user_id, addressee_user_id)),
+    (greatest(requester_user_id, addressee_user_id))
   );
 
 create index if not exists community_connections_requester_status_idx
@@ -118,8 +118,8 @@ begin
   insert into public.community_connections (requester_user_id, addressee_user_id, status)
   values (actor, peer_user_id, 'pending')
   on conflict (
-    least(requester_user_id, addressee_user_id),
-    greatest(requester_user_id, addressee_user_id)
+    (least(requester_user_id, addressee_user_id)),
+    (greatest(requester_user_id, addressee_user_id))
   ) do nothing
   returning * into result;
 
