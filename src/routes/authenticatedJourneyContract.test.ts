@@ -15,6 +15,8 @@ test("critical signed-in journey destinations stay declared and reachable", () =
   for (const route of ["/dashboard", "/leads", "/messages", "/calendar", "/jobs"]) {
     assert.match(router, new RegExp(`path=\\"${route.replaceAll("/", "\\/")}\\"`));
   }
+  assert.match(router, /path="\/work"/);
+  assert.match(router, /path="\/work\/matching"/);
   assert.match(router, /path="\/jobs\/:jobId"/);
   assert.match(dashboard, /to: "\/leads"/);
   assert.match(dashboard, /to: "\/messages"/);
@@ -24,7 +26,7 @@ test("critical signed-in journey destinations stay declared and reachable", () =
 
 test("mobile primary navigation preserves the canonical five-parent return paths", () => {
   assert.match(navbar, /label:\s*"Home",[\s\S]*?route:\s*"\/dashboard"/);
-  assert.match(navbar, /label:\s*"Work",[\s\S]*?route:\s*"\/leads"/);
+  assert.match(navbar, /label:\s*"Work",[\s\S]*?route:\s*"\/work"/);
   assert.match(navbar, /label:\s*"Network",[\s\S]*?route:\s*"\/network"/);
   assert.match(navbar, /label:\s*"Community",[\s\S]*?route:\s*"\/community-hub"/);
   assert.match(navbar, /aria-label=\{mobileOpen \? "Close all HLC areas" : "Open all HLC areas"\}/);
