@@ -50,15 +50,15 @@ grant select on public.academy_certifications to authenticated;
 
 drop policy if exists academy_progress_read_own on public.academy_progress;
 create policy academy_progress_read_own on public.academy_progress
-for select to authenticated using (user_id = auth.uid());
+for select to authenticated using (user_id = (select auth.uid()));
 
 drop policy if exists academy_attempts_read_own on public.academy_attempts;
 create policy academy_attempts_read_own on public.academy_attempts
-for select to authenticated using (user_id = auth.uid());
+for select to authenticated using (user_id = (select auth.uid()));
 
 drop policy if exists academy_certifications_read_own on public.academy_certifications;
 create policy academy_certifications_read_own on public.academy_certifications
-for select to authenticated using (user_id = auth.uid());
+for select to authenticated using (user_id = (select auth.uid()));
 
 create or replace function public.academy_record_activity(
   p_module_id text,
@@ -87,9 +87,11 @@ begin
   if length(trim(coalesce(p_module_id, ''))) = 0 then
     raise exception 'module_id required';
   end if;
-  if p_activity_type not in ('lesson','practice','simulation','assessment') then
+  if p_activity_type not in ('lesson','practice','simulation') then
     raise exception 'unsupported academy activity';
   end if;
+
+  perform pg_advisory_xact_lock(hashtextextended(v_user_id::text || ':' || p_module_id || ':' || p_activity_type, 0));
 
   select coalesce(max(attempt_number), 0) + 1
     into v_attempt
@@ -102,7 +104,6 @@ begin
     when 'lesson' then 10
     when 'practice' then 20
     when 'simulation' then 30
-    when 'assessment' then 40
     else 0
   end;
 
@@ -112,21 +113,6 @@ begin
       when v_attempt = 2 then floor(v_base_xp * 0.25)::integer
       else 0
     end;
-  end if;
-
-  if p_activity_type = 'assessment' then
-    if p_score is null or p_threshold is null or p_threshold <= 0 then
-      raise exception 'assessment score and positive threshold required';
-    end if;
-    if p_score >= p_threshold then
-      if length(trim(coalesce(p_assessment_id, ''))) = 0 then
-        raise exception 'assessment_id required for certification';
-      end if;
-      if p_teacher not in ('kendrell','dion','diamond') then
-        raise exception 'valid HLC teacher required for certification';
-      end if;
-      v_certified := true;
-    end if;
   end if;
 
   insert into public.academy_attempts (
@@ -168,4 +154,94 @@ revoke all on function public.academy_record_activity(text,text,boolean,numeric,
 grant execute on function public.academy_record_activity(text,text,boolean,numeric,numeric,text,text) to authenticated;
 
 comment on function public.academy_record_activity(text,text,boolean,numeric,numeric,text,text) is
-  'Server-authoritative E2 Academy activity recorder. Application XP is intentionally excluded until a trusted outcome source can prove real-world completion.';
+  'Authenticated E2 learning activity recorder. Assessment and application outcomes require a trusted server-side source.';
+
+create or replace function public.academy_record_assessment(
+  p_user_id uuid,
+  p_module_id text,
+  p_assessment_id text,
+  p_score numeric,
+  p_threshold numeric,
+  p_teacher text
+)
+returns jsonb
+language plpgsql
+security definer
+set search_path = public, pg_temp
+as $$
+declare
+  v_attempt integer;
+  v_xp integer;
+  v_certified boolean := p_score >= p_threshold;
+begin
+  if p_user_id is null or not exists (select 1 from auth.users where id = p_user_id) then
+    raise exception 'valid Academy user required';
+  end if;
+  if length(trim(coalesce(p_module_id, ''))) = 0 then
+    raise exception 'module_id required';
+  end if;
+  if length(trim(coalesce(p_assessment_id, ''))) = 0 then
+    raise exception 'assessment_id required';
+  end if;
+  if p_score is null or p_threshold is null or p_threshold <= 0 then
+    raise exception 'assessment score and positive threshold required';
+  end if;
+  if p_teacher not in ('kendrell','dion','diamond') then
+    raise exception 'valid HLC teacher required for certification';
+  end if;
+
+  perform pg_advisory_xact_lock(hashtextextended(p_user_id::text || ':' || p_module_id || ':assessment', 0));
+
+  select coalesce(max(attempt_number), 0) + 1
+    into v_attempt
+    from public.academy_attempts
+   where user_id = p_user_id
+     and module_id = p_module_id
+     and activity_type = 'assessment';
+
+  v_xp := case
+    when v_attempt = 1 then 40
+    when v_attempt = 2 then 10
+    else 0
+  end;
+
+  insert into public.academy_attempts (
+    user_id, module_id, activity_type, attempt_number, completed, score, threshold, xp_awarded
+  ) values (
+    p_user_id, p_module_id, 'assessment', v_attempt, true, p_score, p_threshold, v_xp
+  );
+
+  insert into public.academy_progress (user_id, xp_total, updated_at)
+  values (p_user_id, v_xp, now())
+  on conflict (user_id) do update
+    set xp_total = public.academy_progress.xp_total + excluded.xp_total,
+        updated_at = now();
+
+  if v_certified then
+    insert into public.academy_certifications (
+      user_id, module_id, assessment_id, score, threshold, teacher, assessed_at
+    ) values (
+      p_user_id, p_module_id, trim(p_assessment_id), p_score, p_threshold, p_teacher, now()
+    )
+    on conflict (user_id, module_id, assessment_id) do update
+      set score = excluded.score,
+          threshold = excluded.threshold,
+          teacher = excluded.teacher,
+          assessed_at = excluded.assessed_at;
+  end if;
+
+  return jsonb_build_object(
+    'module_id', p_module_id,
+    'activity_type', 'assessment',
+    'attempt_number', v_attempt,
+    'xp_awarded', v_xp,
+    'certified', v_certified
+  );
+end;
+$$;
+
+revoke all on function public.academy_record_assessment(uuid,text,text,numeric,numeric,text) from public, anon, authenticated;
+grant execute on function public.academy_record_assessment(uuid,text,text,numeric,numeric,text) to service_role;
+
+comment on function public.academy_record_assessment(uuid,text,text,numeric,numeric,text) is
+  'Trusted server-only E2 assessment recorder. Browser roles cannot submit scores, thresholds, teachers, or certifications.';

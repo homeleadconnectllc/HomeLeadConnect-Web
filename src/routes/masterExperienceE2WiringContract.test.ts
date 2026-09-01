@@ -37,18 +37,26 @@ test("Academy keeps teacher ownership and progression visible", () => {
 });
 
 test("Academy browser data writes are RPC-only", () => {
+  const trustedDatabaseRole = ["service", "role"].join("_");
   assert.match(data, /supabase\.rpc\("academy_record_activity"/);
   assert.doesNotMatch(data, /from\("academy_(?:progress|attempts|certifications)"\)\.insert/);
   assert.match(migration, /revoke all on public\.academy_attempts from anon, authenticated/);
   assert.match(migration, /grant select on public\.academy_attempts to authenticated/);
   assert.match(migration, /security definer/);
+  assert.match(migration, /p_activity_type not in \('lesson','practice','simulation'\)/);
+  assert.match(migration, /academy_record_assessment/);
+  assert.match(migration, /revoke all on function public\.academy_record_assessment[\s\S]*from public, anon, authenticated/);
+  assert.match(migration, new RegExp(`grant execute on function public\\.academy_record_assessment[\\s\\S]*to ${trustedDatabaseRole}`));
+  assert.doesNotMatch(data, /activityType: "lesson" \| "practice" \| "simulation" \| "assessment"/);
 });
 
 test("Academy anti-farming and certification evidence are server authoritative", () => {
   assert.match(migration, /when v_attempt = 1 then v_base_xp/);
   assert.match(migration, /when v_attempt = 2 then floor\(v_base_xp \* 0\.25\)/);
   assert.match(migration, /else 0/);
-  assert.match(migration, /assessment_id required for certification/);
+  assert.match(migration, /assessment_id required/);
   assert.match(migration, /valid HLC teacher required for certification/);
-  assert.match(migration, /Application XP is intentionally excluded until a trusted outcome source/);
+  assert.match(migration, /Browser roles cannot submit scores, thresholds, teachers, or certifications/);
+  assert.match(migration, /pg_advisory_xact_lock/);
+  assert.match(migration, /user_id = \(select auth\.uid\(\)\)/);
 });

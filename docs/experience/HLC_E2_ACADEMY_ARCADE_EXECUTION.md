@@ -28,7 +28,7 @@ Teacher ownership remains contextual:
 - XP is progress currency, not a trust score.
 - Community popularity does not prove competency.
 - Event attendance does not create certification.
-- HLC certifications remain distinct from external licenses/credentials.
+- HLC certifications must remain distinct from external licenses/credentials.
 - Application XP requires a trusted verified outcome rather than a click or self-asserted completion.
 - Repeat attempts provide full credit once, 25% credit on attempt two, and no farming credit after that.
 - Certification requires assessment identity, positive threshold, passing score, date, and one of the locked HLC teachers.
@@ -40,7 +40,7 @@ E2 has advanced from FOUNDATION to WIRED in source control on the isolated E2 br
 - `/community/academy` remains a compatibility doorway and routes into canonical `/academy` rather than duplicating training content;
 - Community Arcade challenges remain at the existing `/community/challenges` surface;
 - the staged Academy persistence migration provides user-scoped progress, attempts, and HLC certifications with RLS and RPC-only writes;
-- practice recording is wired through `academy_record_activity`, while application XP is intentionally unavailable until a trusted outcome source can prove real-world completion;
+- practice recording is wired through `academy_record_activity`; browser roles cannot submit assessment scores or certifications, which are isolated behind the service-role-only `academy_record_assessment` boundary; application XP remains unavailable until a trusted outcome source can prove real-world completion;
 - E3-owned `/academy/roleplay` and `/academy/library` remain reserved and unmounted;
 - operational `/work/matching` vs Community `/community/swipe`, and operational `/messages` vs `/community/messages`, remain distinct.
 

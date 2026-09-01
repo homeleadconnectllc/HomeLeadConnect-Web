@@ -48,7 +48,7 @@ export async function loadAcademySnapshot(): Promise<AcademySnapshot> {
 
 export async function recordAcademyActivity(input: {
   moduleId: string;
-  activityType: "lesson" | "practice" | "simulation" | "assessment";
+  activityType: "lesson" | "practice" | "simulation";
   completed?: boolean;
   score?: number | null;
   threshold?: number | null;
