@@ -1,0 +1,184 @@
+/* Whole-app route-body visual system. Presentation only; no business state is inferred here. */
+.hlc-signed-in-shell .hlc-route-content,
+.hlc-public-shell .hlc-route-content {
+  --hlc-body-accent: var(--hlc-blue);
+}
+
+.hlc-page-leads .hlc-route-content,
+.hlc-page-jobs .hlc-route-content,
+.hlc-page-estimator .hlc-route-content,
+.hlc-page-calendar .hlc-route-content,
+.hlc-page-follow-ups .hlc-route-content,
+.hlc-page-call-center .hlc-route-content,
+.hlc-page-manual-communications .hlc-route-content,
+.hlc-page-work .hlc-route-content { --hlc-body-accent: #37a5ff; }
+
+.hlc-page-network .hlc-route-content,
+.hlc-page-providers .hlc-route-content,
+.hlc-page-profiles .hlc-route-content,
+.hlc-page-map .hlc-route-content,
+.hlc-page-matching .hlc-route-content { --hlc-body-accent: #25c7e8; }
+
+.hlc-page-community-hub .hlc-route-content,
+[class*="hlc-page-community-"] .hlc-route-content { --hlc-body-accent: #1fb6a6; }
+
+.hlc-page-academy .hlc-route-content,
+[class*="hlc-page-academy-"] .hlc-route-content { --hlc-body-accent: #73a7ff; }
+
+.hlc-page-resources .hlc-route-content,
+[class*="hlc-page-resources-"] .hlc-route-content,
+.hlc-page-documents .hlc-route-content,
+.hlc-page-help .hlc-route-content,
+.hlc-page-tutorials .hlc-route-content,
+.hlc-page-rules .hlc-route-content { --hlc-body-accent: #f0b44d; }
+
+.hlc-page-settings .hlc-route-content,
+.hlc-page-profile .hlc-route-content,
+.hlc-page-team .hlc-route-content,
+.hlc-page-messages .hlc-route-content,
+.hlc-page-notifications .hlc-route-content,
+[class*="hlc-page-homeowner-portal"] .hlc-route-content,
+[class*="hlc-page-contractor-portal"] .hlc-route-content,
+[class*="hlc-page-partner-portal"] .hlc-route-content { --hlc-body-accent: #9eb6d3; }
+
+.hlc-page-hq .hlc-route-content,
+.hlc-page-operations .hlc-route-content,
+.hlc-page-customer-experience .hlc-route-content { --hlc-body-accent: #5c8dff; }
+
+/* Keep working surfaces flat, but make each section visually legible and intentional. */
+.hlc-route-content > main > section,
+.hlc-route-content > main > article,
+.hlc-route-content > main > form {
+  position: relative;
+}
+
+.hlc-signed-in-shell .hlc-route-content > main > section:not(:first-child),
+.hlc-signed-in-shell .hlc-route-content > main > article:not(:first-child) {
+  border-top-color: color-mix(in srgb, var(--hlc-body-accent) 18%, var(--hlc-line)) !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content > main > section:has(> h2)::before,
+.hlc-signed-in-shell .hlc-route-content > main > article:has(> h2)::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: min(120px, 24%);
+  height: 2px;
+  background: linear-gradient(90deg, var(--hlc-body-accent), transparent);
+  opacity: .55;
+  pointer-events: none;
+}
+
+/* Dense lists read like live operational instruments, not blank tables. */
+.hlc-signed-in-shell .hlc-route-content :is(table,[role="table"],[class*="list"],[class*="queue"],[class*="grid"]):not(.hlc-agent-grid):not(.hlc-metric-grid) {
+  scrollbar-color: color-mix(in srgb, var(--hlc-body-accent) 42%, #3b4e62) transparent;
+}
+
+.hlc-signed-in-shell .hlc-route-content table {
+  border-collapse: collapse;
+  background: linear-gradient(180deg, rgba(12,28,47,.38), rgba(6,18,32,.18));
+}
+
+.hlc-signed-in-shell .hlc-route-content thead th {
+  color: color-mix(in srgb, var(--hlc-body-accent) 56%, #d9e8f7) !important;
+  font-size: .72rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.hlc-signed-in-shell .hlc-route-content tbody tr {
+  transition: background-color .15s ease, box-shadow .15s ease;
+}
+
+.hlc-signed-in-shell .hlc-route-content tbody tr:hover {
+  background: color-mix(in srgb, var(--hlc-body-accent) 5%, transparent);
+  box-shadow: inset 2px 0 0 color-mix(in srgb, var(--hlc-body-accent) 60%, transparent);
+}
+
+/* Forms get one visual spine so utility pages still feel authored. */
+.hlc-route-content form {
+  accent-color: var(--hlc-body-accent);
+}
+
+.hlc-signed-in-shell .hlc-route-content form:has(> label),
+.hlc-public-shell .hlc-route-content form:has(> label) {
+  background-image: linear-gradient(180deg, color-mix(in srgb, var(--hlc-body-accent) 4%, transparent), transparent 38%);
+}
+
+.hlc-route-content fieldset {
+  border-color: color-mix(in srgb, var(--hlc-body-accent) 22%, var(--hlc-line)) !important;
+}
+
+.hlc-route-content legend {
+  color: color-mix(in srgb, var(--hlc-body-accent) 58%, #eef6ff) !important;
+  font-weight: 800;
+}
+
+/* Honest empty states get a visual marker without inventing records. */
+.hlc-route-content :is([class*="empty"],[class*="zero-state"],[class*="no-results"]) {
+  position: relative;
+  overflow: hidden;
+  border-color: color-mix(in srgb, var(--hlc-body-accent) 20%, var(--hlc-line)) !important;
+  background:
+    radial-gradient(circle at 88% 14%, color-mix(in srgb, var(--hlc-body-accent) 12%, transparent), transparent 13rem),
+    rgba(9,23,39,.46) !important;
+}
+
+.hlc-route-content :is([class*="empty"],[class*="zero-state"],[class*="no-results"])::after {
+  content: "";
+  position: absolute;
+  right: 22px;
+  top: 50%;
+  width: 54px;
+  height: 54px;
+  border: 1px solid color-mix(in srgb, var(--hlc-body-accent) 44%, transparent);
+  border-radius: 50%;
+  transform: translateY(-50%);
+  box-shadow:
+    0 0 0 12px color-mix(in srgb, var(--hlc-body-accent) 5%, transparent),
+    0 0 0 24px color-mix(in srgb, var(--hlc-body-accent) 3%, transparent);
+  opacity: .72;
+  pointer-events: none;
+}
+
+/* Status chips and progress elements share the route accent but keep semantic errors/warnings intact. */
+.hlc-route-content progress,
+.hlc-route-content meter { accent-color: var(--hlc-body-accent); }
+
+.hlc-route-content :is([class*="progress"],[class*="timeline"],[class*="pipeline"]) {
+  --hlc-progress-accent: var(--hlc-body-accent);
+}
+
+/* Image and avatar treatment is consistent wherever real media already exists. */
+.hlc-route-content :is(img[class*="avatar"],img[class*="portrait"],img[class*="cover"],img[class*="thumbnail"],img[class*="preview"]) {
+  border-color: color-mix(in srgb, var(--hlc-body-accent) 24%, var(--hlc-line)) !important;
+  box-shadow: 0 16px 38px rgba(0,8,20,.24);
+}
+
+/* Route families carry subtle body atmosphere without changing layout ownership. */
+.hlc-signed-in-shell .hlc-route-content > main {
+  background-image:
+    radial-gradient(circle at 98% 8%, color-mix(in srgb, var(--hlc-body-accent) 5%, transparent), transparent 28rem),
+    radial-gradient(circle at 4% 48%, color-mix(in srgb, var(--hlc-body-accent) 3%, transparent), transparent 24rem);
+  background-repeat: no-repeat;
+}
+
+/* On compact screens the visuals stay supportive rather than stealing vertical space. */
+@media (max-width: 760px) {
+  .hlc-route-content :is([class*="empty"],[class*="zero-state"],[class*="no-results"])::after {
+    width: 38px;
+    height: 38px;
+    right: 14px;
+    opacity: .48;
+  }
+
+  .hlc-signed-in-shell .hlc-route-content tbody tr:hover {
+    background: transparent;
+    box-shadow: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hlc-signed-in-shell .hlc-route-content tbody tr { transition: none; }
+}
