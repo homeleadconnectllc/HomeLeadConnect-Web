@@ -1,0 +1,421 @@
+/* HLC adaptive visual rebalance
+   Desktop and mobile intentionally share brand grammar, not identical composition.
+   Blue is an accent; cool white + graphite are the working canvas. */
+
+:root {
+  --hlc-canvas: #f4f8fc;
+  --hlc-canvas-strong: #ffffff;
+  --hlc-canvas-soft: #edf3f8;
+  --hlc-graphite: #121923;
+  --hlc-graphite-2: #1a2430;
+  --hlc-graphite-3: #273443;
+  --hlc-ink-on-light: #172231;
+  --hlc-ink-soft-on-light: #536477;
+  --hlc-line-light: #d8e2ec;
+  --hlc-line-light-strong: #c5d2df;
+  --hlc-coral: #ef6f61;
+  --hlc-violet: #7868e6;
+  --hlc-mint: #27a987;
+  --hlc-amber: #e8a43b;
+}
+
+/* ---------- DESKTOP: operations workspace ---------- */
+@media (min-width: 901px) {
+  html,
+  body,
+  #root {
+    background: var(--hlc-canvas) !important;
+  }
+
+  body {
+    color: var(--hlc-ink-on-light) !important;
+    background:
+      radial-gradient(circle at 92% 3%, rgba(47,125,246,.07), transparent 30rem),
+      radial-gradient(circle at 12% 82%, rgba(39,169,135,.05), transparent 26rem),
+      var(--hlc-canvas) !important;
+    background-attachment: fixed !important;
+  }
+
+  .hlc-signed-in-shell,
+  .hlc-public-shell,
+  .hlc-app-shell,
+  .hlc-route-content,
+  .hlc-route-content > main {
+    background-color: transparent !important;
+  }
+
+  .hlc-route-content > main {
+    color: var(--hlc-ink-on-light) !important;
+  }
+
+  .hlc-route-content > main :is(h1,h2,h3,h4,h5,h6) {
+    color: var(--hlc-ink-on-light);
+  }
+
+  .hlc-route-content > main :is(p,li,dd,dt,label,small) {
+    color: var(--hlc-ink-soft-on-light);
+  }
+
+  /* Navigation remains dark, but graphite rather than blue-black. */
+  .hlc-navbar,
+  .hlc-drawer-v2,
+  .hlc-drawer-v2-scroll,
+  .hlc-sidebar,
+  [class*="desktop-sidebar"] {
+    background-color: var(--hlc-graphite) !important;
+    background-image: none !important;
+    border-color: rgba(255,255,255,.09) !important;
+  }
+
+  .hlc-nav-menu a[aria-current="page"],
+  .hlc-mobile-more-quick a[aria-current="page"] {
+    background: rgba(255,255,255,.09) !important;
+    border-color: rgba(255,255,255,.16) !important;
+    box-shadow: inset 3px 0 0 var(--hlc-blue);
+  }
+
+  /* Working surfaces become clean white instead of nested navy panels. */
+  .hlc-route-content :is(.hlc-card,.card,.panel,.surface,[class*="workspace-card"],[class*="metric-card"],[class*="summary-card"],[class*="queue-card"],[class*="profile-card"],[class*="settings-card"]) {
+    background: rgba(255,255,255,.96) !important;
+    color: var(--hlc-ink-on-light) !important;
+    border-color: var(--hlc-line-light) !important;
+    box-shadow: 0 10px 30px rgba(23,34,49,.07) !important;
+  }
+
+  .hlc-route-content :is(.hlc-card,.card,.panel,.surface,[class*="workspace-card"],[class*="metric-card"],[class*="summary-card"],[class*="queue-card"],[class*="profile-card"],[class*="settings-card"]) :is(h1,h2,h3,h4,strong,b) {
+    color: var(--hlc-ink-on-light);
+  }
+
+  .hlc-route-content :is(.hlc-card,.card,.panel,.surface,[class*="workspace-card"],[class*="metric-card"],[class*="summary-card"],[class*="queue-card"],[class*="profile-card"],[class*="settings-card"]) :is(p,small,span,label,li) {
+    color: var(--hlc-ink-soft-on-light);
+  }
+
+  .hlc-route-content input,
+  .hlc-route-content select,
+  .hlc-route-content textarea {
+    background: #fff !important;
+    color: var(--hlc-ink-on-light) !important;
+    border-color: var(--hlc-line-light-strong) !important;
+    box-shadow: inset 0 1px 2px rgba(23,34,49,.04) !important;
+  }
+
+  .hlc-route-content input::placeholder,
+  .hlc-route-content textarea::placeholder {
+    color: #7b8b9b !important;
+  }
+
+  .hlc-route-content table {
+    background: #fff !important;
+    color: var(--hlc-ink-on-light) !important;
+    border-color: var(--hlc-line-light) !important;
+  }
+
+  .hlc-route-content thead,
+  .hlc-route-content thead tr,
+  .hlc-route-content thead th {
+    background: #eef3f8 !important;
+    color: #52687e !important;
+    border-color: var(--hlc-line-light) !important;
+  }
+
+  .hlc-route-content tbody tr,
+  .hlc-route-content tbody td {
+    background: #fff;
+    color: var(--hlc-ink-on-light) !important;
+    border-color: var(--hlc-line-light) !important;
+  }
+
+  .hlc-route-content tbody tr:hover {
+    background: #f7fafc !important;
+  }
+
+  /* Route hero stays dramatic, but every family no longer defaults to blue. */
+  .hlc-route-visual-banner {
+    border-color: rgba(255,255,255,.11) !important;
+    box-shadow: 0 18px 46px rgba(18,25,35,.15) !important;
+  }
+
+  .hlc-route-visual-command {
+    --hlc-route-accent: #62a1ff;
+    background-color: #18212c !important;
+    background-image: linear-gradient(110deg, rgba(18,25,35,.96), rgba(27,38,51,.91)), var(--hlc-route-stock) !important;
+  }
+
+  .hlc-route-visual-work {
+    --hlc-route-accent: var(--hlc-amber);
+    background-color: #24201d !important;
+    background-image: linear-gradient(110deg, rgba(30,27,24,.96), rgba(49,41,31,.89)), var(--hlc-route-stock) !important;
+  }
+
+  .hlc-route-visual-network {
+    --hlc-route-accent: #40c4b1;
+    background-color: #132523 !important;
+    background-image: linear-gradient(110deg, rgba(15,32,31,.96), rgba(24,53,49,.88)), var(--hlc-route-stock) !important;
+  }
+
+  .hlc-route-visual-community {
+    --hlc-route-accent: #63c58d;
+    background-color: #17261d !important;
+    background-image: linear-gradient(110deg, rgba(18,35,24,.96), rgba(35,61,42,.88)), var(--hlc-route-stock) !important;
+  }
+
+  .hlc-route-visual-academy {
+    --hlc-route-accent: #9b8cf4;
+    background-color: #211c33 !important;
+    background-image: linear-gradient(110deg, rgba(30,25,49,.96), rgba(51,42,77,.88)), var(--hlc-route-stock) !important;
+  }
+
+  .hlc-route-visual-resources {
+    --hlc-route-accent: #f0b44d;
+    background-color: #2a251c !important;
+    background-image: linear-gradient(110deg, rgba(37,32,24,.96), rgba(60,49,31,.88)), var(--hlc-route-stock) !important;
+  }
+
+  .hlc-route-visual-account {
+    --hlc-route-accent: #b6c4d3;
+    background-color: #202832 !important;
+    background-image: linear-gradient(110deg, rgba(26,34,43,.96), rgba(48,59,71,.88)), var(--hlc-route-stock) !important;
+  }
+
+  .hlc-route-visual-ai {
+    --hlc-route-accent: #b08cff;
+    background-color: #231d2d !important;
+    background-image: linear-gradient(110deg, rgba(31,25,39,.96), rgba(55,42,66,.88)), var(--hlc-route-stock) !important;
+  }
+
+  .hlc-route-visual-public {
+    --hlc-route-accent: #6aa9ff;
+    background-color: #1b252d !important;
+    background-image: linear-gradient(110deg, rgba(23,32,40,.96), rgba(34,49,59,.88)), var(--hlc-route-stock) !important;
+  }
+
+  /* Route families get recognizable accent language on the light body. */
+  .hlc-page-work .hlc-route-content,
+  .hlc-page-leads .hlc-route-content,
+  .hlc-page-jobs .hlc-route-content,
+  .hlc-page-calendar .hlc-route-content { --hlc-body-accent: var(--hlc-amber); }
+
+  .hlc-page-network .hlc-route-content,
+  .hlc-page-map .hlc-route-content,
+  .hlc-page-matching .hlc-route-content { --hlc-body-accent: var(--hlc-mint); }
+
+  .hlc-page-community-hub .hlc-route-content,
+  [class*="hlc-page-community-"] .hlc-route-content { --hlc-body-accent: #49a96e; }
+
+  .hlc-page-academy .hlc-route-content,
+  [class*="hlc-page-academy-"] .hlc-route-content { --hlc-body-accent: var(--hlc-violet); }
+
+  .hlc-page-resources .hlc-route-content,
+  [class*="hlc-page-resources-"] .hlc-route-content { --hlc-body-accent: var(--hlc-amber); }
+
+  .hlc-signed-in-shell .hlc-route-content > main {
+    background-image: none !important;
+  }
+
+  .hlc-route-content :is([class*="empty"],[class*="zero-state"],[class*="no-results"]) {
+    background: #fff !important;
+    border-color: var(--hlc-line-light) !important;
+    color: var(--hlc-ink-on-light) !important;
+  }
+}
+
+/* ---------- MOBILE: touch-first companion ---------- */
+@media (max-width: 900px) {
+  html,
+  body,
+  #root {
+    background: #f6f9fc !important;
+  }
+
+  body {
+    color: var(--hlc-ink-on-light) !important;
+    background: #f6f9fc !important;
+    background-attachment: scroll !important;
+  }
+
+  .hlc-signed-in-shell,
+  .hlc-public-shell,
+  .hlc-app-shell,
+  .hlc-route-content,
+  .hlc-route-content > main {
+    background: transparent !important;
+  }
+
+  .hlc-navbar {
+    background: rgba(18,25,35,.96) !important;
+    border-bottom-color: rgba(255,255,255,.08) !important;
+    box-shadow: 0 8px 22px rgba(18,25,35,.16) !important;
+  }
+
+  /* Bottom navigation becomes a mobile-native light control surface. */
+  .hlc-mobile-tabbar {
+    background: rgba(255,255,255,.96) !important;
+    border-top: 1px solid var(--hlc-line-light) !important;
+    box-shadow: 0 -8px 28px rgba(23,34,49,.10) !important;
+    backdrop-filter: blur(18px) saturate(135%);
+    -webkit-backdrop-filter: blur(18px) saturate(135%);
+  }
+
+  .hlc-mobile-tabbar a,
+  .hlc-mobile-tabbar button {
+    color: #6b7b8c !important;
+  }
+
+  .hlc-mobile-tabbar .is-active,
+  .hlc-mobile-tabbar [aria-current="page"] {
+    color: #162130 !important;
+  }
+
+  /* Mobile hero is intentionally shorter and more visual than desktop. */
+  .hlc-route-visual-banner {
+    width: calc(100% - 20px) !important;
+    grid-template-columns: minmax(0,1fr) minmax(96px,32%) !important;
+    gap: 10px !important;
+    margin: 10px auto 6px !important;
+    padding: 16px !important;
+    border-radius: 18px !important;
+    min-height: 154px;
+    box-shadow: 0 12px 30px rgba(18,25,35,.16) !important;
+  }
+
+  .hlc-route-visual-copy > strong {
+    font-size: clamp(1.55rem, 7.5vw, 2.2rem) !important;
+    line-height: 1.02 !important;
+  }
+
+  .hlc-route-visual-copy p {
+    margin-top: 8px !important;
+    font-size: .9rem !important;
+    line-height: 1.42 !important;
+  }
+
+  .hlc-route-visual-copy a {
+    min-height: 38px !important;
+    margin-top: 10px !important;
+    padding-inline: 12px !important;
+  }
+
+  .hlc-route-visual-art {
+    min-height: 112px !important;
+    max-height: 132px !important;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .hlc-route-visual-svg {
+    width: 150px !important;
+    opacity: .76;
+  }
+
+  /* Mobile content is card-first and edge-efficient, not a squeezed desktop dashboard. */
+  .hlc-route-content > main {
+    width: 100% !important;
+    padding-inline: 12px !important;
+    color: var(--hlc-ink-on-light) !important;
+  }
+
+  .hlc-route-content > main :is(h1,h2,h3,h4,h5,h6) {
+    color: var(--hlc-ink-on-light) !important;
+  }
+
+  .hlc-route-content > main :is(p,li,dd,dt,label,small) {
+    color: var(--hlc-ink-soft-on-light);
+  }
+
+  .hlc-route-content :is(.hlc-card,.card,.panel,.surface,[class*="workspace-card"],[class*="metric-card"],[class*="summary-card"],[class*="queue-card"],[class*="profile-card"],[class*="settings-card"]) {
+    background: #fff !important;
+    color: var(--hlc-ink-on-light) !important;
+    border-color: var(--hlc-line-light) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 22px rgba(23,34,49,.07) !important;
+  }
+
+  .hlc-route-content :is(.hlc-card,.card,.panel,.surface,[class*="workspace-card"],[class*="metric-card"],[class*="summary-card"],[class*="queue-card"],[class*="profile-card"],[class*="settings-card"]) :is(h1,h2,h3,h4,strong,b) {
+    color: var(--hlc-ink-on-light) !important;
+  }
+
+  .hlc-route-content :is(.hlc-card,.card,.panel,.surface,[class*="workspace-card"],[class*="metric-card"],[class*="summary-card"],[class*="queue-card"],[class*="profile-card"],[class*="settings-card"]) :is(p,small,span,label,li) {
+    color: var(--hlc-ink-soft-on-light);
+  }
+
+  .hlc-route-content input,
+  .hlc-route-content select,
+  .hlc-route-content textarea {
+    min-height: 44px;
+    background: #fff !important;
+    color: var(--hlc-ink-on-light) !important;
+    border-color: var(--hlc-line-light-strong) !important;
+  }
+
+  .hlc-route-content table {
+    background: #fff !important;
+    color: var(--hlc-ink-on-light) !important;
+  }
+
+  /* Dense desktop tables should become horizontally scrollable instead of shrinking unreadably. */
+  .hlc-route-content :is([class*="table-wrap"],[class*="table-scroll"],[role="region"]):has(table) {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .hlc-route-content table {
+    min-width: 680px;
+  }
+
+  .hlc-route-content :is([class*="empty"],[class*="zero-state"],[class*="no-results"]) {
+    background: #fff !important;
+    color: var(--hlc-ink-on-light) !important;
+    border-color: var(--hlc-line-light) !important;
+  }
+
+  .hlc-drawer-v2,
+  .hlc-drawer-v2-scroll {
+    background: var(--hlc-graphite) !important;
+    background-image: none !important;
+  }
+
+  /* Mobile gets family accent in small doses; no full-page color wash. */
+  .hlc-page-work .hlc-route-content,
+  .hlc-page-leads .hlc-route-content,
+  .hlc-page-jobs .hlc-route-content,
+  .hlc-page-calendar .hlc-route-content { --hlc-body-accent: var(--hlc-amber); }
+
+  .hlc-page-network .hlc-route-content,
+  .hlc-page-map .hlc-route-content,
+  .hlc-page-matching .hlc-route-content { --hlc-body-accent: var(--hlc-mint); }
+
+  .hlc-page-community-hub .hlc-route-content,
+  [class*="hlc-page-community-"] .hlc-route-content { --hlc-body-accent: #49a96e; }
+
+  .hlc-page-academy .hlc-route-content,
+  [class*="hlc-page-academy-"] .hlc-route-content { --hlc-body-accent: var(--hlc-violet); }
+
+  .hlc-page-resources .hlc-route-content,
+  [class*="hlc-page-resources-"] .hlc-route-content { --hlc-body-accent: var(--hlc-amber); }
+
+  .hlc-signed-in-shell .hlc-route-content > main {
+    background-image: none !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .hlc-route-visual-banner {
+    grid-template-columns: 1fr 92px !important;
+    padding: 14px !important;
+  }
+
+  .hlc-route-visual-copy p {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hlc-route-content *,
+  .hlc-route-visual-banner * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
