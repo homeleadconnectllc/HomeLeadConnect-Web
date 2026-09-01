@@ -54,6 +54,7 @@ import "./soft-launch-manual-communications-authority.css";
 import "./e5-intelligence-sandbox.css";
 import "./e6-trial-entitlements.css";
 import "./messages-lane-2-mobile-authority.css";
+import "./hlc-global-visual-foundation.css";
 
 export default function AuthenticatedStyles() {
   return <MobileNavigationDialogAccessibility />;
