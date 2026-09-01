@@ -1,3 +1,4 @@
+import { normalizeInternalRole, type InternalRole } from "./accessPolicy";
 import { supabase } from "./supabase";
 
 export type HlcDestination = "/dashboard" | "/homeowner-portal" | "/contractor-portal" | "/portal/accept";
@@ -31,4 +32,26 @@ export async function resolveUserDestination(userId: string): Promise<HlcDestina
     hasHomeownerPortal: Boolean(homeowner.data?.length),
     hasContractorPortal: Boolean(contractor.data?.length),
   });
+}
+
+export async function resolveActiveWorkspaceRole(userId: string): Promise<InternalRole | null> {
+  const profile = await supabase
+    .from("profiles")
+    .select("workspace_id")
+    .eq("user_id", userId)
+    .maybeSingle();
+
+  if (profile.error) throw profile.error;
+  const workspaceId = profile.data?.workspace_id;
+  if (!workspaceId) return null;
+
+  const membership = await supabase
+    .from("workspace_members")
+    .select("role")
+    .eq("user_id", userId)
+    .eq("workspace_id", workspaceId)
+    .maybeSingle();
+
+  if (membership.error) throw membership.error;
+  return normalizeInternalRole(membership.data?.role);
 }
