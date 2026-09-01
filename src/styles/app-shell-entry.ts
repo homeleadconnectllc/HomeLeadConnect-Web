@@ -27,3 +27,4 @@ import "./mobile-release-fix.css";
 import "./hlc-global-visual-foundation.css";
 import "./hlc-visual-storytelling.css";
 import "./hlc-route-visual-banners.css";
+import "./hlc-route-body-visuals.css";
