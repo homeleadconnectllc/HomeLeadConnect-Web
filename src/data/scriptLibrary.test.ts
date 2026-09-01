@@ -11,6 +11,11 @@ import {
   resolveConnectScenarioEvidence,
   searchConnectLibrary,
 } from "./connectConversationSystem.ts";
+import {
+  RUNTIME_CONNECT_FRAMEWORK,
+  RUNTIME_CONNECT_SCORING_RUBRIC,
+  getRuntimeConnectScenario,
+} from "../../supabase/functions/hlc-connect-roleplay/connectRuntimeContract.ts";
 
 test("scripts library covers the required operating sections", () => {
   for (const required of [
@@ -92,4 +97,21 @@ test("CONNECT scenarios resolve approved scripts, objection guidance, and contro
 test("CONNECT library search finds folders and scenario content", () => {
   assert.ok(searchConnectLibrary("appointment").some((result) => result.folder.id === "residents-appointment"));
   assert.ok(searchConnectLibrary("desired outcome").some((result) => result.scenario?.id === "resident-new-request"));
+});
+
+test("deployable CONNECT Edge contract stays exact with the canonical resident scenario", () => {
+  assert.deepEqual(RUNTIME_CONNECT_FRAMEWORK, CONNECT_FRAMEWORK);
+  assert.deepEqual(RUNTIME_CONNECT_SCORING_RUBRIC, CONNECT_SCORING_RUBRIC);
+  const canonical = getConnectScenario("resident-new-request");
+  const runtime = getRuntimeConnectScenario("resident-new-request");
+  assert.ok(canonical && runtime);
+  assert.equal(runtime.teacher, canonical.teacher);
+  assert.equal(runtime.goal, canonical.goal);
+  assert.deepEqual(runtime.requiredInformation, canonical.requiredInformation);
+  assert.deepEqual(runtime.suggestedQuestions, canonical.suggestedQuestions);
+  assert.deepEqual(runtime.recommendedDispositionIds, canonical.recommendedDispositionIds);
+  assert.deepEqual(
+    runtime.variants,
+    canonical.variants.map(({ variant, label, body }) => ({ variant, label, body })),
+  );
 });
