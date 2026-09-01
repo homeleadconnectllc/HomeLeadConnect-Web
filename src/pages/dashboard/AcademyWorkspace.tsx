@@ -45,7 +45,17 @@ export default function AcademyWorkspace() {
     }
   }
 
-  useEffect(() => { void refresh(); }, []);
+  useEffect(() => {
+    let active = true;
+    void loadAcademySnapshot().then((next) => {
+      if (!active) return;
+      setSnapshot(next);
+      setRuntimeState("ready");
+    }).catch(() => {
+      if (active) setRuntimeState("staged");
+    });
+    return () => { active = false; };
+  }, []);
 
   const activeModule = starterModules.find((item) => item.id === moduleId);
   const activeTrack = activeModule ? visibleTracks.find((track) => track.id === activeModule.track) : null;
