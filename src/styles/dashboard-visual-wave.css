@@ -1,0 +1,310 @@
+/* Dashboard visual wave — presentation only. Uses existing persisted metrics and
+   existing HLC agent artwork without changing dashboard data semantics. */
+
+.hlc-command-center {
+  max-width: 1280px;
+  margin-inline: auto;
+}
+
+.hlc-command-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 210px;
+  align-items: center;
+  padding: clamp(24px, 4vw, 44px);
+  border: 1px solid rgba(203,213,225,.14);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 78% 24%, rgba(56,189,248,.2), transparent 16rem),
+    radial-gradient(circle at 92% 82%, rgba(16,185,129,.14), transparent 15rem),
+    linear-gradient(135deg, rgba(16,36,61,.97), rgba(7,20,36,.99));
+  box-shadow: 0 26px 70px rgba(1,7,16,.28);
+}
+
+.hlc-command-hero::after {
+  content: "";
+  position: absolute;
+  width: 240px;
+  aspect-ratio: 1;
+  right: clamp(70px, 12vw, 150px);
+  top: 50%;
+  translate: 0 -50%;
+  border: 1px solid rgba(247,242,232,.14);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(247,242,232,.08) 0 18%, transparent 19%),
+    conic-gradient(from 220deg, rgba(56,189,248,.75), rgba(16,185,129,.45), rgba(247,242,232,.12), rgba(56,189,248,.75));
+  mask: radial-gradient(circle, transparent 0 58%, #000 59% 67%, transparent 68%);
+  opacity: .55;
+  pointer-events: none;
+}
+
+.hlc-command-copy {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+}
+
+.hlc-command-center h1 {
+  font-size: clamp(2.3rem, 6vw, 4.4rem);
+}
+
+.hlc-command-copy > p {
+  max-width: 46ch;
+  color: #c2cede;
+  font-size: clamp(.95rem, 1.4vw, 1.08rem);
+}
+
+.hlc-command-hero-actions {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 10px;
+  align-self: flex-start;
+}
+
+.hlc-command-icon-button,
+.hlc-section-action {
+  border-color: rgba(247,242,232,.18);
+  background: rgba(7,20,36,.68);
+  backdrop-filter: blur(12px);
+}
+
+.hlc-system-strip {
+  margin: 14px 0 20px;
+  border-color: rgba(16,185,129,.25);
+  background: rgba(23,63,55,.22);
+  color: #d1fae5;
+}
+
+.hlc-metric-grid {
+  gap: 14px;
+}
+
+.hlc-metric-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 148px;
+  align-content: start;
+  padding: 20px;
+  border-color: rgba(203,213,225,.14);
+  background: linear-gradient(145deg, rgba(247,242,232,.96), rgba(233,223,206,.96));
+  color: #0f1b2c;
+  box-shadow: 0 18px 40px rgba(1,7,16,.16);
+}
+
+.hlc-metric-card::after {
+  content: "";
+  position: absolute;
+  width: 86px;
+  height: 86px;
+  right: -24px;
+  top: -24px;
+  border-radius: 50%;
+  background: rgba(23,63,55,.08);
+}
+
+.hlc-metric-icon,
+.hlc-workspace-icon {
+  background: rgba(23,63,55,.1);
+  color: #173f37;
+}
+
+.hlc-metric-card strong {
+  color: #07111f;
+  font-size: 2.2rem;
+}
+
+.hlc-metric-card > span:last-child {
+  color: #536273;
+}
+
+.hlc-agent-team-section {
+  padding: clamp(20px, 3vw, 30px);
+  border: 1px solid rgba(203,213,225,.14);
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(245,158,11,.08), transparent 16rem),
+    linear-gradient(145deg, rgba(10,27,48,.9), rgba(7,20,36,.96));
+}
+
+.hlc-agent-team-heading {
+  align-items: end;
+}
+
+.hlc-agent-team-intro {
+  max-width: 66ch;
+  color: #b9c6d6;
+}
+
+.hlc-agent-grid {
+  gap: 16px;
+}
+
+.hlc-agent-card {
+  overflow: hidden;
+  border-radius: 22px;
+  background: rgba(8,24,42,.9);
+}
+
+.hlc-agent-portrait-wrap {
+  min-height: 220px;
+}
+
+.hlc-agent-card-body {
+  padding: 18px 18px 20px;
+}
+
+.hlc-dashboard-quick-section {
+  padding: 18px;
+  border: 1px solid rgba(203,213,225,.12);
+  border-radius: 22px;
+  background: rgba(10,27,48,.56);
+}
+
+.hlc-quick-action {
+  border-color: rgba(203,213,225,.13);
+  background: rgba(16,36,61,.72);
+}
+
+.hlc-business-pulse-section {
+  border-color: rgba(23,63,55,.35);
+  background:
+    radial-gradient(circle at 8% 0%, rgba(16,185,129,.1), transparent 30%),
+    linear-gradient(145deg, rgba(23,63,55,.52), rgba(8,24,42,.98));
+}
+
+.hlc-pulse-card {
+  border-color: rgba(203,213,225,.14);
+  background: rgba(247,242,232,.96);
+}
+
+.hlc-pulse-card-featured {
+  background:
+    radial-gradient(circle at 0% 0%, rgba(56,189,248,.16), transparent 42%),
+    linear-gradient(135deg, rgba(247,242,232,.98), rgba(233,223,206,.98));
+  border-color: rgba(56,189,248,.5);
+}
+
+.hlc-pulse-icon {
+  background: rgba(23,63,55,.1);
+  color: #173f37;
+}
+
+.hlc-pulse-eyebrow {
+  color: #35665b;
+}
+
+.hlc-pulse-copy strong {
+  color: #07111f;
+}
+
+.hlc-pulse-copy > span:last-child {
+  color: #536273;
+}
+
+.hlc-pulse-arrow {
+  color: #6f7d89;
+}
+
+.hlc-pulse-card:hover {
+  border-color: rgba(56,189,248,.72);
+  box-shadow: 0 20px 42px rgba(1,7,16,.24);
+}
+
+.hlc-priority-panel {
+  border-color: rgba(203,213,225,.14);
+  background:
+    radial-gradient(circle at 95% 6%, rgba(245,158,11,.08), transparent 13rem),
+    linear-gradient(145deg, rgba(16,36,61,.94), rgba(8,24,42,.96));
+}
+
+.hlc-priority-empty {
+  min-height: 128px;
+  align-content: center;
+  padding: 22px;
+  border: 1px dashed rgba(203,213,225,.18);
+  border-radius: 16px;
+  background: rgba(247,242,232,.035);
+}
+
+.hlc-workspace-grid {
+  gap: 14px;
+}
+
+.hlc-workspace-card {
+  min-height: 94px;
+  border-color: rgba(203,213,225,.13);
+  background: linear-gradient(145deg, rgba(16,36,61,.82), rgba(8,24,42,.9));
+}
+
+@media (max-width: 720px) {
+  .hlc-command-center {
+    padding-inline: 14px;
+  }
+
+  .hlc-command-hero {
+    min-height: 0;
+    padding: 22px 18px 24px;
+    border-radius: 22px;
+  }
+
+  .hlc-command-hero::after {
+    width: 150px;
+    right: -34px;
+    top: 32px;
+    translate: 0;
+    opacity: .34;
+  }
+
+  .hlc-command-hero-actions {
+    gap: 7px;
+  }
+
+  .hlc-command-icon-button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .hlc-metric-grid {
+    gap: 10px;
+  }
+
+  .hlc-metric-card {
+    min-height: 116px;
+    padding: 15px;
+  }
+
+  .hlc-metric-card strong {
+    margin-top: 12px;
+    font-size: 1.8rem;
+  }
+
+  .hlc-agent-team-section,
+  .hlc-business-pulse-section,
+  .hlc-priority-panel,
+  .hlc-dashboard-quick-section {
+    padding: 16px;
+    border-radius: 20px;
+  }
+
+  .hlc-agent-portrait-wrap {
+    min-height: 190px;
+  }
+
+  .hlc-business-pulse-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hlc-pulse-card-featured {
+    grid-column: auto;
+  }
+
+  .hlc-pulse-card {
+    min-height: 102px;
+  }
+
+  .hlc-workspace-grid {
+    grid-template-columns: 1fr;
+  }
+}
