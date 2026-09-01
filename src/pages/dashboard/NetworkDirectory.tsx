@@ -13,6 +13,7 @@ import {
 import { listProviderServices, type ProviderService } from "../../api/ecosystemExtra";
 import { errorMessage } from "../../lib/errorMessage";
 import type { Contractor } from "../../lib/types/database";
+import "../../styles/network-directory-visual.css";
 
 type AvailabilityFilter = "all" | "available" | "unavailable" | "undeclared";
 
@@ -24,12 +25,31 @@ type ProviderEvidence = {
   saved: boolean;
 };
 
+const tradeVisuals = {
+  painting: "https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=720&q=82",
+  cleaning: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=720&q=82",
+  remodeling: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=720&q=82",
+  default: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=720&q=82",
+} as const;
+
 function text(value: unknown) {
   return String(value ?? "").trim();
 }
 
 function providerName(provider: Contractor) {
   return text(provider.company_name) || text(provider.contact_name) || `Provider ${provider.id}`;
+}
+
+function providerTradeLabel(provider: Contractor, rows: ProviderService[]) {
+  return text(provider.specialty) || rows.map((row) => text(row.service_name)).filter(Boolean).join(" · ") || "Trade not recorded";
+}
+
+function providerVisual(label: string) {
+  const normalized = label.toLowerCase();
+  if (/(paint|drywall)/.test(normalized)) return tradeVisuals.painting;
+  if (/(clean|janitor)/.test(normalized)) return tradeVisuals.cleaning;
+  if (/(remodel|roof|hvac|plumb|electric|carpentry|repair|handyman|construct|floor|window|door)/.test(normalized)) return tradeVisuals.remodeling;
+  return tradeVisuals.default;
 }
 
 export default function NetworkDirectory({ savedOnly = false }: { savedOnly?: boolean }) {
@@ -197,27 +217,34 @@ export default function NetworkDirectory({ savedOnly = false }: { savedOnly?: bo
       {visible.map(({ provider, services: providerServices, areas: providerAreas, availability: providerAvailability, saved: isSaved }) => {
         const locationLabel = [text(provider.city), text(provider.state), text(provider.zip)].filter(Boolean).join(", ");
         const state = providerAvailability ? (providerAvailability.available ? "Declared available" : "Declared unavailable") : "Availability not declared";
+        const tradeLabel = providerTradeLabel(provider, providerServices);
         const secondaryActions = <>
           {provider.phone && <a href={`tel:${provider.phone}`}>Call</a>}
           {provider.email && <a href={`mailto:${provider.email}`}>Email</a>}
           <Link to="/jobs">Work &amp; offers</Link>
         </>;
         return <article className="hlc-phone-row hlc-s3-provider-row" key={provider.id}>
-          <div>
-            <strong><Link to={`/providers/${provider.id}`}>{providerName(provider)}</Link></strong>
-            <span>{text(provider.specialty) || providerServices.map((row) => row.service_name).join(" · ") || "Trade not recorded"}</span>
-            <small><MapPin size={13} aria-hidden="true" /> {locationLabel || providerAreas.map((row) => [row.city, row.state, row.zip].filter(Boolean).join(", ")).filter(Boolean).join(" · ") || "Service territory not recorded"}</small>
-            <small>{state}{providerAvailability?.next_available_at ? ` · next ${new Date(providerAvailability.next_available_at).toLocaleString()}` : ""}</small>
+          <div className="hlc-network-provider-visual" aria-hidden="true">
+            <img src={providerVisual(tradeLabel)} alt="" loading="lazy" />
+            <span className="hlc-network-provider-badge">{tradeLabel}</span>
           </div>
-          <div className="hlc-account-inline-links hlc-s3-provider-actions">
-            <Link to={`/providers/${provider.id}`}>View profile</Link>
-            <button type="button" disabled={busyProvider === Number(provider.id)} onClick={() => void toggleSaved(Number(provider.id))}><Bookmark size={14} aria-hidden="true" /> {isSaved ? "Unsave" : "Save"}</button>
-            <span className="hlc-s3-provider-secondary-desktop">{secondaryActions}</span>
-            <details className="hlc-s3-provider-more"><summary>More</summary><div>{secondaryActions}</div></details>
+          <div className="hlc-network-provider-body">
+            <div>
+              <strong><Link to={`/providers/${provider.id}`}>{providerName(provider)}</Link></strong>
+              <span>{tradeLabel}</span>
+              <small><MapPin size={13} aria-hidden="true" /> {locationLabel || providerAreas.map((row) => [row.city, row.state, row.zip].filter(Boolean).join(", ")).filter(Boolean).join(" · ") || "Service territory not recorded"}</small>
+              <small className="hlc-network-provider-evidence">{state}{providerAvailability?.next_available_at ? ` · next ${new Date(providerAvailability.next_available_at).toLocaleString()}` : ""}</small>
+            </div>
+            <div className="hlc-account-inline-links hlc-s3-provider-actions">
+              <Link to={`/providers/${provider.id}`}>View profile</Link>
+              <button type="button" disabled={busyProvider === Number(provider.id)} onClick={() => void toggleSaved(Number(provider.id))}><Bookmark size={14} aria-hidden="true" /> {isSaved ? "Unsave" : "Save"}</button>
+              <span className="hlc-s3-provider-secondary-desktop">{secondaryActions}</span>
+              <details className="hlc-s3-provider-more"><summary>More</summary><div>{secondaryActions}</div></details>
+            </div>
           </div>
         </article>;
       })}
-      {visible.length === 0 && !error && <p>No providers match the selected evidence filters.</p>}
+      {visible.length === 0 && !error && <div className="hlc-network-empty" data-empty-state="true"><UsersRound size={28} aria-hidden="true" /><strong>No providers match the selected evidence filters.</strong><span>Adjust trade, location, or availability filters to widen the provider evidence shown here.</span></div>}
     </section>}
   </main>;
 }
