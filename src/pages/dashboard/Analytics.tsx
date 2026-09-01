@@ -10,6 +10,7 @@ import {
   type HlcGrowthSummary,
 } from "../../api/analytics";
 import { errorMessage } from "../../lib/errorMessage";
+import { Link } from "react-router-dom";
 
 function percent(value: number | null | undefined) {
   const next = Number(value ?? 0);
@@ -80,6 +81,12 @@ export default function Analytics() {
           <RefreshCw size={15} aria-hidden="true" /> {refreshing ? "Refreshing…" : "Refresh"}
         </button>
       </section>
+
+      <nav className="hlc-intelligence-nav" aria-label="Analytics intelligence modes">
+        <Link className="is-active" to="/analytics"><BarChart3 size={17} aria-hidden="true" />REAL DATA</Link>
+        <Link to="/analytics/forecasting">FORECAST</Link>
+        <Link to="/analytics/sandbox">SIMULATION ONLY</Link>
+      </nav>
 
       <AnalyticsKpis />
 
