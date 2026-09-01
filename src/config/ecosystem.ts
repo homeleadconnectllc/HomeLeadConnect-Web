@@ -147,6 +147,9 @@ export const ecosystemNavigation: EcosystemNavigationGroup[] = [
     label: "Resources",
     purpose: "Documents, tutorials, help, policies and reusable operating knowledge.",
     pages: [
+      { label: "Resources & Sourcing", route: "/resources", owner: "Dion", audiences: ["Business", "Professional"], purpose: "Supplier research, material planning, routing and saved resources.", status: "UNPROVEN" },
+      { label: "Materials", route: "/resources/materials", owner: "Dion", audiences: ["Business", "Professional"], purpose: "Track needed, considered, purchased, on-site, used and returned materials.", status: "UNPROVEN" },
+      { label: "Suppliers", route: "/resources/suppliers", owner: "Dion", audiences: ["Business", "Professional"], purpose: "Research supplier categories without fabricated price or inventory claims.", status: "UNPROVEN" },
       { label: "Documents", route: "/documents", owner: "Shared", audiences: ["All signed-in roles"], purpose: "Canonical files attached to authorized records.", status: "UNPROVEN" },
       { label: "Help Center", route: "/help", owner: "Diamond", audiences: ["All roles"], purpose: "Searchable role-based help, recovery and escalation.", status: "MISSING" },
       { label: "Tutorials", route: "/tutorials", owner: "Diamond", audiences: ["All roles"], purpose: "First-run and contextual guidance for each journey.", status: "MISSING" },
