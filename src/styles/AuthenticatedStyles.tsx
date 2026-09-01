@@ -51,8 +51,8 @@ import "./mobile-drawer-v2-authority.css";
 import "./final-mobile-polish.css";
 import "./soft-launch-mobile-dashboard-authority.css";
 import "./soft-launch-manual-communications-authority.css";
-import "./messages-lane-2-mobile-authority.css";
 import "./hlc-global-visual-authority.css";
+import "./messages-lane-2-mobile-authority.css";
 
 export default function AuthenticatedStyles() {
   return <MobileNavigationDialogAccessibility />;
