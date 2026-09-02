@@ -37,6 +37,7 @@ const agentNavigation = [
 
 const legacyMobileRouteAliases = [
   { label: "Work", route: "/leads", canonicalRoute: "/work" },
+  { label: "Network", route: "/network", canonicalRoute: "/community-hub" },
 ] as const;
 
 type MobileIconName = "home" | "work" | "community" | "messages" | "notifications" | "profile" | "more";
