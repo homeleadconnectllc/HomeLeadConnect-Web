@@ -25,6 +25,11 @@ function latestConversationPreview(conversation: Conversation) {
   return normalized.length > 84 ? `${normalized.slice(0, 81)}…` : normalized;
 }
 
+function conversationInitial(conversation: Conversation) {
+  const label = conversation.subject?.trim() || "HLC";
+  return label.slice(0, 1).toUpperCase();
+}
+
 export default function Messages() {
   const { session } = useAuth();
   const [searchParams] = useSearchParams();
@@ -237,12 +242,11 @@ export default function Messages() {
   }
 
   return (
-    <main className="hlc-messages-workspace hlc-messages-launch-simple" data-messages-view={view}>
-      <header className="hlc-messages-header hlc-messages-progressive-header">
+    <main className="hlc-messages-workspace hlc-messages-app-shell" data-messages-view={view}>
+      <header className="hlc-messages-app-topbar">
         <div>
-          <p className="hlc-messages-kicker">COMMUNICATIONS</p>
-          <h1>Messages</h1>
-          <p>Read conversations, reply when needed, or start a new message.</p>
+          <p className="hlc-messages-kicker">MESSAGES</p>
+          <h1>Conversations</h1>
         </div>
         {view === "inbox" && (
           <button className="hlc-messages-new-action" type="button" onClick={openNewMessage}>New Message</button>
@@ -255,158 +259,184 @@ export default function Messages() {
       {error && <p className="hlc-messages-status is-error" role="alert">{error}</p>}
       {message && <p className="hlc-messages-status is-success" role="status">{message}</p>}
 
-      {view === "inbox" && (
-        <section className="hlc-messages-inbox hlc-messages-progressive-inbox" aria-label="Message inbox">
-          <div className="hlc-messages-section-head">
-            <div><span>INBOX</span><h2>Conversations</h2></div>
-            <strong>{conversations.length}</strong>
+      <div className="hlc-messaging-frame">
+        <aside className={`hlc-conversation-list-panel${view === "inbox" ? " is-active" : ""}`} aria-label="Message inbox">
+          <div className="hlc-conversation-list-heading">
+            <div>
+              <span>Inbox</span>
+              <strong>{conversations.length}</strong>
+            </div>
+            <p>Recent conversations</p>
           </div>
+
           {conversationsLoading ? (
             <p className="hlc-messages-state">Loading conversations…</p>
           ) : (
-            <div className="hlc-messages-inbox-list">
+            <div className="hlc-messages-inbox-list hlc-messages-progressive-inbox">
               {conversations.length === 0 && <p className="hlc-messages-empty">No conversations yet. Start a new message when you are ready.</p>}
               {conversations.map((conversation) => (
                 <button
                   type="button"
                   key={conversation.id}
-                  className="hlc-message-inbox-row"
+                  className={`hlc-message-inbox-row${selectedId === conversation.id ? " is-selected" : ""}`}
                   onClick={() => openConversation(conversation.id)}
                 >
-                  <span className="hlc-message-inbox-main"><strong>{conversation.subject}</strong><small>{latestConversationPreview(conversation)}</small></span>
-                  <span className="hlc-message-inbox-meta"><strong>{conversation.messages.length}</strong><small>{new Date(conversation.updated_at).toLocaleString()}</small></span>
+                  <span className="hlc-message-avatar" aria-hidden="true">{conversationInitial(conversation)}</span>
+                  <span className="hlc-message-inbox-main">
+                    <strong>{conversation.subject}</strong>
+                    <small>{latestConversationPreview(conversation)}</small>
+                  </span>
+                  <span className="hlc-message-inbox-meta">
+                    <small>{new Date(conversation.updated_at).toLocaleDateString()}</small>
+                    <strong>{conversation.messages.length}</strong>
+                  </span>
                 </button>
               ))}
             </div>
           )}
-        </section>
-      )}
+        </aside>
 
-      {view === "compose" && (
-        <section className="hlc-message-compose-view" aria-label="New message">
-          <div className="hlc-messages-view-toolbar">
-            <button type="button" className="hlc-messages-back-action" onClick={openInbox}>← Back to inbox</button>
-          </div>
-          <form className="hlc-message-quick-compose" onSubmit={start}>
-            <div className="hlc-messages-section-head">
-              <div><span>NEW MESSAGE</span><h2>Start a conversation</h2></div>
+        <section className={`hlc-conversation-stage${view !== "inbox" ? " is-active" : ""}`} aria-label="Conversation workspace">
+          {view === "inbox" && (
+            <div className="hlc-conversation-empty-stage">
+              <span aria-hidden="true">HLC</span>
+              <h2>Select a conversation</h2>
+              <p>Choose a message from the inbox or start a new conversation.</p>
+              <button type="button" onClick={openNewMessage}>New Message</button>
             </div>
+          )}
 
-            {recipientError && <p className="hlc-messages-status is-error" role="alert">{recipientError}</p>}
-            {recipientsLoading ? (
-              <p className="hlc-messages-state">Loading contacts…</p>
-            ) : recipients.length === 0 ? (
-              <div className="hlc-messages-empty-action">
-                <p className="hlc-messages-empty">No message contacts are available right now.</p>
-                <button type="button" onClick={() => void loadRecipients()}>Retry contacts</button>
+          {view === "compose" && (
+            <section className="hlc-message-compose-view" aria-label="New message">
+              <div className="hlc-messages-view-toolbar">
+                <button type="button" className="hlc-messages-back-action" onClick={openInbox}>← Back to inbox</button>
               </div>
-            ) : (
-              <>
-                <label>Contact
-                  <select
-                    required
-                    value={recipientId}
-                    onChange={(event) => {
-                      setRecipientId(event.target.value);
-                      setDeliveryMode("internal");
-                      setError("");
-                    }}
-                  >
-                    <option value="">Select a contact</option>
-                    {recipients.map((recipient) => (
-                      <option key={recipient.linkId} value={recipient.linkId}>
-                        {portalRecipientDisplayLabel(recipient)}
-                      </option>
-                    ))}
-                  </select>
-                  {selectedRecipient && <small>{selectedRecipient.email ? `Email available: ${selectedRecipient.email}` : "HLC message only"}</small>}
-                </label>
+              <form className="hlc-message-quick-compose" onSubmit={start}>
+                <div className="hlc-message-stage-heading">
+                  <span>NEW MESSAGE</span>
+                  <h2>Start a conversation</h2>
+                </div>
 
-                <fieldset className="hlc-message-delivery-choice">
-                  <legend>Send using</legend>
-                  <label>
-                    <input type="radio" name="deliveryMode" value="internal" checked={deliveryMode === "internal"} onChange={() => setDeliveryMode("internal")} />
-                    <span><strong>HLC message</strong><small>Keep this conversation inside HLC</small></span>
-                  </label>
-                  <label className={!selectedRecipient?.email ? "is-disabled" : ""}>
-                    <input type="radio" name="deliveryMode" value="email" checked={sendEmailCopy} disabled={!selectedRecipient?.email} onChange={() => setDeliveryMode("email")} />
-                    <span><strong>Email</strong><small>Send an email and save it here</small></span>
-                  </label>
-                </fieldset>
-
-                <label>Message
-                  <textarea required maxLength={5000} value={newBody} onChange={(event) => setNewBody(event.target.value)} placeholder="Write your message…" />
-                </label>
-
-                <details className="hlc-message-subject-details">
-                  <summary>Optional subject</summary>
-                  <label>Subject<input maxLength={160} value={subject} onChange={(event) => setSubject(event.target.value)} placeholder="HomeLead Connect message" /></label>
-                </details>
-
-                <button className="hlc-message-primary-send" disabled={busy || !recipientId || !newBody.trim()} type="submit">
-                  {busy ? "Sending…" : sendEmailCopy ? "Send email" : "Send message"}
-                </button>
-              </>
-            )}
-          </form>
-        </section>
-      )}
-
-      {view === "thread" && (
-        <section className="hlc-messages-thread hlc-messages-progressive-thread" aria-label="Conversation">
-          <div className="hlc-messages-view-toolbar">
-            <button type="button" className="hlc-messages-back-action" onClick={openInbox}>← Back to inbox</button>
-            <button type="button" className="hlc-messages-new-secondary" onClick={openNewMessage}>New Message</button>
-          </div>
-
-          {selected ? <>
-            <header className="hlc-message-thread-head">
-              <div><span>CONVERSATION</span><h2>{selected.subject}</h2></div>
-              <strong>{selected.messages.length}</strong>
-            </header>
-
-            <div className="hlc-message-stream" aria-live="polite" aria-label="Conversation history">
-              {selected.messages.length === 0 && <p className="hlc-messages-empty">No messages have been recorded in this conversation yet.</p>}
-              {selected.messages.map((item) => (
-                <article className={item.sender_user_id === session?.user.id ? "hlc-message-entry is-self" : "hlc-message-entry"} key={item.id}>
-                  <div className="hlc-message-entry-meta">
-                    <strong>{item.sender_user_id === session?.user.id ? "You" : "Participant"}</strong>
-                    <small>{new Date(item.created_at).toLocaleString()}</small>
+                {recipientError && <p className="hlc-messages-status is-error" role="alert">{recipientError}</p>}
+                {recipientsLoading ? (
+                  <p className="hlc-messages-state">Loading contacts…</p>
+                ) : recipients.length === 0 ? (
+                  <div className="hlc-messages-empty-action">
+                    <p className="hlc-messages-empty">No message contacts are available right now.</p>
+                    <button type="button" onClick={() => void loadRecipients()}>Retry contacts</button>
                   </div>
-                  <p>{item.body}</p>
-                </article>
-              ))}
-            </div>
+                ) : (
+                  <>
+                    <label>Contact
+                      <select
+                        required
+                        value={recipientId}
+                        onChange={(event) => {
+                          setRecipientId(event.target.value);
+                          setDeliveryMode("internal");
+                          setError("");
+                        }}
+                      >
+                        <option value="">Select a contact</option>
+                        {recipients.map((recipient) => (
+                          <option key={recipient.linkId} value={recipient.linkId}>
+                            {portalRecipientDisplayLabel(recipient)}
+                          </option>
+                        ))}
+                      </select>
+                      {selectedRecipient && <small>{selectedRecipient.email ? `Email available: ${selectedRecipient.email}` : "HLC message only"}</small>}
+                    </label>
 
-            <form className="hlc-message-composer" onSubmit={send}>
-              <label htmlFor="hlc-message-reply">Reply</label>
-              <textarea id="hlc-message-reply" required maxLength={5000} value={reply} onChange={(event) => setReply(event.target.value)} placeholder="Write a reply…" />
-              <div className="hlc-message-composer-actions">
-                <small>Replies stay in this HLC conversation.</small>
-                <button disabled={busy || !reply.trim()} type="submit">{busy ? "Sending…" : "Send reply"}</button>
-              </div>
-            </form>
+                    <fieldset className="hlc-message-delivery-choice">
+                      <legend>Send using</legend>
+                      <label>
+                        <input type="radio" name="deliveryMode" value="internal" checked={deliveryMode === "internal"} onChange={() => setDeliveryMode("internal")} />
+                        <span><strong>HLC message</strong><small>Keep this conversation inside HLC</small></span>
+                      </label>
+                      <label className={!selectedRecipient?.email ? "is-disabled" : ""}>
+                        <input type="radio" name="deliveryMode" value="email" checked={sendEmailCopy} disabled={!selectedRecipient?.email} onChange={() => setDeliveryMode("email")} />
+                        <span><strong>Email</strong><small>Send an email and save it here</small></span>
+                      </label>
+                    </fieldset>
 
-            <details className="hlc-voice-note-console" open={composeVoiceNote || undefined}>
-              <summary>Voice notes ({voiceNotes.length})</summary>
-              <div className="hlc-voice-note-list">
-                {voiceNotes.length === 0 && <p className="hlc-messages-empty">No voice notes in this conversation.</p>}
-                {voiceNotes.map((note) => (
-                  <button key={note.id} type="button" onClick={() => playVoiceNote(note)}>
-                    <span>Play voice note</span><small>{new Date(note.created_at).toLocaleString()}</small>
-                  </button>
-                ))}
+                    <label>Message
+                      <textarea required maxLength={5000} value={newBody} onChange={(event) => setNewBody(event.target.value)} placeholder="Write your message…" />
+                    </label>
+
+                    <details className="hlc-message-subject-details">
+                      <summary>Optional subject</summary>
+                      <label>Subject<input maxLength={160} value={subject} onChange={(event) => setSubject(event.target.value)} placeholder="HomeLead Connect message" /></label>
+                    </details>
+
+                    <button className="hlc-message-primary-send" disabled={busy || !recipientId || !newBody.trim()} type="submit">
+                      {busy ? "Sending…" : sendEmailCopy ? "Send email" : "Send message"}
+                    </button>
+                  </>
+                )}
+              </form>
+            </section>
+          )}
+
+          {view === "thread" && (
+            <section className="hlc-messages-thread hlc-messages-progressive-thread" aria-label="Conversation">
+              <div className="hlc-messages-view-toolbar">
+                <button type="button" className="hlc-messages-back-action" onClick={openInbox}>← Back to inbox</button>
+                <button type="button" className="hlc-messages-new-secondary" onClick={openNewMessage}>New Message</button>
               </div>
-              <VoiceNoteRecorder busy={busy} onUpload={addVoiceNote} focusOnMount={composeVoiceNote} />
-            </details>
-          </> : (
-            <div className="hlc-messages-empty-action">
-              <p className="hlc-messages-empty">This conversation is no longer available.</p>
-              <button type="button" onClick={openInbox}>Return to inbox</button>
-            </div>
+
+              {selected ? <>
+                <header className="hlc-message-thread-head">
+                  <div>
+                    <span>CONVERSATION</span>
+                    <h2>{selected.subject}</h2>
+                    <small>{selected.messages.length} {selected.messages.length === 1 ? "message" : "messages"}</small>
+                  </div>
+                </header>
+
+                <div className="hlc-message-stream" aria-live="polite" aria-label="Conversation history">
+                  {selected.messages.length === 0 && <p className="hlc-messages-empty">No messages have been recorded in this conversation yet.</p>}
+                  {selected.messages.map((item) => (
+                    <article className={item.sender_user_id === session?.user.id ? "hlc-message-entry is-self" : "hlc-message-entry"} key={item.id}>
+                      <div className="hlc-message-entry-meta">
+                        <strong>{item.sender_user_id === session?.user.id ? "You" : "Participant"}</strong>
+                        <small>{new Date(item.created_at).toLocaleString()}</small>
+                      </div>
+                      <p>{item.body}</p>
+                    </article>
+                  ))}
+                </div>
+
+                <form className="hlc-message-composer" onSubmit={send}>
+                  <label htmlFor="hlc-message-reply">Reply</label>
+                  <textarea id="hlc-message-reply" required maxLength={5000} value={reply} onChange={(event) => setReply(event.target.value)} placeholder="Write a reply…" />
+                  <div className="hlc-message-composer-actions">
+                    <small>Replies stay in this HLC conversation.</small>
+                    <button disabled={busy || !reply.trim()} type="submit">{busy ? "Sending…" : "Send reply"}</button>
+                  </div>
+                </form>
+
+                <details className="hlc-voice-note-console" open={composeVoiceNote || undefined}>
+                  <summary>Voice notes ({voiceNotes.length})</summary>
+                  <div className="hlc-voice-note-list">
+                    {voiceNotes.length === 0 && <p className="hlc-messages-empty">No voice notes in this conversation.</p>}
+                    {voiceNotes.map((note) => (
+                      <button key={note.id} type="button" onClick={() => playVoiceNote(note)}>
+                        <span>Play voice note</span><small>{new Date(note.created_at).toLocaleString()}</small>
+                      </button>
+                    ))}
+                  </div>
+                  <VoiceNoteRecorder busy={busy} onUpload={addVoiceNote} focusOnMount={composeVoiceNote} />
+                </details>
+              </> : (
+                <div className="hlc-messages-empty-action">
+                  <p className="hlc-messages-empty">This conversation is no longer available.</p>
+                  <button type="button" onClick={openInbox}>Return to inbox</button>
+                </div>
+              )}
+            </section>
           )}
         </section>
-      )}
+      </div>
     </main>
   );
 }
