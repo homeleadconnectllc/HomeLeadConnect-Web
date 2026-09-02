@@ -6,8 +6,7 @@ import RouteVisualBanner from "../components/RouteVisualBanner";
 import AnalyticsTracker from "../components/analytics/AnalyticsTracker";
 import { useAuth } from "../hooks/useAuth";
 
-const ContextualAgentDock = lazy(() => import("../components/agents/ContextualAgentDock"));
-const DesktopAgentTeamRail = lazy(() => import("../components/agents/DesktopAgentTeamRail"));
+const UniversalAITeamLauncher = lazy(() => import("../components/agents/UniversalAITeamLauncher"));
 const AnalyticsKpis = lazy(() => import("../components/analytics/AnalyticsKpis"));
 const AudioDeviceCenter = lazy(() => import("../components/audio/AudioDeviceCenter"));
 const FieldDeviceCenter = lazy(() => import("../components/device/FieldDeviceCenter"));
@@ -15,21 +14,6 @@ const WorkspaceGuidance = lazy(() => import("../components/WorkspaceGuidance"));
 const GlobalCommandSearch = lazy(() => import("../components/search/GlobalCommandSearch"));
 
 const SIDEBAR_COLLAPSED_KEY = "hlc-desktop-sidebar-collapsed";
-
-const AGENT_ROUTE_PREFIXES = [
-  "/dashboard", "/start-here", "/ecosystem", "/workflow", "/automations", "/activity",
-  "/network", "/map", "/profiles", "/providers", "/matching", "/community-hub",
-  "/community/discussions", "/community/reviews", "/community/referrals", "/community/events",
-  "/community/moderation", "/community/groups", "/help", "/tutorials", "/rules", "/profile",
-  "/analytics", "/settings", "/leads", "/estimator", "/jobs", "/calendar", "/team",
-  "/follow-ups", "/manual-communications", "/documents", "/call-center", "/messages",
-  "/notifications", "/homeowner-portal", "/contractor-portal", "/hq", "/operations",
-  "/customer-experience",
-];
-
-function isAgentRoute(pathname: string) {
-  return AGENT_ROUTE_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(`${prefix}/`));
-}
 
 function personaRouteClass(pathname: string) {
   if (pathname === "/hq" || pathname.startsWith("/hq/")) return "hlc-route-hq";
@@ -81,7 +65,6 @@ export default function AppLayout() {
   const showAudioDevices = signedInWorkspaceShell && (location.pathname === "/settings" || location.pathname === "/call-center");
   const showFieldDevices = signedInWorkspaceShell && location.pathname === "/settings";
   const showAnalytics = signedInWorkspaceShell && location.pathname === "/dashboard";
-  const showContextualAgent = signedInWorkspaceShell && isAgentRoute(location.pathname);
   const routePersonaClass = signedInWorkspaceShell ? personaRouteClass(location.pathname) : "";
   const routeClass = stableRouteClass(location.pathname);
 
@@ -182,8 +165,7 @@ export default function AppLayout() {
       {(!session || focusedPublicIntake) && <Footer />}
       <Suspense fallback={null}>
         {signedInWorkspaceShell && <WorkspaceGuidance />}
-        {signedInWorkspaceShell && <DesktopAgentTeamRail />}
-        {showContextualAgent && <ContextualAgentDock />}
+        {signedInWorkspaceShell && <UniversalAITeamLauncher />}
         {signedInWorkspaceShell && <GlobalCommandSearch />}
       </Suspense>
     </div>
