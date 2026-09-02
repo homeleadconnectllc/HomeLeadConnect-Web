@@ -36,7 +36,7 @@ const villageBranches = [
 
 const moreVillageTools = [
   ["Provider Directory", "/providers"],
-  ["Swipe Discovery", "/community/swipe"],
+  ["Community Matching · Swipe Discovery", "/community/swipe"],
   ["Community Messenger", "/community/messages"],
   ["Groups", "/community/groups"],
   ["Referrals", "/community/referrals"],
