@@ -8,7 +8,7 @@ const router = readFileSync(new URL("./AppRouter.tsx", import.meta.url), "utf8")
 test("public home exposes explicit sign-in and account-creation actions", () => {
   assert.match(home, /href="\/login"[^>]*>Sign In<\/a>/);
   assert.match(home, /href="\/register"[^>]*>Create Account<\/a>/);
-  assert.match(home, /href="\/register"[^>]*>Create My HLC Account<\/a>/);
+  assert.match(home, /href="\/register"[^>]*>Create My HomeLead Connect Account<\/a>/);
 });
 
 test("canonical public account routes remain declared", () => {
