@@ -64,6 +64,7 @@ import "./hlc-unified-detail-workspaces.css";
 import "./hlc-unified-final-surfaces.css";
 import "./hlc-dashboard-structural-correction.css";
 import "./hlc-structural-correction.css";
+import "./hlc-purpose-built-workspaces.css";
 import "./messages-lane-2-mobile-authority.css";
 
 export default function AuthenticatedStyles() {
