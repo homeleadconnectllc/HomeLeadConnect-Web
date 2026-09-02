@@ -102,7 +102,7 @@ test("signed-in mobile navigation behaves like an adaptive field app", () => {
   assert.match(navbar, /label:\s*"Work",[\s\S]*?route:\s*"\/leads"/);
   assert.match(navbar, /label:\s*"Network",[\s\S]*?route:\s*"\/network"/);
   assert.match(navbar, /label:\s*"Community",[\s\S]*?route:\s*"\/community-hub"/);
-  assert.match(navbar, /aria-label=\{mobileOpen \? "Close all HLC areas" : "Open all HLC areas"\}/);
+  assert.match(navbar, /aria-label=\{mobileOpen \? "Close all HomeLead Connect areas" : "Open all HomeLead Connect areas"\}/);
   assert.match(navbar, /<span>More<\/span>/);
   assert.match(navbar, /canAccessWorkspacePath\(access\.role, item\.route\)/);
   assert.match(navbar, /aria-label="Mobile primary navigation"/);
