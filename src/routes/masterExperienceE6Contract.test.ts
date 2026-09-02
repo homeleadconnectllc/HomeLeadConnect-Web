@@ -18,7 +18,7 @@ test("E6 uses real routes instead of duplicate trial pages",()=>{
 
 test("role authorization remains ahead of entitlement decisions",()=>{
   assert.ok(layout.indexOf("if (!canAccessWorkspacePath")<layout.indexOf("const entitlementState = resolveEntitlementState"));
-  assert.match(layout,/Your HLC role does not allow this area/);
+  assert.match(layout,/Your HomeLead Connect role does not allow this area/);
 });
 
 test("Stripe webhook evidence remains the only subscription authority",()=>{
