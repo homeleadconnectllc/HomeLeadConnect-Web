@@ -1,0 +1,78 @@
+/* Presentation-only correction for the premium conversation workspace. */
+html body #root .hlc-app-shell.hlc-signed-in-shell.hlc-page-messages .hlc-messages-workspace {
+  --msg-line: rgba(191,215,207,.14) !important;
+  --msg-line-soft: rgba(191,215,207,.09) !important;
+  --msg-surface: #182120 !important;
+  --msg-surface-soft: #101716 !important;
+  --msg-hover: #202b29 !important;
+  --msg-text: #eef3ef !important;
+  --msg-muted: #a6b4af !important;
+  --msg-subtle: #82958f !important;
+  --msg-blue: #668f87 !important;
+}
+
+html body #root .hlc-app-shell.hlc-signed-in-shell.hlc-page-messages .hlc-messaging-frame,
+html body #root .hlc-app-shell.hlc-signed-in-shell.hlc-page-messages .hlc-conversation-list-panel,
+html body #root .hlc-app-shell.hlc-signed-in-shell.hlc-page-messages .hlc-conversation-stage,
+html body #root .hlc-app-shell.hlc-signed-in-shell.hlc-page-messages .hlc-message-stream,
+html body #root .hlc-app-shell.hlc-signed-in-shell.hlc-page-messages .hlc-message-composer {
+  background: #111817 !important;
+  border-color: rgba(191,215,207,.14) !important;
+}
+
+html body #root .hlc-app-shell.hlc-signed-in-shell.hlc-page-messages .hlc-conversation-list-panel {
+  background: #151e1d !important;
+}
+
+html body #root .hlc-app-shell.hlc-signed-in-shell.hlc-page-messages .hlc-conversation-empty-stage {
+  width: min(560px, calc(100% - 48px));
+  min-height: 360px;
+  margin: auto;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 12px;
+  border: 1px solid rgba(191,215,207,.15) !important;
+  border-radius: 24px !important;
+  color: #eef3ef !important;
+  background: linear-gradient(145deg, #18221f 0%, #111817 100%) !important;
+  box-shadow: 0 24px 70px rgba(0,0,0,.28) !important;
+  text-align: center;
+}
+
+html body #root .hlc-app-shell.hlc-signed-in-shell.hlc-page-messages .hlc-conversation-empty-stage > span {
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  border-radius: 18px;
+  color: #f4f6f3 !important;
+  background: #253b37 !important;
+  font-weight: 900;
+  letter-spacing: .08em;
+}
+
+html body #root .hlc-app-shell.hlc-signed-in-shell.hlc-page-messages .hlc-conversation-empty-stage :is(h2,p) {
+  color: inherit !important;
+}
+html body #root .hlc-app-shell.hlc-signed-in-shell.hlc-page-messages .hlc-conversation-empty-stage p {
+  max-width: 360px;
+  color: #a6b4af !important;
+}
+
+html body #root .hlc-app-shell.hlc-signed-in-shell.hlc-page-messages .hlc-message-inbox-row.is-selected {
+  background: rgba(102,143,135,.15) !important;
+  box-shadow: inset 3px 0 0 #668f87 !important;
+}
+
+html body #root .hlc-app-shell.hlc-signed-in-shell.hlc-page-messages .hlc-message-entry.is-self {
+  box-shadow: inset 3px 0 0 #668f87 !important;
+}
+
+@media (max-width: 720px) {
+  html body #root .hlc-app-shell.hlc-signed-in-shell.hlc-page-messages .hlc-conversation-empty-stage {
+    width: calc(100% - 24px);
+    min-height: 300px;
+    border-radius: 18px !important;
+  }
+}
