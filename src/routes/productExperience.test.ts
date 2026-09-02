@@ -18,7 +18,6 @@ const analyticsPage = readFileSync("src/pages/dashboard/Analytics.tsx", "utf8");
 const analyticsKpis = readFileSync("src/components/analytics/AnalyticsKpis.tsx", "utf8");
 const analyticsHardening = readFileSync("src/styles/analytics-hardening.css", "utf8");
 const dashboard = readFileSync("src/pages/dashboard/Dashboard.tsx", "utf8");
-const dashboardCss = readFileSync("src/styles/dashboard.css", "utf8");
 const dashboardStructuralCss = readFileSync("src/styles/hlc-dashboard-structural-correction.css", "utf8");
 const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
 const workspaceNav = readFileSync("src/styles/workspace-nav.css", "utf8");
