@@ -1,0 +1,485 @@
+/*
+ * HLC unified authenticated visual authority
+ * One company. One brand. One visual language. Different rooms for different jobs.
+ * Public pages tell the story; authenticated pages do the work.
+ */
+
+:root {
+  --hlc-bg: #070d14;
+  --hlc-bg-deep: #050a10;
+  --hlc-shell: #0a1524;
+  --hlc-panel: #0f1c2c;
+  --hlc-panel-2: #132236;
+  --hlc-line: rgba(150, 179, 214, 0.18);
+  --hlc-text: #f7f9fc;
+  --hlc-muted: #9eb0c5;
+  --hlc-blue: #2f76ff;
+  --hlc-cyan: #20c7d9;
+  --hlc-green: #35b56b;
+  --hlc-gold: #e2a63d;
+  --hlc-violet: #7d5cff;
+  --hlc-magenta: #c45bc7;
+  --hlc-danger: #df5a63;
+  --hlc-radius: 18px;
+  --hlc-radius-sm: 12px;
+  --hlc-shadow: 0 18px 48px rgba(0, 0, 0, 0.22);
+}
+
+.hlc-signed-in-shell,
+.hlc-signed-in-shell main {
+  color: var(--hlc-text);
+}
+
+.hlc-signed-in-shell {
+  background:
+    radial-gradient(circle at 18% -10%, rgba(47,118,255,.12), transparent 32rem),
+    linear-gradient(180deg, var(--hlc-bg-deep), var(--hlc-bg));
+}
+
+.hlc-signed-in-shell main {
+  background: transparent !important;
+}
+
+/* Public-site continuity: same logo, same control geometry, same restrained glow. */
+.hlc-signed-in-shell button,
+.hlc-signed-in-shell a,
+.hlc-signed-in-shell input,
+.hlc-signed-in-shell select,
+.hlc-signed-in-shell textarea {
+  border-radius: var(--hlc-radius-sm);
+}
+
+.hlc-signed-in-shell button,
+.hlc-signed-in-shell a {
+  transition: border-color .18s ease, background .18s ease, transform .18s ease, color .18s ease;
+}
+
+.hlc-signed-in-shell button:focus-visible,
+.hlc-signed-in-shell a:focus-visible,
+.hlc-signed-in-shell input:focus-visible,
+.hlc-signed-in-shell select:focus-visible,
+.hlc-signed-in-shell textarea:focus-visible {
+  outline: 3px solid rgba(32, 199, 217, .38) !important;
+  outline-offset: 2px;
+}
+
+/* Remove the generic-SaaS habit of boxing every thought. */
+.hlc-signed-in-shell :is(article, section, aside, nav, form)[class*="card"],
+.hlc-signed-in-shell :is(article, section, aside, nav, form)[class*="panel"] {
+  box-shadow: none;
+}
+
+.hlc-parent-index,
+.hlc-messages-workspace,
+.hlc-community-workspace,
+.hlc-sourcing-workspace,
+.hlc-account-workspace,
+main[class*="academy"],
+main[class*="analytics"],
+main[class*="agent"],
+main[class*="leads"],
+main[class*="jobs"],
+main[class*="calendar"],
+main[class*="follow"],
+main[class*="provider"],
+main[class*="document"],
+main[class*="communication"] {
+  width: min(1440px, calc(100% - 48px));
+  margin-inline: auto;
+}
+
+/* Header language: content-first, no decorative billboard. */
+.hlc-parent-index-header,
+.hlc-community-header,
+.hlc-messages-header,
+.hlc-account-header,
+.hlc-sourcing-hero,
+main[class*="academy"] > header,
+main[class*="analytics"] > header,
+main[class*="agent"] > header {
+  position: relative;
+  border: 0 !important;
+  border-bottom: 1px solid var(--hlc-line) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 28px 0 22px !important;
+  min-height: 0 !important;
+}
+
+.hlc-parent-index-header h1,
+.hlc-community-header h1,
+.hlc-messages-header h1,
+.hlc-account-header h1,
+.hlc-sourcing-hero h1 {
+  margin: 4px 0 8px;
+  letter-spacing: -.03em;
+  line-height: 1.02;
+}
+
+.hlc-parent-eyebrow,
+.hlc-account-kicker,
+.hlc-messages-kicker,
+.hlc-community-lane-head > div > span,
+.hlc-sourcing-hero > div > p {
+  font-size: .72rem !important;
+  font-weight: 800 !important;
+  letter-spacing: .14em !important;
+  text-transform: uppercase;
+}
+
+/* HOME — cobalt + subtle teal, calm command center. */
+.hlc-signed-in-shell main[class*="dashboard"] {
+  --hlc-zone: var(--hlc-blue);
+  --hlc-zone-2: var(--hlc-cyan);
+}
+
+/* WORK — operational, cobalt + amber. */
+.hlc-work-home,
+main[class*="leads"],
+main[class*="jobs"],
+main[class*="calendar"],
+main[class*="follow"],
+main[class*="estimate"],
+main[class*="provider"] {
+  --hlc-zone: var(--hlc-blue);
+  --hlc-zone-2: var(--hlc-gold);
+}
+
+.hlc-parent-branch-list {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px !important;
+  margin-top: 24px;
+}
+
+.hlc-parent-branch-row {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 104px;
+  padding: 20px !important;
+  border: 1px solid var(--hlc-line) !important;
+  border-radius: var(--hlc-radius) !important;
+  background: linear-gradient(145deg, rgba(47,118,255,.08), rgba(226,166,61,.025)) !important;
+  color: var(--hlc-text) !important;
+  text-decoration: none;
+}
+
+.hlc-parent-branch-row:hover {
+  border-color: rgba(47,118,255,.52) !important;
+  transform: translateY(-1px);
+}
+
+.hlc-parent-branch-row strong { font-size: 1.08rem; }
+.hlc-parent-branch-row small { display:block; margin-top:5px; color:var(--hlc-muted); line-height:1.45; }
+.hlc-parent-branch-row b { color: var(--hlc-gold); font-size: 1.3rem; }
+
+.hlc-parent-secondary,
+.hlc-parent-boundary {
+  border: 0 !important;
+  border-top: 1px solid var(--hlc-line) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  margin-top: 28px !important;
+  padding: 24px 0 0 !important;
+}
+
+/* COMMUNITY — village: human green + teal. */
+.hlc-community-workspace,
+main[class*="community"] {
+  --hlc-zone: var(--hlc-green);
+  --hlc-zone-2: var(--hlc-cyan);
+}
+
+.hlc-community-commandbar {
+  display: flex !important;
+  gap: 8px !important;
+  overflow-x: auto;
+  padding: 14px 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--hlc-line) !important;
+}
+
+.hlc-community-commandbar a {
+  flex: 0 0 auto;
+  padding: 9px 13px !important;
+  border: 1px solid rgba(53,181,107,.24) !important;
+  background: rgba(53,181,107,.07) !important;
+  color: #dff7e8 !important;
+  text-decoration: none;
+}
+
+.hlc-community-console {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.6fr) minmax(280px, .7fr);
+  gap: 28px !important;
+  margin-top: 24px;
+}
+
+.hlc-community-directory,
+.hlc-community-context,
+.hlc-community-more-tools,
+.hlc-community-store-workspace {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.hlc-community-row-list { display:grid; gap:2px; }
+.hlc-community-row {
+  display:grid !important;
+  grid-template-columns: minmax(0,1fr) auto;
+  gap:18px;
+  align-items:center;
+  padding:18px 0 !important;
+  border:0 !important;
+  border-bottom:1px solid var(--hlc-line) !important;
+  border-radius:0 !important;
+  background:transparent !important;
+}
+.hlc-community-row h3 { margin:0 0 5px; }
+.hlc-community-row p { margin:0; color:var(--hlc-muted); }
+.hlc-community-context { border-left:1px solid rgba(53,181,107,.22)!important; padding-left:24px!important; }
+
+/* MESSAGES — a conversation product, not a dashboard. */
+.hlc-messages-workspace {
+  --hlc-zone: var(--hlc-blue);
+  --hlc-zone-2: var(--hlc-violet);
+  max-width: 1560px;
+}
+
+.hlc-messages-header {
+  display:flex !important;
+  align-items:end !important;
+  justify-content:space-between !important;
+}
+
+.hlc-messages-progressive-inbox,
+.hlc-messages-inbox,
+.hlc-messages-thread,
+.hlc-messages-compose {
+  border: 1px solid rgba(47,118,255,.18) !important;
+  border-radius: var(--hlc-radius) !important;
+  background: linear-gradient(160deg, rgba(19,34,54,.86), rgba(7,13,20,.92)) !important;
+  box-shadow: var(--hlc-shadow) !important;
+}
+
+.hlc-messages-thread {
+  min-height: min(720px, calc(100dvh - 220px));
+}
+
+.hlc-messages-workspace textarea,
+.hlc-messages-workspace input,
+.hlc-messages-workspace select {
+  background: rgba(5,10,16,.72) !important;
+  border: 1px solid rgba(126,151,186,.26) !important;
+  color: var(--hlc-text) !important;
+}
+
+/* CALLS & COMMUNICATIONS — utility, cyan + blue. */
+main[class*="communication"],
+main[class*="call"] {
+  --hlc-zone: var(--hlc-cyan);
+  --hlc-zone-2: var(--hlc-blue);
+}
+
+/* RESOURCES — library/reference, amber + gold; no promo hero. */
+.hlc-sourcing-workspace {
+  --hlc-zone: var(--hlc-gold);
+  --hlc-zone-2: #ffc667;
+}
+
+.hlc-sourcing-hero aside {
+  max-width: 430px;
+  padding: 12px 14px !important;
+  border: 1px solid rgba(226,166,61,.2) !important;
+  background: rgba(226,166,61,.05) !important;
+  border-radius: var(--hlc-radius-sm) !important;
+}
+
+.hlc-sourcing-nav {
+  position: sticky;
+  top: 0;
+  z-index: 8;
+  display:flex !important;
+  gap:8px !important;
+  overflow-x:auto;
+  padding:12px 0 !important;
+  border-bottom:1px solid var(--hlc-line) !important;
+  background: rgba(7,13,20,.92) !important;
+  backdrop-filter: blur(14px);
+}
+
+.hlc-sourcing-nav a {
+  padding:9px 12px!important;
+  border:1px solid rgba(226,166,61,.18)!important;
+  background:rgba(226,166,61,.045)!important;
+  color:var(--hlc-text)!important;
+  text-decoration:none;
+}
+.hlc-sourcing-nav a.is-active { border-color:rgba(226,166,61,.6)!important; background:rgba(226,166,61,.13)!important; }
+
+.hlc-sourcing-categories {
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px!important;
+  margin-top:24px;
+}
+.hlc-sourcing-categories a,
+.hlc-supplier-grid article,
+.hlc-material-layout > * {
+  border:1px solid rgba(226,166,61,.15)!important;
+  background:linear-gradient(145deg,rgba(226,166,61,.055),rgba(15,28,44,.72))!important;
+  box-shadow:none!important;
+}
+
+/* ACADEMY — learning, violet + magenta. */
+main[class*="academy"],
+main[class*="roleplay"] {
+  --hlc-zone: var(--hlc-violet);
+  --hlc-zone-2: var(--hlc-magenta);
+}
+
+main[class*="academy"] :is(article,section)[class*="card"],
+main[class*="academy"] :is(article,section)[class*="module"] {
+  border-color: rgba(125,92,255,.2) !important;
+}
+
+/* ANALYTICS — data, cyan + indigo. */
+main[class*="analytics"],
+main[class*="intelligence"] {
+  --hlc-zone: var(--hlc-cyan);
+  --hlc-zone-2: #5a66ff;
+}
+
+/* AI TEAM — intelligent layer, violet + cyan. */
+main[class*="agent"],
+main[class*="hq"],
+main[class*="operations"] {
+  --hlc-zone: var(--hlc-violet);
+  --hlc-zone-2: var(--hlc-cyan);
+}
+
+/* ACCOUNT + SETTINGS — administrative graphite, restrained blue. */
+.hlc-account-workspace,
+main[class*="profile"],
+main[class*="settings"] {
+  --hlc-zone: #7794b7;
+  --hlc-zone-2: var(--hlc-blue);
+}
+
+.hlc-account-summary {
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:1px!important;
+  overflow:hidden;
+  border:1px solid var(--hlc-line)!important;
+  border-radius:var(--hlc-radius)!important;
+  background:var(--hlc-line)!important;
+}
+.hlc-account-summary span { background:rgba(10,21,36,.96)!important; padding:16px!important; }
+.hlc-account-summary strong { display:block; font-size:1.35rem; }
+.hlc-account-summary small { color:var(--hlc-muted); }
+
+.hlc-settings-ledger {
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr);
+  gap:0!important;
+  margin-top:24px;
+}
+.hlc-settings-section {
+  border:0!important;
+  border-bottom:1px solid var(--hlc-line)!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  padding:28px 0!important;
+}
+.hlc-account-field-grid { display:grid!important; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px!important; }
+.hlc-account-workspace :is(input,select,textarea) {
+  background:rgba(5,10,16,.72)!important;
+  border:1px solid rgba(126,151,186,.28)!important;
+  color:var(--hlc-text)!important;
+}
+
+/* Shared zone accent: small identity line, never full-page paint. */
+.hlc-parent-index-header::before,
+.hlc-community-header::before,
+.hlc-messages-header::before,
+.hlc-account-header::before,
+.hlc-sourcing-hero::before,
+main[class*="academy"] > header::before,
+main[class*="analytics"] > header::before,
+main[class*="agent"] > header::before {
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:-1px;
+  width:84px;
+  height:2px;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--hlc-zone,var(--hlc-blue)),var(--hlc-zone-2,var(--hlc-cyan)));
+}
+
+.hlc-parent-agent-link,
+.hlc-messages-new-action,
+.hlc-account-form-actions button,
+.hlc-account-inline-links button,
+.hlc-material-layout button {
+  border:1px solid color-mix(in srgb,var(--hlc-zone,var(--hlc-blue)) 52%, transparent)!important;
+  background:color-mix(in srgb,var(--hlc-zone,var(--hlc-blue)) 13%, transparent)!important;
+  color:var(--hlc-text)!important;
+  font-weight:750;
+}
+
+/* Mobile = app, not squeezed desktop. */
+@media (max-width: 760px) {
+  .hlc-parent-index,
+  .hlc-messages-workspace,
+  .hlc-community-workspace,
+  .hlc-sourcing-workspace,
+  .hlc-account-workspace,
+  main[class*="academy"],
+  main[class*="analytics"],
+  main[class*="agent"],
+  main[class*="leads"],
+  main[class*="jobs"],
+  main[class*="calendar"],
+  main[class*="follow"],
+  main[class*="provider"],
+  main[class*="document"],
+  main[class*="communication"] {
+    width: min(100% - 28px, 100%);
+  }
+
+  .hlc-parent-index-header,
+  .hlc-community-header,
+  .hlc-messages-header,
+  .hlc-account-header,
+  .hlc-sourcing-hero {
+    padding:18px 0 16px!important;
+  }
+
+  .hlc-parent-index-header h1,
+  .hlc-community-header h1,
+  .hlc-messages-header h1,
+  .hlc-account-header h1,
+  .hlc-sourcing-hero h1 { font-size:clamp(1.85rem,8vw,2.6rem)!important; }
+
+  .hlc-parent-branch-list,
+  .hlc-community-console,
+  .hlc-sourcing-categories,
+  .hlc-account-field-grid {
+    grid-template-columns:1fr!important;
+  }
+
+  .hlc-parent-branch-row { min-height:84px; padding:16px!important; }
+  .hlc-community-context { border-left:0!important; border-top:1px solid rgba(53,181,107,.22)!important; padding:20px 0 0!important; }
+  .hlc-community-row { grid-template-columns:1fr!important; gap:10px!important; }
+  .hlc-messages-thread { min-height:calc(100dvh - 190px); border-radius:14px!important; }
+  .hlc-account-summary { grid-template-columns:repeat(2,minmax(0,1fr))!important; }
+  .hlc-account-summary span:last-child { grid-column:1 / -1; }
+  .hlc-sourcing-hero aside { max-width:none; }
+}
