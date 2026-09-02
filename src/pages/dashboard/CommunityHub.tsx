@@ -15,7 +15,7 @@ const villageBranches = [
     action: "Discover people",
   },
   {
-    title: "Map & Local Network",
+    title: "Provider Map & Local Network",
     body: "Explore providers and recorded service-area context as part of the Community village.",
     to: "/network/map",
     action: "Open community map",
@@ -115,7 +115,7 @@ export default function CommunityHub() {
       </details>
 
       <details className="hlc-community-store-workspace">
-        <summary>Community Store</summary>
+        <summary>HLC Store</summary>
         <CommunityStore />
       </details>
     </main>
