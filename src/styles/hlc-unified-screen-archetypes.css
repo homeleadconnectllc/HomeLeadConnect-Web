@@ -1,0 +1,192 @@
+/* Purpose-specific HLC screen archetypes. Loaded after the shared brand authority. */
+
+/* Leads + Jobs: dense operational lists, not dashboard cards. */
+.hlc-leads-workspace,
+.hlc-jobs-workspace {
+  width: min(1440px, calc(100% - 48px));
+  margin-inline: auto;
+}
+
+.hlc-leads-header,
+.hlc-jobs-header,
+.hlc-network-map-header {
+  border: 0 !important;
+  border-bottom: 1px solid rgba(150,179,214,.18) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 28px 0 22px !important;
+}
+
+.hlc-leads-summary,
+.hlc-jobs-summary,
+.hlc-network-map-summary {
+  display: grid !important;
+  grid-template-columns: repeat(4,minmax(0,1fr));
+  gap: 1px !important;
+  overflow: hidden;
+  border: 1px solid rgba(150,179,214,.16) !important;
+  border-radius: 16px !important;
+  background: rgba(150,179,214,.16) !important;
+  box-shadow: none !important;
+  margin: 18px 0 !important;
+}
+
+.hlc-leads-summary span,
+.hlc-jobs-summary span,
+.hlc-network-map-summary span {
+  padding: 14px 16px !important;
+  background: rgba(10,21,36,.97) !important;
+}
+
+.hlc-leads-summary strong,
+.hlc-jobs-summary strong,
+.hlc-network-map-summary strong { display:block; font-size:1.25rem; }
+.hlc-leads-summary small,
+.hlc-jobs-summary small,
+.hlc-network-map-summary small { color:#9eb0c5; }
+
+.hlc-leads-toolbar,
+.hlc-network-map-filterbar {
+  border: 0 !important;
+  border-bottom: 1px solid rgba(150,179,214,.16) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 12px 0 18px !important;
+}
+
+.hlc-leads-pipeline,
+.hlc-jobs-board {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.hlc-leads-column-head,
+.hlc-jobs-column-head {
+  border-bottom: 1px solid rgba(150,179,214,.18) !important;
+  color: #86a9d2 !important;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-size: .7rem;
+}
+
+.hlc-leads-list > *,
+.hlc-jobs-list > * {
+  border-radius: 0 !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-top: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Provider Map: map owns the screen. */
+.hlc-network-map-workspace {
+  --hlc-zone: #35b56b;
+  --hlc-zone-2: #20c7d9;
+  width: min(1540px, calc(100% - 48px));
+  margin-inline: auto;
+}
+
+.hlc-network-route-rail {
+  display:flex !important;
+  gap:8px !important;
+  overflow-x:auto;
+  padding:12px 0 !important;
+  border:0 !important;
+  border-bottom:1px solid rgba(53,181,107,.2)!important;
+  background:transparent!important;
+}
+
+.hlc-network-route-rail a {
+  flex:0 0 auto;
+  padding:8px 12px!important;
+  border:1px solid rgba(53,181,107,.18)!important;
+  background:rgba(53,181,107,.055)!important;
+  color:#e8fff0!important;
+  text-decoration:none;
+}
+
+.hlc-network-route-rail a[aria-current="page"] {
+  border-color:rgba(32,199,217,.56)!important;
+  background:rgba(32,199,217,.11)!important;
+}
+
+.hlc-network-map-console {
+  display:grid!important;
+  grid-template-columns:minmax(0,1.7fr) minmax(300px,.65fr);
+  gap:18px!important;
+  min-height: min(760px, calc(100dvh - 250px));
+}
+
+.hlc-network-map-canvas-panel {
+  min-height: 620px;
+  border:1px solid rgba(32,199,217,.2)!important;
+  border-radius:18px!important;
+  background:linear-gradient(155deg,rgba(10,28,34,.92),rgba(6,13,20,.96))!important;
+  overflow:hidden;
+}
+
+.hlc-network-map-canvas {
+  min-height: 560px;
+}
+
+/* Academy currently shares Community markup; identify learning surfaces by its kicker. */
+.hlc-community-workspace:has(.hlc-community-kicker) {
+  --hlc-zone: #7d5cff;
+  --hlc-zone-2: #c45bc7;
+}
+
+.hlc-community-workspace:has(.hlc-community-kicker) .hlc-community-commandbar a {
+  border-color: rgba(125,92,255,.23) !important;
+  background: rgba(125,92,255,.07) !important;
+  color: #eee9ff !important;
+}
+
+.hlc-community-workspace:has(.hlc-community-kicker) .hlc-premium-panel {
+  border: 1px solid rgba(125,92,255,.18) !important;
+  background: linear-gradient(145deg,rgba(125,92,255,.07),rgba(15,28,44,.68)) !important;
+  box-shadow: none !important;
+}
+
+/* Billing workspace: one job, one screen. */
+main[class*="billing"] {
+  --hlc-zone: #7794b7;
+  --hlc-zone-2: #2f76ff;
+}
+
+main[class*="billing"] :is(article,section,form) {
+  box-shadow: none !important;
+}
+
+@media (max-width: 760px) {
+  .hlc-leads-workspace,
+  .hlc-jobs-workspace,
+  .hlc-network-map-workspace {
+    width: calc(100% - 28px);
+  }
+
+  .hlc-leads-summary,
+  .hlc-jobs-summary,
+  .hlc-network-map-summary {
+    grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+  }
+
+  .hlc-leads-header,
+  .hlc-jobs-header,
+  .hlc-network-map-header {
+    padding: 18px 0 16px !important;
+  }
+
+  .hlc-network-map-console {
+    grid-template-columns: 1fr !important;
+    min-height: 0;
+  }
+
+  .hlc-network-map-canvas-panel,
+  .hlc-network-map-canvas {
+    min-height: 58dvh;
+  }
+}
