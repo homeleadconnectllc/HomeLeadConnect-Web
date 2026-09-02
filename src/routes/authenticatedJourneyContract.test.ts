@@ -10,6 +10,8 @@ const messages = readFileSync("src/pages/dashboard/Messages.tsx", "utf8");
 const calendar = readFileSync("src/pages/dashboard/HlcNativeCalendar.tsx", "utf8");
 const jobs = readFileSync("src/pages/dashboard/Jobs.tsx", "utf8");
 const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
+const workspaceLayout = readFileSync("src/layouts/WorkspaceLayout.tsx", "utf8");
+const accessDestination = readFileSync("src/lib/accessDestination.ts", "utf8");
 
 test("critical signed-in journey destinations stay declared and reachable", () => {
   for (const route of ["/dashboard", "/leads", "/messages", "/calendar", "/jobs"]) {
@@ -22,6 +24,14 @@ test("critical signed-in journey destinations stay declared and reachable", () =
   assert.match(dashboard, /to: "\/messages"/);
   assert.match(dashboard, /to: "\/calendar"/);
   assert.match(dashboard, /to: "\/jobs"/);
+});
+
+test("workspace authorization uses the selected workspace membership role", () => {
+  assert.match(workspaceLayout, /resolveActiveWorkspaceRole\(userId\)/);
+  assert.doesNotMatch(workspaceLayout, /from\("profiles"\)\.select\("role"\)/);
+  assert.match(accessDestination, /from\("profiles"\)[\s\S]*?select\("workspace_id"\)/);
+  assert.match(accessDestination, /from\("workspace_members"\)[\s\S]*?select\("role"\)[\s\S]*?eq\("user_id", userId\)[\s\S]*?eq\("workspace_id", workspaceId\)/);
+  assert.match(accessDestination, /return normalizeInternalRole\(membership\.data\?\.role\)/);
 });
 
 test("mobile primary navigation preserves the canonical five-parent return paths", () => {
