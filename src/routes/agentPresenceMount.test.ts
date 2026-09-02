@@ -4,19 +4,24 @@ import test from "node:test";
 
 const appLayout = readFileSync("src/routes/AppLayout.tsx", "utf8");
 const protectedLayout = readFileSync("src/layouts/ProtectedLayout.tsx", "utf8");
+const universalAiTeamLauncher = readFileSync("src/components/agents/UniversalAITeamLauncher.tsx", "utf8");
 const contextualAgentDock = readFileSync("src/components/agents/ContextualAgentDock.tsx", "utf8");
 const agentChatPanel = readFileSync("src/components/agents/AgentChatPanel.tsx", "utf8");
 const agentVoice = readFileSync("src/lib/agentVoice.ts", "utf8");
 const mobileAgentPlacement = readFileSync("src/styles/mobile-agent-placement-contract.css", "utf8");
 
-test("authenticated shell has one contextual AI agent owner without a separate tutorial bubble", () => {
-  assert.match(appLayout, /const ContextualAgentDock = lazy\(\(\) => import\("\.\.\/components\/agents\/ContextualAgentDock"\)\)/);
-  assert.match(appLayout, /<ContextualAgentDock \/>/);
+test("authenticated shell has one universal AI Team launcher without the retired contextual dock", () => {
+  assert.match(appLayout, /const UniversalAITeamLauncher = lazy\(\(\) => import\("\.\.\/components\/agents\/UniversalAITeamLauncher"\)\)/);
+  assert.match(appLayout, /<UniversalAITeamLauncher \/>/);
+  assert.doesNotMatch(appLayout, /ContextualAgentDock/);
   assert.doesNotMatch(protectedLayout, /ContextualAgentDock/);
   assert.doesNotMatch(protectedLayout, /LiveTutorialDock/);
+  assert.match(universalAiTeamLauncher, /const \[activeAgentId, setActiveAgentId\] = useState<AgentId \| null>\(null\)/);
+  assert.match(universalAiTeamLauncher, /setActiveAgentId\(agent\.id\)/);
+  assert.match(universalAiTeamLauncher, /key=\{activeAgent\.id\}/);
 });
 
-test("active AI agent teaches the current workspace tab before freeform chat", () => {
+test("retained contextual agent implementation still teaches the current workspace tab", () => {
   assert.match(contextualAgentDock, /type TabTutorial/);
   assert.match(contextualAgentDock, /title: "How to work Leads"/);
   assert.match(contextualAgentDock, /title: "How to use the Communications Hub"/);
