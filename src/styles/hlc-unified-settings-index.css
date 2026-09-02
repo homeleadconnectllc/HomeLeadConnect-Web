@@ -1,0 +1,80 @@
+.hlc-settings-home {
+  --hlc-zone: #7794b7;
+  --hlc-zone-2: #2f76ff;
+}
+
+.hlc-settings-index {
+  display: grid;
+  gap: 0;
+  margin-top: 20px;
+}
+
+.hlc-settings-index-group {
+  display: grid;
+  grid-template-columns: minmax(220px, .58fr) minmax(0, 1.42fr);
+  gap: 34px;
+  padding: 28px 0;
+  border-bottom: 1px solid rgba(150, 179, 214, .18);
+  background: transparent;
+}
+
+.hlc-settings-index-copy > span {
+  font-size: .7rem;
+  letter-spacing: .14em;
+  color: #8fb7ff;
+  font-weight: 850;
+}
+
+.hlc-settings-index-copy h2 {
+  margin: 5px 0 7px;
+  font-size: clamp(1.3rem, 2vw, 1.8rem);
+}
+
+.hlc-settings-index-copy p {
+  margin: 0;
+  color: #9eb0c5;
+  line-height: 1.55;
+}
+
+.hlc-settings-index-links {
+  display: grid;
+  gap: 2px;
+}
+
+.hlc-settings-index-links a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 58px;
+  padding: 13px 15px;
+  color: #f7f9fc;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-bottom-color: rgba(150, 179, 214, .13);
+  border-radius: 0;
+  background: transparent;
+}
+
+.hlc-settings-index-links a:hover {
+  border-color: rgba(47,118,255,.28);
+  border-radius: 12px;
+  background: rgba(47,118,255,.07);
+}
+
+.hlc-settings-index-links b {
+  color: #8fb7ff;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 760px) {
+  .hlc-settings-index-group {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 22px 0;
+  }
+
+  .hlc-settings-index-links a {
+    min-height: 54px;
+    padding-inline: 6px;
+  }
+}
