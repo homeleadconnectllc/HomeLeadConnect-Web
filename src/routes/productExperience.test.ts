@@ -19,6 +19,7 @@ const analyticsKpis = readFileSync("src/components/analytics/AnalyticsKpis.tsx",
 const analyticsHardening = readFileSync("src/styles/analytics-hardening.css", "utf8");
 const dashboard = readFileSync("src/pages/dashboard/Dashboard.tsx", "utf8");
 const dashboardCss = readFileSync("src/styles/dashboard.css", "utf8");
+const dashboardStructuralCss = readFileSync("src/styles/hlc-dashboard-structural-correction.css", "utf8");
 const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
 const workspaceNav = readFileSync("src/styles/workspace-nav.css", "utf8");
 const mobileAppShell = readFileSync("src/styles/mobile-app-shell.css", "utf8");
@@ -194,19 +195,24 @@ test("Dion business intelligence copy and reporting control remain durable and m
   assert.match(authenticatedEntry, /analytics-hardening\.css/);
 });
 
-test("dashboard exposes the complete HLC command center instead of hiding launch features", () => {
+test("dashboard protects the approved structural home workspace", () => {
+  assert.match(dashboard, /className="hlc-home-workspace hlc-home-structural"/);
+  assert.match(dashboard, /className="hlc-home-primary-grid"/);
+  assert.match(dashboard, /Needs attention/);
+  assert.match(dashboard, /<h2 id="hlc-home-today-title">Today<\/h2>/);
+  assert.match(dashboard, /<Link to="\/work">Open Work<\/Link>/);
+  assert.match(dashboard, /<Link to="\/messages">/);
+  assert.match(dashboard, /<Link to="\/call-center">/);
+  assert.match(dashboard, /<Link to="\/calendar">/);
+  assert.match(dashboard, /<Link to="\/jobs">/);
   assert.match(dashboard, /canAccessWorkspacePath\(account\.role, agent\.route\)/);
   assert.match(dashboard, /visibleAgentTeam\.length > 0/);
   assert.doesNotMatch(dashboard, /\{agentTeam\.map\(/);
-  assert.match(dashboard, /Business Pulse/);
-  assert.match(dashboard, /Community Matching/);
-  assert.match(dashboard, /\/community-hub/);
-  assert.match(dashboard, /\/network\/map/);
-  assert.match(dashboard, /\/network\/eligibility/);
-  assert.match(dashboard, /Open intelligent workspace/);
-  assert.match(dashboard, /evidence, uncertainty and owner approval/);
-  assert.match(dashboardCss, /\.hlc-business-pulse-grid/);
-  assert.match(dashboardCss, /@media \(max-width: 720px\)[\s\S]*\.hlc-business-pulse-grid \{[\s\S]*grid-template-columns: 1fr/);
+  assert.doesNotMatch(dashboard, /Business Pulse/);
+  assert.doesNotMatch(dashboard, /hlc-command-hero/);
+  assert.match(dashboardStructuralCss, /\.hlc-home-primary-grid \{[\s\S]*grid-template-columns:/);
+  assert.match(dashboardStructuralCss, /@media \(max-width: 820px\)[\s\S]*\.hlc-home-primary-grid \{[\s\S]*grid-template-columns: 1fr/);
+  assert.match(dashboardStructuralCss, /@media \(max-width: 820px\)[\s\S]*\.hlc-home-metric-strip \{[\s\S]*grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
 });
 
 test("premium HLC presentation layer stays blue-cyan beneath contrast and responsive contracts", () => {
