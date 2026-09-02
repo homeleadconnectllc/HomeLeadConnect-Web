@@ -1,0 +1,759 @@
+/* HomeLead Connect premium layout system — presentation only.
+   Built from production c9957d1. No auth, billing, route or data behavior changes. */
+
+:root {
+  --hlc-premium-canvas: #121417;
+  --hlc-premium-panel: #191d21;
+  --hlc-premium-panel-2: #20252a;
+  --hlc-premium-border: rgba(232, 224, 211, .11);
+  --hlc-premium-text: #f3f0ea;
+  --hlc-premium-muted: #aaa79f;
+  --hlc-premium-accent: #8ba39a;
+  --hlc-premium-accent-2: #c29a68;
+  --hlc-premium-danger: #c86f68;
+  --hlc-premium-warning: #d2a45f;
+  --hlc-premium-success: #79a884;
+  --hlc-premium-radius: 16px;
+  --hlc-premium-radius-lg: 22px;
+  --hlc-premium-shadow: 0 18px 50px rgba(0, 0, 0, .22);
+}
+
+/* Global signed-in shell: less blue, more architectural depth. */
+.hlc-signed-in-shell {
+  --hlc-route-canvas: #121417;
+  --hlc-route-panel: #191d21;
+  --hlc-route-panel-2: #20252a;
+  --hlc-route-border: rgba(232, 224, 211, .11);
+  --hlc-route-accent: #8ba39a;
+  --hlc-route-accent-2: #c29a68;
+  --hlc-route-text: #f3f0ea;
+  --hlc-route-muted: #aaa79f;
+  min-height: 100svh;
+  color: var(--hlc-route-text);
+  background:
+    radial-gradient(circle at 88% 8%, color-mix(in srgb, var(--hlc-route-accent) 11%, transparent), transparent 30%),
+    linear-gradient(160deg, #101214 0%, var(--hlc-route-canvas) 48%, #0d0f11 100%);
+}
+
+.hlc-signed-in-shell .hlc-route-content {
+  min-height: 100svh;
+  color: var(--hlc-route-text);
+  background: transparent;
+}
+
+.hlc-signed-in-shell .hlc-route-content > main {
+  position: relative;
+  isolation: isolate;
+  color: var(--hlc-route-text);
+}
+
+.hlc-signed-in-shell .hlc-route-content > main::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: min(46vw, 620px);
+  height: 1px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--hlc-route-accent) 70%, transparent), transparent);
+  pointer-events: none;
+}
+
+.hlc-signed-in-shell h1,
+.hlc-signed-in-shell h2,
+.hlc-signed-in-shell h3,
+.hlc-signed-in-shell strong {
+  color: var(--hlc-route-text);
+}
+
+.hlc-signed-in-shell p,
+.hlc-signed-in-shell small,
+.hlc-signed-in-shell .hlc-page-eyebrow {
+  color: var(--hlc-route-muted);
+}
+
+/* Route atmospheres: coordinated, restrained, and intentionally different. */
+.hlc-page-dashboard,
+.hlc-page-work,
+.hlc-page-start-here,
+.hlc-page-workflow,
+.hlc-page-automations,
+.hlc-page-activity {
+  --hlc-route-canvas: #131416;
+  --hlc-route-panel: #1b1d20;
+  --hlc-route-panel-2: #222529;
+  --hlc-route-accent: #8f9d96;
+  --hlc-route-accent-2: #c39a66;
+}
+
+.hlc-page-leads,
+.hlc-page-estimator,
+.hlc-page-jobs,
+.hlc-page-calendar,
+.hlc-page-follow-ups,
+.hlc-page-operations {
+  --hlc-route-canvas: #11151a;
+  --hlc-route-panel: #171c22;
+  --hlc-route-panel-2: #1d242c;
+  --hlc-route-accent: #8194a5;
+  --hlc-route-accent-2: #b8a07d;
+}
+
+.hlc-page-messages,
+.hlc-page-call-center,
+.hlc-page-manual-communications,
+.hlc-page-notifications {
+  --hlc-route-canvas: #101516;
+  --hlc-route-panel: #171d1f;
+  --hlc-route-panel-2: #1d2527;
+  --hlc-route-accent: #6f9992;
+  --hlc-route-accent-2: #b7a27d;
+}
+
+.hlc-page-community-hub,
+.hlc-page-community-discover,
+.hlc-page-community-messages,
+.hlc-page-community-challenges,
+.hlc-page-community-academy,
+.hlc-page-community-discussions,
+.hlc-page-community-reviews,
+.hlc-page-community-referrals,
+.hlc-page-community-events,
+.hlc-page-community-groups,
+.hlc-page-community-moderation,
+.hlc-page-network,
+.hlc-page-map,
+.hlc-page-providers,
+.hlc-page-profiles,
+.hlc-page-matching {
+  --hlc-route-canvas: #171513;
+  --hlc-route-panel: #211d19;
+  --hlc-route-panel-2: #29231e;
+  --hlc-route-accent: #b37854;
+  --hlc-route-accent-2: #8f9473;
+}
+
+.hlc-page-homeowner-portal,
+.hlc-page-contractor-portal,
+.hlc-page-partner-portal {
+  --hlc-route-canvas: #121918;
+  --hlc-route-panel: #182220;
+  --hlc-route-panel-2: #1f2b28;
+  --hlc-route-accent: #84a092;
+  --hlc-route-accent-2: #bca172;
+}
+
+.hlc-page-academy,
+.hlc-page-community-academy {
+  --hlc-route-canvas: #101715;
+  --hlc-route-panel: #17211d;
+  --hlc-route-panel-2: #1d2924;
+  --hlc-route-accent: #7a9b87;
+  --hlc-route-accent-2: #c0a36d;
+}
+
+.hlc-page-resources,
+.hlc-page-help,
+.hlc-page-tutorials,
+.hlc-page-rules,
+.hlc-page-documents,
+.hlc-page-settings,
+.hlc-page-team,
+.hlc-page-profile {
+  --hlc-route-canvas: #151514;
+  --hlc-route-panel: #1e1e1c;
+  --hlc-route-panel-2: #262521;
+  --hlc-route-accent: #9b9483;
+  --hlc-route-accent-2: #ba986e;
+}
+
+.hlc-page-analytics,
+.hlc-page-hq,
+.hlc-page-customer-experience {
+  --hlc-route-canvas: #121319;
+  --hlc-route-panel: #1a1c24;
+  --hlc-route-panel-2: #222531;
+  --hlc-route-accent: #8c8198;
+  --hlc-route-accent-2: #b89c71;
+}
+
+/* Desktop navigation becomes a real rail instead of a blue horizontal bar. */
+@media (min-width: 1025px) {
+  .hlc-signed-in-shell .hlc-navbar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 80;
+    width: 248px;
+    min-height: 100svh;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 14px;
+    padding: 18px 14px 22px;
+    border-right: 1px solid var(--hlc-route-border);
+    background: #0d0f11;
+    box-shadow: 12px 0 44px rgba(0, 0, 0, .16);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .hlc-signed-in-shell .hlc-navbar-brand {
+    min-height: 54px;
+    padding: 4px 8px 14px;
+    border-bottom: 1px solid var(--hlc-route-border);
+  }
+
+  .hlc-signed-in-shell .hlc-navbar-logo {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+    border-radius: 50%;
+    background: transparent;
+  }
+
+  .hlc-signed-in-shell .hlc-navbar-links,
+  .hlc-signed-in-shell .hlc-navbar-groups {
+    position: static;
+    display: grid !important;
+    width: 100%;
+    gap: 8px;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .hlc-signed-in-shell .hlc-nav-group,
+  .hlc-signed-in-shell .hlc-nav-group summary {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .hlc-signed-in-shell .hlc-nav-group summary {
+    min-height: 42px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    padding: 10px 11px;
+    color: #cfcdc7;
+    background: transparent;
+    font-size: 13px;
+    letter-spacing: .01em;
+  }
+
+  .hlc-signed-in-shell .hlc-nav-group[open] > summary,
+  .hlc-signed-in-shell .hlc-nav-group summary:hover {
+    border-color: color-mix(in srgb, var(--hlc-route-accent) 26%, transparent);
+    background: color-mix(in srgb, var(--hlc-route-accent) 10%, transparent);
+    color: #fff;
+  }
+
+  .hlc-signed-in-shell .hlc-nav-menu {
+    position: static;
+    width: auto;
+    margin: 4px 0 2px 8px;
+    padding: 4px 0 4px 10px;
+    border: 0;
+    border-left: 1px solid var(--hlc-route-border);
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .hlc-signed-in-shell .hlc-nav-menu a {
+    gap: 2px;
+    border-radius: 8px;
+    padding: 9px 10px;
+    color: #bcbab5;
+    background: transparent;
+  }
+
+  .hlc-signed-in-shell .hlc-nav-menu a:hover,
+  .hlc-signed-in-shell .hlc-nav-menu a[aria-current="page"] {
+    color: #fff;
+    background: color-mix(in srgb, var(--hlc-route-accent) 14%, transparent);
+    box-shadow: inset 2px 0 0 var(--hlc-route-accent);
+  }
+
+  .hlc-signed-in-shell .hlc-nav-menu small {
+    display: none;
+  }
+
+  .hlc-signed-in-shell .hlc-route-content {
+    box-sizing: border-box;
+    width: calc(100% - 248px);
+    margin-left: 248px;
+    padding: 22px clamp(22px, 3vw, 46px) 48px;
+  }
+
+  .hlc-sidebar-is-collapsed.hlc-signed-in-shell .hlc-navbar {
+    width: 82px;
+    padding-inline: 10px;
+  }
+
+  .hlc-sidebar-is-collapsed.hlc-signed-in-shell .hlc-route-content {
+    width: calc(100% - 82px);
+    margin-left: 82px;
+  }
+}
+
+/* Shared premium surfaces. */
+.hlc-signed-in-shell :where(section, article, aside, form, .hlc-card) {
+  border-color: var(--hlc-route-border);
+}
+
+.hlc-signed-in-shell :where(input, select, textarea) {
+  color: var(--hlc-route-text);
+  border: 1px solid var(--hlc-route-border);
+  background: #111416;
+}
+
+.hlc-signed-in-shell :where(button, a) {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hlc-signed-in-shell :where(button:not(.hlc-navbar-toggle), .hlc-button) {
+  border-color: color-mix(in srgb, var(--hlc-route-accent) 35%, var(--hlc-route-border));
+}
+
+/* Anchor 1 — Dashboard: attention surface, not generic card wall. */
+.hlc-page-dashboard .hlc-home-workspace {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 14px 0 50px;
+  text-align: left;
+}
+
+.hlc-page-dashboard .hlc-home-topbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 12px 2px 24px;
+  border-bottom: 1px solid var(--hlc-route-border);
+}
+
+.hlc-page-dashboard .hlc-home-topbar h1 {
+  margin: 4px 0 5px;
+  font-size: clamp(34px, 4vw, 52px);
+  letter-spacing: -.045em;
+}
+
+.hlc-page-dashboard .hlc-home-live-line {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 16px 0;
+  padding: 0 2px;
+  font-size: 13px;
+}
+
+.hlc-page-dashboard .hlc-home-live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--hlc-premium-success);
+  box-shadow: 0 0 0 4px rgba(121, 168, 132, .12);
+}
+
+.hlc-page-dashboard .hlc-home-metric-strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.hlc-page-dashboard .hlc-home-metric-strip > a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 76px;
+  padding: 15px 16px;
+  border: 1px solid var(--hlc-route-border);
+  border-radius: 14px;
+  color: inherit;
+  background: rgba(255, 255, 255, .025);
+  text-decoration: none;
+}
+
+.hlc-page-dashboard .hlc-home-metric-strip > a:nth-child(1) { box-shadow: inset 3px 0 0 #ad7768; }
+.hlc-page-dashboard .hlc-home-metric-strip > a:nth-child(2) { box-shadow: inset 3px 0 0 #c39a66; }
+.hlc-page-dashboard .hlc-home-metric-strip > a:nth-child(3) { box-shadow: inset 3px 0 0 #789789; }
+.hlc-page-dashboard .hlc-home-metric-strip > a:nth-child(4) { box-shadow: inset 3px 0 0 #7f8995; }
+
+.hlc-page-dashboard .hlc-home-primary-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(300px, .75fr);
+  gap: 16px;
+}
+
+.hlc-page-dashboard .hlc-home-focus-panel,
+.hlc-page-dashboard .hlc-home-schedule-panel,
+.hlc-page-dashboard .hlc-home-ai-rail {
+  overflow: hidden;
+  border: 1px solid var(--hlc-route-border);
+  border-radius: var(--hlc-premium-radius-lg);
+  background: color-mix(in srgb, var(--hlc-route-panel) 91%, transparent);
+  box-shadow: var(--hlc-premium-shadow);
+}
+
+.hlc-page-dashboard .hlc-home-focus-panel > header,
+.hlc-page-dashboard .hlc-home-schedule-panel > header,
+.hlc-page-dashboard .hlc-home-ai-rail {
+  padding: 18px 20px;
+}
+
+.hlc-page-dashboard .hlc-home-focus-list > a,
+.hlc-page-dashboard .hlc-home-schedule-list > a {
+  display: grid;
+  align-items: center;
+  gap: 12px;
+  min-height: 66px;
+  padding: 12px 18px;
+  border-top: 1px solid var(--hlc-route-border);
+  color: inherit;
+  background: transparent;
+  text-decoration: none;
+}
+
+.hlc-page-dashboard .hlc-home-focus-list > a {
+  grid-template-columns: 8px minmax(0, 1fr) auto;
+}
+
+.hlc-page-dashboard .hlc-home-schedule-list > a {
+  grid-template-columns: 76px minmax(0, 1fr);
+}
+
+.hlc-page-dashboard .hlc-home-focus-list > a:hover,
+.hlc-page-dashboard .hlc-home-schedule-list > a:hover {
+  background: rgba(255, 255, 255, .035);
+}
+
+.hlc-page-dashboard .hlc-home-quick-row {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.hlc-page-dashboard .hlc-home-quick-row > a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 54px;
+  border: 1px solid var(--hlc-route-border);
+  border-radius: 12px;
+  color: #dedbd4;
+  background: rgba(255, 255, 255, .022);
+  text-decoration: none;
+}
+
+/* Anchor 2 — Leads: serious dense CRM workspace. */
+.hlc-page-leads .hlc-leads-workspace {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 14px 0 50px;
+  text-align: left;
+}
+
+.hlc-page-leads .hlc-leads-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 22px;
+  padding: 12px 2px 20px;
+  border-bottom: 1px solid var(--hlc-route-border);
+}
+
+.hlc-page-leads .hlc-leads-header h1 {
+  margin: 2px 0 5px;
+  font-size: clamp(34px, 4vw, 50px);
+  letter-spacing: -.045em;
+}
+
+.hlc-page-leads .hlc-leads-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  margin: 16px 0 0;
+  overflow: hidden;
+  border: 1px solid var(--hlc-route-border);
+  border-radius: 14px;
+  background: var(--hlc-route-border);
+}
+
+.hlc-page-leads .hlc-leads-summary > span {
+  display: grid;
+  gap: 2px;
+  padding: 14px 16px;
+  background: var(--hlc-route-panel);
+}
+
+.hlc-page-leads .hlc-leads-summary strong {
+  font-size: 22px;
+}
+
+.hlc-page-leads .hlc-leads-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0;
+  padding: 10px;
+  border: 1px solid var(--hlc-route-border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, .018);
+}
+
+.hlc-page-leads .hlc-leads-search {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hlc-page-leads .hlc-leads-search input {
+  width: 100%;
+  min-height: 42px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+}
+
+.hlc-page-leads .hlc-leads-pipeline {
+  overflow: hidden;
+  border: 1px solid var(--hlc-route-border);
+  border-radius: 16px;
+  background: var(--hlc-route-panel);
+}
+
+.hlc-page-leads .hlc-leads-column-head {
+  display: grid;
+  grid-template-columns: minmax(260px, 1.3fr) minmax(240px, 1fr) minmax(160px, .55fr);
+  gap: 12px;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--hlc-route-border);
+  color: var(--hlc-route-muted);
+  background: #12171c;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.hlc-page-leads .hlc-leads-list > * {
+  border-bottom-color: var(--hlc-route-border) !important;
+}
+
+/* Anchor 3 — Messages: real conversation product. */
+.hlc-page-messages .hlc-route-content > main {
+  width: min(1500px, 100%);
+  margin-inline: auto;
+}
+
+.hlc-page-messages :where(.hlc-messages-workspace, .messages-workspace, .hlc-message-workspace) {
+  min-height: calc(100svh - 44px);
+  overflow: hidden;
+  border: 1px solid var(--hlc-route-border);
+  border-radius: 18px;
+  background: var(--hlc-route-panel);
+  box-shadow: var(--hlc-premium-shadow);
+}
+
+.hlc-page-messages :where(.hlc-conversation-list, .conversation-list, .hlc-messages-list) {
+  border-right: 1px solid var(--hlc-route-border);
+  background: #121719;
+}
+
+.hlc-page-messages :where(.hlc-message-thread, .message-thread, .hlc-conversation-thread) {
+  background: #151b1d;
+}
+
+.hlc-page-messages :where(.hlc-message-composer, .message-composer) {
+  border-top: 1px solid var(--hlc-route-border);
+  background: #101416;
+}
+
+/* Anchor 4 — Community: warmer, media-forward without turning into marketing chrome. */
+.hlc-page-community-hub .hlc-route-content > main,
+.hlc-page-community-discover .hlc-route-content > main {
+  max-width: 1400px;
+  margin-inline: auto;
+}
+
+.hlc-page-community-hub :where(article, .hlc-card),
+.hlc-page-community-discover :where(article, .hlc-card) {
+  border: 1px solid var(--hlc-route-border);
+  background: color-mix(in srgb, var(--hlc-route-panel) 93%, transparent);
+}
+
+.hlc-page-community-hub :where(img, video),
+.hlc-page-community-discover :where(img, video) {
+  border-radius: 14px;
+  object-fit: cover;
+}
+
+/* Anchor 5 — Portals: calm, premium, lower-density. */
+.hlc-page-homeowner-portal .hlc-route-content > main,
+.hlc-page-contractor-portal .hlc-route-content > main,
+.hlc-page-partner-portal .hlc-route-content > main {
+  width: min(980px, 100%);
+  margin-inline: auto;
+  padding-top: clamp(12px, 3vw, 34px);
+}
+
+.hlc-page-homeowner-portal :where(section, article),
+.hlc-page-contractor-portal :where(section, article),
+.hlc-page-partner-portal :where(section, article) {
+  border: 1px solid var(--hlc-route-border);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--hlc-route-panel) 92%, transparent);
+}
+
+/* Families that inherit the same design language. */
+.hlc-page-leads-detail .hlc-route-content > main,
+.hlc-page-jobs-detail .hlc-route-content > main,
+.hlc-page-providers-detail .hlc-route-content > main {
+  max-width: 1450px;
+  margin-inline: auto;
+}
+
+.hlc-page-calendar .hlc-route-content > main,
+.hlc-page-map .hlc-route-content > main,
+.hlc-page-network-map .hlc-route-content > main {
+  max-width: 1600px;
+  margin-inline: auto;
+}
+
+.hlc-page-academy .hlc-route-content > main {
+  max-width: 1250px;
+  margin-inline: auto;
+}
+
+.hlc-page-settings .hlc-route-content > main,
+.hlc-page-resources .hlc-route-content > main,
+.hlc-page-documents .hlc-route-content > main,
+.hlc-page-analytics .hlc-route-content > main {
+  max-width: 1380px;
+  margin-inline: auto;
+}
+
+/* Tables/lists should look purposeful, not like floating blue cards. */
+.hlc-signed-in-shell table {
+  border-collapse: collapse;
+  border-color: var(--hlc-route-border);
+  color: var(--hlc-route-text);
+  background: transparent;
+}
+
+.hlc-signed-in-shell th {
+  color: var(--hlc-route-muted);
+  background: rgba(255, 255, 255, .02);
+  font-size: 11px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.hlc-signed-in-shell td,
+.hlc-signed-in-shell th {
+  border-color: var(--hlc-route-border);
+}
+
+/* Mobile: five-tab nav stays simple; pages keep their own interaction model. */
+@media (max-width: 1024px) {
+  .hlc-signed-in-shell {
+    padding-bottom: max(78px, calc(66px + env(safe-area-inset-bottom)));
+  }
+
+  .hlc-signed-in-shell .hlc-route-content {
+    padding: 12px 14px 26px;
+  }
+
+  .hlc-page-dashboard .hlc-home-primary-grid,
+  .hlc-page-dashboard .hlc-home-metric-strip,
+  .hlc-page-leads .hlc-leads-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hlc-page-dashboard .hlc-home-quick-row {
+    display: flex;
+    overflow-x: auto;
+    gap: 8px;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+
+  .hlc-page-dashboard .hlc-home-quick-row > a {
+    min-width: 118px;
+  }
+
+  .hlc-page-leads .hlc-leads-column-head {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .hlc-signed-in-shell .hlc-route-content {
+    padding: 8px 10px 22px;
+  }
+
+  .hlc-page-dashboard .hlc-home-topbar,
+  .hlc-page-leads .hlc-leads-header {
+    align-items: flex-start;
+  }
+
+  .hlc-page-dashboard .hlc-home-topbar h1,
+  .hlc-page-leads .hlc-leads-header h1 {
+    font-size: 34px;
+  }
+
+  .hlc-page-dashboard .hlc-home-primary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hlc-page-dashboard .hlc-home-metric-strip,
+  .hlc-page-leads .hlc-leads-summary {
+    display: flex;
+    overflow-x: auto;
+    gap: 8px;
+    border: 0;
+    background: transparent;
+    scrollbar-width: none;
+  }
+
+  .hlc-page-dashboard .hlc-home-metric-strip > a,
+  .hlc-page-leads .hlc-leads-summary > span {
+    min-width: 128px;
+    border: 1px solid var(--hlc-route-border);
+    border-radius: 12px;
+    background: var(--hlc-route-panel);
+  }
+
+  .hlc-page-leads .hlc-leads-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .hlc-page-messages .hlc-route-content {
+    padding: 0;
+  }
+
+  .hlc-page-messages :where(.hlc-messages-workspace, .messages-workspace, .hlc-message-workspace) {
+    min-height: calc(100svh - 68px);
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .hlc-page-community-hub .hlc-route-content,
+  .hlc-page-homeowner-portal .hlc-route-content {
+    padding-inline: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hlc-signed-in-shell *,
+  .hlc-signed-in-shell *::before,
+  .hlc-signed-in-shell *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .001ms !important;
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

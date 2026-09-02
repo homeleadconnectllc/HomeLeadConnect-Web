@@ -1,0 +1,160 @@
+/* HomeLead Connect premium palette authority.
+   Presentation only. Loaded before protected release/mobile guards, with route-specific specificity
+   so existing accessibility and viewport authorities remain structurally authoritative. */
+
+html body #root .hlc-app-shell.hlc-signed-in-shell {
+  --hlc-premium-ink: #f5f1e8;
+  --hlc-premium-muted: #b8b1a5;
+  --hlc-premium-line: rgba(236, 227, 214, .13);
+  color: var(--hlc-premium-ink);
+  background: #111317 !important;
+}
+
+/* Command / dashboard — graphite, parchment, restrained brass. */
+html body #root .hlc-app-shell.hlc-signed-in-shell:is(.hlc-page-dashboard,.hlc-page-work,.hlc-page-start-here,.hlc-page-workflow,.hlc-page-automations,.hlc-page-activity) {
+  --hlc-route-canvas: #141518;
+  --hlc-route-panel: #1c1e21;
+  --hlc-route-panel-2: #24262a;
+  --hlc-route-border: rgba(225, 214, 197, .13);
+  --hlc-route-accent: #a68a67;
+  --hlc-route-accent-2: #7f9085;
+  --hlc-route-text: #f3eee5;
+  --hlc-route-muted: #aaa49a;
+  background: linear-gradient(145deg, #101215 0%, #17191d 52%, #111315 100%) !important;
+}
+
+/* Work / CRM — carbon + desaturated slate, not generic blue. */
+html body #root .hlc-app-shell.hlc-signed-in-shell:is(.hlc-page-leads,.hlc-page-estimator,.hlc-page-jobs,.hlc-page-calendar,.hlc-page-follow-ups,.hlc-page-operations) {
+  --hlc-route-canvas: #12161a;
+  --hlc-route-panel: #181d21;
+  --hlc-route-panel-2: #20262a;
+  --hlc-route-border: rgba(206, 217, 216, .13);
+  --hlc-route-accent: #7f9694;
+  --hlc-route-accent-2: #aa8d69;
+  --hlc-route-text: #f0f2ef;
+  --hlc-route-muted: #a6afab;
+  background: linear-gradient(150deg, #0f1316 0%, #151b1f 56%, #101315 100%) !important;
+}
+
+/* Messaging / communication — charcoal + mineral teal. */
+html body #root .hlc-app-shell.hlc-signed-in-shell:is(.hlc-page-messages,.hlc-page-call-center,.hlc-page-manual-communications,.hlc-page-notifications) {
+  --hlc-route-canvas: #111817;
+  --hlc-route-panel: #182120;
+  --hlc-route-panel-2: #202b29;
+  --hlc-route-border: rgba(191, 215, 207, .14);
+  --hlc-route-accent: #668f87;
+  --hlc-route-accent-2: #b09770;
+  --hlc-route-text: #eef3ef;
+  --hlc-route-muted: #a6b4af;
+  background: linear-gradient(145deg, #0d1313 0%, #13201e 54%, #0e1514 100%) !important;
+}
+
+/* Community / network — smoked umber + clay + olive. */
+html body #root .hlc-app-shell.hlc-signed-in-shell:is(.hlc-page-community-hub,.hlc-page-community-discover,.hlc-page-community-messages,.hlc-page-community-challenges,.hlc-page-community-academy,.hlc-page-community-discussions,.hlc-page-community-reviews,.hlc-page-community-referrals,.hlc-page-community-events,.hlc-page-community-groups,.hlc-page-community-moderation,.hlc-page-network,.hlc-page-map,.hlc-page-providers,.hlc-page-profiles,.hlc-page-matching,.hlc-page-community) {
+  --hlc-route-canvas: #191511;
+  --hlc-route-panel: #231d18;
+  --hlc-route-panel-2: #2c251e;
+  --hlc-route-border: rgba(231, 208, 179, .15);
+  --hlc-route-accent: #a96f53;
+  --hlc-route-accent-2: #87906f;
+  --hlc-route-text: #f4eee5;
+  --hlc-route-muted: #b8aa9b;
+  background: linear-gradient(145deg, #120f0d 0%, #201914 55%, #14110e 100%) !important;
+}
+
+/* Resident / professional / partner portals — calm pine + warm stone. */
+html body #root .hlc-app-shell.hlc-signed-in-shell:is(.hlc-page-homeowner-portal,.hlc-page-contractor-portal,.hlc-page-partner-portal) {
+  --hlc-route-canvas: #111a18;
+  --hlc-route-panel: #18231f;
+  --hlc-route-panel-2: #202d28;
+  --hlc-route-border: rgba(201, 221, 207, .14);
+  --hlc-route-accent: #789685;
+  --hlc-route-accent-2: #b69b72;
+  --hlc-route-text: #f0f3ed;
+  --hlc-route-muted: #a7b3ab;
+  background: linear-gradient(145deg, #0e1513 0%, #15231e 56%, #101713 100%) !important;
+}
+
+/* Academy — evergreen + parchment, clearly separate from CRM. */
+html body #root .hlc-app-shell.hlc-signed-in-shell:is(.hlc-page-academy,.hlc-page-academy-paths,.hlc-page-academy-practice,.hlc-page-academy-certifications,.hlc-page-academy-progress,.hlc-page-academy-roleplay,.hlc-page-academy-library) {
+  --hlc-route-canvas: #121916;
+  --hlc-route-panel: #19231e;
+  --hlc-route-panel-2: #222e27;
+  --hlc-route-border: rgba(210, 226, 209, .13);
+  --hlc-route-accent: #77906f;
+  --hlc-route-accent-2: #c0a06d;
+  --hlc-route-text: #f0f2e9;
+  --hlc-route-muted: #acb2a5;
+  background: linear-gradient(145deg, #0f1512 0%, #18241c 56%, #101611 100%) !important;
+}
+
+/* Resources / documents / settings — warm ink + stone. */
+html body #root .hlc-app-shell.hlc-signed-in-shell:is(.hlc-page-resources,.hlc-page-help,.hlc-page-tutorials,.hlc-page-rules,.hlc-page-documents,.hlc-page-settings,.hlc-page-team,.hlc-page-profile) {
+  --hlc-route-canvas: #171614;
+  --hlc-route-panel: #201f1c;
+  --hlc-route-panel-2: #292722;
+  --hlc-route-border: rgba(225, 217, 201, .13);
+  --hlc-route-accent: #958d7d;
+  --hlc-route-accent-2: #af8c65;
+  --hlc-route-text: #f2eee7;
+  --hlc-route-muted: #b0aaa0;
+  background: linear-gradient(145deg, #11110f 0%, #1c1a17 55%, #13120f 100%) !important;
+}
+
+/* Analytics / AI command — plum-charcoal + antique brass. */
+html body #root .hlc-app-shell.hlc-signed-in-shell:is(.hlc-page-analytics,.hlc-page-hq,.hlc-page-customer-experience) {
+  --hlc-route-canvas: #151419;
+  --hlc-route-panel: #1e1c23;
+  --hlc-route-panel-2: #28252e;
+  --hlc-route-border: rgba(218, 207, 221, .13);
+  --hlc-route-accent: #8d7f90;
+  --hlc-route-accent-2: #b39267;
+  --hlc-route-text: #f2edf2;
+  --hlc-route-muted: #afa5b0;
+  background: linear-gradient(145deg, #111014 0%, #1b1820 55%, #121116 100%) !important;
+}
+
+/* Make the route atmosphere win over legacy blue page canvases while preserving semantic status colors. */
+html body #root .hlc-app-shell.hlc-signed-in-shell .hlc-route-content,
+html body #root .hlc-app-shell.hlc-signed-in-shell .hlc-route-content > main {
+  color: var(--hlc-route-text) !important;
+  background-color: transparent !important;
+}
+
+html body #root .hlc-app-shell.hlc-signed-in-shell .hlc-route-content > main :where(section,article,aside,form):not([class*="modal"]):not([class*="dialog"]) {
+  border-color: var(--hlc-route-border) !important;
+}
+
+html body #root .hlc-app-shell.hlc-signed-in-shell:is(.hlc-page-community-hub,.hlc-page-community-discover,.hlc-page-community,.hlc-page-network,.hlc-page-providers,.hlc-page-profiles,.hlc-page-matching) .hlc-route-content > main :where(section,article,aside) {
+  background-color: color-mix(in srgb, var(--hlc-route-panel) 94%, transparent) !important;
+  border-color: var(--hlc-route-border) !important;
+}
+
+html body #root .hlc-app-shell.hlc-signed-in-shell:is(.hlc-page-homeowner-portal,.hlc-page-contractor-portal,.hlc-page-partner-portal) .hlc-route-content > main :where(section,article,aside) {
+  background-color: color-mix(in srgb, var(--hlc-route-panel) 95%, transparent) !important;
+  border-color: var(--hlc-route-border) !important;
+}
+
+html body #root .hlc-app-shell.hlc-signed-in-shell:is(.hlc-page-academy,.hlc-page-academy-paths,.hlc-page-academy-practice,.hlc-page-academy-certifications,.hlc-page-academy-progress,.hlc-page-academy-roleplay,.hlc-page-academy-library) .hlc-route-content > main :where(section,article,aside) {
+  background-color: color-mix(in srgb, var(--hlc-route-panel) 94%, transparent) !important;
+  border-color: var(--hlc-route-border) !important;
+}
+
+/* Navigation stays neutral so route color is expressed in active states, not a blue wall. */
+@media (min-width: 1025px) {
+  html body #root .hlc-app-shell.hlc-signed-in-shell .hlc-navbar {
+    background: #0d0f11 !important;
+    border-right-color: rgba(232, 224, 211, .11) !important;
+  }
+  html body #root .hlc-app-shell.hlc-signed-in-shell .hlc-nav-group summary,
+  html body #root .hlc-app-shell.hlc-signed-in-shell .hlc-nav-menu,
+  html body #root .hlc-app-shell.hlc-signed-in-shell .hlc-nav-menu a {
+    background-color: transparent !important;
+  }
+  html body #root .hlc-app-shell.hlc-signed-in-shell .hlc-nav-group[open] > summary,
+  html body #root .hlc-app-shell.hlc-signed-in-shell .hlc-nav-menu a[aria-current="page"] {
+    color: #fff !important;
+    background-color: color-mix(in srgb, var(--hlc-route-accent) 16%, transparent) !important;
+    border-color: color-mix(in srgb, var(--hlc-route-accent) 34%, transparent) !important;
+  }
+}
