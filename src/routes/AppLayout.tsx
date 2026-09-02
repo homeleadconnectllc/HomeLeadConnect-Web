@@ -171,7 +171,7 @@ export default function AppLayout() {
         </button>
       )}
       <div className="hlc-route-content">
-        {(signedInWorkspaceShell || (!session && location.pathname !== "/")) && <RouteVisualBanner />}
+        {!session && location.pathname !== "/" && <RouteVisualBanner />}
         <Outlet />
         <Suspense fallback={null}>
           {showAnalytics && <AnalyticsKpis />}
