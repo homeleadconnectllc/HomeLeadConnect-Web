@@ -5,18 +5,22 @@ import test from "node:test";
 const workspace = readFileSync("src/pages/dashboard/AgentWorkspace.tsx", "utf8");
 const agents = readFileSync("src/ai/agents.ts", "utf8");
 const styles = readFileSync("src/styles/ai-team-application-workspace.css", "utf8");
+const purposeBuiltStyles = readFileSync("src/styles/hlc-purpose-built-workspaces.css", "utf8");
 const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 
-test("AI Team retains one serious command workspace for all three canonical agents", () => {
-  assert.match(workspace, /hlc-agent-workspace/);
-  assert.match(workspace, /hlc-agent-command-hero/);
+test("AI Team retains one serious structural workspace for all three canonical agents", () => {
+  assert.match(workspace, /hlc-agent-workspace hlc-agent-team-structural/);
+  assert.match(workspace, /hlc-agent-team-header/);
+  assert.match(workspace, /hlc-agent-team-switcher/);
+  assert.match(workspace, /hlc-agent-chat-stage/);
+  assert.match(workspace, /hlc-agent-action-workbench/);
+  assert.match(workspace, /hlc-agent-result-rail/);
   assert.match(workspace, /AgentChatPanel/);
-  assert.match(workspace, /hlc-agent-actions/);
-  assert.match(workspace, /hlc-agent-action-button/);
   assert.match(workspace, /listAgentRuns\(agentId\)/);
   assert.match(workspace, /listAgentHandoffs\(agentId\)/);
   assert.match(workspace, /createAgentHandoff/);
   assert.match(workspace, /runAgentCapability/);
+  assert.doesNotMatch(workspace, /hlc-agent-command-hero/);
 });
 
 test("locked AI identities routes roles portraits accents and voice personas remain exact", () => {
@@ -43,28 +47,29 @@ test("AI Team preserves capability and authorization boundaries", () => {
   assert.match(workspace, /create_followup/);
   assert.match(workspace, /new Date\(dueAt\)\.toISOString\(\)/);
   assert.match(workspace, /destination: agentId === "diamond" \? "dion" : "kendrell"/);
-  assert.match(workspace, /The source agent remains attributable; the destination agent does not impersonate it/);
+  assert.match(workspace, /handoffCopy/);
+  assert.match(workspace, /TEAM HANDOFFS/);
 });
 
-test("AI Team styling replaces generic panel cards with command rows and stays mobile safe", () => {
+test("AI Team styling keeps the structural workspace compact and mobile safe", () => {
   const routeIndex = entry.indexOf("./ai-team-application-workspace.css");
   const finalIndex = entry.indexOf("./application-workspace-ui.css");
   assert.ok(routeIndex >= 0);
   assert.ok(finalIndex > routeIndex);
-  assert.match(styles, /\.hlc-agent-actions,.hlc-agent-actions\+section/);
-  assert.match(styles, /border-radius:0!important;background:transparent!important;box-shadow:none!important/);
-  assert.match(styles, /\.hlc-agent-action-button\{display:grid/);
-  assert.match(styles, /@media\(max-width:720px\)/);
-  assert.match(styles, /width:min\(100% - 24px,1440px\)!important/);
-  assert.match(styles, /width:100vw!important;max-width:none!important/);
+  assert.match(purposeBuiltStyles, /\.hlc-agent-workspace\{display:grid;gap:18px\}/);
+  assert.match(purposeBuiltStyles, /\.hlc-agent-team-header\{display:flex;justify-content:space-between/);
+  assert.match(purposeBuiltStyles, /\.hlc-agent-chat-stage\{display:grid;grid-template-columns:/);
+  assert.match(purposeBuiltStyles, /\.hlc-agent-operating-grid\{display:grid;grid-template-columns:/);
+  assert.match(purposeBuiltStyles, /\.hlc-agent-history-grid\{display:grid;grid-template-columns:/);
+  assert.match(purposeBuiltStyles, /@media\(max-width:820px\)[\s\S]*\.hlc-agent-chat-stage,\.hlc-agent-operating-grid,\.hlc-agent-history-grid\{grid-template-columns:1fr\}/);
+  assert.doesNotMatch(purposeBuiltStyles, /\.hlc-agent-workspace> \.hlc-agent-command-hero/);
 });
 
-test("AI command workspaces are natively dark while preserving role-owned accents", () => {
+test("AI command workspaces remain dark while the new structure replaces the retired hero", () => {
   assert.match(styles, /--agent-surface:#0d1b2f/);
-  assert.match(styles, /\.hlc-agent-command-hero\{[^}]*border-radius:10px!important/);
-  assert.match(styles, /\.hlc-agent-actions select,[\s\S]*background:var\(--agent-surface-soft\)!important/);
-  assert.match(styles, /\.hlc-agent-action-button:hover,[\s\S]*rgba\(47,128,255,\.06\)!important/);
   assert.match(styles, /\.hlc-agent-guidance-drawer\{[^}]*background:#0b192b!important/);
   assert.doesNotMatch(styles, /background:(?:#fff|#ffffff|#fbfdff|#eef5fc|#eef6ff|#f8fbff)!important/i);
-  assert.match(workspace, /style=\{\{ \.\.\.heroStyle, borderColor: agent\.accent \}\}/);
+  assert.match(workspace, /agent\.accent/);
+  assert.match(workspace, /hlc-agent-team-identity/);
+  assert.doesNotMatch(workspace, /style=\{\{ \.\.\.heroStyle/);
 });

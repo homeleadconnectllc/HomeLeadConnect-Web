@@ -1,0 +1,452 @@
+/* Structural correction authority: real screen composition, not decorative restyling. */
+
+.hlc-messages-app-shell {
+  width: min(100%, 1440px);
+  margin: 0 auto;
+  padding: 20px clamp(16px, 2.4vw, 32px) 28px;
+}
+
+.hlc-messages-app-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 68px;
+  margin: 0 0 14px;
+  padding: 0 2px;
+}
+
+.hlc-messages-app-topbar .hlc-messages-kicker {
+  margin: 0 0 4px;
+  color: #75b9ff;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+.hlc-messages-app-topbar h1 {
+  margin: 0;
+  font-size: clamp(1.45rem, 2vw, 2rem);
+  line-height: 1.05;
+}
+
+.hlc-messages-app-topbar .hlc-messages-new-action,
+.hlc-conversation-empty-stage button {
+  min-height: 42px;
+  border: 1px solid rgba(117, 185, 255, 0.48);
+  border-radius: 12px;
+  padding: 0 16px;
+  background: #123158;
+  color: #f8fbff;
+  font: inherit;
+  font-weight: 800;
+}
+
+.hlc-messaging-frame {
+  display: grid;
+  grid-template-columns: minmax(280px, 340px) minmax(0, 1fr);
+  min-height: min(720px, calc(100vh - 220px));
+  overflow: hidden;
+  border: 1px solid rgba(143, 180, 222, 0.2);
+  border-radius: 20px;
+  background: #071524;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.18);
+}
+
+.hlc-conversation-list-panel {
+  min-width: 0;
+  border-right: 1px solid rgba(143, 180, 222, 0.16);
+  background: #0a192b;
+}
+
+.hlc-conversation-list-heading {
+  padding: 18px 18px 12px;
+  border-bottom: 1px solid rgba(143, 180, 222, 0.12);
+}
+
+.hlc-conversation-list-heading > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.hlc-conversation-list-heading span {
+  color: #f8fbff;
+  font-weight: 850;
+  font-size: 1.05rem;
+}
+
+.hlc-conversation-list-heading strong {
+  display: grid;
+  place-items: center;
+  min-width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: rgba(74, 144, 226, 0.18);
+  color: #9acbff;
+  font-size: 0.8rem;
+}
+
+.hlc-conversation-list-heading p {
+  margin: 5px 0 0;
+  color: #8fa5bd;
+  font-size: 0.78rem;
+}
+
+.hlc-messages-app-shell .hlc-messages-inbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 6px 0;
+}
+
+.hlc-messages-app-shell .hlc-message-inbox-row {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  min-height: 76px;
+  margin: 0;
+  padding: 12px 14px;
+  border: 0;
+  border-bottom: 1px solid rgba(143, 180, 222, 0.09);
+  border-radius: 0;
+  background: transparent;
+  color: #f8fbff;
+  text-align: left;
+}
+
+.hlc-messages-app-shell .hlc-message-inbox-row:hover,
+.hlc-messages-app-shell .hlc-message-inbox-row.is-selected {
+  background: rgba(58, 127, 204, 0.13);
+}
+
+.hlc-message-avatar {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(117, 185, 255, 0.3);
+  border-radius: 50%;
+  background: #112b49;
+  color: #b9ddff;
+  font-size: 0.9rem;
+  font-weight: 900;
+}
+
+.hlc-messages-app-shell .hlc-message-inbox-main {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hlc-messages-app-shell .hlc-message-inbox-main strong {
+  overflow: hidden;
+  color: #f8fbff;
+  font-size: 0.9rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hlc-messages-app-shell .hlc-message-inbox-main small {
+  overflow: hidden;
+  color: #93a8be;
+  font-size: 0.76rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hlc-messages-app-shell .hlc-message-inbox-meta {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 8px;
+  color: #7f96ae;
+}
+
+.hlc-messages-app-shell .hlc-message-inbox-meta small {
+  font-size: 0.67rem;
+}
+
+.hlc-messages-app-shell .hlc-message-inbox-meta strong {
+  display: grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: #2876c8;
+  color: #fff;
+  font-size: 0.7rem;
+}
+
+.hlc-conversation-stage {
+  min-width: 0;
+  background: #081727;
+}
+
+.hlc-conversation-empty-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  flex-direction: column;
+  padding: 48px;
+  text-align: center;
+}
+
+.hlc-conversation-empty-stage > span {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  margin-bottom: 18px;
+  border: 1px solid rgba(117, 185, 255, 0.32);
+  border-radius: 24px;
+  background: #102a48;
+  color: #9fd0ff;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+}
+
+.hlc-conversation-empty-stage h2 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.hlc-conversation-empty-stage p {
+  max-width: 360px;
+  margin: 8px 0 20px;
+  color: #91a7be;
+}
+
+.hlc-message-compose-view,
+.hlc-messages-app-shell .hlc-messages-thread {
+  min-height: 100%;
+  padding: 18px clamp(16px, 2vw, 28px) 22px;
+}
+
+.hlc-messages-app-shell .hlc-messages-view-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 42px;
+  margin-bottom: 10px;
+}
+
+.hlc-messages-app-shell .hlc-messages-back-action,
+.hlc-messages-app-shell .hlc-messages-new-secondary {
+  border: 0;
+  background: transparent;
+  color: #91c7ff;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.hlc-message-stage-heading,
+.hlc-messages-app-shell .hlc-message-thread-head {
+  padding: 12px 0 18px;
+  border-bottom: 1px solid rgba(143, 180, 222, 0.12);
+}
+
+.hlc-message-stage-heading span,
+.hlc-messages-app-shell .hlc-message-thread-head span {
+  color: #75b9ff;
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+}
+
+.hlc-message-stage-heading h2,
+.hlc-messages-app-shell .hlc-message-thread-head h2 {
+  margin: 4px 0 0;
+  color: #f8fbff;
+  font-size: clamp(1.25rem, 2vw, 1.65rem);
+}
+
+.hlc-messages-app-shell .hlc-message-thread-head small {
+  display: block;
+  margin-top: 5px;
+  color: #8ea4bb;
+}
+
+.hlc-messages-app-shell .hlc-message-stream {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 280px;
+  max-height: 52vh;
+  overflow-y: auto;
+  padding: 20px 2px;
+}
+
+.hlc-messages-app-shell .hlc-message-entry {
+  align-self: flex-start;
+  width: fit-content;
+  max-width: min(78%, 640px);
+  padding: 10px 13px;
+  border: 1px solid rgba(143, 180, 222, 0.14);
+  border-radius: 16px 16px 16px 5px;
+  background: #10243a;
+}
+
+.hlc-messages-app-shell .hlc-message-entry.is-self {
+  align-self: flex-end;
+  border-color: rgba(87, 158, 239, 0.24);
+  border-radius: 16px 16px 5px 16px;
+  background: #123a66;
+}
+
+.hlc-messages-app-shell .hlc-message-entry-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.hlc-messages-app-shell .hlc-message-entry-meta strong,
+.hlc-messages-app-shell .hlc-message-entry-meta small {
+  font-size: 0.68rem;
+}
+
+.hlc-messages-app-shell .hlc-message-entry-meta small {
+  color: #91a7be;
+}
+
+.hlc-messages-app-shell .hlc-message-entry p {
+  margin: 5px 0 0;
+  color: #f2f7fc;
+  line-height: 1.45;
+}
+
+.hlc-messages-app-shell .hlc-message-composer {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid rgba(143, 180, 222, 0.12);
+}
+
+.hlc-messages-app-shell .hlc-message-composer textarea,
+.hlc-messages-app-shell .hlc-message-quick-compose textarea,
+.hlc-messages-app-shell .hlc-message-quick-compose select,
+.hlc-messages-app-shell .hlc-message-quick-compose input {
+  border: 1px solid rgba(143, 180, 222, 0.26);
+  border-radius: 12px;
+  background: #0b1d31;
+  color: #f8fbff;
+}
+
+.hlc-messages-app-shell .hlc-message-composer textarea {
+  min-height: 82px;
+}
+
+.hlc-messages-app-shell .hlc-message-composer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.hlc-messages-app-shell .hlc-message-composer-actions small {
+  color: #849ab2;
+}
+
+.hlc-messages-app-shell .hlc-message-composer-actions button,
+.hlc-messages-app-shell .hlc-message-primary-send {
+  min-height: 40px;
+  border: 0;
+  border-radius: 10px;
+  padding: 0 15px;
+  background: #2d80d7;
+  color: #fff;
+  font: inherit;
+  font-weight: 850;
+}
+
+@media (max-width: 720px) {
+  .hlc-messages-app-shell {
+    width: 100%;
+    padding: 10px 12px 22px !important;
+  }
+
+  .hlc-messages-app-topbar {
+    min-height: 56px;
+    margin-bottom: 8px;
+  }
+
+  .hlc-messages-app-topbar h1 {
+    font-size: 1.35rem;
+  }
+
+  .hlc-messages-app-topbar .hlc-messages-new-action {
+    min-height: 38px;
+    padding-inline: 12px;
+    font-size: 0.78rem;
+  }
+
+  .hlc-messaging-frame {
+    display: block;
+    min-height: calc(100vh - 250px);
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .hlc-conversation-list-panel {
+    border: 0;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .hlc-messages-app-shell[data-messages-view="inbox"] .hlc-conversation-stage {
+    display: none;
+  }
+
+  .hlc-messages-app-shell[data-messages-view="thread"] .hlc-conversation-list-panel,
+  .hlc-messages-app-shell[data-messages-view="compose"] .hlc-conversation-list-panel {
+    display: none;
+  }
+
+  .hlc-messages-app-shell[data-messages-view="thread"] .hlc-conversation-stage,
+  .hlc-messages-app-shell[data-messages-view="compose"] .hlc-conversation-stage {
+    display: block;
+  }
+
+  .hlc-conversation-list-heading {
+    padding: 13px 14px 9px;
+  }
+
+  .hlc-messages-app-shell .hlc-message-inbox-row {
+    grid-template-columns: 38px minmax(0, 1fr) auto !important;
+    min-height: 68px !important;
+    padding: 10px 12px !important;
+  }
+
+  .hlc-message-avatar {
+    width: 38px;
+    height: 38px;
+  }
+
+  .hlc-message-compose-view,
+  .hlc-messages-app-shell .hlc-messages-thread {
+    padding: 8px 2px 18px !important;
+  }
+
+  .hlc-messages-app-shell .hlc-message-stream {
+    max-height: none;
+    min-height: 260px;
+  }
+
+  .hlc-messages-app-shell .hlc-message-entry {
+    max-width: 88%;
+  }
+
+  .hlc-conversation-empty-stage {
+    display: none;
+  }
+}

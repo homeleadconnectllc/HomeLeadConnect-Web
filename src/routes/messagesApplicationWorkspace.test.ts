@@ -8,10 +8,13 @@ const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 const api = readFileSync("src/api/messages.ts", "utf8");
 const recorder = readFileSync("src/components/messages/VoiceNoteRecorder.tsx", "utf8");
 
-test("Messages uses a dedicated progressive communications workspace instead of panel cards", () => {
-  assert.match(page, /hlc-messages-workspace/);
-  assert.match(page, /COMMUNICATIONS/);
+test("Messages uses a dedicated progressive messaging app workspace instead of panel cards", () => {
+  assert.match(page, /hlc-messages-workspace hlc-messages-app-shell/);
+  assert.match(page, /hlc-messages-kicker">MESSAGES/);
   assert.match(page, /data-messages-view=\{view\}/);
+  assert.match(page, /hlc-messaging-frame/);
+  assert.match(page, /hlc-conversation-list-panel/);
+  assert.match(page, /hlc-conversation-stage/);
   assert.match(page, /hlc-messages-progressive-inbox/);
   assert.match(page, /hlc-messages-progressive-thread/);
   assert.match(page, /hlc-message-inbox-row/);

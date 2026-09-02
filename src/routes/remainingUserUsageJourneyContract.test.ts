@@ -62,8 +62,9 @@ test("partner journey uses dedicated external entry and partner-scoped relations
   assert.match(partners, /partner_create_referral/);
 });
 
-test("owner and internal user homes continue to expose attention and truthful control state", () => {
-  assert.match(dashboard, /Priority today/);
+test("owner and internal user homes continue to expose attention, schedule, and truthful control state", () => {
+  assert.match(dashboard, /Needs attention/);
+  assert.match(dashboard, /<h2 id="hlc-home-today-title">Today<\/h2>/);
   assert.match(dashboard, /You’re caught up\./);
   assert.match(settings, /Workspace role remains server-controlled/);
   assert.match(settings, /Setup required/);

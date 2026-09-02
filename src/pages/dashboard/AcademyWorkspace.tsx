@@ -74,103 +74,98 @@ export default function AcademyWorkspace() {
     }
   }
 
+  const completedAttempts = snapshot?.attempts.length ?? 0;
+  const certificationCount = snapshot?.certifications.length ?? 0;
+
   return (
-    <main className="hlc-community-workspace" style={{ width: "min(1120px, calc(100% - 28px))", margin: "32px auto 80px" }}>
-      <header className="hlc-community-header">
+    <main className="hlc-academy-workspace">
+      <header className="hlc-academy-topbar">
         <div>
-          <p className="hlc-community-kicker">MASTER EXPERIENCE · E2 ACADEMY + ARCADE</p>
+          <span className="hlc-academy-eyebrow">ACADEMY · LEARN WITH THE HLC TEAM</span>
           <h1>{pageLabel(location.pathname)}</h1>
-          <p>Learn with Diamond, Dion, and Kendrell through one progression: Learn → Practice → Simulate → Certify → Apply → Progress.</p>
+          <p>Build useful skill through one clear progression: learn, practice, simulate, certify, apply, and improve.</p>
         </div>
-        <div className="hlc-premium-panel" style={{ padding: 16, minWidth: 180 }}>
-          <strong>{snapshot?.xpTotal ?? 0} XP</strong>
-          <p style={{ margin: "6px 0 0" }}>XP tracks progress only. It is not a trust score.</p>
+        <div className="hlc-academy-score" aria-label="Academy progress summary">
+          <strong>{snapshot?.xpTotal ?? 0}</strong><span>XP</span>
+          <small>{completedAttempts} attempts · {certificationCount} certifications</small>
         </div>
       </header>
 
-      <nav className="hlc-community-commandbar" aria-label="Academy navigation">
-        <Link to={ACADEMY_ROUTES.home}>Academy</Link>
-        <Link to={ACADEMY_ROUTES.paths}>Paths</Link>
-        <Link to={ACADEMY_ROUTES.certifications}>Certifications</Link>
-        <Link to={ACADEMY_ROUTES.progress}>Progress</Link>
-        <Link to="/community/challenges">Arcade challenges</Link>
+      <nav className="hlc-academy-nav" aria-label="Academy navigation">
+        <Link className={location.pathname === ACADEMY_ROUTES.home ? "is-active" : ""} to={ACADEMY_ROUTES.home}>Academy</Link>
+        <Link className={location.pathname === ACADEMY_ROUTES.paths ? "is-active" : ""} to={ACADEMY_ROUTES.paths}>Paths</Link>
+        <Link className={location.pathname === ACADEMY_ROUTES.certifications ? "is-active" : ""} to={ACADEMY_ROUTES.certifications}>Certifications</Link>
+        <Link className={location.pathname === ACADEMY_ROUTES.progress ? "is-active" : ""} to={ACADEMY_ROUTES.progress}>Progress</Link>
+        <Link to="/community/challenges">Arcade</Link>
       </nav>
 
       {location.pathname === ACADEMY_ROUTES.home && (
-        <>
-          <section className="hlc-premium-panel" style={{ padding: 22, marginTop: 20 }}>
-            <h2 style={{ marginTop: 0 }}>Your progression</h2>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-              {ACADEMY_PROGRESS_SEQUENCE.map((stage, index) => <span key={stage} style={{ fontWeight: 900 }}>{index + 1}. {stage[0].toUpperCase() + stage.slice(1)}</span>)}
+        <div className="hlc-academy-home-grid">
+          <section className="hlc-academy-path" aria-labelledby="academy-progression-title">
+            <header><span>YOUR LEARNING PATH</span><h2 id="academy-progression-title">Keep moving forward</h2></header>
+            <ol className="hlc-academy-sequence">
+              {ACADEMY_PROGRESS_SEQUENCE.map((stage, index) => <li key={stage}><b>{index + 1}</b><span>{stage[0].toUpperCase() + stage.slice(1)}</span></li>)}
+            </ol>
+          </section>
+          <section className="hlc-academy-curriculum" aria-labelledby="academy-curriculum-title">
+            <header><span>CURRICULUM</span><h2 id="academy-curriculum-title">Choose your lane</h2></header>
+            <div className="hlc-academy-track-list">
+              {visibleTracks.map((track) => (
+                <article key={track.id}>
+                  <div><span>{track.teacher.toUpperCase()}</span><h3>{track.title}</h3><p>{track.description}</p></div>
+                  <Link to={ACADEMY_ROUTES.paths}>Open path →</Link>
+                </article>
+              ))}
             </div>
           </section>
-          <section style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))", gap: 16, marginTop: 20 }}>
-            {visibleTracks.map((track) => (
-              <article className="hlc-premium-panel" key={track.id} style={{ padding: 20 }}>
-                <p style={{ margin: "0 0 5px", fontWeight: 900 }}>TEACHER · {track.teacher.toUpperCase()}</p>
-                <h2 style={{ margin: "0 0 8px" }}>{track.title}</h2>
-                <p>{track.description}</p>
-                <Link to={ACADEMY_ROUTES.paths} style={{ fontWeight: 900 }}>Open learning path →</Link>
-              </article>
-            ))}
-          </section>
-        </>
+        </div>
       )}
 
       {location.pathname === ACADEMY_ROUTES.paths && (
-        <section style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))", gap: 16, marginTop: 20 }}>
-          {starterModules.filter((module) => visibleTracks.some((track) => track.id === module.track)).map((module) => (
-            <article className="hlc-premium-panel" key={module.id} style={{ padding: 20 }}>
-              <p style={{ margin: "0 0 6px", fontWeight: 900 }}>{module.teacher.toUpperCase()} · FOUNDATIONS</p>
-              <h2 style={{ margin: "0 0 8px" }}>{module.title}</h2>
-              <p>Learn the core material, then move into a recorded practice attempt.</p>
-              <Link to={`${ACADEMY_ROUTES.practicePrefix}${module.id}`} style={{ fontWeight: 900 }}>Practice module →</Link>
-            </article>
-          ))}
+        <section className="hlc-academy-curriculum hlc-academy-curriculum-full">
+          <header><span>FOUNDATION MODULES</span><h2>Start with the right foundation</h2></header>
+          <div className="hlc-academy-module-list">
+            {starterModules.filter((module) => visibleTracks.some((track) => track.id === module.track)).map((module, index) => (
+              <article key={module.id}>
+                <b>{String(index + 1).padStart(2, "0")}</b>
+                <div><span>{module.teacher.toUpperCase()}</span><h3>{module.title}</h3><p>Learn the core material, then move into a recorded practice attempt.</p></div>
+                <Link to={`${ACADEMY_ROUTES.practicePrefix}${module.id}`}>Practice →</Link>
+              </article>
+            ))}
+          </div>
         </section>
       )}
 
       {location.pathname.startsWith(ACADEMY_ROUTES.practicePrefix) && (
-        <section className="hlc-premium-panel" style={{ padding: 22, marginTop: 20 }}>
+        <section className="hlc-academy-practice">
           {activeModule && activeTrack ? <>
-            <p style={{ margin: "0 0 6px", fontWeight: 900 }}>PRACTICE · {activeTrack.teacher.toUpperCase()}</p>
-            <h2 style={{ marginTop: 0 }}>{activeModule.title}</h2>
+            <header><span>PRACTICE · {activeTrack.teacher.toUpperCase()}</span><h2>{activeModule.title}</h2></header>
             <p>Practice attempts use diminishing XP: full credit on attempt one, 25% on attempt two, and zero farming credit after that.</p>
-            <button type="button" onClick={completePractice} disabled={runtimeState === "saving"} style={{ minHeight: 44, fontWeight: 900 }}>
-              {runtimeState === "saving" ? "Recording…" : "Complete practice"}
-            </button>
+            <button type="button" onClick={completePractice} disabled={runtimeState === "saving"}>{runtimeState === "saving" ? "Recording…" : "Complete practice"}</button>
             {message && <p role="status">{message}</p>}
           </> : <><h2>Module unavailable</h2><p>This module is not available for the current account role.</p><Link to={ACADEMY_ROUTES.paths}>Return to paths</Link></>}
         </section>
       )}
 
       {location.pathname === ACADEMY_ROUTES.certifications && (
-        <section className="hlc-premium-panel" style={{ padding: 22, marginTop: 20 }}>
-          <h2 style={{ marginTop: 0 }}>HLC certifications</h2>
-          <p>HLC competency records are separate from external licenses and credentials.</p>
+        <section className="hlc-academy-records">
+          <header><span>VERIFIED HLC COMPETENCY</span><h2>Certifications</h2><p>HLC competency records are separate from external licenses and credentials.</p></header>
           {snapshot?.certifications.length ? snapshot.certifications.map((cert) => (
-            <article key={cert.id} style={{ padding: "12px 0", borderTop: "1px solid rgba(148,163,184,.25)" }}>
-              <strong>{cert.module_id}</strong>
-              <p style={{ margin: "4px 0" }}>Score {cert.score} / threshold {cert.threshold} · Teacher {cert.teacher}</p>
-            </article>
+            <article key={cert.id}><strong>{cert.module_id}</strong><span>Score {cert.score} / {cert.threshold}</span><small>Teacher · {cert.teacher}</small></article>
           )) : <p>No verified HLC certifications recorded yet.</p>}
         </section>
       )}
 
       {location.pathname === ACADEMY_ROUTES.progress && (
-        <section className="hlc-premium-panel" style={{ padding: 22, marginTop: 20 }}>
-          <h2 style={{ marginTop: 0 }}>Learning progress</h2>
-          <p><strong>{snapshot?.xpTotal ?? 0} XP</strong> across recorded Academy activity.</p>
+        <section className="hlc-academy-records">
+          <header><span>LEARNING HISTORY</span><h2>{snapshot?.xpTotal ?? 0} XP earned</h2></header>
           {snapshot?.attempts.length ? snapshot.attempts.slice(0, 12).map((attempt) => (
-            <article key={attempt.id} style={{ padding: "12px 0", borderTop: "1px solid rgba(148,163,184,.25)" }}>
-              <strong>{attempt.module_id}</strong>
-              <p style={{ margin: "4px 0" }}>{attempt.activity_type} · attempt {attempt.attempt_number} · +{attempt.xp_awarded} XP</p>
-            </article>
+            <article key={attempt.id}><strong>{attempt.module_id}</strong><span>{attempt.activity_type} · attempt {attempt.attempt_number}</span><small>+{attempt.xp_awarded} XP</small></article>
           )) : <p>No recorded attempts yet.</p>}
         </section>
       )}
 
-      {runtimeState === "staged" && <p role="status" style={{ marginTop: 16 }}>Academy routes are wired. Persistence remains staged until the E2 migration is exercised in an authorized isolated runtime.</p>}
+      {runtimeState === "staged" && <p className="hlc-academy-runtime" role="status">Academy routes are wired. Persistence remains staged until the E2 migration is exercised in an authorized isolated runtime.</p>}
     </main>
   );
 }

@@ -97,7 +97,6 @@ jobs:
           NODE
 
       - name: Desktop rendered measurement
-        if: always()
         continue-on-error: true
         run: |
           set -u
@@ -134,7 +133,6 @@ jobs:
           NODE
 
       - name: Evaluate rendered thresholds
-        if: always()
         run: |
           node - <<'NODE'
           const fs = require('node:fs');

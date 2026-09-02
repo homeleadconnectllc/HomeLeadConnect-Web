@@ -21,7 +21,7 @@ test("critical signed-in journey destinations stay declared and reachable", () =
   assert.match(router, /path="\/work\/matching"/);
   assert.match(router, /path="\/jobs\/:jobId"/);
   assert.match(dashboard, /to: "\/leads"/);
-  assert.match(dashboard, /to: "\/messages"/);
+  assert.match(dashboard, /<Link to="\/messages"/);
   assert.match(dashboard, /to: "\/calendar"/);
   assert.match(dashboard, /to: "\/jobs"/);
 });
