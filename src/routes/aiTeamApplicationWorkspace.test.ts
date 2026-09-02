@@ -56,10 +56,13 @@ test("AI Team styling keeps the structural workspace compact and mobile safe", (
   const finalIndex = entry.indexOf("./application-workspace-ui.css");
   assert.ok(routeIndex >= 0);
   assert.ok(finalIndex > routeIndex);
-  assert.match(purposeBuiltStyles, /\.hlc-agent-workspace/);
-  assert.match(purposeBuiltStyles, /\.hlc-agent-workspace> \.hlc-agent-command-hero/);
-  assert.match(purposeBuiltStyles, /@media\(max-width:820px\)/);
-  assert.match(purposeBuiltStyles, /\.hlc-agent-workspace \.hlc-agent-portrait-frame\{display:none\}/);
+  assert.match(purposeBuiltStyles, /\.hlc-agent-workspace\{display:grid;gap:18px\}/);
+  assert.match(purposeBuiltStyles, /\.hlc-agent-team-header\{display:flex;justify-content:space-between/);
+  assert.match(purposeBuiltStyles, /\.hlc-agent-chat-stage\{display:grid;grid-template-columns:/);
+  assert.match(purposeBuiltStyles, /\.hlc-agent-operating-grid\{display:grid;grid-template-columns:/);
+  assert.match(purposeBuiltStyles, /\.hlc-agent-history-grid\{display:grid;grid-template-columns:/);
+  assert.match(purposeBuiltStyles, /@media\(max-width:820px\)[\s\S]*\.hlc-agent-chat-stage,\.hlc-agent-operating-grid,\.hlc-agent-history-grid\{grid-template-columns:1fr\}/);
+  assert.doesNotMatch(purposeBuiltStyles, /\.hlc-agent-workspace> \.hlc-agent-command-hero/);
 });
 
 test("AI command workspaces remain dark while the new structure replaces the retired hero", () => {
