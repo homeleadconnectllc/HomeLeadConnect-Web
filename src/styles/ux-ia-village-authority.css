@@ -1,0 +1,375 @@
+/* HLC UX / IA authority — 2026-09-02
+   Purpose: make each product family look like the job it performs.
+   This layer is presentation-only: no routing, access, data, or billing authority changes. */
+
+:root {
+  --hlc-village-canvas: #151817;
+  --hlc-village-surface: #1b201e;
+  --hlc-village-surface-2: #212724;
+  --hlc-village-line: rgba(217, 232, 222, 0.14);
+  --hlc-village-text: #eef4ef;
+  --hlc-village-muted: #aebbb2;
+  --hlc-village-green: #58c58c;
+  --hlc-village-amber: #e4a85d;
+  --hlc-village-coral: #df7569;
+  --hlc-village-plum: #9f78c8;
+  --hlc-village-teal: #66bdb6;
+}
+
+.hlc-signed-in-shell {
+  background: var(--hlc-village-canvas) !important;
+}
+
+.hlc-signed-in-shell .hlc-route-content {
+  background: transparent !important;
+}
+
+/* Section identities: dark, human, and distinct — not one navy skin everywhere. */
+.hlc-page-work,
+.hlc-page-leads,
+.hlc-page-estimator,
+.hlc-page-jobs,
+.hlc-page-calendar,
+.hlc-page-follow-ups,
+.hlc-page-operations,
+.hlc-page-call-center,
+.hlc-page-manual-communications {
+  --hlc-section-accent: var(--hlc-village-amber);
+  --hlc-section-wash: rgba(228, 168, 93, 0.07);
+}
+
+.hlc-page-community-hub,
+.hlc-page-community-discover,
+.hlc-page-community-discussions,
+.hlc-page-community-reviews,
+.hlc-page-community-referrals,
+.hlc-page-community-events,
+.hlc-page-community-groups,
+.hlc-page-network,
+.hlc-page-map,
+.hlc-page-providers,
+.hlc-page-profiles,
+.hlc-page-matching {
+  --hlc-section-accent: var(--hlc-village-green);
+  --hlc-section-wash: rgba(88, 197, 140, 0.08);
+}
+
+.hlc-page-messages,
+.hlc-page-community-messages {
+  --hlc-section-accent: var(--hlc-village-teal);
+  --hlc-section-wash: rgba(102, 189, 182, 0.08);
+}
+
+.hlc-page-academy,
+.hlc-page-academy-roleplay,
+.hlc-page-academy-library {
+  --hlc-section-accent: var(--hlc-village-plum);
+  --hlc-section-wash: rgba(159, 120, 200, 0.08);
+}
+
+.hlc-page-resources,
+.hlc-page-help,
+.hlc-page-tutorials,
+.hlc-page-rules,
+.hlc-page-documents {
+  --hlc-section-accent: #cfb36b;
+  --hlc-section-wash: rgba(207, 179, 107, 0.07);
+}
+
+.hlc-page-dashboard,
+.hlc-page-analytics,
+.hlc-page-hq,
+.hlc-page-settings,
+.hlc-page-team,
+.hlc-page-profile {
+  --hlc-section-accent: #8aa4b4;
+  --hlc-section-wash: rgba(138, 164, 180, 0.07);
+}
+
+.hlc-signed-in-shell[class*="hlc-page-"] .hlc-route-content > main {
+  background: linear-gradient(180deg, var(--hlc-section-wash, rgba(255,255,255,0.025)) 0, transparent 260px) !important;
+}
+
+.hlc-signed-in-shell[class*="hlc-page-"] .hlc-route-content > main :is(h1, h2, h3) {
+  color: var(--hlc-village-text) !important;
+}
+
+.hlc-signed-in-shell[class*="hlc-page-"] .hlc-route-content > main :is(a, button):focus-visible {
+  outline-color: var(--hlc-section-accent, var(--hlc-village-green)) !important;
+}
+
+/* Community is a village, not a generic dashboard. */
+:is(.hlc-page-community-hub, .hlc-page-community-discover, .hlc-page-community-discussions, .hlc-page-community-reviews, .hlc-page-community-referrals, .hlc-page-community-events, .hlc-page-community-groups, .hlc-page-network, .hlc-page-map, .hlc-page-providers, .hlc-page-profiles, .hlc-page-matching) .hlc-route-content > main {
+  background-color: #17201b !important;
+}
+
+:is(.hlc-page-community-hub, .hlc-page-community-discover, .hlc-page-network, .hlc-page-map, .hlc-page-providers, .hlc-page-profiles, .hlc-page-matching) .hlc-route-content > main :is(article, section, .hlc-card, .hlc-panel) {
+  border-color: rgba(88, 197, 140, 0.16) !important;
+}
+
+/* Messages: chat first. No dashboard-card framing. */
+.hlc-page-messages .hlc-route-content {
+  padding-bottom: 0 !important;
+}
+
+.hlc-page-messages .hlc-messages-workspace {
+  width: min(100%, 1180px) !important;
+  min-height: calc(100dvh - 92px) !important;
+  margin: 0 auto !important;
+  padding: 18px 22px 24px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  background: #111615 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  text-align: left !important;
+}
+
+.hlc-page-messages .hlc-messages-header {
+  min-height: auto !important;
+  margin: 0 !important;
+  padding: 6px 2px 14px !important;
+  display: flex !important;
+  align-items: end !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--hlc-village-line) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.hlc-page-messages .hlc-messages-header h1 {
+  margin: 0 !important;
+  font-size: clamp(28px, 3vw, 38px) !important;
+  line-height: 1.05 !important;
+  letter-spacing: -0.025em !important;
+}
+
+.hlc-page-messages .hlc-messages-header > div > p:last-child {
+  margin: 5px 0 0 !important;
+  color: var(--hlc-village-muted) !important;
+  font-size: 14px !important;
+}
+
+.hlc-page-messages .hlc-messages-kicker {
+  display: none !important;
+}
+
+.hlc-page-messages :is(.hlc-messages-inbox, .hlc-message-compose-view, .hlc-messages-thread, .hlc-message-quick-compose) {
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.hlc-page-messages .hlc-messages-section-head {
+  min-height: 48px !important;
+  padding: 10px 2px !important;
+  border-bottom: 1px solid var(--hlc-village-line) !important;
+  background: transparent !important;
+}
+
+.hlc-page-messages .hlc-messages-section-head > div > span,
+.hlc-page-messages .hlc-message-thread-head > div > span {
+  color: var(--hlc-village-teal) !important;
+}
+
+.hlc-page-messages .hlc-messages-inbox-list {
+  display: block !important;
+  background: transparent !important;
+}
+
+.hlc-page-messages .hlc-message-inbox-row {
+  width: 100% !important;
+  min-height: 78px !important;
+  margin: 0 !important;
+  padding: 14px 10px !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  gap: 16px !important;
+  align-items: center !important;
+  color: var(--hlc-village-text) !important;
+  text-align: left !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--hlc-village-line) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.hlc-page-messages .hlc-message-inbox-row:hover {
+  background: rgba(102, 189, 182, 0.07) !important;
+}
+
+.hlc-page-messages .hlc-message-inbox-main {
+  display: grid !important;
+  gap: 6px !important;
+  min-width: 0 !important;
+}
+
+.hlc-page-messages .hlc-message-inbox-main strong {
+  color: var(--hlc-village-text) !important;
+  font-size: 15px !important;
+}
+
+.hlc-page-messages .hlc-message-inbox-main small,
+.hlc-page-messages .hlc-message-inbox-meta small {
+  color: var(--hlc-village-muted) !important;
+}
+
+.hlc-page-messages .hlc-message-inbox-meta {
+  display: grid !important;
+  justify-items: end !important;
+  gap: 5px !important;
+}
+
+.hlc-page-messages :is(.hlc-messages-new-action, .hlc-messages-new-secondary, .hlc-message-primary-send) {
+  background: var(--hlc-village-teal) !important;
+  color: #101614 !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.hlc-page-messages .hlc-messages-back-action {
+  background: transparent !important;
+  color: var(--hlc-village-teal) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.hlc-page-messages .hlc-messages-view-toolbar {
+  min-height: 48px !important;
+  padding: 4px 0 8px !important;
+  border-bottom: 1px solid var(--hlc-village-line) !important;
+}
+
+.hlc-page-messages .hlc-message-thread-head {
+  padding: 12px 2px !important;
+  border-bottom: 1px solid var(--hlc-village-line) !important;
+  background: transparent !important;
+}
+
+.hlc-page-messages .hlc-message-stream {
+  flex: 1 1 auto !important;
+  min-height: 320px !important;
+  max-height: none !important;
+  overflow-y: auto !important;
+  padding: 20px 4px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 9px !important;
+  background: #0f1312 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+
+.hlc-page-messages .hlc-message-entry {
+  width: fit-content !important;
+  max-width: min(76%, 680px) !important;
+  margin: 0 auto 0 0 !important;
+  padding: 10px 13px !important;
+  background: #222925 !important;
+  border: 1px solid rgba(238, 244, 239, 0.08) !important;
+  border-radius: 14px 14px 14px 4px !important;
+  box-shadow: none !important;
+  text-align: left !important;
+}
+
+.hlc-page-messages .hlc-message-entry.is-self {
+  margin-left: auto !important;
+  margin-right: 0 !important;
+  background: #24443e !important;
+  border-color: rgba(102, 189, 182, 0.22) !important;
+  border-radius: 14px 14px 4px 14px !important;
+}
+
+.hlc-page-messages .hlc-message-entry p {
+  margin: 5px 0 0 !important;
+  color: var(--hlc-village-text) !important;
+  text-align: left !important;
+}
+
+.hlc-page-messages .hlc-message-entry-meta {
+  gap: 12px !important;
+  color: var(--hlc-village-muted) !important;
+}
+
+.hlc-page-messages .hlc-message-composer {
+  position: sticky !important;
+  bottom: 0 !important;
+  z-index: 3 !important;
+  margin-top: auto !important;
+  padding: 12px 0 4px !important;
+  background: #111615 !important;
+  border-top: 1px solid var(--hlc-village-line) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.hlc-page-messages .hlc-message-composer textarea,
+.hlc-page-messages .hlc-message-quick-compose :is(textarea, input, select) {
+  background: #1c2220 !important;
+  color: var(--hlc-village-text) !important;
+  border: 1px solid rgba(238, 244, 239, 0.15) !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+  text-align: left !important;
+}
+
+.hlc-page-messages .hlc-message-composer textarea:focus,
+.hlc-page-messages .hlc-message-quick-compose :is(textarea, input, select):focus {
+  border-color: var(--hlc-village-teal) !important;
+  outline: 2px solid rgba(102, 189, 182, 0.18) !important;
+}
+
+@media (max-width: 720px) {
+  .hlc-page-messages .hlc-route-content {
+    padding-inline: 0 !important;
+  }
+
+  .hlc-page-messages .hlc-messages-workspace {
+    min-height: calc(100dvh - 62px - env(safe-area-inset-bottom)) !important;
+    padding: 10px 12px calc(86px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .hlc-page-messages .hlc-messages-header {
+    padding-top: 2px !important;
+  }
+
+  .hlc-page-messages .hlc-messages-header > div > p:last-child {
+    display: none !important;
+  }
+
+  .hlc-page-messages .hlc-message-inbox-row {
+    min-height: 70px !important;
+    padding: 11px 4px !important;
+  }
+
+  .hlc-page-messages[data-messages-view="thread"] .hlc-messages-header,
+  .hlc-page-messages[data-messages-view="compose"] .hlc-messages-header {
+    display: none !important;
+  }
+
+  .hlc-page-messages .hlc-message-stream {
+    min-height: calc(100dvh - 270px) !important;
+    padding-inline: 0 !important;
+  }
+
+  .hlc-page-messages .hlc-message-entry {
+    max-width: 86% !important;
+  }
+}
+
+@media (min-width: 900px) {
+  .hlc-page-messages .hlc-messages-workspace[data-messages-view="thread"] .hlc-messages-thread,
+  .hlc-page-messages .hlc-messages-workspace[data-messages-view="compose"] .hlc-message-compose-view {
+    min-height: calc(100dvh - 180px) !important;
+  }
+}
