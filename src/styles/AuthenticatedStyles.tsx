@@ -61,6 +61,7 @@ import "./messages-lane-2-mobile-authority.css";
 import "./hlc-unified-brand-authority.css";
 import "./hlc-unified-settings-index.css";
 import "./hlc-unified-screen-archetypes.css";
+import "./hlc-unified-detail-workspaces.css";
 
 export default function AuthenticatedStyles() {
   return <MobileNavigationDialogAccessibility />;
