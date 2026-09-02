@@ -62,11 +62,6 @@ export default function UniversalAITeamLauncher() {
   const onDedicatedAgentPage = DEDICATED_AGENT_ROUTES.has(location.pathname);
 
   useEffect(() => {
-    setLauncherOpen(false);
-    setActiveAgentId(null);
-  }, [location.pathname]);
-
-  useEffect(() => {
     document.body.classList.toggle("hlc-agent-open", Boolean(activeAgent));
     return () => document.body.classList.remove("hlc-agent-open");
   }, [activeAgent]);
