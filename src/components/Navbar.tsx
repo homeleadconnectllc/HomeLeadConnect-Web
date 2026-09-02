@@ -11,7 +11,7 @@ import { supabase } from "../lib/supabase";
 const logo = "/hlc-logo-transparent.png";
 const OPEN_HLC_COMMAND_SEARCH = "hlc:open-command-search";
 const declaredWorkspaceRoutes = new Set([
-  "/dashboard", "/ecosystem", "/workflow", "/automations", "/hq", "/notifications", "/analytics",
+  "/dashboard", "/ecosystem", "/workflow", "/automations", "/hq", "/notifications", "/analytics", "/analytics/forecasting", "/analytics/sandbox",
   "/work", "/work/matching", "/leads", "/estimator", "/jobs", "/calendar", "/follow-ups", "/operations",
   "/call-center", "/messages", "/manual-communications", "/customer-experience",
   "/documents", "/settings", "/team", "/homeowner-portal", "/contractor-portal", "/network",
@@ -35,17 +35,15 @@ const agentNavigation = [
   { label: "Diamond", route: "/customer-experience", purpose: "Customer Experience · community and recovery", avatar: "/brand/avatars/Diamond_Locked_HLC.png" },
 ];
 
-// Preserve the historical Work entry as an active-state alias while the canonical parent becomes /work.
 const legacyMobileRouteAliases = [
   { label: "Work", route: "/leads", canonicalRoute: "/work" },
 ] as const;
 
-type MobileIconName = "home" | "work" | "network" | "community" | "messages" | "notifications" | "profile" | "more";
+type MobileIconName = "home" | "work" | "community" | "messages" | "notifications" | "profile" | "more";
 type MobileNavItem = { label: string; route: string; icon: MobileIconName; matches?: string[] };
 function MobileNavIcon({ name }: { name: MobileIconName }) {
   if (name === "home") return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.8 12 3l9 7.8v9.1a1.1 1.1 0 0 1-1.1 1.1h-5.3v-6.2H9.4V21H4.1A1.1 1.1 0 0 1 3 19.9Z" /></svg>;
   if (name === "work") return <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M9 7V4h6v3M3 12h18" /></svg>;
-  if (name === "network") return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="2.5" /><circle cx="5" cy="18" r="2.5" /><circle cx="19" cy="18" r="2.5" /><path d="m10.8 7.2-4.5 8.5M13.2 7.2l4.5 8.5M7.5 18h9" /></svg>;
   if (name === "community") return <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="8" r="3" /><circle cx="17" cy="9" r="2.5" /><path d="M2.8 20c.6-4.2 2.4-6.3 5.2-6.3 3 0 4.8 2.1 5.3 6.3M13.5 14.5c2.9-.7 6.5.8 7 5.5" /></svg>;
   if (name === "messages") return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h16v12H9l-5 4Z" /></svg>;
   if (name === "notifications") return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.8 10a5.2 5.2 0 0 1 10.4 0c0 5 2.2 5.1 2.2 7H4.6c0-1.9 2.2-2 2.2-7ZM9.7 20h4.6" /></svg>;
@@ -116,9 +114,9 @@ export default function Navbar() {
     if (!signedIn || !accessResolved) return [];
     if (showBusinessTools && access.role) return [
       { label: "Home", route: "/dashboard", icon: "home", matches: ["/dashboard", "/workflow", "/ecosystem", "/automations", "/notifications", "/hq", "/analytics"] },
-      { label: "Work", route: "/work", icon: "work", matches: ["/work", "/leads", "/estimator", "/jobs", "/calendar", "/follow-ups", "/operations", "/call-center"] },
-      { label: "Network", route: "/network", icon: "network", matches: ["/network", "/map", "/providers", "/profiles", "/matching"] },
-      { label: "Community", route: "/community-hub", icon: "community", matches: ["/community-hub", "/community"] },
+      { label: "Work", route: "/work", icon: "work", matches: ["/work", "/leads", "/estimator", "/jobs", "/calendar", "/follow-ups", "/operations"] },
+      { label: "Community", route: "/community-hub", icon: "community", matches: ["/community-hub", "/community", "/network", "/map", "/providers", "/profiles", "/matching"] },
+      { label: "Messages", route: "/messages", icon: "messages", matches: ["/messages"] },
     ].filter((item) => canAccessWorkspacePath(access.role, item.route)) as MobileNavItem[];
     const portalHome = access.homeowner ? "/homeowner-portal" : access.contractor ? "/contractor-portal" : "/portal/accept";
     const portalLinks: MobileNavItem[] = [{ label: "Home", route: portalHome, icon: "home" }];
@@ -144,7 +142,7 @@ export default function Navbar() {
         <Link to="/profile" onClick={closeMobileMenu}><MobileNavIcon name="profile" /><span><strong>My profile</strong><small>Identity and preferences</small></span></Link>
         {showBusinessTools && <Link to="/settings" onClick={closeMobileMenu}><MobileNavIcon name="more" /><span><strong>Settings</strong><small>Workspace and account controls</small></span></Link>}
       </nav>
-      {showBusinessTools && <Link className="hlc-owner-home-link" to="/dashboard" onClick={closeMobileMenu}><span><strong>Open Command Center</strong><small>Dashboard, live work and priorities</small></span><b aria-hidden="true">→</b></Link>}
+      {showBusinessTools && <Link className="hlc-owner-home-link" to="/dashboard" onClick={closeMobileMenu}><span><strong>Open Home</strong><small>Priorities, live work and what needs attention</small></span><b aria-hidden="true">→</b></Link>}
       <div className="hlc-navbar-groups" aria-label="Signed-in HLC areas">
         {showBusinessTools && access.role && <details className="hlc-nav-group hlc-nav-agent-group" open={openGroup === "ai-team"}><summary onClick={(event) => { event.preventDefault(); toggleGroup("ai-team"); }}><span>AI Team</span><small>{agentNavigation.filter((agent) => canAccessWorkspacePath(access.role, agent.route)).length}</small></summary><div className="hlc-nav-menu hlc-agent-nav-menu">{agentNavigation.filter((agent) => canAccessWorkspacePath(access.role, agent.route)).map((agent) => <Link className="hlc-agent-nav-link" aria-current={location.pathname === agent.route ? "page" : undefined} key={agent.route} onClick={closeMobileMenu} to={agent.route}><img src={agent.avatar} alt="" aria-hidden="true" /><span className="hlc-agent-nav-copy"><strong>{agent.label}</strong><small>{agent.purpose}</small></span></Link>)}</div></details>}
         {signedInGroups.map((group) => <details className="hlc-nav-group" key={group.id} open={openGroup === group.id}><summary onClick={(event) => { event.preventDefault(); toggleGroup(group.id); }}><span>{group.label}</span><small>{group.pages.length}</small></summary><div className="hlc-nav-menu">{group.pages.map((page) => <Link aria-current={pathMatchesPrefix(location.pathname, page.route) ? "page" : undefined} key={page.route} onClick={closeMobileMenu} to={page.route}><span>{page.label}</span><small>{page.purpose}</small></Link>)}</div></details>)}
