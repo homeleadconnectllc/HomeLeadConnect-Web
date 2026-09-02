@@ -1,7 +1,19 @@
-/* Authenticated desktop guard: mobile navigation surfaces must never render at desktop widths. */
+/* Authenticated desktop guard: mobile-only navigation surfaces must never leak into desktop navigation. */
 @media (min-width: 821px) {
   body > .hlc-drawer-v2,
-  .hlc-mobile-tabbar {
+  .hlc-mobile-tabbar,
+  .hlc-desktop-navigation > .hlc-mobile-menu-heading,
+  .hlc-desktop-navigation > .hlc-mobile-command-search-trigger,
+  .hlc-desktop-navigation > .hlc-mobile-more-quick,
+  .hlc-desktop-navigation > .hlc-owner-home-link {
     display: none !important;
+  }
+
+  .hlc-desktop-navigation {
+    min-width: 0;
+  }
+
+  .hlc-desktop-navigation > .hlc-navbar-groups {
+    min-width: 0;
   }
 }
