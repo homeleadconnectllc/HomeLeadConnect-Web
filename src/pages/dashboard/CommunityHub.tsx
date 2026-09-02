@@ -3,7 +3,7 @@ import CommunityStore from "../../components/community/CommunityStore";
 
 const villageBranches = [
   {
-    title: "Conversations",
+    title: "Discussions",
     body: "Ask questions, share local knowledge, and join useful discussions.",
     to: "/community/discussions",
     action: "Open discussions",
@@ -21,7 +21,7 @@ const villageBranches = [
     action: "Open community map",
   },
   {
-    title: "Reviews & Referrals",
+    title: "Completion-linked Reviews & Referrals",
     body: "Use completion-linked trust signals and make consent-aware introductions.",
     to: "/community/reviews",
     action: "Open reviews",
@@ -38,10 +38,13 @@ const moreVillageTools = [
   ["Provider Directory", "/providers"],
   ["Community Matching · Swipe Discovery", "/community/swipe"],
   ["Community Messenger", "/community/messages"],
+  ["Availability · Provider status", "/network/availability"],
+  ["Saved Providers", "/network/saved"],
   ["Groups", "/community/groups"],
   ["Referrals", "/community/referrals"],
   ["Challenges", "/community/challenges"],
   ["Community Academy", "/community/academy"],
+  ["Rules & Safety", "/rules"],
   ["Eligibility & Fit · Work review", "/work/matching"],
   ["Moderation", "/community/moderation"],
 ] as const;
