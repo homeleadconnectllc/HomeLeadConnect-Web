@@ -1,29 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  ArrowRight,
   Bell,
-  BarChart3,
   BriefcaseBusiness,
   CalendarDays,
-  ChevronRight,
-  CircleDot,
-  Clock3,
-  Gauge,
-  HeartHandshake,
-  MapPinned,
-  MessageCircle,
-  Network,
-  Search,
-  ShieldCheck,
-  Sparkle,
   ListTodo,
+  MessageCircle,
   PhoneCall,
-  Settings,
+  Search,
   Sparkles,
   UsersRound,
-  Workflow,
-  Zap,
 } from "lucide-react";
 import { listLeads } from "../../api/leads";
 import { listFollowUps } from "../../api/followUps";
@@ -50,77 +36,10 @@ const emptyData: DashboardData = {
   appointments: [],
 };
 
-const workspaceLinks = [
-  { to: "/workflow", label: "Golden Workflow", detail: "Run the lead-to-job pipeline", icon: Workflow },
-  { to: "/leads", label: "Leads", detail: "Review and work opportunities", icon: UsersRound },
-  { to: "/jobs", label: "Jobs", detail: "Track active customer work", icon: BriefcaseBusiness },
-  { to: "/estimator", label: "LeadScope", detail: "Estimate and qualify projects", icon: Gauge },
-  { to: "/automations", label: "Automations", detail: "Keep follow-through moving", icon: Zap },
-  { to: "/calendar", label: "Schedule", detail: "See appointments and timing", icon: CalendarDays },
-];
-
-const businessPulseLinks = [
-  {
-    to: "/matching",
-    label: "Community Matching",
-    detail: "Discover providers with the new Like or Pass experience.",
-    eyebrow: "New experience",
-    icon: HeartHandshake,
-    featured: true,
-  },
-  {
-    to: "/community-hub",
-    label: "Community Hub",
-    detail: "Discussions, reviews, referrals, groups and HLC Store access.",
-    eyebrow: "Connection",
-    icon: Sparkle,
-  },
-  {
-    to: "/network/map",
-    label: "Provider Map",
-    detail: "Explore verified and approximate provider locations.",
-    eyebrow: "Network",
-    icon: MapPinned,
-  },
-  {
-    to: "/network/eligibility",
-    label: "Eligibility & Fit",
-    detail: "Review service area, trade, availability and recorded fit.",
-    eyebrow: "Operations",
-    icon: Network,
-  },
-  {
-    to: "/messages",
-    label: "Messages",
-    detail: "Open persisted conversations, Chat History and voice notes.",
-    eyebrow: "Communication",
-    icon: MessageCircle,
-  },
-  {
-    to: "/analytics",
-    label: "Business Analytics",
-    detail: "See HLC performance, demand and operational movement.",
-    eyebrow: "Intelligence",
-    icon: BarChart3,
-  },
-];
-
-const agentRoleCopy: Record<string, { label: string; responsibility: string; intelligence: string }> = {
-  kendrell: {
-    label: "Command",
-    responsibility: "Executive priorities, approvals, risk and cross-agent coordination.",
-    intelligence: "Reasons across the whole business and prepares your owner briefing.",
-  },
-  dion: {
-    label: "Operations & BI",
-    responsibility: "Leads, LeadScope, jobs, matching, scheduling and operational intelligence.",
-    intelligence: "Finds patterns, explains operational pressure and recommends the next action.",
-  },
-  diamond: {
-    label: "Customer Experience",
-    responsibility: "Onboarding, messages, community, reviews, recovery and brand experience.",
-    intelligence: "Understands conversation context and protects the complete customer experience.",
-  },
+const agentRoleCopy: Record<string, string> = {
+  kendrell: "Command",
+  dion: "Operations",
+  diamond: "Customer experience",
 };
 
 function getGreeting() {
@@ -236,27 +155,12 @@ export default function Dashboard() {
           item.scheduled_for &&
           new Date(item.scheduled_for).getTime() <= snapshotAt,
       )
-      .slice(0, 2)
+      .slice(0, 3)
       .map((item) => ({
         title: item.lead?.full_name || "Lead follow-up",
         detail: item.notes || "Follow-up is due",
         meta: item.scheduled_for ? `Due ${formatTime(item.scheduled_for)}` : "Due now",
         to: "/follow-ups",
-        tone: "urgent" as const,
-      }));
-
-    const todayAppointments = data.appointments
-      .filter(
-        (appointment) =>
-          appointment.status === "scheduled" && isToday(appointment.appointment_date),
-      )
-      .slice(0, 2)
-      .map((appointment) => ({
-        title: appointment.job?.name || "Scheduled appointment",
-        detail: appointment.contractor?.company_name || appointment.notes || "HLC appointment",
-        meta: formatTime(appointment.appointment_date),
-        to: "/calendar",
-        tone: "scheduled" as const,
       }));
 
     const recentLead = data.leads[0]
@@ -266,205 +170,139 @@ export default function Dashboard() {
             detail: `${data.leads[0].status || "Open"} lead`,
             meta: "Recent lead",
             to: "/leads",
-            tone: "lead" as const,
           },
         ]
       : [];
 
-    return [...overdue, ...todayAppointments, ...recentLead].slice(0, 4);
+    return [...overdue, ...recentLead].slice(0, 4);
   }, [data, snapshotAt]);
 
+  const todayAppointments = useMemo(
+    () => data.appointments
+      .filter((appointment) => appointment.status === "scheduled" && isToday(appointment.appointment_date))
+      .slice(0, 5),
+    [data.appointments],
+  );
+
   return (
-    <main className="hlc-command-center">
-      <section className="hlc-command-hero">
-        <div className="hlc-command-copy">
-          <div className="hlc-command-kicker">
-            <Sparkles size={15} aria-hidden="true" />
-            HLC Command Center
-          </div>
-          <h1>{getGreeting()}.</h1>
-          <p>Here’s what needs your attention across HomeLead Connect.</p>
+    <main className="hlc-home-workspace hlc-home-structural">
+      <header className="hlc-home-topbar">
+        <div>
+          <span className="hlc-home-eyebrow">HOME</span>
+          <h1>{getGreeting()}</h1>
+          <p>What needs your attention right now.</p>
         </div>
-        <div className="hlc-command-hero-actions">
-          <button className="hlc-command-icon-button" type="button" aria-label="Search HomeLead Connect" onClick={openGlobalSearch}>
-            <Search size={21} />
+        <div className="hlc-home-top-actions">
+          <button type="button" aria-label="Search HomeLead Connect" onClick={openGlobalSearch}>
+            <Search size={20} />
           </button>
-          <Link className="hlc-command-icon-button" to="/notifications" aria-label="Open notifications">
-            <Bell size={21} />
+          <Link to="/notifications" aria-label="Open notifications">
+            <Bell size={20} />
           </Link>
         </div>
-      </section>
+      </header>
 
-      <section className="hlc-system-strip" aria-label="System status">
-        <span className="hlc-status-dot" />
-        <span>Workspace online</span>
-        <span className="hlc-system-divider" />
-        <span>{partialError ? "Some live metrics unavailable" : "Live operations connected"}</span>
-      </section>
+      <div className="hlc-home-live-line" role="status">
+        <span className="hlc-home-live-dot" aria-hidden="true" />
+        <strong>Workspace online</strong>
+        <span>{partialError ? "Some live metrics are unavailable" : "Live operations connected"}</span>
+      </div>
 
-      <section className="hlc-metric-grid" aria-label="Live business metrics">
+      <section className="hlc-home-metric-strip" aria-label="Live business metrics">
         {metrics.map(({ label, value, icon: Icon, to }) => (
-          <Link className="hlc-metric-card" to={to} key={label}>
-            <span className="hlc-metric-icon"><Icon size={19} /></span>
-            <strong>{loading ? "—" : value}</strong>
-            <span>{label}</span>
+          <Link to={to} key={label}>
+            <Icon size={18} aria-hidden="true" />
+            <span>
+              <strong>{loading ? "—" : value}</strong>
+              <small>{label}</small>
+            </span>
           </Link>
         ))}
       </section>
 
-      {visibleAgentTeam.length > 0 && <section className="hlc-dashboard-section hlc-agent-team-section">
-        <div className="hlc-section-heading hlc-agent-team-heading">
-          <div>
-            <span className="hlc-section-eyebrow">Your AI team</span>
-            <h2>{visibleAgentTeam.map((agent) => agent.name).join(" · ")}</h2>
-            <p className="hlc-agent-team-intro">Three reasoning workspaces grounded in live HLC records, with evidence, uncertainty and owner approval built in.</p>
-          </div>
-          <span className="hlc-agent-team-chip">{visibleAgentTeam.length} {visibleAgentTeam.length === 1 ? "workspace" : "workspaces"}</span>
-        </div>
-
-        <div className="hlc-agent-grid">
-          {visibleAgentTeam.map((agent) => {
-            const role = agentRoleCopy[agent.id];
-            return (
-              <Link className={`hlc-agent-card hlc-agent-card-${agent.id}`} to={agent.route} key={agent.id}>
-                <div className="hlc-agent-portrait-wrap">
-                  <img className="hlc-agent-portrait" src={agent.avatar} alt={`${agent.name}, ${role.label}`} />
-                  <span className="hlc-agent-presence" aria-hidden="true" />
-                  <span className="hlc-agent-status">Online</span>
-                </div>
-                <div className="hlc-agent-card-body">
-                  <span className="hlc-agent-role">{role.label}</span>
-                  <h3>{agent.name}</h3>
-                  <p>{role.responsibility}</p>
-                  <span className="hlc-agent-intelligence">{role.intelligence}</span>
-                  <span className="hlc-agent-open">
-                    Open intelligent workspace <ArrowRight size={16} />
-                  </span>
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-      </section>}
-
-      <section className="hlc-dashboard-section hlc-dashboard-section-tight hlc-dashboard-quick-section">
-        <div className="hlc-section-heading">
-          <div>
-            <span className="hlc-section-eyebrow">Move fast</span>
-            <h2>Quick actions</h2>
-          </div>
-        </div>
-        <div className="hlc-quick-actions">
-          <Link to="/leads" className="hlc-quick-action hlc-quick-action-primary">
-            <UsersRound size={20} />
-            <span>Leads</span>
-          </Link>
-          <Link to="/call-center" className="hlc-quick-action">
-            <PhoneCall size={20} />
-            <span>Call</span>
-          </Link>
-          <Link to="/calendar" className="hlc-quick-action">
-            <CalendarDays size={20} />
-            <span>Schedule</span>
-          </Link>
-          <Link to="/jobs" className="hlc-quick-action">
-            <BriefcaseBusiness size={20} />
-            <span>Jobs</span>
-          </Link>
-        </div>
-      </section>
-
-      <section className="hlc-dashboard-section hlc-business-pulse-section">
-        <div className="hlc-section-heading hlc-business-pulse-heading">
-          <div>
-            <span className="hlc-section-eyebrow">Everything you built</span>
-            <h2>Business Pulse</h2>
-            <p>One command view into Community, provider discovery, communications and intelligence.</p>
-          </div>
-          <Link to="/hq/system-health" className="hlc-pulse-health">
-            <ShieldCheck size={17} />
-            Systems ready
-          </Link>
-        </div>
-
-        <div className="hlc-business-pulse-grid">
-          {businessPulseLinks.map(({ to, label, detail, eyebrow, icon: Icon, featured }) => (
-            <Link
-              className={`hlc-pulse-card${featured ? " hlc-pulse-card-featured" : ""}`}
-              to={to}
-              key={to}
-            >
-              <span className="hlc-pulse-icon"><Icon size={22} /></span>
-              <span className="hlc-pulse-copy">
-                <span className="hlc-pulse-eyebrow">{eyebrow}</span>
-                <strong>{label}</strong>
-                <span>{detail}</span>
-              </span>
-              <ArrowRight size={19} className="hlc-pulse-arrow" />
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      <section className="hlc-dashboard-section hlc-priority-panel hlc-dashboard-priority-section">
-        <div className="hlc-section-heading">
-          <div>
-            <span className="hlc-section-eyebrow">Operations</span>
-            <h2>Priority today</h2>
-          </div>
-          <Clock3 size={20} aria-hidden="true" />
-        </div>
-
-        <div className="hlc-priority-list">
-          {loading ? (
-            <div className="hlc-priority-empty">Loading live priorities…</div>
-          ) : priorities.length ? (
-            priorities.map((item, index) => (
-              <Link className="hlc-priority-item" to={item.to} key={`${item.title}-${index}`}>
-                <span className={`hlc-priority-marker hlc-priority-marker-${item.tone}`}>
-                  <CircleDot size={16} />
-                </span>
-                <span className="hlc-priority-copy">
-                  <strong>{item.title}</strong>
-                  <span>{item.detail}</span>
-                </span>
-                <span className="hlc-priority-meta">{item.meta}</span>
-                <ChevronRight size={18} className="hlc-priority-chevron" />
-              </Link>
-            ))
-          ) : (
-            <div className="hlc-priority-empty">
-              <strong>You’re caught up.</strong>
-              <span>No urgent follow-ups or appointments are waiting right now.</span>
+      <div className="hlc-home-primary-grid">
+        <section className="hlc-home-focus-panel" aria-labelledby="hlc-home-attention-title">
+          <header>
+            <div>
+              <span>PRIORITY</span>
+              <h2 id="hlc-home-attention-title">Needs attention</h2>
             </div>
-          )}
-        </div>
-      </section>
+            <Link to="/work">Open Work</Link>
+          </header>
 
-      <section className="hlc-dashboard-section hlc-dashboard-workspace-section">
-        <div className="hlc-section-heading">
-          <div>
-            <span className="hlc-section-eyebrow">Navigate</span>
-            <h2>Workspace</h2>
+          <div className="hlc-home-focus-list">
+            {!loading && priorities.length === 0 && (
+              <div className="hlc-home-caught-up">
+                <strong>You’re caught up.</strong>
+                <span>No overdue follow-ups or new lead alerts are waiting.</span>
+              </div>
+            )}
+            {priorities.map((item) => (
+              <Link to={item.to} key={`${item.title}-${item.meta}`}>
+                <span className="hlc-home-focus-dot" aria-hidden="true" />
+                <span className="hlc-home-focus-copy">
+                  <strong>{item.title}</strong>
+                  <small>{item.detail}</small>
+                </span>
+                <span className="hlc-home-focus-meta">{item.meta}</span>
+              </Link>
+            ))}
           </div>
-          <Link to="/settings" className="hlc-section-action" aria-label="Open settings">
-            <Settings size={19} />
-          </Link>
-        </div>
+        </section>
 
-        <div className="hlc-workspace-grid">
-          {workspaceLinks.map(({ to, label, detail, icon: Icon }) => (
-            <Link className="hlc-workspace-card" to={to} key={to}>
-              <span className="hlc-workspace-icon"><Icon size={21} /></span>
-              <span className="hlc-workspace-copy">
-                <strong>{label}</strong>
-                <span>{detail}</span>
-              </span>
-              <ArrowRight size={18} className="hlc-workspace-arrow" />
-            </Link>
-          ))}
-        </div>
+        <section className="hlc-home-schedule-panel" aria-labelledby="hlc-home-today-title">
+          <header>
+            <div>
+              <span>SCHEDULE</span>
+              <h2 id="hlc-home-today-title">Today</h2>
+            </div>
+            <Link to="/calendar">Calendar</Link>
+          </header>
+
+          <div className="hlc-home-schedule-list">
+            {!loading && todayAppointments.length === 0 && (
+              <div className="hlc-home-caught-up">
+                <strong>No appointments today.</strong>
+                <span>Your schedule is clear.</span>
+              </div>
+            )}
+            {todayAppointments.map((appointment) => (
+              <Link to="/calendar" key={appointment.id}>
+                <time>{formatTime(appointment.appointment_date)}</time>
+                <span>
+                  <strong>{appointment.job?.name || "Scheduled appointment"}</strong>
+                  <small>{appointment.contractor?.company_name || appointment.notes || "HomeLead Connect"}</small>
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      <section className="hlc-home-quick-row" aria-label="Quick actions">
+        <Link to="/leads"><UsersRound size={19} /><span>Leads</span></Link>
+        <Link to="/messages"><MessageCircle size={19} /><span>Messages</span></Link>
+        <Link to="/call-center"><PhoneCall size={19} /><span>Calls</span></Link>
+        <Link to="/calendar"><CalendarDays size={19} /><span>Schedule</span></Link>
+        <Link to="/jobs"><BriefcaseBusiness size={19} /><span>Jobs</span></Link>
       </section>
+
+      {visibleAgentTeam.length > 0 && (
+        <section className="hlc-home-ai-rail" aria-label="HLC AI team">
+          <div className="hlc-home-ai-heading">
+            <Sparkles size={18} aria-hidden="true" />
+            <div><strong>AI team</strong><span>Open the right assistant when you need deeper help.</span></div>
+          </div>
+          <div className="hlc-home-ai-links">
+            {visibleAgentTeam.map((agent) => (
+              <Link to={agent.route} key={agent.id}>
+                <img src={agent.avatar} alt="" />
+                <span><strong>{agent.name}</strong><small>{agentRoleCopy[agent.id] || "HLC assistant"}</small></span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
     </main>
   );
 }
