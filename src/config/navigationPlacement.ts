@@ -13,9 +13,7 @@ const page = (
 ): EcosystemPage => ({ label, route, owner, audiences, purpose, status: "WORKING" });
 
 const additionsByGroup: Record<string, EcosystemPage[]> = {
-  command: [
-    page("Analytics", "/analytics", "Dion", ["Owner", "Manager"], "Business intelligence, performance trends, forecasting and evidence-backed operational insight."),
-  ],
+  command: [],
   work: [
     page("Work Home", "/work", "Dion", ["Business", "Operations"], "Operational front door for active requests, jobs, scheduling, matching and next actions."),
   ],
@@ -33,7 +31,7 @@ const additionsByGroup: Record<string, EcosystemPage[]> = {
 
 const academyGroup: EcosystemNavigationGroup = {
   id: "academy",
-  label: "Academy & CONNECT",
+  label: "Academy",
   purpose: "Training, practice, certifications and the CONNECT conversation system.",
   pages: [
     page("Academy Home", "/academy", "Dion", ["Business", "Professional"], "Learning paths, practice, certifications and progress."),
@@ -42,18 +40,115 @@ const academyGroup: EcosystemNavigationGroup = {
   ],
 };
 
-const enrichedBase = baseNavigation.map((group) => {
-  const additions = additionsByGroup[group.id] ?? [];
-  if (additions.length === 0) return group;
-  const existing = new Set(group.pages.map((item) => item.route));
-  return {
-    ...group,
-    pages: [...additions.filter((item) => !existing.has(item.route)), ...group.pages],
-  };
-});
+const messagesGroup: EcosystemNavigationGroup = {
+  id: "messages",
+  label: "Messages",
+  purpose: "Conversation-first communication without dashboard clutter.",
+  pages: [
+    page("Messages", "/messages", "Diamond", ["All signed-in roles"], "Full conversation workspace with threads, attachments, unread state and record context."),
+  ],
+};
 
-const accountIndex = enrichedBase.findIndex((group) => group.id === "account");
+const analyticsGroup: EcosystemNavigationGroup = {
+  id: "analytics",
+  label: "Analytics",
+  purpose: "Business performance and operational intelligence for authorized workspace roles.",
+  pages: [
+    page("Overview", "/analytics", "Dion", ["Owner", "Manager"], "Business intelligence, performance trends and evidence-backed operational insight."),
+    page("Forecasting", "/analytics/forecasting", "Dion", ["Owner", "Manager"], "Forward-looking operational intelligence using available HLC evidence."),
+    page("Intelligence Sandbox", "/analytics/sandbox", "Dion", ["Owner", "Manager"], "Explore analytics scenarios without changing operational records."),
+  ],
+};
 
-export const ecosystemNavigation: EcosystemNavigationGroup[] = accountIndex >= 0
-  ? [...enrichedBase.slice(0, accountIndex), academyGroup, ...enrichedBase.slice(accountIndex)]
-  : [...enrichedBase, academyGroup];
+const groupById = new Map(baseNavigation.map((group) => [group.id, group]));
+
+const commandBase = groupById.get("command");
+const workBase = groupById.get("work");
+const networkBase = groupById.get("network");
+const communityBase = groupById.get("community");
+const connectBase = groupById.get("connect");
+const resourcesBase = groupById.get("resources");
+const accountBase = groupById.get("account");
+
+const mergePages = (...lists: EcosystemPage[][]): EcosystemPage[] => {
+  const seen = new Set<string>();
+  return lists.flat().filter((item) => {
+    if (seen.has(item.route)) return false;
+    seen.add(item.route);
+    return true;
+  });
+};
+
+const commandGroup: EcosystemNavigationGroup | null = commandBase
+  ? {
+      ...commandBase,
+      label: "Home & Command",
+      purpose: "Daily priorities, executive truth, alerts and cross-workspace coordination.",
+      pages: mergePages(additionsByGroup.command ?? [], commandBase.pages.filter((item) => item.route !== "/analytics")),
+    }
+  : null;
+
+const workGroup: EcosystemNavigationGroup | null = workBase
+  ? {
+      ...workBase,
+      label: "Work",
+      pages: mergePages(additionsByGroup.work ?? [], workBase.pages),
+    }
+  : null;
+
+const communityGroup: EcosystemNavigationGroup | null = communityBase
+  ? {
+      ...communityBase,
+      label: "Community",
+      purpose: "The HLC village: people, discussions, local activity, map, providers, reviews, referrals and events.",
+      pages: mergePages(
+        [
+          communityBase.pages.find((item) => item.route === "/community-hub"),
+          networkBase?.pages.find((item) => item.route === "/map"),
+          networkBase?.pages.find((item) => item.route === "/providers"),
+          networkBase?.pages.find((item) => item.route === "/network"),
+          networkBase?.pages.find((item) => item.route === "/profiles"),
+          ...(additionsByGroup.community ?? []),
+          ...communityBase.pages.filter((item) => item.route !== "/community-hub"),
+          networkBase?.pages.find((item) => item.route === "/matching"),
+        ].filter((item): item is EcosystemPage => Boolean(item)),
+      ),
+    }
+  : null;
+
+const communicationGroup: EcosystemNavigationGroup | null = connectBase
+  ? {
+      ...connectBase,
+      id: "communications",
+      label: "Calls & Communication",
+      purpose: "Calls, texts, voicemail and communication operations separate from the primary Messages experience.",
+      pages: connectBase.pages.filter((item) => item.route !== "/messages"),
+    }
+  : null;
+
+const resourcesGroup: EcosystemNavigationGroup | null = resourcesBase
+  ? {
+      ...resourcesBase,
+      label: "Resources",
+      pages: mergePages(additionsByGroup.resources ?? [], resourcesBase.pages),
+    }
+  : null;
+
+const accountGroup: EcosystemNavigationGroup | null = accountBase
+  ? {
+      ...accountBase,
+      label: "Account & Settings",
+    }
+  : null;
+
+export const ecosystemNavigation: EcosystemNavigationGroup[] = [
+  commandGroup,
+  workGroup,
+  communityGroup,
+  messagesGroup,
+  communicationGroup,
+  resourcesGroup,
+  academyGroup,
+  analyticsGroup,
+  accountGroup,
+].filter((group): group is EcosystemNavigationGroup => Boolean(group));
