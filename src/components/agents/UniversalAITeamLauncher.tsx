@@ -69,12 +69,12 @@ export default function UniversalAITeamLauncher() {
   if (account.loading || account.error || !visibleAgents.length || onDedicatedAgentPage) return null;
 
   return (
-    <aside className={`hlc-ai-team-launcher${launcherOpen ? " is-open" : ""}${activeAgent ? " has-agent" : ""}`} aria-label="HLC AI Team">
+    <aside className={`hlc-ai-team-launcher${launcherOpen ? " is-open" : ""}${activeAgent ? " has-agent" : ""}`} aria-label="HomeLead Connect AI Team">
       {launcherOpen && (
-        <div className="hlc-ai-team-menu" role="dialog" aria-modal="false" aria-label="Choose an HLC AI Team agent">
+        <div className="hlc-ai-team-menu" role="dialog" aria-modal="false" aria-label="Choose a HomeLead Connect AI Team agent">
           <div className="hlc-ai-team-menu-head">
             <div>
-              <small>HLC AI TEAM</small>
+              <small>HOMELEAD CONNECT AI TEAM</small>
               <strong>{activeAgent ? activeAgent.name : "Choose your agent"}</strong>
             </div>
             <button
@@ -132,7 +132,7 @@ export default function UniversalAITeamLauncher() {
         type="button"
         className="hlc-ai-team-trigger"
         aria-expanded={launcherOpen}
-        aria-label={`${launcherOpen ? "Close" : "Open"} HLC AI Team`}
+        aria-label={`${launcherOpen ? "Close" : "Open"} HomeLead Connect AI Team`}
         onClick={() => {
           if (launcherOpen) {
             setActiveAgentId(null);
