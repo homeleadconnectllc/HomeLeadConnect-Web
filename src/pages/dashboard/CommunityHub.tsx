@@ -15,7 +15,7 @@ const villageBranches = [
     action: "Discover people",
   },
   {
-    title: "Provider Map & Local Network",
+    title: "Provider Map & Service Areas",
     body: "Explore providers and recorded service-area context as part of the Community village.",
     to: "/network/map",
     action: "Open community map",
