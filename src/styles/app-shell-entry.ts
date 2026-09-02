@@ -25,6 +25,7 @@ import "./hlc-route-visual-banners.css";
 import "./hlc-route-body-visuals.css";
 import "./hlc-adaptive-visual-rebalance.css";
 import "./premium-layout-system-20260903.css";
+import "./premium-palette-authority-20260903.css";
 import "./responsive-page-contract.css";
 import "./hlc-brand-lock.css";
 import "./legacy-device-compat.css";
