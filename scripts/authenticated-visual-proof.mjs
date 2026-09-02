@@ -22,6 +22,8 @@ const routes = [
   ["resources", "/resources"],
 ];
 
+const mustRenderAuthorizedWorkspace = new Set(["/analytics", "/hq"]);
+
 const viewports = [
   ["mobile", { width: 390, height: 844 }],
   ["desktop", { width: 1440, height: 1000 }],
@@ -77,6 +79,9 @@ for (const [viewportName, viewport] of viewports) {
 
       const bodyText = (await page.locator("body").innerText()).trim();
       if (bodyText.length < 40) row.issues.push("page body is unexpectedly sparse");
+      if (mustRenderAuthorizedWorkspace.has(routePath) && /Access restricted/i.test(bodyText)) {
+        row.issues.push("target workspace rendered Access restricted instead of authorized application UI");
+      }
 
       const geometry = await page.evaluate(() => ({
         scrollWidth: document.documentElement.scrollWidth,
