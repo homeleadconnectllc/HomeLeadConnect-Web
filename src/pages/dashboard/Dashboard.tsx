@@ -288,7 +288,7 @@ export default function Dashboard() {
       </section>
 
       {visibleAgentTeam.length > 0 && (
-        <section className="hlc-home-ai-rail" aria-label="HLC AI team">
+        <section className="hlc-home-ai-rail" aria-label="HomeLead Connect AI team">
           <div className="hlc-home-ai-heading">
             <Sparkles size={18} aria-hidden="true" />
             <div><strong>AI team</strong><span>Open the right assistant when you need deeper help.</span></div>
@@ -297,7 +297,7 @@ export default function Dashboard() {
             {visibleAgentTeam.map((agent) => (
               <Link to={agent.route} key={agent.id}>
                 <img src={agent.avatar} alt="" />
-                <span><strong>{agent.name}</strong><small>{agentRoleCopy[agent.id] || "HLC assistant"}</small></span>
+                <span><strong>{agent.name}</strong><small>{agentRoleCopy[agent.id] || "HomeLead Connect assistant"}</small></span>
               </Link>
             ))}
           </div>

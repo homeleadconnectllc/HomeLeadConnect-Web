@@ -40,7 +40,7 @@ function publicHomeMarkup() {
         <a href="/" aria-label="HomeLead Connect home" style="display:flex;align-items:center;min-width:0;text-decoration:none;color:#fff">
           <img src="/hlc-logo-transparent.png" alt="HomeLead Connect LLC" loading="eager" decoding="async" width="40" height="40" style="display:block;height:40px;width:40px;object-fit:contain;border-radius:50%;background:transparent;filter:drop-shadow(0 1px 2px rgba(0,0,0,.35))" />
         </a>
-        <a data-route-to="/app" href="/app" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 14px;border:1px solid rgba(147,197,253,.32);border-radius:8px;background:#10243e;color:#fff;font-weight:800;text-decoration:none;white-space:nowrap">Open HLC</a>
+        <a data-route-to="/app" href="/app" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 14px;border:1px solid rgba(147,197,253,.32);border-radius:8px;background:#10243e;color:#fff;font-weight:800;text-decoration:none;white-space:nowrap">Open HomeLead Connect</a>
       </header>
 
       <section class="hlc-home-hero" style="max-width:980px;margin:0 auto;text-align:center;padding:clamp(40px,8vw,72px) 0 40px">
@@ -56,16 +56,16 @@ function publicHomeMarkup() {
       </section>
 
       <section aria-label="HomeLead Connect capabilities" style="max-width:1100px;margin:10px auto 58px;border-top:1px solid rgba(199,210,227,.10)">
-        <article style="display:grid;grid-template-columns:minmax(150px,.7fr) minmax(0,1.3fr);gap:18px 28px;align-items:start;padding:24px 0;border-bottom:1px solid rgba(199,210,227,.10);background:transparent"><h2 style="font-size:22px;margin:0;color:#f8fafc">Get Home Help</h2><p style="margin:0;color:#c7d2e3;line-height:1.65">Renters and homeowners can submit a service request and follow the work from one HLC account.</p></article>
-        <article style="display:grid;grid-template-columns:minmax(150px,.7fr) minmax(0,1.3fr);gap:18px 28px;align-items:start;padding:24px 0;border-bottom:1px solid rgba(199,210,227,.10);background:transparent"><h2 style="font-size:22px;margin:0;color:#f8fafc">Find Providers</h2><p style="margin:0;color:#c7d2e3;line-height:1.65">Use the HLC network, matching, availability, profiles, and service-area tools.</p></article>
+        <article style="display:grid;grid-template-columns:minmax(150px,.7fr) minmax(0,1.3fr);gap:18px 28px;align-items:start;padding:24px 0;border-bottom:1px solid rgba(199,210,227,.10);background:transparent"><h2 style="font-size:22px;margin:0;color:#f8fafc">Get Home Help</h2><p style="margin:0;color:#c7d2e3;line-height:1.65">Renters and homeowners can submit a service request and follow the work from one HomeLead Connect account.</p></article>
+        <article style="display:grid;grid-template-columns:minmax(150px,.7fr) minmax(0,1.3fr);gap:18px 28px;align-items:start;padding:24px 0;border-bottom:1px solid rgba(199,210,227,.10);background:transparent"><h2 style="font-size:22px;margin:0;color:#f8fafc">Find Providers</h2><p style="margin:0;color:#c7d2e3;line-height:1.65">Use the HomeLead Connect network, matching, availability, profiles, and service-area tools.</p></article>
         <article style="display:grid;grid-template-columns:minmax(150px,.7fr) minmax(0,1.3fr);gap:18px 28px;align-items:start;padding:24px 0;border-bottom:1px solid rgba(199,210,227,.10);background:transparent"><h2 style="font-size:22px;margin:0;color:#f8fafc">Community</h2><p style="margin:0;color:#c7d2e3;line-height:1.65">Discussions, events, referrals, reviews, groups, and moderation live in the same ecosystem.</p></article>
-        <article style="display:grid;grid-template-columns:minmax(150px,.7fr) minmax(0,1.3fr);gap:18px 28px;align-items:start;padding:24px 0;border-bottom:1px solid rgba(199,210,227,.10);background:transparent"><h2 style="font-size:22px;margin:0;color:#f8fafc">HLC Workspace</h2><p style="margin:0;color:#c7d2e3;line-height:1.65">Leads, LeadScope estimates, jobs, scheduling, messages, documents, workflows, analytics, and AI agents stay connected.</p></article>
+        <article style="display:grid;grid-template-columns:minmax(150px,.7fr) minmax(0,1.3fr);gap:18px 28px;align-items:start;padding:24px 0;border-bottom:1px solid rgba(199,210,227,.10);background:transparent"><h2 style="font-size:22px;margin:0;color:#f8fafc">HomeLead Connect Workspace</h2><p style="margin:0;color:#c7d2e3;line-height:1.65">Leads, LeadScope estimates, jobs, scheduling, messages, documents, workflows, analytics, and AI agents stay connected.</p></article>
       </section>
 
       <section style="max-width:1100px;margin:0 auto;padding:34px 0;border-top:1px solid rgba(199,210,227,.10);border-bottom:1px solid rgba(199,210,227,.10);text-align:center;background:transparent">
         <p style="margin:0;color:#93c5fd;font-weight:900;letter-spacing:.1em;font-size:12px">FOR BUSINESSES</p>
-        <h2 style="margin:10px auto 12px;color:#fff;font-size:clamp(28px,5vw,42px)">Try the connected HLC workspace free for 14 days.</h2>
-        <p style="color:#c7d2e3;line-height:1.65;max-width:760px;margin:0 auto">Run leads, estimates, jobs, scheduling, messages, documents, workflow, analytics, and your HLC AI team from one workspace. Continue for $49.99/month after the trial.</p>
+        <h2 style="margin:10px auto 12px;color:#fff;font-size:clamp(28px,5vw,42px)">Try the connected HomeLead Connect workspace free for 14 days.</h2>
+        <p style="color:#c7d2e3;line-height:1.65;max-width:760px;margin:0 auto">Run leads, estimates, jobs, scheduling, messages, documents, workflow, analytics, and your HomeLead Connect AI team from one workspace. Continue for $49.99/month after the trial.</p>
         <div style="display:flex;gap:14px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:22px">
           <a href="/pricing" style="display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 18px;border-radius:8px;background:#2563eb;color:#fff;font-weight:900;text-decoration:none">See Pricing &amp; Start Trial</a>
           <a href="/login?next=/settings" style="color:#dbeafe;font-weight:800">Manage existing subscription</a>
@@ -74,7 +74,7 @@ function publicHomeMarkup() {
 
       <section style="max-width:1100px;margin:0 auto;padding:34px 0 16px;text-align:center;background:transparent">
         <h2 style="margin:0 auto 12px;color:#fff">Everything branches from HomeLead Connect.</h2>
-        <p style="color:#c7d2e3;line-height:1.65;max-width:860px;margin:0 auto">Public information, service requests, authentication, resident and professional portals, Community, Network &amp; Map, CRM operations, scheduling, communications, documents, billing, workflows, analytics, and the HLC AI team all belong to one connected system.</p>
+        <p style="color:#c7d2e3;line-height:1.65;max-width:860px;margin:0 auto">Public information, service requests, authentication, resident and professional portals, Community, Network &amp; Map, CRM operations, scheduling, communications, documents, billing, workflows, analytics, and the HomeLead Connect AI team all belong to one connected system.</p>
         <div style="display:flex;gap:12px 18px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:20px">
           <a href="/pricing" style="color:#bfdbfe;font-weight:800">Pricing &amp; free trial</a>
           <a href="/how-it-works" style="color:#bfdbfe">How it works</a>

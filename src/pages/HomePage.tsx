@@ -1,10 +1,10 @@
 import Footer from "../components/Footer";
 
 const features = [
-  ["Get Home Help", "Renters and homeowners can submit a service request and follow the work from one HLC account."],
-  ["Find Providers", "Use the HLC network, matching, availability, profiles, and service-area tools."],
+  ["Get Home Help", "Renters and homeowners can submit a service request and follow the work from one HomeLead Connect account."],
+  ["Find Providers", "Use the HomeLead Connect network, matching, availability, profiles, and service-area tools."],
   ["Community", "Discussions, events, referrals, reviews, groups, and moderation live in the same ecosystem."],
-  ["HLC Workspace", "Leads, LeadScope estimates, jobs, scheduling, messages, documents, workflows, analytics, and AI agents stay connected."],
+  ["HomeLead Connect Workspace", "Leads, LeadScope estimates, jobs, scheduling, messages, documents, workflows, analytics, and AI agents stay connected."],
 ];
 
 const linkStyle = { color: "#bfdbfe", fontWeight: 800, textDecoration: "none" } as const;
@@ -21,7 +21,7 @@ export default function HomePage() {
         <nav aria-label="Account access" style={{display:"flex",alignItems:"center",justifyContent:"flex-end",gap:8,flexWrap:"wrap"}}>
           <a href="/login" style={{...accountButtonStyle,color:"#dbeafe",background:"transparent"}}>Sign In</a>
           <a href="/register" style={{...accountButtonStyle,color:"#fff",background:"#2563eb",borderColor:"#2563eb"}}>Create Account</a>
-          <a data-route-to="/app" href="/app" style={{...accountButtonStyle,color:"#bfdbfe",background:"#112744"}}>Open HLC</a>
+          <a data-route-to="/app" href="/app" style={{...accountButtonStyle,color:"#bfdbfe",background:"#112744"}}>Open HomeLead Connect</a>
         </nav>
       </header>
 
@@ -31,7 +31,7 @@ export default function HomePage() {
         <h1 className="hlc-home-hero-title" style={{fontSize:"clamp(42px,8vw,80px)",lineHeight:1.02,letterSpacing:"-2.5px",margin:"12px auto 20px",color:"#f8fafc"}}>One front door.<br/>One connected home-services ecosystem.</h1>
         <p className="hlc-home-hero-copy" style={{maxWidth:760,margin:"0 auto",fontSize:"clamp(18px,4vw,21px)",lineHeight:1.6,color:"#b6c5d8"}}>Request help, connect with providers, join the community, manage work, and reach the HomeLead Connect workspace from one identity.</p>
         <div className="hlc-home-hero-actions" style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap",marginTop:28}}>
-          <a href="/register" style={{padding:"13px 20px",borderRadius:8,background:"#2563eb",color:"#fff",fontWeight:900,textDecoration:"none"}}>Create My HLC Account</a>
+          <a href="/register" style={{padding:"13px 20px",borderRadius:8,background:"#2563eb",color:"#fff",fontWeight:900,textDecoration:"none"}}>Create My HomeLead Connect Account</a>
           <a data-route-to="/request-service" href="/request-service" style={{padding:"13px 20px",borderRadius:8,background:"#112744",border:"1px solid #365777",color:"#fff",fontWeight:800,textDecoration:"none"}}>Get Help Now</a>
           <a href="/login" style={{padding:"13px 20px",borderRadius:8,background:"transparent",border:"1px solid #365777",color:"#dbeafe",fontWeight:800,textDecoration:"none"}}>Sign In</a>
         </div>
@@ -47,8 +47,8 @@ export default function HomePage() {
 
       <section style={{maxWidth:1100,margin:"0 auto",padding:"34px 0",borderTop:"1px solid #28415f",borderBottom:"1px solid #28415f",textAlign:"center"}}>
         <p style={{margin:0,color:"#93c5fd",fontWeight:900,letterSpacing:".1em",fontSize:12}}>FOR BUSINESSES</p>
-        <h2 style={{margin:"10px auto 12px",color:"#fff",fontSize:"clamp(28px,5vw,42px)"}}>Try the connected HLC workspace free for 14 days.</h2>
-        <p style={{color:"#b6c5d8",lineHeight:1.65,maxWidth:760,margin:"0 auto"}}>Run leads, estimates, jobs, scheduling, messages, documents, workflow, analytics, and your HLC AI team from one workspace. Continue for $49.99/month after the trial.</p>
+        <h2 style={{margin:"10px auto 12px",color:"#fff",fontSize:"clamp(28px,5vw,42px)"}}>Try the connected HomeLead Connect workspace free for 14 days.</h2>
+        <p style={{color:"#b6c5d8",lineHeight:1.65,maxWidth:760,margin:"0 auto"}}>Run leads, estimates, jobs, scheduling, messages, documents, workflow, analytics, and your HomeLead Connect AI team from one workspace. Continue for $49.99/month after the trial.</p>
         <div style={{display:"flex",gap:14,justifyContent:"center",alignItems:"center",flexWrap:"wrap",marginTop:22}}>
           <a href="/register" style={{padding:"13px 20px",borderRadius:8,background:"#2563eb",color:"#fff",fontWeight:900,textDecoration:"none"}}>Create Business Account</a>
           <a href="/pricing" style={linkStyle}>See pricing</a>
@@ -58,7 +58,7 @@ export default function HomePage() {
 
       <section style={{maxWidth:1100,margin:"0 auto",padding:"34px 0 12px",textAlign:"center"}}>
         <h2 style={{margin:"0 auto 12px",color:"#fff"}}>Everything branches from HomeLead Connect.</h2>
-        <p style={{color:"#b6c5d8",lineHeight:1.65,maxWidth:860,margin:"0 auto"}}>Public information, service requests, authentication, resident and professional portals, Community, Network & Map, CRM operations, scheduling, communications, documents, billing, workflows, analytics, and the HLC AI team all belong to one connected system.</p>
+        <p style={{color:"#b6c5d8",lineHeight:1.65,maxWidth:860,margin:"0 auto"}}>Public information, service requests, authentication, resident and professional portals, Community, Network & Map, CRM operations, scheduling, communications, documents, billing, workflows, analytics, and the HomeLead Connect AI team all belong to one connected system.</p>
         <div style={{display:"flex",gap:"12px 18px",justifyContent:"center",alignItems:"center",flexWrap:"wrap",marginTop:20}}>
           <a href="/login" style={linkStyle}>Sign in</a>
           <a href="/register" style={linkStyle}>Create account</a>
