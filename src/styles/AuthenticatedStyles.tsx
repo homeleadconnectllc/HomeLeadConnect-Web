@@ -62,6 +62,7 @@ import "./hlc-unified-brand-authority.css";
 import "./hlc-unified-settings-index.css";
 import "./hlc-unified-screen-archetypes.css";
 import "./hlc-unified-detail-workspaces.css";
+import "./hlc-unified-final-surfaces.css";
 
 export default function AuthenticatedStyles() {
   return <MobileNavigationDialogAccessibility />;
