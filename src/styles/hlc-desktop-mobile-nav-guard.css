@@ -1,0 +1,7 @@
+/* Authenticated desktop guard: mobile navigation surfaces must never render at desktop widths. */
+@media (min-width: 821px) {
+  body > .hlc-drawer-v2,
+  .hlc-mobile-tabbar {
+    display: none !important;
+  }
+}
