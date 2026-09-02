@@ -16,22 +16,22 @@ type SearchItem = {
 };
 
 const items: SearchItem[] = [
-  { label: "Home", detail: "Open the HLC Command Center", route: "/dashboard", group: "Commands", keywords: "home dashboard command center today priorities" },
+  { label: "Home", detail: "Open the HomeLead Connect Command Center", route: "/dashboard", group: "Commands", keywords: "home dashboard command center today priorities" },
   { label: "New lead", detail: "Open Leads to create or work an opportunity", route: "/leads", group: "Commands", keywords: "new lead create opportunity request" },
-  { label: "Schedule", detail: "Open the native HLC Calendar", route: "/calendar", group: "Commands", keywords: "appointment event schedule calendar today" },
-  { label: "Message", detail: "Open HLC Messages", route: "/messages", group: "Commands", keywords: "message email conversation chat communication" },
+  { label: "Schedule", detail: "Open the native HomeLead Connect Calendar", route: "/calendar", group: "Commands", keywords: "appointment event schedule calendar today" },
+  { label: "Message", detail: "Open HomeLead Connect Messages", route: "/messages", group: "Commands", keywords: "message email conversation chat communication" },
   { label: "Golden Workflow", detail: "Run the lead-to-job operating flow", route: "/workflow", group: "Work", keywords: "request lead scope provider schedule job completion workflow" },
   { label: "Leads", detail: "Review and work opportunities", route: "/leads", group: "Work", keywords: "lead prospect opportunity request customer" },
   { label: "LeadScope", detail: "Estimate and qualify projects", route: "/estimator", group: "Work", keywords: "estimate scope qualify price project" },
   { label: "Jobs", detail: "Track active customer work", route: "/jobs", group: "Work", keywords: "job project work active completion" },
-  { label: "Calendar", detail: "Appointments and HLC-native events", route: "/calendar", group: "Work", keywords: "calendar appointment event schedule day week month" },
+  { label: "Calendar", detail: "Appointments and HomeLead Connect-native events", route: "/calendar", group: "Work", keywords: "calendar appointment event schedule day week month" },
   { label: "Follow-ups", detail: "Due, overdue and upcoming follow-through", route: "/follow-ups", group: "Work", keywords: "follow up reminder due overdue snooze" },
-  { label: "Automations", detail: "Review HLC automation activity", route: "/automations", group: "Work", keywords: "automation workflow run failure trigger" },
-  { label: "Provider Network", detail: "Search the HLC provider directory", route: "/network", group: "Network", keywords: "provider contractor professional directory network" },
+  { label: "Automations", detail: "Review HomeLead Connect automation activity", route: "/automations", group: "Work", keywords: "automation workflow run failure trigger" },
+  { label: "Provider Network", detail: "Search the HomeLead Connect provider directory", route: "/network", group: "Network", keywords: "provider contractor professional directory network" },
   { label: "Matching", detail: "Find provider matches", route: "/matching", group: "Network", keywords: "match provider contractor fit save" },
   { label: "Provider Map", detail: "Explore providers geographically", route: "/network/map", group: "Network", keywords: "map location provider nearby service area" },
   { label: "Saved Providers", detail: "Open saved provider records", route: "/network/saved", group: "Network", keywords: "saved favorite provider contractor" },
-  { label: "Community", detail: "Open the HLC Community Hub", route: "/community-hub", group: "Community", keywords: "community feed discussion event review referral" },
+  { label: "Community", detail: "Open the HomeLead Connect Community Hub", route: "/community-hub", group: "Community", keywords: "community feed discussion event review referral" },
   { label: "Discussions", detail: "Open community discussions", route: "/community/discussions", group: "Community", keywords: "discussion thread post reply community" },
   { label: "Events & Updates", detail: "Open community events and updates", route: "/community/events", group: "Community", keywords: "event update rsvp community" },
   { label: "Reviews", detail: "Open community reviews", route: "/community/reviews", group: "Community", keywords: "review response rating feedback" },
@@ -41,9 +41,9 @@ const items: SearchItem[] = [
   { label: "Calls & Texts", detail: "Manual communications workspace", route: "/manual-communications", group: "Communication", keywords: "call text sms phone communications" },
   { label: "Documents", detail: "Search and manage workspace documents", route: "/documents", group: "Resources", keywords: "document file upload scan photo" },
   { label: "Help Center", detail: "Operational help and guidance", route: "/help", group: "Resources", keywords: "help support guide question" },
-  { label: "Tutorials", detail: "HLC tutorials and walkthroughs", route: "/tutorials", group: "Resources", keywords: "tutorial guide learn walkthrough" },
+  { label: "Tutorials", detail: "HomeLead Connect tutorials and walkthroughs", route: "/tutorials", group: "Resources", keywords: "tutorial guide learn walkthrough" },
   { label: "Rules & Safety", detail: "Operational rules and safety guidance", route: "/rules", group: "Resources", keywords: "rules safety compliance policy" },
-  { label: "My Profile", detail: "Open your HLC profile", route: "/profile", group: "Account", keywords: "profile account personal" },
+  { label: "My Profile", detail: "Open your HomeLead Connect profile", route: "/profile", group: "Account", keywords: "profile account personal" },
   { label: "Company Team", detail: "Team membership and access", route: "/team", group: "Account", keywords: "team manager technician role invite access" },
   { label: "Settings", detail: "Workspace and account settings", route: "/settings", group: "Account", keywords: "settings preferences integrations security notifications" },
   { label: "Billing", detail: "Subscription and billing workspace", route: "/settings/billing", group: "Account", keywords: "billing subscription plan invoice payment" },
@@ -127,8 +127,8 @@ export default function GlobalCommandSearch() {
             ref={inputRef}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search HLC..."
-            aria-label="Search HLC"
+            placeholder="Search HomeLead Connect..."
+            aria-label="Search HomeLead Connect"
             autoComplete="off"
           />
           <button type="button" aria-label="Close search" onClick={() => setOpen(false)}><X size={20} /></button>
@@ -144,13 +144,13 @@ export default function GlobalCommandSearch() {
             </button>
           )) : (
             <div className="hlc-command-search-empty">
-              <strong>No matching HLC area yet.</strong>
+              <strong>No matching HomeLead Connect area yet.</strong>
               <span>Try a feature, workflow, person, or action name.</span>
             </div>
           )}
         </div>
         <footer className="hlc-command-search-footer">
-          <span>Search respects your HLC role and workspace access.</span>
+          <span>Search respects your HomeLead Connect role and workspace access.</span>
           <kbd>⌘K</kbd>
         </footer>
       </section>
