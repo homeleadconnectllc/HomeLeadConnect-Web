@@ -1,0 +1,265 @@
+/* HLC UX IA — purpose-specific Resources and Academy surfaces. */
+
+/* Resources: library/sourcing index rather than another dashboard. */
+.hlc-page-resources .hlc-sourcing-workspace {
+  width: min(100% - 32px, 1080px) !important;
+  margin: 0 auto !important;
+  padding: 28px 0 72px !important;
+  background: transparent !important;
+}
+
+.hlc-page-resources .hlc-sourcing-hero {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(250px, .55fr) !important;
+  gap: 28px !important;
+  padding: 14px 0 22px !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(238,244,239,.13) !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.hlc-page-resources .hlc-sourcing-hero h1 {
+  margin: 4px 0 8px !important;
+  font-size: clamp(2rem,5vw,3.3rem) !important;
+  line-height: 1 !important;
+}
+
+.hlc-page-resources .hlc-sourcing-hero > div > p {
+  color: #cfb36b !important;
+  letter-spacing: .12em !important;
+  font-size: .72rem !important;
+}
+
+.hlc-page-resources .hlc-sourcing-hero > div > span,
+.hlc-page-resources .hlc-sourcing-hero aside small {
+  color: #aebbb2 !important;
+  line-height: 1.5 !important;
+}
+
+.hlc-page-resources .hlc-sourcing-hero aside {
+  padding: 0 0 0 20px !important;
+  border: 0 !important;
+  border-left: 1px solid rgba(207,179,107,.22) !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.hlc-page-resources .hlc-sourcing-nav {
+  margin: 0 !important;
+  padding: 9px 0 !important;
+  display: flex !important;
+  gap: 8px 20px !important;
+  overflow-x: auto !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(238,244,239,.12) !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+}
+
+.hlc-page-resources .hlc-sourcing-nav a {
+  padding: 8px 0 !important;
+  color: #c8d0cb !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  white-space: nowrap !important;
+}
+
+.hlc-page-resources .hlc-sourcing-nav a.is-active,
+.hlc-page-resources .hlc-sourcing-nav a:hover {
+  color: #cfb36b !important;
+  background: transparent !important;
+}
+
+.hlc-page-resources .hlc-sourcing-categories {
+  display: block !important;
+  margin: 12px 0 0 !important;
+}
+
+.hlc-page-resources .hlc-sourcing-categories > a {
+  min-height: 74px !important;
+  padding: 13px 4px !important;
+  display: grid !important;
+  grid-template-columns: minmax(140px,.55fr) minmax(0,1.45fr) auto !important;
+  align-items: center !important;
+  gap: 18px !important;
+  color: #eef4ef !important;
+  text-decoration: none !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(238,244,239,.1) !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.hlc-page-resources .hlc-sourcing-categories > a:hover {
+  background: rgba(207,179,107,.055) !important;
+}
+
+.hlc-page-resources .hlc-sourcing-categories > a > span {
+  color: #cfb36b !important;
+  font-weight: 850 !important;
+}
+
+.hlc-page-resources .hlc-sourcing-categories > a > strong {
+  color: #c8d0cb !important;
+  font-weight: 600 !important;
+}
+
+.hlc-page-resources .hlc-sourcing-categories > a > b {
+  color: #cfb36b !important;
+  white-space: nowrap !important;
+}
+
+.hlc-page-resources .hlc-sourcing-dion {
+  margin-top: 30px !important;
+  padding: 22px 0 !important;
+  display: grid !important;
+  grid-template-columns: minmax(220px,.7fr) minmax(0,1.3fr) !important;
+  gap: 28px !important;
+  border: 0 !important;
+  border-top: 1px solid rgba(238,244,239,.12) !important;
+  border-bottom: 1px solid rgba(238,244,239,.12) !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.hlc-page-resources .hlc-sourcing-dion > div > p { color:#cfb36b !important; }
+.hlc-page-resources .hlc-sourcing-dion ol { margin:0 !important; color:#c8d0cb !important; }
+
+/* Academy: learning journey, not CRM cards. */
+.hlc-page-academy .hlc-community-workspace {
+  width: min(100% - 32px, 1080px) !important;
+  margin: 0 auto !important;
+  padding: 28px 0 76px !important;
+  background: transparent !important;
+  text-align: left !important;
+}
+
+.hlc-page-academy .hlc-community-header {
+  padding: 14px 0 22px !important;
+  display: flex !important;
+  align-items: end !important;
+  justify-content: space-between !important;
+  gap: 24px !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(238,244,239,.13) !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.hlc-page-academy .hlc-community-kicker {
+  color: #9f78c8 !important;
+  letter-spacing: .12em !important;
+  font-size: .7rem !important;
+}
+
+.hlc-page-academy .hlc-community-header h1 {
+  margin: 4px 0 8px !important;
+  font-size: clamp(2rem,5vw,3.3rem) !important;
+  line-height: 1 !important;
+}
+
+.hlc-page-academy .hlc-community-header > div > p:last-child {
+  color: #aebbb2 !important;
+  max-width: 680px !important;
+}
+
+.hlc-page-academy .hlc-community-header > .hlc-premium-panel {
+  min-width: 150px !important;
+  padding: 0 0 0 18px !important;
+  border: 0 !important;
+  border-left: 1px solid rgba(159,120,200,.24) !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.hlc-page-academy .hlc-community-header > .hlc-premium-panel strong {
+  color: #9f78c8 !important;
+  font-size: 1.2rem !important;
+}
+
+.hlc-page-academy .hlc-community-commandbar {
+  margin: 0 !important;
+  padding: 9px 0 !important;
+  display: flex !important;
+  gap: 8px 20px !important;
+  overflow-x: auto !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(238,244,239,.12) !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+}
+
+.hlc-page-academy .hlc-community-commandbar a {
+  padding: 8px 0 !important;
+  color: #c8d0cb !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  white-space: nowrap !important;
+}
+
+.hlc-page-academy .hlc-community-commandbar a:hover { color:#9f78c8 !important; }
+
+.hlc-page-academy .hlc-community-workspace > .hlc-premium-panel,
+.hlc-page-academy .hlc-community-workspace > section > .hlc-premium-panel {
+  margin-top: 0 !important;
+  padding: 18px 0 !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(238,244,239,.12) !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.hlc-page-academy .hlc-community-workspace > section[style*="grid"] {
+  display: block !important;
+  margin-top: 12px !important;
+}
+
+.hlc-page-academy .hlc-community-workspace > section[style*="grid"] > article {
+  min-height: 82px !important;
+  padding: 14px 4px !important;
+  display: grid !important;
+  grid-template-columns: minmax(0,1fr) auto !important;
+  align-items: center !important;
+  gap: 16px !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(238,244,239,.1) !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.hlc-page-academy .hlc-community-workspace > section[style*="grid"] > article > p:first-child {
+  color: #9f78c8 !important;
+}
+
+.hlc-page-academy .hlc-community-workspace > section[style*="grid"] > article > a {
+  color: #9f78c8 !important;
+  white-space: nowrap !important;
+}
+
+@media(max-width:720px){
+  .hlc-page-resources .hlc-sourcing-workspace,
+  .hlc-page-academy .hlc-community-workspace {
+    width:min(100% - 24px,1080px) !important;
+    padding-top:16px !important;
+    padding-bottom:calc(98px + env(safe-area-inset-bottom)) !important;
+  }
+  .hlc-page-resources .hlc-sourcing-hero,
+  .hlc-page-academy .hlc-community-header { grid-template-columns:1fr !important; display:grid !important; align-items:start !important; }
+  .hlc-page-resources .hlc-sourcing-hero aside,
+  .hlc-page-academy .hlc-community-header > .hlc-premium-panel { border-left:0 !important; border-top:1px solid rgba(238,244,239,.12) !important; padding:14px 0 0 !important; }
+  .hlc-page-resources .hlc-sourcing-categories > a { grid-template-columns:1fr auto !important; gap:5px 12px !important; }
+  .hlc-page-resources .hlc-sourcing-categories > a > strong { grid-column:1 / -1 !important; grid-row:2 !important; }
+  .hlc-page-resources .hlc-sourcing-dion { grid-template-columns:1fr !important; gap:12px !important; }
+  .hlc-page-academy .hlc-community-workspace > section[style*="grid"] > article { grid-template-columns:1fr !important; gap:6px !important; }
+}
