@@ -112,7 +112,7 @@ export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
     <header className="hlc-agent-team-header">
       <div className="hlc-agent-team-identity">
         {agent.image && <img src={agent.image} alt={`${agent.name} AI workspace visual`} />}
-        <div><span>{agent.role}</span><h1>{agent.name}</h1><p>{agent.introduction}</p></div>
+        <div><span>{agent.role}</span><h1>{agent.name}</h1><p>{agent.introduction}</p>{agentId === "kendrell" && <small>Symbolic Kendrell AI visual — not a historical photograph</small>}</div>
       </div>
       <button type="button" onClick={() => setGuidanceOpen(true)}>Ask {agent.name}</button>
     </header>
@@ -135,7 +135,7 @@ export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
 
     {!loading && <div className="hlc-agent-operating-grid">
       <section className="hlc-agent-action-workbench">
-        <header><span>ACTIONS</span><h2>What should {agent.name} do next?</h2></header>
+        <header><span>ACTIONS</span><h2>What would you like {agent.name} to do?</h2></header>
         {(agentId === "diamond" || agentId === "dion") && <label>Related lead<select value={leadId} onChange={(event) => setLeadId(event.target.value)}><option value="">Select when the capability needs a lead</option>{leads.map((lead) => <option key={lead.id} value={lead.id}>{lead.full_name || `Lead #${lead.id}`}</option>)}</select></label>}
         {agentId === "dion" && <label>Follow-up date/time<input type="datetime-local" value={dueAt} onChange={(event) => setDueAt(event.target.value)} /></label>}
         {(agentId === "dion" || agentId === "kendrell") && <label>{agentId === "kendrell" ? "What needs Antoine's attention?" : "Follow-up notes"}<textarea maxLength={2000} placeholder={agentId === "kendrell" ? "Briefly explain the decision, risk, or unresolved issue." : "Add the important follow-up details."} value={notes} onChange={(event) => setNotes(event.target.value)} /></label>}
@@ -146,7 +146,6 @@ export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
           return <button type="button" disabled={busy || ownerOnlyBlocked} key={capability.id} onClick={() => run(capability.id)}><strong>{experience.title}</strong><span>{ownerOnlyBlocked ? "Switch to Antoine's owner workspace to use this." : experience.description}</span></button>;
         })}</div>
       </section>
-
       <aside className="hlc-agent-result-rail">
         <section><span>RESULT</span><h2>Most recent result</h2>{result ? <FriendlyResult value={result} /> : <p>Choose an action to see its result here.</p>}</section>
         {selectedLead && <p>Current authorized context: {selectedLead.full_name || `Lead #${selectedLead.id}`}</p>}
@@ -154,7 +153,7 @@ export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
     </div>}
 
     <div className="hlc-agent-history-grid">
-      {agentId !== "kendrell" && <form onSubmit={handoff} className="hlc-agent-handoff"><span>HANDOFF</span><h2>Send work to {agentId === "diamond" ? "Dion" : "Kendrell"}</h2><p>{handoffCopy}</p><label>Reason<textarea required minLength={3} maxLength={500} value={handoffReason} onChange={(event) => setHandoffReason(event.target.value)} /></label><button disabled={busy} type="submit">Persist handoff</button></form>}
+      {agentId !== "kendrell" && <form onSubmit={handoff} className="hlc-agent-handoff"><span>HANDOFF</span><h2>Send work to {agentId === "diamond" ? "Dion" : "Kendrell"}</h2><p>{handoffCopy}</p><p>The source agent remains attributable; the destination agent does not impersonate it.</p><label>Reason<textarea required minLength={3} maxLength={500} value={handoffReason} onChange={(event) => setHandoffReason(event.target.value)} /></label><button disabled={busy} type="submit">Persist handoff</button></form>}
       <section className="hlc-agent-history"><span>ACTIVITY</span><h2>Recent activity</h2>{runs.length === 0 ? <p>No activity yet.</p> : runs.map((runItem) => <article key={runItem.id}><div><strong>{friendlyCapabilityName(runItem.capability_id)}</strong><span>{friendlyStatus(runItem.status)}</span></div><small>{new Date(runItem.created_at).toLocaleString()}</small>{runItem.error_summary && <p>{runItem.error_summary}</p>}</article>)}</section>
       <section className="hlc-agent-history"><span>TEAM HANDOFFS</span><h2>Work sent between agents</h2>{handoffs.length === 0 ? <p>No work has been sent to another agent.</p> : handoffs.map((item) => <article key={item.id}><div><strong>{agents[item.source_agent].name} → {agents[item.destination_agent].name}</strong><span>{friendlyStatus(item.status)}</span></div><p>{item.reason}</p><small>{new Date(item.created_at).toLocaleString()}</small></article>)}</section>
     </div>
