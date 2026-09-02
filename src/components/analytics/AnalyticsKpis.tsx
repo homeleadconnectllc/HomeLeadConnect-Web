@@ -138,7 +138,7 @@ export default function AnalyticsKpis() {
     <section className="hlc-dashboard-section hlc-analytics-panel" aria-labelledby="hlc-analytics-title">
       <div className="hlc-section-heading">
         <div>
-          <span className="hlc-section-eyebrow">HLC operating window</span>
+          <span className="hlc-section-eyebrow">HomeLead Connect operating window</span>
           <h2 id="hlc-analytics-title">30-day operating snapshot</h2>
           <p>Verified operating and visitor signals for the active reporting window.</p>
         </div>
@@ -210,12 +210,12 @@ export default function AnalyticsKpis() {
           <div className="hlc-route-insights-heading">
             <div>
               <span className="hlc-section-eyebrow">Page activity</span>
-              <h3>Top HLC destinations</h3>
+              <h3>Top HomeLead Connect destinations</h3>
             </div>
             <Route size={20} aria-hidden="true" />
           </div>
           {topRoutes.length ? (
-            <div className="hlc-route-insights" role="list" aria-label="Top HLC destinations by page views">
+            <div className="hlc-route-insights" role="list" aria-label="Top HomeLead Connect destinations by page views">
               {topRoutes.map((item) => {
                 const views = Number(item.views || 0);
                 const width = Math.max(8, Math.round((views / topRouteMax) * 100));
@@ -232,7 +232,7 @@ export default function AnalyticsKpis() {
                 );
               })}
             </div>
-          ) : <p>{loading ? "Loading route activity…" : "Route activity will appear as HLC is used."}</p>}
+          ) : <p>{loading ? "Loading route activity…" : "Route activity will appear as HomeLead Connect is used."}</p>}
         </article>
         <article>
           <h3>Intent signals</h3>
