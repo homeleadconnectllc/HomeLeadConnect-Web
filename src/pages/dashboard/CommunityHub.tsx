@@ -42,6 +42,7 @@ const moreVillageTools = [
   ["Referrals", "/community/referrals"],
   ["Challenges", "/community/challenges"],
   ["Community Academy", "/community/academy"],
+  ["Eligibility & Fit · Work review", "/work/matching"],
   ["Moderation", "/community/moderation"],
 ] as const;
 
