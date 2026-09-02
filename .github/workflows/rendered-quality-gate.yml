@@ -133,7 +133,6 @@ jobs:
           NODE
 
       - name: Evaluate rendered thresholds
-        if: always()
         run: |
           node - <<'NODE'
           const fs = require('node:fs');
