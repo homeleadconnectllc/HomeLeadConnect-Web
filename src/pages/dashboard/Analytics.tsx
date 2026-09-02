@@ -43,9 +43,9 @@ export default function Analytics() {
     <main className="hlc-analytics-workspace">
       <header className="hlc-analytics-topbar">
         <div>
-          <span className="hlc-analytics-eyebrow">DION · BUSINESS INTELLIGENCE</span>
-          <h1>Analytics</h1>
-          <p>Read the business from verified operating evidence, not dashboard decoration.</p>
+          <span className="hlc-analytics-eyebrow">HLC Business Intelligence · DION</span>
+          <h1>Operating KPIs &amp; Visitor Analytics</h1>
+          <p>Canonical workflow performance plus privacy-minimized first-party HLC traffic for the last 30 days.</p>
         </div>
         <button type="button" onClick={() => void refresh()} disabled={refreshing}><RefreshCw size={16} aria-hidden="true" />{refreshing ? "Refreshing…" : "Refresh data"}</button>
       </header>
