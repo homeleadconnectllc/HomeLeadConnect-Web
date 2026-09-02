@@ -9,15 +9,17 @@ const legalSystem = readFileSync("src/styles/legal.css", "utf8");
 const contactPage = readFileSync("src/pages/ContactPage.tsx", "utf8");
 const accessibilityPage = readFileSync("src/pages/Accessibility.tsx", "utf8");
 
-test("professional flat surface system loads beneath structural and contrast authorities", () => {
+test("professional flat surface system loads beneath structural contrast and UX IA authorities", () => {
   const lines = authenticatedEntry.trim().split("\n");
   const flatIndex = lines.indexOf('import "./professional-flat-surface-system.css";');
   const structuralIndex = lines.indexOf('import "./application-workspace-ui.css";');
   const contrastIndex = lines.indexOf('import "./launch-contrast-readability.css";');
+  const uxIaIndex = lines.indexOf('import "./ux-ia-village-authority.css";');
   assert.ok(flatIndex >= 0);
   assert.ok(flatIndex < structuralIndex);
   assert.ok(structuralIndex < contrastIndex);
-  assert.equal(lines.at(-1), 'import "./launch-contrast-readability.css";');
+  assert.ok(contrastIndex < uxIaIndex);
+  assert.equal(lines.at(-1), 'import "./ux-ia-village-authority.css";');
 });
 
 test("approved workspace direction removes floating card chrome without removing HLC role accents", () => {
