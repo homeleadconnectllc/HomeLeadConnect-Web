@@ -13,6 +13,7 @@ if (!email || !password) throw new Error("Missing HLC_VISUAL_TEST_EMAIL or HLC_V
 
 const routes = [
   ["dashboard", "/dashboard"],
+  ["leads", "/leads"],
   ["messages", "/messages"],
   ["academy", "/academy"],
   ["analytics", "/analytics"],
