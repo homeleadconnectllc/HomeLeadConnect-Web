@@ -127,6 +127,7 @@ The active production app Supabase project is `homeconnect` (`cguhtshclyybivvdnp
 119. `20260826113000_hlc_native_calendar.sql`
 120. `20260902002500_membership_role_authority_hardening.sql`
 121. `20260902004500_restrict_current_workspace_role_execute.sql`
+122. `20260903001000_revoke_authenticated_table_admin_grants.sql`
 
 Migration #101 is retained in the local migration chain because it was applied to `hlc-reconciliation-test` during reconciliation. It is **not evidence of a production defect and is not required to be applied to `homeconnect` solely for parity**: production already has the canonical `causal.ingest_lead(...)` implementation from migration #98 with direct browser execution denied. Do not apply #101 to production unless a future production migration decision independently justifies it.
 
@@ -165,6 +166,8 @@ Migration #117 adds tenant-safe Community participation primitives for discussio
 Migration #118 adds first-class workspace-level documents without weakening record-linked validation. Blank record IDs from the browser are normalized to the active workspace by the upload API; the registration RPC accepts `workspace` only when the supplied entity ID exactly matches the authenticated user's active workspace. Existing lead, estimate, job, appointment, contractor, and conversation linkage checks remain unchanged.
 
 Migration #119 adds the first-party HLC calendar event store. Native meetings, reminders, tasks, focus blocks, and other workspace events are tenant-scoped under RLS; all workspace members may read and create events, while edits/deletes remain limited to the creator or owner/manager authority. Job appointments remain canonical operational records and are rendered alongside native HLC events. Google Calendar is optional interoperability, not a launch dependency.
+
+Migration #122 removes database-administration privileges from normal authenticated browser clients on the four audited relations that had drifted. It revokes `TRUNCATE`, `TRIGGER`, and `REFERENCES` from `authenticated` on `community_connections`, `community_private_messages`, `hlc_calendar_events`, and `portal_identity_profiles`, preserving existing application SELECT/RPC behavior and failing the migration if any forbidden grant remains.
 
 ## Current production rules
 
