@@ -35,6 +35,25 @@ body #root *::after {
   border-color: var(--hlc-reset-border) !important;
 }
 
+/* Several historical authorities also use !important with long class selectors.
+   This reset is intentionally more specific than those presentation contracts so
+   the neutral baseline actually wins without deleting functional layout rules. */
+html body #root .hlc-app-shell *,
+html body #root .hlc-route-content *,
+html body #root .hlc-workspace-shell *,
+html body #root .hlc-dashboard-shell *,
+html body #root .hlc-portal-shell *,
+html body #root .hlc-community-shell *,
+html body #root .hlc-academy-shell *,
+html body #root .hlc-messages-shell *,
+html body #root .hlc-agent-shell * {
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
+
 body #root,
 body #root main,
 body #root .hlc-app-shell,
@@ -53,35 +72,41 @@ body #root .hlc-auth-page {
 }
 
 /* Keep only genuinely useful structural surfaces visible. */
-body #root nav,
-body #root aside,
-body #root header,
-body #root footer,
-body #root .hlc-navbar,
-body #root .hlc-navbar-links,
-body #root .hlc-nav-menu,
-body #root [class*="sidebar"],
-body #root [class*="drawer"],
-body #root [class*="sheet"] {
+html body #root .hlc-app-shell nav,
+html body #root .hlc-app-shell aside,
+html body #root .hlc-app-shell header,
+html body #root .hlc-app-shell footer,
+html body #root .hlc-navbar,
+html body #root .hlc-navbar-links,
+html body #root .hlc-nav-menu,
+html body #root [class*="sidebar"],
+html body #root [class*="drawer"],
+html body #root [class*="sheet"] {
   background: var(--hlc-reset-surface) !important;
   color: var(--hlc-reset-text) !important;
   border-color: var(--hlc-reset-border) !important;
 }
 
 /* Object/data surfaces are plain white rather than themed regions. */
-body #root [class*="card"],
-body #root [class*="panel"],
-body #root [class*="surface"],
-body #root [class*="banner"],
-body #root [class*="hero"],
-body #root [class*="rail"],
-body #root [class*="inspector"],
-body #root [class*="summary"],
-body #root [class*="metric"],
-body #root [class*="stat"],
-body #root [class*="kpi"],
-body #root [class*="queue"],
-body #root [class*="record"] {
+html body #root [class*="card"],
+html body #root [class*="panel"],
+html body #root [class*="surface"],
+html body #root [class*="banner"],
+html body #root [class*="hero"],
+html body #root [class*="rail"],
+html body #root [class*="inspector"],
+html body #root [class*="summary"],
+html body #root [class*="metric"],
+html body #root [class*="stat"],
+html body #root [class*="kpi"],
+html body #root [class*="queue"],
+html body #root [class*="record"],
+html body #root [class*="analytics"],
+html body #root [class*="operating"],
+html body #root [class*="performance"],
+html body #root [class*="activity"],
+html body #root [class*="workflow"],
+html body #root [class*="conversion"] {
   background: var(--hlc-reset-surface) !important;
   color: var(--hlc-reset-text) !important;
   border-color: var(--hlc-reset-border) !important;
@@ -114,21 +139,21 @@ body #root a:not([class*="button"]):not([class*="btn"]) {
 }
 
 /* Tables and record grids become neutral data structures. */
-body #root table,
-body #root thead,
-body #root tbody,
-body #root tr,
-body #root td,
-body #root th {
+html body #root table,
+html body #root thead,
+html body #root tbody,
+html body #root tr,
+html body #root td,
+html body #root th {
   background: var(--hlc-reset-surface) !important;
   color: var(--hlc-reset-text) !important;
   border-color: var(--hlc-reset-border) !important;
 }
 
 /* Forms remain fully functional but visually plain. */
-body #root input,
-body #root select,
-body #root textarea {
+html body #root input,
+html body #root select,
+html body #root textarea {
   background: var(--hlc-reset-surface) !important;
   color: var(--hlc-reset-text) !important;
   border-color: #cbd5e1 !important;
@@ -136,11 +161,11 @@ body #root textarea {
 }
 
 /* Buttons keep dimensions, semantics and event behavior, but lose the old theme. */
-body #root button,
-body #root [role="button"],
-body #root .hlc-button,
-body #root a[class*="button"],
-body #root a[class*="btn"] {
+html body #root button,
+html body #root [role="button"],
+html body #root .hlc-button,
+html body #root a[class*="button"],
+html body #root a[class*="btn"] {
   background: var(--hlc-reset-surface) !important;
   background-image: none !important;
   color: var(--hlc-reset-text) !important;
@@ -151,13 +176,13 @@ body #root a[class*="btn"] {
 }
 
 /* Visual-only layers are removed entirely during reset. */
-body #root [class*="glow"],
-body #root [class*="aurora"],
-body #root [class*="gradient"],
-body #root [class*="visual-accent"],
-body #root [class*="storytelling"],
-body #root [class*="overlay"],
-body #root [class*="backdrop"] {
+html body #root [class*="glow"],
+html body #root [class*="aurora"],
+html body #root [class*="gradient"],
+html body #root [class*="visual-accent"],
+html body #root [class*="storytelling"],
+html body #root [class*="overlay"],
+html body #root [class*="backdrop"] {
   background: transparent !important;
   background-image: none !important;
   box-shadow: none !important;
@@ -180,10 +205,10 @@ body #root :focus-visible {
 }
 
 @media (max-width: 1024px) {
-  body #root nav,
-  body #root aside,
-  body #root [class*="drawer"],
-  body #root [class*="sheet"] {
+  html body #root nav,
+  html body #root aside,
+  html body #root [class*="drawer"],
+  html body #root [class*="sheet"] {
     background: var(--hlc-reset-surface) !important;
     border-color: var(--hlc-reset-border) !important;
   }
