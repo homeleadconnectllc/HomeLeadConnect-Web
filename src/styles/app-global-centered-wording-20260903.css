@@ -1,0 +1,38 @@
+/*
+ * HomeLead Connect authenticated-app global wording alignment.
+ * Owner direction: all wording centered globally.
+ * Presentation only; no routing, data, auth, workflow, or permission changes.
+ */
+
+@layer hlcGlobalCenteredWording {
+  #root,
+  #root * {
+    text-align: center !important;
+  }
+
+  #root input,
+  #root textarea,
+  #root select,
+  #root option,
+  #root button,
+  #root a,
+  #root label,
+  #root th,
+  #root td,
+  #root caption,
+  #root summary,
+  #root [role="button"],
+  #root [role="tab"],
+  #root [role="menuitem"],
+  #root [role="columnheader"],
+  #root [role="rowheader"],
+  #root [role="cell"] {
+    text-align: center !important;
+  }
+
+  #root ul,
+  #root ol {
+    list-style-position: inside;
+    padding-inline-start: 0;
+  }
+}
