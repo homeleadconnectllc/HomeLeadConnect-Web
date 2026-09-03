@@ -52,7 +52,7 @@ export default function PortalResources({ audience }: PortalResourcesProps) {
       <div>
         <p className="hlc-account-kicker">RESOURCES</p>
         <h1>{audienceTitle[audience]}</h1>
-        <p>Find the information, scripts, services, and support appropriate to this HomeLead Connect experience without sorting through unrelated portal tools.</p>
+        <p>Find information, scripts, services, and support appropriate to this HomeLead Connect experience without sorting through tools meant for another role.</p>
       </div>
       <div className="hlc-portal-summary">
         <span><strong>{categories.length}</strong><small>Categories</small></span>
