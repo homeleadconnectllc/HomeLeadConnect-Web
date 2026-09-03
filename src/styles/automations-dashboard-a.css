@@ -1,0 +1,347 @@
+.hlc-automations-workspace {
+  width: min(1120px, calc(100% - 40px));
+  margin: 24px auto calc(112px + env(safe-area-inset-bottom));
+  display: grid;
+  gap: 14px;
+  color: #172033;
+}
+
+.hlc-automations-header,
+.hlc-automation-monitor,
+.hlc-automation-runtime,
+.hlc-automation-registry,
+.hlc-automation-history,
+.hlc-automation-boundary {
+  border: 1px solid #dbe3ee;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: none;
+}
+
+.hlc-automations-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 24px;
+}
+
+.hlc-automations-header > div {
+  display: grid;
+  gap: 8px;
+  max-width: 760px;
+}
+
+.hlc-automations-kicker,
+.hlc-automation-section-kicker {
+  margin: 0;
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.hlc-automations-header h1 {
+  margin: 0;
+  font-size: clamp(28px, 4vw, 38px);
+  line-height: 1.1;
+}
+
+.hlc-automations-header p:not(.hlc-automations-kicker),
+.hlc-automation-section-heading > p,
+.hlc-automation-monitor-copy > p:last-child,
+.hlc-automation-boundary p {
+  margin: 0;
+  color: #5b667a;
+  line-height: 1.5;
+}
+
+.hlc-automations-workflow-link,
+.hlc-automation-run-action button {
+  min-height: 40px;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+.hlc-automations-workflow-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 14px;
+  border: 1px solid #cbd5e1;
+  color: #1d4ed8;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.hlc-automations-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.hlc-automations-summary > span {
+  display: grid;
+  gap: 2px;
+  padding: 14px 16px;
+  border: 1px solid #dbe3ee;
+  border-radius: 14px;
+  background: #f8fafc;
+}
+
+.hlc-automations-summary strong {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.hlc-automations-summary small {
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .04em;
+}
+
+.hlc-automation-monitor,
+.hlc-automation-runtime,
+.hlc-automation-registry,
+.hlc-automation-history,
+.hlc-automation-boundary {
+  padding: 18px 20px;
+}
+
+.hlc-automation-monitor {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(240px, .75fr);
+  gap: 18px;
+}
+
+.hlc-automation-monitor-copy,
+.hlc-automation-evidence,
+.hlc-automation-section-heading,
+.hlc-automation-run-row,
+.hlc-automation-rule-row,
+.hlc-automation-history-row {
+  min-width: 0;
+}
+
+.hlc-automation-monitor-copy,
+.hlc-automation-evidence {
+  display: grid;
+  gap: 8px;
+}
+
+.hlc-automation-monitor-copy h2,
+.hlc-automation-section-heading h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.hlc-automation-active {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 6px;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: #ecfdf5;
+  color: #047857;
+  font-size: 11px;
+  vertical-align: middle;
+}
+
+.hlc-automation-evidence {
+  align-content: start;
+  padding: 14px;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+.hlc-automation-evidence small,
+.hlc-automation-history-row small,
+.hlc-automation-rule-row small,
+.hlc-automation-run-row span {
+  color: #64748b;
+}
+
+.hlc-automation-section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 12px;
+}
+
+.hlc-automation-section-heading > div {
+  display: grid;
+  gap: 4px;
+}
+
+.hlc-automation-run-list,
+.hlc-automation-registry-list,
+.hlc-automation-history-list {
+  display: grid;
+  gap: 8px;
+}
+
+.hlc-automation-run-row,
+.hlc-automation-rule-row,
+.hlc-automation-history-row {
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.hlc-automation-run-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 13px 14px;
+}
+
+.hlc-automation-run-row > div:first-child {
+  display: grid;
+  gap: 3px;
+}
+
+.hlc-automation-run-action {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hlc-automation-run-action button {
+  padding: 0 14px;
+  border: 1px solid #2563eb;
+  background: #2563eb;
+  color: #fff;
+}
+
+.hlc-automation-registry-head,
+.hlc-automation-rule-row {
+  display: grid;
+  grid-template-columns: minmax(180px, .8fr) minmax(0, 1.6fr) minmax(190px, .9fr);
+  gap: 14px;
+}
+
+.hlc-automation-registry-head {
+  padding: 0 14px 8px;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .04em;
+}
+
+.hlc-automation-rule-row {
+  padding: 13px 14px;
+}
+
+.hlc-automation-rule-name,
+.hlc-automation-rule-flow,
+.hlc-automation-rule-guard,
+.hlc-automation-history-row > div {
+  display: grid;
+  gap: 4px;
+}
+
+.hlc-automation-rule-flow {
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+}
+
+.hlc-automation-rule-guard > span {
+  width: fit-content;
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.hlc-automation-history-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 1fr) minmax(120px, .5fr) minmax(0, 1.2fr);
+  gap: 14px;
+  padding: 13px 14px;
+}
+
+.hlc-automation-history-row pre,
+.hlc-automation-evidence pre {
+  max-width: 100%;
+  margin: 0;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 11px;
+}
+
+.hlc-automation-state {
+  margin: 0;
+  padding: 14px;
+  border-radius: 12px;
+  background: #f8fafc;
+  color: #5b667a;
+}
+
+.hlc-automation-state.is-error {
+  color: #b91c1c;
+}
+
+.hlc-automation-boundary {
+  background: #f8fafc;
+}
+
+.hlc-automation-boundary strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+@media (max-width: 760px) {
+  .hlc-automations-workspace {
+    width: min(100% - 24px, 1120px);
+    margin-top: 14px;
+    gap: 10px;
+  }
+
+  .hlc-automations-header {
+    display: grid;
+    align-items: start;
+    padding: 18px 16px;
+  }
+
+  .hlc-automations-workflow-link {
+    width: fit-content;
+  }
+
+  .hlc-automations-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hlc-automation-monitor,
+  .hlc-automation-run-row,
+  .hlc-automation-rule-row,
+  .hlc-automation-history-row {
+    grid-template-columns: 1fr;
+  }
+
+  .hlc-automation-section-heading {
+    display: grid;
+    align-items: start;
+  }
+
+  .hlc-automation-registry-head {
+    display: none;
+  }
+
+  .hlc-automation-rule-flow {
+    grid-template-columns: 1fr;
+  }
+
+  .hlc-automation-rule-flow > strong {
+    display: none;
+  }
+
+  .hlc-automation-run-action {
+    justify-content: space-between;
+  }
+}
