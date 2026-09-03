@@ -15,7 +15,7 @@ test("account surfaces use dedicated control workspaces instead of generic cards
   assert.match(settings, /hlc-account-workspace/);
   assert.match(settings, /ACCOUNT CONTROL/);
   assert.match(profile, /hlc-account-workspace/);
-  assert.match(profile, /ACCOUNT IDENTITY/);
+  assert.match(profile, /ACCOUNT · PROFILE/);
   assert.doesNotMatch(settings, /cardStyle|pageStyle/);
   assert.doesNotMatch(profile, /cardStyle|heroStyle/);
 });
