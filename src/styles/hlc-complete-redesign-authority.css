@@ -1,0 +1,397 @@
+/*
+ * HomeLead Connect — Complete App Visual Redesign
+ * Final authenticated presentation authority.
+ *
+ * This layer intentionally sits after the historical visual cascade. It does
+ * not change product behavior, data flow, routing, permissions, or workflow
+ * semantics. It establishes one visual language across internal workspaces,
+ * account portals, messaging, community, Academy, resources, settings, agent
+ * surfaces, and secondary/detail screens.
+ */
+
+:root {
+  --hlc-rd-bg: #07111f;
+  --hlc-rd-bg-deep: #040b14;
+  --hlc-rd-surface: #0b1726;
+  --hlc-rd-surface-raised: #101f31;
+  --hlc-rd-surface-soft: #13253a;
+  --hlc-rd-border: rgba(159, 184, 213, 0.16);
+  --hlc-rd-border-strong: rgba(159, 184, 213, 0.28);
+  --hlc-rd-text: #f7f9fc;
+  --hlc-rd-text-soft: #c3cfdd;
+  --hlc-rd-muted: #8798ac;
+  --hlc-rd-accent: #4f8ff7;
+  --hlc-rd-accent-strong: #2f6fe4;
+  --hlc-rd-success: #2fb77e;
+  --hlc-rd-warning: #e4a83f;
+  --hlc-rd-danger: #df6674;
+  --hlc-rd-radius-xs: 8px;
+  --hlc-rd-radius-sm: 12px;
+  --hlc-rd-radius: 16px;
+  --hlc-rd-radius-lg: 22px;
+  --hlc-rd-shadow: 0 16px 44px rgba(0, 0, 0, 0.2);
+  --hlc-rd-content: 1440px;
+  --hlc-rd-reading: 820px;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  background: var(--hlc-rd-bg-deep);
+}
+
+body {
+  margin: 0;
+  color: var(--hlc-rd-text);
+  background:
+    radial-gradient(circle at 82% -10%, rgba(56, 110, 196, 0.12), transparent 34rem),
+    linear-gradient(180deg, #081321 0%, var(--hlc-rd-bg-deep) 100%);
+  font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+body,
+button,
+input,
+textarea,
+select {
+  font-size: 15px;
+}
+
+/* Global content rhythm */
+main:not(.hlc-home),
+[role="main"] {
+  color: var(--hlc-rd-text);
+}
+
+main:not(.hlc-home) h1,
+[role="main"] h1 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: clamp(28px, 3vw, 40px);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  font-weight: 760;
+  color: var(--hlc-rd-text);
+}
+
+main:not(.hlc-home) h2,
+[role="main"] h2 {
+  letter-spacing: -0.02em;
+  line-height: 1.16;
+  color: var(--hlc-rd-text);
+}
+
+main:not(.hlc-home) h3,
+[role="main"] h3 {
+  letter-spacing: -0.012em;
+  color: var(--hlc-rd-text);
+}
+
+main:not(.hlc-home) p,
+[role="main"] p {
+  color: var(--hlc-rd-text-soft);
+  line-height: 1.58;
+}
+
+/* Remove the visual language of nested dashboard cards. */
+main:not(.hlc-home) :is(section, article, aside) {
+  border-color: var(--hlc-rd-border);
+}
+
+:is(.card, .panel, .surface, .widget, .workspace-card, .dashboard-card, .metric-card, .stat-card, [class*="Card"], [class*="card-"]) {
+  border-color: var(--hlc-rd-border) !important;
+  border-radius: var(--hlc-rd-radius) !important;
+}
+
+/* Deliberate, restrained surfaces instead of gradients everywhere. */
+main:not(.hlc-home) :is(.card, .panel, .workspace-card, .dashboard-card, .metric-card, .stat-card) {
+  background: var(--hlc-rd-surface) !important;
+  box-shadow: none !important;
+}
+
+/* Buttons */
+main:not(.hlc-home) button,
+main:not(.hlc-home) a[role="button"],
+main:not(.hlc-home) input[type="submit"],
+main:not(.hlc-home) input[type="button"] {
+  min-height: 42px;
+  border-radius: 10px;
+  font-weight: 720;
+  letter-spacing: -0.006em;
+  box-shadow: none;
+  transition: background-color 140ms ease, border-color 140ms ease, transform 140ms ease;
+}
+
+main:not(.hlc-home) button:active,
+main:not(.hlc-home) a[role="button"]:active {
+  transform: translateY(1px);
+}
+
+/* Forms */
+main:not(.hlc-home) :is(input, textarea, select) {
+  color: var(--hlc-rd-text);
+  background: #091522;
+  border: 1px solid var(--hlc-rd-border-strong);
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+main:not(.hlc-home) :is(input, textarea, select):focus {
+  outline: none;
+  border-color: rgba(79, 143, 247, 0.72);
+  box-shadow: 0 0 0 3px rgba(79, 143, 247, 0.15);
+}
+
+main:not(.hlc-home) label {
+  color: var(--hlc-rd-text-soft);
+  font-weight: 650;
+}
+
+/* Tables and dense records */
+main:not(.hlc-home) table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  overflow: hidden;
+  border: 1px solid var(--hlc-rd-border);
+  border-radius: var(--hlc-rd-radius-sm);
+  background: rgba(8, 19, 31, 0.68);
+}
+
+main:not(.hlc-home) th {
+  padding: 12px 14px;
+  color: var(--hlc-rd-muted);
+  background: rgba(255, 255, 255, 0.025);
+  border-bottom: 1px solid var(--hlc-rd-border);
+  font-size: 12px;
+  font-weight: 760;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+main:not(.hlc-home) td {
+  padding: 14px;
+  color: var(--hlc-rd-text-soft);
+  border-bottom: 1px solid rgba(159, 184, 213, 0.1);
+  vertical-align: middle;
+}
+
+main:not(.hlc-home) tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+main:not(.hlc-home) tbody tr:hover {
+  background: rgba(255, 255, 255, 0.022);
+}
+
+/* Shell/navigation normalization */
+:is(.app-shell, .workspace-shell, .dashboard-shell, .portal-shell, [class*="shell"]) {
+  background: transparent;
+}
+
+:is(.sidebar, .workspace-sidebar, .dashboard-sidebar, .app-sidebar, [class*="sidebar"]) {
+  border-color: var(--hlc-rd-border) !important;
+  box-shadow: none !important;
+}
+
+:is(.sidebar, .workspace-sidebar, .dashboard-sidebar, .app-sidebar) a {
+  border-radius: 9px;
+}
+
+:is(.sidebar, .workspace-sidebar, .dashboard-sidebar, .app-sidebar) a[aria-current="page"],
+:is(.sidebar, .workspace-sidebar, .dashboard-sidebar, .app-sidebar) a.active {
+  background: rgba(79, 143, 247, 0.13) !important;
+  color: #eaf2ff !important;
+  box-shadow: inset 3px 0 0 var(--hlc-rd-accent);
+}
+
+/* Reduce decoration on operational pages. */
+:is(.workspace-hero, .page-hero, .dashboard-hero, .section-hero, [class*="hero-banner"]) {
+  min-height: 0 !important;
+  padding-top: 18px !important;
+  padding-bottom: 18px !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+:is(.workspace-hero, .page-hero, .dashboard-hero, .section-hero) img {
+  max-height: 72px;
+  object-fit: contain;
+}
+
+/* Status chips */
+:is(.badge, .pill, .chip, .status, [class*="status-badge"], [class*="status-pill"]) {
+  border-radius: 999px !important;
+  box-shadow: none !important;
+}
+
+/* Modals and drawers */
+:is([role="dialog"], .modal, .drawer, .sheet) {
+  color: var(--hlc-rd-text);
+  background: var(--hlc-rd-surface-raised) !important;
+  border: 1px solid var(--hlc-rd-border-strong) !important;
+  border-radius: var(--hlc-rd-radius-lg) !important;
+  box-shadow: 0 26px 80px rgba(0, 0, 0, 0.42) !important;
+}
+
+/* Messaging should read as a communication product, not a dashboard grid. */
+:is(.messages-page, .messages-workspace, .community-messages, [class*="message-workspace"]) {
+  background: var(--hlc-rd-bg) !important;
+}
+
+:is(.conversation-list, .thread-list, [class*="conversation-list"], [class*="thread-list"]) {
+  background: rgba(8, 19, 31, 0.78) !important;
+  border-color: var(--hlc-rd-border) !important;
+}
+
+:is(.message-bubble, [class*="message-bubble"]) {
+  max-width: min(78%, 680px);
+  border-radius: 16px !important;
+  box-shadow: none !important;
+}
+
+/* Calendar / map / workspace canvases should use the available viewport. */
+:is(.calendar-page, .calendar-workspace, .map-page, .provider-map, .documents-workspace, .analytics-workspace) {
+  width: 100%;
+  max-width: none;
+}
+
+/* Account portals: calmer consumer-facing density. */
+:is(.homeowner-portal, .contractor-portal, .partner-portal, [class*="portal-page"]) {
+  --hlc-rd-content: 1180px;
+}
+
+/* Empty/loading/error states */
+:is(.empty-state, .loading-state, .error-state, [class*="empty-state"], [class*="loading-state"], [class*="error-state"]) {
+  padding: clamp(28px, 6vw, 64px) 20px;
+  text-align: center;
+  border: 1px dashed var(--hlc-rd-border-strong) !important;
+  border-radius: var(--hlc-rd-radius);
+  background: rgba(255, 255, 255, 0.018) !important;
+  box-shadow: none !important;
+}
+
+/* Billing state remains visible but stops dominating the workspace. */
+.hlc-entitlement-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 18px;
+  color: var(--hlc-rd-text-soft);
+  background: #0c1928;
+  border: 0;
+  border-bottom: 1px solid var(--hlc-rd-border);
+  box-shadow: none;
+}
+
+.hlc-entitlement-banner strong {
+  color: var(--hlc-rd-text);
+  font-size: 11px;
+  letter-spacing: 0.07em;
+}
+
+.hlc-entitlement-banner span {
+  flex: 1;
+  font-size: 13px;
+}
+
+.hlc-entitlement-banner a {
+  color: #a9c9ff;
+  font-weight: 700;
+}
+
+/* Keep AI assistance available without turning every page into an agent ad. */
+:is(.ai-team-launcher, .hlc-ai-team-launcher, [class*="ai-team-launcher"]) {
+  filter: none !important;
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.28) !important;
+}
+
+:is(.agent-panel, .agent-workspace, [class*="agent-panel"]) {
+  border-color: var(--hlc-rd-border-strong) !important;
+  background: var(--hlc-rd-surface-raised) !important;
+}
+
+/* Desktop: one restrained content frame, no giant floating islands. */
+@media (min-width: 900px) {
+  main:not(.hlc-home) {
+    --hlc-page-inline: clamp(22px, 3vw, 48px);
+  }
+
+  main:not(.hlc-home) > :is(header, section, article, div):first-child {
+    scroll-margin-top: 88px;
+  }
+
+  :is(.page-container, .workspace-content, .dashboard-content, .portal-content, [class*="page-container"]) {
+    width: min(100%, var(--hlc-rd-content));
+    margin-inline: auto;
+  }
+}
+
+/* iPhone/mobile: compact, touch-first, single-column by default. */
+@media (max-width: 899px) {
+  :root {
+    --hlc-rd-radius: 14px;
+    --hlc-rd-radius-lg: 18px;
+  }
+
+  main:not(.hlc-home) h1,
+  [role="main"] h1 {
+    font-size: clamp(27px, 8vw, 34px);
+    letter-spacing: -0.03em;
+  }
+
+  main:not(.hlc-home) h2,
+  [role="main"] h2 {
+    font-size: clamp(20px, 6vw, 26px);
+  }
+
+  main:not(.hlc-home) button,
+  main:not(.hlc-home) a[role="button"],
+  main:not(.hlc-home) input[type="submit"],
+  main:not(.hlc-home) input[type="button"] {
+    min-height: 44px;
+  }
+
+  main:not(.hlc-home) table {
+    min-width: 0;
+  }
+
+  .hlc-entitlement-banner {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding: 9px 14px;
+  }
+
+  .hlc-entitlement-banner span {
+    flex-basis: 100%;
+    font-size: 12px;
+  }
+
+  :is(.workspace-hero, .page-hero, .dashboard-hero, .section-hero, [class*="hero-banner"]) {
+    padding: 10px 0 14px !important;
+  }
+
+  :is(.message-bubble, [class*="message-bubble"]) {
+    max-width: 88%;
+  }
+}
+
+/* Accessibility and motion */
+:focus-visible {
+  outline: 2px solid #7eafff !important;
+  outline-offset: 2px !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
