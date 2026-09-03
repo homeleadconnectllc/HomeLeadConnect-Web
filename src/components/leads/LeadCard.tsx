@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Calculator, CalendarClock, Mail, MoreHorizontal, Phone } from "lucide-react";
+import { Calculator, CalendarClock, Mail, MessageSquare, MoreHorizontal, Phone } from "lucide-react";
 import type { CSSProperties } from "react";
 import type { LeadRecord } from "../../api/leads";
 import PortalInviteButton from "../portal/PortalInviteButton";
@@ -18,6 +18,10 @@ function residentTypeFromNotes(notes: string | null) {
   return match?.[1]?.trim() || null;
 }
 
+function nativePhoneTarget(phone: string | null | undefined) {
+  return String(phone || "").replace(/[^\d+*#]/g, "");
+}
+
 export default function LeadCard({ lead }: { lead: LeadRecord }) {
   const pipelineLabel = lead.stage || lead.status || "new";
   const appointmentLabel = lead.appointment_at
@@ -26,10 +30,13 @@ export default function LeadCard({ lead }: { lead: LeadRecord }) {
   const accent = leadAccent(lead);
   const rowStyle = { "--lead-accent": accent } as CSSProperties;
   const residentType = residentTypeFromNotes(lead.notes);
+  const phoneTarget = nativePhoneTarget(lead.phone);
 
   const secondaryActions = (
     <>
-      {lead.phone && <Link to={`/manual-communications?contact=lead:${lead.id}&channel=call`}><Phone size={15} aria-hidden="true" />Call</Link>}
+      {phoneTarget && <a href={`tel:${phoneTarget}`}><Phone size={15} aria-hidden="true" />Call</a>}
+      {phoneTarget && <a href={`sms:${phoneTarget}`}><MessageSquare size={15} aria-hidden="true" />Text</a>}
+      {lead.phone && <Link to={`/manual-communications?contact=lead:${lead.id}&channel=call`}><MessageSquare size={15} aria-hidden="true" />Log</Link>}
       <PortalInviteButton role="homeowner" targetId={lead.id} email={lead.email} label="Invite" />
     </>
   );
