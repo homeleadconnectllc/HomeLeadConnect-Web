@@ -3,7 +3,7 @@ import { getCurrentWorkspaceId, supabase } from "./client";
 export type WorkflowSnapshot = {
   requests: number;
   leads: number;
-  leadScopes: number;
+  estimates: number;
   jobs: number;
   providerOffers: number;
   acceptedAssignments: number;
@@ -45,7 +45,7 @@ export async function getWorkflowSnapshot(): Promise<WorkflowSnapshot> {
   const [
     requests,
     leads,
-    leadScopes,
+    estimates,
     jobs,
     providerOffers,
     acceptedAssignments,
@@ -67,7 +67,7 @@ export async function getWorkflowSnapshot(): Promise<WorkflowSnapshot> {
   return {
     requests,
     leads,
-    leadScopes,
+    estimates,
     jobs,
     providerOffers,
     acceptedAssignments,

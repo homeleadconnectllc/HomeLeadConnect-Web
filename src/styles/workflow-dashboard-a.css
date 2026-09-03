@@ -1,0 +1,155 @@
+.hlc-workflow-page {
+  width: min(1120px, calc(100% - 40px)) !important;
+  margin: 24px auto calc(112px + env(safe-area-inset-bottom)) !important;
+  gap: 14px !important;
+  color: #172033;
+}
+
+.hlc-workflow-page > header {
+  gap: 8px !important;
+  padding: 22px 24px !important;
+  border: 1px solid #dbe3ee !important;
+  border-radius: 18px !important;
+  background: #ffffff !important;
+  color: #172033 !important;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05) !important;
+  text-align: center;
+}
+
+.hlc-workflow-page > header > p:first-child {
+  color: #2563eb !important;
+  font-size: 12px !important;
+  letter-spacing: .08em !important;
+}
+
+.hlc-workflow-page > header h1 {
+  color: #172033 !important;
+  font-size: clamp(28px, 4vw, 38px) !important;
+  line-height: 1.1 !important;
+}
+
+.hlc-workflow-page > header > p:last-child {
+  margin-inline: auto !important;
+  color: #5b667a !important;
+  line-height: 1.5 !important;
+}
+
+.hlc-workflow-page > ol {
+  gap: 8px !important;
+}
+
+.hlc-workflow-stage {
+  grid-template-columns: 38px minmax(0, 1fr) auto !important;
+  gap: 14px !important;
+  padding: 14px 16px !important;
+  border: 1px solid #dbe3ee !important;
+  border-radius: 14px !important;
+  background: #ffffff !important;
+  box-shadow: none !important;
+}
+
+.hlc-workflow-stage-number {
+  width: 34px !important;
+  height: 34px !important;
+  background: #eaf2ff !important;
+  color: #1d4ed8 !important;
+  font-size: 13px !important;
+}
+
+.hlc-workflow-stage-copy h2 {
+  color: #172033 !important;
+  font-size: 17px !important;
+  line-height: 1.25 !important;
+}
+
+.hlc-workflow-stage-copy > p:nth-of-type(1) {
+  margin: 5px 0 !important;
+  color: #5b667a !important;
+  line-height: 1.4 !important;
+}
+
+.hlc-workflow-stage-copy > p:nth-of-type(2) {
+  color: #7a8597 !important;
+  font-size: 12px !important;
+}
+
+.hlc-workflow-stage-action {
+  min-width: 112px;
+  gap: 4px !important;
+}
+
+.hlc-workflow-stage-action strong {
+  color: #172033 !important;
+  font-size: 20px !important;
+}
+
+.hlc-workflow-stage-action a {
+  color: #2563eb;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.hlc-workflow-stage-action a:hover,
+.hlc-workflow-stage-action a:focus-visible {
+  text-decoration: underline;
+}
+
+.hlc-workflow-page > aside {
+  padding: 14px 16px !important;
+  border: 1px solid #dbe3ee !important;
+  border-radius: 14px !important;
+  background: #f8fafc !important;
+  color: #5b667a !important;
+  line-height: 1.45 !important;
+}
+
+.hlc-workflow-page > aside strong {
+  color: #172033;
+}
+
+@media (max-width: 700px) {
+  .hlc-workflow-page {
+    width: min(100% - 24px, 1120px) !important;
+    margin-top: 14px !important;
+    gap: 10px !important;
+  }
+
+  .hlc-workflow-page > header {
+    padding: 18px 16px !important;
+    border-radius: 16px !important;
+  }
+
+  .hlc-workflow-page > header h1 {
+    font-size: 28px !important;
+  }
+
+  .hlc-workflow-stage {
+    grid-template-columns: 32px minmax(0, 1fr) !important;
+    padding: 12px !important;
+    gap: 10px !important;
+  }
+
+  .hlc-workflow-stage-number {
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  .hlc-workflow-stage-copy h2 {
+    font-size: 16px !important;
+  }
+
+  .hlc-workflow-stage-action {
+    grid-column: 2;
+    min-width: 0;
+    width: 100%;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    justify-items: start !important;
+    text-align: left !important;
+  }
+
+  .hlc-workflow-stage-action strong {
+    font-size: 18px !important;
+  }
+}

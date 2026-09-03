@@ -14,7 +14,7 @@ type Stage = {
 const stages: Stage[] = [
   { label: "Request", description: "Homeowner or renter submits a service need.", route: "/request-service", countKey: "requests", owner: "Diamond" },
   { label: "Lead", description: "CRM creates one traceable lead without duplication.", route: "/leads", countKey: "leads", owner: "Dion" },
-  { label: "LeadScope", description: "Service details, property, urgency, scope, photos and notes are organized.", route: "/estimator", countKey: "leadScopes", owner: "Dion" },
+  { label: "Estimate", description: "Authorized staff prepares and manages the operational estimate for the lead or job.", route: "/estimator", countKey: "estimates", owner: "Dion" },
   { label: "Match", description: "Eligible providers are ranked using approved rules.", route: "/matching", countKey: "jobs", owner: "Dion" },
   { label: "Provider Offer", description: "Qualified providers receive and accept or decline an opportunity.", route: "/jobs", countKey: "providerOffers", owner: "Dion" },
   { label: "Assignment", description: "One provider becomes responsible for the request.", route: "/jobs", countKey: "acceptedAssignments", owner: "Dion" },
@@ -39,9 +39,9 @@ export default function Workflow() {
 
   return <main className="hlc-workflow-page" style={pageStyle}>
     <header style={heroStyle}>
-      <p style={eyebrowStyle}>HLC golden service workflow</p>
+      <p style={eyebrowStyle}>HomeLead Connect service workflow</p>
       <h1 style={{ margin: 0 }}>Request to Community</h1>
-      <p style={{ margin: 0, maxWidth: 760, lineHeight: 1.6 }}>One traceable path through canonical HLC records. Counts come from the current workspace; each action remains subject to its authorization and persistence rules.</p>
+      <p style={{ margin: 0, maxWidth: 760, lineHeight: 1.6 }}>One traceable path through canonical HomeLead Connect records. Counts come from the current workspace; each action remains subject to its authorization and persistence rules.</p>
     </header>
 
     {error && <p role="alert" style={errorStyle}>{error}</p>}
