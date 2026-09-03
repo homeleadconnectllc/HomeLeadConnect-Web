@@ -85,11 +85,11 @@ export default function Automations() {
     <main className="hlc-automations-workspace">
       <header className="hlc-automations-header">
         <div>
-          <p className="hlc-automations-kicker">CONTROL PLANE</p>
+          <p className="hlc-automations-kicker">MANAGEMENT CONTROL</p>
           <h1>Automations</h1>
-          <p>Operate HLC automation from one auditable surface: safe runs execute directly, recommendations expose evidence, consequential work requires confirmation, and blocked work stays visibly blocked.</p>
+          <p>Review and run HomeLead Connect automation from one auditable management surface. Safe checks can run directly, recommendations expose evidence, consequential work requires confirmation, and blocked work stays visibly blocked.</p>
         </div>
-        <Link className="hlc-automations-workflow-link" to="/workflow">Golden workflow</Link>
+        <Link className="hlc-automations-workflow-link" to="/workflow">View service workflow</Link>
       </header>
 
       <section className="hlc-automations-summary" aria-label="Automation mode summary">
@@ -102,7 +102,7 @@ export default function Automations() {
         <div className="hlc-automation-monitor-copy">
           <p className="hlc-automation-section-kicker">Scheduled monitor</p>
           <h2 id="scheduled-workflow-title">Hourly workflow monitor <span className="hlc-automation-active">Active</span></h2>
-          <p>HLC records a read-only workflow snapshot every hour at minute 7. It checks workflow health, follow-up pressure, and owner-attention conditions without messaging customers, assigning providers, changing appointments, changing lead/job state, or changing billing.</p>
+          <p>HomeLead Connect records a read-only workflow snapshot every hour at minute 7. It checks workflow health, follow-up pressure, and owner-attention conditions without messaging customers, assigning providers, changing appointments, changing lead or job state, or changing billing.</p>
         </div>
         <div className="hlc-automation-evidence">
           <small>Latest automatic evidence</small>
@@ -120,7 +120,7 @@ export default function Automations() {
       <section className="hlc-automation-runtime" aria-labelledby="automation-runtime-title">
         <div className="hlc-automation-section-heading">
           <div><p className="hlc-automation-section-kicker">On-demand checks</p><h2 id="automation-runtime-title">Safe deterministic runs</h2></div>
-          <p>Authenticated, tenant-scoped checks with persisted execution evidence.</p>
+          <p>Authenticated, workspace-scoped checks with persisted execution evidence.</p>
         </div>
         <div className="hlc-automation-run-list">
           {safeRuns.map((run) => {
@@ -141,7 +141,7 @@ export default function Automations() {
 
       <section className="hlc-automation-registry" aria-labelledby="automation-registry-title">
         <div className="hlc-automation-section-heading">
-          <div><p className="hlc-automation-section-kicker">Policy registry</p><h2 id="automation-registry-title">Workflow automation rules</h2></div>
+          <div><p className="hlc-automation-section-kicker">Policy registry</p><h2 id="automation-registry-title">Automation rules</h2></div>
           <p>{automationRegistry.length} registered rules</p>
         </div>
         <div className="hlc-automation-registry-head" aria-hidden="true"><span>Rule / owner</span><span>Trigger → outcome</span><span>Mode / guardrail</span></div>
@@ -159,7 +159,7 @@ export default function Automations() {
       <section className="hlc-automation-history" aria-labelledby="automation-history-title">
         <div className="hlc-automation-section-heading">
           <div><p className="hlc-automation-section-kicker">Persisted evidence</p><h2 id="automation-history-title">Recent automation jobs</h2></div>
-          <p>Management-only history shared by scheduled and manual checks.</p>
+          <p>Management history shared by scheduled and manual checks.</p>
         </div>
         {historyState === "loading" && <p className="hlc-automation-state">Loading automation history…</p>}
         {historyState === "error" && <p className="hlc-automation-state is-error" role="alert">Automation history is unavailable. No job state has been guessed.</p>}
@@ -178,8 +178,8 @@ export default function Automations() {
       </section>
 
       <aside className="hlc-automation-boundary">
-        <strong>One-project boundary</strong>
-        <p>Public website, accounts, CRM, LeadScope, providers, jobs, communications, Network, Map, Community, billing, and agents are modules of one HomeLead Connect product. Kendrell coordinates command, approvals, risk, system health, and agent handoffs inside HLC; private owner-assistant context remains separately secured unless explicitly authorized.</p>
+        <strong>Management boundary</strong>
+        <p>Automations supports the HomeLead Connect platform; it does not replace Leads, Jobs, Calendar, Messages, billing, Community, LeadScope, or the AI Team. Each record remains authoritative in its parent area, while this page provides automation policy, evidence, and safe management controls.</p>
       </aside>
     </main>
   );
