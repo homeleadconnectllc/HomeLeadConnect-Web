@@ -1,0 +1,165 @@
+/*
+ * HomeLead Connect — complete redesign route archetypes
+ * Purpose-built presentation for the major product families.
+ * Presentation only: no routing, data, permission, billing, or workflow changes.
+ */
+
+/* Dashboard = command center, not a card gallery. */
+.hlc-command-center {
+  --hlc-route-accent: #5b9cff;
+}
+
+.hlc-command-center .hlc-metric-grid {
+  border-block: 1px solid var(--hlc-rd-border);
+  background: rgba(255,255,255,.012);
+}
+
+.hlc-command-center .hlc-metric-card {
+  min-height: 94px;
+  padding: 18px 20px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-inline-end: 1px solid var(--hlc-rd-border) !important;
+}
+
+.hlc-command-center .hlc-metric-card:last-child {
+  border-inline-end: 0 !important;
+}
+
+.hlc-command-center .hlc-quick-actions {
+  border: 1px solid var(--hlc-rd-border);
+  border-radius: 12px;
+  background: rgba(10,23,38,.72);
+}
+
+.hlc-command-center .hlc-quick-action {
+  min-height: 48px;
+  background: transparent !important;
+}
+
+.hlc-command-center :is(.hlc-priority-panel,.hlc-pulse-card,.hlc-workspace-card,.hlc-agent-card) {
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Messages = communications product. Inbox + active thread must read as one app. */
+.hlc-messages-workspace.hlc-messages-app-shell {
+  min-height: calc(100dvh - 118px);
+  padding: 0 !important;
+  overflow: hidden;
+  border: 1px solid var(--hlc-rd-border);
+  border-radius: 18px;
+  background: #07111f !important;
+}
+
+.hlc-messaging-frame {
+  min-height: inherit;
+  background: #07111f !important;
+}
+
+.hlc-conversation-list-panel {
+  border-inline-end: 1px solid var(--hlc-rd-border) !important;
+  background: #091522 !important;
+}
+
+.hlc-message-inbox-row {
+  min-height: 68px;
+  border-radius: 0 !important;
+  border-bottom: 1px solid rgba(159,184,213,.10) !important;
+  background: transparent !important;
+}
+
+.hlc-message-inbox-row.is-selected {
+  background: rgba(79,143,247,.12) !important;
+  box-shadow: inset 3px 0 0 var(--hlc-rd-accent);
+}
+
+.hlc-conversation-stage {
+  min-width: 0;
+  background: #07111f !important;
+}
+
+.hlc-message-stream {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.012), transparent 26%),
+    #07111f !important;
+}
+
+.hlc-message-entry {
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.hlc-message-composer {
+  border-top: 1px solid var(--hlc-rd-border) !important;
+  border-radius: 0 !important;
+  background: #0b1726 !important;
+  box-shadow: none !important;
+}
+
+/* Calendar = schedule canvas, not another KPI dashboard. */
+.hlc-calendar-page {
+  background: transparent !important;
+}
+
+.hlc-calendar-workspace {
+  min-height: calc(100dvh - 180px);
+  gap: 0 !important;
+  overflow: hidden;
+  border: 1px solid var(--hlc-rd-border);
+  border-radius: 18px;
+  background: #081426;
+}
+
+.hlc-calendar-timeline {
+  min-width: 0;
+  background: #081426 !important;
+}
+
+.hlc-calendar-detail-panel {
+  border-inline-start: 1px solid var(--hlc-rd-border) !important;
+  border-radius: 0 !important;
+  background: #0b1726 !important;
+  box-shadow: none !important;
+}
+
+.hlc-calendar-kpis article,
+.hlc-calendar-event,
+.hlc-calendar-upcoming-card {
+  box-shadow: none !important;
+}
+
+/* Mobile: each route keeps its own mental model. */
+@media (max-width: 760px) {
+  .hlc-command-center .hlc-metric-card {
+    min-height: 82px;
+    padding: 14px !important;
+  }
+
+  .hlc-messages-workspace.hlc-messages-app-shell {
+    min-height: calc(100dvh - 126px);
+    border-inline: 0;
+    border-radius: 0;
+  }
+
+  .hlc-conversation-list-panel {
+    border-inline-end: 0 !important;
+  }
+
+  .hlc-message-inbox-row {
+    min-height: 64px;
+  }
+
+  .hlc-calendar-workspace {
+    min-height: auto;
+    border-inline: 0;
+    border-radius: 0;
+  }
+
+  .hlc-calendar-detail-panel {
+    border-inline-start: 0 !important;
+    border-top: 1px solid var(--hlc-rd-border) !important;
+  }
+}
