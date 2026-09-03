@@ -1,0 +1,198 @@
+@layer hlcAppRedesign {
+  /* Final authenticated cohesion pass: reduce repetition without changing product behavior. */
+
+  /* Community should read like an operating directory, not a marketing card wall. */
+  .hlc-page-community-hub .hlc-community-directory,
+  .hlc-page-community-hub .hlc-community-context,
+  .hlc-page-community-hub .hlc-community-more-tools,
+  .hlc-page-community-hub .hlc-community-store-workspace {
+    border-radius: 12px;
+    box-shadow: none;
+  }
+
+  .hlc-page-community-hub .hlc-community-commandbar {
+    padding: 5px 0 11px;
+    border: 0;
+    border-bottom: 1px solid #e2e8f0;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .hlc-page-community-hub .hlc-community-commandbar a {
+    padding: 7px 10px;
+  }
+
+  .hlc-page-community-hub .hlc-community-row {
+    padding: 15px 18px;
+  }
+
+  .hlc-page-community-hub .hlc-community-context {
+    background: #f8fafc;
+  }
+
+  /* Analytics: make long evidence surfaces easier to scan. */
+  .hlc-page-analytics .hlc-analytics-trustline,
+  .hlc-page-analytics .hlc-analytics-primary,
+  .hlc-page-analytics .hlc-analytics-insight,
+  .hlc-page-analytics .hlc-analytics-table,
+  .hlc-page-analytics .hlc-analytics-panel {
+    border-radius: 12px;
+    box-shadow: none;
+  }
+
+  .hlc-page-analytics .hlc-analytics-grid {
+    gap: 10px;
+  }
+
+  .hlc-page-analytics .hlc-analytics-primary,
+  .hlc-page-analytics .hlc-analytics-insight,
+  .hlc-page-analytics .hlc-analytics-table,
+  .hlc-page-analytics .hlc-analytics-panel {
+    padding: 16px;
+  }
+
+  .hlc-page-analytics h2,
+  .hlc-page-analytics h3 {
+    margin-top: 0;
+  }
+
+  /* AI Team: keep conversation primary and compress repeated secondary regions. */
+  .hlc-agent-team-header {
+    margin-bottom: 10px;
+  }
+
+  .hlc-agent-team-identity > img {
+    width: 58px;
+    height: 58px;
+    border-radius: 14px;
+  }
+
+  .hlc-agent-chat-stage,
+  .hlc-agent-action-workbench,
+  .hlc-agent-result-rail > section,
+  .hlc-agent-handoff,
+  .hlc-agent-history {
+    border-radius: 12px;
+    box-shadow: none;
+  }
+
+  .hlc-agent-chat-stage {
+    padding: 16px;
+  }
+
+  .hlc-agent-operating-grid,
+  .hlc-agent-history-grid {
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .hlc-agent-action-workbench,
+  .hlc-agent-result-rail > section,
+  .hlc-agent-handoff,
+  .hlc-agent-history {
+    padding: 15px;
+  }
+
+  .hlc-agent-capability-list {
+    gap: 7px;
+  }
+
+  .hlc-agent-capability-list button {
+    padding: 10px 11px;
+    border-radius: 9px;
+  }
+
+  /* Remaining account / portal routes share one calm content width and heading rhythm. */
+  .hlc-page-settings .hlc-route-content > main,
+  .hlc-page-profile .hlc-route-content > main,
+  .hlc-page-homeowner-portal .hlc-route-content > main,
+  .hlc-page-contractor-portal .hlc-route-content > main,
+  .hlc-page-partner-portal .hlc-route-content > main,
+  .hlc-page-notifications .hlc-route-content > main,
+  .hlc-page-documents .hlc-route-content > main {
+    width: min(1180px, 100%);
+    margin-inline: auto;
+  }
+
+  /* Shared authenticated chrome: keep page identity compact and consistent. */
+  .hlc-signed-in-shell .hlc-desktop-page-brand {
+    box-shadow: none;
+  }
+
+  @media (max-width: 760px) {
+    .hlc-page-community-hub .hlc-community-workspace,
+    .hlc-page-resources .hlc-sourcing-workspace,
+    .hlc-page-academy .hlc-academy-workspace,
+    .hlc-page-analytics .hlc-analytics-workspace,
+    .hlc-page-hq .hlc-agent-workspace,
+    .hlc-page-operations .hlc-agent-workspace,
+    .hlc-page-customer-experience .hlc-agent-workspace {
+      padding-top: 14px;
+    }
+
+    .hlc-page-community-hub .hlc-community-header,
+    .hlc-page-resources .hlc-sourcing-hero,
+    .hlc-page-academy .hlc-academy-topbar,
+    .hlc-page-analytics .hlc-analytics-topbar,
+    .hlc-agent-team-header {
+      margin-bottom: 10px;
+    }
+
+    .hlc-page-community-hub .hlc-community-commandbar,
+    .hlc-page-resources .hlc-sourcing-nav,
+    .hlc-page-academy .hlc-academy-nav,
+    .hlc-page-analytics .hlc-analytics-nav,
+    .hlc-agent-team-switcher {
+      margin-bottom: 12px;
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      scrollbar-width: none;
+    }
+
+    .hlc-page-community-hub .hlc-community-commandbar::-webkit-scrollbar,
+    .hlc-page-resources .hlc-sourcing-nav::-webkit-scrollbar,
+    .hlc-page-academy .hlc-academy-nav::-webkit-scrollbar,
+    .hlc-page-analytics .hlc-analytics-nav::-webkit-scrollbar,
+    .hlc-agent-team-switcher::-webkit-scrollbar {
+      display: none;
+    }
+
+    .hlc-page-community-hub .hlc-community-commandbar a,
+    .hlc-page-resources .hlc-sourcing-nav a,
+    .hlc-page-academy .hlc-academy-nav a,
+    .hlc-page-analytics .hlc-analytics-nav a,
+    .hlc-agent-team-switcher a {
+      flex: 0 0 auto;
+      white-space: nowrap;
+    }
+
+    .hlc-page-analytics .hlc-analytics-primary,
+    .hlc-page-analytics .hlc-analytics-insight,
+    .hlc-page-analytics .hlc-analytics-table,
+    .hlc-page-analytics .hlc-analytics-panel {
+      padding: 13px;
+    }
+
+    .hlc-agent-team-identity {
+      gap: 10px;
+    }
+
+    .hlc-agent-team-identity > img {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+    }
+
+    .hlc-agent-chat-stage,
+    .hlc-agent-action-workbench,
+    .hlc-agent-result-rail > section,
+    .hlc-agent-handoff,
+    .hlc-agent-history {
+      padding: 13px;
+    }
+
+    .hlc-agent-capability-list {
+      grid-template-columns: 1fr;
+    }
+  }
+}
