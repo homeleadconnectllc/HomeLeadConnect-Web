@@ -3,16 +3,16 @@ import { Link } from "react-router-dom";
 const sections = [
   {
     label: "Workspace",
-    note: "Business identity, team membership and role-backed workspace controls.",
+    note: "Business identity, team membership, roles and workspace-backed access controls.",
     items: [
       ["Business & workspace profile", "/settings/workspace"],
-      ["Team", "/team"],
+      ["Team & workspace access", "/team"],
       ["Roles & permissions", "/team"],
     ],
   },
   {
     label: "Connections",
-    note: "Integrations and communication infrastructure used by HLC workflows.",
+    note: "Integrations and communication infrastructure used by HomeLead Connect workflows.",
     items: [
       ["Integrations", "/settings/workspace#connections"],
       ["Phone & communications", "/call-center"],
@@ -20,10 +20,10 @@ const sections = [
     ],
   },
   {
-    label: "Billing",
-    note: "Subscription, payment method, invoices and Stripe account management.",
+    label: "Subscription & billing",
+    note: "Workspace plan, provider-backed subscription state and Stripe billing management.",
     items: [
-      ["Subscription & payment", "/settings/billing"],
+      ["Subscription & billing", "/settings/billing"],
       ["Manage billing with Stripe", "/settings/billing"],
     ],
   },
@@ -45,7 +45,7 @@ export default function SettingsHome() {
         <div>
           <span className="hlc-parent-eyebrow">SETTINGS</span>
           <h1>Account & workspace settings</h1>
-          <p>Choose the area you want to manage. Settings stay grouped by purpose instead of living on one oversized page.</p>
+          <p>Manage the HomeLead Connect account layer by purpose: workspace identity, team access, connected services, subscription, security and alerts.</p>
         </div>
       </header>
 
