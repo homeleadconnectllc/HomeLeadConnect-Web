@@ -67,6 +67,8 @@ import "./hlc-structural-correction.css";
 import "./hlc-purpose-built-workspaces.css";
 import "./hlc-desktop-mobile-nav-guard.css";
 import "./universal-ai-team-launcher.css";
+import "./hlc-complete-redesign-authority.css";
+import "./hlc-complete-redesign-route-archetypes.css";
 import "./messages-lane-2-mobile-authority.css";
 
 export default function AuthenticatedStyles() {
