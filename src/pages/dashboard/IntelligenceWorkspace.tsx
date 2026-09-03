@@ -44,14 +44,14 @@ export default function IntelligenceWorkspace() {
     const blob = new Blob([JSON.stringify(plan, null, 2)], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
-    link.href = url; link.download = "hlc-simulation-review-plan.json"; link.click();
+    link.href = url; link.download = "homelead-connect-simulation-review-plan.json"; link.click();
     URL.revokeObjectURL(url);
   }
 
   return <main className={`hlc-intelligence-workspace ${sandbox ? "is-sandbox" : "is-forecast"}`}>
-    <header className="hlc-intelligence-hero"><div><p>E5 · DION + KENDRELL INTELLIGENCE</p><h1>{sandbox ? "Logistics Sandbox" : "Forecasting Studio"}</h1><span>{sandbox ? "Compare hypothetical workload and capacity scenarios without changing assignments, appointments, routes, billing, SLAs, or customer records." : "Explore a directional demand-and-capacity estimate with every assumption visible. A forecast is a model, not a recorded outcome."}</span></div><aside><strong>{sandbox ? "SIMULATION ONLY" : "FORECAST"}</strong><small>{sandbox ? "Browser-local assumptions and deterministic calculations. Zero production writes." : "Modeled range from operator-entered assumptions. Validate against authorized source records before acting."}</small></aside></header>
+    <header className="hlc-intelligence-hero"><div><p>DION + KENDRELL INTELLIGENCE</p><h1>{sandbox ? "Logistics Sandbox" : "Forecasting Studio"}</h1><span>{sandbox ? "Compare hypothetical workload and capacity scenarios without changing assignments, appointments, routes, billing, SLAs, or customer records." : "Explore a directional demand-and-capacity estimate with every assumption visible. A forecast is a model, not a recorded outcome."}</span></div><aside><strong>{sandbox ? "SIMULATION ONLY" : "FORECAST"}</strong><small>{sandbox ? "Browser-local assumptions and deterministic calculations. Zero production writes." : "Modeled range from operator-entered assumptions. Validate against authorized source records before acting."}</small></aside></header>
 
-    <nav className="hlc-intelligence-nav" aria-label="Intelligence modes"><Link to="/analytics"><BarChart3 size={17}/>REAL DATA</Link><Link className={!sandbox?"is-active":""} to="/analytics/forecasting"><BrainCircuit size={17}/>FORECAST</Link><Link className={sandbox?"is-active":""} to="/analytics/sandbox"><SlidersHorizontal size={17}/>SIMULATION ONLY</Link></nav>
+    <nav className="hlc-intelligence-nav" aria-label="Analytics modes"><Link to="/analytics"><BarChart3 size={17}/>REAL DATA</Link><Link className={!sandbox?"is-active":""} to="/analytics/forecasting"><BrainCircuit size={17}/>FORECAST</Link><Link className={sandbox?"is-active":""} to="/analytics/sandbox"><SlidersHorizontal size={17}/>SIMULATION ONLY</Link></nav>
 
     <section className="hlc-intelligence-boundary"><ShieldCheck size={19}/><div><strong>Deliberate-action boundary</strong><span>Observe → Explain → Explore → Simulate → Compare → Learn. Any real action must move to its authorized canonical workflow.</span></div></section>
 
