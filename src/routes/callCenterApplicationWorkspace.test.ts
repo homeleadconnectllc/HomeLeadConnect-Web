@@ -8,16 +8,19 @@ const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 
 test("Call Center uses a dedicated call-operations workspace instead of inline card composition", () => {
   assert.match(page, /hlc-call-center-workspace/);
-  assert.match(page, /ACTIVE CARRIER LANE/);
+  assert.match(page, /DEVICE & PROVIDER HANDOFF/);
+  assert.match(page, /OPTIONAL CONNECTED CARRIER/);
   assert.match(page, /hlc-call-line-row/);
   assert.match(page, /hlc-call-ledger-row/);
   assert.doesNotMatch(page, /CSSProperties|companionStyle|actionStyle|statusGridStyle/);
 });
 
-test("Call Center preserves carrier handoff, persisted sessions and intelligent outcome mutations", () => {
+test("Call Center preserves provider-neutral handoff, persisted sessions and intelligent outcome mutations", () => {
   assert.match(page, /listBusinessPhones\(\)/);
   assert.match(page, /listCallSessions\(\)/);
   assert.match(page, /recordCallDisposition/);
+  assert.match(page, /transport=device_native&direction=outbound/);
+  assert.match(page, /transport=device_native&direction=inbound/);
   assert.match(page, />Call Log</);
   assert.match(page, />Call History</);
   assert.match(page, /Save intelligent disposition/);
@@ -26,7 +29,7 @@ test("Call Center preserves carrier handoff, persisted sessions and intelligent 
   assert.match(page, /transport=google_voice&direction=outbound/);
   assert.match(page, /transport=google_voice&direction=inbound/);
   assert.match(page, /tel:\$\{phone\.phone_number\}/);
-  assert.match(page, /does not provide embedded Answer, Hold, Transfer, Hang Up controls/);
+  assert.match(page, /does not provide embedded Answer, Hold, Transfer, or Hang Up controls/);
 });
 
 test("Call Center specialization mounts before final authority and becomes one-column on mobile", () => {
