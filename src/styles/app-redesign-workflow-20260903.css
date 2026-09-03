@@ -23,7 +23,7 @@
   .hlc-page-dashboard .hlc-analytics-panel > h3,
   .hlc-page-dashboard .hlc-analytics-panel > .hlc-analytics-detail-grid,
   .hlc-page-dashboard .hlc-analytics-panel > .hlc-analytics-kpi-grid:not(.hlc-analytics-kpi-grid-operating) {
-    display: none;
+    display: none !important;
   }
 
   .hlc-page-dashboard .hlc-analytics-kpi-grid-operating {
@@ -40,7 +40,7 @@
   }
 
   .hlc-page-dashboard .hlc-analytics-kpi-grid-operating .hlc-analytics-kpi:nth-child(n + 5) {
-    display: none;
+    display: none !important;
   }
 
   /* Work index: one clear decision surface rather than a stack of decorative cards. */
@@ -114,6 +114,41 @@
     border: 1px solid #e2e8f0;
     border-radius: 18px;
     background: #fff;
+  }
+
+  .hlc-page-work .hlc-parent-secondary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .hlc-page-work .hlc-parent-secondary nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .hlc-page-work .hlc-parent-secondary nav a {
+    padding: 9px 12px;
+    border: 1px solid #dbe4ef;
+    border-radius: 10px;
+    background: #f8fafc;
+    color: #1d4ed8;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .hlc-page-work .hlc-parent-boundary {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .hlc-page-work .hlc-parent-boundary span {
+    color: #64748b;
+    line-height: 1.45;
   }
 
   /* CRM and Jobs share the same operational hierarchy. */
@@ -194,8 +229,11 @@
       padding: 22px 14px 42px;
     }
 
-    .hlc-page-work .hlc-parent-index-header {
+    .hlc-page-work .hlc-parent-index-header,
+    .hlc-page-work .hlc-parent-secondary,
+    .hlc-page-work .hlc-parent-boundary {
       display: grid;
+      grid-template-columns: 1fr;
       gap: 14px;
     }
 
