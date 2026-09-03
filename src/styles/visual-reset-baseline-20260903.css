@@ -1,0 +1,225 @@
+/* HomeLead Connect — authenticated visual reset authority
+   Goal: make app.homeleadconnect.org a genuinely neutral redesign canvas while
+   preserving structure, behavior, routing, data, permissions and responsive logic. */
+
+:root {
+  --hlc-reset-bg: #f8fafc;
+  --hlc-reset-surface: #ffffff;
+  --hlc-reset-muted: #64748b;
+  --hlc-reset-text: #111827;
+  --hlc-reset-border: #e2e8f0;
+  --hlc-reset-focus: #2563eb;
+}
+
+html,
+body,
+#root {
+  background: var(--hlc-reset-bg) !important;
+  background-image: none !important;
+  color: var(--hlc-reset-text) !important;
+  color-scheme: light !important;
+}
+
+/* Final reset: erase historical paint everywhere inside the authenticated root.
+   Existing layout, positioning, sizing, overflow and interaction rules continue to
+   come from the application. This layer owns presentation only. */
+body #root *,
+body #root *::before,
+body #root *::after {
+  background-color: transparent !important;
+  background-image: none !important;
+  color: inherit;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  border-color: var(--hlc-reset-border) !important;
+}
+
+/* Several historical authorities also use !important with long class selectors.
+   This reset is intentionally more specific than those presentation contracts so
+   the neutral baseline actually wins without deleting functional layout rules. */
+html body #root .hlc-app-shell *,
+html body #root .hlc-route-content *,
+html body #root .hlc-workspace-shell *,
+html body #root .hlc-dashboard-shell *,
+html body #root .hlc-portal-shell *,
+html body #root .hlc-community-shell *,
+html body #root .hlc-academy-shell *,
+html body #root .hlc-messages-shell *,
+html body #root .hlc-agent-shell * {
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
+
+body #root,
+body #root main,
+body #root .hlc-app-shell,
+body #root .hlc-route-content,
+body #root .hlc-route-content > main,
+body #root .hlc-workspace-shell,
+body #root .hlc-portal-shell,
+body #root .hlc-dashboard-shell,
+body #root .hlc-community-shell,
+body #root .hlc-academy-shell,
+body #root .hlc-messages-shell,
+body #root .hlc-agent-shell,
+body #root .hlc-auth-page {
+  background: var(--hlc-reset-bg) !important;
+  color: var(--hlc-reset-text) !important;
+}
+
+/* Keep only genuinely useful structural surfaces visible. */
+html body #root .hlc-app-shell nav,
+html body #root .hlc-app-shell aside,
+html body #root .hlc-app-shell header,
+html body #root .hlc-app-shell footer,
+html body #root .hlc-navbar,
+html body #root .hlc-navbar-links,
+html body #root .hlc-nav-menu,
+html body #root [class*="sidebar"],
+html body #root [class*="drawer"],
+html body #root [class*="sheet"] {
+  background: var(--hlc-reset-surface) !important;
+  color: var(--hlc-reset-text) !important;
+  border-color: var(--hlc-reset-border) !important;
+}
+
+/* Object/data surfaces are plain white rather than themed regions. */
+html body #root [class*="card"],
+html body #root [class*="panel"],
+html body #root [class*="surface"],
+html body #root [class*="banner"],
+html body #root [class*="hero"],
+html body #root [class*="rail"],
+html body #root [class*="inspector"],
+html body #root [class*="summary"],
+html body #root [class*="metric"],
+html body #root [class*="stat"],
+html body #root [class*="kpi"],
+html body #root [class*="queue"],
+html body #root [class*="record"],
+html body #root [class*="analytics"],
+html body #root [class*="operating"],
+html body #root [class*="performance"],
+html body #root [class*="activity"],
+html body #root [class*="workflow"],
+html body #root [class*="conversion"] {
+  background: var(--hlc-reset-surface) !important;
+  color: var(--hlc-reset-text) !important;
+  border-color: var(--hlc-reset-border) !important;
+}
+
+/* Typography no longer inherits the white-on-navy visual contract. */
+body #root h1,
+body #root h2,
+body #root h3,
+body #root h4,
+body #root h5,
+body #root h6,
+body #root strong,
+body #root b {
+  color: var(--hlc-reset-text) !important;
+}
+
+body #root p,
+body #root small,
+body #root label,
+body #root li,
+body #root td,
+body #root th,
+body #root span:not([class*="badge"]):not([class*="status"]) {
+  color: var(--hlc-reset-muted) !important;
+}
+
+body #root a:not([class*="button"]):not([class*="btn"]) {
+  color: #334155 !important;
+}
+
+/* Tables and record grids become neutral data structures. */
+html body #root table,
+html body #root thead,
+html body #root tbody,
+html body #root tr,
+html body #root td,
+html body #root th {
+  background: var(--hlc-reset-surface) !important;
+  color: var(--hlc-reset-text) !important;
+  border-color: var(--hlc-reset-border) !important;
+}
+
+/* Forms remain fully functional but visually plain. */
+html body #root input,
+html body #root select,
+html body #root textarea {
+  background: var(--hlc-reset-surface) !important;
+  color: var(--hlc-reset-text) !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: none !important;
+}
+
+/* Buttons keep dimensions, semantics and event behavior, but lose the old theme. */
+html body #root button,
+html body #root [role="button"],
+html body #root .hlc-button,
+html body #root a[class*="button"],
+html body #root a[class*="btn"] {
+  background: var(--hlc-reset-surface) !important;
+  background-image: none !important;
+  color: var(--hlc-reset-text) !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: none !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+/* Visual-only layers are removed entirely during reset. */
+html body #root [class*="glow"],
+html body #root [class*="aurora"],
+html body #root [class*="gradient"],
+html body #root [class*="visual-accent"],
+html body #root [class*="storytelling"],
+html body #root [class*="overlay"],
+html body #root [class*="backdrop"] {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  animation: none !important;
+}
+
+/* Real content imagery, maps and agent portraits remain content, not theme paint. */
+body #root img,
+body #root picture,
+body #root svg,
+body #root canvas,
+body #root video {
+  background-color: transparent !important;
+}
+
+body #root :focus-visible {
+  outline: 3px solid var(--hlc-reset-focus) !important;
+  outline-offset: 2px !important;
+}
+
+@media (max-width: 1024px) {
+  html body #root nav,
+  html body #root aside,
+  html body #root [class*="drawer"],
+  html body #root [class*="sheet"] {
+    background: var(--hlc-reset-surface) !important;
+    border-color: var(--hlc-reset-border) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body #root *,
+  body #root *::before,
+  body #root *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
