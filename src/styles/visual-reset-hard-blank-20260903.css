@@ -26,11 +26,16 @@
     color-scheme: light !important;
   }
 
+  /* During the reset every ordinary authenticated element starts fully visible,
+     neutral, and readable. More specific rules below reintroduce only muted copy,
+     disabled-state dimming, structural white surfaces, and focus treatment. */
   #root *,
   #root *::before,
   #root *::after {
     background-color: transparent !important;
     background-image: none !important;
+    color: var(--hlc-blank-text) !important;
+    opacity: 1 !important;
     text-shadow: none !important;
     box-shadow: none !important;
     filter: none !important;
@@ -81,32 +86,7 @@
     color: var(--hlc-blank-text) !important;
   }
 
-  /* Remove old white-on-navy ink and legacy fade effects. */
-  #root h1,
-  #root h2,
-  #root h3,
-  #root h4,
-  #root h5,
-  #root h6,
-  #root p,
-  #root span,
-  #root small,
-  #root label,
-  #root strong,
-  #root b,
-  #root em,
-  #root li,
-  #root dt,
-  #root dd,
-  #root th,
-  #root td,
-  #root a,
-  #root button,
-  #root summary {
-    color: var(--hlc-blank-text) !important;
-    opacity: 1 !important;
-  }
-
+  /* Secondary copy remains visibly secondary without inheriting dark-theme fades. */
   #root p,
   #root small,
   #root label,
@@ -115,21 +95,6 @@
   #root [class*="muted"],
   #root [class*="meta"] {
     color: var(--hlc-blank-muted) !important;
-    opacity: 1 !important;
-  }
-
-  /* Containers that were previously dimmed as part of the dark theme return to
-     normal visibility. True disabled controls keep native disabled semantics. */
-  #root [class*="dashboard"],
-  #root [class*="analytics"],
-  #root [class*="workspace"],
-  #root [class*="section"],
-  #root [class*="content"],
-  #root [class*="rail"],
-  #root [class*="metric"],
-  #root [class*="summary"],
-  #root [class*="activity"],
-  #root [class*="performance"] {
     opacity: 1 !important;
   }
 
@@ -148,6 +113,13 @@
     box-shadow: none !important;
     filter: none !important;
     transform: none !important;
+  }
+
+  /* Preserve an obvious disabled state after removing legacy opacity rules. */
+  #root :disabled,
+  #root [aria-disabled="true"] {
+    opacity: 0.55 !important;
+    cursor: not-allowed !important;
   }
 
   #root table,
