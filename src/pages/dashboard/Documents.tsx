@@ -86,8 +86,8 @@ export default function Documents() {
       await load();
       formElement.reset();
       setMessage(entityId
-        ? "Evidence stored, linked to the selected HLC record, and ready for the sharing scope you chose."
-        : "Document stored privately in this HLC workspace. You can link it to a record later when needed.");
+        ? "Evidence stored, linked to the selected HomeLead Connect record, and ready for the sharing scope you chose."
+        : "Document stored privately in this HomeLead Connect workspace. You can link it to a record later when needed.");
     } catch (reason) {
       setError(errorMessage(reason, "Unable to upload this file."));
     } finally {
@@ -114,11 +114,11 @@ export default function Documents() {
     <main className="hlc-documents-workspace">
       <header className="hlc-documents-header">
         <div>
-          <p className="hlc-documents-kicker">DOCUMENT OPERATIONS</p>
-          <h1>Documents, forms & evidence</h1>
-          <p>Keep record-linked files, forms, field evidence and sharing decisions inside HLC. Scan capture is available now; OCR extraction and e-signatures remain separate processing lanes until their trusted backends are connected.</p>
+          <p className="hlc-documents-kicker">WORK · DOCUMENTS</p>
+          <h1>Documents & evidence</h1>
+          <p>Keep record-linked files, field evidence, and sharing decisions inside HomeLead Connect. Forms and scan capture stay one step away; OCR extraction and e-signatures remain separate processing lanes until trusted backends are connected.</p>
         </div>
-        <div className="hlc-documents-summary" aria-label="Evidence workspace summary">
+        <div className="hlc-documents-summary" aria-label="Document workspace summary">
           <span><strong>{items.length}</strong><small>Stored files</small></span>
           <span><strong>{filteredItems.length}</strong><small>Current view</small></span>
           <span><strong>{Object.keys(typeCounts).length}</strong><small>Media types</small></span>
@@ -148,7 +148,7 @@ export default function Documents() {
             <label>Related record type
               <select name="entityType" defaultValue={initialEntityType}>
                 <option value="lead">Lead / service request</option>
-                <option value="estimate">LeadScope estimate</option>
+                <option value="estimate">Operational estimate</option>
                 <option value="job">Job</option>
                 <option value="appointment">Appointment</option>
                 <option value="contractor">Professional / provider</option>
@@ -158,10 +158,10 @@ export default function Documents() {
             <label>Related record ID <small>(optional)</small>
               <input name="entityId" defaultValue={requestedEntityId} placeholder="Leave blank for workspace-only storage" />
             </label>
-            <small className="hlc-documents-form-help">No record yet? Leave the ID blank. HLC will store the file privately at workspace level.</small>
+            <small className="hlc-documents-form-help">No record yet? Leave the ID blank. HomeLead Connect will store the file privately at workspace level.</small>
             <label>Who should be able to see it?
               <select name="sharingScope">
-                <option value="workspace">HLC workspace only</option>
+                <option value="workspace">HomeLead Connect workspace only</option>
                 <option value="homeowner">Share with linked resident</option>
                 <option value="contractor">Share with linked professional</option>
               </select>
@@ -186,7 +186,7 @@ export default function Documents() {
           </div>
           <div className="hlc-documents-privacy">
             <strong>Protect private information.</strong>
-            <p>Avoid faces when they are not needed, mail, IDs, payment information, passwords, security codes, computer screens, children, or unrelated private areas. Upload only material relevant to HLC operations.</p>
+            <p>Avoid faces when they are not needed, mail, IDs, payment information, passwords, security codes, computer screens, children, or unrelated private areas. Upload only material relevant to HomeLead Connect operations.</p>
           </div>
         </aside>
       </div>
