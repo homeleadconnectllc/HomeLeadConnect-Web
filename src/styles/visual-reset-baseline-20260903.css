@@ -20,33 +20,22 @@ body,
   color-scheme: light !important;
 }
 
-/* Hard blanking authority. Historical presentation rules used many unrelated class
-   names and generic containers, so the reset is intentionally root-wide. */
+/* Final reset: erase historical paint everywhere inside the authenticated root.
+   Existing layout, positioning, sizing, overflow and interaction rules continue to
+   come from the application. This layer owns presentation only. */
 body #root *,
 body #root *::before,
 body #root *::after {
+  background-color: transparent !important;
   background-image: none !important;
+  color: inherit;
   text-shadow: none !important;
   box-shadow: none !important;
   filter: none !important;
+  border-color: var(--hlc-reset-border) !important;
 }
 
-body #root div,
-body #root main,
-body #root section,
-body #root article,
-body #root form,
-body #root fieldset,
-body #root details,
-body #root summary,
-body #root header,
-body #root footer,
-body #root aside {
-  background-color: transparent !important;
-  background-image: none !important;
-}
-
-/* The routed application canvas is light and intentionally plain. */
+body #root,
 body #root main,
 body #root .hlc-app-shell,
 body #root .hlc-route-content,
@@ -63,41 +52,42 @@ body #root .hlc-auth-page {
   color: var(--hlc-reset-text) !important;
 }
 
-/* Structural chrome gets one neutral surface. */
+/* Keep only genuinely useful structural surfaces visible. */
 body #root nav,
 body #root aside,
+body #root header,
+body #root footer,
 body #root .hlc-navbar,
 body #root .hlc-navbar-links,
 body #root .hlc-nav-menu,
 body #root [class*="sidebar"],
-body #root [class*="drawer"] {
+body #root [class*="drawer"],
+body #root [class*="sheet"] {
   background: var(--hlc-reset-surface) !important;
   color: var(--hlc-reset-text) !important;
   border-color: var(--hlc-reset-border) !important;
 }
 
-/* Semantic surfaces are plain white only; no theme paint survives. */
+/* Object/data surfaces are plain white rather than themed regions. */
 body #root [class*="card"],
 body #root [class*="panel"],
 body #root [class*="surface"],
 body #root [class*="banner"],
 body #root [class*="hero"],
 body #root [class*="rail"],
-body #root [class*="workspace"],
 body #root [class*="inspector"],
 body #root [class*="summary"],
 body #root [class*="metric"],
 body #root [class*="stat"],
 body #root [class*="kpi"],
 body #root [class*="queue"],
-body #root [class*="list"],
-body #root [class*="row"] {
+body #root [class*="record"] {
   background: var(--hlc-reset-surface) !important;
-  border-color: var(--hlc-reset-border) !important;
   color: var(--hlc-reset-text) !important;
+  border-color: var(--hlc-reset-border) !important;
 }
 
-/* Typography no longer assumes white ink on navy. */
+/* Typography no longer inherits the white-on-navy visual contract. */
 body #root h1,
 body #root h2,
 body #root h3,
@@ -115,12 +105,15 @@ body #root label,
 body #root li,
 body #root td,
 body #root th,
-body #root span:not([class*="badge"]):not([class*="status"]),
-body #root a:not([class*="button"]):not([class*="btn"]) {
+body #root span:not([class*="badge"]):not([class*="status"]) {
   color: var(--hlc-reset-muted) !important;
 }
 
-/* Tables and data regions are neutral. */
+body #root a:not([class*="button"]):not([class*="btn"]) {
+  color: #334155 !important;
+}
+
+/* Tables and record grids become neutral data structures. */
 body #root table,
 body #root thead,
 body #root tbody,
@@ -128,10 +121,11 @@ body #root tr,
 body #root td,
 body #root th {
   background: var(--hlc-reset-surface) !important;
+  color: var(--hlc-reset-text) !important;
   border-color: var(--hlc-reset-border) !important;
 }
 
-/* Inputs remain fully functional but lose dark-theme paint. */
+/* Forms remain fully functional but visually plain. */
 body #root input,
 body #root select,
 body #root textarea {
@@ -141,17 +135,22 @@ body #root textarea {
   box-shadow: none !important;
 }
 
-/* Buttons keep layout, semantics and hit targets; remove only decorative effects. */
+/* Buttons keep dimensions, semantics and event behavior, but lose the old theme. */
 body #root button,
 body #root [role="button"],
-body #root .hlc-button {
+body #root .hlc-button,
+body #root a[class*="button"],
+body #root a[class*="btn"] {
+  background: var(--hlc-reset-surface) !important;
   background-image: none !important;
+  color: var(--hlc-reset-text) !important;
+  border-color: #cbd5e1 !important;
   box-shadow: none !important;
   filter: none !important;
   transform: none !important;
 }
 
-/* Kill historical visual-only layers. */
+/* Visual-only layers are removed entirely during reset. */
 body #root [class*="glow"],
 body #root [class*="aurora"],
 body #root [class*="gradient"],
@@ -166,7 +165,7 @@ body #root [class*="backdrop"] {
   animation: none !important;
 }
 
-/* Keep real content imagery and brand/agent portraits intact. */
+/* Real content imagery, maps and agent portraits remain content, not theme paint. */
 body #root img,
 body #root picture,
 body #root svg,
