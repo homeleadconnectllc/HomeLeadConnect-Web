@@ -102,6 +102,34 @@
     border-radius: 9px;
   }
 
+  /* Kendrell command keeps the memorial present but reserves the full story for the dedication page. */
+  .hlc-page-hq .hlc-kendrell-memorial:not(.is-standalone) {
+    margin-bottom: 16px;
+    padding-block: 12px;
+  }
+
+  .hlc-page-hq .hlc-kendrell-memorial:not(.is-standalone) .hlc-kendrell-legacy,
+  .hlc-page-hq .hlc-kendrell-memorial:not(.is-standalone) .hlc-kendrell-memorial-mark {
+    display: none;
+  }
+
+  .hlc-page-hq .hlc-kendrell-memorial:not(.is-standalone) .hlc-kendrell-memorial-copy {
+    max-width: 760px;
+    margin-inline: auto;
+  }
+
+  .hlc-page-hq .hlc-kendrell-memorial:not(.is-standalone) .hlc-kendrell-memorial-copy h1 {
+    margin-bottom: 4px;
+  }
+
+  .hlc-page-hq .hlc-kendrell-memorial:not(.is-standalone) .hlc-kendrell-memorial-dedication {
+    margin-block: 6px 10px;
+  }
+
+  .hlc-page-hq .hlc-kendrell-memorial:not(.is-standalone) .hlc-kendrell-memorial-links {
+    margin-top: 8px;
+  }
+
   /* Remaining account / portal routes share one calm content width and heading rhythm. */
   .hlc-page-settings .hlc-route-content > main,
   .hlc-page-profile .hlc-route-content > main,
@@ -193,6 +221,15 @@
 
     .hlc-agent-capability-list {
       grid-template-columns: 1fr;
+    }
+
+    .hlc-page-hq .hlc-kendrell-memorial:not(.is-standalone) {
+      padding-block: 8px;
+      margin-bottom: 10px;
+    }
+
+    .hlc-page-hq .hlc-kendrell-memorial:not(.is-standalone) .hlc-kendrell-memorial-dedication {
+      margin-block: 4px 8px;
     }
   }
 }
