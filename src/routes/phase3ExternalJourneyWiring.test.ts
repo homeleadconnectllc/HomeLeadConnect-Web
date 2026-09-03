@@ -54,7 +54,7 @@ test("professional journey preserves recovery handoffs instead of silently chang
   assert.match(professional,/Message about work/);
   assert.match(professional,/blocked/);
   assert.match(professional,/Provider progress is evidence only/);
-  assert.match(professional,/HLC operations retains authority over the canonical job lifecycle/);
+  assert.match(professional,/HomeLead Connect operations retains authority over the canonical job lifecycle/);
 });
 
 test("external persona routes remain separated from internal workspace authority",()=>{
