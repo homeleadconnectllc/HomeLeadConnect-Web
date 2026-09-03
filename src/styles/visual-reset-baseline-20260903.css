@@ -1,0 +1,194 @@
+/* HomeLead Connect — neutral authenticated-app visual reset
+   Purpose: remove accumulated presentation styling so future redesign work starts
+   from a clean, predictable canvas without changing routing, behavior, data,
+   permissions, or responsive structure. */
+
+:root {
+  --hlc-reset-bg: #f8fafc;
+  --hlc-reset-surface: #ffffff;
+  --hlc-reset-surface-muted: #f1f5f9;
+  --hlc-reset-text: #111827;
+  --hlc-reset-muted: #64748b;
+  --hlc-reset-border: #e2e8f0;
+  --hlc-reset-focus: #2563eb;
+}
+
+html,
+body,
+#root,
+.hlc-app-shell,
+.hlc-route-content {
+  background: var(--hlc-reset-bg) !important;
+  background-image: none !important;
+  color: var(--hlc-reset-text) !important;
+}
+
+body {
+  color-scheme: light !important;
+}
+
+/* Remove decorative page-level backgrounds and legacy visual effects while
+   preserving dimensions, grid/flex behavior, sticky positioning, overflow,
+   and route-specific responsive contracts. */
+.hlc-app-shell,
+.hlc-route-content,
+.hlc-route-content > main,
+.hlc-auth-shell,
+.hlc-auth-page,
+.hlc-contact-page,
+.hlc-workspace-shell,
+.hlc-portal-shell,
+.hlc-dashboard-shell,
+.hlc-community-shell,
+.hlc-academy-shell,
+.hlc-messages-shell,
+.hlc-agent-shell {
+  background-color: var(--hlc-reset-bg) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+}
+
+/* Neutralize common presentation surfaces. */
+.hlc-card,
+.hlc-contact-card,
+.hlc-auth-card,
+.hlc-nav-menu,
+.hlc-home-command,
+.hlc-home-workflow,
+[class*="card"],
+[class*="panel"],
+[class*="surface"],
+[class*="banner"],
+[class*="hero"] {
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+.hlc-card,
+.hlc-contact-card,
+.hlc-auth-card,
+.hlc-nav-menu,
+[class*="card"],
+[class*="panel"],
+[class*="surface"] {
+  background-color: var(--hlc-reset-surface) !important;
+  border-color: var(--hlc-reset-border) !important;
+}
+
+/* Reset old dark navigation treatment to a neutral structural header. */
+.hlc-navbar,
+.hlc-navbar-links,
+.hlc-nav-menu,
+.hlc-nav-group summary {
+  background: var(--hlc-reset-surface) !important;
+  background-image: none !important;
+  color: var(--hlc-reset-text) !important;
+  border-color: var(--hlc-reset-border) !important;
+  box-shadow: none !important;
+}
+
+.hlc-navbar a,
+.hlc-navbar button,
+.hlc-navbar h1,
+.hlc-navbar h2,
+.hlc-navbar h3,
+.hlc-nav-menu a,
+.hlc-nav-group summary {
+  color: var(--hlc-reset-text) !important;
+}
+
+.hlc-navbar-logo {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Typography returns to a plain readable baseline. */
+.hlc-app-shell h1,
+.hlc-app-shell h2,
+.hlc-app-shell h3,
+.hlc-app-shell h4,
+.hlc-route-content h1,
+.hlc-route-content h2,
+.hlc-route-content h3,
+.hlc-route-content h4,
+.hlc-auth-shell h1,
+.hlc-auth-shell h2 {
+  color: var(--hlc-reset-text) !important;
+  text-shadow: none !important;
+}
+
+.hlc-app-shell p,
+.hlc-route-content p,
+.hlc-app-shell small,
+.hlc-route-content small,
+.hlc-auth-shell p {
+  text-shadow: none !important;
+}
+
+/* Forms become intentionally plain. Keep sizing and validation behavior. */
+.hlc-app-shell input,
+.hlc-app-shell select,
+.hlc-app-shell textarea,
+.hlc-route-content input,
+.hlc-route-content select,
+.hlc-route-content textarea,
+.hlc-auth-shell input,
+.hlc-auth-shell select,
+.hlc-auth-shell textarea {
+  background: var(--hlc-reset-surface) !important;
+  background-image: none !important;
+  color: var(--hlc-reset-text) !important;
+  border-color: #cbd5e1 !important;
+  box-shadow: none !important;
+}
+
+/* Buttons retain semantic distinction but lose gradients/glow/elevation. */
+.hlc-app-shell button,
+.hlc-route-content button,
+.hlc-auth-shell button,
+.hlc-button {
+  background-image: none !important;
+  box-shadow: none !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+/* Remove purely decorative glow/animation layers. */
+.hlc-glow,
+[class*="glow"],
+[class*="aurora"],
+[class*="gradient-orb"],
+[class*="visual-accent"] {
+  animation: none !important;
+  filter: none !important;
+  box-shadow: none !important;
+  background-image: none !important;
+}
+
+/* Keep focus treatment explicit while the rest of the system is neutral. */
+.hlc-app-shell :focus-visible,
+.hlc-route-content :focus-visible,
+.hlc-auth-shell :focus-visible {
+  outline: 3px solid var(--hlc-reset-focus) !important;
+  outline-offset: 2px !important;
+}
+
+/* Mobile remains structural rather than visually special. */
+@media (max-width: 1024px) {
+  .hlc-navbar-links {
+    background: var(--hlc-reset-surface) !important;
+    border-color: var(--hlc-reset-border) !important;
+    box-shadow: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hlc-app-shell *,
+  .hlc-route-content *,
+  .hlc-auth-shell * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
