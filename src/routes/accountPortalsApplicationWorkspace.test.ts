@@ -107,10 +107,12 @@ test("account portal specialization mounts before final authority and collapses 
   assert.match(styles, /width:min\(100% - 24px,1440px\)/);
 });
 
-test("account and portal screens are natively dark with divider-based controls", () => {
+test("account controls remain dark while role portals use the approved Dashboard Version A light authority", () => {
   assert.match(styles, /--acct-surface:#0d1b2f/);
   assert.match(styles, /\.hlc-account-field-grid input,[\s\S]*background:var\(--acct-surface-soft\)/);
   assert.match(styles, /\.hlc-account-form-actions button,[\s\S]*background:#112744/);
-  assert.match(styles, /\.hlc-portal-row\{[^}]*background:transparent!important/);
-  assert.doesNotMatch(styles, /background:(?:#fff|#ffffff|#fbfdff|#eef5fc)/i);
+  assert.match(styles, /Dashboard Version A portal authority/);
+  assert.match(styles, /\.hlc-portal-workspace\{[^}]*--acct-surface:#ffffff[^}]*--acct-text:#172033/);
+  assert.match(styles, /\.hlc-portal-workspace \.hlc-portal-header\{[^}]*background:#fff[^}]*border:1px solid #e2e8f0/);
+  assert.match(styles, /\.hlc-portal-workspace \.hlc-portal-row\{[^}]*background:#fff/);
 });
