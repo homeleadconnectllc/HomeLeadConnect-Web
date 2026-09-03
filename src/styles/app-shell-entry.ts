@@ -33,6 +33,7 @@ import "./app-redesign-workflow-20260903.css";
 import "./app-redesign-broader-product-20260903.css";
 import "./app-redesign-final-cohesion-20260903.css";
 import "./app-redesign-final-proof-corrections-20260903.css";
+import "./app-dashboard-version-a-20260903.css";
 import "./app-global-centered-wording-20260903.css";
 import "./responsive-page-contract.css";
 import "./hlc-brand-lock.css";

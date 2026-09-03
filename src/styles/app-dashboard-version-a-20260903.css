@@ -1,0 +1,364 @@
+/* HomeLead Connect — owner-selected Dashboard Version A
+   Premium editorial operations workspace.
+   Presentation only: no route, data, auth, permission, billing, AI, or workflow behavior changes. */
+
+@layer hlcDashboardVersionA {
+  .hlc-home-workspace {
+    --dashboard-a-ink: #182235;
+    --dashboard-a-muted: #64748b;
+    --dashboard-a-line: #dbe3ed;
+    --dashboard-a-blue: #1f5fd0;
+    --dashboard-a-blue-soft: #edf5ff;
+    --dashboard-a-surface: #ffffff;
+    --dashboard-a-wash: #f4f7fb;
+    width: min(100%, 1360px) !important;
+    margin-inline: auto !important;
+    padding-top: clamp(18px, 2.3vw, 30px) !important;
+    padding-bottom: 16px !important;
+  }
+
+  .hlc-home-workspace + .hlc-analytics-panel {
+    margin-top: 12px !important;
+  }
+
+  .hlc-home-topbar {
+    position: relative !important;
+    align-items: center !important;
+    min-height: 0 !important;
+    margin-bottom: 12px !important;
+    padding: 6px 0 16px !important;
+    border-bottom: 1px solid var(--dashboard-a-line) !important;
+  }
+
+  .hlc-home-topbar::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -1px;
+    width: min(92px, 22vw);
+    height: 3px;
+    border-radius: 999px;
+    background: var(--dashboard-a-blue);
+    transform: translateX(-50%);
+  }
+
+  .hlc-home-eyebrow {
+    display: block !important;
+    margin-bottom: 5px !important;
+    color: var(--dashboard-a-blue) !important;
+  }
+
+  .hlc-home-topbar h1 {
+    margin: 0 0 5px !important;
+    color: var(--dashboard-a-ink) !important;
+    font-size: clamp(1.85rem, 3.3vw, 2.7rem) !important;
+    line-height: 1.04 !important;
+  }
+
+  .hlc-home-topbar p {
+    max-width: 720px !important;
+    margin-inline: auto !important;
+    color: var(--dashboard-a-muted) !important;
+    line-height: 1.42 !important;
+  }
+
+  .hlc-home-top-actions {
+    flex: 0 0 auto !important;
+  }
+
+  .hlc-home-top-actions button,
+  .hlc-home-top-actions a {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 11px !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-home-live-line {
+    min-height: 34px !important;
+    margin: 0 0 10px !important;
+    padding: 6px 10px !important;
+    background: transparent !important;
+    border: 0 !important;
+    border-bottom: 1px solid var(--dashboard-a-line) !important;
+    border-radius: 0 !important;
+  }
+
+  .hlc-home-metric-strip {
+    gap: 0 !important;
+    margin-bottom: 12px !important;
+    overflow: hidden !important;
+    background: var(--dashboard-a-surface) !important;
+    border: 1px solid var(--dashboard-a-line) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 10px 26px rgba(24, 34, 53, 0.045) !important;
+  }
+
+  .hlc-home-metric-strip > a {
+    grid-template-columns: 34px minmax(0, 1fr) !important;
+    min-height: 72px !important;
+    padding: 11px 14px !important;
+    border: 0 !important;
+    border-right: 1px solid var(--dashboard-a-line) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-home-metric-strip > a:last-child {
+    border-right: 0 !important;
+  }
+
+  .hlc-home-metric-strip > a > svg {
+    width: 17px !important;
+    height: 17px !important;
+    padding: 7px !important;
+    background: var(--dashboard-a-blue-soft) !important;
+    color: var(--dashboard-a-blue) !important;
+    border-radius: 9px !important;
+  }
+
+  .hlc-home-metric-strip strong {
+    font-size: clamp(1.25rem, 2vw, 1.6rem) !important;
+  }
+
+  .hlc-home-metric-strip small {
+    font-size: 0.7rem !important;
+  }
+
+  .hlc-home-primary-grid {
+    grid-template-columns: minmax(0, 1.55fr) minmax(290px, 0.8fr) !important;
+    gap: 12px !important;
+  }
+
+  .hlc-home-focus-panel,
+  .hlc-home-schedule-panel {
+    padding: 15px 16px !important;
+    border-radius: 15px !important;
+    box-shadow: 0 8px 22px rgba(24, 34, 53, 0.04) !important;
+  }
+
+  .hlc-home-focus-panel > header,
+  .hlc-home-schedule-panel > header {
+    align-items: center !important;
+    margin-bottom: 8px !important;
+    padding-bottom: 9px !important;
+  }
+
+  .hlc-home-focus-panel h2,
+  .hlc-home-schedule-panel h2 {
+    font-size: 1rem !important;
+  }
+
+  .hlc-home-focus-list > a,
+  .hlc-home-schedule-list > a {
+    min-height: 50px !important;
+    padding-block: 7px !important;
+  }
+
+  .hlc-home-caught-up {
+    min-height: 70px !important;
+  }
+
+  .hlc-home-quick-row {
+    gap: 0 !important;
+    margin-top: 12px !important;
+    overflow: hidden !important;
+    background: var(--dashboard-a-surface) !important;
+    border: 1px solid var(--dashboard-a-line) !important;
+    border-radius: 14px !important;
+  }
+
+  .hlc-home-quick-row > a {
+    min-height: 44px !important;
+    border: 0 !important;
+    border-right: 1px solid var(--dashboard-a-line) !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  .hlc-home-quick-row > a:last-child {
+    border-right: 0 !important;
+  }
+
+  .hlc-home-ai-rail {
+    grid-template-columns: minmax(200px, 0.62fr) minmax(0, 1.5fr) !important;
+    gap: 14px !important;
+    margin-top: 12px !important;
+    padding: 13px 15px !important;
+    border-radius: 15px !important;
+    box-shadow: 0 8px 22px rgba(24, 34, 53, 0.04) !important;
+  }
+
+  .hlc-home-ai-links {
+    gap: 6px !important;
+  }
+
+  .hlc-home-ai-links > a {
+    min-height: 44px !important;
+    padding: 6px 8px !important;
+    border-radius: 10px !important;
+  }
+
+  .hlc-home-ai-links img {
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 9px !important;
+  }
+
+  @media (max-width: 980px) {
+    .hlc-home-primary-grid,
+    .hlc-home-ai-rail {
+      grid-template-columns: 1fr !important;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .hlc-home-workspace {
+      padding: 12px 12px 14px !important;
+    }
+
+    .hlc-home-workspace + .hlc-analytics-panel {
+      margin-top: 8px !important;
+    }
+
+    .hlc-home-topbar {
+      gap: 10px !important;
+      margin-bottom: 8px !important;
+      padding-bottom: 12px !important;
+    }
+
+    .hlc-home-topbar h1 {
+      font-size: clamp(1.65rem, 8vw, 2.15rem) !important;
+    }
+
+    .hlc-home-topbar p {
+      font-size: 0.82rem !important;
+      line-height: 1.36 !important;
+    }
+
+    .hlc-home-top-actions button,
+    .hlc-home-top-actions a {
+      width: 36px !important;
+      height: 36px !important;
+    }
+
+    .hlc-home-live-line {
+      min-height: 30px !important;
+      margin-bottom: 8px !important;
+      padding-inline: 4px !important;
+    }
+
+    .hlc-home-metric-strip {
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      margin-bottom: 8px !important;
+      border-radius: 14px !important;
+    }
+
+    .hlc-home-metric-strip > a {
+      min-height: 60px !important;
+      padding: 8px 9px !important;
+    }
+
+    .hlc-home-metric-strip > a:nth-child(2) {
+      border-right: 0 !important;
+    }
+
+    .hlc-home-metric-strip > a:nth-child(-n + 2) {
+      border-bottom: 1px solid var(--dashboard-a-line) !important;
+    }
+
+    .hlc-home-metric-strip > a > svg {
+      width: 15px !important;
+      height: 15px !important;
+      padding: 6px !important;
+    }
+
+    .hlc-home-metric-strip strong {
+      font-size: 1.15rem !important;
+    }
+
+    .hlc-home-primary-grid {
+      gap: 8px !important;
+    }
+
+    .hlc-home-focus-panel,
+    .hlc-home-schedule-panel {
+      padding: 12px !important;
+      border-radius: 13px !important;
+    }
+
+    .hlc-home-focus-list > a,
+    .hlc-home-schedule-list > a {
+      min-height: 46px !important;
+    }
+
+    .hlc-home-quick-row {
+      grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+      margin-top: 8px !important;
+      border-radius: 12px !important;
+    }
+
+    .hlc-home-quick-row > a {
+      min-height: 52px !important;
+      padding: 6px 2px !important;
+      border-right: 1px solid var(--dashboard-a-line) !important;
+      font-size: 0.61rem !important;
+      line-height: 1.1 !important;
+    }
+
+    .hlc-home-ai-rail {
+      gap: 10px !important;
+      margin-top: 8px !important;
+      padding: 11px !important;
+      border-radius: 13px !important;
+    }
+
+    .hlc-home-ai-links {
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      gap: 5px !important;
+    }
+
+    .hlc-home-ai-links > a {
+      grid-template-columns: 28px minmax(0, 1fr) !important;
+      min-width: 0 !important;
+      padding: 5px !important;
+    }
+
+    .hlc-home-ai-links img {
+      width: 28px !important;
+      height: 28px !important;
+    }
+
+    .hlc-home-ai-links strong,
+    .hlc-home-ai-links small {
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      white-space: nowrap !important;
+    }
+  }
+
+  @media (max-width: 430px) {
+    .hlc-home-workspace {
+      padding-inline: 10px !important;
+    }
+
+    .hlc-home-metric-strip > a {
+      grid-template-columns: 28px minmax(0, 1fr) !important;
+      gap: 7px !important;
+    }
+
+    .hlc-home-quick-row > a {
+      font-size: 0.58rem !important;
+    }
+
+    .hlc-home-ai-links > a {
+      grid-template-columns: 1fr !important;
+      justify-items: center !important;
+      text-align: center !important;
+    }
+
+    .hlc-home-ai-links > a > span {
+      width: 100% !important;
+    }
+  }
+}
