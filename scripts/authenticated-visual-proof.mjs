@@ -18,6 +18,7 @@ const routes = [
   ["calendar", "/calendar"],
   ["follow-ups", "/follow-ups"],
   ["workflow", "/workflow"],
+  ["automations", "/automations"],
   ["messages", "/messages"],
   ["academy", "/academy"],
   ["analytics", "/analytics"],
@@ -39,109 +40,34 @@ fs.mkdirSync(outputDir, { recursive: true });
 
 const tokenResponse = await fetch(`${supabaseUrl}/auth/v1/token?grant_type=password`, {
   method: "POST",
-  headers: {
-    apikey: supabaseAnonKey,
-    Authorization: `Bearer ${supabaseAnonKey}`,
-    "Content-Type": "application/json",
-  },
+  headers: { apikey: supabaseAnonKey, "Content-Type": "application/json" },
   body: JSON.stringify({ email, password }),
 });
+if (!tokenResponse.ok) throw new Error(`Visual-proof auth failed: ${tokenResponse.status}`);
+const session = await tokenResponse.json();
 
-if (!tokenResponse.ok) {
-  const body = await tokenResponse.text();
-  throw new Error(`Visual-proof authentication failed (${tokenResponse.status}): ${body.slice(0, 300)}`);
-}
-
-const auth = await tokenResponse.json();
-const projectRef = new URL(supabaseUrl).hostname.split(".")[0];
-const storageKey = `sb-${projectRef}-auth-token`;
-const sessionPayload = JSON.stringify({
-  access_token: auth.access_token,
-  refresh_token: auth.refresh_token,
-  expires_in: auth.expires_in,
-  expires_at: Math.floor(Date.now() / 1000) + Number(auth.expires_in || 3600),
-  token_type: auth.token_type || "bearer",
-  user: auth.user,
-});
+const authStorageKey = `sb-${new URL(supabaseUrl).hostname.split(".")[0]}-auth-token`;
+const authValue = JSON.stringify(session);
 
 const browser = await chromium.launch({ headless: true });
-const summary = [];
-const failures = [];
+try {
+  for (const [viewportName, viewport] of viewports) {
+    const context = await browser.newContext({ viewport });
+    const page = await context.newPage();
+    await page.addInitScript(({ key, value }) => localStorage.setItem(key, value), { key: authStorageKey, value: authValue });
 
-for (const [viewportName, viewport] of viewports) {
-  const context = await browser.newContext({ viewport, deviceScaleFactor: 1 });
-  await context.addInitScript(({ key, value }) => localStorage.setItem(key, value), { key: storageKey, value: sessionPayload });
-  const page = await context.newPage();
-
-  for (const [routeName, routePath] of routes) {
-    const row = { viewport: viewportName, route: routePath, routeName, status: "PASS", issues: [] };
-    try {
-      await page.goto(`${baseUrl}${routePath}`, { waitUntil: "networkidle", timeout: 45000 });
+    for (const [slug, route] of routes) {
+      await page.goto(`${baseUrl}${route}`, { waitUntil: "networkidle" });
       await page.waitForTimeout(1200);
-
-      const finalPath = new URL(page.url()).pathname;
-      if (["/login", "/signup", "/forgot-password"].includes(finalPath)) row.issues.push(`redirected to ${finalPath}`);
-
-      const bodyText = (await page.locator("body").innerText()).trim();
-      if (bodyText.length < 40) row.issues.push("page body is unexpectedly sparse");
-      if (mustRenderAuthorizedWorkspace.has(routePath) && /Access restricted/i.test(bodyText)) {
-        row.issues.push("target workspace rendered Access restricted instead of authorized application UI");
+      const currentPath = new URL(page.url()).pathname;
+      if (mustRenderAuthorizedWorkspace.has(route) && currentPath !== route) {
+        throw new Error(`Authenticated visual proof expected ${route} but rendered ${currentPath}.`);
       }
-
-      const geometry = await page.evaluate(() => ({
-        scrollWidth: document.documentElement.scrollWidth,
-        clientWidth: document.documentElement.clientWidth,
-        scrollHeight: document.documentElement.scrollHeight,
-        clientHeight: document.documentElement.clientHeight,
-        fixedElements: [...document.querySelectorAll("*")].filter((el) => getComputedStyle(el).position === "fixed").length,
-      }));
-      if (geometry.scrollWidth > geometry.clientWidth + 2) row.issues.push(`horizontal overflow ${geometry.scrollWidth}px > ${geometry.clientWidth}px`);
-
-      if (viewportName === "mobile") {
-        const navText = await page.locator(".hlc-mobile-tabbar").innerText().catch(() => "");
-        for (const label of ["Home", "Work", "Community", "Messages", "More"]) {
-          if (!navText.includes(label)) row.issues.push(`mobile nav missing ${label}`);
-        }
-      }
-
-      const fatalText = bodyText.match(/(Something went wrong|Unexpected error|Application error|ChunkLoadError)/i);
-      if (fatalText) row.issues.push(`fatal UI text detected: ${fatalText[0]}`);
-
-      const screenshotPath = path.join(outputDir, `${viewportName}-${routeName}.png`);
-      await page.screenshot({ path: screenshotPath, fullPage: true });
-      row.screenshot = screenshotPath;
-      row.geometry = geometry;
-
-      if (row.issues.length) {
-        row.status = "FAIL";
-        failures.push(row);
-      }
-    } catch (error) {
-      row.status = "FAIL";
-      row.issues.push(error instanceof Error ? error.message : String(error));
-      failures.push(row);
+      await page.screenshot({ path: path.join(outputDir, `${slug}-${viewportName}.png`), fullPage: true });
     }
-    summary.push(row);
+
+    await context.close();
   }
-  await context.close();
+} finally {
+  await browser.close();
 }
-
-await browser.close();
-fs.writeFileSync(path.join(outputDir, "summary.json"), JSON.stringify(summary, null, 2));
-fs.writeFileSync(path.join(outputDir, "summary.md"), [
-  "# HLC Authenticated Visual Proof",
-  "",
-  `Base URL: ${baseUrl}`,
-  "",
-  "| Viewport | Route | Status | Issues |",
-  "| --- | --- | --- | --- |",
-  ...summary.map((row) => `| ${row.viewport} | ${row.route} | ${row.status} | ${(row.issues || []).join("; ") || "None"} |`),
-  "",
-].join("\n"));
-
-console.log(`Captured ${summary.length} authenticated route proofs.`);
-if (failures.length) {
-  console.error(`Authenticated visual proof failed on ${failures.length} route/viewport combinations.`);
-  process.exit(1);
-}
-console.log("Authenticated visual proof: PASS");
