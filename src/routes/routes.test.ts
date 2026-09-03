@@ -72,7 +72,7 @@ test("company rollout operating guides remain declared and actionable", () => {
 
 test("responsive page contract is followed by brand, compatibility, reset and mobile release guards", () => {
   assert.match(mainEntry, /import\("\.\/styles\/app-shell-entry"\)/);
-  const importLines = [...appShellEntry.matchAll(/import "\.\/([^\"]+\.css)";/g)].map((match) => match[1]);
+  const importLines = [...appShellEntry.matchAll(/import "\.\/([^"]+\.css)";/g)].map((match) => match[1]);
   assert.equal(importLines.at(-7), "responsive-page-contract.css");
   assert.equal(importLines.at(-6), "hlc-brand-lock.css");
   assert.equal(importLines.at(-5), "legacy-device-compat.css");
