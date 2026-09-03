@@ -1,0 +1,166 @@
+/* HomeLead Connect — hard blank authenticated-app authority
+   This file exists only to establish a genuinely neutral redesign baseline.
+   It is intentionally visual-only: no layout geometry, routing, data, permissions,
+   responsive ownership, or interaction semantics are changed here.
+
+   Layer order reserves the higher-priority redesign layer now that the blank baseline
+   is certified. Important declarations in hlcRedesign can intentionally replace this
+   temporary reset without allowing the accumulated unlayered legacy theme to leak back. */
+
+@layer hlcRedesign, hlcHardBlankReset;
+
+@layer hlcHardBlankReset {
+  :root {
+    --hlc-blank-bg: #f8fafc;
+    --hlc-blank-surface: #ffffff;
+    --hlc-blank-text: #111827;
+    --hlc-blank-muted: #64748b;
+    --hlc-blank-border: #e2e8f0;
+    --hlc-blank-focus: #2563eb;
+  }
+
+  html,
+  body,
+  #root {
+    background: var(--hlc-blank-bg) !important;
+    background-image: none !important;
+    color: var(--hlc-blank-text) !important;
+    color-scheme: light !important;
+  }
+
+  #root *,
+  #root *::before,
+  #root *::after {
+    background-color: transparent !important;
+    background-image: none !important;
+    color: var(--hlc-blank-text) !important;
+    -webkit-text-fill-color: currentColor !important;
+    opacity: 1 !important;
+    mix-blend-mode: normal !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+    filter: none !important;
+    transition: none !important;
+    animation: none !important;
+    border-color: var(--hlc-blank-border) !important;
+  }
+
+  #root > *,
+  #root .hlc-app-shell,
+  #root .hlc-route-content,
+  #root .hlc-route-content > main,
+  #root .hlc-auth-shell,
+  #root .hlc-auth-page,
+  #root .hlc-workspace-shell,
+  #root .hlc-portal-shell,
+  #root header,
+  #root footer,
+  #root aside,
+  #root nav,
+  #root [class*="sidebar"],
+  #root [class*="drawer"],
+  #root [class*="sheet"] {
+    background: var(--hlc-blank-surface) !important;
+    background-image: none !important;
+    border-color: var(--hlc-blank-border) !important;
+    color: var(--hlc-blank-text) !important;
+  }
+
+  #root [class*="card"],
+  #root [class*="panel"],
+  #root [class*="surface"],
+  #root [class*="banner"],
+  #root [class*="hero"],
+  #root [class*="rail"],
+  #root [class*="workspace"],
+  #root [class*="inspector"],
+  #root [class*="summary"],
+  #root [class*="metric"],
+  #root [class*="stat"],
+  #root [class*="kpi"],
+  #root [class*="command"],
+  #root [class*="queue"],
+  #root [class*="record"] {
+    background: var(--hlc-blank-surface) !important;
+    background-image: none !important;
+    border-color: var(--hlc-blank-border) !important;
+    color: var(--hlc-blank-text) !important;
+  }
+
+  #root p,
+  #root small,
+  #root label,
+  #root dd,
+  #root .muted,
+  #root [class*="muted"],
+  #root [class*="meta"] {
+    color: var(--hlc-blank-muted) !important;
+    opacity: 1 !important;
+  }
+
+  #root input,
+  #root select,
+  #root textarea,
+  #root button,
+  #root [role="button"],
+  #root a[class*="button"],
+  #root a[class*="btn"] {
+    background: var(--hlc-blank-surface) !important;
+    background-image: none !important;
+    color: var(--hlc-blank-text) !important;
+    -webkit-text-fill-color: currentColor !important;
+    border-color: #cbd5e1 !important;
+    box-shadow: none !important;
+    filter: none !important;
+    transform: none !important;
+  }
+
+  #root :disabled,
+  #root [aria-disabled="true"] {
+    opacity: 0.55 !important;
+    cursor: not-allowed !important;
+  }
+
+  #root table,
+  #root thead,
+  #root tbody,
+  #root tr,
+  #root th,
+  #root td {
+    background: var(--hlc-blank-surface) !important;
+    background-image: none !important;
+    border-color: var(--hlc-blank-border) !important;
+    color: var(--hlc-blank-text) !important;
+    -webkit-text-fill-color: currentColor !important;
+    opacity: 1 !important;
+  }
+
+  #root [class*="glow"],
+  #root [class*="aurora"],
+  #root [class*="gradient"],
+  #root [class*="visual-accent"],
+  #root [class*="storytelling"],
+  #root [class*="visual-banner"],
+  #root [class*="decorative"],
+  #root [class*="overlay"],
+  #root [class*="backdrop"] {
+    background: transparent !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    filter: none !important;
+    animation: none !important;
+  }
+
+  #root img,
+  #root picture,
+  #root video,
+  #root canvas,
+  #root svg {
+    background-color: transparent !important;
+  }
+
+  #root :focus-visible {
+    outline: 3px solid var(--hlc-blank-focus) !important;
+    outline-offset: 2px !important;
+  }
+}

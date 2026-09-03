@@ -1,0 +1,357 @@
+@layer hlcAppRedesign {
+  /* Shared authenticated product rhythm */
+  .hlc-page-community-hub .hlc-community-workspace,
+  .hlc-page-resources .hlc-sourcing-workspace,
+  .hlc-page-academy .hlc-academy-workspace,
+  .hlc-page-analytics .hlc-analytics-workspace,
+  .hlc-page-hq .hlc-agent-workspace,
+  .hlc-page-operations .hlc-agent-workspace,
+  .hlc-page-customer-experience .hlc-agent-workspace {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 30px clamp(16px, 2.8vw, 34px) 64px;
+  }
+
+  .hlc-page-community-hub h1,
+  .hlc-page-resources h1,
+  .hlc-page-academy h1,
+  .hlc-page-analytics h1,
+  .hlc-page-hq h1,
+  .hlc-page-operations h1,
+  .hlc-page-customer-experience h1 {
+    color: #0f172a;
+    letter-spacing: -0.04em;
+  }
+
+  /* Community: village directory, not a dashboard mosaic. */
+  .hlc-page-community-hub .hlc-community-header {
+    margin-bottom: 18px;
+  }
+
+  .hlc-page-community-hub .hlc-community-commandbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 18px;
+    padding: 8px;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    background: #fff;
+  }
+
+  .hlc-page-community-hub .hlc-community-commandbar a {
+    padding: 8px 12px;
+    border-radius: 10px;
+    color: #334155;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .hlc-page-community-hub .hlc-community-commandbar a:hover {
+    background: #f1f5f9;
+    color: #1d4ed8;
+  }
+
+  .hlc-page-community-hub .hlc-community-console {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(280px, .8fr);
+    gap: 18px;
+  }
+
+  .hlc-page-community-hub .hlc-community-directory,
+  .hlc-page-community-hub .hlc-community-context,
+  .hlc-page-community-hub .hlc-community-more-tools,
+  .hlc-page-community-hub .hlc-community-store-workspace {
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 8px 26px rgba(15, 23, 42, 0.045);
+  }
+
+  .hlc-page-community-hub .hlc-community-directory { overflow: hidden; }
+  .hlc-page-community-hub .hlc-community-village-heading { padding: 20px; border-bottom: 1px solid #eef2f7; }
+  .hlc-page-community-hub .hlc-community-row { padding: 18px 20px; border-top: 1px solid #eef2f7; }
+  .hlc-page-community-hub .hlc-community-row:first-child { border-top: 0; }
+  .hlc-page-community-hub .hlc-community-row h3 { margin: 0; color: #172033; }
+  .hlc-page-community-hub .hlc-community-row p { margin: 5px 0 0; color: #64748b; line-height: 1.5; }
+  .hlc-page-community-hub .hlc-community-row > a { color: #1d4ed8; font-weight: 700; text-decoration: none; white-space: nowrap; }
+  .hlc-page-community-hub .hlc-community-context { padding: 20px; }
+  .hlc-page-community-hub .hlc-community-context section + section { margin-top: 18px; padding-top: 18px; border-top: 1px solid #eef2f7; }
+  .hlc-page-community-hub .hlc-community-context-actions { display: grid; gap: 8px; margin-top: 14px; }
+  .hlc-page-community-hub .hlc-community-context-actions a { padding: 10px 12px; border: 1px solid #dbe4ef; border-radius: 10px; color: #1d4ed8; font-weight: 700; text-decoration: none; }
+  .hlc-page-community-hub .hlc-community-more-tools,
+  .hlc-page-community-hub .hlc-community-store-workspace { margin-top: 16px; padding: 14px 16px; }
+
+  /* Resources: quiet sourcing workspace with explicit truth boundary. */
+  .hlc-page-resources .hlc-sourcing-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(260px, .7fr);
+    gap: 18px;
+    align-items: start;
+    margin-bottom: 16px;
+  }
+
+  .hlc-page-resources .hlc-sourcing-hero > aside {
+    padding: 16px;
+    border: 1px solid #dbe4ef;
+    border-radius: 14px;
+    background: #f8fafc;
+  }
+
+  .hlc-page-resources .hlc-sourcing-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 18px;
+    padding: 7px;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    background: #fff;
+  }
+
+  .hlc-page-resources .hlc-sourcing-nav a {
+    padding: 8px 11px;
+    border-radius: 9px;
+    color: #475569;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .hlc-page-resources .hlc-sourcing-nav a.is-active {
+    background: #eff6ff;
+    color: #1d4ed8;
+  }
+
+  .hlc-page-resources .hlc-sourcing-categories,
+  .hlc-page-resources .hlc-supplier-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .hlc-page-resources .hlc-sourcing-categories > a,
+  .hlc-page-resources .hlc-supplier-grid > article,
+  .hlc-page-resources .hlc-sourcing-dion,
+  .hlc-page-resources .hlc-sourcing-filters,
+  .hlc-page-resources .hlc-sourcing-map,
+  .hlc-page-resources .hlc-material-state,
+  .hlc-page-resources .hlc-material-layout > * {
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 7px 22px rgba(15, 23, 42, 0.04);
+  }
+
+  .hlc-page-resources .hlc-sourcing-categories > a { padding: 18px; color: #172033; text-decoration: none; }
+  .hlc-page-resources .hlc-sourcing-categories > a b { color: #2563eb; }
+  .hlc-page-resources .hlc-sourcing-dion { margin-top: 16px; padding: 20px; }
+  .hlc-page-resources .hlc-sourcing-filters,
+  .hlc-page-resources .hlc-sourcing-map,
+  .hlc-page-resources .hlc-material-state { margin-bottom: 14px; padding: 16px; }
+  .hlc-page-resources .hlc-supplier-grid > article { padding: 17px; }
+  .hlc-page-resources .hlc-material-layout { display: grid; grid-template-columns: minmax(280px, .8fr) minmax(0, 1.2fr); gap: 14px; }
+  .hlc-page-resources .hlc-material-layout > * { padding: 18px; }
+
+  /* Academy: learning path first, records second. */
+  .hlc-page-academy .hlc-academy-topbar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 22px;
+    margin-bottom: 16px;
+  }
+
+  .hlc-page-academy .hlc-academy-score {
+    min-width: 150px;
+    padding: 14px 16px;
+    border: 1px solid #dbe4ef;
+    border-radius: 14px;
+    background: #fff;
+    text-align: right;
+  }
+
+  .hlc-page-academy .hlc-academy-nav,
+  .hlc-page-analytics .hlc-analytics-nav,
+  .hlc-agent-team-switcher {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 18px;
+    padding: 7px;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    background: #fff;
+  }
+
+  .hlc-page-academy .hlc-academy-nav a,
+  .hlc-page-analytics .hlc-analytics-nav a,
+  .hlc-agent-team-switcher a {
+    padding: 8px 11px;
+    border-radius: 9px;
+    color: #475569;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .hlc-page-academy .hlc-academy-nav a.is-active,
+  .hlc-page-analytics .hlc-analytics-nav a.is-active,
+  .hlc-agent-team-switcher a.is-active {
+    background: #eff6ff;
+    color: #1d4ed8;
+  }
+
+  .hlc-page-academy .hlc-academy-home-grid {
+    display: grid;
+    grid-template-columns: minmax(260px, .7fr) minmax(0, 1.3fr);
+    gap: 16px;
+  }
+
+  .hlc-page-academy .hlc-academy-path,
+  .hlc-page-academy .hlc-academy-curriculum,
+  .hlc-page-academy .hlc-academy-practice,
+  .hlc-page-academy .hlc-academy-records {
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+  }
+
+  .hlc-page-academy .hlc-academy-track-list article,
+  .hlc-page-academy .hlc-academy-module-list article,
+  .hlc-page-academy .hlc-academy-records article {
+    border-top: 1px solid #eef2f7;
+    padding: 15px 0;
+  }
+
+  /* Analytics: evidence console, not a second home dashboard. */
+  .hlc-page-analytics .hlc-analytics-topbar {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: flex-start;
+    margin-bottom: 14px;
+  }
+
+  .hlc-page-analytics .hlc-analytics-trustline,
+  .hlc-page-analytics .hlc-analytics-primary,
+  .hlc-page-analytics .hlc-analytics-insight,
+  .hlc-page-analytics .hlc-analytics-table,
+  .hlc-page-analytics .hlc-analytics-panel {
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 7px 22px rgba(15, 23, 42, 0.04);
+  }
+
+  .hlc-page-analytics .hlc-analytics-trustline { margin-bottom: 16px; padding: 11px 14px; }
+  .hlc-page-analytics .hlc-analytics-panel { padding: 20px; }
+  .hlc-page-analytics .hlc-analytics-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 16px; }
+  .hlc-page-analytics .hlc-analytics-primary,
+  .hlc-page-analytics .hlc-analytics-insight,
+  .hlc-page-analytics .hlc-analytics-table { padding: 18px; }
+
+  /* AI Team: conversation is primary; action/history surfaces are secondary. */
+  .hlc-agent-team-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 14px;
+  }
+
+  .hlc-agent-team-identity {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .hlc-agent-team-identity > img {
+    width: 68px;
+    height: 68px;
+    object-fit: cover;
+    border-radius: 18px;
+    border: 1px solid #dbe4ef;
+    background: #f8fafc;
+  }
+
+  .hlc-agent-chat-stage,
+  .hlc-agent-action-workbench,
+  .hlc-agent-result-rail > section,
+  .hlc-agent-handoff,
+  .hlc-agent-history {
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+  }
+
+  .hlc-agent-chat-stage { padding: 20px; }
+  .hlc-agent-operating-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr); gap: 16px; margin-top: 16px; }
+  .hlc-agent-action-workbench,
+  .hlc-agent-result-rail > section,
+  .hlc-agent-handoff,
+  .hlc-agent-history { padding: 18px; }
+  .hlc-agent-history-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 16px; }
+  .hlc-agent-capability-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .hlc-agent-capability-list button { text-align: left; padding: 13px; border: 1px solid #dbe4ef; border-radius: 12px; background: #f8fafc; }
+
+  /* Desktop sidebar: labels first, purpose copy moves to the drawer/mobile context. */
+  @media (min-width: 901px) {
+    .hlc-signed-in-shell .hlc-navbar-groups .hlc-nav-menu > a > small,
+    .hlc-signed-in-shell .hlc-navbar-groups .hlc-agent-nav-copy > small {
+      display: none;
+    }
+
+    .hlc-signed-in-shell .hlc-navbar-groups .hlc-nav-menu > a {
+      min-height: 38px;
+      align-items: center;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .hlc-page-community-hub .hlc-community-workspace,
+    .hlc-page-resources .hlc-sourcing-workspace,
+    .hlc-page-academy .hlc-academy-workspace,
+    .hlc-page-analytics .hlc-analytics-workspace,
+    .hlc-page-hq .hlc-agent-workspace,
+    .hlc-page-operations .hlc-agent-workspace,
+    .hlc-page-customer-experience .hlc-agent-workspace {
+      padding: 20px 14px 42px;
+    }
+
+    .hlc-page-community-hub .hlc-community-console,
+    .hlc-page-resources .hlc-sourcing-hero,
+    .hlc-page-resources .hlc-material-layout,
+    .hlc-page-academy .hlc-academy-home-grid,
+    .hlc-page-analytics .hlc-analytics-grid,
+    .hlc-agent-operating-grid,
+    .hlc-agent-history-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hlc-page-resources .hlc-sourcing-categories,
+    .hlc-page-resources .hlc-supplier-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hlc-page-academy .hlc-academy-topbar,
+    .hlc-page-analytics .hlc-analytics-topbar,
+    .hlc-agent-team-header {
+      display: grid;
+      gap: 12px;
+    }
+
+    .hlc-page-academy .hlc-academy-topbar h1,
+    .hlc-page-analytics .hlc-analytics-topbar h1,
+    .hlc-agent-team-header h1,
+    .hlc-page-community-hub .hlc-community-header h1,
+    .hlc-page-resources .hlc-sourcing-hero h1 {
+      font-size: clamp(1.8rem, 9vw, 2.4rem);
+    }
+
+    .hlc-page-academy .hlc-academy-score { min-width: 0; width: auto; text-align: left; }
+    .hlc-agent-capability-list { grid-template-columns: 1fr; }
+    .hlc-agent-team-identity > img { width: 56px; height: 56px; border-radius: 15px; }
+  }
+}

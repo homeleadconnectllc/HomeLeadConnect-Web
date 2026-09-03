@@ -18,11 +18,11 @@ const routes = [
   ["analytics", "/analytics"],
   ["ai-team-kendrell", "/hq"],
   ["work", "/work"],
-  ["community", "/community"],
+  ["community", "/community-hub"],
   ["resources", "/resources"],
 ];
 
-const mustRenderAuthorizedWorkspace = new Set(["/analytics", "/hq"]);
+const mustRenderAuthorizedWorkspace = new Set(["/analytics", "/hq", "/community-hub"]);
 
 const viewports = [
   ["mobile", { width: 390, height: 844 }],

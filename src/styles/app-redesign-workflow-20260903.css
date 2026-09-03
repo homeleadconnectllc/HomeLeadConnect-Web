@@ -1,0 +1,243 @@
+@layer hlcAppRedesign {
+  /* Dashboard: keep Home action-first. Full analytics remains available at /analytics. */
+  .hlc-page-dashboard .hlc-analytics-panel {
+    margin-top: 22px;
+    padding: 22px;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    background: #ffffff;
+    box-shadow: 0 8px 28px rgba(15, 23, 42, 0.05);
+  }
+
+  .hlc-page-dashboard .hlc-analytics-panel .hlc-section-heading {
+    margin-bottom: 14px;
+  }
+
+  .hlc-page-dashboard .hlc-analytics-panel .hlc-section-heading p {
+    max-width: 660px;
+    margin: 6px 0 0;
+    color: #64748b;
+    font-size: 0.86rem;
+  }
+
+  .hlc-page-dashboard .hlc-analytics-panel > h3,
+  .hlc-page-dashboard .hlc-analytics-panel > .hlc-analytics-detail-grid,
+  .hlc-page-dashboard .hlc-analytics-panel > .hlc-analytics-kpi-grid:not(.hlc-analytics-kpi-grid-operating) {
+    display: none !important;
+  }
+
+  .hlc-page-dashboard .hlc-analytics-kpi-grid-operating {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .hlc-page-dashboard .hlc-analytics-kpi-grid-operating .hlc-analytics-kpi {
+    min-height: 94px;
+    padding: 15px;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    background: #f8fafc;
+  }
+
+  .hlc-page-dashboard .hlc-analytics-kpi-grid-operating .hlc-analytics-kpi:nth-child(n + 5) {
+    display: none !important;
+  }
+
+  /* Work index: one clear decision surface rather than a stack of decorative cards. */
+  .hlc-page-work .hlc-work-home {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 34px clamp(18px, 3vw, 36px) 64px;
+  }
+
+  .hlc-page-work .hlc-parent-index-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 22px;
+  }
+
+  .hlc-page-work .hlc-parent-index-header h1 {
+    margin: 5px 0 8px;
+    color: #0f172a;
+    font-size: clamp(2rem, 4vw, 3rem);
+    letter-spacing: -0.04em;
+  }
+
+  .hlc-page-work .hlc-parent-index-header p {
+    max-width: 720px;
+    color: #64748b;
+    line-height: 1.55;
+  }
+
+  .hlc-page-work .hlc-parent-agent-link {
+    padding: 10px 14px;
+    border: 1px solid #dbe4ef;
+    border-radius: 12px;
+    background: #fff;
+    color: #1d4ed8;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .hlc-page-work .hlc-parent-branch-list {
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0 10px 32px rgba(15, 23, 42, 0.05);
+  }
+
+  .hlc-page-work .hlc-parent-branch-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    min-height: 82px;
+    padding: 18px 20px;
+    border-top: 1px solid #eef2f7;
+    color: #0f172a;
+    text-decoration: none;
+  }
+
+  .hlc-page-work .hlc-parent-branch-row:first-child { border-top: 0; }
+  .hlc-page-work .hlc-parent-branch-row:hover { background: #f8fafc; }
+  .hlc-page-work .hlc-parent-branch-row strong { display: block; font-size: 1rem; }
+  .hlc-page-work .hlc-parent-branch-row small { display: block; margin-top: 4px; color: #64748b; line-height: 1.4; }
+  .hlc-page-work .hlc-parent-branch-row b { color: #2563eb; font-size: 1.15rem; }
+
+  .hlc-page-work .hlc-parent-secondary,
+  .hlc-page-work .hlc-parent-boundary {
+    margin-top: 18px;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    background: #fff;
+  }
+
+  .hlc-page-work .hlc-parent-secondary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .hlc-page-work .hlc-parent-secondary nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .hlc-page-work .hlc-parent-secondary nav a {
+    padding: 9px 12px;
+    border: 1px solid #dbe4ef;
+    border-radius: 10px;
+    background: #f8fafc;
+    color: #1d4ed8;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .hlc-page-work .hlc-parent-boundary {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .hlc-page-work .hlc-parent-boundary span {
+    color: #64748b;
+    line-height: 1.45;
+  }
+
+  /* CRM and Jobs share the same operational hierarchy. */
+  .hlc-page-leads .hlc-leads-workspace,
+  .hlc-page-jobs .hlc-jobs-workspace,
+  .hlc-page-calendar .hlc-calendar-page {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 30px clamp(16px, 2.8vw, 34px) 64px;
+  }
+
+  .hlc-page-leads .hlc-leads-header,
+  .hlc-page-jobs .hlc-jobs-header,
+  .hlc-page-calendar .hlc-calendar-header {
+    margin-bottom: 18px;
+  }
+
+  .hlc-page-leads .hlc-leads-header h1,
+  .hlc-page-jobs .hlc-jobs-header h1,
+  .hlc-page-calendar .hlc-calendar-header h1 {
+    color: #0f172a;
+    letter-spacing: -0.035em;
+  }
+
+  .hlc-page-leads .hlc-leads-summary,
+  .hlc-page-jobs .hlc-jobs-summary,
+  .hlc-page-calendar .hlc-calendar-kpis {
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .hlc-page-leads .hlc-leads-summary > *,
+  .hlc-page-jobs .hlc-jobs-summary > *,
+  .hlc-page-calendar .hlc-calendar-kpis > * {
+    border: 1px solid #e2e8f0;
+    border-radius: 15px;
+    background: #fff;
+    box-shadow: none;
+  }
+
+  .hlc-page-leads .hlc-leads-toolbar,
+  .hlc-page-leads .hlc-leads-pipeline,
+  .hlc-page-jobs .hlc-jobs-board,
+  .hlc-page-calendar .hlc-calendar-workspace,
+  .hlc-page-calendar .hlc-native-event-composer {
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 8px 26px rgba(15, 23, 42, 0.045);
+  }
+
+  /* Messages remains chat-first; only normalize outer chrome. */
+  .hlc-page-messages .hlc-route-content > main,
+  .hlc-page-messages main {
+    background: #fff;
+  }
+
+  .hlc-page-messages button,
+  .hlc-page-messages a {
+    transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+  }
+
+  @media (max-width: 760px) {
+    .hlc-page-dashboard .hlc-analytics-panel {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 17px;
+    }
+
+    .hlc-page-dashboard .hlc-analytics-kpi-grid-operating {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .hlc-page-work .hlc-work-home,
+    .hlc-page-leads .hlc-leads-workspace,
+    .hlc-page-jobs .hlc-jobs-workspace,
+    .hlc-page-calendar .hlc-calendar-page {
+      padding: 22px 14px 42px;
+    }
+
+    .hlc-page-work .hlc-parent-index-header,
+    .hlc-page-work .hlc-parent-secondary,
+    .hlc-page-work .hlc-parent-boundary {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .hlc-page-work .hlc-parent-agent-link { justify-self: start; }
+    .hlc-page-work .hlc-parent-branch-row { min-height: 72px; padding: 15px 16px; }
+  }
+}
