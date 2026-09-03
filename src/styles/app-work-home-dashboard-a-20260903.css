@@ -1,0 +1,196 @@
+/* HomeLead Connect — Work home aligned to the owner-selected Dashboard Version A.
+   Presentation only. Scope is intentionally limited to .hlc-work-home. */
+
+@layer hlcWorkDashboardA {
+  .hlc-work-home.hlc-parent-index {
+    --work-a-ink: #182235;
+    --work-a-muted: #64748b;
+    --work-a-line: #dbe3ed;
+    --work-a-blue: #1f5fd0;
+    --work-a-blue-soft: #edf5ff;
+    --work-a-surface: #ffffff;
+    --work-a-wash: #f4f7fb;
+    width: min(100% - 32px, 1180px) !important;
+    padding: clamp(18px, 2.3vw, 30px) 0 48px !important;
+    color: var(--work-a-ink) !important;
+  }
+
+  .hlc-work-home .hlc-parent-index-header {
+    align-items: center !important;
+    gap: 18px !important;
+    padding: 6px 0 16px !important;
+    border-bottom: 1px solid var(--work-a-line) !important;
+  }
+
+  .hlc-work-home .hlc-parent-index-header > div {
+    max-width: 780px !important;
+    margin-inline: auto !important;
+  }
+
+  .hlc-work-home .hlc-parent-eyebrow {
+    color: var(--work-a-blue) !important;
+  }
+
+  .hlc-work-home .hlc-parent-index-header h1,
+  .hlc-work-home .hlc-parent-secondary h2 {
+    color: var(--work-a-ink) !important;
+  }
+
+  .hlc-work-home .hlc-parent-index-header h1 {
+    margin: 5px 0 7px !important;
+    font-size: clamp(1.9rem, 4.4vw, 3rem) !important;
+    line-height: 1.04 !important;
+  }
+
+  .hlc-work-home .hlc-parent-index-header p {
+    margin: 0 auto !important;
+    max-width: 720px !important;
+    color: var(--work-a-muted) !important;
+    line-height: 1.45 !important;
+  }
+
+  .hlc-work-home .hlc-parent-agent-link {
+    padding: 9px 13px !important;
+    border: 1px solid var(--work-a-line) !important;
+    border-radius: 11px !important;
+    background: var(--work-a-surface) !important;
+    color: var(--work-a-blue) !important;
+    box-shadow: 0 6px 18px rgba(24, 34, 53, .035) !important;
+  }
+
+  .hlc-work-home .hlc-parent-branch-list {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    margin-top: 14px !important;
+  }
+
+  .hlc-work-home .hlc-parent-branch-row {
+    min-height: 84px !important;
+    padding: 14px 15px !important;
+    border: 1px solid var(--work-a-line) !important;
+    border-radius: 14px !important;
+    background: var(--work-a-surface) !important;
+    box-shadow: 0 8px 22px rgba(24, 34, 53, .035) !important;
+  }
+
+  .hlc-work-home .hlc-parent-branch-row:hover {
+    border-color: rgba(31, 95, 208, .34) !important;
+    background: var(--work-a-blue-soft) !important;
+  }
+
+  .hlc-work-home .hlc-parent-branch-row strong {
+    color: var(--work-a-ink) !important;
+    font-size: .98rem !important;
+  }
+
+  .hlc-work-home .hlc-parent-branch-row small {
+    color: var(--work-a-muted) !important;
+    font-size: .8rem !important;
+    line-height: 1.35 !important;
+  }
+
+  .hlc-work-home .hlc-parent-branch-row b {
+    color: var(--work-a-blue) !important;
+  }
+
+  .hlc-work-home .hlc-parent-secondary {
+    grid-template-columns: minmax(220px, .75fr) minmax(0, 1.25fr) !important;
+    gap: 18px !important;
+    margin-top: 12px !important;
+    padding: 14px 16px !important;
+    border: 1px solid var(--work-a-line) !important;
+    border-radius: 14px !important;
+    background: var(--work-a-wash) !important;
+  }
+
+  .hlc-work-home .hlc-parent-secondary nav {
+    gap: 8px !important;
+  }
+
+  .hlc-work-home .hlc-parent-secondary nav a {
+    padding: 8px 11px !important;
+    border: 1px solid var(--work-a-line) !important;
+    border-radius: 10px !important;
+    background: var(--work-a-surface) !important;
+    color: var(--work-a-ink) !important;
+  }
+
+  .hlc-work-home .hlc-parent-secondary nav a span,
+  .hlc-work-home .hlc-parent-boundary a {
+    color: var(--work-a-blue) !important;
+  }
+
+  .hlc-work-home .hlc-parent-boundary {
+    grid-template-columns: minmax(170px, auto) minmax(0, 1fr) auto !important;
+    gap: 14px !important;
+    margin-top: 10px !important;
+    padding: 12px 14px !important;
+    border: 1px solid var(--work-a-line) !important;
+    border-radius: 12px !important;
+    background: var(--work-a-surface) !important;
+    color: var(--work-a-muted) !important;
+  }
+
+  .hlc-work-home .hlc-parent-boundary strong {
+    color: var(--work-a-ink) !important;
+  }
+
+  @media (max-width: 720px) {
+    .hlc-work-home.hlc-parent-index {
+      width: min(100% - 24px, 1180px) !important;
+      padding-top: 12px !important;
+      padding-bottom: calc(104px + env(safe-area-inset-bottom)) !important;
+    }
+
+    .hlc-work-home .hlc-parent-index-header {
+      gap: 9px !important;
+      padding-bottom: 12px !important;
+    }
+
+    .hlc-work-home .hlc-parent-index-header h1 {
+      font-size: clamp(1.75rem, 8vw, 2.3rem) !important;
+    }
+
+    .hlc-work-home .hlc-parent-index-header p {
+      font-size: .82rem !important;
+      line-height: 1.38 !important;
+    }
+
+    .hlc-work-home .hlc-parent-agent-link {
+      justify-self: center !important;
+      padding: 8px 11px !important;
+    }
+
+    .hlc-work-home .hlc-parent-branch-list {
+      grid-template-columns: 1fr !important;
+      gap: 7px !important;
+      margin-top: 10px !important;
+    }
+
+    .hlc-work-home .hlc-parent-branch-row {
+      min-height: 68px !important;
+      padding: 10px 12px !important;
+      border-radius: 12px !important;
+    }
+
+    .hlc-work-home .hlc-parent-secondary {
+      grid-template-columns: 1fr !important;
+      gap: 10px !important;
+      margin-top: 8px !important;
+      padding: 12px !important;
+      border-radius: 12px !important;
+    }
+
+    .hlc-work-home .hlc-parent-secondary nav {
+      justify-content: center !important;
+    }
+
+    .hlc-work-home .hlc-parent-boundary {
+      grid-template-columns: 1fr !important;
+      gap: 6px !important;
+      margin-top: 8px !important;
+      padding: 11px 12px !important;
+    }
+  }
+}
