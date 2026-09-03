@@ -77,9 +77,9 @@ export default function BillingWorkspace() {
   return <main className="hlc-account-workspace">
     <header className="hlc-account-header">
       <div>
-        <p className="hlc-account-kicker">FINANCE · BILLING</p>
+        <p className="hlc-account-kicker">ACCOUNT · BILLING</p>
         <h1>Subscription & billing control</h1>
-        <p>Review the workspace plan, Stripe-backed subscription state, billing dates, and supported billing actions from one operating view.</p>
+        <p>Review the HomeLead Connect workspace plan, Stripe-backed subscription state, billing dates, and supported billing actions from one operating view.</p>
       </div>
       <div className="hlc-account-summary">
         <span><strong>{state}</strong><small>Provider-backed status</small></span>
@@ -93,13 +93,13 @@ export default function BillingWorkspace() {
     <div className="hlc-settings-ledger">
       <section className="hlc-settings-section" aria-labelledby="billing-plan-heading">
         <div className="hlc-account-section-head">
-          <div><span>PLAN</span><h2 id="billing-plan-heading">HLC workspace plan</h2></div>
+          <div><span>PLAN</span><h2 id="billing-plan-heading">HomeLead Connect workspace plan</h2></div>
           <strong>{billing?.plan_key || offer?.key || "unverified"}</strong>
         </div>
         {offer ? <>
           <p><strong>{offer.name}</strong> · {price}</p>
-          <p>The HLC launch offer begins with a 14-day free trial. A payment method is required. Unless cancelled before the trial ends, Stripe begins paid billing at the authoritative plan rate.</p>
-        </> : <p>No authoritative active HLC offer could be loaded, so enrollment is unavailable.</p>}
+          <p>The current HomeLead Connect workspace offer begins with a 14-day free trial. A payment method is required. Unless cancelled before the trial ends, Stripe begins paid billing at the authoritative plan rate.</p>
+        </> : <p>No authoritative active HomeLead Connect offer could be loaded, so enrollment is unavailable.</p>}
       </section>
 
       <section className="hlc-settings-section" aria-labelledby="billing-state-heading">
@@ -136,9 +136,9 @@ export default function BillingWorkspace() {
       <section className="hlc-settings-section" aria-labelledby="billing-links-heading">
         <div className="hlc-account-section-head"><div><span>ACCOUNT</span><h2 id="billing-links-heading">Related controls</h2></div></div>
         <nav className="hlc-account-inline-links">
-          <Link to="/settings">Workspace settings</Link>
-          <Link to="/analytics">Analytics</Link>
-          <Link to="/hq/system-health">System health</Link>
+          <Link to="/settings">Account settings</Link>
+          <Link to="/settings/workspace">Workspace profile</Link>
+          <Link to="/team">Team & workspace access</Link>
         </nav>
       </section>
     </div>
