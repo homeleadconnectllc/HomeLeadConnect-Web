@@ -39,9 +39,9 @@ export default function Workflow() {
 
   return <main className="hlc-workflow-page" style={pageStyle}>
     <header style={heroStyle}>
-      <p style={eyebrowStyle}>HLC golden service workflow</p>
+      <p style={eyebrowStyle}>HomeLead Connect service workflow</p>
       <h1 style={{ margin: 0 }}>Request to Community</h1>
-      <p style={{ margin: 0, maxWidth: 760, lineHeight: 1.6 }}>One traceable path through canonical HLC records. Counts come from the current workspace; each action remains subject to its authorization and persistence rules.</p>
+      <p style={{ margin: 0, maxWidth: 760, lineHeight: 1.6 }}>One traceable path through canonical HomeLead Connect records. Counts come from the current workspace; each action remains subject to its authorization and persistence rules.</p>
     </header>
 
     {error && <p role="alert" style={errorStyle}>{error}</p>}
