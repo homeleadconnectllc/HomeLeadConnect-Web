@@ -40,3 +40,4 @@ import "./final-release-guard.css";
 import "./visual-reset-baseline-20260903.css";
 import "./visual-reset-hard-blank-20260903.css";
 import "./mobile-release-fix.css";
+import "./app-global-centered-wording-20260903.css";
