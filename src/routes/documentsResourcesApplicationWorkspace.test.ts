@@ -11,7 +11,7 @@ const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 
 test("Documents uses a dedicated evidence workspace instead of inline card composition", () => {
   assert.match(documents, /hlc-documents-workspace/);
-  assert.match(documents, /DOCUMENT OPERATIONS/);
+  assert.match(documents, /WORK · DOCUMENTS/);
   assert.match(documents, /hlc-documents-console/);
   assert.match(documents, /hlc-document-row/);
   assert.doesNotMatch(documents, /heroStyle|guideCardStyle|fileCardStyle|boxShadow:/);
@@ -23,7 +23,8 @@ test("Documents preserves canonical loading, upload, sharing and open behavior",
   assert.match(documents, /getDocumentUrl\(item\.id, item\.storage_path\)/);
   assert.match(documents, /name="entityType"/);
   assert.match(documents, /value="lead"/);
-  assert.match(documents, /value="estimate"/);
+  assert.match(documents, /value="estimate">Operational estimate/);
+  assert.doesNotMatch(documents, /LeadScope estimate/);
   assert.match(documents, /value="job"/);
   assert.match(documents, /value="appointment"/);
   assert.match(documents, /value="contractor"/);
