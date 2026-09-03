@@ -69,6 +69,7 @@ import "./hlc-desktop-mobile-nav-guard.css";
 import "./universal-ai-team-launcher.css";
 import "./jobs-dashboard-a.css";
 import "./calendar-dashboard-a.css";
+import "./follow-ups-dashboard-a.css";
 import "./messages-lane-2-mobile-authority.css";
 
 export default function AuthenticatedStyles() {
