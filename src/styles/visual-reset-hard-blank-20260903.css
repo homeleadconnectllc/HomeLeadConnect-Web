@@ -81,7 +81,7 @@
     color: var(--hlc-blank-text) !important;
   }
 
-  /* Remove the old white-on-navy typography contract. */
+  /* Remove old white-on-navy ink and legacy fade effects. */
   #root h1,
   #root h2,
   #root h3,
@@ -104,6 +104,7 @@
   #root button,
   #root summary {
     color: var(--hlc-blank-text) !important;
+    opacity: 1 !important;
   }
 
   #root p,
@@ -114,6 +115,22 @@
   #root [class*="muted"],
   #root [class*="meta"] {
     color: var(--hlc-blank-muted) !important;
+    opacity: 1 !important;
+  }
+
+  /* Containers that were previously dimmed as part of the dark theme return to
+     normal visibility. True disabled controls keep native disabled semantics. */
+  #root [class*="dashboard"],
+  #root [class*="analytics"],
+  #root [class*="workspace"],
+  #root [class*="section"],
+  #root [class*="content"],
+  #root [class*="rail"],
+  #root [class*="metric"],
+  #root [class*="summary"],
+  #root [class*="activity"],
+  #root [class*="performance"] {
+    opacity: 1 !important;
   }
 
   /* Controls remain usable but intentionally unstyled. */
@@ -143,6 +160,7 @@
     background-image: none !important;
     border-color: var(--hlc-blank-border) !important;
     color: var(--hlc-blank-text) !important;
+    opacity: 1 !important;
   }
 
   /* Presentation-only layers disappear during the reset. */
