@@ -1,0 +1,177 @@
+/* HomeLead Connect — authenticated redesign foundation
+   Phase 1: establish the new visual language on top of the certified neutral reset.
+   This layer changes presentation only. It deliberately avoids layout geometry,
+   route behavior, authorization, data flow, responsive ownership, and business logic. */
+
+@layer hlcRedesign {
+  :root {
+    --hlc-redesign-canvas: #f5f7fa;
+    --hlc-redesign-surface: #ffffff;
+    --hlc-redesign-surface-subtle: #f8fafc;
+    --hlc-redesign-ink: #172033;
+    --hlc-redesign-muted: #657089;
+    --hlc-redesign-border: #d9e0ea;
+    --hlc-redesign-border-strong: #c4cedc;
+    --hlc-redesign-accent: #2563eb;
+    --hlc-redesign-accent-strong: #1d4ed8;
+    --hlc-redesign-accent-soft: #eff6ff;
+    --hlc-redesign-success: #15803d;
+    --hlc-redesign-danger: #b91c1c;
+    --hlc-redesign-warning: #a16207;
+    --hlc-redesign-radius-sm: 8px;
+    --hlc-redesign-radius-md: 12px;
+    --hlc-redesign-radius-lg: 16px;
+    --hlc-redesign-shadow: 0 1px 2px rgba(15, 23, 42, 0.05), 0 8px 24px rgba(15, 23, 42, 0.06);
+  }
+
+  html,
+  body,
+  #root {
+    background: var(--hlc-redesign-canvas) !important;
+    color: var(--hlc-redesign-ink) !important;
+    color-scheme: light !important;
+  }
+
+  #root {
+    font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
+  }
+
+  #root h1,
+  #root h2,
+  #root h3,
+  #root h4,
+  #root h5,
+  #root h6,
+  #root strong,
+  #root b {
+    color: var(--hlc-redesign-ink) !important;
+    letter-spacing: -0.015em !important;
+  }
+
+  #root p,
+  #root small,
+  #root label,
+  #root dd,
+  #root .muted,
+  #root [class*="muted"],
+  #root [class*="meta"] {
+    color: var(--hlc-redesign-muted) !important;
+  }
+
+  #root .hlc-app-shell,
+  #root .hlc-route-content,
+  #root .hlc-route-content > main,
+  #root .hlc-workspace-shell,
+  #root .hlc-portal-shell {
+    background: var(--hlc-redesign-canvas) !important;
+    color: var(--hlc-redesign-ink) !important;
+  }
+
+  #root header,
+  #root footer,
+  #root aside,
+  #root nav,
+  #root [class*="sidebar"],
+  #root [class*="drawer"],
+  #root [class*="sheet"] {
+    background: var(--hlc-redesign-surface) !important;
+    border-color: var(--hlc-redesign-border) !important;
+    color: var(--hlc-redesign-ink) !important;
+  }
+
+  #root [class*="card"],
+  #root [class*="panel"],
+  #root [class*="surface"],
+  #root [class*="workspace"],
+  #root [class*="inspector"],
+  #root [class*="summary"],
+  #root [class*="metric"],
+  #root [class*="stat"],
+  #root [class*="kpi"],
+  #root [class*="command"],
+  #root [class*="queue"],
+  #root [class*="record"] {
+    background: var(--hlc-redesign-surface) !important;
+    border-color: var(--hlc-redesign-border) !important;
+    color: var(--hlc-redesign-ink) !important;
+  }
+
+  #root [class*="card"],
+  #root [class*="panel"],
+  #root [class*="inspector"],
+  #root [class*="sheet"] {
+    border-radius: var(--hlc-redesign-radius-md) !important;
+  }
+
+  #root [class*="card"],
+  #root [class*="panel"],
+  #root [class*="inspector"] {
+    box-shadow: var(--hlc-redesign-shadow) !important;
+  }
+
+  #root input,
+  #root select,
+  #root textarea {
+    background: var(--hlc-redesign-surface) !important;
+    color: var(--hlc-redesign-ink) !important;
+    border-color: var(--hlc-redesign-border-strong) !important;
+    border-radius: var(--hlc-redesign-radius-sm) !important;
+    box-shadow: none !important;
+  }
+
+  #root button,
+  #root [role="button"],
+  #root a[class*="button"],
+  #root a[class*="btn"] {
+    background: var(--hlc-redesign-surface) !important;
+    color: var(--hlc-redesign-ink) !important;
+    border-color: var(--hlc-redesign-border-strong) !important;
+    border-radius: var(--hlc-redesign-radius-sm) !important;
+    box-shadow: none !important;
+  }
+
+  #root button[class*="primary"],
+  #root [class*="btn-primary"],
+  #root [class*="button-primary"],
+  #root [data-variant="primary"] {
+    background: var(--hlc-redesign-accent) !important;
+    color: #ffffff !important;
+    border-color: var(--hlc-redesign-accent) !important;
+  }
+
+  #root a {
+    color: var(--hlc-redesign-accent-strong) !important;
+  }
+
+  #root table,
+  #root thead,
+  #root tbody,
+  #root tr,
+  #root th,
+  #root td {
+    background: var(--hlc-redesign-surface) !important;
+    color: var(--hlc-redesign-ink) !important;
+    border-color: var(--hlc-redesign-border) !important;
+  }
+
+  #root thead,
+  #root th {
+    background: var(--hlc-redesign-surface-subtle) !important;
+  }
+
+  #root [aria-current="page"],
+  #root [aria-selected="true"] {
+    background: var(--hlc-redesign-accent-soft) !important;
+    color: var(--hlc-redesign-accent-strong) !important;
+  }
+
+  #root :focus-visible {
+    outline: 3px solid rgba(37, 99, 235, 0.32) !important;
+    outline-offset: 2px !important;
+  }
+
+  #root :disabled,
+  #root [aria-disabled="true"] {
+    opacity: 0.55 !important;
+  }
+}
