@@ -7,6 +7,7 @@ const connections = readFileSync("src/components/settings/IntegrationsConnection
 const profile = readFileSync("src/pages/dashboard/MyProfile.tsx", "utf8");
 const resident = readFileSync("src/pages/portal/HomeownerPortal.tsx", "utf8");
 const professional = readFileSync("src/pages/portal/ContractorPortal.tsx", "utf8");
+const partner = readFileSync("src/pages/portal/PartnerPortal.tsx", "utf8");
 const styles = readFileSync("src/styles/account-portals-application-workspace.css", "utf8");
 const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 
@@ -66,24 +67,32 @@ test("My Profile preserves participant preferences and authorization boundary", 
   assert.match(profile, /never overrides workspace membership, portal links, RLS/);
 });
 
-test("resident portal preserves shared relationship decisions appointments and documents", () => {
+test("resident portal preserves shared relationship decisions appointments documents and Resources access", () => {
   assert.match(resident, /getHomeownerPortalData\(\)/);
   assert.match(resident, /decideHomeownerEstimate\(est\.id,"accepted"\)/);
   assert.match(resident, /decideHomeownerEstimate\(est\.id,"rejected"\)/);
   assert.match(resident, /listDocuments\(\)/);
   assert.match(resident, /getDocumentUrl\(document\.id,document\.storage_path\)/);
   assert.match(resident, /appointment_date/);
+  assert.match(resident, /homeowner-portal\/resources/);
   assert.match(resident, /hlc-portal-workspace is-resident/);
 });
 
-test("professional portal preserves company links offer decisions appointments and documents", () => {
+test("professional portal preserves company links offer decisions appointments documents and Resources access", () => {
   assert.match(professional, /getContractorPortalData\(\)/);
   assert.match(professional, /decideContractorAssignment\(assignment\.id,"accepted"\)/);
   assert.match(professional, /decideContractorAssignment\(assignment\.id,"rejected"\)/);
   assert.match(professional, /listDocuments\(\)/);
   assert.match(professional, /getDocumentUrl\(document\.id,document\.storage_path\)/);
   assert.match(professional, /appointment_date/);
+  assert.match(professional, /contractor-portal\/resources/);
   assert.match(professional, /hlc-portal-workspace is-professional/);
+});
+
+test("partner portal exposes role-appropriate Resources without internal workspace access", () => {
+  assert.match(partner, /partner-portal\/resources/);
+  assert.match(partner, /Contact HomeLead Connect/);
+  assert.doesNotMatch(partner, /\/resources\/playbook/);
 });
 
 test("account portal specialization mounts before final authority and collapses on mobile", () => {
