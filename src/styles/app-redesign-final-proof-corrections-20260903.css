@@ -1,0 +1,36 @@
+@layer hlcAppRedesign {
+  /* Exact-head screenshot correction: keep Kendrell's memorial present on Command,
+     but reserve the expanded legacy presentation for /hq/dedication. */
+  .hlc-page-hq .hlc-agent-workspace > .hlc-kendrell-memorial:not(.is-standalone) .hlc-kendrell-legacy,
+  .hlc-page-hq .hlc-agent-workspace > .hlc-kendrell-memorial:not(.is-standalone) .hlc-kendrell-memorial-mark {
+    display: none !important;
+  }
+
+  .hlc-page-hq .hlc-agent-workspace > .hlc-kendrell-memorial:not(.is-standalone) {
+    min-height: 0 !important;
+    margin: 0 0 14px !important;
+    padding: 10px 16px 12px !important;
+  }
+
+  .hlc-page-hq .hlc-agent-workspace > .hlc-kendrell-memorial:not(.is-standalone) .hlc-kendrell-memorial-copy {
+    max-width: 760px !important;
+    margin: 0 auto !important;
+  }
+
+  .hlc-page-hq .hlc-agent-workspace > .hlc-kendrell-memorial:not(.is-standalone) .hlc-kendrell-memorial-eyebrow,
+  .hlc-page-hq .hlc-agent-workspace > .hlc-kendrell-memorial:not(.is-standalone) .hlc-kendrell-memorial-dates,
+  .hlc-page-hq .hlc-agent-workspace > .hlc-kendrell-memorial:not(.is-standalone) .hlc-kendrell-memorial-dedication {
+    margin-block: 3px !important;
+  }
+
+  .hlc-page-hq .hlc-agent-workspace > .hlc-kendrell-memorial:not(.is-standalone) .hlc-kendrell-memorial-links {
+    margin-top: 7px !important;
+  }
+
+  @media (max-width: 760px) {
+    .hlc-page-hq .hlc-agent-workspace > .hlc-kendrell-memorial:not(.is-standalone) {
+      margin-bottom: 10px !important;
+      padding: 8px 10px 10px !important;
+    }
+  }
+}
