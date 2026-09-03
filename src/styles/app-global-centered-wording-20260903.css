@@ -1,0 +1,36 @@
+/*
+ * HomeLead Connect authenticated-app global title/subtitle alignment.
+ * Owner direction: center titles, headings, subheadings, and subtitles globally.
+ * Body copy, form text, table text, navigation labels, messages, and controls keep
+ * their existing alignment unless a component already centers them intentionally.
+ * Presentation only; no routing, data, auth, workflow, or permission changes.
+ */
+
+@layer hlcGlobalCenteredWording {
+  #root h1,
+  #root h2,
+  #root h3,
+  #root h4,
+  #root h5,
+  #root h6,
+  #root [role="heading"],
+  #root .page-title,
+  #root .page-subtitle,
+  #root .section-title,
+  #root .section-subtitle,
+  #root .panel-title,
+  #root .panel-subtitle,
+  #root .card-title,
+  #root .card-subtitle,
+  #root .workspace-title,
+  #root .workspace-subtitle,
+  #root .route-title,
+  #root .route-subtitle,
+  #root .hero-title,
+  #root .hero-subtitle,
+  #root .eyebrow,
+  #root .kicker {
+    text-align: center !important;
+    margin-inline: auto;
+  }
+}
