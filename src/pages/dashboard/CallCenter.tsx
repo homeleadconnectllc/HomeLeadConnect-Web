@@ -181,7 +181,7 @@ export default function CallCenter() {
             </div>
           </div>
           <div className="hlc-call-action-rail"><a className="is-primary" href="https://voice.google.com/" target="_blank" rel="noreferrer">{voiceLaunchLabel}</a><Link to="/manual-communications?channel=call&transport=google_voice&direction=outbound">Prepare outbound call</Link><Link to="/manual-communications?channel=sms&transport=google_voice&direction=outbound">Prepare text</Link><Link to="/manual-communications?channel=call&transport=google_voice&direction=inbound">Log inbound call</Link><Link to="/manual-communications?channel=sms&transport=google_voice&direction=inbound">Log inbound text</Link></div>
-          <p className="hlc-call-boundary-note">Google Voice remains an optional carrier surface. Features available inside Google Voice depend on the Voice account and plan. HomeLead Connect does not provide embedded Answer, Hold, Transfer, or Hang Up controls and does not claim direct recording, delivery, or inbound synchronization unless a supported provider integration supplies that evidence.</p>
+          <p className="hlc-call-boundary-note">Google Voice remains an optional carrier surface. Features available inside Google Voice depend on the Voice account and plan. HomeLead Connect does not provide embedded Answer, Hold, Transfer, Hang Up controls and does not claim direct recording, delivery, or inbound synchronization unless a supported provider integration supplies that evidence.</p>
         </section>
       )}
 
