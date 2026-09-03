@@ -17,6 +17,7 @@ const routes = [
   ["jobs", "/jobs"],
   ["calendar", "/calendar"],
   ["follow-ups", "/follow-ups"],
+  ["workflow", "/workflow"],
   ["messages", "/messages"],
   ["academy", "/academy"],
   ["analytics", "/analytics"],
