@@ -14,7 +14,7 @@ type Stage = {
 const stages: Stage[] = [
   { label: "Request", description: "Homeowner or renter submits a service need.", route: "/request-service", countKey: "requests", owner: "Diamond" },
   { label: "Lead", description: "CRM creates one traceable lead without duplication.", route: "/leads", countKey: "leads", owner: "Dion" },
-  { label: "LeadScope", description: "Service details, property, urgency, scope, photos and notes are organized.", route: "/estimator", countKey: "leadScopes", owner: "Dion" },
+  { label: "Estimate", description: "Authorized staff prepares and manages the operational estimate for the lead or job.", route: "/estimator", countKey: "estimates", owner: "Dion" },
   { label: "Match", description: "Eligible providers are ranked using approved rules.", route: "/matching", countKey: "jobs", owner: "Dion" },
   { label: "Provider Offer", description: "Qualified providers receive and accept or decline an opportunity.", route: "/jobs", countKey: "providerOffers", owner: "Dion" },
   { label: "Assignment", description: "One provider becomes responsible for the request.", route: "/jobs", countKey: "acceptedAssignments", owner: "Dion" },
