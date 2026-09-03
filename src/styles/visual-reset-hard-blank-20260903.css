@@ -3,9 +3,11 @@
    It is intentionally visual-only: no layout geometry, routing, data, permissions,
    responsive ownership, or interaction semantics are changed here.
 
-   The reset is intentionally placed in a cascade layer. For !important declarations,
-   layered author rules outrank unlayered author rules. That lets this temporary reset
-   defeat the accumulated legacy !important theme paint without deleting functional CSS. */
+   Layer order reserves the higher-priority redesign layer now that the blank baseline
+   is certified. Important declarations in hlcRedesign can intentionally replace this
+   temporary reset without allowing the accumulated unlayered legacy theme to leak back. */
+
+@layer hlcRedesign, hlcHardBlankReset;
 
 @layer hlcHardBlankReset {
   :root {
@@ -26,10 +28,6 @@
     color-scheme: light !important;
   }
 
-  /* During the reset every ordinary authenticated element starts fully visible,
-     neutral, and readable. Transition/animation paint is disabled here as well:
-     CSS transitions can temporarily outrank !important declarations and were leaving
-     captured proof frames in the old washed dark-theme state. */
   #root *,
   #root *::before,
   #root *::after {
@@ -47,7 +45,6 @@
     border-color: var(--hlc-blank-border) !important;
   }
 
-  /* Keep only the minimum useful structural surfaces visible. */
   #root > *,
   #root .hlc-app-shell,
   #root .hlc-route-content,
@@ -69,7 +66,6 @@
     color: var(--hlc-blank-text) !important;
   }
 
-  /* Object/data surfaces are plain white only. */
   #root [class*="card"],
   #root [class*="panel"],
   #root [class*="surface"],
@@ -91,7 +87,6 @@
     color: var(--hlc-blank-text) !important;
   }
 
-  /* Secondary copy remains visibly secondary without inheriting dark-theme fades. */
   #root p,
   #root small,
   #root label,
@@ -103,7 +98,6 @@
     opacity: 1 !important;
   }
 
-  /* Controls remain usable but intentionally unstyled. */
   #root input,
   #root select,
   #root textarea,
@@ -121,7 +115,6 @@
     transform: none !important;
   }
 
-  /* Preserve an obvious disabled state after removing legacy opacity rules. */
   #root :disabled,
   #root [aria-disabled="true"] {
     opacity: 0.55 !important;
@@ -142,7 +135,6 @@
     opacity: 1 !important;
   }
 
-  /* Presentation-only layers disappear during the reset. */
   #root [class*="glow"],
   #root [class*="aurora"],
   #root [class*="gradient"],
@@ -159,7 +151,6 @@
     animation: none !important;
   }
 
-  /* Content remains content. */
   #root img,
   #root picture,
   #root video,
