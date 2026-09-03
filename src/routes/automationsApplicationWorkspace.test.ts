@@ -6,9 +6,9 @@ const page = readFileSync("src/pages/dashboard/Automations.tsx", "utf8");
 const styles = readFileSync("src/styles/automations-application-workspace.css", "utf8");
 const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 
-test("Automations uses a dedicated control-plane workspace instead of generic card grids", () => {
+test("Automations uses a dedicated management control workspace instead of generic card grids", () => {
   assert.match(page, /hlc-automations-workspace/);
-  assert.match(page, /CONTROL PLANE/);
+  assert.match(page, /MANAGEMENT CONTROL/);
   assert.match(page, /hlc-automation-registry-head/);
   assert.match(page, /hlc-automation-history-row/);
   assert.doesNotMatch(page, /cardStyle/);
