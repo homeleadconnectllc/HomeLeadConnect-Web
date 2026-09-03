@@ -27,60 +27,84 @@ body {
   color-scheme: light !important;
 }
 
-/* Remove decorative page-level backgrounds and legacy visual effects while
-   preserving dimensions, grid/flex behavior, sticky positioning, overflow,
-   and route-specific responsive contracts. */
-.hlc-app-shell,
-.hlc-route-content,
-.hlc-route-content > main,
-.hlc-auth-shell,
-.hlc-auth-page,
-.hlc-contact-page,
-.hlc-workspace-shell,
-.hlc-portal-shell,
-.hlc-dashboard-shell,
-.hlc-community-shell,
-.hlc-academy-shell,
-.hlc-messages-shell,
-.hlc-agent-shell {
-  background-color: var(--hlc-reset-bg) !important;
+/* Hard visual blanking authority. Preserve geometry and behavior, but remove the
+   accumulated dark canvas, gradients, glows, shadows, image overlays and decorative
+   surface paint that previously made redesign work fight the historical cascade. */
+#root .hlc-app-shell *,
+#root .hlc-route-content * {
   background-image: none !important;
-  box-shadow: none !important;
+  text-shadow: none !important;
   filter: none !important;
 }
 
-/* Neutralize common presentation surfaces. */
-.hlc-card,
-.hlc-contact-card,
-.hlc-auth-card,
-.hlc-nav-menu,
-.hlc-home-command,
-.hlc-home-workflow,
-[class*="card"],
-[class*="panel"],
-[class*="surface"],
-[class*="banner"],
-[class*="hero"] {
+#root .hlc-app-shell,
+#root .hlc-route-content,
+#root .hlc-route-content > main,
+#root .hlc-auth-shell,
+#root .hlc-auth-page,
+#root .hlc-workspace-shell,
+#root .hlc-portal-shell,
+#root .hlc-dashboard-shell,
+#root .hlc-community-shell,
+#root .hlc-academy-shell,
+#root .hlc-messages-shell,
+#root .hlc-agent-shell,
+#root main,
+#root section,
+#root article {
+  background-color: var(--hlc-reset-bg) !important;
   background-image: none !important;
+  box-shadow: none !important;
+  color: var(--hlc-reset-text) !important;
+}
+
+/* Structural containers should read as a plain application canvas, not a stack of
+   themed regions. */
+#root .hlc-app-shell header,
+#root .hlc-app-shell footer,
+#root .hlc-app-shell aside,
+#root .hlc-route-content header,
+#root .hlc-route-content footer,
+#root .hlc-route-content aside {
+  background: var(--hlc-reset-surface) !important;
+  background-image: none !important;
+  color: var(--hlc-reset-text) !important;
   box-shadow: none !important;
 }
 
-.hlc-card,
-.hlc-contact-card,
-.hlc-auth-card,
-.hlc-nav-menu,
-[class*="card"],
-[class*="panel"],
-[class*="surface"] {
-  background-color: var(--hlc-reset-surface) !important;
+/* Neutralize common presentation surfaces, including the many historical module
+   names that do not share one canonical class. */
+#root .hlc-card,
+#root .hlc-contact-card,
+#root .hlc-auth-card,
+#root .hlc-nav-menu,
+#root .hlc-home-command,
+#root .hlc-home-workflow,
+#root [class*="card"],
+#root [class*="panel"],
+#root [class*="surface"],
+#root [class*="banner"],
+#root [class*="hero"],
+#root [class*="rail"],
+#root [class*="workspace"],
+#root [class*="inspector"],
+#root [class*="summary"],
+#root [class*="metric"],
+#root [class*="stat"],
+#root [class*="kpi"] {
+  background: var(--hlc-reset-surface) !important;
+  background-image: none !important;
   border-color: var(--hlc-reset-border) !important;
+  box-shadow: none !important;
+  color: var(--hlc-reset-text) !important;
 }
 
-/* Reset old dark navigation treatment to a neutral structural header. */
-.hlc-navbar,
-.hlc-navbar-links,
-.hlc-nav-menu,
-.hlc-nav-group summary {
+/* Navigation becomes a plain structural frame. */
+#root .hlc-navbar,
+#root .hlc-navbar-links,
+#root .hlc-nav-menu,
+#root .hlc-nav-group summary,
+#root nav {
   background: var(--hlc-reset-surface) !important;
   background-image: none !important;
   color: var(--hlc-reset-text) !important;
@@ -88,54 +112,83 @@ body {
   box-shadow: none !important;
 }
 
-.hlc-navbar a,
-.hlc-navbar button,
-.hlc-navbar h1,
-.hlc-navbar h2,
-.hlc-navbar h3,
-.hlc-nav-menu a,
-.hlc-nav-group summary {
+#root .hlc-navbar a,
+#root .hlc-navbar button,
+#root .hlc-navbar h1,
+#root .hlc-navbar h2,
+#root .hlc-navbar h3,
+#root .hlc-nav-menu a,
+#root .hlc-nav-group summary,
+#root nav a,
+#root nav button {
   color: var(--hlc-reset-text) !important;
 }
 
-.hlc-navbar-logo {
+#root .hlc-navbar-logo {
   background: transparent !important;
   box-shadow: none !important;
 }
 
-/* Typography returns to a plain readable baseline. */
-.hlc-app-shell h1,
-.hlc-app-shell h2,
-.hlc-app-shell h3,
-.hlc-app-shell h4,
-.hlc-route-content h1,
-.hlc-route-content h2,
-.hlc-route-content h3,
-.hlc-route-content h4,
-.hlc-auth-shell h1,
-.hlc-auth-shell h2 {
+/* Typography returns to one readable neutral baseline. */
+#root .hlc-app-shell h1,
+#root .hlc-app-shell h2,
+#root .hlc-app-shell h3,
+#root .hlc-app-shell h4,
+#root .hlc-route-content h1,
+#root .hlc-route-content h2,
+#root .hlc-route-content h3,
+#root .hlc-route-content h4,
+#root .hlc-auth-shell h1,
+#root .hlc-auth-shell h2,
+#root main h1,
+#root main h2,
+#root main h3,
+#root main h4 {
   color: var(--hlc-reset-text) !important;
   text-shadow: none !important;
 }
 
-.hlc-app-shell p,
-.hlc-route-content p,
-.hlc-app-shell small,
-.hlc-route-content small,
-.hlc-auth-shell p {
+#root .hlc-app-shell p,
+#root .hlc-route-content p,
+#root .hlc-app-shell small,
+#root .hlc-route-content small,
+#root .hlc-auth-shell p,
+#root main p,
+#root main small,
+#root main label,
+#root main li,
+#root main td,
+#root main th {
+  color: var(--hlc-reset-muted) !important;
   text-shadow: none !important;
 }
 
-/* Forms become intentionally plain. Keep sizing and validation behavior. */
-.hlc-app-shell input,
-.hlc-app-shell select,
-.hlc-app-shell textarea,
-.hlc-route-content input,
-.hlc-route-content select,
-.hlc-route-content textarea,
-.hlc-auth-shell input,
-.hlc-auth-shell select,
-.hlc-auth-shell textarea {
+/* Tables and records are intentionally plain. */
+#root table,
+#root thead,
+#root tbody,
+#root tr,
+#root td,
+#root th {
+  background: var(--hlc-reset-surface) !important;
+  background-image: none !important;
+  border-color: var(--hlc-reset-border) !important;
+  box-shadow: none !important;
+}
+
+/* Forms become intentionally plain. Keep sizing, validation and keyboard behavior. */
+#root .hlc-app-shell input,
+#root .hlc-app-shell select,
+#root .hlc-app-shell textarea,
+#root .hlc-route-content input,
+#root .hlc-route-content select,
+#root .hlc-route-content textarea,
+#root .hlc-auth-shell input,
+#root .hlc-auth-shell select,
+#root .hlc-auth-shell textarea,
+#root main input,
+#root main select,
+#root main textarea {
   background: var(--hlc-reset-surface) !important;
   background-image: none !important;
   color: var(--hlc-reset-text) !important;
@@ -143,40 +196,53 @@ body {
   box-shadow: none !important;
 }
 
-/* Buttons retain semantic distinction but lose gradients/glow/elevation. */
-.hlc-app-shell button,
-.hlc-route-content button,
-.hlc-auth-shell button,
-.hlc-button {
+/* Buttons keep function and accessible sizing but lose visual theme baggage. */
+#root .hlc-app-shell button,
+#root .hlc-route-content button,
+#root .hlc-auth-shell button,
+#root .hlc-button,
+#root main button {
   background-image: none !important;
   box-shadow: none !important;
   filter: none !important;
   transform: none !important;
 }
 
-/* Remove purely decorative glow/animation layers. */
-.hlc-glow,
-[class*="glow"],
-[class*="aurora"],
-[class*="gradient-orb"],
-[class*="visual-accent"] {
+/* Remove decorative visual layers entirely during the reset phase. */
+#root .hlc-glow,
+#root [class*="glow"],
+#root [class*="aurora"],
+#root [class*="gradient-orb"],
+#root [class*="visual-accent"],
+#root [class*="storytelling"],
+#root [class*="visual-banner"] {
   animation: none !important;
   filter: none !important;
   box-shadow: none !important;
+  background: transparent !important;
   background-image: none !important;
 }
 
+/* Images remain functional evidence/content. Decorative image overlays are removed. */
+#root [class*="overlay"],
+#root [class*="backdrop"] {
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
 /* Keep focus treatment explicit while the rest of the system is neutral. */
-.hlc-app-shell :focus-visible,
-.hlc-route-content :focus-visible,
-.hlc-auth-shell :focus-visible {
+#root .hlc-app-shell :focus-visible,
+#root .hlc-route-content :focus-visible,
+#root .hlc-auth-shell :focus-visible {
   outline: 3px solid var(--hlc-reset-focus) !important;
   outline-offset: 2px !important;
 }
 
 /* Mobile remains structural rather than visually special. */
 @media (max-width: 1024px) {
-  .hlc-navbar-links {
+  #root .hlc-navbar-links,
+  #root nav,
+  #root aside {
     background: var(--hlc-reset-surface) !important;
     border-color: var(--hlc-reset-border) !important;
     box-shadow: none !important;
@@ -184,9 +250,9 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hlc-app-shell *,
-  .hlc-route-content *,
-  .hlc-auth-shell * {
+  #root .hlc-app-shell *,
+  #root .hlc-route-content *,
+  #root .hlc-auth-shell * {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
