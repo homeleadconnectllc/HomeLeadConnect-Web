@@ -178,9 +178,9 @@ test("mobile voice-note action opens a ready recorder in the selected conversati
 });
 
 test("Dion business intelligence copy and reporting control remain durable and mobile accessible", () => {
-  assert.match(analyticsPage, /HLC Business Intelligence/);
+  assert.match(analyticsPage, /HomeLead Connect Business Intelligence/);
   assert.match(analyticsPage, /Operating KPIs &amp; Visitor Analytics/);
-  assert.match(analyticsPage, /Canonical workflow performance plus privacy-minimized first-party HLC traffic for the last 30 days\./);
+  assert.match(analyticsPage, /Canonical workflow performance plus privacy-minimized first-party HomeLead Connect traffic for the last 30 days\./);
   assert.match(analyticsKpis, /className="hlc-analytics-period-button"/);
   assert.match(analyticsKpis, /aria-pressed="true"/);
   assert.match(analyticsKpis, /setRefreshKey/);
