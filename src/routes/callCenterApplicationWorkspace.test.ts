@@ -29,7 +29,7 @@ test("Call Center preserves provider-neutral handoff, persisted sessions and int
   assert.match(page, /transport=google_voice&direction=outbound/);
   assert.match(page, /transport=google_voice&direction=inbound/);
   assert.match(page, /tel:\$\{phone\.phone_number\}/);
-  assert.match(page, /does not provide embedded Answer, Hold, Transfer, or Hang Up controls/);
+  assert.match(page, /does not provide embedded Answer, Hold, Transfer, Hang Up controls/);
 });
 
 test("Call Center specialization mounts before final authority and becomes one-column on mobile", () => {
