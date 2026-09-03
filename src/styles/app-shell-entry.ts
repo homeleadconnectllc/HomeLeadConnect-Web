@@ -31,6 +31,7 @@ import "./app-redesign-foundation-20260903.css";
 import "./app-redesign-dashboard-chrome-20260903.css";
 import "./app-redesign-workflow-20260903.css";
 import "./app-redesign-broader-product-20260903.css";
+import "./app-redesign-final-cohesion-20260903.css";
 import "./responsive-page-contract.css";
 import "./hlc-brand-lock.css";
 import "./legacy-device-compat.css";
