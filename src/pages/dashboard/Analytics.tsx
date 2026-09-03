@@ -43,9 +43,9 @@ export default function Analytics() {
     <main className="hlc-analytics-workspace">
       <header className="hlc-analytics-topbar">
         <div>
-          <span className="hlc-analytics-eyebrow">HLC Business Intelligence · DION</span>
+          <span className="hlc-analytics-eyebrow">HomeLead Connect Business Intelligence · DION</span>
           <h1>Operating KPIs &amp; Visitor Analytics</h1>
-          <p>Canonical workflow performance plus privacy-minimized first-party HLC traffic for the last 30 days.</p>
+          <p>Canonical workflow performance plus privacy-minimized first-party HomeLead Connect traffic for the last 30 days.</p>
         </div>
         <button type="button" onClick={() => void refresh()} disabled={refreshing}><RefreshCw size={16} aria-hidden="true" />{refreshing ? "Refreshing…" : "Refresh data"}</button>
       </header>
@@ -82,7 +82,7 @@ export default function Analytics() {
 
         <aside className="hlc-analytics-insight" aria-labelledby="analytics-insight-title">
           <span>DION · EVIDENCE CHECK</span>
-          <h2 id="analytics-insight-title">Can HLC explain where growth came from?</h2>
+          <h2 id="analytics-insight-title">Can HomeLead Connect explain where growth came from?</h2>
           <dl>
             <div><dt>Known source coverage</dt><dd>{percent(growth?.attribution_known_rate)}</dd></div>
             <div><dt>Unknown-source leads</dt><dd>{growth?.unknown_source_leads ?? 0}</dd></div>
