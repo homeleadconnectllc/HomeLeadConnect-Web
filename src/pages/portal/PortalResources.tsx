@@ -8,6 +8,7 @@ import {
   type ResourceAudience,
   type RoleResource,
 } from "../../data/roleResourceCatalog";
+import { PARTNER_PORTAL_RESOURCES, PROFESSIONAL_PORTAL_RESOURCES } from "../../data/portalResourceCollections";
 
 type PortalResourcesProps = {
   audience: Exclude<ResourceAudience, "shared">;
@@ -29,8 +30,9 @@ const audienceTitle: Record<PortalResourcesProps["audience"], string> = {
 
 function availableResources(audience: PortalResourcesProps["audience"]): readonly RoleResource[] {
   if (audience === "resident") return RESIDENT_DIRECTORY_RESOURCES;
-  if (audience === "internal") return HOMELEAD_SCRIPT_LIBRARY;
-  return [];
+  if (audience === "professional") return PROFESSIONAL_PORTAL_RESOURCES;
+  if (audience === "partner") return PARTNER_PORTAL_RESOURCES;
+  return HOMELEAD_SCRIPT_LIBRARY;
 }
 
 export default function PortalResources({ audience }: PortalResourcesProps) {
