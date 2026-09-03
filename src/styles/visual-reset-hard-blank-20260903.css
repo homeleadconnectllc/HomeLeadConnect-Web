@@ -27,18 +27,23 @@
   }
 
   /* During the reset every ordinary authenticated element starts fully visible,
-     neutral, and readable. More specific rules below reintroduce only muted copy,
-     disabled-state dimming, structural white surfaces, and focus treatment. */
+     neutral, and readable. Transition/animation paint is disabled here as well:
+     CSS transitions can temporarily outrank !important declarations and were leaving
+     captured proof frames in the old washed dark-theme state. */
   #root *,
   #root *::before,
   #root *::after {
     background-color: transparent !important;
     background-image: none !important;
     color: var(--hlc-blank-text) !important;
+    -webkit-text-fill-color: currentColor !important;
     opacity: 1 !important;
+    mix-blend-mode: normal !important;
     text-shadow: none !important;
     box-shadow: none !important;
     filter: none !important;
+    transition: none !important;
+    animation: none !important;
     border-color: var(--hlc-blank-border) !important;
   }
 
@@ -109,6 +114,7 @@
     background: var(--hlc-blank-surface) !important;
     background-image: none !important;
     color: var(--hlc-blank-text) !important;
+    -webkit-text-fill-color: currentColor !important;
     border-color: #cbd5e1 !important;
     box-shadow: none !important;
     filter: none !important;
@@ -132,6 +138,7 @@
     background-image: none !important;
     border-color: var(--hlc-blank-border) !important;
     color: var(--hlc-blank-text) !important;
+    -webkit-text-fill-color: currentColor !important;
     opacity: 1 !important;
   }
 
@@ -164,15 +171,5 @@
   #root :focus-visible {
     outline: 3px solid var(--hlc-blank-focus) !important;
     outline-offset: 2px !important;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    #root *,
-    #root *::before,
-    #root *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
   }
 }
