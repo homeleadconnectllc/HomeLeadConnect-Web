@@ -21,6 +21,7 @@ import { useAccountAccess } from "../../hooks/useAccountAccess";
 import { canAccessWorkspacePath } from "../../lib/accessPolicy";
 import type { CrmJob, FollowUp, JobAppointment, Lead } from "../../lib/types/database";
 import "../../styles/dashboard.css";
+import "../../styles/dashboard-version-a-20260903.css";
 
 type DashboardData = {
   leads: Lead[];
