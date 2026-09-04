@@ -8,6 +8,10 @@ const profile = readFileSync("src/pages/dashboard/MyProfile.tsx", "utf8");
 const resident = readFileSync("src/pages/portal/HomeownerPortal.tsx", "utf8");
 const professional = readFileSync("src/pages/portal/ContractorPortal.tsx", "utf8");
 const partner = readFileSync("src/pages/portal/PartnerPortal.tsx", "utf8");
+const property = readFileSync("src/pages/dashboard/PropertyIntelligence.tsx", "utf8");
+const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
+const router = readFileSync("src/routes/AppRouter.tsx", "utf8");
+const portalBoundary = readFileSync("src/routes/PortalAccessBoundary.tsx", "utf8");
 const styles = readFileSync("src/styles/account-portals-application-workspace.css", "utf8");
 const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 
@@ -93,6 +97,38 @@ test("partner portal exposes role-appropriate Resources without internal workspa
   assert.match(partner, /partner-portal\/resources/);
   assert.match(partner, /Contact HomeLead Connect/);
   assert.doesNotMatch(partner, /\/resources\/playbook/);
+});
+
+test("portal routes fail closed by resident professional and partner account signals", () => {
+  assert.match(portalBoundary, /audience === "resident"[\s\S]*access\.homeowner/);
+  assert.match(portalBoundary, /audience === "professional"[\s\S]*access\.contractor/);
+  assert.match(portalBoundary, /access\.partner/);
+  assert.match(router, /PortalAccessBoundary audience="resident"/);
+  assert.match(router, /PortalAccessBoundary audience="professional"/);
+  assert.match(router, /PortalAccessBoundary audience="partner"/);
+  assert.match(router, /homeowner-portal\/properties/);
+  assert.doesNotMatch(router, /<Route element={<WorkspaceLayout\/>}>[\s\S]*homeowner-portal\/properties[\s\S]*analytics/);
+});
+
+test("misleading portal-shaped matching and team URLs cannot expose internal tools", () => {
+  assert.match(router, /homeowner-portal\/matches" element={<Navigate to="\/homeowner-portal" replace\/>}/);
+  assert.match(router, /contractor-portal\/team" element={<Navigate to="\/contractor-portal" replace\/>}/);
+});
+
+test("partner navigation resolves to the partner portal without inheriting resident professional tools", () => {
+  assert.match(navbar, /access\.partner \? "\/partner-portal" : "\/portal\/accept"/);
+  assert.match(navbar, /access\.partner \? "Partner portal"/);
+  assert.match(navbar, /partner-portal\/resources/);
+  assert.match(navbar, /!access\.partner && <button className="hlc-mobile-command-search-trigger"/);
+  assert.doesNotMatch(navbar, /access\.homeowner \|\| access\.contractor \|\| access\.partner\) portalLinks\.push/);
+});
+
+test("resident property route is location-neutral at entry", () => {
+  assert.doesNotMatch(property, /state: "PA"/);
+  assert.match(property, /City \/ locality/);
+  assert.match(property, /State \/ region/);
+  assert.match(property, /Postal code/);
+  assert.match(property, /HomeLead Connect never guesses age/);
 });
 
 test("account portal specialization mounts before final authority and collapses on mobile", () => {
