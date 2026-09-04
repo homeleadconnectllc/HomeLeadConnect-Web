@@ -7,34 +7,20 @@
   min-height: 64px;
   margin: 0 0 14px;
   padding: 10px 12px;
-  border: 1px solid #31527d;
+  border: 1px solid #6e5ac6 !important;
   border-radius: 16px;
-  background: linear-gradient(135deg, rgba(37, 99, 235, .2), rgba(15, 23, 42, .92));
-  color: #dbeafe;
+  background: linear-gradient(135deg, rgba(115, 87, 255, .25), rgba(15, 13, 43, .96)) !important;
+  color: #f8f6ff !important;
   text-align: left;
 }
 
-.hlc-mobile-command-search-trigger > span {
-  display: grid;
-  gap: 2px;
-  min-width: 0;
-}
+.hlc-mobile-command-search-trigger > span { display: grid; gap: 2px; min-width: 0; }
+.hlc-mobile-command-search-trigger strong { color: #fff !important; font-size: .86rem; }
+.hlc-mobile-command-search-trigger small { color: #c9c3df !important; font-size: .7rem; }
+.hlc-mobile-command-search-trigger b { color: #b8a9ff !important; font-size: 1rem; }
 
-.hlc-mobile-command-search-trigger strong {
-  color: #f8fbff;
-  font-size: .86rem;
-}
-
-.hlc-mobile-command-search-trigger small {
-  color: #91a4bd;
-  font-size: .7rem;
-}
-
-.hlc-mobile-command-search-trigger b {
-  color: #7db4ff;
-  font-size: 1rem;
-}
-
+/* This dialog is portaled outside the authenticated shell. Make the component itself
+   authoritative so neutral/reset CSS cannot turn it back into a white sheet. */
 .hlc-command-search-backdrop {
   position: fixed;
   inset: 0;
@@ -43,19 +29,20 @@
   align-items: start;
   justify-items: center;
   padding: max(18px, env(safe-area-inset-top)) 14px max(18px, env(safe-area-inset-bottom));
-  background: rgba(2, 8, 23, .78);
+  background: rgba(3, 3, 18, .88) !important;
   backdrop-filter: blur(14px);
+  color-scheme: dark;
 }
 
 .hlc-command-search {
   width: min(720px, 100%);
   max-height: min(760px, calc(100dvh - 36px - env(safe-area-inset-top) - env(safe-area-inset-bottom)));
   overflow: hidden;
-  border: 1px solid #2b3b52;
+  border: 1px solid rgba(156, 135, 255, .34) !important;
   border-radius: 22px;
-  background: linear-gradient(180deg, #111b2b, #0b1220);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, .5);
-  color: #e8f0fb;
+  background: linear-gradient(170deg, #1b1540, #0d0d23 62%, #080b16) !important;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, .62) !important;
+  color: #faf8ff !important;
 }
 
 .hlc-command-search-header {
@@ -65,34 +52,37 @@
   gap: 11px;
   min-height: 62px;
   padding: 10px 12px 10px 16px;
-  border-bottom: 1px solid #26364d;
-  color: #93c5fd;
+  border-bottom: 1px solid rgba(156, 135, 255, .25) !important;
+  background: rgba(15, 13, 43, .96) !important;
+  color: #b8a9ff !important;
 }
 
 .hlc-command-search-header input {
   width: 100%;
   min-height: 44px;
-  border: 0;
+  border: 1px solid rgba(156, 135, 255, .26) !important;
+  border-radius: 12px !important;
   outline: 0;
-  background: transparent;
-  color: #f8fbff;
+  padding-inline: 12px !important;
+  background: #09091b !important;
+  color: #fff !important;
   font: inherit;
   font-size: 1rem;
+  -webkit-text-fill-color: #fff !important;
+  opacity: 1 !important;
 }
 
-.hlc-command-search-header input::placeholder {
-  color: #71849d;
-}
+.hlc-command-search-header input::placeholder { color: #aaa2c8 !important; opacity: 1 !important; }
 
 .hlc-command-search-header button {
   display: grid;
   place-items: center;
   width: 44px;
   height: 44px;
-  border: 0;
+  border: 1px solid rgba(156, 135, 255, .28) !important;
   border-radius: 12px;
-  background: #172235;
-  color: #dbeafe;
+  background: #171044 !important;
+  color: #fff !important;
 }
 
 .hlc-command-search-results {
@@ -100,6 +90,8 @@
   overflow-y: auto;
   overscroll-behavior: contain;
   padding: 8px;
+  background: #0d0d23 !important;
+  color: #faf8ff !important;
 }
 
 .hlc-command-search-results > button {
@@ -110,65 +102,38 @@
   width: 100%;
   min-height: 62px;
   padding: 10px 12px;
-  border: 1px solid transparent;
+  border: 1px solid rgba(156, 135, 255, .20) !important;
   border-radius: 14px;
-  background: transparent;
-  color: inherit;
+  background: linear-gradient(145deg, rgba(27, 21, 64, .96), rgba(13, 13, 35, .98)) !important;
+  color: #faf8ff !important;
   text-align: left;
 }
 
 .hlc-command-search-results > button:hover,
 .hlc-command-search-results > button:focus-visible {
-  border-color: #31527d;
+  border-color: #9c87ff !important;
   outline: 0;
-  background: #152238;
+  background: #261c59 !important;
 }
 
-.hlc-command-search-result-copy {
-  display: grid;
-  gap: 2px;
-  min-width: 0;
-}
-
-.hlc-command-search-result-copy strong {
-  overflow: hidden;
-  color: #f8fbff;
-  font-size: .92rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.hlc-command-search-result-copy small {
-  overflow: hidden;
-  color: #8ea0b7;
-  font-size: .75rem;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+.hlc-command-search-result-copy { display: grid; gap: 2px; min-width: 0; background: transparent !important; }
+.hlc-command-search-result-copy strong { overflow: hidden; color: #fff !important; font-size: .92rem; text-overflow: ellipsis; white-space: nowrap; background: transparent !important; }
+.hlc-command-search-result-copy small { overflow: hidden; color: #c9c3df !important; font-size: .75rem; text-overflow: ellipsis; white-space: nowrap; background: transparent !important; }
 
 .hlc-command-search-group {
   padding: 5px 8px;
-  border: 1px solid #2c4668;
+  border: 1px solid rgba(156, 135, 255, .34) !important;
   border-radius: 999px;
-  background: rgba(37, 99, 235, .1);
-  color: #a9cfff;
+  background: rgba(115, 87, 255, .18) !important;
+  color: #e5ddff !important;
   font-size: .65rem;
   font-weight: 800;
   letter-spacing: .04em;
   white-space: nowrap;
 }
 
-.hlc-command-search-empty {
-  display: grid;
-  gap: 4px;
-  padding: 24px 14px;
-  color: #8496ad;
-  font-size: .82rem;
-}
-
-.hlc-command-search-empty strong {
-  color: #dbeafe;
-}
+.hlc-command-search-empty { display: grid; gap: 4px; padding: 24px 14px; background: #0d0d23 !important; color: #c9c3df !important; font-size: .82rem; }
+.hlc-command-search-empty strong { color: #fff !important; }
 
 .hlc-command-search-footer {
   display: flex;
@@ -177,46 +142,19 @@
   gap: 12px;
   min-height: 46px;
   padding: 8px 14px;
-  border-top: 1px solid #26364d;
-  color: #70839b;
+  border-top: 1px solid rgba(156, 135, 255, .24) !important;
+  background: #09091b !important;
+  color: #c9c3df !important;
   font-size: .69rem;
 }
 
-.hlc-command-search-footer kbd {
-  padding: 3px 7px;
-  border: 1px solid #33445c;
-  border-radius: 7px;
-  background: #121c2b;
-  color: #b8c7da;
-  font: inherit;
-  font-weight: 750;
-}
+.hlc-command-search-footer kbd { padding: 3px 7px; border: 1px solid rgba(156,135,255,.30) !important; border-radius: 7px; background: #171044 !important; color: #e5ddff !important; font: inherit; font-weight: 750; }
 
 @media (max-width: 720px) {
-  .hlc-command-search-backdrop {
-    align-items: stretch;
-    padding: max(8px, env(safe-area-inset-top)) 8px max(8px, env(safe-area-inset-bottom));
-  }
-
-  .hlc-command-search {
-    width: 100%;
-    max-height: calc(100dvh - max(16px, env(safe-area-inset-top)) - max(16px, env(safe-area-inset-bottom)));
-    border-radius: 18px;
-  }
-
-  .hlc-command-search-header {
-    min-height: 60px;
-  }
-
-  .hlc-command-search-results {
-    max-height: calc(100dvh - 154px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
-  }
-
-  .hlc-command-search-results > button {
-    min-height: 66px;
-  }
-
-  .hlc-command-search-footer kbd {
-    display: none;
-  }
+  .hlc-command-search-backdrop { align-items: stretch; padding: max(8px, env(safe-area-inset-top)) 8px max(8px, env(safe-area-inset-bottom)); }
+  .hlc-command-search { width: 100%; max-height: calc(100dvh - max(16px, env(safe-area-inset-top)) - max(16px, env(safe-area-inset-bottom))); border-radius: 18px; }
+  .hlc-command-search-header { min-height: 60px; }
+  .hlc-command-search-results { max-height: calc(100dvh - 154px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); }
+  .hlc-command-search-results > button { min-height: 66px; }
+  .hlc-command-search-footer kbd { display: none; }
 }

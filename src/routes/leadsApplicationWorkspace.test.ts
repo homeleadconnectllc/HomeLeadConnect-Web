@@ -3,7 +3,9 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const leadsPage = readFileSync(new URL("../pages/dashboard/Leads.tsx", import.meta.url), "utf8");
+const leadDetail = readFileSync(new URL("../pages/dashboard/LeadDetail.tsx", import.meta.url), "utf8");
 const leadRow = readFileSync(new URL("../components/leads/LeadCard.tsx", import.meta.url), "utf8");
+const leadsApi = readFileSync(new URL("../api/leads.ts", import.meta.url), "utf8");
 const leadsCss = readFileSync(new URL("../styles/leads-application-workspace.css", import.meta.url), "utf8");
 
 test("Leads uses a dedicated operating workspace instead of a page card", () => {
@@ -29,4 +31,13 @@ test("Leads preserves the operational actions and mobile collapse", () => {
   assert.match(leadsCss, /grid-template-columns:minmax\(0,1\.55fr\)/);
   assert.match(leadsCss, /@media\(max-width:760px\)/);
   assert.match(leadsCss, /\.hlc-lead-row\{grid-template-columns:1fr/);
+});
+
+test("Leads queries only columns present in the deployed lead schema", () => {
+  assert.doesNotMatch(leadsApi, /lead_code|priority/);
+  assert.doesNotMatch(leadsPage, /lead_code|lead code|priority/i);
+  assert.doesNotMatch(leadRow, /lead_code|priority/);
+  assert.doesNotMatch(leadDetail, /lead_code|priority/);
+  assert.match(leadRow, /Lead #\{lead\.id\}/);
+  assert.match(leadDetail, /Lead #\{lead\.id\}/);
 });

@@ -1,0 +1,165 @@
+/* HomeLead Connect — premium mobile drawer refinement
+   Visual-only. Keeps existing navigation/auth behavior intact while bringing the More/sidebar
+   experience into the role-family Version A system. */
+
+@layer hlcRedesign {
+  @media (max-width: 760px) {
+    body > .hlc-drawer-v2 {
+      background:
+        radial-gradient(circle at 88% -8%, color-mix(in srgb, var(--portal-accent, #7357ff) 24%, transparent), transparent 22rem),
+        linear-gradient(180deg, color-mix(in srgb, var(--portal-canvas-1, #071426) 96%, #000 4%), var(--portal-canvas-1, #071426)) !important;
+      color: var(--portal-text, #f8fbff) !important;
+    }
+
+    body > .hlc-drawer-v2 > .hlc-drawer-v2-scroll {
+      padding: max(14px, env(safe-area-inset-top)) 18px calc(28px + env(safe-area-inset-bottom)) !important;
+      background: transparent !important;
+    }
+
+    body > .hlc-drawer-v2 :where(.hlc-mobile-menu-heading,.hlc-owner-home-link,.hlc-mobile-command-search-trigger,.hlc-mobile-more-quick a,.hlc-nav-group) {
+      border-color: color-mix(in srgb, var(--portal-line, rgba(96,165,250,.28)) 82%, transparent) !important;
+      background: color-mix(in srgb, var(--portal-surface-2, #0b1a2f) 88%, transparent) !important;
+      box-shadow: none !important;
+    }
+
+    body > .hlc-drawer-v2 .hlc-mobile-menu-heading {
+      margin: 0 0 14px !important;
+      padding: 8px 4px 14px !important;
+      border: 0 !important;
+      border-bottom: 1px solid var(--portal-line, rgba(96,165,250,.28)) !important;
+      border-radius: 0 !important;
+      background: transparent !important;
+    }
+
+    body > .hlc-drawer-v2 .hlc-mobile-menu-heading span {
+      color: var(--portal-accent-2, #60a5fa) !important;
+      font-size: 11px !important;
+      font-weight: 800 !important;
+      letter-spacing: .12em !important;
+      text-transform: uppercase !important;
+    }
+
+    body > .hlc-drawer-v2 .hlc-mobile-menu-heading strong {
+      color: var(--portal-text, #f8fbff) !important;
+      font-size: 21px !important;
+      line-height: 1.15 !important;
+    }
+
+    body > .hlc-drawer-v2 .hlc-owner-home-link,
+    body > .hlc-drawer-v2 .hlc-mobile-command-search-trigger {
+      min-height: 74px !important;
+      padding: 14px 16px !important;
+      margin: 0 0 10px !important;
+      border-radius: 16px !important;
+      background: linear-gradient(135deg, color-mix(in srgb, var(--portal-accent-soft, rgba(96,165,250,.16)) 86%, transparent), color-mix(in srgb, var(--portal-surface-2, #0b1a2f) 94%, transparent)) !important;
+    }
+
+    body > .hlc-drawer-v2 .hlc-owner-home-link strong,
+    body > .hlc-drawer-v2 .hlc-mobile-command-search-trigger strong {
+      color: var(--portal-text, #f8fbff) !important;
+      font-size: 18px !important;
+    }
+
+    body > .hlc-drawer-v2 .hlc-owner-home-link small,
+    body > .hlc-drawer-v2 .hlc-mobile-command-search-trigger small {
+      color: var(--portal-muted, #b9c7db) !important;
+      font-size: 13px !important;
+      line-height: 1.25 !important;
+    }
+
+    body > .hlc-drawer-v2 .hlc-mobile-more-quick {
+      display: grid !important;
+      gap: 2px !important;
+      margin: 16px 0 12px !important;
+      border-top: 1px solid var(--portal-line, rgba(96,165,250,.22)) !important;
+      border-bottom: 1px solid var(--portal-line, rgba(96,165,250,.22)) !important;
+    }
+
+    body > .hlc-drawer-v2 .hlc-mobile-more-quick a {
+      min-height: 62px !important;
+      padding: 10px 8px !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      background: transparent !important;
+    }
+
+    body > .hlc-drawer-v2 .hlc-mobile-more-quick a + a {
+      border-top: 1px solid color-mix(in srgb, var(--portal-line, rgba(96,165,250,.22)) 60%, transparent) !important;
+    }
+
+    body > .hlc-drawer-v2 .hlc-mobile-more-quick strong {
+      color: var(--portal-text, #f8fbff) !important;
+      font-size: 16px !important;
+    }
+
+    body > .hlc-drawer-v2 .hlc-mobile-more-quick small {
+      color: var(--portal-muted, #b9c7db) !important;
+      font-size: 12.5px !important;
+    }
+
+    body > .hlc-drawer-v2 .hlc-navbar-groups {
+      display: grid !important;
+      gap: 8px !important;
+      margin-top: 12px !important;
+    }
+
+    body > .hlc-drawer-v2 .hlc-nav-group {
+      overflow: hidden !important;
+      border-radius: 14px !important;
+    }
+
+    body > .hlc-drawer-v2 .hlc-nav-group > summary {
+      min-height: 48px !important;
+      padding: 10px 14px !important;
+      color: var(--portal-text, #f8fbff) !important;
+      background: color-mix(in srgb, var(--portal-accent-soft, rgba(96,165,250,.12)) 66%, transparent) !important;
+    }
+
+    body > .hlc-drawer-v2 .hlc-nav-menu a {
+      min-height: 56px !important;
+      padding: 9px 12px !important;
+      border-radius: 0 !important;
+      background: transparent !important;
+      border-top: 1px solid color-mix(in srgb, var(--portal-line, rgba(96,165,250,.20)) 55%, transparent) !important;
+    }
+
+    body > .hlc-drawer-v2 .hlc-agent-nav-link {
+      position: relative !important;
+      padding-left: 14px !important;
+    }
+
+    body > .hlc-drawer-v2 .hlc-agent-nav-link::before {
+      content: "";
+      position: absolute;
+      inset: 9px auto 9px 0;
+      width: 3px;
+      border-radius: 999px;
+      background: var(--portal-accent, #7357ff);
+      opacity: .9;
+    }
+
+    body > .hlc-drawer-v2 .hlc-agent-nav-link img {
+      width: 38px !important;
+      height: 38px !important;
+      border-radius: 50% !important;
+      border: 1px solid var(--portal-line, rgba(96,165,250,.28)) !important;
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--portal-accent-soft, rgba(96,165,250,.12)) 72%, transparent) !important;
+    }
+
+    body > .hlc-drawer-v2 :where(.hlc-agent-nav-copy strong,.hlc-nav-menu strong) {
+      color: var(--portal-text, #f8fbff) !important;
+    }
+
+    body > .hlc-drawer-v2 :where(.hlc-agent-nav-copy small,.hlc-nav-menu small) {
+      color: var(--portal-muted, #b9c7db) !important;
+    }
+
+    body > .hlc-drawer-v2 button[class*="sign"],
+    body > .hlc-drawer-v2 .hlc-mobile-signout {
+      background: rgba(127,29,29,.14) !important;
+      border-color: rgba(248,113,113,.30) !important;
+      color: #fecaca !important;
+      box-shadow: none !important;
+    }
+  }
+}
