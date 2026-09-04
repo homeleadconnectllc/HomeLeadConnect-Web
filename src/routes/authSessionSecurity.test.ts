@@ -33,8 +33,12 @@ test("Safari autofill cannot replace the HLC auth field surface with a yellow ba
 });
 
 test("account access remains fail-closed when workspace or portal resolution errors", () => {
-  assert.match(accountAccessProvider, /const failed = Boolean\(business\.error \|\| homeowner\.error \|\| contractor\.error \|\| profile\.error\)/);
+  assert.match(accountAccessProvider, /const partnerDenied = Boolean\(partner\.error && partner\.error\.code === "42501"\)/);
+  assert.match(accountAccessProvider, /const failed = Boolean\(business\.error \|\| homeowner\.error \|\| contractor\.error \|\| profile\.error \|\| \(partner\.error && !partnerDenied\)\)/);
   assert.match(accountAccessProvider, /business: !failed && Boolean\(business\.data\?\.length\)/);
+  assert.match(accountAccessProvider, /homeowner: !failed && Boolean\(homeowner\.data\?\.length\)/);
+  assert.match(accountAccessProvider, /contractor: !failed && Boolean\(contractor\.data\?\.length\)/);
+  assert.match(accountAccessProvider, /partner: !failed && !partnerDenied && Boolean\(partner\.data\)/);
   assert.match(accountAccessProvider, /role: failed \? null : normalizeInternalRole/);
   assert.match(accountAccessProvider, /error: failed/);
 });

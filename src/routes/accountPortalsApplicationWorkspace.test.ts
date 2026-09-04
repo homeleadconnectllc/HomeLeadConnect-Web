@@ -8,6 +8,10 @@ const profile = readFileSync("src/pages/dashboard/MyProfile.tsx", "utf8");
 const resident = readFileSync("src/pages/portal/HomeownerPortal.tsx", "utf8");
 const professional = readFileSync("src/pages/portal/ContractorPortal.tsx", "utf8");
 const partner = readFileSync("src/pages/portal/PartnerPortal.tsx", "utf8");
+const property = readFileSync("src/pages/dashboard/PropertyIntelligence.tsx", "utf8");
+const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
+const router = readFileSync("src/routes/AppRouter.tsx", "utf8");
+const portalBoundary = readFileSync("src/routes/PortalAccessBoundary.tsx", "utf8");
 const styles = readFileSync("src/styles/account-portals-application-workspace.css", "utf8");
 const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 
@@ -95,6 +99,38 @@ test("partner portal exposes role-appropriate Resources without internal workspa
   assert.doesNotMatch(partner, /\/resources\/playbook/);
 });
 
+test("portal routes fail closed by resident professional and partner account signals", () => {
+  assert.match(portalBoundary, /audience === "resident"[\s\S]*access\.homeowner/);
+  assert.match(portalBoundary, /audience === "professional"[\s\S]*access\.contractor/);
+  assert.match(portalBoundary, /access\.partner/);
+  assert.match(router, /PortalAccessBoundary audience="resident"/);
+  assert.match(router, /PortalAccessBoundary audience="professional"/);
+  assert.match(router, /PortalAccessBoundary audience="partner"/);
+  assert.match(router, /homeowner-portal\/properties/);
+  assert.doesNotMatch(router, /<Route element={<WorkspaceLayout\/>}>[\s\S]*homeowner-portal\/properties[\s\S]*analytics/);
+});
+
+test("misleading portal-shaped matching and team URLs cannot expose internal tools", () => {
+  assert.match(router, /homeowner-portal\/matches" element={<Navigate to="\/homeowner-portal" replace\/>}/);
+  assert.match(router, /contractor-portal\/team" element={<Navigate to="\/contractor-portal" replace\/>}/);
+});
+
+test("partner navigation resolves to the partner portal without inheriting resident professional tools", () => {
+  assert.match(navbar, /access\.partner \? "\/partner-portal" : "\/portal\/accept"/);
+  assert.match(navbar, /access\.partner \? "Partner portal"/);
+  assert.match(navbar, /partner-portal\/resources/);
+  assert.match(navbar, /!access\.partner && <button className="hlc-mobile-command-search-trigger"/);
+  assert.doesNotMatch(navbar, /access\.homeowner \|\| access\.contractor \|\| access\.partner\) portalLinks\.push/);
+});
+
+test("resident property route is location-neutral at entry", () => {
+  assert.doesNotMatch(property, /state: "PA"/);
+  assert.match(property, /City \/ locality/);
+  assert.match(property, /State \/ region/);
+  assert.match(property, /Postal code/);
+  assert.match(property, /HomeLead Connect never guesses age/);
+});
+
 test("account portal specialization mounts before final authority and collapses on mobile", () => {
   const routeIndex = entry.indexOf("./account-portals-application-workspace.css");
   const finalIndex = entry.indexOf("./application-workspace-ui.css");
@@ -107,10 +143,13 @@ test("account portal specialization mounts before final authority and collapses 
   assert.match(styles, /width:min\(100% - 24px,1440px\)/);
 });
 
-test("account and portal screens are natively dark with divider-based controls", () => {
+test("account controls remain dark while role portals use the approved Dashboard Version A light authority", () => {
   assert.match(styles, /--acct-surface:#0d1b2f/);
   assert.match(styles, /\.hlc-account-field-grid input,[\s\S]*background:var\(--acct-surface-soft\)/);
   assert.match(styles, /\.hlc-account-form-actions button,[\s\S]*background:#112744/);
-  assert.match(styles, /\.hlc-portal-row\{[^}]*background:transparent!important/);
-  assert.doesNotMatch(styles, /background:(?:#fff|#ffffff|#fbfdff|#eef5fc)/i);
+  assert.match(styles, /Dashboard Version A portal authority/);
+  assert.match(styles, /\.hlc-portal-workspace\{[^}]*--acct-surface:#ffffff[^}]*--acct-text:#172033/);
+  assert.match(styles, /\.hlc-portal-workspace \.hlc-portal-header\{[^}]*background:#fff[^}]*border:1px solid #e2e8f0/);
+  assert.match(styles, /\.hlc-portal-workspace \.hlc-portal-project\{[^}]*background:#fff!important[^}]*border:1px solid #e2e8f0/);
+  assert.match(styles, /\.hlc-portal-workspace \.hlc-portal-row\{[^}]*border-color:rgba\(15,23,42,\.09\)/);
 });

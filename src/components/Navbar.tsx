@@ -14,7 +14,7 @@ const declaredWorkspaceRoutes = new Set([
   "/dashboard", "/ecosystem", "/workflow", "/automations", "/hq", "/notifications", "/analytics", "/analytics/forecasting", "/analytics/sandbox",
   "/work", "/work/matching", "/leads", "/estimator", "/jobs", "/calendar", "/follow-ups", "/operations",
   "/call-center", "/messages", "/manual-communications", "/customer-experience",
-  "/documents", "/settings", "/team", "/homeowner-portal", "/contractor-portal", "/network",
+  "/documents", "/settings", "/team", "/homeowner-portal", "/contractor-portal", "/partner-portal", "/network",
   "/map", "/profiles", "/providers", "/matching", "/community-hub", "/community/swipe",
   "/community/discover", "/community/messages", "/community/challenges", "/community/academy", "/community/groups",
   "/community/discussions", "/community/reviews", "/community/referrals",
@@ -55,7 +55,7 @@ function pathMatchesPrefix(pathname: string, prefix: string) { return pathname =
 function mobileRouteIsActive(pathname: string, item: MobileNavItem) {
   if (item.matches?.some((prefix) => pathMatchesPrefix(pathname, prefix))) return true;
   if (legacyMobileRouteAliases.some((alias) => alias.canonicalRoute === item.route && pathMatchesPrefix(pathname, alias.route))) return true;
-  if (item.route === "/dashboard" || item.route === "/homeowner-portal" || item.route === "/contractor-portal") return pathname === item.route;
+  if (item.route === "/dashboard" || item.route === "/homeowner-portal" || item.route === "/contractor-portal" || item.route === "/partner-portal") return pathname === item.route;
   return pathMatchesPrefix(pathname, item.route);
 }
 
@@ -95,6 +95,7 @@ export default function Navbar() {
     const hasPageAccess = (page: EcosystemPage) => {
       if (page.route === "/homeowner-portal") return access.homeowner;
       if (page.route === "/contractor-portal") return access.contractor;
+      if (page.route === "/partner-portal") return access.partner;
       if (page.route === "/messages" || page.route === "/notifications") return access.business || access.homeowner || access.contractor;
       if (!access.business || !access.role) return false;
       return canAccessWorkspacePath(access.role, page.route);
@@ -110,7 +111,7 @@ export default function Navbar() {
   const signedIn = !loading && Boolean(session);
   const accessResolved = !session || (!access.loading && access.userId === session.user.id);
   const showBusinessTools = access.business && Boolean(access.role);
-  const brandDestination = signedIn ? (access.business ? "/dashboard" : access.homeowner ? "/homeowner-portal" : access.contractor ? "/contractor-portal" : "/portal/accept") : "/login";
+  const brandDestination = signedIn ? (access.business ? "/dashboard" : access.homeowner ? "/homeowner-portal" : access.contractor ? "/contractor-portal" : access.partner ? "/partner-portal" : "/portal/accept") : "/login";
   const mobilePrimaryLinks = useMemo<MobileNavItem[]>(() => {
     if (!signedIn || !accessResolved) return [];
     if (showBusinessTools && access.role) return [
@@ -119,11 +120,11 @@ export default function Navbar() {
       { label: "Community", route: "/community-hub", icon: "community", matches: ["/community-hub", "/community", "/network", "/map", "/providers", "/profiles", "/matching"] },
       { label: "Messages", route: "/messages", icon: "messages", matches: ["/messages"] },
     ].filter((item) => canAccessWorkspacePath(access.role, item.route)) as MobileNavItem[];
-    const portalHome = access.homeowner ? "/homeowner-portal" : access.contractor ? "/contractor-portal" : "/portal/accept";
+    const portalHome = access.homeowner ? "/homeowner-portal" : access.contractor ? "/contractor-portal" : access.partner ? "/partner-portal" : "/portal/accept";
     const portalLinks: MobileNavItem[] = [{ label: "Home", route: portalHome, icon: "home" }];
     if (access.homeowner || access.contractor) portalLinks.push({ label: "Messages", route: "/messages", icon: "messages" }, { label: "Alerts", route: "/notifications", icon: "notifications" }, { label: "Profile", route: "/profile", icon: "profile" });
     return portalLinks;
-  }, [access.contractor, access.homeowner, access.role, accessResolved, showBusinessTools, signedIn]);
+  }, [access.contractor, access.homeowner, access.partner, access.role, accessResolved, showBusinessTools, signedIn]);
 
   const businessPrimaryAreaActive = showBusinessTools && mobilePrimaryLinks.some((item) => mobileRouteIsActive(location.pathname, item));
   const moreIsActive = mobileOpen || (showBusinessTools && !businessPrimaryAreaActive);
@@ -135,13 +136,15 @@ export default function Navbar() {
     if (loading) return <p className="hlc-nav-access-note" role="status">Loading navigation…</p>;
     if (!signedIn) return <><div className="hlc-mobile-menu-heading"><span>HomeLead Connect</span><strong>How can we help?</strong></div><a href="https://homeleadconnect.org">Public Home</a><Link to="/request-service" onClick={closeMobileMenu}>Request Service</Link><Link to="/contact" onClick={closeMobileMenu}>Contact</Link><Link to="/login" onClick={closeMobileMenu}>Sign In</Link></>;
     return <>
-      <div className="hlc-mobile-menu-heading"><span>{showBusinessTools ? "HomeLead Connect workspace" : access.homeowner ? "Resident portal" : access.contractor ? "Professional portal" : "HomeLead Connect account"}</span><strong>{showBusinessTools ? "Run HomeLead Connect." : "Your HomeLead Connect access."}</strong></div>
-      <button className="hlc-mobile-command-search-trigger" type="button" onClick={openGlobalSearch}><span className="hlc-mobile-command-search-icon" aria-hidden="true">⌕</span><span><strong>Search HomeLead Connect</strong><small>Find work, people, tools and settings</small></span><b aria-hidden="true">→</b></button>
+      <div className="hlc-mobile-menu-heading"><span>{showBusinessTools ? "HomeLead Connect workspace" : access.homeowner ? "Resident portal" : access.contractor ? "Professional portal" : access.partner ? "Partner portal" : "HomeLead Connect account"}</span><strong>{showBusinessTools ? "Run HomeLead Connect." : access.partner ? "Manage your HomeLead Connect referrals." : "Your HomeLead Connect access."}</strong></div>
+      {!access.partner && <button className="hlc-mobile-command-search-trigger" type="button" onClick={openGlobalSearch}><span className="hlc-mobile-command-search-icon" aria-hidden="true">⌕</span><span><strong>Search HomeLead Connect</strong><small>Find work, people, tools and settings</small></span><b aria-hidden="true">→</b></button>}
       <nav className="hlc-mobile-more-quick" aria-label="More quick actions">
-        <Link to="/start-here" onClick={closeMobileMenu}><MobileNavIcon name="more" /><span><strong>App Directory</strong><small>See everything available to you</small></span></Link>
-        <Link to="/notifications" onClick={closeMobileMenu}><MobileNavIcon name="notifications" /><span><strong>Notifications</strong><small>What needs attention</small></span></Link>
-        <Link to="/profile" onClick={closeMobileMenu}><MobileNavIcon name="profile" /><span><strong>My profile</strong><small>Identity and preferences</small></span></Link>
-        {showBusinessTools && <Link to="/settings" onClick={closeMobileMenu}><MobileNavIcon name="more" /><span><strong>Settings</strong><small>Workspace and account controls</small></span></Link>}
+        {access.partner ? <Link to="/partner-portal/resources" onClick={closeMobileMenu}><MobileNavIcon name="more" /><span><strong>Partner resources</strong><small>Referral guidance and partner materials</small></span></Link> : <>
+          <Link to="/start-here" onClick={closeMobileMenu}><MobileNavIcon name="more" /><span><strong>App Directory</strong><small>See everything available to you</small></span></Link>
+          <Link to="/notifications" onClick={closeMobileMenu}><MobileNavIcon name="notifications" /><span><strong>Notifications</strong><small>What needs attention</small></span></Link>
+          <Link to="/profile" onClick={closeMobileMenu}><MobileNavIcon name="profile" /><span><strong>My profile</strong><small>Identity and preferences</small></span></Link>
+          {showBusinessTools && <Link to="/settings" onClick={closeMobileMenu}><MobileNavIcon name="more" /><span><strong>Settings</strong><small>Workspace and account controls</small></span></Link>}
+        </>}
       </nav>
       {showBusinessTools && <Link className="hlc-owner-home-link" to="/dashboard" onClick={closeMobileMenu}><span><strong>Open Home</strong><small>Priorities, live work and what needs attention</small></span><b aria-hidden="true">→</b></Link>}
       <div className="hlc-navbar-groups" aria-label="Signed-in HomeLead Connect areas">
@@ -166,7 +169,7 @@ export default function Navbar() {
 
   return <>
     <nav className={`hlc-navbar ${mobileOpen ? "menu-is-open" : ""}`} role="navigation" aria-label="Main navigation">
-      <Link className="hlc-navbar-brand" to={brandDestination} onClick={closeMobileMenu}><div className="hlc-navbar-logo"><img src={logo} alt="HomeLead Connect LLC" /></div><div className="hlc-navbar-brand-copy"><h2>HomeLead Connect</h2><span>{signedIn ? (showBusinessTools ? "HomeLead Connect workspace" : access.homeowner ? "Resident portal" : access.contractor ? "Professional portal" : "HomeLead Connect account") : "Home services network"}</span></div></Link>
+      <Link className="hlc-navbar-brand" to={brandDestination} onClick={closeMobileMenu}><div className="hlc-navbar-logo"><img src={logo} alt="HomeLead Connect LLC" /></div><div className="hlc-navbar-brand-copy"><h2>HomeLead Connect</h2><span>{signedIn ? (showBusinessTools ? "HomeLead Connect workspace" : access.homeowner ? "Resident portal" : access.contractor ? "Professional portal" : access.partner ? "Partner portal" : "HomeLead Connect account") : "Home services network"}</span></div></Link>
       <button type="button" className="hlc-navbar-toggle" aria-expanded={mobileOpen} aria-label={mobileOpen ? "Close menu" : "Open menu"} onClick={() => setMobileOpenAt(mobileOpen ? null : location.pathname)}>{mobileOpen ? "Close" : "Menu"}</button>
       <div className="hlc-navbar-links hlc-desktop-navigation">{renderMenuContents()}</div>
     </nav>

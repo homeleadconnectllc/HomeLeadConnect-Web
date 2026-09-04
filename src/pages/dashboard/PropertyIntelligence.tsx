@@ -42,7 +42,7 @@ export default function PropertyIntelligence() {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
 
-  const [propertyForm, setPropertyForm] = useState({ label: "", address: "", city: "", state: "PA", zip: "" });
+  const [propertyForm, setPropertyForm] = useState({ label: "", address: "", city: "", state: "", zip: "" });
   const [assetForm, setAssetForm] = useState({ category: "hvac" as PropertyAssetCategory, label: "", manufacturer: "", modelNumber: "", serialNumber: "", installedOn: "", warrantyExpiresOn: "", lastServicedOn: "", nextServiceOn: "", condition: "unknown" as PropertyAssetCondition, notes: "" });
   const [serviceForm, setServiceForm] = useState({ eventType: "maintenance" as PropertyAssetServiceType, occurredOn: new Date().toISOString().slice(0, 10), providerName: "", cost: "", notes: "" });
 
@@ -86,7 +86,7 @@ export default function PropertyIntelligence() {
       setProperties((current) => [created, ...current]);
       setSelectedPropertyId(created.id);
       setSelectedAssetId("");
-      setPropertyForm({ label: "", address: "", city: "", state: "PA", zip: "" });
+      setPropertyForm({ label: "", address: "", city: "", state: "", zip: "" });
       setMessage("Property added.");
     } catch (reason) { setError(errorMessage(reason, "Unable to add property.")); }
   }
@@ -119,7 +119,7 @@ export default function PropertyIntelligence() {
         <div className="hlc-command-copy">
           <div className="hlc-command-kicker"><Home size={15} aria-hidden="true" />Property intelligence</div>
           <h1>Home systems, equipment & service history</h1>
-          <p>Build a factual maintenance record for the property. HLC never guesses age, condition, warranty or service history.</p>
+          <p>Build a factual maintenance record for the property. HomeLead Connect never guesses age, condition, warranty or service history.</p>
         </div>
       </section>
 
@@ -132,8 +132,8 @@ export default function PropertyIntelligence() {
           <span className="hlc-workspace-copy"><strong>Add a property</strong><span>Service location or home profile.</span></span>
           <label>Property label<input required maxLength={160} value={propertyForm.label} onChange={(event) => setPropertyForm({ ...propertyForm, label: event.target.value })} placeholder="Home, rental, office…" /></label>
           <label>Address<input value={propertyForm.address} onChange={(event) => setPropertyForm({ ...propertyForm, address: event.target.value })} /></label>
-          <label>City<input value={propertyForm.city} onChange={(event) => setPropertyForm({ ...propertyForm, city: event.target.value })} /></label>
-          <div className="hlc-inline-form-grid"><label>State<input value={propertyForm.state} onChange={(event) => setPropertyForm({ ...propertyForm, state: event.target.value })} /></label><label>ZIP<input value={propertyForm.zip} onChange={(event) => setPropertyForm({ ...propertyForm, zip: event.target.value })} /></label></div>
+          <label>City / locality<input value={propertyForm.city} onChange={(event) => setPropertyForm({ ...propertyForm, city: event.target.value })} /></label>
+          <div className="hlc-inline-form-grid"><label>State / region<input value={propertyForm.state} onChange={(event) => setPropertyForm({ ...propertyForm, state: event.target.value })} /></label><label>Postal code<input value={propertyForm.zip} onChange={(event) => setPropertyForm({ ...propertyForm, zip: event.target.value })} /></label></div>
           <button type="submit">Add property</button>
         </form>
 

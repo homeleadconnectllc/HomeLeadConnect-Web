@@ -5,6 +5,7 @@ export type AccountAccess = {
   business: boolean;
   homeowner: boolean;
   contractor: boolean;
+  partner: boolean;
   role: InternalRole | null;
   userId: string | null;
   loading: boolean;
@@ -15,6 +16,7 @@ export const emptyAccountAccess: AccountAccess = {
   business: false,
   homeowner: false,
   contractor: false,
+  partner: false,
   role: null,
   userId: null,
   loading: true,
