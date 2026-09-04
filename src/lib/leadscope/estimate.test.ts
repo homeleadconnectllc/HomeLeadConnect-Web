@@ -16,9 +16,11 @@ test("LeadScope rejects impossible range assumptions", () => {
   assert.throws(() => calculateResidentEstimateRange({ quantity: 10, rateLow: -1, rateHigh: 2 }), /non-negative/);
 });
 
-test("LeadScope keeps measurement labels resident-readable", () => {
+test("LeadScope keeps imperial and metric measurement labels resident-readable", () => {
   assert.equal(measurementUnitLabel("sq_ft"), "square feet");
+  assert.equal(measurementUnitLabel("sq_m"), "square metres");
   assert.equal(measurementUnitLabel("linear_ft"), "linear feet");
+  assert.equal(measurementUnitLabel("linear_m"), "linear metres");
   assert.equal(measurementUnitLabel("each"), "items");
   assert.equal(measurementUnitLabel("custom"), "units");
 });
