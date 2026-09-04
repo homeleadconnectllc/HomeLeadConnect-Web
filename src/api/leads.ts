@@ -2,7 +2,6 @@ import { getCurrentWorkspaceId, supabase } from "./client";
 import type { Lead } from "../lib/types/database";
 
 export type LeadRecord = Lead & {
-  lead_code: string | null;
   source: string | null;
   priority: string | null;
   stage: string | null;
@@ -33,7 +32,6 @@ const leadColumns = [
   "created_at",
   "updated_at",
   "notes",
-  "lead_code",
   "source",
   "priority",
   "stage",
