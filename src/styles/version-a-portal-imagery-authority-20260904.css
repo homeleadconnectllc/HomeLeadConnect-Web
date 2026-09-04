@@ -1,0 +1,134 @@
+/* HomeLead Connect — approved Portal Showcase imagery authority.
+   Decorative stock photography is intentionally scoped to portal/dashboard storytelling surfaces.
+   Dense CRM/work tables/messages remain image-free for clarity.
+   Sources are free-use stock imagery from Unsplash/Pexels; overlays preserve WCAG contrast.
+*/
+
+@layer hlcRedesign {
+  #root .hlc-signed-in-shell {
+    --portal-story-image: url("https://images.unsplash.com/photo-1760354077162-51b4062c83a9?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=68&w=1600");
+    --portal-story-position: center 46%;
+  }
+
+  /* Family / Resident — modern home, blue editorial treatment. */
+  #root .hlc-signed-in-shell[class*="hlc-page-homeowner-portal"] {
+    --portal-story-image: url("https://images.unsplash.com/photo-1762180075273-0527bdc7fa85?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=68&w=1600");
+    --portal-story-position: center 58%;
+  }
+
+  /* Professional / Provider — active skilled-trade work, green treatment. */
+  #root .hlc-signed-in-shell[class*="hlc-page-contractor-portal"] {
+    --portal-story-image: url("https://images.pexels.com/photos/8961339/pexels-photo-8961339.jpeg?auto=compress&cs=tinysrgb&w=1600");
+    --portal-story-position: center 44%;
+  }
+
+  /* Partner / Property Manager — property portfolio, amber treatment. */
+  #root .hlc-signed-in-shell[class*="hlc-page-partner-portal"] {
+    --portal-story-image: url("https://images.unsplash.com/photo-1781512436292-f2687f67f605?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=68&w=1600");
+    --portal-story-position: center 50%;
+  }
+
+  /* A real photographic story strip belongs to each portal page/subpage, matching the approved showcase.
+     It is decorative: page headings/actions remain real DOM content immediately below. */
+  #root .hlc-signed-in-shell:is(
+    [class*="hlc-page-homeowner-portal"],
+    [class*="hlc-page-contractor-portal"],
+    [class*="hlc-page-partner-portal"]
+  ) .hlc-route-content::before {
+    content: "";
+    display: block;
+    width: 100%;
+    min-height: clamp(132px, 20vw, 224px);
+    margin: 0 0 clamp(14px, 2.4vw, 24px);
+    border: 1px solid var(--portal-line);
+    border-radius: clamp(18px, 2.4vw, 26px);
+    background-image:
+      linear-gradient(90deg,
+        color-mix(in srgb, var(--portal-canvas-1) 93%, transparent) 0%,
+        color-mix(in srgb, var(--portal-canvas-2) 68%, transparent) 46%,
+        color-mix(in srgb, var(--portal-accent) 18%, transparent) 100%),
+      linear-gradient(0deg, rgba(2, 7, 16, .42), rgba(2, 7, 16, .08)),
+      var(--portal-story-image);
+    background-size: cover;
+    background-position: var(--portal-story-position);
+    background-repeat: no-repeat;
+    box-shadow:
+      0 22px 48px rgba(0,0,0,.28),
+      0 0 42px color-mix(in srgb, var(--portal-glow) 72%, transparent),
+      inset 0 1px 0 rgba(255,255,255,.08);
+    overflow: hidden;
+  }
+
+  /* Where portal pages already provide a hero/banner/promo block, carry the same image language into it
+     instead of leaving a flat monochrome slab. Text stays readable through the deep role-color overlay. */
+  #root .hlc-signed-in-shell:is(
+    [class*="hlc-page-homeowner-portal"],
+    [class*="hlc-page-contractor-portal"],
+    [class*="hlc-page-partner-portal"]
+  ) .hlc-route-content :where(
+    [class*="hero"],
+    [class*="promo"],
+    [class*="story"],
+    [class*="feature-banner"]
+  ) {
+    background-image:
+      linear-gradient(105deg,
+        color-mix(in srgb, var(--portal-surface-2) 96%, transparent) 0%,
+        color-mix(in srgb, var(--portal-surface-1) 88%, transparent) 54%,
+        color-mix(in srgb, var(--portal-accent) 28%, transparent) 100%),
+      var(--portal-story-image) !important;
+    background-size: cover !important;
+    background-position: var(--portal-story-position) !important;
+    background-repeat: no-repeat !important;
+  }
+
+  /* Internal/Admin dashboard gets the technical night-architecture visual from the same mockup family,
+     but operational detail screens intentionally stay image-free. */
+  #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-route-content::before {
+    content: "";
+    display: block;
+    width: 100%;
+    min-height: clamp(122px, 17vw, 196px);
+    margin: 0 0 clamp(14px, 2.2vw, 22px);
+    border: 1px solid var(--portal-line);
+    border-radius: clamp(18px, 2.4vw, 26px);
+    background-image:
+      linear-gradient(90deg, rgba(9,9,27,.96) 0%, rgba(23,16,68,.72) 50%, rgba(115,87,255,.18) 100%),
+      url("https://images.unsplash.com/photo-1760354077162-51b4062c83a9?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=68&w=1600");
+    background-size: cover;
+    background-position: center 48%;
+    background-repeat: no-repeat;
+    box-shadow: 0 22px 48px rgba(0,0,0,.28), 0 0 42px var(--portal-glow);
+  }
+
+  /* Image loading failure degrades to the premium role gradient instead of producing a blank/white region. */
+  #root .hlc-signed-in-shell:is(
+    [class*="hlc-page-homeowner-portal"],
+    [class*="hlc-page-contractor-portal"],
+    [class*="hlc-page-partner-portal"],
+    .hlc-page-dashboard
+  ) .hlc-route-content::before {
+    background-color: var(--portal-surface-2);
+  }
+
+  @media (max-width: 760px) {
+    #root .hlc-signed-in-shell:is(
+      [class*="hlc-page-homeowner-portal"],
+      [class*="hlc-page-contractor-portal"],
+      [class*="hlc-page-partner-portal"]
+    ) .hlc-route-content::before,
+    #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-route-content::before {
+      min-height: 142px;
+      margin-inline: 0;
+      border-radius: 18px;
+      background-position: var(--portal-story-position, center);
+    }
+  }
+
+  @media (prefers-reduced-data: reduce) {
+    #root .hlc-signed-in-shell .hlc-route-content::before,
+    #root .hlc-signed-in-shell .hlc-route-content :where([class*="hero"],[class*="promo"],[class*="story"],[class*="feature-banner"]) {
+      background-image: linear-gradient(145deg, var(--portal-surface-1), var(--portal-surface-2)) !important;
+    }
+  }
+}

@@ -1,0 +1,212 @@
+/* HomeLead Connect — Version A role/portal rollout
+   Visual-only global authority inspired by the approved multi-color premium mockup.
+   Family/Resident = blue, Professional = green, Partner = amber, Internal/Admin = purple.
+   Applies to portal families and subpages through stable route classes; shared routes retain deep navy.
+   No route, data, auth, billing, entitlement, workflow, or API behavior changes. */
+
+@layer hlcRedesign {
+  #root .hlc-signed-in-shell {
+    --portal-accent: #6d5dfc;
+    --portal-accent-2: #9b8cff;
+    --portal-accent-soft: rgba(109, 93, 252, .18);
+    --portal-canvas-1: #09091a;
+    --portal-canvas-2: #15113a;
+    --portal-surface-1: rgba(24, 20, 58, .96);
+    --portal-surface-2: rgba(14, 14, 36, .98);
+    --portal-line: rgba(156, 140, 255, .30);
+    --portal-glow: rgba(109, 93, 252, .22);
+    --portal-text: #f8f7ff;
+    --portal-muted: #c1bdd8;
+  }
+
+  /* Family / resident portal family — trusted blue. */
+  #root .hlc-signed-in-shell[class*="hlc-page-homeowner-portal"] {
+    --portal-accent: #2196ff;
+    --portal-accent-2: #5bbcff;
+    --portal-accent-soft: rgba(33, 150, 255, .18);
+    --portal-canvas-1: #03152d;
+    --portal-canvas-2: #062b54;
+    --portal-surface-1: rgba(7, 44, 83, .96);
+    --portal-surface-2: rgba(4, 25, 51, .98);
+    --portal-line: rgba(91, 188, 255, .30);
+    --portal-glow: rgba(33, 150, 255, .26);
+    --portal-text: #f5fbff;
+    --portal-muted: #bfd7ea;
+  }
+
+  /* Professional / contractor portal family — growth green. */
+  #root .hlc-signed-in-shell[class*="hlc-page-contractor-portal"] {
+    --portal-accent: #29d45e;
+    --portal-accent-2: #68ef8d;
+    --portal-accent-soft: rgba(41, 212, 94, .17);
+    --portal-canvas-1: #031b12;
+    --portal-canvas-2: #063b24;
+    --portal-surface-1: rgba(7, 57, 35, .96);
+    --portal-surface-2: rgba(3, 27, 18, .98);
+    --portal-line: rgba(104, 239, 141, .28);
+    --portal-glow: rgba(41, 212, 94, .22);
+    --portal-text: #f4fff7;
+    --portal-muted: #bfdec9;
+  }
+
+  /* Partner portal family — warm amber. */
+  #root .hlc-signed-in-shell[class*="hlc-page-partner-portal"] {
+    --portal-accent: #f59a17;
+    --portal-accent-2: #ffc05a;
+    --portal-accent-soft: rgba(245, 154, 23, .18);
+    --portal-canvas-1: #231004;
+    --portal-canvas-2: #4a2607;
+    --portal-surface-1: rgba(70, 35, 8, .96);
+    --portal-surface-2: rgba(35, 17, 4, .98);
+    --portal-line: rgba(255, 192, 90, .30);
+    --portal-glow: rgba(245, 154, 23, .22);
+    --portal-text: #fffaf2;
+    --portal-muted: #ead1af;
+  }
+
+  /* Internal/admin/operations stays premium purple from the mockup. */
+  #root .hlc-signed-in-shell:not([class*="hlc-page-homeowner-portal"]):not([class*="hlc-page-contractor-portal"]):not([class*="hlc-page-partner-portal"]) {
+    --portal-accent: #7357ff;
+    --portal-accent-2: #9c87ff;
+    --portal-accent-soft: rgba(115, 87, 255, .18);
+    --portal-canvas-1: #09091b;
+    --portal-canvas-2: #171044;
+    --portal-surface-1: rgba(27, 21, 64, .96);
+    --portal-surface-2: rgba(13, 13, 35, .98);
+    --portal-line: rgba(156, 135, 255, .28);
+    --portal-glow: rgba(115, 87, 255, .23);
+    --portal-text: #faf8ff;
+    --portal-muted: #c9c3df;
+  }
+
+  /* Whole authenticated canvas: premium role-colored background. */
+  #root .hlc-app-shell.hlc-signed-in-shell {
+    color: var(--portal-text) !important;
+    background:
+      radial-gradient(circle at 92% -4%, color-mix(in srgb, var(--portal-accent) 30%, transparent), transparent 34rem),
+      radial-gradient(circle at 2% 28%, color-mix(in srgb, var(--portal-accent-2) 14%, transparent), transparent 30rem),
+      linear-gradient(155deg, var(--portal-canvas-1) 0%, var(--portal-canvas-2) 58%, #070b14 100%) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-navbar,
+  #root .hlc-signed-in-shell .hlc-mobile-tabbar,
+  #root .hlc-signed-in-shell .hlc-ai-team-launcher {
+    background: linear-gradient(180deg, color-mix(in srgb, var(--portal-canvas-1) 94%, transparent), color-mix(in srgb, var(--portal-canvas-2) 90%, transparent)) !important;
+    border-color: var(--portal-line) !important;
+    box-shadow: 0 14px 40px color-mix(in srgb, var(--portal-glow) 80%, rgba(0,0,0,.24)) !important;
+  }
+
+  #root .hlc-signed-in-shell :where(
+    [class*="card"],[class*="panel"],[class*="surface"],[class*="workspace"],
+    [class*="summary"],[class*="metric"],[class*="stat"],[class*="kpi"],
+    [class*="queue"],[class*="record"],[class*="hero"],[class*="tile"],[class*="item"]
+  ) {
+    color: var(--portal-text) !important;
+    background: linear-gradient(150deg, var(--portal-surface-1), var(--portal-surface-2)) !important;
+    border-color: var(--portal-line) !important;
+    box-shadow: 0 16px 38px rgba(0,0,0,.20), inset 0 1px 0 rgba(255,255,255,.025) !important;
+  }
+
+  #root .hlc-signed-in-shell :where(h1,h2,h3,h4,h5,h6,strong,b) {
+    color: var(--portal-text) !important;
+    -webkit-text-fill-color: currentColor !important;
+  }
+
+  #root .hlc-signed-in-shell :where(p,small,label,dd,[class*="muted"],[class*="meta"],[class*="caption"]) {
+    color: var(--portal-muted) !important;
+    -webkit-text-fill-color: currentColor !important;
+  }
+
+  #root .hlc-signed-in-shell :where([class*="eyebrow"],[class*="kicker"],[class*="overline"],[class*="section-label"]) {
+    color: var(--portal-accent-2) !important;
+    -webkit-text-fill-color: currentColor !important;
+    letter-spacing: .12em !important;
+    font-weight: 800 !important;
+  }
+
+  #root .hlc-signed-in-shell a { color: var(--portal-accent-2) !important; }
+
+  #root .hlc-signed-in-shell :where(input,select,textarea) {
+    color: var(--portal-text) !important;
+    background: color-mix(in srgb, var(--portal-canvas-1) 88%, #000 12%) !important;
+    border-color: var(--portal-line) !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.025) !important;
+  }
+
+  #root .hlc-signed-in-shell :where(button,[role="button"],a[class*="button"],a[class*="btn"]) {
+    color: var(--portal-text) !important;
+    background: linear-gradient(145deg, color-mix(in srgb, var(--portal-surface-1) 92%, #fff 8%), var(--portal-surface-2)) !important;
+    border-color: var(--portal-line) !important;
+    box-shadow: 0 10px 28px rgba(0,0,0,.18) !important;
+  }
+
+  #root .hlc-signed-in-shell :where(button[class*="primary"],[class*="btn-primary"],[class*="button-primary"],[data-variant="primary"]) {
+    color: #fff !important;
+    background: linear-gradient(135deg, var(--portal-accent), var(--portal-accent-2)) !important;
+    border-color: color-mix(in srgb, var(--portal-accent-2) 80%, #fff 20%) !important;
+    box-shadow: 0 12px 30px var(--portal-glow) !important;
+  }
+
+  #root .hlc-signed-in-shell :where([aria-current="page"],.is-active,[aria-selected="true"]) {
+    color: #fff !important;
+    background: var(--portal-accent-soft) !important;
+    border-color: var(--portal-line) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-mobile-tabbar :where(a,button),
+  #root .hlc-signed-in-shell .hlc-mobile-tabbar :where(a,button) span,
+  #root .hlc-signed-in-shell .hlc-mobile-tabbar :where(a,button) svg {
+    color: color-mix(in srgb, var(--portal-muted) 90%, #fff 10%) !important;
+    stroke: currentColor !important;
+    opacity: 1 !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-mobile-tabbar :where(a,button).is-active,
+  #root .hlc-signed-in-shell .hlc-mobile-tabbar [aria-current="page"] {
+    color: #fff !important;
+    background: var(--portal-accent-soft) !important;
+    box-shadow: inset 0 0 0 1px var(--portal-line), 0 8px 24px var(--portal-glow) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-ai-team-trigger {
+    color: #fff !important;
+    background: linear-gradient(145deg, color-mix(in srgb, var(--portal-surface-1) 88%, #000 12%), var(--portal-surface-2)) !important;
+    border-color: var(--portal-line) !important;
+    box-shadow: 0 12px 30px var(--portal-glow) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-ai-team-menu {
+    color: var(--portal-text) !important;
+    background: linear-gradient(150deg, var(--portal-surface-1), var(--portal-surface-2)) !important;
+    border-color: var(--portal-line) !important;
+  }
+
+  #root .hlc-signed-in-shell :where(table,thead,tbody,tr,th,td) {
+    color: var(--portal-text) !important;
+    background: color-mix(in srgb, var(--portal-surface-2) 94%, transparent) !important;
+    border-color: var(--portal-line) !important;
+  }
+
+  #root .hlc-signed-in-shell :where(thead,th) {
+    background: color-mix(in srgb, var(--portal-surface-1) 96%, #fff 4%) !important;
+  }
+
+  /* Strong premium edge language across portal families. */
+  #root .hlc-signed-in-shell :where([class*="card"],[class*="panel"],[class*="hero"],[class*="tile"]) {
+    border-radius: clamp(14px, 2.2vw, 22px) !important;
+  }
+
+  @media (max-width: 760px) {
+    #root .hlc-signed-in-shell .hlc-route-content {
+      background: transparent !important;
+    }
+
+    #root .hlc-signed-in-shell .hlc-navbar {
+      border-bottom: 1px solid var(--portal-line) !important;
+    }
+
+    #root .hlc-signed-in-shell .hlc-mobile-tabbar {
+      border-top: 1px solid var(--portal-line) !important;
+    }
+  }
+}

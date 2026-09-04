@@ -1,0 +1,147 @@
+/* HomeLead Connect — physical iPhone legacy-light surface closure.
+   Visual-only. Retires the older light portal/account presentation where it leaks into
+   the authenticated Version A role families. Does not change routes, data, auth,
+   billing, entitlement, workflow, or Messages behavior. */
+
+@layer hlcRedesign {
+  /* The legacy account/portal stylesheet still declares white portal headers/projects,
+     summaries, buttons, and form controls. Bind those exact surfaces to the current
+     role-family tokens instead of relying on broad class-name matching. */
+  #root .hlc-signed-in-shell .hlc-portal-workspace {
+    --acct-line: var(--portal-line) !important;
+    --acct-line-soft: color-mix(in srgb, var(--portal-line) 62%, transparent) !important;
+    --acct-surface: var(--portal-surface-1) !important;
+    --acct-surface-soft: var(--portal-surface-2) !important;
+    --acct-text: var(--portal-text) !important;
+    --acct-muted: var(--portal-muted) !important;
+    --acct-subtle: color-mix(in srgb, var(--portal-muted) 82%, transparent) !important;
+    --acct-blue: var(--portal-accent-2) !important;
+    color: var(--portal-text) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-portal-workspace :where(
+    .hlc-portal-header,
+    .hlc-portal-project,
+    .hlc-portal-summary
+  ) {
+    color: var(--portal-text) !important;
+    background: linear-gradient(150deg, var(--portal-surface-1), var(--portal-surface-2)) !important;
+    border-color: var(--portal-line) !important;
+    box-shadow: 0 16px 38px rgba(0,0,0,.20), inset 0 1px 0 rgba(255,255,255,.025) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-portal-workspace :where(
+    .hlc-portal-header h1,
+    .hlc-account-section-head h2,
+    .hlc-portal-row strong,
+    .hlc-portal-row h3,
+    .hlc-portal-identity strong,
+    .hlc-portal-summary strong
+  ) {
+    color: var(--portal-text) !important;
+    -webkit-text-fill-color: currentColor !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-portal-workspace :where(
+    .hlc-portal-header p,
+    .hlc-portal-state,
+    .hlc-portal-row span,
+    .hlc-portal-row p,
+    .hlc-portal-row ul,
+    .hlc-portal-summary small,
+    .hlc-portal-file-row span
+  ) {
+    color: var(--portal-muted) !important;
+    -webkit-text-fill-color: currentColor !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-portal-workspace :where(
+    .hlc-account-kicker,
+    .hlc-account-section-head span,
+    .hlc-portal-identity > span,
+    .hlc-portal-subsection > h3
+  ) {
+    color: var(--portal-accent-2) !important;
+    -webkit-text-fill-color: currentColor !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-portal-workspace .hlc-account-section-head,
+  #root .hlc-signed-in-shell .hlc-portal-workspace .hlc-portal-summary span,
+  #root .hlc-signed-in-shell .hlc-portal-workspace .hlc-portal-row,
+  #root .hlc-signed-in-shell .hlc-portal-workspace .hlc-portal-file-row {
+    border-color: var(--portal-line) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-portal-workspace .hlc-portal-row:hover {
+    background: var(--portal-accent-soft) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-portal-workspace :where(.hlc-portal-actions > a,.hlc-portal-actions > button) {
+    color: var(--portal-text) !important;
+    -webkit-text-fill-color: currentColor !important;
+    background: linear-gradient(145deg, color-mix(in srgb, var(--portal-surface-1) 92%, #fff 8%), var(--portal-surface-2)) !important;
+    border-color: var(--portal-line) !important;
+    box-shadow: 0 10px 28px rgba(0,0,0,.18) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-portal-workspace :where(.hlc-portal-actions > a,.hlc-portal-actions > button):hover {
+    color: #fff !important;
+    background: var(--portal-accent-soft) !important;
+    border-color: var(--portal-accent-2) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-portal-workspace form label {
+    color: var(--portal-text) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-portal-workspace form :where(input,select,textarea) {
+    color: var(--portal-text) !important;
+    -webkit-text-fill-color: currentColor !important;
+    background: color-mix(in srgb, var(--portal-canvas-1) 88%, #000 12%) !important;
+    border-color: var(--portal-line) !important;
+  }
+
+  /* Settings/account control surfaces use their dedicated dark contract even when an
+     older rule injects pale text or a light background into nested rows. */
+  #root .hlc-signed-in-shell .hlc-account-workspace :where(
+    .hlc-settings-section,
+    .hlc-phone-row,
+    .hlc-account-form,
+    .hlc-account-boundary
+  ) {
+    color: var(--portal-text) !important;
+    background: transparent !important;
+    border-color: var(--portal-line) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-account-workspace :where(
+    .hlc-settings-section p,
+    .hlc-phone-row span,
+    .hlc-phone-row small,
+    .hlc-account-boundary p,
+    .hlc-account-section-head > small
+  ) {
+    color: var(--portal-muted) !important;
+    -webkit-text-fill-color: currentColor !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-account-workspace :where(
+    .hlc-settings-section strong,
+    .hlc-phone-row strong,
+    .hlc-account-section-head h2,
+    .hlc-account-boundary h2
+  ) {
+    color: var(--portal-text) !important;
+    -webkit-text-fill-color: currentColor !important;
+  }
+
+  @media (max-width: 760px) {
+    #root .hlc-signed-in-shell .hlc-portal-workspace :where(.hlc-portal-header,.hlc-portal-project) {
+      border-radius: 16px !important;
+    }
+
+    #root .hlc-signed-in-shell .hlc-portal-workspace .hlc-portal-summary {
+      border-radius: 14px !important;
+    }
+  }
+}

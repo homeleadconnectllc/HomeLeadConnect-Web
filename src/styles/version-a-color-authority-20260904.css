@@ -1,0 +1,120 @@
+/* HomeLead Connect — Version A color authority
+   Visual-only correction. The earlier production reconciliation layer was appended
+   after the certified redesign/reset layers; because !important layer precedence is
+   reversed, its palette could lose while its non-conflicting geometry still applied.
+   Re-enter the existing high-priority hlcRedesign layer so the approved premium
+   authenticated palette wins without altering routes, data, auth, billing or behavior. */
+
+@layer hlcRedesign {
+  #root .hlc-app-shell.hlc-signed-in-shell {
+    --va-canvas: #070b14;
+    --va-canvas-2: #0b1220;
+    --va-surface: #101827;
+    --va-surface-2: #152033;
+    --va-line: rgba(148, 180, 224, 0.17);
+    --va-line-strong: rgba(96, 165, 250, 0.36);
+    --va-text: #f6f9ff;
+    --va-muted: #a9b8ce;
+    --va-accent: #3b82f6;
+    --va-accent-2: #60a5fa;
+    color: var(--va-text) !important;
+    color-scheme: dark !important;
+    background:
+      radial-gradient(circle at 84% 0%, rgba(37, 99, 235, 0.20), transparent 31rem),
+      radial-gradient(circle at 8% 24%, rgba(30, 64, 175, 0.14), transparent 27rem),
+      linear-gradient(155deg, var(--va-canvas) 0%, var(--va-canvas-2) 52%, #080d18 100%) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-route-content,
+  #root .hlc-signed-in-shell .hlc-route-content > main,
+  #root .hlc-signed-in-shell .hlc-workspace-shell,
+  #root .hlc-signed-in-shell .hlc-portal-shell {
+    color: var(--va-text) !important;
+    background-color: transparent !important;
+    background-image: none !important;
+  }
+
+  #root .hlc-signed-in-shell :where(h1,h2,h3,h4,h5,h6,strong,b) {
+    color: var(--va-text) !important;
+    -webkit-text-fill-color: currentColor !important;
+  }
+
+  #root .hlc-signed-in-shell :where(p,small,label,dd,.muted,[class*="muted"],[class*="meta"]) {
+    color: var(--va-muted) !important;
+    -webkit-text-fill-color: currentColor !important;
+  }
+
+  #root .hlc-signed-in-shell :where(
+    [class*="card"],[class*="panel"],[class*="surface"],[class*="workspace"],
+    [class*="inspector"],[class*="summary"],[class*="metric"],[class*="stat"],
+    [class*="kpi"],[class*="queue"],[class*="record"],[class*="hero"]
+  ) {
+    color: var(--va-text) !important;
+    background: linear-gradient(155deg, rgba(21,32,51,.97), rgba(13,21,35,.97)) !important;
+    border-color: var(--va-line) !important;
+    box-shadow: 0 12px 34px rgba(0,0,0,.20) !important;
+  }
+
+  #root .hlc-signed-in-shell :where(input,select,textarea) {
+    color: var(--va-text) !important;
+    -webkit-text-fill-color: currentColor !important;
+    background: rgba(7,13,24,.86) !important;
+    border-color: var(--va-line-strong) !important;
+  }
+
+  #root .hlc-signed-in-shell :where(button,[role="button"],a[class*="button"],a[class*="btn"]) {
+    color: var(--va-text) !important;
+    -webkit-text-fill-color: currentColor !important;
+    background: linear-gradient(155deg, rgba(27,41,64,.98), rgba(15,24,40,.98)) !important;
+    border-color: var(--va-line-strong) !important;
+  }
+
+  #root .hlc-signed-in-shell a { color: #8fc2ff !important; }
+
+  #root .hlc-signed-in-shell .hlc-navbar,
+  #root .hlc-signed-in-shell .hlc-mobile-tabbar {
+    color: var(--va-text) !important;
+    background: rgba(7,12,22,.98) !important;
+    border-color: var(--va-line) !important;
+    box-shadow: 0 10px 34px rgba(0,0,0,.24) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-navbar-brand-copy h2 { color: var(--va-text) !important; }
+  #root .hlc-signed-in-shell .hlc-navbar-brand-copy span { color: var(--va-muted) !important; }
+
+  #root .hlc-signed-in-shell .hlc-mobile-tabbar :where(a,button) {
+    color: var(--va-muted) !important;
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-mobile-tabbar :where(a,button).is-active {
+    color: #fff !important;
+    background: rgba(59,130,246,.17) !important;
+    border-color: rgba(96,165,250,.24) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-ai-team-trigger {
+    color: #fff !important;
+    background: rgba(9,17,31,.99) !important;
+    border-color: rgba(96,165,250,.44) !important;
+    box-shadow: 0 14px 32px rgba(0,0,0,.36) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-ai-team-menu {
+    color: var(--va-text) !important;
+    background: rgba(7,16,31,.995) !important;
+    border-color: rgba(96,165,250,.34) !important;
+  }
+
+  #root .hlc-signed-in-shell :where(table,thead,tbody,tr,th,td) {
+    color: var(--va-text) !important;
+    background: rgba(13,21,35,.94) !important;
+    border-color: var(--va-line) !important;
+  }
+
+  #root .hlc-signed-in-shell :where(thead,th) {
+    background: rgba(24,38,60,.97) !important;
+  }
+}

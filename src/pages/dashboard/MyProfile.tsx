@@ -4,6 +4,8 @@ import { getMyProfile, updateMyProfile } from "../../api/settings";
 import { getParticipantPreferences, saveParticipantPreferences, type ParticipantPreferences } from "../../api/ecosystemRecords";
 import { errorMessage } from "../../lib/errorMessage";
 
+function initials(value:string){const letters=value.trim().split(/\s+/).filter(Boolean).slice(0,2).map(part=>part[0]?.toUpperCase()).join("");return letters||"HC"}
+
 export default function MyProfile(){
  const[form,setForm]=useState({fullName:"",avatarUrl:"",role:""});
  const[prefs,setPrefs]=useState<ParticipantPreferences>({phone:null,preferred_contact:null,accessibility_notes:null,language:"en",network_visibility:"workspace"});
@@ -12,7 +14,7 @@ export default function MyProfile(){
  async function submit(e:FormEvent){e.preventDefault();setBusy(true);setError("");setMessage("");try{const[p,x]=await Promise.all([updateMyProfile(form),saveParticipantPreferences(prefs)]);setForm(c=>({...c,fullName:p.full_name||"",avatarUrl:p.avatar_url||""}));setPrefs(x);setMessage("Profile and preferences saved.")}catch(r){setError(errorMessage(r,"Unable to save your profile."))}finally{setBusy(false)}}
  if(loading)return <main className="hlc-account-workspace"><p role="status">Loading profile…</p></main>;
  return <main className="hlc-account-workspace">
-  <header className="hlc-account-header"><div><p className="hlc-account-kicker">ACCOUNT · PROFILE</p><h1>My profile</h1><p>Your authenticated identity, contact preferences, language preference, and visibility settings are reused across authorized HomeLead Connect surfaces. Workspace role remains server-controlled.</p></div><div className="hlc-account-summary"><span><strong>{form.role}</strong><small>Workspace role</small></span><span><strong>{prefs.language || "en"}</strong><small>Language preference</small></span><span><strong>{prefs.network_visibility}</strong><small>Visibility</small></span></div></header>
+  <header className="hlc-account-header"><div><p className="hlc-account-kicker">ACCOUNT · PROFILE</p><h1>My profile</h1><p>Your authenticated identity, contact preferences, language preference, and visibility settings are reused across authorized HomeLead Connect surfaces. Workspace role remains server-controlled.</p></div><div className="hlc-profile-corner-identity">{form.avatarUrl?<img className="hlc-profile-avatar" src={form.avatarUrl} alt={`${form.fullName||"Your"} profile`} />:<span className="hlc-profile-avatar hlc-avatar-fallback" aria-label="Profile initials">{initials(form.fullName)}</span>}<strong>{form.fullName||"Your profile"}</strong></div><div className="hlc-account-summary"><span><strong>{form.role}</strong><small>Workspace role</small></span><span><strong>{prefs.language||"en"}</strong><small>Language preference</small></span><span><strong>{prefs.network_visibility}</strong><small>Visibility</small></span></div></header>
   {error&&<p role="alert" className="hlc-account-status is-error">{error}</p>}{message&&<p role="status" className="hlc-account-status is-success">{message}</p>}
   <div className="hlc-account-console">
    <form onSubmit={submit} className="hlc-account-form">

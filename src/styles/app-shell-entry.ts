@@ -36,6 +36,7 @@ import "./app-redesign-final-proof-corrections-20260903.css";
 import "./app-dashboard-version-a-20260903.css";
 import "./app-work-home-dashboard-a-20260903.css";
 import "./app-global-centered-wording-20260903.css";
+import "./physical-device-component-authority-20260904.css";
 import "./responsive-page-contract.css";
 import "./hlc-brand-lock.css";
 import "./legacy-device-compat.css";
