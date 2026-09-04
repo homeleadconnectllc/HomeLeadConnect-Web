@@ -1,0 +1,241 @@
+/* HomeLead Connect — authenticated physical-device closure.
+   Visual-only. Closes two proven gaps from owner iPhone review:
+   1) the mobile navigation drawer is portaled under <body>, so signed-in role tokens do not inherit;
+   2) device/settings helpers include legacy light/inline presentation.
+   No route, auth, billing, entitlement, data, RLS, workflow, or Messages behavior changes. */
+
+@layer hlcRedesign {
+  /* The drawer lives outside #root. Re-establish the same Version A role-family tokens
+     at the portal boundary so the sidebar/More surface coordinates with the page behind it. */
+  body > .hlc-drawer-v2 {
+    --portal-accent: #7357ff;
+    --portal-accent-2: #9c87ff;
+    --portal-accent-soft: rgba(115, 87, 255, .18);
+    --portal-canvas-1: #09091b;
+    --portal-canvas-2: #171044;
+    --portal-surface-1: rgba(27, 21, 64, .98);
+    --portal-surface-2: rgba(13, 13, 35, .99);
+    --portal-line: rgba(156, 135, 255, .30);
+    --portal-glow: rgba(115, 87, 255, .24);
+    --portal-text: #faf8ff;
+    --portal-muted: #c9c3df;
+  }
+
+  body:has(#root .hlc-signed-in-shell[class*="hlc-page-homeowner-portal"]) > .hlc-drawer-v2 {
+    --portal-accent: #2196ff;
+    --portal-accent-2: #5bbcff;
+    --portal-accent-soft: rgba(33, 150, 255, .18);
+    --portal-canvas-1: #03152d;
+    --portal-canvas-2: #062b54;
+    --portal-surface-1: rgba(7, 44, 83, .98);
+    --portal-surface-2: rgba(4, 25, 51, .99);
+    --portal-line: rgba(91, 188, 255, .30);
+    --portal-glow: rgba(33, 150, 255, .26);
+    --portal-text: #f5fbff;
+    --portal-muted: #bfd7ea;
+  }
+
+  body:has(#root .hlc-signed-in-shell[class*="hlc-page-contractor-portal"]) > .hlc-drawer-v2 {
+    --portal-accent: #29d45e;
+    --portal-accent-2: #68ef8d;
+    --portal-accent-soft: rgba(41, 212, 94, .17);
+    --portal-canvas-1: #031b12;
+    --portal-canvas-2: #063b24;
+    --portal-surface-1: rgba(7, 57, 35, .98);
+    --portal-surface-2: rgba(3, 27, 18, .99);
+    --portal-line: rgba(104, 239, 141, .28);
+    --portal-glow: rgba(41, 212, 94, .22);
+    --portal-text: #f4fff7;
+    --portal-muted: #bfdec9;
+  }
+
+  body:has(#root .hlc-signed-in-shell[class*="hlc-page-partner-portal"]) > .hlc-drawer-v2 {
+    --portal-accent: #f59a17;
+    --portal-accent-2: #ffc05a;
+    --portal-accent-soft: rgba(245, 154, 23, .18);
+    --portal-canvas-1: #231004;
+    --portal-canvas-2: #4a2607;
+    --portal-surface-1: rgba(70, 35, 8, .98);
+    --portal-surface-2: rgba(35, 17, 4, .99);
+    --portal-line: rgba(255, 192, 90, .30);
+    --portal-glow: rgba(245, 154, 23, .22);
+    --portal-text: #fffaf2;
+    --portal-muted: #ead1af;
+  }
+
+  body > .hlc-drawer-v2 {
+    background:
+      radial-gradient(circle at 92% -4%, color-mix(in srgb, var(--portal-accent) 34%, transparent), transparent 25rem),
+      radial-gradient(circle at -8% 38%, color-mix(in srgb, var(--portal-accent-2) 15%, transparent), transparent 23rem),
+      linear-gradient(158deg, var(--portal-canvas-1), var(--portal-canvas-2) 58%, #070b14) !important;
+    color: var(--portal-text) !important;
+  }
+
+  body > .hlc-drawer-v2 > .hlc-drawer-v2-scroll {
+    background: transparent !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-drawer-v2-close {
+    color: var(--portal-text) !important;
+    background: color-mix(in srgb, var(--portal-surface-1) 92%, transparent) !important;
+    border-color: var(--portal-line) !important;
+    box-shadow: 0 10px 28px rgba(0,0,0,.24) !important;
+  }
+
+  body > .hlc-drawer-v2 :where(
+    .hlc-mobile-command-search-trigger,
+    .hlc-owner-home-link,
+    .hlc-mobile-more-quick,
+    .hlc-nav-group
+  ) {
+    border-color: var(--portal-line) !important;
+  }
+
+  body > .hlc-drawer-v2 :where(.hlc-mobile-command-search-trigger,.hlc-owner-home-link) {
+    background:
+      radial-gradient(circle at 92% 8%, color-mix(in srgb, var(--portal-accent) 22%, transparent), transparent 12rem),
+      linear-gradient(145deg, var(--portal-surface-1), var(--portal-surface-2)) !important;
+    box-shadow: 0 14px 34px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.03) !important;
+  }
+
+  body > .hlc-drawer-v2 :where(.hlc-mobile-more-quick a,.hlc-nav-menu a) {
+    color: var(--portal-text) !important;
+  }
+
+  body > .hlc-drawer-v2 :where(.hlc-mobile-more-quick small,.hlc-nav-menu small) {
+    color: var(--portal-muted) !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-nav-group[open] > summary,
+  body > .hlc-drawer-v2 .hlc-nav-menu a[aria-current="page"] {
+    color: #fff !important;
+    background: var(--portal-accent-soft) !important;
+    border-color: var(--portal-line) !important;
+  }
+
+  /* Desktop/sidebar continuity: use the same role palette instead of the older fixed blue. */
+  #root .hlc-signed-in-shell > .hlc-navbar {
+    background:
+      radial-gradient(circle at 18% 0%, color-mix(in srgb, var(--portal-accent) 24%, transparent), transparent 19rem),
+      linear-gradient(180deg, color-mix(in srgb, var(--portal-canvas-1) 96%, #000 4%), color-mix(in srgb, var(--portal-canvas-2) 88%, #070b14 12%)) !important;
+    border-color: var(--portal-line) !important;
+    box-shadow: 18px 0 50px rgba(0,0,0,.20) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-owner-home-link,
+  #root .hlc-signed-in-shell .hlc-nav-group[open] > summary,
+  #root .hlc-signed-in-shell .hlc-nav-menu a[aria-current="page"] {
+    color: #fff !important;
+    background: var(--portal-accent-soft) !important;
+    border-color: var(--portal-line) !important;
+  }
+
+  /* Settings index must read as the same premium application, not a light utility page. */
+  #root .hlc-signed-in-shell .hlc-settings-home,
+  #root .hlc-signed-in-shell .hlc-parent-index {
+    color: var(--portal-text) !important;
+    background: transparent !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-parent-index-header,
+  #root .hlc-signed-in-shell .hlc-settings-index-group {
+    color: var(--portal-text) !important;
+    background: linear-gradient(150deg, var(--portal-surface-1), var(--portal-surface-2)) !important;
+    border: 1px solid var(--portal-line) !important;
+    border-radius: 20px !important;
+    box-shadow: 0 16px 38px rgba(0,0,0,.20), inset 0 1px 0 rgba(255,255,255,.025) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-parent-index-header {
+    padding: clamp(18px, 3vw, 30px) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-settings-index {
+    gap: 14px !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-settings-index-group {
+    padding: clamp(18px, 2.8vw, 28px) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-settings-index-links a {
+    color: var(--portal-text) !important;
+    background: color-mix(in srgb, var(--portal-surface-2) 86%, transparent) !important;
+    border: 1px solid color-mix(in srgb, var(--portal-line) 72%, transparent) !important;
+    border-radius: 13px !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-settings-index-links a:hover,
+  #root .hlc-signed-in-shell .hlc-settings-index-links a:focus-visible {
+    background: var(--portal-accent-soft) !important;
+    border-color: var(--portal-line) !important;
+  }
+
+  /* AudioDeviceCenter ships legacy inline white styles. !important is intentional here
+     so the authenticated visual authority beats those inline declarations without changing behavior. */
+  #root .hlc-signed-in-shell section[aria-labelledby="hlc-audio-device-title"] {
+    color: var(--portal-text) !important;
+    background:
+      radial-gradient(circle at 92% 0%, color-mix(in srgb, var(--portal-accent) 18%, transparent), transparent 18rem),
+      linear-gradient(150deg, var(--portal-surface-1), var(--portal-surface-2)) !important;
+    border-color: var(--portal-line) !important;
+    box-shadow: 0 16px 38px rgba(0,0,0,.20), inset 0 1px 0 rgba(255,255,255,.025) !important;
+  }
+
+  #root .hlc-signed-in-shell section[aria-labelledby="hlc-audio-device-title"] :where(h2,label) {
+    color: var(--portal-text) !important;
+  }
+
+  #root .hlc-signed-in-shell section[aria-labelledby="hlc-audio-device-title"] :where(p,small) {
+    color: var(--portal-muted) !important;
+  }
+
+  #root .hlc-signed-in-shell section[aria-labelledby="hlc-audio-device-title"] > div:first-child p:first-child {
+    color: var(--portal-accent-2) !important;
+  }
+
+  #root .hlc-signed-in-shell section[aria-labelledby="hlc-audio-device-title"] :where(select,button) {
+    color: var(--portal-text) !important;
+    background: color-mix(in srgb, var(--portal-canvas-1) 88%, #000 12%) !important;
+    border-color: var(--portal-line) !important;
+  }
+
+  /* Field/device capability cards stay in the same role family. */
+  #root .hlc-signed-in-shell .hlc-field-device-center {
+    color: var(--portal-text) !important;
+    background: linear-gradient(150deg, var(--portal-surface-1), var(--portal-surface-2)) !important;
+    border-color: var(--portal-line) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-field-capability-grid article {
+    color: var(--portal-text) !important;
+    background: color-mix(in srgb, var(--portal-surface-2) 90%, transparent) !important;
+    border-color: var(--portal-line) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-field-device-center :where(p,span) {
+    color: var(--portal-muted) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-field-device-actions button {
+    color: #fff !important;
+    background: linear-gradient(135deg, var(--portal-accent), var(--portal-accent-2)) !important;
+    border-color: var(--portal-line) !important;
+  }
+
+  @media (max-width: 760px) {
+    #root .hlc-signed-in-shell .hlc-parent-index-header,
+    #root .hlc-signed-in-shell .hlc-settings-index-group,
+    #root .hlc-signed-in-shell section[aria-labelledby="hlc-audio-device-title"],
+    #root .hlc-signed-in-shell .hlc-field-device-center {
+      width: 100% !important;
+      max-width: none !important;
+      margin-inline: 0 !important;
+      border-radius: 16px !important;
+    }
+
+    body > .hlc-drawer-v2 > .hlc-drawer-v2-scroll {
+      padding-inline: 16px !important;
+    }
+  }
+}
