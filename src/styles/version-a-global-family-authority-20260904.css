@@ -47,12 +47,32 @@ html body #root .hlc-signed-in-shell :where(input,textarea,select) {
 }
 
 html body #root .hlc-signed-in-shell :where(.hlc-user-avatar,.hlc-profile-avatar,.hlc-account-avatar,.hlc-header-avatar) {
+  display: grid !important;
+  place-items: center !important;
   border-radius: 999px !important;
   border: 2px solid rgba(255,255,255,.78) !important;
   box-shadow: 0 0 0 3px rgba(113,86,255,.2), 0 10px 30px rgba(0,0,0,.28) !important;
   object-fit: cover !important;
+  overflow: hidden !important;
+  background: linear-gradient(145deg, rgba(64,92,180,.92), rgba(94,55,169,.94)) !important;
+  color: #fff !important;
+  font-weight: 900 !important;
 }
 html body #root .hlc-signed-in-shell :where(.hlc-greeting,.hlc-welcome-copy) { color: var(--hlc-text) !important; }
+html body #root .hlc-signed-in-shell .hlc-home-identity { display: inline-grid !important; place-items: center !important; text-decoration: none !important; }
+html body #root .hlc-signed-in-shell .hlc-home-identity .hlc-header-avatar { width: 42px !important; height: 42px !important; }
+html body #root .hlc-signed-in-shell .hlc-profile-corner-identity {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  justify-self: end !important;
+  padding: 8px 10px !important;
+  border: 1px solid rgba(137,121,255,.24) !important;
+  border-radius: 999px !important;
+  background: rgba(7,12,30,.72) !important;
+}
+html body #root .hlc-signed-in-shell .hlc-profile-corner-identity .hlc-profile-avatar { width: 56px !important; height: 56px !important; }
+html body #root .hlc-signed-in-shell .hlc-avatar-fallback { line-height: 1 !important; }
 
 html body #root .hlc-signed-in-shell[data-portal="resident"], html body #root .hlc-signed-in-shell.hlc-portal-resident { --portal-accent: var(--hlc-blue); --portal-accent-soft: rgba(73,161,255,.16); }
 html body #root .hlc-signed-in-shell[data-portal="professional"], html body #root .hlc-signed-in-shell.hlc-portal-professional { --portal-accent: var(--hlc-green); --portal-accent-soft: rgba(50,216,139,.15); }
@@ -96,4 +116,5 @@ html body #root .hlc-route-loading-state p { color: var(--hlc-muted) !important;
 @media (max-width: 720px) {
   html body #root .hlc-signed-in-shell :where(.hlc-command-hero,.hlc-page-hero,.hlc-section-hero) { border-radius: 18px !important; }
   html body #root .hlc-signed-in-shell :where(.hlc-user-avatar,.hlc-profile-avatar,.hlc-account-avatar,.hlc-header-avatar) { width: 42px !important; height: 42px !important; }
+  html body #root .hlc-signed-in-shell .hlc-profile-corner-identity { justify-self: start !important; }
 }
