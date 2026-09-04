@@ -62,12 +62,12 @@ export default function Leads() {
   const visibleLeads = useMemo(() => {
     const normalized = query.trim().toLowerCase();
     if (!normalized) return leads;
-    return leads.filter((lead) => [lead.full_name, lead.email, lead.phone, lead.status, lead.stage, lead.priority, lead.source, lead.sla_status, lead.notes]
+    return leads.filter((lead) => [lead.full_name, lead.email, lead.phone, lead.status, lead.stage, lead.source, lead.sla_status, lead.notes]
       .filter(Boolean).some((value) => String(value).toLowerCase().includes(normalized)));
   }, [leads, query]);
 
   const newLeadCount = leads.filter((lead) => [lead.stage, lead.status].filter(Boolean).some((value) => String(value).toLowerCase() === "new")).length;
-  const highPriorityCount = leads.filter((lead) => lead.priority?.toLowerCase() === "high").length;
+  const followUpCount = leads.filter((lead) => Boolean(lead.next_follow_up_at)).length;
   const scheduledCount = leads.filter((lead) => Boolean(lead.appointment_at)).length;
 
   return (
@@ -86,7 +86,7 @@ export default function Leads() {
       <section className="hlc-leads-summary" aria-label="Lead summary">
         <span><strong>{leads.length}</strong><small>Total</small></span>
         <span><strong>{newLeadCount}</strong><small>New</small></span>
-        <span><strong>{highPriorityCount}</strong><small>High priority</small></span>
+        <span><strong>{followUpCount}</strong><small>Follow-up</small></span>
         <span><strong>{scheduledCount}</strong><small>Scheduled</small></span>
       </section>
 
@@ -94,7 +94,7 @@ export default function Leads() {
         <label className="hlc-leads-search">
           <Search size={18} aria-hidden="true" />
           <span className="sr-only">Search leads</span>
-          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search renter/homeowner, name, contact, stage, priority, or source" />
+          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search renter/homeowner, name, contact, stage, or source" />
         </label>
         <span className="hlc-leads-view-label"><SlidersHorizontal size={16} aria-hidden="true" /> Active pipeline</span>
       </section>
@@ -124,7 +124,7 @@ export default function Leads() {
         {error && <p role="alert" className="hlc-leads-error">{error}</p>}
         {!loading && !error && leads.length === 0 && <p className="hlc-leads-state">No leads found.</p>}
         {!loading && !error && leads.length > 0 && visibleLeads.length === 0 && (
-          <div className="hlc-leads-empty"><UsersRound size={24} aria-hidden="true" /><strong>No matching leads</strong><span>Try a different resident type, name, number, email, stage, priority, or source.</span></div>
+          <div className="hlc-leads-empty"><UsersRound size={24} aria-hidden="true" /><strong>No matching leads</strong><span>Try a different resident type, name, number, email, stage, or source.</span></div>
         )}
         <div className="hlc-leads-list">{visibleLeads.map((lead) => <LeadCard key={lead.id} lead={lead} />)}</div>
       </section>
