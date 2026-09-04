@@ -6,7 +6,7 @@ const content = {
   about: {
     kicker: "About HomeLead Connect",
     title: "A connected operating layer for home-service work.",
-    body: "HomeLead Connect LLC is a Pennsylvania-first home-services technology platform founded, owned, created, and developed by Antoine Washington. HLC connects service requests, LeadScope estimates, provider coordination, scheduling, jobs, communications, documents, workflow automation, analytics, and customer follow-through in one operating system.",
+    body: "HomeLead Connect LLC is a home-services technology platform based in Pennsylvania and designed for residents, professionals, partners, and service operations across supported locations. HomeLead Connect connects service requests, resident project planning, provider coordination, scheduling, jobs, communications, documents, workflow automation, analytics, and customer follow-through in one operating system.",
     image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1600&q=82",
     imageAlt: "Welcoming residential home exterior",
   },
@@ -25,38 +25,38 @@ const content = {
     imageAlt: "Home-service professional working on a residential project",
   },
   how: {
-    kicker: "How HLC works",
+    kicker: "How HomeLead Connect works",
     title: "One request becomes a traceable service journey.",
-    body: "The HLC workflow keeps Request → Lead → LeadScope/Estimate → Provider coordination → Schedule → Job → Completion as explicit stages. Submitting a request does not skip later review, acceptance, pricing, or scheduling steps.",
+    body: "The HomeLead Connect workflow keeps request review, provider coordination, scheduling, service work, communication, and completion as explicit stages. Submitting a request does not skip later review, acceptance, pricing, or scheduling steps.",
     image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1600&q=82",
     imageAlt: "Home-service work being completed inside a residence",
   },
   leadscope: {
     kicker: "LeadScope",
-    title: "Scope and estimating with an auditable path to the job.",
-    body: "LeadScope is HomeLead Connect's itemized estimating and scoping workflow. It records quantities, unit costs, estimate-level markup, status, and an explicit conversion from an accepted estimate to a CRM job. It does not invent pricing or guarantee a final project price.",
+    title: "Resident project measurements and informational self-estimates.",
+    body: "LeadScope is a resident-facing premium HomeLead Connect capability for recording project measurements, assumptions, site conditions, and project scope, then saving an informational estimate range based on explicit resident-entered cost assumptions. LeadScope does not invent market pricing, replace an on-site inspection, or create a binding professional quote.",
     image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=82",
     imageAlt: "Plans and measurements for a building project",
   },
   community: {
     kicker: "Community + Network",
-    title: "Discover, connect, and move into a real HLC workflow.",
-    body: "Find providers, explore service coverage, participate in Community, and move from discovery into a real HomeLead Connect service workflow. Provider records, map locations, availability, reviews, and matching results are shown only when HLC has canonical data for them.",
+    title: "Discover, connect, and move into a real HomeLead Connect workflow.",
+    body: "Find providers, explore service coverage, participate in Community, and move from discovery into a real HomeLead Connect service workflow. Provider records, map locations, availability, reviews, and matching results are shown only when HomeLead Connect has canonical data for them.",
     image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1600&q=82",
     imageAlt: "People connecting together in a community setting",
   },
 } as const;
 
 const communitySections = [
-  ["Find help", "Provider Directory", "Browse provider records and service capabilities stored in HLC. Directory presence is not a ranking or endorsement.", "/providers", "Open directory"],
-  ["Explore locations", "Provider Map", "See providers with stored map coordinates. Approximate city or ZIP points remain clearly different from verified exact locations.", "/map", "Open map"],
-  ["Connect", "Matching", "Use HLC matching and eligibility records to narrow possible providers without inventing fit, availability, or outcomes.", "/matching", "Open matching"],
+  ["Find help", "Provider Directory", "Browse provider records and service capabilities stored in HomeLead Connect. Directory presence is not a ranking or endorsement.", "/providers", "Open directory"],
+  ["Explore locations", "Provider Map", "See providers with stored map coordinates. Approximate city or postal-code points remain clearly different from verified exact locations.", "/map", "Open map"],
+  ["Connect", "Matching", "Use HomeLead Connect matching and eligibility records to narrow possible providers without inventing fit, availability, or outcomes.", "/matching", "Open matching"],
   ["Plan service", "Service Areas", "Review recorded service-area information before moving into assignment and scheduling.", "/network/service-areas", "View service areas"],
   ["Plan timing", "Availability", "Review recorded provider availability before moving into assignment or appointment scheduling.", "/network/availability", "View availability"],
-  ["Stay connected", "Saved Providers", "Keep provider records you want to revisit in one HLC list instead of searching again.", "/network/saved", "Open saved providers"],
-  ["Community", "Discussions", "Participate in discussions and groups inside the same HLC ecosystem.", "/community/discussions", "Open discussions"],
-  ["Community", "Events & Updates", "Follow community events and updates without leaving the connected HLC experience.", "/community/events", "View events"],
-  ["Trust", "Completion-linked Reviews", "Reviews stay tied to eligible completed HLC work and canonical records.", "/community/reviews", "Open reviews"],
+  ["Stay connected", "Saved Providers", "Keep provider records you want to revisit in one HomeLead Connect list instead of searching again.", "/network/saved", "Open saved providers"],
+  ["Community", "Discussions", "Participate in discussions and groups inside the same HomeLead Connect ecosystem.", "/community/discussions", "Open discussions"],
+  ["Community", "Events & Updates", "Follow community events and updates without leaving the connected HomeLead Connect experience.", "/community/events", "View events"],
+  ["Trust", "Completion-linked Reviews", "Reviews stay tied to eligible completed HomeLead Connect work and canonical records.", "/community/reviews", "Open reviews"],
   ["Growth", "Referrals", "Record referral attribution without silently enrolling or messaging another person.", "/community/referrals", "Open referrals"],
   ["One place", "Full Community Hub", "Use the signed-in Community hub as the launch point for Network discovery, participation, saved providers, trust signals, and Community operations.", "/community-hub", "Open Community Hub"],
 ] as const;
@@ -75,7 +75,8 @@ export default function PublicInfo({ page }: { page: keyof typeof content }) {
           {page === "homeowners" && <Link className="hlc-public-primary" to="/request-service">Request service</Link>}
           {page === "contractors" && <Link className="hlc-public-primary" to="/professional-application">Apply as a professional</Link>}
           {page === "community" && <Link className="hlc-public-primary" to="/request-service">Request home service</Link>}
-          <Link className="hlc-public-secondary" to="/contact">Contact HLC</Link>
+          {page === "leadscope" && <Link className="hlc-public-primary" to="/app">Open HomeLead Connect</Link>}
+          <Link className="hlc-public-secondary" to="/contact">Contact HomeLead Connect</Link>
         </div>
       </header>
 
@@ -84,10 +85,10 @@ export default function PublicInfo({ page }: { page: keyof typeof content }) {
       </figure>
 
       {page === "about" && <section className="hlc-public-grid" aria-label="HomeLead Connect ownership and credits">
-        <article className="hlc-public-card"><p className="hlc-public-card-label">Founder & builder</p><h2>Antoine Washington</h2><p><strong>Founder · Owner · Product Creator · Lead Developer · Technical Architect</strong></p><p>Antoine Washington leads the HLC product vision, application build, workflow design, technical implementation, operating systems, and launch hardening.</p></article>
-        <article className="hlc-public-card"><p className="hlc-public-card-label">Operating model</p><h2>Connection + guidance + execution</h2><p>HLC is designed to keep customer requests, providers, scheduling, communications, documents, automation, and completion history connected instead of scattering the work across unrelated tools.</p></article>
-        <article className="hlc-public-card"><p className="hlc-public-card-label">AI operations team</p><h2>Kendrell · Dion · Diamond</h2><p>Kendrell supports command and risk, Dion supports operations and business intelligence, and Diamond supports customer experience and community. Their actions remain bounded by HLC roles, consent, workflow state, and database controls.</p></article>
-        <article className="hlc-public-card"><p className="hlc-public-card-label">Design credit</p><h2>HLC visual identity</h2><p>HomeLead Connect visual logo design credit: Dion Diamond.</p></article>
+        <article className="hlc-public-card"><p className="hlc-public-card-label">Founder & builder</p><h2>Antoine Washington</h2><p><strong>Founder · Owner · Product Creator · Lead Developer · Technical Architect</strong></p><p>Antoine Washington leads the HomeLead Connect product vision, application build, workflow design, technical implementation, operating systems, and launch hardening.</p></article>
+        <article className="hlc-public-card"><p className="hlc-public-card-label">Operating model</p><h2>Connection + guidance + execution</h2><p>HomeLead Connect is designed to keep customer requests, providers, scheduling, communications, documents, automation, and completion history connected instead of scattering the work across unrelated tools.</p></article>
+        <article className="hlc-public-card"><p className="hlc-public-card-label">AI operations team</p><h2>Kendrell · Dion · Diamond</h2><p>Kendrell supports command and risk, Dion supports operations and business intelligence, and Diamond supports customer experience and community. Their actions remain bounded by HomeLead Connect roles, consent, workflow state, and database controls.</p></article>
+        <article className="hlc-public-card"><p className="hlc-public-card-label">Design credit</p><h2>HomeLead Connect visual identity</h2><p>HomeLead Connect visual logo design credit: Dion Diamond.</p></article>
       </section>}
 
       {page === "community" ? <section className="hlc-public-grid" aria-label="Community and network destinations">
@@ -98,12 +99,12 @@ export default function PublicInfo({ page }: { page: keyof typeof content }) {
           <Link className="hlc-public-link" to={to}>{action} →</Link>
         </article>)}
       </section> : page !== "about" && <section className="hlc-public-grid">
-        <article className="hlc-public-card"><p className="hlc-public-card-label">Connected records</p><h2>One canonical history</h2><p>HLC keeps each request, estimate, job, appointment and communication attached to the correct record instead of scattering the work across disconnected tools.</p></article>
+        <article className="hlc-public-card"><p className="hlc-public-card-label">Connected records</p><h2>One canonical history</h2><p>HomeLead Connect keeps each request, estimate, job, appointment and communication attached to the correct record instead of scattering the work across disconnected tools.</p></article>
         <article className="hlc-public-card"><p className="hlc-public-card-label">Clear workflow</p><h2>Every stage stays explicit</h2><p>Requests, approvals, assignments and scheduling remain separate steps so the platform does not silently invent acceptance or completion.</p></article>
-        <article className="hlc-public-card"><p className="hlc-public-card-label">Scoped access</p><h2>Access follows the relationship</h2><p>Workspace and portal information is shown through the account, membership, invitation and sharing relationships supported by HLC.</p></article>
+        <article className="hlc-public-card"><p className="hlc-public-card-label">Scoped access</p><h2>Access follows the relationship</h2><p>Workspace and portal information is shown through the account, membership, invitation and sharing relationships supported by HomeLead Connect.</p></article>
       </section>}
 
-      {page === "contractors" && <section className="hlc-public-offer"><p className="hlc-public-offer-label">PROFESSIONAL ACCESS</p><div className="hlc-public-price"><strong>Application + protected portal</strong></div><p>Professionals can apply to join HLC. Approved/invited participants use authenticated portal access for the records and services made available to their HLC relationship.</p></section>}
+      {page === "contractors" && <section className="hlc-public-offer"><p className="hlc-public-offer-label">PROFESSIONAL ACCESS</p><div className="hlc-public-price"><strong>Application + protected portal</strong></div><p>Professionals can apply to join HomeLead Connect. Approved or invited participants use authenticated portal access for the records and services made available to their HomeLead Connect relationship.</p></section>}
     </div>
   </main>;
 }
