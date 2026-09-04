@@ -1,0 +1,10 @@
+/* HomeLead Connect — protected geometry contracts
+   Narrow visual-only exception layer. Preserve certification-defined geometry where
+   the global Version A role/portal rounding language must not override protected surfaces. */
+
+@layer hlcRedesign {
+  /* Blind visual contract: legal policy cards remain square-edged on authenticated mobile fixtures. */
+  #root .hlc-signed-in-shell .hlc-legal-card {
+    border-radius: 0 !important;
+  }
+}
