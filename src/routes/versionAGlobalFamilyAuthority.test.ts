@@ -28,6 +28,22 @@ test("approved Version A family authority owns identity, imagery, AI, and dark l
   assert.match(css, /\.hlc-route-loading-state/);
 });
 
+test("authenticated Version A closes legacy white islands across shared product families", () => {
+  assert.match(css, /Physical iPhone closure/);
+  assert.match(css, /\.hlc-global-search/);
+  assert.match(css, /\.hlc-community-guidelines/);
+  assert.match(css, /\.hlc-support-panel/);
+  assert.match(css, /\.hlc-schedule-panel/);
+  assert.match(css, /\.hlc-app-directory-panel/);
+  assert.match(css, /\.hlc-profile-card/);
+  assert.match(css, /\.hlc-documents-panel/);
+  assert.match(css, /\.hlc-forms-panel/);
+  assert.match(css, /\.hlc-provider-map-panel/);
+  assert.match(css, /background-color: white/);
+  assert.match(css, /background: rgb\(255, 255, 255\)/);
+  assert.match(css, /background: #fff/);
+});
+
 test("approved Version A family authority is authenticated-only and stays immediately beneath protected Messages authority", () => {
   const authority = 'import "./version-a-global-family-authority-20260904.css";';
   const messages = 'import "./messages-lane-2-mobile-authority.css";';
