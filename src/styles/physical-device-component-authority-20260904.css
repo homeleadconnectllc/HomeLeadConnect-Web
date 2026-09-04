@@ -74,6 +74,155 @@ html body #root .hlc-signed-in-shell .hlc-app-directory :where(h1,h2,h3,strong,b
   color: var(--portal-text, #faf8ff) !important;
 }
 
+/* Global command search: physical iPhone QA showed the dialog could still be repainted
+   by later release authorities. Bind the actual current component classes to Version A. */
+html body #root .hlc-signed-in-shell .hlc-command-search-backdrop {
+  background: rgba(3,3,18,.90) !important;
+  color-scheme: dark !important;
+}
+html body #root .hlc-signed-in-shell .hlc-command-search,
+html body #root .hlc-signed-in-shell .hlc-command-search-header,
+html body #root .hlc-signed-in-shell .hlc-command-search-results,
+html body #root .hlc-signed-in-shell .hlc-command-search-footer,
+html body #root .hlc-signed-in-shell .hlc-command-search-empty {
+  color: #faf8ff !important;
+  background: linear-gradient(170deg, #1b1540, #0d0d23 62%, #080b16) !important;
+  border-color: rgba(156,135,255,.30) !important;
+}
+html body #root .hlc-signed-in-shell .hlc-command-search-header input {
+  background: #09091b !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  border-color: rgba(156,135,255,.30) !important;
+}
+html body #root .hlc-signed-in-shell .hlc-command-search-header button,
+html body #root .hlc-signed-in-shell .hlc-command-search-results > button,
+html body #root .hlc-signed-in-shell .hlc-command-search-footer kbd {
+  background: linear-gradient(145deg, rgba(27,21,64,.98), rgba(13,13,35,.99)) !important;
+  color: #fff !important;
+  border-color: rgba(156,135,255,.28) !important;
+}
+html body #root .hlc-signed-in-shell .hlc-command-search-result-copy strong,
+html body #root .hlc-signed-in-shell .hlc-command-search-group {
+  color: #fff !important;
+}
+html body #root .hlc-signed-in-shell .hlc-command-search-result-copy small,
+html body #root .hlc-signed-in-shell .hlc-command-search-footer,
+html body #root .hlc-signed-in-shell .hlc-command-search-empty span {
+  color: #c9c3df !important;
+}
+
+/* Account/workspace settings: exact .hlc-settings-section surfaces remained light on device. */
+html body #root .hlc-signed-in-shell .hlc-account-workspace .hlc-settings-section,
+html body #root .hlc-signed-in-shell .hlc-account-workspace .hlc-account-section-head,
+html body #root .hlc-signed-in-shell .hlc-account-workspace .hlc-phone-row {
+  color: var(--portal-text, #faf8ff) !important;
+  background: linear-gradient(150deg, rgba(25,20,61,.96), rgba(10,14,35,.98)) !important;
+  border-color: var(--portal-line, rgba(156,135,255,.26)) !important;
+}
+html body #root .hlc-signed-in-shell .hlc-account-workspace .hlc-settings-section :where(h1,h2,h3,strong,label),
+html body #root .hlc-signed-in-shell .hlc-account-workspace .hlc-account-section-head :where(h1,h2,h3,strong) {
+  color: var(--portal-text, #faf8ff) !important;
+}
+html body #root .hlc-signed-in-shell .hlc-account-workspace .hlc-settings-section :where(p,span,small) {
+  color: var(--portal-muted, #c9c3df) !important;
+}
+html body #root .hlc-signed-in-shell .hlc-account-workspace .hlc-settings-section :where(input,select,textarea) {
+  background: #09091b !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  border-color: rgba(156,135,255,.28) !important;
+}
+
+/* Network/provider directory: filter sheet and hero were still white in physical QA. */
+html body #root .hlc-signed-in-shell .hlc-network-directory .hlc-command-hero,
+html body #root .hlc-signed-in-shell .hlc-network-directory .hlc-s3-network-search,
+html body #root .hlc-signed-in-shell .hlc-network-directory .hlc-s3-network-filters-desktop,
+html body #root .hlc-signed-in-shell .hlc-network-directory .hlc-s3-network-filter-sheet,
+html body #root .hlc-signed-in-shell .hlc-network-directory .hlc-s3-network-filter-sheet-panel,
+html body #root .hlc-signed-in-shell .hlc-network-directory .hlc-s3-provider-row {
+  color: var(--portal-text, #faf8ff) !important;
+  background: linear-gradient(150deg, rgba(25,20,61,.97), rgba(10,14,35,.99)) !important;
+  border-color: var(--portal-line, rgba(156,135,255,.26)) !important;
+}
+html body #root .hlc-signed-in-shell .hlc-network-directory :where(h1,h2,h3,strong,label,summary) {
+  color: var(--portal-text, #faf8ff) !important;
+}
+html body #root .hlc-signed-in-shell .hlc-network-directory :where(p,span,small) {
+  color: var(--portal-muted, #c9c3df) !important;
+}
+html body #root .hlc-signed-in-shell .hlc-network-directory :where(input,select) {
+  background: #09091b !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  border-color: rgba(156,135,255,.28) !important;
+}
+
+/* Calendar: the current .hlc-calendar-header was the remaining bright hero. */
+html body #root .hlc-signed-in-shell .hlc-native-calendar .hlc-calendar-header,
+html body #root .hlc-signed-in-shell .hlc-native-calendar .hlc-calendar-kpis article {
+  color: var(--portal-text, #faf8ff) !important;
+  background: linear-gradient(150deg, rgba(25,20,61,.97), rgba(10,14,35,.99)) !important;
+  border-color: var(--portal-line, rgba(156,135,255,.26)) !important;
+}
+html body #root .hlc-signed-in-shell .hlc-native-calendar .hlc-calendar-header :where(h1,h2,h3,strong),
+html body #root .hlc-signed-in-shell .hlc-native-calendar .hlc-calendar-kpis article strong {
+  color: var(--portal-text, #faf8ff) !important;
+}
+html body #root .hlc-signed-in-shell .hlc-native-calendar .hlc-calendar-header :where(p,span,small),
+html body #root .hlc-signed-in-shell .hlc-native-calendar .hlc-calendar-kpis article :where(span,small) {
+  color: var(--portal-muted, #c9c3df) !important;
+}
+
+/* Work route headers proven bright on iPhone: Leads and Jobs use explicit current classes. */
+html body #root .hlc-signed-in-shell .hlc-leads-workspace .hlc-leads-header,
+html body #root .hlc-signed-in-shell .hlc-jobs-workspace .hlc-jobs-header {
+  color: var(--portal-text, #faf8ff) !important;
+  background: linear-gradient(150deg, rgba(25,20,61,.97), rgba(10,14,35,.99)) !important;
+  border-color: var(--portal-line, rgba(156,135,255,.26)) !important;
+}
+html body #root .hlc-signed-in-shell .hlc-leads-workspace .hlc-leads-header :where(h1,p),
+html body #root .hlc-signed-in-shell .hlc-jobs-workspace .hlc-jobs-header :where(h1,p) {
+  color: var(--portal-text, #faf8ff) !important;
+}
+
+/* LeadScope/Estimator remains inline-styled legacy markup. Restrict override to the
+   exact authenticated /estimator route class so public and portal LeadScope are untouched. */
+html body #root .hlc-signed-in-shell.hlc-page-estimator .hlc-route-content > main,
+html body #root .hlc-signed-in-shell.hlc-page-estimator .hlc-route-content > main > div,
+html body #root .hlc-signed-in-shell.hlc-page-estimator .hlc-route-content > main header,
+html body #root .hlc-signed-in-shell.hlc-page-estimator .hlc-route-content > main section,
+html body #root .hlc-signed-in-shell.hlc-page-estimator .hlc-route-content > main .estimate-line {
+  color: var(--portal-text, #faf8ff) !important;
+  background: linear-gradient(150deg, rgba(25,20,61,.96), rgba(10,14,35,.99)) !important;
+  border-color: var(--portal-line, rgba(156,135,255,.25)) !important;
+}
+html body #root .hlc-signed-in-shell.hlc-page-estimator .hlc-route-content > main :where(h1,h2,h3,strong,label) {
+  color: var(--portal-text, #faf8ff) !important;
+}
+html body #root .hlc-signed-in-shell.hlc-page-estimator .hlc-route-content > main :where(p,span,small) {
+  color: var(--portal-muted, #c9c3df) !important;
+}
+html body #root .hlc-signed-in-shell.hlc-page-estimator .hlc-route-content > main :where(input,select,textarea) {
+  background: #09091b !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  border-color: rgba(156,135,255,.28) !important;
+}
+
+/* Route Suspense fallback gets a dark class in AppRouter; this prevents the repeated
+   full-screen white "Loading page…" transition seen on physical iPhone. */
+html body #root .hlc-route-loading-state {
+  min-height: 100dvh !important;
+  margin: 0 !important;
+  padding: max(32px, env(safe-area-inset-top)) 24px max(96px, env(safe-area-inset-bottom)) !important;
+  background: radial-gradient(circle at 50% 0%, rgba(115,87,255,.18), transparent 42%), #080b16 !important;
+  color: #faf8ff !important;
+}
+html body #root .hlc-route-loading-state p {
+  color: #c9c3df !important;
+}
+
 @media (max-width: 720px) {
   html body #root .hlc-signed-in-shell .hlc-messages-app-shell .hlc-messages-app-topbar {
     width: 100% !important;
@@ -96,5 +245,10 @@ html body #root .hlc-signed-in-shell .hlc-app-directory :where(h1,h2,h3,strong,b
     grid-template-columns: repeat(2, minmax(0,1fr)) !important;
     gap: 8px !important;
     padding: 8px !important;
+  }
+  html body #root .hlc-signed-in-shell .hlc-network-directory .hlc-s3-network-filter-sheet > summary {
+    background: rgba(27,21,64,.98) !important;
+    color: #fff !important;
+    border-color: rgba(156,135,255,.30) !important;
   }
 }
