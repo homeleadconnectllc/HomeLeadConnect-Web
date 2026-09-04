@@ -36,6 +36,9 @@ jobs:
 
       - name: Audit production dependencies
         shell: bash
+        env:
+          npm_config_fetch_timeout: 60000
+          npm_config_fetch_retries: 0
         run: |
           set -uo pipefail
 
@@ -45,7 +48,7 @@ jobs:
           while [ "$attempt" -le "$max_attempts" ]; do
             echo "Production audit attempt $attempt/$max_attempts"
             set +e
-            audit_output=$(timeout 150s npm audit --omit=dev --audit-level=high 2>&1)
+            audit_output=$(timeout 70s npm audit --omit=dev --audit-level=high 2>&1)
             audit_status=$?
             set -e
             printf '%s\n' "$audit_output"
@@ -68,17 +71,21 @@ jobs:
             fi
 
             if [ "$attempt" -eq "$max_attempts" ]; then
-              echo "Production audit could not reach npm after $max_attempts attempts."
+              echo "Production audit could not reach npm after $max_attempts bounded attempts."
               exit "$audit_status"
             fi
 
-            sleep $((attempt * 15))
+            sleep $((attempt * 5))
             attempt=$((attempt + 1))
           done
 
       - name: Audit development dependencies (informational)
         continue-on-error: true
-        run: npm audit --audit-level=high
+        shell: bash
+        env:
+          npm_config_fetch_timeout: 45000
+          npm_config_fetch_retries: 0
+        run: timeout 55s npm audit --audit-level=high
 
       - name: Verify launch candidate
         shell: bash
