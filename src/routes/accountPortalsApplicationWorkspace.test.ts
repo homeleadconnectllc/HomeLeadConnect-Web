@@ -6,6 +6,8 @@ const settings = readFileSync("src/pages/dashboard/Settings.tsx", "utf8");
 const connections = readFileSync("src/components/settings/IntegrationsConnectionsPanel.tsx", "utf8");
 const profile = readFileSync("src/pages/dashboard/MyProfile.tsx", "utf8");
 const resident = readFileSync("src/pages/portal/HomeownerPortal.tsx", "utf8");
+const residentLeadScope = readFileSync("src/pages/portal/ResidentLeadScope.tsx", "utf8");
+const leadScopeApi = readFileSync("src/api/leadscope.ts", "utf8");
 const professional = readFileSync("src/pages/portal/ContractorPortal.tsx", "utf8");
 const partner = readFileSync("src/pages/portal/PartnerPortal.tsx", "utf8");
 const property = readFileSync("src/pages/dashboard/PropertyIntelligence.tsx", "utf8");
@@ -71,7 +73,7 @@ test("My Profile preserves participant preferences and authorization boundary", 
   assert.match(profile, /never overrides workspace membership, portal links, RLS/);
 });
 
-test("resident portal preserves shared relationship decisions appointments documents and Resources access", () => {
+test("resident portal preserves shared relationship decisions appointments documents Resources and LeadScope access", () => {
   assert.match(resident, /getHomeownerPortalData\(\)/);
   assert.match(resident, /decideHomeownerEstimate\(est\.id,"accepted"\)/);
   assert.match(resident, /decideHomeownerEstimate\(est\.id,"rejected"\)/);
@@ -79,7 +81,22 @@ test("resident portal preserves shared relationship decisions appointments docum
   assert.match(resident, /getDocumentUrl\(document\.id,document\.storage_path\)/);
   assert.match(resident, /appointment_date/);
   assert.match(resident, /homeowner-portal\/resources/);
+  assert.match(resident, /homeowner-portal\/leadscope/);
   assert.match(resident, /hlc-portal-workspace is-resident/);
+});
+
+test("resident LeadScope remains a premium capability without paywalling the free resident core", () => {
+  assert.match(router, /PortalAccessBoundary audience="resident"[\s\S]*homeowner-portal\/leadscope/);
+  assert.match(residentLeadScope, /hasResidentLeadScopeEntitlement\(\)/);
+  assert.match(residentLeadScope, /Resident Plus enrollment and pricing are not being invented here/);
+  assert.match(residentLeadScope, /requests, appointments, jobs, Messages, documents, payments, reviews, referrals, and Resources/);
+  assert.match(residentLeadScope, /calculateResidentEstimateRange/);
+  assert.match(residentLeadScope, /Not a quote, offer, guaranteed project cost/);
+  assert.match(residentLeadScope, /Save LeadScope project/);
+  assert.match(residentLeadScope, /Reopen/);
+  assert.match(leadScopeApi, /has_portal_capability/);
+  assert.match(leadScopeApi, /leadscope_projects/);
+  assert.doesNotMatch(leadScopeApi, /from\("estimates"\)|from\("estimate_lines"\)/);
 });
 
 test("professional portal preserves company links offer decisions appointments documents and Resources access", () => {
@@ -107,7 +124,9 @@ test("portal routes fail closed by resident professional and partner account sig
   assert.match(router, /PortalAccessBoundary audience="professional"/);
   assert.match(router, /PortalAccessBoundary audience="partner"/);
   assert.match(router, /homeowner-portal\/properties/);
+  assert.match(router, /homeowner-portal\/leadscope/);
   assert.doesNotMatch(router, /<Route element={<WorkspaceLayout\/>}>[\s\S]*homeowner-portal\/properties[\s\S]*analytics/);
+  assert.doesNotMatch(router, /<Route element={<WorkspaceLayout\/>}>[\s\S]*homeowner-portal\/leadscope[\s\S]*analytics/);
 });
 
 test("misleading portal-shaped matching and team URLs cannot expose internal tools", () => {
