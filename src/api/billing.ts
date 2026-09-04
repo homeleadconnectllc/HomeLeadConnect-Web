@@ -23,6 +23,18 @@ const BILLING_STATUS_FIELDS = "workspace_id,plan_key,status,is_active,trial_end,
 
 type BillingStatusWithWorkspace = BillingStatus & { workspace_id: string };
 
+function withoutWorkspaceId(value: BillingStatusWithWorkspace): BillingStatus {
+  return {
+    plan_key: value.plan_key,
+    status: value.status,
+    is_active: value.is_active,
+    trial_end: value.trial_end,
+    current_period_end: value.current_period_end,
+    grace_period_end: value.grace_period_end,
+    cancel_at_period_end: value.cancel_at_period_end,
+  };
+}
+
 async function recoverEntitledWorkspace(currentWorkspaceId: string): Promise<BillingStatus | null> {
   try {
     const { data: authData, error: authError } = await supabase.auth.getUser();
@@ -56,8 +68,7 @@ async function recoverEntitledWorkspace(currentWorkspaceId: string): Promise<Bil
     });
     if (switchError) return null;
 
-    const { workspace_id: _workspaceId, ...billingStatus } = selectedBilling;
-    return billingStatus;
+    return withoutWorkspaceId(selectedBilling);
   } catch {
     return null;
   }
@@ -72,8 +83,7 @@ export async function getBillingStatus(): Promise<BillingStatus | null> {
 
   const selectedBilling = data as BillingStatusWithWorkspace | null;
   if (selectedBilling && hasVerifiedWorkspaceAccess(selectedBilling)) {
-    const { workspace_id: _workspaceId, ...billingStatus } = selectedBilling;
-    return billingStatus;
+    return withoutWorkspaceId(selectedBilling);
   }
 
   // A stale selected-workspace pointer may reference either a workspace with no billing row
@@ -84,9 +94,7 @@ export async function getBillingStatus(): Promise<BillingStatus | null> {
   const recovered = await recoverEntitledWorkspace(workspaceId);
   if (recovered) return recovered;
 
-  if (!selectedBilling) return null;
-  const { workspace_id: _workspaceId, ...billingStatus } = selectedBilling;
-  return billingStatus;
+  return selectedBilling ? withoutWorkspaceId(selectedBilling) : null;
 }
 
 export async function getBillingOffer(): Promise<BillingOffer> {
