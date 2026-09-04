@@ -58,11 +58,13 @@ test("LeadScope migration keeps participant entitlement separate from workspace 
     "utf8",
   );
   assert.match(migration, /create table if not exists public\.portal_capability_entitlements/i);
-  assert.match(migration, /create or replace function public\.has_portal_capability/i);
+  assert.match(migration, /create or replace function public\.has_portal_capability\(p_workspace_id uuid/i);
+  assert.match(migration, /e\.workspace_id = p_workspace_id/i);
+  assert.match(migration, /from public\.workspace_members wm/i);
   assert.match(migration, /create table if not exists public\.leadscope_projects/i);
   assert.match(migration, /references public\.resident_properties\(id\)/i);
   assert.match(migration, /user_id = \(select auth\.uid\(\)\)/i);
-  assert.match(migration, /public\.has_portal_capability\('resident','leadscope'\)/i);
+  assert.match(migration, /public\.has_portal_capability\(workspace_id,'resident','leadscope'\)/i);
   assert.match(migration, /LeadScope project identity mismatch/i);
   assert.doesNotMatch(migration, /workspace_plan_status|public\.subscriptions|estimate_lines|public\.estimates/i);
 });
