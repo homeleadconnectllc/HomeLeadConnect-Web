@@ -1,4 +1,4 @@
-import { chooseEntitledWorkspaceRecovery } from "../lib/billing/workspaceRecovery";
+import { chooseEntitledWorkspaceRecovery, hasVerifiedWorkspaceAccess } from "../lib/billing/workspaceRecovery";
 import { getCurrentWorkspaceId, supabase } from "./client";
 
 export type BillingStatus = {
@@ -20,6 +20,8 @@ export type BillingOffer = {
 };
 
 const BILLING_STATUS_FIELDS = "workspace_id,plan_key,status,is_active,trial_end,current_period_end,grace_period_end,cancel_at_period_end";
+
+type BillingStatusWithWorkspace = BillingStatus & { workspace_id: string };
 
 async function recoverEntitledWorkspace(currentWorkspaceId: string): Promise<BillingStatus | null> {
   try {
@@ -46,7 +48,7 @@ async function recoverEntitledWorkspace(currentWorkspaceId: string): Promise<Bil
     const recovery = chooseEntitledWorkspaceRecovery(currentWorkspaceId, candidates || []);
     if (!recovery) return null;
 
-    const selectedBilling = (candidates || []).find((candidate) => candidate.workspace_id === recovery.workspace_id);
+    const selectedBilling = (candidates || []).find((candidate) => candidate.workspace_id === recovery.workspace_id) as BillingStatusWithWorkspace | undefined;
     if (!selectedBilling) return null;
 
     const { error: switchError } = await supabase.rpc("switch_current_workspace", {
@@ -54,7 +56,8 @@ async function recoverEntitledWorkspace(currentWorkspaceId: string): Promise<Bil
     });
     if (switchError) return null;
 
-    return selectedBilling as BillingStatus;
+    const { workspace_id: _workspaceId, ...billingStatus } = selectedBilling;
+    return billingStatus;
   } catch {
     return null;
   }
@@ -66,14 +69,24 @@ export async function getBillingStatus(): Promise<BillingStatus | null> {
     .select(BILLING_STATUS_FIELDS)
     .eq("workspace_id", workspaceId).maybeSingle();
   if (error) throw error;
-  if (data) return data as BillingStatus;
 
-  // A stale selected-workspace pointer can strand a multi-workspace user on a workspace
-  // that has no billing record even when exactly one of their other authorized workspaces
-  // has webhook-confirmed access. Recover only that unambiguous case through the existing
-  // membership-validated switch_current_workspace RPC. Explicitly inactive subscriptions
-  // and ambiguous multiple-entitlement cases remain gated.
-  return recoverEntitledWorkspace(workspaceId);
+  const selectedBilling = data as BillingStatusWithWorkspace | null;
+  if (selectedBilling && hasVerifiedWorkspaceAccess(selectedBilling)) {
+    const { workspace_id: _workspaceId, ...billingStatus } = selectedBilling;
+    return billingStatus;
+  }
+
+  // A stale selected-workspace pointer may reference either a workspace with no billing row
+  // or one with a non-entitled/inactive row. If exactly one other workspace the signed-in
+  // user is actually a member of has webhook-confirmed trial, paid, or live grace access,
+  // recover to that workspace through the membership-validated switch RPC. This is not an
+  // owner bypass: ambiguous cases and customer workspaces without verified access remain gated.
+  const recovered = await recoverEntitledWorkspace(workspaceId);
+  if (recovered) return recovered;
+
+  if (!selectedBilling) return null;
+  const { workspace_id: _workspaceId, ...billingStatus } = selectedBilling;
+  return billingStatus;
 }
 
 export async function getBillingOffer(): Promise<BillingOffer> {
