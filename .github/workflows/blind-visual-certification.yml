@@ -30,7 +30,7 @@ jobs:
           node-version: 24
           cache: npm
       - name: Install project dependencies
-        run: npm ci
+        run: npm ci --prefer-offline --no-audit --fund=false
       - name: Verify runner Chrome exists
         run: test -x "$HLC_BROWSER_EXECUTABLE" && "$HLC_BROWSER_EXECUTABLE" --version
       - name: Build exact candidate
