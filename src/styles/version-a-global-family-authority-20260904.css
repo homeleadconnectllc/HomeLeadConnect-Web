@@ -113,8 +113,107 @@ html body #root .hlc-route-loading-state, html body #root .hlc-signed-in-shell .
 }
 html body #root .hlc-route-loading-state p { color: var(--hlc-muted) !important; }
 
+/* Physical iPhone closure: authenticated Version A has no legacy white islands.
+   This catches shared command/search/support/calendar/community/directory/profile/document
+   surfaces plus legacy inline-white block containers that escaped the first global pass. */
+html body #root .hlc-signed-in-shell :where(
+  .hlc-search-shell,.hlc-search-panel,.hlc-search-results,.hlc-global-search,.hlc-search-results-panel,
+  .hlc-community-shell,.hlc-community-panel,.hlc-community-card,.hlc-community-guidelines,
+  .hlc-community-boundary,.hlc-community-destination,.hlc-community-search,
+  .hlc-support-shell,.hlc-support-panel,.hlc-support-card,.hlc-help-card,.hlc-manual-card,
+  .hlc-calendar-shell,.hlc-calendar-panel,.hlc-schedule-card,.hlc-schedule-panel,
+  .hlc-app-directory-shell,.hlc-app-directory-panel,.hlc-app-directory-group,
+  .hlc-more-panel,.hlc-settings-panel,.hlc-team-panel,.hlc-workflow-panel,.hlc-call-center-panel,
+  .hlc-profile-shell,.hlc-profile-card,.hlc-account-card,.hlc-privacy-card,
+  .hlc-documents-shell,.hlc-documents-panel,.hlc-document-panel,.hlc-library-panel,
+  .hlc-forms-shell,.hlc-forms-panel,.hlc-checklist-card,.hlc-segmented-control,
+  .hlc-provider-network,.hlc-provider-map-panel,.hlc-network-intelligence,
+  .hlc-leads-panel,.hlc-jobs-panel,.hlc-work-panel,
+  details,table,thead,tbody,tfoot
+) {
+  background: linear-gradient(155deg, rgba(21,26,60,.95), rgba(7,12,30,.97)) !important;
+  border-color: var(--hlc-line) !important;
+  color: var(--hlc-text) !important;
+}
+
+html body #root .hlc-signed-in-shell :where(
+  div,section,article,aside,header,nav,main,form,ul,li,details
+)[style*="background: white"],
+html body #root .hlc-signed-in-shell :where(
+  div,section,article,aside,header,nav,main,form,ul,li,details
+)[style*="background-color: white"],
+html body #root .hlc-signed-in-shell :where(
+  div,section,article,aside,header,nav,main,form,ul,li,details
+)[style*="background: rgb(255, 255, 255)"],
+html body #root .hlc-signed-in-shell :where(
+  div,section,article,aside,header,nav,main,form,ul,li,details
+)[style*="background-color: rgb(255, 255, 255)"],
+html body #root .hlc-signed-in-shell :where(
+  div,section,article,aside,header,nav,main,form,ul,li,details
+)[style*="background: #fff"],
+html body #root .hlc-signed-in-shell :where(
+  div,section,article,aside,header,nav,main,form,ul,li,details
+)[style*="background-color: #fff"] {
+  background: linear-gradient(155deg, rgba(21,26,60,.96), rgba(7,12,30,.98)) !important;
+  color: var(--hlc-text) !important;
+  border-color: var(--hlc-line) !important;
+  box-shadow: 0 16px 40px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.035) !important;
+}
+
+html body #root .hlc-signed-in-shell :where(
+  .hlc-search-shell,.hlc-search-panel,.hlc-search-results,.hlc-global-search,
+  .hlc-community-shell,.hlc-community-panel,.hlc-community-card,.hlc-community-guidelines,
+  .hlc-support-shell,.hlc-support-panel,.hlc-support-card,.hlc-help-card,.hlc-manual-card,
+  .hlc-calendar-shell,.hlc-calendar-panel,.hlc-schedule-card,.hlc-schedule-panel,
+  .hlc-app-directory-shell,.hlc-app-directory-panel,.hlc-app-directory-group,
+  .hlc-profile-shell,.hlc-profile-card,.hlc-account-card,
+  .hlc-documents-shell,.hlc-documents-panel,.hlc-document-panel,
+  .hlc-forms-shell,.hlc-forms-panel,.hlc-checklist-card,
+  .hlc-provider-network,.hlc-provider-map-panel,.hlc-network-intelligence
+) :where(h1,h2,h3,h4,h5,strong,label,legend,summary) {
+  color: var(--hlc-text) !important;
+}
+
+html body #root .hlc-signed-in-shell :where(
+  .hlc-search-shell,.hlc-search-panel,.hlc-search-results,.hlc-global-search,
+  .hlc-community-shell,.hlc-community-panel,.hlc-community-card,.hlc-community-guidelines,
+  .hlc-support-shell,.hlc-support-panel,.hlc-support-card,.hlc-help-card,.hlc-manual-card,
+  .hlc-calendar-shell,.hlc-calendar-panel,.hlc-schedule-card,.hlc-schedule-panel,
+  .hlc-app-directory-shell,.hlc-app-directory-panel,.hlc-app-directory-group,
+  .hlc-profile-shell,.hlc-profile-card,.hlc-account-card,
+  .hlc-documents-shell,.hlc-documents-panel,.hlc-document-panel,
+  .hlc-forms-shell,.hlc-forms-panel,.hlc-checklist-card,
+  .hlc-provider-network,.hlc-provider-map-panel,.hlc-network-intelligence
+) :where(p,small,span,li,td,th) {
+  color: var(--hlc-muted) !important;
+}
+
+html body #root .hlc-signed-in-shell :where(
+  .hlc-community-commandbar,.hlc-community-search,.hlc-global-search,.hlc-search-shell,
+  .hlc-messages-app-topbar,.hlc-calendar-header,.hlc-account-section-head,
+  .hlc-app-directory-first-day nav,.hlc-app-directory-group > header
+) {
+  backdrop-filter: blur(18px) saturate(132%) !important;
+  -webkit-backdrop-filter: blur(18px) saturate(132%) !important;
+}
+
+html body #root .hlc-signed-in-shell :where(button,[role="button"],a).hlc-secondary-action,
+html body #root .hlc-signed-in-shell :where(.hlc-tab,.hlc-filter-chip,.hlc-segment-button) {
+  background: rgba(13,19,45,.88) !important;
+  color: var(--hlc-text) !important;
+  border-color: rgba(137,121,255,.28) !important;
+}
+
 @media (max-width: 720px) {
   html body #root .hlc-signed-in-shell :where(.hlc-command-hero,.hlc-page-hero,.hlc-section-hero) { border-radius: 18px !important; }
   html body #root .hlc-signed-in-shell :where(.hlc-user-avatar,.hlc-profile-avatar,.hlc-account-avatar,.hlc-header-avatar) { width: 42px !important; height: 42px !important; }
   html body #root .hlc-signed-in-shell .hlc-profile-corner-identity { justify-self: start !important; }
+  html body #root .hlc-signed-in-shell :where(
+    .hlc-search-shell,.hlc-community-commandbar,.hlc-community-panel,.hlc-support-panel,
+    .hlc-calendar-panel,.hlc-schedule-panel,.hlc-app-directory-panel,.hlc-profile-card,
+    .hlc-documents-panel,.hlc-forms-panel,.hlc-provider-map-panel
+  ) {
+    border-radius: 16px !important;
+    box-shadow: 0 14px 34px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.035) !important;
+  }
 }
