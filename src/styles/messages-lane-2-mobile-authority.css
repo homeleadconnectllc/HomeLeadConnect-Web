@@ -1,11 +1,24 @@
 /* Lane 2 post-launch Messages authority.
-   Progressive mobile flow: inbox -> conversation -> reply, with New Message on demand. */
+   Progressive mobile flow: inbox -> conversation -> reply, with New Message on demand.
+   Physical-device authority: Messages must remain in the authenticated Version A dark family. */
 
 .hlc-messages-progressive-header {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: 20px;
+  color: var(--portal-text, #f8fafc) !important;
+  background: linear-gradient(150deg, rgba(27, 21, 64, .98), rgba(13, 13, 35, .99)) !important;
+  border: 1px solid var(--portal-line, rgba(156, 135, 255, .30)) !important;
+  border-radius: 18px !important;
+  padding: 18px !important;
+}
+
+.hlc-messages-progressive-header :where(h1,h2,h3,strong) {
+  color: var(--portal-text, #f8fafc) !important;
+}
+.hlc-messages-progressive-header :where(p,small,span) {
+  color: var(--portal-muted, #c9c3df) !important;
 }
 
 .hlc-messages-new-action,
@@ -39,6 +52,39 @@
   gap: 12px;
 }
 
+/* Close legacy light panels inside the protected Messages route itself rather than
+   relying on a generic theme sheet after this file. This keeps Lane 2 as final authority. */
+body #root .hlc-messages-workspace,
+body #root .hlc-messages-progressive-inbox,
+body #root .hlc-messages-progressive-thread,
+body #root .hlc-message-quick-compose,
+body #root .hlc-message-composer,
+body #root .hlc-message-stream,
+body #root .hlc-messages-inbox-list {
+  color: var(--portal-text, #f8fafc) !important;
+  background-color: transparent !important;
+}
+
+body #root .hlc-message-inbox-row,
+body #root .hlc-message-quick-compose,
+body #root .hlc-message-composer,
+body #root .hlc-messages-empty-action {
+  color: var(--portal-text, #f8fafc) !important;
+  background: linear-gradient(145deg, rgba(25, 20, 61, .96), rgba(10, 14, 35, .98)) !important;
+  border-color: var(--portal-line, rgba(156, 135, 255, .28)) !important;
+}
+
+body #root .hlc-message-inbox-row :where(strong,h2,h3),
+body #root .hlc-message-quick-compose :where(strong,h2,h3,label),
+body #root .hlc-message-composer :where(strong,h2,h3,label) {
+  color: var(--portal-text, #f8fafc) !important;
+}
+body #root .hlc-message-inbox-row :where(small,p,span),
+body #root .hlc-message-quick-compose :where(small,p),
+body #root .hlc-message-composer :where(small,p) {
+  color: var(--portal-muted, #c9c3df) !important;
+}
+
 @media (max-width: 720px) {
   body #root .hlc-messages-workspace {
     padding-bottom: calc(108px + env(safe-area-inset-bottom));
@@ -48,10 +94,15 @@
     align-items: stretch;
     flex-direction: column;
     gap: 14px;
+    width: 100% !important;
+    margin: 0 !important;
+    border-radius: 16px !important;
+    padding: 16px !important;
   }
 
   body #root .hlc-messages-progressive-header > div {
     min-width: 0;
+    background: transparent !important;
   }
 
   body #root .hlc-messages-progressive-header > div > p:last-child {
