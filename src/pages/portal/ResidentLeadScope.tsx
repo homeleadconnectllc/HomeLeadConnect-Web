@@ -39,7 +39,14 @@ const emptyForm = {
   scopeNote: "",
   rateLow: "",
   rateHigh: "",
+  currency: "USD",
 };
+
+function formatMoney(value: number, currency: string) {
+  const code = currency.trim().toUpperCase();
+  try { return new Intl.NumberFormat(undefined, { style: "currency", currency: code }).format(value); }
+  catch { return `${value.toFixed(2)} ${code || "currency"}`; }
+}
 
 export default function ResidentLeadScope() {
   const [entitled, setEntitled] = useState<boolean | null>(null);
@@ -55,21 +62,26 @@ export default function ResidentLeadScope() {
   const load = useCallback(async () => {
     setError("");
     try {
-      const allowed = await hasResidentLeadScopeEntitlement();
+      const [allowed, propertyRows, projectRows] = await Promise.all([
+        hasResidentLeadScopeEntitlement(),
+        listResidentProperties(),
+        listLeadScopeProjects(),
+      ]);
       setEntitled(allowed);
-      const propertyRows = await listResidentProperties();
       setProperties(propertyRows);
-      if (!form.propertyId && propertyRows[0]) setForm((current) => ({ ...current, propertyId: propertyRows[0].id }));
-      const projectRows = await listLeadScopeProjects();
       setProjects(projectRows);
+      setForm((current) => current.propertyId || !propertyRows[0] ? current : { ...current, propertyId: propertyRows[0].id });
     } catch (reason) {
       setError(errorMessage(reason, "Unable to load LeadScope."));
     } finally {
       setLoading(false);
     }
-  }, [form.propertyId]);
+  }, []);
 
-  useEffect(() => { void load(); }, [load]);
+  useEffect(() => {
+    const timer = window.setTimeout(() => { void load(); }, 0);
+    return () => window.clearTimeout(timer);
+  }, [load]);
 
   const quantity = Number(form.quantity);
   const rateLow = Number(form.rateLow);
@@ -110,6 +122,7 @@ export default function ResidentLeadScope() {
       scopeNote: project.scope_description_note ?? "",
       rateLow: project.estimate_rate_low != null ? String(project.estimate_rate_low) : "",
       rateHigh: project.estimate_rate_high != null ? String(project.estimate_rate_high) : "",
+      currency: project.estimate_currency?.toUpperCase() || "USD",
     });
     setMessage("Saved LeadScope project reopened.");
   }
@@ -129,6 +142,8 @@ export default function ResidentLeadScope() {
       const hasMeasurement = form.measurementState === "known" || form.measurementState === "assumption";
       const hasSite = form.siteState === "known" || form.siteState === "assumption";
       const hasScope = form.scopeState === "known" || form.scopeState === "assumption";
+      const currency = form.currency.trim().toUpperCase();
+      if (!/^[A-Z]{3}$/.test(currency)) throw new Error("Enter a three-letter ISO currency code such as USD, CAD, EUR, or GBP.");
       if (hasMeasurement && (!Number.isFinite(quantity) || quantity <= 0)) throw new Error("Enter a project quantity greater than zero or mark the measurement unknown/unverifiable.");
       let estimate = null;
       if (form.rateLow !== "" || form.rateHigh !== "") {
@@ -156,7 +171,7 @@ export default function ResidentLeadScope() {
         estimate_rate_high: estimate ? rateHigh : null,
         estimate_low: estimate?.low ?? null,
         estimate_high: estimate?.high ?? null,
-        estimate_currency: "usd",
+        estimate_currency: currency.toLowerCase(),
         estimate_method: estimate?.method ?? null,
         status: "saved",
       };
@@ -193,12 +208,12 @@ export default function ResidentLeadScope() {
 
         <div className="hlc-portal-subsection"><h3>Site conditions</h3><label>Site evidence state<select value={form.siteState} onChange={(event)=>setForm({...form,siteState:event.target.value as EvidenceState})}>{evidenceOptions.map((option)=><option key={option.value} value={option.value}>{option.label}</option>)}</select></label>{(form.siteState === "known" || form.siteState === "assumption") && <label>Conditions that may affect the work<textarea rows={3} value={form.siteConditions} onChange={(event)=>setForm({...form,siteConditions:event.target.value})} /></label>}<label>Site source<input value={form.siteSource} onChange={(event)=>setForm({...form,siteSource:event.target.value})} /></label><label>Site note<textarea rows={2} value={form.siteNote} onChange={(event)=>setForm({...form,siteNote:event.target.value})} /></label></div>
 
-        <div className="hlc-portal-subsection"><h3>Informational self-estimate</h3><p>HomeLead Connect does not invent market pricing here. Enter the low and high cost-per-{measurementUnitLabel(form.unit)} assumptions you want LeadScope to use. The result is arithmetic from your assumptions, not contractor pricing.</p><label>Low rate assumption<input type="number" min="0" step="0.01" value={form.rateLow} onChange={(event)=>setForm({...form,rateLow:event.target.value})} /></label><label>High rate assumption<input type="number" min="0" step="0.01" value={form.rateHigh} onChange={(event)=>setForm({...form,rateHigh:event.target.value})} /></label>{range && <article className="hlc-portal-row"><div><strong>{new Intl.NumberFormat(undefined,{style:"currency",currency:"USD"}).format(range.low)} – {new Intl.NumberFormat(undefined,{style:"currency",currency:"USD"}).format(range.high)}</strong><span>Informational range based only on {quantity} {measurementUnitLabel(form.unit)} × your entered rate assumptions.</span><p>Not a quote, offer, guaranteed project cost, or substitute for professional inspection and pricing.</p></div></article>}</div>
+        <div className="hlc-portal-subsection"><h3>Informational self-estimate</h3><p>HomeLead Connect does not invent market pricing here. Enter the low and high cost-per-{measurementUnitLabel(form.unit)} assumptions you want LeadScope to use. The result is arithmetic from your assumptions, not contractor pricing.</p><label>Currency code<input required maxLength={3} pattern="[A-Za-z]{3}" value={form.currency} onChange={(event)=>setForm({...form,currency:event.target.value.toUpperCase()})} aria-describedby="leadscope-currency-help" /></label><p id="leadscope-currency-help">Use the three-letter currency for your project, such as USD, CAD, EUR, or GBP.</p><label>Low rate assumption<input type="number" min="0" step="0.01" value={form.rateLow} onChange={(event)=>setForm({...form,rateLow:event.target.value})} /></label><label>High rate assumption<input type="number" min="0" step="0.01" value={form.rateHigh} onChange={(event)=>setForm({...form,rateHigh:event.target.value})} /></label>{range && <article className="hlc-portal-row"><div><strong>{formatMoney(range.low, form.currency)} – {formatMoney(range.high, form.currency)}</strong><span>Informational range based only on {quantity} {measurementUnitLabel(form.unit)} × your entered rate assumptions.</span><p>Not a quote, offer, guaranteed project cost, or substitute for professional inspection and pricing.</p></div></article>}</div>
 
         <button disabled={busy || !form.propertyId || !form.title.trim() || !form.projectType.trim()} type="submit">{busy ? "Saving…" : "Save LeadScope project"}</button>
       </form>}
 
-      <section className="hlc-portal-project"><div className="hlc-account-section-head"><div><span>SAVED RESULTS</span><h2>Your LeadScope projects</h2></div><strong>{projects.length}</strong></div>{!projects.length ? <p>No saved LeadScope projects yet.</p> : projects.map((project)=><article className="hlc-portal-row" key={project.id}><div><strong>{project.title}</strong><span>{project.project_type} · {project.measurements?.quantity ?? "Quantity unavailable"} {project.measurements ? measurementUnitLabel(project.measurement_unit) : ""}</span>{project.estimate_low != null && project.estimate_high != null ? <p>Saved informational range: {new Intl.NumberFormat(undefined,{style:"currency",currency:"USD"}).format(project.estimate_low)} – {new Intl.NumberFormat(undefined,{style:"currency",currency:"USD"}).format(project.estimate_high)}</p> : <p>No cost range saved.</p>}<small>Updated {new Date(project.updated_at).toLocaleString()}</small></div><button type="button" onClick={()=>openProject(project)}>Reopen</button></article>)}</section>
+      <section className="hlc-portal-project"><div className="hlc-account-section-head"><div><span>SAVED RESULTS</span><h2>Your LeadScope projects</h2></div><strong>{projects.length}</strong></div>{!projects.length ? <p>No saved LeadScope projects yet.</p> : projects.map((project)=><article className="hlc-portal-row" key={project.id}><div><strong>{project.title}</strong><span>{project.project_type} · {project.measurements?.quantity ?? "Quantity unavailable"} {project.measurements ? measurementUnitLabel(project.measurement_unit) : ""}</span>{project.estimate_low != null && project.estimate_high != null ? <p>Saved informational range: {formatMoney(project.estimate_low, project.estimate_currency)} – {formatMoney(project.estimate_high, project.estimate_currency)}</p> : <p>No cost range saved.</p>}<small>Updated {new Date(project.updated_at).toLocaleString()}</small></div><button type="button" onClick={()=>openProject(project)}>Reopen</button></article>)}</section>
     </>}
   </main>;
 }
