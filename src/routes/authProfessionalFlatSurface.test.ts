@@ -26,14 +26,16 @@ test("mobile auth becomes one continuous surface rather than another rounded car
   assert.match(authStyles, /\.hlc-auth-shell--flat \.hlc-auth-form-heading[\s\S]*display:\s*none;/i);
 });
 
-test("scoped mobile auth authority beats legacy card rules without changing global release order", () => {
+test("scoped mobile auth authority remains intact beneath the approved Version A family authority", () => {
   const authBaseIndex = appShellEntry.indexOf("./auth-methods.css");
   const authAuthorityIndex = appShellEntry.indexOf("./auth-mobile-final-authority.css");
   const mobileReleaseIndex = appShellEntry.indexOf("./mobile-release-fix.css");
+  const familyAuthorityIndex = appShellEntry.indexOf("./version-a-global-family-authority-20260904.css");
   assert.ok(authBaseIndex >= 0);
   assert.ok(authAuthorityIndex > authBaseIndex);
   assert.ok(mobileReleaseIndex > authAuthorityIndex);
-  assert.equal(appShellEntry.trim().split("\n").at(-1), 'import "./mobile-release-fix.css";');
+  assert.ok(familyAuthorityIndex > mobileReleaseIndex);
+  assert.equal(appShellEntry.trim().split("\n").at(-1), 'import "./version-a-global-family-authority-20260904.css";');
   assert.match(mobileAuthAuthority, /\.hlc-auth-shell\.hlc-auth-shell--flat[\s\S]*background:\s*#081426 !important[\s\S]*border-radius:\s*0 !important/i);
   assert.match(mobileAuthAuthority, /\.hlc-auth-shell\.hlc-auth-shell--flat \.hlc-auth-card[\s\S]*background:\s*#0d1a2d !important[\s\S]*border-radius:\s*0 !important[\s\S]*box-shadow:\s*none !important/i);
   assert.match(mobileAuthAuthority, /\.hlc-auth-shell\.hlc-auth-shell--flat \.hlc-auth-method-tabs button[\s\S]*border-radius:\s*0 !important[\s\S]*background:\s*transparent !important/i);
