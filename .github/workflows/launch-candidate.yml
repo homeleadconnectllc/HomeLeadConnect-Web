@@ -20,7 +20,7 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     steps:
       - name: Checkout
         uses: actions/checkout@v7.0.1
@@ -35,7 +35,46 @@ jobs:
         run: npm ci
 
       - name: Audit production dependencies
-        run: npm audit --omit=dev --audit-level=high
+        shell: bash
+        run: |
+          set -uo pipefail
+
+          max_attempts=3
+          attempt=1
+
+          while [ "$attempt" -le "$max_attempts" ]; do
+            echo "Production audit attempt $attempt/$max_attempts"
+            set +e
+            audit_output=$(timeout 150s npm audit --omit=dev --audit-level=high 2>&1)
+            audit_status=$?
+            set -e
+            printf '%s\n' "$audit_output"
+
+            if [ "$audit_status" -eq 0 ]; then
+              exit 0
+            fi
+
+            if [ "$audit_status" -eq 124 ]; then
+              infra_failure=true
+            elif printf '%s\n' "$audit_output" | grep -Eqi 'network timeout|audit endpoint returned an error|503 Service Unavailable|EAI_AGAIN|ECONNRESET|ETIMEDOUT|ENETUNREACH|socket hang up'; then
+              infra_failure=true
+            else
+              infra_failure=false
+            fi
+
+            if [ "$infra_failure" != true ]; then
+              echo "Production audit returned a non-network failure; preserving the security gate failure."
+              exit "$audit_status"
+            fi
+
+            if [ "$attempt" -eq "$max_attempts" ]; then
+              echo "Production audit could not reach npm after $max_attempts attempts."
+              exit "$audit_status"
+            fi
+
+            sleep $((attempt * 15))
+            attempt=$((attempt + 1))
+          done
 
       - name: Audit development dependencies (informational)
         continue-on-error: true
