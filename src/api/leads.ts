@@ -3,7 +3,6 @@ import type { Lead } from "../lib/types/database";
 
 export type LeadRecord = Lead & {
   source: string | null;
-  priority: string | null;
   stage: string | null;
   appointment_at: string | null;
   appointment_status: string | null;
@@ -33,7 +32,6 @@ const leadColumns = [
   "updated_at",
   "notes",
   "source",
-  "priority",
   "stage",
   "appointment_at",
   "appointment_status",
