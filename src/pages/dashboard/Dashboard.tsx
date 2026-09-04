@@ -15,6 +15,7 @@ import { listLeads } from "../../api/leads";
 import { listFollowUps } from "../../api/followUps";
 import { listJobs } from "../../api/jobs";
 import { listWorkspaceAppointments } from "../../api/appointments";
+import { getMyProfile } from "../../api/settings";
 import { agentTeam } from "../../config/ecosystem";
 import { useAuth } from "../../hooks/useAuth";
 import { useAccountAccess } from "../../hooks/useAccountAccess";
@@ -27,6 +28,11 @@ type DashboardData = {
   followUps: FollowUp[];
   jobs: CrmJob[];
   appointments: JobAppointment[];
+};
+
+type DashboardIdentity = {
+  fullName: string;
+  avatarUrl: string;
 };
 
 const emptyData: DashboardData = {
@@ -47,6 +53,15 @@ function getGreeting() {
   if (hour < 12) return "Good morning";
   if (hour < 18) return "Good afternoon";
   return "Good evening";
+}
+
+function firstName(value: string) {
+  return value.trim().split(/\s+/).filter(Boolean)[0] || "";
+}
+
+function initials(value: string) {
+  const letters = value.trim().split(/\s+/).filter(Boolean).slice(0, 2).map((part) => part[0]?.toUpperCase()).join("");
+  return letters || "HC";
 }
 
 function isToday(value: string | null | undefined) {
@@ -76,6 +91,7 @@ export default function Dashboard() {
   const { session } = useAuth();
   const account = useAccountAccess();
   const [data, setData] = useState<DashboardData>(emptyData);
+  const [identity, setIdentity] = useState<DashboardIdentity>({ fullName: "", avatarUrl: "" });
   const [loading, setLoading] = useState(true);
   const [partialError, setPartialError] = useState(false);
   const [snapshotAt, setSnapshotAt] = useState(0);
@@ -109,6 +125,24 @@ export default function Dashboard() {
       active = false;
     };
   }, []);
+
+  useEffect(() => {
+    let active = true;
+    if (!session) {
+      setIdentity({ fullName: "", avatarUrl: "" });
+      return () => { active = false; };
+    }
+    getMyProfile()
+      .then((profile) => {
+        if (!active) return;
+        setIdentity({ fullName: profile.full_name || "", avatarUrl: profile.avatar_url || "" });
+      })
+      .catch(() => {
+        if (!active) return;
+        setIdentity({ fullName: "", avatarUrl: "" });
+      });
+    return () => { active = false; };
+  }, [session]);
 
   const visibleAgentTeam = useMemo(() => {
     if (!session || account.loading || account.error || account.userId !== session.user.id || !account.business || !account.role) return [];
@@ -184,12 +218,15 @@ export default function Dashboard() {
     [data.appointments],
   );
 
+  const signedInName = firstName(identity.fullName);
+  const greeting = signedInName ? `${getGreeting()}, ${signedInName}` : getGreeting();
+
   return (
     <main className="hlc-home-workspace hlc-home-structural">
       <header className="hlc-home-topbar">
         <div>
           <span className="hlc-home-eyebrow">HOME</span>
-          <h1>{getGreeting()}</h1>
+          <h1 className="hlc-greeting">{greeting}</h1>
           <p>What needs your attention right now.</p>
         </div>
         <div className="hlc-home-top-actions">
@@ -198,6 +235,9 @@ export default function Dashboard() {
           </button>
           <Link to="/notifications" aria-label="Open notifications">
             <Bell size={20} />
+          </Link>
+          <Link className="hlc-home-identity" to="/profile" aria-label="Open your profile">
+            {identity.avatarUrl ? <img className="hlc-header-avatar" src={identity.avatarUrl} alt="" /> : <span className="hlc-header-avatar hlc-avatar-fallback" aria-hidden="true">{initials(identity.fullName)}</span>}
           </Link>
         </div>
       </header>
