@@ -80,6 +80,7 @@ import "./version-a-protected-geometry-contracts-20260904.css";
 import "./version-a-mobile-drawer-premium-rollout-20260904.css";
 import "./version-a-portal-imagery-authority-20260904.css";
 import "./version-a-legacy-light-surface-closure-20260904.css";
+import "./version-a-authenticated-physical-closure-20260904.css";
 import "./messages-lane-2-mobile-authority.css";
 
 export default function AuthenticatedStyles() {
