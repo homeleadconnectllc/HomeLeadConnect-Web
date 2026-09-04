@@ -46,12 +46,15 @@ async function recoverEntitledWorkspace(currentWorkspaceId: string): Promise<Bil
     const recovery = chooseEntitledWorkspaceRecovery(currentWorkspaceId, candidates || []);
     if (!recovery) return null;
 
+    const selectedBilling = (candidates || []).find((candidate) => candidate.workspace_id === recovery.workspace_id);
+    if (!selectedBilling) return null;
+
     const { error: switchError } = await supabase.rpc("switch_current_workspace", {
       p_workspace_id: recovery.workspace_id,
     });
     if (switchError) return null;
 
-    return recovery as BillingStatus;
+    return selectedBilling as BillingStatus;
   } catch {
     return null;
   }
