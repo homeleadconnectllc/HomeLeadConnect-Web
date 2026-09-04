@@ -1,3 +1,4 @@
+import { chooseEntitledWorkspaceRecovery } from "../lib/billing/workspaceRecovery";
 import { getCurrentWorkspaceId, supabase } from "./client";
 
 export type BillingStatus = {
@@ -18,13 +19,58 @@ export type BillingOffer = {
   interval: "month" | "year";
 };
 
+const BILLING_STATUS_FIELDS = "workspace_id,plan_key,status,is_active,trial_end,current_period_end,grace_period_end,cancel_at_period_end";
+
+async function recoverEntitledWorkspace(currentWorkspaceId: string): Promise<BillingStatus | null> {
+  try {
+    const { data: authData, error: authError } = await supabase.auth.getUser();
+    if (authError || !authData.user) return null;
+
+    const { data: memberships, error: membershipError } = await supabase
+      .from("workspace_members")
+      .select("workspace_id")
+      .eq("user_id", authData.user.id);
+    if (membershipError) return null;
+
+    const workspaceIds = [...new Set((memberships || [])
+      .map((membership) => membership.workspace_id as string | null)
+      .filter((workspaceId): workspaceId is string => Boolean(workspaceId)))];
+    if (workspaceIds.length < 2) return null;
+
+    const { data: candidates, error: candidateError } = await supabase
+      .from("workspace_plan_status")
+      .select(BILLING_STATUS_FIELDS)
+      .in("workspace_id", workspaceIds);
+    if (candidateError) return null;
+
+    const recovery = chooseEntitledWorkspaceRecovery(currentWorkspaceId, candidates || []);
+    if (!recovery) return null;
+
+    const { error: switchError } = await supabase.rpc("switch_current_workspace", {
+      p_workspace_id: recovery.workspace_id,
+    });
+    if (switchError) return null;
+
+    return recovery as BillingStatus;
+  } catch {
+    return null;
+  }
+}
+
 export async function getBillingStatus(): Promise<BillingStatus | null> {
   const workspaceId = await getCurrentWorkspaceId();
   const { data, error } = await supabase.from("workspace_plan_status")
-    .select("plan_key,status,is_active,trial_end,current_period_end,grace_period_end,cancel_at_period_end")
+    .select(BILLING_STATUS_FIELDS)
     .eq("workspace_id", workspaceId).maybeSingle();
   if (error) throw error;
-  return data as BillingStatus | null;
+  if (data) return data as BillingStatus;
+
+  // A stale selected-workspace pointer can strand a multi-workspace user on a workspace
+  // that has no billing record even when exactly one of their other authorized workspaces
+  // has webhook-confirmed access. Recover only that unambiguous case through the existing
+  // membership-validated switch_current_workspace RPC. Explicitly inactive subscriptions
+  // and ambiguous multiple-entitlement cases remain gated.
+  return recoverEntitledWorkspace(workspaceId);
 }
 
 export async function getBillingOffer(): Promise<BillingOffer> {
