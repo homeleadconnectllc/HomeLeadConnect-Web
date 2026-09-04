@@ -34,10 +34,10 @@ test("Leads preserves the operational actions and mobile collapse", () => {
 });
 
 test("Leads queries only columns present in the deployed lead schema", () => {
-  assert.doesNotMatch(leadsApi, /lead_code/);
-  assert.doesNotMatch(leadsPage, /lead_code|lead code/i);
-  assert.doesNotMatch(leadRow, /lead_code/);
-  assert.doesNotMatch(leadDetail, /lead_code/);
+  assert.doesNotMatch(leadsApi, /lead_code|priority/);
+  assert.doesNotMatch(leadsPage, /lead_code|lead code|priority/i);
+  assert.doesNotMatch(leadRow, /lead_code|priority/);
+  assert.doesNotMatch(leadDetail, /lead_code|priority/);
   assert.match(leadRow, /Lead #\{lead\.id\}/);
   assert.match(leadDetail, /Lead #\{lead\.id\}/);
 });
