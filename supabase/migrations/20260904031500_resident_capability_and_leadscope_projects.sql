@@ -28,9 +28,9 @@ for select to authenticated
 using (user_id = (select auth.uid()));
 
 create index if not exists portal_capability_entitlements_user_capability_idx
-  on public.portal_capability_entitlements(user_id,audience,capability,status);
+  on public.portal_capability_entitlements(user_id,workspace_id,audience,capability,status);
 
-create or replace function public.has_portal_capability(p_audience text, p_capability text)
+create or replace function public.has_portal_capability(p_workspace_id uuid, p_audience text, p_capability text)
 returns boolean
 language sql
 stable
@@ -41,16 +41,22 @@ as $$
     select 1
     from public.portal_capability_entitlements e
     where e.user_id = (select auth.uid())
+      and e.workspace_id = p_workspace_id
       and e.audience = lower(btrim(p_audience))
       and e.capability = lower(btrim(p_capability))
       and e.status = 'active'
       and (e.starts_at is null or e.starts_at <= now())
       and (e.ends_at is null or e.ends_at > now())
+      and exists (
+        select 1 from public.workspace_members wm
+        where wm.workspace_id = p_workspace_id
+          and wm.user_id = (select auth.uid())
+      )
   );
 $$;
 
-revoke all on function public.has_portal_capability(text,text) from public, anon;
-grant execute on function public.has_portal_capability(text,text) to authenticated, service_role;
+revoke all on function public.has_portal_capability(uuid,text,text) from public, anon;
+grant execute on function public.has_portal_capability(uuid,text,text) to authenticated, service_role;
 
 create table if not exists public.leadscope_projects (
   id uuid primary key default gen_random_uuid(),
@@ -76,7 +82,7 @@ create table if not exists public.leadscope_projects (
   estimate_rate_high numeric(12,2),
   estimate_low numeric(14,2),
   estimate_high numeric(14,2),
-  estimate_currency text not null default 'usd',
+  estimate_currency text not null default 'usd' check (estimate_currency ~ '^[a-z]{3}$'),
   estimate_method text,
   status text not null default 'draft' check (status in ('draft','reviewed','saved')),
   created_at timestamptz not null default now(),
@@ -132,7 +138,7 @@ on public.leadscope_projects
 for insert to authenticated
 with check (
   user_id = (select auth.uid())
-  and public.has_portal_capability('resident','leadscope')
+  and public.has_portal_capability(workspace_id,'resident','leadscope')
   and exists (
     select 1
     from public.resident_properties rp
@@ -157,7 +163,7 @@ using (
 )
 with check (
   user_id = (select auth.uid())
-  and public.has_portal_capability('resident','leadscope')
+  and public.has_portal_capability(workspace_id,'resident','leadscope')
   and exists (
     select 1
     from public.resident_properties rp
@@ -197,6 +203,7 @@ begin
   end if;
   new.title := btrim(new.title);
   new.project_type := btrim(new.project_type);
+  new.estimate_currency := lower(btrim(new.estimate_currency));
   new.updated_at := now();
   return new;
 end;
