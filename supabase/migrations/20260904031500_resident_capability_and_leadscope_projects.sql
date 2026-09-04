@@ -65,7 +65,7 @@ create table if not exists public.leadscope_projects (
   user_id uuid not null references auth.users(id) on delete cascade,
   title text not null check (char_length(btrim(title)) between 1 and 160),
   project_type text not null check (char_length(btrim(project_type)) between 1 and 120),
-  measurement_unit text not null default 'sq_ft' check (measurement_unit in ('sq_ft','linear_ft','each','custom')),
+  measurement_unit text not null default 'sq_ft' check (measurement_unit in ('sq_ft','sq_m','linear_ft','linear_m','each','custom')),
   measurements jsonb,
   measurements_state text not null default 'unknown' check (measurements_state in ('known','unknown','assumption','unverifiable')),
   measurements_source text,
@@ -191,7 +191,7 @@ create or replace function public.hlc_validate_leadscope_project_identity()
 returns trigger
 language plpgsql
 security definer
-set search_path = pg_catalog, public
+set search_path = ''
 as $$
 declare
   v_property public.resident_properties%rowtype;
