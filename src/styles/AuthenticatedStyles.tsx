@@ -84,8 +84,8 @@ import "./version-a-authenticated-physical-closure-20260904.css";
 import "./version-a-global-contrast-closure-20260904.css";
 import "./version-a-global-family-authority-20260904.css";
 import "./version-a-image2-final-authority-20260904.css";
-import "./messages-lane-2-mobile-authority.css";
 import "./live-white-island-eradication-20260905.css";
+import "./messages-lane-2-mobile-authority.css";
 
 export default function AuthenticatedStyles() {
   return <MobileNavigationDialogAccessibility />;
