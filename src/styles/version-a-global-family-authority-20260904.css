@@ -50,7 +50,8 @@ html body #root .hlc-signed-in-shell :where(input,textarea,select) {
   border-color: rgba(137,121,255,.28) !important;
 }
 
-/* Shared identity authority */
+/* Shared identity authority. The application owns the signed-in member data;
+   this file owns the avatar/greeting presentation globally. */
 html body #root .hlc-signed-in-shell :where(.hlc-user-avatar,.hlc-profile-avatar,.hlc-account-avatar,.hlc-header-avatar) {
   border-radius: 999px !important;
   border: 2px solid rgba(255,255,255,.78) !important;
@@ -85,15 +86,19 @@ html body #root .hlc-signed-in-shell.hlc-portal-admin {
   --portal-accent-soft: rgba(141,103,255,.16);
 }
 
-/* Eliminate generic white islands while preserving dense content readability. */
+/* Mockup authority: eliminate generic white islands with premium glass surfaces. */
 html body #root .hlc-signed-in-shell :where(
   .hlc-command-hero,.hlc-page-hero,.hlc-section-hero,.hlc-toolbar,.hlc-subnav,
   .hlc-profile-panel,.hlc-account-panel,.hlc-ai-card,.hlc-document-card,.hlc-form-card,
-  .hlc-workflow-card,.hlc-directory-card,.hlc-provider-card,.hlc-calendar-card
+  .hlc-workflow-card,.hlc-directory-card,.hlc-provider-card,.hlc-calendar-card,
+  .hlc-messages-app-topbar,.hlc-community-commandbar,.hlc-calendar-header,.hlc-leads-header,
+  .hlc-jobs-header,.hlc-account-section-head,.hlc-phone-row,.hlc-app-directory-first-day nav,
+  .hlc-app-directory-group > header
 ) {
   background: linear-gradient(155deg, rgba(22,27,62,.94), rgba(7,12,30,.96)) !important;
   border: 1px solid rgba(137,121,255,.25) !important;
   color: var(--hlc-text) !important;
+  box-shadow: 0 16px 40px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.035) !important;
 }
 
 /* Contextual image treatment for the mockup family. */
@@ -118,8 +123,12 @@ html body #root .hlc-signed-in-shell :where(.hlc-ai-team,.hlc-ai-team-card,.hlc-
 /* Loading should never flash white in authenticated routes. */
 html body #root .hlc-route-loading-state,
 html body #root .hlc-signed-in-shell .hlc-route-loading-state {
+  min-height: 100dvh !important;
   background: radial-gradient(circle at 50% 0%, rgba(115,87,255,.20), transparent 40%), var(--hlc-bg-0) !important;
   color: var(--hlc-text) !important;
+}
+html body #root .hlc-route-loading-state p {
+  color: var(--hlc-muted) !important;
 }
 
 @media (max-width: 720px) {
