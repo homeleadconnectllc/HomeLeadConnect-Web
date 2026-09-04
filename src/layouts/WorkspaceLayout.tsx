@@ -29,11 +29,14 @@ export default function WorkspaceLayout() {
 
     Promise.all([
       resolveUserDestination(userId),
-      resolveActiveWorkspaceRole(userId),
       billingEnabled
         ? getBillingStatus().then((status) => ({ status, error: null })).catch((reason: unknown) => ({ status: null, error: reason }))
         : Promise.resolve({ status: null, error: null }),
-    ]).then(([destination, role, billingResult]) => {
+    ]).then(async ([destination, billingResult]) => {
+      // Billing status may securely recover a stale selected-workspace pointer. Resolve
+      // the authoritative membership role only after that recovery so role and billing
+      // always describe the same selected workspace.
+      const role = await resolveActiveWorkspaceRole(userId);
       if (!active) return;
       setResolution({
         userId,
