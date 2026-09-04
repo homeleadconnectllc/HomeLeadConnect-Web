@@ -1,0 +1,108 @@
+/* HomeLead Connect — physical iPhone global contrast and light-surface closure, 2026-09-04.
+   Authenticated visual-only authority. Repairs surviving pale surfaces and unreadable legacy text
+   without changing data, auth, billing, RLS, routing, or workflow behavior. */
+
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell {
+  --hlc-contrast-text: #f8f7ff;
+  --hlc-contrast-muted: #c6c2dc;
+  --hlc-contrast-surface: linear-gradient(155deg, rgba(21,26,60,.97), rgba(7,12,30,.985));
+  --hlc-contrast-line: rgba(145,130,255,.28);
+}
+
+/* Catch legacy near-white inline surfaces, not just literal white. */
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(div,section,article,aside,header,nav,main,form,ul,li,details,fieldset)[style*="#ffffff"],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(div,section,article,aside,header,nav,main,form,ul,li,details,fieldset)[style*="#FFFFFF"],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(div,section,article,aside,header,nav,main,form,ul,li,details,fieldset)[style*="#f8fafc"],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(div,section,article,aside,header,nav,main,form,ul,li,details,fieldset)[style*="#f9fafb"],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(div,section,article,aside,header,nav,main,form,ul,li,details,fieldset)[style*="#f7f7"],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(div,section,article,aside,header,nav,main,form,ul,li,details,fieldset)[style*="rgb(255"],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(div,section,article,aside,header,nav,main,form,ul,li,details,fieldset)[style*="rgb(250"],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(div,section,article,aside,header,nav,main,form,ul,li,details,fieldset)[style*="rgb(249"],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(div,section,article,aside,header,nav,main,form,ul,li,details,fieldset)[style*="rgb(248"],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(div,section,article,aside,header,nav,main,form,ul,li,details,fieldset)[style*="rgba(255, 255, 255"],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(div,section,article,aside,header,nav,main,form,ul,li,details,fieldset)[style*="rgba(255,255,255"] {
+  background: var(--hlc-contrast-surface) !important;
+  color: var(--hlc-contrast-text) !important;
+  border-color: var(--hlc-contrast-line) !important;
+  box-shadow: 0 16px 40px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.035) !important;
+}
+
+/* Legacy pale utility/button blocks visible in App Directory, manuals, communications and work pages. */
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(
+  .hlc-app-directory-first-day button,
+  .hlc-app-directory-first-day a,
+  .hlc-app-directory-group button,
+  .hlc-app-directory-group a,
+  .hlc-manual-card,
+  .hlc-support-card,
+  .hlc-community-card,
+  .hlc-community-boundary,
+  .hlc-community-destination,
+  .hlc-schedule-card,
+  .hlc-calendar-card,
+  .hlc-document-card,
+  .hlc-form-card,
+  .hlc-checklist-card,
+  .hlc-profile-card,
+  .hlc-account-card,
+  .hlc-provider-card,
+  .hlc-workflow-card,
+  .hlc-directory-card,
+  .hlc-phone-row
+) {
+  background: var(--hlc-contrast-surface) !important;
+  color: var(--hlc-contrast-text) !important;
+  border-color: var(--hlc-contrast-line) !important;
+}
+
+/* Readability closure: force old dark-on-light typography into the authenticated palette. */
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(h1,h2,h3,h4,h5,h6,strong,b,label,legend,summary) {
+  color: var(--hlc-contrast-text) !important;
+  -webkit-text-fill-color: currentColor !important;
+  opacity: 1 !important;
+}
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(p,small,span,li,td,th,dt,dd,.muted,.subtitle,.description,.helper-text,.caption) {
+  color: var(--hlc-contrast-muted) !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(h1,h2,h3,h4,h5,h6,p,span,small,strong,label,li,td,th,legend,summary)[style*="color: #0"],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(h1,h2,h3,h4,h5,h6,p,span,small,strong,label,li,td,th,legend,summary)[style*="color:#0"],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(h1,h2,h3,h4,h5,h6,p,span,small,strong,label,li,td,th,legend,summary)[style*="#111827"],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(h1,h2,h3,h4,h5,h6,p,span,small,strong,label,li,td,th,legend,summary)[style*="#0f172a"],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(h1,h2,h3,h4,h5,h6,p,span,small,strong,label,li,td,th,legend,summary)[style*="#1f2937"],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(h1,h2,h3,h4,h5,h6,p,span,small,strong,label,li,td,th,legend,summary)[style*="#334155"],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(h1,h2,h3,h4,h5,h6,p,span,small,strong,label,li,td,th,legend,summary)[style*="#475569"],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(h1,h2,h3,h4,h5,h6,p,span,small,strong,label,li,td,th,legend,summary)[style*="rgb(15"],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(h1,h2,h3,h4,h5,h6,p,span,small,strong,label,li,td,th,legend,summary)[style*="rgb(17"],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(h1,h2,h3,h4,h5,h6,p,span,small,strong,label,li,td,th,legend,summary)[style*="rgb(31"] {
+  color: var(--hlc-contrast-muted) !important;
+  -webkit-text-fill-color: currentColor !important;
+  opacity: 1 !important;
+}
+
+/* Controls must remain legible even where older component CSS supplied pale fills or dark text. */
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(button,[role="button"],input,textarea,select) {
+  -webkit-text-fill-color: currentColor !important;
+}
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(button,[role="button"])[style*="#fff"],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(button,[role="button"])[style*="#f8fafc"],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(button,[role="button"])[style*="#f9fafb"],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(button,[role="button"])[style*="rgb(255"],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(button,[role="button"])[style*="rgb(248"],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(button,[role="button"])[style*="rgb(249"] {
+  background: rgba(15,21,48,.94) !important;
+  color: var(--hlc-contrast-text) !important;
+  border-color: var(--hlc-contrast-line) !important;
+}
+
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(button,[role="button"],a):disabled,
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(button,[role="button"],a)[aria-disabled="true"] {
+  opacity: .68 !important;
+}
+
+@media (max-width: 720px) {
+  html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(p,small,span,li,td,th,.helper-text,.caption) {
+    text-shadow: 0 1px 1px rgba(0,0,0,.22);
+  }
+}
