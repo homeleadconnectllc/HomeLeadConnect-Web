@@ -1,0 +1,120 @@
+/* HomeLead Connect — Image 2 final authenticated visual authority, 2026-09-04.
+   Color/surface/contrast only. This file intentionally loads LAST in AuthenticatedStyles so
+   later legacy CSS cannot reintroduce white cards, bubbles, pale panels, or unreadable text.
+   Geometry, routing, data, auth, billing, RLS, and workflow behavior remain untouched. */
+
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell {
+  --hlc-image2-bg: #070b22;
+  --hlc-image2-surface: linear-gradient(155deg, rgba(19,27,67,.97), rgba(8,14,38,.985));
+  --hlc-image2-surface-soft: rgba(13,20,52,.94);
+  --hlc-image2-border: rgba(108,127,255,.36);
+  --hlc-image2-border-strong: rgba(137,121,255,.52);
+  --hlc-image2-text: #f7f8ff;
+  --hlc-image2-muted: #d5d9f1;
+  --hlc-image2-accent: #8d7cff;
+  background: radial-gradient(circle at 25% 0%, rgba(82,54,178,.22), transparent 34%), linear-gradient(180deg,#0a1030 0%,#080c26 48%,#070b22 100%) !important;
+  color: var(--hlc-image2-text) !important;
+}
+
+/* Broad card/panel/result closure: Image 2 contains no light content surfaces. */
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(
+  [class*="card"],[class*="panel"],[class*="surface"],[class*="tile"],[class*="bubble"],
+  [class*="hero"],[class*="banner"],[class*="summary"],[class*="result"],[class*="item"],
+  [class*="directory"],[class*="command"],[class*="workflow"],[class*="schedule"],
+  [class*="priority"],[class*="security"],[class*="conversation"],[class*="inbox"],
+  [class*="agent"],[class*="community"],[class*="settings"],[class*="account"],
+  [class*="document"],[class*="form"],[class*="checklist"],[class*="provider"],
+  [class*="search"],[class*="message"],[class*="communication"]
+) {
+  background-color: transparent !important;
+  color: var(--hlc-image2-text) !important;
+  border-color: var(--hlc-image2-border) !important;
+}
+
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(
+  .hlc-card,.hlc-panel,.hlc-section-card,.hlc-command-card,.hlc-search-result,.hlc-search-result-row,
+  .hlc-community-card,.hlc-community-panel,.hlc-community-command,.hlc-community-actions,
+  .hlc-app-directory-group,.hlc-app-directory-first-day,.hlc-settings-links,.hlc-account-links,
+  .hlc-security-card,.hlc-security-panel,.hlc-schedule-card,.hlc-schedule-panel,.hlc-calendar-card,
+  .hlc-priority-card,.hlc-priority-panel,.hlc-workflow-card,.hlc-workflow-panel,
+  .hlc-message-card,.hlc-message-panel,.hlc-conversation-card,.hlc-conversations-panel,
+  .hlc-agent-card,.hlc-agent-panel,.hlc-agent-profile,.hlc-agent-actions,.hlc-ai-card,.hlc-ai-panel,
+  .hlc-document-card,.hlc-form-card,.hlc-checklist-card,.hlc-provider-card,.hlc-directory-card,
+  details,fieldset,table,thead,tbody,tfoot,tr,td,th
+) {
+  background: var(--hlc-image2-surface) !important;
+  color: var(--hlc-image2-text) !important;
+  border-color: var(--hlc-image2-border) !important;
+  box-shadow: 0 14px 34px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.035) !important;
+}
+
+/* Explicitly kill surviving inline white/light fills from legacy JSX. */
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(div,section,article,aside,header,nav,main,footer,form,ul,li,details,fieldset,table,thead,tbody,tfoot,tr,td,th)[style*="#fff" i],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(div,section,article,aside,header,nav,main,footer,form,ul,li,details,fieldset,table,thead,tbody,tfoot,tr,td,th)[style*="#f8fafc" i],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(div,section,article,aside,header,nav,main,footer,form,ul,li,details,fieldset,table,thead,tbody,tfoot,tr,td,th)[style*="#f9fafb" i],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(div,section,article,aside,header,nav,main,footer,form,ul,li,details,fieldset,table,thead,tbody,tfoot,tr,td,th)[style*="rgb(255" i],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(div,section,article,aside,header,nav,main,footer,form,ul,li,details,fieldset,table,thead,tbody,tfoot,tr,td,th)[style*="rgb(248" i],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(div,section,article,aside,header,nav,main,footer,form,ul,li,details,fieldset,table,thead,tbody,tfoot,tr,td,th)[style*="rgb(249" i],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(div,section,article,aside,header,nav,main,footer,form,ul,li,details,fieldset,table,thead,tbody,tfoot,tr,td,th)[style*="rgba(255" i] {
+  background: var(--hlc-image2-surface) !important;
+  color: var(--hlc-image2-text) !important;
+  border-color: var(--hlc-image2-border) !important;
+}
+
+/* Text authority: nothing dark-on-dark, nothing near-white-on-white. */
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(h1,h2,h3,h4,h5,h6,strong,b,label,legend,summary) {
+  color: var(--hlc-image2-text) !important;
+  -webkit-text-fill-color: currentColor !important;
+  opacity: 1 !important;
+}
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(p,small,span,li,td,th,dt,dd,.muted,.subtitle,.description,.helper-text,.caption) {
+  color: var(--hlc-image2-muted) !important;
+  -webkit-text-fill-color: currentColor !important;
+  opacity: 1 !important;
+}
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where([style*="color:#0" i],[style*="color: #0" i],[style*="#111827" i],[style*="#0f172a" i],[style*="#1f2937" i],[style*="#334155" i],[style*="#475569" i]) {
+  color: var(--hlc-image2-muted) !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+/* Inputs and controls match Image 2: dark glass, clear border, readable value and placeholder. */
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(input,textarea,select,option,[contenteditable="true"]) {
+  background: rgba(7,12,31,.98) !important;
+  color: var(--hlc-image2-text) !important;
+  -webkit-text-fill-color: var(--hlc-image2-text) !important;
+  border-color: var(--hlc-image2-border-strong) !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+  caret-color: #fff !important;
+}
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(input,textarea)::placeholder {
+  color: #aeb5d4 !important;
+  -webkit-text-fill-color: #aeb5d4 !important;
+  opacity: 1 !important;
+}
+
+/* Buttons/links cannot render as white pills or bubbles. */
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(button,[role="button"],a) {
+  -webkit-text-fill-color: currentColor !important;
+}
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(button,[role="button"],a)[style*="#fff" i],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(button,[role="button"],a)[style*="rgb(255" i],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(button,[role="button"],a)[class*="secondary"],
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(button,[role="button"],a)[class*="ghost"] {
+  background: var(--hlc-image2-surface-soft) !important;
+  color: var(--hlc-image2-text) !important;
+  -webkit-text-fill-color: var(--hlc-image2-text) !important;
+  border-color: var(--hlc-image2-border) !important;
+}
+
+/* Preserve role accents while keeping Image 2's shared dark foundation. */
+html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where(.is-active,[aria-current="page"],[aria-selected="true"],.active) {
+  color: #fff !important;
+  border-color: rgba(122,111,255,.58) !important;
+}
+
+@media (max-width: 720px) {
+  html body #root .hlc-signed-in-shell.hlc-signed-in-shell :where([class*="card"],[class*="panel"],[class*="result"],[class*="bubble"],[class*="tile"]) {
+    border-radius: 16px !important;
+  }
+}
