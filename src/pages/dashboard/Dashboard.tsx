@@ -127,11 +127,8 @@ export default function Dashboard() {
   }, []);
 
   useEffect(() => {
+    if (!session) return;
     let active = true;
-    if (!session) {
-      setIdentity({ fullName: "", avatarUrl: "" });
-      return () => { active = false; };
-    }
     getMyProfile()
       .then((profile) => {
         if (!active) return;
