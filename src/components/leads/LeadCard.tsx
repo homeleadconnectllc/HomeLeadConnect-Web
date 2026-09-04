@@ -55,7 +55,6 @@ export default function LeadCard({ lead }: { lead: LeadRecord }) {
           <span className="hlc-lead-context">
             <span>Lead #{lead.id}</span>
             {lead.source && <span>Source: {lead.source}</span>}
-            {lead.priority && <span>Priority: {lead.priority}</span>}
             {appointmentLabel && <span>Appointment: {appointmentLabel}</span>}
           </span>
         </span>
