@@ -1,5 +1,4 @@
-import { chooseEntitledWorkspaceRecovery, hasVerifiedWorkspaceAccess } from "../lib/billing/workspaceRecovery";
-import { getCurrentWorkspaceId, supabase } from "./client";
+import { supabase } from "./client";
 
 export type BillingStatus = {
   plan_key: string;
@@ -19,11 +18,12 @@ export type BillingOffer = {
   interval: "month" | "year";
 };
 
-const BILLING_STATUS_FIELDS = "workspace_id,plan_key,status,is_active,trial_end,current_period_end,grace_period_end,cancel_at_period_end";
+type BillingAccessResolution = BillingStatus & {
+  workspace_id: string;
+  recovered: boolean;
+};
 
-type BillingStatusWithWorkspace = BillingStatus & { workspace_id: string };
-
-function withoutWorkspaceId(value: BillingStatusWithWorkspace): BillingStatus {
+function withoutResolutionMetadata(value: BillingAccessResolution): BillingStatus {
   return {
     plan_key: value.plan_key,
     status: value.status,
@@ -35,66 +35,15 @@ function withoutWorkspaceId(value: BillingStatusWithWorkspace): BillingStatus {
   };
 }
 
-async function recoverEntitledWorkspace(currentWorkspaceId: string): Promise<BillingStatus | null> {
-  try {
-    const { data: authData, error: authError } = await supabase.auth.getUser();
-    if (authError || !authData.user) return null;
-
-    const { data: memberships, error: membershipError } = await supabase
-      .from("workspace_members")
-      .select("workspace_id")
-      .eq("user_id", authData.user.id);
-    if (membershipError) return null;
-
-    const workspaceIds = [...new Set((memberships || [])
-      .map((membership) => membership.workspace_id as string | null)
-      .filter((workspaceId): workspaceId is string => Boolean(workspaceId)))];
-    if (workspaceIds.length < 2) return null;
-
-    const { data: candidates, error: candidateError } = await supabase
-      .from("workspace_plan_status")
-      .select(BILLING_STATUS_FIELDS)
-      .in("workspace_id", workspaceIds);
-    if (candidateError) return null;
-
-    const recovery = chooseEntitledWorkspaceRecovery(currentWorkspaceId, candidates || []);
-    if (!recovery) return null;
-
-    const selectedBilling = (candidates || []).find((candidate) => candidate.workspace_id === recovery.workspace_id) as BillingStatusWithWorkspace | undefined;
-    if (!selectedBilling) return null;
-
-    const { error: switchError } = await supabase.rpc("switch_current_workspace", {
-      p_workspace_id: recovery.workspace_id,
-    });
-    if (switchError) return null;
-
-    return withoutWorkspaceId(selectedBilling);
-  } catch {
-    return null;
-  }
-}
-
 export async function getBillingStatus(): Promise<BillingStatus | null> {
-  const workspaceId = await getCurrentWorkspaceId();
-  const { data, error } = await supabase.from("workspace_plan_status")
-    .select(BILLING_STATUS_FIELDS)
-    .eq("workspace_id", workspaceId).maybeSingle();
+  // Billing selection and stale-workspace recovery are intentionally resolved by one
+  // membership-validated SECURITY DEFINER RPC. The browser never receives Stripe IDs and
+  // never needs broader SELECT access to workspace_plan_status than the selected workspace.
+  const { data, error } = await supabase.rpc("resolve_billing_workspace_access");
   if (error) throw error;
 
-  const selectedBilling = data as BillingStatusWithWorkspace | null;
-  if (selectedBilling && hasVerifiedWorkspaceAccess(selectedBilling)) {
-    return withoutWorkspaceId(selectedBilling);
-  }
-
-  // A stale selected-workspace pointer may reference either a workspace with no billing row
-  // or one with a non-entitled/inactive row. If exactly one other workspace the signed-in
-  // user is actually a member of has webhook-confirmed trial, paid, or live grace access,
-  // recover to that workspace through the membership-validated switch RPC. This is not an
-  // owner bypass: ambiguous cases and customer workspaces without verified access remain gated.
-  const recovered = await recoverEntitledWorkspace(workspaceId);
-  if (recovered) return recovered;
-
-  return selectedBilling ? withoutWorkspaceId(selectedBilling) : null;
+  const row = (Array.isArray(data) ? data[0] : data) as BillingAccessResolution | null | undefined;
+  return row ? withoutResolutionMetadata(row) : null;
 }
 
 export async function getBillingOffer(): Promise<BillingOffer> {
@@ -105,10 +54,10 @@ export async function getBillingOffer(): Promise<BillingOffer> {
     .single();
   if (error) throw error;
   if (!data || typeof data.price_cents !== "number" || data.price_cents <= 0) {
-    throw new Error("The HLC billing offer is not configured.");
+    throw new Error("The HomeLead Connect billing offer is not configured.");
   }
   if (data.interval !== "month" && data.interval !== "year") {
-    throw new Error("The HLC billing interval is invalid.");
+    throw new Error("The HomeLead Connect billing interval is invalid.");
   }
   return data as BillingOffer;
 }
