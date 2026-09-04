@@ -44,7 +44,6 @@ export default function LeadDetail() {
           <div className="hlc-lead-detail-meta">
             <span>Lead #{lead.id}</span>
             <span>{pipeline}</span>
-            {lead.priority && <span>{lead.priority} priority</span>}
             {lead.sla_status && <span>SLA: {lead.sla_status}</span>}
           </div>
         </div>
@@ -78,7 +77,6 @@ export default function LeadDetail() {
           <dl>
             <div><dt>Status</dt><dd>{lead.status || "Not set"}</dd></div>
             <div><dt>Stage</dt><dd>{lead.stage || "Not set"}</dd></div>
-            <div><dt>Priority</dt><dd>{lead.priority || "Not set"}</dd></div>
             <div><dt>Conversion score</dt><dd>{lead.conversion_score ?? "Not scored"}</dd></div>
           </dl>
         </section>
