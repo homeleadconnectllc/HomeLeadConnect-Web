@@ -44,7 +44,12 @@ export type LeadScopeProject = {
 export type SaveLeadScopeProjectInput = Omit<LeadScopeProject, "id" | "workspace_id" | "user_id" | "created_at" | "updated_at">;
 
 export async function hasResidentLeadScopeEntitlement() {
-  const { data, error } = await supabase.rpc("has_portal_capability", { p_audience: "resident", p_capability: "leadscope" });
+  const workspaceId = await getCurrentWorkspaceId();
+  const { data, error } = await supabase.rpc("has_portal_capability", {
+    p_workspace_id: workspaceId,
+    p_audience: "resident",
+    p_capability: "leadscope",
+  });
   if (error) throw error;
   return data === true;
 }
