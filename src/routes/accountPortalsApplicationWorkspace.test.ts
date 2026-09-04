@@ -114,5 +114,6 @@ test("account controls remain dark while role portals use the approved Dashboard
   assert.match(styles, /Dashboard Version A portal authority/);
   assert.match(styles, /\.hlc-portal-workspace\{[^}]*--acct-surface:#ffffff[^}]*--acct-text:#172033/);
   assert.match(styles, /\.hlc-portal-workspace \.hlc-portal-header\{[^}]*background:#fff[^}]*border:1px solid #e2e8f0/);
-  assert.match(styles, /\.hlc-portal-workspace \.hlc-portal-row\{[^}]*background:#fff/);
+  assert.match(styles, /\.hlc-portal-workspace \.hlc-portal-project\{[^}]*background:#fff!important[^}]*border:1px solid #e2e8f0/);
+  assert.match(styles, /\.hlc-portal-workspace \.hlc-portal-row\{[^}]*border-color:rgba\(15,23,42,\.09\)/);
 });
