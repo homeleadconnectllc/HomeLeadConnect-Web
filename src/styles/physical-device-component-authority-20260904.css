@@ -1,0 +1,100 @@
+/* HomeLead Connect — physical-device component authority, 2026-09-04.
+   Exact selectors from the authenticated components proven light on owner iPhone QA.
+   This is visual-only: no auth, billing, data, RLS, workflow, or navigation behavior changes. */
+
+/* Messages: Messages.tsx uses .hlc-messages-app-topbar, not the retired
+   .hlc-messages-progressive-header selector. Keep the real current topbar in Version A. */
+html body #root .hlc-signed-in-shell .hlc-messages-app-shell .hlc-messages-app-topbar {
+  color: var(--portal-text, #faf8ff) !important;
+  background: linear-gradient(150deg, rgba(27,21,64,.98), rgba(13,13,35,.99)) !important;
+  border: 1px solid var(--portal-line, rgba(156,135,255,.30)) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 16px 36px rgba(0,0,0,.20), inset 0 1px 0 rgba(255,255,255,.025) !important;
+}
+html body #root .hlc-signed-in-shell .hlc-messages-app-shell .hlc-messages-app-topbar :where(h1,h2,h3,strong) {
+  color: var(--portal-text, #faf8ff) !important;
+}
+html body #root .hlc-signed-in-shell .hlc-messages-app-shell .hlc-messages-app-topbar :where(p,span,small) {
+  color: var(--portal-muted, #c9c3df) !important;
+}
+html body #root .hlc-signed-in-shell .hlc-messages-app-shell .hlc-messages-new-action {
+  color: #fff !important;
+  background: linear-gradient(135deg, var(--portal-accent, #7357ff), var(--portal-accent-2, #9c87ff)) !important;
+  border-color: var(--portal-line, rgba(156,135,255,.34)) !important;
+}
+
+/* Community: the command bar is the exact white strip seen in physical QA. */
+html body #root .hlc-signed-in-shell .hlc-community-workspace .hlc-community-commandbar {
+  background: linear-gradient(150deg, rgba(25,20,61,.97), rgba(10,14,35,.98)) !important;
+  border: 1px solid var(--portal-line, rgba(156,135,255,.28)) !important;
+  border-radius: 14px !important;
+  padding: 6px !important;
+}
+html body #root .hlc-signed-in-shell .hlc-community-workspace .hlc-community-commandbar a {
+  color: var(--portal-text, #faf8ff) !important;
+  background: transparent !important;
+}
+html body #root .hlc-signed-in-shell .hlc-community-workspace .hlc-community-commandbar a:hover,
+html body #root .hlc-signed-in-shell .hlc-community-workspace .hlc-community-commandbar a:focus-visible {
+  color: #fff !important;
+  background: var(--portal-accent-soft, rgba(115,87,255,.18)) !important;
+}
+
+/* App Directory: first-day actions and group headers were the remaining white islands. */
+html body #root .hlc-signed-in-shell .hlc-app-directory,
+html body #root .hlc-signed-in-shell .hlc-app-directory-first-day,
+html body #root .hlc-signed-in-shell .hlc-app-directory-quick,
+html body #root .hlc-signed-in-shell .hlc-app-directory-groups,
+html body #root .hlc-signed-in-shell .hlc-app-directory-group,
+html body #root .hlc-signed-in-shell .hlc-app-directory-support {
+  color: var(--portal-text, #faf8ff) !important;
+}
+html body #root .hlc-signed-in-shell .hlc-app-directory-first-day,
+html body #root .hlc-signed-in-shell .hlc-app-directory-group,
+html body #root .hlc-signed-in-shell .hlc-app-directory-support {
+  background: linear-gradient(150deg, rgba(25,20,61,.97), rgba(10,14,35,.98)) !important;
+  border-color: var(--portal-line, rgba(156,135,255,.28)) !important;
+}
+html body #root .hlc-signed-in-shell .hlc-app-directory-first-day nav,
+html body #root .hlc-signed-in-shell .hlc-app-directory-group > header {
+  background: rgba(10,14,35,.92) !important;
+  border-color: var(--portal-line, rgba(156,135,255,.24)) !important;
+}
+html body #root .hlc-signed-in-shell .hlc-app-directory-first-day nav a,
+html body #root .hlc-signed-in-shell .hlc-app-directory-links a,
+html body #root .hlc-signed-in-shell .hlc-app-directory-quick a {
+  color: var(--portal-text, #faf8ff) !important;
+  background: rgba(13,13,35,.92) !important;
+  border-color: var(--portal-line, rgba(156,135,255,.24)) !important;
+}
+html body #root .hlc-signed-in-shell .hlc-app-directory :where(p,small,span) {
+  color: var(--portal-muted, #c9c3df) !important;
+}
+html body #root .hlc-signed-in-shell .hlc-app-directory :where(h1,h2,h3,strong,b) {
+  color: var(--portal-text, #faf8ff) !important;
+}
+
+@media (max-width: 720px) {
+  html body #root .hlc-signed-in-shell .hlc-messages-app-shell .hlc-messages-app-topbar {
+    width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+    padding: 14px !important;
+  }
+  html body #root .hlc-signed-in-shell .hlc-messages-app-shell .hlc-messages-new-action {
+    width: 100% !important;
+    min-height: 48px !important;
+  }
+  html body #root .hlc-signed-in-shell .hlc-community-workspace .hlc-community-commandbar {
+    overflow-x: auto !important;
+    flex-wrap: nowrap !important;
+  }
+  html body #root .hlc-signed-in-shell .hlc-app-directory-first-day nav {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+    gap: 8px !important;
+    padding: 8px !important;
+  }
+}
