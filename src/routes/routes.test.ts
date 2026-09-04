@@ -113,7 +113,7 @@ test("Community is a unified public and authenticated Network front door", () =>
 test("Community Matching is the swipe discovery experience while operational fit stays separate", () => {
   assert.match(router, /path="\/matching" element=\{<CommunityMatchDeck\s*\/>\}/);
   assert.match(router, /path="\/network\/eligibility" element=\{<EligibilityFit\s*\/>\}/);
-  assert.match(router, /path="\/homeowner-portal\/matches" element=\{<EligibilityFit\s*\/>\}/);
+  assert.match(router, /path="\/homeowner-portal\/matches" element=\{<Navigate to="\/homeowner-portal" replace\s*\/>\}/);
   assert.match(communityMatchDeck, /Swipe right or tap Like/);
   assert.match(communityMatchDeck, /Swipe left or tap Pass/);
   assert.match(communityMatchDeck, /hlc-match-card-active/);
@@ -164,12 +164,13 @@ test("implemented ecosystem destinations use data-backed surfaces", () => {
   const generic: Array<[string,string]> = [
     ["/community/discussions","discussions"], ["/community/reviews","reviews"], ["/community/referrals","referrals"],
     ["/community/events","events"], ["/community/moderation","moderation"], ["/community/groups","groups"], ["/network/service-areas","serviceAreas"],
-    ["/network/availability","availability"], ["/contractor-portal/team","team"],
+    ["/network/availability","availability"],
     ["/hq/approvals","approvals"], ["/hq/system-health","systemHealth"],
   ];
   for (const [route,page] of generic) {
     assert.match(router, new RegExp(`path="${route.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}" element=\\{<LaunchSurface page="${page}"\\/>\\}`));
   }
+  assert.match(router, /path="\/contractor-portal\/team" element=\{<Navigate to="\/contractor-portal" replace\s*\/>\}/);
   assert.match(router, /path="\/network" element=\{<NetworkDirectory\s*\/>\}/);
   assert.match(router, /path="\/profiles" element=\{<NetworkDirectory\s*\/>\}/);
   assert.match(router, /path="\/providers" element=\{<NetworkDirectory\s*\/>\}/);
