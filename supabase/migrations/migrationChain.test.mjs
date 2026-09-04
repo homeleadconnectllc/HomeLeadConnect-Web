@@ -16,6 +16,7 @@ const stagedUnpromotedFiles = [
   "20260901163000_academy_progress_runtime.sql",
   "20260901193000_connect_roleplay_runtime.sql",
   "20260901203000_resources_sourcing_runtime.sql",
+  "20260904031500_resident_capability_and_leadscope_projects.sql",
 ];
 const productionPlanFiles = migrationFiles.filter((name) => !stagedUnpromotedFiles.includes(name));
 const plan = readFileSync("supabase/RELEASE_MIGRATION_PLAN.md", "utf8");
@@ -49,6 +50,21 @@ test("all pending SQL migrations are non-empty", () => {
   for (const file of migrationFiles) {
     assert.ok(readFileSync(`supabase/migrations/${file}`, "utf8").trim().length > 0, `${file} is empty`);
   }
+});
+
+test("LeadScope migration keeps participant entitlement separate from workspace billing and enforces resident ownership", () => {
+  const migration = readFileSync(
+    "supabase/migrations/20260904031500_resident_capability_and_leadscope_projects.sql",
+    "utf8",
+  );
+  assert.match(migration, /create table if not exists public\.portal_capability_entitlements/i);
+  assert.match(migration, /create or replace function public\.has_portal_capability/i);
+  assert.match(migration, /create table if not exists public\.leadscope_projects/i);
+  assert.match(migration, /references public\.resident_properties\(id\)/i);
+  assert.match(migration, /user_id = \(select auth\.uid\(\)\)/i);
+  assert.match(migration, /public\.has_portal_capability\('resident','leadscope'\)/i);
+  assert.match(migration, /LeadScope project identity mismatch/i);
+  assert.doesNotMatch(migration, /workspace_plan_status|public\.subscriptions|estimate_lines|public\.estimates/i);
 });
 
 test("Community Matching updates retain authenticated ownership and workspace membership", () => {
