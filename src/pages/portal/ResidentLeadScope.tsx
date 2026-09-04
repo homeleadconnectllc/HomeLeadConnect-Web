@@ -26,16 +26,16 @@ const emptyForm = {
   projectType: "",
   unit: "sq_ft" as LeadScopeMeasurementUnit,
   quantity: "",
-  measurementState: "known" as EvidenceState,
-  measurementSource: "resident entry",
+  measurementState: "unknown" as EvidenceState,
+  measurementSource: "",
   measurementNote: "",
   siteConditions: "",
-  siteState: "known" as EvidenceState,
-  siteSource: "resident observation",
+  siteState: "unknown" as EvidenceState,
+  siteSource: "",
   siteNote: "",
   scopeDescription: "",
-  scopeState: "known" as EvidenceState,
-  scopeSource: "resident description",
+  scopeState: "unknown" as EvidenceState,
+  scopeSource: "",
   scopeNote: "",
   rateLow: "",
   rateHigh: "",
@@ -200,7 +200,7 @@ export default function ResidentLeadScope() {
 
         <div className="hlc-portal-subsection"><h3>Measurement evidence</h3><p>Use your phone or measuring tool to gather dimensions, then enter the resulting project quantity. LeadScope records whether that number is measured, assumed, unknown, or unverifiable.</p>
           <label>Evidence state<select value={form.measurementState} onChange={(event)=>setForm({...form,measurementState:event.target.value as EvidenceState})}>{evidenceOptions.map((option)=><option key={option.value} value={option.value}>{option.label}</option>)}</select></label>
-          {(form.measurementState === "known" || form.measurementState === "assumption") && <><label>Project quantity<input required type="number" min="0.01" step="0.01" value={form.quantity} onChange={(event)=>setForm({...form,quantity:event.target.value})} /></label><label>Unit<select value={form.unit} onChange={(event)=>setForm({...form,unit:event.target.value as LeadScopeMeasurementUnit})}><option value="sq_ft">Square feet</option><option value="linear_ft">Linear feet</option><option value="each">Items</option><option value="custom">Custom units</option></select></label></>}
+          {(form.measurementState === "known" || form.measurementState === "assumption") && <><label>Project quantity<input required type="number" min="0.01" step="0.01" value={form.quantity} onChange={(event)=>setForm({...form,quantity:event.target.value})} /></label><label>Unit<select value={form.unit} onChange={(event)=>setForm({...form,unit:event.target.value as LeadScopeMeasurementUnit})}><option value="sq_ft">Square feet</option><option value="sq_m">Square metres</option><option value="linear_ft">Linear feet</option><option value="linear_m">Linear metres</option><option value="each">Items</option><option value="custom">Custom units</option></select></label></>}
           <label>Measurement source<input value={form.measurementSource} onChange={(event)=>setForm({...form,measurementSource:event.target.value})} placeholder="Tape measure, phone reference, plan…" /></label><label>Measurement note<textarea rows={2} value={form.measurementNote} onChange={(event)=>setForm({...form,measurementNote:event.target.value})} /></label>
         </div>
 
