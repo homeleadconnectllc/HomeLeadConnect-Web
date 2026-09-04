@@ -1,4 +1,4 @@
-export type LeadScopeMeasurementUnit = "sq_ft" | "linear_ft" | "each" | "custom";
+export type LeadScopeMeasurementUnit = "sq_ft" | "sq_m" | "linear_ft" | "linear_m" | "each" | "custom";
 
 export type ResidentEstimateInput = {
   quantity: number;
@@ -28,7 +28,9 @@ export function calculateResidentEstimateRange(input: ResidentEstimateInput): Re
 
 export function measurementUnitLabel(unit: LeadScopeMeasurementUnit) {
   if (unit === "sq_ft") return "square feet";
+  if (unit === "sq_m") return "square metres";
   if (unit === "linear_ft") return "linear feet";
+  if (unit === "linear_m") return "linear metres";
   if (unit === "each") return "items";
   return "units";
 }
