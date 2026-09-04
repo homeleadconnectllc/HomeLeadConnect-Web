@@ -1,0 +1,133 @@
+/* HomeLead Connect — approved global authenticated family authority, 2026-09-04.
+   Visual identity only. Applies across Resident, Professional, Partner, Internal/Ops/Admin.
+   Shared foundation: deep navy/purple, glass surfaces, controlled role accents, contextual imagery,
+   signed-in identity/avatar, AI Team, mobile shell. No auth/data/billing/RLS/workflow behavior changes. */
+
+:root {
+  --hlc-bg-0: #050815;
+  --hlc-bg-1: #0a1024;
+  --hlc-bg-2: #17123a;
+  --hlc-surface: rgba(16, 22, 49, .82);
+  --hlc-surface-strong: rgba(20, 24, 58, .94);
+  --hlc-line: rgba(137, 121, 255, .24);
+  --hlc-text: #f8f7ff;
+  --hlc-muted: #bcb7d6;
+  --hlc-blue: #49a1ff;
+  --hlc-green: #32d88b;
+  --hlc-gold: #f1bd4b;
+  --hlc-purple: #8d67ff;
+}
+
+html body #root .hlc-signed-in-shell {
+  color: var(--hlc-text) !important;
+  background:
+    radial-gradient(circle at 18% -8%, rgba(47,115,255,.24), transparent 34%),
+    radial-gradient(circle at 88% 4%, rgba(123,74,255,.28), transparent 38%),
+    linear-gradient(180deg, var(--hlc-bg-1), var(--hlc-bg-0) 58%, #040712) !important;
+  color-scheme: dark !important;
+}
+
+html body #root .hlc-signed-in-shell :where(
+  .card,.panel,.surface,.section-card,.metric-card,.stat-card,.workspace-card,.content-card,
+  article,section[data-surface],aside[data-surface]
+) {
+  background: linear-gradient(155deg, rgba(22,27,62,.92), rgba(7,12,30,.94)) !important;
+  border-color: var(--hlc-line) !important;
+  color: var(--hlc-text) !important;
+  box-shadow: 0 18px 44px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.035) !important;
+}
+
+html body #root .hlc-signed-in-shell :where(h1,h2,h3,h4,strong,b,label) {
+  color: var(--hlc-text) !important;
+}
+html body #root .hlc-signed-in-shell :where(p,small,.muted,.subtitle,.description) {
+  color: var(--hlc-muted) !important;
+}
+html body #root .hlc-signed-in-shell :where(input,textarea,select) {
+  background: rgba(6,10,25,.92) !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  border-color: rgba(137,121,255,.28) !important;
+}
+
+/* Shared identity authority */
+html body #root .hlc-signed-in-shell :where(.hlc-user-avatar,.hlc-profile-avatar,.hlc-account-avatar,.hlc-header-avatar) {
+  border-radius: 999px !important;
+  border: 2px solid rgba(255,255,255,.78) !important;
+  box-shadow: 0 0 0 3px rgba(113,86,255,.2), 0 10px 30px rgba(0,0,0,.28) !important;
+  object-fit: cover !important;
+}
+html body #root .hlc-signed-in-shell :where(.hlc-greeting,.hlc-welcome-copy) {
+  color: var(--hlc-text) !important;
+}
+
+/* Role family accents. */
+html body #root .hlc-signed-in-shell[data-portal="resident"],
+html body #root .hlc-signed-in-shell.hlc-portal-resident {
+  --portal-accent: var(--hlc-blue);
+  --portal-accent-soft: rgba(73,161,255,.16);
+}
+html body #root .hlc-signed-in-shell[data-portal="professional"],
+html body #root .hlc-signed-in-shell.hlc-portal-professional {
+  --portal-accent: var(--hlc-green);
+  --portal-accent-soft: rgba(50,216,139,.15);
+}
+html body #root .hlc-signed-in-shell[data-portal="partner"],
+html body #root .hlc-signed-in-shell.hlc-portal-partner {
+  --portal-accent: var(--hlc-gold);
+  --portal-accent-soft: rgba(241,189,75,.16);
+}
+html body #root .hlc-signed-in-shell[data-portal="internal"],
+html body #root .hlc-signed-in-shell[data-portal="admin"],
+html body #root .hlc-signed-in-shell.hlc-portal-internal,
+html body #root .hlc-signed-in-shell.hlc-portal-admin {
+  --portal-accent: var(--hlc-purple);
+  --portal-accent-soft: rgba(141,103,255,.16);
+}
+
+/* Eliminate generic white islands while preserving dense content readability. */
+html body #root .hlc-signed-in-shell :where(
+  .hlc-command-hero,.hlc-page-hero,.hlc-section-hero,.hlc-toolbar,.hlc-subnav,
+  .hlc-profile-panel,.hlc-account-panel,.hlc-ai-card,.hlc-document-card,.hlc-form-card,
+  .hlc-workflow-card,.hlc-directory-card,.hlc-provider-card,.hlc-calendar-card
+) {
+  background: linear-gradient(155deg, rgba(22,27,62,.94), rgba(7,12,30,.96)) !important;
+  border: 1px solid rgba(137,121,255,.25) !important;
+  color: var(--hlc-text) !important;
+}
+
+/* Contextual image treatment for the mockup family. */
+html body #root .hlc-signed-in-shell :where(.hlc-hero-image,.hlc-context-image,.hlc-provider-image,.hlc-community-image) {
+  border-radius: 18px !important;
+  overflow: hidden !important;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.05), 0 14px 34px rgba(0,0,0,.28) !important;
+}
+html body #root .hlc-signed-in-shell :where(.hlc-hero-image,.hlc-context-image,.hlc-provider-image,.hlc-community-image) img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+/* Keep AI Team visually consistent across portals. */
+html body #root .hlc-signed-in-shell :where(.hlc-ai-team,.hlc-ai-team-card,.hlc-agent-card,.hlc-ai-launcher) {
+  background: linear-gradient(150deg, rgba(27,20,66,.96), rgba(10,13,34,.98)) !important;
+  border-color: rgba(151,111,255,.34) !important;
+  color: #fff !important;
+}
+
+/* Loading should never flash white in authenticated routes. */
+html body #root .hlc-route-loading-state,
+html body #root .hlc-signed-in-shell .hlc-route-loading-state {
+  background: radial-gradient(circle at 50% 0%, rgba(115,87,255,.20), transparent 40%), var(--hlc-bg-0) !important;
+  color: var(--hlc-text) !important;
+}
+
+@media (max-width: 720px) {
+  html body #root .hlc-signed-in-shell :where(.hlc-command-hero,.hlc-page-hero,.hlc-section-hero) {
+    border-radius: 18px !important;
+  }
+  html body #root .hlc-signed-in-shell :where(.hlc-user-avatar,.hlc-profile-avatar,.hlc-account-avatar,.hlc-header-avatar) {
+    width: 42px !important;
+    height: 42px !important;
+  }
+}
