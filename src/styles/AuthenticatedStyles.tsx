@@ -73,6 +73,7 @@ import "./follow-ups-dashboard-a.css";
 import "./workflow-dashboard-a.css";
 import "./automations-dashboard-a.css";
 import "./version-a-production-reconciliation-20260904.css";
+import "./version-a-color-authority-20260904.css";
 import "./messages-lane-2-mobile-authority.css";
 
 export default function AuthenticatedStyles() {
