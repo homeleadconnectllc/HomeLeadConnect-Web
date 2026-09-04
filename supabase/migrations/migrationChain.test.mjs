@@ -17,6 +17,7 @@ const stagedUnpromotedFiles = [
   "20260901193000_connect_roleplay_runtime.sql",
   "20260901203000_resources_sourcing_runtime.sql",
   "20260904031500_resident_capability_and_leadscope_projects.sql",
+  "20260904153000_align_analytics_membership_role_authority.sql",
 ];
 const productionPlanFiles = migrationFiles.filter((name) => !stagedUnpromotedFiles.includes(name));
 const plan = readFileSync("supabase/RELEASE_MIGRATION_PLAN.md", "utf8");
@@ -169,4 +170,18 @@ test("job lifecycle keeps linked leads booked or closed without regressing compl
   assert.match(migration, /new\.status in \('pending', 'active'\)[\s\S]*v_target_state := 'booked'/i);
   assert.match(migration, /not exists \([\s\S]*completed_job[\s\S]*status = 'completed'/i);
   assert.doesNotMatch(migration, /set status = lower\(status\)/i);
+});
+
+test("analytics management wrappers use membership role authority instead of the profile mirror", () => {
+  const migration = readFileSync(
+    "supabase/migrations/20260904153000_align_analytics_membership_role_authority.sql",
+    "utf8",
+  );
+
+  assert.match(migration, /public\.current_workspace_id\(\)/i);
+  assert.match(migration, /public\.current_workspace_role\(\)/i);
+  assert.match(migration, /v_role not in \('owner','manager'\)/i);
+  assert.doesNotMatch(migration, /select p\.workspace_id[\s\S]*p\.role[\s\S]*from public\.profiles/i);
+  assert.match(migration, /set search_path to ''/i);
+  assert.match(migration, /revoke all on function public\.get_hlc_analytics_summary\(integer\) from public, anon/i);
 });
