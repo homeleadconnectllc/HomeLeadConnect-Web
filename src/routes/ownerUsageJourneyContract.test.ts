@@ -7,7 +7,7 @@ const dashboard = fs.readFileSync(new URL("../pages/dashboard/Dashboard.tsx", im
 const settings = fs.readFileSync(new URL("../pages/dashboard/Settings.tsx", import.meta.url), "utf8");
 
 test("owner home turns attention into contextual actions", () => {
-  assert.match(dashboard, /What needs your attention right now\./);
+  assert.match(dashboard, /Let&apos;s keep things moving today\./);
   assert.match(dashboard, /Needs attention/);
   assert.match(dashboard, /<h2 id="hlc-home-today-title">Today<\/h2>/);
   assert.match(dashboard, /to=\{item\.to\}/);
