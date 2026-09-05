@@ -130,12 +130,12 @@ export default function Dashboard() {
       <div className="hlc-home-topbar hlc-home-topbar-v2" role="group" aria-label="Home overview">
         <div className="hlc-home-intro-v2">
           <span className="hlc-home-eyebrow">HOME</span>
-          <div className="hlc-home-greeting-v3" role="heading" aria-level={1}>{greeting}</div>
+          <div className="hlc-home-greeting-v3" role="heading" aria-level={1}><span className="hlc-home-greeting-ink">{greeting}</span></div>
           <p>Let&apos;s keep things moving today.</p>
         </div>
         <div className="hlc-home-top-actions hlc-home-top-actions-v2">
-          <button type="button" aria-label="Search HomeLead Connect" onClick={openGlobalSearch}><Search size={20} /></button>
-          <Link to="/notifications" aria-label="Open notifications"><Bell size={20} /></Link>
+          <button className="hlc-home-search-control" type="button" aria-label="Search HomeLead Connect" onClick={openGlobalSearch}><Search className="hlc-home-search-icon" size={20} /></button>
+          <Link className="hlc-home-bell-control" to="/notifications" aria-label="Open notifications"><Bell className="hlc-home-bell-icon" size={20} /></Link>
           <Link className="hlc-home-identity" to="/profile" aria-label="Open your profile">
             {identity.avatarUrl ? <img className="hlc-header-avatar" src={identity.avatarUrl} alt="" /> : <span className="hlc-header-avatar hlc-avatar-fallback" aria-hidden="true">{initials(identity.fullName)}</span>}
           </Link>
