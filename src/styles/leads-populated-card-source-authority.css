@@ -1,0 +1,183 @@
+/* HomeLead Connect — populated Lead card visual authority.
+   Scope: populated Lead records only. No hero, navigation, agent, auth, data, or workflow behavior. */
+
+.hlc-leads-workspace .hlc-leads-pipeline {
+  border-color: rgba(126, 108, 255, .18) !important;
+  background: linear-gradient(145deg, #101633, #080d25) !important;
+  box-shadow: none !important;
+}
+
+.hlc-leads-workspace .hlc-leads-list {
+  gap: 10px !important;
+  padding: 8px !important;
+  background: transparent !important;
+  border: 0 !important;
+}
+
+.hlc-leads-workspace .hlc-leads-list .hlc-lead-row {
+  border: 1px solid rgba(139, 92, 246, .20) !important;
+  border-left: 3px solid var(--lead-accent, #8b5cf6) !important;
+  border-radius: 12px !important;
+  background: linear-gradient(145deg, #111936, #0a1029) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .16) !important;
+  color: #f8fafc !important;
+}
+
+.hlc-leads-workspace .hlc-leads-list .hlc-lead-row:hover {
+  background: linear-gradient(145deg, #172047, #0d1433) !important;
+  border-color: rgba(167, 139, 250, .32) !important;
+}
+
+.hlc-leads-workspace .hlc-leads-list .hlc-lead-identity-copy > strong,
+.hlc-leads-workspace .hlc-leads-list .hlc-lead-pipeline-cell > strong {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.hlc-leads-workspace .hlc-leads-list .hlc-lead-resident-type {
+  color: #ddd6fe !important;
+  -webkit-text-fill-color: #ddd6fe !important;
+  font-size: .72rem !important;
+  font-weight: 750 !important;
+}
+
+.hlc-leads-workspace .hlc-leads-list .hlc-lead-contact-line,
+.hlc-leads-workspace .hlc-leads-list .hlc-lead-contact-line > span,
+.hlc-leads-workspace .hlc-leads-list .hlc-lead-context,
+.hlc-leads-workspace .hlc-leads-list .hlc-lead-context > span,
+.hlc-leads-workspace .hlc-leads-list .hlc-lead-sla,
+.hlc-leads-workspace .hlc-leads-list .hlc-lead-cell-label {
+  color: #dbe4f0 !important;
+  -webkit-text-fill-color: #dbe4f0 !important;
+  opacity: 1 !important;
+}
+
+.hlc-leads-workspace .hlc-leads-list .hlc-lead-contact-line svg {
+  color: #a78bfa !important;
+  stroke: #a78bfa !important;
+}
+
+.hlc-leads-workspace .hlc-leads-list .hlc-lead-avatar {
+  border: 1px solid rgba(196, 181, 253, .36) !important;
+  background: #171f42 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.hlc-leads-workspace .hlc-leads-list .hlc-lead-actions a,
+.hlc-leads-workspace .hlc-leads-list .hlc-lead-actions button,
+.hlc-leads-workspace .hlc-leads-list .hlc-s2-mobile-overflow > summary {
+  border: 1px solid rgba(139, 92, 246, .30) !important;
+  background: #121936 !important;
+  background-image: none !important;
+  color: #e9e5ff !important;
+  -webkit-text-fill-color: #e9e5ff !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+.hlc-leads-workspace .hlc-leads-list .hlc-lead-actions a svg,
+.hlc-leads-workspace .hlc-leads-list .hlc-lead-actions button svg,
+.hlc-leads-workspace .hlc-leads-list .hlc-s2-mobile-overflow > summary svg {
+  color: #c4b5fd !important;
+  stroke: #c4b5fd !important;
+}
+
+.hlc-leads-workspace .hlc-leads-list .hlc-lead-actions .hlc-lead-action-primary {
+  border-color: rgba(167, 139, 250, .42) !important;
+  background: #28205e !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.hlc-leads-workspace .hlc-leads-list .hlc-s2-mobile-overflow {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+.hlc-leads-workspace .hlc-leads-list .hlc-s2-mobile-overflow > summary {
+  min-height: 36px !important;
+  padding: 0 10px !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  list-style: none !important;
+}
+
+.hlc-leads-workspace .hlc-leads-list .hlc-s2-mobile-overflow > summary::-webkit-details-marker {
+  display: none !important;
+}
+
+.hlc-leads-workspace .hlc-leads-list .hlc-s2-overflow-menu {
+  border: 1px solid rgba(126, 108, 255, .24) !important;
+  border-radius: 10px !important;
+  background: #0b102b !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .32) !important;
+  color: #f8fafc !important;
+}
+
+/* Physical iPhone authority. The authenticated redesign layer is later in the cascade,
+   so populated Lead text must be owned inside that same layer and route shell. */
+@layer hlcRedesign {
+  html body #root .hlc-signed-in-shell.hlc-page-leads .hlc-leads-workspace .hlc-leads-list .hlc-lead-identity,
+  html body #root .hlc-signed-in-shell.hlc-page-leads .hlc-leads-workspace .hlc-leads-list .hlc-lead-identity:link,
+  html body #root .hlc-signed-in-shell.hlc-page-leads .hlc-leads-workspace .hlc-leads-list .hlc-lead-identity:visited,
+  html body #root .hlc-signed-in-shell.hlc-page-leads .hlc-leads-workspace .hlc-leads-list .hlc-lead-identity *,
+  html body #root .hlc-signed-in-shell.hlc-page-leads .hlc-leads-workspace .hlc-leads-list .hlc-lead-pipeline-cell,
+  html body #root .hlc-signed-in-shell.hlc-page-leads .hlc-leads-workspace .hlc-leads-list .hlc-lead-pipeline-cell * {
+    color: #e2e8f0 !important;
+    -webkit-text-fill-color: #e2e8f0 !important;
+    opacity: 1 !important;
+    text-shadow: none !important;
+  }
+
+  html body #root .hlc-signed-in-shell.hlc-page-leads .hlc-leads-workspace .hlc-leads-list .hlc-lead-identity-copy > strong,
+  html body #root .hlc-signed-in-shell.hlc-page-leads .hlc-leads-workspace .hlc-leads-list .hlc-lead-pipeline-cell > strong {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+
+  html body #root .hlc-signed-in-shell.hlc-page-leads .hlc-leads-workspace .hlc-leads-list .hlc-lead-resident-type {
+    color: #ddd6fe !important;
+    -webkit-text-fill-color: #ddd6fe !important;
+  }
+
+  html body #root .hlc-signed-in-shell.hlc-page-leads .hlc-leads-workspace .hlc-leads-list .hlc-lead-contact-line,
+  html body #root .hlc-signed-in-shell.hlc-page-leads .hlc-leads-workspace .hlc-leads-list .hlc-lead-contact-line > span,
+  html body #root .hlc-signed-in-shell.hlc-page-leads .hlc-leads-workspace .hlc-leads-list .hlc-lead-context,
+  html body #root .hlc-signed-in-shell.hlc-page-leads .hlc-leads-workspace .hlc-leads-list .hlc-lead-context > span,
+  html body #root .hlc-signed-in-shell.hlc-page-leads .hlc-leads-workspace .hlc-leads-list .hlc-lead-sla,
+  html body #root .hlc-signed-in-shell.hlc-page-leads .hlc-leads-workspace .hlc-leads-list .hlc-lead-cell-label {
+    color: #dbe4f0 !important;
+    -webkit-text-fill-color: #dbe4f0 !important;
+    opacity: 1 !important;
+  }
+
+  html body #root .hlc-signed-in-shell.hlc-page-leads .hlc-leads-workspace .hlc-leads-list .hlc-lead-avatar {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+
+  html body #root .hlc-signed-in-shell.hlc-page-leads .hlc-leads-workspace .hlc-leads-list .hlc-lead-row {
+    border-color: rgba(139, 92, 246, .20) !important;
+    border-left-color: var(--lead-accent, #8b5cf6) !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .hlc-leads-workspace .hlc-leads-list {
+    padding: 6px !important;
+    gap: 10px !important;
+  }
+
+  .hlc-leads-workspace .hlc-leads-list .hlc-lead-row {
+    border: 1px solid rgba(139, 92, 246, .20) !important;
+    border-left: 3px solid var(--lead-accent, #8b5cf6) !important;
+    border-radius: 12px !important;
+    padding: 14px !important;
+  }
+
+  .hlc-leads-workspace .hlc-leads-list .hlc-lead-actions {
+    gap: 7px !important;
+  }
+}

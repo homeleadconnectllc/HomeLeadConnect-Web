@@ -5,6 +5,7 @@ import { createLead, listLeads, type LeadRecord } from "../../api/leads";
 import LeadCard from "../../components/leads/LeadCard";
 import { errorMessage } from "../../lib/errorMessage";
 import "../../styles/leads-application-workspace.css";
+import "../../styles/leads-populated-card-source-authority.css";
 import "../../styles/leads-command-header-source-authority.css";
 
 type ResidentType = "Renter" | "Homeowner" | "Property manager" | "Other";
