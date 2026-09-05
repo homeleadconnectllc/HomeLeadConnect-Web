@@ -39,25 +39,35 @@ html body #root .hlc-signed-in-shell.hlc-page-dashboard > .hlc-route-content > m
   overflow: hidden !important;
 }
 
-/* Safari physical-device contrast ownership for the compact Home header. */
-html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-greeting-v3 {
+/* Physical Safari gets dedicated source-owned ink/control nodes instead of inheriting
+   color or generic link/button presentation from the legacy authenticated cascade. */
+html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-greeting-v3,
+html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-greeting-v3 > .hlc-home-greeting-ink {
   color: #f8fafc !important;
   -webkit-text-fill-color: #f8fafc !important;
   opacity: 1 !important;
   text-shadow: 0 1px 12px rgba(0,0,0,.28) !important;
 }
 
-html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-top-actions-v2 > button,
-html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-top-actions-v2 > a {
+html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-top-actions-v2 > .hlc-home-search-control,
+html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-top-actions-v2 > .hlc-home-bell-control {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  display: grid !important;
+  place-items: center !important;
   color: #ffffff !important;
   -webkit-text-fill-color: #ffffff !important;
   background: #111633 !important;
-  border-color: rgba(160,148,255,.48) !important;
+  background-image: none !important;
+  border: 1px solid rgba(160,148,255,.48) !important;
+  box-shadow: none !important;
   opacity: 1 !important;
 }
 
-html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-top-actions-v2 > button svg,
-html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-top-actions-v2 > a svg {
+html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-search-icon,
+html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-bell-icon,
+html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-search-icon *,
+html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-bell-icon * {
   color: #ffffff !important;
   stroke: #ffffff !important;
   fill: none !important;
