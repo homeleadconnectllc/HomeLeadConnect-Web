@@ -27,7 +27,7 @@
   display: none;
 }
 
-.hlc-leads-command-copy {
+.hlc-leads-intro-copy {
   min-width: 0;
   flex: 1;
   background: transparent;
@@ -54,7 +54,7 @@
   letter-spacing: -.035em;
 }
 
-.hlc-leads-command-copy > p:last-child {
+.hlc-leads-intro-copy > p:last-child {
   max-width: 760px;
   margin: 0;
   color: #dbe4f5;
@@ -108,6 +108,47 @@
   opacity: .9;
 }
 
+/* Physical iPhone root-cause closure: the surviving white rectangle was the inner copy
+   node, not the outer Leads surface. The old class contained "command" and remained
+   eligible for generic command-family presentation. The replacement intro class is
+   route-owned and the high-authority authenticated rule makes the inner node inert. */
+@layer hlcRedesign {
+  html body #root .hlc-signed-in-shell.hlc-page-leads .hlc-leads-command-surface > .hlc-leads-intro-copy {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    color: #f8fafc !important;
+    -webkit-text-fill-color: currentColor !important;
+  }
+
+  html body #root .hlc-signed-in-shell.hlc-page-leads .hlc-leads-command-surface > .hlc-leads-intro-copy > .hlc-page-eyebrow {
+    background: transparent !important;
+    background-image: none !important;
+    color: #a78bfa !important;
+    -webkit-text-fill-color: #a78bfa !important;
+    opacity: 1 !important;
+  }
+
+  html body #root .hlc-signed-in-shell.hlc-page-leads .hlc-leads-command-surface > .hlc-leads-intro-copy > h1 {
+    background: transparent !important;
+    background-image: none !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    opacity: 1 !important;
+  }
+
+  html body #root .hlc-signed-in-shell.hlc-page-leads .hlc-leads-command-surface > .hlc-leads-intro-copy > p:last-child {
+    background: transparent !important;
+    background-image: none !important;
+    color: #dbe4f5 !important;
+    -webkit-text-fill-color: #dbe4f5 !important;
+    opacity: 1 !important;
+  }
+}
+
 @media (max-width: 760px) {
   .hlc-leads-command-surface {
     display: grid;
@@ -120,7 +161,7 @@
     font-size: clamp(1.65rem,8vw,2.15rem);
   }
 
-  .hlc-leads-command-copy > p:last-child {
+  .hlc-leads-intro-copy > p:last-child {
     font-size: .82rem;
     line-height: 1.36;
   }
