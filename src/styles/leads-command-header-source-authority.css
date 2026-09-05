@@ -1,0 +1,80 @@
+/* Leads command header source authority.
+   The legacy .hlc-leads-header selector is intentionally retired in Leads.tsx because
+   older authenticated cascade layers still attach a light hero and decorative pseudo
+   surfaces to that class on physical Safari. This new source-owned class has no legacy
+   selector history, so the route owns its header without another override contest. */
+
+.hlc-leads-command-header {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px;
+  border: 1px solid rgba(126,108,255,.30);
+  border-radius: 16px;
+  background: linear-gradient(145deg,#151a3f,#090d27);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.035);
+  overflow: hidden;
+  color: #f8fafc;
+}
+
+.hlc-leads-command-header::before,
+.hlc-leads-command-header::after {
+  content: none;
+  display: none;
+}
+
+.hlc-leads-command-header > div {
+  min-width: 0;
+  flex: 1;
+  background: transparent;
+}
+
+.hlc-leads-command-header .hlc-page-eyebrow {
+  margin: 0 0 5px;
+  color: #a78bfa;
+  -webkit-text-fill-color: #a78bfa;
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+  opacity: 1;
+}
+
+.hlc-leads-command-header h1 {
+  margin: 0 0 5px;
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+  font-size: clamp(1.85rem,3.3vw,2.7rem);
+  line-height: 1.04;
+  letter-spacing: -.035em;
+}
+
+.hlc-leads-command-header > div > p:last-child {
+  max-width: 760px;
+  margin: 0;
+  color: #dbe4f5;
+  -webkit-text-fill-color: #dbe4f5;
+  font-size: .9rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 760px) {
+  .hlc-leads-command-header {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .hlc-leads-command-header h1 {
+    font-size: clamp(1.65rem,8vw,2.15rem);
+  }
+
+  .hlc-leads-command-header > div > p:last-child {
+    font-size: .82rem;
+    line-height: 1.36;
+  }
+}
