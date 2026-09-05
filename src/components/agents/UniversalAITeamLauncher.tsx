@@ -15,45 +15,17 @@ type AgentConfig = {
 };
 
 const AGENTS: AgentConfig[] = [
-  {
-    id: "kendrell",
-    name: "Kendrell",
-    role: "Command",
-    route: "/hq",
-    avatar: "/brand/avatars/Kendrell_Locked_HLC.png",
-    accent: "#3B82F6",
-  },
-  {
-    id: "dion",
-    name: "Dion",
-    role: "Operations & BI",
-    route: "/operations",
-    avatar: "/brand/avatars/Dion_Locked_HLC.png",
-    accent: "#3B82F6",
-  },
-  {
-    id: "diamond",
-    name: "Diamond",
-    role: "Customer Experience",
-    route: "/customer-experience",
-    avatar: "/brand/avatars/Diamond_Locked_HLC.png",
-    accent: "#60A5FA",
-  },
+  { id: "kendrell", name: "Kendrell", role: "Command", route: "/hq", avatar: "/brand/avatars/Kendrell_Locked_HLC.png", accent: "#3B82F6" },
+  { id: "dion", name: "Dion", role: "Operations & BI", route: "/operations", avatar: "/brand/avatars/Dion_Locked_HLC.png", accent: "#3B82F6" },
+  { id: "diamond", name: "Diamond", role: "Customer Experience", route: "/customer-experience", avatar: "/brand/avatars/Diamond_Locked_HLC.png", accent: "#60A5FA" },
 ];
 
 const DEDICATED_AGENT_ROUTES = new Set(["/hq", "/operations", "/customer-experience"]);
 const HOME_TEAM_ROUTES = new Set(["/dashboard"]);
 
-const KENDRELL_PREFIXES = [
-  "/ecosystem",
-  "/settings",
-  "/workflow",
-  "/automations",
-  "/notifications",
-  "/rules",
-];
-
+const KENDRELL_PREFIXES = ["/ecosystem", "/settings", "/workflow", "/automations", "/notifications", "/rules"];
 const DION_PREFIXES = [
+  "/work",
   "/leads",
   "/estimator",
   "/jobs",
@@ -65,7 +37,6 @@ const DION_PREFIXES = [
   "/matching",
   "/resources",
 ];
-
 const DIAMOND_PREFIXES = [
   "/messages",
   "/community",
@@ -100,9 +71,7 @@ export default function UniversalAITeamLauncher() {
   const [activeAgentId, setActiveAgentId] = useState<AgentId | null>(null);
 
   const authorizedAgents = useMemo(() => {
-    if (account.business && account.role) {
-      return AGENTS.filter((agent) => canAccessWorkspacePath(account.role!, agent.route));
-    }
+    if (account.business && account.role) return AGENTS.filter((agent) => canAccessWorkspacePath(account.role!, agent.route));
     if (account.contractor) return AGENTS.filter((agent) => agent.id === "dion");
     if (account.homeowner || account.partner) return AGENTS.filter((agent) => agent.id === "diamond");
     return [];
@@ -116,9 +85,7 @@ export default function UniversalAITeamLauncher() {
 
   const routeLauncherOpen = launcherOpen && launcherPath === location.pathname;
   const contextualAgent = visibleAgents.length === 1 ? visibleAgents[0] : null;
-  const activeAgent = launcherPath === location.pathname
-    ? visibleAgents.find((agent) => agent.id === activeAgentId) ?? null
-    : null;
+  const activeAgent = launcherPath === location.pathname ? visibleAgents.find((agent) => agent.id === activeAgentId) ?? null : null;
   const onDedicatedAgentPage = DEDICATED_AGENT_ROUTES.has(location.pathname);
   const onHomeTeamPage = HOME_TEAM_ROUTES.has(location.pathname);
   const neutralLauncher = visibleAgents.length !== 1;
@@ -135,88 +102,31 @@ export default function UniversalAITeamLauncher() {
       {routeLauncherOpen && (
         <div className="hlc-ai-team-menu" role="dialog" aria-modal="false" aria-label="Choose a HomeLead Connect AI Team agent">
           <div className="hlc-ai-team-menu-head">
-            <div>
-              <small>HOMELEAD CONNECT AI TEAM</small>
-              <strong>{activeAgent ? activeAgent.name : contextualAgent ? `Ask ${contextualAgent.name}` : "Choose your agent"}</strong>
-            </div>
-            <button
-              type="button"
-              className="hlc-ai-team-close"
-              aria-label="Close AI Team"
-              onClick={() => {
-                setActiveAgentId(null);
-                setLauncherOpen(false);
-              }}
-            >
-              ×
-            </button>
+            <div><small>HOMELEAD CONNECT AI TEAM</small><strong>{activeAgent ? activeAgent.name : contextualAgent ? `Ask ${contextualAgent.name}` : "Choose your agent"}</strong></div>
+            <button type="button" className="hlc-ai-team-close" aria-label="Close AI Team" onClick={() => { setActiveAgentId(null); setLauncherOpen(false); }}>×</button>
           </div>
-
           <div className="hlc-ai-team-agent-tabs" role="tablist" aria-label="AI Team agents">
             {visibleAgents.map((agent) => {
               const selected = activeAgentId === agent.id;
-              return (
-                <button
-                  key={agent.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={selected}
-                  className={selected ? "is-active" : ""}
-                  onClick={() => setActiveAgentId(agent.id)}
-                >
-                  <img src={agent.avatar} alt="" aria-hidden="true" />
-                  <span><strong>{agent.name}</strong><small>{agent.role}</small></span>
-                </button>
-              );
+              return <button key={agent.id} type="button" role="tab" aria-selected={selected} className={selected ? "is-active" : ""} onClick={() => setActiveAgentId(agent.id)}><img src={agent.avatar} alt="" aria-hidden="true" /><span><strong>{agent.name}</strong><small>{agent.role}</small></span></button>;
             })}
           </div>
-
           {activeAgent ? (
             <section className="hlc-ai-team-active-panel" aria-label={`${activeAgent.name} assistant`}>
-              <div className="hlc-ai-team-active-head">
-                <span>{activeAgent.name} is active</span>
-                <Link to={activeAgent.route}>Open dedicated page</Link>
-              </div>
-              <AgentChatPanel
-                key={activeAgent.id}
-                agentId={activeAgent.id}
-                agentName={activeAgent.name}
-                accent={activeAgent.accent}
-              />
+              <div className="hlc-ai-team-active-head"><span>{activeAgent.name} is active</span><Link to={activeAgent.route}>Open dedicated page</Link></div>
+              <AgentChatPanel key={activeAgent.id} agentId={activeAgent.id} agentName={activeAgent.name} accent={activeAgent.accent} />
             </section>
           ) : (
-            <p className="hlc-ai-team-empty">
-              {contextualAgent
-                ? `${contextualAgent.name} is the specialist for this area.`
-                : "Select one agent to open a single assistant panel. Switching agents replaces the current panel."}
-            </p>
+            <p className="hlc-ai-team-empty">{contextualAgent ? `${contextualAgent.name} is the specialist for this area.` : "Select one agent to open a single assistant panel. Switching agents replaces the current panel."}</p>
           )}
         </div>
       )}
-
-      <button
-        type="button"
-        className={`hlc-ai-team-trigger${neutralLauncher ? " is-neutral" : " is-contextual"}`}
-        aria-expanded={routeLauncherOpen}
-        aria-label={`${routeLauncherOpen ? "Close" : "Open"} ${contextualAgent ? `${contextualAgent.name} assistant` : "HomeLead Connect AI Team"}`}
-        onClick={() => {
-          if (routeLauncherOpen) {
-            setActiveAgentId(null);
-            setLauncherOpen(false);
-          } else {
-            setActiveAgentId(null);
-            setLauncherPath(location.pathname);
-            setLauncherOpen(true);
-          }
-        }}
-      >
-        <span className="hlc-ai-team-trigger-mark" aria-hidden="true">
-          {neutralLauncher ? <span className="hlc-ai-team-neutral-mark">AI</span> : <img src={contextualAgent?.avatar} alt="" />}
-        </span>
-        <span className="hlc-ai-team-trigger-copy">
-          <strong>{contextualAgent ? `Ask ${contextualAgent.name}` : "AI Team"}</strong>
-          <small>{contextualAgent ? contextualAgent.role : "Choose specialist"}</small>
-        </span>
+      <button type="button" className={`hlc-ai-team-trigger${neutralLauncher ? " is-neutral" : " is-contextual"}`} aria-expanded={routeLauncherOpen} aria-label={`${routeLauncherOpen ? "Close" : "Open"} ${contextualAgent ? `${contextualAgent.name} assistant` : "HomeLead Connect AI Team"}`} onClick={() => {
+        if (routeLauncherOpen) { setActiveAgentId(null); setLauncherOpen(false); }
+        else { setActiveAgentId(null); setLauncherPath(location.pathname); setLauncherOpen(true); }
+      }}>
+        <span className="hlc-ai-team-trigger-mark" aria-hidden="true">{neutralLauncher ? <span className="hlc-ai-team-neutral-mark">AI</span> : <img src={contextualAgent?.avatar} alt="" />}</span>
+        <span className="hlc-ai-team-trigger-copy"><strong>{contextualAgent ? `Ask ${contextualAgent.name}` : "AI Team"}</strong><small>{contextualAgent ? contextualAgent.role : "Choose specialist"}</small></span>
       </button>
     </aside>
   );
