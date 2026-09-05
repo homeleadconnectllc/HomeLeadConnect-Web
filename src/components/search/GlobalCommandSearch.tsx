@@ -117,13 +117,14 @@ export default function GlobalCommandSearch() {
   }
 
   return open ? (
-    <div className="hlc-command-search-backdrop" role="presentation" onMouseDown={(event) => {
+    <div className="hlc-cmd-v2-backdrop" role="presentation" onMouseDown={(event) => {
       if (event.currentTarget === event.target) setOpen(false);
     }}>
-      <section className="hlc-command-search" role="dialog" aria-modal="true" aria-label="Search HomeLead Connect">
-        <header className="hlc-command-search-header">
-          <Search size={20} aria-hidden="true" />
+      <div id="hlc-command-search-source" className="hlc-cmd-v2-shell" role="dialog" aria-modal="true" aria-label="Search HomeLead Connect">
+        <div className="hlc-cmd-v2-head">
+          <Search className="hlc-cmd-v2-search-icon" size={20} aria-hidden="true" />
           <input
+            className="hlc-cmd-v2-input"
             ref={inputRef}
             value={query}
             onChange={(event) => setQuery(event.target.value)}
@@ -131,29 +132,29 @@ export default function GlobalCommandSearch() {
             aria-label="Search HomeLead Connect"
             autoComplete="off"
           />
-          <button type="button" aria-label="Close search" onClick={() => setOpen(false)}><X size={20} /></button>
-        </header>
-        <div className="hlc-command-search-results" role="listbox" aria-label="Search results">
+          <button className="hlc-cmd-v2-close" type="button" aria-label="Close search" onClick={() => setOpen(false)}><X size={20} /></button>
+        </div>
+        <div className="hlc-cmd-v2-results" role="listbox" aria-label="Search results">
           {matches.length ? matches.map((item) => (
-            <button key={`${item.group}-${item.label}-${item.route}`} type="button" role="option" onClick={() => choose(item)}>
-              <span className="hlc-command-search-result-copy">
+            <button className="hlc-cmd-v2-result" key={`${item.group}-${item.label}-${item.route}`} type="button" role="option" onClick={() => choose(item)}>
+              <div className="hlc-cmd-v2-copy">
                 <strong>{item.label}</strong>
                 <small>{item.detail}</small>
-              </span>
-              <span className="hlc-command-search-group">{item.group}</span>
+              </div>
+              <b className="hlc-cmd-v2-group">{item.group}</b>
             </button>
           )) : (
-            <div className="hlc-command-search-empty">
+            <div className="hlc-cmd-v2-empty">
               <strong>No matching HomeLead Connect area yet.</strong>
               <span>Try a feature, workflow, person, or action name.</span>
             </div>
           )}
         </div>
-        <footer className="hlc-command-search-footer">
+        <div className="hlc-cmd-v2-foot">
           <span>Search respects your HomeLead Connect role and workspace access.</span>
           <kbd>⌘K</kbd>
-        </footer>
-      </section>
+        </div>
+      </div>
     </div>
   ) : null;
 }

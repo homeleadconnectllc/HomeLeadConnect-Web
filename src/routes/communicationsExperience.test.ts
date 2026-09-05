@@ -139,9 +139,9 @@ test("manual providers remain honest handoffs and unknown adapters never fall ba
   assert.doesNotMatch(sendCommunication, /const providerName = channel ===/);
 });
 
-test("Community Store is fulfillment-gated and never claims HLC inventory or delivery", () => {
+test("Community Store is fulfillment-gated and never claims HomeLead Connect inventory or delivery", () => {
   assert.match(communityHub, /<CommunityStore \/>/);
-  assert.match(communityHub, />HLC Store</);
+  assert.match(communityHub, />HomeLead Connect Store</);
   assert.match(communityStore, /VITE_HLC_MERCH_STORE_URL/);
   assert.match(communityStore, /third-party fulfillment provider/i);
   assert.match(communityStore, /does not represent an item as stocked, printed, shipped or delivered/i);

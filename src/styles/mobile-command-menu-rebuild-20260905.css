@@ -1,0 +1,153 @@
+/* Physical-iPhone approved mobile command surface.
+   Strip the legacy sidebar/bottom-sheet feel: More becomes a full-screen dark command menu
+   with compact role-aware destinations and search first. */
+@media (max-width: 760px) {
+  body:has(> .hlc-drawer-v2) > #root {
+    filter: none !important;
+    opacity: 1 !important;
+  }
+
+  body > .hlc-drawer-v2 {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 2147483000 !important;
+    display: block !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom) !important;
+    overflow: hidden !important;
+    background:
+      radial-gradient(circle at 50% -10%, rgba(58, 52, 154, .20), transparent 34%),
+      linear-gradient(180deg, #080b18 0%, #07101d 46%, #060b14 100%) !important;
+    backdrop-filter: none !important;
+  }
+
+  body > .hlc-drawer-v2 > .hlc-drawer-v2-scroll {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 10px 14px calc(26px + env(safe-area-inset-bottom)) !important;
+    overflow-y: auto !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-command-sheet-head {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 3 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    min-height: 58px !important;
+    margin: -10px -14px 4px !important;
+    padding: 10px 14px !important;
+    border-bottom: 1px solid rgba(91, 110, 255, .18) !important;
+    background: rgba(7, 10, 24, .94) !important;
+    backdrop-filter: blur(16px) !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-command-sheet-head > span {
+    color: #fff !important;
+    font-size: 16px !important;
+    font-weight: 850 !important;
+    letter-spacing: -.01em !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-drawer-v2-close {
+    min-width: 74px !important;
+    min-height: 40px !important;
+    margin: 0 !important;
+    padding: 8px 12px !important;
+    border: 1px solid rgba(102, 117, 255, .38) !important;
+    border-radius: 11px !important;
+    background: linear-gradient(145deg, rgba(32, 38, 84, .98), rgba(17, 20, 48, .98)) !important;
+    color: #f7f8ff !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-more-title {
+    display: none !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-command-search-trigger {
+    grid-template-columns: 34px minmax(0, 1fr) auto !important;
+    min-height: 66px !important;
+    padding: 10px 12px !important;
+    border: 1px solid rgba(92, 104, 255, .62) !important;
+    border-radius: 14px !important;
+    background: linear-gradient(145deg, rgba(19, 24, 60, .99), rgba(8, 11, 29, .99)) !important;
+    box-shadow: 0 0 0 1px rgba(92, 104, 255, .10), inset 0 0 28px rgba(80, 77, 255, .06) !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-command-search-trigger strong {
+    color: #f8f9ff !important;
+    font-size: 15px !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-command-search-trigger small {
+    color: #a9b8d8 !important;
+    font-size: 12px !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-more-quick {
+    display: grid !important;
+    gap: 8px !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-more-quick > a {
+    grid-template-columns: 42px minmax(0, 1fr) auto !important;
+    min-height: 66px !important;
+    padding: 10px 12px !important;
+    border: 1px solid rgba(82, 101, 164, .24) !important;
+    border-radius: 14px !important;
+    background: linear-gradient(145deg, rgba(13, 22, 40, .99), rgba(7, 12, 24, .99)) !important;
+    box-shadow: none !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-more-quick > a > svg {
+    width: 28px !important;
+    height: 28px !important;
+    padding: 6px !important;
+    border: 1px solid rgba(79, 110, 255, .18) !important;
+    border-radius: 10px !important;
+    background: rgba(35, 45, 91, .52) !important;
+    stroke: #76a0ff !important;
+    box-sizing: content-box !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-more-quick strong {
+    color: #fff !important;
+    font-size: 15px !important;
+    line-height: 1.15 !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-more-quick small {
+    color: #9fb2d2 !important;
+    font-size: 12px !important;
+    line-height: 1.3 !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-more-quick > a > b {
+    color: #83a2ff !important;
+    font-size: 18px !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-nav-access-note,
+  body > .hlc-drawer-v2 .hlc-mobile-more-signout {
+    border-radius: 12px !important;
+    background: rgba(10, 16, 31, .92) !important;
+    color: #c7d2e7 !important;
+    border: 1px solid rgba(91, 110, 255, .18) !important;
+  }
+
+  body > .hlc-drawer-v2 .hlc-mobile-more-signout {
+    min-height: 46px !important;
+    margin-top: 4px !important;
+  }
+}

@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const styles = readFileSync("src/styles/mobile-a-plus-sprint-4-community-messages.css", "utf8");
+const communityV2 = readFileSync("src/styles/community-hub-source-authority.css", "utf8");
 const styleEntry = readFileSync("src/styles/AuthenticatedStyles.tsx", "utf8");
 const drafts = readFileSync("src/components/messages/MessageDraftPersistence.tsx", "utf8");
 const app = readFileSync("src/App.tsx", "utf8");
@@ -18,12 +19,15 @@ test("Sprint 4 mobile authority mounts after Sprint 3 without replacing desktop 
   assert.match(styles, /@media \(max-width: 760px\)/);
 });
 
-test("Sprint 4 keeps Community content-first and touch-safe on compact screens", () => {
-  assert.match(community, /hlc-community-commandbar/);
-  assert.match(community, /hlc-community-row/);
-  assert.match(styles, /\.hlc-community-summary\s*\{\s*display: none/);
-  assert.match(styles, /\.hlc-community-commandbar[\s\S]*overflow-x: auto/);
-  assert.match(styles, /\.hlc-community-row > a[\s\S]*min-height: 44px/);
+test("Sprint 4 keeps Community v2 content-first and touch-safe on compact screens", () => {
+  assert.match(community, /hlc-community-v2-commandbar/);
+  assert.match(community, /hlc-community-v2-row/);
+  assert.match(communityV2, /@media\(max-width:760px\)/);
+  assert.match(communityV2, /\.hlc-community-v2-commandbar\{grid-template-columns:repeat\(3,minmax\(0,1fr\)\)!important/);
+  assert.match(communityV2, /\.hlc-community-v2-row\{grid-template-columns:1fr!important/);
+  assert.match(communityV2, /\.hlc-community-v2-row-action\{width:100%!important/);
+  assert.match(communityV2, /\.hlc-community-v2-row-action\{[^}]*min-height:44px!important/);
+  assert.match(communityV2, /\.hlc-community-v2-commandbar>a\{[^}]*min-height:44px!important/);
 });
 
 test("Sprint 4 makes Messages keyboard-conscious and bottom-navigation safe", () => {

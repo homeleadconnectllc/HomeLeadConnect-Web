@@ -1,0 +1,61 @@
+/* Physical-reference authority — Work home. */
+.hlc-work-home {
+  color-scheme: dark;
+  background: #060b26 !important;
+  color: #f8fafc !important;
+}
+
+.hlc-work-home :is(.hlc-parent-index-header,.hlc-parent-secondary,.hlc-parent-boundary,.hlc-parent-branch-list) {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  color: #f8fafc !important;
+}
+
+.hlc-work-home :is(.hlc-parent-index-header,h1,h2,h3,.hlc-parent-secondary > header,.hlc-parent-boundary > header) {
+  text-align: center !important;
+}
+
+.hlc-work-home .hlc-parent-branch-row {
+  border: 1px solid rgba(111,126,255,.24) !important;
+  border-radius: 13px !important;
+  background: linear-gradient(145deg,rgba(18,27,63,.97),rgba(7,12,38,.99)) !important;
+  background-image: linear-gradient(145deg,rgba(18,27,63,.97),rgba(7,12,38,.99)) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.03) !important;
+  color: #f8fafc !important;
+}
+.hlc-work-home .hlc-parent-branch-row > span,
+.hlc-work-home .hlc-parent-branch-row :is(strong,small,b) {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+.hlc-work-home .hlc-parent-branch-row strong { color: #f8fafc !important; }
+.hlc-work-home .hlc-parent-branch-row small { color: #e2e8f0 !important; }
+.hlc-work-home .hlc-parent-branch-row b { color: #a5b4fc !important; }
+
+.hlc-work-home :is(.hlc-parent-agent-link, .hlc-parent-secondary nav a, .hlc-parent-boundary a) {
+  border: 1px solid rgba(116,128,255,.30) !important;
+  border-radius: 12px !important;
+  background: linear-gradient(145deg,rgba(31,39,88,.96),rgba(9,15,43,.99)) !important;
+  background-image: linear-gradient(145deg,rgba(31,39,88,.96),rgba(9,15,43,.99)) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.03) !important;
+  color: #f8fafc !important;
+}
+.hlc-work-home :is(.hlc-parent-agent-link, .hlc-parent-secondary nav a, .hlc-parent-boundary a) :is(span,strong,small,b) {
+  background: transparent !important;
+  background-image: none !important;
+  color: inherit !important;
+}
+
+.hlc-work-home :is(.hlc-parent-empty,.empty-state,[data-empty-state]) {
+  display: grid;
+  place-items: center;
+  min-height: 96px;
+  text-align: center !important;
+  color: #e2e8f0 !important;
+}
+
+@media (max-width: 760px) {
+  .hlc-work-home :is(.hlc-parent-agent-link, .hlc-parent-secondary nav a, .hlc-parent-boundary a) { min-height: 44px; }
+}

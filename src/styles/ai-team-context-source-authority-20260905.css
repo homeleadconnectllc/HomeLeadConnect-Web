@@ -1,0 +1,108 @@
+/* AI Team contextual presentation authority.
+   Home shows the full three-agent roster without clipping; the global launcher remains neutral there.
+   Agent dispatch logic lives in UniversalAITeamLauncher.tsx. */
+@layer hlcRedesign {
+  @media (max-width: 820px) {
+    html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-ai-rail {
+      display: grid !important;
+      grid-template-columns: 1fr !important;
+      gap: 10px !important;
+      width: 100% !important;
+      padding: 12px !important;
+      margin-bottom: 0 !important;
+    }
+
+    html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-ai-heading {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: flex-start !important;
+      min-width: 0 !important;
+      text-align: left !important;
+    }
+
+    html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-ai-links {
+      display: grid !important;
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      gap: 6px !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      overflow: visible !important;
+    }
+
+    html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-ai-links > a {
+      display: grid !important;
+      grid-template-rows: auto auto !important;
+      justify-items: center !important;
+      align-content: center !important;
+      gap: 6px !important;
+      min-width: 0 !important;
+      min-height: 94px !important;
+      padding: 8px 4px !important;
+      overflow: visible !important;
+      text-align: center !important;
+    }
+
+    html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-ai-links > a > img {
+      width: 36px !important;
+      height: 36px !important;
+      min-width: 36px !important;
+      border-radius: 11px !important;
+      object-fit: cover !important;
+    }
+
+    html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-ai-links > a > span {
+      display: grid !important;
+      justify-items: center !important;
+      gap: 2px !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      text-align: center !important;
+    }
+
+    html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-ai-links > a strong {
+      display: block !important;
+      width: 100% !important;
+      overflow: visible !important;
+      color: #f8fafc !important;
+      font-size: .72rem !important;
+      line-height: 1.12 !important;
+      text-overflow: clip !important;
+      white-space: nowrap !important;
+    }
+
+    html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-ai-links > a small {
+      display: block !important;
+      width: 100% !important;
+      overflow: visible !important;
+      color: #cbd5e1 !important;
+      font-size: .56rem !important;
+      line-height: 1.15 !important;
+      text-overflow: clip !important;
+      white-space: nowrap !important;
+    }
+  }
+
+  @media (max-width: 370px) {
+    html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-ai-links {
+      gap: 4px !important;
+    }
+
+    html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-ai-links > a {
+      padding-inline: 2px !important;
+    }
+
+    html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-ai-links > a > img {
+      width: 32px !important;
+      height: 32px !important;
+      min-width: 32px !important;
+    }
+
+    html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-ai-links > a strong {
+      font-size: .67rem !important;
+    }
+
+    html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-ai-links > a small {
+      font-size: .52rem !important;
+    }
+  }
+}

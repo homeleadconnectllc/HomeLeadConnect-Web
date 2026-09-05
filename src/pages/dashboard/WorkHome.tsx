@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import "../../styles/work-home-source-authority.css";
 
 const primaryWork = [
   { title: "Leads", note: "Requests, qualification, ownership and next actions.", route: "/leads" },

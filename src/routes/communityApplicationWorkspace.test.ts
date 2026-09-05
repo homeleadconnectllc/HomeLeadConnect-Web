@@ -5,6 +5,7 @@ import test from "node:test";
 const page = readFileSync("src/pages/dashboard/CommunityHub.tsx", "utf8");
 const router = readFileSync("src/routes/AppRouter.tsx", "utf8");
 const styles = readFileSync("src/styles/community-application-workspace.css", "utf8");
+const sourceAuthority = readFileSync("src/styles/community-hub-source-authority.css", "utf8");
 const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 const messages = readFileSync("src/pages/dashboard/CommunityMessages.tsx", "utf8");
 const discover = readFileSync("src/pages/dashboard/CommunityDiscover.tsx", "utf8");
@@ -13,11 +14,11 @@ const relationshipMigration = readFileSync("supabase/migrations/20260901131500_c
 const messengerMigration = readFileSync("supabase/migrations/20260901142500_community_private_messenger.sql", "utf8");
 
 test("Community uses a dedicated participation workspace instead of generic destination cards", () => {
-  assert.match(page, /hlc-community-workspace/);
+  assert.match(page, /hlc-community-v2/);
   assert.match(page, /COMMUNITY OPERATIONS/);
-  assert.match(page, /hlc-community-console/);
-  assert.match(page, /hlc-community-row/);
-  assert.match(page, /hlc-community-context/);
+  assert.match(page, /hlc-community-v2-grid/);
+  assert.match(page, /hlc-community-v2-row/);
+  assert.match(page, /hlc-community-v2-context/);
   assert.doesNotMatch(page, /borderRadius: 18|boxShadow: "0 10px 26px|gridTemplateColumns: "repeat\(auto-fit/);
 });
 
@@ -54,24 +55,25 @@ test("Community Premium canonical routes are declared while operational messages
   assert.match(router, /path="\/matching" element=\{<CommunityMatchDeck\/>\}/);
 });
 
-test("Community specialization mounts before final authority and collapses safely on mobile", () => {
+test("Community specialization mounts before final authority and v2 collapses safely on mobile", () => {
   const routeIndex = entry.indexOf("./community-application-workspace.css");
   const finalIndex = entry.indexOf("./application-workspace-ui.css");
   assert.ok(routeIndex >= 0);
   assert.ok(finalIndex > routeIndex);
-  assert.match(styles, /\.hlc-community-console\{display:grid;grid-template-columns:/);
-  assert.match(styles, /@media\(max-width:720px\)/);
-  assert.match(styles, /\.hlc-community-row\{grid-template-columns:1fr/);
-  assert.match(styles, /\.hlc-community-summary\{grid-template-columns:1fr/);
-  assert.match(styles, /width:min\(100% - 24px,1440px\)/);
+  assert.match(sourceAuthority, /\.hlc-community-v2-grid\{display:grid!important;grid-template-columns:/);
+  assert.match(sourceAuthority, /@media\(max-width:760px\)/);
+  assert.match(sourceAuthority, /\.hlc-community-v2-row\{grid-template-columns:1fr!important/);
+  assert.match(sourceAuthority, /\.hlc-community-v2-more-links\{grid-template-columns:1fr!important/);
+  assert.match(sourceAuthority, /width:min\(100%,1180px\)!important/);
 });
 
-test("Community is natively dark with restrained navigation and divider rows", () => {
+test("Community v2 is natively dark with restrained navigation and owned rows", () => {
+  assert.match(sourceAuthority, /\.hlc-community-v2\{[^}]*color:#f8fafc!important/);
+  assert.match(sourceAuthority, /\.hlc-community-v2-commandbar>a\{[^}]*background:linear-gradient/);
+  assert.match(sourceAuthority, /\.hlc-community-v2-row\{[^}]*background:linear-gradient/);
+  assert.match(sourceAuthority, /\.hlc-community-v2-context-card\{[^}]*background:linear-gradient/);
+  assert.doesNotMatch(sourceAuthority, /background:(?:#fff|#ffffff|#edf5ff|#eef6ff|#f8fbff)/i);
   assert.match(styles, /--community-surface:#0d1b2f/);
-  assert.match(styles, /\.hlc-community-commandbar a:hover,[\s\S]*rgba\(47,128,255,\.1\)/);
-  assert.match(styles, /\.hlc-community-row\{[^}]*background:transparent!important/);
-  assert.match(styles, /\.hlc-community-context section\{[^}]*background:transparent!important/);
-  assert.doesNotMatch(styles, /background:(?:#fff|#ffffff|#edf5ff|#eef6ff|#f8fbff)/i);
 });
 
 test("Community member identity extends the existing profile instead of creating a second identity table", () => {

@@ -132,24 +132,13 @@ export default function Navbar() {
   function openGlobalSearch() { closeMobileMenu(); window.requestAnimationFrame(() => window.dispatchEvent(new Event(OPEN_HLC_COMMAND_SEARCH))); }
   function toggleGroup(id: string) { setOpenGroupState({ pathname: location.pathname, id: openGroup === id ? "" : id }); }
 
-  function renderMenuContents() {
+  function renderDesktopMenuContents() {
     if (loading) return <p className="hlc-nav-access-note" role="status">Loading navigation…</p>;
-    if (!signedIn) return <><div className="hlc-mobile-menu-heading"><span>HomeLead Connect</span><strong>How can we help?</strong></div><a href="https://homeleadconnect.org">Public Home</a><Link to="/request-service" onClick={closeMobileMenu}>Request Service</Link><Link to="/contact" onClick={closeMobileMenu}>Contact</Link><Link to="/login" onClick={closeMobileMenu}>Sign In</Link></>;
+    if (!signedIn) return <><a href="https://homeleadconnect.org">Public Home</a><Link to="/request-service">Request Service</Link><Link to="/contact">Contact</Link><Link to="/login">Sign In</Link></>;
     return <>
-      <div className="hlc-mobile-menu-heading"><span>{showBusinessTools ? "HomeLead Connect workspace" : access.homeowner ? "Resident portal" : access.contractor ? "Professional portal" : access.partner ? "Partner portal" : "HomeLead Connect account"}</span><strong>{showBusinessTools ? "Run HomeLead Connect." : access.partner ? "Manage your HomeLead Connect referrals." : "Your HomeLead Connect access."}</strong></div>
-      {!access.partner && <button className="hlc-mobile-command-search-trigger" type="button" onClick={openGlobalSearch}><span className="hlc-mobile-command-search-icon" aria-hidden="true">⌕</span><span><strong>Search HomeLead Connect</strong><small>Find work, people, tools and settings</small></span><b aria-hidden="true">→</b></button>}
-      <nav className="hlc-mobile-more-quick" aria-label="More quick actions">
-        {access.partner ? <Link to="/partner-portal/resources" onClick={closeMobileMenu}><MobileNavIcon name="more" /><span><strong>Partner resources</strong><small>Referral guidance and partner materials</small></span></Link> : <>
-          <Link to="/start-here" onClick={closeMobileMenu}><MobileNavIcon name="more" /><span><strong>App Directory</strong><small>See everything available to you</small></span></Link>
-          <Link to="/notifications" onClick={closeMobileMenu}><MobileNavIcon name="notifications" /><span><strong>Notifications</strong><small>What needs attention</small></span></Link>
-          <Link to="/profile" onClick={closeMobileMenu}><MobileNavIcon name="profile" /><span><strong>My profile</strong><small>Identity and preferences</small></span></Link>
-          {showBusinessTools && <Link to="/settings" onClick={closeMobileMenu}><MobileNavIcon name="more" /><span><strong>Settings</strong><small>Workspace and account controls</small></span></Link>}
-        </>}
-      </nav>
-      {showBusinessTools && <Link className="hlc-owner-home-link" to="/dashboard" onClick={closeMobileMenu}><span><strong>Open Home</strong><small>Priorities, live work and what needs attention</small></span><b aria-hidden="true">→</b></Link>}
       <div className="hlc-navbar-groups" aria-label="Signed-in HomeLead Connect areas">
-        {showBusinessTools && access.role && <details className="hlc-nav-group hlc-nav-agent-group" open={openGroup === "ai-team"}><summary onClick={(event) => { event.preventDefault(); toggleGroup("ai-team"); }}><span>AI Team</span><small>{agentNavigation.filter((agent) => canAccessWorkspacePath(access.role, agent.route)).length}</small></summary><div className="hlc-nav-menu hlc-agent-nav-menu">{agentNavigation.filter((agent) => canAccessWorkspacePath(access.role, agent.route)).map((agent) => <Link className="hlc-agent-nav-link" aria-current={location.pathname === agent.route ? "page" : undefined} key={agent.route} onClick={closeMobileMenu} to={agent.route}><img src={agent.avatar} alt="" aria-hidden="true" /><span className="hlc-agent-nav-copy"><strong>{agent.label}</strong><small>{agent.purpose}</small></span></Link>)}</div></details>}
-        {signedInGroups.map((group) => <details className="hlc-nav-group" key={group.id} open={openGroup === group.id}><summary onClick={(event) => { event.preventDefault(); toggleGroup(group.id); }}><span>{group.label}</span><small>{group.pages.length}</small></summary><div className="hlc-nav-menu">{group.pages.map((page) => <Link aria-current={pathMatchesPrefix(location.pathname, page.route) ? "page" : undefined} key={page.route} onClick={closeMobileMenu} to={page.route}><span>{page.label}</span><small>{page.purpose}</small></Link>)}</div></details>)}
+        {showBusinessTools && access.role && <details className="hlc-nav-group hlc-nav-agent-group" open={openGroup === "ai-team"}><summary onClick={(event) => { event.preventDefault(); toggleGroup("ai-team"); }}><span>AI Team</span><small>{agentNavigation.filter((agent) => canAccessWorkspacePath(access.role, agent.route)).length}</small></summary><div className="hlc-nav-menu hlc-agent-nav-menu">{agentNavigation.filter((agent) => canAccessWorkspacePath(access.role, agent.route)).map((agent) => <Link className="hlc-agent-nav-link" aria-current={location.pathname === agent.route ? "page" : undefined} key={agent.route} to={agent.route}><img src={agent.avatar} alt="" aria-hidden="true" /><span className="hlc-agent-nav-copy"><strong>{agent.label}</strong><small>{agent.purpose}</small></span></Link>)}</div></details>}
+        {signedInGroups.map((group) => <details className="hlc-nav-group" key={group.id} open={openGroup === group.id}><summary onClick={(event) => { event.preventDefault(); toggleGroup(group.id); }}><span>{group.label}</span><small>{group.pages.length}</small></summary><div className="hlc-nav-menu">{group.pages.map((page) => <Link aria-current={pathMatchesPrefix(location.pathname, page.route) ? "page" : undefined} key={page.route} to={page.route}><span>{page.label}</span><small>{page.purpose}</small></Link>)}</div></details>)}
       </div>
       {!accessResolved && <p className="hlc-nav-access-note">Loading account access…</p>}
       {accessResolved && access.business && !access.role && <p className="hlc-nav-access-note">Internal role not assigned. Workspace control surfaces are hidden.</p>}
@@ -157,11 +146,29 @@ export default function Navbar() {
     </>;
   }
 
+  function renderMobileMoreMenu() {
+    if (loading || !accessResolved) return <p className="hlc-nav-access-note" role="status">Loading navigation…</p>;
+    if (!signedIn) return <nav className="hlc-mobile-more-quick" aria-label="HomeLead Connect links"><a href="https://homeleadconnect.org"><MobileNavIcon name="home" /><span><strong>Public Home</strong><small>Visit HomeLead Connect</small></span><b aria-hidden="true">→</b></a><Link to="/request-service" onClick={closeMobileMenu}><MobileNavIcon name="work" /><span><strong>Request Service</strong><small>Start a home-service request</small></span><b aria-hidden="true">→</b></Link><Link to="/login" onClick={closeMobileMenu}><MobileNavIcon name="profile" /><span><strong>Sign In</strong><small>Open your account</small></span><b aria-hidden="true">→</b></Link></nav>;
+
+    return <>
+      <div className="hlc-mobile-more-title"><span>MORE</span><strong>{showBusinessTools ? "HomeLead Connect" : access.homeowner ? "Resident" : access.contractor ? "Professional" : access.partner ? "Partner" : "Account"}</strong></div>
+      {!access.partner && <button className="hlc-mobile-command-search-trigger" type="button" onClick={openGlobalSearch}><span className="hlc-mobile-command-search-icon" aria-hidden="true">⌕</span><span><strong>Search HomeLead Connect</strong><small>Find work, people, tools and settings</small></span><b aria-hidden="true">→</b></button>}
+      <nav className="hlc-mobile-more-quick" aria-label="More HomeLead Connect areas">
+        {access.partner ? <Link to="/partner-portal/resources" onClick={closeMobileMenu}><MobileNavIcon name="more" /><span><strong>Partner resources</strong><small>Guidance and partner materials</small></span><b aria-hidden="true">→</b></Link> : <Link to="/start-here" onClick={closeMobileMenu}><MobileNavIcon name="more" /><span><strong>App Directory</strong><small>Everything available to your account</small></span><b aria-hidden="true">→</b></Link>}
+        {!access.partner && <Link to="/notifications" onClick={closeMobileMenu}><MobileNavIcon name="notifications" /><span><strong>Notifications</strong><small>What needs attention</small></span><b aria-hidden="true">→</b></Link>}
+        {!access.partner && <Link to="/profile" onClick={closeMobileMenu}><MobileNavIcon name="profile" /><span><strong>My profile</strong><small>Identity and preferences</small></span><b aria-hidden="true">→</b></Link>}
+        {showBusinessTools && <Link to="/settings" onClick={closeMobileMenu}><MobileNavIcon name="more" /><span><strong>Settings</strong><small>Workspace and account controls</small></span><b aria-hidden="true">→</b></Link>}
+      </nav>
+      {accessResolved && access.business && !access.role && <p className="hlc-nav-access-note">Internal role not assigned. Workspace controls are hidden.</p>}
+      <button className="hlc-mobile-more-signout" type="button" onClick={logout}>Sign out</button>
+    </>;
+  }
+
   const mobileDrawer = mobileOpen && typeof document !== "undefined" ? createPortal(
-    <div className="hlc-drawer-v2" role="dialog" aria-modal="true" aria-label="HomeLead Connect navigation">
+    <div className="hlc-drawer-v2 hlc-mobile-command-sheet" role="dialog" aria-modal="true" aria-label="More HomeLead Connect areas">
       <div className="hlc-drawer-v2-scroll">
-        <button className="hlc-drawer-v2-close" type="button" onClick={closeMobileMenu} aria-label="Close HomeLead Connect navigation">Close menu</button>
-        {renderMenuContents()}
+        <div className="hlc-mobile-command-sheet-head"><span>HomeLead Connect</span><button className="hlc-drawer-v2-close" type="button" onClick={closeMobileMenu} aria-label="Close HomeLead Connect navigation">Close</button></div>
+        {renderMobileMoreMenu()}
       </div>
     </div>,
     document.body,
@@ -171,7 +178,7 @@ export default function Navbar() {
     <nav className={`hlc-navbar ${mobileOpen ? "menu-is-open" : ""}`} role="navigation" aria-label="Main navigation">
       <Link className="hlc-navbar-brand" to={brandDestination} onClick={closeMobileMenu}><div className="hlc-navbar-logo"><img src={logo} alt="HomeLead Connect LLC" /></div><div className="hlc-navbar-brand-copy"><h2>HomeLead Connect</h2><span>{signedIn ? (showBusinessTools ? "HomeLead Connect workspace" : access.homeowner ? "Resident portal" : access.contractor ? "Professional portal" : access.partner ? "Partner portal" : "HomeLead Connect account") : "Home services network"}</span></div></Link>
       <button type="button" className="hlc-navbar-toggle" aria-expanded={mobileOpen} aria-label={mobileOpen ? "Close menu" : "Open menu"} onClick={() => setMobileOpenAt(mobileOpen ? null : location.pathname)}>{mobileOpen ? "Close" : "Menu"}</button>
-      <div className="hlc-navbar-links hlc-desktop-navigation">{renderMenuContents()}</div>
+      <div className="hlc-navbar-links hlc-desktop-navigation">{renderDesktopMenuContents()}</div>
     </nav>
     {signedIn && accessResolved && mobilePrimaryLinks.length > 0 && <nav className="hlc-mobile-tabbar" aria-label="Mobile primary navigation">{mobilePrimaryLinks.map((item) => { const active = mobileRouteIsActive(location.pathname, item); return <Link key={item.route} to={item.route} className={active ? "is-active" : undefined} aria-current={active ? "page" : undefined} onClick={closeMobileMenu}><MobileNavIcon name={item.icon} /><span>{item.label}</span></Link>; })}<button type="button" className={moreIsActive ? "is-active" : undefined} aria-expanded={mobileOpen} aria-label={mobileOpen ? "Close all HomeLead Connect areas" : "Open all HomeLead Connect areas"} onClick={() => setMobileOpenAt(mobileOpen ? null : location.pathname)}><MobileNavIcon name="more" /><span>More</span></button></nav>}
     {mobileDrawer}

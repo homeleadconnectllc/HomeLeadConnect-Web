@@ -1,0 +1,75 @@
+/* Physical-iPhone Dashboard source closure.
+   The Home route owns no decorative shell/hero pseudo-elements. Remove every surviving
+   route/main pseudo surface at the authenticated Dashboard root, with enough specificity
+   to beat earlier legacy !important authorities. Keep the compact Home header readable
+   in WebKit without changing route, auth, data, billing, or workflow behavior. */
+
+html body #root .hlc-signed-in-shell.hlc-page-dashboard > .hlc-route-content::before,
+html body #root .hlc-signed-in-shell.hlc-page-dashboard > .hlc-route-content::after,
+html body #root .hlc-signed-in-shell.hlc-page-dashboard > .hlc-route-content > main.hlc-home-workspace::before,
+html body #root .hlc-signed-in-shell.hlc-page-dashboard > .hlc-route-content > main.hlc-home-workspace::after {
+  content: none !important;
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: none !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+html body #root .hlc-signed-in-shell.hlc-page-dashboard > .hlc-route-content,
+html body #root .hlc-signed-in-shell.hlc-page-dashboard > .hlc-route-content > main.hlc-home-workspace {
+  min-height: 0 !important;
+  height: auto !important;
+}
+
+.hlc-home-context-hero {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  overflow: hidden !important;
+}
+
+/* Physical Safari gets dedicated source-owned ink/control nodes instead of inheriting
+   color or generic link/button presentation from the legacy authenticated cascade. */
+html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-greeting-v3,
+html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-greeting-v3 > .hlc-home-greeting-ink {
+  color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
+  opacity: 1 !important;
+  text-shadow: 0 1px 12px rgba(0,0,0,.28) !important;
+}
+
+html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-top-actions-v2 > .hlc-home-search-control,
+html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-top-actions-v2 > .hlc-home-bell-control {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  display: grid !important;
+  place-items: center !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  background: #111633 !important;
+  background-image: none !important;
+  border: 1px solid rgba(160,148,255,.48) !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-search-icon,
+html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-bell-icon,
+html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-search-icon *,
+html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-bell-icon * {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+  fill: none !important;
+  opacity: 1 !important;
+}

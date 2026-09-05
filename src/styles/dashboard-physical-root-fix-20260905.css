@@ -1,0 +1,74 @@
+/* Home Dashboard physical-iPhone root repair.
+   Keep the successful pseudo-surface removal in dashboard-context-hero.css intact.
+   This file owns only the two surviving physical defects: layered header contrast and
+   duplicate mobile bottom clearance after the inline AI Team. */
+
+/* Version A uses the hlcRedesign cascade layer. For !important declarations, layered
+   declarations outrank unlayered ones, so a later unlayered rule can still lose.
+   Put the Dashboard-specific greeting and action nodes in the same layer. */
+@layer hlcRedesign {
+  html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-greeting-v3,
+  html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-greeting-v3 > .hlc-home-greeting-ink {
+    color: #f8fafc !important;
+    -webkit-text-fill-color: #f8fafc !important;
+    opacity: 1 !important;
+  }
+
+  html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-top-actions-v2 > .hlc-home-search-control,
+  html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-top-actions-v2 > .hlc-home-bell-control {
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+    background: #111633 !important;
+    background-image: none !important;
+    border-color: rgba(160,148,255,.48) !important;
+    box-shadow: none !important;
+    opacity: 1 !important;
+  }
+
+  html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-search-icon,
+  html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-bell-icon,
+  html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-search-icon *,
+  html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-bell-icon * {
+    color: #fff !important;
+    stroke: #fff !important;
+    fill: none !important;
+    opacity: 1 !important;
+  }
+
+  @media (max-width: 820px) {
+    html body #root .hlc-signed-in-shell.hlc-page-dashboard > .hlc-route-content {
+      display: block !important;
+      min-height: 0 !important;
+      height: auto !important;
+      padding-bottom: 0 !important;
+    }
+
+    html body #root .hlc-signed-in-shell.hlc-page-dashboard > .hlc-route-content > main.hlc-home-workspace {
+      display: block !important;
+      flex: 0 0 auto !important;
+      align-self: auto !important;
+      min-height: 0 !important;
+      height: auto !important;
+      max-height: none !important;
+      margin-bottom: 0 !important;
+      padding-bottom: 12px !important;
+      justify-content: initial !important;
+      overflow: visible !important;
+    }
+
+    html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-ai-rail,
+    html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-ai-rail:last-child {
+      margin-bottom: 0 !important;
+    }
+
+    html body #root .hlc-signed-in-shell.hlc-page-dashboard > .hlc-route-content > main.hlc-home-workspace::after {
+      content: none !important;
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+      min-height: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+  }
+}
