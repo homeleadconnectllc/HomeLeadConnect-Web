@@ -7,7 +7,7 @@ import PortalInviteButton from "../portal/PortalInviteButton";
 const LEAD_ACCENTS = ["#38BDF8", "#2DD4BF", "#FBBF24", "#FB923C", "#60A5FA", "#34D399", "#A78BFA"];
 
 function leadAccent(lead: LeadRecord) {
-  const key = String(lead.id_uuid || lead.id || lead.lead_code || lead.full_name || "lead");
+  const key = String(lead.id_uuid || lead.id || lead.full_name || "lead");
   let hash = 0;
   for (let index = 0; index < key.length; index += 1) hash = ((hash << 5) - hash + key.charCodeAt(index)) | 0;
   return LEAD_ACCENTS[Math.abs(hash) % LEAD_ACCENTS.length];
@@ -53,9 +53,8 @@ export default function LeadCard({ lead }: { lead: LeadRecord }) {
             {lead.phone && <span><Phone size={13} aria-hidden="true" />{lead.phone}</span>}
           </span>
           <span className="hlc-lead-context">
-            {lead.lead_code && <span>#{lead.lead_code}</span>}
+            <span>Lead #{lead.id}</span>
             {lead.source && <span>Source: {lead.source}</span>}
-            {lead.priority && <span>Priority: {lead.priority}</span>}
             {appointmentLabel && <span>Appointment: {appointmentLabel}</span>}
           </span>
         </span>
