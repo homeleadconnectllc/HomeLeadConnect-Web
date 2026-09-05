@@ -1,0 +1,88 @@
+/* Physical-iPhone interactive contrast closure — 2026-09-05.
+   Contrast only. No layout, spacing, routing, workflow, or geometry changes. */
+
+@layer hlcRedesign {
+  /* Home quick actions: labels were physically too dark on the midnight cards. */
+  html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-quick-row-v2 > a,
+  html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-quick-row-v2 > a > span {
+    color: #f8fafc !important;
+    -webkit-text-fill-color: #f8fafc !important;
+    opacity: 1 !important;
+  }
+
+  /* Keep the quick-action icons intentionally accented, but ensure their strokes stay visible. */
+  html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-quick-row-v2 > a > svg,
+  html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-quick-row-v2 > a > svg * {
+    color: #93c5fd !important;
+    stroke: #93c5fd !important;
+    opacity: 1 !important;
+  }
+
+  html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-quick-row-v2 > a:nth-child(2) > svg,
+  html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-quick-row-v2 > a:nth-child(2) > svg *,
+  html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-quick-row-v2 > a:nth-child(4) > svg,
+  html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-quick-row-v2 > a:nth-child(4) > svg * {
+    color: #c4b5fd !important;
+    stroke: #c4b5fd !important;
+  }
+
+  /* Mobile primary navigation: force icon strokes and labels to the same readable foreground. */
+  html body #root .hlc-signed-in-shell :is(
+    .hlc-mobile-bottom-nav,
+    .hlc-mobile-nav,
+    .hlc-bottom-nav
+  ) :is(a,button) {
+    color: #e2e8f0 !important;
+    -webkit-text-fill-color: #e2e8f0 !important;
+    opacity: 1 !important;
+  }
+
+  html body #root .hlc-signed-in-shell :is(
+    .hlc-mobile-bottom-nav,
+    .hlc-mobile-nav,
+    .hlc-bottom-nav
+  ) :is(a,button) :is(span,strong,small) {
+    color: inherit !important;
+    -webkit-text-fill-color: currentColor !important;
+    opacity: 1 !important;
+  }
+
+  html body #root .hlc-signed-in-shell :is(
+    .hlc-mobile-bottom-nav,
+    .hlc-mobile-nav,
+    .hlc-bottom-nav
+  ) :is(a,button) svg,
+  html body #root .hlc-signed-in-shell :is(
+    .hlc-mobile-bottom-nav,
+    .hlc-mobile-nav,
+    .hlc-bottom-nav
+  ) :is(a,button) svg * {
+    color: #cbd5e1 !important;
+    stroke: #cbd5e1 !important;
+    opacity: 1 !important;
+  }
+
+  html body #root .hlc-signed-in-shell :is(
+    .hlc-mobile-bottom-nav,
+    .hlc-mobile-nav,
+    .hlc-bottom-nav
+  ) :is(a[aria-current="page"],button[aria-current="page"],.active) {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+
+  html body #root .hlc-signed-in-shell :is(
+    .hlc-mobile-bottom-nav,
+    .hlc-mobile-nav,
+    .hlc-bottom-nav
+  ) :is(a[aria-current="page"],button[aria-current="page"],.active) svg,
+  html body #root .hlc-signed-in-shell :is(
+    .hlc-mobile-bottom-nav,
+    .hlc-mobile-nav,
+    .hlc-bottom-nav
+  ) :is(a[aria-current="page"],button[aria-current="page"],.active) svg * {
+    color: #a5b4fc !important;
+    stroke: #a5b4fc !important;
+    opacity: 1 !important;
+  }
+}
