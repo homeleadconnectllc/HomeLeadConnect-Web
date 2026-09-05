@@ -85,6 +85,7 @@ import "./mobile-command-menu-rebuild-20260905.css";
 import "./messages-lane-2-mobile-authority.css";
 import "./app-directory-source-authority.css";
 import "./community-hub-source-authority.css";
+import "./work-home-source-authority.css";
 import "./live-white-island-eradication-20260905.css";
 import "./dashboard-home-source-authority.css";
 import "./dashboard-context-hero.css";
@@ -95,7 +96,6 @@ import "./authenticated-contrast-closure-20260905.css";
 import "./authenticated-interactive-contrast-physical-fix-20260905.css";
 import "./community-commandbar-physical-closure-20260905.css";
 import "./global-visual-cleanup-physical-20260905.css";
-import "./work-home-source-authority.css";
 
 export default function AuthenticatedStyles() {
   return <MobileNavigationDialogAccessibility />;
