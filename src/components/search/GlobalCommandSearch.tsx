@@ -120,7 +120,7 @@ export default function GlobalCommandSearch() {
     <div className="hlc-command-search-backdrop" role="presentation" onMouseDown={(event) => {
       if (event.currentTarget === event.target) setOpen(false);
     }}>
-      <section className="hlc-command-search" role="dialog" aria-modal="true" aria-label="Search HomeLead Connect">
+      <section id="hlc-command-search-source" className="hlc-command-search" role="dialog" aria-modal="true" aria-label="Search HomeLead Connect">
         <header className="hlc-command-search-header">
           <Search size={20} aria-hidden="true" />
           <input
