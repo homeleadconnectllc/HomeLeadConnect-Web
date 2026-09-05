@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import CommunityStore from "../../components/community/CommunityStore";
+import "../../styles/community-hub-source-authority.css";
 
 const villageBranches = [
   {
