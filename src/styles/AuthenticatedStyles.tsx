@@ -90,6 +90,7 @@ import "./live-white-island-eradication-20260905.css";
 import "./dashboard-home-source-authority.css";
 import "./dashboard-context-hero.css";
 import "./dashboard-physical-root-fix-20260905.css";
+import "./ai-team-context-source-authority-20260905.css";
 
 export default function AuthenticatedStyles() {
   return <MobileNavigationDialogAccessibility />;
