@@ -92,6 +92,7 @@ import "./dashboard-context-hero.css";
 import "./dashboard-physical-root-fix-20260905.css";
 import "./ai-team-context-source-authority-20260905.css";
 import "./dashboard-ai-team-mobile-physical-fix-20260905.css";
+import "./authenticated-contrast-closure-20260905.css";
 
 export default function AuthenticatedStyles() {
   return <MobileNavigationDialogAccessibility />;
