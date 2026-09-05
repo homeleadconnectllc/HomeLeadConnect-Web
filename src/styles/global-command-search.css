@@ -19,9 +19,9 @@
 .hlc-mobile-command-search-trigger small { color: #c9c3df !important; font-size: .7rem; }
 .hlc-mobile-command-search-trigger b { color: #b8a9ff !important; font-size: 1rem; }
 
-/* This dialog is portaled outside the authenticated shell. Make the component itself
-   authoritative so neutral/reset CSS cannot turn it back into a white sheet. */
-.hlc-command-search-backdrop {
+/* This dialog owns its presentation at component source. It is rendered outside parts
+   of the signed-in route tree, so route/theme card rules must not paint its descendants. */
+body .hlc-command-search-backdrop {
   position: fixed;
   inset: 0;
   z-index: 1200;
@@ -34,7 +34,7 @@
   color-scheme: dark;
 }
 
-.hlc-command-search {
+body .hlc-command-search {
   width: min(720px, 100%);
   max-height: min(760px, calc(100dvh - 36px - env(safe-area-inset-top) - env(safe-area-inset-bottom)));
   overflow: hidden;
@@ -45,7 +45,7 @@
   color: #faf8ff !important;
 }
 
-.hlc-command-search-header {
+body .hlc-command-search-header {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
@@ -57,7 +57,7 @@
   color: #b8a9ff !important;
 }
 
-.hlc-command-search-header input {
+body .hlc-command-search-header input {
   width: 100%;
   min-height: 44px;
   border: 1px solid rgba(156, 135, 255, .26) !important;
@@ -72,9 +72,9 @@
   opacity: 1 !important;
 }
 
-.hlc-command-search-header input::placeholder { color: #aaa2c8 !important; opacity: 1 !important; }
+body .hlc-command-search-header input::placeholder { color: #aaa2c8 !important; opacity: 1 !important; }
 
-.hlc-command-search-header button {
+body .hlc-command-search-header button {
   display: grid;
   place-items: center;
   width: 44px;
@@ -85,7 +85,7 @@
   color: #fff !important;
 }
 
-.hlc-command-search-results {
+body .hlc-command-search-results {
   max-height: min(610px, calc(100dvh - 172px - env(safe-area-inset-top) - env(safe-area-inset-bottom)));
   overflow-y: auto;
   overscroll-behavior: contain;
@@ -94,7 +94,7 @@
   color: #faf8ff !important;
 }
 
-.hlc-command-search-results > button {
+body .hlc-command-search-results > button {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
@@ -109,22 +109,35 @@
   text-align: left;
 }
 
-.hlc-command-search-results > button:hover,
-.hlc-command-search-results > button:focus-visible {
+body .hlc-command-search-results > button:hover,
+body .hlc-command-search-results > button:focus-visible {
   border-color: #9c87ff !important;
   outline: 0;
   background: #261c59 !important;
 }
 
-.hlc-command-search-result-copy { display: grid; gap: 2px; min-width: 0; background: transparent !important; }
-.hlc-command-search-result-copy strong { overflow: hidden; color: #fff !important; font-size: .92rem; text-overflow: ellipsis; white-space: nowrap; background: transparent !important; }
-.hlc-command-search-result-copy small { overflow: hidden; color: #c9c3df !important; font-size: .75rem; text-overflow: ellipsis; white-space: nowrap; background: transparent !important; }
+/* Explicit descendant ownership prevents generic signed-in button/span/card rules from
+   recreating the physical-iPhone white pills inside otherwise-dark search rows. */
+body .hlc-command-search-results > button > .hlc-command-search-result-copy,
+body .hlc-command-search-results > button > .hlc-command-search-result-copy > strong,
+body .hlc-command-search-results > button > .hlc-command-search-result-copy > small {
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  background-image: none !important;
+}
+body .hlc-command-search-result-copy { display: grid; gap: 2px; min-width: 0; padding: 0 !important; }
+body .hlc-command-search-result-copy strong { overflow: hidden; color: #fff !important; font-size: .92rem; text-overflow: ellipsis; white-space: nowrap; }
+body .hlc-command-search-result-copy small { overflow: hidden; color: #c9c3df !important; font-size: .75rem; text-overflow: ellipsis; white-space: nowrap; }
 
-.hlc-command-search-group {
+body .hlc-command-search-results > button > .hlc-command-search-group {
   padding: 5px 8px;
   border: 1px solid rgba(156, 135, 255, .34) !important;
-  border-radius: 999px;
+  border-radius: 999px !important;
   background: rgba(115, 87, 255, .18) !important;
+  background-image: none !important;
+  box-shadow: none !important;
   color: #e5ddff !important;
   font-size: .65rem;
   font-weight: 800;
@@ -132,10 +145,18 @@
   white-space: nowrap;
 }
 
-.hlc-command-search-empty { display: grid; gap: 4px; padding: 24px 14px; background: #0d0d23 !important; color: #c9c3df !important; font-size: .82rem; }
-.hlc-command-search-empty strong { color: #fff !important; }
+body .hlc-command-search-empty { display: grid; gap: 4px; padding: 24px 14px; background: #0d0d23 !important; color: #c9c3df !important; font-size: .82rem; }
+body .hlc-command-search-empty strong { color: #fff !important; }
 
-.hlc-command-search-footer {
+body .hlc-command-search-footer,
+body .hlc-command-search-footer > span {
+  border-radius: 0 !important;
+  background: #09091b !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  color: #c9c3df !important;
+}
+body .hlc-command-search-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -143,18 +164,16 @@
   min-height: 46px;
   padding: 8px 14px;
   border-top: 1px solid rgba(156, 135, 255, .24) !important;
-  background: #09091b !important;
-  color: #c9c3df !important;
   font-size: .69rem;
 }
 
-.hlc-command-search-footer kbd { padding: 3px 7px; border: 1px solid rgba(156,135,255,.30) !important; border-radius: 7px; background: #171044 !important; color: #e5ddff !important; font: inherit; font-weight: 750; }
+body .hlc-command-search-footer kbd { padding: 3px 7px; border: 1px solid rgba(156,135,255,.30) !important; border-radius: 7px; background: #171044 !important; color: #e5ddff !important; font: inherit; font-weight: 750; }
 
 @media (max-width: 720px) {
-  .hlc-command-search-backdrop { align-items: stretch; padding: max(8px, env(safe-area-inset-top)) 8px max(8px, env(safe-area-inset-bottom)); }
-  .hlc-command-search { width: 100%; max-height: calc(100dvh - max(16px, env(safe-area-inset-top)) - max(16px, env(safe-area-inset-bottom))); border-radius: 18px; }
-  .hlc-command-search-header { min-height: 60px; }
-  .hlc-command-search-results { max-height: calc(100dvh - 154px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); }
-  .hlc-command-search-results > button { min-height: 66px; }
-  .hlc-command-search-footer kbd { display: none; }
+  body .hlc-command-search-backdrop { align-items: stretch; padding: max(8px, env(safe-area-inset-top)) 8px max(8px, env(safe-area-inset-bottom)); }
+  body .hlc-command-search { width: 100%; max-height: calc(100dvh - max(16px, env(safe-area-inset-top)) - max(16px, env(safe-area-inset-bottom))); border-radius: 18px; }
+  body .hlc-command-search-header { min-height: 60px; }
+  body .hlc-command-search-results { max-height: calc(100dvh - 154px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); }
+  body .hlc-command-search-results > button { min-height: 66px; }
+  body .hlc-command-search-footer kbd { display: none; }
 }
