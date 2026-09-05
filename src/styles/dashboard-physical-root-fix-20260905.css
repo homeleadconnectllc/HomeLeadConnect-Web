@@ -40,7 +40,7 @@
       display: block !important;
       min-height: 0 !important;
       height: auto !important;
-      padding-bottom: var(--hlc-mobile-content-clearance) !important;
+      padding-bottom: 0 !important;
     }
 
     html body #root .hlc-signed-in-shell.hlc-page-dashboard > .hlc-route-content > main.hlc-home-workspace {
