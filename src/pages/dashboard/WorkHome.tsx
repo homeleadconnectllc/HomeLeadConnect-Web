@@ -1,14 +1,23 @@
 import { Link } from "react-router-dom";
-import { MessageSquare, Phone } from "lucide-react";
+import {
+  Briefcase,
+  CalendarDays,
+  CircleCheck,
+  FileText,
+  MessageSquare,
+  Phone,
+  UserRound,
+  Users,
+} from "lucide-react";
 import "../../styles/work-home-source-authority.css";
 
 const primaryWork = [
-  { title: "Leads", note: "Requests, qualification, ownership and next actions.", route: "/leads" },
-  { title: "Estimates", note: "Scope, pricing, options and estimate-to-job handoff.", route: "/estimator" },
-  { title: "Jobs", note: "Scheduled, active and completed service work.", route: "/jobs" },
-  { title: "Calendar", note: "Appointments, availability and upcoming commitments.", route: "/calendar" },
-  { title: "Follow-Ups", note: "Due, waiting, overdue and completed relationship work.", route: "/follow-ups" },
-  { title: "Provider Fit", note: "Eligibility and fit evidence before assignment.", route: "/work/matching" },
+  { title: "Leads", note: "Requests, qualification, ownership and next actions.", route: "/leads", icon: Users },
+  { title: "Estimates", note: "Scope, pricing, options and estimate-to-job handoff.", route: "/estimator", icon: FileText },
+  { title: "Jobs", note: "Scheduled, active and completed service work.", route: "/jobs", icon: Briefcase },
+  { title: "Calendar", note: "Appointments, availability and upcoming commitments.", route: "/calendar", icon: CalendarDays },
+  { title: "Follow-Ups", note: "Due, waiting, overdue and completed relationship work.", route: "/follow-ups", icon: CircleCheck },
+  { title: "Provider Fit", note: "Eligibility and fit evidence before assignment.", route: "/work/matching", icon: UserRound },
 ] as const;
 
 const communicationWork = [
@@ -29,15 +38,19 @@ export default function WorkHome() {
       </header>
 
       <nav className="hlc-parent-branch-list" aria-label="Work areas">
-        {primaryWork.map((area) => (
-          <Link className="hlc-parent-branch-row" to={area.route} key={area.route}>
-            <span>
-              <strong>{area.title}</strong>
-              <small>{area.note}</small>
-            </span>
-            <b aria-hidden="true">→</b>
-          </Link>
-        ))}
+        {primaryWork.map((area) => {
+          const Icon = area.icon;
+          return (
+            <Link className="hlc-parent-branch-row" to={area.route} key={area.route}>
+              <span className="hlc-work-primary-icon" aria-hidden="true"><Icon size={23} /></span>
+              <span className="hlc-work-primary-copy">
+                <strong>{area.title}</strong>
+                <small>{area.note}</small>
+              </span>
+              <b aria-hidden="true">›</b>
+            </Link>
+          );
+        })}
       </nav>
 
       <section className="hlc-parent-secondary" aria-labelledby="work-communications-heading">
@@ -52,7 +65,7 @@ export default function WorkHome() {
               <Link className="hlc-work-communication-link" to={item.route} key={item.route}>
                 <span className="hlc-work-communication-icon" aria-hidden="true"><Icon size={21} /></span>
                 <strong>{item.title}</strong>
-                <b aria-hidden="true">→</b>
+                <b aria-hidden="true">›</b>
               </Link>
             );
           })}
