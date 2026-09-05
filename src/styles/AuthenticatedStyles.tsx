@@ -87,6 +87,7 @@ import "./app-directory-source-authority.css";
 import "./community-hub-source-authority.css";
 import "./work-home-source-authority.css";
 import "./live-white-island-eradication-20260905.css";
+import "./dashboard-home-source-authority.css";
 import "./dashboard-context-hero.css";
 
 export default function AuthenticatedStyles() {
