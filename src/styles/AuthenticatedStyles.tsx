@@ -42,12 +42,6 @@ import "./mobile-a-plus-final-device-round-2.css";
 import "./provider-professional-profile.css";
 import "./mobile-a-plus-final-device-round-3.css";
 import "./mobile-a-plus-private-beta-closure.css";
-import "./mobile-a-plus-sidebar-final-closure.css";
-import "./mobile-a-plus-drawer-root-isolation.css";
-import "./mobile-a-plus-drawer-top-flow-closure.css";
-import "./mobile-drawer-remove-top-band.css";
-import "./mobile-drawer-visual-viewport-root-fix.css";
-import "./mobile-drawer-v2-authority.css";
 import "./final-mobile-polish.css";
 import "./soft-launch-mobile-dashboard-authority.css";
 import "./soft-launch-manual-communications-authority.css";
@@ -86,6 +80,7 @@ import "./version-a-global-family-authority-20260904.css";
 import "./version-a-image2-final-authority-20260904.css";
 import "./live-white-island-eradication-20260905.css";
 import "./dashboard-context-hero.css";
+import "./mobile-command-sheet-source-authority.css";
 import "./messages-lane-2-mobile-authority.css";
 
 export default function AuthenticatedStyles() {
