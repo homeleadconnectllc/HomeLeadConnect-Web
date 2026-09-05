@@ -1,0 +1,314 @@
+/* Final authenticated contrast closure — physical iPhone 2026-09-05.
+   Contrast only: no layout, spacing, routing, workflow, or geometry changes. */
+
+@layer hlcRedesign {
+  .hlc-signed-in-shell {
+    --hlc-contrast-ink: #f8fafc;
+    --hlc-contrast-body: #e2e8f0;
+    --hlc-contrast-muted: #cbd5e1;
+    --hlc-contrast-link: #c4b5fd;
+    --hlc-contrast-panel: #0b1232;
+    --hlc-contrast-panel-2: #111a42;
+    --hlc-contrast-border: rgba(129, 140, 248, .34);
+  }
+
+  /* Keep legacy light section banners from surviving inside the authenticated dark app. */
+  html body #root .hlc-signed-in-shell :is(
+    .hlc-app-directory-group > header,
+    .hlc-directory-group-header,
+    .hlc-parent-index-header,
+    .hlc-section-header,
+    .hlc-group-header,
+    .hlc-community-lane-head,
+    .hlc-community-header
+  ) {
+    background: linear-gradient(145deg, rgba(20, 29, 68, .98), rgba(8, 14, 42, .99)) !important;
+    background-image: linear-gradient(145deg, rgba(20, 29, 68, .98), rgba(8, 14, 42, .99)) !important;
+    color: var(--hlc-contrast-ink) !important;
+    -webkit-text-fill-color: var(--hlc-contrast-ink) !important;
+    border-color: var(--hlc-contrast-border) !important;
+  }
+
+  html body #root .hlc-signed-in-shell :is(
+    .hlc-app-directory-group > header,
+    .hlc-directory-group-header,
+    .hlc-parent-index-header,
+    .hlc-section-header,
+    .hlc-group-header,
+    .hlc-community-lane-head,
+    .hlc-community-header
+  ) :is(h1,h2,h3,h4,strong,b,span,p,small) {
+    background: transparent !important;
+    background-image: none !important;
+    color: inherit !important;
+    -webkit-text-fill-color: currentColor !important;
+  }
+
+  /* Primary copy on dark authenticated surfaces. */
+  html body #root .hlc-signed-in-shell :is(
+    .hlc-route-content,
+    .hlc-parent-index,
+    .hlc-parent-secondary,
+    .hlc-app-directory,
+    .hlc-community-v2,
+    .hlc-community-hub,
+    .hlc-messages-app,
+    .hlc-mobile-command-sheet,
+    .hlc-home-workspace,
+    .hlc-agent-panel,
+    .hlc-ai-team-panel
+  ) :is(h1,h2,h3,h4,h5,h6,strong,b) {
+    color: var(--hlc-contrast-ink) !important;
+    -webkit-text-fill-color: var(--hlc-contrast-ink) !important;
+  }
+
+  html body #root .hlc-signed-in-shell :is(
+    .hlc-route-content,
+    .hlc-parent-index,
+    .hlc-parent-secondary,
+    .hlc-app-directory,
+    .hlc-community-v2,
+    .hlc-community-hub,
+    .hlc-messages-app,
+    .hlc-mobile-command-sheet,
+    .hlc-home-workspace,
+    .hlc-agent-panel,
+    .hlc-ai-team-panel
+  ) :is(p,li,label,dt,dd) {
+    color: var(--hlc-contrast-body) !important;
+  }
+
+  html body #root .hlc-signed-in-shell :is(
+    .hlc-route-content,
+    .hlc-parent-index,
+    .hlc-parent-secondary,
+    .hlc-app-directory,
+    .hlc-community-v2,
+    .hlc-community-hub,
+    .hlc-messages-app,
+    .hlc-mobile-command-sheet,
+    .hlc-home-workspace,
+    .hlc-agent-panel,
+    .hlc-ai-team-panel
+  ) :is(small,time,.meta,.metadata,.subtitle,.caption,.description,.helper,.hint) {
+    color: var(--hlc-contrast-muted) !important;
+    -webkit-text-fill-color: var(--hlc-contrast-muted) !important;
+  }
+
+  /* Command rows/cards shown in More, App Directory, Community and operational indexes. */
+  html body #root .hlc-signed-in-shell :is(
+    .hlc-mobile-command-sheet a,
+    .hlc-mobile-command-sheet button,
+    .hlc-app-directory-links > a,
+    .hlc-app-directory-quick > a,
+    .hlc-app-directory-support > a,
+    .hlc-parent-secondary nav a,
+    .hlc-parent-boundary a,
+    .hlc-parent-branch-row,
+    .hlc-community-v2 a,
+    .hlc-community-v2 button
+  ) {
+    color: var(--hlc-contrast-ink) !important;
+    -webkit-text-fill-color: var(--hlc-contrast-ink) !important;
+  }
+
+  html body #root .hlc-signed-in-shell :is(
+    .hlc-mobile-command-sheet a,
+    .hlc-mobile-command-sheet button,
+    .hlc-app-directory-links > a,
+    .hlc-app-directory-quick > a,
+    .hlc-app-directory-support > a,
+    .hlc-parent-secondary nav a,
+    .hlc-parent-boundary a,
+    .hlc-parent-branch-row,
+    .hlc-community-v2 a,
+    .hlc-community-v2 button
+  ) :is(strong,b) {
+    color: var(--hlc-contrast-ink) !important;
+    -webkit-text-fill-color: var(--hlc-contrast-ink) !important;
+  }
+
+  html body #root .hlc-signed-in-shell :is(
+    .hlc-mobile-command-sheet a,
+    .hlc-mobile-command-sheet button,
+    .hlc-app-directory-links > a,
+    .hlc-app-directory-quick > a,
+    .hlc-app-directory-support > a,
+    .hlc-parent-secondary nav a,
+    .hlc-parent-boundary a,
+    .hlc-parent-branch-row,
+    .hlc-community-v2 a,
+    .hlc-community-v2 button
+  ) :is(small,.meta,.subtitle,.description) {
+    color: var(--hlc-contrast-muted) !important;
+    -webkit-text-fill-color: var(--hlc-contrast-muted) !important;
+  }
+
+  html body #root .hlc-signed-in-shell a:not(.hlc-brand-mark):not(.hlc-logo-link) {
+    text-decoration-color: currentColor;
+  }
+
+  /* Inputs and controls must never inherit dark ink on the dark form surface. */
+  html body #root .hlc-signed-in-shell :is(input,textarea,select,[contenteditable="true"]) {
+    color: var(--hlc-contrast-ink) !important;
+    -webkit-text-fill-color: var(--hlc-contrast-ink) !important;
+    caret-color: var(--hlc-contrast-ink) !important;
+  }
+
+  html body #root .hlc-signed-in-shell :is(input,textarea)::placeholder {
+    color: var(--hlc-contrast-muted) !important;
+    -webkit-text-fill-color: var(--hlc-contrast-muted) !important;
+    opacity: 1 !important;
+  }
+
+  /* Known pale/legacy surfaces: either darken them or give them dark ink, never light-on-light. */
+  html body #root .hlc-signed-in-shell :is(
+    [class*="light-surface"],
+    [class*="white-surface"],
+    [class*="light-card"],
+    [class*="white-card"]
+  ) {
+    background: var(--hlc-contrast-panel) !important;
+    background-image: linear-gradient(145deg, rgba(20, 29, 68, .98), rgba(8, 14, 42, .99)) !important;
+    color: var(--hlc-contrast-ink) !important;
+    border-color: var(--hlc-contrast-border) !important;
+  }
+
+  html body #root .hlc-signed-in-shell :is(
+    [class*="light-surface"],
+    [class*="white-surface"],
+    [class*="light-card"],
+    [class*="white-card"]
+  ) :is(h1,h2,h3,h4,strong,b,p,span,small,label) {
+    color: inherit !important;
+    -webkit-text-fill-color: currentColor !important;
+  }
+
+  /* Home quick actions: physical iPhone proved the labels need explicit ownership. */
+  html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-quick-row-v2 > a,
+  html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-quick-row-v2 > a > span {
+    color: #f8fafc !important;
+    -webkit-text-fill-color: #f8fafc !important;
+    opacity: 1 !important;
+  }
+
+  html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-quick-row-v2 > a > svg,
+  html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-quick-row-v2 > a > svg * {
+    color: #9ec5ff !important;
+    stroke: #9ec5ff !important;
+    fill: none !important;
+    opacity: 1 !important;
+  }
+
+  /* Actual production mobile nav wrapper is .hlc-mobile-tabbar. */
+  html body #root .hlc-signed-in-shell .hlc-mobile-tabbar :is(a,button) {
+    color: #dbe4ff !important;
+    -webkit-text-fill-color: #dbe4ff !important;
+    opacity: 1 !important;
+  }
+
+  html body #root .hlc-signed-in-shell .hlc-mobile-tabbar :is(a,button) > span {
+    color: #dbe4ff !important;
+    -webkit-text-fill-color: #dbe4ff !important;
+    opacity: 1 !important;
+  }
+
+  html body #root .hlc-signed-in-shell .hlc-mobile-tabbar :is(a,button) > svg,
+  html body #root .hlc-signed-in-shell .hlc-mobile-tabbar :is(a,button) > svg * {
+    color: #b8c6ff !important;
+    stroke: #b8c6ff !important;
+    fill: none !important;
+    opacity: 1 !important;
+  }
+
+  html body #root .hlc-signed-in-shell .hlc-mobile-tabbar :is(a[aria-current="page"],button.is-active,a.is-active) {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+
+  html body #root .hlc-signed-in-shell .hlc-mobile-tabbar :is(a[aria-current="page"],button.is-active,a.is-active) > svg,
+  html body #root .hlc-signed-in-shell .hlc-mobile-tabbar :is(a[aria-current="page"],button.is-active,a.is-active) > svg * {
+    color: #a78bfa !important;
+    stroke: #a78bfa !important;
+    fill: none !important;
+    opacity: 1 !important;
+  }
+
+  /* Work hero physical contrast: source-owned classes, no geometry change. */
+  html body #root .hlc-signed-in-shell .hlc-work-home .hlc-parent-index-header,
+  html body #root .hlc-signed-in-shell .hlc-work-home .hlc-parent-index-header > div {
+    color: #f8fafc !important;
+    -webkit-text-fill-color: #f8fafc !important;
+  }
+
+  html body #root .hlc-signed-in-shell .hlc-work-home .hlc-parent-index-header :is(.hlc-parent-eyebrow,h1) {
+    color: #f8fafc !important;
+    -webkit-text-fill-color: #f8fafc !important;
+    opacity: 1 !important;
+  }
+
+  html body #root .hlc-signed-in-shell .hlc-work-home .hlc-parent-index-header p {
+    color: #d8dbea !important;
+    -webkit-text-fill-color: #d8dbea !important;
+    opacity: 1 !important;
+  }
+
+  /* Community command bar: remove the remaining white island and keep every label readable. */
+  html body #root .hlc-signed-in-shell .hlc-community-v2 .hlc-community-v2-commandbar {
+    background: linear-gradient(145deg, rgba(17, 24, 59, .98), rgba(9, 14, 40, .99)) !important;
+    background-image: linear-gradient(145deg, rgba(17, 24, 59, .98), rgba(9, 14, 40, .99)) !important;
+    border-color: rgba(129, 140, 248, .34) !important;
+  }
+
+  html body #root .hlc-signed-in-shell .hlc-community-v2 .hlc-community-v2-commandbar > a {
+    background: rgba(255,255,255,.045) !important;
+    background-image: none !important;
+    color: #f8fafc !important;
+    -webkit-text-fill-color: #f8fafc !important;
+    border-color: rgba(255,255,255,.14) !important;
+    opacity: 1 !important;
+  }
+
+  /* Messages physical contrast: top title island and Inbox label. */
+  html body #root .hlc-signed-in-shell .hlc-messages-workspace .hlc-messages-app-topbar {
+    background: linear-gradient(145deg, rgba(17, 24, 59, .98), rgba(9, 14, 40, .99)) !important;
+    background-image: linear-gradient(145deg, rgba(17, 24, 59, .98), rgba(9, 14, 40, .99)) !important;
+    color: #f8fafc !important;
+    border-color: rgba(129, 140, 248, .34) !important;
+  }
+
+  html body #root .hlc-signed-in-shell .hlc-messages-workspace .hlc-messages-app-topbar :is(.hlc-messages-kicker,h1),
+  html body #root .hlc-signed-in-shell .hlc-messages-workspace .hlc-conversation-list-heading :is(span,strong) {
+    color: #f8fafc !important;
+    -webkit-text-fill-color: #f8fafc !important;
+    opacity: 1 !important;
+  }
+
+  html body #root .hlc-signed-in-shell .hlc-messages-workspace .hlc-conversation-list-heading p,
+  html body #root .hlc-signed-in-shell .hlc-messages-workspace .hlc-messages-empty {
+    color: #e2e8f0 !important;
+    -webkit-text-fill-color: #e2e8f0 !important;
+    opacity: 1 !important;
+  }
+
+  /* Legacy aliases retained for older authenticated shells. */
+  html body #root .hlc-signed-in-shell :is(.hlc-mobile-bottom-nav,.hlc-mobile-nav,.hlc-bottom-nav) :is(a,button) {
+    color: #dbe4ff !important;
+    -webkit-text-fill-color: #dbe4ff !important;
+  }
+
+  html body #root .hlc-signed-in-shell :is(.hlc-mobile-bottom-nav,.hlc-mobile-nav,.hlc-bottom-nav) :is(a[aria-current="page"],button[aria-current="page"],.active) {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+
+  html body #root .hlc-signed-in-shell :is(.hlc-agent-panel,.hlc-ai-team-panel,.hlc-home-ai-rail) :is(strong,h2,h3) {
+    color: var(--hlc-contrast-ink) !important;
+    -webkit-text-fill-color: var(--hlc-contrast-ink) !important;
+  }
+
+  html body #root .hlc-signed-in-shell :is(.hlc-agent-panel,.hlc-ai-team-panel,.hlc-home-ai-rail) :is(small,p,.subtitle,.description) {
+    color: var(--hlc-contrast-muted) !important;
+    -webkit-text-fill-color: var(--hlc-contrast-muted) !important;
+  }
+}
