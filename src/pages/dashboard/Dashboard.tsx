@@ -127,13 +127,14 @@ export default function Dashboard() {
 
   return (
     <main className="hlc-home-workspace hlc-home-structural">
-      <div className="hlc-home-topbar" role="group" aria-label="Home overview">
-        <div>
+      <div className="hlc-home-topbar hlc-home-topbar-v2" role="group" aria-label="Home overview">
+        <img className="hlc-home-topbar-art" src="/portal-visuals/operations-command.svg" alt="" aria-hidden="true" />
+        <div className="hlc-home-intro-v2">
           <span className="hlc-home-eyebrow">HOME</span>
           <h1 className="hlc-greeting">{greeting}</h1>
           <p>What needs your attention right now.</p>
         </div>
-        <div className="hlc-home-top-actions">
+        <div className="hlc-home-top-actions hlc-home-top-actions-v2">
           <button type="button" aria-label="Search HomeLead Connect" onClick={openGlobalSearch}><Search size={20} /></button>
           <Link to="/notifications" aria-label="Open notifications"><Bell size={20} /></Link>
           <Link className="hlc-home-identity" to="/profile" aria-label="Open your profile">
@@ -186,7 +187,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="hlc-home-quick-row" aria-label="Quick actions">
+      <div className="hlc-home-quick-row hlc-home-quick-row-v2" aria-label="Quick actions">
         <Link to="/leads"><UsersRound size={19} /><span>Leads</span></Link>
         <Link to="/messages"><MessageCircle size={19} /><span>Messages</span></Link>
         <Link to="/call-center"><PhoneCall size={19} /><span>Calls</span></Link>
