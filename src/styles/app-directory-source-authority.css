@@ -1,8 +1,9 @@
-/* App Directory owns its first-day, search, quick-link and group surfaces. These are
-   navigation controls, not light cards, and physical-iPhone authority keeps them dark. */
-.hlc-app-directory,
-.hlc-app-directory :is(header, section, article, nav, div, label) {
+/* Physical-reference authority — App Directory.
+   Keep every directory surface dark, compact and high-contrast. */
+.hlc-app-directory {
   color-scheme: dark;
+  background: #060b26 !important;
+  color: #f8fafc !important;
 }
 
 .hlc-app-directory :is(
@@ -15,9 +16,32 @@
   .hlc-app-directory-support,
   .hlc-app-directory-empty
 ) {
-  background-color: transparent !important;
+  background: transparent !important;
   background-image: none !important;
   box-shadow: none !important;
+  color: #f8fafc !important;
+}
+
+.hlc-app-directory :is(h1,h2,h3,.hlc-app-directory-group > header,.hlc-app-directory-empty) {
+  text-align: center !important;
+}
+
+.hlc-app-directory .hlc-app-directory-group > header,
+.hlc-app-directory .hlc-app-directory-group > header :is(div,span,strong,small,b) {
+  background: #060b26 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  color: #f8fafc !important;
+}
+
+.hlc-app-directory .hlc-app-directory-group > header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 8px 12px;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(110,124,255,.24) !important;
 }
 
 .hlc-app-directory-search,
@@ -26,53 +50,56 @@
   background-image: none !important;
   box-shadow: none !important;
 }
+
 .hlc-app-directory-search input {
-  border: 1px solid rgba(126,108,255,.32) !important;
+  border: 1px solid rgba(111,126,255,.42) !important;
   border-radius: 12px !important;
-  background: #090b20 !important;
+  background: #0a102d !important;
   background-image: none !important;
-  box-shadow: none !important;
-  color: #fff !important;
-  -webkit-text-fill-color: #fff !important;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.02) !important;
+  color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
 }
-.hlc-app-directory-search input::placeholder { color: #aaa8c9 !important; opacity: 1 !important; }
+.hlc-app-directory-search input::placeholder { color: #cbd5e1 !important; opacity: .9 !important; }
 
 .hlc-app-directory-first-day {
-  border: 1px solid rgba(126,108,255,.20) !important;
+  border: 1px solid rgba(110,124,255,.24) !important;
   border-radius: 16px !important;
-  background: linear-gradient(145deg,rgba(29,26,68,.92),rgba(11,13,35,.98)) !important;
-  color: #f8f7ff !important;
+  background: linear-gradient(145deg,rgba(18,27,63,.98),rgba(7,12,38,.99)) !important;
+  color: #f8fafc !important;
 }
 .hlc-app-directory-first-day > :is(strong,span,nav) {
   background: transparent !important;
   background-image: none !important;
 }
-.hlc-app-directory-first-day > span { color: #b9b7d1 !important; }
+.hlc-app-directory-first-day > span { color: #e2e8f0 !important; }
+
 .hlc-app-directory-first-day nav a,
 .hlc-app-directory-quick > a,
 .hlc-app-directory-links > a,
 .hlc-app-directory-support > a {
-  border: 1px solid rgba(126,108,255,.24) !important;
-  border-radius: 11px !important;
-  background: linear-gradient(145deg,rgba(42,34,91,.90),rgba(17,20,47,.98)) !important;
-  background-image: linear-gradient(145deg,rgba(42,34,91,.90),rgba(17,20,47,.98)) !important;
-  box-shadow: none !important;
-  color: #f8f7ff !important;
+  border: 1px solid rgba(116,128,255,.30) !important;
+  border-radius: 12px !important;
+  background: linear-gradient(145deg,rgba(28,36,82,.96),rgba(9,15,43,.99)) !important;
+  background-image: linear-gradient(145deg,rgba(28,36,82,.96),rgba(9,15,43,.99)) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.03) !important;
+  color: #f8fafc !important;
 }
+
 .hlc-app-directory :is(.hlc-app-directory-first-day nav a,.hlc-app-directory-quick > a,.hlc-app-directory-links > a,.hlc-app-directory-support > a) :is(span,strong,small,b) {
   background: transparent !important;
   background-image: none !important;
   box-shadow: none !important;
 }
-.hlc-app-directory :is(.hlc-app-directory-quick > a,.hlc-app-directory-links > a) strong { color:#fff !important; }
-.hlc-app-directory :is(.hlc-app-directory-quick > a,.hlc-app-directory-links > a) :is(span,small) { color:#b9b7d1 !important; }
-.hlc-app-directory :is(.hlc-app-directory-quick > a,.hlc-app-directory-links > a) b { color:#9f91ff !important; }
+.hlc-app-directory :is(.hlc-app-directory-quick > a,.hlc-app-directory-links > a,.hlc-app-directory-support > a) strong { color:#f8fafc !important; }
+.hlc-app-directory :is(.hlc-app-directory-quick > a,.hlc-app-directory-links > a,.hlc-app-directory-support > a) :is(span,small) { color:#e2e8f0 !important; }
+.hlc-app-directory :is(.hlc-app-directory-quick > a,.hlc-app-directory-links > a,.hlc-app-directory-support > a) b { color:#a5b4fc !important; }
 
-.hlc-app-directory-group > header,
-.hlc-app-directory-group > header :is(div,span,strong) {
-  background: transparent !important;
-  background-image: none !important;
-  box-shadow: none !important;
+.hlc-app-directory .hlc-app-directory-empty {
+  display: grid;
+  place-items: center;
+  min-height: 112px;
+  color: #e2e8f0 !important;
 }
 
 @media (max-width:760px) {
