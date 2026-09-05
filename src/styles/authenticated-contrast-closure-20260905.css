@@ -184,7 +184,114 @@
     -webkit-text-fill-color: currentColor !important;
   }
 
-  /* Bottom navigation and agent controls stay legible against the fixed midnight chrome. */
+  /* Home quick actions: physical iPhone proved the labels need explicit ownership. */
+  html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-quick-row-v2 > a,
+  html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-quick-row-v2 > a > span {
+    color: #f8fafc !important;
+    -webkit-text-fill-color: #f8fafc !important;
+    opacity: 1 !important;
+  }
+
+  html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-quick-row-v2 > a > svg,
+  html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-quick-row-v2 > a > svg * {
+    color: #9ec5ff !important;
+    stroke: #9ec5ff !important;
+    fill: none !important;
+    opacity: 1 !important;
+  }
+
+  /* Actual production mobile nav wrapper is .hlc-mobile-tabbar. */
+  html body #root .hlc-signed-in-shell .hlc-mobile-tabbar :is(a,button) {
+    color: #dbe4ff !important;
+    -webkit-text-fill-color: #dbe4ff !important;
+    opacity: 1 !important;
+  }
+
+  html body #root .hlc-signed-in-shell .hlc-mobile-tabbar :is(a,button) > span {
+    color: #dbe4ff !important;
+    -webkit-text-fill-color: #dbe4ff !important;
+    opacity: 1 !important;
+  }
+
+  html body #root .hlc-signed-in-shell .hlc-mobile-tabbar :is(a,button) > svg,
+  html body #root .hlc-signed-in-shell .hlc-mobile-tabbar :is(a,button) > svg * {
+    color: #b8c6ff !important;
+    stroke: #b8c6ff !important;
+    fill: none !important;
+    opacity: 1 !important;
+  }
+
+  html body #root .hlc-signed-in-shell .hlc-mobile-tabbar :is(a[aria-current="page"],button.is-active,a.is-active) {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+  }
+
+  html body #root .hlc-signed-in-shell .hlc-mobile-tabbar :is(a[aria-current="page"],button.is-active,a.is-active) > svg,
+  html body #root .hlc-signed-in-shell .hlc-mobile-tabbar :is(a[aria-current="page"],button.is-active,a.is-active) > svg * {
+    color: #a78bfa !important;
+    stroke: #a78bfa !important;
+    fill: none !important;
+    opacity: 1 !important;
+  }
+
+  /* Work hero physical contrast: source-owned classes, no geometry change. */
+  html body #root .hlc-signed-in-shell .hlc-work-home .hlc-parent-index-header,
+  html body #root .hlc-signed-in-shell .hlc-work-home .hlc-parent-index-header > div {
+    color: #f8fafc !important;
+    -webkit-text-fill-color: #f8fafc !important;
+  }
+
+  html body #root .hlc-signed-in-shell .hlc-work-home .hlc-parent-index-header :is(.hlc-parent-eyebrow,h1) {
+    color: #f8fafc !important;
+    -webkit-text-fill-color: #f8fafc !important;
+    opacity: 1 !important;
+  }
+
+  html body #root .hlc-signed-in-shell .hlc-work-home .hlc-parent-index-header p {
+    color: #d8dbea !important;
+    -webkit-text-fill-color: #d8dbea !important;
+    opacity: 1 !important;
+  }
+
+  /* Community command bar: remove the remaining white island and keep every label readable. */
+  html body #root .hlc-signed-in-shell .hlc-community-v2 .hlc-community-v2-commandbar {
+    background: linear-gradient(145deg, rgba(17, 24, 59, .98), rgba(9, 14, 40, .99)) !important;
+    background-image: linear-gradient(145deg, rgba(17, 24, 59, .98), rgba(9, 14, 40, .99)) !important;
+    border-color: rgba(129, 140, 248, .34) !important;
+  }
+
+  html body #root .hlc-signed-in-shell .hlc-community-v2 .hlc-community-v2-commandbar > a {
+    background: rgba(255,255,255,.045) !important;
+    background-image: none !important;
+    color: #f8fafc !important;
+    -webkit-text-fill-color: #f8fafc !important;
+    border-color: rgba(255,255,255,.14) !important;
+    opacity: 1 !important;
+  }
+
+  /* Messages physical contrast: top title island and Inbox label. */
+  html body #root .hlc-signed-in-shell .hlc-messages-workspace .hlc-messages-app-topbar {
+    background: linear-gradient(145deg, rgba(17, 24, 59, .98), rgba(9, 14, 40, .99)) !important;
+    background-image: linear-gradient(145deg, rgba(17, 24, 59, .98), rgba(9, 14, 40, .99)) !important;
+    color: #f8fafc !important;
+    border-color: rgba(129, 140, 248, .34) !important;
+  }
+
+  html body #root .hlc-signed-in-shell .hlc-messages-workspace .hlc-messages-app-topbar :is(.hlc-messages-kicker,h1),
+  html body #root .hlc-signed-in-shell .hlc-messages-workspace .hlc-conversation-list-heading :is(span,strong) {
+    color: #f8fafc !important;
+    -webkit-text-fill-color: #f8fafc !important;
+    opacity: 1 !important;
+  }
+
+  html body #root .hlc-signed-in-shell .hlc-messages-workspace .hlc-conversation-list-heading p,
+  html body #root .hlc-signed-in-shell .hlc-messages-workspace .hlc-messages-empty {
+    color: #e2e8f0 !important;
+    -webkit-text-fill-color: #e2e8f0 !important;
+    opacity: 1 !important;
+  }
+
+  /* Legacy aliases retained for older authenticated shells. */
   html body #root .hlc-signed-in-shell :is(.hlc-mobile-bottom-nav,.hlc-mobile-nav,.hlc-bottom-nav) :is(a,button) {
     color: #dbe4ff !important;
     -webkit-text-fill-color: #dbe4ff !important;
