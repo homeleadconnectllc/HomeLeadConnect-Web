@@ -5,6 +5,7 @@ import { createLead, listLeads, type LeadRecord } from "../../api/leads";
 import LeadCard from "../../components/leads/LeadCard";
 import { errorMessage } from "../../lib/errorMessage";
 import "../../styles/leads-application-workspace.css";
+import "../../styles/leads-command-header-source-authority.css";
 
 type ResidentType = "Renter" | "Homeowner" | "Property manager" | "Other";
 
@@ -72,7 +73,7 @@ export default function Leads() {
 
   return (
     <main className="hlc-leads-workspace">
-      <header className="hlc-leads-header">
+      <header className="hlc-leads-command-header">
         <div>
           <p className="hlc-page-eyebrow">CRM · Opportunity pipeline</p>
           <h1>Leads</h1>
