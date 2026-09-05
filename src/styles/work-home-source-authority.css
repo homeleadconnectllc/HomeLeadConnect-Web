@@ -192,6 +192,53 @@
   box-shadow: inset 0 1px 0 rgba(255,255,255,.035) !important;
 }
 
+/* Physical Safari closure: match the specificity of the authenticated redesign layer
+   rather than changing global import order. */
+@layer hlcRedesign {
+  html body #root .hlc-signed-in-shell .hlc-route-content > main.hlc-work-home {
+    background:#060b26 !important;
+    background-image:none !important;
+    color:#f8fafc !important;
+  }
+  html body #root .hlc-signed-in-shell .hlc-route-content > main.hlc-work-home > nav.hlc-work-primary-list,
+  html body #root .hlc-signed-in-shell .hlc-route-content > main.hlc-work-home .hlc-work-communications-list {
+    background:transparent !important;
+    background-image:none !important;
+    border-color:transparent !important;
+    box-shadow:none !important;
+  }
+  html body #root .hlc-signed-in-shell .hlc-route-content > main.hlc-work-home a.hlc-work-primary-row {
+    background:linear-gradient(145deg,rgba(15,24,61,.98),rgba(7,12,38,.99)) !important;
+    background-image:linear-gradient(145deg,rgba(15,24,61,.98),rgba(7,12,38,.99)) !important;
+    border-color:rgba(111,126,255,.28) !important;
+    color:#f8fafc !important;
+    -webkit-text-fill-color:#f8fafc !important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.03) !important;
+  }
+  html body #root .hlc-signed-in-shell .hlc-route-content > main.hlc-work-home section.hlc-work-communications,
+  html body #root .hlc-signed-in-shell .hlc-route-content > main.hlc-work-home aside.hlc-work-boundary {
+    background:linear-gradient(155deg,rgba(15,20,53,.98),rgba(8,12,36,.99)) !important;
+    background-image:linear-gradient(155deg,rgba(15,20,53,.98),rgba(8,12,36,.99)) !important;
+    border-color:rgba(111,126,255,.26) !important;
+    color:#f8fafc !important;
+    box-shadow:none !important;
+  }
+  html body #root .hlc-signed-in-shell .hlc-route-content > main.hlc-work-home a.hlc-work-communication-link,
+  html body #root .hlc-signed-in-shell .hlc-route-content > main.hlc-work-home aside.hlc-work-boundary > a,
+  html body #root .hlc-signed-in-shell .hlc-route-content > main.hlc-work-home header.hlc-work-hero > a.hlc-work-agent-link {
+    background:linear-gradient(145deg,rgba(31,27,78,.99),rgba(10,14,43,.99)) !important;
+    background-image:linear-gradient(145deg,rgba(31,27,78,.99),rgba(10,14,43,.99)) !important;
+    border-color:rgba(139,92,246,.48) !important;
+    color:#f8fafc !important;
+    -webkit-text-fill-color:#f8fafc !important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.035) !important;
+  }
+  html body #root .hlc-signed-in-shell .hlc-route-content > main.hlc-work-home :is(.hlc-work-primary-row,.hlc-work-communication-link,.hlc-work-boundary,.hlc-work-hero) :is(span,strong,small,b,p) {
+    background:transparent !important;
+    background-image:none !important;
+  }
+}
+
 @media (max-width:760px) {
   .hlc-work-home { gap: 14px; padding: 18px 16px 118px; }
   .hlc-work-hero { padding: 24px 18px 20px; gap: 14px; }
