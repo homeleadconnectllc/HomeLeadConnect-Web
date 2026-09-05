@@ -27,21 +27,21 @@ const communicationWork = [
 
 export default function WorkHome() {
   return (
-    <main className="hlc-work-home hlc-parent-index">
-      <header className="hlc-parent-index-header">
-        <div>
-          <span className="hlc-parent-eyebrow">WORK</span>
+    <main className="hlc-work-home">
+      <header className="hlc-work-hero">
+        <div className="hlc-work-hero-copy">
+          <span className="hlc-work-eyebrow">WORK</span>
           <h1>What are you working on?</h1>
           <p>Choose the part of the service workflow you need. Each area stays focused on one job instead of putting the entire operation on one screen.</p>
         </div>
-        <Link className="hlc-parent-agent-link" to="/operations">Ask Dion <span aria-hidden="true">→</span></Link>
+        <Link className="hlc-work-agent-link" to="/operations">Ask Dion <span aria-hidden="true">→</span></Link>
       </header>
 
-      <nav className="hlc-parent-branch-list" aria-label="Work areas">
+      <nav className="hlc-work-primary-list" aria-label="Work areas">
         {primaryWork.map((area) => {
           const Icon = area.icon;
           return (
-            <Link className="hlc-parent-branch-row" to={area.route} key={area.route}>
+            <Link className="hlc-work-primary-row" to={area.route} key={area.route}>
               <span className="hlc-work-primary-icon" aria-hidden="true"><Icon size={23} /></span>
               <span className="hlc-work-primary-copy">
                 <strong>{area.title}</strong>
@@ -53,12 +53,12 @@ export default function WorkHome() {
         })}
       </nav>
 
-      <section className="hlc-parent-secondary" aria-labelledby="work-communications-heading">
-        <div>
-          <span className="hlc-parent-eyebrow">COMMUNICATION TOOLS</span>
+      <section className="hlc-work-communications" aria-labelledby="work-communications-heading">
+        <div className="hlc-work-communications-heading">
+          <span className="hlc-work-eyebrow">COMMUNICATION TOOLS</span>
           <h2 id="work-communications-heading">Need to reach somebody?</h2>
         </div>
-        <nav aria-label="Work communication tools">
+        <nav className="hlc-work-communications-list" aria-label="Work communication tools">
           {communicationWork.map((item) => {
             const Icon = item.icon;
             return (
@@ -72,7 +72,7 @@ export default function WorkHome() {
         </nav>
       </section>
 
-      <aside className="hlc-parent-boundary">
+      <aside className="hlc-work-boundary">
         <strong>Discovery is not assignment.</strong>
         <span>Community helps people discover and connect. Provider assignment, scheduling and completion stay deliberate Work actions.</span>
         <Link to="/community-hub">Go to Community <span aria-hidden="true">→</span></Link>
