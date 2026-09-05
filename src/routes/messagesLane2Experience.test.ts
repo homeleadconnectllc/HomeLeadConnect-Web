@@ -39,10 +39,21 @@ test("Messages uses simpler user-facing communication language", () => {
   assert.doesNotMatch(messages, /Internal reply/);
 });
 
-test("Lane 2 mobile authority is loaded last and locks compact progressive controls", () => {
-  const authorityImport = 'import "./messages-lane-2-mobile-authority.css";';
+test("Lane 2 mobile authority remains beneath final physical closure and locks compact progressive controls", () => {
+  const lane2Import = 'import "./messages-lane-2-mobile-authority.css";';
+  const appDirectoryImport = 'import "./app-directory-source-authority.css";';
+  const communityImport = 'import "./community-hub-source-authority.css";';
+  const workImport = 'import "./work-home-source-authority.css";';
+  const physicalClosureImport = 'import "./live-white-island-eradication-20260905.css";';
+  const heroLockoutImport = 'import "./dashboard-context-hero.css";';
+  const imports = authenticatedStyles.trim().split("\n");
+
   assert.match(authenticatedStyles, /import "\.\/messages-lane-2-mobile-authority\.css";/);
-  assert.equal(authenticatedStyles.trim().split("\n").at(-5), authorityImport);
+  assert.ok(imports.indexOf(lane2Import) < imports.indexOf(appDirectoryImport));
+  assert.ok(imports.indexOf(appDirectoryImport) < imports.indexOf(communityImport));
+  assert.ok(imports.indexOf(communityImport) < imports.indexOf(workImport));
+  assert.ok(imports.indexOf(workImport) < imports.indexOf(physicalClosureImport));
+  assert.ok(imports.indexOf(physicalClosureImport) < imports.indexOf(heroLockoutImport));
   assert.match(authority, /@media \(max-width: 720px\)/);
   assert.match(authority, /\.hlc-messages-progressive-inbox/);
   assert.match(authority, /\.hlc-messages-view-toolbar/);
