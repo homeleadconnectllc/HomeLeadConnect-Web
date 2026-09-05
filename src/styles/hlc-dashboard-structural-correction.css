@@ -133,6 +133,8 @@
   background: #0a192a;
 }
 
+/* These headers are semantic parts of the Home panels, not light cards. Own every
+   descendant here so generic header/div/link treatments cannot repaint them white. */
 .hlc-home-focus-panel > header,
 .hlc-home-schedule-panel > header {
   display: flex;
@@ -141,12 +143,24 @@
   gap: 14px;
   min-height: 72px;
   padding: 15px 17px;
-  border-bottom: 1px solid rgba(143, 180, 222, 0.11);
+  border-bottom: 1px solid rgba(143, 180, 222, 0.11) !important;
+  background: linear-gradient(145deg, #121833, #0a1025) !important;
+  background-image: linear-gradient(145deg, #121833, #0a1025) !important;
+  color: #f8fbff !important;
+  box-shadow: none !important;
+}
+.hlc-home-focus-panel > header > div,
+.hlc-home-schedule-panel > header > div,
+.hlc-home-focus-panel > header > div > *,
+.hlc-home-schedule-panel > header > div > * {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
 }
 
 .hlc-home-focus-panel header span,
 .hlc-home-schedule-panel header span {
-  color: #75b9ff;
+  color: #75b9ff !important;
   font-size: 0.66rem;
   font-weight: 850;
   letter-spacing: 0.12em;
@@ -155,13 +169,19 @@
 .hlc-home-focus-panel h2,
 .hlc-home-schedule-panel h2 {
   margin: 3px 0 0;
-  color: #f8fbff;
+  color: #f8fbff !important;
   font-size: 1.18rem;
 }
 
 .hlc-home-focus-panel header > a,
 .hlc-home-schedule-panel header > a {
-  color: #8fc8ff;
+  padding: 7px 10px;
+  border: 1px solid rgba(143, 200, 255, .22) !important;
+  border-radius: 10px;
+  background: rgba(90, 111, 255, .13) !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  color: #aeb9ff !important;
   font-size: 0.78rem;
   font-weight: 800;
   text-decoration: none;
