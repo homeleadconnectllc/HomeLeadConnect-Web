@@ -14,6 +14,7 @@ const WorkspaceGuidance = lazy(() => import("../components/WorkspaceGuidance"));
 const GlobalCommandSearch = lazy(() => import("../components/search/GlobalCommandSearch"));
 
 const SIDEBAR_COLLAPSED_KEY = "hlc-desktop-sidebar-collapsed";
+const DESKTOP_SHELL_QUERY = "(min-width: 1025px)";
 
 function personaRouteClass(pathname: string) {
   if (pathname === "/hq" || pathname.startsWith("/hq/")) return "hlc-route-hq";
@@ -60,6 +61,10 @@ export default function AppLayout() {
     if (typeof window === "undefined") return false;
     return window.localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === "1";
   });
+  const [desktopShell, setDesktopShell] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return window.matchMedia(DESKTOP_SHELL_QUERY).matches;
+  });
   const focusedPublicIntake = location.pathname === "/request-service";
   const signedInWorkspaceShell = Boolean(session) && !focusedPublicIntake;
   const showAudioDevices = signedInWorkspaceShell && (location.pathname === "/settings" || location.pathname === "/call-center");
@@ -72,6 +77,15 @@ export default function AppLayout() {
     if (typeof window === "undefined") return;
     window.localStorage.setItem(SIDEBAR_COLLAPSED_KEY, sidebarCollapsed ? "1" : "0");
   }, [sidebarCollapsed]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const media = window.matchMedia(DESKTOP_SHELL_QUERY);
+    const sync = () => setDesktopShell(media.matches);
+    sync();
+    media.addEventListener("change", sync);
+    return () => media.removeEventListener("change", sync);
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined" || !("scrollRestoration" in window.history)) return;
@@ -136,12 +150,12 @@ export default function AppLayout() {
     <div className={`hlc-app-shell ${signedInWorkspaceShell ? "hlc-signed-in-shell" : "hlc-public-shell"} ${routeClass}${signedInWorkspaceShell && sidebarCollapsed ? " hlc-sidebar-is-collapsed" : ""}${routePersonaClass ? ` ${routePersonaClass}` : ""}${focusedPublicIntake ? " hlc-focused-public-intake" : ""}`}>
       <AnalyticsTracker />
       {!focusedPublicIntake && <Navbar />}
-      {signedInWorkspaceShell && (
+      {signedInWorkspaceShell && desktopShell && (
         <Link className="hlc-desktop-page-brand" to="/dashboard" aria-label="HomeLead Connect dashboard">
           <img src="/hlc-logo-transparent.png" alt="HomeLead Connect LLC" />
         </Link>
       )}
-      {signedInWorkspaceShell && (
+      {signedInWorkspaceShell && desktopShell && (
         <button
           className="hlc-desktop-sidebar-toggle"
           type="button"
