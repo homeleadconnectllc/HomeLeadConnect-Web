@@ -130,7 +130,7 @@ export default function Dashboard() {
       <div className="hlc-home-topbar hlc-home-topbar-v2" role="group" aria-label="Home overview">
         <div className="hlc-home-intro-v2">
           <span className="hlc-home-eyebrow">HOME</span>
-          <h1 className="hlc-greeting">{greeting}</h1>
+          <div className="hlc-home-greeting-v3" role="heading" aria-level={1}>{greeting}</div>
           <p>Let&apos;s keep things moving today.</p>
         </div>
         <div className="hlc-home-top-actions hlc-home-top-actions-v2">
