@@ -19,8 +19,6 @@
 .hlc-mobile-command-search-trigger small { color: #c9c3df !important; font-size: .7rem; }
 .hlc-mobile-command-search-trigger b { color: #b8a9ff !important; font-size: 1rem; }
 
-/* This dialog owns its presentation at component source. It is rendered outside parts
-   of the signed-in route tree, so route/theme card rules must not paint its descendants. */
 body .hlc-command-search-backdrop {
   position: fixed;
   inset: 0;
@@ -29,72 +27,81 @@ body .hlc-command-search-backdrop {
   align-items: start;
   justify-items: center;
   padding: max(18px, env(safe-area-inset-top)) 14px max(18px, env(safe-area-inset-bottom));
-  background: rgba(3, 3, 18, .88) !important;
+  background: rgba(3, 3, 18, .90) !important;
   backdrop-filter: blur(14px);
   color-scheme: dark;
 }
 
-body .hlc-command-search {
+body #hlc-command-search-source {
   width: min(720px, 100%);
   max-height: min(760px, calc(100dvh - 36px - env(safe-area-inset-top) - env(safe-area-inset-bottom)));
   overflow: hidden;
-  border: 1px solid rgba(156, 135, 255, .34) !important;
-  border-radius: 22px;
-  background: linear-gradient(170deg, #1b1540, #0d0d23 62%, #080b16) !important;
+  border: 1px solid rgba(113, 124, 255, .34) !important;
+  border-radius: 22px !important;
+  background: linear-gradient(170deg, #11172c, #0a1020 62%, #080c17) !important;
+  background-image: linear-gradient(170deg, #11172c, #0a1020 62%, #080c17) !important;
   box-shadow: 0 30px 80px rgba(0, 0, 0, .62) !important;
-  color: #faf8ff !important;
+  color: #f8fbff !important;
 }
 
-body .hlc-command-search-header {
+body #hlc-command-search-source .hlc-command-search-header {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: 11px;
   min-height: 62px;
   padding: 10px 12px 10px 16px;
-  border-bottom: 1px solid rgba(156, 135, 255, .25) !important;
-  background: rgba(15, 13, 43, .96) !important;
-  color: #b8a9ff !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(113, 124, 255, .22) !important;
+  background: #0c1325 !important;
+  background-image: none !important;
+  color: #8e9bff !important;
+  box-shadow: none !important;
 }
 
-body .hlc-command-search-header input {
+body #hlc-command-search-source .hlc-command-search-header input {
   width: 100%;
   min-height: 44px;
-  border: 1px solid rgba(156, 135, 255, .26) !important;
+  border: 1px solid rgba(113, 124, 255, .42) !important;
   border-radius: 12px !important;
   outline: 0;
   padding-inline: 12px !important;
-  background: #09091b !important;
+  background: #090e1c !important;
+  background-image: none !important;
   color: #fff !important;
   font: inherit;
   font-size: 1rem;
   -webkit-text-fill-color: #fff !important;
   opacity: 1 !important;
+  box-shadow: 0 0 0 2px rgba(77, 103, 255, .18) !important;
 }
 
-body .hlc-command-search-header input::placeholder { color: #aaa2c8 !important; opacity: 1 !important; }
+body #hlc-command-search-source .hlc-command-search-header input::placeholder { color: #aab2d6 !important; opacity: 1 !important; }
 
-body .hlc-command-search-header button {
+body #hlc-command-search-source .hlc-command-search-header button {
   display: grid;
   place-items: center;
   width: 44px;
   height: 44px;
-  border: 1px solid rgba(156, 135, 255, .28) !important;
-  border-radius: 12px;
-  background: #171044 !important;
-  color: #fff !important;
+  border: 1px solid rgba(113, 124, 255, .28) !important;
+  border-radius: 12px !important;
+  background: #121a34 !important;
+  background-image: none !important;
+  color: #cdd4ff !important;
+  box-shadow: none !important;
 }
 
-body .hlc-command-search-results {
+body #hlc-command-search-source .hlc-command-search-results {
   max-height: min(610px, calc(100dvh - 172px - env(safe-area-inset-top) - env(safe-area-inset-bottom)));
   overflow-y: auto;
   overscroll-behavior: contain;
   padding: 8px;
-  background: #0d0d23 !important;
-  color: #faf8ff !important;
+  background: #0a1020 !important;
+  background-image: none !important;
+  color: #f8fbff !important;
 }
 
-body .hlc-command-search-results > button {
+body #hlc-command-search-source .hlc-command-search-results > button {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
@@ -102,78 +109,122 @@ body .hlc-command-search-results > button {
   width: 100%;
   min-height: 62px;
   padding: 10px 12px;
-  border: 1px solid rgba(156, 135, 255, .20) !important;
-  border-radius: 14px;
-  background: linear-gradient(145deg, rgba(27, 21, 64, .96), rgba(13, 13, 35, .98)) !important;
-  color: #faf8ff !important;
+  border: 1px solid rgba(113, 124, 255, .18) !important;
+  border-radius: 14px !important;
+  background: linear-gradient(145deg, rgba(18, 27, 48, .99), rgba(10, 16, 31, .99)) !important;
+  background-image: linear-gradient(145deg, rgba(18, 27, 48, .99), rgba(10, 16, 31, .99)) !important;
+  color: #f8fbff !important;
   text-align: left;
+  box-shadow: none !important;
 }
 
-body .hlc-command-search-results > button:hover,
-body .hlc-command-search-results > button:focus-visible {
-  border-color: #9c87ff !important;
+body #hlc-command-search-source .hlc-command-search-results > button + button { margin-top: 8px; }
+
+body #hlc-command-search-source .hlc-command-search-results > button:hover,
+body #hlc-command-search-source .hlc-command-search-results > button:focus-visible {
+  border-color: rgba(117, 133, 255, .65) !important;
   outline: 0;
-  background: #261c59 !important;
+  background: #151f3d !important;
 }
 
-/* Explicit descendant ownership prevents generic signed-in button/span/card rules from
-   recreating the physical-iPhone white pills inside otherwise-dark search rows. */
-body .hlc-command-search-results > button > .hlc-command-search-result-copy,
-body .hlc-command-search-results > button > .hlc-command-search-result-copy > strong,
-body .hlc-command-search-results > button > .hlc-command-search-result-copy > small {
+/* Hard reset every visible row child so no legacy light-card selector can recreate
+   the physical-iPhone white bubble treatment inside dark command rows. */
+body #hlc-command-search-source .hlc-command-search-results > button > *,
+body #hlc-command-search-source .hlc-command-search-results > button > * > * {
   border: 0 !important;
-  border-radius: 0 !important;
   box-shadow: none !important;
   background: transparent !important;
   background-image: none !important;
 }
-body .hlc-command-search-result-copy { display: grid; gap: 2px; min-width: 0; padding: 0 !important; }
-body .hlc-command-search-result-copy strong { overflow: hidden; color: #fff !important; font-size: .92rem; text-overflow: ellipsis; white-space: nowrap; }
-body .hlc-command-search-result-copy small { overflow: hidden; color: #c9c3df !important; font-size: .75rem; text-overflow: ellipsis; white-space: nowrap; }
 
-body .hlc-command-search-results > button > .hlc-command-search-group {
-  padding: 5px 8px;
-  border: 1px solid rgba(156, 135, 255, .34) !important;
-  border-radius: 999px !important;
-  background: rgba(115, 87, 255, .18) !important;
-  background-image: none !important;
-  box-shadow: none !important;
-  color: #e5ddff !important;
-  font-size: .65rem;
-  font-weight: 800;
-  letter-spacing: .04em;
+body #hlc-command-search-source .hlc-command-search-result-copy {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+body #hlc-command-search-source .hlc-command-search-result-copy strong {
+  overflow: hidden;
+  color: #fff !important;
+  font-size: .92rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+body #hlc-command-search-source .hlc-command-search-result-copy small {
+  overflow: hidden;
+  color: #aebbd4 !important;
+  font-size: .75rem;
+  text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-body .hlc-command-search-empty { display: grid; gap: 4px; padding: 24px 14px; background: #0d0d23 !important; color: #c9c3df !important; font-size: .82rem; }
-body .hlc-command-search-empty strong { color: #fff !important; }
-
-body .hlc-command-search-footer,
-body .hlc-command-search-footer > span {
-  border-radius: 0 !important;
-  background: #09091b !important;
+body #hlc-command-search-source .hlc-command-search-results > button > .hlc-command-search-group {
+  padding: 6px 10px !important;
+  border: 1px solid rgba(113, 124, 255, .26) !important;
+  border-radius: 999px !important;
+  background: #111a34 !important;
   background-image: none !important;
-  box-shadow: none !important;
-  color: #c9c3df !important;
+  color: #e5e9ff !important;
+  font-size: .65rem;
+  font-weight: 800;
+  letter-spacing: .02em;
+  white-space: nowrap;
 }
-body .hlc-command-search-footer {
+
+body #hlc-command-search-source .hlc-command-search-empty {
+  display: grid;
+  gap: 4px;
+  padding: 24px 14px;
+  background: #0a1020 !important;
+  color: #aebbd4 !important;
+  font-size: .82rem;
+}
+body #hlc-command-search-source .hlc-command-search-empty strong { color: #fff !important; }
+
+body #hlc-command-search-source .hlc-command-search-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
   min-height: 46px;
   padding: 8px 14px;
-  border-top: 1px solid rgba(156, 135, 255, .24) !important;
+  border: 0 !important;
+  border-top: 1px solid rgba(113, 124, 255, .18) !important;
+  border-radius: 0 !important;
+  background: #090e1c !important;
+  background-image: none !important;
+  color: #aebbd4 !important;
   font-size: .69rem;
+  box-shadow: none !important;
 }
 
-body .hlc-command-search-footer kbd { padding: 3px 7px; border: 1px solid rgba(156,135,255,.30) !important; border-radius: 7px; background: #171044 !important; color: #e5ddff !important; font: inherit; font-weight: 750; }
+body #hlc-command-search-source .hlc-command-search-footer > span {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  color: #aebbd4 !important;
+}
+
+body #hlc-command-search-source .hlc-command-search-footer kbd {
+  padding: 3px 7px;
+  border: 1px solid rgba(113,124,255,.25) !important;
+  border-radius: 7px !important;
+  background: #121a34 !important;
+  background-image: none !important;
+  color: #dbe1ff !important;
+  font: inherit;
+  font-weight: 750;
+  box-shadow: none !important;
+}
 
 @media (max-width: 720px) {
   body .hlc-command-search-backdrop { align-items: stretch; padding: max(8px, env(safe-area-inset-top)) 8px max(8px, env(safe-area-inset-bottom)); }
-  body .hlc-command-search { width: 100%; max-height: calc(100dvh - max(16px, env(safe-area-inset-top)) - max(16px, env(safe-area-inset-bottom))); border-radius: 18px; }
-  body .hlc-command-search-header { min-height: 60px; }
-  body .hlc-command-search-results { max-height: calc(100dvh - 154px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); }
-  body .hlc-command-search-results > button { min-height: 66px; }
-  body .hlc-command-search-footer kbd { display: none; }
+  body #hlc-command-search-source { width: 100%; max-height: calc(100dvh - max(16px, env(safe-area-inset-top)) - max(16px, env(safe-area-inset-bottom))); border-radius: 18px !important; }
+  body #hlc-command-search-source .hlc-command-search-header { min-height: 60px; }
+  body #hlc-command-search-source .hlc-command-search-results { max-height: calc(100dvh - 154px - env(safe-area-inset-top) - env(safe-area-inset-bottom)); }
+  body #hlc-command-search-source .hlc-command-search-results > button { min-height: 66px; }
+  body #hlc-command-search-source .hlc-command-search-footer kbd { display: none; }
 }
