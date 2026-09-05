@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { MessageSquare, Phone } from "lucide-react";
 import "../../styles/work-home-source-authority.css";
 
 const primaryWork = [
@@ -11,8 +12,8 @@ const primaryWork = [
 ] as const;
 
 const communicationWork = [
-  { title: "Call Center", route: "/call-center" },
-  { title: "Calls & Texts", route: "/manual-communications" },
+  { title: "Call Center", route: "/call-center", icon: Phone },
+  { title: "Calls & Texts", route: "/manual-communications", icon: MessageSquare },
 ] as const;
 
 export default function WorkHome() {
@@ -45,7 +46,16 @@ export default function WorkHome() {
           <h2 id="work-communications-heading">Need to reach somebody?</h2>
         </div>
         <nav aria-label="Work communication tools">
-          {communicationWork.map((item) => <Link to={item.route} key={item.route}>{item.title}<span aria-hidden="true"> →</span></Link>)}
+          {communicationWork.map((item) => {
+            const Icon = item.icon;
+            return (
+              <Link className="hlc-work-communication-link" to={item.route} key={item.route}>
+                <span className="hlc-work-communication-icon" aria-hidden="true"><Icon size={21} /></span>
+                <strong>{item.title}</strong>
+                <b aria-hidden="true">→</b>
+              </Link>
+            );
+          })}
         </nav>
       </section>
 
