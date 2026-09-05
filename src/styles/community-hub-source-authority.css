@@ -1,0 +1,69 @@
+/* CommunityHub owns these controls. Physical-iPhone authority rejects white command/input islands. */
+.hlc-community-workspace :is(
+  .hlc-community-header,
+  .hlc-community-commandbar,
+  .hlc-community-console,
+  .hlc-community-directory,
+  .hlc-community-lane-head,
+  .hlc-community-row,
+  .hlc-community-row-copy,
+  .hlc-community-context,
+  .hlc-community-context section,
+  .hlc-community-more-tools,
+  .hlc-community-store-workspace
+) {
+  box-shadow: none !important;
+}
+
+.hlc-community-workspace .hlc-community-commandbar,
+.hlc-community-workspace .hlc-community-row,
+.hlc-community-workspace .hlc-community-context section,
+.hlc-community-workspace .hlc-community-more-tools,
+.hlc-community-workspace .hlc-community-store-workspace {
+  background: rgba(11, 13, 35, .82) !important;
+  background-image: none !important;
+  border-color: rgba(126, 108, 255, .20) !important;
+  color: #f8f7ff !important;
+}
+
+.hlc-community-workspace :is(.hlc-community-commandbar a, .hlc-parent-agent-link, .hlc-community-row > a, .hlc-community-context-actions a) {
+  border: 1px solid rgba(126, 108, 255, .28) !important;
+  border-radius: 10px !important;
+  background: linear-gradient(145deg, rgba(45, 37, 99, .88), rgba(17, 20, 48, .98)) !important;
+  background-image: linear-gradient(145deg, rgba(45, 37, 99, .88), rgba(17, 20, 48, .98)) !important;
+  box-shadow: none !important;
+  color: #f8f7ff !important;
+}
+.hlc-community-workspace :is(.hlc-community-commandbar a, .hlc-parent-agent-link, .hlc-community-row > a, .hlc-community-context-actions a) > span {
+  background: transparent !important;
+  color: inherit !important;
+}
+
+.hlc-community-workspace :is(input, textarea, select, [contenteditable="true"]) {
+  border: 1px solid rgba(126, 108, 255, .30) !important;
+  border-radius: 11px !important;
+  background: #090b20 !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+.hlc-community-workspace :is(input, textarea)::placeholder {
+  color: #aaa8c9 !important;
+  opacity: 1 !important;
+}
+
+.hlc-community-workspace :is(summary, button) {
+  color: #f8f7ff;
+}
+.hlc-community-workspace details > summary {
+  background: rgba(18, 20, 49, .88) !important;
+  background-image: none !important;
+  color: #f8f7ff !important;
+}
+
+@media (max-width: 760px) {
+  .hlc-community-workspace :is(.hlc-community-commandbar a, .hlc-parent-agent-link, .hlc-community-row > a, .hlc-community-context-actions a) {
+    min-height: 44px;
+  }
+}
