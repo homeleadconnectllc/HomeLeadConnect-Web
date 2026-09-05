@@ -128,11 +128,10 @@ export default function Dashboard() {
   return (
     <main className="hlc-home-workspace hlc-home-structural">
       <div className="hlc-home-topbar hlc-home-topbar-v2" role="group" aria-label="Home overview">
-        <img className="hlc-home-topbar-art" src="/portal-visuals/operations-command.svg" alt="" aria-hidden="true" />
         <div className="hlc-home-intro-v2">
           <span className="hlc-home-eyebrow">HOME</span>
           <h1 className="hlc-greeting">{greeting}</h1>
-          <p>What needs your attention right now.</p>
+          <p>Let&apos;s keep things moving today.</p>
         </div>
         <div className="hlc-home-top-actions hlc-home-top-actions-v2">
           <button type="button" aria-label="Search HomeLead Connect" onClick={openGlobalSearch}><Search size={20} /></button>
@@ -146,7 +145,7 @@ export default function Dashboard() {
       <div className="hlc-home-live-line" role="status">
         <span className="hlc-home-live-dot" aria-hidden="true" />
         <strong>Workspace online</strong>
-        <span>{partialError ? "Some live metrics are unavailable" : "Live operations connected"}</span>
+        <span className="hlc-home-live-state">{partialError ? "Some live metrics are unavailable" : "All systems ready"}</span>
       </div>
 
       <div className="hlc-home-metric-strip" aria-label="Live business metrics">
@@ -197,7 +196,7 @@ export default function Dashboard() {
 
       {visibleAgentTeam.length > 0 && (
         <div className="hlc-home-ai-rail" aria-label="HomeLead Connect AI team">
-          <div className="hlc-home-ai-heading"><Sparkles size={18} aria-hidden="true" /><div><strong>AI team</strong><span>Open the right assistant when you need deeper help.</span></div></div>
+          <div className="hlc-home-ai-heading"><Sparkles size={18} aria-hidden="true" /><div><strong>AI Team</strong><span>Open the right assistant when you need deeper help.</span></div></div>
           <div className="hlc-home-ai-links">
             {visibleAgentTeam.map((agent) => <Link to={agent.route} key={agent.id}><img src={agent.avatar} alt="" /><span><strong>{agent.name}</strong><small>{agentRoleCopy[agent.id] || "HomeLead Connect assistant"}</small></span></Link>)}
           </div>
