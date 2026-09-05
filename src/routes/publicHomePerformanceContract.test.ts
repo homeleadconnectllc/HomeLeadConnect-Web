@@ -42,8 +42,9 @@ test("no-React public root uses the canonical transparent HLC mark and rejects l
   assert.match(main, /width="28" height="28"/);
 });
 
-test("parser-seeded public hero cannot promote the oversized canonical logo into the critical LCP lane", () => {
-  assert.match(indexHtml, /src="\/hlc-logo-transparent\.png"[^>]*fetchpriority="low"/s);
+test("parser-seeded public header uses the responsive logo derivative outside the critical LCP lane", () => {
+  assert.match(indexHtml, /src="\/hlc-logo-ui\.png"[^>]*fetchpriority="low"/s);
+  assert.doesNotMatch(indexHtml, /<img src="\/hlc-logo-transparent\.png"[^>]*width="40" height="40"/s);
   assert.match(indexHtml, /width="40" height="40"/);
 });
 
