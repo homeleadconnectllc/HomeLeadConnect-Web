@@ -34,21 +34,41 @@
     fill: none !important;
     opacity: 1 !important;
   }
-}
 
-/* The shared mobile shell reserves bottom-nav clearance on both route-content and its
-   child main. Dashboard also had its own bottom padding, which stacked those reserves.
-   Home keeps exactly one bottom clearance on its main content. */
-@media (max-width: 720px) {
-  html body #root .hlc-signed-in-shell.hlc-page-dashboard > .hlc-route-content {
-    min-height: 0 !important;
-    height: auto !important;
-    padding-bottom: 0 !important;
-  }
+  @media (max-width: 820px) {
+    html body #root .hlc-signed-in-shell.hlc-page-dashboard > .hlc-route-content {
+      display: block !important;
+      min-height: 0 !important;
+      height: auto !important;
+      padding-bottom: var(--hlc-mobile-content-clearance) !important;
+    }
 
-  html body #root .hlc-signed-in-shell.hlc-page-dashboard > .hlc-route-content > main.hlc-home-workspace {
-    min-height: 0 !important;
-    height: auto !important;
-    padding-bottom: calc(var(--hlc-mobile-nav-box, 84px) + 18px) !important;
+    html body #root .hlc-signed-in-shell.hlc-page-dashboard > .hlc-route-content > main.hlc-home-workspace {
+      display: block !important;
+      flex: 0 0 auto !important;
+      align-self: auto !important;
+      min-height: 0 !important;
+      height: auto !important;
+      max-height: none !important;
+      margin-bottom: 0 !important;
+      padding-bottom: 12px !important;
+      justify-content: initial !important;
+      overflow: visible !important;
+    }
+
+    html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-ai-rail,
+    html body #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-ai-rail:last-child {
+      margin-bottom: 0 !important;
+    }
+
+    html body #root .hlc-signed-in-shell.hlc-page-dashboard > .hlc-route-content > main.hlc-home-workspace::after {
+      content: none !important;
+      display: none !important;
+      width: 0 !important;
+      height: 0 !important;
+      min-height: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
   }
 }
