@@ -1,115 +1,240 @@
-/* Physical-iPhone authority: authenticated HomeLead Connect contains no legacy white-card islands.
-   Keep this file last in AuthenticatedStyles so older route/component CSS cannot reintroduce them. */
+/* Final physical-iPhone visual authority.
+   Authenticated HomeLead Connect is one continuous midnight application surface. */
+:root {
+  --hlc-physical-canvas: #060b26;
+  --hlc-physical-panel: #0b1232;
+  --hlc-physical-panel-2: #111a42;
+  --hlc-physical-border: rgba(111,126,255,.28);
+  --hlc-physical-ink: #f8fafc;
+  --hlc-physical-muted: #e2e8f0;
+  --hlc-physical-accent: #a5b4fc;
+}
 
 .hlc-signed-in-shell,
-.hlc-signed-in-shell .hlc-route-content {
+.hlc-signed-in-shell .hlc-route-content,
+.hlc-signed-in-shell .hlc-route-content > main {
   color-scheme: dark;
+  background-color: var(--hlc-physical-canvas) !important;
+  color: var(--hlc-physical-ink) !important;
 }
 
-/* Global command/search is portaled outside parts of the route tree, so own every visible surface explicitly. */
-.hlc-command-search-backdrop {
-  background: rgba(3, 4, 18, .92) !important;
-  color: #f8f7ff !important;
+/* Shell chrome, drawers, navigation and account menus must melt into the canvas. */
+.hlc-signed-in-shell :is(
+  .hlc-drawer-v2,
+  .hlc-mobile-command-sheet,
+  .hlc-mobile-bottom-nav,
+  .hlc-mobile-nav,
+  .hlc-bottom-nav,
+  .hlc-sidebar,
+  .hlc-sidebar-inner,
+  .hlc-navigation,
+  .hlc-nav-shell,
+  .hlc-app-shell-menu,
+  .hlc-account-menu
+) {
+  background-color: var(--hlc-physical-canvas) !important;
+  background-image: linear-gradient(180deg,rgba(10,16,45,.98),rgba(6,11,38,.995)) !important;
+  color: var(--hlc-physical-ink) !important;
+  border-color: var(--hlc-physical-border) !important;
 }
-.hlc-command-search,
-.hlc-command-search-header,
-.hlc-command-search-results,
-.hlc-command-search-footer,
-.hlc-command-search-empty {
-  background: linear-gradient(165deg, #111432 0%, #0b0d24 58%, #080a18 100%) !important;
-  color: #f8f7ff !important;
-  border-color: rgba(125, 108, 255, .34) !important;
+
+.hlc-signed-in-shell :is(.hlc-mobile-bottom-nav,.hlc-mobile-nav,.hlc-bottom-nav) :is(a,button) {
+  background: transparent !important;
+  background-image: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  color: #dbe4ff !important;
 }
-.hlc-command-search-header input {
-  background: #090b20 !important;
-  color: #fff !important;
-  -webkit-text-fill-color: #fff !important;
-  border-color: rgba(125, 108, 255, .48) !important;
+.hlc-signed-in-shell :is(.hlc-mobile-bottom-nav,.hlc-mobile-nav,.hlc-bottom-nav) :is(a[aria-current="page"],button[aria-current="page"],.active) {
+  background: rgba(79,70,229,.16) !important;
+  background-image: none !important;
+  border-color: rgba(111,126,255,.22) !important;
+  color: #f8fafc !important;
 }
-.hlc-command-search-header input::placeholder { color: #aaa8c9 !important; }
-.hlc-command-search-header button {
-  background: linear-gradient(145deg, #211850, #11142f) !important;
-  color: #f7f5ff !important;
-  border-color: rgba(125, 108, 255, .44) !important;
+.hlc-signed-in-shell :is(.hlc-mobile-bottom-nav,.hlc-mobile-nav,.hlc-bottom-nav) :is(svg,span) {
+  color: inherit !important;
+  stroke: currentColor;
 }
-.hlc-command-search-results > button {
-  background: linear-gradient(145deg, rgba(25, 29, 67, .98), rgba(12, 14, 37, .99)) !important;
-  color: #f8f7ff !important;
-  border-color: rgba(125, 108, 255, .28) !important;
+
+/* Portaled command search sits outside the signed-in root. */
+body .hlc-command-search-backdrop {
+  background: rgba(2,5,20,.94) !important;
+  color: var(--hlc-physical-ink) !important;
+}
+body #hlc-command-search-source,
+body #hlc-command-search-source :is(.hlc-command-search-header,.hlc-command-search-results,.hlc-command-search-footer,.hlc-command-search-empty) {
+  background-color: var(--hlc-physical-canvas) !important;
+  color: var(--hlc-physical-ink) !important;
+  border-color: var(--hlc-physical-border) !important;
+}
+body #hlc-command-search-source .hlc-command-search-results > button {
+  background: linear-gradient(145deg,rgba(22,31,72,.98),rgba(7,12,38,.99)) !important;
+  color: var(--hlc-physical-ink) !important;
+  border-color: var(--hlc-physical-border) !important;
   box-shadow: none !important;
 }
-.hlc-command-search-result-copy,
-.hlc-command-search-result-copy strong,
-.hlc-command-search-result-copy small {
+body #hlc-command-search-source .hlc-command-search-result-copy,
+body #hlc-command-search-source .hlc-command-search-result-copy :is(strong,small,span) {
   background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
 }
-.hlc-command-search-result-copy strong { color: #fff !important; }
-.hlc-command-search-result-copy small { color: #c4c2dc !important; }
-.hlc-command-search-group,
-.hlc-command-search-footer kbd {
-  background: rgba(91, 74, 200, .24) !important;
-  color: #ebe7ff !important;
-  border-color: rgba(125, 108, 255, .42) !important;
+body #hlc-command-search-source .hlc-command-search-result-copy strong { color: var(--hlc-physical-ink) !important; }
+body #hlc-command-search-source .hlc-command-search-result-copy small { color: var(--hlc-physical-muted) !important; }
+body #hlc-command-search-source .hlc-command-search-group,
+body #hlc-command-search-source .hlc-command-search-footer kbd {
+  background: #121b45 !important;
+  background-image: none !important;
+  color: var(--hlc-physical-ink) !important;
+  border-color: var(--hlc-physical-border) !important;
 }
-.hlc-command-search-footer { color: #c4c2dc !important; }
+body #hlc-command-search-source .hlc-command-search-footer,
+body #hlc-command-search-source .hlc-command-search-footer > span {
+  background: var(--hlc-physical-canvas) !important;
+  background-image: none !important;
+  color: var(--hlc-physical-muted) !important;
+  text-align: center !important;
+}
 
-/* Home headers that survived as white bars in physical-device proof. */
-.hlc-signed-in-shell .hlc-home-focus-panel > header,
-.hlc-signed-in-shell .hlc-home-schedule-panel > header,
-.hlc-signed-in-shell .hlc-home-focus-panel > header > *,
-.hlc-signed-in-shell .hlc-home-schedule-panel > header > * {
-  background: transparent !important;
-  color: inherit !important;
+/* Primary route/group labels and empty states use a consistent centered hierarchy. */
+.hlc-signed-in-shell :is(
+  .hlc-parent-index-header,
+  .hlc-community-header,
+  .hlc-community-lane-head,
+  .hlc-app-directory-group > header,
+  .hlc-home-focus-panel > header,
+  .hlc-home-schedule-panel > header,
+  .hlc-section-header,
+  .hlc-section-title,
+  .hlc-group-title,
+  .hlc-directory-group-header,
+  .empty-state,
+  .hlc-empty-state,
+  [data-empty-state]
+) {
+  text-align: center !important;
 }
+.hlc-signed-in-shell :is(.empty-state,.hlc-empty-state,[data-empty-state]) {
+  justify-items: center;
+  color: var(--hlc-physical-muted) !important;
+}
+
+/* Home Priority / Schedule headers: no white banner can survive. */
 .hlc-signed-in-shell .hlc-home-focus-panel > header,
 .hlc-signed-in-shell .hlc-home-schedule-panel > header {
-  background: linear-gradient(145deg, rgba(19, 22, 54, .96), rgba(10, 12, 32, .98)) !important;
-  border-color: rgba(125, 108, 255, .28) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: linear-gradient(145deg,rgba(18,27,63,.98),rgba(7,12,38,.99)) !important;
+  background-image: linear-gradient(145deg,rgba(18,27,63,.98),rgba(7,12,38,.99)) !important;
+  border-color: var(--hlc-physical-border) !important;
+  color: var(--hlc-physical-ink) !important;
+}
+.hlc-signed-in-shell .hlc-home-focus-panel > header *,
+.hlc-signed-in-shell .hlc-home-schedule-panel > header * {
+  background: transparent !important;
+  background-image: none !important;
+  color: inherit !important;
 }
 .hlc-signed-in-shell .hlc-home-focus-panel h2,
-.hlc-signed-in-shell .hlc-home-schedule-panel h2 { color: #fff !important; }
+.hlc-signed-in-shell .hlc-home-schedule-panel h2 { color: var(--hlc-physical-ink) !important; }
 .hlc-signed-in-shell .hlc-home-focus-panel header > div > span,
-.hlc-signed-in-shell .hlc-home-schedule-panel header > div > span { color: #6fa8ff !important; }
+.hlc-signed-in-shell .hlc-home-schedule-panel header > div > span { color: #93c5fd !important; }
 .hlc-signed-in-shell .hlc-home-focus-panel header > a,
-.hlc-signed-in-shell .hlc-home-schedule-panel header > a { color: #9d8bff !important; }
+.hlc-signed-in-shell .hlc-home-schedule-panel header > a { color: #c4b5fd !important; }
 
-/* Messages header is a protected functional lane, but its legacy white card is not protected. */
+/* Messages stays functionally Lane 2 but visually belongs to the same dark family. */
 .hlc-signed-in-shell .hlc-messages-app-topbar,
 .hlc-signed-in-shell .hlc-messages-app-topbar > *,
-.hlc-signed-in-shell .hlc-messages-app-topbar div,
-.hlc-signed-in-shell .hlc-messages-app-topbar p,
-.hlc-signed-in-shell .hlc-messages-app-topbar h1 {
+.hlc-signed-in-shell .hlc-messages-app-topbar :is(div,p,h1) {
   background: transparent !important;
+  background-image: none !important;
 }
 .hlc-signed-in-shell .hlc-messages-app-topbar {
-  background: linear-gradient(145deg, rgba(25, 22, 64, .96), rgba(10, 12, 34, .99)) !important;
-  border: 1px solid rgba(125, 108, 255, .36) !important;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, .24) !important;
+  background: linear-gradient(145deg,rgba(18,27,63,.98),rgba(7,12,38,.99)) !important;
+  border: 1px solid var(--hlc-physical-border) !important;
+  box-shadow: none !important;
 }
-.hlc-signed-in-shell .hlc-messages-app-topbar h1 { color: #fff !important; }
-.hlc-signed-in-shell .hlc-messages-kicker { color: #8fa6ff !important; }
+.hlc-signed-in-shell .hlc-messages-app-topbar h1 { color: var(--hlc-physical-ink) !important; }
+.hlc-signed-in-shell .hlc-messages-kicker { color: #bfdbfe !important; }
 .hlc-signed-in-shell .hlc-messages-new-action,
 .hlc-signed-in-shell .hlc-messages-new-secondary,
 .hlc-signed-in-shell .hlc-messages-back-action {
-  background: linear-gradient(145deg, #211850, #12152f) !important;
-  color: #fff !important;
-  border-color: rgba(125, 108, 255, .42) !important;
+  background: linear-gradient(145deg,#19234f,#0a1232) !important;
+  color: var(--hlc-physical-ink) !important;
+  border-color: var(--hlc-physical-border) !important;
 }
 
-/* Shared authenticated legacy-card closure. Scope stays inside signed-in shell. */
+/* Shared semantic cards / utility blocks: dark glass, crisp border, light copy. */
 .hlc-signed-in-shell :is(
-  .card, .panel, .surface, .tile, .summary-card, .result-card, .result-row,
-  .directory-card, .settings-card, .account-card, .document-card, .form-card,
-  .checklist-card, .provider-card, .community-card, .workflow-card, .schedule-card,
-  .conversation-card, .message-card, .agent-card
+  .card,.panel,.surface,.tile,.summary-card,.result-card,.result-row,
+  .directory-card,.settings-card,.account-card,.document-card,.form-card,
+  .checklist-card,.provider-card,.community-card,.workflow-card,.schedule-card,
+  .conversation-card,.message-card,.agent-card,
+  .utility-card,.utility-tile,.action-card,.action-tile
 ) {
-  background-color: #11142f !important;
-  background-image: linear-gradient(145deg, rgba(24, 28, 65, .96), rgba(10, 12, 32, .99)) !important;
-  color: #f8f7ff !important;
-  border-color: rgba(125, 108, 255, .28) !important;
+  background-color: var(--hlc-physical-panel) !important;
+  background-image: linear-gradient(145deg,rgba(18,27,63,.97),rgba(7,12,38,.99)) !important;
+  color: var(--hlc-physical-ink) !important;
+  border-color: var(--hlc-physical-border) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.025) !important;
+}
+.hlc-signed-in-shell :is(
+  .card,.panel,.surface,.tile,.summary-card,.result-card,.result-row,
+  .directory-card,.settings-card,.account-card,.document-card,.form-card,
+  .checklist-card,.provider-card,.community-card,.workflow-card,.schedule-card,
+  .conversation-card,.message-card,.agent-card,
+  .utility-card,.utility-tile,.action-card,.action-tile
+) :is(p,small,time,.meta,.description,.subtitle,.caption) {
+  color: var(--hlc-physical-muted) !important;
+}
+.hlc-signed-in-shell :is(
+  .card,.panel,.surface,.tile,.summary-card,.result-card,.result-row,
+  .directory-card,.settings-card,.account-card,.document-card,.form-card,
+  .checklist-card,.provider-card,.community-card,.workflow-card,.schedule-card,
+  .conversation-card,.message-card,.agent-card,
+  .utility-card,.utility-tile,.action-card,.action-tile
+) :is(h1,h2,h3,h4,strong,b) {
+  color: var(--hlc-physical-ink) !important;
 }
 
-/* Catch legacy inline light fills without changing public/front-door pages. */
+/* Common account/work command links (Settings, Team, Workflow, Call Center, etc.). */
+.hlc-signed-in-shell :is(
+  .hlc-parent-secondary nav a,
+  .hlc-parent-boundary a,
+  .hlc-parent-branch-row,
+  .hlc-app-directory-links > a,
+  .hlc-app-directory-quick > a,
+  .hlc-app-directory-support > a,
+  .hlc-settings-grid a,
+  .hlc-utility-grid a,
+  .hlc-command-grid a
+) {
+  background: linear-gradient(145deg,rgba(27,36,82,.96),rgba(8,14,42,.99)) !important;
+  background-image: linear-gradient(145deg,rgba(27,36,82,.96),rgba(8,14,42,.99)) !important;
+  border: 1px solid var(--hlc-physical-border) !important;
+  color: var(--hlc-physical-ink) !important;
+  box-shadow: none !important;
+}
+.hlc-signed-in-shell :is(
+  .hlc-parent-secondary nav a,
+  .hlc-parent-boundary a,
+  .hlc-parent-branch-row,
+  .hlc-app-directory-links > a,
+  .hlc-app-directory-quick > a,
+  .hlc-app-directory-support > a,
+  .hlc-settings-grid a,
+  .hlc-utility-grid a,
+  .hlc-command-grid a
+) :is(span,strong,small,b,p) {
+  background: transparent !important;
+  background-image: none !important;
+  color: inherit !important;
+}
+
+/* Catch legacy inline light fills without touching the public/front door. */
 .hlc-signed-in-shell [style*="background: white"],
 .hlc-signed-in-shell [style*="background:#fff"],
 .hlc-signed-in-shell [style*="background: #fff"],
@@ -119,63 +244,55 @@
 .hlc-signed-in-shell [style*="rgb(255, 255, 255)"],
 .hlc-signed-in-shell [style*="rgb(248, 250, 252)"],
 .hlc-signed-in-shell [style*="rgb(249, 250, 251)"] {
-  background: linear-gradient(145deg, rgba(24, 28, 65, .96), rgba(10, 12, 32, .99)) !important;
-  color: #f8f7ff !important;
+  background: linear-gradient(145deg,rgba(18,27,63,.97),rgba(7,12,38,.99)) !important;
+  background-image: linear-gradient(145deg,rgba(18,27,63,.97),rgba(7,12,38,.99)) !important;
+  color: var(--hlc-physical-ink) !important;
 }
 
-.hlc-signed-in-shell :is(input, textarea, select, [contenteditable="true"]) {
-  background-color: #090b20 !important;
-  color: #fff !important;
-  -webkit-text-fill-color: #fff !important;
-  border-color: rgba(125, 108, 255, .34) !important;
+.hlc-signed-in-shell :is(input,textarea,select,[contenteditable="true"]) {
+  background-color: #080f2d !important;
+  background-image: none !important;
+  color: var(--hlc-physical-ink) !important;
+  -webkit-text-fill-color: var(--hlc-physical-ink) !important;
+  border-color: rgba(111,126,255,.34) !important;
 }
-.hlc-signed-in-shell :is(input, textarea)::placeholder { color: #aaa8c9 !important; opacity: 1 !important; }
-.hlc-signed-in-shell :is(fieldset, details) {
-  background-color: rgba(11, 13, 35, .92) !important;
-  color: #f8f7ff !important;
-  border-color: rgba(125, 108, 255, .28) !important;
-}
-
-/* Bottom navigation: keep labels/icons readable on the premium dark family. */
-.hlc-signed-in-shell :is(.hlc-mobile-bottom-nav, .hlc-mobile-nav, .hlc-bottom-nav) :is(a, button, svg, span) {
-  color: #dedbff !important;
-  stroke: currentColor;
+.hlc-signed-in-shell :is(input,textarea)::placeholder { color:#cbd5e1 !important; opacity:.9 !important; }
+.hlc-signed-in-shell :is(fieldset,details) {
+  background-color: rgba(8,15,45,.94) !important;
+  color: var(--hlc-physical-ink) !important;
+  border-color: var(--hlc-physical-border) !important;
 }
 
-/* Contextual portal hero imagery. The same structural slot resolves by authenticated route family. */
+/* Contextual portal artwork remains available outside Dashboard; Dashboard is explicitly locked out later. */
 .hlc-page-dashboard .hlc-route-content > main::before,
 .hlc-page-homeowner-portal .hlc-route-content > main::before,
 .hlc-page-contractor-portal .hlc-route-content > main::before,
 .hlc-page-partner-portal .hlc-route-content > main::before {
-  content: "";
-  display: block;
-  width: 100%;
-  min-height: clamp(150px, 24vw, 238px);
-  margin: 0 0 18px;
-  border: 1px solid rgba(125, 108, 255, .34);
-  border-radius: 24px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  box-shadow: inset 0 -70px 90px rgba(4, 6, 22, .38), 0 18px 46px rgba(0, 0, 0, .20);
-  overflow: hidden;
+  content:"";
+  display:block;
+  width:100%;
+  min-height:clamp(150px,24vw,238px);
+  margin:0 0 18px;
+  border:1px solid var(--hlc-physical-border);
+  border-radius:20px;
+  background-position:center;
+  background-repeat:no-repeat;
+  background-size:cover;
+  box-shadow:inset 0 -70px 90px rgba(4,6,22,.38),0 18px 46px rgba(0,0,0,.20);
+  overflow:hidden;
 }
-.hlc-page-dashboard .hlc-route-content > main::before { background-image: linear-gradient(180deg, rgba(6,8,28,.08), rgba(6,8,28,.25)), url('/portal-visuals/operations-command.svg'); }
-.hlc-page-homeowner-portal .hlc-route-content > main::before { background-image: linear-gradient(180deg, rgba(5,12,34,.06), rgba(5,12,34,.22)), url('/portal-visuals/resident-home.svg'); }
-.hlc-page-contractor-portal .hlc-route-content > main::before { background-image: linear-gradient(180deg, rgba(4,20,20,.06), rgba(4,20,20,.22)), url('/portal-visuals/professional-service.svg'); }
-.hlc-page-partner-portal .hlc-route-content > main::before { background-image: linear-gradient(180deg, rgba(30,17,5,.06), rgba(30,17,5,.22)), url('/portal-visuals/partner-property.svg'); }
+.hlc-page-dashboard .hlc-route-content > main::before { background-image:linear-gradient(180deg,rgba(6,8,28,.08),rgba(6,8,28,.25)),url('/portal-visuals/operations-command.svg'); }
+.hlc-page-homeowner-portal .hlc-route-content > main::before { background-image:linear-gradient(180deg,rgba(5,12,34,.06),rgba(5,12,34,.22)),url('/portal-visuals/resident-home.svg'); }
+.hlc-page-contractor-portal .hlc-route-content > main::before { background-image:linear-gradient(180deg,rgba(4,20,20,.06),rgba(4,20,20,.22)),url('/portal-visuals/professional-service.svg'); }
+.hlc-page-partner-portal .hlc-route-content > main::before { background-image:linear-gradient(180deg,rgba(30,17,5,.06),rgba(30,17,5,.22)),url('/portal-visuals/partner-property.svg'); }
 
-@media (max-width: 720px) {
+@media (max-width:720px) {
   .hlc-page-dashboard .hlc-route-content > main::before,
   .hlc-page-homeowner-portal .hlc-route-content > main::before,
   .hlc-page-contractor-portal .hlc-route-content > main::before,
   .hlc-page-partner-portal .hlc-route-content > main::before {
-    min-height: 164px;
-    margin-bottom: 14px;
-    border-radius: 20px;
+    min-height:164px;
+    margin-bottom:14px;
+    border-radius:18px;
   }
-  .hlc-command-search,
-  .hlc-command-search-header,
-  .hlc-command-search-results,
-  .hlc-command-search-footer { background-color: #0b0d24 !important; }
 }
