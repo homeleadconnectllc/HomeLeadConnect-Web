@@ -73,16 +73,16 @@ export default function Leads() {
 
   return (
     <main className="hlc-leads-workspace">
-      <header className="hlc-leads-command-header">
-        <div>
+      <section className="hlc-leads-command-header" aria-labelledby="hlc-leads-title">
+        <div className="hlc-leads-command-copy">
           <p className="hlc-page-eyebrow">CRM · Opportunity pipeline</p>
-          <h1>Leads</h1>
+          <h1 id="hlc-leads-title">Leads</h1>
           <p>Qualify renters, homeowners, property managers, and other households; make contact, schedule the next step, and move ready requests into estimating.</p>
         </div>
         <button className="hlc-leads-add-button" type="button" onClick={() => setShowAddLead((value) => !value)}>
           <Plus size={17} aria-hidden="true" /> {showAddLead ? "Cancel" : "Add lead"}
         </button>
-      </header>
+      </section>
 
       <section className="hlc-leads-summary" aria-label="Lead summary">
         <span><strong>{leads.length}</strong><small>Total</small></span>
@@ -92,11 +92,10 @@ export default function Leads() {
       </section>
 
       <section className="hlc-leads-toolbar" aria-label="Lead tools">
-        <label className="hlc-leads-search">
+        <div className="hlc-leads-search" role="search">
           <Search size={18} aria-hidden="true" />
-          <span className="sr-only">Search leads</span>
-          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search renter/homeowner, name, contact, stage, priority, source, or lead code" />
-        </label>
+          <input aria-label="Search leads" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search renter/homeowner, name, contact, stage, priority, source, or lead code" />
+        </div>
         <span className="hlc-leads-view-label"><SlidersHorizontal size={16} aria-hidden="true" /> Active pipeline</span>
       </section>
 
