@@ -81,6 +81,7 @@ import "./version-a-image2-final-authority-20260904.css";
 import "./live-white-island-eradication-20260905.css";
 import "./dashboard-context-hero.css";
 import "./mobile-command-sheet-source-authority.css";
+import "./mobile-command-menu-rebuild-20260905.css";
 import "./messages-lane-2-mobile-authority.css";
 
 export default function AuthenticatedStyles() {
