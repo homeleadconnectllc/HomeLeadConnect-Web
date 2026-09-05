@@ -42,6 +42,8 @@ import "./mobile-a-plus-final-device-round-2.css";
 import "./provider-professional-profile.css";
 import "./mobile-a-plus-final-device-round-3.css";
 import "./mobile-a-plus-private-beta-closure.css";
+import "./mobile-a-plus-sidebar-final-closure.css";
+import "./mobile-a-plus-drawer-root-isolation.css";
 import "./final-mobile-polish.css";
 import "./soft-launch-mobile-dashboard-authority.css";
 import "./soft-launch-manual-communications-authority.css";
