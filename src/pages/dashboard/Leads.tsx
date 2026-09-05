@@ -74,7 +74,7 @@ export default function Leads() {
   return (
     <main className="hlc-leads-workspace">
       <section className="hlc-leads-command-surface" aria-labelledby="hlc-leads-title">
-        <div className="hlc-leads-command-copy">
+        <div className="hlc-leads-intro-copy">
           <p className="hlc-page-eyebrow">CRM · Opportunity pipeline</p>
           <h1 id="hlc-leads-title">Leads</h1>
           <p>Qualify renters, homeowners, property managers, and other households; make contact, schedule the next step, and move ready requests into estimating.</p>
