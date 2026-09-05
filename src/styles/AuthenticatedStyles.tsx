@@ -80,11 +80,14 @@ import "./version-a-authenticated-physical-closure-20260904.css";
 import "./version-a-global-contrast-closure-20260904.css";
 import "./version-a-global-family-authority-20260904.css";
 import "./version-a-image2-final-authority-20260904.css";
-import "./live-white-island-eradication-20260905.css";
 import "./dashboard-context-hero.css";
 import "./mobile-command-sheet-source-authority.css";
 import "./mobile-command-menu-rebuild-20260905.css";
 import "./messages-lane-2-mobile-authority.css";
+import "./app-directory-source-authority.css";
+import "./community-hub-source-authority.css";
+import "./work-home-source-authority.css";
+import "./live-white-island-eradication-20260905.css";
 
 export default function AuthenticatedStyles() {
   return <MobileNavigationDialogAccessibility />;
