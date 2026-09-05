@@ -7,7 +7,6 @@ import AnalyticsTracker from "../components/analytics/AnalyticsTracker";
 import { useAuth } from "../hooks/useAuth";
 
 const UniversalAITeamLauncher = lazy(() => import("../components/agents/UniversalAITeamLauncher"));
-const AnalyticsKpis = lazy(() => import("../components/analytics/AnalyticsKpis"));
 const AudioDeviceCenter = lazy(() => import("../components/audio/AudioDeviceCenter"));
 const FieldDeviceCenter = lazy(() => import("../components/device/FieldDeviceCenter"));
 const WorkspaceGuidance = lazy(() => import("../components/WorkspaceGuidance"));
@@ -69,7 +68,6 @@ export default function AppLayout() {
   const signedInWorkspaceShell = Boolean(session) && !focusedPublicIntake;
   const showAudioDevices = signedInWorkspaceShell && (location.pathname === "/settings" || location.pathname === "/call-center");
   const showFieldDevices = signedInWorkspaceShell && location.pathname === "/settings";
-  const showAnalytics = signedInWorkspaceShell && location.pathname === "/dashboard";
   const routePersonaClass = signedInWorkspaceShell ? personaRouteClass(location.pathname) : "";
   const routeClass = stableRouteClass(location.pathname);
 
@@ -171,7 +169,6 @@ export default function AppLayout() {
         {!session && location.pathname !== "/" && <RouteVisualBanner />}
         <Outlet />
         <Suspense fallback={null}>
-          {showAnalytics && <AnalyticsKpis />}
           {showAudioDevices && <AudioDeviceCenter />}
           {showFieldDevices && <FieldDeviceCenter />}
         </Suspense>
