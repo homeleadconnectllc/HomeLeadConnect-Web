@@ -156,7 +156,7 @@ export default function Navbar() {
       <nav className="hlc-mobile-more-quick" aria-label="More HomeLead Connect areas">
         {access.partner ? <Link to="/partner-portal/resources" onClick={closeMobileMenu}><MobileNavIcon name="more" /><span><strong>Partner resources</strong><small>Guidance and partner materials</small></span><b aria-hidden="true">→</b></Link> : <Link to="/start-here" onClick={closeMobileMenu}><MobileNavIcon name="more" /><span><strong>App Directory</strong><small>Everything available to your account</small></span><b aria-hidden="true">→</b></Link>}
         {!access.partner && <Link to="/notifications" onClick={closeMobileMenu}><MobileNavIcon name="notifications" /><span><strong>Notifications</strong><small>What needs attention</small></span><b aria-hidden="true">→</b></Link>}
-        {!access.partner && <Link to="/profile" onClick={closeMobileMenu}><MobileNavIcon name="profile" /><span><strong>My Profile</strong><small>Identity and preferences</small></span><b aria-hidden="true">→</b></Link>}
+        {!access.partner && <Link to="/profile" onClick={closeMobileMenu}><MobileNavIcon name="profile" /><span><strong>My profile</strong><small>Identity and preferences</small></span><b aria-hidden="true">→</b></Link>}
         {showBusinessTools && <Link to="/settings" onClick={closeMobileMenu}><MobileNavIcon name="more" /><span><strong>Settings</strong><small>Workspace and account controls</small></span><b aria-hidden="true">→</b></Link>}
       </nav>
       {accessResolved && access.business && !access.role && <p className="hlc-nav-access-note">Internal role not assigned. Workspace controls are hidden.</p>}
