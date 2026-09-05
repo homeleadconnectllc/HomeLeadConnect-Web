@@ -59,7 +59,7 @@ function contextualAgentIds(pathname: string): AgentId[] | null {
   if (HOME_TEAM_ROUTES.has(pathname)) return null;
   if (matchesRoute(pathname, KENDRELL_PREFIXES)) return ["kendrell"];
   if (matchesRoute(pathname, DION_PREFIXES)) return ["dion"];
-  if (matchesRoute(pathname, DIAMOND_PREFIXES)) return ["diamond"];
+  if (matchesRoute(pathname, DIAMOND_PREFIXES) || pathname.startsWith("/community-")) return ["diamond"];
   return null;
 }
 
