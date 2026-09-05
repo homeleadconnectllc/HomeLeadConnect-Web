@@ -217,18 +217,9 @@ export default function Dashboard() {
 
   const signedInName = firstName(identity.fullName);
   const greeting = signedInName ? `${getGreeting()}, ${signedInName}` : getGreeting();
-  const hero = account.homeowner
-    ? { src: "/portal-visuals/resident-home.svg", alt: "Home and neighborhood service experience" }
-    : account.contractor
-      ? { src: "/portal-visuals/professional-service.svg", alt: "Professional service work and tools" }
-      : { src: "/portal-visuals/operations-command.svg", alt: "HomeLead Connect operations workspace" };
 
   return (
     <main className="hlc-home-workspace hlc-home-structural">
-      <section className="hlc-home-context-hero" aria-label="Your HomeLead Connect workspace">
-        <img src={hero.src} alt={hero.alt} />
-      </section>
-
       <header className="hlc-home-topbar">
         <div>
           <span className="hlc-home-eyebrow">HOME</span>
