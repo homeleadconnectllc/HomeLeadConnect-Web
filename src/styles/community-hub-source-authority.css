@@ -1,4 +1,10 @@
-/* CommunityHub owns these controls. Physical-iPhone authority rejects white command/input islands. */
+/* Physical-reference authority — Community. */
+.hlc-community-workspace {
+  color-scheme: dark;
+  background: #060b26 !important;
+  color: #f8fafc !important;
+}
+
 .hlc-community-workspace :is(
   .hlc-community-header,
   .hlc-community-commandbar,
@@ -15,24 +21,52 @@
   box-shadow: none !important;
 }
 
+.hlc-community-workspace :is(.hlc-community-header,.hlc-community-lane-head,.hlc-community-empty,h1,h2,h3) {
+  text-align: center !important;
+}
+
+.hlc-community-workspace .hlc-community-header,
+.hlc-community-workspace .hlc-community-lane-head {
+  background: #060b26 !important;
+  background-image: none !important;
+  color: #f8fafc !important;
+  border-color: rgba(110,124,255,.22) !important;
+}
+
 .hlc-community-workspace .hlc-community-commandbar,
 .hlc-community-workspace .hlc-community-row,
 .hlc-community-workspace .hlc-community-context section,
 .hlc-community-workspace .hlc-community-more-tools,
 .hlc-community-workspace .hlc-community-store-workspace {
-  background: rgba(11, 13, 35, .82) !important;
-  background-image: none !important;
-  border-color: rgba(126, 108, 255, .20) !important;
-  color: #f8f7ff !important;
+  background: linear-gradient(145deg,rgba(17,27,63,.97),rgba(7,12,38,.99)) !important;
+  background-image: linear-gradient(145deg,rgba(17,27,63,.97),rgba(7,12,38,.99)) !important;
+  border-color: rgba(110,124,255,.24) !important;
+  color: #f8fafc !important;
+}
+
+.hlc-community-workspace :is(
+  .hlc-community-row-copy,
+  .hlc-community-row-copy *,
+  .hlc-community-context,
+  .hlc-community-context *,
+  .hlc-community-more-tools,
+  .hlc-community-more-tools *,
+  .hlc-community-store-workspace,
+  .hlc-community-store-workspace *
+) {
+  color: #e2e8f0 !important;
+}
+.hlc-community-workspace :is(.hlc-community-row-copy strong,.hlc-community-context strong,.hlc-community-more-tools strong) {
+  color: #f8fafc !important;
 }
 
 .hlc-community-workspace :is(.hlc-community-commandbar a, .hlc-parent-agent-link, .hlc-community-row > a, .hlc-community-context-actions a) {
-  border: 1px solid rgba(126, 108, 255, .28) !important;
-  border-radius: 10px !important;
-  background: linear-gradient(145deg, rgba(45, 37, 99, .88), rgba(17, 20, 48, .98)) !important;
-  background-image: linear-gradient(145deg, rgba(45, 37, 99, .88), rgba(17, 20, 48, .98)) !important;
-  box-shadow: none !important;
-  color: #f8f7ff !important;
+  border: 1px solid rgba(116,128,255,.30) !important;
+  border-radius: 11px !important;
+  background: linear-gradient(145deg,rgba(31,39,88,.96),rgba(9,15,43,.99)) !important;
+  background-image: linear-gradient(145deg,rgba(31,39,88,.96),rgba(9,15,43,.99)) !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.03) !important;
+  color: #f8fafc !important;
 }
 .hlc-community-workspace :is(.hlc-community-commandbar a, .hlc-parent-agent-link, .hlc-community-row > a, .hlc-community-context-actions a) > span {
   background: transparent !important;
@@ -40,30 +74,23 @@
 }
 
 .hlc-community-workspace :is(input, textarea, select, [contenteditable="true"]) {
-  border: 1px solid rgba(126, 108, 255, .30) !important;
+  border: 1px solid rgba(111,126,255,.36) !important;
   border-radius: 11px !important;
-  background: #090b20 !important;
+  background: #0a102d !important;
   background-image: none !important;
   box-shadow: none !important;
-  color: #fff !important;
-  -webkit-text-fill-color: #fff !important;
+  color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
 }
-.hlc-community-workspace :is(input, textarea)::placeholder {
-  color: #aaa8c9 !important;
-  opacity: 1 !important;
-}
+.hlc-community-workspace :is(input, textarea)::placeholder { color: #cbd5e1 !important; opacity: .9 !important; }
 
-.hlc-community-workspace :is(summary, button) {
-  color: #f8f7ff;
-}
+.hlc-community-workspace :is(summary, button) { color: #f8fafc !important; }
 .hlc-community-workspace details > summary {
-  background: rgba(18, 20, 49, .88) !important;
+  background: #0d1536 !important;
   background-image: none !important;
-  color: #f8f7ff !important;
+  color: #f8fafc !important;
 }
 
 @media (max-width: 760px) {
-  .hlc-community-workspace :is(.hlc-community-commandbar a, .hlc-parent-agent-link, .hlc-community-row > a, .hlc-community-context-actions a) {
-    min-height: 44px;
-  }
+  .hlc-community-workspace :is(.hlc-community-commandbar a, .hlc-parent-agent-link, .hlc-community-row > a, .hlc-community-context-actions a) { min-height: 44px; }
 }
