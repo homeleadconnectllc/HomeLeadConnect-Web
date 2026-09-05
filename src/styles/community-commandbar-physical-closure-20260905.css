@@ -1,0 +1,27 @@
+/* Physical iPhone closure for the Community quick-navigation island.
+   Visual-only: no layout, routing, workflow, auth, role, or RLS changes. */
+
+@layer hlcRedesign {
+  html body #root .hlc-signed-in-shell .hlc-community-v2 .hlc-community-v2-commandbar {
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  html body #root .hlc-signed-in-shell .hlc-community-v2 .hlc-community-v2-commandbar > a {
+    background: linear-gradient(145deg, #151a3a, #0b102b) !important;
+    background-image: linear-gradient(145deg, #151a3a, #0b102b) !important;
+    border: 1px solid rgba(126, 108, 255, .30) !important;
+    color: #f8fafc !important;
+    -webkit-text-fill-color: #f8fafc !important;
+    opacity: 1 !important;
+    box-shadow: none !important;
+  }
+
+  html body #root .hlc-signed-in-shell .hlc-community-v2 .hlc-community-v2-commandbar > a :is(span,strong,small) {
+    color: inherit !important;
+    -webkit-text-fill-color: currentColor !important;
+    opacity: 1 !important;
+  }
+}
