@@ -1,0 +1,39 @@
+/* WorkHome owns these controls. Keep them dark here instead of relying on global card cleanup. */
+.hlc-work-home .hlc-parent-index-header,
+.hlc-work-home .hlc-parent-secondary,
+.hlc-work-home .hlc-parent-boundary,
+.hlc-work-home .hlc-parent-branch-list,
+.hlc-work-home .hlc-parent-branch-row,
+.hlc-work-home .hlc-parent-branch-row > span,
+.hlc-work-home .hlc-parent-branch-row :is(strong, small, b) {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+.hlc-work-home .hlc-parent-branch-row {
+  border-color: rgba(126, 108, 255, .22) !important;
+  color: #f7f6ff !important;
+}
+.hlc-work-home .hlc-parent-branch-row strong { color: #fff !important; }
+.hlc-work-home .hlc-parent-branch-row small { color: #b9b7d1 !important; }
+.hlc-work-home .hlc-parent-branch-row b { color: #9f91ff !important; }
+
+.hlc-work-home :is(.hlc-parent-agent-link, .hlc-parent-secondary nav a, .hlc-parent-boundary a) {
+  border: 1px solid rgba(126, 108, 255, .30) !important;
+  border-radius: 11px !important;
+  background: linear-gradient(145deg, rgba(48, 38, 105, .92), rgba(18, 21, 50, .98)) !important;
+  background-image: linear-gradient(145deg, rgba(48, 38, 105, .92), rgba(18, 21, 50, .98)) !important;
+  box-shadow: none !important;
+  color: #f8f7ff !important;
+}
+.hlc-work-home :is(.hlc-parent-agent-link, .hlc-parent-secondary nav a, .hlc-parent-boundary a) > span {
+  background: transparent !important;
+  color: inherit !important;
+}
+
+@media (max-width: 760px) {
+  .hlc-work-home :is(.hlc-parent-agent-link, .hlc-parent-secondary nav a, .hlc-parent-boundary a) {
+    min-height: 44px;
+  }
+}
