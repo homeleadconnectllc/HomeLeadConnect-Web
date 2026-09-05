@@ -12,7 +12,7 @@ test("authenticated shell mounts the mobile navigation accessibility guard", () 
 });
 
 test("accessibility guard targets the current mobile drawer implementation", () => {
-  assert.match(navbar, /className="hlc-drawer-v2" role="dialog" aria-modal="true"/);
+  assert.match(navbar, /className="[^"]*\bhlc-drawer-v2\b[^"]*" role="dialog" aria-modal="true"/);
   assert.match(navigationAccessibility, /\.hlc-drawer-v2\[role="dialog"\]\[aria-modal="true"\]/);
 });
 
