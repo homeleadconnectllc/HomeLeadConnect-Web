@@ -94,6 +94,7 @@ import "./ai-team-context-source-authority-20260905.css";
 import "./dashboard-ai-team-mobile-physical-fix-20260905.css";
 import "./authenticated-contrast-closure-20260905.css";
 import "./authenticated-interactive-contrast-physical-fix-20260905.css";
+import "./community-commandbar-physical-closure-20260905.css";
 
 export default function AuthenticatedStyles() {
   return <MobileNavigationDialogAccessibility />;
