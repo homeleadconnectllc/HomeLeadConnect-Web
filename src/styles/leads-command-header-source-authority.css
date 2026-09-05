@@ -1,0 +1,168 @@
+/* Leads command surface source authority.
+   Physical Safari proved that both the semantic <header> element and class names containing
+   "header" were still colliding with old authenticated cascade families. Leads now uses a
+   section with a collision-free source-owned class. The search control likewise avoids the
+   legacy <label> + sr-only pattern that was being restyled into two visible controls. */
+
+.hlc-leads-command-surface {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px;
+  border: 1px solid rgba(126,108,255,.30);
+  border-radius: 16px;
+  background: linear-gradient(145deg,#151a3f,#090d27);
+  background-image: linear-gradient(145deg,#151a3f,#090d27);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.035);
+  overflow: hidden;
+  color: #f8fafc;
+}
+
+.hlc-leads-command-surface::before,
+.hlc-leads-command-surface::after {
+  content: none;
+  display: none;
+}
+
+.hlc-leads-intro-copy {
+  min-width: 0;
+  flex: 1;
+  background: transparent;
+  background-image: none;
+}
+
+.hlc-leads-command-surface .hlc-page-eyebrow {
+  margin: 0 0 5px;
+  color: #a78bfa;
+  -webkit-text-fill-color: #a78bfa;
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+  opacity: 1;
+}
+
+.hlc-leads-command-surface h1 {
+  margin: 0 0 5px;
+  color: #fff;
+  -webkit-text-fill-color: #fff;
+  font-size: clamp(1.85rem,3.3vw,2.7rem);
+  line-height: 1.04;
+  letter-spacing: -.035em;
+}
+
+.hlc-leads-intro-copy > p:last-child {
+  max-width: 760px;
+  margin: 0;
+  color: #dbe4f5;
+  -webkit-text-fill-color: #dbe4f5;
+  font-size: .9rem;
+  line-height: 1.45;
+}
+
+/* Search is one source-owned control. No label text node exists for legacy form styles to expose. */
+.hlc-leads-toolbar > .hlc-leads-search[role="search"] {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex: 1;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0 12px;
+  border: 1px solid rgba(126,108,255,.34);
+  border-radius: 11px;
+  background: #0a102d;
+  background-image: none;
+  color: #cbd5e1;
+  box-shadow: none;
+}
+
+.hlc-leads-toolbar > .hlc-leads-search[role="search"] > svg {
+  flex: 0 0 auto;
+  color: #a78bfa;
+  stroke: #a78bfa;
+}
+
+.hlc-leads-toolbar > .hlc-leads-search[role="search"] > input {
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  min-height: 42px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  background-image: none;
+  color: #f8fafc;
+  -webkit-text-fill-color: #f8fafc;
+  outline: 0;
+  box-shadow: none;
+}
+
+.hlc-leads-toolbar > .hlc-leads-search[role="search"] > input::placeholder {
+  color: #cbd5e1;
+  -webkit-text-fill-color: #cbd5e1;
+  opacity: .9;
+}
+
+/* Physical iPhone root-cause closure: the surviving white rectangle was the inner copy
+   node, not the outer Leads surface. The old class contained "command" and remained
+   eligible for generic command-family presentation. The replacement intro class is
+   route-owned and the high-authority authenticated rule makes the inner node inert. */
+@layer hlcRedesign {
+  html body #root .hlc-signed-in-shell.hlc-page-leads .hlc-leads-command-surface > .hlc-leads-intro-copy {
+    background: transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    color: #f8fafc !important;
+    -webkit-text-fill-color: currentColor !important;
+  }
+
+  html body #root .hlc-signed-in-shell.hlc-page-leads .hlc-leads-command-surface > .hlc-leads-intro-copy > .hlc-page-eyebrow {
+    background: transparent !important;
+    background-image: none !important;
+    color: #a78bfa !important;
+    -webkit-text-fill-color: #a78bfa !important;
+    opacity: 1 !important;
+  }
+
+  html body #root .hlc-signed-in-shell.hlc-page-leads .hlc-leads-command-surface > .hlc-leads-intro-copy > h1 {
+    background: transparent !important;
+    background-image: none !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    opacity: 1 !important;
+  }
+
+  html body #root .hlc-signed-in-shell.hlc-page-leads .hlc-leads-command-surface > .hlc-leads-intro-copy > p:last-child {
+    background: transparent !important;
+    background-image: none !important;
+    color: #dbe4f5 !important;
+    -webkit-text-fill-color: #dbe4f5 !important;
+    opacity: 1 !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .hlc-leads-command-surface {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .hlc-leads-command-surface h1 {
+    font-size: clamp(1.65rem,8vw,2.15rem);
+  }
+
+  .hlc-leads-intro-copy > p:last-child {
+    font-size: .82rem;
+    line-height: 1.36;
+  }
+}
