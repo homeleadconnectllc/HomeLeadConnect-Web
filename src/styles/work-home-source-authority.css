@@ -181,3 +181,48 @@
   .hlc-work-home .hlc-parent-secondary nav > a.hlc-work-communication-link,
   .hlc-work-home .hlc-parent-boundary a { width:100% !important; }
 }
+
+/* Physical rejection closure: the authenticated Work source must own these surfaces
+   even against legacy layered presentation rules. */
+@layer hlcRedesign {
+  .hlc-signed-in-shell .hlc-work-home .hlc-parent-agent-link {
+    border:1px solid rgba(116,128,255,.42)!important;
+    background:linear-gradient(145deg,#211b55,#0b102d)!important;
+    background-image:linear-gradient(145deg,#211b55,#0b102d)!important;
+    color:#f8fafc!important;
+    -webkit-text-fill-color:#f8fafc!important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.035)!important;
+  }
+  .hlc-signed-in-shell .hlc-work-home .hlc-parent-agent-link::before,
+  .hlc-signed-in-shell .hlc-work-home .hlc-parent-agent-link::after {
+    content:none!important;
+    display:none!important;
+    background:none!important;
+  }
+  .hlc-signed-in-shell .hlc-work-home .hlc-parent-branch-list {
+    display:grid!important;
+    gap:12px!important;
+    padding:0!important;
+    border:0!important;
+    border-radius:0!important;
+    background:transparent!important;
+    background-image:none!important;
+    box-shadow:none!important;
+    overflow:visible!important;
+  }
+  .hlc-signed-in-shell .hlc-work-home .hlc-parent-branch-list::before,
+  .hlc-signed-in-shell .hlc-work-home .hlc-parent-branch-list::after {
+    content:none!important;
+    display:none!important;
+    background:none!important;
+    box-shadow:none!important;
+  }
+  .hlc-signed-in-shell .hlc-work-home .hlc-parent-branch-row {
+    margin:0!important;
+    border:1px solid rgba(111,126,255,.24)!important;
+    background:linear-gradient(145deg,rgba(18,27,63,.97),rgba(7,12,38,.99))!important;
+    background-image:linear-gradient(145deg,rgba(18,27,63,.97),rgba(7,12,38,.99))!important;
+    color:#f8fafc!important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.03)!important;
+  }
+}
