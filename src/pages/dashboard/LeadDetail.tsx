@@ -42,9 +42,8 @@ export default function LeadDetail() {
           <p className="hlc-page-eyebrow">Lead profile</p>
           <h1>{lead.full_name || `Lead #${lead.id}`}</h1>
           <div className="hlc-lead-detail-meta">
-            {lead.lead_code && <span>#{lead.lead_code}</span>}
+            <span>Lead #{lead.id}</span>
             <span>{pipeline}</span>
-            {lead.priority && <span>{lead.priority} priority</span>}
             {lead.sla_status && <span>SLA: {lead.sla_status}</span>}
           </div>
         </div>
@@ -64,7 +63,7 @@ export default function LeadDetail() {
             <div><dt>Email</dt><dd>{lead.email ? <a href={`mailto:${lead.email}`}><Mail size={16} aria-hidden="true" />{lead.email}</a> : "Not provided"}</dd></div>
             <div><dt>Phone</dt><dd>{lead.phone ? <a href={`tel:${lead.phone}`}><Phone size={16} aria-hidden="true" />{lead.phone}</a> : "Not provided"}</dd></div>
             <div><dt>Source</dt><dd>{lead.source || "Not recorded"}</dd></div>
-            <div><dt>Lead ID</dt><dd>{lead.lead_code ? `#${lead.lead_code}` : String(lead.id)}</dd></div>
+            <div><dt>Lead ID</dt><dd>{String(lead.id)}</dd></div>
           </dl>
         </section>
 
@@ -78,7 +77,6 @@ export default function LeadDetail() {
           <dl>
             <div><dt>Status</dt><dd>{lead.status || "Not set"}</dd></div>
             <div><dt>Stage</dt><dd>{lead.stage || "Not set"}</dd></div>
-            <div><dt>Priority</dt><dd>{lead.priority || "Not set"}</dd></div>
             <div><dt>Conversion score</dt><dd>{lead.conversion_score ?? "Not scored"}</dd></div>
           </dl>
         </section>
