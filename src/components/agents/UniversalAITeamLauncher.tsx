@@ -120,14 +120,15 @@ export default function UniversalAITeamLauncher() {
     ? visibleAgents.find((agent) => agent.id === activeAgentId) ?? null
     : null;
   const onDedicatedAgentPage = DEDICATED_AGENT_ROUTES.has(location.pathname);
-  const neutralLauncher = HOME_TEAM_ROUTES.has(location.pathname) || visibleAgents.length !== 1;
+  const onHomeTeamPage = HOME_TEAM_ROUTES.has(location.pathname);
+  const neutralLauncher = visibleAgents.length !== 1;
 
   useEffect(() => {
     document.body.classList.toggle("hlc-agent-open", Boolean(activeAgent));
     return () => document.body.classList.remove("hlc-agent-open");
   }, [activeAgent]);
 
-  if (account.loading || account.error || !visibleAgents.length || onDedicatedAgentPage) return null;
+  if (account.loading || account.error || !visibleAgents.length || onDedicatedAgentPage || onHomeTeamPage) return null;
 
   return (
     <aside className={`hlc-ai-team-launcher${routeLauncherOpen ? " is-open" : ""}${activeAgent ? " has-agent" : ""}`} aria-label="HomeLead Connect AI Team">
