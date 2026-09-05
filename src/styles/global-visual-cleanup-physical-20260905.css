@@ -35,174 +35,41 @@
   font-weight: 850 !important;
   line-height: 1 !important;
 }
-.hlc-signed-in-shell.hlc-page-dashboard .hlc-home-top-actions-v2 > .hlc-home-identity > img.hlc-header-avatar {
-  object-fit: cover !important;
-  background: #111633 !important;
-}
-.hlc-signed-in-shell.hlc-page-dashboard .hlc-home-intro-v2 p {
-  color:#e2e8f0 !important;
-  -webkit-text-fill-color:#e2e8f0 !important;
-  overflow:visible !important;
-  text-overflow:clip !important;
-}
-.hlc-signed-in-shell.hlc-page-dashboard .hlc-home-panel-title > span {
-  color:#a78bfa !important;
-  -webkit-text-fill-color:#a78bfa !important;
-  opacity:1 !important;
-}
+.hlc-signed-in-shell.hlc-page-dashboard .hlc-home-top-actions-v2 > .hlc-home-identity > img.hlc-header-avatar { object-fit:cover !important; background:#111633 !important; }
+.hlc-signed-in-shell.hlc-page-dashboard .hlc-home-intro-v2 p { color:#e2e8f0 !important; -webkit-text-fill-color:#e2e8f0 !important; overflow:visible !important; text-overflow:clip !important; }
+.hlc-signed-in-shell.hlc-page-dashboard .hlc-home-panel-title > span { color:#a78bfa !important; -webkit-text-fill-color:#a78bfa !important; opacity:1 !important; }
 
 /* Referral LaunchSurface is an inline-style legacy surface. Route ownership wins here. */
-.hlc-signed-in-shell.hlc-page-community-referrals .hlc-route-content > main[style] {
-  width: min(100% - 24px, 980px) !important;
-  margin: 0 auto !important;
-  padding: 22px 0 calc(104px + env(safe-area-inset-bottom)) !important;
-  background: transparent !important;
-  background-image: none !important;
-  color: #f8fafc !important;
-}
-.hlc-signed-in-shell.hlc-page-community-referrals .hlc-route-content > main[style] > header[style] {
-  margin: 0 0 16px !important;
-  padding: 18px 20px !important;
-  border: 1px solid rgba(139,119,255,.34) !important;
-  border-radius: 16px !important;
-  background: linear-gradient(145deg,rgba(20,24,58,.98),rgba(9,13,39,.99)) !important;
-  background-image: linear-gradient(145deg,rgba(20,24,58,.98),rgba(9,13,39,.99)) !important;
-  box-shadow: none !important;
-  color: #f8fafc !important;
-}
+.hlc-signed-in-shell.hlc-page-community-referrals .hlc-route-content > main[style] { width:min(100% - 24px,980px) !important; margin:0 auto !important; padding:22px 0 calc(104px + env(safe-area-inset-bottom)) !important; background:transparent !important; background-image:none !important; color:#f8fafc !important; }
+.hlc-signed-in-shell.hlc-page-community-referrals .hlc-route-content > main[style] > header[style] { margin:0 0 16px !important; padding:18px 20px !important; border:1px solid rgba(139,119,255,.34) !important; border-radius:16px !important; background:linear-gradient(145deg,rgba(20,24,58,.98),rgba(9,13,39,.99)) !important; background-image:linear-gradient(145deg,rgba(20,24,58,.98),rgba(9,13,39,.99)) !important; box-shadow:none !important; color:#f8fafc !important; }
 .hlc-signed-in-shell.hlc-page-community-referrals .hlc-route-content > main[style] > header[style] h1,
-.hlc-signed-in-shell.hlc-page-community-referrals .hlc-route-content > main[style] :is(h2,label,strong,p,small) {
-  color: #eef2ff !important;
-  -webkit-text-fill-color: currentColor !important;
-  opacity: 1 !important;
-}
-.hlc-signed-in-shell.hlc-page-community-referrals .hlc-route-content > main[style] :is(form[style],section[style]) {
-  color: #f8fafc !important;
-  border-color: rgba(139,119,255,.26) !important;
-  background: linear-gradient(155deg,rgba(15,19,48,.98),rgba(7,10,29,.99)) !important;
-  background-image: linear-gradient(155deg,rgba(15,19,48,.98),rgba(7,10,29,.99)) !important;
-  box-shadow: none !important;
-}
-.hlc-signed-in-shell.hlc-page-community-referrals .hlc-route-content > main[style] :is(input,textarea,select) {
-  width: 100% !important;
-  max-width: 100% !important;
-  min-height: 48px !important;
-  padding: 11px 13px !important;
-  border: 1px solid rgba(139,119,255,.34) !important;
-  border-radius: 11px !important;
-  background: #080c22 !important;
-  color: #f8fafc !important;
-  -webkit-text-fill-color: #f8fafc !important;
-  box-shadow: none !important;
-}
-.hlc-signed-in-shell.hlc-page-community-referrals .hlc-route-content > main[style] textarea { min-height: 92px !important; resize: vertical !important; }
-.hlc-signed-in-shell.hlc-page-community-referrals .hlc-route-content > main[style] button {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  min-height: 48px !important;
-  height: auto !important;
-  max-width: 100% !important;
-  padding: 11px 18px !important;
-  border: 1px solid rgba(151,130,255,.48) !important;
-  border-radius: 11px !important;
-  background: linear-gradient(145deg,#2b2468,#16123e) !important;
-  background-image: linear-gradient(145deg,#2b2468,#16123e) !important;
-  color: #f8fafc !important;
-  -webkit-text-fill-color: #f8fafc !important;
-  font-weight: 800 !important;
-  line-height: 1.25 !important;
-  text-align: center !important;
-  white-space: normal !important;
-  overflow-wrap: break-word !important;
-  box-shadow: none !important;
-}
+.hlc-signed-in-shell.hlc-page-community-referrals .hlc-route-content > main[style] :is(h2,label,strong,p,small) { color:#eef2ff !important; -webkit-text-fill-color:currentColor !important; opacity:1 !important; }
+.hlc-signed-in-shell.hlc-page-community-referrals .hlc-route-content > main[style] :is(form[style],section[style]) { color:#f8fafc !important; border-color:rgba(139,119,255,.26) !important; background:linear-gradient(155deg,rgba(15,19,48,.98),rgba(7,10,29,.99)) !important; background-image:linear-gradient(155deg,rgba(15,19,48,.98),rgba(7,10,29,.99)) !important; box-shadow:none !important; }
+.hlc-signed-in-shell.hlc-page-community-referrals .hlc-route-content > main[style] :is(input,textarea,select) { width:100% !important; max-width:100% !important; min-height:48px !important; padding:11px 13px !important; border:1px solid rgba(139,119,255,.34) !important; border-radius:11px !important; background:#080c22 !important; color:#f8fafc !important; -webkit-text-fill-color:#f8fafc !important; box-shadow:none !important; }
+.hlc-signed-in-shell.hlc-page-community-referrals .hlc-route-content > main[style] textarea { min-height:92px !important; resize:vertical !important; }
+.hlc-signed-in-shell.hlc-page-community-referrals .hlc-route-content > main[style] button { display:inline-flex !important; align-items:center !important; justify-content:center !important; min-height:48px !important; height:auto !important; max-width:100% !important; padding:11px 18px !important; border:1px solid rgba(151,130,255,.48) !important; border-radius:11px !important; background:linear-gradient(145deg,#2b2468,#16123e) !important; background-image:linear-gradient(145deg,#2b2468,#16123e) !important; color:#f8fafc !important; -webkit-text-fill-color:#f8fafc !important; font-weight:800 !important; line-height:1.25 !important; text-align:center !important; white-space:normal !important; overflow-wrap:break-word !important; box-shadow:none !important; }
 
 /* Profile: dark boundary navigation; one avatar circle. */
-.hlc-signed-in-shell.hlc-page-profile .hlc-profile-corner-identity {
-  background: transparent !important;
-  background-image: none !important;
-  box-shadow: none !important;
-}
-.hlc-signed-in-shell.hlc-page-profile .hlc-profile-corner-identity > .hlc-profile-avatar {
-  border-radius: 50% !important;
-  background: linear-gradient(145deg,#4b2a92,#25135f) !important;
-  background-image: linear-gradient(145deg,#4b2a92,#25135f) !important;
-  color: #f8fafc !important;
-  -webkit-text-fill-color: #f8fafc !important;
-  box-shadow: none !important;
-}
-.hlc-signed-in-shell.hlc-page-profile .hlc-account-form-actions button {
-  min-height: 48px !important;
-  height: auto !important;
-  max-width: 100% !important;
-  padding: 11px 18px !important;
-  white-space: normal !important;
-  overflow-wrap: break-word !important;
-}
-.hlc-signed-in-shell.hlc-page-profile .hlc-account-boundary nav {
-  display:grid !important;
-  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
-  gap:10px !important;
-  padding:0 !important;
-  background:transparent !important;
-  background-image:none !important;
-}
-.hlc-signed-in-shell.hlc-page-profile .hlc-account-boundary nav a {
-  display:flex !important;
-  align-items:center !important;
-  justify-content:center !important;
-  min-height:48px !important;
-  padding:10px 12px !important;
-  border:1px solid rgba(139,119,255,.34) !important;
-  border-radius:12px !important;
-  background:linear-gradient(145deg,#171b42,#0a0f2b) !important;
-  background-image:linear-gradient(145deg,#171b42,#0a0f2b) !important;
-  color:#f8fafc !important;
-  -webkit-text-fill-color:#f8fafc !important;
-  text-decoration:none !important;
-  text-align:center !important;
-  font-weight:750 !important;
-  line-height:1.25 !important;
-  white-space:normal !important;
-  box-shadow:none !important;
-}
+.hlc-signed-in-shell.hlc-page-profile .hlc-profile-corner-identity { background:transparent !important; background-image:none !important; box-shadow:none !important; }
+.hlc-signed-in-shell.hlc-page-profile .hlc-profile-corner-identity > .hlc-profile-avatar { border-radius:50% !important; background:linear-gradient(145deg,#4b2a92,#25135f) !important; background-image:linear-gradient(145deg,#4b2a92,#25135f) !important; color:#f8fafc !important; -webkit-text-fill-color:#f8fafc !important; box-shadow:none !important; }
+.hlc-signed-in-shell.hlc-page-profile .hlc-account-form-actions button { min-height:48px !important; height:auto !important; max-width:100% !important; padding:11px 18px !important; white-space:normal !important; overflow-wrap:break-word !important; }
+.hlc-signed-in-shell.hlc-page-profile .hlc-account-boundary nav { display:grid !important; grid-template-columns:repeat(2,minmax(0,1fr)) !important; gap:10px !important; padding:0 !important; background:transparent !important; background-image:none !important; }
+.hlc-signed-in-shell.hlc-page-profile .hlc-account-boundary nav a { display:flex !important; align-items:center !important; justify-content:center !important; min-height:48px !important; padding:10px 12px !important; border:1px solid rgba(139,119,255,.34) !important; border-radius:12px !important; background:linear-gradient(145deg,#171b42,#0a0f2b) !important; background-image:linear-gradient(145deg,#171b42,#0a0f2b) !important; color:#f8fafc !important; -webkit-text-fill-color:#f8fafc !important; text-decoration:none !important; text-align:center !important; font-weight:750 !important; line-height:1.25 !important; white-space:normal !important; box-shadow:none !important; }
 
 /* Leads remains visual-only. The known lead_code query error is handled in a separate functional lane. */
 .hlc-signed-in-shell.hlc-page-leads .hlc-leads-workspace { color:#f8fafc !important; }
-.hlc-signed-in-shell.hlc-page-leads .hlc-leads-header {
-  padding:16px !important;
-  border:1px solid rgba(126,108,255,.30) !important;
-  border-radius:16px !important;
-  background:linear-gradient(145deg,#151a3f,#090d27) !important;
-  background-image:linear-gradient(145deg,#151a3f,#090d27) !important;
-}
+.hlc-signed-in-shell.hlc-page-leads .hlc-leads-header { padding:16px !important; border:1px solid rgba(126,108,255,.30) !important; border-radius:16px !important; background:linear-gradient(145deg,#151a3f,#090d27) !important; background-image:linear-gradient(145deg,#151a3f,#090d27) !important; }
 .hlc-signed-in-shell.hlc-page-leads .hlc-leads-header::before { content:none !important; display:none !important; }
 .hlc-signed-in-shell.hlc-page-leads .hlc-page-eyebrow { color:#a78bfa !important; -webkit-text-fill-color:#a78bfa !important; opacity:1 !important; }
 .hlc-signed-in-shell.hlc-page-leads .hlc-leads-header h1 { color:#fff !important; -webkit-text-fill-color:#fff !important; }
 .hlc-signed-in-shell.hlc-page-leads .hlc-leads-header>div>p:last-child { color:#dbe4f5 !important; -webkit-text-fill-color:#dbe4f5 !important; }
 .hlc-signed-in-shell.hlc-page-leads .hlc-leads-add-button,
-.hlc-signed-in-shell.hlc-page-leads .hlc-leads-create button {
-  min-height:46px !important;
-  height:auto !important;
-  padding:10px 16px !important;
-  border-color:rgba(151,130,255,.48) !important;
-  background:linear-gradient(145deg,#2b2468,#16123e) !important;
-  background-image:linear-gradient(145deg,#2b2468,#16123e) !important;
-  color:#fff !important;
-  -webkit-text-fill-color:#fff !important;
-  white-space:nowrap !important;
-}
+.hlc-signed-in-shell.hlc-page-leads .hlc-leads-create button { min-height:46px !important; height:auto !important; padding:10px 16px !important; border-color:rgba(151,130,255,.48) !important; background:linear-gradient(145deg,#2b2468,#16123e) !important; background-image:linear-gradient(145deg,#2b2468,#16123e) !important; color:#fff !important; -webkit-text-fill-color:#fff !important; white-space:nowrap !important; }
 .hlc-signed-in-shell.hlc-page-leads .hlc-leads-add-button svg { color:#fff !important; stroke:#fff !important; }
 .hlc-signed-in-shell.hlc-page-leads .hlc-leads-summary,
 .hlc-signed-in-shell.hlc-page-leads .hlc-leads-summary>span,
 .hlc-signed-in-shell.hlc-page-leads .hlc-leads-pipeline,
-.hlc-signed-in-shell.hlc-page-leads .hlc-leads-create {
-  border-color:rgba(126,108,255,.28) !important;
-  background:linear-gradient(145deg,#121636,#080c25) !important;
-  background-image:linear-gradient(145deg,#121636,#080c25) !important;
-  box-shadow:none !important;
-}
+.hlc-signed-in-shell.hlc-page-leads .hlc-leads-create { border-color:rgba(126,108,255,.28) !important; background:linear-gradient(145deg,#121636,#080c25) !important; background-image:linear-gradient(145deg,#121636,#080c25) !important; box-shadow:none !important; }
 .hlc-signed-in-shell.hlc-page-leads .hlc-leads-summary strong,
 .hlc-signed-in-shell.hlc-page-leads .hlc-leads-summary small,
 .hlc-signed-in-shell.hlc-page-leads .hlc-leads-create label,
@@ -211,43 +78,45 @@
 .hlc-signed-in-shell.hlc-page-leads .hlc-leads-empty,
 .hlc-signed-in-shell.hlc-page-leads .hlc-leads-empty strong { color:#f8fafc !important; -webkit-text-fill-color:#f8fafc !important; opacity:1 !important; }
 .hlc-signed-in-shell.hlc-page-leads .hlc-leads-toolbar { border-color:rgba(126,108,255,.20) !important; }
-.hlc-signed-in-shell.hlc-page-leads .hlc-leads-search {
-  min-height:48px !important;
-  border-color:rgba(126,108,255,.34) !important;
-  background:#0a102d !important;
-  color:#cbd5e1 !important;
-}
+.hlc-signed-in-shell.hlc-page-leads .hlc-leads-search { min-height:48px !important; border-color:rgba(126,108,255,.34) !important; background:#0a102d !important; color:#cbd5e1 !important; }
 .hlc-signed-in-shell.hlc-page-leads .hlc-leads-search svg { color:#a78bfa !important; stroke:#a78bfa !important; }
 .hlc-signed-in-shell.hlc-page-leads .hlc-leads-search input { color:#f8fafc !important; -webkit-text-fill-color:#f8fafc !important; }
 .hlc-signed-in-shell.hlc-page-leads .hlc-leads-search input::placeholder { color:#cbd5e1 !important; opacity:.9 !important; }
-.hlc-signed-in-shell.hlc-page-leads .hlc-leads-view-label {
-  min-height:42px !important;
-  padding:8px 12px !important;
-  border-color:rgba(126,108,255,.34) !important;
-  background:#111633 !important;
-  color:#e2e8f0 !important;
-  -webkit-text-fill-color:#e2e8f0 !important;
-}
+.hlc-signed-in-shell.hlc-page-leads .hlc-leads-view-label { min-height:42px !important; padding:8px 12px !important; border-color:rgba(126,108,255,.34) !important; background:#111633 !important; color:#e2e8f0 !important; -webkit-text-fill-color:#e2e8f0 !important; }
 .hlc-signed-in-shell.hlc-page-leads .hlc-leads-view-label svg { color:#a78bfa !important; stroke:#a78bfa !important; }
-.hlc-signed-in-shell.hlc-page-leads .hlc-leads-create :is(input,textarea,select) {
-  border-color:rgba(126,108,255,.32) !important;
-  background:#080c22 !important;
-  color:#f8fafc !important;
-  -webkit-text-fill-color:#f8fafc !important;
-}
+.hlc-signed-in-shell.hlc-page-leads .hlc-leads-create :is(input,textarea,select) { border-color:rgba(126,108,255,.32) !important; background:#080c22 !important; color:#f8fafc !important; -webkit-text-fill-color:#f8fafc !important; }
 
-/* Preserve corrected agent launcher visibility. */
-.hlc-signed-in-shell .hlc-ai-team-trigger { background:#0b102b !important; color:#fff !important; }
+/* Contextual AI must stay compact; route owns only its trigger/menu footprint. */
+.hlc-signed-in-shell .hlc-ai-team-launcher {
+  left:auto !important;
+  width:max-content !important;
+  max-width:calc(100vw - 24px) !important;
+  min-width:0 !important;
+  padding:0 !important;
+  margin:0 !important;
+  border:0 !important;
+  background:transparent !important;
+  background-image:none !important;
+  box-shadow:none !important;
+}
+.hlc-signed-in-shell .hlc-ai-team-trigger {
+  width:auto !important;
+  max-width:100% !important;
+  min-width:0 !important;
+  background:#0b102b !important;
+  color:#fff !important;
+}
 .hlc-signed-in-shell .hlc-ai-team-neutral-mark { color:#f8fafc !important; -webkit-text-fill-color:#f8fafc !important; opacity:1 !important; }
 .hlc-signed-in-shell .hlc-ai-team-trigger-copy strong { color:#fff !important; -webkit-text-fill-color:#fff !important; }
 
 @media (max-width:760px) {
-  .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-top-actions-v2 > .hlc-home-identity { width:40px !important;height:40px !important;min-width:40px !important; }
-  .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-top-actions-v2 > .hlc-home-identity > .hlc-header-avatar { width:38px !important;height:38px !important;min-width:38px !important; }
+  .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-top-actions-v2 > .hlc-home-identity { width:40px !important; height:40px !important; min-width:40px !important; }
+  .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-top-actions-v2 > .hlc-home-identity > .hlc-header-avatar { width:38px !important; height:38px !important; min-width:38px !important; }
   .hlc-signed-in-shell.hlc-page-community-referrals .hlc-route-content > main[style] > header[style] { padding:15px 16px !important; }
   .hlc-signed-in-shell.hlc-page-community-referrals .hlc-route-content > main[style] button { width:100% !important; }
   .hlc-signed-in-shell.hlc-page-profile .hlc-account-boundary nav { grid-template-columns:1fr !important; }
   .hlc-signed-in-shell.hlc-page-leads .hlc-leads-header { grid-template-columns:1fr !important; }
   .hlc-signed-in-shell.hlc-page-leads .hlc-leads-add-button { justify-self:start !important; }
+  .hlc-signed-in-shell .hlc-ai-team-launcher { right:max(12px,env(safe-area-inset-right)) !important; }
 }
 }
