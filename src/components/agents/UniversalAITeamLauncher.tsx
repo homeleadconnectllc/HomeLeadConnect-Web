@@ -96,6 +96,7 @@ export default function UniversalAITeamLauncher() {
   const account = useAccountAccess();
   const location = useLocation();
   const [launcherOpen, setLauncherOpen] = useState(false);
+  const [launcherPath, setLauncherPath] = useState(location.pathname);
   const [activeAgentId, setActiveAgentId] = useState<AgentId | null>(null);
 
   const authorizedAgents = useMemo(() => {
@@ -113,15 +114,13 @@ export default function UniversalAITeamLauncher() {
     return authorizedAgents.filter((agent) => contextual.includes(agent.id));
   }, [authorizedAgents, location.pathname]);
 
+  const routeLauncherOpen = launcherOpen && launcherPath === location.pathname;
   const contextualAgent = visibleAgents.length === 1 ? visibleAgents[0] : null;
-  const activeAgent = visibleAgents.find((agent) => agent.id === activeAgentId) ?? null;
+  const activeAgent = launcherPath === location.pathname
+    ? visibleAgents.find((agent) => agent.id === activeAgentId) ?? null
+    : null;
   const onDedicatedAgentPage = DEDICATED_AGENT_ROUTES.has(location.pathname);
   const neutralLauncher = HOME_TEAM_ROUTES.has(location.pathname) || visibleAgents.length !== 1;
-
-  useEffect(() => {
-    setActiveAgentId(null);
-    setLauncherOpen(false);
-  }, [location.pathname]);
 
   useEffect(() => {
     document.body.classList.toggle("hlc-agent-open", Boolean(activeAgent));
@@ -131,8 +130,8 @@ export default function UniversalAITeamLauncher() {
   if (account.loading || account.error || !visibleAgents.length || onDedicatedAgentPage) return null;
 
   return (
-    <aside className={`hlc-ai-team-launcher${launcherOpen ? " is-open" : ""}${activeAgent ? " has-agent" : ""}`} aria-label="HomeLead Connect AI Team">
-      {launcherOpen && (
+    <aside className={`hlc-ai-team-launcher${routeLauncherOpen ? " is-open" : ""}${activeAgent ? " has-agent" : ""}`} aria-label="HomeLead Connect AI Team">
+      {routeLauncherOpen && (
         <div className="hlc-ai-team-menu" role="dialog" aria-modal="false" aria-label="Choose a HomeLead Connect AI Team agent">
           <div className="hlc-ai-team-menu-head">
             <div>
@@ -197,13 +196,15 @@ export default function UniversalAITeamLauncher() {
       <button
         type="button"
         className={`hlc-ai-team-trigger${neutralLauncher ? " is-neutral" : " is-contextual"}`}
-        aria-expanded={launcherOpen}
-        aria-label={`${launcherOpen ? "Close" : "Open"} ${contextualAgent ? `${contextualAgent.name} assistant` : "HomeLead Connect AI Team"}`}
+        aria-expanded={routeLauncherOpen}
+        aria-label={`${routeLauncherOpen ? "Close" : "Open"} ${contextualAgent ? `${contextualAgent.name} assistant` : "HomeLead Connect AI Team"}`}
         onClick={() => {
-          if (launcherOpen) {
+          if (routeLauncherOpen) {
             setActiveAgentId(null);
             setLauncherOpen(false);
           } else {
+            setActiveAgentId(null);
+            setLauncherPath(location.pathname);
             setLauncherOpen(true);
           }
         }}
