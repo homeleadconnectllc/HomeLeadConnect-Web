@@ -1,0 +1,130 @@
+/* Shared authenticated mobile surface authority — physical Safari closure.
+   Purpose: fix shared white/light islands and contrast drift at the common authenticated root.
+   Scope: presentation only. No routing, data, auth, RLS, workflow, Supabase, billing, or geometry changes. */
+
+@layer hlcRedesign {
+  @media (max-width: 760px) {
+    html body #root .hlc-signed-in-shell,
+    html body #root .hlc-signed-in-shell .hlc-route-content,
+    html body #root .hlc-signed-in-shell .hlc-route-content > main {
+      color-scheme: dark;
+      background-color: #060b26 !important;
+      color: #f8fafc !important;
+      -webkit-text-fill-color: currentColor;
+    }
+
+    /* Common authenticated parent/group surfaces seen across Work, Automations,
+       Forecasting, Workflow, Notifications, Connections and Profile. */
+    html body #root .hlc-signed-in-shell .hlc-route-content > main :is(
+      section,
+      article,
+      aside,
+      nav,
+      form,
+      fieldset,
+      details,
+      [role="group"],
+      [role="region"]
+    ):is(
+      .card,
+      .panel,
+      .surface,
+      .tile,
+      .summary-card,
+      .result-card,
+      .result-row,
+      .directory-card,
+      .settings-card,
+      .account-card,
+      .document-card,
+      .form-card,
+      .checklist-card,
+      .provider-card,
+      .community-card,
+      .workflow-card,
+      .schedule-card,
+      .conversation-card,
+      .message-card,
+      .agent-card,
+      .utility-card,
+      .utility-tile,
+      .action-card,
+      .action-tile,
+      [class*="-card"],
+      [class*="-panel"],
+      [class*="-surface"],
+      [class*="-tile"],
+      [class*="-section"],
+      [class*="-group"]
+    ) {
+      background-color: #0b1232 !important;
+      background-image: linear-gradient(145deg, rgba(18,27,63,.97), rgba(7,12,38,.99)) !important;
+      border-color: rgba(111,126,255,.28) !important;
+      color: #f8fafc !important;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.025) !important;
+    }
+
+    /* Shared command/control rows. Keep source-owned geometry, only close paint/contrast. */
+    html body #root .hlc-signed-in-shell .hlc-route-content > main :is(a,button):is(
+      [class*="-row"],
+      [class*="-link"],
+      [class*="-action"],
+      [class*="-button"],
+      [class*="-tab"]
+    ) {
+      background-color: #111a42 !important;
+      background-image: linear-gradient(145deg, rgba(27,36,82,.96), rgba(8,14,42,.99)) !important;
+      border-color: rgba(111,126,255,.28) !important;
+      color: #f8fafc !important;
+      -webkit-text-fill-color: #f8fafc !important;
+      box-shadow: none !important;
+    }
+
+    /* Descendant copy must inherit readable dark-surface foreground instead of stale light-theme ink. */
+    html body #root .hlc-signed-in-shell .hlc-route-content > main :is(
+      .card,.panel,.surface,.tile,.summary-card,.result-card,.result-row,
+      .directory-card,.settings-card,.account-card,.document-card,.form-card,
+      .checklist-card,.provider-card,.community-card,.workflow-card,.schedule-card,
+      .conversation-card,.message-card,.agent-card,.utility-card,.utility-tile,
+      .action-card,.action-tile,
+      [class*="-card"],[class*="-panel"],[class*="-surface"],[class*="-tile"],
+      [class*="-section"],[class*="-group"],
+      a[class*="-row"],a[class*="-link"],a[class*="-action"],
+      button[class*="-row"],button[class*="-action"],button[class*="-button"],button[class*="-tab"]
+    ) :is(h1,h2,h3,h4,h5,h6,strong,b,span,label) {
+      color: #f8fafc !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-route-content > main :is(
+      .card,.panel,.surface,.tile,.summary-card,.result-card,.result-row,
+      .directory-card,.settings-card,.account-card,.document-card,.form-card,
+      .checklist-card,.provider-card,.community-card,.workflow-card,.schedule-card,
+      .conversation-card,.message-card,.agent-card,.utility-card,.utility-tile,
+      .action-card,.action-tile,
+      [class*="-card"],[class*="-panel"],[class*="-surface"],[class*="-tile"],
+      [class*="-section"],[class*="-group"]
+    ) :is(p,small,time,.meta,.metadata,.description,.subtitle,.caption,.helper,.hint) {
+      color: #d7dced !important;
+      -webkit-text-fill-color: currentColor !important;
+      opacity: 1 !important;
+    }
+
+    /* Explicitly neutralize legacy inline light fills that survive source CSS on iOS Safari. */
+    html body #root .hlc-signed-in-shell .hlc-route-content > main [style*="background: white"],
+    html body #root .hlc-signed-in-shell .hlc-route-content > main [style*="background:#fff"],
+    html body #root .hlc-signed-in-shell .hlc-route-content > main [style*="background: #fff"],
+    html body #root .hlc-signed-in-shell .hlc-route-content > main [style*="background-color: white"],
+    html body #root .hlc-signed-in-shell .hlc-route-content > main [style*="background-color:#fff"],
+    html body #root .hlc-signed-in-shell .hlc-route-content > main [style*="background-color: #fff"],
+    html body #root .hlc-signed-in-shell .hlc-route-content > main [style*="rgb(255, 255, 255)"],
+    html body #root .hlc-signed-in-shell .hlc-route-content > main [style*="rgb(248, 250, 252)"],
+    html body #root .hlc-signed-in-shell .hlc-route-content > main [style*="rgb(249, 250, 251)"] {
+      background-color: #0b1232 !important;
+      background-image: linear-gradient(145deg, rgba(18,27,63,.97), rgba(7,12,38,.99)) !important;
+      color: #f8fafc !important;
+      -webkit-text-fill-color: #f8fafc !important;
+      border-color: rgba(111,126,255,.28) !important;
+    }
+  }
+}
