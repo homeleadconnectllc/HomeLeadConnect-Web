@@ -17,10 +17,14 @@ const routes = [
   ["jobs", "/jobs"],
   ["calendar", "/calendar"],
   ["follow-ups", "/follow-ups"],
+  ["manual-communications", "/manual-communications"],
+  ["provider-fit", "/work/matching"],
+  ["provider-directory", "/providers"],
   ["workflow", "/workflow"],
   ["automations", "/automations"],
   ["messages", "/messages"],
   ["academy", "/academy"],
+  ["help", "/help"],
   ["analytics", "/analytics"],
   ["ai-team-kendrell", "/hq"],
   ["work", "/work"],
@@ -28,7 +32,7 @@ const routes = [
   ["resources", "/resources"],
 ];
 
-const mustRenderAuthorizedWorkspace = new Set(["/analytics", "/hq", "/community-hub"]);
+const mustRenderAuthorizedWorkspace = new Set(["/analytics", "/hq", "/community-hub", "/academy", "/help"]);
 
 const viewports = [
   ["mobile", { width: 390, height: 844 }],

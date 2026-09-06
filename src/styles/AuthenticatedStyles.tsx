@@ -96,6 +96,8 @@ import "./authenticated-contrast-closure-20260905.css";
 import "./authenticated-interactive-contrast-physical-fix-20260905.css";
 import "./community-commandbar-physical-closure-20260905.css";
 import "./global-visual-cleanup-physical-20260905.css";
+import "./authenticated-shared-mobile-surface-authority-20260905.css";
+import "./academy-help-physical-closure-20260906.css";
 
 export default function AuthenticatedStyles() {
   return <MobileNavigationDialogAccessibility />;
