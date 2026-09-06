@@ -176,5 +176,223 @@
       stroke: currentColor !important;
       opacity: 1 !important;
     }
+
+    /* Calendar.tsx -> HlcNativeCalendar owns this family. The source calendar
+       is already dark; physical Safari was repainting named panels light.
+       Reinstate only source-owned paint/foreground, leaving calendar geometry,
+       event behavior, sticky detail layout, and mini-month structure intact. */
+    html body #root .hlc-signed-in-shell .hlc-native-calendar {
+      color-scheme: dark;
+      background-color: #061222 !important;
+      background-image: linear-gradient(145deg, #061222 0%, #08182b 42%, #071426 100%) !important;
+      color: #eaf2ff !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-native-calendar :is(
+      .hlc-calendar-kpis > article,
+      .hlc-calendar-board,
+      .hlc-calendar-detail-panel,
+      .hlc-calendar-upcoming,
+      .hlc-native-event-composer,
+      .hlc-calendar-mini-month,
+      .hlc-calendar-event
+    ) {
+      background-color: #08192e !important;
+      background-image: linear-gradient(160deg, rgba(8,25,46,.98), rgba(5,18,35,.97)) !important;
+      border-color: rgba(93,139,198,.22) !important;
+      color: #eaf2ff !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-native-calendar :is(
+      .hlc-calendar-title-row h1,
+      .hlc-calendar-kpis strong,
+      .hlc-calendar-event-heading strong,
+      .hlc-calendar-empty h2,
+      .hlc-calendar-detail-empty h2,
+      .hlc-calendar-detail-heading h2
+    ) {
+      color: #f8fafc !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-native-calendar :is(
+      .hlc-calendar-title-row p,
+      .hlc-calendar-event-copy > span,
+      .hlc-calendar-event-copy small,
+      .hlc-calendar-empty p,
+      .hlc-calendar-detail-empty p,
+      .hlc-calendar-detail-heading p,
+      .hlc-calendar-detail-list dt,
+      .hlc-calendar-detail-list dd
+    ) {
+      color: #b9c8dc !important;
+      -webkit-text-fill-color: currentColor !important;
+      opacity: 1 !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-native-calendar :is(input,select,textarea,button) {
+      color-scheme: dark;
+    }
+
+    /* FollowUps.tsx has a complete named workspace hierarchy. Repair the
+       composer/queue/row paint and form contrast at that exact family only. */
+    html body #root .hlc-signed-in-shell .hlc-followups-workspace {
+      color-scheme: dark;
+      color: #f8fafc !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-followups-workspace :is(
+      .hlc-followups-summary > span,
+      .hlc-followup-composer,
+      .hlc-followup-queue,
+      .hlc-followup-row,
+      .hlc-followups-empty
+    ) {
+      background-color: #0b182d !important;
+      background-image: linear-gradient(145deg, rgba(16,31,58,.98), rgba(7,18,38,.98)) !important;
+      border-color: rgba(100,145,202,.22) !important;
+      color: #f8fafc !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-followups-workspace :is(h1,h2,h3,strong,label,.hlc-followup-status) {
+      color: #f8fafc !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-followups-workspace :is(p,small,.hlc-followup-mobile-label,.hlc-followups-empty > span) {
+      color: #bccbde !important;
+      -webkit-text-fill-color: currentColor !important;
+      opacity: 1 !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-followups-workspace :is(input,select,textarea) {
+      background: #09182c !important;
+      border-color: rgba(148,163,184,.28) !important;
+      color: #f8fafc !important;
+      -webkit-text-fill-color: #f8fafc !important;
+    }
+
+    /* ManualCommunications.tsx currently has no semantic root class. Its
+       source-owned pageStyle width is min(900px,...), distinct from the
+       LaunchSurface min(1120px,...) fingerprint. Scope to that exact root and
+       its direct workflow panels instead of touching generic forms globally. */
+    html body #root .hlc-signed-in-shell main[style*="900px"] {
+      color-scheme: dark;
+      color: #f8fafc !important;
+      -webkit-text-fill-color: currentColor !important;
+      background: transparent !important;
+    }
+
+    html body #root .hlc-signed-in-shell main[style*="900px"] > :is(form,section,details),
+    html body #root .hlc-signed-in-shell main[style*="900px"] > form > section,
+    html body #root .hlc-signed-in-shell main[style*="900px"] > form > details {
+      background-color: #0b1829 !important;
+      background-image: linear-gradient(145deg, rgba(14,31,53,.98), rgba(7,19,38,.98)) !important;
+      border-color: rgba(148,163,184,.24) !important;
+      color: #f8fafc !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+
+    html body #root .hlc-signed-in-shell main[style*="900px"] :is(h1,h2,h3,strong,label,summary) {
+      color: #f8fafc !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+
+    html body #root .hlc-signed-in-shell main[style*="900px"] :is(p,small,li) {
+      color: #cbd5e1 !important;
+      -webkit-text-fill-color: currentColor !important;
+      opacity: 1 !important;
+    }
+
+    html body #root .hlc-signed-in-shell main[style*="900px"] :is(input,select,textarea) {
+      background: #09182c !important;
+      border-color: rgba(148,163,184,.3) !important;
+      color: #f8fafc !important;
+      -webkit-text-fill-color: #f8fafc !important;
+    }
+
+    /* EligibilityFit.tsx owns /work/matching and carries legacy premium-panel
+       classes plus explicit light copy/error tokens. Override them only under
+       its exact .hlc-eligibility-page root. */
+    html body #root .hlc-signed-in-shell .hlc-eligibility-page {
+      color-scheme: dark;
+      color: #f8fafc !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-eligibility-page :is(
+      .hlc-premium-panel,
+      .hlc-premium-empty,
+      .hlc-premium-callout
+    ) {
+      background-color: #0b182d !important;
+      background-image: linear-gradient(145deg, rgba(16,31,58,.98), rgba(7,18,38,.98)) !important;
+      border-color: rgba(111,126,255,.26) !important;
+      color: #f8fafc !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-eligibility-page :is(h1,h2,h3,strong,a) {
+      color: #f8fafc !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-eligibility-page :is(p,small) {
+      color: #cbd5e1 !important;
+      -webkit-text-fill-color: currentColor !important;
+      opacity: 1 !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-eligibility-page [role="alert"] {
+      background: rgba(127,29,29,.46) !important;
+      color: #fecaca !important;
+      -webkit-text-fill-color: #fecaca !important;
+    }
+
+    /* NetworkDirectory.tsx owns /providers and /network list surfaces. Keep
+       its search/filter/provider-row geometry and force only the recorded
+       physical light islands back to the authenticated dark palette. */
+    html body #root .hlc-signed-in-shell .hlc-network-directory {
+      color-scheme: dark;
+      color: #f8fafc !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-network-directory :is(
+      .hlc-s3-network-search,
+      .hlc-s3-network-filters-desktop,
+      .hlc-s3-network-filter-sheet-panel,
+      .hlc-s3-network-tools,
+      .hlc-s3-provider-row,
+      .hlc-s3-provider-more > div
+    ) {
+      background-color: #0b182d !important;
+      background-image: linear-gradient(145deg, rgba(16,31,58,.98), rgba(7,18,38,.98)) !important;
+      border-color: rgba(100,145,202,.22) !important;
+      color: #f8fafc !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-network-directory :is(h1,h2,h3,strong,label,a,summary,button) {
+      color: #f8fafc !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-network-directory :is(p,small,span) {
+      color: #cbd5e1 !important;
+      -webkit-text-fill-color: currentColor !important;
+      opacity: 1 !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-network-directory :is(input,select) {
+      background: #09182c !important;
+      border-color: rgba(148,163,184,.3) !important;
+      color: #f8fafc !important;
+      -webkit-text-fill-color: #f8fafc !important;
+    }
   }
 }
