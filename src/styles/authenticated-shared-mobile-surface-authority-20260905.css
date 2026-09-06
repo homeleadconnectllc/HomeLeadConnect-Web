@@ -129,5 +129,52 @@
       -webkit-text-fill-color: currentColor !important;
       opacity: 1 !important;
     }
+
+    /* Physical recording 2026-09-05: Community store summary retained dark
+       text despite the correct dark surface. Pin the foreground at its exact
+       source-owned disclosure control without changing its geometry. */
+    html body #root .hlc-signed-in-shell .hlc-community-v2-store > summary,
+    html body #root .hlc-signed-in-shell .hlc-community-v2-more > summary {
+      color: #f8fafc !important;
+      -webkit-text-fill-color: #f8fafc !important;
+      opacity: 1 !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-community-v2-store > summary::marker,
+    html body #root .hlc-signed-in-shell .hlc-community-v2-more > summary::marker {
+      color: #c4b5fd !important;
+    }
+
+    /* Notifications.tsx already owns a dark palette, but a later physical-
+       Safari cascade is overriding the empty-state foreground. Restore the
+       component's intended readable hierarchy only for this workspace. */
+    html body #root .hlc-signed-in-shell .hlc-notifications-workspace {
+      color: #e5eefb !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-notifications-empty {
+      color: #aebdd0 !important;
+      -webkit-text-fill-color: currentColor !important;
+      opacity: 1 !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-notifications-empty > strong {
+      color: #f8fafc !important;
+      -webkit-text-fill-color: #f8fafc !important;
+      opacity: 1 !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-notifications-empty > span {
+      color: #cbd5e1 !important;
+      -webkit-text-fill-color: #cbd5e1 !important;
+      opacity: 1 !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-notifications-empty > svg {
+      color: #93c5fd !important;
+      stroke: currentColor !important;
+      opacity: 1 !important;
+    }
   }
 }
