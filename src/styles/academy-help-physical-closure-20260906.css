@@ -1,0 +1,76 @@
+/* Physical iPhone closure — Academy + Help only.
+   Presentation authority only. Preserve layout, routing, data and interaction behavior. */
+@layer hlcRedesign {
+  @media (max-width: 760px) {
+    html body #root .hlc-signed-in-shell .hlc-academy-workspace {
+      color-scheme: dark;
+      color: #f8fafc !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-academy-workspace :is(
+      .hlc-academy-path,
+      .hlc-academy-curriculum,
+      .hlc-academy-practice,
+      .hlc-academy-records
+    ) {
+      background-color: #08121f !important;
+      background-image: linear-gradient(145deg, rgba(8,18,31,.98), rgba(7,15,29,.98)) !important;
+      border-color: rgba(148,163,184,.18) !important;
+      color: #f8fafc !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-academy-workspace :is(h1,h2,h3,strong,b) {
+      color: #f8fafc !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-academy-workspace :is(p,small,li,.hlc-academy-runtime) {
+      color: #b9c9da !important;
+      -webkit-text-fill-color: currentColor !important;
+      opacity: 1 !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-academy-nav a {
+      background: transparent !important;
+      border-color: transparent !important;
+      color: #cbd5e1 !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-academy-nav a.is-active {
+      background: rgba(126,92,255,.14) !important;
+      border-color: rgba(126,92,255,.45) !important;
+      color: #fff !important;
+      -webkit-text-fill-color: #fff !important;
+    }
+
+    /* /help is OperationalGuide -> .hlc-resources-workspace. Physical Safari
+       preserved the dark surfaces but repainted supporting copy too dark. */
+    html body #root .hlc-signed-in-shell .hlc-resources-workspace :is(
+      .hlc-resources-header > div > p,
+      .hlc-manual-library > p,
+      .hlc-manual-row p,
+      .hlc-manual-row small,
+      .hlc-resource-copy p,
+      .hlc-resource-copy li,
+      .hlc-resources-escalation p
+    ) {
+      color: #cbd5e1 !important;
+      -webkit-text-fill-color: #cbd5e1 !important;
+      opacity: 1 !important;
+    }
+
+    html body #root .hlc-signed-in-shell .hlc-resources-workspace :is(
+      .hlc-manual-row h3,
+      .hlc-resource-copy h3,
+      .hlc-resources-escalation h2,
+      .hlc-resources-section-head h2
+    ) {
+      color: #f8fafc !important;
+      -webkit-text-fill-color: #f8fafc !important;
+      opacity: 1 !important;
+    }
+  }
+}
