@@ -1,0 +1,42 @@
+name: Preview Asset Smoke b577ce7
+
+on:
+  push:
+    branches:
+      - diagnostic/preview-asset-smoke-b577ce7
+
+permissions:
+  contents: read
+
+jobs:
+  preview-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify exact Cloudflare preview image delivery
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE='https://93b6a0d4.homeleadconnect-web.pages.dev'
+          check_webp() {
+            local path="$1" expected_size="$2" expected_sha="${3:-}"
+            local out="/tmp/$(basename "$path")"
+            local headers="${out}.headers"
+            echo "Checking ${BASE}${path}"
+            code=$(curl --fail --silent --show-error --location \
+              --retry 6 --retry-all-errors --retry-delay 3 \
+              --connect-timeout 15 --max-time 45 \
+              -D "$headers" -o "$out" -w '%{http_code}' "${BASE}${path}")
+            test "$code" -ge 200 && test "$code" -lt 300
+            grep -Eiq '^content-type:[[:space:]]*image/webp' "$headers"
+            test "$(wc -c < "$out" | tr -d ' ')" = "$expected_size"
+            test "$(xxd -p -l 4 "$out")" = '52494646'
+            test "$(dd if="$out" bs=1 skip=8 count=4 status=none | xxd -p)" = '57454250'
+            if [ -n "$expected_sha" ]; then
+              echo "$expected_sha  $out" | sha256sum --check --status
+            fi
+            echo "PASS $path HTTP=$code size=$(wc -c < "$out" | tr -d ' ') sha256=$(sha256sum "$out" | awk '{print $1}')"
+          }
+          check_webp '/hlc-frontdoor-resident-hero.webp' 11312
+          check_webp '/hlc-frontdoor-people-first.webp' 17976 '39ba92e934428d7ae0c74a70847e5da3ca27226185da9efa1792ce6471f23df8'
+          check_webp '/hlc-frontdoor-professional.webp' 19772 'd6fb656f3285e581fc3f049d65477496bc5b41d4d31f381d916acb4e678803db'
+          echo 'ALL PREVIEW ASSETS PASS'
