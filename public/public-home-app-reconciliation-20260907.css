@@ -15,10 +15,15 @@ html,body{margin:0;background:#081426;color:#f8fafc}
 #root .hlc-home-hero-copy{max-width:760px!important;margin:20px auto 0!important;color:#eef5ff!important;-webkit-text-fill-color:#eef5ff!important;font-size:19px!important;line-height:1.62!important;text-align:center!important}
 #root .hlc-home-hero-actions{display:flex!important;justify-content:center!important;align-items:center!important;flex-wrap:wrap!important;gap:10px!important;margin-top:28px!important}
 #root .hlc-home-hero-actions>a{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:50px!important;padding:0 19px!important;border-radius:9px!important;font-size:15px!important;font-weight:950!important;text-decoration:none!important;box-sizing:border-box!important}
+/* Resident-first front door: service request remains the primary action. */
 #root .hlc-home-hero-actions>a:first-child{background:#2563eb!important;border:1px solid #2563eb!important;color:#fff!important;-webkit-text-fill-color:#fff!important;box-shadow:0 16px 42px rgba(37,99,235,.30)!important}
 #root .hlc-home-hero-actions>a:nth-child(2){display:inline-flex!important;order:initial!important;background:rgba(16,36,62,.88)!important;border:1px solid rgba(219,234,254,.22)!important;color:#fff!important;-webkit-text-fill-color:#fff!important;backdrop-filter:blur(8px)!important}
+#root .hlc-home-hero-actions>a:nth-child(3){display:none!important}
 #root .hlc-home-hero-actions>a:nth-child(n+3){display:none!important}
 #root .hlc-home>section:not(.hlc-home-hero){width:min(100% - 32px,1100px)!important;margin-left:auto!important;margin-right:auto!important}
+/* Legacy parser/runtime fallback remains contract-compatible but is not used by the recovered header. */
+#root .hlc-home>header:not(.hlc-frontdoor-header)>a:first-child::after{content:"HomeLead Connect";color:#f8fafc;font-weight:850}
+#root .hlc-home-hero.legacy-public-hero{text-align:left!important}
 
 /* Auth must never fall back to the old light/white canvas. */
 html:has(#root .hlc-auth-shell),body:has(#root .hlc-auth-shell),#root:has(.hlc-auth-shell),
