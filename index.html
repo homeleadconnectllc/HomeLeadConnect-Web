@@ -10,7 +10,7 @@
     <link id="hlc-runtime-portal-authority" rel="stylesheet" href="/runtime-portal-authority-20260907.css" />
     <link id="hlc-physical-component-root-authority" rel="stylesheet" href="/physical-component-root-authority-20260907.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#0f172a" />
+    <meta name="theme-color" content="#0b5ed7" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="HomeLead Connect" />
@@ -20,9 +20,7 @@
         if (shortSide <= 760) {
           document.documentElement.classList.add('hlc-compact-device');
           const viewport = document.querySelector('meta[name="viewport"]');
-          if (viewport) {
-            viewport.setAttribute('content', `width=${shortSide}, initial-scale=1.0, viewport-fit=cover`);
-          }
+          if (viewport) viewport.setAttribute('content', `width=${shortSide}, initial-scale=1.0, viewport-fit=cover`);
         }
       })();
     </script>
@@ -40,22 +38,24 @@
         root.dataset.hlcPublicHomeSeeded = 'true';
         root.innerHTML = `
           <main class="hlc-home" data-hlc-public-home-main>
-            <header style="position:sticky;top:0;z-index:30;max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px;padding:10px 0;background:#081426;border-bottom:1px solid rgba(199,210,227,.10)">
-              <a href="/" aria-label="HomeLead Connect home" style="display:flex;align-items:center;min-width:0;text-decoration:none;color:#fff">
-                <img src="/hlc-logo-transparent.png" alt="HomeLead Connect LLC" loading="eager" decoding="async" fetchpriority="low" width="40" height="40" style="display:block;height:40px;width:40px;object-fit:contain;border-radius:50%;background:transparent" />
+            <header class="hlc-frontdoor-header">
+              <a href="/" aria-label="HomeLead Connect home">
+                <img src="/hlc-logo-transparent.png" alt="HomeLead Connect LLC" loading="eager" decoding="async" fetchpriority="low" width="40" height="40" />
               </a>
-              <a href="/app" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 14px;border:1px solid rgba(147,197,253,.32);border-radius:8px;background:#10243e;color:#fff;font-weight:800;text-decoration:none;white-space:nowrap">Open HomeLead Connect</a>
+              <a data-route-to="/request-service" href="https://app.homeleadconnect.org/request-service">Request Service</a>
             </header>
-            <section class="hlc-home-hero">
-              <p class="hlc-home-hero-kicker" style="margin:0;color:#60a5fa;font-size:13px;font-weight:900;letter-spacing:.12em">HOMELEAD CONNECT</p>
-              <h1 class="hlc-home-hero-title">One front door.<br />One connected home-services ecosystem.</h1>
-              <p class="hlc-home-hero-copy" style="max-width:760px;margin:0 auto;font-size:clamp(18px,3.8vw,21px);line-height:1.6;color:#c7d2e3">Request help, connect with providers, join the community, manage work, and reach the HomeLead Connect workspace from one identity.</p>
-              <div class="hlc-home-hero-actions" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:30px">
-                <a href="/pricing" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 20px;border-radius:8px;background:#2563eb;color:#fff;font-weight:900;text-decoration:none">Start 14-Day Free Trial</a>
-                <a href="/request-service" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 20px;border-radius:8px;background:#10243e;border:1px solid rgba(147,197,253,.24);color:#fff;font-weight:800;text-decoration:none">Get Help Now</a>
-                <a href="/app" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 20px;border-radius:8px;background:transparent;border:1px solid rgba(147,197,253,.24);color:#dbeafe;font-weight:800;text-decoration:none">Open HomeLead Connect</a>
+            <section class="hlc-home-hero hlc-frontdoor-hero">
+              <div class="hlc-frontdoor-photo" aria-hidden="true"></div>
+              <div class="hlc-frontdoor-overlay" aria-hidden="true"></div>
+              <div class="hlc-frontdoor-content">
+                <p class="hlc-home-hero-kicker">HOME SERVICES. CONNECTED BETTER</p>
+                <h1 class="hlc-home-hero-title">Home help should feel easier.</h1>
+                <p class="hlc-home-hero-copy">Tell us what your home needs. HomeLead Connect helps renters, homeowners, and everyday households move toward the right professional and a clearer next step.</p>
+                <div class="hlc-home-hero-actions">
+                  <a data-route-to="/request-service" href="https://app.homeleadconnect.org/request-service">Request Home Service</a>
+                  <a href="https://professionals.homeleadconnect.org/">For Professionals</a>
+                </div>
               </div>
-              <p class="hlc-home-hero-note" style="margin-top:14px;color:#9fb0c5;font-size:14px">For participating businesses: 14 days free, then $49.99/month. Payment method required.</p>
             </section>
           </main>`;
       })();
