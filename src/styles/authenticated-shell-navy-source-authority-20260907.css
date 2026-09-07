@@ -1,0 +1,23 @@
+/* Final authenticated shell source authority after physical iPhone rejection. */
+#root .hlc-signed-in-shell,
+#root .hlc-signed-in-shell>.hlc-route-content,
+#root .hlc-signed-in-shell>.hlc-route-content>main,
+#root .hlc-signed-in-shell main{
+  background:#081426!important;
+  background-color:#081426!important;
+  background-image:none!important;
+  color:#f8fafc!important;
+}
+#root .hlc-signed-in-shell :is(.hlc-home-workspace,.hlc-leads-workspace,.hlc-jobs-workspace,.hlc-messages-workspace,.hlc-work-home,.hlc-community-v2){
+  background-color:#081426!important;
+  background-image:none!important;
+}
+#root .hlc-signed-in-shell :is(.hlc-mobile-tabbar,.hlc-home-topbar,.hlc-messages-header){
+  background-color:#0b1729!important;
+  background-image:none!important;
+}
+#root .hlc-signed-in-shell :is(.hlc-mobile-tabbar a[aria-current="page"],.hlc-mobile-tabbar button[aria-current="page"]){
+  background:#10243e!important;
+  background-image:none!important;
+  color:#93c5fd!important;
+}
