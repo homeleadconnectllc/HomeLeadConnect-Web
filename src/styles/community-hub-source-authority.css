@@ -19,7 +19,7 @@
 .hlc-community-v2-row h3{margin:0!important;color:#f8fafc!important;font-size:15px!important}
 .hlc-community-v2-row p{margin:4px 0 0!important;color:#9fb0c5!important;font-size:12px!important;line-height:1.4!important}
 .hlc-community-v2-context{display:grid!important;align-content:start!important;gap:0!important}
-.hlc-community-v2-context-card{padding:12px 0!important;border:0!important;border-bottom:1px solid rgba(199,210,227,.10)!important;border-radius:0!important;background:transparent!important;background-image:none!important;color:#f8fafc!important;box-shadow:none!important}
+.hlc-community-v2-context-card{padding:12px 0!important;border:0!important;border-bottom:1px solid rgba(199,210,227,.10)!important;border-radius:0!important;background:linear-gradient(145deg,#111734,#090e25)!important;background-image:linear-gradient(145deg,#111734,#090e25)!important;color:#f8fafc!important;box-shadow:none!important}
 .hlc-community-v2-context-card h2,.hlc-community-v2-context-card h3{margin:4px 0 0!important;color:#f8fafc!important;font-size:16px!important}
 .hlc-community-v2-context-card p{margin:6px 0 0!important;color:#9fb0c5!important;font-size:12px!important;line-height:1.45!important}
 .hlc-community-v2-context-actions{display:grid!important;gap:6px!important;margin-top:10px!important}
