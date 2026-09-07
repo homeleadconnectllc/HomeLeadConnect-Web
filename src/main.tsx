@@ -33,7 +33,7 @@ function publicHomeMarkup() {
       </nav>
 
       <section class="hlc-frontdoor-hero">
-        <img src="/hlc-frontdoor-resident-hero.webp" alt="Resident working on a home project" width="1400" height="900" fetchpriority="high" />
+        <img src="/hlc-frontdoor-resident-hero-v2.webp" alt="Resident working on a home project" width="1400" height="900" fetchpriority="high" />
         <div class="hlc-frontdoor-hero-content"><p class="hlc-frontdoor-kicker">Home services, connected better</p><h1>Home help should feel easier.</h1><p>Tell us what your home needs. HomeLead Connect helps renters, homeowners, and everyday households move toward the right professional and a clearer next step.</p><div class="hlc-frontdoor-actions"><a class="hlc-frontdoor-btn hlc-frontdoor-btn-primary" href="https://app.homeleadconnect.org/request-service">Request Home Service</a><a class="hlc-frontdoor-btn hlc-frontdoor-btn-secondary" href="https://professionals.homeleadconnect.org/">For Professionals</a></div></div>
       </section>
 
