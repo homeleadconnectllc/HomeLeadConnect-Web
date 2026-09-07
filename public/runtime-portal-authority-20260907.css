@@ -1,0 +1,98 @@
+/* Runtime terminal authority for UI rendered outside #root via createPortal.
+ * Keep this stylesheet after the in-root runtime authority.
+ */
+:root{
+  --hlc-runtime-bg:#081426;
+  --hlc-runtime-surface:#0d1a2d;
+  --hlc-runtime-surface-2:#10243e;
+  --hlc-runtime-line:rgba(199,210,227,.14);
+  --hlc-runtime-text:#f8fafc;
+  --hlc-runtime-muted:#aebdd0;
+  --hlc-runtime-accent:#60a5fa;
+}
+
+/* Agent guidance is portaled directly to document.body. */
+body>.hlc-agent-guidance-overlay{
+  background:rgba(2,8,23,.72)!important;
+  backdrop-filter:blur(8px)!important;
+}
+body>.hlc-agent-guidance-overlay .hlc-agent-guidance-drawer,
+body>.hlc-agent-guidance-overlay :is(.hlc-agent-guidance-head,.hlc-agent-guidance-intro,.hlc-agent-guidance-cards,details,summary){
+  background:var(--hlc-runtime-bg)!important;
+  background-color:var(--hlc-runtime-bg)!important;
+  background-image:none!important;
+  color:var(--hlc-runtime-text)!important;
+  border-color:var(--hlc-runtime-line)!important;
+  box-shadow:none!important;
+}
+body>.hlc-agent-guidance-overlay .hlc-agent-guidance-drawer{
+  width:min(100%,520px)!important;
+  max-height:92dvh!important;
+  border:1px solid var(--hlc-runtime-line)!important;
+  border-radius:12px 12px 0 0!important;
+}
+body>.hlc-agent-guidance-overlay :is(h1,h2,h3,strong){
+  color:var(--hlc-runtime-text)!important;
+  -webkit-text-fill-color:var(--hlc-runtime-text)!important;
+}
+body>.hlc-agent-guidance-overlay :is(p,small,em){
+  color:var(--hlc-runtime-muted)!important;
+  -webkit-text-fill-color:var(--hlc-runtime-muted)!important;
+}
+body>.hlc-agent-guidance-overlay :is(button,a){
+  background:var(--hlc-runtime-surface-2)!important;
+  background-image:none!important;
+  color:#dbeafe!important;
+  -webkit-text-fill-color:#dbeafe!important;
+  border-color:rgba(96,165,250,.25)!important;
+}
+
+/* Mobile More drawer is also portaled to body. */
+body>.hlc-drawer-v2,
+body>.hlc-drawer-v2 .hlc-drawer-v2-scroll,
+body>.hlc-drawer-v2 :is(.hlc-mobile-command-sheet-head,.hlc-mobile-more-title,.hlc-mobile-more-quick,.hlc-mobile-command-search-trigger){
+  background:var(--hlc-runtime-bg)!important;
+  background-color:var(--hlc-runtime-bg)!important;
+  background-image:none!important;
+  color:var(--hlc-runtime-text)!important;
+  border-color:var(--hlc-runtime-line)!important;
+  box-shadow:none!important;
+}
+body>.hlc-drawer-v2 :is(a,button){
+  background:var(--hlc-runtime-surface)!important;
+  background-image:none!important;
+  color:var(--hlc-runtime-text)!important;
+  -webkit-text-fill-color:var(--hlc-runtime-text)!important;
+  border-color:var(--hlc-runtime-line)!important;
+}
+body>.hlc-drawer-v2 :is(small,p){
+  color:var(--hlc-runtime-muted)!important;
+  -webkit-text-fill-color:var(--hlc-runtime-muted)!important;
+}
+
+/* Shared AI launcher/panel is not a page; normalize it once at its component root. */
+#root .hlc-ai-team-launcher :is(.hlc-ai-team-menu,.hlc-ai-team-menu-head,.hlc-ai-team-active-panel,.hlc-ai-team-empty,.hlc-ai-team-agent-tabs),
+#root .hlc-ai-team-launcher .hlc-ai-team-trigger{
+  background:var(--hlc-runtime-bg)!important;
+  background-color:var(--hlc-runtime-bg)!important;
+  background-image:none!important;
+  color:var(--hlc-runtime-text)!important;
+  border-color:var(--hlc-runtime-line)!important;
+  box-shadow:none!important;
+}
+#root .hlc-ai-team-launcher :is(button,a){
+  background:var(--hlc-runtime-surface)!important;
+  background-image:none!important;
+  color:var(--hlc-runtime-text)!important;
+  -webkit-text-fill-color:var(--hlc-runtime-text)!important;
+  border-color:var(--hlc-runtime-line)!important;
+}
+#root .hlc-ai-team-launcher :is(small,p){
+  color:var(--hlc-runtime-muted)!important;
+  -webkit-text-fill-color:var(--hlc-runtime-muted)!important;
+}
+
+@media(max-width:720px){
+  body>.hlc-agent-guidance-overlay .hlc-agent-guidance-drawer{max-height:88dvh!important;padding-bottom:max(18px,env(safe-area-inset-bottom))!important}
+  body>.hlc-drawer-v2{background:rgba(2,8,23,.72)!important}
+}
