@@ -79,7 +79,7 @@ jobs:
       - name: Certify public iPhone routes render and capture
         run: |
           set -euo pipefail
-          for item in 'home:/:One front door' 'login:/login:Sign in' 'privacy:/privacy:Privacy' 'terms:/terms:Terms of Service' 'platform:/platform-disclosure:Platform and contractor disclosure'; do
+          for item in 'home:/:Home help should feel easier.' 'login:/login:Sign in' 'privacy:/privacy:Privacy' 'terms:/terms:Terms of Service' 'platform:/platform-disclosure:Platform and contractor disclosure'; do
             name="${item%%:*}"; rest="${item#*:}"; route="${rest%%:*}"; expect="${rest#*:}"
             url="http://127.0.0.1:4173$route"
             dom="$GITHUB_WORKSPACE/artifacts/blind-visual/public-iphone-$name.dom.html"
@@ -94,7 +94,7 @@ jobs:
       - name: Certify public Mac routes render and capture
         run: |
           set -euo pipefail
-          for item in 'home:/:One front door' 'login:/login:Sign in' 'privacy:/privacy:Privacy'; do
+          for item in 'home:/:Home help should feel easier.' 'login:/login:Sign in' 'privacy:/privacy:Privacy'; do
             name="${item%%:*}"; rest="${item#*:}"; route="${rest%%:*}"; expect="${rest#*:}"
             url="http://127.0.0.1:4173$route"
             dom="$GITHUB_WORKSPACE/artifacts/blind-visual/public-mac-$name.dom.html"
