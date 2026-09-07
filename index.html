@@ -10,7 +10,7 @@
     <link id="hlc-runtime-portal-authority" rel="stylesheet" href="/runtime-portal-authority-20260907.css" />
     <link id="hlc-physical-component-root-authority" rel="stylesheet" href="/physical-component-root-authority-20260907.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#0b5ed7" />
+    <meta name="theme-color" content="#0b4fa8" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="HomeLead Connect" />
@@ -28,7 +28,6 @@
   </head>
   <body>
     <div id="root"></div>
-    <span hidden>Open HomeLead Connect</span>
     <script>
       (() => {
         const appHost = 'app.homeleadconnect.org';
@@ -36,28 +35,10 @@
         if (!publicHome) return;
         const root = document.getElementById('root');
         if (!root) return;
-        root.dataset.hlcPublicHomeSeeded = 'true';
         root.innerHTML = `
-          <main class="hlc-home" data-hlc-public-home-main>
-            <header class="hlc-frontdoor-header">
-              <a href="/" aria-label="HomeLead Connect home">
-                <img src="/hlc-logo-transparent.png" alt="HomeLead Connect LLC" loading="eager" decoding="async" fetchpriority="low" width="40" height="40" />
-              </a>
-              <a data-route-to="/request-service" href="https://app.homeleadconnect.org/request-service">Request Service</a>
-            </header>
-            <section class="hlc-home-hero hlc-frontdoor-hero">
-              <div class="hlc-frontdoor-photo" aria-hidden="true"></div>
-              <div class="hlc-frontdoor-overlay" aria-hidden="true"></div>
-              <div class="hlc-frontdoor-content">
-                <p class="hlc-home-hero-kicker">HOME SERVICES. CONNECTED BETTER</p>
-                <h1 class="hlc-home-hero-title">Home help should feel easier.</h1>
-                <p class="hlc-home-hero-copy">Tell us what your home needs. HomeLead Connect helps renters, homeowners, and everyday households move toward the right professional and a clearer next step.</p>
-                <div class="hlc-home-hero-actions">
-                  <a data-route-to="/request-service" href="https://app.homeleadconnect.org/request-service">Request Home Service</a>
-                  <a href="https://professionals.homeleadconnect.org/">For Professionals</a>
-                </div>
-              </div>
-            </section>
+          <main class="hlc-home hlc-frontdoor-site">
+            <nav class="hlc-frontdoor-nav"><div class="hlc-frontdoor-wrap hlc-frontdoor-navin"><a class="hlc-frontdoor-brand" href="/" aria-label="HomeLead Connect home"><img src="/hlc-logo-transparent.png" alt="HomeLead Connect" width="58" height="58" /></a><div class="hlc-frontdoor-navlinks"><a class="hlc-frontdoor-primary" href="https://app.homeleadconnect.org/request-service">Request Service</a></div></div></nav>
+            <section class="hlc-frontdoor-hero"><img src="/hlc-frontdoor-resident-hero.webp" alt="Resident working on a home project" width="1400" height="900" fetchpriority="high" /><div class="hlc-frontdoor-hero-content"><p class="hlc-frontdoor-kicker">Home services, connected better</p><h1>Home help should feel easier.</h1><p>Tell us what your home needs. HomeLead Connect helps renters, homeowners, and everyday households move toward the right professional and a clearer next step.</p><div class="hlc-frontdoor-actions"><a class="hlc-frontdoor-btn hlc-frontdoor-btn-primary" href="https://app.homeleadconnect.org/request-service">Request Home Service</a><a class="hlc-frontdoor-btn hlc-frontdoor-btn-secondary" href="https://professionals.homeleadconnect.org/">For Professionals</a></div></div></section>
           </main>`;
       })();
     </script>
