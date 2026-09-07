@@ -1,0 +1,5 @@
+Corrective scope lock:
+- resident request visual continuity
+- unmistakable successful completion state
+- explicit no-further-action-now guidance
+- no backend, Supabase, RLS, billing, auth, routing, or workflow changes
