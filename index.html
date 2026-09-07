@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="/hlc-logo-transparent.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="apple-touch-icon" href="/hlc-logo-transparent.png" />
+    <link rel="preload" as="image" href="/hlc-frontdoor-resident-hero.webp" fetchpriority="high" />
     <link rel="stylesheet" href="/public-home-app-reconciliation-20260907.css" />
     <link rel="stylesheet" href="/frontdoor-accessibility-authority-20260907.css" />
     <link id="hlc-runtime-physical-authority" rel="stylesheet" href="/runtime-physical-authority-20260907.css" />
@@ -38,7 +39,7 @@
         if (!root) return;
         root.innerHTML = `
           <main class="hlc-home hlc-frontdoor-site">
-            <nav class="hlc-frontdoor-nav"><div class="hlc-frontdoor-wrap hlc-frontdoor-navin"><a class="hlc-frontdoor-brand" href="/" aria-label="HomeLead Connect home"><img src="/hlc-logo-transparent.png" alt="HomeLead Connect" width="58" height="58" /></a><div class="hlc-frontdoor-navlinks"><a class="hlc-frontdoor-primary" href="https://app.homeleadconnect.org/request-service">Request Service</a></div></div></nav>
+            <nav class="hlc-frontdoor-nav"><div class="hlc-frontdoor-wrap hlc-frontdoor-navin"><a class="hlc-frontdoor-brand" href="/" aria-label="HomeLead Connect home"><img src="/hlc-logo-ui.png" alt="HomeLead Connect" width="58" height="58" /></a><div class="hlc-frontdoor-navlinks"><a class="hlc-frontdoor-primary" href="https://app.homeleadconnect.org/request-service">Request Service</a></div></div></nav>
             <section class="hlc-frontdoor-hero"><img src="/hlc-frontdoor-resident-hero.webp" alt="Resident working on a home project" width="1400" height="900" fetchpriority="high" /><div class="hlc-frontdoor-hero-content"><p class="hlc-frontdoor-kicker">Home services, connected better</p><h1>Home help should feel easier.</h1><p>Tell us what your home needs. HomeLead Connect helps renters, homeowners, and everyday households move toward the right professional and a clearer next step.</p><div class="hlc-frontdoor-actions"><a class="hlc-frontdoor-btn hlc-frontdoor-btn-primary" href="https://app.homeleadconnect.org/request-service">Request Home Service</a><a class="hlc-frontdoor-btn hlc-frontdoor-btn-secondary" href="https://professionals.homeleadconnect.org/">For Professionals</a></div></div></section>
           </main>`;
       })();
