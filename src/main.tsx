@@ -25,7 +25,7 @@ function publicHomeMarkup() {
     <main class="hlc-home hlc-frontdoor-site">
       <nav class="hlc-frontdoor-nav" aria-label="Primary navigation">
         <div class="hlc-frontdoor-wrap hlc-frontdoor-navin">
-          <a class="hlc-frontdoor-brand" href="https://homeleadconnect.org/" aria-label="HomeLead Connect home"><img src="/hlc-logo-transparent.png" alt="HomeLead Connect" width="58" height="58" /></a>
+          <a class="hlc-frontdoor-brand" href="https://homeleadconnect.org/" aria-label="HomeLead Connect home"><img src="/hlc-logo-ui.png" alt="HomeLead Connect" width="58" height="58" /></a>
           <div class="hlc-frontdoor-navlinks">
             <a href="https://residents.homeleadconnect.org/">Residents</a><a href="https://professionals.homeleadconnect.org/">Professionals</a><a href="https://partners.homeleadconnect.org/">Partners</a><a href="https://platform.homeleadconnect.org/">Platform</a><a href="https://about.homeleadconnect.org/">About</a><a href="https://contact.homeleadconnect.org/">Contact</a><a href="https://app.homeleadconnect.org/login">Login</a><a class="hlc-frontdoor-primary" href="https://app.homeleadconnect.org/request-service">Request Service</a>
           </div>
