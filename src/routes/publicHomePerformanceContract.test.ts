@@ -27,8 +27,9 @@ test("public home renders without paying React startup cost", () => {
   assert.match(main, /https:\/\/professionals\.homeleadconnect\.org\//);
 });
 
-test("no-React public root uses the canonical transparent HLC mark and approved front-door geometry", () => {
-  assert.match(main, /src="\/hlc-logo-transparent\.png"/);
+test("no-React public root uses the responsive HLC UI mark and approved front-door geometry", () => {
+  assert.match(main, /src="\/hlc-logo-ui\.png"/);
+  assert.doesNotMatch(main, /src="\/hlc-logo-transparent\.png"/);
   assert.doesNotMatch(main, /hlc-logo-final\.png/);
   assert.doesNotMatch(main, /src="\/hlc-icon\.jpeg"/);
   assert.match(main, /width="58" height="58"/);
@@ -37,10 +38,11 @@ test("no-React public root uses the canonical transparent HLC mark and approved 
 });
 
 test("parser-seeded public hero uses the approved front-door authority", () => {
-  assert.match(indexHtml, /src="\/hlc-logo-transparent\.png"/);
+  assert.match(indexHtml, /src="\/hlc-logo-ui\.png"/);
   assert.match(indexHtml, /width="58" height="58"/);
   assert.match(indexHtml, /Home help should feel easier\./);
   assert.match(indexHtml, /hlc-frontdoor-resident-hero\.webp/);
+  assert.match(indexHtml, /rel="preload" as="image" href="\/hlc-frontdoor-resident-hero\.webp" fetchpriority="high"/);
 });
 
 test("public front door has one shared visual authority for parser seed and runtime markup", () => {
