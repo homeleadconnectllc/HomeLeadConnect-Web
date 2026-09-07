@@ -23,18 +23,6 @@ const rootElement = document.getElementById("root")!;
 function publicHomeMarkup() {
   const year = new Date().getFullYear();
   return `
-    <style>
-      .hlc-home { text-rendering: auto; }
-      .hlc-home > section:not(.hlc-home-hero) { content-visibility: auto; contain-intrinsic-size: 640px; }
-      @media (max-width: 600px) {
-        .hlc-home { padding: 12px 16px 32px !important; }
-        .hlc-home > header { position: relative !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
-        .hlc-home-hero { padding: 24px 0 30px !important; }
-        .hlc-home-hero h1 { font-size: 36px !important; line-height: 1.06 !important; letter-spacing: -1.2px !important; max-width: 390px; }
-        .hlc-home-hero p { font-size: 17px !important; }
-        .hlc-home-hero-actions { margin-top: 22px !important; }
-      }
-    </style>
     <main class="hlc-home" style="min-height:100vh;padding:0 20px 48px;background:#081426;color:#f8fafc">
       <header style="position:sticky;top:0;z-index:30;max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px;padding:10px 0;background:#081426;border-bottom:1px solid rgba(199,210,227,.10)">
         <a href="/" aria-label="HomeLead Connect home" style="display:flex;align-items:center;min-width:0;text-decoration:none;color:#fff">
@@ -103,8 +91,6 @@ if (isPublicHome) {
     const template = document.createElement("template");
     template.innerHTML = publicHomeMarkup();
     const fullMain = template.content.querySelector<HTMLElement>("main.hlc-home");
-    const supplementalStyle = template.content.querySelector("style");
-    if (supplementalStyle) rootElement.prepend(supplementalStyle.cloneNode(true));
     if (fullMain) {
       Array.from(fullMain.children).slice(2).forEach((child) => seededMain.appendChild(child.cloneNode(true)));
     }
