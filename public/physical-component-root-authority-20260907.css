@@ -70,13 +70,88 @@ html,body,#root{min-height:100%;}
   padding:0 12px!important;
   align-self:end!important;
 }
-#root .hlc-signed-in-shell.hlc-page-work :is(.hlc-parent-branch-row,.hlc-parent-secondary,.hlc-parent-boundary,.hlc-work-communication-link){
+#root .hlc-signed-in-shell.hlc-page-work :is(.hlc-parent-branch-row,.hlc-parent-secondary,.hlc-parent-boundary,.hlc-work-communication-link),
+#root .hlc-signed-in-shell.hlc-page-work .hlc-parent-secondary nav>a.hlc-work-communication-link,
+#root .hlc-signed-in-shell.hlc-page-work .hlc-parent-secondary nav>a.hlc-work-communication-link>*{
   background:var(--hlc-runtime-surface)!important;
+  background-color:var(--hlc-runtime-surface)!important;
+  background-image:none!important;
+  color:var(--hlc-runtime-text)!important;
+  -webkit-text-fill-color:var(--hlc-runtime-text)!important;
+  border-color:var(--hlc-runtime-line)!important;
+  box-shadow:none!important;
+}
+#root .hlc-signed-in-shell.hlc-page-work .hlc-work-communication-icon{
+  background:var(--hlc-runtime-surface-2)!important;
+  background-image:none!important;
+  color:#dbeafe!important;
+  -webkit-text-fill-color:#dbeafe!important;
+  border-color:rgba(96,165,250,.22)!important;
+}
+#root .hlc-signed-in-shell.hlc-page-work .hlc-work-communication-icon svg{stroke:#dbeafe!important;color:#dbeafe!important}
+
+/* MESSAGES — normalize the actual inbox/stage component roots instead of only the outer shell. */
+#root .hlc-signed-in-shell.hlc-page-messages .hlc-messages-app-shell,
+#root .hlc-signed-in-shell.hlc-page-messages :is(.hlc-messages-app-topbar,.hlc-messaging-frame,.hlc-conversation-list-panel,.hlc-conversation-list-heading,.hlc-messages-progressive-inbox,.hlc-conversation-stage,.hlc-conversation-empty-stage,.hlc-message-compose-view,.hlc-message-quick-compose,.hlc-messages-progressive-thread,.hlc-message-thread-head,.hlc-message-stream,.hlc-message-composer,.hlc-voice-note-console){
+  background:var(--hlc-runtime-bg)!important;
+  background-color:var(--hlc-runtime-bg)!important;
   background-image:none!important;
   color:var(--hlc-runtime-text)!important;
   border-color:var(--hlc-runtime-line)!important;
   box-shadow:none!important;
 }
+#root .hlc-signed-in-shell.hlc-page-messages :is(.hlc-message-inbox-row,.hlc-messages-empty-action,.hlc-message-entry,.hlc-message-delivery-choice>label,.hlc-message-subject-details,.hlc-voice-note-list>button){
+  background:var(--hlc-runtime-surface)!important;
+  background-color:var(--hlc-runtime-surface)!important;
+  background-image:none!important;
+  color:var(--hlc-runtime-text)!important;
+  border-color:var(--hlc-runtime-line)!important;
+  box-shadow:none!important;
+}
+#root .hlc-signed-in-shell.hlc-page-messages :is(h1,h2,h3,strong,label,legend,summary){color:#fff!important;-webkit-text-fill-color:#fff!important}
+#root .hlc-signed-in-shell.hlc-page-messages :is(p,small,.hlc-messages-empty){color:var(--hlc-runtime-muted)!important;-webkit-text-fill-color:var(--hlc-runtime-muted)!important}
+#root .hlc-signed-in-shell.hlc-page-messages :is(button,input,select,textarea){
+  background:var(--hlc-runtime-surface-2)!important;
+  background-image:none!important;
+  color:var(--hlc-runtime-text)!important;
+  -webkit-text-fill-color:var(--hlc-runtime-text)!important;
+  border-color:var(--hlc-runtime-line)!important;
+}
+#root .hlc-signed-in-shell.hlc-page-messages .hlc-message-avatar{background:#16345a!important;color:#dbeafe!important;-webkit-text-fill-color:#dbeafe!important}
+
+/* MORE — this sheet is portaled to body, so style the real body-level component tree. */
+body>.hlc-mobile-command-sheet,
+body>.hlc-mobile-command-sheet .hlc-drawer-v2-scroll,
+body>.hlc-mobile-command-sheet :is(.hlc-mobile-command-sheet-head,.hlc-mobile-more-title,.hlc-mobile-more-quick,.hlc-mobile-command-search-trigger){
+  background:var(--hlc-runtime-bg)!important;
+  background-color:var(--hlc-runtime-bg)!important;
+  background-image:none!important;
+  color:var(--hlc-runtime-text)!important;
+  border-color:var(--hlc-runtime-line)!important;
+  box-shadow:none!important;
+}
+body>.hlc-mobile-command-sheet .hlc-mobile-more-quick>a,
+body>.hlc-mobile-command-sheet .hlc-mobile-command-search-trigger,
+body>.hlc-mobile-command-sheet .hlc-mobile-more-signout,
+body>.hlc-mobile-command-sheet .hlc-drawer-v2-close{
+  background:var(--hlc-runtime-surface)!important;
+  background-color:var(--hlc-runtime-surface)!important;
+  background-image:none!important;
+  color:var(--hlc-runtime-text)!important;
+  -webkit-text-fill-color:var(--hlc-runtime-text)!important;
+  border-color:var(--hlc-runtime-line)!important;
+  box-shadow:none!important;
+}
+body>.hlc-mobile-command-sheet .hlc-mobile-more-quick>a>*,
+body>.hlc-mobile-command-sheet .hlc-mobile-command-search-trigger>*{
+  background:transparent!important;
+  background-image:none!important;
+  color:inherit!important;
+  -webkit-text-fill-color:inherit!important;
+}
+body>.hlc-mobile-command-sheet :is(strong,.hlc-mobile-more-title>strong){color:#fff!important;-webkit-text-fill-color:#fff!important}
+body>.hlc-mobile-command-sheet :is(small,.hlc-mobile-more-title>span){color:var(--hlc-runtime-muted)!important;-webkit-text-fill-color:var(--hlc-runtime-muted)!important}
+body>.hlc-mobile-command-sheet svg{stroke:#dbeafe!important;color:#dbeafe!important;fill:none!important}
 
 /* AI CHAT — the white islands were inside the shared AgentChatPanel component. */
 #root :is(.hlc-agent-workspace,.hlc-ai-team-launcher) .hlc-ai-chat,
@@ -108,6 +183,9 @@ html,body,#root{min-height:100%;}
   #root .hlc-auth-shell{min-height:100dvh!important;padding:16px 16px 32px!important}
   #root .hlc-signed-in-shell.hlc-page-work .hlc-work-home .hlc-parent-index-header{grid-template-columns:1fr!important;align-items:start!important}
   #root .hlc-signed-in-shell.hlc-page-work .hlc-parent-agent-link{width:fit-content!important}
+  #root .hlc-signed-in-shell.hlc-page-messages .hlc-messaging-frame{display:block!important;border:0!important}
+  #root .hlc-signed-in-shell.hlc-page-messages :is(.hlc-conversation-list-panel,.hlc-conversation-stage){min-height:0!important;border:0!important}
+  body>.hlc-mobile-command-sheet .hlc-drawer-v2-scroll{padding-bottom:max(92px,env(safe-area-inset-bottom))!important}
   #root :is(.hlc-agent-workspace,.hlc-ai-team-launcher) .hlc-ai-chat{border-radius:8px!important}
   #root :is(.hlc-agent-workspace,.hlc-ai-team-launcher) .hlc-ai-chat-head{padding:10px!important}
   #root :is(.hlc-agent-workspace,.hlc-ai-team-launcher) .hlc-ai-transcript{padding:10px!important;min-height:0!important}
