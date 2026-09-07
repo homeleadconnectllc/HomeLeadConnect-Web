@@ -21,84 +21,40 @@ const isPublicHome = window.location.pathname === "/" && window.location.hostnam
 const rootElement = document.getElementById("root")!;
 
 function publicHomeMarkup() {
-  const year = new Date().getFullYear();
   return `
-    <main class="hlc-home" style="min-height:100vh;padding:0 20px 48px;background:#081426;color:#f8fafc">
-      <header style="position:sticky;top:0;z-index:30;max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px;padding:10px 0;background:#081426;border-bottom:1px solid rgba(199,210,227,.10)">
-        <a href="/" aria-label="HomeLead Connect home" style="display:flex;align-items:center;min-width:0;text-decoration:none;color:#fff">
-          <img src="/hlc-logo-transparent.png" alt="HomeLead Connect LLC" loading="eager" decoding="async" width="40" height="40" style="display:block;height:40px;width:40px;object-fit:contain;border-radius:50%;background:transparent;filter:drop-shadow(0 1px 2px rgba(0,0,0,.35))" />
-        </a>
-        <a data-route-to="/app" href="/app" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 14px;border:1px solid rgba(147,197,253,.32);border-radius:8px;background:#10243e;color:#fff;font-weight:800;text-decoration:none;white-space:nowrap">Open HomeLead Connect</a>
-      </header>
-
-      <section class="hlc-home-hero" style="max-width:980px;margin:0 auto;text-align:center;padding:clamp(40px,8vw,72px) 0 40px">
-        <p class="hlc-home-hero-kicker" style="margin:0;color:#60a5fa;font-size:13px;font-weight:900;letter-spacing:.12em">HOMELEAD CONNECT</p>
-        <h1 class="hlc-home-hero-title" style="font-size:clamp(40px,7vw,68px);line-height:1.04;letter-spacing:-2px;margin:14px auto 22px;color:#f8fafc">One front door.<br />One connected home-services ecosystem.</h1>
-        <p class="hlc-home-hero-copy" style="max-width:760px;margin:0 auto;font-size:clamp(18px,3.8vw,21px);line-height:1.6;color:#c7d2e3">Request help, connect with providers, join the community, manage work, and reach the HomeLead Connect workspace from one identity.</p>
-        <div class="hlc-home-hero-actions" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:30px">
-          <a href="/pricing" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 20px;border-radius:8px;background:#2563eb;color:#fff;font-weight:900;text-decoration:none">Start 14-Day Free Trial</a>
-          <a data-route-to="/request-service" href="/request-service" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 20px;border-radius:8px;background:#10243e;border:1px solid rgba(147,197,253,.24);color:#fff;font-weight:800;text-decoration:none">Get Help Now</a>
-          <a data-route-to="/app" href="/app" style="display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 20px;border-radius:8px;background:transparent;border:1px solid rgba(147,197,253,.24);color:#dbeafe;font-weight:800;text-decoration:none">Open HomeLead Connect</a>
+    <main class="hlc-home hlc-frontdoor-site">
+      <nav class="hlc-frontdoor-nav" aria-label="Primary navigation">
+        <div class="hlc-frontdoor-wrap hlc-frontdoor-navin">
+          <a class="hlc-frontdoor-brand" href="https://homeleadconnect.org/" aria-label="HomeLead Connect home"><img src="/hlc-logo-transparent.png" alt="HomeLead Connect" width="58" height="58" /></a>
+          <div class="hlc-frontdoor-navlinks">
+            <a href="https://residents.homeleadconnect.org/">Residents</a><a href="https://professionals.homeleadconnect.org/">Professionals</a><a href="https://partners.homeleadconnect.org/">Partners</a><a href="https://platform.homeleadconnect.org/">Platform</a><a href="https://about.homeleadconnect.org/">About</a><a href="https://contact.homeleadconnect.org/">Contact</a><a href="https://app.homeleadconnect.org/login">Login</a><a class="hlc-frontdoor-primary" href="https://app.homeleadconnect.org/request-service">Request Service</a>
+          </div>
         </div>
-        <p class="hlc-home-hero-note" style="margin-top:14px;color:#9fb0c5;font-size:14px">For participating businesses: 14 days free, then $49.99/month. Payment method required.</p>
-      </section>
-
-      <section aria-label="HomeLead Connect capabilities" style="max-width:1100px;margin:10px auto 58px;border-top:1px solid rgba(199,210,227,.10)">
-        <article style="display:grid;grid-template-columns:minmax(150px,.7fr) minmax(0,1.3fr);gap:18px 28px;align-items:start;padding:24px 0;border-bottom:1px solid rgba(199,210,227,.10);background:transparent"><h2 style="font-size:22px;margin:0;color:#f8fafc">Get Home Help</h2><p style="margin:0;color:#c7d2e3;line-height:1.65">Renters and homeowners can submit a service request and follow the work from one HomeLead Connect account.</p></article>
-        <article style="display:grid;grid-template-columns:minmax(150px,.7fr) minmax(0,1.3fr);gap:18px 28px;align-items:start;padding:24px 0;border-bottom:1px solid rgba(199,210,227,.10);background:transparent"><h2 style="font-size:22px;margin:0;color:#f8fafc">Find Providers</h2><p style="margin:0;color:#c7d2e3;line-height:1.65">Use the HomeLead Connect network, matching, availability, profiles, and service-area tools.</p></article>
-        <article style="display:grid;grid-template-columns:minmax(150px,.7fr) minmax(0,1.3fr);gap:18px 28px;align-items:start;padding:24px 0;border-bottom:1px solid rgba(199,210,227,.10);background:transparent"><h2 style="font-size:22px;margin:0;color:#f8fafc">Community</h2><p style="margin:0;color:#c7d2e3;line-height:1.65">Discussions, events, referrals, reviews, groups, and moderation live in the same ecosystem.</p></article>
-        <article style="display:grid;grid-template-columns:minmax(150px,.7fr) minmax(0,1.3fr);gap:18px 28px;align-items:start;padding:24px 0;border-bottom:1px solid rgba(199,210,227,.10);background:transparent"><h2 style="font-size:22px;margin:0;color:#f8fafc">HomeLead Connect Workspace</h2><p style="margin:0;color:#c7d2e3;line-height:1.65">Leads, LeadScope estimates, jobs, scheduling, messages, documents, workflows, analytics, and AI agents stay connected.</p></article>
-      </section>
-
-      <section style="max-width:1100px;margin:0 auto;padding:34px 0;border-top:1px solid rgba(199,210,227,.10);border-bottom:1px solid rgba(199,210,227,.10);text-align:center;background:transparent">
-        <p style="margin:0;color:#93c5fd;font-weight:900;letter-spacing:.1em;font-size:12px">FOR BUSINESSES</p>
-        <h2 style="margin:10px auto 12px;color:#fff;font-size:clamp(28px,5vw,42px)">Try the connected HomeLead Connect workspace free for 14 days.</h2>
-        <p style="color:#c7d2e3;line-height:1.65;max-width:760px;margin:0 auto">Run leads, estimates, jobs, scheduling, messages, documents, workflow, analytics, and your HomeLead Connect AI team from one workspace. Continue for $49.99/month after the trial.</p>
-        <div style="display:flex;gap:14px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:22px">
-          <a href="/pricing" style="display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 18px;border-radius:8px;background:#2563eb;color:#fff;font-weight:900;text-decoration:none">See Pricing &amp; Start Trial</a>
-          <a href="/login?next=/settings" style="color:#dbeafe;font-weight:800">Manage existing subscription</a>
-        </div>
-      </section>
-
-      <section style="max-width:1100px;margin:0 auto;padding:34px 0 16px;text-align:center;background:transparent">
-        <h2 style="margin:0 auto 12px;color:#fff">Everything branches from HomeLead Connect.</h2>
-        <p style="color:#c7d2e3;line-height:1.65;max-width:860px;margin:0 auto">Public information, service requests, authentication, resident and professional portals, Community, Network &amp; Map, CRM operations, scheduling, communications, documents, billing, workflows, analytics, and the HomeLead Connect AI team all belong to one connected system.</p>
-        <div style="display:flex;gap:12px 18px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:20px">
-          <a href="/pricing" style="color:#bfdbfe;font-weight:800">Pricing &amp; free trial</a>
-          <a href="/how-it-works" style="color:#bfdbfe">How it works</a>
-          <a data-route-to="/community" href="/community" style="color:#bfdbfe">Community</a>
-          <a href="/professionals" style="color:#bfdbfe">For professionals</a>
-          <a href="/trust" style="color:#bfdbfe">Trust &amp; safety</a>
-          <a href="/contact" style="color:#bfdbfe">Contact</a>
-        </div>
-      </section>
-    </main>
-    <footer style="content-visibility:auto;contain-intrinsic-size:120px;background:#06101f;color:#9fb0c5;text-align:center;padding:26px 20px;border-top:1px solid rgba(199,210,227,.10)">
-      <img src="/hlc-logo-transparent.png" alt="" loading="lazy" decoding="async" width="28" height="28" style="display:block;height:28px;width:28px;object-fit:contain;border-radius:50%;background:transparent;margin:0 auto 14px;opacity:.78" />
-      <nav aria-label="Legal and accessibility" style="display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:10px 18px;margin-bottom:12px">
-        <a style="color:#bfdbfe;font-weight:600" href="/privacy">Privacy</a>
-        <a style="color:#bfdbfe;font-weight:600" href="/terms">Terms</a>
-        <a style="color:#bfdbfe;font-weight:600" href="/accessibility">Accessibility</a>
-        <a style="color:#bfdbfe;font-weight:600" href="/platform-disclosure">Platform disclosure</a>
       </nav>
-      <div>© ${year} HomeLead Connect LLC</div>
-    </footer>`;
+
+      <section class="hlc-frontdoor-hero">
+        <img src="/hlc-frontdoor-resident-hero.webp" alt="Resident working on a home project" width="1400" height="900" fetchpriority="high" />
+        <div class="hlc-frontdoor-hero-content"><p class="hlc-frontdoor-kicker">Home services, connected better</p><h1>Home help should feel easier.</h1><p>Tell us what your home needs. HomeLead Connect helps renters, homeowners, and everyday households move toward the right professional and a clearer next step.</p><div class="hlc-frontdoor-actions"><a class="hlc-frontdoor-btn hlc-frontdoor-btn-primary" href="https://app.homeleadconnect.org/request-service">Request Home Service</a><a class="hlc-frontdoor-btn hlc-frontdoor-btn-secondary" href="https://professionals.homeleadconnect.org/">For Professionals</a></div></div>
+      </section>
+
+      <div class="hlc-frontdoor-quickbar"><div class="hlc-frontdoor-wrap hlc-frontdoor-quick"><span>Renters included</span><span>Homeowners welcome</span><span>Clear next steps</span><span>Harrisburg roots</span></div></div>
+
+      <section class="hlc-frontdoor-section"><div class="hlc-frontdoor-wrap hlc-frontdoor-center"><span class="hlc-frontdoor-eyebrow">Home improvement made simpler</span><h2>Start with the need, not the paperwork.</h2><p class="hlc-frontdoor-copy">Repairs, improvements, maintenance, and everyday home-service needs should not require you to know the industry before you ask for help.</p><div class="hlc-frontdoor-service-line"><span>Repairs</span><span>Painting</span><span>Roofing</span><span>HVAC</span><span>Cleaning</span><span>Moving</span><span>General Home Help</span></div></div></section>
+
+      <section class="hlc-frontdoor-section hlc-frontdoor-alt"><div class="hlc-frontdoor-wrap hlc-frontdoor-split"><div class="hlc-frontdoor-photo"><img src="/hlc-frontdoor-people-first.webp" alt="Resident and home-service professional coordinating together" width="1400" height="900" loading="lazy" /></div><div class="hlc-frontdoor-split-text"><span class="hlc-frontdoor-eyebrow">People first</span><h2>A clearer conversation from the start.</h2><p>HomeLead Connect helps organize what the household needs so the next professional conversation begins with better context.</p></div></div></section>
+
+      <section class="hlc-frontdoor-section"><div class="hlc-frontdoor-wrap hlc-frontdoor-center"><span class="hlc-frontdoor-eyebrow">How it works</span><h2>Four simple steps.</h2><div class="hlc-frontdoor-process"><div class="hlc-frontdoor-step"><div class="hlc-frontdoor-num">1</div><h3>Request</h3><p>Tell us what is happening at home.</p></div><div class="hlc-frontdoor-step"><div class="hlc-frontdoor-num">2</div><h3>Review</h3><p>Clarify the details that matter.</p></div><div class="hlc-frontdoor-step"><div class="hlc-frontdoor-num">3</div><h3>Connect</h3><p>Move toward the right professional path.</p></div><div class="hlc-frontdoor-step"><div class="hlc-frontdoor-num">4</div><h3>Coordinate</h3><p>Keep the next step easier to follow.</p></div></div></div></section>
+
+      <section class="hlc-frontdoor-photo-band"><img src="/hlc-frontdoor-professional.webp" alt="Home-service professional at work" width="1400" height="900" loading="lazy" /><div class="hlc-frontdoor-photo-band-content"><div><span class="hlc-frontdoor-eyebrow">For professionals</span><h2>Better service starts before the job begins.</h2><p>HomeLead Connect helps professionals meet residents with clearer needs, better communication, and a more organized opportunity flow.</p><div class="hlc-frontdoor-actions"><a class="hlc-frontdoor-btn hlc-frontdoor-btn-primary" href="https://professionals.homeleadconnect.org/">Explore Professional Access</a></div></div></div></section>
+
+      <section class="hlc-frontdoor-cta"><div class="hlc-frontdoor-wrap"><h2>Tell us what your home needs.</h2><p>Start with the request. HomeLead Connect will help organize what comes next.</p><div class="hlc-frontdoor-actions"><a class="hlc-frontdoor-btn hlc-frontdoor-btn-primary" href="https://app.homeleadconnect.org/request-service">Start My Request</a></div></div></section>
+
+      <footer class="hlc-frontdoor-footer"><div class="hlc-frontdoor-wrap"><p><strong>HomeLead Connect LLC</strong> | Harrisburg, Pennsylvania | info@homeleadconnect.org</p><div class="hlc-frontdoor-footlinks"><a href="https://homeleadconnect.org/">Home</a><a href="https://residents.homeleadconnect.org/">Residents</a><a href="https://professionals.homeleadconnect.org/">Professionals</a><a href="https://partners.homeleadconnect.org/">Partners</a><a href="https://platform.homeleadconnect.org/">Platform</a><a href="https://about.homeleadconnect.org/">About</a><a href="https://contact.homeleadconnect.org/">Contact</a><a href="https://homeleadconnectprivacy.carrd.co/">Privacy</a><a href="https://homeleadconnectterms.carrd.co/">Terms</a></div><p>2026 HomeLead Connect LLC</p></div></footer>
+    </main>`;
 }
 
 if (isPublicHome) {
-  const seededMain = rootElement.querySelector<HTMLElement>("main[data-hlc-public-home-main]");
-  if (rootElement.dataset.hlcPublicHomeSeeded === "true" && seededMain) {
-    const template = document.createElement("template");
-    template.innerHTML = publicHomeMarkup();
-    const fullMain = template.content.querySelector<HTMLElement>("main.hlc-home");
-    if (fullMain) {
-      Array.from(fullMain.children).slice(2).forEach((child) => seededMain.appendChild(child.cloneNode(true)));
-    }
-    const footer = template.content.querySelector("footer");
-    if (footer) rootElement.appendChild(footer.cloneNode(true));
-  } else {
-    rootElement.innerHTML = publicHomeMarkup();
-  }
+  rootElement.innerHTML = publicHomeMarkup();
 } else {
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
