@@ -1,0 +1,140 @@
+/* HomeLead Connect public front-door physical authority.
+ * Static and deliberately scoped so the parser-seeded shell and runtime public
+ * markup share one compact app-family composition on first paint and after hydration.
+ */
+html,body{background:#081426}
+#root .hlc-home{
+  width:100%!important;
+  min-height:100svh!important;
+  padding:0 16px 32px!important;
+  background:#081426!important;
+  color:#f8fafc!important;
+  text-align:left!important;
+}
+#root .hlc-home>header{
+  position:relative!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:12px!important;
+  width:min(100%,1100px)!important;
+  min-height:64px!important;
+  margin:0 auto!important;
+  padding:8px 0!important;
+  border-bottom:1px solid rgba(199,210,227,.12)!important;
+  background:#081426!important;
+  box-shadow:none!important;
+}
+#root .hlc-home>header>a:first-child{
+  display:inline-flex!important;
+  align-items:center!important;
+  gap:10px!important;
+  min-width:0!important;
+}
+#root .hlc-home>header>a:first-child::after{
+  content:"HomeLead Connect";
+  color:#f8fafc;
+  font-size:16px;
+  font-weight:850;
+  line-height:1;
+  white-space:nowrap;
+}
+#root .hlc-home>header img{
+  width:44px!important;
+  height:44px!important;
+  min-width:44px!important;
+}
+#root .hlc-home>header>a:last-child{
+  min-height:44px!important;
+  padding:0 12px!important;
+  border:1px solid rgba(96,165,250,.24)!important;
+  border-radius:8px!important;
+  background:#10243e!important;
+  color:#dbeafe!important;
+  font-size:14px!important;
+  font-weight:800!important;
+  box-shadow:none!important;
+}
+#root .hlc-home-hero{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  gap:0!important;
+  width:min(100%,760px)!important;
+  max-width:760px!important;
+  margin:0 auto!important;
+  padding:44px 0 36px!important;
+  text-align:left!important;
+}
+#root .hlc-home-hero-kicker{
+  margin:0 0 10px!important;
+  color:#60a5fa!important;
+  font-size:11px!important;
+  font-weight:900!important;
+  letter-spacing:.12em!important;
+}
+#root .hlc-home-hero h1,
+#root .hlc-home-hero-title{
+  max-width:680px!important;
+  margin:0!important;
+  color:#f8fafc!important;
+  font-size:clamp(34px,7vw,54px)!important;
+  line-height:1.02!important;
+  letter-spacing:-.035em!important;
+  text-align:left!important;
+}
+#root .hlc-home-hero-copy{
+  max-width:620px!important;
+  margin:18px 0 0!important;
+  color:#b8c6d9!important;
+  font-size:17px!important;
+  line-height:1.55!important;
+  text-align:left!important;
+}
+#root .hlc-home-hero-actions{
+  display:flex!important;
+  flex-wrap:wrap!important;
+  justify-content:flex-start!important;
+  gap:10px!important;
+  margin-top:24px!important;
+}
+#root .hlc-home-hero-actions>a{
+  width:auto!important;
+  min-height:46px!important;
+  padding:0 16px!important;
+  border-radius:8px!important;
+  font-size:14px!important;
+  box-shadow:none!important;
+}
+/* Resident-first front door: service request is the primary first action. */
+#root .hlc-home-hero-actions>a:nth-child(2){order:1!important;background:#2563eb!important;border-color:#2563eb!important;color:#fff!important}
+#root .hlc-home-hero-actions>a:nth-child(1){order:2!important;background:#10243e!important;border:1px solid rgba(96,165,250,.24)!important;color:#dbeafe!important}
+/* Header already owns app entry; remove the duplicate third CTA from the hero. */
+#root .hlc-home-hero-actions>a:nth-child(3){display:none!important}
+#root .hlc-home-hero-note{
+  max-width:620px!important;
+  margin:12px 0 0!important;
+  color:#8193aa!important;
+  font-size:12px!important;
+  line-height:1.45!important;
+  text-align:left!important;
+}
+#root .hlc-home>section:not(.hlc-home-hero){
+  width:min(100%,1100px)!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+  text-align:left!important;
+}
+@media(max-width:600px){
+  #root .hlc-home{padding:0 16px 28px!important}
+  #root .hlc-home>header{min-height:60px!important;padding:8px 0!important}
+  #root .hlc-home>header>a:first-child::after{font-size:14px!important}
+  #root .hlc-home>header img{width:40px!important;height:40px!important;min-width:40px!important}
+  #root .hlc-home>header>a:last-child{padding:0 10px!important;font-size:0!important}
+  #root .hlc-home>header>a:last-child::after{content:"Open app";font-size:13px!important}
+  #root .hlc-home-hero{padding:30px 0 28px!important}
+  #root .hlc-home-hero h1,#root .hlc-home-hero-title{font-size:clamp(32px,10.5vw,42px)!important;line-height:1.04!important;letter-spacing:-.035em!important}
+  #root .hlc-home-hero-copy{margin-top:14px!important;font-size:15px!important;line-height:1.5!important}
+  #root .hlc-home-hero-actions{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;margin-top:20px!important}
+  #root .hlc-home-hero-actions>a{min-width:0!important;min-height:46px!important;padding:0 10px!important;text-align:center!important;white-space:normal!important}
+  #root .hlc-home-hero-note{margin-top:10px!important;font-size:11px!important}
+}
