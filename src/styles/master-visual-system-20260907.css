@@ -1,0 +1,222 @@
+/* HomeLead Connect master visual system — post-launch visual authority.
+ * This file starts with the approved Sign-In/front-door treatment and is intentionally
+ * scoped by stable route classes so working product behavior is unchanged.
+ */
+
+/* Sign-In is an account-entry surface, not a marketing page. */
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login {
+  min-height: 100vh;
+  background: #081426 !important;
+  color: #f8fafc !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login > .hlc-navbar {
+  min-height: 64px !important;
+  padding-block: 8px !important;
+  border-bottom: 1px solid rgba(199, 210, 227, .12) !important;
+  background: #081426 !important;
+  box-shadow: none !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-navbar-brand-copy,
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-navbar-toggle,
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-navbar-links,
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-route-visual-banner {
+  display: none !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-navbar-brand {
+  width: fit-content !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login > .hlc-route-content {
+  display: grid !important;
+  align-content: start !important;
+  min-height: auto !important;
+  padding: 28px 18px 36px !important;
+  background: #081426 !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  width: min(520px, 100%) !important;
+  min-height: 0 !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #081426 !important;
+  box-shadow: none !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-brand {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  min-height: 56px !important;
+  padding: 0 0 18px !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(199, 210, 227, .12) !important;
+  background: transparent !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-brand-copy,
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-steps {
+  display: none !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-logo-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 10px !important;
+  color: #f8fafc !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-logo-link img {
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-card {
+  display: grid !important;
+  gap: 18px !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 24px 0 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: #f8fafc !important;
+  box-shadow: none !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-form-heading {
+  display: grid !important;
+  gap: 7px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  text-align: left !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-card-brand {
+  margin: 0 !important;
+  color: #60a5fa !important;
+  -webkit-text-fill-color: #60a5fa !important;
+  font-size: 11px !important;
+  font-weight: 850 !important;
+  letter-spacing: .12em !important;
+  text-transform: uppercase !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-card h2 {
+  margin: 0 !important;
+  color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
+  font-size: clamp(24px, 5vw, 30px) !important;
+  line-height: 1.12 !important;
+  letter-spacing: -.025em !important;
+  text-align: left !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-card-description {
+  max-width: 46ch !important;
+  margin: 0 !important;
+  color: #9fb0c5 !important;
+  -webkit-text-fill-color: #9fb0c5 !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  text-align: left !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-method-tabs {
+  margin: 0 !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-form label {
+  color: #e8eef8 !important;
+  -webkit-text-fill-color: #e8eef8 !important;
+  text-align: left !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-form input,
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-form select,
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-form textarea {
+  min-height: 48px !important;
+  border: 1px solid rgba(199, 210, 227, .24) !important;
+  border-radius: 7px !important;
+  background: #101f34 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  text-align: left !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-form input:-webkit-autofill,
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-form input:-webkit-autofill:hover,
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-form input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #ffffff !important;
+  -webkit-box-shadow: 0 0 0 1000px #101f34 inset !important;
+  caret-color: #ffffff !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-form > button[type="submit"] {
+  min-height: 48px !important;
+  border-radius: 7px !important;
+  background: #2563eb !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  font-weight: 800 !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-card-footer {
+  margin: 2px 0 0 !important;
+  padding: 16px 0 0 !important;
+  border-top: 1px solid rgba(199, 210, 227, .12) !important;
+  color: #9fb0c5 !important;
+  text-align: left !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-card-footer p,
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-card-footer a {
+  margin-block: 0 !important;
+  text-align: left !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell.hlc-page-login > footer {
+  margin-top: 0 !important;
+  border-top: 1px solid rgba(199, 210, 227, .10) !important;
+  background: #06101f !important;
+}
+
+@media (max-width: 720px) {
+  #root .hlc-app-shell.hlc-public-shell.hlc-page-login > .hlc-navbar {
+    min-height: 58px !important;
+  }
+
+  #root .hlc-app-shell.hlc-public-shell.hlc-page-login > .hlc-route-content {
+    padding: 18px 18px 24px !important;
+  }
+
+  #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-brand {
+    display: flex !important;
+    padding-bottom: 14px !important;
+  }
+
+  #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-card {
+    padding: 18px 0 0 !important;
+  }
+
+  #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-form-heading {
+    display: grid !important;
+  }
+
+  #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-method-tabs {
+    margin-bottom: 2px !important;
+  }
+}
