@@ -45,5 +45,3 @@ import "./final-release-guard.css";
 import "./visual-reset-baseline-20260903.css";
 import "./visual-reset-hard-blank-20260903.css";
 import "./mobile-release-fix.css";
-/* The approved post-launch master must be evaluated after every legacy/public shell authority. */
-import "./master-visual-system-20260907.css";
