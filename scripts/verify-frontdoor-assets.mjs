@@ -5,8 +5,8 @@ import { join } from "node:path";
 const FRONTDOOR_ASSETS = [
   {
     path: "hlc-frontdoor-resident-hero.webp",
-    expectedSize: 17976,
-    expectedSha256: "39ba92e934428d7ae0c74a70847e5da3ca27226185da9efa1792ce6471f23df8",
+    expectedSize: 52232,
+    expectedSha256: "aabe67668c0fcd64284de704859159057182b2d1aa1b04ac3e16035320fbb2ac",
   },
   {
     path: "hlc-frontdoor-people-first.webp",
