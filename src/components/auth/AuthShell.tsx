@@ -24,22 +24,12 @@ export default function AuthShell({
           <img src="/hlc-logo-transparent.png" alt="" />
           <span>HomeLead Connect</span>
         </a>
-        <div className="hlc-auth-brand-copy">
-          <p className="hlc-auth-eyebrow">{eyebrow}</p>
-          <h1>{title}</h1>
-          <p className="hlc-auth-description">{description}</p>
-        </div>
-        <ol className="hlc-auth-steps" aria-label="Account access process">
-          <li><strong>One account</strong><span>Use the same HomeLead Connect account across approved workspaces and portals.</span></li>
-          <li><strong>One secure entry</strong><span>Login, recovery, registration and invitations stay in this account center.</span></li>
-          <li><strong>One destination</strong><span>After access is verified, HomeLead Connect routes you to the workspace or portal you belong to.</span></li>
-        </ol>
       </section>
 
       <section className="hlc-auth-card" aria-labelledby="hlc-auth-title">
         <div className="hlc-auth-form-heading">
-          <p className="hlc-auth-card-brand">Secure account access</p>
-          <h2 id="hlc-auth-title">{title}</h2>
+          <p className="hlc-auth-card-brand">{eyebrow}</p>
+          <h1 id="hlc-auth-title">{title}</h1>
           <p className="hlc-auth-card-description">{description}</p>
         </div>
         {status}
