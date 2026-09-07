@@ -38,7 +38,6 @@ import "./mobile-a-plus-sprint-6-account-portals-resources.css";
 import "./mobile-a-plus-sprint-7-integrated-accessibility.css";
 import "./mobile-a-plus-final-device-corrections.css";
 import "./mobile-a-plus-final-device-gate-closure.css";
-import "./mobile-a-plus-final-device-round-2.css";
 import "./provider-professional-profile.css";
 import "./mobile-a-plus-final-device-round-3.css";
 import "./mobile-a-plus-private-beta-closure.css";
@@ -100,6 +99,7 @@ import "./authenticated-shared-mobile-surface-authority-20260905.css";
 import "./academy-help-physical-closure-20260906.css";
 import "./master-authenticated-visual-system-20260907.css";
 import "./master-authenticated-visual-certification-fix-20260907.css";
+import "./master-physical-mobile-reconciliation-20260907.css";
 
 export default function AuthenticatedStyles() {
   return <MobileNavigationDialogAccessibility />;
