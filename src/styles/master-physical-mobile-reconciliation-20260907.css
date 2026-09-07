@@ -1,0 +1,260 @@
+/* HomeLead Connect — physical iPhone reconciliation after exact SHA 190684b physical FAIL.
+ * Visual-only authority. Keep the authenticated shell dark/navy, remove purple/card dominance,
+ * and compact the Work/Community/More surfaces without changing navigation or behavior.
+ */
+
+/* Shared authenticated mobile canvas */
+#root .hlc-signed-in-shell,
+#root .hlc-signed-in-shell > .hlc-route-content,
+#root .hlc-signed-in-shell main {
+  background-color: #081426 !important;
+  color: #f8fafc !important;
+}
+
+/* Work — compact operational index, no oversized intro/card wall. */
+#root .hlc-page-work .hlc-work-home {
+  display: grid !important;
+  gap: 14px !important;
+  background: transparent !important;
+}
+
+#root .hlc-page-work .hlc-parent-index-header {
+  display: flex !important;
+  align-items: end !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  min-height: 0 !important;
+  padding: 0 0 12px !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(199,210,227,.12) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  text-align: left !important;
+}
+
+#root .hlc-page-work .hlc-parent-index-header h1 {
+  margin: 2px 0 0 !important;
+  color: #f8fafc !important;
+  font-size: clamp(24px,5vw,28px) !important;
+  line-height: 1.1 !important;
+  text-align: left !important;
+}
+
+#root .hlc-page-work .hlc-parent-index-header p {
+  display: none !important;
+}
+
+#root .hlc-page-work .hlc-parent-eyebrow {
+  color: #60a5fa !important;
+  -webkit-text-fill-color: #60a5fa !important;
+  font-size: 11px !important;
+  font-weight: 850 !important;
+  letter-spacing: .12em !important;
+}
+
+#root .hlc-page-work .hlc-parent-agent-link {
+  min-height: 44px !important;
+  padding: 0 12px !important;
+  border: 1px solid rgba(96,165,250,.22) !important;
+  border-radius: 7px !important;
+  background: #10243e !important;
+  background-image: none !important;
+  color: #dbeafe !important;
+  -webkit-text-fill-color: #dbeafe !important;
+  box-shadow: none !important;
+}
+
+#root .hlc-page-work .hlc-parent-branch-list {
+  display: grid !important;
+  gap: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+#root .hlc-page-work .hlc-parent-branch-row {
+  min-height: 68px !important;
+  padding: 10px 4px !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(199,210,227,.10) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+#root .hlc-page-work .hlc-parent-branch-row strong {
+  color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
+}
+
+#root .hlc-page-work .hlc-parent-branch-row small {
+  color: #9fb0c5 !important;
+  -webkit-text-fill-color: #9fb0c5 !important;
+  font-size: 12px !important;
+}
+
+#root .hlc-page-work .hlc-parent-branch-row b,
+#root .hlc-page-work .hlc-work-communication-link b {
+  color: #60a5fa !important;
+  -webkit-text-fill-color: #60a5fa !important;
+}
+
+#root .hlc-page-work :is(.hlc-parent-secondary,.hlc-parent-boundary) {
+  padding: 14px 0 !important;
+  border: 0 !important;
+  border-top: 1px solid rgba(199,210,227,.12) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+#root .hlc-page-work .hlc-parent-secondary h2 {
+  margin: 3px 0 10px !important;
+  color: #f8fafc !important;
+  font-size: 17px !important;
+  text-align: left !important;
+}
+
+#root .hlc-page-work .hlc-parent-secondary nav {
+  gap: 8px !important;
+}
+
+#root .hlc-page-work .hlc-parent-secondary nav > a.hlc-work-communication-link {
+  min-height: 56px !important;
+  padding: 8px 10px !important;
+  border: 1px solid rgba(199,210,227,.12) !important;
+  border-radius: 7px !important;
+  background: #0d1a2d !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+#root .hlc-page-work .hlc-work-communication-icon {
+  border-color: rgba(96,165,250,.20) !important;
+  background: #10243e !important;
+  color: #dbeafe !important;
+}
+
+/* Community — same compact navy system; capability stays intact. */
+#root .hlc-page-community-hub .hlc-community-v2 {
+  display: grid !important;
+  gap: 14px !important;
+  background: transparent !important;
+  color: #f8fafc !important;
+}
+
+#root .hlc-page-community-hub .hlc-community-v2-hero {
+  min-height: 0 !important;
+  padding: 0 0 12px !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(199,210,227,.12) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+#root .hlc-page-community-hub .hlc-community-v2-hero h1 {
+  margin: 2px 0 0 !important;
+  color: #f8fafc !important;
+  font-size: clamp(24px,5vw,28px) !important;
+}
+
+#root .hlc-page-community-hub .hlc-community-v2-hero-copy > p {
+  display: none !important;
+}
+
+#root .hlc-page-community-hub :is(.hlc-community-v2-eyebrow,.hlc-community-v2-heading > span,.hlc-community-v2-context-card > span) {
+  color: #60a5fa !important;
+  -webkit-text-fill-color: #60a5fa !important;
+}
+
+#root .hlc-page-community-hub .hlc-community-v2-agent,
+#root .hlc-page-community-hub .hlc-community-v2-commandbar a,
+#root .hlc-page-community-hub .hlc-community-v2-row-action,
+#root .hlc-page-community-hub .hlc-community-v2-context-actions a {
+  border-color: rgba(96,165,250,.20) !important;
+  background: #10243e !important;
+  background-image: none !important;
+  color: #dbeafe !important;
+  -webkit-text-fill-color: #dbeafe !important;
+  box-shadow: none !important;
+}
+
+#root .hlc-page-community-hub :is(.hlc-community-v2-directory,.hlc-community-v2-context-card,.hlc-community-v2-more,.hlc-community-v2-store) {
+  border-color: rgba(199,210,227,.12) !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+#root .hlc-page-community-hub .hlc-community-v2-row {
+  border-color: rgba(199,210,227,.10) !important;
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+#root .hlc-page-community-hub :is(h1,h2,h3,strong) {
+  color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
+}
+
+#root .hlc-page-community-hub :is(p,small) {
+  color: #9fb0c5 !important;
+  -webkit-text-fill-color: #9fb0c5 !important;
+}
+
+/* Mobile More is rendered in a body portal, so it needs body-scoped authority. */
+body > .hlc-drawer-v2.hlc-mobile-command-sheet,
+body > .hlc-drawer-v2.hlc-mobile-command-sheet > .hlc-drawer-v2-scroll {
+  background: #081426 !important;
+  background-image: none !important;
+  color: #f8fafc !important;
+}
+
+body > .hlc-drawer-v2.hlc-mobile-command-sheet :is(.hlc-mobile-command-sheet-head,.hlc-mobile-more-title) {
+  border-color: rgba(199,210,227,.12) !important;
+  background: transparent !important;
+  color: #f8fafc !important;
+}
+
+body > .hlc-drawer-v2.hlc-mobile-command-sheet :is(a,button,.hlc-mobile-command-search-trigger) {
+  border-color: rgba(199,210,227,.12) !important;
+  background-color: #0d1a2d !important;
+  background-image: none !important;
+  color: #f8fafc !important;
+  box-shadow: none !important;
+}
+
+body > .hlc-drawer-v2.hlc-mobile-command-sheet :is(svg,b,.hlc-mobile-command-search-icon) {
+  color: #60a5fa !important;
+  stroke: #60a5fa !important;
+}
+
+body > .hlc-drawer-v2.hlc-mobile-command-sheet small {
+  color: #9fb0c5 !important;
+  -webkit-text-fill-color: #9fb0c5 !important;
+}
+
+@media (max-width: 720px) {
+  #root .hlc-page-work .hlc-parent-index-header,
+  #root .hlc-page-community-hub .hlc-community-v2-hero {
+    align-items: center !important;
+  }
+
+  #root .hlc-page-work .hlc-parent-agent-link,
+  #root .hlc-page-community-hub .hlc-community-v2-agent {
+    min-width: 0 !important;
+    width: auto !important;
+  }
+
+  #root .hlc-page-work .hlc-parent-secondary {
+    padding-inline: 0 !important;
+  }
+}
