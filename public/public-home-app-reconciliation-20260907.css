@@ -1,140 +1,50 @@
-/* HomeLead Connect public front-door physical authority.
- * Static and deliberately scoped so the parser-seeded shell and runtime public
- * markup share one compact app-family composition on first paint and after hydration.
- */
-html,body{background:#081426}
-#root .hlc-home{
-  width:100%!important;
-  min-height:100svh!important;
-  padding:0 16px 32px!important;
-  background:#081426!important;
-  color:#f8fafc!important;
-  text-align:left!important;
-}
-#root .hlc-home>header{
-  position:relative!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:space-between!important;
-  gap:12px!important;
-  width:min(100%,1100px)!important;
-  min-height:64px!important;
-  margin:0 auto!important;
-  padding:8px 0!important;
-  border-bottom:1px solid rgba(199,210,227,.12)!important;
-  background:#081426!important;
-  box-shadow:none!important;
-}
-#root .hlc-home>header>a:first-child{
-  display:inline-flex!important;
-  align-items:center!important;
-  gap:10px!important;
-  min-width:0!important;
-}
-#root .hlc-home>header>a:first-child::after{
-  content:"HomeLead Connect";
-  color:#f8fafc;
-  font-size:16px;
-  font-weight:850;
-  line-height:1;
-  white-space:nowrap;
-}
-#root .hlc-home>header img{
-  width:44px!important;
-  height:44px!important;
-  min-width:44px!important;
-}
-#root .hlc-home>header>a:last-child{
-  min-height:44px!important;
-  padding:0 12px!important;
-  border:1px solid rgba(96,165,250,.24)!important;
-  border-radius:8px!important;
-  background:#10243e!important;
-  color:#dbeafe!important;
-  font-size:14px!important;
-  font-weight:800!important;
-  box-shadow:none!important;
-}
-#root .hlc-home-hero{
-  display:grid!important;
-  grid-template-columns:minmax(0,1fr)!important;
-  gap:0!important;
-  width:min(100%,760px)!important;
-  max-width:760px!important;
-  margin:0 auto!important;
-  padding:44px 0 36px!important;
-  text-align:left!important;
-}
-#root .hlc-home-hero-kicker{
-  margin:0 0 10px!important;
-  color:#60a5fa!important;
-  font-size:11px!important;
-  font-weight:900!important;
-  letter-spacing:.12em!important;
-}
-#root .hlc-home-hero h1,
-#root .hlc-home-hero-title{
-  max-width:680px!important;
-  margin:0!important;
-  color:#f8fafc!important;
-  font-size:clamp(34px,7vw,54px)!important;
-  line-height:1.02!important;
-  letter-spacing:-.035em!important;
-  text-align:left!important;
-}
-#root .hlc-home-hero-copy{
-  max-width:620px!important;
-  margin:18px 0 0!important;
-  color:#b8c6d9!important;
-  font-size:17px!important;
-  line-height:1.55!important;
-  text-align:left!important;
-}
-#root .hlc-home-hero-actions{
-  display:flex!important;
-  flex-wrap:wrap!important;
-  justify-content:flex-start!important;
-  gap:10px!important;
-  margin-top:24px!important;
-}
-#root .hlc-home-hero-actions>a{
-  width:auto!important;
-  min-height:46px!important;
-  padding:0 16px!important;
-  border-radius:8px!important;
-  font-size:14px!important;
-  box-shadow:none!important;
-}
-/* Resident-first front door: service request is the primary first action. */
-#root .hlc-home-hero-actions>a:nth-child(2){order:1!important;background:#2563eb!important;border-color:#2563eb!important;color:#fff!important}
-#root .hlc-home-hero-actions>a:nth-child(1){order:2!important;background:#10243e!important;border:1px solid rgba(96,165,250,.24)!important;color:#dbeafe!important}
-/* Header already owns app entry; remove the duplicate third CTA from the hero. */
-#root .hlc-home-hero-actions>a:nth-child(3){display:none!important}
-#root .hlc-home-hero-note{
-  max-width:620px!important;
-  margin:12px 0 0!important;
-  color:#8193aa!important;
-  font-size:12px!important;
-  line-height:1.45!important;
-  text-align:left!important;
-}
-#root .hlc-home>section:not(.hlc-home-hero){
-  width:min(100%,1100px)!important;
-  margin-left:auto!important;
-  margin-right:auto!important;
-  text-align:left!important;
-}
+/* HomeLead Connect recovered public/front-door authority + auth-entry safety. */
+html,body{margin:0;background:#081426;color:#f8fafc}
+#root .hlc-home{width:100%!important;min-height:100svh!important;padding:0!important;background:#081426!important;color:#f8fafc!important;overflow:hidden!important}
+#root .hlc-frontdoor-header{position:sticky!important;top:0!important;z-index:30!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;width:100%!important;min-height:68px!important;padding:10px 16px!important;box-sizing:border-box!important;background:#0b5ed7!important;border:0!important;box-shadow:none!important}
+#root .hlc-frontdoor-header>a:first-child{display:inline-flex!important;align-items:center!important;text-decoration:none!important}
+#root .hlc-frontdoor-header>a:first-child::after{content:""!important}
+#root .hlc-frontdoor-header img{width:44px!important;height:44px!important;min-width:44px!important;object-fit:contain!important;border-radius:50%!important;background:transparent!important;filter:drop-shadow(0 2px 8px rgba(0,0,0,.22))!important}
+#root .hlc-frontdoor-header>a:last-child{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:44px!important;padding:0 15px!important;border:1px solid rgba(255,255,255,.28)!important;border-radius:8px!important;background:#1e73ea!important;color:#fff!important;-webkit-text-fill-color:#fff!important;font-size:14px!important;font-weight:900!important;text-decoration:none!important;box-shadow:0 8px 22px rgba(5,35,93,.22)!important}
+#root .hlc-home-hero,#root .hlc-frontdoor-hero{position:relative!important;display:grid!important;place-items:center!important;width:100%!important;max-width:none!important;min-height:680px!important;margin:0!important;padding:0!important;overflow:hidden!important;text-align:center!important;background:#081426!important}
+#root .hlc-frontdoor-photo{position:absolute!important;inset:0!important;background-image:url('https://images.pexels.com/photos/4246119/pexels-photo-4246119.jpeg?auto=compress&cs=tinysrgb&w=1800')!important;background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;transform:scale(1.01)!important}
+#root .hlc-frontdoor-overlay{position:absolute!important;inset:0!important;background:linear-gradient(180deg,rgba(8,20,38,.28),rgba(8,20,38,.60) 48%,rgba(8,20,38,.94))!important}
+#root .hlc-frontdoor-content{position:relative!important;z-index:2!important;width:min(900px,calc(100% - 32px))!important;margin:auto!important;padding:72px 0!important;text-align:center!important}
+#root .hlc-home-hero-kicker{margin:0 0 14px!important;color:#dbeafe!important;-webkit-text-fill-color:#dbeafe!important;font-size:12px!important;font-weight:950!important;letter-spacing:.15em!important;text-transform:uppercase!important;text-align:center!important}
+#root .hlc-home-hero h1,#root .hlc-home-hero-title{max-width:860px!important;margin:0 auto!important;color:#fff!important;-webkit-text-fill-color:#fff!important;font-size:clamp(46px,7.4vw,82px)!important;line-height:.98!important;letter-spacing:-.05em!important;text-align:center!important;text-wrap:balance!important}
+#root .hlc-home-hero-copy{max-width:760px!important;margin:20px auto 0!important;color:#eef5ff!important;-webkit-text-fill-color:#eef5ff!important;font-size:19px!important;line-height:1.62!important;text-align:center!important}
+#root .hlc-home-hero-actions{display:flex!important;justify-content:center!important;align-items:center!important;flex-wrap:wrap!important;gap:10px!important;margin-top:28px!important}
+#root .hlc-home-hero-actions>a{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:50px!important;padding:0 19px!important;border-radius:9px!important;font-size:15px!important;font-weight:950!important;text-decoration:none!important;box-sizing:border-box!important}
+#root .hlc-home-hero-actions>a:first-child{background:#2563eb!important;border:1px solid #2563eb!important;color:#fff!important;-webkit-text-fill-color:#fff!important;box-shadow:0 16px 42px rgba(37,99,235,.30)!important}
+#root .hlc-home-hero-actions>a:nth-child(2){display:inline-flex!important;order:initial!important;background:rgba(16,36,62,.88)!important;border:1px solid rgba(219,234,254,.22)!important;color:#fff!important;-webkit-text-fill-color:#fff!important;backdrop-filter:blur(8px)!important}
+#root .hlc-home-hero-actions>a:nth-child(n+3){display:none!important}
+#root .hlc-home>section:not(.hlc-home-hero){width:min(100% - 32px,1100px)!important;margin-left:auto!important;margin-right:auto!important}
+
+/* Auth must never fall back to the old light/white canvas. */
+html:has(#root .hlc-auth-shell),body:has(#root .hlc-auth-shell),#root:has(.hlc-auth-shell),
+#root .hlc-app-shell:is(.hlc-page-login,.hlc-page-register,.hlc-page-forgot-password,.hlc-page-reset-password),
+#root .hlc-app-shell:is(.hlc-page-login,.hlc-page-register,.hlc-page-forgot-password,.hlc-page-reset-password)>.hlc-route-content,
+#root .hlc-app-shell:is(.hlc-page-login,.hlc-page-register,.hlc-page-forgot-password,.hlc-page-reset-password)>.hlc-route-content>*,
+#root .hlc-auth-shell,#root .hlc-auth-card,#root .hlc-auth-brand,#root .hlc-auth-form-heading,#root .hlc-auth-card-footer{background:#081426!important;background-color:#081426!important;background-image:none!important;color:#f8fafc!important;box-shadow:none!important}
+#root .hlc-app-shell:is(.hlc-page-login,.hlc-page-register,.hlc-page-forgot-password,.hlc-page-reset-password) .hlc-route-visual-banner{display:none!important}
+#root .hlc-auth-shell{min-height:100dvh!important;width:100%!important;max-width:560px!important;margin:0 auto!important;padding:20px 16px 40px!important;box-sizing:border-box!important}
+#root .hlc-auth-shell :is(h1,h2,h3,label,strong,.hlc-auth-card-brand,.hlc-auth-eyebrow){color:#fff!important;-webkit-text-fill-color:#fff!important}
+#root .hlc-auth-shell :is(p,small,span){color:#aebdd0!important;-webkit-text-fill-color:#aebdd0!important}
+#root .hlc-auth-shell :is(input,select,textarea){background:#0d1a2d!important;background-color:#0d1a2d!important;color:#fff!important;-webkit-text-fill-color:#fff!important;border:1px solid rgba(199,210,227,.28)!important}
+#root .hlc-auth-shell .hlc-auth-method-tabs button{background:#0d1a2d!important;color:#dbeafe!important;-webkit-text-fill-color:#dbeafe!important;border:1px solid rgba(199,210,227,.18)!important}
+#root .hlc-auth-shell .hlc-auth-method-tabs button[aria-pressed="true"]{background:#16345a!important;color:#fff!important;-webkit-text-fill-color:#fff!important}
+#root .hlc-auth-shell .hlc-auth-form>button[type="submit"]{background:#2563eb!important;color:#fff!important;-webkit-text-fill-color:#fff!important;border-color:#2563eb!important}
+
 @media(max-width:600px){
-  #root .hlc-home{padding:0 16px 28px!important}
-  #root .hlc-home>header{min-height:60px!important;padding:8px 0!important}
-  #root .hlc-home>header>a:first-child::after{font-size:14px!important}
-  #root .hlc-home>header img{width:40px!important;height:40px!important;min-width:40px!important}
-  #root .hlc-home>header>a:last-child{padding:0 10px!important;font-size:0!important}
-  #root .hlc-home>header>a:last-child::after{content:"Open app";font-size:13px!important}
-  #root .hlc-home-hero{padding:30px 0 28px!important}
-  #root .hlc-home-hero h1,#root .hlc-home-hero-title{font-size:clamp(32px,10.5vw,42px)!important;line-height:1.04!important;letter-spacing:-.035em!important}
-  #root .hlc-home-hero-copy{margin-top:14px!important;font-size:15px!important;line-height:1.5!important}
-  #root .hlc-home-hero-actions{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px!important;margin-top:20px!important}
-  #root .hlc-home-hero-actions>a{min-width:0!important;min-height:46px!important;padding:0 10px!important;text-align:center!important;white-space:normal!important}
-  #root .hlc-home-hero-note{margin-top:10px!important;font-size:11px!important}
+  #root .hlc-frontdoor-header{min-height:64px!important;padding:10px 14px!important}
+  #root .hlc-frontdoor-header img{width:42px!important;height:42px!important;min-width:42px!important}
+  #root .hlc-frontdoor-header>a:last-child{min-height:42px!important;padding:0 12px!important;font-size:13px!important}
+  #root .hlc-home-hero,#root .hlc-frontdoor-hero{min-height:calc(100svh - 64px)!important}
+  #root .hlc-frontdoor-photo{background-position:58% center!important}
+  #root .hlc-frontdoor-content{width:min(100% - 28px,620px)!important;padding:54px 0 70px!important}
+  #root .hlc-home-hero h1,#root .hlc-home-hero-title{font-size:clamp(42px,12vw,56px)!important;line-height:.98!important}
+  #root .hlc-home-hero-copy{margin-top:16px!important;font-size:16px!important;line-height:1.55!important}
+  #root .hlc-home-hero-actions{display:grid!important;grid-template-columns:1fr!important;width:min(100%,360px)!important;margin:24px auto 0!important}
+  #root .hlc-home-hero-actions>a{width:100%!important;min-height:50px!important}
+  #root .hlc-auth-shell{padding:16px 16px 36px!important}
 }
