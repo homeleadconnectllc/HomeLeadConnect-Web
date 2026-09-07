@@ -124,14 +124,14 @@ if (isPublicHome) {
     });
   }
 
-  void Promise.all([
-    import("react"),
-    import("react-dom/client"),
-    import("./styles/app-shell-entry"),
-    import("./App.tsx"),
-    import("./context/AuthContext"),
-    import("./context/AccountAccessProvider"),
-  ]).then(([reactModule, domModule, , appModule, authModule, accessModule]) => {
+  void import("./styles/app-shell-entry").then(async () => {
+    const [reactModule, domModule, appModule, authModule, accessModule] = await Promise.all([
+      import("react"),
+      import("react-dom/client"),
+      import("./App.tsx"),
+      import("./context/AuthContext"),
+      import("./context/AccountAccessProvider"),
+    ]);
     const { StrictMode, createElement } = reactModule;
     const { createRoot } = domModule;
     const App = appModule.default;
