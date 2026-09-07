@@ -99,6 +99,7 @@ import "./global-visual-cleanup-physical-20260905.css";
 import "./authenticated-shared-mobile-surface-authority-20260905.css";
 import "./academy-help-physical-closure-20260906.css";
 import "./master-authenticated-visual-system-20260907.css";
+import "./master-authenticated-visual-certification-fix-20260907.css";
 
 export default function AuthenticatedStyles() {
   return <MobileNavigationDialogAccessibility />;
