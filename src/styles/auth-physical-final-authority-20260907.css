@@ -1,0 +1,38 @@
+/* Physical iPhone auth authority — route-independent so redirects/autofill cannot expose legacy light treatment. */
+#root .hlc-auth-shell.hlc-auth-shell--flat{
+  color-scheme:dark!important;
+  background:#081426!important;
+  background-color:#081426!important;
+  background-image:none!important;
+  color:#f8fafc!important;
+  border-color:rgba(199,210,227,.12)!important;
+  box-shadow:none!important;
+}
+#root .hlc-auth-shell.hlc-auth-shell--flat :is(.hlc-auth-brand,.hlc-auth-card,.hlc-auth-form-heading,.hlc-auth-method-tabs,.hlc-auth-card-footer){
+  background:#081426!important;
+  background-color:#081426!important;
+  background-image:none!important;
+  color:#f8fafc!important;
+  box-shadow:none!important;
+}
+#root .hlc-auth-shell.hlc-auth-shell--flat :is(h1,h2,label,strong){color:#f8fafc!important;-webkit-text-fill-color:#f8fafc!important}
+#root .hlc-auth-shell.hlc-auth-shell--flat :is(p,small){color:#9fb0c5!important;-webkit-text-fill-color:#9fb0c5!important}
+#root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-form input{
+  background:#101f34!important;
+  background-color:#101f34!important;
+  background-image:none!important;
+  color:#fff!important;
+  -webkit-text-fill-color:#fff!important;
+  border:1px solid rgba(199,210,227,.24)!important;
+  box-shadow:none!important;
+}
+#root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-form input:-webkit-autofill,
+#root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-form input:-webkit-autofill:hover,
+#root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-form input:-webkit-autofill:focus{
+  -webkit-text-fill-color:#fff!important;
+  -webkit-box-shadow:0 0 0 1000px #101f34 inset!important;
+  box-shadow:0 0 0 1000px #101f34 inset!important;
+  caret-color:#fff!important;
+}
+#root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-method-tabs button{background:transparent!important;background-image:none!important;color:#dbeafe!important}
+#root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-form>button[type="submit"]{background:#2563eb!important;background-image:none!important;color:#fff!important;-webkit-text-fill-color:#fff!important}
