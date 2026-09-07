@@ -49,11 +49,32 @@ export default function Register() {
       : "Company account created. Check your email for the confirmation link before signing in.");
   }
 
+  const loginHref = next ? `/login?next=${encodeURIComponent(next)}` : "/login";
+
+  if (message) {
+    return <AuthShell
+      title={invitedStaff ? "Your HLC identity is created" : "Your company workspace is created"}
+      description={invitedStaff ? "One more step: confirm your email, then return to the invitation." : "You’re done here for now. HomeLead Connect created your company account and workspace."}
+      status={null}
+      footer={<p><a href="https://homeleadconnect.org">Return to HomeLead Connect</a></p>}
+    >
+      <section aria-live="polite" style={{ display: "grid", gap: 16 }}>
+        <div style={{ padding: 18, borderRadius: 8, background: "#ecfdf5", border: "1px solid #86efac", color: "#14532d" }}>
+          <strong style={{ display: "block", marginBottom: 6, fontSize: 18 }}>Account created successfully.</strong>
+          <span>{message}</span>
+        </div>
+        <div style={{ padding: 16, borderRadius: 8, background: "#eff6ff", border: "1px solid #93c5fd", color: "#1e3a8a" }}>
+          <strong style={{ display: "block", marginBottom: 6 }}>What to do next</strong>
+          <span>Open the confirmation email sent to <strong>{email.trim()}</strong> and confirm your address. After that, use Sign in to continue. You do not need to create the workspace again.</span>
+        </div>
+        <Link to={loginHref} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", minHeight: 48, padding: "12px 18px", borderRadius: 8, background: "#2563eb", color: "#fff", fontWeight: 800, textDecoration: "none" }}>Sign in after confirming email</Link>
+      </section>
+    </AuthShell>;
+  }
+
   const status = <>
     {(error || !isSupabaseConfigured()) && <p role="alert" style={{ color: "#b91c1c" }}>{error || supabaseConfigMessage}</p>}
-    {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
   </>;
-  const loginHref = next ? `/login?next=${encodeURIComponent(next)}` : "/login";
   const footer = <>
     <p>Already registered? <Link to={loginHref}>Sign in</Link>.</p>
     <p><a href="https://homeleadconnect.org">Return to HomeLead Connect</a></p>
