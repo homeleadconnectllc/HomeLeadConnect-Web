@@ -1,0 +1,116 @@
+/* Physical iPhone root authority — DOM-correct final layer.
+ * Page identity lives on .hlc-signed-in-shell, not <body>. Keep this file last.
+ */
+#root .hlc-signed-in-shell{
+  --hlc-physical-bg:#081426;
+  --hlc-physical-surface:#0d1a2d;
+  --hlc-physical-surface-2:#10243e;
+  --hlc-physical-line:rgba(199,210,227,.12);
+  --hlc-physical-accent:#60a5fa;
+  --hlc-physical-text:#f8fafc;
+  --hlc-physical-muted:#9fb0c5;
+  background:var(--hlc-physical-bg)!important;
+  background-image:none!important;
+  color:var(--hlc-physical-text)!important;
+}
+#root .hlc-signed-in-shell>.hlc-route-content,
+#root .hlc-signed-in-shell>.hlc-route-content>main{
+  background:var(--hlc-physical-bg)!important;
+  background-image:none!important;
+}
+#root .hlc-signed-in-shell :is(.hlc-mobile-tabbar,.hlc-home-topbar,.hlc-messages-header){
+  background:#0b1729!important;
+  background-image:none!important;
+  border-color:var(--hlc-physical-line)!important;
+}
+#root .hlc-signed-in-shell .hlc-mobile-tabbar :is(a,button)[aria-current="page"]{
+  background:var(--hlc-physical-surface-2)!important;
+  background-image:none!important;
+  border-color:rgba(96,165,250,.24)!important;
+  color:#93c5fd!important;
+}
+
+/* Dashboard: page class is on the shell. */
+#root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-workspace{
+  background:var(--hlc-physical-bg)!important;
+  background-image:none!important;
+}
+#root .hlc-signed-in-shell.hlc-page-dashboard :is(.hlc-home-topbar-v2,.hlc-home-live-line,.hlc-home-metric-strip,.hlc-home-focus-panel,.hlc-home-schedule-panel,.hlc-home-panel-head,.hlc-home-ai-rail){
+  background:var(--hlc-physical-surface)!important;
+  background-image:none!important;
+  border-color:rgba(96,165,250,.20)!important;
+  box-shadow:none!important;
+}
+#root .hlc-signed-in-shell.hlc-page-dashboard :is(.hlc-home-eyebrow,.hlc-home-panel-title>span,.hlc-home-ai-heading){
+  color:var(--hlc-physical-accent)!important;
+  -webkit-text-fill-color:var(--hlc-physical-accent)!important;
+}
+#root .hlc-signed-in-shell.hlc-page-dashboard :is(.hlc-home-top-actions-v2 button,.hlc-home-top-actions-v2 a,.hlc-home-panel-head>a,.hlc-home-ai-links>a){
+  background:var(--hlc-physical-surface-2)!important;
+  background-image:none!important;
+  border-color:rgba(96,165,250,.22)!important;
+  color:#dbeafe!important;
+  -webkit-text-fill-color:#dbeafe!important;
+}
+#root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-metric-strip{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:1px!important;
+  border-radius:8px!important;
+  background:var(--hlc-physical-line)!important;
+}
+#root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-metric-strip>a{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  align-content:center!important;
+  min-width:0!important;
+  min-height:70px!important;
+  padding:12px 14px!important;
+  border:0!important;
+  background:var(--hlc-physical-surface)!important;
+  background-image:none!important;
+}
+#root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-metric-strip>a>svg{display:none!important}
+#root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-metric-strip>a>span{display:grid!important;width:100%!important;min-width:0!important;gap:5px!important}
+#root .hlc-signed-in-shell.hlc-page-dashboard .hlc-home-metric-strip small{
+  display:block!important;width:100%!important;min-width:0!important;margin:0!important;
+  color:#c7d2e3!important;-webkit-text-fill-color:#c7d2e3!important;
+  font-size:12px!important;line-height:1.25!important;white-space:normal!important;
+  word-break:normal!important;overflow-wrap:normal!important;hyphens:none!important;
+}
+
+/* Notifications: remove the shared marketing/story banner at the actual shell root. */
+#root .hlc-signed-in-shell.hlc-page-notifications .hlc-route-visual-banner{display:none!important;visibility:hidden!important}
+#root .hlc-signed-in-shell.hlc-page-notifications .hlc-notifications-workspace{
+  width:min(100%,1180px)!important;margin:0 auto!important;padding:18px 16px 96px!important;
+  background:var(--hlc-physical-bg)!important;background-image:none!important;color:var(--hlc-physical-text)!important;
+}
+#root .hlc-signed-in-shell.hlc-page-notifications :is(.hlc-notifications-header,.hlc-notifications-summary,.hlc-notifications-queue,.hlc-notifications-list,.hlc-notifications-state,.hlc-notifications-empty,.hlc-notification-row){
+  background:transparent!important;background-image:none!important;box-shadow:none!important;border-color:var(--hlc-physical-line)!important;
+}
+#root .hlc-signed-in-shell.hlc-page-notifications :is(h1,h2,h3,strong){color:var(--hlc-physical-text)!important;-webkit-text-fill-color:var(--hlc-physical-text)!important}
+#root .hlc-signed-in-shell.hlc-page-notifications :is(p,time,.hlc-notifications-state,.hlc-notifications-empty){color:var(--hlc-physical-muted)!important;-webkit-text-fill-color:var(--hlc-physical-muted)!important}
+
+/* Work: the operational route must not begin with a giant intro card. */
+#root .hlc-signed-in-shell .hlc-work-home .hlc-parent-index-header,
+#root .hlc-signed-in-shell .hlc-parent-index-header{
+  display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;
+  min-height:0!important;margin:0!important;padding:0 0 12px!important;border:0!important;border-bottom:1px solid var(--hlc-physical-line)!important;
+  border-radius:0!important;background:transparent!important;background-image:none!important;box-shadow:none!important;text-align:left!important;
+}
+#root .hlc-signed-in-shell .hlc-parent-index-header h1{margin:2px 0 0!important;font-size:clamp(24px,6vw,28px)!important;line-height:1.08!important;color:var(--hlc-physical-text)!important;-webkit-text-fill-color:var(--hlc-physical-text)!important}
+#root .hlc-signed-in-shell .hlc-parent-eyebrow{color:var(--hlc-physical-accent)!important;-webkit-text-fill-color:var(--hlc-physical-accent)!important}
+#root .hlc-signed-in-shell .hlc-parent-agent-link{min-height:44px!important;padding:0 12px!important;border:1px solid rgba(96,165,250,.22)!important;border-radius:7px!important;background:var(--hlc-physical-surface-2)!important;background-image:none!important;color:#dbeafe!important;-webkit-text-fill-color:#dbeafe!important}
+
+/* Messages: empty inbox is an operational state, not a purple feature card. */
+#root .hlc-signed-in-shell.hlc-page-messages :is(.hlc-messages-progressive-header,.hlc-message-inbox-row,.hlc-messages-empty-action,.hlc-message-quick-compose,.hlc-message-composer),
+#root .hlc-signed-in-shell .hlc-messages-workspace :is(.hlc-messages-progressive-header,.hlc-message-inbox-row,.hlc-messages-empty-action){
+  background:transparent!important;background-image:none!important;border-color:var(--hlc-physical-line)!important;box-shadow:none!important;color:var(--hlc-physical-text)!important;
+}
+#root .hlc-signed-in-shell .hlc-messages-workspace .hlc-message-inbox-row{border-radius:0!important;border-width:0 0 1px!important;padding:12px 4px!important}
+#root .hlc-signed-in-shell .hlc-messages-workspace .hlc-messages-empty-action{min-height:0!important;padding:18px 4px!important;border:0!important;border-bottom:1px solid var(--hlc-physical-line)!important;border-radius:0!important}
+
+@media(max-width:720px){
+  #root .hlc-signed-in-shell .hlc-parent-index-header{padding:0 0 10px!important}
+  #root .hlc-signed-in-shell .hlc-parent-index-header h1{font-size:24px!important}
+  #root .hlc-signed-in-shell .hlc-messages-workspace{padding-bottom:calc(108px + env(safe-area-inset-bottom))!important}
+}
