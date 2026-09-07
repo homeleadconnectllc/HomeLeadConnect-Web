@@ -6,6 +6,7 @@ const main = readFileSync(new URL("../main.tsx", import.meta.url), "utf8");
 const home = readFileSync(new URL("../pages/HomePage.tsx", import.meta.url), "utf8");
 const footer = readFileSync(new URL("../components/Footer.tsx", import.meta.url), "utf8");
 const indexHtml = readFileSync(new URL("../../index.html", import.meta.url), "utf8");
+const publicAuthority = readFileSync(new URL("../../public/public-home-app-reconciliation-20260907.css", import.meta.url), "utf8");
 
 test("public home stays outside the authenticated application bundle while retaining route delivery", () => {
   assert.match(main, /isPublicHome/);
@@ -47,11 +48,13 @@ test("parser-seeded public hero cannot promote the oversized canonical logo into
   assert.match(indexHtml, /width="40" height="40"/);
 });
 
-test("parser-seeded mobile hero geometry matches the supplemental public-home authority", () => {
-  assert.match(indexHtml, /\.hlc-home-hero h1\{font-size:36px!important;line-height:1\.06!important;letter-spacing:-1\.2px!important;max-width:390px\}/);
-  assert.match(indexHtml, /\.hlc-home-hero p\{font-size:17px!important\}/);
-  assert.match(indexHtml, /\.hlc-home-hero-actions\{margin-top:22px!important\}/);
-  assert.match(main, /\.hlc-home-hero h1 \{ font-size: 36px !important; line-height: 1\.06 !important; letter-spacing: -1\.2px !important; max-width: 390px; \}/);
-  assert.match(main, /\.hlc-home-hero p \{ font-size: 17px !important; \}/);
-  assert.match(main, /\.hlc-home-hero-actions \{ margin-top: 22px !important; \}/);
+test("public front door has one shared visual authority for parser seed and runtime markup", () => {
+  assert.match(indexHtml, /public-home-app-reconciliation-20260907\.css/);
+  assert.doesNotMatch(indexHtml, /\.hlc-home-hero h1\{font-size:36px!important/);
+  assert.doesNotMatch(main, /\.hlc-home-hero h1 \{ font-size: 36px !important/);
+  assert.doesNotMatch(main, /supplementalStyle/);
+  assert.match(publicAuthority, /#root \.hlc-home-hero/);
+  assert.match(publicAuthority, /#root \.hlc-home-hero h1,#root \.hlc-home-hero-title/);
+  assert.match(publicAuthority, /#root \.hlc-home-hero-actions/);
+  assert.match(publicAuthority, /@media\(max-width:600px\)/);
 });
