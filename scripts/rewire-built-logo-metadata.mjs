@@ -1,5 +1,6 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
+import { verifyFrontdoorAssets } from "./verify-frontdoor-assets.mjs";
 
 const indexPath = process.argv[2] || "dist/index.html";
 const canonical = "/hlc-logo-transparent.png";
@@ -44,4 +45,5 @@ if (!manifestRewired) {
 
 writeFileSync(indexPath, updated);
 writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
+verifyFrontdoorAssets(dirname(indexPath));
 console.log(`Rewired built browser and manifest icon metadata to ${derivative}; source branding contract remains canonical.`);
