@@ -6,6 +6,7 @@ const publicAuthority = readFileSync("src/styles/master-visual-system-20260907.c
 const publicPhysicalAuthority = readFileSync("public/public-home-app-reconciliation-20260907.css", "utf8");
 const authenticatedAuthority = readFileSync("src/styles/master-authenticated-visual-system-20260907.css", "utf8");
 const finalAuthenticatedAuthority = readFileSync("src/styles/physical-root-authority-20260907.css", "utf8");
+const authenticatedEntry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 const publicShell = readFileSync("index.html", "utf8");
 const app = readFileSync("src/App.tsx", "utf8");
 const authenticatedStyles = readFileSync("src/styles/AuthenticatedStyles.tsx", "utf8");
@@ -25,6 +26,25 @@ test("approved visual master authorities are mounted in public and authenticated
       authenticatedStyles.indexOf("authenticated-shell-navy-source-authority-20260907.css"),
     "physical-root-authority must remain the final authenticated stylesheet import",
   );
+});
+
+test("authenticated runtime does not reload superseded visual generations", () => {
+  const retired = [
+    "workspace-premium-v3.css",
+    "workspace-premium-v4.css",
+    "full-app-visual-reference-authority.css",
+    "production-mobile-visual-escape.css",
+    "centered-presentation-typography.css",
+    "launch-global-presentation-authority.css",
+    "final-visual-punch.css",
+    "mobile-a-plus.css",
+    "five-star-mobile-foundation.css",
+    "version-a-color-authority-20260904.css",
+  ];
+  for (const file of retired) {
+    assert.doesNotMatch(authenticatedEntry, new RegExp(file.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+    assert.doesNotMatch(authenticatedStyles, new RegExp(file.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  }
 });
 
 test("sign-in visual authority removes marketing competition without changing auth implementation", () => {
