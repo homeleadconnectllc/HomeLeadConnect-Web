@@ -1,0 +1,8 @@
+Resident intake repair branch authority
+
+Base production SHA: 74d99389128dd57af6c3cc4bde8ed70cc7e19bc7
+Repair sequence:
+- 9b6b7c08782f1a21206d9fa8520f9c490fa11c42 — resident intake completion + mobile visual clarity
+- 1f44df47322615019919c0eb4fb8767cc8a70e5e — controlled-rollout evidence record
+
+This branch is corrective only. Do not promote without exact-head certification and owner approval.
