@@ -91,6 +91,36 @@ jobs:
             fi
             "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --window-size=390,844 --hide-scrollbars --virtual-time-budget=5000 --screenshot="$png" --run-all-compositor-stages-before-draw "$url"
           done
+      - name: Certify full approved front-door contract
+        run: |
+          set -euo pipefail
+          DOM="$GITHUB_WORKSPACE/artifacts/blind-visual/public-iphone-home.dom.html"
+          for expect in \
+            'Home services, connected better' \
+            'Home help should feel easier.' \
+            'Request Home Service' \
+            'For Professionals' \
+            'Renters included' \
+            'Homeowners welcome' \
+            'Clear next steps' \
+            'Harrisburg roots' \
+            'Start with the need, not the paperwork.' \
+            'A clearer conversation from the start.' \
+            'Four simple steps.' \
+            'Better service starts before the job begins.' \
+            'Tell us what your home needs.' \
+            'Start My Request' \
+            'HomeLead Connect LLC | Harrisburg, Pennsylvania | info@homeleadconnect.org'; do
+            if ! grep -Fqi "$expect" "$DOM"; then
+              echo "Approved full-page front-door marker missing: $expect"
+              exit 63
+            fi
+          done
+          grep -Fq 'https://app.homeleadconnect.org/request-service' "$DOM" || { echo 'Approved request-service handoff missing'; exit 64; }
+          grep -Fq 'https://professionals.homeleadconnect.org/' "$DOM" || { echo 'Approved professional handoff missing'; exit 65; }
+          grep -Fq '/hlc-frontdoor-resident-hero.webp' "$DOM" || { echo 'Self-hosted resident hero missing'; exit 66; }
+          grep -Fq '/hlc-frontdoor-people-first.webp' "$DOM" || { echo 'Self-hosted people-first image missing'; exit 67; }
+          grep -Fq '/hlc-frontdoor-professional.webp' "$DOM" || { echo 'Self-hosted professional image missing'; exit 68; }
       - name: Certify public Mac routes render and capture
         run: |
           set -euo pipefail
