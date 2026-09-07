@@ -5,8 +5,8 @@ import { join } from "node:path";
 const FRONTDOOR_ASSETS = [
   {
     path: "hlc-frontdoor-resident-hero-v2.webp",
-    expectedSize: 42032,
-    expectedSha256: "78f99e24988791f5778828304f3eb5433a9eb56b730b9f1271b41c33e7afcd34",
+    expectedSize: 33765,
+    expectedGitBlobSha1: "0e193985fd4fa0b39a151e6c0d1a52c0f259711d",
   },
   {
     path: "hlc-frontdoor-people-first.webp",
@@ -30,6 +30,11 @@ function assertWebP(buffer, path) {
   }
 }
 
+function gitBlobSha1(buffer) {
+  const header = Buffer.from(`blob ${buffer.length}\0`);
+  return createHash("sha1").update(header).update(buffer).digest("hex");
+}
+
 export function verifyFrontdoorAssets(root) {
   for (const asset of FRONTDOOR_ASSETS) {
     const fullPath = join(root, asset.path);
@@ -38,6 +43,13 @@ export function verifyFrontdoorAssets(root) {
 
     if (bytes.length !== asset.expectedSize) {
       throw new Error(`${asset.path} size mismatch: expected ${asset.expectedSize}, received ${bytes.length}`);
+    }
+
+    if (asset.expectedGitBlobSha1) {
+      const actualGitBlobSha1 = gitBlobSha1(bytes);
+      if (actualGitBlobSha1 !== asset.expectedGitBlobSha1) {
+        throw new Error(`${asset.path} Git blob SHA-1 mismatch: expected ${asset.expectedGitBlobSha1}, received ${actualGitBlobSha1}`);
+      }
     }
 
     if (asset.expectedSha256) {
