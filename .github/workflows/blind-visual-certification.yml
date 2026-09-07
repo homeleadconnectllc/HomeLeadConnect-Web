@@ -110,7 +110,9 @@ jobs:
             'Better service starts before the job begins.' \
             'Tell us what your home needs.' \
             'Start My Request' \
-            'HomeLead Connect LLC | Harrisburg, Pennsylvania | homeleadconnect@gmail.com'; do
+            'HomeLead Connect LLC' \
+            'Harrisburg, Pennsylvania' \
+            'homeleadconnect@gmail.com'; do
             if ! grep -Fqi "$expect" "$DOM"; then
               echo "Approved full-page front-door marker missing: $expect"
               exit 63
