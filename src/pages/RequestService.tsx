@@ -7,13 +7,193 @@ import { errorMessage } from "../lib/errorMessage";
 type ResidentType = "Renter" | "Homeowner" | "Property manager" | "Other";
 
 export default function RequestService() {
-  const [form, setForm] = useState({ fullName: "", phone: "", email: "", residentType: "Renter" as ResidentType, projectDetails: "", honeypot: "" });
+  const [form, setForm] = useState({
+    fullName: "",
+    phone: "",
+    email: "",
+    residentType: "Renter" as ResidentType,
+    projectDetails: "",
+    honeypot: "",
+  });
   const [requestId] = useState(() => crypto.randomUUID());
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  async function submit(event: FormEvent) { event.preventDefault(); trackAnalyticsEvent("service_request_started"); setBusy(true); setError(""); try { const { residentType, ...requestFields } = form; const result = await submitServiceRequest({ requestId, ...requestFields, projectDetails: `[Resident type: ${residentType}]\n${form.projectDetails.trim()}` }); if (!result?.accepted) throw new Error("The request could not be accepted."); trackAnalyticsEvent("service_request_submitted"); setSubmitted(true); } catch (reason) { setError(errorMessage(reason, "Unable to submit your request.")); } finally { setBusy(false); } }
-  if (submitted) return <main style={pageStyle}><section style={successStyle}><div aria-hidden="true" style={successIconStyle}>✓</div><p style={eyebrowStyle}>REQUEST RECEIVED</p><h1 style={successTitleStyle}>Your request is in the HLC workflow.</h1><p style={successCopyStyle}>HomeLead Connect saved your service request for review. We’ll use the contact information you provided to coordinate the appropriate next step.</p><div style={noticeStyle}><strong>What happens next</strong><span>Review → provider coordination → scheduling when applicable. This confirmation does not mean a provider has been assigned or an appointment scheduled.</span></div><div style={actionRowStyle}><Link to="/" style={primaryButtonStyle}>Back to HomeLead Connect</Link><Link to="/contact" style={secondaryButtonStyle}>Contact HLC</Link></div></section></main>;
-  return <main className="hlc-request-service" style={pageStyle}><style>{`@media (max-width:720px){.hlc-request-service{width:calc(100% - 20px)!important;margin:10px auto 36px!important;gap:12px!important}.hlc-request-hero{padding:18px 14px!important}.hlc-request-hero img{max-height:54px!important;width:92px!important;margin-bottom:8px!important}.hlc-request-hero h1{font-size:2rem!important;line-height:1.02!important;margin:8px auto 10px!important}.hlc-request-intro{font-size:15px!important;line-height:1.45!important}.hlc-request-steps{display:none!important}.hlc-request-grid{grid-template-columns:1fr!important;gap:12px!important}.hlc-request-form-card{order:1;padding:20px 16px!important}.hlc-request-aside{order:2;padding:18px 16px!important}}`}</style><section className="hlc-request-hero" style={heroStyle}><img src="/hlc-logo-transparent.png" alt="HomeLead Connect" style={logoStyle}/><p style={eyebrowStyle}>HOMELEAD CONNECT · SERVICE REQUEST</p><h1 style={titleStyle}>Tell us what your home needs.</h1><a href="#request-form" style={heroButtonStyle}>Start My Request ↓</a><p className="hlc-request-intro" style={introStyle}>Renters, homeowners, property managers, and everyday households can start with one request. HLC keeps review, provider coordination, scheduling, and communication connected from there.</p><div className="hlc-request-steps" style={stepsStyle}><span style={stepStyle}><b>01</b> Tell us what you need</span><span style={stepStyle}><b>02</b> HLC reviews the request</span><span style={stepStyle}><b>03</b> Coordinate next steps</span></div></section><section className="hlc-request-grid" style={contentGridStyle}><div id="request-form" className="hlc-request-form-card" style={formCardStyle}><div style={formHeadingStyle}><p style={formEyebrowStyle}>SERVICE DETAILS</p><h2 style={formTitleStyle}>Start your request</h2><p style={formIntroStyle}>Share enough detail for HomeLead Connect to understand the need and contact you about the next step.</p></div>{error&&<p role="alert" style={errorStyle}>{error}</p>}<form onSubmit={submit} style={formStyle}><label style={trapStyle} aria-hidden="true">Website<input tabIndex={-1} autoComplete="off" name="website" value={form.honeypot} onChange={(e)=>setForm({...form,honeypot:e.target.value})}/></label><div style={twoColumnStyle}><label style={labelStyle}>Full name<span style={requiredStyle}>Required</span><input style={fieldStyle} required minLength={2} autoComplete="name" placeholder="Your name" value={form.fullName} onChange={(e)=>setForm({...form,fullName:e.target.value})}/></label><label style={labelStyle}>Best phone number<span style={requiredStyle}>Required</span><input style={fieldStyle} required type="tel" autoComplete="tel" placeholder="(717) 555-0123" value={form.phone} onChange={(e)=>setForm({...form,phone:e.target.value})}/></label></div><div style={twoColumnStyle}><label style={labelStyle}>Resident / customer type<span style={requiredStyle}>Required</span><select style={fieldStyle} value={form.residentType} onChange={(e)=>setForm({...form,residentType:e.target.value as ResidentType})}><option>Renter</option><option>Homeowner</option><option>Property manager</option><option>Other</option></select></label><label style={labelStyle}>Email<span style={optionalStyle}>Optional</span><input style={fieldStyle} type="email" autoComplete="email" placeholder="you@example.com" value={form.email} onChange={(e)=>setForm({...form,email:e.target.value})}/></label></div><label style={labelStyle}>What home service or project do you need?<span style={requiredStyle}>Required</span><textarea style={{...fieldStyle,resize:"vertical",minHeight:150}} required minLength={10} rows={6} placeholder="Describe the repair, move, cleaning, HVAC issue, project, timing, or anything else that would help us understand what you need." value={form.projectDetails} onChange={(e)=>setForm({...form,projectDetails:e.target.value})}/></label><div style={privacyStyle}><strong>Privacy-minded by design.</strong><span>We use this information to review and respond to your service request. This form does not enroll you in marketing messages.</span></div><button disabled={busy} type="submit" style={{...submitStyle,opacity:busy?.65:1}}>{busy?"Sending request…":"Send request to HomeLead Connect →"}</button></form></div><aside className="hlc-request-aside" style={asideStyle}><p style={darkEyebrowStyle}>A BETTER FRONT DOOR</p><h2 style={asideTitleStyle}>One request. Clear next steps.</h2><p style={asideCopyStyle}>Use this form for repairs, maintenance, improvements, moving, cleaning, HVAC, painting, roofing, and other home-service needs supported by the HLC network.</p><div style={trustListStyle}><p><strong>Renters are welcome</strong><br/><span>Select renter below so HLC can keep your household context visible.</span></p><p><strong>Protected intake</strong><br/><span>Your request enters HLC’s controlled workflow.</span></p><p><strong>No marketing enrollment</strong><br/><span>Submitting this form does not opt you into marketing messages.</span></p><p><strong>No false promises</strong><br/><span>Provider assignment, pricing, and appointments are confirmed separately.</span></p></div><Link to="/contact" style={asideLinkStyle}>Need another kind of help? Contact HLC →</Link></aside></section></main>;
+
+  async function submit(event: FormEvent) {
+    event.preventDefault();
+    trackAnalyticsEvent("service_request_started");
+    setBusy(true);
+    setError("");
+    try {
+      const { residentType, ...requestFields } = form;
+      const result = await submitServiceRequest({
+        requestId,
+        ...requestFields,
+        projectDetails: `[Resident type: ${residentType}]\n${form.projectDetails.trim()}`,
+      });
+      if (!result?.accepted) throw new Error("The request could not be accepted.");
+      trackAnalyticsEvent("service_request_submitted");
+      setSubmitted(true);
+      window.scrollTo({ top: 0, behavior: "instant" });
+    } catch (reason) {
+      setError(errorMessage(reason, "Unable to submit your request."));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  if (submitted) {
+    return (
+      <main className="hlc-request-complete">
+        <style>{completionCss}</style>
+        <section className="hlc-request-complete-card" aria-live="polite">
+          <div className="hlc-request-complete-icon" aria-hidden="true">✓</div>
+          <p className="hlc-request-kicker">REQUEST RECEIVED</p>
+          <h1>You’re done for now.</h1>
+          <p className="hlc-request-complete-lead">
+            HomeLead Connect received your service request. You do not need to submit anything else right now.
+          </p>
+          <div className="hlc-request-next">
+            <strong>What happens next</strong>
+            <span>We’ll review your request and use the contact information you provided to reach you about the next step.</span>
+          </div>
+          <p className="hlc-request-note">
+            A provider, price, or appointment is not confirmed until HomeLead Connect contacts you and confirms it.
+          </p>
+          <div className="hlc-request-actions">
+            <Link to="/" className="hlc-request-primary">Back to HomeLead Connect</Link>
+            <Link to="/contact" className="hlc-request-secondary">I need help</Link>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
+  return (
+    <main className="hlc-request-service">
+      <style>{requestCss}</style>
+      <section className="hlc-request-hero">
+        <img src="/hlc-logo-transparent.png" alt="HomeLead Connect" />
+        <p className="hlc-request-kicker">HOMELEAD CONNECT · SERVICE REQUEST</p>
+        <h1>Tell us what your home needs.</h1>
+        <p>Renters, homeowners, property managers, and everyday households can start with one request.</p>
+        <a href="#request-form" className="hlc-request-primary">Start My Request ↓</a>
+      </section>
+
+      <section className="hlc-request-grid">
+        <div id="request-form" className="hlc-request-form-card">
+          <p className="hlc-request-kicker">SERVICE DETAILS</p>
+          <h2>Start your request</h2>
+          <p className="hlc-request-form-intro">Tell us what you need and how to reach you. We’ll contact you about the next step.</p>
+
+          {error && <p role="alert" className="hlc-request-error">{error}</p>}
+
+          <form onSubmit={submit}>
+            <label className="hlc-request-trap" aria-hidden="true">
+              Website
+              <input tabIndex={-1} autoComplete="off" name="website" value={form.honeypot} onChange={(e) => setForm({ ...form, honeypot: e.target.value })} />
+            </label>
+
+            <label>
+              <span>Full name <b>Required</b></span>
+              <input required minLength={2} autoComplete="name" placeholder="Your name" value={form.fullName} onChange={(e) => setForm({ ...form, fullName: e.target.value })} />
+            </label>
+
+            <label>
+              <span>Best phone number <b>Required</b></span>
+              <input required type="tel" autoComplete="tel" placeholder="(717) 555-0123" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
+            </label>
+
+            <label>
+              <span>Resident / customer type <b>Required</b></span>
+              <select value={form.residentType} onChange={(e) => setForm({ ...form, residentType: e.target.value as ResidentType })}>
+                <option>Renter</option>
+                <option>Homeowner</option>
+                <option>Property manager</option>
+                <option>Other</option>
+              </select>
+            </label>
+
+            <label>
+              <span>Email <em>Optional</em></span>
+              <input type="email" autoComplete="email" placeholder="you@example.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} />
+            </label>
+
+            <label>
+              <span>What home service or project do you need? <b>Required</b></span>
+              <textarea required minLength={10} rows={6} placeholder="Describe the repair, move, cleaning, HVAC issue, project, timing, or anything else that would help us understand what you need." value={form.projectDetails} onChange={(e) => setForm({ ...form, projectDetails: e.target.value })} />
+            </label>
+
+            <div className="hlc-request-privacy">
+              <strong>What happens after you send this</strong>
+              <span>Your request goes to HomeLead Connect for review. We’ll contact you using the information above. You are not enrolling in marketing messages.</span>
+            </div>
+
+            <button disabled={busy} type="submit">
+              {busy ? "Sending request…" : "Send My Request →"}
+            </button>
+          </form>
+        </div>
+
+        <aside className="hlc-request-aside">
+          <p className="hlc-request-kicker">CLEAR NEXT STEPS</p>
+          <h2>Send one request. Then you’re done for now.</h2>
+          <p>After you submit, HomeLead Connect reviews the request and contacts you about provider coordination or scheduling when appropriate.</p>
+          <ul>
+            <li>Renters are welcome.</li>
+            <li>No marketing enrollment.</li>
+            <li>No provider or appointment is promised before confirmation.</li>
+          </ul>
+          <Link to="/contact">Need help? Contact HomeLead Connect →</Link>
+        </aside>
+      </section>
+    </main>
+  );
 }
-const pageStyle={width:"min(1180px, calc(100% - 28px))",margin:"clamp(18px,4vw,44px) auto 72px",display:"grid",gap:"clamp(18px,3vw,28px)",color:"#f8fafc"}; const heroStyle={overflow:"hidden",borderRadius:4,padding:"clamp(30px,7vw,68px) clamp(20px,6vw,64px)",textAlign:"center" as const,color:"#f8fafc",background:"radial-gradient(circle at 15% 0%,rgba(14,165,233,.22),transparent 30%),radial-gradient(circle at 90% 20%,rgba(59,130,246,.25),transparent 28%),linear-gradient(145deg,#050b14,#0b1c33 55%,#0a3550)",boxShadow:"0 28px 80px rgba(15,23,42,.22)"}; const logoStyle={width:"min(220px,58vw)",maxHeight:76,objectFit:"contain" as const,margin:"0 auto 18px"}; const eyebrowStyle={margin:0,color:"#93c5fd",fontSize:11,fontWeight:900,letterSpacing:".16em"}; const titleStyle={margin:"10px auto 14px",color:"#fff",fontSize:"clamp(2rem,5.5vw,4.4rem)",lineHeight:1,letterSpacing:"-.045em",maxWidth:850}; const heroButtonStyle={display:"inline-flex",alignItems:"center",justifyContent:"center",minHeight:48,margin:"0 auto 16px",padding:"12px 20px",borderRadius:4,color:"#fff",background:"linear-gradient(135deg,#2563eb,#0ea5e9)",textDecoration:"none",fontWeight:900,boxShadow:"0 12px 28px rgba(37,99,235,.24)"}; const introStyle={maxWidth:760,margin:"0 auto",color:"#dbeafe",fontSize:"clamp(16px,2vw,20px)",lineHeight:1.65,fontWeight:600}; const stepsStyle={display:"flex",flexWrap:"wrap" as const,justifyContent:"center",gap:10,marginTop:26}; const stepStyle={display:"inline-flex",gap:8,alignItems:"center",minHeight:42,padding:"9px 13px",borderRadius:4,color:"#e0f2fe",background:"rgba(255,255,255,.07)",border:"1px solid rgba(147,197,253,.22)",fontSize:13,fontWeight:800}; const contentGridStyle={display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(100%,360px),1fr))",gap:20,alignItems:"start"}; const asideStyle={padding:"clamp(24px,5vw,40px)",borderRadius:4,color:"#e5eefc",background:"linear-gradient(180deg,#0b1c33,#0a2745)",border:"1px solid #24476d"}; const darkEyebrowStyle={margin:0,color:"#7dd3fc",fontSize:11,fontWeight:900,letterSpacing:".14em"}; const asideTitleStyle={margin:"9px 0 12px",color:"#fff",fontSize:"clamp(1.7rem,4vw,2.6rem)",lineHeight:1.08,letterSpacing:"-.035em"}; const asideCopyStyle={margin:0,color:"#cbd5e1",lineHeight:1.7,fontWeight:600}; const trustListStyle={display:"grid",gap:2,margin:"22px 0",color:"#e2e8f0"}; const asideLinkStyle={color:"#7dd3fc",fontWeight:900,textDecoration:"none"}; const formCardStyle={padding:"clamp(22px,5vw,38px)",borderRadius:4,color:"#f8fafc",background:"linear-gradient(180deg,#0b1c33,#071525)",border:"1px solid #2a4c70",boxShadow:"0 20px 60px rgba(0,0,0,.24)"}; const formHeadingStyle={marginBottom:22}; const formEyebrowStyle={margin:0,color:"#7dd3fc",fontSize:11,fontWeight:900,letterSpacing:".14em"}; const formTitleStyle={margin:"8px 0 8px",color:"#fff",fontSize:"clamp(1.6rem,3vw,2.2rem)",letterSpacing:"-.025em"}; const formIntroStyle={margin:0,color:"#cbd5e1",lineHeight:1.6,fontWeight:600}; const formStyle={display:"grid",gap:18}; const twoColumnStyle={display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(100%,220px),1fr))",gap:14}; const labelStyle={display:"grid",gap:7,color:"#f8fafc",fontSize:14,fontWeight:900}; const requiredStyle={color:"#93c5fd",fontSize:10,letterSpacing:".08em",textTransform:"uppercase" as const}; const optionalStyle={...requiredStyle,color:"#94a3b8"}; const fieldStyle={width:"100%",boxSizing:"border-box" as const,minHeight:50,padding:"12px 13px",border:"1px solid #52769d",borderRadius:4,background:"#f8fafc",color:"#0f172a",font:"inherit",fontSize:16,fontWeight:600,outlineColor:"#38bdf8"}; const privacyStyle={display:"grid",gap:4,padding:14,borderRadius:4,color:"#dbeafe",background:"#0d2946",border:"1px solid #31577e",fontSize:13,lineHeight:1.55}; const submitStyle={minHeight:54,padding:"13px 18px",border:0,borderRadius:4,color:"#fff",background:"linear-gradient(135deg,#2563eb,#0ea5e9)",fontSize:15,fontWeight:900,cursor:"pointer",boxShadow:"0 12px 28px rgba(37,99,235,.24)"}; const errorStyle={padding:13,borderRadius:4,color:"#fecaca",background:"#450a0a",border:"1px solid #991b1b",fontWeight:800}; const trapStyle={position:"absolute" as const,left:"-10000px",width:1,height:1,overflow:"hidden"}; const successStyle={maxWidth:820,margin:"8vh auto",padding:"clamp(30px,7vw,64px)",borderRadius:4,textAlign:"center" as const,color:"#f8fafc",background:"radial-gradient(circle at 50% 0%,rgba(14,165,233,.22),transparent 35%),linear-gradient(145deg,#050b14,#0b2345)",boxShadow:"0 28px 80px rgba(15,23,42,.22)"}; const successIconStyle={width:58,height:58,display:"grid",placeItems:"center",margin:"0 auto 18px",borderRadius:999,color:"#082f49",background:"#a5f3fc",fontSize:28,fontWeight:1000}; const successTitleStyle={margin:"10px auto 14px",color:"#fff",fontSize:"clamp(2rem,5vw,3.7rem)",lineHeight:1.02,letterSpacing:"-.04em"}; const successCopyStyle={maxWidth:680,margin:"0 auto",color:"#dbeafe",lineHeight:1.7,fontWeight:600}; const noticeStyle={maxWidth:650,display:"grid",gap:5,margin:"24px auto",padding:16,borderRadius:4,color:"#e2e8f0",background:"rgba(255,255,255,.06)",border:"1px solid rgba(147,197,253,.18)",lineHeight:1.55}; const actionRowStyle={display:"flex",flexWrap:"wrap" as const,justifyContent:"center",gap:12}; const primaryButtonStyle={display:"inline-flex",alignItems:"center",justifyContent:"center",minHeight:48,padding:"12px 20px",borderRadius:4,color:"#fff",background:"linear-gradient(135deg,#2563eb,#0ea5e9)",textDecoration:"none",fontWeight:900}; const secondaryButtonStyle={...primaryButtonStyle,background:"rgba(255,255,255,.08)",border:"1px solid rgba(191,219,254,.3)"};
+
+const requestCss = `
+.hlc-request-service{width:min(1120px,calc(100% - 28px))!important;margin:24px auto 72px!important;display:grid!important;gap:20px!important;color:#f8fafc!important}
+.hlc-request-service *{box-sizing:border-box}
+.hlc-request-hero,.hlc-request-form-card,.hlc-request-aside{background:#081426!important;color:#f8fafc!important;border:1px solid rgba(147,197,253,.24)!important;border-radius:18px!important;box-shadow:0 22px 55px rgba(2,6,23,.22)!important}
+.hlc-request-hero{padding:42px 28px!important;text-align:center!important;background:radial-gradient(circle at 12% 0%,rgba(37,99,235,.32),transparent 34%),linear-gradient(145deg,#081426,#10243e)!important}
+.hlc-request-hero img{width:110px!important;max-height:84px!important;object-fit:contain!important;margin:0 auto 16px!important}
+.hlc-request-kicker{margin:0 0 10px!important;color:#93c5fd!important;font-size:12px!important;font-weight:900!important;letter-spacing:.16em!important;text-transform:uppercase!important}
+.hlc-request-hero h1{margin:0 auto 14px!important;max-width:760px!important;color:#fff!important;font-size:clamp(2.2rem,6vw,4.6rem)!important;line-height:1!important;letter-spacing:-.045em!important}
+.hlc-request-hero>p:not(.hlc-request-kicker){max-width:700px!important;margin:0 auto 22px!important;color:#dbeafe!important;font-size:18px!important;line-height:1.6!important;font-weight:600!important}
+.hlc-request-primary,.hlc-request-secondary{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:52px!important;padding:13px 22px!important;border-radius:12px!important;text-decoration:none!important;font-weight:900!important}
+.hlc-request-primary{background:#2563eb!important;color:#fff!important}
+.hlc-request-grid{display:grid!important;grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr)!important;gap:20px!important;align-items:start!important}
+.hlc-request-form-card,.hlc-request-aside{padding:32px!important}
+.hlc-request-form-card h2,.hlc-request-aside h2{margin:0 0 10px!important;color:#fff!important;font-size:clamp(1.8rem,4vw,2.6rem)!important;line-height:1.08!important}
+.hlc-request-form-intro,.hlc-request-aside>p:not(.hlc-request-kicker){margin:0 0 22px!important;color:#c7d2e3!important;font-size:16px!important;line-height:1.6!important}
+.hlc-request-form-card form{display:grid!important;gap:18px!important}
+.hlc-request-form-card label{display:grid!important;gap:8px!important;color:#f8fafc!important;font-weight:800!important;font-size:15px!important}
+.hlc-request-form-card label span{display:flex!important;align-items:baseline!important;justify-content:space-between!important;gap:10px!important}
+.hlc-request-form-card label b,.hlc-request-form-card label em{font-size:10px!important;letter-spacing:.08em!important;text-transform:uppercase!important;color:#93c5fd!important;font-style:normal!important}
+.hlc-request-form-card input,.hlc-request-form-card select,.hlc-request-form-card textarea{width:100%!important;min-height:54px!important;padding:13px 14px!important;border:1px solid #52769d!important;border-radius:10px!important;background:#f8fafc!important;color:#0f172a!important;font:inherit!important;font-size:16px!important;font-weight:600!important}
+.hlc-request-form-card textarea{min-height:150px!important;resize:vertical!important}
+.hlc-request-privacy{display:grid!important;gap:5px!important;padding:16px!important;border:1px solid #31577e!important;border-radius:12px!important;background:#0d2946!important;color:#dbeafe!important;line-height:1.55!important}
+.hlc-request-form-card button{min-height:58px!important;border:0!important;border-radius:12px!important;background:#2563eb!important;color:#fff!important;font-size:16px!important;font-weight:900!important;cursor:pointer!important}
+.hlc-request-form-card button:disabled{opacity:.65!important;cursor:wait!important}
+.hlc-request-aside ul{margin:18px 0!important;padding-left:20px!important;color:#e2e8f0!important;line-height:1.8!important}
+.hlc-request-aside a{color:#93c5fd!important;font-weight:900!important;text-decoration:none!important}
+.hlc-request-error{padding:14px!important;border-radius:10px!important;background:#450a0a!important;color:#fecaca!important;border:1px solid #991b1b!important;font-weight:800!important}
+.hlc-request-trap{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
+@media(max-width:760px){.hlc-request-service{width:calc(100% - 20px)!important;margin:10px auto 38px!important;gap:12px!important}.hlc-request-grid{grid-template-columns:1fr!important;gap:12px!important}.hlc-request-hero{padding:26px 18px!important}.hlc-request-hero img{width:88px!important;max-height:62px!important}.hlc-request-hero h1{font-size:2.35rem!important}.hlc-request-hero>p:not(.hlc-request-kicker){font-size:15px!important}.hlc-request-form-card,.hlc-request-aside{padding:22px 16px!important}.hlc-request-aside{order:2!important}.hlc-request-form-card{order:1!important}}
+`;
+
+const completionCss = `
+.hlc-request-complete{min-height:calc(100vh - 80px)!important;display:grid!important;place-items:center!important;padding:20px!important;background:#081426!important;color:#f8fafc!important}
+.hlc-request-complete *{box-sizing:border-box}
+.hlc-request-complete-card{width:min(760px,100%)!important;padding:clamp(30px,7vw,58px)!important;text-align:center!important;border:1px solid rgba(147,197,253,.28)!important;border-radius:20px!important;background:radial-gradient(circle at 50% 0%,rgba(37,99,235,.3),transparent 38%),linear-gradient(145deg,#081426,#10243e)!important;box-shadow:0 30px 80px rgba(2,6,23,.35)!important;color:#f8fafc!important}
+.hlc-request-complete-icon{width:68px!important;height:68px!important;display:grid!important;place-items:center!important;margin:0 auto 18px!important;border-radius:999px!important;background:#dbeafe!important;color:#1d4ed8!important;font-size:34px!important;font-weight:1000!important}
+.hlc-request-complete-card h1{margin:8px auto 14px!important;color:#fff!important;font-size:clamp(2.5rem,7vw,4.8rem)!important;line-height:1!important;letter-spacing:-.05em!important}
+.hlc-request-complete-lead{max-width:640px!important;margin:0 auto!important;color:#f8fafc!important;font-size:clamp(18px,3vw,22px)!important;line-height:1.55!important;font-weight:750!important}
+.hlc-request-next{max-width:620px!important;display:grid!important;gap:7px!important;margin:24px auto 14px!important;padding:20px!important;border-radius:14px!important;background:#0d2946!important;border:1px solid #31577e!important;color:#e2e8f0!important;line-height:1.55!important}
+.hlc-request-next strong{color:#fff!important;font-size:18px!important}
+.hlc-request-note{max-width:620px!important;margin:0 auto 24px!important;color:#c7d2e3!important;line-height:1.55!important}
+.hlc-request-actions{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;gap:12px!important}
+.hlc-request-secondary{background:#10243e!important;color:#fff!important;border:1px solid rgba(191,219,254,.3)!important}
+@media(max-width:640px){.hlc-request-complete{padding:10px!important}.hlc-request-complete-card{padding:30px 18px!important}.hlc-request-actions{display:grid!important}.hlc-request-primary,.hlc-request-secondary{width:100%!important}}
+`;
