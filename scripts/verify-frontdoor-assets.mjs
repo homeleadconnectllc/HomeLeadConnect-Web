@@ -4,9 +4,10 @@ import { join } from "node:path";
 
 const FRONTDOOR_ASSETS = [
   {
-    path: "hlc-frontdoor-resident-hero-v2.webp",
-    expectedSize: 33765,
-    expectedGitBlobSha1: "0e193985fd4fa0b39a151e6c0d1a52c0f259711d",
+    path: "hlc-frontdoor-resident-hero-final.jpg",
+    expectedSize: 40609,
+    expectedSha256: "cc1f6c789b6e0f749d05137dad0de94fc7fa7c6e9e8fe5e6117e9a7fca7201a8",
+    kind: "jpeg",
   },
   {
     path: "hlc-frontdoor-people-first.webp",
@@ -30,26 +31,28 @@ function assertWebP(buffer, path) {
   }
 }
 
-function gitBlobSha1(buffer) {
-  const header = Buffer.from(`blob ${buffer.length}\0`);
-  return createHash("sha1").update(header).update(buffer).digest("hex");
+function assertJpeg(buffer, path) {
+  if (
+    buffer.length < 4 ||
+    buffer[0] !== 0xff ||
+    buffer[1] !== 0xd8 ||
+    buffer[buffer.length - 2] !== 0xff ||
+    buffer[buffer.length - 1] !== 0xd9
+  ) {
+    throw new Error(`${path} is not a valid JPEG container`);
+  }
 }
 
 export function verifyFrontdoorAssets(root) {
   for (const asset of FRONTDOOR_ASSETS) {
     const fullPath = join(root, asset.path);
     const bytes = readFileSync(fullPath);
-    assertWebP(bytes, asset.path);
+
+    if (asset.kind === "jpeg") assertJpeg(bytes, asset.path);
+    else assertWebP(bytes, asset.path);
 
     if (bytes.length !== asset.expectedSize) {
       throw new Error(`${asset.path} size mismatch: expected ${asset.expectedSize}, received ${bytes.length}`);
-    }
-
-    if (asset.expectedGitBlobSha1) {
-      const actualGitBlobSha1 = gitBlobSha1(bytes);
-      if (actualGitBlobSha1 !== asset.expectedGitBlobSha1) {
-        throw new Error(`${asset.path} Git blob SHA-1 mismatch: expected ${asset.expectedGitBlobSha1}, received ${actualGitBlobSha1}`);
-      }
     }
 
     if (asset.expectedSha256) {
