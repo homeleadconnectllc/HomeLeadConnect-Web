@@ -1,0 +1,80 @@
+/* Physical iPhone auth authority — route-independent and DOM-specific.
+ * This must win even when the lazy auth route injects older public/auth styles later.
+ */
+html:has(#root .hlc-auth-shell),
+body:has(#root .hlc-auth-shell),
+#root:has(.hlc-auth-shell){
+  background:#081426!important;
+  background-color:#081426!important;
+  color:#f8fafc!important;
+  color-scheme:dark!important;
+}
+html body #root .hlc-auth-shell,
+html body #root .hlc-auth-shell.hlc-auth-shell--flat{
+  color-scheme:dark!important;
+  background:#081426!important;
+  background-color:#081426!important;
+  background-image:none!important;
+  color:#f8fafc!important;
+  border-color:rgba(199,210,227,.12)!important;
+  box-shadow:none!important;
+}
+html body #root .hlc-auth-shell :is(.hlc-auth-brand,.hlc-auth-card,.hlc-auth-form-heading,.hlc-auth-method-tabs,.hlc-auth-card-footer,.hlc-auth-divider,.hlc-auth-provider-grid){
+  background:#081426!important;
+  background-color:#081426!important;
+  background-image:none!important;
+  color:#f8fafc!important;
+  border-color:rgba(199,210,227,.12)!important;
+  box-shadow:none!important;
+}
+html body #root .hlc-auth-shell :is(h1,h2,label,strong){color:#f8fafc!important;-webkit-text-fill-color:#f8fafc!important}
+html body #root .hlc-auth-shell :is(p,small){color:#9fb0c5!important;-webkit-text-fill-color:#9fb0c5!important}
+html body #root .hlc-auth-shell .hlc-auth-form :is(input,select,textarea){
+  background:#101f34!important;
+  background-color:#101f34!important;
+  background-image:none!important;
+  color:#fff!important;
+  -webkit-text-fill-color:#fff!important;
+  border:1px solid rgba(199,210,227,.24)!important;
+  border-radius:7px!important;
+  box-shadow:none!important;
+}
+html body #root .hlc-auth-shell .hlc-auth-form input:-webkit-autofill,
+html body #root .hlc-auth-shell .hlc-auth-form input:-webkit-autofill:hover,
+html body #root .hlc-auth-shell .hlc-auth-form input:-webkit-autofill:focus{
+  -webkit-text-fill-color:#fff!important;
+  -webkit-box-shadow:0 0 0 1000px #101f34 inset!important;
+  box-shadow:0 0 0 1000px #101f34 inset!important;
+  caret-color:#fff!important;
+}
+html body #root .hlc-auth-shell .hlc-auth-method-tabs button{
+  background:#0d1a2d!important;
+  background-image:none!important;
+  border-color:rgba(96,165,250,.20)!important;
+  color:#dbeafe!important;
+  -webkit-text-fill-color:#dbeafe!important;
+}
+html body #root .hlc-auth-shell .hlc-auth-method-tabs button[aria-pressed="true"]{
+  background:#10243e!important;
+  color:#fff!important;
+  -webkit-text-fill-color:#fff!important;
+}
+html body #root .hlc-auth-shell .hlc-auth-form>button[type="submit"]{
+  background:#2563eb!important;
+  background-image:none!important;
+  color:#fff!important;
+  -webkit-text-fill-color:#fff!important;
+  border-color:#2563eb!important;
+}
+@media(max-width:720px){
+  html body #root .hlc-auth-shell{
+    width:100%!important;
+    max-width:520px!important;
+    margin:0 auto!important;
+    padding:18px!important;
+    border:0!important;
+    border-radius:0!important;
+  }
+  html body #root .hlc-auth-brand{padding:0 0 14px!important}
+  html body #root .hlc-auth-card{padding:18px 0 0!important}
+}

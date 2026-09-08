@@ -21,9 +21,9 @@ export default function WorkHome() {
     <main className="hlc-work-home hlc-parent-index">
       <header className="hlc-parent-index-header">
         <div>
-          <span className="hlc-parent-eyebrow">WORK</span>
-          <h1>What are you working on?</h1>
-          <p>Choose the part of the service workflow you need. Each area stays focused on one job instead of putting the entire operation on one screen.</p>
+          <span className="hlc-parent-eyebrow">WORKFLOW</span>
+          <h1>Turn requests into results.</h1>
+          <p>Track, assign, schedule, and complete work — all in one place.</p>
         </div>
         <Link className="hlc-parent-agent-link" to="/operations">Ask Dion <span aria-hidden="true">→</span></Link>
       </header>
@@ -43,7 +43,7 @@ export default function WorkHome() {
       <section className="hlc-parent-secondary" aria-labelledby="work-communications-heading">
         <div>
           <span className="hlc-parent-eyebrow">COMMUNICATION TOOLS</span>
-          <h2 id="work-communications-heading">Need to reach somebody?</h2>
+          <h2 id="work-communications-heading">Stay connected while work moves.</h2>
         </div>
         <nav aria-label="Work communication tools">
           {communicationWork.map((item) => {

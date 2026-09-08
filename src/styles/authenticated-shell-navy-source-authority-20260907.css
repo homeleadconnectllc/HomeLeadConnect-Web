@@ -1,0 +1,172 @@
+/* Final authenticated shell source authority after physical iPhone rejection.
+ * This file is intentionally last in AuthenticatedStyles.tsx. It owns the physical
+ * shell, Dashboard mobile geometry, and Notifications presentation so legacy
+ * palette/hero layers cannot win on-device.
+ */
+#root .hlc-signed-in-shell,
+#root .hlc-signed-in-shell>.hlc-route-content,
+#root .hlc-signed-in-shell>.hlc-route-content>main,
+#root .hlc-signed-in-shell main{
+  background:#081426!important;
+  background-color:#081426!important;
+  background-image:none!important;
+  color:#f8fafc!important;
+}
+
+#root .hlc-signed-in-shell :is(.hlc-home-workspace,.hlc-leads-workspace,.hlc-jobs-workspace,.hlc-messages-workspace,.hlc-work-home,.hlc-community-v2,.hlc-notifications-workspace){
+  background:#081426!important;
+  background-color:#081426!important;
+  background-image:none!important;
+  color:#f8fafc!important;
+}
+
+#root .hlc-signed-in-shell :is(.hlc-mobile-tabbar,.hlc-home-topbar,.hlc-messages-header){
+  background:#0b1729!important;
+  background-color:#0b1729!important;
+  background-image:none!important;
+  border-color:rgba(199,210,227,.12)!important;
+}
+
+#root .hlc-signed-in-shell :is(.hlc-mobile-tabbar a[aria-current="page"],.hlc-mobile-tabbar button[aria-current="page"]){
+  background:#10243e!important;
+  background-image:none!important;
+  color:#93c5fd!important;
+}
+
+/* Dashboard physical root: navy/blue/cyan only. The previous component source
+ * still carried a purple system palette; these selectors intentionally outrank it.
+ */
+body.hlc-page-dashboard #root .hlc-home-workspace{
+  background:#081426!important;
+  background-image:none!important;
+}
+body.hlc-page-dashboard #root :is(.hlc-home-topbar-v2,.hlc-home-live-line,.hlc-home-metric-strip,.hlc-home-focus-panel,.hlc-home-schedule-panel,.hlc-home-panel-head,.hlc-home-ai-rail){
+  border-color:rgba(96,165,250,.20)!important;
+  background:#0d1a2d!important;
+  background-color:#0d1a2d!important;
+  background-image:none!important;
+  box-shadow:none!important;
+}
+body.hlc-page-dashboard #root :is(.hlc-home-eyebrow,.hlc-home-panel-title>span,.hlc-home-ai-heading){
+  color:#60a5fa!important;
+  -webkit-text-fill-color:#60a5fa!important;
+}
+body.hlc-page-dashboard #root :is(.hlc-home-top-actions-v2 button,.hlc-home-top-actions-v2 a,.hlc-home-panel-head>a,.hlc-home-ai-links>a){
+  border-color:rgba(96,165,250,.22)!important;
+  background:#10243e!important;
+  background-image:none!important;
+  color:#dbeafe!important;
+  -webkit-text-fill-color:#dbeafe!important;
+  box-shadow:none!important;
+}
+body.hlc-page-dashboard #root .hlc-home-metric-strip{
+  gap:1px!important;
+  border-radius:8px!important;
+  background:rgba(199,210,227,.12)!important;
+}
+body.hlc-page-dashboard #root .hlc-home-metric-strip>a{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  align-content:center!important;
+  align-items:center!important;
+  min-width:0!important;
+  min-height:70px!important;
+  gap:0!important;
+  padding:10px 14px!important;
+  border:0!important;
+  background:#0d1a2d!important;
+  background-image:none!important;
+  color:#dbeafe!important;
+}
+body.hlc-page-dashboard #root .hlc-home-metric-strip>a>svg{display:none!important}
+body.hlc-page-dashboard #root .hlc-home-metric-strip>a>span{
+  display:grid!important;
+  width:100%!important;
+  min-width:0!important;
+  gap:5px!important;
+}
+body.hlc-page-dashboard #root .hlc-home-metric-strip strong{
+  color:#f8fafc!important;
+  -webkit-text-fill-color:#f8fafc!important;
+  font-size:24px!important;
+  line-height:1!important;
+}
+body.hlc-page-dashboard #root .hlc-home-metric-strip small{
+  display:block!important;
+  width:100%!important;
+  min-width:0!important;
+  margin:0!important;
+  color:#c7d2e3!important;
+  -webkit-text-fill-color:#c7d2e3!important;
+  font-size:12px!important;
+  line-height:1.25!important;
+  white-space:normal!important;
+  word-break:normal!important;
+  overflow-wrap:normal!important;
+  hyphens:none!important;
+}
+body.hlc-page-dashboard #root .hlc-home-panel-head{
+  background:#0b1729!important;
+  background-image:none!important;
+}
+body.hlc-page-dashboard #root :is(.hlc-home-focus-panel,.hlc-home-schedule-panel,.hlc-home-ai-rail){
+  border-radius:8px!important;
+}
+
+/* Notifications physical root: operational content owns the viewport. The shared
+ * storytelling banner is inappropriate here and was the white island seen on iPhone.
+ */
+body.hlc-page-notifications #root .hlc-route-visual-banner{
+  display:none!important;
+  visibility:hidden!important;
+}
+body.hlc-page-notifications #root .hlc-notifications-workspace{
+  width:min(100%,1180px)!important;
+  margin:0 auto!important;
+  background:#081426!important;
+  background-image:none!important;
+  color:#f8fafc!important;
+}
+body.hlc-page-notifications #root :is(.hlc-notifications-header,.hlc-notifications-summary,.hlc-notifications-queue,.hlc-notifications-list,.hlc-notifications-state,.hlc-notifications-empty){
+  background:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+}
+body.hlc-page-notifications #root :is(.hlc-notifications-header h1,.hlc-notifications-summary strong,.hlc-notifications-queue-heading h2,.hlc-notification-title-line h3,.hlc-notifications-empty strong){
+  color:#f8fafc!important;
+  -webkit-text-fill-color:#f8fafc!important;
+}
+body.hlc-page-notifications #root :is(.hlc-notifications-header p,.hlc-notifications-summary span,.hlc-notifications-queue-heading>span,.hlc-notification-copy p,.hlc-notification-copy time,.hlc-notifications-state,.hlc-notifications-empty){
+  color:#9fb0c5!important;
+  -webkit-text-fill-color:#9fb0c5!important;
+}
+body.hlc-page-notifications #root :is(.hlc-notifications-kicker,.hlc-notifications-live,.hlc-notifications-queue-heading>div>span){
+  color:#60a5fa!important;
+  -webkit-text-fill-color:#60a5fa!important;
+}
+body.hlc-page-notifications #root :is(.hlc-notifications-header,.hlc-notifications-summary,.hlc-notifications-queue-heading,.hlc-notification-row){
+  border-color:rgba(199,210,227,.12)!important;
+}
+body.hlc-page-notifications #root .hlc-notification-row{
+  background:transparent!important;
+  background-image:none!important;
+}
+body.hlc-page-notifications #root .hlc-notification-row.is-unread{
+  background:linear-gradient(90deg,rgba(37,99,235,.09),transparent 62%)!important;
+}
+
+@media(max-width:720px){
+  body.hlc-page-dashboard #root .hlc-home-metric-strip{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+  body.hlc-page-dashboard #root .hlc-home-metric-strip>a{
+    min-width:0!important;
+    padding:12px 14px!important;
+  }
+  body.hlc-page-notifications #root .hlc-notifications-workspace{
+    padding:18px 16px 96px!important;
+  }
+  body.hlc-page-notifications #root .hlc-notifications-header h1{
+    font-size:clamp(24px,7vw,30px)!important;
+  }
+}

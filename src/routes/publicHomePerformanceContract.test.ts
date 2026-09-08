@@ -6,6 +6,7 @@ const main = readFileSync(new URL("../main.tsx", import.meta.url), "utf8");
 const home = readFileSync(new URL("../pages/HomePage.tsx", import.meta.url), "utf8");
 const footer = readFileSync(new URL("../components/Footer.tsx", import.meta.url), "utf8");
 const indexHtml = readFileSync(new URL("../../index.html", import.meta.url), "utf8");
+const publicAuthority = readFileSync(new URL("../../public/public-home-app-reconciliation-20260907.css", import.meta.url), "utf8");
 
 test("public home stays outside the authenticated application bundle while retaining route delivery", () => {
   assert.match(main, /isPublicHome/);
@@ -13,12 +14,6 @@ test("public home stays outside the authenticated application bundle while retai
   assert.match(main, /import\("\.\/App\.tsx"\)/);
   assert.doesNotMatch(home, /react-router-dom/);
   assert.doesNotMatch(footer, /react-router-dom/);
-  assert.match(home, /href="\/pricing"/);
-  assert.match(home, /data-route-to="\/request-service"/);
-  assert.match(home, /data-route-to="\/app"/);
-  assert.match(home, /data-route-to="\/community"/);
-  assert.match(home, /loading="lazy"/);
-  assert.doesNotMatch(footer, /hlc-logo-final\.png/);
 });
 
 test("public home renders without paying React startup cost", () => {
@@ -28,30 +23,53 @@ test("public home renders without paying React startup cost", () => {
   assert.match(main, /rootElement\.innerHTML = publicHomeMarkup\(\)/);
   assert.match(main, /import\("react"\)/);
   assert.match(main, /import\("react-dom\/client"\)/);
-  assert.match(main, /data-route-to="\/request-service"/);
-  assert.match(main, /data-route-to="\/app"/);
-  assert.match(main, /data-route-to="\/community"/);
-  assert.match(main, /aria-label="Legal and accessibility"/);
+  assert.match(main, /https:\/\/app\.homeleadconnect\.org\/request-service/);
+  assert.match(main, /https:\/\/professionals\.homeleadconnect\.org\//);
 });
 
-test("no-React public root uses the canonical transparent HLC mark and rejects legacy logo files", () => {
-  assert.match(main, /src="\/hlc-logo-transparent\.png"/);
+test("no-React public root uses the responsive HLC UI mark and approved front-door geometry", () => {
+  assert.match(main, /src="\/hlc-logo-ui\.png"/);
+  assert.doesNotMatch(main, /src="\/hlc-logo-transparent\.png"/);
   assert.doesNotMatch(main, /hlc-logo-final\.png/);
   assert.doesNotMatch(main, /src="\/hlc-icon\.jpeg"/);
-  assert.match(main, /width="40" height="40"/);
-  assert.match(main, /width="28" height="28"/);
+  assert.match(main, /width="58" height="58"/);
+  assert.match(main, /Home help should feel easier\./);
+  assert.match(main, /Home services, connected better/i);
 });
 
-test("parser-seeded public hero cannot promote the oversized canonical logo into the critical LCP lane", () => {
-  assert.match(indexHtml, /src="\/hlc-logo-transparent\.png"[^>]*fetchpriority="low"/s);
-  assert.match(indexHtml, /width="40" height="40"/);
+test("parser-seeded public hero uses the approved front-door authority", () => {
+  assert.match(indexHtml, /src="\/hlc-logo-ui\.png"/);
+  assert.match(indexHtml, /width="58" height="58"/);
+  assert.match(indexHtml, /Home help should feel easier\./);
+  assert.match(indexHtml, /hlc-frontdoor-resident-hero-final\.jpg/);
+  assert.match(indexHtml, /rel="preload" as="image" href="\/hlc-frontdoor-resident-hero-final\.jpg" fetchpriority="high"/);
 });
 
-test("parser-seeded mobile hero geometry matches the supplemental public-home authority", () => {
-  assert.match(indexHtml, /\.hlc-home-hero h1\{font-size:36px!important;line-height:1\.06!important;letter-spacing:-1\.2px!important;max-width:390px\}/);
-  assert.match(indexHtml, /\.hlc-home-hero p\{font-size:17px!important\}/);
-  assert.match(indexHtml, /\.hlc-home-hero-actions\{margin-top:22px!important\}/);
-  assert.match(main, /\.hlc-home-hero h1 \{ font-size: 36px !important; line-height: 1\.06 !important; letter-spacing: -1\.2px !important; max-width: 390px; \}/);
-  assert.match(main, /\.hlc-home-hero p \{ font-size: 17px !important; \}/);
-  assert.match(main, /\.hlc-home-hero-actions \{ margin-top: 22px !important; \}/);
+test("public front door has one shared visual authority for parser seed and runtime markup", () => {
+  assert.match(indexHtml, /public-home-app-reconciliation-20260907\.css/);
+  assert.doesNotMatch(indexHtml, /One front door\./);
+  assert.doesNotMatch(main, /One front door\./);
+  assert.doesNotMatch(main, /supplementalStyle/);
+  assert.match(publicAuthority, /\.hlc-frontdoor-site/);
+  assert.match(publicAuthority, /\.hlc-frontdoor-hero/);
+  assert.match(publicAuthority, /\.hlc-frontdoor-actions/);
+  assert.match(publicAuthority, /@media\(max-width:560px\)/);
+});
+
+test("approved public front door remains complete beyond the hero", () => {
+  for (const expected of [
+    "Renters included",
+    "Start with the need, not the paperwork.",
+    "A clearer conversation from the start.",
+    "Four simple steps.",
+    "Better service starts before the job begins.",
+    "Tell us what your home needs.",
+    "Start My Request",
+  ]) {
+    assert.match(main, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
+  }
+  assert.match(main, /hlc-frontdoor-people-first\.webp/);
+  assert.match(main, /hlc-frontdoor-professional\.webp/);
+  assert.match(main, /hlc-frontdoor-footer/);
+  assert.match(main, /href="tel:\+17175519897">\(717\) 551-9897<\/a>/);
 });

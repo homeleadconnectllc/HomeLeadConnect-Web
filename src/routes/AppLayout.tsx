@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import RouteVisualBanner from "../components/RouteVisualBanner";
 import AnalyticsTracker from "../components/analytics/AnalyticsTracker";
+import RuntimePhysicalAuthority from "../components/RuntimePhysicalAuthority";
 import { useAuth } from "../hooks/useAuth";
 
 const UniversalAITeamLauncher = lazy(() => import("../components/agents/UniversalAITeamLauncher"));
@@ -146,6 +147,7 @@ export default function AppLayout() {
 
   return (
     <div className={`hlc-app-shell ${signedInWorkspaceShell ? "hlc-signed-in-shell" : "hlc-public-shell"} ${routeClass}${signedInWorkspaceShell && sidebarCollapsed ? " hlc-sidebar-is-collapsed" : ""}${routePersonaClass ? ` ${routePersonaClass}` : ""}${focusedPublicIntake ? " hlc-focused-public-intake" : ""}`}>
+      <RuntimePhysicalAuthority />
       <AnalyticsTracker />
       {!focusedPublicIntake && <Navbar />}
       {signedInWorkspaceShell && desktopShell && (
