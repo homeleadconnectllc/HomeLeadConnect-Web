@@ -6,6 +6,7 @@ export type EntitlementInput = {
   pathname: string;
   status?: string | null;
   isActive: boolean | null;
+  trialEnd?: string | null;
   verificationFailed: boolean;
 };
 
@@ -13,14 +14,20 @@ export function isBillingRecoveryPath(pathname: string) {
   return pathname === "/settings" || pathname === "/settings/billing";
 }
 
+function hasUnexpiredTrial(trialEnd?: string | null) {
+  if (!trialEnd) return false;
+  const expiresAt = Date.parse(trialEnd);
+  return Number.isFinite(expiresAt) && expiresAt > Date.now();
+}
+
 export function resolveEntitlementState(input: EntitlementInput): EntitlementState {
   if (!input.billingEnabled) return "full_paid_access";
   if (input.verificationFailed) return "verification_unavailable";
   const status = String(input.status || "").toLowerCase();
-  if (status === "trialing" && input.isActive) return "full_trial_preview";
+  if (status === "trialing" && input.isActive && hasUnexpiredTrial(input.trialEnd)) return "full_trial_preview";
   if (status === "active" && input.isActive) return "full_paid_access";
   if (status === "past_due" && input.isActive) return "limited_mode";
-  if (input.isActive) return "limited_mode";
+  if (input.isActive && status !== "trialing") return "limited_mode";
   return "membership_gate";
 }
 
