@@ -81,8 +81,8 @@ export default function WorkspaceLayout() {
 
   return <>
     {entitlementState === "full_trial_preview" && <aside className="hlc-entitlement-banner is-trial" role="status">
-      <strong>TRIAL ACTIVE</strong>
-      <span>{daysRemaining === null ? "Your 14-day trial is active." : `${daysRemaining} ${daysRemaining === 1 ? "day" : "days"} remaining in your 14-day trial.`} Core workspace features are available while the trial is active.</span>
+      <strong>FULL TRIAL PREVIEW</strong>
+      <span>{daysRemaining === null ? "Your 14-day trial is active." : `${daysRemaining} ${daysRemaining === 1 ? "day" : "days"} remaining in your 14-day trial.`} Saved work and history remain attached to this workspace when the trial ends. Existing records remain preserved.</span>
     </aside>}
     {entitlementState === "limited_mode" && <aside className="hlc-entitlement-banner is-limited" role="status"><strong>LIMITED MODE</strong><span>Stripe reports a payment-recovery or unrecognized active state. Existing records remain preserved; review billing before relying on premium capabilities.</span><Link to="/settings/billing">Resolve billing</Link></aside>}
     <Outlet />
