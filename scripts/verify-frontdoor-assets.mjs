@@ -5,8 +5,8 @@ import { join } from "node:path";
 const FRONTDOOR_ASSETS = [
   {
     path: "hlc-frontdoor-resident-hero-final.jpg",
-    expectedSize: 40609,
-    expectedSha256: "cc1f6c789b6e0f749d05137dad0de94fc7fa7c6e9e8fe5e6117e9a7fca7201a8",
+    expectedSize: 27040,
+    expectedSha256: "883d18646c56f634a2d9a7a3a096769ab8684478b08b2697f818fd08cc2c834c",
     kind: "jpeg",
   },
   {

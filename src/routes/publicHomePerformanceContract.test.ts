@@ -41,8 +41,8 @@ test("parser-seeded public hero uses the approved front-door authority", () => {
   assert.match(indexHtml, /src="\/hlc-logo-ui\.png"/);
   assert.match(indexHtml, /width="58" height="58"/);
   assert.match(indexHtml, /Home help should feel easier\./);
-  assert.match(indexHtml, /hlc-frontdoor-resident-hero\.webp/);
-  assert.match(indexHtml, /rel="preload" as="image" href="\/hlc-frontdoor-resident-hero\.webp" fetchpriority="high"/);
+  assert.match(indexHtml, /hlc-frontdoor-resident-hero-final\.jpg/);
+  assert.match(indexHtml, /rel="preload" as="image" href="\/hlc-frontdoor-resident-hero-final\.jpg" fetchpriority="high"/);
 });
 
 test("public front door has one shared visual authority for parser seed and runtime markup", () => {
