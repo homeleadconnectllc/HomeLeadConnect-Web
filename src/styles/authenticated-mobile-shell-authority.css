@@ -13,11 +13,17 @@
   }
 
   .hlc-signed-in-shell,
-  .hlc-route-content,
-  .hlc-route-content > main {
+  .hlc-route-content {
     width: 100% !important;
     min-width: 0 !important;
     max-width: 100% !important;
+  }
+
+  .hlc-route-content > main {
+    width: min(calc(100% - 24px), 100%) !important;
+    min-width: 0 !important;
+    max-width: calc(100% - 24px) !important;
+    margin-inline: auto !important;
   }
 }
 
@@ -25,5 +31,14 @@
   .hlc-signed-in-shell .hlc-route-content {
     padding-inline: 0 !important;
     overflow-x: clip;
+  }
+
+  /* Physical iPhone rule: route canvases keep equal breathing room on both sides.
+     Individual forms, tables, messages, and body copy keep their own internal alignment. */
+  .hlc-signed-in-shell .hlc-route-content > main {
+    width: calc(100% - 24px) !important;
+    max-width: calc(100% - 24px) !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
 }
