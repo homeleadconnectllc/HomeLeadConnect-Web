@@ -112,6 +112,7 @@ jobs:
             'Start My Request' \
             'HomeLead Connect LLC' \
             'Harrisburg, Pennsylvania' \
+            '(717) 551-9897' \
             'homeleadconnect@gmail.com'; do
             if ! grep -Fqi "$expect" "$DOM"; then
               echo "Approved full-page front-door marker missing: $expect"
@@ -120,6 +121,7 @@ jobs:
           done
           grep -Fq 'https://app.homeleadconnect.org/request-service' "$DOM" || { echo 'Approved request-service handoff missing'; exit 64; }
           grep -Fq 'https://professionals.homeleadconnect.org/' "$DOM" || { echo 'Approved professional handoff missing'; exit 65; }
+          grep -Fq 'tel:+17175519897' "$DOM" || { echo 'Approved phone handoff missing'; exit 69; }
           grep -Fq '/hlc-frontdoor-resident-hero-final.jpg' "$DOM" || { echo 'Self-hosted resident hero missing'; exit 66; }
           grep -Fq '/hlc-frontdoor-people-first.webp' "$DOM" || { echo 'Self-hosted people-first image missing'; exit 67; }
           grep -Fq '/hlc-frontdoor-professional.webp' "$DOM" || { echo 'Self-hosted professional image missing'; exit 68; }
