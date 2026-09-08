@@ -13,6 +13,15 @@ export type ProfessionalApplicationInput = {
   honeypot: string;
 };
 
+export type ProfessionalApplicationApproval = {
+  application_id: string;
+  contractor_id: number;
+  contractor_reused: boolean;
+  invitation_id: string | null;
+  invitation_token: string | null;
+  portal_link_exists: boolean;
+};
+
 export async function submitProfessionalApplication(input: ProfessionalApplicationInput) {
   requireSupabaseConfig();
   const { data, error } = await supabase.rpc("submit_professional_application", {
@@ -30,4 +39,18 @@ export async function submitProfessionalApplication(input: ProfessionalApplicati
   });
   if (error) throw error;
   return (data as Array<{ application_id: string; accepted: boolean }> | null)?.[0] ?? null;
+}
+
+/**
+ * Owner/manager approval bridge for a submitted professional application.
+ * The database RPC resolves or creates the canonical public.contractors row,
+ * then issues contractor portal access for that exact contractor_id.
+ */
+export async function approveProfessionalApplication(applicationId: string) {
+  requireSupabaseConfig();
+  const { data, error } = await supabase.rpc("approve_professional_application", {
+    p_application_id: applicationId,
+  });
+  if (error) throw error;
+  return (data as ProfessionalApplicationApproval[] | null)?.[0] ?? null;
 }
