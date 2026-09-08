@@ -13,6 +13,27 @@ export type ProfessionalApplicationInput = {
   honeypot: string;
 };
 
+export type ProfessionalApplication = {
+  id: string;
+  workspace_id: string;
+  request_id: string;
+  organization_name: string;
+  contact_name: string;
+  email: string;
+  phone: string;
+  trade_categories: string;
+  service_territory: string;
+  experience_summary: string;
+  communication_consent: boolean;
+  status: "submitted" | "under_review" | "approved" | "declined";
+  reviewed_by: string | null;
+  reviewed_at: string | null;
+  contractor_id: number | null;
+  portal_invitation_id: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
 export type ProfessionalApplicationApproval = {
   application_id: string;
   contractor_id: number;
@@ -39,6 +60,31 @@ export async function submitProfessionalApplication(input: ProfessionalApplicati
   });
   if (error) throw error;
   return (data as Array<{ application_id: string; accepted: boolean }> | null)?.[0] ?? null;
+}
+
+export async function listProfessionalApplications() {
+  requireSupabaseConfig();
+  const { data, error } = await supabase
+    .from("professional_applications")
+    .select(
+      "id,workspace_id,request_id,organization_name,contact_name,email,phone,trade_categories,service_territory,experience_summary,communication_consent,status,reviewed_by,reviewed_at,contractor_id,portal_invitation_id,created_at,updated_at",
+    )
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return (data ?? []) as ProfessionalApplication[];
+}
+
+export async function setProfessionalApplicationReviewStatus(
+  applicationId: string,
+  status: "under_review" | "declined",
+) {
+  requireSupabaseConfig();
+  const { data, error } = await supabase.rpc("set_professional_application_review_status", {
+    p_application_id: applicationId,
+    p_status: status,
+  });
+  if (error) throw error;
+  return data as string;
 }
 
 /**
