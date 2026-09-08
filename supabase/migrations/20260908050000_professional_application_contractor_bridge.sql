@@ -7,7 +7,8 @@
 --   * reuse one exact normalized-email match;
 --   * fail closed on duplicate email matches or likely company/phone collisions;
 --   * serialize resolution per workspace/email to prevent concurrent duplicates;
---   * issue contractor portal access for the resolved contractor_id only.
+--   * issue contractor portal access for the resolved contractor_id only;
+--   * authorize approval from workspace_members, the canonical role authority.
 
 alter table public.professional_applications
   add column if not exists contractor_id bigint references public.contractors(id) on delete restrict,
@@ -61,10 +62,10 @@ begin
 
   if not exists (
     select 1
-    from public.profiles p
-    where p.workspace_id = v_app.workspace_id
-      and p.user_id = v_actor
-      and lower(p.role) in ('owner','manager')
+    from public.workspace_members wm
+    where wm.workspace_id = v_app.workspace_id
+      and wm.user_id = v_actor
+      and lower(coalesce(wm.role, '')) in ('owner','manager')
   ) then
     raise exception 'Owner or manager approval is required.' using errcode = '42501';
   end if;
@@ -229,7 +230,7 @@ end;
 $$;
 
 revoke all on function public.approve_professional_application(uuid) from public, anon;
-grant execute on function public.approve_professional_application(uuid) to authenticated, service_role;
+grant execute on function public.approve_professional_application(uuid) to authenticated;
 
 comment on function public.approve_professional_application(uuid) is
   'Approves a professional application by resolving exactly one canonical public.contractors row in the same workspace, then issuing contractor portal access for that contractor_id. Exact email is the only automatic reuse key; likely company/phone collisions fail closed.';
