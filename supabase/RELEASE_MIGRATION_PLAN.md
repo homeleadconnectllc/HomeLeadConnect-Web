@@ -128,6 +128,7 @@ The active production app Supabase project is `homeconnect` (`cguhtshclyybivvdnp
 120. `20260902002500_membership_role_authority_hardening.sql`
 121. `20260902004500_restrict_current_workspace_role_execute.sql`
 122. `20260903001000_revoke_authenticated_table_admin_grants.sql`
+123. `20260908050000_professional_application_contractor_bridge.sql`
 
 Migration #101 is retained in the local migration chain because it was applied to `hlc-reconciliation-test` during reconciliation. It is **not evidence of a production defect and is not required to be applied to `homeconnect` solely for parity**: production already has the canonical `causal.ingest_lead(...)` implementation from migration #98 with direct browser execution denied. Do not apply #101 to production unless a future production migration decision independently justifies it.
 
@@ -168,6 +169,8 @@ Migration #118 adds first-class workspace-level documents without weakening reco
 Migration #119 adds the first-party HLC calendar event store. Native meetings, reminders, tasks, focus blocks, and other workspace events are tenant-scoped under RLS; all workspace members may read and create events, while edits/deletes remain limited to the creator or owner/manager authority. Job appointments remain canonical operational records and are rendered alongside native HLC events. Google Calendar is optional interoperability, not a launch dependency.
 
 Migration #122 removes database-administration privileges from normal authenticated browser clients on the four audited relations that had drifted. It revokes `TRUNCATE`, `TRIGGER`, and `REFERENCES` from `authenticated` on `community_connections`, `community_private_messages`, `hlc_calendar_events`, and `portal_identity_profiles`, preserving existing application SELECT/RPC behavior and failing the migration if any forbidden grant remains.
+
+Migration #123 bridges approved professional applications to the existing canonical `public.contractors` identity inside the same workspace. Exact normalized email is the only automatic reuse key; duplicate email matches and likely company/phone collisions fail closed, concurrent resolution is serialized, owner/manager authority comes from `workspace_members`, and contractor portal access is issued only for the resolved canonical contractor ID.
 
 ## Current production rules
 
