@@ -91,6 +91,8 @@ export async function setProfessionalApplicationReviewStatus(
  * Owner/manager approval bridge for a submitted professional application.
  * The database RPC resolves or creates the canonical public.contractors row,
  * then issues contractor portal access for that exact contractor_id.
+ * When a fresh invitation token is returned, deliver that exact invitation to
+ * the approved applicant so approval does not stall at an owner-only copy step.
  */
 export async function approveProfessionalApplication(applicationId: string) {
   requireSupabaseConfig();
@@ -98,5 +100,30 @@ export async function approveProfessionalApplication(applicationId: string) {
     p_application_id: applicationId,
   });
   if (error) throw error;
-  return (data as ProfessionalApplicationApproval[] | null)?.[0] ?? null;
+
+  const result = (data as ProfessionalApplicationApproval[] | null)?.[0] ?? null;
+  if (!result?.invitation_token) return result;
+
+  const { data: application, error: applicationError } = await supabase
+    .from("professional_applications")
+    .select("email")
+    .eq("id", applicationId)
+    .single();
+  if (applicationError) throw applicationError;
+
+  const intendedEmail = application?.email?.trim().toLowerCase();
+  if (!intendedEmail) throw new Error("Approved professional application has no delivery email.");
+
+  const acceptUrl = new URL("/portal/accept", window.location.origin);
+  acceptUrl.searchParams.set("token", result.invitation_token);
+  const { error: deliveryError } = await supabase.auth.signInWithOtp({
+    email: intendedEmail,
+    options: {
+      emailRedirectTo: acceptUrl.toString(),
+      shouldCreateUser: true,
+    },
+  });
+  if (deliveryError) throw deliveryError;
+
+  return result;
 }
