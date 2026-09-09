@@ -66,6 +66,9 @@ test("owner decisions call the canonical review and approval operations", () => 
   assert.match(approvals, /Approve & create access/);
   assert.match(approvals, /Decline/);
   assert.match(approvals, /portal\/accept\?token=/);
-  assert.match(approvals, /one-time link is visible only in this approval session/i);
+  assert.match(approvals, /Object\.entries\(invitationLinks\)/);
+  assert.match(approvals, /one-time link remains visible for this approval session/i);
+  assert.match(approvals, /Create new access link/);
+  assert.match(approvals, /This will replace any unused link/);
   assert.doesNotMatch(approvals, /\.from\("professional_applications"\)\.update/);
 });
