@@ -50,6 +50,16 @@ test("professional application API exposes review and canonical approval operati
   assert.match(api, /contractor_id: number/);
 });
 
+test("professional approval automatically delivers the exact canonical invitation", () => {
+  assert.match(api, /if \(!result\?\.invitation_token\) return result/);
+  assert.match(api, /from\("professional_applications"\)[\s\S]*select\("email"\)[\s\S]*eq\("id", applicationId\)/);
+  assert.match(api, /new URL\("\/portal\/accept", window\.location\.origin\)/);
+  assert.match(api, /acceptUrl\.searchParams\.set\("token", result\.invitation_token\)/);
+  assert.match(api, /supabase\.auth\.signInWithOtp/);
+  assert.match(api, /emailRedirectTo: acceptUrl\.toString\(\)/);
+  assert.match(api, /shouldCreateUser: true/);
+});
+
 test("owner approvals surfaces the governed professional review queue", () => {
   assert.match(approvals, /listProfessionalApplications/);
   assert.match(approvals, /Applications awaiting your decision/);
