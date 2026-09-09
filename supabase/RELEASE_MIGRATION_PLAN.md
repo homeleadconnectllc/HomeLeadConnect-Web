@@ -130,6 +130,7 @@ The active production app Supabase project is `homeconnect` (`cguhtshclyybivvdnp
 122. `20260903001000_revoke_authenticated_table_admin_grants.sql`
 123. `20260908050000_professional_application_contractor_bridge.sql`
 124. `20260908171000_signup_trial_entitlement_root_fix.sql`
+125. `20260909215000_fix_professional_progress_activity_log.sql`
 
 Migration #101 is retained in the local migration chain because it was applied to `hlc-reconciliation-test` during reconciliation. It is **not evidence of a production defect and is not required to be applied to `homeconnect` solely for parity**: production already has the canonical `causal.ingest_lead(...)` implementation from migration #98 with direct browser execution denied. Do not apply #101 to production unless a future production migration decision independently justifies it.
 
@@ -174,6 +175,8 @@ Migration #122 removes database-administration privileges from normal authentica
 Migration #123 bridges approved professional applications to the existing canonical `public.contractors` identity inside the same workspace. Exact normalized email is the only automatic reuse key; duplicate email matches and likely company/phone collisions fail closed, concurrent resolution is serialized, owner/manager authority comes from `workspace_members`, and contractor portal access is issued only for the resolved canonical contractor ID.
 
 Migration #124 provisions the promised 14-day HomeLead Connect trial only when a brand-new company-owner workspace is created. Workspace invitees never create or reset a trial; Stripe identifiers remain unset until affirmative enrollment; expired or undated trial states fail closed; existing paid and valid payment-recovery access remain unchanged.
+
+Migration #125 repairs the Professional service-progress activity write without changing authorization or workflow semantics. `activity_log.entity_id` is UUID, so `contractor_record_job_progress(...)` now writes the accepted assignment's UUID `job_id` directly instead of coercing it to text; the existing active contractor-portal-link and accepted-assignment guards remain unchanged.
 
 ## Current production rules
 
