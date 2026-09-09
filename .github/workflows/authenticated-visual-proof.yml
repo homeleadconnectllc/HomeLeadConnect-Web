@@ -62,11 +62,11 @@ jobs:
           cat /tmp/hlc-auth-visual-preview.log || true
           exit 63
 
-      - name: Capture authenticated mobile and desktop proof
-        run: node scripts/authenticated-visual-proof.mjs
-
       - name: Exercise Professional approval delivery against production backend
         run: node scripts/professional-production-e2e.mjs
+
+      - name: Capture authenticated mobile and desktop proof
+        run: node scripts/authenticated-visual-proof.mjs
 
       - name: Upload authenticated visual evidence
         if: always()
