@@ -130,6 +130,7 @@ The active production app Supabase project is `homeconnect` (`cguhtshclyybivvdnp
 122. `20260903001000_revoke_authenticated_table_admin_grants.sql`
 123. `20260908050000_professional_application_contractor_bridge.sql`
 124. `20260908171000_signup_trial_entitlement_root_fix.sql`
+125. `20260909205000_fix_contractor_progress_activity_entity_uuid.sql`
 
 Migration #101 is retained in the local migration chain because it was applied to `hlc-reconciliation-test` during reconciliation. It is **not evidence of a production defect and is not required to be applied to `homeconnect` solely for parity**: production already has the canonical `causal.ingest_lead(...)` implementation from migration #98 with direct browser execution denied. Do not apply #101 to production unless a future production migration decision independently justifies it.
 
