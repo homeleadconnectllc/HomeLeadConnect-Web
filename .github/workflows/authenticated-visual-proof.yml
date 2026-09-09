@@ -40,6 +40,9 @@ jobs:
           test -n "${HLC_VISUAL_TEST_EMAIL:-}" || { echo 'Missing repository secret HLC_VISUAL_TEST_EMAIL'; exit 61; }
           test -n "${HLC_VISUAL_TEST_PASSWORD:-}" || { echo 'Missing repository secret HLC_VISUAL_TEST_PASSWORD'; exit 62; }
 
+      - name: Exercise Resident lifecycle against production
+        run: node scripts/resident-production-e2e.mjs
+
       - name: Install Playwright Chromium
         run: |
           npm install --no-save --ignore-scripts playwright@1.55.0
