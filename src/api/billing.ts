@@ -1,4 +1,4 @@
-import { getCurrentWorkspaceId, supabase } from "./client";
+import { supabase } from "./client";
 
 export type BillingStatus = {
   plan_key: string;
@@ -18,13 +18,32 @@ export type BillingOffer = {
   interval: "month" | "year";
 };
 
+type BillingAccessResolution = BillingStatus & {
+  workspace_id: string;
+  recovered: boolean;
+};
+
+function withoutResolutionMetadata(value: BillingAccessResolution): BillingStatus {
+  return {
+    plan_key: value.plan_key,
+    status: value.status,
+    is_active: value.is_active,
+    trial_end: value.trial_end,
+    current_period_end: value.current_period_end,
+    grace_period_end: value.grace_period_end,
+    cancel_at_period_end: value.cancel_at_period_end,
+  };
+}
+
 export async function getBillingStatus(): Promise<BillingStatus | null> {
-  const workspaceId = await getCurrentWorkspaceId();
-  const { data, error } = await supabase.from("workspace_plan_status")
-    .select("plan_key,status,is_active,trial_end,current_period_end,grace_period_end,cancel_at_period_end")
-    .eq("workspace_id", workspaceId).maybeSingle();
+  // Billing selection and stale-workspace recovery are intentionally resolved by one
+  // membership-validated SECURITY DEFINER RPC. The browser never receives Stripe IDs and
+  // never needs broader SELECT access to workspace_plan_status than the selected workspace.
+  const { data, error } = await supabase.rpc("resolve_billing_workspace_access");
   if (error) throw error;
-  return data as BillingStatus | null;
+
+  const row = (Array.isArray(data) ? data[0] : data) as BillingAccessResolution | null | undefined;
+  return row ? withoutResolutionMetadata(row) : null;
 }
 
 export async function getBillingOffer(): Promise<BillingOffer> {
@@ -35,10 +54,10 @@ export async function getBillingOffer(): Promise<BillingOffer> {
     .single();
   if (error) throw error;
   if (!data || typeof data.price_cents !== "number" || data.price_cents <= 0) {
-    throw new Error("The HLC billing offer is not configured.");
+    throw new Error("The HomeLead Connect billing offer is not configured.");
   }
   if (data.interval !== "month" && data.interval !== "year") {
-    throw new Error("The HLC billing interval is invalid.");
+    throw new Error("The HomeLead Connect billing interval is invalid.");
   }
   return data as BillingOffer;
 }

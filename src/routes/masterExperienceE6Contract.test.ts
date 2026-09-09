@@ -7,6 +7,7 @@ const router=readFileSync(new URL("./AppRouter.tsx",import.meta.url),"utf8");
 const layout=readFileSync(new URL("../layouts/WorkspaceLayout.tsx",import.meta.url),"utf8");
 const policy=readFileSync(new URL("../lib/billing/entitlement.ts",import.meta.url),"utf8");
 const billingApi=readFileSync(new URL("../api/billing.ts",import.meta.url),"utf8");
+const billingResolver=readFileSync(new URL("../../supabase/pending/20260904170000_billing_workspace_recovery_rpc.sql",import.meta.url),"utf8");
 const webhook=readFileSync(new URL("../../supabase/functions/stripe-webhook/index.ts",import.meta.url),"utf8");
 const css=readFileSync(new URL("../styles/e6-trial-entitlements.css",import.meta.url),"utf8");
 
@@ -22,7 +23,13 @@ test("role authorization remains ahead of entitlement decisions",()=>{
 });
 
 test("Stripe webhook evidence remains the only subscription authority",()=>{
-  assert.match(billingApi,/from\("workspace_plan_status"\)[\s\S]*?\.select/);
+  assert.match(billingApi,/rpc\("resolve_billing_workspace_access"\)/);
+  assert.match(billingResolver,/from public\.workspace_plan_status/i);
+  assert.match(billingResolver,/join public\.workspace_plan_status/i);
+  assert.match(billingResolver,/security definer/i);
+  assert.match(billingResolver,/auth\.uid\(\)/i);
+  assert.match(billingResolver,/revoke all on function public\.resolve_billing_workspace_access\(\) from public, anon/i);
+  assert.doesNotMatch(billingResolver,/stripe_customer_id|stripe_subscription_id/i);
   assert.match(webhook,/constructEventAsync\(rawBody,signature,signingSecret\)/);
   assert.match(webhook,/workspace_plan_status/);
   assert.doesNotMatch(policy,/supabase|fetch\(|localStorage|sessionStorage/i);
