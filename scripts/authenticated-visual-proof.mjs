@@ -55,6 +55,20 @@ const authValue = JSON.stringify(session);
 
 const browser = await chromium.launch({ headless: true });
 try {
+  const deepLinkContext = await browser.newContext({ viewport: viewports[0][1] });
+  const deepLinkPage = await deepLinkContext.newPage();
+  await deepLinkPage.goto(`${baseUrl}/hq/approvals`, { waitUntil: "networkidle" });
+  if (new URL(deepLinkPage.url()).pathname !== "/login") {
+    throw new Error(`Protected deep-link proof expected /login but rendered ${new URL(deepLinkPage.url()).pathname}.`);
+  }
+  await deepLinkPage.getByLabel("Email").fill(email);
+  await deepLinkPage.getByLabel("Password").fill(password);
+  await deepLinkPage.getByRole("button", { name: "Sign in to HomeLead Connect" }).click();
+  await deepLinkPage.waitForURL((url) => url.pathname === "/hq/approvals", { timeout: 20_000 });
+  await deepLinkPage.waitForLoadState("networkidle");
+  await deepLinkPage.screenshot({ path: path.join(outputDir, "protected-deep-link-after-sign-in-mobile.png"), fullPage: true });
+  await deepLinkContext.close();
+
   for (const [viewportName, viewport] of viewports) {
     const context = await browser.newContext({ viewport });
     const page = await context.newPage();
