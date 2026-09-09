@@ -1,3 +1,4 @@
+-- Production E2E repair: preserve the canonical job UUID when recording Professional progress activity.
 create or replace function public.contractor_record_job_progress(
   p_assignment_id uuid,
   p_status text,
