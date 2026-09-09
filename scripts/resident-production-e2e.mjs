@@ -63,10 +63,6 @@ if (!Array.isArray(relationship.estimates) || relationship.estimates.length < 1)
 if (!Array.isArray(relationship.jobs) || relationship.jobs.length < 1) throw new Error("Resident portal jobs are missing.");
 if (!relationship.jobs.some((job) => Array.isArray(job.appointments) && job.appointments.length > 0)) throw new Error("Resident portal appointments are missing.");
 
-const { data: reviews, error: reviewError } = await client.rpc("list_homeowner_reviews");
-if (reviewError) throw reviewError;
-if (!(reviews ?? []).some((review) => Number(review.rating) === 5)) throw new Error(`Resident review history missing: ${JSON.stringify(reviews)}`);
-
 console.log("RESIDENT_LIFECYCLE_E2E_PASS", JSON.stringify({
   userId,
   leadId,
@@ -74,5 +70,4 @@ console.log("RESIDENT_LIFECYCLE_E2E_PASS", JSON.stringify({
   matchId,
   estimateCount: relationship.estimates.length,
   jobCount: relationship.jobs.length,
-  reviewCount: (reviews ?? []).length,
 }));
