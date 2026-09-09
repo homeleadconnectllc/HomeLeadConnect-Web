@@ -7,6 +7,7 @@ const migration = readFileSync(
   "utf8",
 );
 const api = readFileSync("src/api/professionalApplications.ts", "utf8");
+const approvals = readFileSync("src/pages/dashboard/LaunchSurface.tsx", "utf8");
 
 test("professional approval resolves one canonical contractor identity", () => {
   assert.match(migration, /create or replace function public\.approve_professional_application/i);
@@ -47,4 +48,24 @@ test("professional application API exposes review and canonical approval operati
   assert.match(api, /approveProfessionalApplication/);
   assert.match(api, /approve_professional_application/);
   assert.match(api, /contractor_id: number/);
+});
+
+test("owner approvals surfaces the governed professional review queue", () => {
+  assert.match(approvals, /listProfessionalApplications/);
+  assert.match(approvals, /Applications awaiting your decision/);
+  assert.match(approvals, /application\.status==="submitted"\|\|application\.status==="under_review"/);
+  assert.match(approvals, /Trades and services/);
+  assert.match(approvals, /Service territory/);
+  assert.match(approvals, /Experience and qualifications/);
+  assert.match(approvals, /Contact consent/);
+});
+
+test("owner decisions call the canonical review and approval operations", () => {
+  assert.match(approvals, /setProfessionalApplicationReviewStatus\(application\.id,status\)/);
+  assert.match(approvals, /approveProfessionalApplication\(application\.id\)/);
+  assert.match(approvals, /Approve & create access/);
+  assert.match(approvals, /Decline/);
+  assert.match(approvals, /portal\/accept\?token=/);
+  assert.match(approvals, /one-time link is visible only in this approval session/i);
+  assert.doesNotMatch(approvals, /\.from\("professional_applications"\)\.update/);
 });
