@@ -14,7 +14,9 @@ function safeNext(search: string) {
 export default function Register() {
   const location = useLocation();
   const next = safeNext(location.search);
-  const invitedStaff = Boolean(next?.startsWith("/team/accept?"));
+  const invitedIdentity = Boolean(
+    next?.startsWith("/team/accept?") || next?.startsWith("/portal/accept?"),
+  );
   const [companyName, setCompanyName] = useState("");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -36,15 +38,15 @@ export default function Register() {
         emailRedirectTo: `${window.location.origin}${loginDestination}`,
         captchaToken: captchaToken || undefined,
         data: {
-          company_name: invitedStaff ? undefined : companyName.trim(),
+          company_name: invitedIdentity ? undefined : companyName.trim(),
           full_name: fullName.trim(),
-          account_type: invitedStaff ? "workspace_invitee" : "company_owner",
+          account_type: invitedIdentity ? "workspace_invitee" : "company_owner",
         },
       },
     });
     setCaptchaToken(""); setCaptchaReset((value) => value + 1); setBusy(false);
-    if (authError) { setError(errorMessage(authError, invitedStaff ? "Unable to create your HLC identity." : "Unable to create the company account.")); return; }
-    setMessage(invitedStaff
+    if (authError) { setError(errorMessage(authError, invitedIdentity ? "Unable to create your HomeLead Connect identity." : "Unable to create the company account.")); return; }
+    setMessage(invitedIdentity
       ? "HLC identity created. Check your email for the confirmation link, then return to accept the company invitation."
       : "Company account created. Check your email for the confirmation link before signing in.");
   }
@@ -53,8 +55,8 @@ export default function Register() {
 
   if (message) {
     return <AuthShell
-      title={invitedStaff ? "Your HLC identity is created" : "Your company workspace is created"}
-      description={invitedStaff ? "One more step: confirm your email, then return to the invitation." : "You’re done here for now. HomeLead Connect created your company account and workspace."}
+      title={invitedIdentity ? "Your HomeLead Connect identity is created" : "Your company workspace is created"}
+      description={invitedIdentity ? "One more step: confirm your email, then return to the invitation." : "You’re done here for now. HomeLead Connect created your company account and workspace."}
       status={null}
       footer={<p><a href="https://homeleadconnect.org">Return to HomeLead Connect</a></p>}
     >
@@ -81,19 +83,19 @@ export default function Register() {
   </>;
 
   return <AuthShell
-    title={invitedStaff ? "Create your HLC identity" : "Create your company workspace"}
-    description={invitedStaff ? "Create your identity for the company invitation. HLC will not create a separate workspace for you." : "Start an isolated HLC workspace for your company. Resident and provider portal access is handled separately through invitations."}
+    title={invitedIdentity ? "Create your HomeLead Connect identity" : "Create your company workspace"}
+    description={invitedIdentity ? "Create your identity for this invitation. HomeLead Connect will not create a separate company workspace for you." : "Start an isolated HLC workspace for your company. Resident and provider portal access is handled separately through invitations."}
     status={status}
     footer={footer}
   >
     <form className="hlc-auth-form" onSubmit={register}>
-      {!invitedStaff && <label>Company name<input required maxLength={120} autoComplete="organization" value={companyName} onChange={(event) => setCompanyName(event.target.value)} /></label>}
+      {!invitedIdentity && <label>Company name<input required maxLength={120} autoComplete="organization" value={companyName} onChange={(event) => setCompanyName(event.target.value)} /></label>}
       <label>Your name<input required maxLength={120} autoComplete="name" value={fullName} onChange={(event) => setFullName(event.target.value)} /></label>
       <label>Email<input required autoComplete="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} /></label>
       <label>Password<input required minLength={8} autoComplete="new-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} /></label>
       <AuthTurnstile onToken={setCaptchaToken} resetSignal={captchaReset} />
-      <button disabled={busy || !isSupabaseConfigured() || (!invitedStaff && !companyName.trim()) || !fullName.trim() || (turnstileEnabled && !captchaToken)} type="submit">
-        {busy ? "Creating account…" : invitedStaff ? "Create HLC identity" : "Create company workspace"}
+      <button disabled={busy || !isSupabaseConfigured() || (!invitedIdentity && !companyName.trim()) || !fullName.trim() || (turnstileEnabled && !captchaToken)} type="submit">
+        {busy ? "Creating account…" : invitedIdentity ? "Create HomeLead Connect identity" : "Create company workspace"}
       </button>
     </form>
   </AuthShell>;
