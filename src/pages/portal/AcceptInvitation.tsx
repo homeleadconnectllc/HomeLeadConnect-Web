@@ -12,6 +12,8 @@ export default function AcceptInvitation() {
   const [error, setError] = useState("");
   const [status, setStatus] = useState("Validating your invitation…");
   const token = params.get("token")?.trim() ?? "";
+  const invitationDestination = token ? `/portal/accept?token=${encodeURIComponent(token)}` : "/portal/accept";
+  const encodedDestination = encodeURIComponent(invitationDestination);
 
   useEffect(() => {
     if (authLoading || !session || !token) return;
@@ -46,7 +48,10 @@ export default function AcceptInvitation() {
   }
 
   const footer = !session && !authLoading
-    ? <p><Link to="/login">Sign in to your HLC account</Link></p>
+    ? <>
+      <p><Link to={`/login?next=${encodedDestination}`}>Sign in to your HomeLead Connect account</Link></p>
+      <p>New to HomeLead Connect? <Link to={`/register?next=${encodedDestination}`}>Create your portal identity</Link>.</p>
+    </>
     : <p><a href="https://homeleadconnect.org">Return to HomeLead Connect</a></p>;
 
   return <AuthShell

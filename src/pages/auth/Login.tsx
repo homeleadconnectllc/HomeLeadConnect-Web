@@ -52,15 +52,21 @@ export default function Login() {
   const [captchaToken, setCaptchaToken] = useState("");
   const [captchaReset, setCaptchaReset] = useState(0);
   const queryNext = safeNext(location.search);
-  const invitationFlow = Boolean(queryNext?.startsWith("/team/accept?"));
+  const stateNext = (() => {
+    const requested = (location.state as { from?: string } | null)?.from;
+    return requested?.startsWith("/") && !requested.startsWith("//") ? requested : null;
+  })();
+  const requestedDestination = queryNext || stateNext;
+  const invitationFlow = Boolean(
+    queryNext?.startsWith("/team/accept?") || queryNext?.startsWith("/portal/accept?"),
+  );
 
-  if (!loading && session) return <Navigate to={queryNext || "/app"} replace />;
+  if (!loading && session) return <Navigate to={requestedDestination || "/app"} replace />;
 
   function resetStatus() { setError(""); setMessage(""); }
   function resetCaptcha() { setCaptchaToken(""); setCaptchaReset((value) => value + 1); }
   function destination() {
-    const requested = (location.state as { from?: string } | null)?.from;
-    return queryNext || (requested?.startsWith("/") && !requested.startsWith("//") ? requested : null) || "/app";
+    return requestedDestination || "/app";
   }
 
   async function login(event: FormEvent<HTMLFormElement>) {
@@ -139,7 +145,7 @@ export default function Login() {
     {(error || !isSupabaseConfigured()) && <p role="alert" style={{ color: "#b91c1c" }}>{error || supabaseConfigMessage}</p>}
     {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
   </>;
-  const registerHref = queryNext ? `/register?next=${encodeURIComponent(queryNext)}` : "/register";
+  const registerHref = requestedDestination ? `/register?next=${encodeURIComponent(requestedDestination)}` : "/register";
   const footer = <>
     <p><Link to="/forgot-password">Forgot your password?</Link></p>
     <p>New to HomeLead Connect? <Link to={registerHref}>Create your account</Link>.</p>
