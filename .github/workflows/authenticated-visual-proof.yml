@@ -19,7 +19,7 @@ jobs:
       VITE_AUTH_CAPTCHA_REQUIRED: "false"
       HLC_VISUAL_TEST_EMAIL: ${{ secrets.HLC_VISUAL_TEST_EMAIL }}
       HLC_VISUAL_TEST_PASSWORD: ${{ secrets.HLC_VISUAL_TEST_PASSWORD }}
-      HLC_VISUAL_BASE_URL: http://127.0.0.1:4173
+      HLC_VISUAL_BASE_URL: https://app.homeleadconnect.org
 
     steps:
       - name: Checkout exact candidate
@@ -62,10 +62,10 @@ jobs:
           cat /tmp/hlc-auth-visual-preview.log || true
           exit 63
 
-      - name: Exercise Professional approval delivery against production backend
+      - name: Exercise Professional approval delivery against production origin
         run: node scripts/professional-production-e2e.mjs
 
-      - name: Capture authenticated mobile and desktop proof
+      - name: Capture authenticated production mobile and desktop proof
         run: node scripts/authenticated-visual-proof.mjs
 
       - name: Upload authenticated visual evidence
