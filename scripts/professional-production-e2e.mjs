@@ -8,14 +8,16 @@ const email = process.env.HLC_VISUAL_TEST_EMAIL;
 const password = process.env.HLC_VISUAL_TEST_PASSWORD;
 const workspaceId = "a4511fee-cab8-4049-b313-3ca13438cc6a";
 const testJobId = "060d02f0-6f55-4a88-b026-83ad45ec9420";
-const marker = `Professional Lifecycle E2E ${Date.now()}`;
+const stamp = Date.now();
+const marker = `Professional Lifecycle E2E ${stamp}`;
+const testPhone = `717${String(stamp).slice(-7)}`;
 if (!supabaseUrl || !anonKey || !email || !password) throw new Error("Missing E2E environment.");
 const client = createClient(supabaseUrl, anonKey, { auth: { persistSession: false, autoRefreshToken: false } });
 const { data: signedIn, error: signInError } = await client.auth.signInWithPassword({ email, password });
 if (signInError || !signedIn.user) throw signInError ?? new Error("Controlled test login failed.");
 const { data: submitted, error: submitError } = await client.rpc("submit_professional_application", {
   p_form_slug:"professional-application", p_request_id:randomUUID(), p_organization_name:marker,
-  p_contact_name:"HomeLead Connect E2E", p_email:email, p_phone:"7175519897",
+  p_contact_name:"HomeLead Connect E2E", p_email:email, p_phone:testPhone,
   p_trade_categories:"E2E Test Painting", p_service_territory:"Harrisburg, PA",
   p_experience_summary:"Controlled production verification fixture only.", p_communication_consent:true, p_honeypot:""
 });
@@ -35,4 +37,4 @@ const {data:performance,error:performanceError}=await client.rpc("get_linked_pro
 if(Number(performance?.accepted_assignments??0)<1||Number(performance?.provider_completed_reports??0)<1) throw new Error(`Performance incomplete: ${JSON.stringify(performance)}`);
 const {data:portal,error:portalError}=await client.rpc("get_contractor_portal_data"); if(portalError) throw portalError;
 const hasLink=Array.isArray(portal?.links)&&portal.links.some(x=>Number(x.contractor_id)===contractorId); const hasAssignment=Array.isArray(portal?.assignments)&&portal.assignments.some(x=>x.id===assignment.id&&x.status==="accepted"); if(!hasLink||!hasAssignment) throw new Error(`Portal state missing: ${JSON.stringify(portal)}`);
-console.log("PROFESSIONAL_LIFECYCLE_E2E_PASS",JSON.stringify({applicationId,contractorId,invitationId:approval.invitation_id,assignmentId:assignment.id,progressId,performance,portalRole:acceptance.portal_role}));
+console.log("PROFESSIONAL_LIFECYCLE_E2E_PASS",JSON.stringify({applicationId,contractorId,invitationId:approval.invitation_id,assignmentId:assignment.id,progressId,performance,portalRole:acceptance.portal_role,testPhone}));
