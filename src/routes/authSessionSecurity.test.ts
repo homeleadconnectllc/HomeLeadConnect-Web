@@ -4,6 +4,7 @@ import test from "node:test";
 
 const authProvider = readFileSync("src/context/AuthContext.tsx", "utf8");
 const accountAccessProvider = readFileSync("src/context/AccountAccessProvider.tsx", "utf8");
+const login = readFileSync("src/pages/auth/Login.tsx", "utf8");
 const appShellEntry = readFileSync("src/styles/app-shell-entry.ts", "utf8");
 const authSessionHardening = readFileSync("src/styles/auth-session-hardening.css", "utf8");
 
@@ -23,6 +24,14 @@ test("auth state updates stop after provider teardown", () => {
   assert.match(authProvider, /let active = true/);
   assert.match(authProvider, /if \(!active\) return/);
   assert.match(authProvider, /active = false;[\s\S]*subscription\.unsubscribe\(\)/);
+});
+
+test("sign-in preserves a protected deep link even when the session redirect wins the form race", () => {
+  assert.match(login, /const stateNext =/);
+  assert.match(login, /const requestedDestination = queryNext \|\| stateNext/);
+  assert.match(login, /session\) return <Navigate to=\{requestedDestination \|\| "\/app"\}/);
+  assert.match(login, /return requestedDestination \|\| "\/app"/);
+  assert.match(login, /register\?next=\$\{encodeURIComponent\(requestedDestination\)\}/);
 });
 
 test("Safari autofill cannot replace the HLC auth field surface with a yellow background", () => {
