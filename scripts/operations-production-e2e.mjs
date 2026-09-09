@@ -12,6 +12,10 @@ const client = createClient(supabaseUrl, anonKey, { auth: { persistSession: fals
 const { data: signedIn, error: signInError } = await client.auth.signInWithPassword({ email, password });
 if (signInError || !signedIn.user) throw signInError ?? new Error("Controlled Operations E2E login failed.");
 
+const { data: currentRole, error: roleError } = await client.rpc("current_workspace_role");
+if (roleError) throw roleError;
+if (!['owner','manager','admin'].includes(currentRole)) throw new Error(`Controlled Operations E2E identity is not management in the current workspace: ${JSON.stringify(currentRole)}`);
+
 const marker = `operations-e2e-${Date.now()}`;
 const { data: dispositionId, error: dispositionError } = await client.rpc("record_operations_exception_disposition", {
   p_source_type: "e2e_probe",
@@ -33,6 +37,7 @@ if (found.source_type !== "e2e_probe" || found.source_id !== marker || found.dis
 
 console.log("OPERATIONS_LIFECYCLE_E2E_PASS", JSON.stringify({
   userId: signedIn.user.id,
+  currentRole,
   dispositionId,
   sourceId: marker,
   disposition: found.disposition,
