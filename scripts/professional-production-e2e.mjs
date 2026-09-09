@@ -1,62 +1,111 @@
-import { chromium } from "playwright";
+import { createClient } from "@supabase/supabase-js";
+import { randomUUID } from "node:crypto";
 
-// Test-only production-origin Professional approval diagnostic. Never merge this branch.
-const baseUrl = "https://app.homeleadconnect.org";
+// TEST ONLY. This file stays on the do-not-merge E2E branch.
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
-const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY;
+const anonKey = process.env.VITE_SUPABASE_ANON_KEY;
 const email = process.env.HLC_VISUAL_TEST_EMAIL;
 const password = process.env.HLC_VISUAL_TEST_PASSWORD;
-const organization = "HomeLead Connect Professional E2E Production 20260909";
+const workspaceId = "a4511fee-cab8-4049-b313-3ca13438cc6a";
+const testJobId = "060d02f0-6f55-4a88-b026-83ad45ec9420"; // existing Test Homeowner 2 Job
+const marker = `Professional Lifecycle E2E ${Date.now()}`;
+if (!supabaseUrl || !anonKey || !email || !password) throw new Error("Missing E2E environment.");
 
-if (!supabaseUrl || !supabaseAnonKey || !email || !password) throw new Error("Missing authenticated E2E environment.");
+const client = createClient(supabaseUrl, anonKey, { auth: { persistSession: false, autoRefreshToken: false } });
+const { data: signedIn, error: signInError } = await client.auth.signInWithPassword({ email, password });
+if (signInError || !signedIn.user) throw signInError ?? new Error("Controlled test login failed.");
 
-const tokenResponse = await fetch(`${supabaseUrl}/auth/v1/token?grant_type=password`, {
-  method: "POST",
-  headers: { apikey: supabaseAnonKey, "Content-Type": "application/json" },
-  body: JSON.stringify({ email, password }),
+// 1. Create a fresh Professional application for the controlled authenticated identity.
+const requestId = randomUUID();
+const { data: submitted, error: submitError } = await client.rpc("submit_professional_application", {
+  p_form_slug: "professional-application",
+  p_request_id: requestId,
+  p_organization_name: marker,
+  p_contact_name: "HomeLead Connect E2E",
+  p_email: email,
+  p_phone: "7175519897",
+  p_trade_categories: "E2E Test Painting",
+  p_service_territory: "Harrisburg, PA",
+  p_experience_summary: "Controlled production verification fixture only.",
+  p_communication_consent: true,
+  p_honeypot: "",
 });
-if (!tokenResponse.ok) throw new Error(`Professional E2E auth failed: ${tokenResponse.status}`);
-const session = await tokenResponse.json();
-const authStorageKey = `sb-${new URL(supabaseUrl).hostname.split(".")[0]}-auth-token`;
+if (submitError) throw submitError;
+const applicationId = submitted?.[0]?.application_id;
+if (!applicationId) throw new Error("Professional application was not created.");
 
-const browser = await chromium.launch({ headless: true });
-try {
-  const context = await browser.newContext({ viewport: { width: 390, height: 844 } });
-  const page = await context.newPage();
-  let rpcStatus = "not-seen";
-  let rpcBody = "";
-  const consoleErrors = [];
+// 2. Approve using this account's existing workspace authority.
+const { data: approved, error: approveError } = await client.rpc("approve_professional_application", { p_application_id: applicationId });
+if (approveError) throw approveError;
+const approval = approved?.[0];
+if (!approval?.contractor_id || !approval?.invitation_token) throw new Error(`Approval did not return contractor + invitation: ${JSON.stringify(approval)}`);
+const contractorId = Number(approval.contractor_id);
 
-  page.on("console", msg => { if (msg.type() === "error") consoleErrors.push(msg.text()); });
-  page.on("pageerror", error => consoleErrors.push(`pageerror: ${error.message}`));
-  page.on("response", async response => {
-    if (response.url().includes("/rest/v1/rpc/approve_professional_application")) {
-      rpcStatus = String(response.status());
-      try { rpcBody = (await response.text()).slice(0, 1000); } catch { rpcBody = "<unreadable>"; }
-    }
-  });
+// 3. Accept the canonical invitation with the same real authenticated identity.
+const { data: accepted, error: acceptError } = await client.rpc("accept_portal_invitation", { p_invitation_token: approval.invitation_token });
+if (acceptError) throw acceptError;
+const acceptance = accepted?.[0];
+if (acceptance?.portal_role !== "contractor") throw new Error(`Expected contractor portal role: ${JSON.stringify(acceptance)}`);
 
-  await page.addInitScript(({ key, value }) => localStorage.setItem(key, value), {
-    key: authStorageKey,
-    value: JSON.stringify(session),
-  });
+// 4. Onboard + Availability through the exact Professional RPCs.
+const { error: serviceError } = await client.rpc("add_linked_provider_service", {
+  p_contractor_id: contractorId,
+  p_service_name: "E2E Test Painting 20260909",
+});
+if (serviceError) throw serviceError;
+const { error: availabilityError } = await client.rpc("set_linked_provider_availability", {
+  p_contractor_id: contractorId,
+  p_available: true,
+  p_note: "E2E production verification only",
+  p_next_available_at: new Date(Date.now() + 86400000).toISOString(),
+});
+if (availabilityError) throw availabilityError;
 
-  await page.goto(`${baseUrl}/hq/approvals`, { waitUntil: "networkidle" });
-  await page.waitForTimeout(1200);
-  const application = page.getByRole("article").filter({ hasText: organization });
-  await application.getByText(organization, { exact: true }).waitFor({ state: "visible", timeout: 20_000 });
+// 5. Opportunity: create an offered assignment through normal workspace-member RLS.
+const { data: assignment, error: assignmentError } = await client
+  .from("job_assignments")
+  .insert({ workspace_id: workspaceId, job_id: testJobId, contractor_id: contractorId, status: "offered" })
+  .select("id,status")
+  .single();
+if (assignmentError) throw assignmentError;
+if (assignment.status !== "offered") throw new Error(`Assignment did not begin offered: ${JSON.stringify(assignment)}`);
 
-  page.once("dialog", async dialog => dialog.accept());
-  await application.getByRole("button", { name: "Approve & create access" }).click();
-  await page.waitForTimeout(7000);
+// 6. Professional accepts the work offer through the canonical contractor RPC.
+const { data: decision, error: decisionError } = await client.rpc("contractor_decide_assignment", {
+  p_assignment_id: assignment.id,
+  p_decision: "accepted",
+});
+if (decisionError) throw decisionError;
+if (decision !== "accepted") throw new Error(`Assignment acceptance returned ${JSON.stringify(decision)}`);
 
-  const success = await page.getByRole("status").filter({ hasText: "Application approved. The secure contractor access link is ready below." }).count();
-  const alerts = await page.getByRole("alert").allTextContents();
-  console.log("PROFESSIONAL_APPROVAL_DIAGNOSTIC", JSON.stringify({ rpcStatus, rpcBody, alerts, consoleErrors }));
-  if (!success) throw new Error(`Professional production approval failed. RPC ${rpcStatus}; alerts=${JSON.stringify(alerts)}; rpc=${rpcBody}`);
+// 7. Service: Professional records real portal-scoped progress.
+const { data: progressId, error: progressError } = await client.rpc("contractor_record_job_progress", {
+  p_assignment_id: assignment.id,
+  p_status: "completed",
+  p_note: "E2E production lifecycle verification completed.",
+});
+if (progressError) throw progressError;
+if (!progressId) throw new Error("Provider progress record was not created.");
 
-  console.log("Professional production-origin approval diagnostic: PASS");
-  await context.close();
-} finally {
-  await browser.close();
-}
+// 8. Performance: read the authenticated Professional aggregate.
+const { data: performance, error: performanceError } = await client.rpc("get_linked_provider_performance", { p_contractor_id: contractorId });
+if (performanceError) throw performanceError;
+if (Number(performance?.accepted_assignments ?? 0) < 1) throw new Error(`Performance did not count accepted assignment: ${JSON.stringify(performance)}`);
+if (Number(performance?.provider_completed_reports ?? 0) < 1) throw new Error(`Performance did not count provider completion: ${JSON.stringify(performance)}`);
+
+// 9. Portal dataset itself must expose the link + accepted assignment to this identity.
+const { data: portal, error: portalError } = await client.rpc("get_contractor_portal_data");
+if (portalError) throw portalError;
+const hasLink = Array.isArray(portal?.links) && portal.links.some((x) => Number(x.contractor_id) === contractorId);
+const hasAssignment = Array.isArray(portal?.assignments) && portal.assignments.some((x) => x.id === assignment.id && x.status === "accepted");
+if (!hasLink || !hasAssignment) throw new Error(`Portal dataset missing lifecycle state: ${JSON.stringify(portal)}`);
+
+console.log("PROFESSIONAL_LIFECYCLE_E2E_PASS", JSON.stringify({
+  applicationId,
+  contractorId,
+  invitationId: approval.invitation_id,
+  assignmentId: assignment.id,
+  progressId,
+  performance,
+  portalRole: acceptance.portal_role,
+}));
