@@ -152,7 +152,10 @@ function Approvals(){
   }
 
   async function approve(application:ProfessionalApplication){
-    if(!window.confirm(`Approve ${application.organization_name} and create contractor portal access?`))return;
+    const approvalPrompt=application.status==="approved"
+      ? `Create a new contractor access link for ${application.organization_name}? This will replace any unused link.`
+      : `Approve ${application.organization_name} and create contractor portal access?`;
+    if(!window.confirm(approvalPrompt))return;
     setBusyId(application.id);setError("");setNotice("");
     try{
       const result=await approveProfessionalApplication(application.id);
@@ -175,6 +178,11 @@ function Approvals(){
   return <div style={approvalShellStyle}>
     {error&&<p role="alert" style={approvalErrorStyle}>{error}</p>}
     {notice&&<p role="status" style={approvalNoticeStyle}>{notice}</p>}
+    {Object.entries(invitationLinks).map(([applicationId,link])=><div key={applicationId} style={approvalAccessStyle}>
+      <strong>Secure contractor access link</strong>
+      <a href={link}>{link}</a>
+      <small>This one-time link remains visible for this approval session. Send it only to the approved applicant.</small>
+    </div>)}
 
     <section style={approvalSectionStyle} aria-labelledby="professional-review-heading">
       <div style={approvalHeadingStyle}>
@@ -198,14 +206,17 @@ function Approvals(){
           <button type="button" disabled={busyId===application.id} onClick={()=>void approve(application)}>{busyId===application.id?"Working…":"Approve & create access"}</button>
           <button type="button" disabled={busyId===application.id} onClick={()=>void setReviewStatus(application,"declined")}>Decline</button>
         </div>
-        {invitationLinks[application.id]&&<div style={approvalAccessStyle}><strong>Secure contractor access link</strong><a href={invitationLinks[application.id]}>{invitationLinks[application.id]}</a><small>This one-time link is visible only in this approval session. Send it only to the approved applicant.</small></div>}
       </article>)}
       {pending.length===0&&!error&&<p style={approvalEmptyStyle}>No Professional applications are waiting for review.</p>}
     </section>
 
     <details style={approvalSectionStyle}>
       <summary style={approvalSummaryStyle}>Completed Professional decisions ({decided.length})</summary>
-      {decided.map(application=><div key={application.id} style={approvalHistoryStyle}><strong>{application.organization_name}</strong><span>{application.status} · {application.email}</span></div>)}
+      {decided.map(application=><div key={application.id} style={approvalHistoryStyle}>
+        <strong>{application.organization_name}</strong>
+        <span>{application.status} · {application.email}</span>
+        {application.status==="approved"&&<button type="button" disabled={busyId===application.id} onClick={()=>void approve(application)}>{busyId===application.id?"Working…":"Create new access link"}</button>}
+      </div>)}
       {decided.length===0&&<p style={approvalEmptyStyle}>No completed Professional decisions.</p>}
     </details>
 
