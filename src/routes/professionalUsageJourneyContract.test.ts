@@ -6,6 +6,10 @@ import { professionalUsageAudit } from "../config/professionalUsageAudit.ts";
 const portal = fs.readFileSync(new URL("../pages/portal/ContractorPortal.tsx", import.meta.url), "utf8");
 const profile = fs.readFileSync(new URL("../pages/portal/ContractorProfile.tsx", import.meta.url), "utf8");
 const services = fs.readFileSync(new URL("../pages/portal/ContractorPortalServices.tsx", import.meta.url), "utf8");
+const progressActivityRepair = fs.readFileSync(
+  "supabase/migrations/20260909205000_fix_contractor_progress_activity_entity_uuid.sql",
+  "utf8",
+);
 
 test("professional dashboard prioritizes real next actions and portal-safe tools", () => {
   assert.match(portal, /resolveProfessionalNextStep/);
@@ -37,6 +41,13 @@ test("professional candidate closes verification service and performance without
   assert.match(portal, /getLinkedProviderPerformance/);
   assert.match(portal, /Provider progress is evidence only/);
   assert.doesNotMatch(portal, /to="\/jobs"|to="\/analytics"|to="\/community\/reviews"/);
+});
+
+test("professional progress records the canonical job UUID in activity history", () => {
+  assert.match(progressActivityRepair, /create or replace function public\.contractor_record_job_progress/i);
+  assert.match(progressActivityRepair, /insert into public\.activity_log/i);
+  assert.match(progressActivityRepair, /'job',[\s\S]*v_assignment\.job_id,[\s\S]*'provider\.progress\.'\|\|p_status/i);
+  assert.doesNotMatch(progressActivityRepair, /v_assignment\.job_id::text/i);
 });
 
 test("professional lifecycle audit covers the canonical provider journey", () => {
