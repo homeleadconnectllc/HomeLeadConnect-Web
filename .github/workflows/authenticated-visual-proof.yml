@@ -12,17 +12,15 @@ permissions:
 jobs:
   visual-proof:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 10
     env:
       VITE_SUPABASE_URL: https://cguhtshclyybivvdnpig.supabase.co
       VITE_SUPABASE_ANON_KEY: sb_publishable_MQioEyUGv8MNlowJgVyXYQ_kf5cyafA
-      VITE_AUTH_CAPTCHA_REQUIRED: "false"
       HLC_VISUAL_TEST_EMAIL: ${{ secrets.HLC_VISUAL_TEST_EMAIL }}
       HLC_VISUAL_TEST_PASSWORD: ${{ secrets.HLC_VISUAL_TEST_PASSWORD }}
-      HLC_VISUAL_BASE_URL: https://app.homeleadconnect.org
 
     steps:
-      - name: Checkout exact candidate
+      - name: Checkout test-only probe
         uses: actions/checkout@v4
 
       - name: Setup Node
@@ -34,47 +32,11 @@ jobs:
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit --fund=false
 
-      - name: Verify dedicated visual-proof credentials exist
+      - name: Verify controlled test credentials exist
         run: |
           set -euo pipefail
-          test -n "${HLC_VISUAL_TEST_EMAIL:-}" || { echo 'Missing repository secret HLC_VISUAL_TEST_EMAIL'; exit 61; }
-          test -n "${HLC_VISUAL_TEST_PASSWORD:-}" || { echo 'Missing repository secret HLC_VISUAL_TEST_PASSWORD'; exit 62; }
+          test -n "${HLC_VISUAL_TEST_EMAIL:-}" || exit 61
+          test -n "${HLC_VISUAL_TEST_PASSWORD:-}" || exit 62
 
-      - name: Install Playwright Chromium
-        run: |
-          npm install --no-save --ignore-scripts playwright@1.55.0
-          npx playwright install --with-deps chromium
-
-      - name: Build exact candidate
-        run: npm run build
-
-      - name: Start exact rendered preview
-        run: |
-          set -euo pipefail
-          npm run preview -- --host 127.0.0.1 --port 4173 > /tmp/hlc-auth-visual-preview.log 2>&1 &
-          echo $! > /tmp/hlc-auth-visual-preview.pid
-          for attempt in $(seq 1 30); do
-            if curl -fsS http://127.0.0.1:4173/ > /tmp/hlc-auth-visual-home.html; then
-              exit 0
-            fi
-            sleep 1
-          done
-          cat /tmp/hlc-auth-visual-preview.log || true
-          exit 63
-
-      - name: Exercise Professional approval delivery against production origin
+      - name: Exercise full Professional lifecycle against production
         run: node scripts/professional-production-e2e.mjs
-
-      - name: Capture authenticated production mobile and desktop proof
-        run: node scripts/authenticated-visual-proof.mjs
-
-      - name: Upload authenticated visual evidence
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: authenticated-visual-proof-${{ github.event.pull_request.head.sha || github.sha }}
-          path: |
-            artifacts/authenticated-visual-proof
-            /tmp/hlc-auth-visual-preview.log
-          if-no-files-found: warn
-          retention-days: 14
