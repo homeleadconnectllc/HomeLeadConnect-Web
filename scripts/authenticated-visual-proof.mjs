@@ -57,6 +57,25 @@ const browser = await chromium.launch({ headless: true });
 try {
   const deepLinkContext = await browser.newContext({ viewport: viewports[0][1] });
   const deepLinkPage = await deepLinkContext.newPage();
+  const invitationToken = "visual-proof-token";
+  const invitationDestination = `/portal/accept?token=${invitationToken}`;
+  const encodedInvitationDestination = encodeURIComponent(invitationDestination);
+  await deepLinkPage.goto(`${baseUrl}${invitationDestination}`, { waitUntil: "networkidle" });
+  const signInHref = await deepLinkPage.getByRole("link", { name: "Sign in to your HomeLead Connect account" }).getAttribute("href");
+  const registerHref = await deepLinkPage.getByRole("link", { name: "Create your portal identity" }).getAttribute("href");
+  if (signInHref !== `/login?next=${encodedInvitationDestination}`) {
+    throw new Error(`Portal invitation sign-in lost its token: ${signInHref ?? "missing href"}.`);
+  }
+  if (registerHref !== `/register?next=${encodedInvitationDestination}`) {
+    throw new Error(`Portal invitation registration lost its token: ${registerHref ?? "missing href"}.`);
+  }
+  await deepLinkPage.getByRole("link", { name: "Sign in to your HomeLead Connect account" }).click();
+  await deepLinkPage.waitForURL((url) => url.pathname === "/login" && url.searchParams.get("next") === invitationDestination, { timeout: 20_000 });
+  const createAccountHref = await deepLinkPage.getByRole("link", { name: "Create your account" }).getAttribute("href");
+  if (createAccountHref !== `/register?next=${encodedInvitationDestination}`) {
+    throw new Error(`Login registration handoff lost the portal invitation: ${createAccountHref ?? "missing href"}.`);
+  }
+
   await deepLinkPage.goto(`${baseUrl}/hq/approvals`, { waitUntil: "networkidle" });
   if (new URL(deepLinkPage.url()).pathname !== "/login") {
     throw new Error(`Protected deep-link proof expected /login but rendered ${new URL(deepLinkPage.url()).pathname}.`);
