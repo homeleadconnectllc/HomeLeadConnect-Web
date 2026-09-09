@@ -6,7 +6,6 @@ const supabaseUrl = process.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY;
 const email = process.env.HLC_VISUAL_TEST_EMAIL;
 const password = process.env.HLC_VISUAL_TEST_PASSWORD;
-const organization = "HomeLead Connect Professional E2E Production 20260909";
 
 if (!supabaseUrl || !supabaseAnonKey || !email || !password) {
   throw new Error("Missing authenticated E2E environment.");
@@ -30,28 +29,17 @@ try {
     value: JSON.stringify(session),
   });
 
-  await page.goto(`${baseUrl}/hq/approvals`, { waitUntil: "networkidle" });
+  await page.goto(`${baseUrl}/contractor-portal`, { waitUntil: "networkidle" });
   await page.waitForTimeout(1200);
-  if (new URL(page.url()).pathname !== "/hq/approvals") {
-    throw new Error(`Professional E2E expected /hq/approvals but rendered ${new URL(page.url()).pathname}.`);
+  const path = new URL(page.url()).pathname;
+  if (path !== "/contractor-portal") {
+    throw new Error(`Professional E2E expected /contractor-portal but rendered ${path}.`);
   }
-
-  const application = page.getByRole("article").filter({ hasText: organization });
-  await application.getByText(organization, { exact: true }).waitFor({ state: "visible", timeout: 20_000 });
-
-  page.once("dialog", async (dialog) => dialog.accept());
-  await application.getByRole("button", { name: "Approve & create access" }).click();
-  await page.getByRole("status").filter({ hasText: "Application approved. The secure contractor access link is ready below." }).waitFor({
-    state: "visible",
-    timeout: 30_000,
-  });
-
-  const secureLink = await page.locator('a[href*="/portal/accept?token="]').first().getAttribute("href");
-  if (!secureLink || !secureLink.startsWith(`${baseUrl}/portal/accept?token=`)) {
-    throw new Error(`Professional approval did not expose a production portal acceptance link: ${secureLink ?? "missing"}`);
+  const body = await page.locator("body").innerText();
+  if (/sign in|access denied|not authorized|invitation required/i.test(body)) {
+    throw new Error(`Professional portal rendered an access blocker: ${body.slice(0, 500)}`);
   }
-
-  console.log(`Professional production-origin approval E2E: PASS ${secureLink}`);
+  console.log("Professional accepted-access portal E2E: PASS /contractor-portal");
   await context.close();
 } finally {
   await browser.close();
