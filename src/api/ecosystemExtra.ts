@@ -27,10 +27,10 @@ export async function getWorkspaceAnalytics(){const{workspaceId}=await context()
 export async function listOwnerAttention(){const{workspaceId}=await context();const{data,error}=await supabase.from("ai_owner_attention_items").select("id,related_entity_type,related_entity_id,reason,status,created_at").eq("workspace_id",workspaceId).order("created_at",{ascending:false}).limit(100);if(error)throw error;return data??[]}
 export async function getSystemHealth(){const{workspaceId}=await context();const [providers,subscription,notifications,runs]=await Promise.all([
   supabase.from("communication_provider_connections").select("provider_name,channel,status").eq("workspace_id",workspaceId),
-  supabase.from("subscriptions").select("status,updated_at").eq("workspace_id",workspaceId).order("updated_at",{ascending:false}).limit(1),
+  supabase.from("workspace_plan_status").select("status,is_active,trial_end,current_period_end,grace_period_end,updated_at").eq("workspace_id",workspaceId).maybeSingle(),
   supabase.from("notifications").select("id",{count:"exact",head:true}).eq("workspace_id",workspaceId),
   supabase.from("ai_agent_runs").select("status,created_at").eq("workspace_id",workspaceId).order("created_at",{ascending:false}).limit(25)
 ]);
   for(const r of [providers,subscription,notifications,runs]) if(r.error) throw r.error;
-  return{providers:providers.data??[],subscription:subscription.data?.[0]??null,notificationCount:notifications.count??0,recentAgentRuns:runs.data??[]};
+  return{providers:providers.data??[],subscription:subscription.data??null,notificationCount:notifications.count??0,recentAgentRuns:runs.data??[]};
 }

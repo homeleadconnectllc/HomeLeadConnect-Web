@@ -7,6 +7,7 @@ const router=readFileSync(new URL("./AppRouter.tsx",import.meta.url),"utf8");
 const layout=readFileSync(new URL("../layouts/WorkspaceLayout.tsx",import.meta.url),"utf8");
 const policy=readFileSync(new URL("../lib/billing/entitlement.ts",import.meta.url),"utf8");
 const billingApi=readFileSync(new URL("../api/billing.ts",import.meta.url),"utf8");
+const ecosystemApi=readFileSync(new URL("../api/ecosystemExtra.ts",import.meta.url),"utf8");
 const webhook=readFileSync(new URL("../../supabase/functions/stripe-webhook/index.ts",import.meta.url),"utf8");
 const css=readFileSync(new URL("../styles/e6-trial-entitlements.css",import.meta.url),"utf8");
 
@@ -26,6 +27,13 @@ test("Stripe webhook evidence remains the only subscription authority",()=>{
   assert.match(webhook,/constructEventAsync\(rawBody,signature,signingSecret\)/);
   assert.match(webhook,/workspace_plan_status/);
   assert.doesNotMatch(policy,/supabase|fetch\(|localStorage|sessionStorage/i);
+});
+
+test("system health reports the same authoritative workspace entitlement",()=>{
+  const getSystemHealth=ecosystemApi.slice(ecosystemApi.indexOf("export async function getSystemHealth"));
+  assert.match(getSystemHealth,/from\("workspace_plan_status"\)/);
+  assert.doesNotMatch(getSystemHealth,/from\("subscriptions"\)/);
+  assert.match(getSystemHealth,/status,is_active,trial_end,current_period_end,grace_period_end/);
 });
 
 test("trial expiration never deletes durable user history",()=>{
