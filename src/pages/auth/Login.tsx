@@ -57,7 +57,9 @@ export default function Login() {
     return requested?.startsWith("/") && !requested.startsWith("//") ? requested : null;
   })();
   const requestedDestination = queryNext || stateNext;
-  const invitationFlow = Boolean(queryNext?.startsWith("/team/accept?"));
+  const invitationFlow = Boolean(
+    queryNext?.startsWith("/team/accept?") || queryNext?.startsWith("/portal/accept?"),
+  );
 
   if (!loading && session) return <Navigate to={requestedDestination || "/app"} replace />;
 
