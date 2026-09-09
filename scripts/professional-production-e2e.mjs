@@ -1,5 +1,6 @@
 import { chromium } from "playwright";
 
+// Test-only production-origin Professional journey probe. Never merge this branch.
 const baseUrl = process.env.HLC_VISUAL_BASE_URL || "https://app.homeleadconnect.org";
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY;
