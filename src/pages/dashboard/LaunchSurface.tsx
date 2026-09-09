@@ -14,6 +14,12 @@ import {
   getSystemHealth, getWorkspaceAnalytics, listCommunityGroups, listOwnerAttention,
   listProviderServices, listResidentProperties, listWorkspaceTeam,
 } from "../../api/ecosystemExtra";
+import {
+  approveProfessionalApplication,
+  listProfessionalApplications,
+  setProfessionalApplicationReviewStatus,
+  type ProfessionalApplication,
+} from "../../api/professionalApplications";
 import { errorMessage } from "../../lib/errorMessage";
 import type { Contractor } from "../../lib/types/database";
 
@@ -110,7 +116,106 @@ function Team(){const[items,setItems]=useState<any[]>([]);const[error,setError]=
 function Services(){const[providers,setProviders]=useState<Contractor[]>([]);const[items,setItems]=useState<any[]>([]);const[contractorId,setContractorId]=useState("");const[name,setName]=useState("");const[error,setError]=useState("");async function load(){try{const[p,s]=await Promise.all([listContractors({}),listProviderServices()]);setProviders(p);setItems(s)}catch(e){setError(errorMessage(e,"Unable to load provider services."))}}useEffect(()=>{void load()},[]);async function submit(e:FormEvent){e.preventDefault();try{await createProviderService(Number(contractorId),name);setName("");await load()}catch(r){setError(errorMessage(r,"Unable to save provider service."))}}return <><form onSubmit={submit} style={cardStyle}><h2>Add service capability</h2><label>Provider<select required value={contractorId} onChange={e=>setContractorId(e.target.value)}><option value="">Choose</option>{providers.map(p=><option key={p.id} value={p.id}>{p.company_name||p.contact_name||p.id}</option>)}</select></label><label>Service<input required value={name} onChange={e=>setName(e.target.value)}/></label><button>Save service</button>{error&&<p role="alert">{error}</p>}</form><section style={cardStyle}>{items.map(s=><p key={s.id}>{s.service_name} · provider {s.contractor_id}</p>)}{items.length===0&&<p>No service capabilities recorded.</p>}</section></>}
 
 function Analytics(){const[data,setData]=useState<Record<string,number>|null>(null);const[error,setError]=useState("");useEffect(()=>{void getWorkspaceAnalytics().then(setData).catch(e=>setError(errorMessage(e,"Unable to load analytics.")))},[]);if(error)return <p role="alert">{error}</p>;if(!data)return <p role="status">Loading analytics…</p>;return <section style={gridStyle}>{Object.entries(data).map(([key,value])=><article key={key} style={cardStyle}><strong style={{fontSize:32}}>{value}</strong><p>{key}</p></article>)}</section>}
-function Approvals(){const[items,setItems]=useState<any[]>([]);const[error,setError]=useState("");useEffect(()=>{void listOwnerAttention().then(setItems).catch(e=>setError(errorMessage(e,"Owner attention is restricted.")))},[]);return <section style={gridStyle}>{error&&<p role="alert">{error}</p>}{items.map(x=><article key={x.id} style={cardStyle}><strong>{x.status}</strong><p>{x.reason}</p><small>{x.related_entity_type||"system"} {x.related_entity_id||""}</small></article>)}{items.length===0&&!error&&<p>No owner-attention items.</p>}</section>}
+function Approvals(){
+  const[applications,setApplications]=useState<ProfessionalApplication[]>([]);
+  const[attention,setAttention]=useState<any[]>([]);
+  const[error,setError]=useState("");
+  const[notice,setNotice]=useState("");
+  const[busyId,setBusyId]=useState<string|null>(null);
+  const[invitationLinks,setInvitationLinks]=useState<Record<string,string>>({});
+
+  async function load(){
+    setError("");
+    try{
+      const[professionalApplications,ownerAttention]=await Promise.all([
+        listProfessionalApplications(),
+        listOwnerAttention(),
+      ]);
+      setApplications(professionalApplications);
+      setAttention(ownerAttention);
+    }catch(e){
+      setError(errorMessage(e,"Owner approvals are restricted."));
+    }
+  }
+
+  useEffect(()=>{void load()},[]);
+
+  async function setReviewStatus(application:ProfessionalApplication,status:"under_review"|"declined"){
+    if(status==="declined"&&!window.confirm(`Decline ${application.organization_name}'s professional application?`))return;
+    setBusyId(application.id);setError("");setNotice("");
+    try{
+      await setProfessionalApplicationReviewStatus(application.id,status);
+      setNotice(status==="under_review"?"Application moved into review.":"Application declined and audit fields recorded.");
+      await load();
+    }catch(e){setError(errorMessage(e,"Unable to update the professional application."))}
+    finally{setBusyId(null)}
+  }
+
+  async function approve(application:ProfessionalApplication){
+    if(!window.confirm(`Approve ${application.organization_name} and create contractor portal access?`))return;
+    setBusyId(application.id);setError("");setNotice("");
+    try{
+      const result=await approveProfessionalApplication(application.id);
+      if(!result)throw new Error("Approval did not return an access result.");
+      if(result.invitation_token){
+        const link=`${window.location.origin}/portal/accept?token=${encodeURIComponent(result.invitation_token)}`;
+        setInvitationLinks(current=>({...current,[application.id]:link}));
+        setNotice("Application approved. The secure contractor access link is ready below.");
+      }else{
+        setNotice(result.portal_link_exists?"Application approved. Contractor portal access already exists.":"Application approved.");
+      }
+      await load();
+    }catch(e){setError(errorMessage(e,"Unable to approve the professional application."))}
+    finally{setBusyId(null)}
+  }
+
+  const pending=applications.filter(application=>application.status==="submitted"||application.status==="under_review");
+  const decided=applications.filter(application=>application.status==="approved"||application.status==="declined");
+
+  return <div style={approvalShellStyle}>
+    {error&&<p role="alert" style={approvalErrorStyle}>{error}</p>}
+    {notice&&<p role="status" style={approvalNoticeStyle}>{notice}</p>}
+
+    <section style={approvalSectionStyle} aria-labelledby="professional-review-heading">
+      <div style={approvalHeadingStyle}>
+        <div><small style={approvalEyebrowStyle}>PROFESSIONAL NETWORK</small><h2 id="professional-review-heading" style={{margin:"4px 0 0"}}>Applications awaiting your decision</h2></div>
+        <strong>{pending.length} pending</strong>
+      </div>
+      {pending.map(application=><article key={application.id} style={approvalItemStyle}>
+        <div style={approvalItemHeadingStyle}>
+          <div><small style={approvalEyebrowStyle}>{application.status.replaceAll("_"," ")}</small><h3 style={{margin:"4px 0 0"}}>{application.organization_name}</h3></div>
+          <time dateTime={application.created_at}>{new Date(application.created_at).toLocaleString()}</time>
+        </div>
+        <p style={{margin:0}}><strong>{application.contact_name}</strong> · <a href={`mailto:${application.email}`}>{application.email}</a> · <a href={`tel:${application.phone}`}>{application.phone}</a></p>
+        <dl style={approvalDetailsStyle}>
+          <div><dt>Trades and services</dt><dd>{application.trade_categories}</dd></div>
+          <div><dt>Service territory</dt><dd>{application.service_territory}</dd></div>
+          <div><dt>Experience and qualifications</dt><dd>{application.experience_summary}</dd></div>
+          <div><dt>Contact consent</dt><dd>{application.communication_consent?"Yes — application contact permitted":"No"}</dd></div>
+        </dl>
+        <div style={rowStyle}>
+          {application.status==="submitted"&&<button type="button" disabled={busyId===application.id} onClick={()=>void setReviewStatus(application,"under_review")}>Start review</button>}
+          <button type="button" disabled={busyId===application.id} onClick={()=>void approve(application)}>{busyId===application.id?"Working…":"Approve & create access"}</button>
+          <button type="button" disabled={busyId===application.id} onClick={()=>void setReviewStatus(application,"declined")}>Decline</button>
+        </div>
+        {invitationLinks[application.id]&&<div style={approvalAccessStyle}><strong>Secure contractor access link</strong><a href={invitationLinks[application.id]}>{invitationLinks[application.id]}</a><small>This one-time link is visible only in this approval session. Send it only to the approved applicant.</small></div>}
+      </article>)}
+      {pending.length===0&&!error&&<p style={approvalEmptyStyle}>No Professional applications are waiting for review.</p>}
+    </section>
+
+    <details style={approvalSectionStyle}>
+      <summary style={approvalSummaryStyle}>Completed Professional decisions ({decided.length})</summary>
+      {decided.map(application=><div key={application.id} style={approvalHistoryStyle}><strong>{application.organization_name}</strong><span>{application.status} · {application.email}</span></div>)}
+      {decided.length===0&&<p style={approvalEmptyStyle}>No completed Professional decisions.</p>}
+    </details>
+
+    <details style={approvalSectionStyle}>
+      <summary style={approvalSummaryStyle}>Other owner-attention items ({attention.length})</summary>
+      {attention.map(item=><div key={item.id} style={approvalHistoryStyle}><strong>{item.status}</strong><span>{item.reason}</span><small>{item.related_entity_type||"system"} {item.related_entity_id||""}</small></div>)}
+      {attention.length===0&&!error&&<p style={approvalEmptyStyle}>No other owner-attention items.</p>}
+    </details>
+  </div>
+}
 function SystemHealth(){const[data,setData]=useState<any>(null);const[error,setError]=useState("");useEffect(()=>{void getSystemHealth().then(setData).catch(e=>setError(errorMessage(e,"Unable to read system health.")))},[]);if(error)return <p role="alert">{error}</p>;if(!data)return <p role="status">Loading health…</p>;return <section style={gridStyle}><article style={cardStyle}><h2>Communications</h2>{data.providers.map((p:any,i:number)=><p key={i}>{p.provider_name} · {p.channel} · <strong>{p.status}</strong></p>)}{data.providers.length===0&&<p>No provider connections recorded.</p>}</article><article style={cardStyle}><h2>Subscription</h2><p>{data.subscription?.status||"not configured"}</p></article><article style={cardStyle}><h2>Notifications</h2><p>{data.notificationCount} records</p></article><article style={cardStyle}><h2>Recent AI runs</h2><p>{data.recentAgentRuns.length} recorded</p></article></section>}
 
 type ServiceAreaDraft = { city: string; state: string; zip: string; radiusMiles: string };
@@ -148,3 +253,16 @@ const gridStyle={display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(
 const cardStyle={display:"grid",gap:10,padding:20,border:"1px solid #cbd5e1",borderRadius:16,background:"#fff",lineHeight:1.55};
 const rowStyle={display:"flex",flexWrap:"wrap" as const,gap:10,alignItems:"center"};
 const territoryStyle={display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(120px,1fr))",gap:10,padding:"12px 0",borderTop:"1px solid #e2e8f0",borderBottom:"1px solid #e2e8f0"};
+const approvalShellStyle={display:"grid",gap:18};
+const approvalSectionStyle={display:"grid",gap:0,padding:"clamp(18px,4vw,28px)",borderRadius:18,background:"#fff",lineHeight:1.55,boxShadow:"0 14px 38px rgba(15,23,42,.08)"};
+const approvalHeadingStyle={display:"flex",flexWrap:"wrap" as const,alignItems:"center",justifyContent:"space-between",gap:14,paddingBottom:16};
+const approvalItemStyle={display:"grid",gap:15,padding:"22px 0",borderTop:"1px solid #dbe4ef"};
+const approvalItemHeadingStyle={display:"flex",flexWrap:"wrap" as const,alignItems:"flex-start",justifyContent:"space-between",gap:12};
+const approvalEyebrowStyle={fontWeight:900,letterSpacing:".08em",textTransform:"uppercase" as const,color:"#1d4ed8"};
+const approvalDetailsStyle={display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(min(100%,210px),1fr))",gap:12,margin:0};
+const approvalAccessStyle={display:"grid",gap:6,padding:14,borderLeft:"4px solid #2563eb",background:"#eff6ff",overflowWrap:"anywhere" as const};
+const approvalErrorStyle={margin:0,padding:14,borderLeft:"4px solid #b91c1c",background:"#fef2f2",color:"#7f1d1d"};
+const approvalNoticeStyle={margin:0,padding:14,borderLeft:"4px solid #15803d",background:"#f0fdf4",color:"#14532d"};
+const approvalSummaryStyle={fontWeight:900,cursor:"pointer"};
+const approvalHistoryStyle={display:"grid",gap:3,padding:"14px 0",borderTop:"1px solid #dbe4ef"};
+const approvalEmptyStyle={margin:0,padding:"18px 0",borderTop:"1px solid #dbe4ef"};
