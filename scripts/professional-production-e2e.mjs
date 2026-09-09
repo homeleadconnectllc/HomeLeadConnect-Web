@@ -1,11 +1,11 @@
 import { chromium } from "playwright";
 
-const baseUrl = process.env.HLC_VISUAL_BASE_URL || "http://127.0.0.1:4173";
+const baseUrl = process.env.HLC_VISUAL_BASE_URL || "https://app.homeleadconnect.org";
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY;
 const email = process.env.HLC_VISUAL_TEST_EMAIL;
 const password = process.env.HLC_VISUAL_TEST_PASSWORD;
-const organization = "HomeLead Connect Professional E2E Test 20260909";
+const organization = "HomeLead Connect Professional E2E Production 20260909";
 
 if (!supabaseUrl || !supabaseAnonKey || !email || !password) {
   throw new Error("Missing authenticated E2E environment.");
@@ -45,12 +45,12 @@ try {
     timeout: 30_000,
   });
 
-  const secureLink = await page.getByText("Secure contractor access link").locator("..").getByRole("link").getAttribute("href");
-  if (!secureLink || !secureLink.includes("/portal/accept?token=")) {
-    throw new Error("Professional approval did not expose the canonical portal acceptance link.");
+  const secureLink = await page.locator('a[href*="/portal/accept?token="]').first().getAttribute("href");
+  if (!secureLink || !secureLink.startsWith(`${baseUrl}/portal/accept?token=`)) {
+    throw new Error(`Professional approval did not expose a production portal acceptance link: ${secureLink ?? "missing"}`);
   }
 
-  console.log("Professional production-backend approval E2E: PASS");
+  console.log(`Professional production-origin approval E2E: PASS ${secureLink}`);
   await context.close();
 } finally {
   await browser.close();
