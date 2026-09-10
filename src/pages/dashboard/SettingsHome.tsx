@@ -6,13 +6,12 @@ const sections = [
     note: "Business identity, team membership, roles and workspace-backed access controls.",
     items: [
       ["Business & workspace profile", "/settings/workspace"],
-      ["Team & workspace access", "/team"],
-      ["Roles & permissions", "/team"],
+      ["Team, roles & permissions", "/team"],
     ],
   },
   {
     label: "Connections",
-    note: "Integrations and communication infrastructure used by HomeLead Connect workflows.",
+    note: "Integrations and communication infrastructure used by your workflows.",
     items: [
       ["Integrations", "/settings/workspace#connections"],
       ["Phone & communications", "/call-center"],
@@ -24,7 +23,6 @@ const sections = [
     note: "Workspace plan, provider-backed subscription state and Stripe billing management.",
     items: [
       ["Subscription & billing", "/settings/billing"],
-      ["Manage billing with Stripe", "/settings/billing"],
     ],
   },
   {
@@ -45,7 +43,7 @@ export default function SettingsHome() {
         <div>
           <span className="hlc-parent-eyebrow">SETTINGS</span>
           <h1>Account & workspace settings</h1>
-          <p>Manage the HomeLead Connect account layer by purpose: workspace identity, team access, connected services, subscription, security and alerts.</p>
+          <p>Manage workspace identity, team access, connected services, subscription, security and alerts.</p>
         </div>
       </header>
 
