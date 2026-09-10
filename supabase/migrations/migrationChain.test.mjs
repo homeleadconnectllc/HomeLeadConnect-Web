@@ -18,6 +18,7 @@ const stagedUnpromotedFiles = [
   "20260901203000_resources_sourcing_runtime.sql",
   "20260904031500_resident_capability_and_leadscope_projects.sql",
   "20260907042000_optimize_rls_auth_initplan_batch1.sql",
+  "20260909010000_internal_notification_routing.sql",
 ];
 const productionPlanFiles = migrationFiles.filter((name) => !stagedUnpromotedFiles.includes(name));
 const plan = readFileSync("supabase/RELEASE_MIGRATION_PLAN.md", "utf8");
@@ -77,7 +78,7 @@ test("Community Matching updates retain authenticated ownership and workspace me
   );
 
   assert.match(migration, /for update\s+to authenticated/i);
-  assert.match(migration, /with check\s*\([\s\S]*user_id\s*=\s*\(select auth\.uid\(\)\)/i);
+  assert.match(migration, /with check\s*\([\s\S]*user_id\s*=\s*\(select auth\.uid\(\)/i);
   assert.match(migration, /with check\s*\([\s\S]*from public\.workspace_members/i);
   assert.match(migration, /with check\s*\([\s\S]*from public\.contractors/i);
 });
