@@ -1,0 +1,96 @@
+/* HomeLead Connect V1 Visual Readiness — clarity and deduplication.
+   Existing destinations remain available through the canonical navigation and the
+   single global AI Team entry point; this layer removes repeated visual choices. */
+
+@layer hlcRedesign {
+  /* Dashboard already has one global AI Team launcher. Do not repeat three agent
+     entry cards inside the same screen. */
+  #root .hlc-signed-in-shell .hlc-home-ai-rail {
+    display: none !important;
+  }
+
+  /* Parent pages use the global AI Team launcher instead of extra Ask-agent CTAs. */
+  #root .hlc-signed-in-shell .hlc-parent-agent-link,
+  #root .hlc-signed-in-shell .hlc-community-v2-agent {
+    display: none !important;
+  }
+
+  /* Community branch rows already provide the same destinations with context.
+     The six-link command bar was a duplicate navigation layer. */
+  #root .hlc-signed-in-shell .hlc-community-v2-commandbar {
+    display: none !important;
+  }
+
+  @media (min-width: 1025px) {
+    /* Keep the single desktop brand mark in the upper-left navigation corner. The
+       previous centered mark could cover page headings such as Messages and Calendar. */
+    #root .hlc-signed-in-shell .hlc-desktop-page-brand {
+      position: fixed !important;
+      top: 14px !important;
+      left: 18px !important;
+      right: auto !important;
+      width: 54px !important;
+      height: 54px !important;
+      transform: none !important;
+      margin: 0 !important;
+      z-index: 1201 !important;
+    }
+
+    #root .hlc-signed-in-shell .hlc-desktop-page-brand img {
+      width: 54px !important;
+      height: 54px !important;
+      object-fit: contain !important;
+    }
+
+    #root .hlc-signed-in-shell .hlc-navbar {
+      padding-top: 84px !important;
+    }
+
+    /* The hard-reset baseline assigns explicit ink to every descendant. Navigation
+       labels therefore need an explicit inheritance reset, not only color on the
+       parent link/summary. */
+    #root .hlc-signed-in-shell .hlc-navbar details {
+      color: #c6d0dc !important;
+    }
+
+    #root .hlc-signed-in-shell .hlc-navbar :is(a, button, summary) > :is(span, strong, small, p),
+    #root .hlc-signed-in-shell .hlc-navbar .hlc-navbar-groups :is(span, strong, small, p) {
+      color: inherit !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+  }
+
+  @media (max-width: 860px) {
+    /* Resource sub-navigation remains complete, but becomes a readable compact grid
+       instead of a clipped horizontal strip. */
+    #root .hlc-signed-in-shell .hlc-sourcing-nav {
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 6px !important;
+      overflow: visible !important;
+      padding: 8px 0 12px !important;
+    }
+
+    #root .hlc-signed-in-shell .hlc-sourcing-nav a {
+      min-width: 0 !important;
+      min-height: 42px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 8px 10px !important;
+      text-align: center !important;
+      white-space: normal !important;
+      line-height: 1.2 !important;
+    }
+
+    #root .hlc-signed-in-shell .hlc-sourcing-hero {
+      gap: 14px !important;
+    }
+
+    #root .hlc-signed-in-shell .hlc-sourcing-hero aside {
+      padding: 12px 0 !important;
+      border-left: 0 !important;
+      border-top: 1px solid var(--hlc-redesign-border) !important;
+    }
+  }
+}

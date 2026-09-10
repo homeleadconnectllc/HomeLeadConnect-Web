@@ -20,7 +20,7 @@ export default function ResetPassword() {
     const { error: authError } = await supabase.auth.updateUser({ password });
     setBusy(false);
     if (authError) { setError(errorMessage(authError, "Unable to update the password.")); return; }
-    setMessage("Password updated. Your same HLC account is ready.");
+    setMessage("Password updated. Your account is ready.");
   }
 
   const status = <>
@@ -28,13 +28,13 @@ export default function ResetPassword() {
     {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
   </>;
   const footer = message
-    ? <p><Link to="/dashboard">Continue to your HLC dashboard</Link></p>
+    ? <p><Link to="/dashboard">Continue to dashboard</Link></p>
     : <p><Link to="/login">Return to sign in</Link></p>;
 
-  return <AuthShell title="Choose a new password" description="Update the password for your existing HomeLead Connect account." status={status} footer={footer}>
+  return <AuthShell title="Choose a new password" description="Update the password for your existing account." status={status} footer={footer}>
     <form className="hlc-auth-form" onSubmit={update}>
       <label>New password<input required minLength={8} autoComplete="new-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} /></label>
-      <button disabled={busy || !isSupabaseConfigured()} type="submit">{busy ? "Updating…" : "Update HLC password"}</button>
+      <button disabled={busy || !isSupabaseConfigured()} type="submit">{busy ? "Updating…" : "Update password"}</button>
     </form>
   </AuthShell>;
 }

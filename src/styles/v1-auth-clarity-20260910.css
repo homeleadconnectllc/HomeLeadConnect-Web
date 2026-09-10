@@ -1,0 +1,62 @@
+/* HomeLead Connect V1 Visual Readiness — auth clarity slice.
+   Presentation only. The public shell already owns the single brand mark, so auth
+   content does not repeat the logo or create a second visual header. */
+
+@layer hlcRedesign {
+  #root .hlc-public-shell .hlc-auth-shell.hlc-auth-shell--flat {
+    width: min(620px, calc(100% - 32px)) !important;
+    display: block !important;
+  }
+
+  #root .hlc-public-shell .hlc-auth-shell--flat .hlc-auth-brand {
+    display: none !important;
+  }
+
+  #root .hlc-public-shell .hlc-auth-shell--flat .hlc-auth-card {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #root .hlc-public-shell .hlc-auth-shell--flat .hlc-auth-method-tabs {
+    gap: 22px !important;
+    border-bottom: 1px solid var(--hlc-redesign-border) !important;
+  }
+
+  #root .hlc-public-shell .hlc-auth-shell--flat .hlc-auth-method-tabs button {
+    min-height: 44px !important;
+    padding: 8px 0 !important;
+    border: 0 !important;
+    border-bottom: 2px solid transparent !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  #root .hlc-public-shell .hlc-auth-shell--flat .hlc-auth-method-tabs button[aria-pressed="true"] {
+    color: #fff !important;
+    border-bottom-color: var(--hlc-redesign-accent) !important;
+  }
+
+  #root .hlc-public-shell .hlc-auth-shell--flat .hlc-auth-card-footer {
+    margin-top: 20px !important;
+    padding-top: 18px !important;
+    border-top: 1px solid var(--hlc-redesign-border) !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  @media (max-width: 860px) {
+    #root .hlc-public-shell .hlc-auth-shell.hlc-auth-shell--flat {
+      width: 100% !important;
+      min-height: 0 !important;
+      margin: 0 !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+    }
+
+    #root .hlc-public-shell .hlc-auth-shell--flat .hlc-auth-card {
+      min-height: calc(100svh - 62px) !important;
+      padding: 28px 24px calc(40px + env(safe-area-inset-bottom)) !important;
+    }
+  }
+}
