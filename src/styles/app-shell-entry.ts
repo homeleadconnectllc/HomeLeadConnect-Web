@@ -39,6 +39,7 @@ import "./app-global-centered-wording-20260903.css";
 import "./physical-device-component-authority-20260904.css";
 import "./academy-help-physical-closure-20260906.css";
 import "./v1-visual-readiness-authority-20260909.css";
+import "./v1-auth-clarity-20260910.css";
 import "./responsive-page-contract.css";
 import "./hlc-brand-lock.css";
 import "./legacy-device-compat.css";
