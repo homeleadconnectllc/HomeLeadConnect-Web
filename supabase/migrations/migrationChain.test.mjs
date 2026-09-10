@@ -78,7 +78,7 @@ test("Community Matching updates retain authenticated ownership and workspace me
   );
 
   assert.match(migration, /for update\s+to authenticated/i);
-  assert.match(migration, /with check\s*\([\s\S]*user_id\s*=\s*\(select auth\.uid\(\)/i);
+  assert.match(migration, /with check\s*\([\s\S]*user_id\s*=\s*\(select auth\.uid\(\)\)/i);
   assert.match(migration, /with check\s*\([\s\S]*from public\.workspace_members/i);
   assert.match(migration, /with check\s*\([\s\S]*from public\.contractors/i);
 });
