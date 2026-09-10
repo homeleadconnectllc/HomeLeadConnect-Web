@@ -7,6 +7,8 @@ type AuthShellProps = {
   footer?: ReactNode;
   status?: ReactNode;
   eyebrow?: string;
+  brandImageSrc?: string;
+  brandImageAlt?: string;
 };
 
 export default function AuthShell({
@@ -16,12 +18,20 @@ export default function AuthShell({
   footer,
   status,
   eyebrow = "Account access",
+  brandImageSrc = "/hlc-logo-transparent.png",
+  brandImageAlt = "HomeLead Connect",
 }: AuthShellProps) {
+  const usesBrandArtwork = brandImageSrc !== "/hlc-logo-transparent.png";
+
   return (
     <main className="hlc-auth-shell hlc-auth-shell--flat">
       <section className="hlc-auth-brand" aria-label="HomeLead Connect">
-        <a className="hlc-auth-logo-link" href="https://homeleadconnect.org" aria-label="Return to HomeLead Connect home">
-          <img src="/hlc-logo-transparent.png" alt="HomeLead Connect" />
+        <a
+          className={`hlc-auth-logo-link${usesBrandArtwork ? " hlc-auth-logo-link--artwork" : ""}`}
+          href="https://homeleadconnect.org"
+          aria-label="Return to HomeLead Connect home"
+        >
+          <img src={brandImageSrc} alt={brandImageAlt} />
         </a>
         <div className="hlc-auth-brand-story">
           <p className="hlc-auth-brand-kicker">Home services, connected better</p>
