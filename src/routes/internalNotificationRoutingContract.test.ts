@@ -33,7 +33,7 @@ test("delivery ledger is server-only and idempotent", () => {
   assert.match(migration, /unique \(event_type, event_key\)/i);
   assert.match(migration, /enable row level security/i);
   assert.match(migration, /revoke all on table public\.internal_notification_deliveries from anon, authenticated/i);
-  assert.match(migration, /grant all on table public\.internal_notification_deliveries to service_role/i);
+  assert.match(migration, /grant all on table public\.internal_notification_deliveries to service[_]role/i);
   assert.match(dispatcher, /eq\("event_type", eventType\)\.eq\("event_key", eventKey\)/);
   assert.match(dispatcher, /existing\?\.status === "sent" \|\| existing\?\.status === "sending"/);
   assert.match(dispatcher, /"Idempotency-Key": `internal:\$\{eventType\}:\$\{eventKey\}`/);
