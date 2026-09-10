@@ -1,4 +1,5 @@
 import { supabase } from "./client";
+import { dispatchInternalNotification } from "./internalNotifications";
 
 export type PartnerSource = { id:string; display_name:string; organization_name:string|null; contact_email:string|null; status:string };
 export type PartnerReferral = { id:string; target_kind:"resident"|"professional"; referred_name:string|null; referred_email:string|null; referred_phone:string|null; note:string|null; status:string; created_at:string; updated_at:string };
@@ -19,5 +20,7 @@ export async function createPartnerReferral(input:{targetKind:"resident"|"profes
     p_note:input.note,
   });
   if(error)throw error;
-  return data as string;
+  const referralId=data as string;
+  if(referralId)void dispatchInternalNotification({eventType:"partner_referral.created",eventKey:referralId});
+  return referralId;
 }

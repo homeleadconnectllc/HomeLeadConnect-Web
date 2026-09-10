@@ -1,6 +1,7 @@
 import { getCurrentWorkspaceId, supabase } from "./client";
 import { getCurrentJobAssignment } from "./jobAssignments";
 import { getJob } from "./jobs";
+import { dispatchInternalNotification } from "./internalNotifications";
 import type { AppointmentStatus, JobAppointment } from "../lib/types/database";
 import { requireAppointmentTimeRange } from "../lib/appointments/timeRange";
 
@@ -65,7 +66,9 @@ export async function scheduleAppointment(input: {
     .single();
 
   if (error) throw error;
-  return data as unknown as JobAppointment;
+  const appointment = data as unknown as JobAppointment;
+  void dispatchInternalNotification({ eventType: "appointment.scheduled", eventKey: String(appointment.id) });
+  return appointment;
 }
 
 export async function rescheduleAppointment(
@@ -83,7 +86,9 @@ export async function rescheduleAppointment(
   });
 
   if (error) throw error;
-  return data as unknown as JobAppointment;
+  const appointment = data as unknown as JobAppointment;
+  void dispatchInternalNotification({ eventType: "appointment.rescheduled", eventKey: String(appointmentId) });
+  return appointment;
 }
 
 async function transitionAppointment(
@@ -101,7 +106,14 @@ async function transitionAppointment(
     .single();
 
   if (error) throw error;
-  return data as unknown as JobAppointment;
+  const appointment = data as unknown as JobAppointment;
+  if (status === "cancelled" || status === "no_show") {
+    void dispatchInternalNotification({
+      eventType: status === "cancelled" ? "appointment.cancelled" : "appointment.no_show",
+      eventKey: String(appointmentId),
+    });
+  }
+  return appointment;
 }
 
 export const completeAppointment = (id: number) =>

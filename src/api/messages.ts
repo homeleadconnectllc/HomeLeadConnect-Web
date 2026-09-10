@@ -1,4 +1,5 @@
 import { getCurrentWorkspaceId, supabase } from "./client";
+import { dispatchInternalNotification } from "./internalNotifications";
 
 export type ConversationMessage = {
   id: string;
@@ -176,5 +177,7 @@ export async function postInternalMessage(conversationId: string, body: string, 
     p_client_request_id: requestId,
   });
   if (error) throw error;
-  return data as string;
+  const messageId = data as string;
+  if (messageId) void dispatchInternalNotification({ eventType: "message.incoming", eventKey: messageId });
+  return messageId;
 }

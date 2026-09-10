@@ -1,4 +1,5 @@
 import { requireSupabaseConfig, supabase } from "../lib/supabase";
+import { dispatchInternalNotification } from "./internalNotifications";
 
 export type ProfessionalApplicationInput = {
   requestId: string;
@@ -59,7 +60,15 @@ export async function submitProfessionalApplication(input: ProfessionalApplicati
     p_honeypot: input.honeypot,
   });
   if (error) throw error;
-  return (data as Array<{ application_id: string; accepted: boolean }> | null)?.[0] ?? null;
+  const result = (data as Array<{ application_id: string; accepted: boolean }> | null)?.[0] ?? null;
+  if (result?.accepted && result.application_id) {
+    void dispatchInternalNotification({
+      eventType: "professional_application.created",
+      eventKey: result.application_id,
+      verificationToken: input.requestId,
+    });
+  }
+  return result;
 }
 
 export async function listProfessionalApplications() {

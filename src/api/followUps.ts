@@ -1,4 +1,5 @@
 import { supabase } from "./client";
+import { dispatchInternalNotification } from "./internalNotifications";
 import type { FollowUp } from "../lib/types/database";
 
 const columns = "id,created_at,lead_id,assigned_user_id,status,scheduled_for,completed_at,notes,follow_up_type,lead:leads!follow_ups_lead_id_fkey(id,id_uuid,full_name,phone)";
@@ -30,7 +31,9 @@ export async function createFollowUp(input: { leadId: string; scheduledFor: stri
     .select(columns)
     .single();
   if (error) throw error;
-  return data as unknown as FollowUp;
+  const followUp = data as unknown as FollowUp;
+  void dispatchInternalNotification({ eventType: "follow_up.created", eventKey: String(followUp.id) });
+  return followUp;
 }
 
 export async function completeFollowUp(id: number): Promise<FollowUp> {

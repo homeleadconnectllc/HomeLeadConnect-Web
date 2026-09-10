@@ -1,4 +1,5 @@
 import { getCurrentWorkspaceId, supabase } from "./client";
+import { dispatchInternalNotification } from "./internalNotifications";
 import type { CrmJob, CrmJobStatus } from "../lib/types/database";
 
 const jobColumns =
@@ -42,7 +43,9 @@ export async function updateJobStatus(
   });
 
   if (error) throw error;
-  return data as CrmJob;
+  const job = data as CrmJob;
+  void dispatchInternalNotification({ eventType: "job.status_changed", eventKey: id });
+  return job;
 }
 
 export async function getJob(id: string): Promise<JobDetailRecord> {
