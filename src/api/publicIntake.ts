@@ -1,4 +1,5 @@
 import { requireSupabaseConfig, supabase } from "../lib/supabase";
+import { dispatchInternalNotification } from "./internalNotifications";
 
 export async function submitServiceRequest(input: {
   requestId: string;
@@ -19,5 +20,13 @@ export async function submitServiceRequest(input: {
     p_honeypot: input.honeypot,
   });
   if (error) throw error;
-  return (data as Array<{ lead_id: number; accepted: boolean }> | null)?.[0] ?? null;
+  const result = (data as Array<{ lead_id: number; accepted: boolean }> | null)?.[0] ?? null;
+  if (result?.accepted && result.lead_id) {
+    void dispatchInternalNotification({
+      eventType: "resident_request.created",
+      eventKey: String(result.lead_id),
+      verificationToken: input.requestId,
+    });
+  }
+  return result;
 }
