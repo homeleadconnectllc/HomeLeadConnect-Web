@@ -21,6 +21,21 @@
     display: none !important;
   }
 
+  @media (min-width: 1025px) {
+    /* The hard-reset baseline assigns explicit ink to every descendant. Navigation
+       labels therefore need an explicit inheritance reset, not only color on the
+       parent link/summary. */
+    #root .hlc-signed-in-shell .hlc-navbar details {
+      color: #c6d0dc !important;
+    }
+
+    #root .hlc-signed-in-shell .hlc-navbar :is(a, button, summary) > :is(span, strong, small, p),
+    #root .hlc-signed-in-shell .hlc-navbar .hlc-navbar-groups :is(span, strong, small, p) {
+      color: inherit !important;
+      -webkit-text-fill-color: currentColor !important;
+    }
+  }
+
   @media (max-width: 860px) {
     /* Resource sub-navigation remains complete, but becomes a readable compact grid
        instead of a clipped horizontal strip. */
