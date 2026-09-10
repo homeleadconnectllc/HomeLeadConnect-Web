@@ -32,8 +32,28 @@ export default function AuthShell({
           className={`hlc-auth-logo-link${usesBrandArtwork ? " hlc-auth-logo-link--artwork" : ""}`}
           href="https://homeleadconnect.org"
           aria-label="Return to HomeLead Connect home"
+          style={usesBrandArtwork ? { alignSelf: "center" } : undefined}
         >
-          <img src={resolvedBrandImageSrc} alt={brandImageAlt} />
+          {usesBrandArtwork ? (
+            <span
+              role="img"
+              aria-label={brandImageAlt}
+              style={{
+                display: "block",
+                width: "min(270px, 70vw)",
+                aspectRatio: "1 / 1",
+                borderRadius: "20px",
+                backgroundColor: "#fff",
+                backgroundImage: `url(${resolvedBrandImageSrc})`,
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "contain",
+                boxShadow: "0 24px 58px rgba(0,0,0,.28)",
+              }}
+            />
+          ) : (
+            <img src={resolvedBrandImageSrc} alt={brandImageAlt} />
+          )}
         </a>
         <div className="hlc-auth-brand-story">
           <p className="hlc-auth-brand-kicker">Home services, connected better</p>
