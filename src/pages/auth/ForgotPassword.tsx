@@ -28,7 +28,7 @@ export default function ForgotPassword() {
     setCaptchaToken(""); setCaptchaReset((value) => value + 1);
     setBusy(false);
     if (authError) { setError(errorMessage(authError, "Unable to request a reset email.")); return; }
-    setMessage("If an HLC account exists for that email, a password reset link has been sent.");
+    setMessage("If an account exists for that email, a password reset link has been sent.");
   }
 
   const status = <>
@@ -37,14 +37,14 @@ export default function ForgotPassword() {
   </>;
   const footer = <>
     <p><Link to="/login">Return to sign in</Link></p>
-    <p><a href="https://homeleadconnect.org">Return to HomeLead Connect</a></p>
+    <p><a href="https://homeleadconnect.org">Public site</a></p>
   </>;
 
-  return <AuthShell title="Recover your account" description="Enter the email for your HLC account. We will send one secure recovery link when that account exists." status={status} footer={footer}>
+  return <AuthShell title="Recover your account" description="Enter your email and we’ll send a secure recovery link when the account exists." status={status} footer={footer}>
     <form className="hlc-auth-form" onSubmit={send}>
       <label>Email<input required autoComplete="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} /></label>
       <AuthTurnstile onToken={setCaptchaToken} resetSignal={captchaReset} />
-      <button disabled={busy || !isSupabaseConfigured() || (turnstileEnabled && !captchaToken)} type="submit">{busy ? "Sending…" : "Send secure reset link"}</button>
+      <button disabled={busy || !isSupabaseConfigured() || (turnstileEnabled && !captchaToken)} type="submit">{busy ? "Sending…" : "Send reset link"}</button>
     </form>
   </AuthShell>;
 }
