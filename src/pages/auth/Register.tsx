@@ -45,9 +45,9 @@ export default function Register() {
       },
     });
     setCaptchaToken(""); setCaptchaReset((value) => value + 1); setBusy(false);
-    if (authError) { setError(errorMessage(authError, invitedIdentity ? "Unable to create your HomeLead Connect identity." : "Unable to create the company account.")); return; }
+    if (authError) { setError(errorMessage(authError, invitedIdentity ? "Unable to create your identity." : "Unable to create the company account.")); return; }
     setMessage(invitedIdentity
-      ? "HLC identity created. Check your email for the confirmation link, then return to accept the company invitation."
+      ? "Identity created. Check your email for the confirmation link, then return to accept the invitation."
       : "Company account created. Check your email for the confirmation link before signing in.");
   }
 
@@ -55,21 +55,21 @@ export default function Register() {
 
   if (message) {
     return <AuthShell
-      title={invitedIdentity ? "Your HomeLead Connect identity is created" : "Your company workspace is created"}
-      description={invitedIdentity ? "One more step: confirm your email, then return to the invitation." : "You’re done here for now. HomeLead Connect created your company account and workspace."}
+      title={invitedIdentity ? "Your identity is created" : "Your company workspace is created"}
+      description={invitedIdentity ? "Confirm your email, then return to the invitation." : "You’re done here for now. Your account and workspace are ready for confirmation."}
       status={null}
-      footer={<p><a href="https://homeleadconnect.org">Return to HomeLead Connect</a></p>}
+      footer={<p><a href="https://homeleadconnect.org">Public site</a></p>}
     >
-      <section aria-live="polite" style={{ display: "grid", gap: 16 }}>
-        <div style={{ padding: 18, borderRadius: 8, background: "#ecfdf5", border: "1px solid #86efac", color: "#14532d" }}>
-          <strong style={{ display: "block", marginBottom: 6, fontSize: 18 }}>Account created successfully.</strong>
+      <section className="hlc-auth-success" aria-live="polite">
+        <div className="hlc-auth-success-primary">
+          <strong>Account created.</strong>
           <span>{message}</span>
         </div>
-        <div style={{ padding: 16, borderRadius: 8, background: "#eff6ff", border: "1px solid #93c5fd", color: "#1e3a8a" }}>
-          <strong style={{ display: "block", marginBottom: 6 }}>What to do next</strong>
-          <span>Open the confirmation email sent to <strong>{email.trim()}</strong> and confirm your address. After that, use Sign in to continue. You do not need to create the workspace again.</span>
+        <div className="hlc-auth-success-next">
+          <strong>Next step</strong>
+          <span>Open the confirmation email sent to <strong>{email.trim()}</strong>. After confirming, sign in to continue. You do not need to create the workspace again.</span>
         </div>
-        <Link to={loginHref} style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", minHeight: 48, padding: "12px 18px", borderRadius: 8, background: "#2563eb", color: "#fff", fontWeight: 800, textDecoration: "none" }}>Sign in after confirming email</Link>
+        <Link className="hlc-auth-success-action" to={loginHref}>Sign in after confirming email</Link>
       </section>
     </AuthShell>;
   }
@@ -79,12 +79,12 @@ export default function Register() {
   </>;
   const footer = <>
     <p>Already registered? <Link to={loginHref}>Sign in</Link>.</p>
-    <p><a href="https://homeleadconnect.org">Return to HomeLead Connect</a></p>
+    <p><a href="https://homeleadconnect.org">Public site</a></p>
   </>;
 
   return <AuthShell
-    title={invitedIdentity ? "Create your HomeLead Connect identity" : "Create your company workspace"}
-    description={invitedIdentity ? "Create your identity for this invitation. HomeLead Connect will not create a separate company workspace for you." : "Start an isolated HLC workspace for your company. Resident and provider portal access is handled separately through invitations."}
+    title={invitedIdentity ? "Create your identity" : "Create your company workspace"}
+    description={invitedIdentity ? "Create the account used for this invitation. No separate company workspace will be created." : "Create the workspace your company will use for day-to-day operations."}
     status={status}
     footer={footer}
   >
@@ -95,7 +95,7 @@ export default function Register() {
       <label>Password<input required minLength={8} autoComplete="new-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} /></label>
       <AuthTurnstile onToken={setCaptchaToken} resetSignal={captchaReset} />
       <button disabled={busy || !isSupabaseConfigured() || (!invitedIdentity && !companyName.trim()) || !fullName.trim() || (turnstileEnabled && !captchaToken)} type="submit">
-        {busy ? "Creating account…" : invitedIdentity ? "Create HomeLead Connect identity" : "Create company workspace"}
+        {busy ? "Creating account…" : invitedIdentity ? "Create identity" : "Create workspace"}
       </button>
     </form>
   </AuthShell>;
