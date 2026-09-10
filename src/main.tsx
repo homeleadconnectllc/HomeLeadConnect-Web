@@ -25,7 +25,7 @@ function publicHomeMarkup() {
     <main class="hlc-home hlc-frontdoor-site">
       <nav class="hlc-frontdoor-nav" aria-label="Primary navigation">
         <div class="hlc-frontdoor-wrap hlc-frontdoor-navin">
-          <a class="hlc-frontdoor-brand" href="https://homeleadconnect.org/" aria-label="HomeLead Connect home"><img src="/hlc-logo-ui.png" alt="HomeLead Connect" width="58" height="58" /></a>
+          <a class="hlc-frontdoor-brand" href="https://homeleadconnect.org/" aria-label="HomeLead Connect home"><img src="/hlc-logo-ui.png" alt="" width="58" height="58" /><span><strong>HomeLead Connect</strong><small>Home services network</small></span></a>
           <div class="hlc-frontdoor-navlinks">
             <a href="https://residents.homeleadconnect.org/">Residents</a><a href="https://professionals.homeleadconnect.org/">Professionals</a><a href="https://partners.homeleadconnect.org/">Partners</a><a href="https://platform.homeleadconnect.org/">Platform</a><a href="https://about.homeleadconnect.org/">About</a><a href="https://contact.homeleadconnect.org/">Contact</a><a href="https://app.homeleadconnect.org/login">Login</a><a class="hlc-frontdoor-primary" href="https://app.homeleadconnect.org/request-service">Request Service</a>
           </div>
@@ -34,10 +34,10 @@ function publicHomeMarkup() {
 
       <section class="hlc-frontdoor-hero">
         <img src="/hlc-frontdoor-resident-hero-final.jpg" alt="Resident working on a home project" width="1400" height="900" fetchpriority="high" />
-        <div class="hlc-frontdoor-hero-content"><p class="hlc-frontdoor-kicker">Home services, connected better</p><h1>Home help should feel easier.</h1><p>Tell us what your home needs. HomeLead Connect helps renters, homeowners, and everyday households move toward the right professional and a clearer next step.</p><div class="hlc-frontdoor-actions"><a class="hlc-frontdoor-btn hlc-frontdoor-btn-primary" href="https://app.homeleadconnect.org/request-service">Request Home Service</a><a class="hlc-frontdoor-btn hlc-frontdoor-btn-secondary" href="https://professionals.homeleadconnect.org/">For Professionals</a></div></div>
+        <div class="hlc-frontdoor-hero-content"><p class="hlc-frontdoor-kicker">Home services, connected better</p><h1>Home help should feel easier.</h1><p>Tell us what your home needs. We help renters, homeowners, and everyday households move toward the right professional and a clearer next step.</p><div class="hlc-frontdoor-actions"><a class="hlc-frontdoor-btn hlc-frontdoor-btn-primary" href="https://app.homeleadconnect.org/request-service">Request Home Service <span aria-hidden="true">→</span></a><a class="hlc-frontdoor-btn hlc-frontdoor-btn-secondary" href="https://professionals.homeleadconnect.org/">For Professionals</a></div><div class="hlc-frontdoor-assurance"><span>Renters included</span><span>Local Harrisburg roots</span><span>Clear next steps</span></div></div>
       </section>
 
-      <div class="hlc-frontdoor-quickbar"><div class="hlc-frontdoor-wrap hlc-frontdoor-quick"><span>Renters included</span><span>Homeowners welcome</span><span>Clear next steps</span><span>Harrisburg roots</span></div></div>
+      <div class="hlc-frontdoor-quickbar"><div class="hlc-frontdoor-wrap hlc-frontdoor-quick"><span><strong>01</strong> Share what you need</span><span><strong>02</strong> Get a clearer path</span><span><strong>03</strong> Stay connected</span></div></div>
 
       <section class="hlc-frontdoor-section"><div class="hlc-frontdoor-wrap hlc-frontdoor-center"><span class="hlc-frontdoor-eyebrow">Home improvement made simpler</span><h2>Start with the need, not the paperwork.</h2><p class="hlc-frontdoor-copy">Repairs, improvements, maintenance, and everyday home-service needs should not require you to know the industry before you ask for help.</p><div class="hlc-frontdoor-service-line"><span>Repairs</span><span>Painting</span><span>Roofing</span><span>HVAC</span><span>Cleaning</span><span>Moving</span><span>General Home Help</span></div></div></section>
 

@@ -147,9 +147,8 @@ export default function Login() {
   </>;
   const registerHref = requestedDestination ? `/register?next=${encodeURIComponent(requestedDestination)}` : "/register";
   const footer = <>
-    <p><Link to="/forgot-password">Forgot your password?</Link></p>
-    <p>New here? <Link to={registerHref} aria-label="Create your account">Create account</Link>.</p>
-    <p><a href="https://homeleadconnect.org">Public site</a></p>
+    <p className="hlc-auth-help-row"><Link to="/forgot-password">Forgot password?</Link><span aria-hidden="true">•</span><Link to={registerHref} aria-label="Create your account">Create account</Link></p>
+    <p className="hlc-auth-return"><a href="https://homeleadconnect.org">← Return to public site</a></p>
   </>;
 
   return <AuthShell title="Welcome back" description={invitationFlow ? "Sign in with the email address that received the invitation." : "Choose the sign-in method that works best for you."} status={status} footer={footer}>
