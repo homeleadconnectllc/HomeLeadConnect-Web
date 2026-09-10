@@ -18,10 +18,12 @@ export default function AuthShell({
   footer,
   status,
   eyebrow = "Account access",
-  brandImageSrc = "/hlc-logo-transparent.png",
+  brandImageSrc,
   brandImageAlt = "HomeLead Connect",
 }: AuthShellProps) {
-  const usesBrandArtwork = brandImageSrc !== "/hlc-logo-transparent.png";
+  const resolvedBrandImageSrc =
+    brandImageSrc ?? (window.location.pathname === "/login" ? "/hlc-login-brand.webp" : "/hlc-logo-transparent.png");
+  const usesBrandArtwork = resolvedBrandImageSrc !== "/hlc-logo-transparent.png";
 
   return (
     <main className="hlc-auth-shell hlc-auth-shell--flat">
@@ -31,7 +33,7 @@ export default function AuthShell({
           href="https://homeleadconnect.org"
           aria-label="Return to HomeLead Connect home"
         >
-          <img src={brandImageSrc} alt={brandImageAlt} />
+          <img src={resolvedBrandImageSrc} alt={brandImageAlt} />
         </a>
         <div className="hlc-auth-brand-story">
           <p className="hlc-auth-brand-kicker">Home services, connected better</p>
