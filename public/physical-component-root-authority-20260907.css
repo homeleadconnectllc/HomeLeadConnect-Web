@@ -191,3 +191,123 @@ body>.hlc-mobile-command-sheet svg{stroke:#dbeafe!important;color:#dbeafe!import
   #root :is(.hlc-agent-workspace,.hlc-ai-team-launcher) .hlc-ai-transcript{padding:10px!important;min-height:0!important}
   #root :is(.hlc-agent-workspace,.hlc-ai-team-launcher) .hlc-ai-composer{padding:10px!important}
 }
+/* Focused terminal authority for the public first impression and account entry.
+ * RuntimePhysicalAuthority keeps this sheet last so older protected release CSS
+ * cannot flatten the approved front-door/login presentation. Visual only. */
+
+#root .hlc-frontdoor-site .hlc-frontdoor-hero h1 {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+
+html:has(#root .hlc-auth-shell),
+body:has(#root .hlc-auth-shell),
+#root:has(.hlc-auth-shell) {
+  background: #050b13 !important;
+}
+
+html body #root .hlc-public-shell:has(.hlc-auth-shell) {
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+  background: radial-gradient(circle at 18% 20%, rgba(47,128,255,.16), transparent 31rem), radial-gradient(circle at 86% 82%, rgba(31,99,194,.11), transparent 28rem), #050b13 !important;
+}
+
+html body #root .hlc-public-shell:has(.hlc-auth-shell) > .hlc-route-content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  min-height: calc(100svh - 188px);
+  place-items: center;
+  padding: clamp(28px,5vw,64px) 20px !important;
+  background: transparent !important;
+}
+
+html body #root .hlc-auth-shell.hlc-auth-shell--flat {
+  display: grid !important;
+  grid-template-columns: minmax(0,.93fr) minmax(420px,1.07fr) !important;
+  width: min(1080px,100%) !important;
+  min-height: 640px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(191,211,239,.14) !important;
+  border-radius: 28px !important;
+  background: rgba(9,20,35,.92) !important;
+  box-shadow: 0 44px 110px rgba(0,0,0,.46), 0 0 0 1px rgba(114,167,255,.035) inset !important;
+  backdrop-filter: blur(20px) !important;
+}
+
+html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-brand {
+  position: relative !important;
+  display: flex !important;
+  min-height: 100% !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: space-between !important;
+  padding: clamp(38px,5vw,62px) !important;
+  border: 0 !important;
+  border-right: 1px solid rgba(191,211,239,.12) !important;
+  background: radial-gradient(circle at 12% 8%, rgba(57,136,255,.22), transparent 19rem), linear-gradient(155deg,#0d213c 0%,#09172b 55%,#07111f 100%) !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+
+html body #root .hlc-auth-shell .hlc-auth-logo-link { position: relative; z-index: 1; display: inline-flex !important; }
+html body #root .hlc-auth-shell .hlc-auth-logo-link img { width: 76px !important; height: 76px !important; padding: 5px !important; border: 1px solid rgba(255,255,255,.18) !important; border-radius: 22px !important; background: rgba(255,255,255,.98) !important; box-shadow: 0 20px 50px rgba(0,0,0,.28) !important; }
+html body #root .hlc-auth-brand-story { position: relative; z-index: 1; display: grid !important; max-width: 390px; gap: 15px !important; margin: 64px 0 auto !important; padding-top: 48px !important; }
+html body #root .hlc-auth-brand-kicker { margin: 0 !important; color: #83b3ff !important; -webkit-text-fill-color: #83b3ff !important; font-size: 11px !important; font-weight: 900 !important; letter-spacing: .16em !important; text-transform: uppercase !important; }
+html body #root .hlc-auth-brand-story h2 { max-width: 380px; margin: 0 !important; color: #fff !important; -webkit-text-fill-color: #fff !important; font-size: clamp(2.2rem,4.2vw,3.75rem) !important; font-weight: 770 !important; line-height: .98 !important; letter-spacing: -.055em !important; text-wrap: balance !important; }
+html body #root .hlc-auth-brand-story > p:last-child { max-width: 370px; margin: 0 !important; color: #b8c7d9 !important; -webkit-text-fill-color: #b8c7d9 !important; font-size: 15px !important; line-height: 1.65 !important; }
+html body #root .hlc-auth-brand-proof { position: relative; z-index: 1; display: flex !important; flex-wrap: wrap !important; gap: 10px 18px !important; margin-top: 42px !important; padding-top: 22px !important; border-top: 1px solid rgba(191,211,239,.14) !important; }
+html body #root .hlc-auth-brand-proof span { position: relative; padding-left: 15px; color: #aebed1 !important; -webkit-text-fill-color: #aebed1 !important; font-size: 12px !important; font-weight: 730 !important; }
+html body #root .hlc-auth-brand-proof span::before { content: ""; position: absolute; left: 0; top: .52em; width: 5px; height: 5px; border-radius: 50%; background: #72a7ff; box-shadow: 0 0 11px rgba(114,167,255,.8); }
+
+html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card {
+  display: grid !important;
+  align-content: center !important;
+  gap: 20px !important;
+  min-height: 100% !important;
+  padding: clamp(40px,5vw,66px) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: linear-gradient(180deg,rgba(15,27,43,.97),rgba(10,20,34,.98)) !important;
+  box-shadow: none !important;
+}
+
+html body #root .hlc-auth-shell .hlc-auth-form-heading { display: grid !important; gap: 9px !important; margin: 0 0 5px !important; padding: 0 !important; border: 0 !important; background: transparent !important; }
+html body #root .hlc-auth-shell .hlc-auth-card-brand { color: #72a7ff !important; -webkit-text-fill-color: #72a7ff !important; font-size: 11px !important; letter-spacing: .15em !important; }
+html body #root .hlc-auth-shell .hlc-auth-card h1 { margin: 0 !important; color: #fff !important; -webkit-text-fill-color: #fff !important; font-size: clamp(2.25rem,4vw,3.2rem) !important; font-weight: 780 !important; line-height: 1 !important; letter-spacing: -.05em !important; }
+html body #root .hlc-auth-shell .hlc-auth-card-description { max-width: 390px; margin: 0 !important; color: #aebdd0 !important; -webkit-text-fill-color: #aebdd0 !important; font-size: 15px !important; line-height: 1.55 !important; }
+html body #root .hlc-auth-shell .hlc-auth-method-tabs { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 6px !important; margin: 2px 0 0 !important; padding: 5px !important; border: 1px solid rgba(191,211,239,.13) !important; border-radius: 12px !important; background: #081423 !important; }
+html body #root .hlc-auth-shell .hlc-auth-method-tabs button { min-height: 42px !important; padding: 9px 12px !important; border: 0 !important; border-radius: 8px !important; background: transparent !important; color: #91a2b7 !important; -webkit-text-fill-color: #91a2b7 !important; text-align: center !important; }
+html body #root .hlc-auth-shell .hlc-auth-method-tabs button[aria-pressed="true"] { background: #162d4c !important; color: #fff !important; -webkit-text-fill-color: #fff !important; box-shadow: 0 6px 18px rgba(0,0,0,.2) !important; }
+html body #root .hlc-auth-shell .hlc-auth-form { gap: 17px !important; }
+html body #root .hlc-auth-shell .hlc-auth-form label { gap: 8px !important; color: #dfe8f4 !important; -webkit-text-fill-color: #dfe8f4 !important; font-size: 13px !important; font-weight: 780 !important; }
+html body #root .hlc-auth-shell .hlc-auth-form :is(input,select,textarea) { min-height: 52px !important; padding: 12px 14px !important; border: 1px solid rgba(191,211,239,.19) !important; border-radius: 11px !important; background: #071321 !important; box-shadow: 0 1px 0 rgba(255,255,255,.025) inset !important; }
+html body #root .hlc-auth-shell .hlc-auth-form :is(input,select,textarea):focus { border-color: #72a7ff !important; box-shadow: 0 0 0 3px rgba(57,136,255,.16) !important; outline: none !important; }
+html body #root .hlc-auth-shell .hlc-auth-form > button[type="submit"] { min-height: 54px !important; margin-top: 2px !important; border-radius: 11px !important; background: linear-gradient(135deg,#3988ff,#246bda) !important; box-shadow: 0 16px 34px rgba(36,107,218,.26) !important; font-size: 15px !important; }
+html body #root .hlc-auth-shell .hlc-auth-card-footer { display: grid !important; gap: 11px !important; margin-top: 2px !important; padding-top: 19px !important; border-top: 1px solid rgba(191,211,239,.12) !important; background: transparent !important; }
+
+@media (max-width: 860px) {
+  html body #root .hlc-public-shell:has(.hlc-auth-shell) > .hlc-route-content { min-height: auto; padding: 0 !important; }
+  html body #root .hlc-auth-shell.hlc-auth-shell--flat { grid-template-columns: 1fr !important; width: 100% !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; border: 0 !important; border-radius: 0 !important; background: #07111f !important; box-shadow: none !important; }
+  html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-brand { display: flex !important; min-height: 180px !important; padding: 28px 24px 34px !important; border: 0 !important; border-bottom: 1px solid rgba(191,211,239,.12) !important; background: radial-gradient(circle at 12% 0%,rgba(57,136,255,.24),transparent 19rem),linear-gradient(145deg,#0d213c,#081527) !important; }
+  html body #root .hlc-auth-shell .hlc-auth-logo-link img { width: 62px !important; height: 62px !important; border-radius: 18px !important; }
+  html body #root .hlc-auth-brand-story { display: none !important; }
+  html body #root .hlc-auth-brand-proof { display: flex !important; margin-top: 24px !important; padding-top: 18px !important; }
+  html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card { min-height: auto !important; padding: 34px 24px 44px !important; background: #07111f !important; }
+  html body #root .hlc-auth-shell .hlc-auth-card h1 { font-size: 2.5rem !important; }
+}
+
+@media (max-width: 480px) {
+  html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-brand { min-height: 150px !important; padding: 22px 18px 26px !important; }
+  html body #root .hlc-auth-shell .hlc-auth-logo-link img { width: 56px !important; height: 56px !important; border-radius: 16px !important; }
+  html body #root .hlc-auth-brand-proof { gap: 8px 14px !important; margin-top: 18px !important; padding-top: 15px !important; }
+  html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card { padding: 30px 18px calc(40px + env(safe-area-inset-bottom)) !important; }
+  html body #root .hlc-auth-shell .hlc-auth-card h1 { font-size: 2.25rem !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html body #root .hlc-auth-shell * { transition: none !important; }
+}
