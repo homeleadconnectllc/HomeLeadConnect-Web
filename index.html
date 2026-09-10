@@ -11,6 +11,130 @@
     <link id="hlc-runtime-physical-authority" rel="stylesheet" href="/runtime-physical-authority-20260907.css" />
     <link id="hlc-runtime-portal-authority" rel="stylesheet" href="/runtime-portal-authority-20260907.css" />
     <link id="hlc-physical-component-root-authority" rel="stylesheet" href="/physical-component-root-authority-20260907.css" />
+    <style id="hlc-frontdoor-mobile-cta-centering">
+      @media (max-width: 560px) {
+        .hlc-frontdoor-site .hlc-frontdoor-actions,
+        .hlc-frontdoor-site .hlc-frontdoor-photo-band-content .hlc-frontdoor-actions {
+          width: 100% !important;
+          justify-content: center !important;
+          justify-items: center !important;
+        }
+
+        .hlc-frontdoor-site .hlc-frontdoor-actions .hlc-frontdoor-btn {
+          width: min(100%, 320px) !important;
+          margin-inline: auto !important;
+          text-align: center !important;
+        }
+
+        .hlc-frontdoor-site {
+          background: #0d1d31 !important;
+        }
+
+        .hlc-frontdoor-site .hlc-frontdoor-alt,
+        .hlc-frontdoor-site .hlc-frontdoor-cta,
+        .hlc-frontdoor-site .hlc-frontdoor-quickbar {
+          background: #0d1d31 !important;
+        }
+
+        .hlc-frontdoor-site .hlc-frontdoor-section {
+          background: transparent !important;
+        }
+
+        .hlc-frontdoor-site .hlc-frontdoor-step {
+          background: transparent !important;
+          border-radius: 0 !important;
+          box-shadow: none !important;
+        }
+
+        .hlc-frontdoor-site .hlc-frontdoor-service-line span {
+          background: transparent !important;
+          border: 0 !important;
+          border-bottom: 1px solid rgba(151,188,241,.24) !important;
+          border-radius: 0 !important;
+        }
+
+        .hlc-frontdoor-site .hlc-frontdoor-photo {
+          position: relative !important;
+          border-radius: 8px !important;
+          box-shadow: none !important;
+          isolation: isolate;
+        }
+
+        .hlc-frontdoor-site .hlc-frontdoor-photo::after {
+          content: "";
+          position: absolute;
+          z-index: 1;
+          inset: 0;
+          pointer-events: none;
+          background:
+            linear-gradient(90deg, #0d1d31 0%, rgba(13,29,49,.10) 15%, rgba(13,29,49,.10) 85%, #0d1d31 100%),
+            linear-gradient(180deg, rgba(13,29,49,.08) 54%, #0d1d31 100%);
+        }
+
+        .hlc-frontdoor-site .hlc-frontdoor-photo-band:after {
+          background:
+            linear-gradient(90deg, rgba(13,29,49,.94) 0%, rgba(13,29,49,.08) 16%, rgba(13,29,49,.08) 84%, rgba(13,29,49,.94) 100%),
+            linear-gradient(180deg, rgba(7,17,31,.44) 0%, rgba(7,17,31,.16) 38%, #0d1d31 100%) !important;
+        }
+
+        .hlc-frontdoor-site .hlc-frontdoor-hero-content,
+        .hlc-frontdoor-site .hlc-frontdoor-hero-content .hlc-frontdoor-kicker,
+        .hlc-frontdoor-site .hlc-frontdoor-hero-content h1,
+        .hlc-frontdoor-site .hlc-frontdoor-hero-content > p,
+        .hlc-frontdoor-site .hlc-frontdoor-assurance,
+        .hlc-frontdoor-site .hlc-frontdoor-section,
+        .hlc-frontdoor-site .hlc-frontdoor-center,
+        .hlc-frontdoor-site .hlc-frontdoor-eyebrow,
+        .hlc-frontdoor-site .hlc-frontdoor-section h2,
+        .hlc-frontdoor-site .hlc-frontdoor-copy,
+        .hlc-frontdoor-site .hlc-frontdoor-split-text,
+        .hlc-frontdoor-site .hlc-frontdoor-split-text h2,
+        .hlc-frontdoor-site .hlc-frontdoor-split-text p,
+        .hlc-frontdoor-site .hlc-frontdoor-process,
+        .hlc-frontdoor-site .hlc-frontdoor-step,
+        .hlc-frontdoor-site .hlc-frontdoor-step h3,
+        .hlc-frontdoor-site .hlc-frontdoor-step p,
+        .hlc-frontdoor-site .hlc-frontdoor-photo-band-content,
+        .hlc-frontdoor-site .hlc-frontdoor-photo-band-content > div,
+        .hlc-frontdoor-site .hlc-frontdoor-photo-band-content .hlc-frontdoor-eyebrow,
+        .hlc-frontdoor-site .hlc-frontdoor-photo-band-content h2,
+        .hlc-frontdoor-site .hlc-frontdoor-photo-band-content p,
+        .hlc-frontdoor-site .hlc-frontdoor-cta,
+        .hlc-frontdoor-site .hlc-frontdoor-cta h2,
+        .hlc-frontdoor-site .hlc-frontdoor-cta p {
+          text-align: center !important;
+        }
+
+        .hlc-frontdoor-site .hlc-frontdoor-hero-content {
+          align-items: center !important;
+        }
+
+        .hlc-frontdoor-site .hlc-frontdoor-hero-content > p,
+        .hlc-frontdoor-site .hlc-frontdoor-center,
+        .hlc-frontdoor-site .hlc-frontdoor-copy,
+        .hlc-frontdoor-site .hlc-frontdoor-split-text p,
+        .hlc-frontdoor-site .hlc-frontdoor-photo-band-content > div,
+        .hlc-frontdoor-site .hlc-frontdoor-photo-band-content p,
+        .hlc-frontdoor-site .hlc-frontdoor-cta p {
+          margin-left: auto !important;
+          margin-right: auto !important;
+        }
+
+        .hlc-frontdoor-site .hlc-frontdoor-kicker {
+          justify-content: center !important;
+        }
+
+        .hlc-frontdoor-site .hlc-frontdoor-assurance {
+          justify-content: center !important;
+        }
+      }
+    </style>
+    <script>
+      (() => {
+        if (!/^\/(?:login|register|forgot-password|reset-password)(?:\/|$)/.test(window.location.pathname)) return;
+        document.write('<link id="hlc-frontdoor-login-visual-authority" rel="stylesheet" href="/frontdoor-login-visual-authority-20260910.css" /><style id="hlc-auth-first-paint">html body #root .hlc-public-shell .hlc-auth-shell.hlc-auth-shell--flat{display:grid!important;grid-template-columns:minmax(0,.93fr) minmax(420px,1.07fr)!important;width:min(1080px,100%)!important;min-height:640px!important;margin:0 auto!important;padding:0!important;overflow:hidden!important;border-radius:28px!important}html body #root .hlc-public-shell .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-brand{display:flex!important;min-height:100%!important;flex-direction:column!important;align-items:flex-start!important;justify-content:space-between!important}html body #root .hlc-public-shell .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card{display:grid!important;align-content:center!important;min-height:100%!important}@media(max-width:860px){html body #root .hlc-public-shell .hlc-auth-shell.hlc-auth-shell--flat{grid-template-columns:1fr!important;width:100%!important;min-height:0!important;margin:0!important;border-radius:0!important}html body #root .hlc-public-shell .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-brand{display:flex!important;min-height:150px!important}html body #root .hlc-public-shell .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card{min-height:auto!important}}</style>');
+      })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#0b4fa8" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -39,8 +163,8 @@
         if (!root) return;
         root.innerHTML = `
           <main class="hlc-home hlc-frontdoor-site">
-            <nav class="hlc-frontdoor-nav"><div class="hlc-frontdoor-wrap hlc-frontdoor-navin"><a class="hlc-frontdoor-brand" href="/" aria-label="HomeLead Connect home"><img src="/hlc-logo-ui.png" alt="HomeLead Connect" width="58" height="58" /></a><div class="hlc-frontdoor-navlinks"><a class="hlc-frontdoor-primary" href="https://app.homeleadconnect.org/request-service">Request Service</a></div></div></nav>
-            <section class="hlc-frontdoor-hero"><img src="/hlc-frontdoor-resident-hero-final.jpg" alt="Resident working on a home project" width="1400" height="900" fetchpriority="high" /><div class="hlc-frontdoor-hero-content"><p class="hlc-frontdoor-kicker">Home services, connected better</p><h1>Home help should feel easier.</h1><p>Tell us what your home needs. HomeLead Connect helps renters, homeowners, and everyday households move toward the right professional and a clearer next step.</p><div class="hlc-frontdoor-actions"><a class="hlc-frontdoor-btn hlc-frontdoor-btn-primary" href="https://app.homeleadconnect.org/request-service">Request Home Service</a><a class="hlc-frontdoor-btn hlc-frontdoor-btn-secondary" href="https://professionals.homeleadconnect.org/">For Professionals</a></div></div></section>
+            <nav class="hlc-frontdoor-nav"><div class="hlc-frontdoor-wrap hlc-frontdoor-navin"><a class="hlc-frontdoor-brand" href="/" aria-label="HomeLead Connect home"><img src="/hlc-logo-ui.png" alt="" width="58" height="58" /><span><strong>HomeLead Connect</strong><small>Home services network</small></span></a><div class="hlc-frontdoor-navlinks"><a class="hlc-frontdoor-primary" href="https://app.homeleadconnect.org/request-service">Request Service</a></div></div></nav>
+            <section class="hlc-frontdoor-hero"><img src="/hlc-frontdoor-resident-hero-final.jpg" alt="Resident working on a home project" width="1400" height="900" fetchpriority="high" /><div class="hlc-frontdoor-hero-content"><p class="hlc-frontdoor-kicker">Home services, connected better</p><h1>Home help should feel easier.</h1><p>Tell us what your home needs. We help renters, homeowners, and everyday households move toward the right professional and a clearer next step.</p><div class="hlc-frontdoor-actions"><a class="hlc-frontdoor-btn hlc-frontdoor-btn-primary" href="https://app.homeleadconnect.org/request-service">Request Home Service <span aria-hidden="true">→</span></a><a class="hlc-frontdoor-btn hlc-frontdoor-btn-secondary" href="https://professionals.homeleadconnect.org/">For Professionals</a></div><div class="hlc-frontdoor-assurance"><span>Renters included</span><span>Homeowners welcome</span><span>Clear next steps</span><span>Harrisburg roots</span></div></div></section>
           </main>`;
       })();
     </script>

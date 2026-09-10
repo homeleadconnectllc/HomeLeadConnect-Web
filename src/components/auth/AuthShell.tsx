@@ -23,6 +23,15 @@ export default function AuthShell({
         <a className="hlc-auth-logo-link" href="https://homeleadconnect.org" aria-label="Return to HomeLead Connect home">
           <img src="/hlc-logo-transparent.png" alt="HomeLead Connect" />
         </a>
+        <div className="hlc-auth-brand-story">
+          <p className="hlc-auth-brand-kicker">Home services, connected better</p>
+          <h2>One trusted place for the work around home.</h2>
+          <p>Requests, conversations, appointments, and next steps—kept clear from the first connection forward.</p>
+        </div>
+        <div className="hlc-auth-brand-proof" aria-label="HomeLead Connect account benefits">
+          <span>Secure account access</span>
+          <span>Clear service coordination</span>
+        </div>
       </section>
 
       <section className="hlc-auth-card" aria-labelledby="hlc-auth-title">

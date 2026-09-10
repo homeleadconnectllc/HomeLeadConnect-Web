@@ -7,9 +7,22 @@ const AUTHORITIES = [
   { id: "hlc-physical-component-root-authority", href: "/physical-component-root-authority-20260907.css" },
 ] as const;
 
-function ensureAuthoritiesAreTerminal() {
+const AUTH_VISUAL_AUTHORITY = {
+  id: "hlc-frontdoor-login-visual-authority",
+  href: "/frontdoor-login-visual-authority-20260910.css",
+} as const;
+
+const AUTH_ROUTE_PATTERN = /^\/(?:login|register|forgot-password|reset-password)(?:\/|$)/;
+
+function activeAuthorities(includeAuthVisuals: boolean) {
+  return includeAuthVisuals ? [...AUTHORITIES, AUTH_VISUAL_AUTHORITY] : AUTHORITIES;
+}
+
+function ensureAuthoritiesAreTerminal(includeAuthVisuals: boolean) {
   if (typeof document === "undefined") return;
-  for (const authority of AUTHORITIES) {
+  const authLink = document.getElementById(AUTH_VISUAL_AUTHORITY.id);
+  if (!includeAuthVisuals) authLink?.remove();
+  for (const authority of activeAuthorities(includeAuthVisuals)) {
     let link = document.getElementById(authority.id) as HTMLLinkElement | null;
     if (!link) {
       link = document.createElement("link");
@@ -21,22 +34,25 @@ function ensureAuthoritiesAreTerminal() {
   }
 }
 
-function authoritiesAreTerminal() {
+function authoritiesAreTerminal(includeAuthVisuals: boolean) {
+  const authorities = activeAuthorities(includeAuthVisuals);
   const children = Array.from(document.head.children);
-  if (children.length < AUTHORITIES.length) return false;
-  const tail = children.slice(-AUTHORITIES.length);
-  return AUTHORITIES.every((authority, index) => tail[index]?.id === authority.id);
+  if (children.length < authorities.length) return false;
+  const tail = children.slice(-authorities.length);
+  return authorities.every((authority, index) => tail[index]?.id === authority.id);
 }
 
 export default function RuntimePhysicalAuthority() {
   const location = useLocation();
 
   useEffect(() => {
-    ensureAuthoritiesAreTerminal();
-    const frame = window.requestAnimationFrame(ensureAuthoritiesAreTerminal);
-    const settle = window.setTimeout(ensureAuthoritiesAreTerminal, 180);
+    const includeAuthVisuals = AUTH_ROUTE_PATTERN.test(location.pathname);
+    const ensureTerminal = () => ensureAuthoritiesAreTerminal(includeAuthVisuals);
+    ensureTerminal();
+    const frame = window.requestAnimationFrame(ensureTerminal);
+    const settle = window.setTimeout(ensureTerminal, 180);
     const observer = new MutationObserver(() => {
-      if (!authoritiesAreTerminal()) ensureAuthoritiesAreTerminal();
+      if (!authoritiesAreTerminal(includeAuthVisuals)) ensureTerminal();
     });
     observer.observe(document.head, { childList: true });
     return () => {
