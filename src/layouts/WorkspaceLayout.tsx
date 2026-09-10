@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate, Outlet, useLocation } from "react-router-dom";
+import SystemState from "../components/SystemState";
 import { useAuth } from "../hooks/useAuth";
 import { getBillingStatus, type BillingStatus } from "../api/billing";
 import { evaluateBillingAccess, resolveEntitlementState } from "../lib/billing/entitlement";
@@ -58,11 +59,19 @@ export default function WorkspaceLayout() {
     return () => { active = false; };
   }, [session, billingEnabled]);
 
-  if (!session || !resolution || resolution.userId !== session.user.id) return <main style={{ padding: 32 }}><p>Checking workspace access…</p></main>;
-  if (resolution.accessError) return <main style={{ padding: 32 }}><h1>Workspace access unavailable</h1><p role="alert">{resolution.accessError}</p><p>Try again after the connection is restored. No workspace access decision was changed.</p></main>;
+  if (!session || !resolution || resolution.userId !== session.user.id) {
+    return <SystemState busy title="Opening your workspace" message="Checking your role, access, and account status." />;
+  }
+  if (resolution.accessError) {
+    return <SystemState tone="danger" title="Workspace access unavailable" message={resolution.accessError} detail="No workspace access decision was changed. Try again after the connection is restored." />;
+  }
   if (resolution.destination !== "/dashboard") return <Navigate to={resolution.destination || "/portal/accept"} replace />;
-  if (!resolution.role) return <main style={{ padding: 32 }}><h1>Internal access not assigned</h1><p role="alert">This account has workspace membership but no recognized HomeLead Connect internal role for the selected workspace.</p><p>Customer and provider accounts should use their assigned portal. Internal access requires an owner, manager, or technician membership role.</p></main>;
-  if (!canAccessWorkspacePath(resolution.role, location.pathname)) return <main style={{ padding: 32 }}><h1>Access restricted</h1><p role="alert">Your HomeLead Connect role does not allow this area.</p><p>This page is limited to authorized internal roles and cannot be opened by direct URL.</p><Link to="/dashboard">Return to Dashboard</Link></main>;
+  if (!resolution.role) {
+    return <SystemState tone="warning" title="Internal access not assigned" message="This account has workspace membership but no recognized internal role for the selected workspace." detail="Customer and provider accounts should use their assigned portal. Internal access requires an owner, manager, or technician role." />;
+  }
+  if (!canAccessWorkspacePath(resolution.role, location.pathname)) {
+    return <SystemState tone="warning" title="Access restricted" message="Your role does not allow this area." detail="Direct links cannot bypass workspace permissions." action={<Link to="/dashboard">Return to Dashboard</Link>} />;
+  }
 
   const entitlementInput = {
     billingEnabled,
@@ -76,8 +85,12 @@ export default function WorkspaceLayout() {
   const entitlementState = resolveEntitlementState(entitlementInput);
   const daysRemaining = trialDaysRemaining(resolution.billing?.trial_end);
 
-  if (billingDecision === "verification_unavailable") return <main style={{ padding: 32 }}><h1>Billing status unavailable</h1><p role="alert">HomeLead Connect could not verify this workspace’s subscription state. Access was not classified as inactive.</p><Link to="/settings">Open billing settings</Link></main>;
-  if (billingDecision === "subscription_required") return <main style={{padding:32}}><h1>Subscription required</h1><p>This workspace does not currently have an active trial, paid subscription, or payment-recovery grace period.</p><Link to="/settings/billing">Review billing</Link></main>;
+  if (billingDecision === "verification_unavailable") {
+    return <SystemState tone="warning" title="Billing status unavailable" message="We could not verify this workspace’s subscription state." detail="Access was not classified as inactive." action={<Link to="/settings">Open settings</Link>} />;
+  }
+  if (billingDecision === "subscription_required") {
+    return <SystemState tone="warning" title="Subscription required" message="This workspace does not currently have an active trial, paid subscription, or payment-recovery grace period." action={<Link to="/settings/billing">Review billing</Link>} />;
+  }
 
   return <>
     {entitlementState === "full_trial_preview" && <aside className="hlc-entitlement-banner is-trial" role="status">
