@@ -22,6 +22,30 @@
   }
 
   @media (min-width: 1025px) {
+    /* Keep the single desktop brand mark in the upper-left navigation corner. The
+       previous centered mark could cover page headings such as Messages and Calendar. */
+    #root .hlc-signed-in-shell .hlc-desktop-page-brand {
+      position: fixed !important;
+      top: 14px !important;
+      left: 18px !important;
+      right: auto !important;
+      width: 54px !important;
+      height: 54px !important;
+      transform: none !important;
+      margin: 0 !important;
+      z-index: 1201 !important;
+    }
+
+    #root .hlc-signed-in-shell .hlc-desktop-page-brand img {
+      width: 54px !important;
+      height: 54px !important;
+      object-fit: contain !important;
+    }
+
+    #root .hlc-signed-in-shell .hlc-navbar {
+      padding-top: 84px !important;
+    }
+
     /* The hard-reset baseline assigns explicit ink to every descendant. Navigation
        labels therefore need an explicit inheritance reset, not only color on the
        parent link/summary. */
