@@ -5,6 +5,7 @@ const AUTHORITIES = [
   { id: "hlc-runtime-physical-authority", href: "/runtime-physical-authority-20260907.css" },
   { id: "hlc-runtime-portal-authority", href: "/runtime-portal-authority-20260907.css" },
   { id: "hlc-physical-component-root-authority", href: "/physical-component-root-authority-20260907.css" },
+  { id: "hlc-frontdoor-login-visual-authority", href: "/frontdoor-login-visual-authority-20260910.css" },
 ] as const;
 
 function ensureAuthoritiesAreTerminal() {
