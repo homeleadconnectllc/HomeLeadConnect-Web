@@ -132,6 +132,7 @@ The active production app Supabase project is `homeconnect` (`cguhtshclyybivvdnp
 124. `20260908171000_signup_trial_entitlement_root_fix.sql`
 125. `20260909215000_fix_professional_progress_activity_log.sql`
 126. `20260909220500_fix_resident_provider_match_activity_log.sql`
+127. `20260909010000_internal_notification_routing.sql`
 
 Migration #101 is retained in the local migration chain because it was applied to `hlc-reconciliation-test` during reconciliation. It is **not evidence of a production defect and is not required to be applied to `homeconnect` solely for parity**: production already has the canonical `causal.ingest_lead(...)` implementation from migration #98 with direct browser execution denied. Do not apply #101 to production unless a future production migration decision independently justifies it.
 
@@ -180,6 +181,8 @@ Migration #124 provisions the promised 14-day HomeLead Connect trial only when a
 Migration #125 repairs the Professional service-progress activity write without changing authorization or workflow semantics. `activity_log.entity_id` is UUID, so `contractor_record_job_progress(...)` now writes the accepted assignment's UUID `job_id` directly instead of coercing it to text; the existing active contractor-portal-link and accepted-assignment guards remain unchanged.
 
 Migration #126 repairs Resident provider-match activity logging without changing matching or authorization semantics. `activity_log.entity_id` is UUID, so both `create_resident_provider_match(...)` and `homeowner_decide_provider_match(...)` resolve and write the canonical `leads.id_uuid` instead of coercing the numeric lead ID to text; the existing management, portal-link, workspace, provider, and proposed-state guards remain unchanged.
+
+Migration #127 adds the server-only internal notification delivery ledger used by the internal alert dispatcher. It keeps RLS enabled, revokes browser access, grants ledger authority only to the elevated server role, and enforces one delivery record per `(event_type, event_key)` so retries cannot create duplicate internal email alerts.
 
 ## Current production rules
 
