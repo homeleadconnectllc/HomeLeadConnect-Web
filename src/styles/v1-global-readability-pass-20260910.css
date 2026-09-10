@@ -1,5 +1,6 @@
 /* HomeLead Connect V1 global readability pass — 2026-09-10.
-   Presentation only. This file must remain last in the app-shell cascade.
+   Presentation only. This layer loads immediately before the certified responsive,
+   brand, compatibility, reset, and mobile release guards so those authorities remain intact.
    It does not change routing, auth, data, RLS, billing, or workflow behavior. */
 
 :root {
