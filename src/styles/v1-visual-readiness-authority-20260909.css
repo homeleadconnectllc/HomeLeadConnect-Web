@@ -191,19 +191,32 @@
     text-decoration: none;
   }
 
+  /* The dashboard already has permanent role-aware navigation. Repeating the same
+     destinations inside a second quick-action strip adds choice without adding capability. */
+  #root .hlc-signed-in-shell .hlc-home-quick-row,
+  #root .hlc-signed-in-shell .hlc-home-quick-row-v2 {
+    display: none !important;
+  }
+
   @media (min-width: 1025px) {
     #root .hlc-signed-in-shell .hlc-navbar {
-      width: 260px !important;
-      padding: 18px 14px 20px !important;
+      width: 236px !important;
+      padding: 18px 12px 20px !important;
       gap: 12px !important;
       background: #080c11 !important;
       border-right: 1px solid var(--hlc-redesign-border) !important;
+      color: var(--hlc-redesign-ink) !important;
+      -webkit-text-fill-color: currentColor !important;
     }
 
     #root .hlc-signed-in-shell .hlc-route-content {
-      width: calc(100% - 260px) !important;
-      margin-left: 260px !important;
+      width: calc(100% - 236px) !important;
+      margin-left: 236px !important;
       padding: 24px clamp(22px, 3vw, 48px) 54px !important;
+    }
+
+    #root .hlc-signed-in-shell .hlc-navbar :is(a, button, summary, span, strong, small, p) {
+      -webkit-text-fill-color: currentColor !important;
     }
 
     #root .hlc-signed-in-shell .hlc-navbar-brand-copy > span,
@@ -219,8 +232,9 @@
       min-height: 40px !important;
       padding: 9px 10px !important;
       background: transparent !important;
-      color: #b7c0cc !important;
+      color: #c6d0dc !important;
       border-color: transparent !important;
+      font-weight: 760 !important;
     }
 
     #root .hlc-signed-in-shell .hlc-nav-group[open] > summary,
@@ -235,7 +249,18 @@
       min-height: 36px !important;
       padding: 8px 9px !important;
       background: transparent !important;
-      color: #aeb8c5 !important;
+      color: #b7c2cf !important;
+      font-weight: 650 !important;
+    }
+
+    #root .hlc-signed-in-shell .hlc-nav-menu a[aria-current="page"] {
+      box-shadow: inset 3px 0 0 var(--hlc-redesign-accent) !important;
+    }
+
+    #root .hlc-signed-in-shell .hlc-nav-logout {
+      color: #f4f7fb !important;
+      background: #111820 !important;
+      border-color: var(--hlc-redesign-border-strong) !important;
     }
 
     #root .hlc-sidebar-is-collapsed.hlc-signed-in-shell .hlc-navbar {
@@ -256,6 +281,10 @@
       border: 0 !important;
       border-radius: 0 !important;
       box-shadow: none !important;
+    }
+
+    #root .hlc-home-workspace {
+      padding-bottom: calc(104px + env(safe-area-inset-bottom)) !important;
     }
   }
 }
