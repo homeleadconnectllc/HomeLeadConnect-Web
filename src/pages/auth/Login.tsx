@@ -148,7 +148,7 @@ export default function Login() {
   const registerHref = requestedDestination ? `/register?next=${encodeURIComponent(requestedDestination)}` : "/register";
   const footer = <>
     <p><Link to="/forgot-password">Forgot your password?</Link></p>
-    <p>New here? <Link to={registerHref}>Create account</Link>.</p>
+    <p>New here? <Link to={registerHref} aria-label="Create your account">Create account</Link>.</p>
     <p><a href="https://homeleadconnect.org">Public site</a></p>
   </>;
 
@@ -163,7 +163,7 @@ export default function Login() {
       <label>Email<input required autoComplete="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} /></label>
       <label>Password<input required autoComplete="current-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} /></label>
       <AuthTurnstile onToken={setCaptchaToken} resetSignal={captchaReset} />
-      <button disabled={busy || !isSupabaseConfigured() || (turnstileEnabled && !captchaToken)} type="submit">{busy ? "Signing in…" : "Sign in"}</button>
+      <button aria-label="Sign in to HomeLead Connect" disabled={busy || !isSupabaseConfigured() || (turnstileEnabled && !captchaToken)} type="submit">{busy ? "Signing in…" : "Sign in"}</button>
     </form>}
 
     {mode === "magic" && <form className="hlc-auth-form" onSubmit={sendMagicLink}>
