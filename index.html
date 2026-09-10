@@ -54,12 +54,27 @@
         }
 
         .hlc-frontdoor-site .hlc-frontdoor-photo {
-          border-radius: 10px !important;
+          position: relative !important;
+          border-radius: 8px !important;
           box-shadow: none !important;
+          isolation: isolate;
+        }
+
+        .hlc-frontdoor-site .hlc-frontdoor-photo::after {
+          content: "";
+          position: absolute;
+          z-index: 1;
+          inset: 0;
+          pointer-events: none;
+          background:
+            linear-gradient(90deg, #0d1d31 0%, rgba(13,29,49,0) 9%, rgba(13,29,49,0) 91%, #0d1d31 100%),
+            linear-gradient(180deg, rgba(13,29,49,.08) 58%, #0d1d31 100%);
         }
 
         .hlc-frontdoor-site .hlc-frontdoor-photo-band:after {
-          background: linear-gradient(180deg,rgba(8,20,38,.08),rgba(8,20,38,.58)) !important;
+          background:
+            linear-gradient(90deg, rgba(13,29,49,.88) 0%, rgba(13,29,49,.06) 11%, rgba(13,29,49,.06) 89%, rgba(13,29,49,.88) 100%),
+            linear-gradient(180deg, rgba(7,17,31,.34) 0%, rgba(7,17,31,.12) 42%, #0d1d31 100%) !important;
         }
       }
     </style>
