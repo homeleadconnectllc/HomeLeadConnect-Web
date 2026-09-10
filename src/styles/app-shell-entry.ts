@@ -48,3 +48,4 @@ import "./final-release-guard.css";
 import "./visual-reset-baseline-20260903.css";
 import "./visual-reset-hard-blank-20260903.css";
 import "./mobile-release-fix.css";
+import "./v1-global-readability-pass-20260910.css";
