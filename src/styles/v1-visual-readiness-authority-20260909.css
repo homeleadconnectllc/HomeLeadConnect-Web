@@ -198,6 +198,21 @@
     display: none !important;
   }
 
+  /* Keep one obvious create-message action. The top-bar action already owns that job. */
+  #root .hlc-signed-in-shell .hlc-conversation-empty-stage > span,
+  #root .hlc-signed-in-shell .hlc-conversation-empty-stage > button {
+    display: none !important;
+  }
+
+  /* Calendar empty states explain the screen but do not repeat the page title or
+     the same New event control already present in the page header. */
+  #root .hlc-signed-in-shell .hlc-calendar-detail-empty > span,
+  #root .hlc-signed-in-shell .hlc-calendar-detail-empty > h2,
+  #root .hlc-signed-in-shell .hlc-calendar-detail-empty > button,
+  #root .hlc-signed-in-shell .hlc-calendar-empty > button {
+    display: none !important;
+  }
+
   @media (min-width: 1025px) {
     #root .hlc-signed-in-shell .hlc-navbar {
       width: 236px !important;
@@ -285,6 +300,39 @@
 
     #root .hlc-home-workspace {
       padding-bottom: calc(104px + env(safe-area-inset-bottom)) !important;
+    }
+
+    #root .hlc-calendar-page .hlc-native-calendar-header-actions .secondary {
+      display: none !important;
+    }
+
+    #root .hlc-calendar-page .hlc-calendar-kpis {
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 8px !important;
+    }
+
+    #root .hlc-calendar-page .hlc-calendar-kpis article {
+      min-height: 72px !important;
+      padding: 12px 14px !important;
+    }
+
+    #root .hlc-calendar-page .hlc-calendar-kpi-icon,
+    #root .hlc-calendar-page .hlc-calendar-kpis article div > span {
+      display: none !important;
+    }
+
+    #root .hlc-calendar-page .hlc-calendar-kpis article div {
+      width: 100% !important;
+      display: grid !important;
+      grid-template-columns: 1fr auto !important;
+      align-items: center !important;
+      gap: 8px !important;
+    }
+
+    #root .hlc-calendar-page .hlc-calendar-kpis article small,
+    #root .hlc-calendar-page .hlc-calendar-kpis article strong {
+      margin: 0 !important;
     }
   }
 }
