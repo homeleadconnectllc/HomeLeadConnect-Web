@@ -151,7 +151,14 @@ export default function Login() {
     <p className="hlc-auth-return"><a href="https://homeleadconnect.org">← Return to public site</a></p>
   </>;
 
-  return <AuthShell title="Welcome back" description={invitationFlow ? "Sign in with the email address that received the invitation." : "Choose the sign-in method that works best for you."} status={status} footer={footer}>
+  return <AuthShell
+    title="Welcome back"
+    description={invitationFlow ? "Sign in with the email address that received the invitation." : "Choose the sign-in method that works best for you."}
+    status={status}
+    footer={footer}
+    brandImageSrc="/hlc-login-brand.webp"
+    brandImageAlt="HomeLead Connect"
+  >
     <div className="hlc-auth-method-tabs" role="tablist" aria-label="Sign-in method">
       <button type="button" onClick={() => { setMode("password"); resetStatus(); }} aria-pressed={mode === "password"}>Email + password</button>
       <button type="button" onClick={() => { setMode("magic"); resetStatus(); }} aria-pressed={mode === "magic"}>Email link</button>
