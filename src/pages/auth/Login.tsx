@@ -106,7 +106,7 @@ export default function Login() {
     });
     resetCaptcha(); setBusy(false);
     if (authError) { setError(errorMessage(authError, "Unable to send the sign-in link.")); return; }
-    setMessage(invitationFlow ? "If this HomeLead Connect account already exists, check your email for the secure sign-in link. Otherwise use Create your account below." : "Check your email for your HomeLead Connect sign-in link.");
+    setMessage(invitationFlow ? "If this account already exists, check your email for the secure sign-in link. Otherwise use Create account below." : "Check your email for your secure sign-in link.");
   }
 
   async function sendPhoneOtp(event: FormEvent<HTMLFormElement>) {
@@ -138,7 +138,7 @@ export default function Login() {
     trackAnalyticsEvent("sign_in_started", { method: provider });
     setBusy(true); resetStatus();
     const { error: authError } = await supabase.auth.signInWithOAuth({ provider, options: { redirectTo: `${window.location.origin}${destination()}` } });
-    if (authError) { setError(errorMessage(authError, `${provider} sign-in is not configured for HomeLead Connect yet.`)); setBusy(false); }
+    if (authError) { setError(errorMessage(authError, `${provider} sign-in is not configured yet.`)); setBusy(false); }
   }
 
   const status = <>
@@ -148,11 +148,11 @@ export default function Login() {
   const registerHref = requestedDestination ? `/register?next=${encodeURIComponent(requestedDestination)}` : "/register";
   const footer = <>
     <p><Link to="/forgot-password">Forgot your password?</Link></p>
-    <p>New to HomeLead Connect? <Link to={registerHref}>Create your account</Link>.</p>
-    <p><a href="https://homeleadconnect.org">Return to HomeLead Connect</a></p>
+    <p>New here? <Link to={registerHref}>Create account</Link>.</p>
+    <p><a href="https://homeleadconnect.org">Public site</a></p>
   </>;
 
-  return <AuthShell title="Welcome to HomeLead Connect" description={invitationFlow ? "Sign in with the email address that received the company invitation." : "Sign in or create your HomeLead Connect account with the method that works best for you."} status={status} footer={footer}>
+  return <AuthShell title="Welcome back" description={invitationFlow ? "Sign in with the email address that received the invitation." : "Choose the sign-in method that works best for you."} status={status} footer={footer}>
     <div className="hlc-auth-method-tabs" role="tablist" aria-label="Sign-in method">
       <button type="button" onClick={() => { setMode("password"); resetStatus(); }} aria-pressed={mode === "password"}>Email + password</button>
       <button type="button" onClick={() => { setMode("magic"); resetStatus(); }} aria-pressed={mode === "magic"}>Email link</button>
@@ -163,19 +163,19 @@ export default function Login() {
       <label>Email<input required autoComplete="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} /></label>
       <label>Password<input required autoComplete="current-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} /></label>
       <AuthTurnstile onToken={setCaptchaToken} resetSignal={captchaReset} />
-      <button disabled={busy || !isSupabaseConfigured() || (turnstileEnabled && !captchaToken)} type="submit">{busy ? "Signing in…" : "Sign in to HomeLead Connect"}</button>
+      <button disabled={busy || !isSupabaseConfigured() || (turnstileEnabled && !captchaToken)} type="submit">{busy ? "Signing in…" : "Sign in"}</button>
     </form>}
 
     {mode === "magic" && <form className="hlc-auth-form" onSubmit={sendMagicLink}>
       <label>Email<input required autoComplete="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} /></label>
       <AuthTurnstile onToken={setCaptchaToken} resetSignal={captchaReset} />
-      <button disabled={busy || !isSupabaseConfigured() || (turnstileEnabled && !captchaToken)} type="submit">{busy ? "Sending…" : "Email me a secure sign-in link"}</button>
+      <button disabled={busy || !isSupabaseConfigured() || (turnstileEnabled && !captchaToken)} type="submit">{busy ? "Sending…" : "Send secure sign-in link"}</button>
     </form>}
 
     {phoneAuthEnabled && !invitationFlow && mode === "phone" && !otpSent && <form className="hlc-auth-form" onSubmit={sendPhoneOtp}>
       <label>Mobile number<input required autoComplete="tel" inputMode="tel" type="tel" placeholder="+17175550123" value={phone} onChange={(event) => setPhone(event.target.value)} /></label>
       <AuthTurnstile onToken={setCaptchaToken} resetSignal={captchaReset} />
-      <button disabled={busy || !isSupabaseConfigured() || (turnstileEnabled && !captchaToken)} type="submit">{busy ? "Sending code…" : "Text me a sign-in code"}</button>
+      <button disabled={busy || !isSupabaseConfigured() || (turnstileEnabled && !captchaToken)} type="submit">{busy ? "Sending code…" : "Text sign-in code"}</button>
     </form>}
 
     {phoneAuthEnabled && !invitationFlow && mode === "phone" && otpSent && <form className="hlc-auth-form" onSubmit={verifyPhoneOtp}>
