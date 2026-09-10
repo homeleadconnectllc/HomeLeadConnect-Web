@@ -1,361 +1,261 @@
 /* HomeLead Connect V1 Visual Readiness authority.
-   Presentation only. This file intentionally loads last so the certified V1 can keep
-   its behavior while the visible shell, auth surfaces, and hierarchy converge on one
-   dark premium system. No routes, auth, permissions, billing, data, or workflows change. */
+   Presentation only. This joins the existing redesign cascade before the certified
+   responsive/release guards so behavior and guard ordering remain unchanged. */
 
-:root {
-  --vr-canvas: #0b0f14;
-  --vr-canvas-2: #10161d;
-  --vr-rail: #080c11;
-  --vr-surface: #141b23;
-  --vr-surface-2: #19222c;
-  --vr-surface-3: #202b36;
-  --vr-line: rgba(226, 232, 240, .11);
-  --vr-line-strong: rgba(226, 232, 240, .18);
-  --vr-text: #f4f7fb;
-  --vr-muted: #9caaba;
-  --vr-accent: #72a7ff;
-  --vr-accent-soft: rgba(74, 144, 255, .14);
-  --vr-success: #75b58b;
-  --vr-warning: #d5aa68;
-  --vr-danger: #d57b75;
-  --vr-radius: 14px;
-  --vr-shadow: 0 20px 60px rgba(0, 0, 0, .24);
-}
+@layer hlcRedesign {
+  :root {
+    --hlc-redesign-canvas: #0b0f14;
+    --hlc-redesign-surface: #141b23;
+    --hlc-redesign-surface-subtle: #19222c;
+    --hlc-redesign-ink: #f4f7fb;
+    --hlc-redesign-muted: #9caaba;
+    --hlc-redesign-border: rgba(226, 232, 240, .11);
+    --hlc-redesign-border-strong: rgba(226, 232, 240, .18);
+    --hlc-redesign-accent: #72a7ff;
+    --hlc-redesign-accent-strong: #9bc1ff;
+    --hlc-redesign-accent-soft: rgba(74, 144, 255, .14);
+    --hlc-redesign-success: #75b58b;
+    --hlc-redesign-danger: #d57b75;
+    --hlc-redesign-warning: #d5aa68;
+  }
 
-/* Signed-in canvas: no accidental white application surfaces. */
-#root .hlc-signed-in-shell,
-#root .hlc-signed-in-shell .hlc-route-content,
-#root .hlc-signed-in-shell .hlc-route-content > main,
-#root .hlc-signed-in-shell .hlc-workspace-shell,
-#root .hlc-signed-in-shell .hlc-portal-shell {
-  background: var(--vr-canvas) !important;
-  color: var(--vr-text) !important;
-  color-scheme: dark !important;
-}
+  html,
+  body,
+  #root {
+    background: var(--hlc-redesign-canvas) !important;
+    color: var(--hlc-redesign-ink) !important;
+    color-scheme: dark !important;
+  }
 
-#root .hlc-signed-in-shell .hlc-route-content {
-  background:
-    radial-gradient(circle at 92% 2%, rgba(84, 132, 201, .08), transparent 28%),
-    linear-gradient(155deg, var(--vr-canvas-2) 0%, var(--vr-canvas) 48%, #080b0f 100%) !important;
-}
-
-#root .hlc-signed-in-shell :is(h1, h2, h3, h4, h5, h6, strong, b) {
-  color: var(--vr-text) !important;
-}
-
-#root .hlc-signed-in-shell :is(p, small, label, dd, .muted, [class*="muted"], [class*="meta"]) {
-  color: var(--vr-muted) !important;
-}
-
-#root .hlc-signed-in-shell :is(
-  [class*="card"],
-  [class*="panel"],
-  [class*="surface"],
-  [class*="inspector"],
-  [class*="summary"],
-  [class*="metric"],
-  [class*="stat"],
-  [class*="kpi"],
-  [class*="queue"],
-  [class*="record"]
-) {
-  background: var(--vr-surface) !important;
-  border-color: var(--vr-line) !important;
-  color: var(--vr-text) !important;
-}
-
-#root .hlc-signed-in-shell :is(input, select, textarea) {
-  background: #0f151c !important;
-  color: var(--vr-text) !important;
-  border-color: var(--vr-line-strong) !important;
-}
-
-#root .hlc-signed-in-shell :is(input, textarea)::placeholder {
-  color: #718094 !important;
-}
-
-#root .hlc-signed-in-shell table,
-#root .hlc-signed-in-shell thead,
-#root .hlc-signed-in-shell tbody,
-#root .hlc-signed-in-shell tr,
-#root .hlc-signed-in-shell th,
-#root .hlc-signed-in-shell td {
-  background: var(--vr-surface) !important;
-  color: var(--vr-text) !important;
-  border-color: var(--vr-line) !important;
-}
-
-#root .hlc-signed-in-shell thead,
-#root .hlc-signed-in-shell th {
-  background: var(--vr-surface-2) !important;
-}
-
-#root .hlc-signed-in-shell a {
-  color: #9bc1ff !important;
-}
-
-#root .hlc-signed-in-shell :is(button, [role="button"], a[class*="button"], a[class*="btn"]) {
-  background: var(--vr-surface-2) !important;
-  color: var(--vr-text) !important;
-  border-color: var(--vr-line-strong) !important;
-  box-shadow: none !important;
-}
-
-#root .hlc-signed-in-shell :is(button[class*="primary"], [class*="btn-primary"], [class*="button-primary"], [data-variant="primary"]) {
-  background: #2f80ff !important;
-  color: #fff !important;
-  border-color: #2f80ff !important;
-}
-
-/* Desktop rail: compact brand, lower visual noise, one readable hierarchy. */
-@media (min-width: 1025px) {
-  #root .hlc-signed-in-shell .hlc-navbar {
-    width: 260px !important;
-    padding: 18px 14px 20px !important;
-    gap: 12px !important;
-    background: var(--vr-rail) !important;
-    border-right: 1px solid var(--vr-line) !important;
-    box-shadow: 12px 0 44px rgba(0, 0, 0, .2) !important;
+  #root .hlc-signed-in-shell,
+  #root .hlc-signed-in-shell .hlc-route-content,
+  #root .hlc-signed-in-shell .hlc-route-content > main,
+  #root .hlc-signed-in-shell .hlc-workspace-shell,
+  #root .hlc-signed-in-shell .hlc-portal-shell {
+    background: var(--hlc-redesign-canvas) !important;
+    color: var(--hlc-redesign-ink) !important;
   }
 
   #root .hlc-signed-in-shell .hlc-route-content {
-    width: calc(100% - 260px) !important;
-    margin-left: 260px !important;
-    padding: 24px clamp(22px, 3vw, 48px) 54px !important;
+    background-image:
+      radial-gradient(circle at 92% 2%, rgba(84, 132, 201, .08), transparent 28%),
+      linear-gradient(155deg, #10161d 0%, #0b0f14 48%, #080b0f 100%) !important;
   }
 
-  #root .hlc-signed-in-shell .hlc-navbar-brand {
-    min-height: 58px !important;
-    gap: 10px !important;
-    padding: 3px 6px 14px !important;
-    border-bottom: 1px solid var(--vr-line) !important;
+  #root .hlc-signed-in-shell :is(h1, h2, h3, h4, h5, h6, strong, b) {
+    color: var(--hlc-redesign-ink) !important;
   }
 
-  #root .hlc-signed-in-shell .hlc-navbar-logo {
-    width: 42px !important;
-    height: 42px !important;
-    flex-basis: 42px !important;
-    border-radius: 12px !important;
-    background: transparent !important;
+  #root .hlc-signed-in-shell :is(p, small, label, dd, .muted, [class*="muted"], [class*="meta"]) {
+    color: var(--hlc-redesign-muted) !important;
   }
 
-  #root .hlc-signed-in-shell .hlc-navbar-brand-copy h2 {
-    color: var(--vr-text) !important;
-    font-size: 15px !important;
-    font-weight: 780 !important;
-    letter-spacing: -.01em !important;
+  #root .hlc-signed-in-shell :is(input, select, textarea) {
+    background: #0f151c !important;
+    color: var(--hlc-redesign-ink) !important;
+    border-color: var(--hlc-redesign-border-strong) !important;
   }
 
-  #root .hlc-signed-in-shell .hlc-navbar-brand-copy > span,
-  #root .hlc-signed-in-shell .hlc-nav-group summary > small {
-    display: none !important;
+  #root .hlc-signed-in-shell :is(input, textarea)::placeholder {
+    color: #718094 !important;
   }
 
-  #root .hlc-signed-in-shell .hlc-navbar-links,
-  #root .hlc-signed-in-shell .hlc-navbar-groups {
-    gap: 5px !important;
+  #root .hlc-signed-in-shell table,
+  #root .hlc-signed-in-shell thead,
+  #root .hlc-signed-in-shell tbody,
+  #root .hlc-signed-in-shell tr,
+  #root .hlc-signed-in-shell th,
+  #root .hlc-signed-in-shell td {
+    background: var(--hlc-redesign-surface) !important;
+    color: var(--hlc-redesign-ink) !important;
+    border-color: var(--hlc-redesign-border) !important;
   }
 
-  #root .hlc-signed-in-shell .hlc-nav-group summary {
-    min-height: 40px !important;
-    padding: 9px 10px !important;
-    border: 1px solid transparent !important;
-    border-radius: 10px !important;
-    background: transparent !important;
-    color: #b7c0cc !important;
-    font-size: 13px !important;
-    font-weight: 720 !important;
+  #root .hlc-signed-in-shell thead,
+  #root .hlc-signed-in-shell th {
+    background: var(--hlc-redesign-surface-subtle) !important;
   }
 
-  #root .hlc-signed-in-shell .hlc-nav-group[open] > summary,
-  #root .hlc-signed-in-shell .hlc-nav-group summary:hover {
-    background: var(--vr-accent-soft) !important;
-    border-color: rgba(114, 167, 255, .2) !important;
-    color: #f8fbff !important;
-  }
-
-  #root .hlc-signed-in-shell .hlc-nav-menu {
-    margin: 3px 0 3px 8px !important;
-    padding: 3px 0 3px 9px !important;
-    border: 0 !important;
-    border-left: 1px solid var(--vr-line) !important;
-    background: transparent !important;
-    box-shadow: none !important;
-  }
-
-  #root .hlc-signed-in-shell .hlc-nav-menu a {
-    min-height: 36px !important;
-    padding: 8px 9px !important;
-    border-radius: 8px !important;
-    background: transparent !important;
-    color: #aeb8c5 !important;
-    font-size: 12.5px !important;
-    font-weight: 660 !important;
-  }
-
-  #root .hlc-signed-in-shell .hlc-nav-menu a[aria-current="page"],
-  #root .hlc-signed-in-shell .hlc-nav-menu a:hover {
-    background: var(--vr-accent-soft) !important;
-    color: #fff !important;
-    box-shadow: inset 2px 0 0 var(--vr-accent) !important;
-  }
-
-  #root .hlc-signed-in-shell .hlc-nav-logout {
-    margin-top: auto !important;
-    background: transparent !important;
-    color: #9caaba !important;
-    border-color: var(--vr-line) !important;
-  }
-
-  #root .hlc-sidebar-is-collapsed.hlc-signed-in-shell .hlc-navbar {
-    width: 82px !important;
-  }
-
-  #root .hlc-sidebar-is-collapsed.hlc-signed-in-shell .hlc-route-content {
-    width: calc(100% - 82px) !important;
-    margin-left: 82px !important;
-  }
-
-  #root .hlc-sidebar-is-collapsed.hlc-signed-in-shell .hlc-navbar-brand-copy,
-  #root .hlc-sidebar-is-collapsed.hlc-signed-in-shell .hlc-nav-group summary > span,
-  #root .hlc-sidebar-is-collapsed.hlc-signed-in-shell .hlc-nav-menu,
-  #root .hlc-sidebar-is-collapsed.hlc-signed-in-shell .hlc-nav-logout {
-    display: none !important;
-  }
-}
-
-/* Auth: one logo, one heading, one action hierarchy. */
-#root .hlc-auth-shell.hlc-auth-shell--flat {
-  width: min(980px, calc(100% - 32px)) !important;
-  margin: clamp(28px, 6vw, 64px) auto !important;
-  border: 1px solid var(--vr-line) !important;
-  border-radius: 22px !important;
-  overflow: hidden !important;
-  background: var(--vr-canvas) !important;
-  color: var(--vr-text) !important;
-  box-shadow: var(--vr-shadow) !important;
-  color-scheme: dark !important;
-}
-
-#root .hlc-auth-shell--flat .hlc-auth-brand {
-  min-height: 100% !important;
-  padding: clamp(30px, 5vw, 52px) !important;
-  background:
-    radial-gradient(circle at 10% 0%, rgba(47, 128, 255, .14), transparent 34%),
-    linear-gradient(160deg, #0b1119, #080c11) !important;
-  border-right: 1px solid var(--vr-line) !important;
-}
-
-#root .hlc-auth-shell--flat .hlc-auth-logo-link span {
-  display: none !important;
-}
-
-#root .hlc-auth-shell--flat .hlc-auth-logo-link img {
-  width: 58px !important;
-  height: 58px !important;
-  padding: 4px !important;
-  border: 1px solid rgba(255,255,255,.1) !important;
-  border-radius: 16px !important;
-  background: rgba(255,255,255,.96) !important;
-  box-shadow: 0 16px 38px rgba(0,0,0,.24) !important;
-}
-
-#root .hlc-auth-shell--flat .hlc-auth-card {
-  padding: clamp(30px, 5vw, 52px) !important;
-  background: var(--vr-surface) !important;
-  color: var(--vr-text) !important;
-  border: 0 !important;
-  box-shadow: none !important;
-}
-
-#root .hlc-auth-shell--flat .hlc-auth-card-brand {
-  margin: 0 !important;
-  color: var(--vr-accent) !important;
-  font-size: 11px !important;
-  letter-spacing: .12em !important;
-}
-
-#root .hlc-auth-shell--flat .hlc-auth-card h1 {
-  margin: 0 !important;
-  color: var(--vr-text) !important;
-  font-size: clamp(1.8rem, 4vw, 2.6rem) !important;
-  font-weight: 760 !important;
-  line-height: 1.02 !important;
-  letter-spacing: -.035em !important;
-}
-
-#root .hlc-auth-shell--flat .hlc-auth-card-description,
-#root .hlc-auth-shell--flat .hlc-auth-card-footer {
-  color: var(--vr-muted) !important;
-}
-
-#root .hlc-auth-shell--flat .hlc-auth-form input,
-#root .hlc-auth-shell--flat .hlc-auth-form select,
-#root .hlc-auth-shell--flat .hlc-auth-form textarea {
-  background: #0d141c !important;
-  color: var(--vr-text) !important;
-  border-color: var(--vr-line-strong) !important;
-  border-radius: 10px !important;
-}
-
-#root .hlc-auth-shell--flat .hlc-auth-form > button {
-  background: #2f80ff !important;
-  color: #fff !important;
-  border-color: #2f80ff !important;
-  border-radius: 10px !important;
-}
-
-#root .hlc-auth-shell--flat .hlc-auth-method-tabs button,
-#root .hlc-auth-shell--flat .hlc-auth-provider-grid button {
-  background: transparent !important;
-  color: #aeb8c5 !important;
-  border-color: transparent !important;
-}
-
-#root .hlc-auth-shell--flat .hlc-auth-method-tabs button[aria-pressed="true"] {
-  color: #fff !important;
-  border-bottom-color: var(--vr-accent) !important;
-}
-
-#root .hlc-auth-shell--flat .hlc-auth-card-footer,
-#root .hlc-auth-shell--flat .hlc-auth-form-heading,
-#root .hlc-auth-shell--flat .hlc-auth-method-tabs {
-  border-color: var(--vr-line) !important;
-}
-
-#root .hlc-auth-shell--flat .hlc-auth-card a {
-  color: #9bc1ff !important;
-}
-
-@media (max-width: 860px) {
   #root .hlc-auth-shell.hlc-auth-shell--flat {
-    width: 100% !important;
-    min-height: 100svh !important;
-    margin: 0 !important;
-    border: 0 !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
+    width: min(980px, calc(100% - 32px)) !important;
+    margin: clamp(28px, 6vw, 64px) auto !important;
+    border: 1px solid var(--hlc-redesign-border) !important;
+    border-radius: 22px !important;
+    overflow: hidden !important;
+    background: #0b0f14 !important;
+    color: var(--hlc-redesign-ink) !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .24) !important;
+    color-scheme: dark !important;
   }
 
   #root .hlc-auth-shell--flat .hlc-auth-brand {
-    min-height: auto !important;
-    padding: calc(22px + env(safe-area-inset-top)) 20px 20px !important;
-    border-right: 0 !important;
-    border-bottom: 1px solid var(--vr-line) !important;
+    min-height: 100% !important;
+    padding: clamp(30px, 5vw, 52px) !important;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(47, 128, 255, .14), transparent 34%),
+      linear-gradient(160deg, #0b1119, #080c11) !important;
+    border-right: 1px solid var(--hlc-redesign-border) !important;
+  }
+
+  #root .hlc-auth-shell--flat .hlc-auth-logo-link span {
+    display: none !important;
+  }
+
+  #root .hlc-auth-shell--flat .hlc-auth-logo-link img {
+    width: 58px !important;
+    height: 58px !important;
+    padding: 4px !important;
+    border: 1px solid rgba(255, 255, 255, .1) !important;
+    border-radius: 16px !important;
+    background: rgba(255, 255, 255, .96) !important;
+    box-shadow: 0 16px 38px rgba(0, 0, 0, .24) !important;
   }
 
   #root .hlc-auth-shell--flat .hlc-auth-card {
-    padding: 24px 20px calc(34px + env(safe-area-inset-bottom)) !important;
+    padding: clamp(30px, 5vw, 52px) !important;
+    background: #141b23 !important;
+    color: var(--hlc-redesign-ink) !important;
+    border: 0 !important;
+    box-shadow: none !important;
   }
-}
 
-@media (prefers-reduced-motion: reduce) {
-  #root .hlc-signed-in-shell *,
-  #root .hlc-auth-shell * {
-    scroll-behavior: auto !important;
-    transition-duration: .01ms !important;
-    animation-duration: .01ms !important;
-    animation-iteration-count: 1 !important;
+  #root .hlc-auth-shell--flat .hlc-auth-card h1 {
+    margin: 0 !important;
+    color: var(--hlc-redesign-ink) !important;
+    font-size: clamp(1.8rem, 4vw, 2.6rem) !important;
+    font-weight: 760 !important;
+    line-height: 1.02 !important;
+    letter-spacing: -.035em !important;
+  }
+
+  #root .hlc-auth-shell--flat .hlc-auth-card-brand {
+    color: var(--hlc-redesign-accent) !important;
+  }
+
+  #root .hlc-auth-shell--flat .hlc-auth-card-description,
+  #root .hlc-auth-shell--flat .hlc-auth-card-footer {
+    color: var(--hlc-redesign-muted) !important;
+  }
+
+  #root .hlc-auth-shell--flat .hlc-auth-form input,
+  #root .hlc-auth-shell--flat .hlc-auth-form select,
+  #root .hlc-auth-shell--flat .hlc-auth-form textarea {
+    background: #0d141c !important;
+    color: var(--hlc-redesign-ink) !important;
+    border-color: var(--hlc-redesign-border-strong) !important;
+    border-radius: 10px !important;
+  }
+
+  #root .hlc-auth-shell--flat .hlc-auth-form > button {
+    background: #2f80ff !important;
+    color: #fff !important;
+    border-color: #2f80ff !important;
+    border-radius: 10px !important;
+  }
+
+  #root .hlc-auth-shell--flat .hlc-auth-method-tabs button,
+  #root .hlc-auth-shell--flat .hlc-auth-provider-grid button {
+    background: transparent !important;
+    color: #aeb8c5 !important;
+  }
+
+  #root .hlc-auth-shell--flat .hlc-auth-method-tabs button[aria-pressed="true"] {
+    color: #fff !important;
+    border-bottom-color: var(--hlc-redesign-accent) !important;
+  }
+
+  #root .hlc-auth-success {
+    display: grid;
+    gap: 14px;
+  }
+
+  #root .hlc-auth-success-primary,
+  #root .hlc-auth-success-next {
+    display: grid;
+    gap: 5px;
+    padding: 15px 0;
+    border-bottom: 1px solid var(--hlc-redesign-border) !important;
+    background: transparent !important;
+  }
+
+  #root .hlc-auth-success-action {
+    display: inline-flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 18px;
+    border-radius: 10px;
+    background: #2f80ff !important;
+    color: #fff !important;
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  @media (min-width: 1025px) {
+    #root .hlc-signed-in-shell .hlc-navbar {
+      width: 260px !important;
+      padding: 18px 14px 20px !important;
+      gap: 12px !important;
+      background: #080c11 !important;
+      border-right: 1px solid var(--hlc-redesign-border) !important;
+    }
+
+    #root .hlc-signed-in-shell .hlc-route-content {
+      width: calc(100% - 260px) !important;
+      margin-left: 260px !important;
+      padding: 24px clamp(22px, 3vw, 48px) 54px !important;
+    }
+
+    #root .hlc-signed-in-shell .hlc-navbar-brand-copy > span,
+    #root .hlc-signed-in-shell .hlc-nav-group summary > small {
+      display: none !important;
+    }
+
+    #root .hlc-signed-in-shell .hlc-nav-menu small {
+      display: none !important;
+    }
+
+    #root .hlc-signed-in-shell .hlc-nav-group summary {
+      min-height: 40px !important;
+      padding: 9px 10px !important;
+      background: transparent !important;
+      color: #b7c0cc !important;
+      border-color: transparent !important;
+    }
+
+    #root .hlc-signed-in-shell .hlc-nav-group[open] > summary,
+    #root .hlc-signed-in-shell .hlc-nav-group summary:hover,
+    #root .hlc-signed-in-shell .hlc-nav-menu a[aria-current="page"],
+    #root .hlc-signed-in-shell .hlc-nav-menu a:hover {
+      background: var(--hlc-redesign-accent-soft) !important;
+      color: #fff !important;
+    }
+
+    #root .hlc-signed-in-shell .hlc-nav-menu a {
+      min-height: 36px !important;
+      padding: 8px 9px !important;
+      background: transparent !important;
+      color: #aeb8c5 !important;
+    }
+
+    #root .hlc-sidebar-is-collapsed.hlc-signed-in-shell .hlc-navbar {
+      width: 82px !important;
+    }
+
+    #root .hlc-sidebar-is-collapsed.hlc-signed-in-shell .hlc-route-content {
+      width: calc(100% - 82px) !important;
+      margin-left: 82px !important;
+    }
+  }
+
+  @media (max-width: 860px) {
+    #root .hlc-auth-shell.hlc-auth-shell--flat {
+      width: 100% !important;
+      min-height: 100svh !important;
+      margin: 0 !important;
+      border: 0 !important;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+    }
   }
 }
