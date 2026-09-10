@@ -11,6 +11,22 @@
     <link id="hlc-runtime-physical-authority" rel="stylesheet" href="/runtime-physical-authority-20260907.css" />
     <link id="hlc-runtime-portal-authority" rel="stylesheet" href="/runtime-portal-authority-20260907.css" />
     <link id="hlc-physical-component-root-authority" rel="stylesheet" href="/physical-component-root-authority-20260907.css" />
+    <style id="hlc-frontdoor-mobile-cta-centering">
+      @media (max-width: 560px) {
+        .hlc-frontdoor-site .hlc-frontdoor-actions,
+        .hlc-frontdoor-site .hlc-frontdoor-photo-band-content .hlc-frontdoor-actions {
+          width: 100% !important;
+          justify-content: center !important;
+          justify-items: center !important;
+        }
+
+        .hlc-frontdoor-site .hlc-frontdoor-actions .hlc-frontdoor-btn {
+          width: min(100%, 320px) !important;
+          margin-inline: auto !important;
+          text-align: center !important;
+        }
+      }
+    </style>
     <script>
       (() => {
         if (!/^\/(?:login|register|forgot-password|reset-password)(?:\/|$)/.test(window.location.pathname)) return;
