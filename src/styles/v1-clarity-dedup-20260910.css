@@ -1,0 +1,57 @@
+/* HomeLead Connect V1 Visual Readiness — clarity and deduplication.
+   Existing destinations remain available through the canonical navigation and the
+   single global AI Team entry point; this layer removes repeated visual choices. */
+
+@layer hlcRedesign {
+  /* Dashboard already has one global AI Team launcher. Do not repeat three agent
+     entry cards inside the same screen. */
+  #root .hlc-signed-in-shell .hlc-home-ai-rail {
+    display: none !important;
+  }
+
+  /* Parent pages use the global AI Team launcher instead of extra Ask-agent CTAs. */
+  #root .hlc-signed-in-shell .hlc-parent-agent-link,
+  #root .hlc-signed-in-shell .hlc-community-v2-agent {
+    display: none !important;
+  }
+
+  /* Community branch rows already provide the same destinations with context.
+     The six-link command bar was a duplicate navigation layer. */
+  #root .hlc-signed-in-shell .hlc-community-v2-commandbar {
+    display: none !important;
+  }
+
+  @media (max-width: 860px) {
+    /* Resource sub-navigation remains complete, but becomes a readable compact grid
+       instead of a clipped horizontal strip. */
+    #root .hlc-signed-in-shell .hlc-sourcing-nav {
+      display: grid !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 6px !important;
+      overflow: visible !important;
+      padding: 8px 0 12px !important;
+    }
+
+    #root .hlc-signed-in-shell .hlc-sourcing-nav a {
+      min-width: 0 !important;
+      min-height: 42px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 8px 10px !important;
+      text-align: center !important;
+      white-space: normal !important;
+      line-height: 1.2 !important;
+    }
+
+    #root .hlc-signed-in-shell .hlc-sourcing-hero {
+      gap: 14px !important;
+    }
+
+    #root .hlc-signed-in-shell .hlc-sourcing-hero aside {
+      padding: 12px 0 !important;
+      border-left: 0 !important;
+      border-top: 1px solid var(--hlc-redesign-border) !important;
+    }
+  }
+}
