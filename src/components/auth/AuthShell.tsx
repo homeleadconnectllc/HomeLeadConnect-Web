@@ -15,20 +15,19 @@ export default function AuthShell({
   children,
   footer,
   status,
-  eyebrow = "HomeLead Connect account",
+  eyebrow = "Account access",
 }: AuthShellProps) {
   return (
     <main className="hlc-auth-shell hlc-auth-shell--flat">
       <section className="hlc-auth-brand" aria-label="HomeLead Connect">
         <a className="hlc-auth-logo-link" href="https://homeleadconnect.org" aria-label="Return to HomeLead Connect home">
-          <img src="/hlc-logo-transparent.png" alt="" />
-          <span>HomeLead Connect</span>
+          <img src="/hlc-logo-transparent.png" alt="HomeLead Connect" />
         </a>
       </section>
 
       <section className="hlc-auth-card" aria-labelledby="hlc-auth-title">
         <div className="hlc-auth-form-heading">
-          <p className="hlc-auth-card-brand">{eyebrow}</p>
+          {eyebrow && <p className="hlc-auth-card-brand">{eyebrow}</p>}
           <h1 id="hlc-auth-title">{title}</h1>
           <p className="hlc-auth-card-description">{description}</p>
         </div>
