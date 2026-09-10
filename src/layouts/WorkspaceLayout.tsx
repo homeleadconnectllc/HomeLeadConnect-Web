@@ -70,7 +70,7 @@ export default function WorkspaceLayout() {
     return <SystemState tone="warning" title="Internal access not assigned" message="This account has workspace membership but no recognized internal role for the selected workspace." detail="Customer and provider accounts should use their assigned portal. Internal access requires an owner, manager, or technician role." />;
   }
   if (!canAccessWorkspacePath(resolution.role, location.pathname)) {
-    return <SystemState tone="warning" title="Access restricted" message="Your role does not allow this area." detail="Direct links cannot bypass workspace permissions." action={<Link to="/dashboard">Return to Dashboard</Link>} />;
+    return <SystemState tone="warning" title="Access restricted" message="Your HomeLead Connect role does not allow this area." detail="Direct links cannot bypass workspace permissions." action={<Link to="/dashboard">Return to Dashboard</Link>} />;
   }
 
   const entitlementInput = {
