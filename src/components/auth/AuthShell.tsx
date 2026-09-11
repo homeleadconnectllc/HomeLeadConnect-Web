@@ -22,7 +22,7 @@ export default function AuthShell({
       <nav className="hlc-auth-public-nav" aria-label="Public site navigation">
         <div className="hlc-auth-public-nav-inner">
           <a className="hlc-auth-public-brand" href="https://homeleadconnect.org/" aria-label="HomeLead Connect home">
-            <img src="/hlc-logo-ui.png" alt="HomeLead Connect" width="48" height="48" />
+            <img src="/hlc-logo-transparent.png" alt="HomeLead Connect" width="48" height="48" />
           </a>
           <div className="hlc-auth-public-links">
             <a href="https://residents.homeleadconnect.org/">Residents</a>
@@ -35,21 +35,6 @@ export default function AuthShell({
           </div>
         </div>
       </nav>
-
-      <section className="hlc-auth-brand" aria-label="HomeLead Connect">
-        <a className="hlc-auth-logo-link" href="https://homeleadconnect.org" aria-label="Return to HomeLead Connect home">
-          <img src="/hlc-logo-ui.png" alt="HomeLead Connect" />
-        </a>
-        <div className="hlc-auth-brand-story">
-          <p className="hlc-auth-brand-kicker">Home services, connected better</p>
-          <h2>One trusted place for the work around home.</h2>
-          <p>Requests, conversations, appointments, and next steps—kept clear from the first connection forward.</p>
-        </div>
-        <div className="hlc-auth-brand-proof" aria-label="HomeLead Connect account benefits">
-          <span>Secure account access</span>
-          <span>Clear service coordination</span>
-        </div>
-      </section>
 
       <section className="hlc-auth-card" aria-labelledby="hlc-auth-title">
         <div className="hlc-auth-form-heading">
