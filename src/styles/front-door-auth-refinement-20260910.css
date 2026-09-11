@@ -306,3 +306,101 @@
     font-size: 12px;
   }
 }
+
+/* Final public-front-door override: the legacy physical auth authority is intentionally dark,
+   while this public shell must remain a full-width website surface on desktop. */
+html body #root .hlc-auth-shell.hlc-auth-shell--flat {
+  box-sizing: border-box !important;
+  width: 100vw !important;
+  max-width: none !important;
+  min-height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 0 40px !important;
+  color-scheme: light !important;
+  background: #f8fafc !important;
+  background-color: #f8fafc !important;
+  background-image: none !important;
+  color: #0f172a !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-public-nav {
+  background: #fff !important;
+  border-bottom-color: #e2e8f0 !important;
+}
+
+html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-main {
+  box-sizing: border-box !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(420px, 520px) !important;
+  align-items: center !important;
+  gap: clamp(48px, 7vw, 96px) !important;
+  width: min(1180px, calc(100vw - 32px)) !important;
+  max-width: 1180px !important;
+  min-height: calc(100vh - 112px) !important;
+  margin: 0 auto !important;
+  padding: 56px 0 48px !important;
+}
+
+html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro {
+  display: block !important;
+  width: auto !important;
+  max-width: 600px !important;
+  min-width: 0 !important;
+  padding: 8px 0 8px 30px !important;
+  border-left: 4px solid #2563eb !important;
+  background: transparent !important;
+  color: #0f172a !important;
+}
+
+html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro h2 {
+  color: #0d1b3d !important;
+  -webkit-text-fill-color: #0d1b3d !important;
+}
+
+html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro :is(p, span) {
+  color: #475569 !important;
+  -webkit-text-fill-color: #475569 !important;
+}
+
+html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro-kicker {
+  color: #1d4ed8 !important;
+  -webkit-text-fill-color: #1d4ed8 !important;
+}
+
+html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro-proof span::before {
+  background: #2563eb !important;
+}
+
+@media (max-width: 1024px) {
+  html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-main {
+    grid-template-columns: 1fr !important;
+    width: min(760px, calc(100vw - 32px)) !important;
+    max-width: 760px !important;
+    min-height: auto !important;
+    padding: 44px 0 40px !important;
+  }
+}
+
+@media (max-width: 720px) {
+  html body #root .hlc-auth-shell.hlc-auth-shell--flat {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 0 24px !important;
+  }
+
+  html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-main {
+    display: block !important;
+    width: calc(100vw - 24px) !important;
+    max-width: none !important;
+    min-height: auto !important;
+    margin: 0 auto !important;
+    padding: 24px 0 0 !important;
+  }
+
+  html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro {
+    display: none !important;
+  }
+}
