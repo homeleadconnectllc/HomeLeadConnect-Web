@@ -307,9 +307,8 @@
   }
 }
 
-/* Final public-front-door override: the legacy physical auth authority is intentionally dark,
-   while this public shell must remain a full-width website surface on desktop. */
-html body #root .hlc-auth-shell.hlc-auth-shell--flat {
+/* Final public-front-door override: defeat the legacy dark public/auth authorities on this surface. */
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-shell.hlc-auth-shell--flat {
   box-sizing: border-box !important;
   width: 100vw !important;
   max-width: none !important;
@@ -326,12 +325,12 @@ html body #root .hlc-auth-shell.hlc-auth-shell--flat {
   box-shadow: none !important;
 }
 
-html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-public-nav {
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-public-nav {
   background: #fff !important;
   border-bottom-color: #e2e8f0 !important;
 }
 
-html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-main {
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-main {
   box-sizing: border-box !important;
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) minmax(420px, 520px) !important;
@@ -344,38 +343,69 @@ html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-main {
   padding: 56px 0 48px !important;
 }
 
-html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro {
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro {
   display: block !important;
   width: auto !important;
   max-width: 600px !important;
   min-width: 0 !important;
   padding: 8px 0 8px 30px !important;
   border-left: 4px solid #2563eb !important;
+  border-radius: 0 !important;
   background: transparent !important;
   color: #0f172a !important;
+  box-shadow: none !important;
 }
 
-html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro h2 {
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro h2 {
   color: #0d1b3d !important;
   -webkit-text-fill-color: #0d1b3d !important;
 }
 
-html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro :is(p, span) {
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro :is(p, span) {
   color: #475569 !important;
   -webkit-text-fill-color: #475569 !important;
 }
 
-html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro-kicker {
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro-kicker {
   color: #1d4ed8 !important;
   -webkit-text-fill-color: #1d4ed8 !important;
 }
 
-html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro-proof span::before {
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro-proof span::before {
   background: #2563eb !important;
 }
 
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 32px !important;
+  border: 1px solid #1e3345 !important;
+  border-radius: 20px !important;
+  background: #0f1b27 !important;
+  color: #f8fafc !important;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, .16) !important;
+  text-align: left !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card :is(h1, h2, label, strong) {
+  color: #f8fafc !important;
+  -webkit-text-fill-color: #f8fafc !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card :is(p, small) {
+  color: #cbd5e1 !important;
+  -webkit-text-fill-color: #cbd5e1 !important;
+}
+
+#root .hlc-app-shell.hlc-public-shell .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card-footer {
+  background: transparent !important;
+  border-top-color: #263746 !important;
+  color: #94a3b8 !important;
+}
+
 @media (max-width: 800px) {
-  html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-main {
+  #root .hlc-app-shell.hlc-public-shell .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-main {
     grid-template-columns: 1fr !important;
     width: min(760px, calc(100vw - 32px)) !important;
     max-width: 760px !important;
@@ -385,13 +415,13 @@ html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro-proof span:
 }
 
 @media (max-width: 720px) {
-  html body #root .hlc-auth-shell.hlc-auth-shell--flat {
+  #root .hlc-app-shell.hlc-public-shell .hlc-auth-shell.hlc-auth-shell--flat {
     width: 100% !important;
     max-width: none !important;
     padding: 0 0 24px !important;
   }
 
-  html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-main {
+  #root .hlc-app-shell.hlc-public-shell .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-main {
     display: block !important;
     width: calc(100vw - 24px) !important;
     max-width: none !important;
@@ -400,7 +430,13 @@ html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro-proof span:
     padding: 24px 0 0 !important;
   }
 
-  html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro {
+  #root .hlc-app-shell.hlc-public-shell .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro {
     display: none !important;
+  }
+
+  #root .hlc-app-shell.hlc-public-shell .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card {
+    width: 100% !important;
+    padding: 24px 18px !important;
+    border-radius: 18px !important;
   }
 }
