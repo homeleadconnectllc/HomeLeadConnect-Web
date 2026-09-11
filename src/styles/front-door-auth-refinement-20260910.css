@@ -236,7 +236,7 @@
   outline: none;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 800px) {
   .hlc-auth-public-nav-inner {
     width: calc(100% - 32px);
   }
@@ -374,7 +374,7 @@ html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro-proof span:
   background: #2563eb !important;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 800px) {
   html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-main {
     grid-template-columns: 1fr !important;
     width: min(760px, calc(100vw - 32px)) !important;
