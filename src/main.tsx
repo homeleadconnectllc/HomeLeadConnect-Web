@@ -36,7 +36,7 @@ function publicHomeMarkup() {
       </nav>
 
       <section class="hlc-frontdoor-hero">
-        <img src="/hlc-frontdoor-resident-hero-final.jpg" alt="Resident working on a home project" width="1400" height="900" fetchpriority="high" />
+        <img src="/hlc-frontdoor-resident-hero-v2.webp" alt="Resident working on a home project" width="1400" height="900" fetchpriority="high" />
         <div class="hlc-frontdoor-hero-content">
           <p class="hlc-frontdoor-kicker">Home services, connected better</p>
           <h1>Home help should feel easier.</h1>
