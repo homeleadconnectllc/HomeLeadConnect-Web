@@ -36,16 +36,29 @@ export default function AuthShell({
         </div>
       </nav>
 
-      <section className="hlc-auth-card" aria-labelledby="hlc-auth-title">
-        <div className="hlc-auth-form-heading">
-          {eyebrow && <p className="hlc-auth-card-brand">{eyebrow}</p>}
-          <h1 id="hlc-auth-title">{title}</h1>
-          <p className="hlc-auth-card-description">{description}</p>
-        </div>
-        {status}
-        {children}
-        {footer && <footer className="hlc-auth-card-footer">{footer}</footer>}
-      </section>
+      <div className="hlc-auth-main">
+        <section className="hlc-auth-intro" aria-label="HomeLead Connect account overview">
+          <p className="hlc-auth-intro-kicker">Home services, connected better</p>
+          <h2>Your next step, kept clear.</h2>
+          <p>Sign in to keep your home-service requests, conversations, appointments, and next steps together in one trusted place.</p>
+          <div className="hlc-auth-intro-proof" aria-label="HomeLead Connect account benefits">
+            <span>Secure account access</span>
+            <span>Clear service coordination</span>
+            <span>One connected experience</span>
+          </div>
+        </section>
+
+        <section className="hlc-auth-card" aria-labelledby="hlc-auth-title">
+          <div className="hlc-auth-form-heading">
+            {eyebrow && <p className="hlc-auth-card-brand">{eyebrow}</p>}
+            <h1 id="hlc-auth-title">{title}</h1>
+            <p className="hlc-auth-card-description">{description}</p>
+          </div>
+          {status}
+          {children}
+          {footer && <footer className="hlc-auth-card-footer">{footer}</footer>}
+        </section>
+      </div>
     </main>
   );
 }
