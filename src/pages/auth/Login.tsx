@@ -9,6 +9,7 @@ import { errorMessage } from "../../lib/errorMessage";
 import { isSupabaseConfigured, supabase, supabaseConfigMessage } from "../../lib/supabase";
 import { turnstileEnabled } from "../../lib/turnstile";
 import "../../styles/front-door-auth-refinement-20260910.css";
+import "../../styles/front-door-auth-final-override-20260911.css";
 
 type AuthMode = "password" | "magic" | "phone";
 
