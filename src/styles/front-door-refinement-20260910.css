@@ -1,0 +1,59 @@
+/* Small, isolated refinements layered after the front-door system pass. */
+.hlc-frontdoor-service-line a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 17px;
+  border: 1px solid var(--hlc-line);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--hlc-ink);
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(16,35,63,.05);
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+.hlc-frontdoor-service-line a:hover,
+.hlc-frontdoor-service-line a:focus-visible {
+  transform: translateY(-1px);
+  border-color: #9bbbe2;
+  box-shadow: 0 9px 22px rgba(16,35,63,.1);
+}
+
+/* Keep the hero's primary request action readable regardless of inherited anchor/text-fill rules. */
+.hlc-frontdoor-hero .hlc-frontdoor-btn-primary {
+  color: #07356f !important;
+  -webkit-text-fill-color: #07356f !important;
+  opacity: 1 !important;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+@media (max-width: 760px) {
+  .hlc-frontdoor-navin { min-height: 68px; }
+  .hlc-frontdoor-brand img { width: 50px; height: 50px; }
+  .hlc-frontdoor-navlinks { gap: 8px; }
+  .hlc-frontdoor-navlinks a:not(.hlc-frontdoor-primary) { display: none; }
+  .hlc-frontdoor-navlinks .hlc-frontdoor-primary { min-height: 42px; padding-inline: 16px; font-size: 13px; }
+  .hlc-frontdoor-hero { min-height: calc(100svh - 68px); }
+  .hlc-frontdoor-hero-content { padding-block: 44px 48px; }
+  .hlc-frontdoor-hero h1 { font-size: clamp(2.65rem, 12vw, 4rem); line-height: .98; }
+  .hlc-frontdoor-hero-content > p:not(.hlc-frontdoor-kicker) { font-size: 1rem; line-height: 1.55; margin-top: 18px; }
+  .hlc-frontdoor-actions { margin-top: 22px; }
+  .hlc-frontdoor-quick { padding-block: 10px; }
+  .hlc-frontdoor-section { padding-block: 58px; }
+  .hlc-frontdoor-section h2 { font-size: clamp(2rem, 9.5vw, 3rem); }
+  .hlc-frontdoor-copy,
+  .hlc-frontdoor-split-text > p,
+  .hlc-frontdoor-step p,
+  .hlc-frontdoor-photo-band-content p,
+  .hlc-frontdoor-cta p { font-size: 1rem; line-height: 1.58; }
+  .hlc-frontdoor-service-line { gap: 8px; margin-top: 28px; }
+  .hlc-frontdoor-service-line a { min-height: 42px; padding-inline: 14px; }
+  .hlc-frontdoor-photo { border-radius: 18px; }
+  .hlc-frontdoor-photo-band { min-height: 560px; }
+  .hlc-frontdoor-footer { padding-block: 36px; }
+  .hlc-frontdoor-footlinks { gap: 10px 16px; }
+}
