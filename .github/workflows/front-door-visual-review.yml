@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - 'visual/front-door-system-pass-20260910'
+  pull_request:
+    types: [synchronize]
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -17,9 +21,19 @@ jobs:
       VITE_SUPABASE_URL: https://cguhtshclyybivvdnpig.supabase.co
       VITE_SUPABASE_ANON_KEY: sb_publishable_MQioEyUGv8MNlowJgVyXYQ_kf5cyafA
       VITE_AUTH_CAPTCHA_REQUIRED: "false"
+      CANDIDATE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
     steps:
       - name: Checkout exact candidate
         uses: actions/checkout@v4
+        with:
+          ref: ${{ env.CANDIDATE_SHA }}
+
+      - name: Assert exact candidate checkout
+        run: |
+          set -euo pipefail
+          actual="$(git rev-parse HEAD)"
+          test "$actual" = "$CANDIDATE_SHA"
+          echo "Exact candidate: $actual"
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -98,13 +112,15 @@ jobs:
             fs.writeFileSync(`/tmp/${name}.png`, Buffer.from(base64, 'base64'));
             console.log(`Wrote /tmp/${name}.png`);
           }
+          fs.writeFileSync('/tmp/candidate-sha.txt', `${process.env.CANDIDATE_SHA}\n`);
           NODE
 
       - name: Upload visual review evidence
         uses: actions/upload-artifact@v4
         with:
-          name: front-door-visual-review-${{ github.sha }}
+          name: front-door-visual-review-${{ env.CANDIDATE_SHA }}
           path: |
+            /tmp/candidate-sha.txt
             /tmp/home-mobile.png
             /tmp/home-desktop.png
             /tmp/login-mobile.png
