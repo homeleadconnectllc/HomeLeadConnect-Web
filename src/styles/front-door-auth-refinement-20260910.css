@@ -1,4 +1,134 @@
-/* Front-door auth refinement: scoped to password controls only. */
+/* Front-door auth refinement: scoped to public authentication surfaces. */
+.hlc-auth-shell.hlc-auth-shell--flat {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  max-width: none;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0 0 64px;
+  border: 0;
+  border-radius: 0;
+  color: #0f172a;
+  background: #f8fafc;
+  box-shadow: none;
+  text-align: left;
+}
+
+.hlc-auth-public-nav {
+  width: 100%;
+  border-bottom: 1px solid #e2e8f0;
+  background: #fff;
+}
+
+.hlc-auth-public-nav-inner {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: min(1180px, calc(100% - 32px));
+  min-height: 72px;
+  margin: 0 auto;
+}
+
+.hlc-auth-public-brand {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  text-decoration: none;
+}
+
+.hlc-auth-public-brand img {
+  display: block;
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.hlc-auth-public-links {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  min-width: 0;
+}
+
+.hlc-auth-public-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 42px;
+  padding: 8px 11px;
+  border-radius: 9px;
+  color: #334155;
+  font-size: 13px;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.hlc-auth-public-links a:hover,
+.hlc-auth-public-links a:focus-visible {
+  color: #1d4ed8;
+  background: #eff6ff;
+  outline: none;
+}
+
+.hlc-auth-public-links .hlc-auth-public-request {
+  margin-left: 6px;
+  padding-inline: 16px;
+  color: #fff;
+  background: #2563eb;
+}
+
+.hlc-auth-public-links .hlc-auth-public-request:hover,
+.hlc-auth-public-links .hlc-auth-public-request:focus-visible {
+  color: #fff;
+  background: #1d4ed8;
+}
+
+/* The public nav is now the single auth-page brand/header; avoid a duplicate logo block. */
+.hlc-auth-shell .hlc-auth-brand {
+  display: none;
+}
+
+.hlc-auth-shell .hlc-auth-card {
+  box-sizing: border-box;
+  width: min(520px, calc(100% - 32px));
+  margin: 48px auto 0;
+  padding: 32px;
+  border: 1px solid #1e3345;
+  border-radius: 20px;
+  color: #f8fafc;
+  background: #0f1b27;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, .16);
+}
+
+.hlc-auth-shell .hlc-auth-card h1,
+.hlc-auth-shell .hlc-auth-card h2 {
+  color: #f8fafc;
+}
+
+.hlc-auth-shell .hlc-auth-card-brand {
+  color: #93c5fd;
+}
+
+.hlc-auth-shell .hlc-auth-card-description {
+  color: #cbd5e1;
+}
+
+.hlc-auth-shell .hlc-auth-card-footer {
+  border-top-color: #263746;
+}
+
+.hlc-auth-shell .hlc-auth-card-footer p {
+  color: #94a3b8;
+}
+
+.hlc-auth-shell .hlc-auth-card-footer a {
+  color: #9fc1ff;
+}
+
 .hlc-auth-form .hlc-password-field { gap: 8px; }
 .hlc-auth-form .hlc-password-field > span:first-child {
   color: #e5edf7 !important;
@@ -40,7 +170,46 @@
   background: rgba(99, 102, 241, .16);
   outline: none;
 }
+
+@media (max-width: 1024px) {
+  .hlc-auth-public-nav-inner {
+    width: calc(100% - 32px);
+  }
+
+  .hlc-auth-public-links a:not(.hlc-auth-public-request) {
+    display: none;
+  }
+}
+
 @media (max-width: 640px) {
+  .hlc-auth-shell.hlc-auth-shell--flat {
+    padding-bottom: 28px;
+  }
+
+  .hlc-auth-public-nav-inner {
+    min-height: 64px;
+    width: calc(100% - 24px);
+  }
+
+  .hlc-auth-public-brand img {
+    width: 42px;
+    height: 42px;
+  }
+
+  .hlc-auth-public-links .hlc-auth-public-request {
+    min-height: 40px;
+    margin-left: 0;
+    padding-inline: 13px;
+    font-size: 12px;
+  }
+
+  .hlc-auth-shell .hlc-auth-card {
+    width: calc(100% - 24px);
+    margin-top: 24px;
+    padding: 24px 18px;
+    border-radius: 18px;
+  }
+
   .hlc-auth-form .hlc-password-field > span:first-child { font-size: 14px; }
   .hlc-auth-form .hlc-password-input-row input { padding-right: 112px; }
   .hlc-auth-form .hlc-password-toggle { right: 7px; padding-inline: 8px; font-size: 12px; }
