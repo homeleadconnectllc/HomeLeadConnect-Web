@@ -5,7 +5,7 @@ on:
     branches:
       - 'visual/front-door-system-pass-20260910'
   pull_request:
-    types: [synchronize]
+    types: [synchronize, reopened]
     branches:
       - main
   workflow_dispatch:
@@ -27,26 +27,21 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ env.CANDIDATE_SHA }}
-
       - name: Assert exact candidate checkout
         run: |
           set -euo pipefail
           actual="$(git rev-parse HEAD)"
           test "$actual" = "$CANDIDATE_SHA"
           echo "Exact candidate: $actual"
-
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '24'
           cache: npm
-
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit --fund=false
-
       - name: Build candidate
         run: npm run build
-
       - name: Start rendered preview
         run: |
           set -euo pipefail
@@ -57,64 +52,31 @@ jobs:
           done
           cat /tmp/hlc-preview.log || true
           exit 30
-
       - name: Capture mobile Home screenshot
         run: |
-          npx --yes lighthouse@13.4.1 http://127.0.0.1:4173/ \
-            --quiet \
-            --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" \
-            --output=json \
-            --output-path=/tmp/home-mobile.json
-
+          npx --yes lighthouse@13.4.1 http://127.0.0.1:4173/ --quiet --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" --output=json --output-path=/tmp/home-mobile.json
       - name: Capture desktop Home screenshot
         run: |
-          npx --yes lighthouse@13.4.1 http://127.0.0.1:4173/ \
-            --quiet \
-            --preset=desktop \
-            --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" \
-            --output=json \
-            --output-path=/tmp/home-desktop.json
-
+          npx --yes lighthouse@13.4.1 http://127.0.0.1:4173/ --quiet --preset=desktop --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" --output=json --output-path=/tmp/home-desktop.json
       - name: Capture mobile Login screenshot
         run: |
-          npx --yes lighthouse@13.4.1 http://127.0.0.1:4173/login \
-            --quiet \
-            --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" \
-            --output=json \
-            --output-path=/tmp/login-mobile.json
-
+          npx --yes lighthouse@13.4.1 http://127.0.0.1:4173/login --quiet --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" --output=json --output-path=/tmp/login-mobile.json
       - name: Capture desktop Login screenshot
         run: |
-          npx --yes lighthouse@13.4.1 http://127.0.0.1:4173/login \
-            --quiet \
-            --preset=desktop \
-            --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" \
-            --output=json \
-            --output-path=/tmp/login-desktop.json
-
+          npx --yes lighthouse@13.4.1 http://127.0.0.1:4173/login --quiet --preset=desktop --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" --output=json --output-path=/tmp/login-desktop.json
       - name: Extract review images
         run: |
           node - <<'NODE'
           const fs = require('node:fs');
-          const reports = [
-            ['home-mobile', '/tmp/home-mobile.json'],
-            ['home-desktop', '/tmp/home-desktop.json'],
-            ['login-mobile', '/tmp/login-mobile.json'],
-            ['login-desktop', '/tmp/login-desktop.json'],
-          ];
+          const reports = [['home-mobile','/tmp/home-mobile.json'],['home-desktop','/tmp/home-desktop.json'],['login-mobile','/tmp/login-mobile.json'],['login-desktop','/tmp/login-desktop.json']];
           for (const [name, path] of reports) {
             const report = JSON.parse(fs.readFileSync(path, 'utf8'));
             const data = report.audits?.['final-screenshot']?.details?.data;
-            if (!data || !data.startsWith('data:image/')) {
-              throw new Error(`Missing final screenshot for ${name}`);
-            }
-            const base64 = data.split(',', 2)[1];
-            fs.writeFileSync(`/tmp/${name}.png`, Buffer.from(base64, 'base64'));
-            console.log(`Wrote /tmp/${name}.png`);
+            if (!data || !data.startsWith('data:image/')) throw new Error(`Missing final screenshot for ${name}`);
+            fs.writeFileSync(`/tmp/${name}.png`, Buffer.from(data.split(',', 2)[1], 'base64'));
           }
           fs.writeFileSync('/tmp/candidate-sha.txt', `${process.env.CANDIDATE_SHA}\n`);
           NODE
-
       - name: Upload visual review evidence
         uses: actions/upload-artifact@v4
         with:
