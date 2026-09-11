@@ -2,6 +2,7 @@ import "./index.css";
 import "./styles/front-door-system-pass-20260910.css";
 import "./styles/front-door-refinement-20260910.css";
 import "./styles/front-door-mobile-redesign-20260911.css";
+import "./styles/front-door-mobile-polish-20260911.css";
 
 /*
 Authenticated runtime ownership moved to styles/app-shell-entry.ts so the public homepage can stay lightweight.
