@@ -30,6 +30,20 @@
   .hlc-frontdoor-people .hlc-frontdoor-split-text h2 { color: #10233f; }
   .hlc-frontdoor-people .hlc-frontdoor-split-text > p { color: #53657b; }
 
+  /* People First is a full-bleed image story on mobile — no floating card treatment, radius, or shadow. */
+  .hlc-frontdoor-people .hlc-frontdoor-photo {
+    width: 100vw;
+    max-width: none;
+    margin-left: calc(50% - 50vw);
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .hlc-frontdoor-people .hlc-frontdoor-photo img {
+    width: 100%;
+    max-width: none;
+    border-radius: 0;
+  }
+
   /* Tighten the mobile timeline so all four steps form one readable unit. */
   .hlc-frontdoor-how { padding-top: 58px; padding-bottom: 58px; }
   .hlc-frontdoor-how .hlc-frontdoor-process { margin-top: 26px; }
@@ -41,6 +55,13 @@
   .hlc-frontdoor-photo img,
   .hlc-frontdoor-photo-band,
   .hlc-frontdoor-photo-band > img { max-width: 100%; }
+
+  /* Re-assert full-bleed People First after the generic image-width guard above. */
+  .hlc-frontdoor-people .hlc-frontdoor-photo,
+  .hlc-frontdoor-people .hlc-frontdoor-photo img {
+    width: 100vw;
+    max-width: none;
+  }
 }
 
 /* Desktop keeps the established white public header and light People First surface. */
