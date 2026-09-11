@@ -66,6 +66,7 @@ export default function AppLayout() {
     return window.matchMedia(DESKTOP_SHELL_QUERY).matches;
   });
   const focusedPublicIntake = location.pathname === "/request-service";
+  const authFrontDoorSurface = ["/login", "/register", "/forgot-password", "/reset-password"].includes(location.pathname);
   const signedInWorkspaceShell = Boolean(session) && !focusedPublicIntake;
   const showAudioDevices = signedInWorkspaceShell && (location.pathname === "/settings" || location.pathname === "/call-center");
   const showFieldDevices = signedInWorkspaceShell && location.pathname === "/settings";
@@ -118,7 +119,7 @@ export default function AppLayout() {
   }, [location.key, location.pathname, location.hash]);
 
   useEffect(() => {
-    if (focusedPublicIntake) return;
+    if (focusedPublicIntake || authFrontDoorSurface) return;
     const logo = document.querySelector<HTMLElement>(".hlc-navbar-logo");
     if (!logo) return;
     const destination = session ? "/dashboard" : "/";
@@ -143,13 +144,13 @@ export default function AppLayout() {
       logo.removeAttribute("aria-label");
       logo.classList.remove("hlc-navbar-logo-home");
     };
-  }, [focusedPublicIntake, navigate, session]);
+  }, [authFrontDoorSurface, focusedPublicIntake, navigate, session]);
 
   return (
-    <div className={`hlc-app-shell ${signedInWorkspaceShell ? "hlc-signed-in-shell" : "hlc-public-shell"} ${routeClass}${signedInWorkspaceShell && sidebarCollapsed ? " hlc-sidebar-is-collapsed" : ""}${routePersonaClass ? ` ${routePersonaClass}` : ""}${focusedPublicIntake ? " hlc-focused-public-intake" : ""}`}>
+    <div className={`hlc-app-shell ${signedInWorkspaceShell ? "hlc-signed-in-shell" : "hlc-public-shell"} ${routeClass}${signedInWorkspaceShell && sidebarCollapsed ? " hlc-sidebar-is-collapsed" : ""}${routePersonaClass ? ` ${routePersonaClass}` : ""}${focusedPublicIntake ? " hlc-focused-public-intake" : ""}${authFrontDoorSurface ? " hlc-auth-front-door-surface" : ""}`}>
       <RuntimePhysicalAuthority />
       <AnalyticsTracker />
-      {!focusedPublicIntake && <Navbar />}
+      {!focusedPublicIntake && !authFrontDoorSurface && <Navbar />}
       {signedInWorkspaceShell && desktopShell && (
         <Link className="hlc-desktop-page-brand" to="/dashboard" aria-label="HomeLead Connect dashboard">
           <img src="/hlc-logo-transparent.png" alt="HomeLead Connect LLC" />
@@ -168,14 +169,14 @@ export default function AppLayout() {
         </button>
       )}
       <div className="hlc-route-content">
-        {!session && location.pathname !== "/" && <RouteVisualBanner />}
+        {!session && !authFrontDoorSurface && location.pathname !== "/" && <RouteVisualBanner />}
         <Outlet />
         <Suspense fallback={null}>
           {showAudioDevices && <AudioDeviceCenter />}
           {showFieldDevices && <FieldDeviceCenter />}
         </Suspense>
       </div>
-      {(!session || focusedPublicIntake) && <Footer />}
+      {(!session || focusedPublicIntake) && !authFrontDoorSurface && <Footer />}
       <Suspense fallback={null}>
         {signedInWorkspaceShell && <WorkspaceGuidance />}
         {signedInWorkspaceShell && <UniversalAITeamLauncher />}

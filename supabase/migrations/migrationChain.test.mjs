@@ -18,6 +18,7 @@ const stagedUnpromotedFiles = [
   "20260901203000_resources_sourcing_runtime.sql",
   "20260904031500_resident_capability_and_leadscope_projects.sql",
   "20260907042000_optimize_rls_auth_initplan_batch1.sql",
+  "20260911101544_revoke_public_execute_resolve_billing_workspace_access.sql",
 ];
 const productionPlanFiles = migrationFiles.filter((name) => !stagedUnpromotedFiles.includes(name));
 const plan = readFileSync("supabase/RELEASE_MIGRATION_PLAN.md", "utf8");

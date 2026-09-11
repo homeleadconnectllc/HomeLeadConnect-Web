@@ -8,6 +8,8 @@ import { useAuth } from "../../hooks/useAuth";
 import { errorMessage } from "../../lib/errorMessage";
 import { isSupabaseConfigured, supabase, supabaseConfigMessage } from "../../lib/supabase";
 import { turnstileEnabled } from "../../lib/turnstile";
+import "../../styles/front-door-auth-refinement-20260910.css";
+import "../../styles/front-door-login-outer-authority-20260911.css";
 
 type AuthMode = "password" | "magic" | "phone";
 
@@ -43,6 +45,7 @@ export default function Login() {
   const [mode, setMode] = useState<AuthMode>("password");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
@@ -147,8 +150,9 @@ export default function Login() {
   </>;
   const registerHref = requestedDestination ? `/register?next=${encodeURIComponent(requestedDestination)}` : "/register";
   const footer = <>
-    <p className="hlc-auth-help-row"><Link to="/forgot-password">Forgot password?</Link><span aria-hidden="true">•</span><Link to={registerHref} aria-label="Create your account">Create account</Link></p>
-    <p className="hlc-auth-return"><a href="https://homeleadconnect.org">← Return to public site</a></p>
+    <p><Link to="/forgot-password">Forgot your password?</Link></p>
+    <p>New here? <Link to={registerHref} aria-label="Create your account">Create account</Link>.</p>
+    <p><a href="https://homeleadconnect.org">Public site</a></p>
   </>;
 
   return <AuthShell title="Welcome back" description={invitationFlow ? "Sign in with the email address that received the invitation." : "Choose the sign-in method that works best for you."} status={status} footer={footer}>
@@ -160,7 +164,7 @@ export default function Login() {
 
     {mode === "password" && <form className="hlc-auth-form" onSubmit={login}>
       <label>Email<input required autoComplete="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} /></label>
-      <label>Password<input required autoComplete="current-password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} /></label>
+      <label className="hlc-password-field"><span className="hlc-password-label">Password</span><span className="hlc-password-input-row"><input required autoComplete="current-password" type={showPassword ? "text" : "password"} value={password} onChange={(event) => setPassword(event.target.value)} /><button className="hlc-password-toggle" type="button" aria-pressed={showPassword} onClick={() => setShowPassword((value) => !value)}>{showPassword ? "Hide password" : "Show password"}</button></span></label>
       <AuthTurnstile onToken={setCaptchaToken} resetSignal={captchaReset} />
       <button aria-label="Sign in to HomeLead Connect" disabled={busy || !isSupabaseConfigured() || (turnstileEnabled && !captchaToken)} type="submit">{busy ? "Signing in…" : "Sign in"}</button>
     </form>}
