@@ -71,5 +71,6 @@ test("approved public front door remains complete beyond the hero", () => {
   assert.match(main, /hlc-frontdoor-people-first\.webp/);
   assert.match(main, /hlc-frontdoor-professional\.webp/);
   assert.match(main, /hlc-frontdoor-footer/);
-  assert.match(main, /href="tel:\+17175519897">\(717\) 551-9897<\/a>/);
+  assert.match(main, /href="tel:\+17172881785">\(717\) 288-1785<\/a>/);
+  assert.match(main, /href="mailto:info@homeleadconnect\.org">info@homeleadconnect\.org<\/a>/);
 });

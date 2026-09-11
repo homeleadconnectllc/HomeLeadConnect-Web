@@ -1,18 +1,30 @@
 import { useState, type FormEvent } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { trackAnalyticsEvent } from "../api/analytics";
 import { submitServiceRequest } from "../api/publicIntake";
 import { errorMessage } from "../lib/errorMessage";
 
 type ResidentType = "Renter" | "Homeowner" | "Property manager" | "Other";
 
+const serviceLabels: Record<string, string> = {
+  repairs: "Repairs",
+  painting: "Painting",
+  roofing: "Roofing",
+  hvac: "HVAC",
+  cleaning: "Cleaning",
+  moving: "Moving",
+  "general-home-help": "General Home Help",
+};
+
 export default function RequestService() {
+  const [searchParams] = useSearchParams();
+  const selectedService = serviceLabels[searchParams.get("service") || ""] || "";
   const [form, setForm] = useState({
     fullName: "",
     phone: "",
     email: "",
     residentType: "Renter" as ResidentType,
-    projectDetails: "",
+    projectDetails: selectedService ? `Service category: ${selectedService}\n` : "",
     honeypot: "",
   });
   const [requestId] = useState(() => crypto.randomUUID());
