@@ -1,0 +1,162 @@
+/* HomeLead Connect premium portal-family rollout — 2026-09-11.
+   Presentation-only candidate layer. Dark cinematic foundations, role-specific accents,
+   and existing owned imagery. No routing/auth/data/RLS/billing/workflow changes. */
+
+:root {
+  --hlc-premium-bg: #030914;
+  --hlc-premium-surface: rgba(7, 18, 31, .92);
+  --hlc-premium-surface-strong: rgba(4, 12, 24, .97);
+  --hlc-premium-border: rgba(148, 163, 184, .18);
+  --hlc-premium-ink: #f8fbff;
+  --hlc-premium-body: #d7e2ee;
+  --hlc-premium-muted: #9eb0c3;
+  --hlc-premium-blue: #28a8ff;
+  --hlc-premium-blue-soft: rgba(40, 168, 255, .16);
+}
+
+/* Deepen the signed-in canvas without flattening existing page structure. */
+#root .hlc-signed-in-shell {
+  background:
+    radial-gradient(circle at 8% 0%, rgba(15, 118, 220, .16), transparent 34%),
+    radial-gradient(circle at 92% 10%, rgba(0, 206, 209, .08), transparent 28%),
+    linear-gradient(180deg, #020712 0%, var(--hlc-premium-bg) 48%, #020610 100%) !important;
+  color: var(--hlc-premium-body);
+}
+
+#root .hlc-signed-in-shell .hlc-route-content {
+  background: transparent !important;
+}
+
+#root .hlc-signed-in-shell .hlc-route-content :is(section, article, .hlc-portal-workspace, [class*="card"], [class*="panel"], [class*="surface"]) {
+  background-color: var(--hlc-premium-surface) !important;
+  border-color: var(--hlc-premium-border) !important;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .26);
+}
+
+#root .hlc-signed-in-shell .hlc-route-content :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--hlc-premium-ink) !important;
+  -webkit-text-fill-color: var(--hlc-premium-ink) !important;
+}
+
+#root .hlc-signed-in-shell .hlc-route-content :is(p, li, label, dd, dt) {
+  color: var(--hlc-premium-body) !important;
+  -webkit-text-fill-color: var(--hlc-premium-body) !important;
+}
+
+#root .hlc-signed-in-shell .hlc-route-content :is(small, [class*="muted"], [class*="meta"], [class*="helper"], [class*="caption"]) {
+  color: var(--hlc-premium-muted) !important;
+  -webkit-text-fill-color: var(--hlc-premium-muted) !important;
+}
+
+/* Resident — warm, human, home-first. Existing owner-supplied people image only. */
+#root:has(a[href="/homeowner-portal"][aria-current="page"]) {
+  --hlc-workspace-accent: #f5b84b;
+  --hlc-workspace-accent-strong: #d58a12;
+  --hlc-workspace-accent-soft: rgba(245, 184, 75, .16);
+  --hlc-workspace-glow: rgba(245, 184, 75, .15);
+}
+
+#root:has(a[href="/homeowner-portal"][aria-current="page"]) .hlc-portal-workspace {
+  background-image:
+    linear-gradient(90deg, rgba(2, 8, 17, .98) 0%, rgba(2, 8, 17, .9) 54%, rgba(2, 8, 17, .68) 100%),
+    url('/hlc-frontdoor-people-first.webp') !important;
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+/* Professional — cool cyan/teal, work/execution. Existing professional image. */
+#root:has(a[href="/contractor-portal"][aria-current="page"]) {
+  --hlc-workspace-accent: #36d9d0;
+  --hlc-workspace-accent-strong: #0f9f98;
+  --hlc-workspace-accent-soft: rgba(54, 217, 208, .15);
+  --hlc-workspace-glow: rgba(54, 217, 208, .14);
+}
+
+#root:has(a[href="/contractor-portal"][aria-current="page"]) .hlc-portal-workspace {
+  background-image:
+    linear-gradient(90deg, rgba(2, 8, 17, .98) 0%, rgba(2, 8, 17, .9) 58%, rgba(2, 8, 17, .7) 100%),
+    url('/hlc-frontdoor-professional.webp') !important;
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+/* Partner — premium violet for relationship/opportunity surfaces. */
+#root:has(a[href="/partner-portal"][aria-current="page"]) {
+  --hlc-workspace-accent: #c58cff;
+  --hlc-workspace-accent-strong: #7c3aed;
+  --hlc-workspace-accent-soft: rgba(197, 140, 255, .16);
+  --hlc-workspace-glow: rgba(124, 58, 237, .15);
+}
+
+/* Internal — restrained electric blue for command/operations. */
+#root:has(a[href="/dashboard"][aria-current="page"]) {
+  --hlc-workspace-accent: #4bb7ff;
+  --hlc-workspace-accent-strong: #1976d2;
+  --hlc-workspace-accent-soft: rgba(75, 183, 255, .15);
+  --hlc-workspace-glow: rgba(25, 118, 210, .16);
+}
+
+/* Premium role-aware navigation treatment. */
+#root .hlc-navbar {
+  background: rgba(2, 8, 17, .96) !important;
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--hlc-workspace-border, rgba(148, 163, 184, .18)) !important;
+  box-shadow: 0 10px 34px rgba(0, 0, 0, .24);
+}
+
+#root .hlc-portal-workspace {
+  border-color: var(--hlc-workspace-border, var(--hlc-premium-border)) !important;
+  box-shadow: 0 24px 70px var(--hlc-workspace-glow, rgba(40, 168, 255, .12)) !important;
+  overflow: hidden;
+}
+
+#root .hlc-route-content :is(button, [role="button"], .hlc-button) {
+  border-radius: 12px;
+}
+
+#root .hlc-route-content :is(input, select, textarea) {
+  background: rgba(2, 9, 18, .9) !important;
+  border-color: var(--hlc-workspace-border, var(--hlc-premium-border)) !important;
+  color: var(--hlc-premium-ink) !important;
+  -webkit-text-fill-color: var(--hlc-premium-ink) !important;
+}
+
+#root .hlc-route-content :is(input, select, textarea):focus {
+  border-color: var(--hlc-workspace-accent, var(--hlc-premium-blue)) !important;
+  box-shadow: 0 0 0 3px var(--hlc-workspace-accent-soft, var(--hlc-premium-blue-soft)) !important;
+}
+
+/* Subtle city-at-night texture for pages without a role photograph. */
+#root .hlc-signed-in-shell::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    linear-gradient(180deg, rgba(2, 7, 16, .12), rgba(2, 7, 16, .48)),
+    radial-gradient(circle at 50% 100%, rgba(28, 128, 214, .08), transparent 38%);
+}
+
+#root .hlc-signed-in-shell > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 760px) {
+  #root .hlc-signed-in-shell {
+    background:
+      radial-gradient(circle at 50% 0%, rgba(15, 118, 220, .14), transparent 36%),
+      linear-gradient(180deg, #020712 0%, #030914 100%) !important;
+  }
+
+  #root .hlc-signed-in-shell .hlc-route-content :is(section, article, .hlc-portal-workspace, [class*="card"], [class*="panel"], [class*="surface"]) {
+    box-shadow: 0 12px 34px rgba(0, 0, 0, .28);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #root .hlc-signed-in-shell::before {
+    display: none;
+  }
+}
