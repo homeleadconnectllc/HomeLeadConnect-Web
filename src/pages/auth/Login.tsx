@@ -164,7 +164,7 @@ export default function Login() {
 
     {mode === "password" && <form className="hlc-auth-form" onSubmit={login}>
       <label>Email<input required autoComplete="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} /></label>
-      <label className="hlc-password-field"><span>Password</span><span className="hlc-password-input-row"><input required autoComplete="current-password" type={showPassword ? "text" : "password"} value={password} onChange={(event) => setPassword(event.target.value)} /><button className="hlc-password-toggle" type="button" aria-pressed={showPassword} onClick={() => setShowPassword((value) => !value)}>{showPassword ? "Hide password" : "Show password"}</button></span></label>
+      <label className="hlc-password-field"><span className="hlc-password-label">Password</span><span className="hlc-password-input-row"><input required autoComplete="current-password" type={showPassword ? "text" : "password"} value={password} onChange={(event) => setPassword(event.target.value)} /><button className="hlc-password-toggle" type="button" aria-pressed={showPassword} onClick={() => setShowPassword((value) => !value)}>{showPassword ? "Hide password" : "Show password"}</button></span></label>
       <AuthTurnstile onToken={setCaptchaToken} resetSignal={captchaReset} />
       <button aria-label="Sign in to HomeLead Connect" disabled={busy || !isSupabaseConfigured() || (turnstileEnabled && !captchaToken)} type="submit">{busy ? "Signing in…" : "Sign in"}</button>
     </form>}
