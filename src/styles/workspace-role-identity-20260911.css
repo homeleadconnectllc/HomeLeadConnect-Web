@@ -54,6 +54,12 @@
 /* Shared workspace chrome. Keep the brand/logo intact; only the role system changes. */
 #root .hlc-navbar {
   border-bottom-color: var(--hlc-workspace-border) !important;
+  background: linear-gradient(135deg, var(--hlc-workspace-glow), rgba(15, 23, 42, .98) 48%) !important;
+}
+
+#root .hlc-portal-workspace {
+  border-color: var(--hlc-workspace-border) !important;
+  box-shadow: 0 18px 50px var(--hlc-workspace-glow) !important;
 }
 
 #root .hlc-navbar-brand-copy > span,
