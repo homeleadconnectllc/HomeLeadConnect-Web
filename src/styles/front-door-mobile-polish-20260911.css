@@ -1,0 +1,54 @@
+/* Final mobile front-door polish based on rendered preview review. */
+
+/* Mobile header should read as the same public website as desktop, not a separate blue app bar. */
+@media (max-width: 760px) {
+  .hlc-frontdoor-nav {
+    background: #fff;
+    border-bottom-color: #e3e9f1;
+    box-shadow: 0 4px 20px rgba(8,24,47,.05);
+  }
+
+  .hlc-frontdoor-navin { min-height: 64px; }
+  .hlc-frontdoor-primary {
+    background: #2f67ea;
+    color: #fff !important;
+    box-shadow: 0 7px 18px rgba(47,103,234,.2);
+  }
+
+  /* Keep the mobile hero intentionally compact while giving the image enough room to carry the page. */
+  .hlc-frontdoor-hero { min-height: 560px; }
+  .hlc-frontdoor-hero-content { padding: 40px 22px 28px; }
+  .hlc-frontdoor-hero h1 { font-size: clamp(2.5rem, 11.4vw, 3.7rem); }
+
+  /* Explicit surface ownership prevents inherited dark-on-dark text in the People First section. */
+  .hlc-frontdoor-people,
+  .hlc-frontdoor-people .hlc-frontdoor-split,
+  .hlc-frontdoor-people .hlc-frontdoor-split-text {
+    background: #f6f8fc;
+    color: #10233f;
+  }
+  .hlc-frontdoor-people .hlc-frontdoor-split-text h2 { color: #10233f; }
+  .hlc-frontdoor-people .hlc-frontdoor-split-text > p { color: #53657b; }
+
+  /* Tighten the mobile timeline so all four steps form one readable unit. */
+  .hlc-frontdoor-how { padding-top: 58px; padding-bottom: 58px; }
+  .hlc-frontdoor-how .hlc-frontdoor-process { margin-top: 26px; }
+  .hlc-frontdoor-how .hlc-frontdoor-step { padding-bottom: 22px; }
+  .hlc-frontdoor-how .hlc-frontdoor-step p { line-height: 1.45; }
+
+  /* Prevent a narrow/legacy parent from visually creating a stray seam around full-bleed imagery. */
+  .hlc-frontdoor-photo,
+  .hlc-frontdoor-photo img,
+  .hlc-frontdoor-photo-band,
+  .hlc-frontdoor-photo-band > img { max-width: 100%; }
+}
+
+/* Desktop keeps the established white public header and light People First surface. */
+.hlc-frontdoor-people,
+.hlc-frontdoor-people .hlc-frontdoor-split,
+.hlc-frontdoor-people .hlc-frontdoor-split-text {
+  background: #f6f8fc;
+  color: #10233f;
+}
+.hlc-frontdoor-people .hlc-frontdoor-split-text h2 { color: #10233f; }
+.hlc-frontdoor-people .hlc-frontdoor-split-text > p { color: #53657b; }
