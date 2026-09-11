@@ -1,0 +1,124 @@
+/* HomeLead Connect V1 global readability pass — 2026-09-10.
+   Presentation only. This layer loads immediately before the certified responsive,
+   brand, compatibility, reset, and mobile release guards so those authorities remain intact.
+   It does not change routing, auth, data, RLS, billing, or workflow behavior. */
+
+:root {
+  --hlc-readable-ink: #f7f9fc;
+  --hlc-readable-body: #d7e0eb;
+  --hlc-readable-muted: #aebdce;
+  --hlc-readable-link: #9fc5ff;
+  --hlc-readable-field: #08131f;
+  --hlc-readable-border: rgba(203, 213, 225, .22);
+}
+
+/* Signed-in workspace: protect readable text against legacy dark-on-dark rules. */
+#root .hlc-signed-in-shell .hlc-route-content :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--hlc-readable-ink) !important;
+  -webkit-text-fill-color: var(--hlc-readable-ink) !important;
+  text-wrap: balance;
+}
+
+#root .hlc-signed-in-shell .hlc-route-content :is(p, li, label, dd, dt) {
+  color: var(--hlc-readable-body) !important;
+  -webkit-text-fill-color: var(--hlc-readable-body) !important;
+  line-height: 1.55;
+}
+
+#root .hlc-signed-in-shell .hlc-route-content :is(small, .muted, [class*="muted"], [class*="meta"], [class*="helper"], [class*="caption"]) {
+  color: var(--hlc-readable-muted) !important;
+  -webkit-text-fill-color: var(--hlc-readable-muted) !important;
+  line-height: 1.45;
+}
+
+#root .hlc-signed-in-shell .hlc-route-content :is(strong, b) {
+  color: var(--hlc-readable-ink) !important;
+  -webkit-text-fill-color: var(--hlc-readable-ink) !important;
+}
+
+#root .hlc-signed-in-shell .hlc-route-content a:not([class*="button"]):not([class*="btn"]) {
+  color: var(--hlc-readable-link) !important;
+  -webkit-text-fill-color: var(--hlc-readable-link) !important;
+  text-underline-offset: 3px;
+}
+
+/* Form controls stay legible in Safari/iOS, including autofill and placeholders. */
+#root .hlc-signed-in-shell .hlc-route-content :is(input, select, textarea) {
+  min-height: 44px;
+  border-color: var(--hlc-readable-border) !important;
+  background: var(--hlc-readable-field) !important;
+  color: var(--hlc-readable-ink) !important;
+  -webkit-text-fill-color: var(--hlc-readable-ink) !important;
+  caret-color: var(--hlc-readable-ink);
+}
+
+#root .hlc-signed-in-shell .hlc-route-content :is(input, textarea)::placeholder {
+  color: #91a2b7 !important;
+  -webkit-text-fill-color: #91a2b7 !important;
+  opacity: 1;
+}
+
+#root .hlc-signed-in-shell .hlc-route-content input:-webkit-autofill,
+#root .hlc-signed-in-shell .hlc-route-content input:-webkit-autofill:hover,
+#root .hlc-signed-in-shell .hlc-route-content input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--hlc-readable-ink) !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--hlc-readable-field) inset !important;
+  box-shadow: 0 0 0 1000px var(--hlc-readable-field) inset !important;
+}
+
+/* Tables and dense operational records need explicit dark-surface contrast. */
+#root .hlc-signed-in-shell .hlc-route-content :is(table, thead, tbody, tr, th, td) {
+  border-color: rgba(203, 213, 225, .14) !important;
+}
+
+#root .hlc-signed-in-shell .hlc-route-content th {
+  color: #eef4fb !important;
+  -webkit-text-fill-color: #eef4fb !important;
+}
+
+#root .hlc-signed-in-shell .hlc-route-content td {
+  color: #d5dfeb !important;
+  -webkit-text-fill-color: #d5dfeb !important;
+}
+
+/* Public/auth forms: make field text readable without repainting page-specific artwork. */
+#root .hlc-public-shell .hlc-route-content :is(input, select, textarea) {
+  font-size: max(16px, 1em);
+}
+
+#root .hlc-public-shell .hlc-auth-shell :is(input, select, textarea) {
+  color: #f7f9fc !important;
+  -webkit-text-fill-color: #f7f9fc !important;
+}
+
+/* Comfortable reading scale without changing application structure. */
+#root .hlc-route-content :is(p, li, label, input, select, textarea, button) {
+  font-size: max(15px, .94rem);
+}
+
+#root .hlc-route-content small {
+  font-size: max(12px, .75rem);
+}
+
+#root .hlc-route-content :is(button, [role="button"], .hlc-button) {
+  min-height: 44px;
+}
+
+@media (max-width: 600px) {
+  #root .hlc-route-content :is(p, li, label, input, select, textarea, button) {
+    line-height: 1.5;
+  }
+
+  #root .hlc-signed-in-shell .hlc-route-content :is(h1, h2, h3) {
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #root .hlc-route-content *,
+  #root .hlc-route-content *::before,
+  #root .hlc-route-content *::after {
+    scroll-behavior: auto !important;
+  }
+}
