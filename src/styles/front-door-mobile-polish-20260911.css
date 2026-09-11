@@ -1,0 +1,114 @@
+/* Final mobile front-door polish based on rendered preview review. */
+
+/* Mobile header should read as the same public website as desktop, not a separate blue app bar. */
+@media (max-width: 760px) {
+  .hlc-frontdoor-nav {
+    background: #fff;
+    border-bottom-color: #e3e9f1;
+    box-shadow: 0 4px 20px rgba(8,24,47,.05);
+  }
+
+  .hlc-frontdoor-navin { min-height: 64px; }
+  .hlc-frontdoor-primary {
+    background: #2f67ea;
+    color: #fff !important;
+    box-shadow: 0 7px 18px rgba(47,103,234,.2);
+  }
+
+  /* Keep the mobile hero intentionally compact while giving the image enough room to carry the page. */
+  .hlc-frontdoor-hero { min-height: 560px; }
+  .hlc-frontdoor-hero-content { padding: 40px 22px 28px; text-align: center; }
+  .hlc-frontdoor-hero h1 { font-size: clamp(2.85rem, 13.2vw, 4.15rem); }
+  .hlc-frontdoor-hero-content > p:not(.hlc-frontdoor-kicker) { font-size: 1.08rem; line-height: 1.5; }
+  .hlc-frontdoor-kicker { font-size: 12px; }
+
+  .hlc-frontdoor-trust { justify-content: center; font-size: 11px; }
+
+  /* Explicit surface ownership prevents inherited dark-on-dark text in the People First section. */
+  .hlc-frontdoor-people,
+  .hlc-frontdoor-people .hlc-frontdoor-split,
+  .hlc-frontdoor-people .hlc-frontdoor-split-text {
+    background: #f6f8fc;
+    color: #10233f;
+    text-align: center;
+  }
+  .hlc-frontdoor-people .hlc-frontdoor-split-text h2 { color: #10233f; font-size: clamp(2.45rem, 11vw, 3.5rem); }
+  .hlc-frontdoor-people .hlc-frontdoor-split-text > p { color: #53657b; font-size: 1.08rem; line-height: 1.58; }
+  .hlc-frontdoor-people .hlc-frontdoor-eyebrow { font-size: 12px; }
+
+  /* People First is a full-bleed image story on mobile — no floating card treatment, radius, or shadow. */
+  .hlc-frontdoor-people .hlc-frontdoor-photo {
+    width: 100vw;
+    max-width: none;
+    margin-left: calc(50% - 50vw);
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .hlc-frontdoor-people .hlc-frontdoor-photo img {
+    width: 100%;
+    max-width: none;
+    border-radius: 0;
+  }
+
+  /* Services: make the controls feel like real tappable buttons while keeping all typography centered. */
+  .hlc-frontdoor-services { text-align: center; }
+  .hlc-frontdoor-services .hlc-frontdoor-eyebrow { font-size: 12px; }
+  .hlc-frontdoor-services h2 { font-size: clamp(2.45rem, 11vw, 3.5rem); }
+  .hlc-frontdoor-services .hlc-frontdoor-copy { font-size: 1.08rem; line-height: 1.58; }
+  .hlc-frontdoor-service-line a { min-height: 58px; font-size: 16px; border-radius: 12px; }
+
+  /* Tighten the mobile timeline so all four steps form one readable, centered unit. */
+  .hlc-frontdoor-how { padding-top: 58px; padding-bottom: 58px; text-align: center; }
+  .hlc-frontdoor-how .hlc-frontdoor-eyebrow { font-size: 12px; }
+  .hlc-frontdoor-how h2 { font-size: clamp(2.45rem, 11vw, 3.5rem); }
+  .hlc-frontdoor-how .hlc-frontdoor-process { margin-top: 30px; text-align: center; }
+  .hlc-frontdoor-how .hlc-frontdoor-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    padding-bottom: 24px;
+  }
+  .hlc-frontdoor-how .hlc-frontdoor-step:not(:last-child)::after {
+    left: 50%;
+    top: 42px;
+    transform: translateX(-50%);
+    bottom: 0;
+  }
+  .hlc-frontdoor-how .hlc-frontdoor-step h3 { margin: 0 0 4px; font-size: 1.35rem; }
+  .hlc-frontdoor-how .hlc-frontdoor-step p { font-size: 1.05rem; line-height: 1.48; }
+
+  /* Prevent a narrow/legacy parent from visually creating a stray seam around full-bleed imagery. */
+  .hlc-frontdoor-photo,
+  .hlc-frontdoor-photo img,
+  .hlc-frontdoor-photo-band,
+  .hlc-frontdoor-photo-band > img { max-width: 100%; }
+
+  /* Re-assert full-bleed People First after the generic image-width guard above. */
+  .hlc-frontdoor-people .hlc-frontdoor-photo,
+  .hlc-frontdoor-people .hlc-frontdoor-photo img {
+    width: 100vw;
+    max-width: none;
+  }
+
+  /* Professional image/content stays full-width and centered, with type sized to the photography. */
+  .hlc-frontdoor-photo-band-content { text-align: center; }
+  .hlc-frontdoor-photo-band .hlc-frontdoor-eyebrow { font-size: 12px; }
+  .hlc-frontdoor-photo-band h2 { font-size: clamp(2.45rem, 10.8vw, 3.45rem); }
+  .hlc-frontdoor-photo-band-content p { font-size: 1.08rem; line-height: 1.55; }
+  .hlc-frontdoor-photo-band .hlc-frontdoor-actions { width: 100%; }
+
+  .hlc-frontdoor-footer { text-align: center; }
+  .hlc-frontdoor-footer p { font-size: 14px; line-height: 1.6; }
+  .hlc-frontdoor-footlinks { justify-content: center; }
+}
+
+/* Desktop keeps the established white public header and light People First surface. */
+.hlc-frontdoor-people,
+.hlc-frontdoor-people .hlc-frontdoor-split,
+.hlc-frontdoor-people .hlc-frontdoor-split-text {
+  background: #f6f8fc;
+  color: #10233f;
+}
+.hlc-frontdoor-people .hlc-frontdoor-split-text h2 { color: #10233f; }
+.hlc-frontdoor-people .hlc-frontdoor-split-text > p { color: #53657b; }

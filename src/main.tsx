@@ -1,6 +1,8 @@
 import "./index.css";
 import "./styles/front-door-system-pass-20260910.css";
 import "./styles/front-door-refinement-20260910.css";
+import "./styles/front-door-mobile-redesign-20260911.css";
+import "./styles/front-door-mobile-polish-20260911.css";
 
 /*
 Authenticated runtime ownership moved to styles/app-shell-entry.ts so the public homepage can stay lightweight.
@@ -36,20 +38,55 @@ function publicHomeMarkup() {
 
       <section class="hlc-frontdoor-hero">
         <img src="/hlc-frontdoor-resident-hero-final.jpg" alt="Resident working on a home project" width="1400" height="900" fetchpriority="high" />
-        <div class="hlc-frontdoor-hero-content"><p class="hlc-frontdoor-kicker">Home services, connected better</p><h1>Home help should feel easier.</h1><p>Tell us what your home needs. HomeLead Connect helps renters, homeowners, and everyday households move toward the right professional and a clearer next step.</p><div class="hlc-frontdoor-actions"><a class="hlc-frontdoor-btn hlc-frontdoor-btn-primary" href="https://app.homeleadconnect.org/request-service">Start My Request</a><a class="hlc-frontdoor-btn hlc-frontdoor-btn-secondary" href="https://professionals.homeleadconnect.org/">For Professionals</a></div></div>
+        <div class="hlc-frontdoor-hero-content">
+          <p class="hlc-frontdoor-kicker">Home services, connected better</p>
+          <h1>Home help should feel easier.</h1>
+          <p>Tell us what your home needs. HomeLead Connect helps renters, homeowners, and everyday households move toward the right professional and a clearer next step.</p>
+          <div class="hlc-frontdoor-actions">
+            <a class="hlc-frontdoor-btn hlc-frontdoor-btn-primary" href="https://app.homeleadconnect.org/request-service">Start My Request</a>
+            <a class="hlc-frontdoor-btn hlc-frontdoor-btn-secondary" href="https://professionals.homeleadconnect.org/">For Professionals</a>
+          </div>
+          <div class="hlc-frontdoor-trust" aria-label="HomeLead Connect highlights"><span>Renters included</span><span>Homeowners welcome</span><span>Clear next steps</span><span>Harrisburg roots</span></div>
+        </div>
       </section>
 
-      <div class="hlc-frontdoor-quickbar"><div class="hlc-frontdoor-wrap hlc-frontdoor-quick"><span>Renters included</span><span>Homeowners welcome</span><span>Clear next steps</span><span>Harrisburg roots</span></div></div>
+      <section class="hlc-frontdoor-section hlc-frontdoor-services" aria-labelledby="service-heading">
+        <div class="hlc-frontdoor-wrap hlc-frontdoor-center">
+          <span class="hlc-frontdoor-eyebrow">Home improvement made simpler</span>
+          <h2 id="service-heading">Start with the need, not the paperwork.</h2>
+          <p class="hlc-frontdoor-copy">Repairs, improvements, maintenance, and everyday home-service needs should not require you to know the industry before you ask for help.</p>
+          <div class="hlc-frontdoor-service-line">
+            <a href="https://app.homeleadconnect.org/request-service?service=repairs#request-form">Repairs</a><a href="https://app.homeleadconnect.org/request-service?service=painting#request-form">Painting</a><a href="https://app.homeleadconnect.org/request-service?service=roofing#request-form">Roofing</a><a href="https://app.homeleadconnect.org/request-service?service=hvac#request-form">HVAC</a><a href="https://app.homeleadconnect.org/request-service?service=cleaning#request-form">Cleaning</a><a href="https://app.homeleadconnect.org/request-service?service=moving#request-form">Moving</a><a href="https://app.homeleadconnect.org/request-service?service=general-home-help#request-form">General Home Help</a>
+          </div>
+        </div>
+      </section>
 
-      <section class="hlc-frontdoor-section"><div class="hlc-frontdoor-wrap hlc-frontdoor-center"><span class="hlc-frontdoor-eyebrow">Home improvement made simpler</span><h2>Start with the need, not the paperwork.</h2><p class="hlc-frontdoor-copy">Repairs, improvements, maintenance, and everyday home-service needs should not require you to know the industry before you ask for help.</p><div class="hlc-frontdoor-service-line"><a href="https://app.homeleadconnect.org/request-service?service=repairs#request-form">Repairs</a><a href="https://app.homeleadconnect.org/request-service?service=painting#request-form">Painting</a><a href="https://app.homeleadconnect.org/request-service?service=roofing#request-form">Roofing</a><a href="https://app.homeleadconnect.org/request-service?service=hvac#request-form">HVAC</a><a href="https://app.homeleadconnect.org/request-service?service=cleaning#request-form">Cleaning</a><a href="https://app.homeleadconnect.org/request-service?service=moving#request-form">Moving</a><a href="https://app.homeleadconnect.org/request-service?service=general-home-help#request-form">General Home Help</a></div></div></section>
+      <section class="hlc-frontdoor-section hlc-frontdoor-alt hlc-frontdoor-people" aria-labelledby="people-heading">
+        <div class="hlc-frontdoor-wrap hlc-frontdoor-split">
+          <div class="hlc-frontdoor-photo"><img src="/hlc-frontdoor-people-first.webp" alt="Resident and home-service professional coordinating together" width="1400" height="900" loading="lazy" /></div>
+          <div class="hlc-frontdoor-split-text"><span class="hlc-frontdoor-eyebrow">People first</span><h2 id="people-heading">A clearer conversation from the start.</h2><p>HomeLead Connect helps organize what the household needs so the next professional conversation begins with better context.</p></div>
+        </div>
+      </section>
 
-      <section class="hlc-frontdoor-section hlc-frontdoor-alt"><div class="hlc-frontdoor-wrap hlc-frontdoor-split"><div class="hlc-frontdoor-photo"><img src="/hlc-frontdoor-people-first.webp" alt="Resident and home-service professional coordinating together" width="1400" height="900" loading="lazy" /></div><div class="hlc-frontdoor-split-text"><span class="hlc-frontdoor-eyebrow">People first</span><h2>A clearer conversation from the start.</h2><p>HomeLead Connect helps organize what the household needs so the next professional conversation begins with better context.</p></div></div></section>
+      <section class="hlc-frontdoor-section hlc-frontdoor-how" aria-labelledby="how-heading">
+        <div class="hlc-frontdoor-wrap hlc-frontdoor-center">
+          <span class="hlc-frontdoor-eyebrow">How it works</span>
+          <h2 id="how-heading">Four simple steps.</h2>
+          <div class="hlc-frontdoor-process">
+            <div class="hlc-frontdoor-step"><div class="hlc-frontdoor-num">1</div><div><h3>Request</h3><p>Tell us what is happening at home.</p></div></div>
+            <div class="hlc-frontdoor-step"><div class="hlc-frontdoor-num">2</div><div><h3>Review</h3><p>Clarify the details that matter.</p></div></div>
+            <div class="hlc-frontdoor-step"><div class="hlc-frontdoor-num">3</div><div><h3>Connect</h3><p>Move toward the right professional path.</p></div></div>
+            <div class="hlc-frontdoor-step"><div class="hlc-frontdoor-num">4</div><div><h3>Coordinate</h3><p>Keep the next step easier to follow.</p></div></div>
+          </div>
+        </div>
+      </section>
 
-      <section class="hlc-frontdoor-section"><div class="hlc-frontdoor-wrap hlc-frontdoor-center"><span class="hlc-frontdoor-eyebrow">How it works</span><h2>Four simple steps.</h2><div class="hlc-frontdoor-process"><div class="hlc-frontdoor-step"><div class="hlc-frontdoor-num">1</div><h3>Request</h3><p>Tell us what is happening at home.</p></div><div class="hlc-frontdoor-step"><div class="hlc-frontdoor-num">2</div><h3>Review</h3><p>Clarify the details that matter.</p></div><div class="hlc-frontdoor-step"><div class="hlc-frontdoor-num">3</div><h3>Connect</h3><p>Move toward the right professional path.</p></div><div class="hlc-frontdoor-step"><div class="hlc-frontdoor-num">4</div><h3>Coordinate</h3><p>Keep the next step easier to follow.</p></div></div></div></section>
+      <section class="hlc-frontdoor-photo-band" aria-labelledby="professional-heading">
+        <img src="/hlc-frontdoor-professional.webp" alt="Home-service professional at work" width="1400" height="900" loading="lazy" />
+        <div class="hlc-frontdoor-photo-band-content"><div><span class="hlc-frontdoor-eyebrow">For professionals</span><h2 id="professional-heading">Better service starts before the job begins.</h2><p>HomeLead Connect helps professionals meet residents with clearer needs, better communication, and a more organized opportunity flow.</p><div class="hlc-frontdoor-actions"><a class="hlc-frontdoor-btn hlc-frontdoor-btn-primary" href="https://professionals.homeleadconnect.org/">Explore Professional Access</a></div></div></div>
+      </section>
 
-      <section class="hlc-frontdoor-photo-band"><img src="/hlc-frontdoor-professional.webp" alt="Home-service professional at work" width="1400" height="900" loading="lazy" /><div class="hlc-frontdoor-photo-band-content"><div><span class="hlc-frontdoor-eyebrow">For professionals</span><h2>Better service starts before the job begins.</h2><p>HomeLead Connect helps professionals meet residents with clearer needs, better communication, and a more organized opportunity flow.</p><div class="hlc-frontdoor-actions"><a class="hlc-frontdoor-btn hlc-frontdoor-btn-primary" href="https://professionals.homeleadconnect.org/">Explore Professional Access</a></div></div></div></section>
-
-      <footer class="hlc-frontdoor-footer"><div class="hlc-frontdoor-wrap"><p><strong>HomeLead Connect LLC</strong> | Harrisburg, Pennsylvania | <a class="hlc-frontdoor-contact-link" href="tel:+17172881785">(717) 288-1785</a> | <a class="hlc-frontdoor-contact-link" href="mailto:info@homeleadconnect.org">info@homeleadconnect.org</a></p><div class="hlc-frontdoor-footlinks"><a href="https://homeleadconnect.org/">Home</a><a href="https://residents.homeleadconnect.org/">Residents</a><a href="https://professionals.homeleadconnect.org/">Professionals</a><a href="https://partners.homeleadconnect.org/">Partners</a><a href="https://platform.homeleadconnect.org/">Platform</a><a href="https://about.homeleadconnect.org/">About</a><a href="https://contact.homeleadconnect.org/">Contact</a><a href="https://homeleadconnectprivacy.carrd.co/">Privacy</a><a href="https://homeleadconnectterms.carrd.co/">Terms</a></div><p>2026 HomeLead Connect LLC</p></div></footer>
+      <footer class="hlc-frontdoor-footer"><div class="hlc-frontdoor-wrap"><p><strong>HomeLead Connect LLC</strong> · Harrisburg, Pennsylvania · <a class="hlc-frontdoor-contact-link" href="tel:+17172881785">(717) 288-1785</a> · <a class="hlc-frontdoor-contact-link" href="mailto:info@homeleadconnect.org">info@homeleadconnect.org</a></p><div class="hlc-frontdoor-footlinks"><a href="https://homeleadconnect.org/">Home</a><a href="https://residents.homeleadconnect.org/">Residents</a><a href="https://professionals.homeleadconnect.org/">Professionals</a><a href="https://partners.homeleadconnect.org/">Partners</a><a href="https://platform.homeleadconnect.org/">Platform</a><a href="https://about.homeleadconnect.org/">About</a><a href="https://contact.homeleadconnect.org/">Contact</a><a href="https://homeleadconnectprivacy.carrd.co/">Privacy</a><a href="https://homeleadconnectterms.carrd.co/">Terms</a></div><p>2026 HomeLead Connect LLC</p></div></footer>
     </main>`;
 }
 
