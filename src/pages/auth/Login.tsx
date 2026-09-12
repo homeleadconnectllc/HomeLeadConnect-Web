@@ -163,26 +163,36 @@ export default function Login() {
     </div>
 
     {mode === "password" && <form className="hlc-auth-form" onSubmit={login}>
-      <label>Email<input required autoComplete="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} /></label>
-      <label className="hlc-password-field"><span className="hlc-password-label">Password</span><span className="hlc-password-input-row"><input required autoComplete="current-password" type={showPassword ? "text" : "password"} value={password} onChange={(event) => setPassword(event.target.value)} /><button className="hlc-password-toggle" type="button" aria-pressed={showPassword} onClick={() => setShowPassword((value) => !value)}>{showPassword ? "Hide password" : "Show password"}</button></span></label>
+      <label htmlFor="hlc-login-email">Email</label>
+      <input id="hlc-login-email" required autoComplete="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} />
+      <div className="hlc-password-field">
+        <label className="hlc-password-label" htmlFor="hlc-login-password">Password</label>
+        <div className="hlc-password-input-row">
+          <input id="hlc-login-password" required autoComplete="current-password" type={showPassword ? "text" : "password"} value={password} onChange={(event) => setPassword(event.target.value)} />
+          <button className="hlc-password-toggle" type="button" aria-pressed={showPassword} onClick={() => setShowPassword((value) => !value)}>{showPassword ? "Hide password" : "Show password"}</button>
+        </div>
+      </div>
       <AuthTurnstile onToken={setCaptchaToken} resetSignal={captchaReset} />
       <button aria-label="Sign in to HomeLead Connect" disabled={busy || !isSupabaseConfigured() || (turnstileEnabled && !captchaToken)} type="submit">{busy ? "Signing in…" : "Sign in"}</button>
     </form>}
 
     {mode === "magic" && <form className="hlc-auth-form" onSubmit={sendMagicLink}>
-      <label>Email<input required autoComplete="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} /></label>
+      <label htmlFor="hlc-magic-email">Email</label>
+      <input id="hlc-magic-email" required autoComplete="email" type="email" value={email} onChange={(event) => setEmail(event.target.value)} />
       <AuthTurnstile onToken={setCaptchaToken} resetSignal={captchaReset} />
       <button disabled={busy || !isSupabaseConfigured() || (turnstileEnabled && !captchaToken)} type="submit">{busy ? "Sending…" : "Send secure sign-in link"}</button>
     </form>}
 
     {phoneAuthEnabled && !invitationFlow && mode === "phone" && !otpSent && <form className="hlc-auth-form" onSubmit={sendPhoneOtp}>
-      <label>Mobile number<input required autoComplete="tel" inputMode="tel" type="tel" placeholder="+17175550123" value={phone} onChange={(event) => setPhone(event.target.value)} /></label>
+      <label htmlFor="hlc-phone">Mobile number</label>
+      <input id="hlc-phone" required autoComplete="tel" inputMode="tel" type="tel" placeholder="+17175550123" value={phone} onChange={(event) => setPhone(event.target.value)} />
       <AuthTurnstile onToken={setCaptchaToken} resetSignal={captchaReset} />
       <button disabled={busy || !isSupabaseConfigured() || (turnstileEnabled && !captchaToken)} type="submit">{busy ? "Sending code…" : "Text sign-in code"}</button>
     </form>}
 
     {phoneAuthEnabled && !invitationFlow && mode === "phone" && otpSent && <form className="hlc-auth-form" onSubmit={verifyPhoneOtp}>
-      <label>Verification code<input required inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]*" value={otp} onChange={(event) => setOtp(event.target.value)} /></label>
+      <label htmlFor="hlc-otp">Verification code</label>
+      <input id="hlc-otp" required inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]*" value={otp} onChange={(event) => setOtp(event.target.value)} />
       <button disabled={busy || otp.trim().length < 6} type="submit">{busy ? "Verifying…" : "Verify and continue"}</button>
       <button type="button" onClick={() => { setOtpSent(false); setOtp(""); resetStatus(); }}>Use another number</button>
     </form>}
