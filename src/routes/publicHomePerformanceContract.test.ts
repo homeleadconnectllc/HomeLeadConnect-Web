@@ -28,7 +28,7 @@ test("public home renders without paying React startup cost", () => {
 });
 
 test("no-React public root uses the official full logo with an optimized delivery asset and V2 cinematic identity", () => {
-  assert.match(main, /srcset="\/hlc-logo-public\.svg"/);
+  assert.match(main, /srcset="\/hlc-logo-public\.webp"/);
   assert.match(main, /src="\/hlc-logo-transparent\.png"/);
   assert.doesNotMatch(main, /\/hlc-logo-ui\.png/);
   assert.match(main, /class="hlc-v2-home"/);
@@ -38,7 +38,7 @@ test("no-React public root uses the official full logo with an optimized deliver
 });
 
 test("parser-seeded public hero preserves the optimized V2 first-paint contract and corporate brand identity", () => {
-  assert.match(indexHtml, /src="\/hlc-logo-public\.svg"/);
+  assert.match(indexHtml, /src="\/hlc-logo-public\.webp"/);
   assert.match(indexHtml, /width="220" height="71"/);
   assert.doesNotMatch(indexHtml, /\/hlc-logo-ui\.png/);
   assert.match(indexHtml, /hlc-v2-home hlc-v2-parser-seed/);
