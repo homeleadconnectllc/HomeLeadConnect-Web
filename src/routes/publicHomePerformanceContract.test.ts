@@ -7,6 +7,7 @@ const home = readFileSync(new URL("../pages/HomePage.tsx", import.meta.url), "ut
 const footer = readFileSync(new URL("../components/Footer.tsx", import.meta.url), "utf8");
 const indexHtml = readFileSync(new URL("../../index.html", import.meta.url), "utf8");
 const v2Authority = readFileSync(new URL("../styles/v2-cinematic-community-homepage-20260911.css", import.meta.url), "utf8");
+const boardAuthority = readFileSync(new URL("../styles/v2-board-alignment-20260912.css", import.meta.url), "utf8");
 
 test("public home stays outside the authenticated application bundle while retaining route delivery", () => {
   assert.match(main, /isPublicHome/);
@@ -27,11 +28,12 @@ test("public home renders without paying React startup cost", () => {
   assert.match(main, /https:\/\/professionals\.homeleadconnect\.org\//);
 });
 
-test("no-React public root uses the official full logo with an optimized delivery asset and V2 cinematic identity", () => {
+test("no-React public root uses the official full logo with an optimized delivery asset and V2 cinematic board identity", () => {
   assert.match(main, /src="\/hlc-logo-public\.webp"/);
   assert.doesNotMatch(main, /\/hlc-logo-ui\.png/);
   assert.match(main, /class="hlc-v2-home"/);
-  assert.match(main, /Real People\.<br \/><span>Real Opportunity\.<\/span>/);
+  assert.match(main, /More than homes\./);
+  assert.match(main, /We Build<br \/><span>Opportunities\.<\/span>/);
   assert.match(main, /One Platform\.<br \/>Four Pathways\./);
   assert.match(main, /Connecting Homes\.<br \/>Creating <span/);
 });
@@ -41,18 +43,21 @@ test("parser-seeded public hero preserves the optimized V2 first-paint contract 
   assert.match(indexHtml, /width="220" height="71"/);
   assert.doesNotMatch(indexHtml, /\/hlc-logo-ui\.png/);
   assert.match(indexHtml, /hlc-v2-home hlc-v2-parser-seed/);
-  assert.match(indexHtml, /Real People\.<br \/><span style="color:#79bdff!important">Real Opportunity\.<\/span>/);
-  assert.match(indexHtml, /hlc-frontdoor-resident-hero-v2\.webp/);
-  assert.match(indexHtml, /rel="preload" as="image" href="\/hlc-frontdoor-resident-hero-v2\.webp" fetchpriority="high"/);
+  assert.match(indexHtml, /We Build<br \/><span style="color:#0e96ff!important">Opportunities\.<\/span>/);
+  assert.match(indexHtml, /hlc-frontdoor-resident-hero-final\.jpg/);
+  assert.match(indexHtml, /rel="preload" as="image" href="\/hlc-frontdoor-resident-hero-final\.jpg" fetchpriority="high"/);
 });
 
 test("public front door keeps shared parser authority while adding the V2 visual layer", () => {
   assert.match(indexHtml, /public-home-app-reconciliation-20260907\.css/);
   assert.match(main, /v2-cinematic-community-homepage-20260911\.css/);
+  assert.match(main, /v2-board-alignment-20260912\.css/);
   assert.match(v2Authority, /\.hlc-v2-home/);
   assert.match(v2Authority, /\.hlc-v2-hero/);
   assert.match(v2Authority, /\.hlc-v2-pathways/);
   assert.match(v2Authority, /@media/);
+  assert.match(boardAuthority, /--board-navy/);
+  assert.match(boardAuthority, /\.hlc-v2-section--light\{background:linear-gradient/);
 });
 
 test("V2 public front door remains complete beyond the hero", () => {
@@ -60,7 +65,7 @@ test("V2 public front door remains complete beyond the hero", () => {
     "One Platform.",
     "Four Pathways.",
     "A Stronger Community Builds a Brighter Future.",
-    "The HLC app puts the power of HomeLead Connect in your hands.",
+    "The platform connects the ecosystem. The app puts it in your hands.",
     "Connecting Homes.",
     "Creating",
     "Infinite impact.",

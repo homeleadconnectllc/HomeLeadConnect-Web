@@ -4,6 +4,8 @@ import "./styles/front-door-refinement-20260910.css";
 import "./styles/front-door-mobile-redesign-20260911.css";
 import "./styles/front-door-mobile-polish-20260911.css";
 import "./styles/v2-cinematic-community-homepage-20260911.css";
+import "./styles/v2-mobile-image-layer-fix-20260912.css";
+import "./styles/v2-board-alignment-20260912.css";
 
 /*
 Authenticated runtime ownership moved to styles/app-shell-entry.ts so the public homepage can stay lightweight.
@@ -49,10 +51,11 @@ function publicHomeMarkup() {
       </header>
 
       <section class="hlc-v2-hero" aria-labelledby="hlc-v2-hero-title">
+        <img class="hlc-v2-hero-media" src="/hlc-frontdoor-resident-hero-final.jpg" alt="" width="1600" height="900" loading="eager" decoding="async" fetchpriority="high" aria-hidden="true" />
         <div class="hlc-v2-hero-inner">
           <p class="hlc-v2-eyebrow">More than homes.</p>
-          <h1 id="hlc-v2-hero-title">Real People.<br /><span>Real Opportunity.</span></h1>
-          <p class="hlc-v2-hero-copy">HomeLead Connect brings together residents, professionals, partners and communities to create opportunity, access and a stronger connected future.</p>
+          <h1 id="hlc-v2-hero-title">We Build<br /><span>Opportunities.</span></h1>
+          <p class="hlc-v2-hero-copy">HomeLead Connect connects homeowners, professionals, partners and communities with the resources, services and opportunities that create lasting generational wealth.</p>
           <div class="hlc-v2-hero-actions">
             <a class="hlc-v2-btn hlc-v2-btn--primary" href="https://app.homeleadconnect.org/register">Get Started <span aria-hidden="true">→</span></a>
             <a class="hlc-v2-btn hlc-v2-btn--ghost" href="https://about.homeleadconnect.org/">Learn More</a>
@@ -68,30 +71,30 @@ function publicHomeMarkup() {
           <div class="hlc-v2-section-head">
             <p class="hlc-v2-eyebrow">The HLC ecosystem</p>
             <h2 id="hlc-v2-ecosystem-title">One Platform.<br />Four Pathways.</h2>
-            <p class="hlc-v2-section-copy">Different needs. Same mission. A stronger, more connected community.</p>
+            <p class="hlc-v2-section-copy">Different experiences. Same mission. One connected ecosystem.</p>
           </div>
           <div class="hlc-v2-pathways">
             <div class="hlc-v2-intro-tile">
               <p>HomeLead Connect connects the people, services, businesses and relationships that make a community work.</p>
               <a class="hlc-v2-link" href="https://platform.homeleadconnect.org/">Explore the ecosystem →</a>
             </div>
-            <article class="hlc-v2-card hlc-v2-card--resident"><div class="hlc-v2-card-content"><span class="hlc-v2-card-icon" aria-hidden="true">⌂</span><h3>For Residents</h3><p>Build wealth. Find trusted professionals. Create your future at home.</p><a href="https://residents.homeleadconnect.org/">Learn More →</a></div></article>
-            <article class="hlc-v2-card hlc-v2-card--professional"><div class="hlc-v2-card-content"><span class="hlc-v2-card-icon" aria-hidden="true">⌁</span><h3>For Professionals</h3><p>Grow your business. Get more opportunities. Make a bigger impact.</p><a href="https://professionals.homeleadconnect.org/">Learn More →</a></div></article>
-            <article class="hlc-v2-card hlc-v2-card--partner"><div class="hlc-v2-card-content"><span class="hlc-v2-card-icon" aria-hidden="true">◎</span><h3>For Partners</h3><p>Collaborate. Invest. Build stronger communities. Create lasting change.</p><a href="https://partners.homeleadconnect.org/">Learn More →</a></div></article>
-            <article class="hlc-v2-card hlc-v2-card--community"><div class="hlc-v2-card-content"><span class="hlc-v2-card-icon" aria-hidden="true">◌</span><h3>For Our Community</h3><p>Stronger neighborhoods. Greater possibilities. A brighter tomorrow.</p><a href="https://community.homeleadconnect.org/">Learn More →</a></div></article>
+            <article class="hlc-v2-card hlc-v2-card--resident"><img class="hlc-v2-card-media" src="/hlc-frontdoor-people-first.webp" alt="" width="1200" height="900" loading="eager" decoding="async" aria-hidden="true" /><div class="hlc-v2-card-content"><span class="hlc-v2-card-icon" aria-hidden="true">⌂</span><h3>For Residents</h3><p>Build wealth. Find trusted professionals. Create your future.</p><a href="https://residents.homeleadconnect.org/">Learn More →</a></div></article>
+            <article class="hlc-v2-card hlc-v2-card--professional"><img class="hlc-v2-card-media" src="/hlc-frontdoor-professional.webp" alt="" width="1200" height="900" loading="eager" decoding="async" aria-hidden="true" /><div class="hlc-v2-card-content"><span class="hlc-v2-card-icon" aria-hidden="true">⌁</span><h3>For Professionals</h3><p>Grow your business. Get more opportunities.</p><a href="https://professionals.homeleadconnect.org/">Learn More →</a></div></article>
+            <article class="hlc-v2-card hlc-v2-card--partner"><img class="hlc-v2-card-media" src="/hlc-frontdoor-resident-hero-v2.webp" alt="" width="1600" height="900" loading="eager" decoding="async" aria-hidden="true" /><div class="hlc-v2-card-content"><span class="hlc-v2-card-icon" aria-hidden="true">◎</span><h3>For Partners</h3><p>Collaborate. Invest. Build a bigger impact.</p><a href="https://partners.homeleadconnect.org/">Learn More →</a></div></article>
+            <article class="hlc-v2-card hlc-v2-card--community"><img class="hlc-v2-card-media" src="/hlc-frontdoor-resident-hero-v2.webp" alt="" width="1600" height="900" loading="eager" decoding="async" aria-hidden="true" /><div class="hlc-v2-card-content"><span class="hlc-v2-card-icon" aria-hidden="true">◌</span><h3>For Our Community</h3><p>Stronger neighborhoods. Greater possibilities.</p><a href="https://community.homeleadconnect.org/">Learn More →</a></div></article>
           </div>
         </div>
       </section>
 
-      <section class="hlc-v2-section hlc-v2-section--light" aria-labelledby="hlc-v2-vision-title">
+      <section class="hlc-v2-section hlc-v2-section--dark" aria-labelledby="hlc-v2-vision-title">
         <div class="hlc-v2-wrap hlc-v2-vision">
           <div class="hlc-v2-vision-copy"><p class="hlc-v2-eyebrow">The HLC vision</p><h2 id="hlc-v2-vision-title">A Stronger Community Builds a Brighter Future.</h2><p>HomeLead Connect is more than a platform — it is a connected ecosystem where people, resources and opportunities come together to create lasting impact.</p><a class="hlc-v2-link" href="https://about.homeleadconnect.org/">Explore the vision →</a><div class="hlc-v2-storyline" aria-label="HomeLead Connect story"><span>City</span><span>Neighborhood</span><span>Home</span><span>People</span><span>Opportunity</span></div></div>
-          <div class="hlc-v2-vision-media" role="img" aria-label="City and community visual"></div>
+          <div class="hlc-v2-vision-media" role="img" aria-label="City and community visual"><img class="hlc-v2-vision-image" src="/hlc-frontdoor-resident-hero-v2.webp" alt="" width="1600" height="900" loading="eager" decoding="async" aria-hidden="true" /></div>
         </div>
       </section>
 
       <section class="hlc-v2-section hlc-v2-section--dark" aria-labelledby="hlc-v2-app-title">
-        <div class="hlc-v2-wrap hlc-v2-app"><div class="hlc-v2-app-copy"><p class="hlc-v2-eyebrow">Powered by people + technology</p><h2 id="hlc-v2-app-title">The HLC app puts the power of HomeLead Connect in your hands.</h2><p class="hlc-v2-section-copy">The public brand introduces the ecosystem. HLC is the compact operating identity that helps you run your HomeLead world.</p><ul class="hlc-v2-app-points"><li>Manage your home and service needs</li><li>Find trusted professionals and opportunities</li><li>Connect with partners and your community</li><li>Move from discovery to action in one place</li></ul><div class="hlc-v2-hero-actions"><a class="hlc-v2-btn hlc-v2-btn--primary" href="https://app.homeleadconnect.org/app">Open HomeLead Connect →</a></div></div><div class="hlc-v2-app-icon"><img src="/hlc-icon.jpeg" alt="HLC app icon" width="270" height="270" loading="lazy" decoding="async" /></div></div>
+        <div class="hlc-v2-wrap hlc-v2-app"><div class="hlc-v2-app-copy"><p class="hlc-v2-eyebrow">HLC is the app</p><h2 id="hlc-v2-app-title">The platform connects the ecosystem. The app puts it in your hands.</h2><p class="hlc-v2-section-copy">The public brand introduces HomeLead Connect. The circular HLC identity powers the action-oriented app experience.</p><ul class="hlc-v2-app-points"><li>Manage your home and service needs</li><li>Find trusted professionals and opportunities</li><li>Connect with partners and your community</li><li>Move from discovery to action in one place</li></ul><div class="hlc-v2-hero-actions"><a class="hlc-v2-btn hlc-v2-btn--primary" href="https://app.homeleadconnect.org/app">Open HomeLead Connect →</a></div></div><div class="hlc-v2-app-icon"><img src="/hlc-icon.jpeg" alt="HLC app icon" width="270" height="270" loading="lazy" decoding="async" /></div></div>
       </section>
 
       <section class="hlc-v2-horizon-band" aria-label="HomeLead Connect brand statement"><div class="hlc-v2-horizon-band-inner"><div><h2>Connecting Homes.<br />Creating <span>Opportunities.</span></h2><p>One platform. Four pathways. Infinite impact.</p></div><a class="hlc-v2-btn hlc-v2-btn--primary" href="https://app.homeleadconnect.org/register">Join HomeLead Connect →</a></div></section>
