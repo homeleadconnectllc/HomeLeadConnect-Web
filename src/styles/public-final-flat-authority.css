@@ -43,6 +43,7 @@
 
 #root .hlc-app-shell.hlc-public-shell .hlc-public-hero h1,
 #root .hlc-app-shell.hlc-public-shell .hlc-public-hero-copy,
+#root .hlc-app-shell.hlc-public-shell .hlc-public-intro-copy,
 #root .hlc-app-shell.hlc-public-shell .hlc-utility-title,
 #root .hlc-app-shell.hlc-public-shell .hlc-utility-lead {
   margin-left: auto !important;
@@ -51,6 +52,7 @@
 }
 
 #root .hlc-app-shell.hlc-public-shell .hlc-public-hero-copy,
+#root .hlc-app-shell.hlc-public-shell .hlc-public-intro-copy,
 #root .hlc-app-shell.hlc-public-shell .hlc-utility-lead,
 #root .hlc-app-shell.hlc-public-shell .hlc-public-card p,
 #root .hlc-app-shell.hlc-public-shell .hlc-public-card li,
