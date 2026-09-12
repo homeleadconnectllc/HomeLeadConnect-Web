@@ -44,8 +44,8 @@ test("parser-seeded public hero preserves the V2 first-paint contract", () => {
   assert.match(indexHtml, /rel="preload" as="image" href="\/hlc-frontdoor-resident-hero-final\.jpg" fetchpriority="high"/);
 });
 
-test("public front door has one V2 visual authority for parser seed and runtime markup", () => {
-  assert.doesNotMatch(indexHtml, /public-home-app-reconciliation-20260907\.css/);
+test("public front door keeps shared parser authority while adding the V2 visual layer", () => {
+  assert.match(indexHtml, /public-home-app-reconciliation-20260907\.css/);
   assert.match(main, /v2-cinematic-community-homepage-20260911\.css/);
   assert.match(v2Authority, /\.hlc-v2-home/);
   assert.match(v2Authority, /\.hlc-v2-hero/);
