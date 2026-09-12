@@ -51,7 +51,7 @@ function publicHomeMarkup() {
       </header>
 
       <section class="hlc-v2-hero" aria-labelledby="hlc-v2-hero-title">
-        <img class="hlc-v2-hero-media" src="/hlc-frontdoor-resident-hero-v2.webp" alt="" width="1600" height="900" loading="eager" decoding="async" fetchpriority="high" aria-hidden="true" />
+        <img class="hlc-v2-hero-media" src="/hlc-frontdoor-resident-hero-final.jpg" alt="" width="1600" height="900" loading="eager" decoding="async" fetchpriority="high" aria-hidden="true" />
         <div class="hlc-v2-hero-inner">
           <p class="hlc-v2-eyebrow">More than homes.</p>
           <h1 id="hlc-v2-hero-title">We Build<br /><span>Opportunities.</span></h1>
