@@ -3,6 +3,7 @@ import "./styles/front-door-system-pass-20260910.css";
 import "./styles/front-door-refinement-20260910.css";
 import "./styles/front-door-mobile-redesign-20260911.css";
 import "./styles/front-door-mobile-polish-20260911.css";
+import "./styles/v2-cinematic-community-homepage-20260911.css";
 
 /*
 Authenticated runtime ownership moved to styles/app-shell-entry.ts so the public homepage can stay lightweight.
@@ -26,67 +27,104 @@ const rootElement = document.getElementById("root")!;
 
 function publicHomeMarkup() {
   return `
-    <main class="hlc-home hlc-frontdoor-site">
-      <nav class="hlc-frontdoor-nav" aria-label="Primary navigation">
-        <div class="hlc-frontdoor-wrap hlc-frontdoor-navin">
-          <a class="hlc-frontdoor-brand" href="https://homeleadconnect.org/" aria-label="HomeLead Connect home"><img src="/hlc-logo-ui.png" alt="HomeLead Connect" width="58" height="58" /></a>
-          <div class="hlc-frontdoor-navlinks">
-            <a href="https://residents.homeleadconnect.org/">Residents</a><a href="https://professionals.homeleadconnect.org/">Professionals</a><a href="https://partners.homeleadconnect.org/">Partners</a><a href="https://platform.homeleadconnect.org/">Platform</a><a href="https://about.homeleadconnect.org/">About</a><a href="https://contact.homeleadconnect.org/">Contact</a><a href="https://app.homeleadconnect.org/login">Login</a><a class="hlc-frontdoor-primary" href="https://app.homeleadconnect.org/request-service">Request Service</a>
+    <main class="hlc-v2-home">
+      <header class="hlc-v2-nav">
+        <div class="hlc-v2-nav-inner">
+          <a class="hlc-v2-brand" href="https://homeleadconnect.org/" aria-label="HomeLead Connect home">
+            <img src="/hlc-logo-transparent.png" alt="HomeLead Connect LLC" width="440" height="150" loading="eager" decoding="async" />
+          </a>
+          <nav class="hlc-v2-nav-links" aria-label="Primary navigation">
+            <a href="https://homeleadconnect.org/">Home</a>
+            <a href="https://about.homeleadconnect.org/">About</a>
+            <a href="https://residents.homeleadconnect.org/">For Residents</a>
+            <a href="https://professionals.homeleadconnect.org/">For Professionals</a>
+            <a href="https://partners.homeleadconnect.org/">For Partners</a>
+            <a href="https://community.homeleadconnect.org/">For Community</a>
+            <div class="hlc-v2-nav-actions">
+              <a class="hlc-v2-btn hlc-v2-btn--ghost" href="https://app.homeleadconnect.org/login">Sign In</a>
+              <a class="hlc-v2-btn hlc-v2-btn--primary" href="https://app.homeleadconnect.org/register">Create My HomeLead Connect Account</a>
+            </div>
+          </nav>
+        </div>
+      </header>
+
+      <section class="hlc-v2-hero" aria-labelledby="hlc-v2-hero-title">
+        <div class="hlc-v2-hero-inner">
+          <p class="hlc-v2-eyebrow">More than homes.</p>
+          <h1 id="hlc-v2-hero-title">Real People.<br /><span>Real Opportunity.</span></h1>
+          <p class="hlc-v2-hero-copy">HomeLead Connect brings together residents, professionals, partners and communities to create opportunity, access and a stronger connected future.</p>
+          <div class="hlc-v2-hero-actions">
+            <a class="hlc-v2-btn hlc-v2-btn--primary" href="https://app.homeleadconnect.org/register">Get Started <span aria-hidden="true">→</span></a>
+            <a class="hlc-v2-btn hlc-v2-btn--ghost" href="https://about.homeleadconnect.org/">Learn More</a>
+            <a class="hlc-v2-btn hlc-v2-btn--ghost" href="https://app.homeleadconnect.org/request-service">Get Help Now</a>
+          </div>
+          <p class="hlc-v2-hero-note">For participating businesses: 14 days free, then <strong>$49.99/month</strong>. Payment method required.</p>
+        </div>
+        <div class="hlc-v2-horizon" aria-hidden="true"></div>
+      </section>
+
+      <section class="hlc-v2-section hlc-v2-section--dark" aria-labelledby="hlc-v2-ecosystem-title">
+        <div class="hlc-v2-wrap">
+          <div class="hlc-v2-section-head">
+            <p class="hlc-v2-eyebrow">The HLC ecosystem</p>
+            <h2 id="hlc-v2-ecosystem-title">One Platform.<br />Four Pathways.</h2>
+            <p class="hlc-v2-section-copy">Different needs. Same mission. A stronger, more connected community.</p>
+          </div>
+          <div class="hlc-v2-pathways">
+            <div class="hlc-v2-intro-tile">
+              <p>HomeLead Connect connects the people, services, businesses and relationships that make a community work.</p>
+              <a class="hlc-v2-link" href="https://platform.homeleadconnect.org/">Explore the ecosystem →</a>
+            </div>
+            <article class="hlc-v2-card hlc-v2-card--resident">
+              <div class="hlc-v2-card-content"><span class="hlc-v2-card-icon" aria-hidden="true">⌂</span><h3>For Residents</h3><p>Build wealth. Find trusted professionals. Create your future at home.</p><a href="https://residents.homeleadconnect.org/">Learn More →</a></div>
+            </article>
+            <article class="hlc-v2-card hlc-v2-card--professional">
+              <div class="hlc-v2-card-content"><span class="hlc-v2-card-icon" aria-hidden="true">⌁</span><h3>For Professionals</h3><p>Grow your business. Get more opportunities. Make a bigger impact.</p><a href="https://professionals.homeleadconnect.org/">Learn More →</a></div>
+            </article>
+            <article class="hlc-v2-card hlc-v2-card--partner">
+              <div class="hlc-v2-card-content"><span class="hlc-v2-card-icon" aria-hidden="true">◎</span><h3>For Partners</h3><p>Collaborate. Invest. Build stronger communities. Create lasting change.</p><a href="https://partners.homeleadconnect.org/">Learn More →</a></div>
+            </article>
+            <article class="hlc-v2-card hlc-v2-card--community">
+              <div class="hlc-v2-card-content"><span class="hlc-v2-card-icon" aria-hidden="true">◌</span><h3>For Our Community</h3><p>Stronger neighborhoods. Greater possibilities. A brighter tomorrow.</p><a href="https://community.homeleadconnect.org/">Learn More →</a></div>
+            </article>
           </div>
         </div>
-      </nav>
+      </section>
 
-      <section class="hlc-frontdoor-hero">
-        <img src="/hlc-frontdoor-resident-hero-final.jpg" alt="Resident working on a home project" width="1400" height="900" fetchpriority="high" />
-        <div class="hlc-frontdoor-hero-content">
-          <p class="hlc-frontdoor-kicker">Home services, connected better</p>
-          <h1>Home help should feel easier.</h1>
-          <p>Tell us what your home needs. HomeLead Connect helps renters, homeowners, and everyday households move toward the right professional and a clearer next step.</p>
-          <div class="hlc-frontdoor-actions">
-            <a class="hlc-frontdoor-btn hlc-frontdoor-btn-primary" href="https://app.homeleadconnect.org/request-service">Start My Request</a>
-            <a class="hlc-frontdoor-btn hlc-frontdoor-btn-secondary" href="https://professionals.homeleadconnect.org/">For Professionals</a>
+      <section class="hlc-v2-section hlc-v2-section--light" aria-labelledby="hlc-v2-vision-title">
+        <div class="hlc-v2-wrap hlc-v2-vision">
+          <div class="hlc-v2-vision-copy">
+            <p class="hlc-v2-eyebrow">The HLC vision</p>
+            <h2 id="hlc-v2-vision-title">A Stronger Community Builds a Brighter Future.</h2>
+            <p>HomeLead Connect is more than a platform — it is a connected ecosystem where people, resources and opportunities come together to create lasting impact.</p>
+            <a class="hlc-v2-link" href="https://about.homeleadconnect.org/">Explore the vision →</a>
+            <div class="hlc-v2-storyline" aria-label="HomeLead Connect story"><span>City</span><span>Neighborhood</span><span>Home</span><span>People</span><span>Opportunity</span></div>
           </div>
-          <div class="hlc-frontdoor-trust" aria-label="HomeLead Connect highlights"><span>Renters included</span><span>Homeowners welcome</span><span>Clear next steps</span><span>Harrisburg roots</span></div>
+          <div class="hlc-v2-vision-media" aria-label="City and community visual"></div>
         </div>
       </section>
 
-      <section class="hlc-frontdoor-section hlc-frontdoor-services" aria-labelledby="service-heading">
-        <div class="hlc-frontdoor-wrap hlc-frontdoor-center">
-          <span class="hlc-frontdoor-eyebrow">Home improvement made simpler</span>
-          <h2 id="service-heading">Start with the need, not the paperwork.</h2>
-          <p class="hlc-frontdoor-copy">Repairs, improvements, maintenance, and everyday home-service needs should not require you to know the industry before you ask for help.</p>
-          <div class="hlc-frontdoor-service-line">
-            <a href="https://app.homeleadconnect.org/request-service?service=repairs#request-form">Repairs</a><a href="https://app.homeleadconnect.org/request-service?service=painting#request-form">Painting</a><a href="https://app.homeleadconnect.org/request-service?service=roofing#request-form">Roofing</a><a href="https://app.homeleadconnect.org/request-service?service=hvac#request-form">HVAC</a><a href="https://app.homeleadconnect.org/request-service?service=cleaning#request-form">Cleaning</a><a href="https://app.homeleadconnect.org/request-service?service=moving#request-form">Moving</a><a href="https://app.homeleadconnect.org/request-service?service=general-home-help#request-form">General Home Help</a>
+      <section class="hlc-v2-section hlc-v2-section--dark" aria-labelledby="hlc-v2-app-title">
+        <div class="hlc-v2-wrap hlc-v2-app">
+          <div class="hlc-v2-app-copy">
+            <p class="hlc-v2-eyebrow">Powered by people + technology</p>
+            <h2 id="hlc-v2-app-title">The HLC app puts the power of HomeLead Connect in your hands.</h2>
+            <p class="hlc-v2-section-copy">The public brand introduces the ecosystem. HLC is the compact operating identity that helps you run your HomeLead world.</p>
+            <ul class="hlc-v2-app-points"><li>Manage your home and service needs</li><li>Find trusted professionals and opportunities</li><li>Connect with partners and your community</li><li>Move from discovery to action in one place</li></ul>
+            <div class="hlc-v2-hero-actions"><a class="hlc-v2-btn hlc-v2-btn--primary" href="https://app.homeleadconnect.org/app">Open HomeLead Connect →</a></div>
           </div>
+          <div class="hlc-v2-app-icon"><img src="/hlc-icon.jpeg" alt="HLC app icon" width="270" height="270" loading="lazy" decoding="async" /></div>
         </div>
       </section>
 
-      <section class="hlc-frontdoor-section hlc-frontdoor-alt hlc-frontdoor-people" aria-labelledby="people-heading">
-        <div class="hlc-frontdoor-wrap hlc-frontdoor-split">
-          <div class="hlc-frontdoor-photo"><img src="/hlc-frontdoor-people-first.webp" alt="Resident and home-service professional coordinating together" width="1400" height="900" loading="lazy" /></div>
-          <div class="hlc-frontdoor-split-text"><span class="hlc-frontdoor-eyebrow">People first</span><h2 id="people-heading">A clearer conversation from the start.</h2><p>HomeLead Connect helps organize what the household needs so the next professional conversation begins with better context.</p></div>
+      <section class="hlc-v2-horizon-band" aria-label="HomeLead Connect brand statement">
+        <div class="hlc-v2-horizon-band-inner">
+          <div><h2>Connecting Homes.<br />Creating <span style="color:#168dff">Opportunities.</span></h2><p>One platform. Four pathways. Infinite impact.</p></div>
+          <a class="hlc-v2-btn hlc-v2-btn--primary" href="https://app.homeleadconnect.org/register">Join HomeLead Connect →</a>
         </div>
       </section>
 
-      <section class="hlc-frontdoor-section hlc-frontdoor-how" aria-labelledby="how-heading">
-        <div class="hlc-frontdoor-wrap hlc-frontdoor-center">
-          <span class="hlc-frontdoor-eyebrow">How it works</span>
-          <h2 id="how-heading">Four simple steps.</h2>
-          <div class="hlc-frontdoor-process">
-            <div class="hlc-frontdoor-step"><div class="hlc-frontdoor-num">1</div><div><h3>Request</h3><p>Tell us what is happening at home.</p></div></div>
-            <div class="hlc-frontdoor-step"><div class="hlc-frontdoor-num">2</div><div><h3>Review</h3><p>Clarify the details that matter.</p></div></div>
-            <div class="hlc-frontdoor-step"><div class="hlc-frontdoor-num">3</div><div><h3>Connect</h3><p>Move toward the right professional path.</p></div></div>
-            <div class="hlc-frontdoor-step"><div class="hlc-frontdoor-num">4</div><div><h3>Coordinate</h3><p>Keep the next step easier to follow.</p></div></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="hlc-frontdoor-photo-band" aria-labelledby="professional-heading">
-        <img src="/hlc-frontdoor-professional.webp" alt="Home-service professional at work" width="1400" height="900" loading="lazy" />
-        <div class="hlc-frontdoor-photo-band-content"><div><span class="hlc-frontdoor-eyebrow">For professionals</span><h2 id="professional-heading">Better service starts before the job begins.</h2><p>HomeLead Connect helps professionals meet residents with clearer needs, better communication, and a more organized opportunity flow.</p><div class="hlc-frontdoor-actions"><a class="hlc-frontdoor-btn hlc-frontdoor-btn-primary" href="https://professionals.homeleadconnect.org/">Explore Professional Access</a></div></div></div>
-      </section>
-
-      <footer class="hlc-frontdoor-footer"><div class="hlc-frontdoor-wrap"><p><strong>HomeLead Connect LLC</strong> · Harrisburg, Pennsylvania · <a class="hlc-frontdoor-contact-link" href="tel:+17172881785">(717) 288-1785</a> · <a class="hlc-frontdoor-contact-link" href="mailto:info@homeleadconnect.org">info@homeleadconnect.org</a></p><div class="hlc-frontdoor-footlinks"><a href="https://homeleadconnect.org/">Home</a><a href="https://residents.homeleadconnect.org/">Residents</a><a href="https://professionals.homeleadconnect.org/">Professionals</a><a href="https://partners.homeleadconnect.org/">Partners</a><a href="https://platform.homeleadconnect.org/">Platform</a><a href="https://about.homeleadconnect.org/">About</a><a href="https://contact.homeleadconnect.org/">Contact</a><a href="https://homeleadconnectprivacy.carrd.co/">Privacy</a><a href="https://homeleadconnectterms.carrd.co/">Terms</a></div><p>2026 HomeLead Connect LLC</p></div></footer>
+      <footer class="hlc-v2-footer"><div class="hlc-v2-wrap"><p><strong>HomeLead Connect LLC</strong> · Harrisburg, Pennsylvania · <a href="mailto:info@homeleadconnect.org">info@homeleadconnect.org</a></p><div class="hlc-v2-footlinks"><a href="https://homeleadconnect.org/">Home</a><a href="https://residents.homeleadconnect.org/">Residents</a><a href="https://professionals.homeleadconnect.org/">Professionals</a><a href="https://partners.homeleadconnect.org/">Partners</a><a href="https://platform.homeleadconnect.org/">Platform</a><a href="https://about.homeleadconnect.org/">About</a><a href="https://contact.homeleadconnect.org/">Contact</a><a href="https://homeleadconnectprivacy.carrd.co/">Privacy</a><a href="https://homeleadconnectterms.carrd.co/">Terms</a></div><p>2026 HomeLead Connect LLC</p></div></footer>
     </main>`;
 }
 
