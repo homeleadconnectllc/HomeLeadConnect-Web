@@ -1,4 +1,5 @@
 import Footer from "../components/Footer";
+import { Link } from "react-router-dom";
 import "../styles/v2-cinematic-community-homepage-20260911.css";
 
 const pathways = [
@@ -40,6 +41,7 @@ export default function HomePage() {
             <div className="hlc-v2-hero-actions">
               <a className="hlc-v2-btn hlc-v2-btn--primary" href="/register">Get Started <span aria-hidden="true">→</span></a>
               <a className="hlc-v2-btn hlc-v2-btn--ghost" href="/about">Learn More</a>
+              <Link className="hlc-v2-btn hlc-v2-btn--ghost" to="/request-service">Get Help Now</Link>
             </div>
           </div>
           <div className="hlc-v2-horizon" aria-hidden="true" />
@@ -99,7 +101,7 @@ export default function HomePage() {
                 <li>Move from discovery to action in one place</li>
               </ul>
               <div className="hlc-v2-hero-actions">
-                <a className="hlc-v2-btn hlc-v2-btn--primary" href="/app">Open HomeLead Connect →</a>
+                <Link className="hlc-v2-btn hlc-v2-btn--primary" to="/app">Open HomeLead Connect →</Link>
               </div>
             </div>
             <div className="hlc-v2-app-icon">
