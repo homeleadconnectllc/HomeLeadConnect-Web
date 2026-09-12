@@ -15,7 +15,7 @@ on:
       - postlaunch/mobile-a-plus-20260826
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   verify:
@@ -30,28 +30,6 @@ jobs:
         with:
           node-version: 24
           cache: npm
-
-      - name: Remediate development dependency vulnerabilities once
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'v2/cinematic-community-homepage-20260911' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.base.ref == 'main'
-        shell: bash
-        run: |
-          set -euo pipefail
-          if git log -1 --pretty=%s | grep -Fq 'chore: remediate dev dependency vulnerabilities'; then
-            exit 0
-          fi
-          git fetch origin v2/cinematic-community-homepage-20260911
-          git checkout -B v2/cinematic-community-homepage-20260911 origin/v2/cinematic-community-homepage-20260911
-          npm install --package-lock-only --ignore-scripts --save-dev browserslist@4.28.7 baseline-browser-mapping@2.11.1
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add package.json package-lock.json
-          if [ -f .github/workflows/remediate-dev-dependencies.yml ]; then
-            git rm .github/workflows/remediate-dev-dependencies.yml
-          fi
-          git diff --cached --quiet && exit 0
-          git commit -m "chore: remediate dev dependency vulnerabilities"
-          git push origin HEAD:v2/cinematic-community-homepage-20260911
-          exit 0
 
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit --fund=false
