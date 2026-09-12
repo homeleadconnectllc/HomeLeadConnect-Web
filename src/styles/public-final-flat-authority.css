@@ -27,6 +27,13 @@
   text-align: center !important;
 }
 
+/* The legacy app reset targets every class containing "hero" as a generic
+ * surface. Public hero copy must remain part of the continuous dark canvas. */
+#root .hlc-app-shell.hlc-public-shell .hlc-public-hero,
+#root .hlc-app-shell.hlc-public-shell .hlc-public-hero * {
+  background: transparent !important;
+}
+
 #root .hlc-app-shell.hlc-public-shell .hlc-public-brand,
 #root .hlc-app-shell.hlc-public-shell .hlc-utility-brand {
   justify-content: center !important;
