@@ -28,8 +28,7 @@ test("public home renders without paying React startup cost", () => {
 });
 
 test("no-React public root uses the official full logo with an optimized delivery asset and V2 cinematic identity", () => {
-  assert.match(main, /srcset="\/hlc-logo-public\.webp"/);
-  assert.match(main, /src="\/hlc-logo-transparent\.png"/);
+  assert.match(main, /src="\/hlc-logo-public\.webp"/);
   assert.doesNotMatch(main, /\/hlc-logo-ui\.png/);
   assert.match(main, /class="hlc-v2-home"/);
   assert.match(main, /Real People\.<br \/><span>Real Opportunity\.<\/span>/);
