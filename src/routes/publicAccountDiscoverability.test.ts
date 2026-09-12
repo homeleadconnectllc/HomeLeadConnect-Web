@@ -17,8 +17,9 @@ test("parser-seeded public shell preserves the canonical V2 first-paint contract
   assert.match(index, /src="\/hlc-logo-public\.webp"/);
   assert.doesNotMatch(index, /<img[^>]+src="\/hlc-logo-ui\.png"/);
   assert.match(index, /href="https:\/\/app\.homeleadconnect\.org\/request-service"[^>]*>Get Help Now<\/a>/);
-  assert.match(index, /hlc-frontdoor-resident-hero-v2\.webp/);
-  assert.match(index, /Real People\.<br \/>.*Real Opportunity\./);
+  assert.match(index, /hlc-frontdoor-resident-hero-final\.jpg/);
+  assert.match(index, /More than homes\./);
+  assert.match(index, /We Build<br \/><span style="color:#0e96ff!important">Opportunities\.<\/span>/);
 });
 
 test("canonical account routes remain declared for the public access flow", () => {
