@@ -79,7 +79,7 @@ jobs:
       - name: Certify public iPhone routes render and capture
         run: |
           set -euo pipefail
-          for item in 'home:/:Real People.' 'login:/login:Sign in' 'privacy:/privacy:Privacy' 'terms:/terms:Terms of Service' 'platform:/platform-disclosure:Platform and contractor disclosure'; do
+          for item in 'home:/:We Build' 'login:/login:Sign in' 'privacy:/privacy:Privacy' 'terms:/terms:Terms of Service' 'platform:/platform-disclosure:Platform and contractor disclosure'; do
             name="${item%%:*}"; rest="${item#*:}"; route="${rest%%:*}"; expect="${rest#*:}"
             url="http://127.0.0.1:4173$route"
             dom="$GITHUB_WORKSPACE/artifacts/blind-visual/public-iphone-$name.dom.html"
@@ -96,9 +96,9 @@ jobs:
           set -euo pipefail
           DOM="$GITHUB_WORKSPACE/artifacts/blind-visual/public-iphone-home.dom.html"
           for expect in \
-            'Real People.' \
-            'Real Opportunity.' \
             'More than homes.' \
+            'We Build' \
+            'Opportunities.' \
             'One Platform.' \
             'Four Pathways.' \
             'For Residents' \
@@ -106,7 +106,7 @@ jobs:
             'For Partners' \
             'For Our Community' \
             'A Stronger Community Builds a Brighter Future.' \
-            'The HLC app puts the power of HomeLead Connect in your hands.' \
+            'The platform connects the ecosystem. The app puts it in your hands.' \
             'Connecting Homes.' \
             'Creating' \
             'Infinite impact.' \
@@ -125,7 +125,7 @@ jobs:
       - name: Certify public Mac routes render and capture
         run: |
           set -euo pipefail
-          for item in 'home:/:Real People.' 'login:/login:Sign in' 'privacy:/privacy:Privacy'; do
+          for item in 'home:/:We Build' 'login:/login:Sign in' 'privacy:/privacy:Privacy'; do
             name="${item%%:*}"; rest="${item#*:}"; route="${rest%%:*}"; expect="${rest#*:}"
             url="http://127.0.0.1:4173$route"
             dom="$GITHUB_WORKSPACE/artifacts/blind-visual/public-mac-$name.dom.html"
