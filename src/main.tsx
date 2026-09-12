@@ -31,7 +31,10 @@ function publicHomeMarkup() {
       <header class="hlc-v2-nav">
         <div class="hlc-v2-nav-inner">
           <a class="hlc-v2-brand" href="https://homeleadconnect.org/" aria-label="HomeLead Connect home">
-            <img src="/hlc-logo-transparent.png" alt="HomeLead Connect LLC" width="440" height="150" loading="eager" decoding="async" />
+            <picture>
+              <source srcset="/hlc-logo-ui.png" />
+              <img src="/hlc-logo-transparent.png" alt="HomeLead Connect LLC" width="440" height="150" loading="eager" decoding="async" />
+            </picture>
           </a>
           <nav class="hlc-v2-nav-links" aria-label="Primary navigation">
             <a href="https://homeleadconnect.org/">Home</a>
@@ -86,7 +89,7 @@ function publicHomeMarkup() {
       <section class="hlc-v2-section hlc-v2-section--light" aria-labelledby="hlc-v2-vision-title">
         <div class="hlc-v2-wrap hlc-v2-vision">
           <div class="hlc-v2-vision-copy"><p class="hlc-v2-eyebrow">The HLC vision</p><h2 id="hlc-v2-vision-title">A Stronger Community Builds a Brighter Future.</h2><p>HomeLead Connect is more than a platform — it is a connected ecosystem where people, resources and opportunities come together to create lasting impact.</p><a class="hlc-v2-link" href="https://about.homeleadconnect.org/">Explore the vision →</a><div class="hlc-v2-storyline" aria-label="HomeLead Connect story"><span>City</span><span>Neighborhood</span><span>Home</span><span>People</span><span>Opportunity</span></div></div>
-          <div class="hlc-v2-vision-media" aria-label="City and community visual"></div>
+          <div class="hlc-v2-vision-media" role="img" aria-label="City and community visual"></div>
         </div>
       </section>
 
@@ -95,7 +98,7 @@ function publicHomeMarkup() {
       </section>
 
       <section class="hlc-v2-horizon-band" aria-label="HomeLead Connect brand statement"><div class="hlc-v2-horizon-band-inner"><div><h2>Connecting Homes.<br />Creating <span>Opportunities.</span></h2><p>One platform. Four pathways. Infinite impact.</p></div><a class="hlc-v2-btn hlc-v2-btn--primary" href="https://app.homeleadconnect.org/register">Join HomeLead Connect →</a></div></section>
-      <footer class="hlc-v2-footer"><div class="hlc-v2-wrap"><p><strong>HomeLead Connect LLC</strong> · Harrisburg, Pennsylvania · <a href="mailto:info@homeleadconnect.org">info@homeleadconnect.org</a></p><div class="hlc-v2-footlinks"><a href="https://homeleadconnect.org/">Home</a><a href="https://residents.homeleadconnect.org/">Residents</a><a href="https://professionals.homeleadconnect.org/">Professionals</a><a href="https://partners.homeleadconnect.org/">Partners</a><a href="https://platform.homeleadconnect.org/">Platform</a><a href="https://about.homeleadconnect.org/">About</a><a href="https://contact.homeleadconnect.org/">Contact</a><a href="https://homeleadconnectprivacy.carrd.co/">Privacy</a><a href="https://homeleadconnectterms.carrd.co/">Terms</a></div><p>2026 HomeLead Connect LLC</p></div></footer>
+      <footer class="hlc-v2-footer"><div class="hlc-v2-wrap"><p><strong>HomeLead Connect LLC</strong> · Harrisburg, Pennsylvania · <a href="mailto:info@homeleadconnect.org" style="color:#f8fbff;text-decoration:underline;text-underline-offset:2px">info@homeleadconnect.org</a></p><div class="hlc-v2-footlinks"><a href="https://homeleadconnect.org/">Home</a><a href="https://residents.homeleadconnect.org/">Residents</a><a href="https://professionals.homeleadconnect.org/">Professionals</a><a href="https://partners.homeleadconnect.org/">Partners</a><a href="https://platform.homeleadconnect.org/">Platform</a><a href="https://about.homeleadconnect.org/">About</a><a href="https://contact.homeleadconnect.org/">Contact</a><a href="https://homeleadconnectprivacy.carrd.co/">Privacy</a><a href="https://homeleadconnectterms.carrd.co/">Terms</a></div><p>2026 HomeLead Connect LLC</p></div></footer>
     </main>`;
 }
 
