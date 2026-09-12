@@ -14,7 +14,7 @@ test("canonical public root exposes the V2 account-access entry points", () => {
 
 test("parser-seeded public shell preserves the canonical V2 first-paint contract", () => {
   assert.match(index, /class="hlc-v2-home hlc-v2-parser-seed"/);
-  assert.match(index, /src="\/hlc-logo-public\.svg"/);
+  assert.match(index, /src="\/hlc-logo-public\.webp"/);
   assert.doesNotMatch(index, /<img[^>]+src="\/hlc-logo-ui\.png"/);
   assert.match(index, /href="https:\/\/app\.homeleadconnect\.org\/request-service"[^>]*>Get Help Now<\/a>/);
   assert.match(index, /hlc-frontdoor-resident-hero-v2\.webp/);
