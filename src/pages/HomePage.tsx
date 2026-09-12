@@ -1,76 +1,126 @@
 import Footer from "../components/Footer";
+import "../styles/v2-cinematic-community-homepage-20260911.css";
 
-const features = [
-  ["Get Home Help", "Renters and homeowners can submit a service request and follow the work from one HomeLead Connect account."],
-  ["Find Providers", "Use the HomeLead Connect network, matching, availability, profiles, and service-area tools."],
-  ["Community", "Discussions, events, referrals, reviews, groups, and moderation live in the same ecosystem."],
-  ["HomeLead Connect Workspace", "Leads, LeadScope estimates, jobs, scheduling, messages, documents, workflows, analytics, and AI agents stay connected."],
+const pathways = [
+  { key: "resident", icon: "⌂", title: "For Residents", copy: "Build wealth. Find trusted professionals. Create your future at home.", href: "/homeowners" },
+  { key: "professional", icon: "⌁", title: "For Professionals", copy: "Grow your business. Get more opportunities. Make a bigger impact.", href: "/professionals" },
+  { key: "partner", icon: "◎", title: "For Partners", copy: "Collaborate. Invest. Build stronger communities. Create lasting change.", href: "/partners" },
+  { key: "community", icon: "◌", title: "For Our Community", copy: "Stronger neighborhoods. Greater possibilities. A brighter tomorrow.", href: "/community" },
 ];
 
-const linkStyle = { color: "#bfdbfe", fontWeight: 800, textDecoration: "none" } as const;
-const accountButtonStyle = { padding: "10px 12px", border: "1px solid #365777", borderRadius: 8, fontWeight: 800, textDecoration: "none" } as const;
-
 export default function HomePage() {
-  return <>
-    <main className="hlc-home" style={{minHeight:"100vh",padding:"0 22px 48px",background:"#071426",color:"#f8fafc"}}>
-      <header style={{position:"sticky",top:0,zIndex:20,maxWidth:1100,margin:"0 auto",display:"flex",alignItems:"center",justifyContent:"space-between",gap:16,padding:"14px 0",background:"rgba(7,20,38,.96)",borderBottom:"1px solid #28415f",backdropFilter:"blur(12px)",flexWrap:"wrap"}}>
-        <a href="/" aria-label="HomeLead Connect home" style={{display:"flex",alignItems:"center",gap:12,color:"#fff",textDecoration:"none",minWidth:0}}>
-          <img src="/hlc-icon.jpeg" alt="" width={52} height={52} loading="lazy" decoding="async" style={{width:52,height:52,objectFit:"contain",borderRadius:10}} />
-          <span style={{fontWeight:900,fontSize:"clamp(18px,4vw,24px)",whiteSpace:"nowrap",overflow:"hidden",textOverflow:"ellipsis"}}>HomeLead Connect</span>
-        </a>
-        <nav aria-label="Account access" style={{display:"flex",alignItems:"center",justifyContent:"flex-end",gap:8,flexWrap:"wrap"}}>
-          <a href="/login" style={{...accountButtonStyle,color:"#dbeafe",background:"transparent"}}>Sign In</a>
-          <a href="/register" style={{...accountButtonStyle,color:"#fff",background:"#2563eb",borderColor:"#2563eb"}}>Create Account</a>
-          <a data-route-to="/app" href="/app" style={{...accountButtonStyle,color:"#bfdbfe",background:"#112744"}}>Open HomeLead Connect</a>
-        </nav>
-      </header>
+  return (
+    <>
+      <main className="hlc-v2-home">
+        <header className="hlc-v2-nav">
+          <div className="hlc-v2-nav-inner">
+            <a className="hlc-v2-brand" href="/" aria-label="HomeLead Connect home">
+              <img src="/hlc-logo-transparent.png" alt="HomeLead Connect LLC" width={440} height={150} loading="eager" decoding="async" />
+            </a>
+            <nav className="hlc-v2-nav-links" aria-label="Primary navigation">
+              <a href="/">Home</a>
+              <a href="/about">About</a>
+              <a href="/homeowners">For Residents</a>
+              <a href="/professionals">For Professionals</a>
+              <a href="/partners">For Partners</a>
+              <a data-route-to="/community" href="/community">For Community</a>
+              <div className="hlc-v2-nav-actions">
+                <a className="hlc-v2-btn hlc-v2-btn--ghost" href="/login">Sign In</a>
+                <a className="hlc-v2-btn hlc-v2-btn--primary" href="/register">Create My HomeLead Connect Account</a>
+              </div>
+            </nav>
+          </div>
+        </header>
 
-      <section className="hlc-home-hero" style={{maxWidth:1100,margin:"0 auto",textAlign:"center",padding:"clamp(48px,10vw,88px) 0 46px"}}>
-        <img className="hlc-home-hero-logo" src="/hlc-icon.jpeg" alt="HomeLead Connect LLC" width={112} height={112} loading="eager" decoding="async" style={{width:112,height:112,objectFit:"contain",borderRadius:18}} />
-        <p className="hlc-home-hero-kicker" style={{fontWeight:900,color:"#60a5fa",marginTop:22,letterSpacing:".05em"}}>HOMELEAD CONNECT</p>
-        <h1 className="hlc-home-hero-title" style={{fontSize:"clamp(42px,8vw,80px)",lineHeight:1.02,letterSpacing:"-2.5px",margin:"12px auto 20px",color:"#f8fafc"}}>One front door.<br/>One connected home-services ecosystem.</h1>
-        <p className="hlc-home-hero-copy" style={{maxWidth:760,margin:"0 auto",fontSize:"clamp(18px,4vw,21px)",lineHeight:1.6,color:"#b6c5d8"}}>Request help, connect with providers, join the community, manage work, and reach the HomeLead Connect workspace from one identity.</p>
-        <div className="hlc-home-hero-actions" style={{display:"flex",gap:12,justifyContent:"center",flexWrap:"wrap",marginTop:28}}>
-          <a href="/register" style={{padding:"13px 20px",borderRadius:8,background:"#2563eb",color:"#fff",fontWeight:900,textDecoration:"none"}}>Create My HomeLead Connect Account</a>
-          <a data-route-to="/request-service" href="/request-service" style={{padding:"13px 20px",borderRadius:8,background:"#112744",border:"1px solid #365777",color:"#fff",fontWeight:800,textDecoration:"none"}}>Get Help Now</a>
-          <a href="/login" style={{padding:"13px 20px",borderRadius:8,background:"transparent",border:"1px solid #365777",color:"#dbeafe",fontWeight:800,textDecoration:"none"}}>Sign In</a>
-        </div>
-        <p className="hlc-home-hero-note" style={{marginTop:14,color:"#9fb0c5",fontSize:14}}>For participating businesses: 14 days free, then $49.99/month. Payment method required.</p>
-      </section>
+        <section className="hlc-v2-hero" aria-labelledby="hlc-v2-hero-title">
+          <div className="hlc-v2-hero-inner">
+            <p className="hlc-v2-eyebrow">More than homes.</p>
+            <h1 id="hlc-v2-hero-title">Real People.<br /><span>Real Opportunity.</span></h1>
+            <p className="hlc-v2-hero-copy">HomeLead Connect brings together residents, professionals, partners and communities to create opportunity, access and a stronger connected future.</p>
+            <div className="hlc-v2-hero-actions">
+              <a className="hlc-v2-btn hlc-v2-btn--primary" href="/register">Get Started <span aria-hidden="true">→</span></a>
+              <a className="hlc-v2-btn hlc-v2-btn--ghost" href="/about">Learn More</a>
+              <a className="hlc-v2-btn hlc-v2-btn--ghost" data-route-to="/request-service" href="/request-service">Get Help Now</a>
+            </div>
+            <p className="hlc-v2-hero-note">For participating businesses: 14 days free, then <strong>$49.99/month</strong>. Payment method required.</p>
+          </div>
+          <div className="hlc-v2-horizon" aria-hidden="true" />
+        </section>
 
-      <section aria-label="HomeLead Connect capabilities" style={{maxWidth:1100,margin:"10px auto 58px",borderTop:"1px solid #28415f"}}>
-        {features.map(([title,text]) => <article key={title} style={{display:"grid",gridTemplateColumns:"minmax(150px,.7fr) minmax(0,1.3fr)",gap:"18px 28px",alignItems:"start",padding:"24px 0",borderBottom:"1px solid #28415f",background:"transparent"}}>
-          <h2 style={{fontSize:22,margin:0,color:"#f8fafc"}}>{title}</h2>
-          <p style={{color:"#b6c5d8",lineHeight:1.65,margin:0}}>{text}</p>
-        </article>)}
-      </section>
+        <section className="hlc-v2-section hlc-v2-section--dark" aria-labelledby="hlc-v2-ecosystem-title">
+          <div className="hlc-v2-wrap">
+            <div className="hlc-v2-section-head">
+              <p className="hlc-v2-eyebrow">The HLC ecosystem</p>
+              <h2 id="hlc-v2-ecosystem-title">One Platform.<br />Four Pathways.</h2>
+              <p className="hlc-v2-section-copy">Different needs. Same mission. A stronger, more connected community.</p>
+            </div>
+            <div className="hlc-v2-pathways">
+              <div className="hlc-v2-intro-tile">
+                <p>HomeLead Connect connects the people, services, businesses and relationships that make a community work.</p>
+                <a className="hlc-v2-link" href="/how-it-works">Explore the ecosystem →</a>
+              </div>
+              {pathways.map((pathway) => (
+                <article className={`hlc-v2-card hlc-v2-card--${pathway.key}`} key={pathway.key}>
+                  <div className="hlc-v2-card-content">
+                    <span className="hlc-v2-card-icon" aria-hidden="true">{pathway.icon}</span>
+                    <h3>{pathway.title}</h3>
+                    <p>{pathway.copy}</p>
+                    <a href={pathway.href}>Learn More →</a>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
 
-      <section style={{maxWidth:1100,margin:"0 auto",padding:"34px 0",borderTop:"1px solid #28415f",borderBottom:"1px solid #28415f",textAlign:"center"}}>
-        <p style={{margin:0,color:"#93c5fd",fontWeight:900,letterSpacing:".1em",fontSize:12}}>FOR BUSINESSES</p>
-        <h2 style={{margin:"10px auto 12px",color:"#fff",fontSize:"clamp(28px,5vw,42px)"}}>Try the connected HomeLead Connect workspace free for 14 days.</h2>
-        <p style={{color:"#b6c5d8",lineHeight:1.65,maxWidth:760,margin:"0 auto"}}>Run leads, estimates, jobs, scheduling, messages, documents, workflow, analytics, and your HomeLead Connect AI team from one workspace. Continue for $49.99/month after the trial.</p>
-        <div style={{display:"flex",gap:14,justifyContent:"center",alignItems:"center",flexWrap:"wrap",marginTop:22}}>
-          <a href="/register" style={{padding:"13px 20px",borderRadius:8,background:"#2563eb",color:"#fff",fontWeight:900,textDecoration:"none"}}>Create Business Account</a>
-          <a href="/pricing" style={linkStyle}>See pricing</a>
-          <a href="/login?next=/settings" style={linkStyle}>Manage existing subscription</a>
-        </div>
-      </section>
+        <section className="hlc-v2-section hlc-v2-section--light" aria-labelledby="hlc-v2-vision-title">
+          <div className="hlc-v2-wrap hlc-v2-vision">
+            <div className="hlc-v2-vision-copy">
+              <p className="hlc-v2-eyebrow">The HLC vision</p>
+              <h2 id="hlc-v2-vision-title">A Stronger Community Builds a Brighter Future.</h2>
+              <p>HomeLead Connect is more than a platform — it is a connected ecosystem where people, resources and opportunities come together to create lasting impact.</p>
+              <a className="hlc-v2-link" href="/about">Explore the vision →</a>
+              <div className="hlc-v2-storyline" aria-label="HomeLead Connect story">
+                <span>City</span><span>Neighborhood</span><span>Home</span><span>People</span><span>Opportunity</span>
+              </div>
+            </div>
+            <div className="hlc-v2-vision-media" aria-label="City and community visual" />
+          </div>
+        </section>
 
-      <section style={{maxWidth:1100,margin:"0 auto",padding:"34px 0 12px",textAlign:"center"}}>
-        <h2 style={{margin:"0 auto 12px",color:"#fff"}}>Everything branches from HomeLead Connect.</h2>
-        <p style={{color:"#b6c5d8",lineHeight:1.65,maxWidth:860,margin:"0 auto"}}>Public information, service requests, authentication, resident and professional portals, Community, Network & Map, CRM operations, scheduling, communications, documents, billing, workflows, analytics, and the HomeLead Connect AI team all belong to one connected system.</p>
-        <div style={{display:"flex",gap:"12px 18px",justifyContent:"center",alignItems:"center",flexWrap:"wrap",marginTop:20}}>
-          <a href="/login" style={linkStyle}>Sign in</a>
-          <a href="/register" style={linkStyle}>Create account</a>
-          <a href="/pricing" style={linkStyle}>Pricing & free trial</a>
-          <a href="/how-it-works" style={linkStyle}>How it works</a>
-          <a data-route-to="/community" href="/community" style={linkStyle}>Community</a>
-          <a href="/professionals" style={linkStyle}>For professionals</a>
-          <a href="/trust" style={linkStyle}>Trust & safety</a>
-          <a href="/contact" style={linkStyle}>Contact</a>
-        </div>
-      </section>
-    </main>
-    <Footer/>
-  </>;
+        <section className="hlc-v2-section hlc-v2-section--dark" aria-labelledby="hlc-v2-app-title">
+          <div className="hlc-v2-wrap hlc-v2-app">
+            <div className="hlc-v2-app-copy">
+              <p className="hlc-v2-eyebrow">Powered by people + technology</p>
+              <h2 id="hlc-v2-app-title">The HLC app puts the power of HomeLead Connect in your hands.</h2>
+              <p className="hlc-v2-section-copy">The public brand introduces the ecosystem. HLC is the compact operating identity that helps you run your HomeLead world.</p>
+              <ul className="hlc-v2-app-points">
+                <li>Manage your home and service needs</li>
+                <li>Find trusted professionals and opportunities</li>
+                <li>Connect with partners and your community</li>
+                <li>Move from discovery to action in one place</li>
+              </ul>
+              <div className="hlc-v2-hero-actions">
+                <a className="hlc-v2-btn hlc-v2-btn--primary" data-route-to="/app" href="/app">Open HomeLead Connect →</a>
+              </div>
+            </div>
+            <div className="hlc-v2-app-icon">
+              <img src="/hlc-icon.jpeg" alt="HLC app icon" width={270} height={270} loading="lazy" decoding="async" />
+            </div>
+          </div>
+        </section>
+
+        <section className="hlc-v2-horizon-band" aria-label="HomeLead Connect brand statement">
+          <div className="hlc-v2-horizon-band-inner">
+            <div>
+              <h2>Connecting Homes.<br />Creating <span style={{color:"#168dff"}}>Opportunities.</span></h2>
+              <p>One platform. Four pathways. Infinite impact.</p>
+            </div>
+            <a className="hlc-v2-btn hlc-v2-btn--primary" href="/register">Join HomeLead Connect →</a>
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </>
+  );
 }

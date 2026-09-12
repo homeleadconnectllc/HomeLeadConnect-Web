@@ -79,7 +79,7 @@ jobs:
       - name: Certify public iPhone routes render and capture
         run: |
           set -euo pipefail
-          for item in 'home:/:Home help should feel easier.' 'login:/login:Sign in' 'privacy:/privacy:Privacy' 'terms:/terms:Terms of Service' 'platform:/platform-disclosure:Platform and contractor disclosure'; do
+          for item in 'home:/:Real People.' 'login:/login:Sign in' 'privacy:/privacy:Privacy' 'terms:/terms:Terms of Service' 'platform:/platform-disclosure:Platform and contractor disclosure'; do
             name="${item%%:*}"; rest="${item#*:}"; route="${rest%%:*}"; expect="${rest#*:}"
             url="http://127.0.0.1:4173$route"
             dom="$GITHUB_WORKSPACE/artifacts/blind-visual/public-iphone-$name.dom.html"
@@ -96,37 +96,36 @@ jobs:
           set -euo pipefail
           DOM="$GITHUB_WORKSPACE/artifacts/blind-visual/public-iphone-home.dom.html"
           for expect in \
-            'Home services, connected better' \
-            'Home help should feel easier.' \
-            'Start My Request' \
+            'Real People.' \
+            'Real Opportunity.' \
+            'More than homes.' \
+            'One Platform.' \
+            'Four Pathways.' \
+            'For Residents' \
             'For Professionals' \
-            'Renters included' \
-            'Homeowners welcome' \
-            'Clear next steps' \
-            'Harrisburg roots' \
-            'Start with the need, not the paperwork.' \
-            'A clearer conversation from the start.' \
-            'Four simple steps.' \
-            'Better service starts before the job begins.' \
+            'For Partners' \
+            'For Our Community' \
+            'A Stronger Community Builds a Brighter Future.' \
+            'The HLC app puts the power of HomeLead Connect in your hands.' \
+            'Connecting Homes.' \
+            'Creating' \
+            'Infinite impact.' \
             'HomeLead Connect LLC' \
             'Harrisburg, Pennsylvania' \
-            '(717) 288-1785' \
             'info@homeleadconnect.org'; do
             if ! grep -Fqi "$expect" "$DOM"; then
-              echo "Approved full-page front-door marker missing: $expect"
+              echo "V2 full-page front-door marker missing: $expect"
               exit 63
             fi
           done
-          grep -Fq 'https://app.homeleadconnect.org/request-service' "$DOM" || { echo 'Approved request-service handoff missing'; exit 64; }
-          grep -Fq 'https://professionals.homeleadconnect.org/' "$DOM" || { echo 'Approved professional handoff missing'; exit 65; }
-          grep -Fq 'tel:+17172881785' "$DOM" || { echo 'Approved phone handoff missing'; exit 69; }
-          grep -Fq '/hlc-frontdoor-resident-hero-final.jpg' "$DOM" || { echo 'Self-hosted resident hero missing'; exit 66; }
-          grep -Fq '/hlc-frontdoor-people-first.webp' "$DOM" || { echo 'Self-hosted people-first image missing'; exit 67; }
-          grep -Fq '/hlc-frontdoor-professional.webp' "$DOM" || { echo 'Self-hosted professional image missing'; exit 68; }
+          grep -Fq 'https://app.homeleadconnect.org/register' "$DOM" || { echo 'V2 register handoff missing'; exit 64; }
+          grep -Fq 'https://app.homeleadconnect.org/login' "$DOM" || { echo 'V2 sign-in handoff missing'; exit 65; }
+          grep -Fq 'https://app.homeleadconnect.org/request-service' "$DOM" || { echo 'V2 request-service handoff missing'; exit 66; }
+          grep -Fq 'https://professionals.homeleadconnect.org/' "$DOM" || { echo 'V2 professional handoff missing'; exit 67; }
       - name: Certify public Mac routes render and capture
         run: |
           set -euo pipefail
-          for item in 'home:/:Home help should feel easier.' 'login:/login:Sign in' 'privacy:/privacy:Privacy'; do
+          for item in 'home:/:Real People.' 'login:/login:Sign in' 'privacy:/privacy:Privacy'; do
             name="${item%%:*}"; rest="${item#*:}"; route="${rest%%:*}"; expect="${rest#*:}"
             url="http://127.0.0.1:4173$route"
             dom="$GITHUB_WORKSPACE/artifacts/blind-visual/public-mac-$name.dom.html"
