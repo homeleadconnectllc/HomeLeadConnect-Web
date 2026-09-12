@@ -1,5 +1,6 @@
 import Footer from "../components/Footer";
 import "../styles/v2-board-frontdoor-20260912.css";
+import "../styles/v2-board-frontdoor-performance-20260912.css";
 /* Canonical SPA destinations retained for the public parser/audit contract: to="/request-service" to="/app" to="/community". The no-React front door intentionally uses native links. */
 const pathways=[{key:"resident",title:"For Residents",copy:"Find homes. Build wealth. Create your future.",href:"/homeowners"},{key:"professional",title:"For Professionals",copy:"Grow your business. Get more opportunities.",href:"/professionals"},{key:"partner",title:"For Partners",copy:"Collaborate. Invest. Make a bigger impact.",href:"/partners"},{key:"community",title:"For Our Community",copy:"Stronger neighborhoods. Greater possibilities.",href:"/community"}];
 const worlds=[{key:"resident",title:"Residents",copy:"Homeownership · Family · Community · Legacy"},{key:"professional",title:"Professionals",copy:"Jobs · Tools · Training · Growth"},{key:"partner",title:"Partners",copy:"Collaboration · Business · Impact · Scale"},{key:"internal",title:"Internal",copy:"Operations · Technology · Data · Excellence"}];
