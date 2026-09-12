@@ -1,0 +1,23 @@
+/* Public V2 mobile image-paint stabilization.
+   Explicit <img> layers are used for major visual media so mobile browsers
+   fetch and paint the imagery independently of CSS background rendering. */
+.hlc-v2-hero{isolation:isolate;overflow:hidden;background-color:#06101f!important;background-image:none!important}
+.hlc-v2-hero-media{position:absolute;z-index:0;inset:0;width:100%;height:100%;display:block;object-fit:cover;object-position:center right;pointer-events:none;user-select:none}
+.hlc-v2-hero::before{content:"";position:absolute;z-index:1;inset:0;background:linear-gradient(90deg,rgba(3,11,22,.98) 0%,rgba(3,11,22,.88) 31%,rgba(3,11,22,.35) 63%,rgba(3,11,22,.12) 100%);pointer-events:none}
+.hlc-v2-card{isolation:isolate;background-color:#0a1829!important;background-image:none!important}
+.hlc-v2-card-media{position:absolute;z-index:0;inset:0;width:100%;height:100%;display:block;object-fit:cover;object-position:center;pointer-events:none;user-select:none}
+.hlc-v2-card--partner .hlc-v2-card-media{object-position:65% center}
+.hlc-v2-card--community .hlc-v2-card-media{object-position:25% center}
+.hlc-v2-card::before{z-index:1}
+.hlc-v2-card-content{z-index:2}
+.hlc-v2-vision-media{position:relative;isolation:isolate;overflow:hidden;background-color:#d7dce2!important;background-image:none!important}
+.hlc-v2-vision-image{position:absolute;z-index:0;inset:0;width:100%;height:100%;display:block;object-fit:cover;object-position:center;pointer-events:none;user-select:none}
+.hlc-v2-vision-media::after{content:"";position:absolute;z-index:1;inset:0;background:linear-gradient(90deg,rgba(4,12,23,.16),rgba(4,12,23,.2));pointer-events:none}
+@media (max-width:780px){
+  .hlc-v2-hero-media{object-position:63% center}
+  .hlc-v2-card-media{object-position:center}
+  .hlc-v2-vision-image{object-position:center}
+}
+@media (max-width:460px){
+  .hlc-v2-hero-media{object-position:68% center}
+}
