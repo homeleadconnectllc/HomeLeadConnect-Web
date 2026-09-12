@@ -1,5 +1,4 @@
 import Footer from "../components/Footer";
-import { Link } from "react-router-dom";
 import "../styles/v2-cinematic-community-homepage-20260911.css";
 
 const pathways = [
@@ -24,9 +23,9 @@ export default function HomePage() {
               <a href="/homeowners">For Residents</a>
               <a href="/professionals">For Professionals</a>
               <a href="/partners">For Partners</a>
-              <a href="/community">For Community</a>
+              <a data-route-to="/community" href="/community">For Community</a>
               <div className="hlc-v2-nav-actions">
-                <a className="hlc-v2-btn hlc-v2-btn--ghost" href="/login">Login</a>
+                <a className="hlc-v2-btn hlc-v2-btn--ghost" href="/login">Sign In</a>
                 <a className="hlc-v2-btn hlc-v2-btn--primary" href="/register">Get Started <span aria-hidden="true">→</span></a>
               </div>
             </nav>
@@ -41,8 +40,9 @@ export default function HomePage() {
             <div className="hlc-v2-hero-actions">
               <a className="hlc-v2-btn hlc-v2-btn--primary" href="/register">Get Started <span aria-hidden="true">→</span></a>
               <a className="hlc-v2-btn hlc-v2-btn--ghost" href="/about">Learn More</a>
-              <Link className="hlc-v2-btn hlc-v2-btn--ghost" to="/request-service">Get Help Now</Link>
+              <a className="hlc-v2-btn hlc-v2-btn--ghost" data-route-to="/request-service" href="/request-service">Get Help Now</a>
             </div>
+            <p className="hlc-v2-hero-note">For participating businesses: 14 days free, then <strong>$49.99/month</strong>. Payment method required.</p>
           </div>
           <div className="hlc-v2-horizon" aria-hidden="true" />
         </section>
@@ -101,7 +101,7 @@ export default function HomePage() {
                 <li>Move from discovery to action in one place</li>
               </ul>
               <div className="hlc-v2-hero-actions">
-                <Link className="hlc-v2-btn hlc-v2-btn--primary" to="/app">Open HomeLead Connect →</Link>
+                <a className="hlc-v2-btn hlc-v2-btn--primary" data-route-to="/app" href="/app">Open HomeLead Connect →</a>
               </div>
             </div>
             <div className="hlc-v2-app-icon">
