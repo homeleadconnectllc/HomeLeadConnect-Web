@@ -4,6 +4,7 @@ import "./styles/front-door-refinement-20260910.css";
 import "./styles/front-door-mobile-redesign-20260911.css";
 import "./styles/front-door-mobile-polish-20260911.css";
 import "./styles/v2-cinematic-community-homepage-20260911.css";
+import "./styles/v2-mobile-image-layer-fix-20260912.css";
 
 /*
 Authenticated runtime ownership moved to styles/app-shell-entry.ts so the public homepage can stay lightweight.
