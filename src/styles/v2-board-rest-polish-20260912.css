@@ -1,11 +1,15 @@
 /* HLC V2 rest-of-home polish. Hero intentionally untouched. */
 .hlc-board-home .hlc-board-pricing-note{display:none}
 
-.hlc-board-home .hlc-board-pathway-band{margin-top:0;padding:28px 0 0;background:#06152b}
+.hlc-board-home .hlc-board-pathway-band{margin-top:0;padding:58px 0 76px;background:#06152b}
+.hlc-board-home .hlc-board-pathway-heading{width:min(1400px,calc(100% - 72px));margin:0 auto 26px;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;column-gap:28px}
+.hlc-board-home .hlc-board-pathway-heading p,.hlc-board-home .hlc-board-section-kicker,.hlc-board-home .hlc-board-identity-kicker{margin:0 0 7px;color:#59aaff;font-size:10px;font-weight:900;letter-spacing:.24em;text-transform:uppercase}
+.hlc-board-home .hlc-board-pathway-heading h2{margin:0;color:#fff;font-size:clamp(30px,4vw,48px);line-height:1.02;letter-spacing:-.04em}
+.hlc-board-home .hlc-board-pathway-heading span{max-width:420px;color:#aebfd2;font-size:13px;line-height:1.55;text-align:right}
 .hlc-board-home .hlc-board-pathway-inner{width:min(1400px,calc(100% - 72px));grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.hlc-board-home .hlc-board-pathway{min-height:190px;border:1px solid rgba(151,194,238,.22);border-radius:4px;background-color:#0a1d35;box-shadow:0 16px 36px rgba(0,0,0,.24);transition:transform .2s ease,border-color .2s ease}
+.hlc-board-home .hlc-board-pathway{min-height:205px;border:1px solid rgba(151,194,238,.22);border-radius:4px;background-color:#0a1d35;box-shadow:0 16px 36px rgba(0,0,0,.24);transition:transform .2s ease,border-color .2s ease}
 .hlc-board-home .hlc-board-pathway:hover{transform:translateY(-3px);border-color:rgba(79,168,255,.65)}
-.hlc-board-home .hlc-board-pathway:after{background:linear-gradient(180deg,rgba(2,10,22,.08) 15%,rgba(2,10,22,.9) 100%)}
+.hlc-board-home .hlc-board-pathway:after{background:linear-gradient(180deg,rgba(2,10,22,.04) 8%,rgba(2,10,22,.9) 100%)}
 .hlc-board-home .hlc-board-pathway-content{inset:auto 20px 20px 20px;padding-right:34px}
 .hlc-board-home .hlc-board-pathway-label{font-size:18px;letter-spacing:-.01em}
 .hlc-board-home .hlc-board-pathway-copy{font-size:12px;line-height:1.5;color:#d9e6f3}
@@ -13,13 +17,14 @@
 
 .hlc-board-home .hlc-board-worlds{padding:86px 0 88px;background:linear-gradient(180deg,#06152b 0%,#081a31 100%)}
 .hlc-board-home .hlc-board-section-title{justify-content:space-between;align-items:flex-end;margin-bottom:22px;padding-bottom:14px;border-bottom:1px solid rgba(151,194,238,.2)}
-.hlc-board-home .hlc-board-section-title h2{font-size:22px;letter-spacing:.02em;text-transform:none}
+.hlc-board-home .hlc-board-section-title h2{margin:0;font-size:clamp(30px,4vw,46px);line-height:1.02;letter-spacing:-.04em;text-transform:none}
 .hlc-board-home .hlc-board-section-title span{font-size:12px;color:#9fb5cd}
 .hlc-board-home .hlc-board-world-grid{gap:12px}
-.hlc-board-home .hlc-board-world{min-height:300px;border:1px solid rgba(151,194,238,.22);border-radius:4px;box-shadow:0 18px 40px rgba(0,0,0,.25)}
+.hlc-board-home .hlc-board-world{min-height:300px;border:1px solid rgba(151,194,238,.22);border-radius:4px;box-shadow:0 18px 40px rgba(0,0,0,.25);transition:transform .2s ease,border-color .2s ease}
+.hlc-board-home .hlc-board-world:hover{transform:translateY(-3px);border-color:rgba(79,168,255,.65)}
 .hlc-board-home .hlc-board-world:after{background:linear-gradient(180deg,rgba(3,11,22,.02) 15%,rgba(3,11,22,.92) 100%)}
 .hlc-board-home .hlc-board-world-content{inset:auto 20px 20px}
-.hlc-board-home .hlc-board-world-content strong{font-size:18px;letter-spacing:.03em;text-transform:none}
+.hlc-board-home .hlc-board-world-content strong{font-size:20px;letter-spacing:.01em;text-transform:none}
 .hlc-board-home .hlc-board-world-content small{font-size:12px;color:#d9e6f3}
 
 .hlc-board-home .hlc-board-identity{position:relative;padding:84px 0;background:#0a1f44;color:#fff;overflow:hidden}
@@ -35,7 +40,10 @@
   .hlc-board-home .hlc-board-pathway-inner,.hlc-board-home .hlc-board-world-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:680px){
-  .hlc-board-home .hlc-board-pathway-band{padding:18px 0 0}
+  .hlc-board-home .hlc-board-pathway-band{padding:46px 0 58px}
+  .hlc-board-home .hlc-board-pathway-heading{width:calc(100% - 28px);display:block;margin-bottom:22px}
+  .hlc-board-home .hlc-board-pathway-heading h2{font-size:32px}
+  .hlc-board-home .hlc-board-pathway-heading span{display:block;margin-top:9px;text-align:left;font-size:12px}
   .hlc-board-home .hlc-board-pathway-inner{width:calc(100% - 28px);grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
   .hlc-board-home .hlc-board-pathway{min-height:164px}
   .hlc-board-home .hlc-board-pathway-content{inset:auto 13px 14px;padding-right:26px}
@@ -44,7 +52,7 @@
   .hlc-board-home .hlc-board-pathway-arrow{right:11px;bottom:12px;width:26px;height:26px;font-size:14px}
   .hlc-board-home .hlc-board-worlds{padding:60px 0 64px}
   .hlc-board-home .hlc-board-section-title{display:block;margin-bottom:16px}
-  .hlc-board-home .hlc-board-section-title h2{font-size:20px}
+  .hlc-board-home .hlc-board-section-title h2{font-size:30px}
   .hlc-board-home .hlc-board-section-title span{display:block;margin-top:7px}
   .hlc-board-home .hlc-board-world-grid{grid-template-columns:1fr}
   .hlc-board-home .hlc-board-world{min-height:230px}
