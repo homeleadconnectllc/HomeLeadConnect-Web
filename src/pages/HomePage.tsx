@@ -26,7 +26,7 @@ export default function HomePage() {
               <a data-route-to="/community" href="/community">For Community</a>
               <div className="hlc-v2-nav-actions">
                 <a className="hlc-v2-btn hlc-v2-btn--ghost" href="/login">Sign In</a>
-                <a className="hlc-v2-btn hlc-v2-btn--primary" href="/register">Create Account</a>
+                <a className="hlc-v2-btn hlc-v2-btn--primary" href="/register">Create My HomeLead Connect Account</a>
               </div>
             </nav>
           </div>
