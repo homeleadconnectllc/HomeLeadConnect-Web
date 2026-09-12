@@ -18,6 +18,14 @@
   gap: 0;
 }
 
+.hlc-public-shell--visual {
+  grid-template-columns: minmax(0, .9fr) minmax(400px, 1.1fr);
+  overflow: hidden;
+  border: 1px solid rgba(199,210,227,.16);
+  background: linear-gradient(135deg, rgba(8,20,38,.94), rgba(5,14,27,.98));
+  box-shadow: 0 28px 68px rgba(0,0,0,.26);
+}
+
 .hlc-public-hero {
   position: relative;
   overflow: hidden;
@@ -28,6 +36,17 @@
   border-radius: 0;
   background: transparent;
   box-shadow: none;
+}
+
+.hlc-public-shell--visual .hlc-public-hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 470px;
+  padding: clamp(34px,5vw,64px);
+  border-right: 1px solid rgba(199,210,227,.16);
+  border-bottom: 0;
+  background: radial-gradient(circle at 12% 14%, rgba(47,128,255,.2), transparent 38%);
 }
 
 .hlc-public-hero::after {
@@ -78,6 +97,12 @@
   border-radius:8px;
   overflow:hidden;
   background:rgba(6,16,30,.2);
+}
+
+.hlc-public-shell--visual > .hlc-public-grid,
+.hlc-public-shell--visual > .hlc-public-offer,
+.hlc-public-shell--visual > .hlc-public-form-wrap {
+  grid-column: 1 / -1;
 }
 
 .hlc-public-card {
@@ -154,6 +179,8 @@
 .hlc-trap { position:absolute!important; left:-10000px!important; width:1px!important; height:1px!important; overflow:hidden!important; }
 
 @media(max-width:900px) {
+  .hlc-public-shell--visual { grid-template-columns: 1fr; }
+  .hlc-public-shell--visual .hlc-public-hero { min-height: 0; padding: clamp(28px,7vw,44px); border-right: 0; border-bottom: 1px solid rgba(199,210,227,.16); }
   .hlc-public-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
   .hlc-public-form-wrap { grid-template-columns:1fr; }
   .hlc-public-form { border-left:0; border-top:1px solid rgba(199,210,227,.14); }
@@ -163,6 +190,7 @@
   .hlc-public-page { padding:16px 14px 58px; }
   .hlc-public-shell { gap:0; }
   .hlc-public-hero { padding:22px 0 26px; }
+  .hlc-public-shell--visual .hlc-public-hero { padding:28px 22px 30px; }
   .hlc-public-brand { margin-bottom:18px; }
   .hlc-public-logo { width:132px; }
   .hlc-public-hero h1 { font-size:clamp(1.95rem,10vw,2.7rem); line-height:1.02; }

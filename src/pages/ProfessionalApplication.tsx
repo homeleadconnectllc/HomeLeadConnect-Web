@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
+import PublicSiteNav from "../components/PublicSiteNav";
 import { submitProfessionalApplication } from "../api/professionalApplications";
 import { errorMessage } from "../lib/errorMessage";
 import "../styles/public-premium.css";
@@ -51,7 +52,7 @@ export default function ProfessionalApplication() {
     <header className="hlc-public-hero"><div className="hlc-public-brand"><img className="hlc-public-logo" src="/hlc-logo-public.webp" alt="HomeLead Connect LLC" width={220} height={71} /></div><p className="hlc-public-kicker">Professional network</p><h1>Application received.</h1><p className="hlc-public-hero-copy">Your professional application was saved for HomeLead Connect review. This confirmation is not approval, verification, an invitation, or an offer of work.</p><div className="hlc-public-actions"><Link className="hlc-public-primary" to="/professionals">Back to professional overview</Link><Link className="hlc-public-secondary" to="/contact">Contact HLC</Link></div></header>
   </div></main>;
 
-  return <main className="hlc-public-page"><div className="hlc-public-shell">
+  return <main className="hlc-public-page"><PublicSiteNav /><div className="hlc-public-shell hlc-public-shell--visual">
     <header className="hlc-public-hero">
       <div className="hlc-public-brand"><img className="hlc-public-logo" src="/hlc-logo-public.webp" alt="HomeLead Connect LLC" width={220} height={71} /></div>
       <p className="hlc-public-kicker">Professional network</p>

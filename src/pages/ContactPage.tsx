@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import PublicSiteNav from "../components/PublicSiteNav";
 import "../styles/public-utility-flat.css";
 import "../styles/public-utility-imagery.css";
 
@@ -9,7 +10,7 @@ const paths = [
 ] as const;
 
 export default function ContactPage() {
-  return <main className="hlc-utility-page"><div className="hlc-utility-shell">
+  return <main className="hlc-utility-page"><PublicSiteNav /><div className="hlc-utility-shell">
     <header className="hlc-utility-header">
       <div>
         <div className="hlc-utility-brand"><img className="hlc-utility-logo" src="/hlc-logo-public.webp" alt="HomeLead Connect LLC" width={220} height={71} /></div>

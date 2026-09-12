@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import PublicSiteNav from "../components/PublicSiteNav";
 import "../styles/public-premium.css";
 
 type PublicJourneyKey = "services" | "pricing" | "trust" | "professionals" | "demo";
@@ -72,7 +73,8 @@ export default function PublicJourney({ page }: { page: PublicJourneyKey }) {
       : { src: "/hlc-frontdoor-people-first.webp", alt: "HomeLead Connect conversation about a home-service project" };
 
   return <main className="hlc-public-page">
-    <div className="hlc-public-shell">
+    <PublicSiteNav />
+    <div className="hlc-public-shell hlc-public-shell--visual">
       <header className="hlc-public-hero">
         <div className="hlc-public-brand"><img className="hlc-public-logo" src="/hlc-logo-public.webp" alt="HomeLead Connect LLC" width={220} height={71} /></div>
         <p className="hlc-public-kicker">{item.kicker}</p>

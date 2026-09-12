@@ -17,6 +17,18 @@
   background: #0b1a2d;
 }
 
+.hlc-public-shell--visual .hlc-public-visual {
+  min-height: 470px;
+  max-height: none;
+  border-bottom: 0;
+}
+
+.hlc-public-shell--visual .hlc-public-visual img {
+  height: 100%;
+  min-height: 470px;
+  object-position: center;
+}
+
 .hlc-public-visual::after {
   content: "";
   position: absolute;
@@ -47,6 +59,8 @@
   .hlc-public-intro-copy { font-size: 1rem; }
   .hlc-public-visual { min-height: 220px; max-height: 300px; }
   .hlc-public-visual img { height: clamp(220px,64vw,300px); object-position: center center; }
+  .hlc-public-shell--visual .hlc-public-visual { min-height: 260px; max-height: 340px; }
+  .hlc-public-shell--visual .hlc-public-visual img { min-height: 260px; height: clamp(260px,72vw,340px); }
   .hlc-public-card p,
   .hlc-public-card li { font-size: 1rem; }
 }
