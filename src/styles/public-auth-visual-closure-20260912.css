@@ -1,0 +1,61 @@
+/* Public account-access closure: one scoped visual authority for Login, Register,
+   password recovery, and reset. It deliberately does not touch authenticated routes. */
+html body #root .hlc-app-shell.hlc-public-shell.hlc-auth-front-door-surface,
+html body #root .hlc-app-shell.hlc-public-shell.hlc-auth-front-door-surface > .hlc-route-content {
+  background: #030914 !important;
+  color: #f7fbff !important;
+}
+
+html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-public-nav {
+  background: rgba(2, 8, 18, .96) !important;
+  border-bottom: 1px solid rgba(98, 198, 255, .22) !important;
+}
+
+html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-public-links a {
+  color: #d7e5f2 !important;
+  -webkit-text-fill-color: #d7e5f2 !important;
+}
+
+html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-public-links .hlc-auth-public-request {
+  min-height: 42px !important;
+  padding-inline: 16px !important;
+  border: 1px solid #0b72d0 !important;
+  border-radius: 999px !important;
+  background: #0b72d0 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  box-shadow: 0 10px 26px rgba(11, 114, 208, .26) !important;
+}
+
+html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro-proof span {
+  color: #d7e5f2 !important;
+  -webkit-text-fill-color: #d7e5f2 !important;
+  opacity: 1 !important;
+}
+
+html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro-proof span::before {
+  background: #62c6ff !important;
+}
+
+html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-password-label {
+  display: block !important;
+  color: #e6f0fa !important;
+  -webkit-text-fill-color: #e6f0fa !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  line-height: 1.35 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+@media (max-width: 720px) {
+  html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-public-links a:not(.hlc-auth-public-request) {
+    display: none !important;
+  }
+
+  html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-public-links .hlc-auth-public-request {
+    min-height: 40px !important;
+    padding-inline: 13px !important;
+    border-radius: 10px !important;
+  }
+}
