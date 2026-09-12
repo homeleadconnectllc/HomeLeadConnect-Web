@@ -1,7 +1,8 @@
 /* Final-candidate selective reconciliation from PR #237.
    Public-only presentation layer; intentionally excludes authenticated/global authorities. */
 
-.hlc-public-hero-copy {
+.hlc-public-hero-copy,
+.hlc-public-intro-copy {
   color: #c8d5e6;
   font-weight: 600;
 }
@@ -42,7 +43,8 @@
 .hlc-public-form label { color: #d9e4f1; }
 
 @media (max-width: 640px) {
-  .hlc-public-hero-copy { font-size: 1rem; }
+  .hlc-public-hero-copy,
+  .hlc-public-intro-copy { font-size: 1rem; }
   .hlc-public-visual { min-height: 220px; max-height: 300px; }
   .hlc-public-visual img { height: clamp(220px,64vw,300px); object-position: center center; }
   .hlc-public-card p,
