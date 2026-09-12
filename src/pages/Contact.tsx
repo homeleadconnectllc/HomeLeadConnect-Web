@@ -31,11 +31,11 @@ export default function Contact() {
           <img src="/hlc-frontdoor-people-first.webp" alt="People connecting around a home-service project" loading="eager" />
         </figure>
         <section className="hlc-public-grid" aria-label="Contact pathways">
-          {routes.map(([eyebrow, title, to, action]) => (
-            <article className="hlc-public-card" key={title}>
+          {routes.map(([eyebrow, copy, to, action]) => (
+            <article className="hlc-public-card" key={eyebrow}>
               <p className="hlc-public-card-label">{eyebrow}</p>
-              <h2>{title}</h2>
-              <p>{title === "Home service" ? "Need help with a home project? Start with a service request and tell HLC what you need." : title === "Professional network" ? "Interested in bringing your business into the HLC service network?" : "Looking for the broader HomeLead Connect community and network experience?"}</p>
+              <h2>{action}</h2>
+              <p>{copy}</p>
               <Link className="hlc-public-link" to={to}>{action} →</Link>
             </article>
           ))}
