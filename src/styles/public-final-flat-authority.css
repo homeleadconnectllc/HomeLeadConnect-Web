@@ -31,7 +31,9 @@
  * surface. Public hero copy must remain part of the continuous dark canvas. */
 #root .hlc-app-shell.hlc-public-shell .hlc-public-hero,
 #root .hlc-app-shell.hlc-public-shell .hlc-public-hero * {
+  --hlc-reset-surface: transparent !important;
   background: transparent !important;
+  background-color: transparent !important;
 }
 
 #root .hlc-app-shell.hlc-public-shell .hlc-public-brand,
