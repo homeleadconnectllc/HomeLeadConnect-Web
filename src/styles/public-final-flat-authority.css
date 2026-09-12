@@ -27,6 +27,15 @@
   text-align: center !important;
 }
 
+/* The legacy app reset targets every class containing "hero" as a generic
+ * surface. Public hero copy must remain part of the continuous dark canvas. */
+#root .hlc-app-shell.hlc-public-shell .hlc-public-hero,
+#root .hlc-app-shell.hlc-public-shell .hlc-public-hero * {
+  --hlc-reset-surface: transparent !important;
+  --hlc-public-hero-surface: rgba(0, 0, 0, 0);
+  background: var(--hlc-public-hero-surface) !important;
+}
+
 #root .hlc-app-shell.hlc-public-shell .hlc-public-brand,
 #root .hlc-app-shell.hlc-public-shell .hlc-utility-brand {
   justify-content: center !important;
@@ -34,6 +43,7 @@
 
 #root .hlc-app-shell.hlc-public-shell .hlc-public-hero h1,
 #root .hlc-app-shell.hlc-public-shell .hlc-public-hero-copy,
+#root .hlc-app-shell.hlc-public-shell .hlc-public-intro-copy,
 #root .hlc-app-shell.hlc-public-shell .hlc-utility-title,
 #root .hlc-app-shell.hlc-public-shell .hlc-utility-lead {
   margin-left: auto !important;
@@ -42,6 +52,7 @@
 }
 
 #root .hlc-app-shell.hlc-public-shell .hlc-public-hero-copy,
+#root .hlc-app-shell.hlc-public-shell .hlc-public-intro-copy,
 #root .hlc-app-shell.hlc-public-shell .hlc-utility-lead,
 #root .hlc-app-shell.hlc-public-shell .hlc-public-card p,
 #root .hlc-app-shell.hlc-public-shell .hlc-public-card li,

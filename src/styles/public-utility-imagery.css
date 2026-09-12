@@ -1,0 +1,31 @@
+/* Visual-media layer for public utility pages. Uses only approved local HLC assets. */
+.hlc-utility-media-column {
+  display: grid;
+  gap: 16px;
+}
+
+.hlc-utility-visual {
+  position: relative;
+  min-height: 220px;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(147, 197, 253, .28);
+  background: #0b1a2d;
+}
+
+.hlc-utility-visual::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(3, 11, 22, .02), rgba(3, 11, 22, .36));
+  pointer-events: none;
+}
+
+.hlc-utility-visual img {
+  display: block;
+  width: 100%;
+  min-height: 220px;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
