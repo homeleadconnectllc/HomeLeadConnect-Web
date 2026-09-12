@@ -1,5 +1,5 @@
 /* HLC V2 rest-of-home polish. Hero intentionally untouched. */
-.hlc-board-home .hlc-board-pricing-note{display:none}
+.hlc-board-home .hlc-board-pricing-note{display:none!important;visibility:hidden!important;height:0!important;margin:0!important;padding:0!important;overflow:hidden!important}
 
 /* MILESTONE 1 — continue the cinematic language below the approved hero. */
 .hlc-board-home .hlc-board-pathway-band{margin-top:0;padding:66px 0 82px;background:#06152b;position:relative;overflow:hidden}
@@ -12,7 +12,7 @@
 .hlc-board-home .hlc-board-pathway{min-height:218px;border:1px solid rgba(151,194,238,.24);border-radius:6px;background-color:#0a1d35;background-size:cover;background-position:center;box-shadow:0 18px 42px rgba(0,0,0,.28);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
 .hlc-board-home .hlc-board-pathway:hover{transform:translateY(-4px);border-color:rgba(79,168,255,.7);box-shadow:0 24px 50px rgba(0,0,0,.34)}
 .hlc-board-home .hlc-board-pathway:after{background:linear-gradient(180deg,rgba(2,10,22,.02) 5%,rgba(2,10,22,.18) 35%,rgba(2,10,22,.94) 100%)}
-.hlc-board-home .hlc-board-pathway-content{inset:auto 20px 20px 20px;padding-right:38px}
+.hlc-board-home .hlc-board-pathway-content{inset:auto 20px 20px;padding-right:38px}
 .hlc-board-home .hlc-board-pathway-label{font-size:18px;letter-spacing:-.01em}
 .hlc-board-home .hlc-board-pathway-copy{font-size:12px;line-height:1.5;color:#d9e6f3;max-width:250px}
 .hlc-board-home .hlc-board-pathway-arrow{right:18px;bottom:18px;width:31px;height:31px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.5);border-radius:50%;font-size:17px;text-decoration:none;background:rgba(3,11,22,.2)}
