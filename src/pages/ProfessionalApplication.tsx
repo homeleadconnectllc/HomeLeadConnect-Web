@@ -56,7 +56,7 @@ export default function ProfessionalApplication() {
       <div className="hlc-public-brand"><img className="hlc-public-logo" src="/hlc-logo-public.webp" alt="HomeLead Connect LLC" width={220} height={71} /></div>
       <p className="hlc-public-kicker">Professional network</p>
       <h1>Bring your business into the HLC service network.</h1>
-      <p className="hlc-public-hero-copy">Apply once as a business, contractor, subcontractor, mover, cleaner, HVAC company, painter, roofer, handyman, plumber, electrician, landscaper, or other home-service professional. HomeLead Connect reviews each application before creating provider access.</p>
+      <p className="hlc-public-intro-copy">Apply once as a business, contractor, subcontractor, mover, cleaner, HVAC company, painter, roofer, handyman, plumber, electrician, landscaper, or other home-service professional. HomeLead Connect reviews each application before creating provider access.</p>
     </header>
 
     <section className="hlc-public-form-wrap">
