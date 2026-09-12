@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import "../../styles/public-auth-visual-closure-20260912.css";
 
 type AuthShellProps = {
   title: string;
