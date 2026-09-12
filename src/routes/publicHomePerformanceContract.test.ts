@@ -29,15 +29,16 @@ test("public home renders without paying React startup cost", () => {
 
 test("no-React public root uses the official full logo and V2 cinematic identity", () => {
   assert.match(main, /src="\/hlc-logo-transparent\.png"/);
-  assert.doesNotMatch(main, /src="\/hlc-logo-ui\.png"/);
+  assert.doesNotMatch(main, /\/hlc-logo-ui\.png/);
   assert.match(main, /class="hlc-v2-home"/);
   assert.match(main, /Real People\.<br \/><span>Real Opportunity\.<\/span>/);
   assert.match(main, /One Platform\.<br \/>Four Pathways\./);
   assert.match(main, /Connecting Homes\.<br \/>Creating <span/);
 });
 
-test("parser-seeded public hero preserves the optimized V2 first-paint contract", () => {
+test("parser-seeded public hero preserves the optimized V2 first-paint contract and corporate brand identity", () => {
   assert.match(indexHtml, /src="\/hlc-logo-transparent\.png"/);
+  assert.doesNotMatch(indexHtml, /\/hlc-logo-ui\.png/);
   assert.match(indexHtml, /hlc-v2-home hlc-v2-parser-seed/);
   assert.match(indexHtml, /Real People\.<br \/><span style="color:#79bdff!important">Real Opportunity\.<\/span>/);
   assert.match(indexHtml, /hlc-frontdoor-resident-hero-v2\.webp/);
