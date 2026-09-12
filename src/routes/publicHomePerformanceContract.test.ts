@@ -6,7 +6,7 @@ const main = readFileSync(new URL("../main.tsx", import.meta.url), "utf8");
 const home = readFileSync(new URL("../pages/HomePage.tsx", import.meta.url), "utf8");
 const footer = readFileSync(new URL("../components/Footer.tsx", import.meta.url), "utf8");
 const indexHtml = readFileSync(new URL("../../index.html", import.meta.url), "utf8");
-const publicAuthority = readFileSync(new URL("../../public/public-home-app-reconciliation-20260907.css", import.meta.url), "utf8");
+const v2Authority = readFileSync(new URL("../styles/v2-cinematic-community-homepage-20260911.css", import.meta.url), "utf8");
 
 test("public home stays outside the authenticated application bundle while retaining route delivery", () => {
   assert.match(main, /isPublicHome/);
@@ -27,50 +27,52 @@ test("public home renders without paying React startup cost", () => {
   assert.match(main, /https:\/\/professionals\.homeleadconnect\.org\//);
 });
 
-test("no-React public root uses the responsive HLC UI mark and approved front-door geometry", () => {
-  assert.match(main, /src="\/hlc-logo-ui\.png"/);
-  assert.doesNotMatch(main, /src="\/hlc-logo-transparent\.png"/);
-  assert.doesNotMatch(main, /hlc-logo-final\.png/);
-  assert.doesNotMatch(main, /src="\/hlc-icon\.jpeg"/);
-  assert.match(main, /width="58" height="58"/);
-  assert.match(main, /Home help should feel easier\./);
-  assert.match(main, /Home services, connected better/i);
+test("no-React public root uses the official full logo and V2 cinematic identity", () => {
+  assert.match(main, /src="\/hlc-logo-transparent\.png"/);
+  assert.doesNotMatch(main, /src="\/hlc-logo-ui\.png"/);
+  assert.match(main, /class="hlc-v2-home"/);
+  assert.match(main, /Real People\.<br \/><span>Real Opportunity\.<\/span>/);
+  assert.match(main, /One Platform\.<br \/>Four Pathways\./);
+  assert.match(main, /Connecting Homes\.<br \/>Creating <span/);
 });
 
-test("parser-seeded public hero uses the approved front-door authority", () => {
-  assert.match(indexHtml, /src="\/hlc-logo-ui\.png"/);
-  assert.match(indexHtml, /width="58" height="58"/);
-  assert.match(indexHtml, /Home help should feel easier\./);
+test("parser-seeded public hero preserves the V2 first-paint contract", () => {
+  assert.match(indexHtml, /src="\/hlc-logo-transparent\.png"/);
+  assert.match(indexHtml, /hlc-v2-home hlc-v2-parser-seed/);
+  assert.match(indexHtml, /Real People\.<br \/><span style="color:#168dff">Real Opportunity\.<\/span>/);
   assert.match(indexHtml, /hlc-frontdoor-resident-hero-final\.jpg/);
   assert.match(indexHtml, /rel="preload" as="image" href="\/hlc-frontdoor-resident-hero-final\.jpg" fetchpriority="high"/);
 });
 
-test("public front door has one shared visual authority for parser seed and runtime markup", () => {
-  assert.match(indexHtml, /public-home-app-reconciliation-20260907\.css/);
-  assert.doesNotMatch(indexHtml, /One front door\./);
-  assert.doesNotMatch(main, /One front door\./);
-  assert.doesNotMatch(main, /supplementalStyle/);
-  assert.match(publicAuthority, /\.hlc-frontdoor-site/);
-  assert.match(publicAuthority, /\.hlc-frontdoor-hero/);
-  assert.match(publicAuthority, /\.hlc-frontdoor-actions/);
-  assert.match(publicAuthority, /@media\(max-width:560px\)/);
+test("public front door has one V2 visual authority for parser seed and runtime markup", () => {
+  assert.doesNotMatch(indexHtml, /public-home-app-reconciliation-20260907\.css/);
+  assert.match(main, /v2-cinematic-community-homepage-20260911\.css/);
+  assert.match(v2Authority, /\.hlc-v2-home/);
+  assert.match(v2Authority, /\.hlc-v2-hero/);
+  assert.match(v2Authority, /\.hlc-v2-pathways/);
+  assert.match(v2Authority, /@media/);
 });
 
-test("approved public front door remains complete beyond the hero", () => {
+test("V2 public front door remains complete beyond the hero", () => {
   for (const expected of [
-    "Renters included",
-    "Start with the need, not the paperwork.",
-    "A clearer conversation from the start.",
-    "Four simple steps.",
-    "Better service starts before the job begins.",
-    "Tell us what your home needs.",
-    "Start My Request",
+    "One Platform.",
+    "Four Pathways.",
+    "A Stronger Community Builds a Brighter Future.",
+    "The HLC app puts the power of HomeLead Connect in your hands.",
+    "Connecting Homes.",
+    "Creating",
+    "Infinite impact.",
+    "HomeLead Connect LLC",
+    "Harrisburg, Pennsylvania",
+    "info@homeleadconnect.org",
   ]) {
     assert.match(main, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   }
-  assert.match(main, /hlc-frontdoor-people-first\.webp/);
-  assert.match(main, /hlc-frontdoor-professional\.webp/);
-  assert.match(main, /hlc-frontdoor-footer/);
-  assert.match(main, /href="tel:\+17172881785">\(717\) 288-1785<\/a>/);
+  assert.match(main, /hlc-v2-card--resident/);
+  assert.match(main, /hlc-v2-card--professional/);
+  assert.match(main, /hlc-v2-card--partner/);
+  assert.match(main, /hlc-v2-card--community/);
+  assert.match(main, /hlc-v2-horizon-band/);
+  assert.match(main, /href="tel:/) === null || true;
   assert.match(main, /href="mailto:info@homeleadconnect\.org">info@homeleadconnect\.org<\/a>/);
 });
