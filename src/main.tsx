@@ -51,7 +51,7 @@ function publicHomeMarkup() {
       </header>
 
       <section class="hlc-v2-hero" aria-labelledby="hlc-v2-hero-title">
-        <img class="hlc-v2-hero-media" src="/hlc-frontdoor-resident-hero-final.jpg" alt="" width="1600" height="900" loading="eager" decoding="async" fetchpriority="high" aria-hidden="true" />
+        <img class="hlc-v2-hero-media" src="/hlc-frontdoor-resident-hero-v2.webp" alt="" width="1600" height="900" loading="eager" decoding="async" fetchpriority="high" aria-hidden="true" />
         <div class="hlc-v2-hero-inner">
           <p class="hlc-v2-eyebrow">More than homes.</p>
           <h1 id="hlc-v2-hero-title">We Build<br /><span>Opportunities.</span></h1>
@@ -80,8 +80,8 @@ function publicHomeMarkup() {
             </div>
             <article class="hlc-v2-card hlc-v2-card--resident"><img class="hlc-v2-card-media" src="/hlc-frontdoor-people-first.webp" alt="" width="1200" height="900" loading="eager" decoding="async" aria-hidden="true" /><div class="hlc-v2-card-content"><span class="hlc-v2-card-icon" aria-hidden="true">⌂</span><h3>For Residents</h3><p>Build wealth. Find trusted professionals. Create your future.</p><a href="https://residents.homeleadconnect.org/">Learn More →</a></div></article>
             <article class="hlc-v2-card hlc-v2-card--professional"><img class="hlc-v2-card-media" src="/hlc-frontdoor-professional.webp" alt="" width="1200" height="900" loading="eager" decoding="async" aria-hidden="true" /><div class="hlc-v2-card-content"><span class="hlc-v2-card-icon" aria-hidden="true">⌁</span><h3>For Professionals</h3><p>Grow your business. Get more opportunities.</p><a href="https://professionals.homeleadconnect.org/">Learn More →</a></div></article>
-            <article class="hlc-v2-card hlc-v2-card--partner"><img class="hlc-v2-card-media" src="/hlc-frontdoor-resident-hero-final.jpg" alt="" width="1600" height="900" loading="eager" decoding="async" aria-hidden="true" /><div class="hlc-v2-card-content"><span class="hlc-v2-card-icon" aria-hidden="true">◎</span><h3>For Partners</h3><p>Collaborate. Invest. Build a bigger impact.</p><a href="https://partners.homeleadconnect.org/">Learn More →</a></div></article>
-            <article class="hlc-v2-card hlc-v2-card--community"><img class="hlc-v2-card-media" src="/hlc-frontdoor-resident-hero-final.jpg" alt="" width="1600" height="900" loading="eager" decoding="async" aria-hidden="true" /><div class="hlc-v2-card-content"><span class="hlc-v2-card-icon" aria-hidden="true">◌</span><h3>For Our Community</h3><p>Stronger neighborhoods. Greater possibilities.</p><a href="https://community.homeleadconnect.org/">Learn More →</a></div></article>
+            <article class="hlc-v2-card hlc-v2-card--partner"><img class="hlc-v2-card-media" src="/hlc-frontdoor-resident-hero-v2.webp" alt="" width="1600" height="900" loading="eager" decoding="async" aria-hidden="true" /><div class="hlc-v2-card-content"><span class="hlc-v2-card-icon" aria-hidden="true">◎</span><h3>For Partners</h3><p>Collaborate. Invest. Build a bigger impact.</p><a href="https://partners.homeleadconnect.org/">Learn More →</a></div></article>
+            <article class="hlc-v2-card hlc-v2-card--community"><img class="hlc-v2-card-media" src="/hlc-frontdoor-resident-hero-v2.webp" alt="" width="1600" height="900" loading="eager" decoding="async" aria-hidden="true" /><div class="hlc-v2-card-content"><span class="hlc-v2-card-icon" aria-hidden="true">◌</span><h3>For Our Community</h3><p>Stronger neighborhoods. Greater possibilities.</p><a href="https://community.homeleadconnect.org/">Learn More →</a></div></article>
           </div>
         </div>
       </section>
@@ -89,7 +89,7 @@ function publicHomeMarkup() {
       <section class="hlc-v2-section hlc-v2-section--dark" aria-labelledby="hlc-v2-vision-title">
         <div class="hlc-v2-wrap hlc-v2-vision">
           <div class="hlc-v2-vision-copy"><p class="hlc-v2-eyebrow">The HLC vision</p><h2 id="hlc-v2-vision-title">A Stronger Community Builds a Brighter Future.</h2><p>HomeLead Connect is more than a platform — it is a connected ecosystem where people, resources and opportunities come together to create lasting impact.</p><a class="hlc-v2-link" href="https://about.homeleadconnect.org/">Explore the vision →</a><div class="hlc-v2-storyline" aria-label="HomeLead Connect story"><span>City</span><span>Neighborhood</span><span>Home</span><span>People</span><span>Opportunity</span></div></div>
-          <div class="hlc-v2-vision-media" role="img" aria-label="City and community visual"><img class="hlc-v2-vision-image" src="/hlc-frontdoor-resident-hero-final.jpg" alt="" width="1600" height="900" loading="eager" decoding="async" aria-hidden="true" /></div>
+          <div class="hlc-v2-vision-media" role="img" aria-label="City and community visual"><img class="hlc-v2-vision-image" src="/hlc-frontdoor-resident-hero-v2.webp" alt="" width="1600" height="900" loading="eager" decoding="async" aria-hidden="true" /></div>
         </div>
       </section>
 
