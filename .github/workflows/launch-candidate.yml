@@ -32,13 +32,15 @@ jobs:
           cache: npm
 
       - name: Remediate development dependency vulnerabilities once
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'v2/cinematic-community-homepage-20260911' && github.event.pull_request.head.sha == github.sha && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.base.ref == 'main' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'v2/cinematic-community-homepage-20260911'
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'v2/cinematic-community-homepage-20260911' && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.base.ref == 'main'
         shell: bash
         run: |
           set -euo pipefail
           if git log -1 --pretty=%s | grep -Fq 'chore: remediate dev dependency vulnerabilities'; then
             exit 0
           fi
+          git fetch origin v2/cinematic-community-homepage-20260911
+          git checkout -B v2/cinematic-community-homepage-20260911 origin/v2/cinematic-community-homepage-20260911
           npm install --package-lock-only --ignore-scripts --save-dev browserslist@4.28.7 baseline-browser-mapping@2.11.1
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
