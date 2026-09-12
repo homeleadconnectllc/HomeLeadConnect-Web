@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import "../styles/public-utility-flat.css";
+import "../styles/public-utility-imagery.css";
 
 const paths = [
   { eyebrow: "HOME HELP", title: "Request home service", body: "Tell HLC what you need and route the request into the connected service workflow.", to: "/request-service", action: "Start service request" },
@@ -17,7 +18,10 @@ export default function ContactPage() {
         <p className="hlc-utility-lead">One place for home-service requests, professional opportunities, and HomeLead Connect platform support.</p>
         <div className="hlc-utility-actions"><Link className="hlc-utility-primary" to="/request-service">Request home service</Link><Link className="hlc-utility-secondary" to="/professionals">For professionals</Link></div>
       </div>
-      <div className="hlc-utility-summary" aria-label="Contact pathways"><span><strong>Residents</strong><small>Service requests</small></span><span><strong>Professionals</strong><small>Network participation</small></span><span><strong>Platform</strong><small>Account support</small></span></div>
+      <div className="hlc-utility-media-column">
+        <figure className="hlc-utility-visual"><img src="/hlc-frontdoor-people-first.webp" alt="HomeLead Connect helping a household plan a home-service project" /></figure>
+        <div className="hlc-utility-summary" aria-label="Contact pathways"><span><strong>Residents</strong><small>Service requests</small></span><span><strong>Professionals</strong><small>Network participation</small></span><span><strong>Platform</strong><small>Account support</small></span></div>
+      </div>
     </header>
 
     <section className="hlc-utility-paths" aria-label="Contact paths">

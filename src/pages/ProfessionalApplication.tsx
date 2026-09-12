@@ -59,6 +59,8 @@ export default function ProfessionalApplication() {
       <p className="hlc-public-intro-copy">Apply once as a business, contractor, subcontractor, mover, cleaner, HVAC company, painter, roofer, handyman, plumber, electrician, landscaper, or other home-service professional. HomeLead Connect reviews each application before creating provider access.</p>
     </header>
 
+    <figure className="hlc-public-visual hlc-public-visual--professional" aria-label="Home-service professional at work"><img src="/hlc-frontdoor-professional.webp" alt="Home-service professional completing residential work" loading="eager" /></figure>
+
     <section className="hlc-public-form-wrap">
       <aside className="hlc-public-sidecard">
         <p className="hlc-public-card-label" style={{ color: "#93c5fd" }}>What happens next</p>

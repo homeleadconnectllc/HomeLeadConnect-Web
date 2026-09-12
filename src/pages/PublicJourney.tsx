@@ -65,6 +65,11 @@ const content: Record<PublicJourneyKey, { title: string; intro: string; sections
 export default function PublicJourney({ page }: { page: PublicJourneyKey }) {
   const item = content[page];
   const pricing = page === "pricing";
+  const visual = page === "professionals"
+    ? { src: "/hlc-frontdoor-professional.webp", alt: "Home-service professional at work" }
+    : page === "services"
+      ? { src: "/hlc-frontdoor-resident-hero-final.jpg", alt: "Family planning a home-service project" }
+      : { src: "/hlc-frontdoor-people-first.webp", alt: "HomeLead Connect conversation about a home-service project" };
 
   return <main className="hlc-public-page">
     <div className="hlc-public-shell">
@@ -72,13 +77,15 @@ export default function PublicJourney({ page }: { page: PublicJourneyKey }) {
         <div className="hlc-public-brand"><img className="hlc-public-logo" src="/hlc-logo-public.webp" alt="HomeLead Connect LLC" width={220} height={71} /></div>
         <p className="hlc-public-kicker">{item.kicker}</p>
         <h1>{item.title}</h1>
-        <p className="hlc-public-hero-copy">{item.intro}</p>
+        <p className="hlc-public-intro-copy">{item.intro}</p>
         <div className="hlc-public-actions">
           <Link className="hlc-public-primary" to={item.primary[1]}>{item.primary[0]}</Link>
           <Link className="hlc-public-secondary" to="/how-it-works">How HLC works</Link>
           {pricing && <Link className="hlc-public-secondary" to="/terms">Subscription terms</Link>}
         </div>
       </header>
+
+      <figure className="hlc-public-visual" aria-label={visual.alt}><img src={visual.src} alt={visual.alt} loading="eager" /></figure>
 
       {pricing && <section className="hlc-public-offer" aria-label="Business workspace subscription">
         <p className="hlc-public-offer-label">HLC BUSINESS WORKSPACE</p>

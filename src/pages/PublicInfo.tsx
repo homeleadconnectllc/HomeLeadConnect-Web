@@ -7,43 +7,43 @@ const content = {
     kicker: "About HomeLead Connect",
     title: "A connected operating layer for home-service work.",
     body: "HomeLead Connect LLC is a home-services technology platform based in Pennsylvania and designed for residents, professionals, partners, and service operations across supported locations. HomeLead Connect connects service requests, resident project planning, provider coordination, scheduling, jobs, communications, documents, workflow automation, analytics, and customer follow-through in one operating system.",
-    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1600&q=82",
-    imageAlt: "Welcoming residential home exterior",
+    image: "/hlc-frontdoor-people-first.webp",
+    imageAlt: "HomeLead Connect family and service-planning conversation",
   },
   homeowners: {
     kicker: "For residents",
     title: "Request help without losing the thread.",
     body: "Submit a service request for review. A submitted request does not guarantee contractor assignment, pricing, or an appointment.",
-    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=82",
-    imageAlt: "Bright finished residential living space",
+    image: "/hlc-frontdoor-resident-hero-final.jpg",
+    imageAlt: "Family planning a home-service project",
   },
   contractors: {
     kicker: "For professionals",
     title: "Provider access built around explicit invitations and work history.",
     body: "HomeLead Connect supports professional profiles, provider records, job offers, assignment history, service areas, availability, scheduling, and protected portal access for participating businesses and service professionals.",
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1600&q=82",
-    imageAlt: "Home-service professional working on a residential project",
+    image: "/hlc-frontdoor-professional.webp",
+    imageAlt: "Home-service professional completing residential work",
   },
   how: {
     kicker: "How HomeLead Connect works",
     title: "One request becomes a traceable service journey.",
     body: "The HomeLead Connect workflow keeps request review, provider coordination, scheduling, service work, communication, and completion as explicit stages. Submitting a request does not skip later review, acceptance, pricing, or scheduling steps.",
-    image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=1600&q=82",
-    imageAlt: "Home-service work being completed inside a residence",
+    image: "/hlc-frontdoor-professional.webp",
+    imageAlt: "Home-service professional completing residential work",
   },
   leadscope: {
     kicker: "LeadScope",
     title: "Resident project measurements and informational self-estimates.",
     body: "LeadScope is a resident-facing premium HomeLead Connect capability for recording project measurements, assumptions, site conditions, and project scope, then saving an informational estimate range based on explicit resident-entered cost assumptions. LeadScope does not invent market pricing, replace an on-site inspection, or create a binding professional quote.",
-    image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=82",
-    imageAlt: "Plans and measurements for a building project",
+    image: "/hlc-frontdoor-resident-hero-final.jpg",
+    imageAlt: "Home-service project planning",
   },
   community: {
     kicker: "Community + Network",
     title: "Discover, connect, and move into a real HomeLead Connect workflow.",
     body: "Find providers, explore service coverage, participate in Community, and move from discovery into a real HomeLead Connect service workflow. Provider records, map locations, availability, reviews, and matching results are shown only when HomeLead Connect has canonical data for them.",
-    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1600&q=82",
-    imageAlt: "People connecting together in a community setting",
+    image: "/hlc-frontdoor-people-first.webp",
+    imageAlt: "People connecting over a home-service project",
   },
 } as const;
 
@@ -70,7 +70,7 @@ export default function PublicInfo({ page }: { page: keyof typeof content }) {
         <div className="hlc-public-brand"><img className="hlc-public-logo" src="/hlc-logo-public.webp" alt="HomeLead Connect LLC" width={220} height={71} /></div>
         <p className="hlc-public-kicker">{item.kicker}</p>
         <h1>{item.title}</h1>
-        <p className="hlc-public-hero-copy">{item.body}</p>
+        <p className="hlc-public-intro-copy">{item.body}</p>
         <div className="hlc-public-actions">
           {page === "homeowners" && <Link className="hlc-public-primary" to="/request-service">Request service</Link>}
           {page === "contractors" && <Link className="hlc-public-primary" to="/professional-application">Apply as a professional</Link>}
