@@ -31,7 +31,7 @@ function publicHomeMarkup() {
       <header class="hlc-v2-nav">
         <div class="hlc-v2-nav-inner">
           <a class="hlc-v2-brand" href="https://homeleadconnect.org/" aria-label="HomeLead Connect home">
-            <img src="/hlc-logo-transparent.png" alt="HomeLead Connect LLC" width="440" height="150" loading="eager" decoding="async" />
+            <picture><source srcset="/hlc-logo-public.svg" type="image/svg+xml" /><img src="/hlc-logo-transparent.png" alt="HomeLead Connect LLC" width="440" height="150" loading="eager" decoding="async" /></picture>
           </a>
           <nav class="hlc-v2-nav-links" aria-label="Primary navigation">
             <a href="https://homeleadconnect.org/">Home</a>
