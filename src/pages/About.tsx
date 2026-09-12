@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import "../styles/public-board-pages-20260912.css";
+import "../styles/public-about-premium-20260912.css";
 
 const cards = [
   ["Founder & Builder", "Antoine Washington", "Founder · Owner · Product Creator · Lead Developer · Technical Architect", "Antoine Washington founded HomeLead Connect and has led the product vision, application build, workflow design, technical implementation, operational systems, launch hardening, and day-to-day platform development."],
