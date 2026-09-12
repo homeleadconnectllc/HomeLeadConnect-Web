@@ -37,7 +37,13 @@
 .hlc-board-home .hlc-board-identity p{color:#c7d7e9;font-size:15px;line-height:1.6}
 .hlc-board-home .hlc-board-identity p strong{color:#fff}
 .hlc-board-home .hlc-board-identity img{width:min(420px,100%);filter:drop-shadow(0 18px 32px rgba(0,0,0,.3))}
-.hlc-board-home .hlc-board-footer{padding:28px 20px;background:#030b17;color:#8fa5bd;border-top:1px solid rgba(151,194,238,.12)}
+.hlc-board-home .hlc-board-footer{display:flex;align-items:center;justify-content:center;gap:10px 20px;flex-wrap:wrap;padding:28px 20px;background:#030b17;color:#8fa5bd;border-top:1px solid rgba(151,194,238,.12);font-size:11px}
+.hlc-board-home .hlc-board-footer strong{color:#dbe8f5;font-size:12px;letter-spacing:.02em}
+.hlc-board-home .hlc-board-footer span{color:#8fa5bd}
+.hlc-board-home .hlc-board-footer nav{display:flex;gap:8px 16px;flex-wrap:wrap;justify-content:center}
+.hlc-board-home .hlc-board-footer nav a{color:#bfdbfe;text-decoration:none;font-weight:700}
+.hlc-board-home .hlc-board-footer nav a:hover,.hlc-board-home .hlc-board-footer nav a:focus-visible{color:#fff;text-decoration:underline}
+.hlc-board-home .hlc-board-footer small{color:#71869d}
 
 @media(max-width:1050px){
   .hlc-board-home .hlc-board-pathway-inner,.hlc-board-home .hlc-board-world-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -61,4 +67,5 @@
   .hlc-board-home .hlc-board-world{min-height:235px}
   .hlc-board-home .hlc-board-identity{padding:66px 0}
   .hlc-board-home .hlc-board-identity h2{font-size:31px}
+  .hlc-board-home .hlc-board-footer{flex-direction:column;gap:9px}
 }
