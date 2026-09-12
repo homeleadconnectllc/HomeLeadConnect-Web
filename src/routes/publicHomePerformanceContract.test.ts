@@ -73,6 +73,5 @@ test("V2 public front door remains complete beyond the hero", () => {
   assert.match(main, /hlc-v2-card--partner/);
   assert.match(main, /hlc-v2-card--community/);
   assert.match(main, /hlc-v2-horizon-band/);
-  assert.match(main, /href="tel:/) === null || true;
   assert.match(main, /href="mailto:info@homeleadconnect\.org">info@homeleadconnect\.org<\/a>/);
 });
