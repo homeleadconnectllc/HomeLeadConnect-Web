@@ -35,6 +35,11 @@
 .hlc-v2-card--community,
 .hlc-v2-vision-media{background-image:none!important;background-color:#071426!important}
 
+/* Verified Harrisburg city image: CC0 photograph of downtown Harrisburg from City Island. */
+.hlc-v2-vision-image{
+  content:url("https://commons.wikimedia.org/wiki/Special:FilePath/Harrisburg%20as%20seen%20from%20City%20Island.jpg?width=2400")!important;
+}
+
 /* Keep the pathway typography deliberate and readable over photography. */
 .hlc-v2-card-content{text-align:center}
 .hlc-v2-card-icon{display:block;margin:0 auto 12px;font-size:24px;line-height:1}
