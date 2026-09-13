@@ -79,7 +79,7 @@ jobs:
       - name: Certify public iPhone routes render and capture
         run: |
           set -euo pipefail
-          for item in 'home:/:We Build' 'login:/login:Sign in' 'privacy:/privacy:Privacy' 'terms:/terms:Terms of Service' 'platform:/platform-disclosure:Platform and contractor disclosure'; do
+          for item in 'home:/:A stronger community' 'login:/login:Sign in' 'privacy:/privacy:Privacy' 'terms:/terms:Terms of Service' 'platform:/platform-disclosure:Platform and contractor disclosure'; do
             name="${item%%:*}"; rest="${item#*:}"; route="${rest%%:*}"; expect="${rest#*:}"
             url="http://127.0.0.1:4173$route"
             dom="$GITHUB_WORKSPACE/artifacts/blind-visual/public-iphone-$name.dom.html"
@@ -96,35 +96,31 @@ jobs:
           set -euo pipefail
           DOM="$GITHUB_WORKSPACE/artifacts/blind-visual/public-iphone-home.dom.html"
           for expect in \
-            'More than homes.' \
-            'We Build' \
-            'Opportunities.' \
-            'One Platform.' \
+            'Homes. People. Opportunity.' \
+            'A stronger community' \
+            'starts at home.' \
             'Four Pathways.' \
             'For Residents' \
             'For Professionals' \
             'For Partners' \
             'For Our Community' \
-            'Same mission. Different experiences. One connected ecosystem.' \
-            'The platform connects the ecosystem. The app puts it in your hands.' \
-            'Connecting Homes.' \
-            'Creating' \
-            'HomeLead Connect LLC' \
-            'Harrisburg, Pennsylvania' \
-            'info@homeleadconnect.org'; do
+            'Different experiences. Same mission. One connected ecosystem.' \
+            'A stronger community starts here.' \
+            'Business workspace: $49.99/month after 14-day trial.' \
+            'HomeLead Connect LLC'; do
             if ! grep -Fqi "$expect" "$DOM"; then
-              echo "V2 full-page front-door marker missing: $expect"
+              echo "Family/Ecosystem full-page front-door marker missing: $expect"
               exit 63
             fi
           done
-          grep -Fq 'href="/register"' "$DOM" || { echo 'V2 register handoff missing'; exit 64; }
-          grep -Fq 'href="/login"' "$DOM" || { echo 'V2 sign-in handoff missing'; exit 65; }
-          grep -Fq 'href="/request-service"' "$DOM" || { echo 'V2 request-service handoff missing'; exit 66; }
-          grep -Fq 'href="/professionals"' "$DOM" || { echo 'V2 professional handoff missing'; exit 67; }
+          grep -Fq 'href="https://app.homeleadconnect.org/register"' "$DOM" || { echo 'Family/Ecosystem register handoff missing'; exit 64; }
+          grep -Fq 'href="https://app.homeleadconnect.org/login"' "$DOM" || { echo 'Family/Ecosystem sign-in handoff missing'; exit 65; }
+          grep -Fq 'href="https://app.homeleadconnect.org/request-service"' "$DOM" || { echo 'Family/Ecosystem request-service handoff missing'; exit 66; }
+          grep -Fq 'href="/professionals"' "$DOM" || { echo 'Family/Ecosystem professional handoff missing'; exit 67; }
       - name: Certify public Mac routes render and capture
         run: |
           set -euo pipefail
-          for item in 'home:/:We Build' 'login:/login:Sign in' 'privacy:/privacy:Privacy'; do
+          for item in 'home:/:A stronger community' 'login:/login:Sign in' 'privacy:/privacy:Privacy'; do
             name="${item%%:*}"; rest="${item#*:}"; route="${rest%%:*}"; expect="${rest#*:}"
             url="http://127.0.0.1:4173$route"
             dom="$GITHUB_WORKSPACE/artifacts/blind-visual/public-mac-$name.dom.html"
