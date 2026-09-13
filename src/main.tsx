@@ -88,7 +88,7 @@ function publicHomeMarkup() {
       <section class="hlc-board-pathway-band hlc-v2-horizon-band" aria-labelledby="hlc-board-pathway-title">
         <div class="hlc-board-pathway-heading">
           <p>Choose your path</p>
-          <h2 id="hlc-board-pathway-title">One platform. Built around you.</h2>
+          <h2 id="hlc-board-pathway-title">One Platform.<br/>Four Pathways.</h2>
           <span>Start where you are. HomeLead Connect brings the next opportunity closer.</span>
         </div>
         <div class="hlc-board-pathway-inner">
@@ -125,13 +125,8 @@ function publicHomeMarkup() {
 void publicHomeMarkup;
 
 if (isPublicHome) {
-  /* Public / is a lightweight React island: use the canonical HomePage source without booting the authenticated application bundle. */
-  void Promise.all([import("react"), import("react-dom/client"), import("./pages/HomePage")]).then(([reactModule, domModule, pageModule]) => {
-    const { createElement } = reactModule;
-    const { createRoot } = domModule;
-    const HomePage = pageModule.default;
-    createRoot(rootElement).render(createElement(HomePage));
-  });
+  /* Public / stays a static first-paint surface; the authenticated React bundle is never booted here. */
+  rootElement.innerHTML = publicHomeMarkup();
 } else {
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
