@@ -1,0 +1,183 @@
+/* HomeLead Connect master front-door visual rollout — presentation only.
+   Keep mobile-release-fix.css as the final stylesheet authority. */
+
+:root{
+  --hlc-frontdoor-bg:#06152b;
+  --hlc-frontdoor-panel:#081a30;
+  --hlc-frontdoor-panel-2:#0b223c;
+  --hlc-frontdoor-text:#f8fbff;
+  --hlc-frontdoor-muted:#c5d4e3;
+  --hlc-frontdoor-blue:#65b9ff;
+  --hlc-frontdoor-resident:#2fcf9f;
+  --hlc-frontdoor-professional:#24c7c3;
+  --hlc-frontdoor-partner:#e4ad55;
+  --hlc-frontdoor-owner:#5da8ff;
+}
+
+/* Shared public interior rhythm. */
+.hlc-public-board-page,
+.hlc-public-consistency-page{
+  background:
+    radial-gradient(circle at 14% 8%,rgba(37,113,190,.18),transparent 28%),
+    radial-gradient(circle at 88% 18%,rgba(20,177,161,.10),transparent 26%),
+    linear-gradient(180deg,#06152b 0%,#04101f 58%,#07182c 100%)!important;
+  color:var(--hlc-frontdoor-text)!important;
+}
+
+.hlc-public-board-page .hlc-public-hero,
+.hlc-public-consistency-copy{
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 0 0,rgba(77,162,255,.18),transparent 34%),
+    linear-gradient(145deg,#071a31,#0a2039)!important;
+}
+
+.hlc-public-board-page .hlc-public-hero:before,
+.hlc-public-consistency-copy:before{
+  content:"";
+  position:absolute;
+  inset:0 auto 0 0;
+  width:4px;
+  background:linear-gradient(180deg,var(--hlc-frontdoor-blue),rgba(101,185,255,0));
+  pointer-events:none;
+}
+
+.hlc-public-board-page[data-public-page="homeowners"] .hlc-public-hero:before{
+  background:linear-gradient(180deg,var(--hlc-frontdoor-resident),rgba(47,207,159,0));
+}
+.hlc-public-board-page[data-public-page="contractors"] .hlc-public-hero:before,
+.hlc-public-board-page[data-public-page="professionals"] .hlc-public-hero:before{
+  background:linear-gradient(180deg,var(--hlc-frontdoor-professional),rgba(36,199,195,0));
+}
+.hlc-public-board-page[data-public-page="trust"] .hlc-public-hero:before,
+.hlc-public-consistency-copy:before{
+  background:linear-gradient(180deg,var(--hlc-frontdoor-partner),rgba(228,173,85,0));
+}
+
+.hlc-public-board-page .hlc-public-hero h1,
+.hlc-public-consistency-copy h1{
+  text-wrap:balance;
+  max-width:15ch;
+  letter-spacing:-.045em!important;
+}
+
+.hlc-public-board-page .hlc-public-intro-copy,
+.hlc-public-board-page .hlc-public-card p,
+.hlc-public-consistency-copy p,
+.hlc-public-consistency-section p,
+.hlc-public-consistency-section li{
+  color:var(--hlc-frontdoor-muted)!important;
+}
+
+/* Reduce card fatigue: use a connected editorial field rather than floating boxes. */
+.hlc-public-board-page .hlc-public-grid{
+  border-radius:0!important;
+  overflow:hidden;
+  box-shadow:none!important;
+}
+.hlc-public-board-page .hlc-public-card{
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+.hlc-public-board-page .hlc-public-card:nth-child(even){
+  background:linear-gradient(145deg,#0a223d,#081b31)!important;
+}
+.hlc-public-board-page .hlc-public-card h2{
+  text-wrap:balance;
+  font-size:clamp(1.35rem,2vw,1.8rem)!important;
+}
+
+/* Audience accent continuity without changing routes or behavior. */
+.hlc-public-board-page[data-public-page="homeowners"] .hlc-public-kicker,
+.hlc-public-board-page[data-public-page="homeowners"] .hlc-public-card-label{
+  color:#6ce0b9!important;
+}
+.hlc-public-board-page[data-public-page="contractors"] .hlc-public-kicker,
+.hlc-public-board-page[data-public-page="contractors"] .hlc-public-card-label,
+.hlc-public-board-page[data-public-page="professionals"] .hlc-public-kicker,
+.hlc-public-board-page[data-public-page="professionals"] .hlc-public-card-label{
+  color:#6fdfdc!important;
+}
+.hlc-public-board-page[data-public-page="trust"] .hlc-public-kicker,
+.hlc-public-board-page[data-public-page="trust"] .hlc-public-card-label{
+  color:#f0c47a!important;
+}
+
+/* Media should read as part of the page composition, not as a detached photo card. */
+.hlc-public-board-page .hlc-public-visual,
+.hlc-public-consistency-visual{
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+.hlc-public-board-page .hlc-public-visual img,
+.hlc-public-consistency-visual img{
+  object-position:center center;
+  transition:transform .35s ease;
+}
+@media (hover:hover){
+  .hlc-public-board-page .hlc-public-visual:hover img,
+  .hlc-public-consistency-visual:hover img{transform:scale(1.025)}
+}
+
+/* Public forms retain the readability work while matching the darker visual system. */
+.hlc-public-board-page .hlc-public-form input,
+.hlc-public-board-page .hlc-public-form select,
+.hlc-public-board-page .hlc-public-form textarea{
+  background:#06172a!important;
+  border-color:rgba(158,198,235,.40)!important;
+  color:#fff!important;
+}
+.hlc-public-board-page .hlc-public-form input::placeholder,
+.hlc-public-board-page .hlc-public-form textarea::placeholder{
+  color:#a8bad0!important;
+  opacity:1!important;
+}
+
+/* Request Service is functional and intentionally self-contained; only integrate its page backdrop. */
+.hlc-request-service{
+  isolation:isolate;
+}
+body:has(.hlc-request-service),
+body:has(.hlc-request-complete){
+  background:
+    radial-gradient(circle at 12% 0%,rgba(37,99,235,.18),transparent 32%),
+    #06152b!important;
+}
+
+/* Consistency surface used by partner/public special pages. */
+.hlc-public-consistency-page{min-height:100vh;padding-bottom:56px}
+.hlc-public-consistency-shell{width:min(1400px,calc(100% - 72px));margin:0 auto}
+.hlc-public-consistency-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(420px,.9fr);min-height:520px}
+.hlc-public-consistency-copy{padding:76px 56px;display:flex;flex-direction:column;justify-content:center;border:1px solid rgba(119,176,235,.28);border-right:0}
+.hlc-public-consistency-copy h1{margin:0;font-size:clamp(42px,5vw,72px);line-height:.98}
+.hlc-public-consistency-copy p{max-width:650px;font-size:17px;line-height:1.6}
+.hlc-public-consistency-kicker{margin:0 0 12px;color:#f0c47a!important;font-size:12px!important;font-weight:900!important;letter-spacing:.13em;text-transform:uppercase}
+.hlc-public-consistency-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px}
+.hlc-public-consistency-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 21px;border-radius:999px;text-decoration:none;font-weight:900}
+.hlc-public-consistency-actions .primary{background:#0d7cf0;color:#fff}
+.hlc-public-consistency-actions .secondary{border:1px solid rgba(150,194,238,.35);color:#fff;background:rgba(255,255,255,.04)}
+.hlc-public-consistency-visual{min-height:520px;margin:0;border:1px solid rgba(119,176,235,.28);overflow:hidden;background:#0a1b31;position:relative}
+.hlc-public-consistency-visual:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 48%,rgba(2,9,20,.45));pointer-events:none}
+.hlc-public-consistency-visual img{display:block;width:100%;height:100%;min-height:520px;object-fit:cover}
+.hlc-public-consistency-section{margin-top:18px;padding:32px;background:linear-gradient(145deg,#0c2743,#091d34);border:1px solid rgba(119,176,235,.22)}
+.hlc-public-consistency-section h2{margin-top:0;font-size:clamp(28px,3vw,42px);line-height:1.05;text-wrap:balance}
+.hlc-public-consistency-section a{color:#fff;font-weight:900}
+
+@media(max-width:900px){
+  .hlc-public-consistency-shell{width:calc(100% - 28px)}
+  .hlc-public-consistency-hero{grid-template-columns:1fr}
+  .hlc-public-consistency-copy{padding:38px 26px;border-right:1px solid rgba(119,176,235,.28);border-bottom:0}
+  .hlc-public-consistency-visual,.hlc-public-consistency-visual img{min-height:360px}
+}
+
+@media(max-width:640px){
+  .hlc-public-consistency-shell{width:calc(100% - 20px)}
+  .hlc-public-consistency-copy{padding:28px 20px}
+  .hlc-public-consistency-copy h1{font-size:clamp(36px,11vw,52px)}
+  .hlc-public-consistency-copy p{font-size:16px;line-height:1.55}
+  .hlc-public-consistency-visual,.hlc-public-consistency-visual img{min-height:290px}
+  .hlc-public-consistency-actions{display:grid;grid-template-columns:1fr}
+  .hlc-public-consistency-actions a{width:100%}
+  .hlc-public-consistency-section{padding:24px 20px}
+}
