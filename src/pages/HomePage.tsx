@@ -104,6 +104,7 @@ export default function HomePage() {
           <div>
             <p className="hlc-family-kicker">Ready when you are</p>
             <h2 id="hlc-family-entry-title">Start with the path that fits you.</h2>
+            <p className="hlc-family-pricing-note">Business workspace: $49.99/month after 14-day trial.</p>
           </div>
           <div className="hlc-family-entry-actions">
             <a href="/request-service">Request Service</a>
