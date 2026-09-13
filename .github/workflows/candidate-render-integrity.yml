@@ -1,0 +1,41 @@
+name: Candidate Render Integrity
+
+on:
+  push:
+    branches:
+      - visual/public-rest-polish-20260912
+  workflow_dispatch:
+
+jobs:
+  verify-build-identity:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build candidate
+        run: npm run build
+
+      - name: Assert rendered Home source is the current board candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "Candidate SHA: $(git rev-parse HEAD)"
+          echo "Checking built assets for current Home markers..."
+          grep -R -l --binary-files=without-match 'MORE THAN HOMES.' dist/assets | head -20
+          grep -R -l --binary-files=without-match 'hlc-board-home' dist/assets | head -20
+          if grep -R -q --binary-files=without-match 'Create My HomeLead Connect Account' dist/assets; then
+            echo 'ERROR: legacy Home front-door marker is present in the production bundle.'
+            grep -R -l --binary-files=without-match 'Create My HomeLead Connect Account' dist/assets | head -20
+            exit 1
+          fi
+          echo 'Current Home markers are present and the legacy front-door marker is absent.'
