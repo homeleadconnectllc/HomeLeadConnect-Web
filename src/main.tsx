@@ -10,6 +10,7 @@ import "./styles/v2-board-frontdoor-20260912.css";
 import "./styles/v2-board-frontdoor-performance-20260912.css";
 import "./styles/v2-board-rest-polish-20260912.css";
 import "./styles/front-door-family-ecosystem-20260913.css";
+import "./styles/front-door-public-root-reset-20260913.css";
 
 /*
 Authenticated runtime ownership moved to styles/app-shell-entry.ts so the public homepage can stay lightweight.
@@ -37,7 +38,7 @@ function publicHomeMarkup() {
       <header class="hlc-board-nav">
         <div class="hlc-board-nav-inner">
           <a class="hlc-board-brand" href="https://homeleadconnect.org/" aria-label="HomeLead Connect home">
-            <img src="/hlc-logo-public.webp" alt="HomeLead Connect LLC" width="440" height="142" loading="eager" decoding="async" />
+            <img src="/hlc-icon.jpeg" alt="HomeLead Connect LLC" width="64" height="64" loading="eager" decoding="async" />
           </a>
           <nav class="hlc-board-links" aria-label="Primary navigation">
             <a href="/about">About</a>
