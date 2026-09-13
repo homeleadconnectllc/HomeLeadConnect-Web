@@ -21,3 +21,13 @@
 @media (max-width:460px){
   .hlc-v2-hero-media{object-position:68% center}
 }
+
+/* Visual repair: the V2 resident-hero-v2 WebP is present in the repository but is not painting in the local browser render. Keep behavior unchanged and use the known-good resident hero assets as the visual fallback. */
+.hlc-v2-card--partner{background-image:url('/hlc-frontdoor-resident-hero.webp')!important;background-position:center!important;background-size:cover!important}
+.hlc-v2-card--partner .hlc-v2-card-media{display:none!important}
+.hlc-v2-vision-media{background-image:url('/hlc-frontdoor-resident-hero-final.jpg')!important;background-position:center!important;background-size:cover!important}
+.hlc-v2-vision-image{display:none!important}
+.hlc-v2-vision-copy h2{color:#f7fbff!important}
+.hlc-v2-vision-copy p{color:#c9d7e6!important}
+.hlc-v2-storyline{color:#eaf5ff!important}
+.hlc-v2-vision-copy .hlc-v2-link{color:#71c4ff!important}
