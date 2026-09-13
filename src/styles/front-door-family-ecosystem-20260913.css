@@ -1,0 +1,204 @@
+/* Front Door Redesign — Family/Ecosystem Visual System.
+   Presentation-only. Scoped to the public homepage. No product behavior changes. */
+.hlc-board-home.hlc-family-ecosystem{
+  --fd-bg:#041326;
+  --fd-bg-2:#071b31;
+  --fd-panel:#081d34;
+  --fd-ink:#f8fbff;
+  --fd-muted:#c7d6e7;
+  --fd-cyan:#20c8f4;
+  --fd-resident:#45e0ad;
+  --fd-professional:#36b9ff;
+  --fd-partner:#f4b84f;
+  --fd-community:#b873ff;
+  background:
+    radial-gradient(circle at 80% 18%,rgba(29,139,255,.13),transparent 32%),
+    linear-gradient(180deg,#031224 0%,#06172b 48%,#071a30 100%);
+  color:var(--fd-ink);
+}
+
+/* Public shell */
+.hlc-family-ecosystem .hlc-board-nav{
+  position:relative;
+  background:rgba(3,14,27,.94);
+  border-bottom:1px solid rgba(126,177,228,.16);
+  backdrop-filter:blur(14px);
+}
+.hlc-family-ecosystem .hlc-board-nav-inner{min-height:72px;width:min(1440px,calc(100% - 56px));gap:24px}
+.hlc-family-ecosystem .hlc-board-brand img{width:210px;max-height:56px}
+.hlc-family-ecosystem .hlc-board-links{gap:30px;font-size:12px}
+.hlc-family-ecosystem .hlc-board-links a{font-weight:700;color:#e9f2fb}
+.hlc-family-ecosystem .hlc-board-login{font-weight:750}
+.hlc-family-ecosystem .hlc-board-cta{
+  min-height:42px;
+  padding:0 22px;
+  background:linear-gradient(135deg,#24c7f6,#1f9eff);
+  border-color:#42d3ff;
+  color:#00152b!important;
+  box-shadow:0 12px 32px rgba(32,176,244,.22);
+}
+
+/* Hide the old hero/app-panel during the Family/Ecosystem homepage build.
+   Routes and destination logic remain intact; this is presentation only. */
+.hlc-family-ecosystem .hlc-board-hero{display:none}
+
+/* Four Pathways — visual authority */
+.hlc-family-ecosystem .hlc-board-pathway-band{
+  margin:0;
+  padding:36px 0 30px;
+  background:
+    radial-gradient(circle at 92% 2%,rgba(35,160,255,.11),transparent 29%),
+    linear-gradient(180deg,#041326 0%,#06192e 100%);
+  overflow:hidden;
+}
+.hlc-family-ecosystem .hlc-board-pathway-band:before{
+  background:
+    linear-gradient(125deg,transparent 0 67%,rgba(28,155,245,.13) 67.1%,transparent 67.35%),
+    radial-gradient(circle at 10% 50%,rgba(18,111,205,.07),transparent 27%);
+}
+.hlc-family-ecosystem .hlc-board-pathway-heading{
+  width:min(1440px,calc(100% - 56px));
+  margin:0 auto 28px;
+  display:block;
+  text-align:center;
+}
+.hlc-family-ecosystem .hlc-board-pathway-heading .hlc-family-kicker{
+  margin:0 0 10px;
+  color:var(--fd-cyan);
+  font-size:12px;
+  font-weight:850;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+}
+.hlc-family-ecosystem .hlc-board-pathway-heading h2{
+  margin:0;
+  color:#fff;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(52px,5.6vw,82px);
+  font-weight:700;
+  line-height:.96;
+  letter-spacing:-.045em;
+}
+.hlc-family-ecosystem .hlc-board-pathway-heading h2 span{color:#42b7ff}
+.hlc-family-ecosystem .hlc-family-pathway-subtitle{
+  margin:14px auto 0;
+  color:#edf5fc;
+  font-size:clamp(15px,1.25vw,19px);
+  line-height:1.5;
+}
+.hlc-family-ecosystem .hlc-family-pathway-copy{
+  max-width:920px;
+  margin:12px auto 0;
+  color:#b9cade;
+  font-size:14px;
+  line-height:1.6;
+}
+.hlc-family-ecosystem .hlc-family-pathway-explore{
+  display:inline-flex;
+  margin-top:7px;
+  color:var(--fd-cyan);
+  text-decoration:none;
+  font-weight:850;
+  font-size:14px;
+}
+.hlc-family-ecosystem .hlc-board-pathway-inner{
+  width:min(1440px,calc(100% - 56px));
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+}
+.hlc-family-ecosystem .hlc-board-pathway{
+  min-height:420px;
+  border-radius:8px;
+  border:1px solid rgba(155,195,235,.28);
+  background-position:center;
+  box-shadow:0 22px 54px rgba(0,0,0,.32);
+}
+.hlc-family-ecosystem .hlc-board-pathway:after{
+  background:linear-gradient(180deg,rgba(1,9,20,.03) 8%,rgba(2,12,25,.12) 38%,rgba(3,15,30,.97) 82%,#06172b 100%);
+}
+.hlc-family-ecosystem .hlc-board-pathway:before{
+  content:"";
+  position:absolute;
+  z-index:3;
+  left:10px;
+  bottom:12px;
+  width:6px;
+  height:132px;
+  border-radius:999px;
+  background:var(--fd-accent);
+  box-shadow:0 0 22px color-mix(in srgb,var(--fd-accent) 45%,transparent);
+}
+.hlc-family-ecosystem .hlc-board-pathway--resident{--fd-accent:var(--fd-resident);background-image:url('/hlc-frontdoor-people-first.webp')}
+.hlc-family-ecosystem .hlc-board-pathway--professional{--fd-accent:var(--fd-professional);background-image:url('/hlc-frontdoor-professional.webp')}
+.hlc-family-ecosystem .hlc-board-pathway--partner{--fd-accent:var(--fd-partner);background-image:url('/hlc-frontdoor-resident-hero-v2.webp');background-position:68% center}
+.hlc-family-ecosystem .hlc-board-pathway--community{--fd-accent:var(--fd-community);background-image:url('/hlc-frontdoor-resident-hero-final.jpg');background-position:34% center}
+.hlc-family-ecosystem .hlc-board-pathway-content{inset:auto 30px 25px 34px;padding-right:0}
+.hlc-family-ecosystem .hlc-family-pathway-icon{
+  width:48px;height:48px;margin-bottom:10px;border:2px solid var(--fd-accent);border-radius:50%;
+  display:grid;place-items:center;color:var(--fd-accent);background:rgba(3,17,32,.72);font-size:22px;font-weight:900;
+  box-shadow:0 8px 24px rgba(0,0,0,.22);
+}
+.hlc-family-ecosystem .hlc-board-pathway-label{
+  margin:0 0 6px;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(26px,2.25vw,38px);
+  font-weight:700;
+  line-height:.98;
+  letter-spacing:-.035em;
+}
+.hlc-family-ecosystem .hlc-board-pathway-copy{max-width:290px;font-size:14px;line-height:1.48;color:#eef5fc}
+.hlc-family-ecosystem .hlc-family-pathway-link{
+  display:inline-flex;margin-top:14px;color:var(--fd-accent);font-size:14px;font-weight:850;text-decoration:none;
+}
+.hlc-family-ecosystem .hlc-board-pathway-arrow{display:none}
+
+/* Vision continuation — structure is locked; city media intentionally neutral until a verified Harrisburg asset is approved. */
+.hlc-family-ecosystem .hlc-family-vision{
+  position:relative;
+  min-height:330px;
+  padding:54px 0 66px;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 78% 80%,rgba(26,116,210,.19),transparent 33%),
+    linear-gradient(100deg,#031326 0%,#061a31 55%,#0b2945 100%);
+  border-top:1px solid rgba(135,181,224,.14);
+}
+.hlc-family-ecosystem .hlc-family-vision:after{
+  content:"";position:absolute;right:-8%;bottom:-45%;width:62%;height:110%;border-radius:50%;border-top:1px solid rgba(55,177,255,.32);transform:rotate(-7deg);
+}
+.hlc-family-ecosystem .hlc-family-vision-inner{position:relative;z-index:2;width:min(1440px,calc(100% - 56px));margin:auto;display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:end}
+.hlc-family-ecosystem .hlc-family-vision-kicker{margin:0 0 12px;color:var(--fd-cyan);font-size:12px;font-weight:850;letter-spacing:.26em;text-transform:uppercase}
+.hlc-family-ecosystem .hlc-family-vision h2{margin:0;max-width:700px;font-family:Georgia,"Times New Roman",serif;font-size:clamp(46px,5vw,76px);line-height:.96;letter-spacing:-.045em;color:#fff}
+.hlc-family-ecosystem .hlc-family-vision h2 span{color:#42b7ff}
+.hlc-family-ecosystem .hlc-family-vision-note{justify-self:end;max-width:390px;color:#c8d8e8;font-size:15px;line-height:1.7}
+.hlc-family-ecosystem .hlc-family-vision-note:before{content:"";display:block;width:38px;height:2px;margin-bottom:18px;background:var(--fd-cyan)}
+
+/* Keep the rest of the legacy homepage below this initial redesign milestone out of view.
+   It remains in source for now and can be migrated section-by-section without deleting working content. */
+.hlc-family-ecosystem .hlc-board-worlds,
+.hlc-family-ecosystem .hlc-board-identity{display:none}
+
+@media(max-width:1050px){
+  .hlc-family-ecosystem .hlc-board-pathway-inner{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hlc-family-ecosystem .hlc-board-pathway{min-height:390px}
+  .hlc-family-ecosystem .hlc-family-vision-inner{grid-template-columns:1fr;gap:28px}
+  .hlc-family-ecosystem .hlc-family-vision-note{justify-self:start}
+}
+@media(max-width:680px){
+  .hlc-family-ecosystem .hlc-board-nav-inner{width:calc(100% - 28px);min-height:66px}
+  .hlc-family-ecosystem .hlc-board-brand img{width:160px}
+  .hlc-family-ecosystem .hlc-board-pathway-band{padding:30px 0 38px}
+  .hlc-family-ecosystem .hlc-board-pathway-heading{width:calc(100% - 28px);text-align:left;margin-bottom:22px}
+  .hlc-family-ecosystem .hlc-board-pathway-heading h2{font-size:48px}
+  .hlc-family-ecosystem .hlc-family-pathway-subtitle{font-size:15px}
+  .hlc-family-ecosystem .hlc-family-pathway-copy{font-size:13px;margin-top:8px}
+  .hlc-family-ecosystem .hlc-board-pathway-inner{width:calc(100% - 28px);grid-template-columns:1fr;gap:14px}
+  .hlc-family-ecosystem .hlc-board-pathway{min-height:420px;border-radius:9px}
+  .hlc-family-ecosystem .hlc-board-pathway-content{inset:auto 26px 24px 32px}
+  .hlc-family-ecosystem .hlc-board-pathway-label{font-size:34px}
+  .hlc-family-ecosystem .hlc-board-pathway-copy{font-size:14px}
+  .hlc-family-ecosystem .hlc-family-vision{min-height:360px;padding:48px 0 58px}
+  .hlc-family-ecosystem .hlc-family-vision-inner{width:calc(100% - 28px)}
+  .hlc-family-ecosystem .hlc-family-vision h2{font-size:49px}
+  .hlc-family-ecosystem .hlc-family-vision-note{font-size:14px}
+}
