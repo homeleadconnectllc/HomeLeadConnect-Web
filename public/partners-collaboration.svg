@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">HomeLead Connect partnership collaboration</title>
+  <desc id="desc">A stylized collaboration scene with community and business partners gathered around a shared plan.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#081a30"/><stop offset="1" stop-color="#0d2948"/></linearGradient>
+    <linearGradient id="warm" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f7c45d"/><stop offset="1" stop-color="#d98e34"/></linearGradient>
+    <linearGradient id="skin1" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7d4b32"/><stop offset="1" stop-color="#4e2d20"/></linearGradient>
+    <linearGradient id="skin2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#b47652"/><stop offset="1" stop-color="#7a4932"/></linearGradient>
+  </defs>
+  <rect width="1600" height="1000" fill="url(#bg)"/>
+  <circle cx="1350" cy="170" r="260" fill="#173d63" opacity=".65"/>
+  <circle cx="210" cy="830" r="320" fill="#113556" opacity=".72"/>
+  <g opacity=".35" fill="#5b88aa">
+    <rect x="80" y="190" width="120" height="330"/><rect x="225" y="260" width="150" height="260"/><rect x="410" y="140" width="95" height="380"/><rect x="1170" y="210" width="105" height="310"/><rect x="1305" y="120" width="140" height="400"/>
+  </g>
+  <ellipse cx="800" cy="795" rx="570" ry="120" fill="#04111f" opacity=".55"/>
+  <path d="M410 650 Q800 530 1190 650 L1090 840 Q800 910 510 840Z" fill="#173854" stroke="#2d5f82" stroke-width="8"/>
+  <rect x="675" y="610" width="250" height="145" rx="18" fill="#edf5fc" opacity=".95" transform="rotate(-4 800 682)"/>
+  <rect x="713" y="647" width="92" height="12" rx="6" fill="#31a7dc"/><rect x="713" y="676" width="154" height="10" rx="5" fill="#8aa9be"/><rect x="713" y="701" width="128" height="10" rx="5" fill="#8aa9be"/>
+  <g transform="translate(320 250)">
+    <circle cx="140" cy="160" r="72" fill="url(#skin1)"/><path d="M75 150 Q138 45 207 142 Q185 72 140 72 Q92 72 75 150Z" fill="#111923"/>
+    <path d="M35 390 Q45 250 140 235 Q235 250 245 390Z" fill="#1f6b89"/><path d="M188 338 Q300 405 408 464" stroke="url(#skin1)" stroke-width="54" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(1030 230)">
+    <circle cx="140" cy="165" r="72" fill="url(#skin2)"/><path d="M72 148 Q115 50 210 138 Q172 75 122 78 Q91 83 72 148Z" fill="#1a1515"/>
+    <path d="M35 398 Q50 260 140 242 Q235 260 245 398Z" fill="#5c4877"/><path d="M90 345 Q10 420 -100 470" stroke="url(#skin2)" stroke-width="54" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(670 170)">
+    <circle cx="130" cy="140" r="66" fill="#5d3927"/><path d="M68 132 Q110 40 192 125 Q164 72 125 70 Q88 74 68 132Z" fill="#0d1117"/>
+    <path d="M40 360 Q55 235 130 220 Q210 236 225 360Z" fill="#244e6f"/>
+  </g>
+  <g transform="translate(745 540)">
+    <path d="M0 165 Q62 120 124 165" fill="none" stroke="#7d4b32" stroke-width="46" stroke-linecap="round"/>
+    <path d="M112 165 Q180 120 244 165" fill="none" stroke="#b47652" stroke-width="46" stroke-linecap="round"/>
+    <circle cx="120" cy="162" r="34" fill="url(#warm)" opacity=".96"/>
+  </g>
+  <text x="800" y="935" text-anchor="middle" fill="#f8fbff" font-family="Georgia,serif" font-size="42">Partnerships move communities forward together.</text>
+</svg>
