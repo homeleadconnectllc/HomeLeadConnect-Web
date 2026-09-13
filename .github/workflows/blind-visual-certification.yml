@@ -68,8 +68,8 @@ jobs:
           FIXTURE="file://$GITHUB_WORKSPACE/artifacts/blind-visual/authenticated-fixture.html"
           DOM="$GITHUB_WORKSPACE/artifacts/blind-visual/authenticated-mac.dom.html"
           PNG="$GITHUB_WORKSPACE/artifacts/blind-visual/authenticated-mac.png"
-          "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --allow-file-access-from-files --window-size=1440,900 --hide-scrollbars --dump-dom "$FIXTURE" > "$DOM"
-          "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --allow-file-access-from-files --window-size=1440,900 --hide-scrollbars --screenshot="$PNG" --run-all-compositor-stages-before-draw "$FIXTURE"
+          "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --window-size=1440,900 --hide-scrollbars --dump-dom "$FIXTURE" > "$DOM"
+          "$HLC_BROWSER_EXECUTABLE" --headless=new --no-sandbox --disable-dev-shm-usage --window-size=1440,900 --hide-scrollbars --screenshot="$PNG" --run-all-compositor-stages-before-draw "$FIXTURE"
           if ! grep -q 'data-cert-status="pass"' "$DOM"; then
             echo 'Authenticated Mac blind certification failed:'
             grep -o 'data-cert-viewport="[^"]*"' "$DOM" || true
@@ -105,11 +105,11 @@ jobs:
             'For Professionals' \
             'For Partners' \
             'For Our Community' \
-            'A Stronger Community Builds a Brighter Future.' \
+            'Same mission. Different experiences. One connected ecosystem.' \
             'The platform connects the ecosystem. The app puts it in your hands.' \
             'Connecting Homes.' \
             'Creating' \
-            'Infinite impact.' \
+            'One Platform. Four Pathways.' \
             'HomeLead Connect LLC' \
             'Harrisburg, Pennsylvania' \
             'info@homeleadconnect.org'; do
@@ -118,10 +118,10 @@ jobs:
               exit 63
             fi
           done
-          grep -Fq 'https://app.homeleadconnect.org/register' "$DOM" || { echo 'V2 register handoff missing'; exit 64; }
-          grep -Fq 'https://app.homeleadconnect.org/login' "$DOM" || { echo 'V2 sign-in handoff missing'; exit 65; }
-          grep -Fq 'https://app.homeleadconnect.org/request-service' "$DOM" || { echo 'V2 request-service handoff missing'; exit 66; }
-          grep -Fq 'https://professionals.homeleadconnect.org/' "$DOM" || { echo 'V2 professional handoff missing'; exit 67; }
+          grep -Fq 'href="/register"' "$DOM" || { echo 'V2 register handoff missing'; exit 64; }
+          grep -Fq 'href="/login"' "$DOM" || { echo 'V2 sign-in handoff missing'; exit 65; }
+          grep -Fq 'href="/request-service"' "$DOM" || { echo 'V2 request-service handoff missing'; exit 66; }
+          grep -Fq 'href="/professionals"' "$DOM" || { echo 'V2 professional handoff missing'; exit 67; }
       - name: Certify public Mac routes render and capture
         run: |
           set -euo pipefail
