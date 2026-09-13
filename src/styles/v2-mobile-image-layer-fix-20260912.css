@@ -31,3 +31,7 @@
 .hlc-v2-vision-copy p{color:#c9d7e6!important}
 .hlc-v2-storyline{color:#eaf5ff!important}
 .hlc-v2-vision-copy .hlc-v2-link{color:#71c4ff!important}
+
+/* Community pathway: use a distinct neighborhood-event image so the page never reuses the Vision family image. */
+.hlc-v2-card--community{background-image:url('/hlc-frontdoor-community-v2.webp')!important;background-position:center!important;background-size:cover!important}
+.hlc-v2-card--community .hlc-v2-card-media{display:none!important}
