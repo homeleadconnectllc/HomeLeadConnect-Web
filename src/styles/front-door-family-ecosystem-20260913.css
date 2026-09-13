@@ -32,11 +32,23 @@
 .hlc-family-ecosystem .hlc-board-cta{
   min-height:42px;
   padding:0 22px;
-  background:linear-gradient(135deg,#24c7f6,#1f9eff);
+  background:linear-gradient(135deg,#0b6ed6,#075cb6);
   border-color:#42d3ff;
-  color:#00152b!important;
+  color:#fff!important;
   box-shadow:0 12px 32px rgba(32,176,244,.22);
 }
+
+/* Family hero: use the approved photo as cover media without distorting the image element.
+   The original image stays preloaded for first-paint performance but is not rendered as a stretched <img>. */
+.hlc-family-ecosystem .hlc-family-hero{
+  background:
+    linear-gradient(90deg,rgba(2,10,22,.96),rgba(3,17,34,.78) 42%,rgba(4,19,38,.25) 72%,rgba(4,19,38,.1)),
+    url('/hlc-frontdoor-resident-hero-v2.webp') center/cover no-repeat,
+    #06172b;
+}
+.hlc-family-ecosystem .hlc-family-hero-media{display:none!important}
+.hlc-family-ecosystem .hlc-family-hero-copy h1{color:#fff!important}
+.hlc-family-ecosystem .hlc-family-hero-copy h1 span{color:#42b7ff!important}
 
 /* Hide the old hero/app-panel during the Family/Ecosystem homepage build.
    Routes and destination logic remain intact; this is presentation only. */
@@ -173,6 +185,14 @@
 .hlc-family-ecosystem .hlc-family-vision-note{justify-self:end;max-width:390px;color:#c8d8e8;font-size:15px;line-height:1.7}
 .hlc-family-ecosystem .hlc-family-vision-note:before{content:"";display:block;width:38px;height:2px;margin-bottom:18px;background:var(--fd-cyan)}
 
+.hlc-family-ecosystem .hlc-family-entry h2{color:#fff!important}
+.hlc-family-ecosystem .hlc-family-entry-actions a{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  padding:10px 14px;
+}
 .hlc-family-ecosystem .hlc-family-pricing-note{margin:14px 0 0;color:#9fb5cd;font-size:12px;line-height:1.5}
 
 /* Keep the rest of the legacy homepage below this initial redesign milestone out of view.

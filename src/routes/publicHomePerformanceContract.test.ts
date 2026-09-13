@@ -8,6 +8,7 @@ const footer = readFileSync(new URL("../components/Footer.tsx", import.meta.url)
 const indexHtml = readFileSync(new URL("../../index.html", import.meta.url), "utf8");
 const v2Authority = readFileSync(new URL("../styles/v2-cinematic-community-homepage-20260911.css", import.meta.url), "utf8");
 const boardAuthority = readFileSync(new URL("../styles/v2-board-alignment-20260912.css", import.meta.url), "utf8");
+const familyAuthority = readFileSync(new URL("../styles/front-door-family-ecosystem-20260913.css", import.meta.url), "utf8");
 
 test("public home stays outside the authenticated application bundle while retaining route delivery", () => {
   assert.match(main, /isPublicHome/);
@@ -25,60 +26,66 @@ test("public home renders without paying React startup cost", () => {
   assert.match(main, /import\("react"\)/);
   assert.match(main, /import\("react-dom\/client"\)/);
   assert.match(main, /https:\/\/app\.homeleadconnect\.org\/request-service/);
-  assert.match(main, /https:\/\/professionals\.homeleadconnect\.org\//);
+  assert.match(main, /https:\/\/app\.homeleadconnect\.org\/professional-application/);
 });
 
-test("no-React public root uses the official full logo with an optimized delivery asset and V2 cinematic board identity", () => {
+test("no-React public root uses the official full logo with the Family/Ecosystem identity", () => {
   assert.match(main, /src="\/hlc-logo-public\.webp"/);
   assert.doesNotMatch(main, /\/hlc-logo-ui\.png/);
-  assert.match(main, /class="hlc-v2-home"/);
-  assert.match(main, /More than homes\./);
-  assert.match(main, /We Build<br \/><span>Opportunities\.<\/span>/);
-  assert.match(main, /One Platform\.<br \/>Four Pathways\./);
-  assert.match(main, /Connecting Homes\.<br \/>Creating <span/);
+  assert.match(main, /class="hlc-board-home hlc-v2-home hlc-family-ecosystem"/);
+  assert.match(main, /Homes\. People\. Opportunity\./);
+  assert.match(main, /A stronger community <span>starts at home\.<\/span>/);
+  assert.match(main, /Four Pathways<span>\.<\/span>/);
+  assert.match(main, /Different experiences\. Same mission\. One connected ecosystem\./);
 });
 
-test("parser-seeded public hero preserves the optimized V2 first-paint contract and corporate brand identity", () => {
+test("parser-seeded public hero preserves the optimized Family/Ecosystem first-paint contract", () => {
   assert.match(indexHtml, /src="\/hlc-logo-public\.webp"/);
-  assert.match(indexHtml, /width="220" height="71"/);
+  assert.match(indexHtml, /width="440" height="142"/);
   assert.doesNotMatch(indexHtml, /\/hlc-logo-ui\.png/);
   assert.match(indexHtml, /hlc-v2-home hlc-v2-parser-seed/);
-  assert.match(indexHtml, /We Build<br \/><span style="color:#0e96ff!important">Opportunities\.<\/span>/);
-  assert.match(indexHtml, /hlc-frontdoor-resident-hero-final\.jpg/);
-  assert.match(indexHtml, /rel="preload" as="image" href="\/hlc-frontdoor-resident-hero-final\.jpg" fetchpriority="high"/);
+  assert.match(indexHtml, /Homes\. People\. Opportunity\./);
+  assert.match(indexHtml, /A stronger community <span style="color:#42b7ff">starts at home\.<\/span>/);
+  assert.match(indexHtml, /hlc-frontdoor-resident-hero-v2\.webp/);
+  assert.match(indexHtml, /rel="preload" as="image" href="\/hlc-frontdoor-resident-hero-v2\.webp" fetchpriority="high"/);
 });
 
-test("public front door keeps shared parser authority while adding the V2 visual layer", () => {
+test("public front door keeps shared parser authority while adding the Family/Ecosystem visual layer", () => {
   assert.match(indexHtml, /public-home-app-reconciliation-20260907\.css/);
   assert.match(main, /v2-cinematic-community-homepage-20260911\.css/);
   assert.match(main, /v2-board-alignment-20260912\.css/);
+  assert.match(main, /front-door-family-ecosystem-20260913\.css/);
   assert.match(v2Authority, /\.hlc-v2-home/);
-  assert.match(v2Authority, /\.hlc-v2-hero/);
-  assert.match(v2Authority, /\.hlc-v2-pathways/);
-  assert.match(v2Authority, /@media/);
   assert.match(boardAuthority, /--board-navy/);
-  assert.match(boardAuthority, /\.hlc-v2-section--light\{background:linear-gradient/);
+  assert.match(familyAuthority, /\.hlc-board-home\.hlc-family-ecosystem/);
+  assert.match(familyAuthority, /\.hlc-family-ecosystem \.hlc-board-pathway/);
+  assert.match(familyAuthority, /\.hlc-family-vision/);
+  assert.match(familyAuthority, /@media/);
 });
 
-test("V2 public front door remains complete beyond the hero", () => {
+test("Family/Ecosystem public front door remains complete beyond the hero", () => {
   for (const expected of [
-    "One Platform.",
-    "Four Pathways.",
-    "A Stronger Community Builds a Brighter Future.",
-    "The platform connects the ecosystem. The app puts it in your hands.",
-    "Connecting Homes.",
-    "Creating",
-    "Infinite impact.",
+    "Four Pathways",
+    "Different experiences. Same mission. One connected ecosystem.",
+    "The HomeLead Connect vision",
+    "A stronger community <span>starts here.</span>",
+    "Ready when you are",
+    "Start with the path that fits you.",
+    "Business workspace: $49.99/month after 14-day trial.",
+    "For Residents",
+    "For Professionals",
+    "For Partners",
+    "For Our Community",
     "HomeLead Connect LLC",
-    "Harrisburg, Pennsylvania",
-    "info@homeleadconnect.org",
   ]) {
     assert.match(main, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   }
-  assert.match(main, /hlc-v2-card--resident/);
-  assert.match(main, /hlc-v2-card--professional/);
-  assert.match(main, /hlc-v2-card--partner/);
-  assert.match(main, /hlc-v2-card--community/);
-  assert.match(main, /hlc-v2-horizon-band/);
-  assert.match(main, /href="mailto:info@homeleadconnect\.org">info@homeleadconnect\.org<\/a>/);
+  assert.match(main, /hlc-board-pathway--resident/);
+  assert.match(main, /hlc-board-pathway--professional/);
+  assert.match(main, /hlc-board-pathway--partner/);
+  assert.match(main, /hlc-board-pathway--community/);
+  assert.match(main, /href="https:\/\/app\.homeleadconnect\.org\/login"/);
+  assert.match(main, /href="https:\/\/app\.homeleadconnect\.org\/register"/);
+  assert.match(main, /href="https:\/\/app\.homeleadconnect\.org\/request-service"/);
+  assert.match(main, /href="https:\/\/app\.homeleadconnect\.org\/professional-application"/);
 });
