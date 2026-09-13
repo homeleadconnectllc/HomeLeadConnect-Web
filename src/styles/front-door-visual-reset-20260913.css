@@ -1,0 +1,526 @@
+/* HomeLead Connect public front-door visual reset — 2026-09-13.
+   Visual only: no auth, intake, billing, RLS, portal, or workflow behavior. */
+
+:root {
+  --hlc-public-bg: #031225;
+  --hlc-public-bg-deep: #020b17;
+  --hlc-public-ink: #f8fbff;
+  --hlc-public-muted: #d5e2ef;
+  --hlc-public-soft: #aebfd1;
+  --hlc-public-line: rgba(142, 190, 235, .18);
+  --hlc-public-blue: #4bbcff;
+  --hlc-public-cyan: #52d9ff;
+}
+
+/* ---------- Shared public canvas ---------- */
+html body #root .hlc-public-board-page,
+html body #root .hlc-public-consistency-page,
+html body #root .hlc-utility-page,
+html body #root .hlc-request-service,
+html body #root .hlc-legal-page,
+html body #root .hlc-public-about-page {
+  background: linear-gradient(180deg, var(--hlc-public-bg-deep) 0%, var(--hlc-public-bg) 46%, #061a31 100%) !important;
+  color: var(--hlc-public-ink) !important;
+}
+
+html body #root .hlc-public-board-page .hlc-public-shell,
+html body #root .hlc-public-consistency-shell,
+html body #root .hlc-utility-shell {
+  width: min(1180px, calc(100% - 48px)) !important;
+  margin-inline: auto !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+/* ---------- Typography: centered display hierarchy, readable body ---------- */
+html body #root .hlc-public-hero,
+html body #root .hlc-public-consistency-copy,
+html body #root .hlc-utility-header,
+html body #root .hlc-about-hero-content {
+  text-align: center !important;
+  align-items: center !important;
+}
+
+html body #root .hlc-public-hero h1,
+html body #root .hlc-public-consistency-copy h1,
+html body #root .hlc-utility-title,
+html body #root .hlc-about-hero-content h1,
+html body #root .hlc-request-hero h1,
+html body #root .hlc-legal-title,
+html body #root .hlc-auth-form-heading h1 {
+  margin-inline: auto !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-weight: 500 !important;
+  letter-spacing: -.035em !important;
+  line-height: .98 !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  text-wrap: balance !important;
+}
+
+html body #root .hlc-public-hero h1,
+html body #root .hlc-public-consistency-copy h1,
+html body #root .hlc-utility-title {
+  font-size: clamp(3rem, 6vw, 5.7rem) !important;
+  max-width: 900px !important;
+}
+
+html body #root .hlc-public-kicker,
+html body #root .hlc-public-card-label,
+html body #root .hlc-public-offer-label,
+html body #root .hlc-public-consistency-kicker,
+html body #root .hlc-utility-kicker,
+html body #root .hlc-request-kicker {
+  color: #75d7ff !important;
+  -webkit-text-fill-color: #75d7ff !important;
+  font-size: .76rem !important;
+  font-weight: 900 !important;
+  letter-spacing: .14em !important;
+  text-transform: uppercase !important;
+}
+
+html body #root .hlc-public-intro-copy,
+html body #root .hlc-public-hero-copy,
+html body #root .hlc-public-consistency-copy > p:not([class*="kicker"]),
+html body #root .hlc-utility-lead,
+html body #root .hlc-about-hero-content > p:not(.hlc-about-kicker) {
+  max-width: 760px !important;
+  margin-inline: auto !important;
+  color: var(--hlc-public-muted) !important;
+  -webkit-text-fill-color: var(--hlc-public-muted) !important;
+  font-size: clamp(1.02rem, 1.5vw, 1.18rem) !important;
+  line-height: 1.68 !important;
+}
+
+html body #root .hlc-public-board-page p,
+html body #root .hlc-public-consistency-page p,
+html body #root .hlc-public-board-page li,
+html body #root .hlc-public-consistency-page li,
+html body #root .hlc-legal-page p,
+html body #root .hlc-legal-page li {
+  color: var(--hlc-public-muted) !important;
+  -webkit-text-fill-color: var(--hlc-public-muted) !important;
+  line-height: 1.68 !important;
+}
+
+/* ---------- Remove the dashboard/card/white-box language ---------- */
+html body #root .hlc-public-board-page .hlc-public-hero,
+html body #root .hlc-public-board-page .hlc-public-card,
+html body #root .hlc-public-board-page .hlc-public-grid,
+html body #root .hlc-public-board-page .hlc-public-offer,
+html body #root .hlc-public-board-page .hlc-public-sidecard,
+html body #root .hlc-public-board-page .hlc-public-form,
+html body #root .hlc-board-access-grid,
+html body #root .hlc-board-access-card,
+html body #root .hlc-public-consistency-section,
+html body #root .hlc-utility-focus,
+html body #root .hlc-request-hero,
+html body #root .hlc-request-form-card,
+html body #root .hlc-request-aside,
+html body #root .hlc-legal-card {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+html body #root .hlc-public-board-page .hlc-public-card::after,
+html body #root .hlc-public-board-page .hlc-public-visual::after {
+  display: none !important;
+}
+
+html body #root .hlc-public-board-page .hlc-public-grid,
+html body #root .hlc-board-access-grid {
+  display: grid !important;
+  gap: 0 !important;
+  border-top: 1px solid var(--hlc-public-line) !important;
+  border-bottom: 1px solid var(--hlc-public-line) !important;
+}
+
+html body #root .hlc-public-board-page .hlc-public-card,
+html body #root .hlc-board-access-card {
+  padding: 38px 34px !important;
+  border-right: 1px solid var(--hlc-public-line) !important;
+}
+html body #root .hlc-public-board-page .hlc-public-card:last-child,
+html body #root .hlc-board-access-card:last-child { border-right: 0 !important; }
+
+html body #root .hlc-public-board-page .hlc-public-card h2,
+html body #root .hlc-board-access-card h2,
+html body #root .hlc-public-consistency-section h2,
+html body #root .hlc-utility-focus h2 {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-weight: 500 !important;
+  font-size: clamp(1.7rem, 2.6vw, 2.45rem) !important;
+  line-height: 1.08 !important;
+}
+
+/* ---------- Open hero geometry ---------- */
+html body #root .hlc-public-board-page .hlc-public-shell--visual {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.05fr) minmax(360px, .95fr) !important;
+  align-items: stretch !important;
+  gap: 0 !important;
+}
+html body #root .hlc-public-board-page .hlc-public-hero {
+  min-height: 570px !important;
+  padding: 72px 58px !important;
+  display: flex !important;
+  justify-content: center !important;
+}
+html body #root .hlc-public-board-page .hlc-public-actions,
+html body #root .hlc-public-consistency-actions,
+html body #root .hlc-utility-actions {
+  justify-content: center !important;
+}
+
+/* ---------- Unique-photo rule: keep only primary pathway photography. ---------- */
+/* Residents owns resident-final. Professionals owns professional. Partners owns people-first.
+   Homepage already owns resident-v2. Other public routes become typography-led instead of duplicates. */
+html body #root [data-public-page="homeowners"] .hlc-public-visual,
+html body #root [data-public-page="professionals"] .hlc-public-visual {
+  display: block !important;
+}
+html body #root [data-public-page="about"] .hlc-public-visual,
+html body #root [data-public-page="contractors"] .hlc-public-visual,
+html body #root [data-public-page="how"] .hlc-public-visual,
+html body #root [data-public-page="leadscope"] .hlc-public-visual,
+html body #root [data-public-page="community"] .hlc-public-visual,
+html body #root [data-public-page="services"] .hlc-public-visual,
+html body #root [data-public-page="pricing"] .hlc-public-visual,
+html body #root [data-public-page="trust"] .hlc-public-visual,
+html body #root [data-public-page="demo"] .hlc-public-visual,
+html body #root .hlc-utility-page .hlc-public-visual,
+html body #root .hlc-public-page:has(.hlc-public-form-wrap) > .hlc-public-shell--visual > .hlc-public-visual,
+html body #root .hlc-public-about-page .hlc-about-hero-media {
+  display: none !important;
+}
+html body #root [data-public-page="about"] .hlc-public-shell--visual,
+html body #root [data-public-page="contractors"] .hlc-public-shell--visual,
+html body #root [data-public-page="how"] .hlc-public-shell--visual,
+html body #root [data-public-page="leadscope"] .hlc-public-shell--visual,
+html body #root [data-public-page="community"] .hlc-public-shell--visual,
+html body #root [data-public-page="services"] .hlc-public-shell--visual,
+html body #root [data-public-page="pricing"] .hlc-public-shell--visual,
+html body #root [data-public-page="trust"] .hlc-public-shell--visual,
+html body #root [data-public-page="demo"] .hlc-public-shell--visual,
+html body #root .hlc-utility-page .hlc-public-shell--visual,
+html body #root .hlc-public-page:has(.hlc-public-form-wrap) .hlc-public-shell--visual {
+  grid-template-columns: 1fr !important;
+}
+html body #root [data-public-page="about"] .hlc-public-hero,
+html body #root [data-public-page="contractors"] .hlc-public-hero,
+html body #root [data-public-page="how"] .hlc-public-hero,
+html body #root [data-public-page="leadscope"] .hlc-public-hero,
+html body #root [data-public-page="community"] .hlc-public-hero,
+html body #root [data-public-page="services"] .hlc-public-hero,
+html body #root [data-public-page="pricing"] .hlc-public-hero,
+html body #root [data-public-page="trust"] .hlc-public-hero,
+html body #root [data-public-page="demo"] .hlc-public-hero,
+html body #root .hlc-utility-page .hlc-public-hero {
+  min-height: 470px !important;
+  max-width: 980px !important;
+  margin-inline: auto !important;
+}
+
+html body #root .hlc-public-board-page .hlc-public-visual {
+  min-height: 570px !important;
+  border: 0 !important;
+  background: #06172a !important;
+}
+html body #root .hlc-public-board-page .hlc-public-visual img {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 570px !important;
+  object-fit: cover !important;
+  transform: none !important;
+}
+
+/* ---------- Partners: real visual prominence, not an empty/boxed page ---------- */
+html body #root .hlc-public-consistency-page .hlc-public-consistency-hero {
+  min-height: 650px !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, .9fr) !important;
+  align-items: stretch !important;
+  gap: 0 !important;
+}
+html body #root .hlc-public-consistency-page .hlc-public-consistency-copy {
+  padding: 72px 56px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+html body #root .hlc-public-consistency-page .hlc-public-consistency-visual {
+  margin: 0 !important;
+  min-height: 650px !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+html body #root .hlc-public-consistency-page .hlc-public-consistency-visual img {
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 650px !important;
+  display: block !important;
+  object-fit: cover !important;
+  object-position: 48% center !important;
+}
+html body #root .hlc-public-consistency-section {
+  padding: 56px 0 !important;
+  border-top: 1px solid var(--hlc-public-line) !important;
+  text-align: center !important;
+}
+html body #root .hlc-public-consistency-section ol {
+  max-width: 760px !important;
+  margin: 24px auto 0 !important;
+  text-align: left !important;
+}
+
+/* ---------- Forms: dark integrated surfaces, never white boxes ---------- */
+html body #root .hlc-public-form-wrap,
+html body #root .hlc-request-grid {
+  border-top: 1px solid var(--hlc-public-line) !important;
+  padding-top: 42px !important;
+}
+html body #root .hlc-public-form,
+html body #root .hlc-request-form-card {
+  color: #f8fbff !important;
+}
+html body #root .hlc-public-form input,
+html body #root .hlc-public-form textarea,
+html body #root .hlc-public-form select,
+html body #root .hlc-request-form-card input,
+html body #root .hlc-request-form-card textarea,
+html body #root .hlc-request-form-card select {
+  background: #071a30 !important;
+  color: #f8fbff !important;
+  -webkit-text-fill-color: #f8fbff !important;
+  border: 1px solid rgba(135, 187, 235, .38) !important;
+  border-radius: 8px !important;
+  box-shadow: none !important;
+}
+html body #root .hlc-public-form input::placeholder,
+html body #root .hlc-public-form textarea::placeholder,
+html body #root .hlc-request-form-card input::placeholder,
+html body #root .hlc-request-form-card textarea::placeholder {
+  color: #9eb1c5 !important;
+  -webkit-text-fill-color: #9eb1c5 !important;
+  opacity: 1 !important;
+}
+html body #root .hlc-public-form label,
+html body #root .hlc-request-form-card label {
+  color: #f2f7fd !important;
+  -webkit-text-fill-color: #f2f7fd !important;
+}
+html body #root .hlc-request-privacy {
+  background: transparent !important;
+  border: 1px solid var(--hlc-public-line) !important;
+  color: var(--hlc-public-muted) !important;
+}
+
+/* ---------- Request service ---------- */
+html body #root .hlc-request-service {
+  width: min(1120px, calc(100% - 40px)) !important;
+  margin: 0 auto 80px !important;
+  gap: 0 !important;
+}
+html body #root .hlc-request-hero {
+  padding: 78px 24px 58px !important;
+}
+html body #root .hlc-request-hero > img { display: none !important; }
+html body #root .hlc-request-grid { gap: 52px !important; }
+
+/* ---------- About: remove duplicate hero photo and card stack ---------- */
+html body #root .hlc-public-about-page .hlc-about-hero {
+  min-height: 560px !important;
+  background: radial-gradient(circle at 50% 0%, rgba(42,130,211,.18), transparent 42%) !important;
+}
+html body #root .hlc-public-about-page .hlc-about-hero-overlay { display: none !important; }
+html body #root .hlc-public-about-page .hlc-about-grid {
+  width: min(1120px, calc(100% - 48px)) !important;
+  margin: 0 auto !important;
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
+  gap: 0 !important;
+  border-top: 1px solid var(--hlc-public-line) !important;
+  border-bottom: 1px solid var(--hlc-public-line) !important;
+}
+html body #root .hlc-public-about-page .hlc-about-card {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 42px 34px !important;
+  border-right: 1px solid var(--hlc-public-line) !important;
+}
+html body #root .hlc-public-about-page .hlc-about-card:last-child { border-right: 0 !important; }
+
+/* ---------- Legal: open reading column, no floating white/card treatment ---------- */
+html body #root .hlc-legal-page .hlc-legal-shell {
+  width: min(920px, calc(100% - 48px)) !important;
+  margin-inline: auto !important;
+}
+html body #root .hlc-legal-page .hlc-legal-card {
+  padding: 42px 0 !important;
+  border-bottom: 1px solid var(--hlc-public-line) !important;
+}
+html body #root .hlc-legal-page .hlc-legal-card h1,
+html body #root .hlc-legal-page .hlc-legal-card h2 {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+html body #root .hlc-legal-page .hlc-legal-card h1 {
+  text-align: center !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: clamp(2.8rem, 6vw, 5rem) !important;
+  line-height: 1 !important;
+}
+html body #root .hlc-legal-page .hlc-legal-card p,
+html body #root .hlc-legal-page .hlc-legal-card li { text-align: left !important; }
+
+/* ---------- Correct compact/circular logo ---------- */
+html body #root .hlc-public-site-nav__brand img,
+html body #root .hlc-auth-public-brand img {
+  content: url('/hlc-icon.jpeg') !important;
+  width: 62px !important;
+  height: 62px !important;
+  max-height: 62px !important;
+  aspect-ratio: 1 !important;
+  object-fit: cover !important;
+  border-radius: 50% !important;
+  background: #fff !important;
+  box-shadow: 0 0 0 2px rgba(255,255,255,.88), 0 8px 24px rgba(0,0,0,.25) !important;
+}
+
+/* ---------- Login: Harrisburg city image + integrated dark form ---------- */
+/* Verified source: Harrisburg PA skyline from across the Susquehanna River, J. Passepartout, CC BY-SA 4.0. */
+html body #root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat {
+  background:
+    linear-gradient(90deg, rgba(2,9,20,.30) 0%, rgba(2,9,20,.72) 48%, rgba(2,9,20,.96) 72%),
+    url('https://upload.wikimedia.org/wikipedia/commons/a/a7/Harrisburg_PA_skyline.jpg') center center / cover fixed !important;
+}
+html body #root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell .hlc-auth-main {
+  width: min(1200px, calc(100vw - 48px)) !important;
+  min-height: calc(100vh - 96px) !important;
+  grid-template-columns: minmax(0, 1fr) minmax(390px, 500px) !important;
+  gap: clamp(48px, 7vw, 96px) !important;
+  padding: 52px 0 !important;
+}
+html body #root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell .hlc-auth-intro {
+  padding: 36px 0 !important;
+  text-shadow: 0 2px 18px rgba(0,0,0,.65) !important;
+}
+html body #root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell .hlc-auth-intro h2 {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  font-family: Georgia, "Times New Roman", serif !important;
+  font-size: clamp(3.1rem, 6vw, 5.9rem) !important;
+  font-weight: 500 !important;
+  line-height: .98 !important;
+  letter-spacing: -.04em !important;
+}
+html body #root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell .hlc-auth-intro p,
+html body #root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell .hlc-auth-intro span {
+  color: #f2f7fd !important;
+  -webkit-text-fill-color: #f2f7fd !important;
+}
+html body #root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell .hlc-auth-card {
+  background: rgba(3,15,30,.78) !important;
+  backdrop-filter: blur(18px) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
+  border: 1px solid rgba(185,220,248,.22) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 30px 80px rgba(0,0,0,.35) !important;
+}
+html body #root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell .hlc-auth-form input {
+  background: rgba(2,12,25,.86) !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  border-color: rgba(174,213,244,.36) !important;
+}
+html body #root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell .hlc-auth-form-heading {
+  text-align: center !important;
+}
+html body #root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell .hlc-auth-card-description,
+html body #root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell .hlc-auth-card-footer,
+html body #root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell .hlc-auth-card-footer p {
+  color: #d6e4f2 !important;
+  -webkit-text-fill-color: #d6e4f2 !important;
+}
+
+/* ---------- Mobile: no overlaps, no horizontal clipping ---------- */
+@media (max-width: 900px) {
+  html body #root .hlc-public-board-page .hlc-public-shell,
+  html body #root .hlc-public-consistency-shell,
+  html body #root .hlc-utility-shell,
+  html body #root .hlc-public-about-page .hlc-about-grid {
+    width: calc(100% - 24px) !important;
+  }
+  html body #root .hlc-public-board-page .hlc-public-shell--visual,
+  html body #root .hlc-public-consistency-page .hlc-public-consistency-hero {
+    grid-template-columns: 1fr !important;
+  }
+  html body #root .hlc-public-board-page .hlc-public-hero,
+  html body #root .hlc-public-consistency-page .hlc-public-consistency-copy {
+    min-height: auto !important;
+    padding: 52px 24px !important;
+  }
+  html body #root .hlc-public-board-page .hlc-public-visual,
+  html body #root .hlc-public-board-page .hlc-public-visual img,
+  html body #root .hlc-public-consistency-page .hlc-public-consistency-visual,
+  html body #root .hlc-public-consistency-page .hlc-public-consistency-visual img {
+    min-height: 360px !important;
+    max-height: 480px !important;
+  }
+  html body #root .hlc-public-board-page .hlc-public-grid,
+  html body #root .hlc-board-access-grid,
+  html body #root .hlc-public-about-page .hlc-about-grid {
+    grid-template-columns: 1fr !important;
+  }
+  html body #root .hlc-public-board-page .hlc-public-card,
+  html body #root .hlc-board-access-card,
+  html body #root .hlc-public-about-page .hlc-about-card {
+    border-right: 0 !important;
+    border-bottom: 1px solid var(--hlc-public-line) !important;
+  }
+  html body #root .hlc-public-board-page .hlc-public-card:last-child,
+  html body #root .hlc-board-access-card:last-child,
+  html body #root .hlc-public-about-page .hlc-about-card:last-child {
+    border-bottom: 0 !important;
+  }
+  html body #root .hlc-request-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+  html body #root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat {
+    background:
+      linear-gradient(180deg, rgba(2,9,20,.48), rgba(2,9,20,.92) 38%, #030914 72%),
+      url('https://upload.wikimedia.org/wikipedia/commons/a/a7/Harrisburg_PA_skyline.jpg') 48% top / auto 44vh no-repeat !important;
+  }
+  html body #root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell .hlc-auth-main {
+    display: block !important;
+    width: calc(100vw - 24px) !important;
+    min-height: auto !important;
+    padding: 32vh 0 30px !important;
+  }
+  html body #root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell .hlc-auth-intro { display: none !important; }
+  html body #root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell .hlc-auth-card {
+    width: 100% !important;
+    max-width: 560px !important;
+    margin-inline: auto !important;
+    padding: 26px 18px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  html body #root .hlc-public-hero h1,
+  html body #root .hlc-public-consistency-copy h1,
+  html body #root .hlc-utility-title { font-size: clamp(2.65rem, 13vw, 4rem) !important; }
+  html body #root .hlc-public-site-nav__brand img,
+  html body #root .hlc-auth-public-brand img {
+    width: 52px !important;
+    height: 52px !important;
+    max-height: 52px !important;
+  }
+  html body #root .hlc-request-service { width: calc(100% - 20px) !important; }
+}
