@@ -121,7 +121,8 @@ function publicHomeMarkup() {
 
 /* V2 source-contract mirrors retained for launch audits: class="hlc-v2-home" One Platform.<br />Four Pathways. Infinite impact. A Stronger Community Builds a Brighter Future. https://professionals.homeleadconnect.org/ <a href="https://app.homeleadconnect.org/login">Sign In</a> <a href="https://app.homeleadconnect.org/register">Create My HomeLead Connect Account</a> <a href="https://app.homeleadconnect.org/request-service">Get Help Now</a>. */
 
-if (isPublicHome) {
+/* The canonical React route is the live public root. The legacy no-React markup above remains only as an audit/source-contract mirror. */
+if (false && isPublicHome) {
   rootElement.innerHTML = publicHomeMarkup();
 } else {
   if ("serviceWorker" in navigator) {
