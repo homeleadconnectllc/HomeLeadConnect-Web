@@ -68,14 +68,14 @@ function publicHomeMarkup() {
         <div class="hlc-board-hero-inner">
           <div>
             <p class="hlc-board-kicker">More than homes.</p>
-            <h1 id="hlc-board-title">We Build <span>Opportunities.</span></h1>
+            <h1 id="hlc-board-title">We Build<br /><span>Opportunities.</span></h1>
             <p class="hlc-board-copy">HomeLead Connect connects homeowners, professionals, partners and communities with the resources, services and opportunities that create lasting generational wealth.</p>
             <div class="hlc-board-actions-row">
               <a class="hlc-board-btn" href="/register">Get Started</a>
               <a class="hlc-board-btn hlc-board-btn--ghost" href="/about">Learn More →</a>
             </div>
           </div>
-          <aside class="hlc-board-app-panel" aria-label="The HLC app">
+          <aside class="hlc-board-app-panel" aria-label="The platform connects the ecosystem. The app puts it in your hands.">
             <p class="hlc-board-app-panel-label">The HLC App</p>
             <h2>Your opportunity.<br/>In your hands.</h2>
             <div class="hlc-board-app-icon"><img src="/hlc-icon.jpeg" alt="HLC app icon" width="270" height="270" loading="lazy" decoding="async" /></div>
