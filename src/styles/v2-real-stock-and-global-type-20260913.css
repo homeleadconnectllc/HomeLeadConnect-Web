@@ -1,0 +1,60 @@
+/* Final branch-only visual authority: real photography, consistent type hierarchy, compact circular footer mark. */
+.hlc-v2-home,
+.hlc-v2-home button,
+.hlc-v2-home input,
+.hlc-v2-home textarea,
+.hlc-v2-home select{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.hlc-v2-home h1,
+.hlc-v2-home h2,
+.hlc-v2-home h3,
+.hlc-v2-home h4{font-family:Georgia,"Times New Roman",serif;font-weight:700;text-wrap:balance}
+.hlc-v2-home p,
+.hlc-v2-home li,
+.hlc-v2-home a,
+.hlc-v2-home button{line-height:1.5}
+.hlc-v2-home p{font-size:16px}
+.hlc-v2-home .hlc-v2-eyebrow{font-family:Inter,ui-sans-serif,system-ui,sans-serif;font-size:12px;font-weight:800;letter-spacing:.24em;line-height:1.35;text-transform:uppercase}
+.hlc-v2-home .hlc-v2-section-copy,
+.hlc-v2-home .hlc-v2-hero-copy,
+.hlc-v2-home .hlc-v2-vision-copy>p,
+.hlc-v2-home .hlc-v2-intro-tile p{font-size:16px;line-height:1.65}
+.hlc-v2-home .hlc-v2-btn{font-family:Inter,ui-sans-serif,system-ui,sans-serif;font-size:14px;font-weight:800;letter-spacing:.01em;line-height:1.2;text-align:center}
+.hlc-v2-home .hlc-v2-link,
+.hlc-v2-home .hlc-v2-card a{font-family:Inter,ui-sans-serif,system-ui,sans-serif;font-size:14px;font-weight:800;line-height:1.3}
+
+/* Real stock photography replaces the generated/illustrated Partner, Community and Vision media. */
+.hlc-v2-card--professional .hlc-v2-card-media,
+.hlc-v2-card--partner .hlc-v2-card-media,
+.hlc-v2-card--community .hlc-v2-card-media,
+.hlc-v2-vision-image{display:block!important;visibility:visible!important;opacity:1!important;object-fit:cover!important}
+.hlc-v2-card--professional .hlc-v2-card-media{object-position:center 28%!important}
+.hlc-v2-card--partner .hlc-v2-card-media{object-position:center 38%!important}
+.hlc-v2-card--community .hlc-v2-card-media{object-position:center 54%!important}
+.hlc-v2-vision-image{object-position:center 54%!important}
+.hlc-v2-card--partner,
+.hlc-v2-card--community,
+.hlc-v2-vision-media{background-image:none!important;background-color:#071426!important}
+
+/* Keep the pathway typography deliberate and readable over photography. */
+.hlc-v2-card-content{text-align:center}
+.hlc-v2-card-icon{display:block;margin:0 auto 12px;font-size:24px;line-height:1}
+.hlc-v2-card h3{font-size:28px;line-height:1.08;letter-spacing:-.02em}
+.hlc-v2-card p{font-size:14px;line-height:1.5}
+
+/* The circular HLC mark belongs at the bottom, not as a large app-card graphic. */
+.hlc-v2-footer-logo{display:block;width:52px;height:52px;margin:0 auto 16px;border-radius:50%;object-fit:cover;object-position:center;overflow:hidden;box-shadow:0 0 0 1px rgba(121,189,255,.35),0 10px 30px rgba(0,0,0,.25)}
+.hlc-v2-footer{padding-top:30px}
+
+@media (max-width:780px){
+  .hlc-v2-home p{font-size:15px}
+  .hlc-v2-home .hlc-v2-section-copy,
+  .hlc-v2-home .hlc-v2-hero-copy,
+  .hlc-v2-home .hlc-v2-vision-copy>p,
+  .hlc-v2-home .hlc-v2-intro-tile p{font-size:15px;line-height:1.6}
+  .hlc-v2-card h3{font-size:28px}
+  .hlc-v2-card p{font-size:14px}
+  .hlc-v2-card--professional .hlc-v2-card-media{object-position:center 25%!important}
+  .hlc-v2-card--partner .hlc-v2-card-media{object-position:center 34%!important}
+  .hlc-v2-card--community .hlc-v2-card-media{object-position:center 52%!important}
+  .hlc-v2-vision-image{object-position:center 54%!important}
+}
