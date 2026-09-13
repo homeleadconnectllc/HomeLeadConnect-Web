@@ -1,37 +1,55 @@
-/* Public V2 mobile image-paint stabilization.
-   Explicit <img> layers are used for major visual media so mobile browsers
-   fetch and paint the imagery independently of CSS background rendering. */
-.hlc-v2-hero{isolation:isolate;overflow:hidden;background-color:#06101f!important;background-image:none!important}
-.hlc-v2-hero-media{position:absolute;z-index:0;inset:0;width:100%;height:100%;display:block;object-fit:cover;object-position:center right;pointer-events:none;user-select:none}
-.hlc-v2-hero::before{content:"";position:absolute;z-index:1;inset:0;background:linear-gradient(90deg,rgba(3,11,22,.98) 0%,rgba(3,11,22,.88) 31%,rgba(3,11,22,.35) 63%,rgba(3,11,22,.12) 100%);pointer-events:none}
-.hlc-v2-card{isolation:isolate;background-color:#0a1829!important;background-image:none!important}
-.hlc-v2-card-media{position:absolute;z-index:0;inset:0;width:100%;height:100%;display:block;object-fit:cover;object-position:center;pointer-events:none;user-select:none}
-.hlc-v2-card--partner .hlc-v2-card-media{object-position:65% center}
-.hlc-v2-card--community .hlc-v2-card-media{object-position:25% center}
-.hlc-v2-card::before{z-index:1}
-.hlc-v2-card-content{z-index:2}
-.hlc-v2-vision-media{position:relative;isolation:isolate;overflow:hidden;background-color:#d7dce2!important;background-image:none!important}
-.hlc-v2-vision-image{position:absolute;z-index:0;inset:0;width:100%;height:100%;display:block;object-fit:cover;object-position:center;pointer-events:none;user-select:none}
-.hlc-v2-vision-media::after{content:"";position:absolute;z-index:1;inset:0;background:linear-gradient(90deg,rgba(4,12,23,.16),rgba(4,12,23,.2));pointer-events:none}
-@media (max-width:780px){
-  .hlc-v2-hero-media{object-position:63% center}
-  .hlc-v2-card-media{object-position:center}
-  .hlc-v2-vision-image{object-position:center}
-}
-@media (max-width:460px){
-  .hlc-v2-hero-media{object-position:68% center}
+/* Public V2 mobile image authority.
+   The pathway <img> elements in main.tsx are the only image source for
+   the four pathway cards. Legacy painted fallbacks are intentionally removed
+   so the locked visual composition can use distinct real photography. */
+
+.hlc-v2-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-image: none !important;
 }
 
-/* Visual repair: keep the known-good partner fallback, while Vision now uses its own dedicated cityscape asset. */
-.hlc-v2-card--partner{background-image:url('/hlc-frontdoor-resident-hero.webp')!important;background-position:center!important;background-size:cover!important}
-.hlc-v2-card--partner .hlc-v2-card-media{display:none!important}
-.hlc-v2-vision-media{background-image:none!important}
-.hlc-v2-vision-image{display:block!important}
-.hlc-v2-vision-copy h2{color:#f7fbff!important}
-.hlc-v2-vision-copy p{color:#c9d7e6!important}
-.hlc-v2-storyline{color:#eaf5ff!important}
-.hlc-v2-vision-copy .hlc-v2-link{color:#71c4ff!important}
+.hlc-v2-card-media {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  pointer-events: none !important;
+  user-select: none !important;
+}
 
-/* Community pathway uses its dedicated cinematic neighborhood-event asset. */
-.hlc-v2-card--community{background-image:url('/hlc-frontdoor-community-cinematic.svg')!important;background-position:center!important;background-size:cover!important}
-.hlc-v2-card--community .hlc-v2-card-media{display:none!important}
+.hlc-v2-card::before,
+.hlc-v2-card::after {
+  pointer-events: none;
+}
+
+.hlc-v2-card-content {
+  position: relative;
+  z-index: 2;
+}
+
+.hlc-v2-card--professional .hlc-v2-card-media {
+  object-position: center 38% !important;
+}
+
+.hlc-v2-card--partner .hlc-v2-card-media {
+  object-position: center 50% !important;
+}
+
+.hlc-v2-card--community .hlc-v2-card-media {
+  object-position: center 42% !important;
+}
+
+@media (max-width: 780px) {
+  .hlc-v2-card-media {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+}
