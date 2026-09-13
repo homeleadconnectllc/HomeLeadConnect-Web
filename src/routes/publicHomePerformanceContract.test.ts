@@ -29,8 +29,9 @@ test("public home renders without paying React startup cost", () => {
   assert.match(main, /https:\/\/app\.homeleadconnect\.org\/professional-application/);
 });
 
-test("no-React public root uses the compact circular HomeLead Connect mark with the Family/Ecosystem identity", () => {
-  assert.match(main, /src="\/hlc-icon\.jpeg"/);
+test("no-React public root uses the compact circular canonical HomeLead Connect mark with the Family/Ecosystem identity", () => {
+  assert.match(main, /src="\/hlc-logo-transparent\.png"/);
+  assert.doesNotMatch(main, /\/hlc-icon\.jpeg/);
   assert.doesNotMatch(main, /src="\/hlc-logo-public\.webp"/);
   assert.doesNotMatch(main, /\/hlc-logo-ui\.png/);
   assert.match(main, /class="hlc-board-home hlc-v2-home hlc-family-ecosystem"/);
@@ -41,8 +42,9 @@ test("no-React public root uses the compact circular HomeLead Connect mark with 
 });
 
 test("parser-seeded public hero preserves the optimized Family/Ecosystem first-paint contract", () => {
-  assert.match(indexHtml, /src="\/hlc-icon\.jpeg"/);
+  assert.match(indexHtml, /src="\/hlc-logo-transparent\.png"/);
   assert.match(indexHtml, /width="52" height="52"/);
+  assert.doesNotMatch(indexHtml, /\/hlc-icon\.jpeg/);
   assert.doesNotMatch(indexHtml, /src="\/hlc-logo-public\.webp"/);
   assert.doesNotMatch(indexHtml, /\/hlc-logo-ui\.png/);
   assert.match(indexHtml, /hlc-v2-home hlc-v2-parser-seed/);
