@@ -115,7 +115,7 @@ function publicHomeMarkup() {
         <div class="hlc-board-identity-inner"><div><p class="hlc-board-identity-kicker">The brand rule</p><h2 id="hlc-board-identity-title">HomeLead Connect = The Platform.<br/>HLC = The App.</h2><p>Same mission. Different experiences. One connected ecosystem.</p><p><strong>Connecting Homes.<br />Creating <span>Opportunities.</span></strong></p></div><img src="/hlc-logo-public.webp" alt="HomeLead Connect LLC official logo" width="440" height="142" loading="lazy"/></div>
       </section>
 
-      <footer class="hlc-board-footer"><strong>HomeLead Connect LLC</strong><span>Harrisburg, Pennsylvania</span><span>Connecting Homes.<br />Creating <span>Opportunities.</span></span><nav aria-label="Legal and accessibility"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/accessibility">Accessibility</a><a href="/platform-disclosure">Platform disclosure</a></nav><small>© ${new Date().getFullYear()} HomeLead Connect LLC</small></footer>
+      <footer class="hlc-board-footer"><strong>HomeLead Connect LLC</strong><span>Harrisburg, Pennsylvania</span><span>info@homeleadconnect.org</span><span>Connecting Homes.<br />Creating <span>Opportunities.</span></span><nav aria-label="Legal and accessibility"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/accessibility">Accessibility</a><a href="/platform-disclosure">Platform disclosure</a></nav><small>© ${new Date().getFullYear()} HomeLead Connect LLC</small></footer>
     </main>`;
 }
 
