@@ -82,6 +82,25 @@
 }
 .hlc-board-home .hlc-board-menu-panel a:last-child { border-bottom:0 !important; }
 
+/* Homepage pathway photography is intentionally unique to the homepage cards.
+   Source photos are free-use Unsplash images; destination pages retain their own existing media. */
+.hlc-family-ecosystem .hlc-board-pathway--resident {
+  background-image:url('https://images.unsplash.com/photo-1577896850715-ed0b7e3ece57?auto=format&fit=crop&w=1200&q=82') !important;
+  background-position:52% center !important;
+}
+.hlc-family-ecosystem .hlc-board-pathway--professional {
+  background-image:url('https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=1200&q=82') !important;
+  background-position:50% center !important;
+}
+.hlc-family-ecosystem .hlc-board-pathway--partner {
+  background-image:url('https://images.unsplash.com/photo-1758519288905-38b7b00c1023?auto=format&fit=crop&w=1200&q=82') !important;
+  background-position:50% center !important;
+}
+.hlc-family-ecosystem .hlc-board-pathway--community {
+  background-image:url('https://images.unsplash.com/photo-1634936016780-65f6a77ebdd4?auto=format&fit=crop&w=1200&q=82') !important;
+  background-position:50% center !important;
+}
+
 @media(max-width:700px){
   .hlc-board-home .hlc-board-nav-inner { min-height:72px !important; }
   .hlc-board-home .hlc-board-brand{width:52px !important;height:52px !important}
