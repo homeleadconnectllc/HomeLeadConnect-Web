@@ -99,13 +99,14 @@ jobs:
             'Homes. People. Opportunity.' \
             'A stronger community' \
             'starts at home.' \
-            'Four Pathways.' \
+            'Four Pathways' \
             'For Residents' \
             'For Professionals' \
             'For Partners' \
             'For Our Community' \
             'Different experiences. Same mission. One connected ecosystem.' \
-            'A stronger community starts here.' \
+            'The HomeLead Connect vision' \
+            'starts here.' \
             'Business workspace: $49.99/month after 14-day trial.' \
             'HomeLead Connect LLC'; do
             if ! grep -Fqi "$expect" "$DOM"; then
