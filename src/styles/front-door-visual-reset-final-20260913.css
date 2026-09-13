@@ -1,5 +1,15 @@
 /* Final public-front-door visual corrections. Keep mobile-release-fix.css last. */
 
+/* Canonical public/auth logo authority. Never swap back to legacy JPEG artwork. */
+html body #root .hlc-public-site-nav__brand img,
+html body #root .hlc-auth-public-brand img {
+  content:url('/hlc-logo-transparent.png') !important;
+  object-fit:cover !important;
+  border-radius:50% !important;
+  clip-path:circle(50% at 50% 50%) !important;
+  background:transparent !important;
+}
+
 /* Keep headings centered, but keep fields/body copy naturally readable. */
 html body #root .hlc-public-board-page .hlc-public-card,
 html body #root .hlc-board-access-card,
@@ -17,10 +27,8 @@ html body #root .hlc-public-consistency-page *,
 html body #root .hlc-utility-page *,
 html body #root .hlc-request-service * { translate:none !important; }
 
-/* No visible photo may be recycled from the homepage pathway set on secondary public pages.
-   Partners is the deliberate exception because PartnerAccess supplies its own unique route photo. */
-html body #root [data-public-page="homeowners"] .hlc-public-visual,
-html body #root [data-public-page="professionals"] .hlc-public-visual,
+/* Secondary informational routes stay typography-led instead of recycling pathway photos.
+   Residents, Professionals and Partners retain their own unique route imagery. */
 html body #root [data-public-page="contractors"] .hlc-public-visual,
 html body #root [data-public-page="community"] .hlc-public-visual,
 html body #root [data-public-page="about"] .hlc-public-visual,
@@ -32,8 +40,6 @@ html body #root [data-public-page="trust"] .hlc-public-visual,
 html body #root [data-public-page="demo"] .hlc-public-visual {
   display:none !important;
 }
-html body #root [data-public-page="homeowners"] .hlc-public-shell--visual,
-html body #root [data-public-page="professionals"] .hlc-public-shell--visual,
 html body #root [data-public-page="contractors"] .hlc-public-shell--visual,
 html body #root [data-public-page="community"] .hlc-public-shell--visual,
 html body #root [data-public-page="about"] .hlc-public-shell--visual,
@@ -46,15 +52,11 @@ html body #root [data-public-page="demo"] .hlc-public-shell--visual {
   grid-template-columns:1fr !important;
 }
 
-/* Final login authority: Harrisburg image + integrated form, never a floating card. */
+/* AuthShell owns login geometry and the explicit Harrisburg media element.
+   This late stylesheet only prevents legacy card paint from returning. */
 html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat {
-  background-color:#020a15 !important;
-  background-image:
-    linear-gradient(90deg,rgba(2,9,20,.28) 0%,rgba(2,9,20,.54) 44%,rgba(2,9,20,.91) 72%,rgba(2,9,20,.97) 100%),
-    url('https://upload.wikimedia.org/wikipedia/commons/a/a7/Harrisburg_PA_skyline.jpg') !important;
-  background-position:center center !important;
-  background-size:cover !important;
-  background-repeat:no-repeat !important;
+  background:#020a15 !important;
+  background-image:none !important;
 }
 html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card {
   background:transparent !important;
@@ -70,11 +72,8 @@ html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc
 
 @media(max-width:800px){
   html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat {
-    background-image:
-      linear-gradient(180deg,rgba(2,9,20,.12) 0%,rgba(2,9,20,.34) 27%,rgba(2,9,20,.86) 50%,#020a15 70%),
-      url('https://upload.wikimedia.org/wikipedia/commons/a/a7/Harrisburg_PA_skyline.jpg') !important;
-    background-position:center top !important;
-    background-size:auto 52vh !important;
+    background:#020a15 !important;
+    background-image:none !important;
   }
   html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-main {
     padding-top:34vh !important;
