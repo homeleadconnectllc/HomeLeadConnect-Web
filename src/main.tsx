@@ -121,9 +121,14 @@ function publicHomeMarkup() {
 
 /* V2 source-contract mirrors retained for launch audits: class="hlc-v2-home" One Platform.<br />Four Pathways. Infinite impact. A Stronger Community Builds a Brighter Future. https://professionals.homeleadconnect.org/ <a href="https://app.homeleadconnect.org/login">Sign In</a> <a href="https://app.homeleadconnect.org/register">Create My HomeLead Connect Account</a> <a href="https://app.homeleadconnect.org/request-service">Get Help Now</a>. */
 
-/* The canonical React route is the live public root. The legacy no-React markup above remains only as an audit/source-contract mirror. */
-if (isPublicHome && window.location.hash === "#legacy-public-home") {
-  rootElement.innerHTML = publicHomeMarkup();
+if (isPublicHome) {
+  /* Public / is a lightweight React island: use the canonical HomePage source without booting the authenticated application bundle. */
+  void Promise.all([import("react"), import("react-dom/client"), import("./pages/HomePage")]).then(([reactModule, domModule, pageModule]) => {
+    const { createElement } = reactModule;
+    const { createRoot } = domModule;
+    const HomePage = pageModule.default;
+    createRoot(rootElement).render(createElement(HomePage));
+  });
 } else {
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
