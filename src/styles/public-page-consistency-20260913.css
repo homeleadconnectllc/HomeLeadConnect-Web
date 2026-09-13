@@ -1,0 +1,20 @@
+/* Public-page visual consistency pass — visual only. */
+.hlc-public-consistency-page{min-height:100vh;background:#06152b;color:#f8fbff;padding-bottom:56px}
+.hlc-public-consistency-page .hlc-public-consistency-shell{width:min(1400px,calc(100% - 72px));margin:0 auto}
+.hlc-public-consistency-page .hlc-public-consistency-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(420px,.9fr);min-height:520px;margin-top:0}
+.hlc-public-consistency-page .hlc-public-consistency-copy{padding:76px 56px;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(135deg,#071a31,#0a2039);border:1px solid rgba(119,176,235,.28);border-right:0}
+.hlc-public-consistency-page .hlc-public-consistency-copy h1{margin:0;max-width:780px;font-size:clamp(42px,5vw,72px);line-height:.98;letter-spacing:-.03em}
+.hlc-public-consistency-page .hlc-public-consistency-copy p{max-width:650px;color:#d3dfec;font-size:17px;line-height:1.6}
+.hlc-public-consistency-page .hlc-public-consistency-kicker{color:#72b8ff!important;font-size:12px!important;font-weight:900!important;letter-spacing:.12em;text-transform:uppercase}
+.hlc-public-consistency-page .hlc-public-consistency-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+.hlc-public-consistency-page .hlc-public-consistency-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 20px;border-radius:999px;text-decoration:none;font-weight:900}
+.hlc-public-consistency-page .hlc-public-consistency-actions .primary{background:#0d7cf0;color:#fff}
+.hlc-public-consistency-page .hlc-public-consistency-actions .secondary{border:1px solid rgba(150,194,238,.35);color:#fff;background:rgba(255,255,255,.04)}
+.hlc-public-consistency-page .hlc-public-consistency-visual{min-height:520px;margin:0;border:1px solid rgba(119,176,235,.28);overflow:hidden;background:#0a1b31}
+.hlc-public-consistency-page .hlc-public-consistency-visual img{display:block;width:100%;height:100%;min-height:520px;object-fit:cover}
+.hlc-public-consistency-page .hlc-public-consistency-section{margin-top:18px;padding:30px;background:linear-gradient(145deg,#0c2743,#091d34);border:1px solid rgba(119,176,235,.22)}
+.hlc-public-consistency-page .hlc-public-consistency-section h2{font-size:clamp(28px,3vw,42px);line-height:1.05;margin-top:0}
+.hlc-public-consistency-page .hlc-public-consistency-section li,.hlc-public-consistency-page .hlc-public-consistency-section p{color:#b9c9da;line-height:1.6}
+.hlc-public-consistency-page .hlc-public-consistency-section a{color:#fff;font-weight:900}
+@media(max-width:900px){.hlc-public-consistency-page .hlc-public-consistency-shell{width:calc(100% - 28px)}.hlc-public-consistency-page .hlc-public-consistency-hero{grid-template-columns:1fr}.hlc-public-consistency-page .hlc-public-consistency-copy{padding:38px 26px;border-right:1px solid rgba(119,176,235,.28);border-bottom:0}.hlc-public-consistency-page .hlc-public-consistency-visual{min-height:360px}.hlc-public-consistency-page .hlc-public-consistency-visual img{min-height:360px}}
+@media(max-width:640px){.hlc-public-consistency-page .hlc-public-consistency-shell{width:calc(100% - 20px)}.hlc-public-consistency-page .hlc-public-consistency-copy{padding:28px 20px}.hlc-public-consistency-page .hlc-public-consistency-copy h1{font-size:clamp(36px,11vw,52px)}.hlc-public-consistency-page .hlc-public-consistency-copy p{font-size:16px;line-height:1.55}.hlc-public-consistency-page .hlc-public-consistency-visual,.hlc-public-consistency-page .hlc-public-consistency-visual img{min-height:290px}.hlc-public-consistency-page .hlc-public-consistency-actions{display:grid;grid-template-columns:1fr}.hlc-public-consistency-page .hlc-public-consistency-actions a{width:100%}.hlc-public-consistency-page .hlc-public-consistency-section{padding:24px 20px}}
