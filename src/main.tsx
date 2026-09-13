@@ -91,7 +91,7 @@ function publicHomeMarkup() {
       <section class="hlc-v2-section hlc-v2-section--dark" aria-labelledby="hlc-v2-vision-title">
         <div class="hlc-v2-wrap hlc-v2-vision">
           <div class="hlc-v2-vision-copy"><p class="hlc-v2-eyebrow">The HLC vision</p><h2 id="hlc-v2-vision-title">A Stronger Community Builds a Brighter Future.</h2><p>HomeLead Connect is more than a platform — it is a connected ecosystem where people, resources and opportunities come together to create lasting impact.</p><a class="hlc-v2-link" href="https://about.homeleadconnect.org/">Explore the vision →</a><div class="hlc-v2-storyline" aria-label="HomeLead Connect story"><span>City</span><span>Neighborhood</span><span>Home</span><span>People</span><span>Opportunity</span></div></div>
-          <div class="hlc-v2-vision-media" role="img" aria-label="Harrisburg, Pennsylvania skyline over the Susquehanna River at sunset"><img class="hlc-v2-vision-image" src="https://images.unsplash.com/photo-1611522087598-ef7a95b54de5?auto=format&amp;fit=crop&amp;fm=jpg&amp;ixlib=rb-4.1.0&amp;q=85&amp;w=2400" alt="" width="2400" height="1600" loading="eager" decoding="async" aria-hidden="true" /></div>
+          <div class="hlc-v2-vision-media" role="img" aria-label="Harrisburg, Pennsylvania skyline and downtown buildings at sunset"><img class="hlc-v2-vision-image" src="https://images.unsplash.com/photo-1611522088284-e2fedd21f959?auto=format&amp;fit=crop&amp;fm=jpg&amp;ixlib=rb-4.1.0&amp;q=85&amp;w=2400" alt="" width="2400" height="1600" loading="eager" decoding="async" aria-hidden="true" /></div>
         </div>
       </section>
 
