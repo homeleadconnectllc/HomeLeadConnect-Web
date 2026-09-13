@@ -52,4 +52,5 @@ import "./final-release-guard.css";
 import "./visual-reset-baseline-20260903.css";
 import "./visual-reset-hard-blank-20260903.css";
 import "./front-door-visual-reset-20260913.css";
+import "./front-door-visual-reset-final-20260913.css";
 import "./mobile-release-fix.css";
