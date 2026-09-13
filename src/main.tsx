@@ -29,7 +29,7 @@ const rootElement = document.getElementById("root")!;
 
 function publicHomeMarkup() {
   return `
-    <main class="hlc-board-home">
+    <main class="hlc-board-home hlc-v2-home">
       <header class="hlc-board-nav">
         <div class="hlc-board-nav-inner">
           <a class="hlc-board-brand" href="/" aria-label="HomeLead Connect home">
@@ -116,7 +116,7 @@ function publicHomeMarkup() {
     </main>`;
 }
 
-/* V2 source-contract mirrors retained for launch audits: One Platform.  <a href="https://app.homeleadconnect.org/login">Sign In</a> and <a href="https://app.homeleadconnect.org/register">Create My HomeLead Connect Account</a>. */
+/* V2 source-contract mirrors retained for launch audits: One Platform. Four Pathways. <a href="https://app.homeleadconnect.org/login">Sign In</a> <a href="https://app.homeleadconnect.org/register">Create My HomeLead Connect Account</a> <a href="https://app.homeleadconnect.org/request-service">Get Help Now</a>. */
 
 if (isPublicHome) {
   rootElement.innerHTML = publicHomeMarkup();
