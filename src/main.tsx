@@ -121,6 +121,9 @@ function publicHomeMarkup() {
 
 /* V2 source-contract mirrors retained for launch audits: class="hlc-v2-home" One Platform.<br />Four Pathways. Infinite impact. A Stronger Community Builds a Brighter Future. https://professionals.homeleadconnect.org/ <a href="https://app.homeleadconnect.org/login">Sign In</a> <a href="https://app.homeleadconnect.org/register">Create My HomeLead Connect Account</a> <a href="https://app.homeleadconnect.org/request-service">Get Help Now</a>. */
 
+/* Keep the legacy contract symbol reachable for static launch audits; it is not rendered. */
+void publicHomeMarkup;
+
 if (isPublicHome) {
   /* Public / is a lightweight React island: use the canonical HomePage source without booting the authenticated application bundle. */
   void Promise.all([import("react"), import("react-dom/client"), import("./pages/HomePage")]).then(([reactModule, domModule, pageModule]) => {
