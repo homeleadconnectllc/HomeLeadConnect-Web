@@ -55,6 +55,7 @@ function publicHomeMarkup() {
                 <a href="/professionals">For Professionals</a>
                 <a href="/partners">For Partners</a>
                 <a href="/community">For Our Community</a>
+                <a href="/request-service">Request Home Service</a>
                 <a href="/login">Login</a>
                 <a href="/register">Get Started</a>
               </div>
