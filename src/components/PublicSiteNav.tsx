@@ -28,7 +28,7 @@ export default function PublicSiteNav() {
   return <nav className="hlc-public-site-nav" aria-label="Primary navigation">
     <div className="hlc-public-site-nav__inner">
       <a className="hlc-public-site-nav__brand" href={`${PUBLIC_ORIGIN}/`} aria-label="HomeLead Connect home">
-        <img src="/hlc-icon.jpeg" alt="HomeLead Connect" width={64} height={64} />
+        <img src="/hlc-logo-transparent.png" alt="HomeLead Connect" width={64} height={64} />
       </a>
       <div className="hlc-public-site-nav__links">
         {desktopLinks.map(([label, path]) => <a key={path} href={`${PUBLIC_ORIGIN}${path}`}>{label}</a>)}
