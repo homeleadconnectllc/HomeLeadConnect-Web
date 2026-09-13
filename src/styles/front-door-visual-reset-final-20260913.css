@@ -1,15 +1,4 @@
 /* Final public-front-door visual corrections. Keep mobile-release-fix.css last. */
-html body #root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell .hlc-auth-card {
-  background: linear-gradient(180deg, rgba(2,12,25,.62), rgba(2,12,25,.34)) !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  -webkit-backdrop-filter: none !important;
-  padding-inline: clamp(18px, 3vw, 34px) !important;
-}
-html body #root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell .hlc-auth-card::before,
-html body #root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell .hlc-auth-card::after { display:none !important; }
 
 /* Keep headings centered, but keep fields/body copy naturally readable. */
 html body #root .hlc-public-board-page .hlc-public-card,
@@ -28,18 +17,47 @@ html body #root .hlc-public-consistency-page *,
 html body #root .hlc-utility-page *,
 html body #root .hlc-request-service * { translate:none !important; }
 
-/* Rendered-login authority: out-rank legacy release paint without changing release order. */
+/* No visible photo may be recycled from the homepage pathway set on secondary public pages.
+   Partners is the deliberate exception because PartnerAccess supplies its own unique route photo. */
+html body #root [data-public-page="homeowners"] .hlc-public-visual,
+html body #root [data-public-page="professionals"] .hlc-public-visual,
+html body #root [data-public-page="contractors"] .hlc-public-visual,
+html body #root [data-public-page="community"] .hlc-public-visual,
+html body #root [data-public-page="about"] .hlc-public-visual,
+html body #root [data-public-page="how"] .hlc-public-visual,
+html body #root [data-public-page="leadscope"] .hlc-public-visual,
+html body #root [data-public-page="services"] .hlc-public-visual,
+html body #root [data-public-page="pricing"] .hlc-public-visual,
+html body #root [data-public-page="trust"] .hlc-public-visual,
+html body #root [data-public-page="demo"] .hlc-public-visual {
+  display:none !important;
+}
+html body #root [data-public-page="homeowners"] .hlc-public-shell--visual,
+html body #root [data-public-page="professionals"] .hlc-public-shell--visual,
+html body #root [data-public-page="contractors"] .hlc-public-shell--visual,
+html body #root [data-public-page="community"] .hlc-public-shell--visual,
+html body #root [data-public-page="about"] .hlc-public-shell--visual,
+html body #root [data-public-page="how"] .hlc-public-shell--visual,
+html body #root [data-public-page="leadscope"] .hlc-public-shell--visual,
+html body #root [data-public-page="services"] .hlc-public-shell--visual,
+html body #root [data-public-page="pricing"] .hlc-public-shell--visual,
+html body #root [data-public-page="trust"] .hlc-public-shell--visual,
+html body #root [data-public-page="demo"] .hlc-public-shell--visual {
+  grid-template-columns:1fr !important;
+}
+
+/* Final login authority: Harrisburg image + integrated form, never a floating card. */
 html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat {
   background-color:#020a15 !important;
   background-image:
-    linear-gradient(90deg,rgba(2,9,20,.28) 0%,rgba(2,9,20,.62) 44%,rgba(2,9,20,.94) 74%,rgba(2,9,20,.98) 100%),
+    linear-gradient(90deg,rgba(2,9,20,.28) 0%,rgba(2,9,20,.54) 44%,rgba(2,9,20,.91) 72%,rgba(2,9,20,.97) 100%),
     url('https://upload.wikimedia.org/wikipedia/commons/a/a7/Harrisburg_PA_skyline.jpg') !important;
   background-position:center center !important;
   background-size:cover !important;
   background-repeat:no-repeat !important;
 }
 html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card {
-  background:linear-gradient(180deg,rgba(2,12,25,.40),rgba(2,12,25,.18)) !important;
+  background:transparent !important;
   border:0 !important;
   border-radius:0 !important;
   box-shadow:none !important;
@@ -53,16 +71,16 @@ html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc
 @media(max-width:800px){
   html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat {
     background-image:
-      linear-gradient(180deg,rgba(2,9,20,.20) 0%,rgba(2,9,20,.52) 32%,rgba(2,9,20,.94) 62%,#030914 86%),
+      linear-gradient(180deg,rgba(2,9,20,.12) 0%,rgba(2,9,20,.34) 27%,rgba(2,9,20,.86) 50%,#020a15 70%),
       url('https://upload.wikimedia.org/wikipedia/commons/a/a7/Harrisburg_PA_skyline.jpg') !important;
-    background-position:46% top !important;
-    background-size:auto 48vh !important;
+    background-position:center top !important;
+    background-size:auto 52vh !important;
   }
   html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-main {
-    padding-top:32vh !important;
+    padding-top:34vh !important;
   }
   html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card {
-    background:linear-gradient(180deg,rgba(3,15,30,.82),rgba(3,15,30,.46)) !important;
-    padding:24px 18px !important;
+    background:transparent !important;
+    padding:20px 8px 24px !important;
   }
 }
