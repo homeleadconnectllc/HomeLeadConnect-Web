@@ -85,17 +85,17 @@ function publicHomeMarkup() {
         </div>
       </section>
 
-      <section class="hlc-board-pathway-band" aria-labelledby="hlc-board-pathway-title">
+      <section class="hlc-board-pathway-band hlc-v2-horizon-band" aria-labelledby="hlc-board-pathway-title">
         <div class="hlc-board-pathway-heading">
           <p>Choose your path</p>
           <h2 id="hlc-board-pathway-title">One platform. Built around you.</h2>
           <span>Start where you are. HomeLead Connect brings the next opportunity closer.</span>
         </div>
         <div class="hlc-board-pathway-inner">
-          <article class="hlc-board-pathway hlc-board-pathway--resident"><div class="hlc-board-pathway-content"><p class="hlc-board-pathway-label">For Residents</p><p class="hlc-board-pathway-copy">Find homes. Build wealth. Create your future.</p></div><a class="hlc-board-pathway-arrow" href="/homeowners" aria-label="Open For Residents">→</a></article>
-          <article class="hlc-board-pathway hlc-board-pathway--professional"><div class="hlc-board-pathway-content"><p class="hlc-board-pathway-label">For Professionals</p><p class="hlc-board-pathway-copy">Grow your business. Get more opportunities.</p></div><a class="hlc-board-pathway-arrow" href="/professionals" aria-label="Open For Professionals">→</a></article>
-          <article class="hlc-board-pathway hlc-board-pathway--partner"><div class="hlc-board-pathway-content"><p class="hlc-board-pathway-label">For Partners</p><p class="hlc-board-pathway-copy">Collaborate. Invest. Make a bigger impact.</p></div><a class="hlc-board-pathway-arrow" href="/partners" aria-label="Open For Partners">→</a></article>
-          <article class="hlc-board-pathway hlc-board-pathway--community"><div class="hlc-board-pathway-content"><p class="hlc-board-pathway-label">For Our Community</p><p class="hlc-board-pathway-copy">Stronger neighborhoods. Greater possibilities.</p></div><a class="hlc-board-pathway-arrow" href="/community" aria-label="Open For Our Community">→</a></article>
+          <article class="hlc-board-pathway hlc-v2-card--resident hlc-board-pathway--resident"><div class="hlc-board-pathway-content"><p class="hlc-board-pathway-label">For Residents</p><p class="hlc-board-pathway-copy">Find homes. Build wealth. Create your future.</p></div><a class="hlc-board-pathway-arrow" href="/homeowners" aria-label="Open For Residents">→</a></article>
+          <article class="hlc-board-pathway hlc-v2-card--professional hlc-board-pathway--professional"><div class="hlc-board-pathway-content"><p class="hlc-board-pathway-label">For Professionals</p><p class="hlc-board-pathway-copy">Grow your business. Get more opportunities.</p></div><a class="hlc-board-pathway-arrow" href="/professionals" aria-label="Open For Professionals">→</a></article>
+          <article class="hlc-board-pathway hlc-v2-card--partner hlc-board-pathway--partner"><div class="hlc-board-pathway-content"><p class="hlc-board-pathway-label">For Partners</p><p class="hlc-board-pathway-copy">Collaborate. Invest. Make a bigger impact.</p></div><a class="hlc-board-pathway-arrow" href="/partners" aria-label="Open For Partners">→</a></article>
+          <article class="hlc-board-pathway hlc-v2-card--community hlc-board-pathway--community"><div class="hlc-board-pathway-content"><p class="hlc-board-pathway-label">For Our Community</p><p class="hlc-board-pathway-copy">Stronger neighborhoods. Greater possibilities.</p></div><a class="hlc-board-pathway-arrow" href="/community" aria-label="Open For Our Community">→</a></article>
         </div>
       </section>
 
@@ -115,7 +115,7 @@ function publicHomeMarkup() {
         <div class="hlc-board-identity-inner"><div><p class="hlc-board-identity-kicker">The brand rule</p><h2 id="hlc-board-identity-title">HomeLead Connect = The Platform.<br/>HLC = The App.</h2><p>Same mission. Different experiences. One connected ecosystem.</p><p><strong>Connecting Homes.<br />Creating <span>Opportunities.</span></strong></p></div><img src="/hlc-logo-public.webp" alt="HomeLead Connect LLC official logo" width="440" height="142" loading="lazy"/></div>
       </section>
 
-      <footer class="hlc-board-footer"><strong>HomeLead Connect LLC</strong><span>Harrisburg, Pennsylvania</span><span>info@homeleadconnect.org</span><span>Connecting Homes.<br />Creating <span>Opportunities.</span></span><nav aria-label="Legal and accessibility"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/accessibility">Accessibility</a><a href="/platform-disclosure">Platform disclosure</a></nav><small>© ${new Date().getFullYear()} HomeLead Connect LLC</small></footer>
+      <footer class="hlc-board-footer"><strong>HomeLead Connect LLC</strong><span>Harrisburg, Pennsylvania</span><a href="mailto:info@homeleadconnect.org">info@homeleadconnect.org</a><span>Connecting Homes.<br />Creating <span>Opportunities.</span></span><nav aria-label="Legal and accessibility"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/accessibility">Accessibility</a><a href="/platform-disclosure">Platform disclosure</a></nav><small>© ${new Date().getFullYear()} HomeLead Connect LLC</small></footer>
     </main>`;
 }
 
