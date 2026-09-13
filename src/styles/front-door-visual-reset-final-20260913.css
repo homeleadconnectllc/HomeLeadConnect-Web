@@ -27,3 +27,42 @@ html body #root .hlc-public-board-page *,
 html body #root .hlc-public-consistency-page *,
 html body #root .hlc-utility-page *,
 html body #root .hlc-request-service * { translate:none !important; }
+
+/* Rendered-login authority: out-rank legacy release paint without changing release order. */
+html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat {
+  background-color:#020a15 !important;
+  background-image:
+    linear-gradient(90deg,rgba(2,9,20,.28) 0%,rgba(2,9,20,.62) 44%,rgba(2,9,20,.94) 74%,rgba(2,9,20,.98) 100%),
+    url('https://upload.wikimedia.org/wikipedia/commons/a/a7/Harrisburg_PA_skyline.jpg') !important;
+  background-position:center center !important;
+  background-size:cover !important;
+  background-repeat:no-repeat !important;
+}
+html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card {
+  background:linear-gradient(180deg,rgba(2,12,25,.40),rgba(2,12,25,.18)) !important;
+  border:0 !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+}
+html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card::before,
+html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card::after {display:none !important}
+html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-form-heading {text-align:center !important}
+
+@media(max-width:800px){
+  html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat {
+    background-image:
+      linear-gradient(180deg,rgba(2,9,20,.20) 0%,rgba(2,9,20,.52) 32%,rgba(2,9,20,.94) 62%,#030914 86%),
+      url('https://upload.wikimedia.org/wikipedia/commons/a/a7/Harrisburg_PA_skyline.jpg') !important;
+    background-position:46% top !important;
+    background-size:auto 48vh !important;
+  }
+  html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-main {
+    padding-top:32vh !important;
+  }
+  html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card {
+    background:linear-gradient(180deg,rgba(3,15,30,.82),rgba(3,15,30,.46)) !important;
+    padding:24px 18px !important;
+  }
+}
