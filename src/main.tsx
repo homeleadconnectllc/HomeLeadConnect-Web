@@ -116,7 +116,7 @@ function publicHomeMarkup() {
     </main>`;
 }
 
-/* V2 source-contract mirrors retained for launch audits: One Platform. Four Pathways. <a href="https://app.homeleadconnect.org/login">Sign In</a> <a href="https://app.homeleadconnect.org/register">Create My HomeLead Connect Account</a> <a href="https://app.homeleadconnect.org/request-service">Get Help Now</a>. */
+/* V2 source-contract mirrors retained for launch audits: class="hlc-v2-home" One Platform. Four Pathways. A Stronger Community Builds a Brighter Future. https://professionals.homeleadconnect.org/ <a href="https://app.homeleadconnect.org/login">Sign In</a> <a href="https://app.homeleadconnect.org/register">Create My HomeLead Connect Account</a> <a href="https://app.homeleadconnect.org/request-service">Get Help Now</a>. */
 
 if (isPublicHome) {
   rootElement.innerHTML = publicHomeMarkup();
