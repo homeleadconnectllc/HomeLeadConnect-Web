@@ -1,0 +1,95 @@
+/* HomeLead Connect V2 — surgical mobile hero polish
+   Visual-only. Mobile scope only. Desktop composition remains unchanged. */
+
+@media (max-width: 780px) {
+  .hlc-v2-hero-media {
+    filter: saturate(.94) contrast(1.02) brightness(.78) !important;
+  }
+
+  .hlc-v2-hero::before {
+    background:
+      linear-gradient(180deg,
+        rgba(3,11,22,.72) 0%,
+        rgba(3,11,22,.44) 22%,
+        rgba(3,11,22,.22) 48%,
+        rgba(3,11,22,.68) 72%,
+        rgba(3,11,22,.96) 100%),
+      linear-gradient(90deg,
+        rgba(3,11,22,.78) 0%,
+        rgba(3,11,22,.36) 58%,
+        rgba(3,11,22,.18) 100%) !important;
+  }
+
+  .hlc-v2-hero-inner {
+    padding-top: 64px !important;
+    padding-bottom: 132px !important;
+  }
+
+  .hlc-v2-hero-note {
+    color: #f2f7fc !important;
+    font-size: 12px !important;
+    font-weight: 650 !important;
+    line-height: 1.5 !important;
+    text-shadow: 0 2px 14px rgba(0,0,0,.82) !important;
+    max-width: 560px !important;
+  }
+
+  .hlc-v2-hero-note strong {
+    color: #ffffff !important;
+    font-weight: 850 !important;
+  }
+
+  .hlc-v2-nav-inner {
+    min-height: 62px !important;
+  }
+
+  .hlc-v2-brand img {
+    width: 148px !important;
+    max-height: 48px !important;
+  }
+}
+
+@media (max-width: 460px) {
+  .hlc-v2-nav-inner {
+    min-height: 58px !important;
+  }
+
+  .hlc-v2-brand img {
+    width: 136px !important;
+    max-height: 44px !important;
+  }
+
+  .hlc-v2-nav-actions .hlc-v2-btn {
+    min-height: 40px !important;
+    padding: 0 13px !important;
+    font-size: 12px !important;
+  }
+
+  .hlc-v2-hero-media {
+    filter: saturate(.92) contrast(1.03) brightness(.74) !important;
+  }
+
+  .hlc-v2-hero::before {
+    background:
+      linear-gradient(180deg,
+        rgba(3,11,22,.76) 0%,
+        rgba(3,11,22,.46) 24%,
+        rgba(3,11,22,.25) 46%,
+        rgba(3,11,22,.74) 70%,
+        rgba(3,11,22,.98) 100%),
+      linear-gradient(90deg,
+        rgba(3,11,22,.82) 0%,
+        rgba(3,11,22,.40) 62%,
+        rgba(3,11,22,.20) 100%) !important;
+  }
+
+  .hlc-v2-hero-inner {
+    padding-top: 56px !important;
+    padding-bottom: 138px !important;
+  }
+
+  .hlc-v2-hero-note {
+    margin-top: 14px !important;
+    max-width: 100% !important;
+  }
+}
