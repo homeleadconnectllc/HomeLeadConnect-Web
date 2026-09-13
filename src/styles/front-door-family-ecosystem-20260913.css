@@ -11,161 +11,63 @@
   --fd-professional:#36b9ff;
   --fd-partner:#f4b84f;
   --fd-community:#b873ff;
-  background:
-    radial-gradient(circle at 80% 18%,rgba(29,139,255,.13),transparent 32%),
-    linear-gradient(180deg,#031224 0%,#06172b 48%,#071a30 100%);
+  background:radial-gradient(circle at 80% 18%,rgba(29,139,255,.13),transparent 32%),linear-gradient(180deg,#031224 0%,#06172b 48%,#071a30 100%);
   color:var(--fd-ink);
 }
 
 /* Public shell */
-.hlc-family-ecosystem .hlc-board-nav{
-  position:relative;
-  background:rgba(3,14,27,.94);
-  border-bottom:1px solid rgba(126,177,228,.16);
-  backdrop-filter:blur(14px);
-}
+.hlc-family-ecosystem .hlc-board-nav{position:relative;background:rgba(3,14,27,.94);border-bottom:1px solid rgba(126,177,228,.16);backdrop-filter:blur(14px)}
 .hlc-family-ecosystem .hlc-board-nav-inner{min-height:72px;width:min(1440px,calc(100% - 56px));gap:24px}
 .hlc-family-ecosystem .hlc-board-brand img{width:210px;max-height:56px}
 .hlc-family-ecosystem .hlc-board-links{gap:30px;font-size:12px}
 .hlc-family-ecosystem .hlc-board-links a{font-weight:700;color:#e9f2fb}
 .hlc-family-ecosystem .hlc-board-login{font-weight:750}
-.hlc-family-ecosystem .hlc-board-cta{
-  min-height:42px;
-  padding:0 22px;
-  background:linear-gradient(135deg,#24c7f6,#1f9eff);
-  border-color:#42d3ff;
-  color:#00152b!important;
-  box-shadow:0 12px 32px rgba(32,176,244,.22);
-}
+.hlc-family-ecosystem .hlc-board-cta{min-height:42px;padding:0 22px;background:linear-gradient(135deg,#24c7f6,#1f9eff);border-color:#42d3ff;color:#00152b!important;box-shadow:0 12px 32px rgba(32,176,244,.22)}
 
-/* Hide the old hero/app-panel during the Family/Ecosystem homepage build.
-   Routes and destination logic remain intact; this is presentation only. */
+/* Family-first hero */
 .hlc-family-ecosystem .hlc-board-hero{display:none}
+.hlc-family-ecosystem .hlc-family-hero{position:relative;min-height:640px;overflow:hidden;background:#041326}
+.hlc-family-ecosystem .hlc-family-hero-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 42%}
+.hlc-family-ecosystem .hlc-family-hero:before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(2,11,24,.97) 0%,rgba(2,11,24,.88) 34%,rgba(2,11,24,.38) 66%,rgba(2,11,24,.22) 100%),linear-gradient(180deg,transparent 55%,#041326 100%)}
+.hlc-family-ecosystem .hlc-family-hero-inner{position:relative;z-index:2;width:min(1440px,calc(100% - 56px));min-height:640px;margin:auto;display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:50px;align-items:center;padding:84px 0}
+.hlc-family-ecosystem .hlc-family-hero-copy{max-width:760px}
+.hlc-family-ecosystem .hlc-family-kicker{margin:0 0 12px;color:var(--fd-cyan);font-size:12px;font-weight:850;letter-spacing:.26em;text-transform:uppercase}
+.hlc-family-ecosystem .hlc-family-hero h1{margin:0;max-width:760px;color:#fff;font-family:Georgia,"Times New Roman",serif;font-size:clamp(58px,6.2vw,94px);font-weight:700;line-height:.94;letter-spacing:-.05em}
+.hlc-family-ecosystem .hlc-family-hero h1 span{color:#4abaff}
+.hlc-family-ecosystem .hlc-family-hero-copy>p:not(.hlc-family-kicker){max-width:680px;margin:24px 0 0;color:#d9e6f2;font-size:clamp(17px,1.45vw,21px);line-height:1.55}
+.hlc-family-ecosystem .hlc-family-hero-actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:30px}
+.hlc-family-ecosystem .hlc-family-secondary{display:inline-flex;align-items:center;min-height:42px;padding:0 18px;border:1px solid rgba(198,222,245,.42);border-radius:999px;background:rgba(4,18,34,.45);color:#eff7ff;text-decoration:none;font-size:12px;font-weight:850;backdrop-filter:blur(8px)}
+.hlc-family-ecosystem .hlc-family-hero-note{justify-self:end;align-self:end;margin-bottom:54px;padding-left:22px;border-left:2px solid rgba(32,200,244,.62);display:grid;gap:5px;color:#9db6cf;text-transform:uppercase;letter-spacing:.18em;font-size:10px}
+.hlc-family-ecosystem .hlc-family-hero-note strong{color:#fff;font-size:12px}
 
 /* Four Pathways — visual authority */
-.hlc-family-ecosystem .hlc-board-pathway-band{
-  margin:0;
-  padding:36px 0 30px;
-  background:
-    radial-gradient(circle at 92% 2%,rgba(35,160,255,.11),transparent 29%),
-    linear-gradient(180deg,#041326 0%,#06192e 100%);
-  overflow:hidden;
-}
-.hlc-family-ecosystem .hlc-board-pathway-band:before{
-  background:
-    linear-gradient(125deg,transparent 0 67%,rgba(28,155,245,.13) 67.1%,transparent 67.35%),
-    radial-gradient(circle at 10% 50%,rgba(18,111,205,.07),transparent 27%);
-}
-.hlc-family-ecosystem .hlc-board-pathway-heading{
-  width:min(1440px,calc(100% - 56px));
-  margin:0 auto 28px;
-  display:block;
-  text-align:center;
-}
-.hlc-family-ecosystem .hlc-board-pathway-heading .hlc-family-kicker{
-  margin:0 0 10px;
-  color:var(--fd-cyan);
-  font-size:12px;
-  font-weight:850;
-  letter-spacing:.28em;
-  text-transform:uppercase;
-}
-.hlc-family-ecosystem .hlc-board-pathway-heading h2{
-  margin:0;
-  color:#fff;
-  font-family:Georgia,"Times New Roman",serif;
-  font-size:clamp(52px,5.6vw,82px);
-  font-weight:700;
-  line-height:.96;
-  letter-spacing:-.045em;
-}
+.hlc-family-ecosystem .hlc-board-pathway-band{margin:0;padding:36px 0 30px;background:radial-gradient(circle at 92% 2%,rgba(35,160,255,.11),transparent 29%),linear-gradient(180deg,#041326 0%,#06192e 100%);overflow:hidden}
+.hlc-family-ecosystem .hlc-board-pathway-band:before{background:linear-gradient(125deg,transparent 0 67%,rgba(28,155,245,.13) 67.1%,transparent 67.35%),radial-gradient(circle at 10% 50%,rgba(18,111,205,.07),transparent 27%)}
+.hlc-family-ecosystem .hlc-board-pathway-heading{width:min(1440px,calc(100% - 56px));margin:0 auto 28px;display:block;text-align:center}
+.hlc-family-ecosystem .hlc-board-pathway-heading .hlc-family-kicker{margin:0 0 10px;color:var(--fd-cyan);font-size:12px;font-weight:850;letter-spacing:.28em;text-transform:uppercase}
+.hlc-family-ecosystem .hlc-board-pathway-heading h2{margin:0;color:#fff;font-family:Georgia,"Times New Roman",serif;font-size:clamp(52px,5.6vw,82px);font-weight:700;line-height:.96;letter-spacing:-.045em}
 .hlc-family-ecosystem .hlc-board-pathway-heading h2 span{color:#42b7ff}
-.hlc-family-ecosystem .hlc-family-pathway-subtitle{
-  margin:14px auto 0;
-  color:#edf5fc;
-  font-size:clamp(15px,1.25vw,19px);
-  line-height:1.5;
-}
-.hlc-family-ecosystem .hlc-family-pathway-copy{
-  max-width:920px;
-  margin:12px auto 0;
-  color:#b9cade;
-  font-size:14px;
-  line-height:1.6;
-}
-.hlc-family-ecosystem .hlc-family-pathway-explore{
-  display:inline-flex;
-  margin-top:7px;
-  color:var(--fd-cyan);
-  text-decoration:none;
-  font-weight:850;
-  font-size:14px;
-}
-.hlc-family-ecosystem .hlc-board-pathway-inner{
-  width:min(1440px,calc(100% - 56px));
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:12px;
-}
-.hlc-family-ecosystem .hlc-board-pathway{
-  min-height:420px;
-  border-radius:8px;
-  border:1px solid rgba(155,195,235,.28);
-  background-position:center;
-  box-shadow:0 22px 54px rgba(0,0,0,.32);
-}
-.hlc-family-ecosystem .hlc-board-pathway:after{
-  background:linear-gradient(180deg,rgba(1,9,20,.03) 8%,rgba(2,12,25,.12) 38%,rgba(3,15,30,.97) 82%,#06172b 100%);
-}
-.hlc-family-ecosystem .hlc-board-pathway:before{
-  content:"";
-  position:absolute;
-  z-index:3;
-  left:10px;
-  bottom:12px;
-  width:6px;
-  height:132px;
-  border-radius:999px;
-  background:var(--fd-accent);
-  box-shadow:0 0 22px color-mix(in srgb,var(--fd-accent) 45%,transparent);
-}
+.hlc-family-ecosystem .hlc-family-pathway-subtitle{margin:14px auto 0;color:#edf5fc;font-size:clamp(15px,1.25vw,19px);line-height:1.5}
+.hlc-family-ecosystem .hlc-family-pathway-copy{max-width:920px;margin:12px auto 0;color:#b9cade;font-size:14px;line-height:1.6}
+.hlc-family-ecosystem .hlc-family-pathway-explore{display:inline-flex;margin-top:7px;color:var(--fd-cyan);text-decoration:none;font-weight:850;font-size:14px}
+.hlc-family-ecosystem .hlc-board-pathway-inner{width:min(1440px,calc(100% - 56px));grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.hlc-family-ecosystem .hlc-board-pathway{min-height:420px;border-radius:8px;border:1px solid rgba(155,195,235,.28);background-position:center;box-shadow:0 22px 54px rgba(0,0,0,.32)}
+.hlc-family-ecosystem .hlc-board-pathway:after{background:linear-gradient(180deg,rgba(1,9,20,.03) 8%,rgba(2,12,25,.12) 38%,rgba(3,15,30,.97) 82%,#06172b 100%)}
+.hlc-family-ecosystem .hlc-board-pathway:before{content:"";position:absolute;z-index:3;left:10px;bottom:12px;width:6px;height:132px;border-radius:999px;background:var(--fd-accent);box-shadow:0 0 22px color-mix(in srgb,var(--fd-accent) 45%,transparent)}
 .hlc-family-ecosystem .hlc-board-pathway--resident{--fd-accent:var(--fd-resident);background-image:url('/hlc-frontdoor-people-first.webp')}
 .hlc-family-ecosystem .hlc-board-pathway--professional{--fd-accent:var(--fd-professional);background-image:url('/hlc-frontdoor-professional.webp')}
 .hlc-family-ecosystem .hlc-board-pathway--partner{--fd-accent:var(--fd-partner);background-image:url('/hlc-frontdoor-resident-hero-v2.webp');background-position:68% center}
 .hlc-family-ecosystem .hlc-board-pathway--community{--fd-accent:var(--fd-community);background-image:url('/hlc-frontdoor-resident-hero-final.jpg');background-position:34% center}
 .hlc-family-ecosystem .hlc-board-pathway-content{inset:auto 30px 25px 34px;padding-right:0}
-.hlc-family-ecosystem .hlc-family-pathway-icon{
-  width:48px;height:48px;margin-bottom:10px;border:2px solid var(--fd-accent);border-radius:50%;
-  display:grid;place-items:center;color:var(--fd-accent);background:rgba(3,17,32,.72);font-size:22px;font-weight:900;
-  box-shadow:0 8px 24px rgba(0,0,0,.22);
-}
-.hlc-family-ecosystem .hlc-board-pathway-label{
-  margin:0 0 6px;
-  font-family:Georgia,"Times New Roman",serif;
-  font-size:clamp(26px,2.25vw,38px);
-  font-weight:700;
-  line-height:.98;
-  letter-spacing:-.035em;
-}
+.hlc-family-ecosystem .hlc-family-pathway-icon{width:48px;height:48px;margin-bottom:10px;border:2px solid var(--fd-accent);border-radius:50%;display:grid;place-items:center;color:var(--fd-accent);background:rgba(3,17,32,.72);font-size:22px;font-weight:900;box-shadow:0 8px 24px rgba(0,0,0,.22)}
+.hlc-family-ecosystem .hlc-board-pathway-label{margin:0 0 6px;font-family:Georgia,"Times New Roman",serif;font-size:clamp(26px,2.25vw,38px);font-weight:700;line-height:.98;letter-spacing:-.035em}
 .hlc-family-ecosystem .hlc-board-pathway-copy{max-width:290px;font-size:14px;line-height:1.48;color:#eef5fc}
-.hlc-family-ecosystem .hlc-family-pathway-link{
-  display:inline-flex;margin-top:14px;color:var(--fd-accent);font-size:14px;font-weight:850;text-decoration:none;
-}
+.hlc-family-ecosystem .hlc-family-pathway-link{display:inline-flex;margin-top:14px;color:var(--fd-accent);font-size:14px;font-weight:850;text-decoration:none}
 .hlc-family-ecosystem .hlc-board-pathway-arrow{display:none}
 
-/* Vision continuation — structure is locked; city media intentionally neutral until a verified Harrisburg asset is approved. */
-.hlc-family-ecosystem .hlc-family-vision{
-  position:relative;
-  min-height:330px;
-  padding:54px 0 66px;
-  overflow:hidden;
-  background:
-    radial-gradient(circle at 78% 80%,rgba(26,116,210,.19),transparent 33%),
-    linear-gradient(100deg,#031326 0%,#061a31 55%,#0b2945 100%);
-  border-top:1px solid rgba(135,181,224,.14);
-}
-.hlc-family-ecosystem .hlc-family-vision:after{
-  content:"";position:absolute;right:-8%;bottom:-45%;width:62%;height:110%;border-radius:50%;border-top:1px solid rgba(55,177,255,.32);transform:rotate(-7deg);
-}
+/* Vision continuation. City media remains deliberately neutral until a verified Harrisburg asset is approved. */
+.hlc-family-ecosystem .hlc-family-vision{position:relative;min-height:330px;padding:54px 0 66px;overflow:hidden;background:radial-gradient(circle at 78% 80%,rgba(26,116,210,.19),transparent 33%),linear-gradient(100deg,#031326 0%,#061a31 55%,#0b2945 100%);border-top:1px solid rgba(135,181,224,.14)}
+.hlc-family-ecosystem .hlc-family-vision:after{content:"";position:absolute;right:-8%;bottom:-45%;width:62%;height:110%;border-radius:50%;border-top:1px solid rgba(55,177,255,.32);transform:rotate(-7deg)}
 .hlc-family-ecosystem .hlc-family-vision-inner{position:relative;z-index:2;width:min(1440px,calc(100% - 56px));margin:auto;display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:end}
 .hlc-family-ecosystem .hlc-family-vision-kicker{margin:0 0 12px;color:var(--fd-cyan);font-size:12px;font-weight:850;letter-spacing:.26em;text-transform:uppercase}
 .hlc-family-ecosystem .hlc-family-vision h2{margin:0;max-width:700px;font-family:Georgia,"Times New Roman",serif;font-size:clamp(46px,5vw,76px);line-height:.96;letter-spacing:-.045em;color:#fff}
@@ -173,32 +75,27 @@
 .hlc-family-ecosystem .hlc-family-vision-note{justify-self:end;max-width:390px;color:#c8d8e8;font-size:15px;line-height:1.7}
 .hlc-family-ecosystem .hlc-family-vision-note:before{content:"";display:block;width:38px;height:2px;margin-bottom:18px;background:var(--fd-cyan)}
 
-/* Keep the rest of the legacy homepage below this initial redesign milestone out of view.
-   It remains in source for now and can be migrated section-by-section without deleting working content. */
-.hlc-family-ecosystem .hlc-board-worlds,
-.hlc-family-ecosystem .hlc-board-identity{display:none}
+/* Entry choices */
+.hlc-family-ecosystem .hlc-family-entry{padding:70px 0 78px;background:linear-gradient(180deg,#071a30 0%,#041326 100%);border-top:1px solid rgba(133,181,225,.12)}
+.hlc-family-ecosystem .hlc-family-entry-inner{width:min(1440px,calc(100% - 56px));margin:auto;display:grid;grid-template-columns:.8fr 1.2fr;gap:52px;align-items:center}
+.hlc-family-ecosystem .hlc-family-entry h2{margin:0;max-width:560px;font-family:Georgia,"Times New Roman",serif;font-size:clamp(38px,4vw,62px);line-height:1;letter-spacing:-.04em;color:#fff}
+.hlc-family-ecosystem .hlc-family-entry-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.hlc-family-ecosystem .hlc-family-entry-actions a{display:flex;align-items:center;justify-content:space-between;min-height:72px;padding:0 20px;border:1px solid rgba(145,191,233,.25);border-radius:8px;background:linear-gradient(145deg,rgba(11,37,65,.86),rgba(6,24,45,.86));color:#eef7ff;text-decoration:none;font-weight:800;box-shadow:0 14px 34px rgba(0,0,0,.18)}
+.hlc-family-ecosystem .hlc-family-entry-actions a:after{content:"→";color:var(--fd-cyan);font-size:18px}
 
 @media(max-width:1050px){
-  .hlc-family-ecosystem .hlc-board-pathway-inner{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .hlc-family-ecosystem .hlc-board-pathway{min-height:390px}
-  .hlc-family-ecosystem .hlc-family-vision-inner{grid-template-columns:1fr;gap:28px}
-  .hlc-family-ecosystem .hlc-family-vision-note{justify-self:start}
+  .hlc-family-ecosystem .hlc-family-hero-inner{grid-template-columns:1fr}.hlc-family-ecosystem .hlc-family-hero-note{justify-self:start;align-self:auto;margin:0}
+  .hlc-family-ecosystem .hlc-board-pathway-inner{grid-template-columns:repeat(2,minmax(0,1fr))}.hlc-family-ecosystem .hlc-board-pathway{min-height:390px}
+  .hlc-family-ecosystem .hlc-family-vision-inner{grid-template-columns:1fr;gap:28px}.hlc-family-ecosystem .hlc-family-vision-note{justify-self:start}
+  .hlc-family-ecosystem .hlc-family-entry-inner{grid-template-columns:1fr}
 }
 @media(max-width:680px){
-  .hlc-family-ecosystem .hlc-board-nav-inner{width:calc(100% - 28px);min-height:66px}
-  .hlc-family-ecosystem .hlc-board-brand img{width:160px}
-  .hlc-family-ecosystem .hlc-board-pathway-band{padding:30px 0 38px}
-  .hlc-family-ecosystem .hlc-board-pathway-heading{width:calc(100% - 28px);text-align:left;margin-bottom:22px}
-  .hlc-family-ecosystem .hlc-board-pathway-heading h2{font-size:48px}
-  .hlc-family-ecosystem .hlc-family-pathway-subtitle{font-size:15px}
-  .hlc-family-ecosystem .hlc-family-pathway-copy{font-size:13px;margin-top:8px}
-  .hlc-family-ecosystem .hlc-board-pathway-inner{width:calc(100% - 28px);grid-template-columns:1fr;gap:14px}
-  .hlc-family-ecosystem .hlc-board-pathway{min-height:420px;border-radius:9px}
-  .hlc-family-ecosystem .hlc-board-pathway-content{inset:auto 26px 24px 32px}
-  .hlc-family-ecosystem .hlc-board-pathway-label{font-size:34px}
-  .hlc-family-ecosystem .hlc-board-pathway-copy{font-size:14px}
-  .hlc-family-ecosystem .hlc-family-vision{min-height:360px;padding:48px 0 58px}
-  .hlc-family-ecosystem .hlc-family-vision-inner{width:calc(100% - 28px)}
-  .hlc-family-ecosystem .hlc-family-vision h2{font-size:49px}
-  .hlc-family-ecosystem .hlc-family-vision-note{font-size:14px}
+  .hlc-family-ecosystem .hlc-board-nav-inner{width:calc(100% - 28px);min-height:66px}.hlc-family-ecosystem .hlc-board-brand img{width:160px}
+  .hlc-family-ecosystem .hlc-family-hero{min-height:690px}.hlc-family-ecosystem .hlc-family-hero-media{object-position:62% center}.hlc-family-ecosystem .hlc-family-hero:before{background:linear-gradient(180deg,rgba(2,11,24,.46) 0%,rgba(2,11,24,.72) 38%,rgba(2,11,24,.98) 78%,#041326 100%)}
+  .hlc-family-ecosystem .hlc-family-hero-inner{width:calc(100% - 28px);min-height:690px;padding:64px 0 48px;align-content:end}.hlc-family-ecosystem .hlc-family-hero h1{font-size:clamp(52px,14vw,72px)}
+  .hlc-family-ecosystem .hlc-family-hero-copy>p:not(.hlc-family-kicker){font-size:16px}.hlc-family-ecosystem .hlc-family-hero-actions{flex-direction:column;align-items:stretch}.hlc-family-ecosystem .hlc-family-hero-actions a{width:100%;justify-content:center}.hlc-family-ecosystem .hlc-family-hero-note{display:none}
+  .hlc-family-ecosystem .hlc-board-pathway-band{padding:30px 0 38px}.hlc-family-ecosystem .hlc-board-pathway-heading{width:calc(100% - 28px);text-align:left;margin-bottom:22px}.hlc-family-ecosystem .hlc-board-pathway-heading h2{font-size:48px}.hlc-family-ecosystem .hlc-family-pathway-subtitle{font-size:15px}.hlc-family-ecosystem .hlc-family-pathway-copy{font-size:13px;margin-top:8px}
+  .hlc-family-ecosystem .hlc-board-pathway-inner{width:calc(100% - 28px);grid-template-columns:1fr;gap:14px}.hlc-family-ecosystem .hlc-board-pathway{min-height:420px;border-radius:9px}.hlc-family-ecosystem .hlc-board-pathway-content{inset:auto 26px 24px 32px}.hlc-family-ecosystem .hlc-board-pathway-label{font-size:34px}.hlc-family-ecosystem .hlc-board-pathway-copy{font-size:14px}
+  .hlc-family-ecosystem .hlc-family-vision{min-height:360px;padding:48px 0 58px}.hlc-family-ecosystem .hlc-family-vision-inner{width:calc(100% - 28px)}.hlc-family-ecosystem .hlc-family-vision h2{font-size:49px}.hlc-family-ecosystem .hlc-family-vision-note{font-size:14px}
+  .hlc-family-ecosystem .hlc-family-entry{padding:54px 0}.hlc-family-ecosystem .hlc-family-entry-inner{width:calc(100% - 28px);gap:26px}.hlc-family-ecosystem .hlc-family-entry-actions{grid-template-columns:1fr}.hlc-family-ecosystem .hlc-family-entry-actions a{min-height:62px}
 }
