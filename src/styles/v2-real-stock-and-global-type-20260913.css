@@ -30,14 +30,17 @@
 .hlc-v2-card--professional .hlc-v2-card-media{object-position:center 28%!important}
 .hlc-v2-card--partner .hlc-v2-card-media{object-position:center 38%!important}
 .hlc-v2-card--community .hlc-v2-card-media{object-position:center 54%!important}
-.hlc-v2-vision-image{object-position:center 54%!important}
 .hlc-v2-card--partner,
-.hlc-v2-card--community,
-.hlc-v2-vision-media{background-image:none!important;background-color:#071426!important}
+.hlc-v2-card--community{background-image:none!important;background-color:#071426!important}
 
-/* Verified Harrisburg city image: CC0 photograph of downtown Harrisburg from City Island. */
+/* Verified horizontal Harrisburg skyline: downtown and Pennsylvania State Capitol visible. */
+.hlc-v2-vision-media{background-image:none!important;background-color:#071426!important;overflow:hidden!important;aspect-ratio:3 / 2!important}
 .hlc-v2-vision-image{
-  content:url("https://commons.wikimedia.org/wiki/Special:FilePath/Harrisburg%20as%20seen%20from%20City%20Island.jpg?width=2400")!important;
+  content:url("https://commons.wikimedia.org/wiki/Special:FilePath/Harrisburg%2C%20Pennsylvania%20State%20Capitol%20Building.jpg?width=2400")!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:cover!important;
+  object-position:center 52%!important;
 }
 
 /* Keep the pathway typography deliberate and readable over photography. */
@@ -61,5 +64,6 @@
   .hlc-v2-card--professional .hlc-v2-card-media{object-position:center 25%!important}
   .hlc-v2-card--partner .hlc-v2-card-media{object-position:center 34%!important}
   .hlc-v2-card--community .hlc-v2-card-media{object-position:center 52%!important}
-  .hlc-v2-vision-image{object-position:center 54%!important}
+  .hlc-v2-vision-media{aspect-ratio:4 / 3!important}
+  .hlc-v2-vision-image{object-position:center 50%!important}
 }
