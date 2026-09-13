@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Harrisburg skyline across the Susquehanna River</title>
+  <desc id="desc">A stylized Harrisburg, Pennsylvania skyline with the Pennsylvania State Capitol dome, river, and arched bridge.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#87b8e7"/>
+      <stop offset="0.48" stop-color="#d6e8f6"/>
+      <stop offset="1" stop-color="#f6d1a8"/>
+    </linearGradient>
+    <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#376386"/>
+      <stop offset="1" stop-color="#0d253b"/>
+    </linearGradient>
+    <linearGradient id="city" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#38536a"/>
+      <stop offset="1" stop-color="#17283a"/>
+    </linearGradient>
+    <filter id="soft"><feGaussianBlur stdDeviation="10"/></filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <ellipse cx="1260" cy="190" rx="170" ry="70" fill="#fff" opacity=".22" filter="url(#soft)"/>
+  <path d="M0 520 C180 490 300 500 430 486 C570 470 700 490 850 475 C1030 458 1200 482 1600 450 L1600 650 L0 650Z" fill="#203b4d" opacity=".85"/>
+  <g fill="url(#city)">
+    <rect x="160" y="405" width="68" height="125" rx="2"/>
+    <rect x="240" y="430" width="54" height="100"/>
+    <rect x="310" y="390" width="92" height="140"/>
+    <rect x="425" y="420" width="78" height="110"/>
+    <rect x="520" y="360" width="112" height="170"/>
+    <rect x="650" y="398" width="90" height="132"/>
+    <rect x="760" y="372" width="106" height="158"/>
+    <rect x="885" y="330" width="74" height="200"/>
+    <rect x="980" y="392" width="116" height="138"/>
+    <rect x="1120" y="350" width="90" height="180"/>
+    <rect x="1230" y="390" width="118" height="140"/>
+    <rect x="1372" y="365" width="74" height="165"/>
+  </g>
+  <g transform="translate(575 0)">
+    <rect x="0" y="405" width="92" height="125" fill="#2c465d"/>
+    <rect x="17" y="375" width="58" height="32" fill="#36566e"/>
+    <path d="M46 300 C22 320 16 346 20 375 H72 C76 346 70 320 46 300Z" fill="#6f9c7f"/>
+    <rect x="42" y="284" width="8" height="20" fill="#456c58"/>
+    <circle cx="46" cy="281" r="5" fill="#456c58"/>
+  </g>
+  <g opacity=".8" fill="#e5e3c8">
+    <rect x="332" y="412" width="8" height="10"/><rect x="354" y="412" width="8" height="10"/><rect x="376" y="412" width="8" height="10"/>
+    <rect x="542" y="386" width="9" height="11"/><rect x="568" y="386" width="9" height="11"/><rect x="594" y="386" width="9" height="11"/>
+    <rect x="902" y="350" width="9" height="12"/><rect x="928" y="350" width="9" height="12"/>
+    <rect x="1140" y="372" width="9" height="12"/><rect x="1165" y="372" width="9" height="12"/>
+  </g>
+  <rect y="530" width="1600" height="370" fill="url(#water)"/>
+  <g transform="translate(0 540)">
+    <path d="M0 64 H1600 V94 H0Z" fill="#c8c3b5"/>
+    <path d="M0 64 C55 16 110 16 165 64 C220 16 275 16 330 64 C385 16 440 16 495 64 C550 16 605 16 660 64 C715 16 770 16 825 64 C880 16 935 16 990 64 C1045 16 1100 16 1155 64 C1210 16 1265 16 1320 64 C1375 16 1430 16 1485 64 L1600 64 V94 H0Z" fill="#d6d0c0"/>
+    <path d="M28 64 C72 31 112 31 154 64 C196 31 238 31 280 64 C322 31 364 31 406 64 C448 31 490 31 532 64 C574 31 616 31 658 64 C700 31 742 31 784 64 C826 31 868 31 910 64 C952 31 994 31 1036 64 C1078 31 1120 31 1162 64 C1204 31 1246 31 1288 64 C1330 31 1372 31 1414 64 C1456 31 1498 31 1540 64" fill="none" stroke="#6f756f" stroke-width="12"/>
+  </g>
+  <g opacity=".22" transform="translate(0 710) scale(1 -0.42)">
+    <rect x="160" y="0" width="68" height="125" fill="#8fb2c9"/><rect x="310" y="0" width="92" height="140" fill="#8fb2c9"/><rect x="520" y="0" width="112" height="170" fill="#8fb2c9"/><rect x="885" y="0" width="74" height="200" fill="#8fb2c9"/><rect x="1120" y="0" width="90" height="180" fill="#8fb2c9"/>
+  </g>
+</svg>
