@@ -38,20 +38,81 @@
   box-shadow:0 12px 32px rgba(32,176,244,.22);
 }
 
-/* Family hero: use the approved photo as cover media without distorting the image element.
-   The original image stays preloaded for first-paint performance but is not rendered as a stretched <img>. */
+/* Family hero: use the approved photo as cover media without distorting the image element. */
 .hlc-family-ecosystem .hlc-family-hero{
+  position:relative;
+  min-height:560px;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
   background:
-    linear-gradient(90deg,rgba(2,10,22,.96),rgba(3,17,34,.78) 42%,rgba(4,19,38,.25) 72%,rgba(4,19,38,.1)),
-    url('/hlc-frontdoor-resident-hero-v2.webp') center/cover no-repeat,
+    linear-gradient(90deg,rgba(2,10,22,.88),rgba(3,17,34,.62) 46%,rgba(4,19,38,.20) 76%,rgba(4,19,38,.06)),
+    url('/hlc-frontdoor-resident-hero-v2.webp') 62% center/cover no-repeat,
     #06172b;
+  border-bottom:1px solid rgba(126,177,228,.12);
+}
+.hlc-family-ecosystem .hlc-family-hero:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(180deg,rgba(2,10,22,.08),transparent 55%,rgba(4,19,38,.38) 100%);
 }
 .hlc-family-ecosystem .hlc-family-hero-media{display:none!important}
-.hlc-family-ecosystem .hlc-family-hero-copy h1{color:#fff!important}
+.hlc-family-ecosystem .hlc-family-hero-inner{
+  position:relative;
+  z-index:2;
+  width:min(1440px,calc(100% - 56px));
+  margin:0 auto;
+  padding:92px 0 88px;
+  display:block;
+}
+.hlc-family-ecosystem .hlc-family-hero-copy{max-width:820px}
+.hlc-family-ecosystem .hlc-family-hero-copy .hlc-family-kicker{
+  margin:0 0 16px;
+  color:#dcecff;
+  font-size:12px;
+  font-weight:900;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+}
+.hlc-family-ecosystem .hlc-family-hero-copy h1{
+  max-width:820px;
+  margin:0;
+  color:#fff!important;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:clamp(58px,6.1vw,92px);
+  font-weight:700;
+  line-height:.96;
+  letter-spacing:-.048em;
+}
 .hlc-family-ecosystem .hlc-family-hero-copy h1 span{color:#42b7ff!important}
+.hlc-family-ecosystem .hlc-family-hero-copy>p:not(.hlc-family-kicker){
+  max-width:700px;
+  margin:24px 0 0;
+  color:#e1ebf5;
+  font-size:clamp(16px,1.45vw,20px);
+  line-height:1.62;
+}
+.hlc-family-ecosystem .hlc-family-hero-actions{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:18px;
+  margin-top:30px;
+}
+.hlc-family-ecosystem .hlc-family-secondary{
+  display:inline-flex;
+  min-height:44px;
+  align-items:center;
+  color:#eef7ff;
+  font-size:14px;
+  font-weight:850;
+  text-decoration:none;
+}
+.hlc-family-ecosystem .hlc-family-hero-note{display:none!important}
 
-/* Hide the old hero/app-panel during the Family/Ecosystem homepage build.
-   Routes and destination logic remain intact; this is presentation only. */
+/* Hide the old hero/app-panel during the Family/Ecosystem homepage build. */
 .hlc-family-ecosystem .hlc-board-hero{display:none}
 
 /* Four Pathways — visual authority */
@@ -142,7 +203,7 @@
 }
 .hlc-family-ecosystem .hlc-board-pathway--resident{--fd-accent:var(--fd-resident);background-image:url('/hlc-frontdoor-people-first.webp')}
 .hlc-family-ecosystem .hlc-board-pathway--professional{--fd-accent:var(--fd-professional);background-image:url('/hlc-frontdoor-professional.webp')}
-.hlc-family-ecosystem .hlc-board-pathway--partner{--fd-accent:var(--fd-partner);background-image:url('/hlc-frontdoor-resident-hero-v2.webp');background-position:68% center}
+.hlc-family-ecosystem .hlc-board-pathway--partner{--fd-accent:var(--fd-partner);background-image:url('/hlc-frontdoor-resident-hero-v2.webp');background-position:32% center}
 .hlc-family-ecosystem .hlc-board-pathway--community{--fd-accent:var(--fd-community);background-image:url('/hlc-frontdoor-resident-hero-final.jpg');background-position:34% center}
 .hlc-family-ecosystem .hlc-board-pathway-content{inset:auto 30px 25px 34px;padding-right:0}
 .hlc-family-ecosystem .hlc-family-pathway-icon{
@@ -195,12 +256,14 @@
 }
 .hlc-family-ecosystem .hlc-family-pricing-note{margin:14px 0 0;color:#9fb5cd;font-size:12px;line-height:1.5}
 
-/* Keep the rest of the legacy homepage below this initial redesign milestone out of view.
-   It remains in source for now and can be migrated section-by-section without deleting working content. */
+/* Keep the rest of the legacy homepage below this initial redesign milestone out of view. */
 .hlc-family-ecosystem .hlc-board-worlds,
 .hlc-family-ecosystem .hlc-board-identity{display:none}
 
 @media(max-width:1050px){
+  .hlc-family-ecosystem .hlc-family-hero{min-height:520px;background-position:66% center}
+  .hlc-family-ecosystem .hlc-family-hero-inner{padding:78px 0 74px}
+  .hlc-family-ecosystem .hlc-family-hero-copy{max-width:700px}
   .hlc-family-ecosystem .hlc-board-pathway-inner{grid-template-columns:repeat(2,minmax(0,1fr))}
   .hlc-family-ecosystem .hlc-board-pathway{min-height:390px}
   .hlc-family-ecosystem .hlc-family-vision-inner{grid-template-columns:1fr;gap:28px}
@@ -209,6 +272,13 @@
 @media(max-width:680px){
   .hlc-family-ecosystem .hlc-board-nav-inner{width:calc(100% - 28px);min-height:66px}
   .hlc-family-ecosystem .hlc-board-brand img{width:160px}
+  .hlc-family-ecosystem .hlc-family-hero{min-height:620px;background-position:64% center}
+  .hlc-family-ecosystem .hlc-family-hero-inner{width:calc(100% - 28px);padding:72px 0 66px}
+  .hlc-family-ecosystem .hlc-family-hero-copy h1{font-size:clamp(48px,13vw,64px)}
+  .hlc-family-ecosystem .hlc-family-hero-copy>p:not(.hlc-family-kicker){font-size:16px;margin-top:20px}
+  .hlc-family-ecosystem .hlc-family-hero-actions{align-items:stretch;flex-direction:column;gap:10px;margin-top:24px}
+  .hlc-family-ecosystem .hlc-family-hero-actions .hlc-board-cta,
+  .hlc-family-ecosystem .hlc-family-secondary{width:100%;justify-content:center}
   .hlc-family-ecosystem .hlc-board-pathway-band{padding:30px 0 38px}
   .hlc-family-ecosystem .hlc-board-pathway-heading{width:calc(100% - 28px);text-align:left;margin-bottom:22px}
   .hlc-family-ecosystem .hlc-board-pathway-heading h2{font-size:48px}
