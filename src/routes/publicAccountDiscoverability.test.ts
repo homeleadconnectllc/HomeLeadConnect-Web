@@ -14,7 +14,8 @@ test("canonical public root exposes Family/Ecosystem account-access entry points
 
 test("parser-seeded public shell preserves the Family/Ecosystem first-paint contract", () => {
   assert.match(index, /class="hlc-v2-home hlc-v2-parser-seed"/);
-  assert.match(index, /src="\/hlc-logo-public\.webp"/);
+  assert.match(index, /src="\/hlc-logo-transparent\.png"/);
+  assert.doesNotMatch(index, /\/hlc-icon\.jpeg/);
   assert.doesNotMatch(index, /<img[^>]+src="\/hlc-logo-ui\.png"/);
   assert.match(index, /href="https:\/\/app\.homeleadconnect\.org\/request-service"[^>]*>Request Service<\/a>/);
   assert.match(index, /hlc-frontdoor-resident-hero-v2\.webp/);
