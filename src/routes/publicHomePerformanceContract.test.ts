@@ -29,10 +29,8 @@ test("public home renders without paying React startup cost", () => {
   assert.match(main, /https:\/\/app\.homeleadconnect\.org\/professional-application/);
 });
 
-test("no-React public root keeps the canonical mark with a compact responsive derivative", () => {
-  assert.match(main, /src="\/hlc-logo-transparent\.png"/);
-  assert.match(main, /srcset="\/hlc-logo-ui\.png 180w/);
-  assert.match(main, /sizes="58px"/);
+test("no-React public root uses the compact circular HomeLead Connect derivative", () => {
+  assert.match(main, /src="\/hlc-logo-ui\.png"/);
   assert.doesNotMatch(main, /\/hlc-icon\.jpeg/);
   assert.doesNotMatch(main, /src="\/hlc-logo-public\.webp"/);
   assert.match(main, /class="hlc-board-home hlc-v2-home hlc-family-ecosystem"/);
@@ -42,10 +40,9 @@ test("no-React public root keeps the canonical mark with a compact responsive de
   assert.match(main, /Different experiences\. Same mission\. One connected ecosystem\./);
 });
 
-test("parser-seeded public hero preserves optimized responsive first-paint branding", () => {
-  assert.match(indexHtml, /src="\/hlc-logo-transparent\.png"/);
-  assert.match(indexHtml, /srcset="\/hlc-logo-ui\.png 180w/);
-  assert.match(indexHtml, /sizes="52px"/);
+test("parser-seeded public hero preserves optimized compact first-paint branding", () => {
+  assert.match(indexHtml, /rel="icon" type="image\/png" href="\/hlc-logo-transparent\.png"/);
+  assert.match(indexHtml, /src="\/hlc-logo-ui\.png"/);
   assert.match(indexHtml, /width="52" height="52"/);
   assert.doesNotMatch(indexHtml, /\/hlc-icon\.jpeg/);
   assert.doesNotMatch(indexHtml, /src="\/hlc-logo-public\.webp"/);
