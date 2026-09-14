@@ -1,0 +1,76 @@
+name: HLC Brand Asset Bootstrap
+
+on:
+  push:
+    branches:
+      - sprint/master-logo-rollout-20260914
+
+permissions:
+  contents: write
+
+jobs:
+  install-approved-master:
+    if: "!contains(github.event.head_commit.message, '[brand-asset-bootstrap]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: sprint/master-logo-rollout-20260914
+          fetch-depth: 0
+
+      - name: Fetch locked approved master source
+        run: |
+          set -euo pipefail
+          mkdir -p public/brand
+          curl --fail --location --silent --show-error \
+            'https://cdn.creativeclaw.co/u/5eda3385/images/466945f6-741c-439d-8dc9-9744f02ba2e6.png' \
+            --output public/brand/homelead-connect-master-source.png
+          identify public/brand/homelead-connect-master-source.png
+          test "$(identify -format '%wx%h' public/brand/homelead-connect-master-source.png)" = "1254x1254"
+
+      - name: Derive transparent production master without altering RGB artwork
+        run: |
+          set -euo pipefail
+          convert public/brand/homelead-connect-master-source.png \
+            \( -size 1254x1254 xc:none -fill white -draw 'circle 626.5,626.5 1247.5,626.5' \) \
+            -alpha off -compose CopyOpacity -composite \
+            public/brand/homelead-connect-master-transparent.png
+          test "$(identify -format '%wx%h' public/brand/homelead-connect-master-transparent.png)" = "1254x1254"
+          test "$(identify -format '%[channels]' public/brand/homelead-connect-master-transparent.png)" != "srgb"
+
+      - name: Install PNG compatibility derivatives
+        run: |
+          set -euo pipefail
+          cp public/brand/homelead-connect-master-transparent.png public/hlc-logo-transparent.png
+          cp public/brand/homelead-connect-master-transparent.png public/hlc-logo-ui.png
+
+      - name: Repoint public logo references to canonical transparent master
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          for name in ("src/components/PublicSiteNav.tsx", "index.html"):
+              p = Path(name)
+              text = p.read_text()
+              text2 = text.replace("/hlc-logo-public.webp", "/brand/homelead-connect-master-transparent.png")
+              if text2 == text:
+                  raise SystemExit(f"Expected public logo reference not found in {name}")
+              p.write_text(text2)
+          PY
+
+      - name: Commit branding-only rollout assets
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            public/brand/homelead-connect-master-source.png \
+            public/brand/homelead-connect-master-transparent.png \
+            public/hlc-logo-transparent.png \
+            public/hlc-logo-ui.png \
+            src/components/PublicSiteNav.tsx \
+            index.html
+          git diff --cached --stat
+          git diff --cached --name-only
+          git commit -m "Brand: install approved master logo [brand-asset-bootstrap]"
+          git push origin HEAD:sprint/master-logo-rollout-20260914
