@@ -1,0 +1,40 @@
+name: Temporary Partner Asset Import
+
+on:
+  push:
+    branches:
+      - fix/public-home-runtime-authority-20260914
+
+permissions:
+  contents: write
+
+jobs:
+  import-partner-asset:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: fix/public-home-runtime-authority-20260914
+
+      - name: Download exact approved Partner JPEG
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -L --fail --silent --show-error \
+            'https://images.pexels.com/photos/9430884/pexels-photo-9430884.jpeg?cs=srgb&dl=pexels-gabby-k-9430884.jpg&fm=jpg&utm_source=chatgpt.com' \
+            -o public/hlc-frontdoor-partner-9430884.jpg
+          actual="$(sha256sum public/hlc-frontdoor-partner-9430884.jpg | awk '{print $1}')"
+          expected='13fed47cd3ed25d1230515f8642f2ff80d1a1ba9a1b87ed99c57888a2b056543'
+          test "$actual" = "$expected"
+
+      - name: Commit exact asset to candidate branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/hlc-frontdoor-partner-9430884.jpg
+          git commit -m 'fix: add approved Partner pathway photo'
+          git push origin HEAD:fix/public-home-runtime-authority-20260914
