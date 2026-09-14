@@ -6,6 +6,18 @@ html body #root .hlc-app-shell.hlc-public-shell.hlc-auth-front-door-surface > .h
   color: #f7fbff !important;
 }
 
+/* Login-only Harrisburg visual authority. The repeated root selector is intentional:
+   it outranks the later inline login shell shorthand without altering auth behavior. */
+html body #root#root#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat {
+  background-image:
+    linear-gradient(180deg, rgba(4, 17, 31, .86), rgba(4, 17, 31, .88) 65%, #06121f),
+    url('/hlc-login-harrisburg-bg.webp') !important;
+  background-position: 0 0, 75% 50% !important;
+  background-size: auto, cover !important;
+  background-repeat: no-repeat !important;
+  background-attachment: scroll, scroll !important;
+}
+
 html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-public-nav {
   background: rgba(2, 8, 18, .96) !important;
   border-bottom: 1px solid rgba(98, 198, 255, .22) !important;
