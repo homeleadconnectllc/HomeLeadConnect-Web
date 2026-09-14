@@ -43,6 +43,7 @@ jobs:
         run: |
           set -euo pipefail
           for url in \
+            https://homeleadconnect.org/ \
             https://app.homeleadconnect.org/ \
             https://app.homeleadconnect.org/login \
             https://app.homeleadconnect.org/dashboard \
@@ -63,8 +64,61 @@ jobs:
             grep -qi '<html' /tmp/hlc-response.html
           done
 
+      - name: Verify deployed entry asset matches exact build
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          local_entry="$(grep -oE 'src="/assets/index-[^"]+\.js"' dist/index.html | head -n 1 | cut -d'"' -f2)"
+          local_css="$(grep -oE 'href="/assets/index-[^"]+\.css"' dist/index.html | head -n 1 | cut -d'"' -f2)"
+
+          test -n "$local_entry"
+          test -n "$local_css"
+          echo "Exact build entry: $local_entry"
+          echo "Exact build CSS:   $local_css"
+
+          verify_host() {
+            host="$1"
+            matched=0
+
+            for attempt in $(seq 1 30); do
+              verify_url="${host}/?hlc_verify=${GITHUB_SHA}&attempt=${attempt}"
+              html="$(curl --fail --silent --show-error --location \
+                --retry 2 --retry-all-errors --retry-delay 2 \
+                --connect-timeout 15 --max-time 45 \
+                -H 'Cache-Control: no-cache' \
+                -H 'Pragma: no-cache' \
+                "$verify_url")"
+
+              if printf '%s' "$html" | grep -Fq "src=\"$local_entry\"" && \
+                 printf '%s' "$html" | grep -Fq "href=\"$local_css\""; then
+                echo "$host serves the exact build entry and CSS."
+                matched=1
+                break
+              fi
+
+              echo "$host has not reached the exact build yet (attempt $attempt/30)."
+              sleep 20
+            done
+
+            if [ "$matched" -ne 1 ]; then
+              echo "$host did not serve the exact build within the verification window."
+              return 1
+            fi
+
+            bundle="$(curl --fail --silent --show-error --location \
+              --connect-timeout 15 --max-time 45 \
+              -H 'Cache-Control: no-cache' \
+              "${host}${local_entry}?hlc_verify=${GITHUB_SHA}")"
+            printf '%s' "$bundle" | grep -Fq '5727801'
+          }
+
+          verify_host "https://homeleadconnect.org"
+          verify_host "https://homeleadconnect-web.pages.dev"
+
       - name: Record production verification target
         run: |
           echo "Verified source SHA: $GITHUB_SHA"
-          echo "Production host: https://app.homeleadconnect.org"
+          echo "Production host: https://homeleadconnect.org"
+          echo "Application host: https://app.homeleadconnect.org"
           echo "Cloudflare Pages project: homeleadconnect-web"
