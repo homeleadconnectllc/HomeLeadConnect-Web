@@ -29,9 +29,10 @@ test("public home renders without paying React startup cost", () => {
   assert.match(main, /https:\/\/app\.homeleadconnect\.org\/professional-application/);
 });
 
-test("no-React public root uses the official full logo with the Family/Ecosystem identity", () => {
-  assert.match(main, /src="\/hlc-logo-public\.webp"/);
-  assert.doesNotMatch(main, /\/hlc-logo-ui\.png/);
+test("no-React public root uses the compact circular HomeLead Connect derivative", () => {
+  assert.match(main, /src="\/hlc-logo-ui\.png"/);
+  assert.doesNotMatch(main, /\/hlc-icon\.jpeg/);
+  assert.doesNotMatch(main, /src="\/hlc-logo-public\.webp"/);
   assert.match(main, /class="hlc-board-home hlc-v2-home hlc-family-ecosystem"/);
   assert.match(main, /Homes\. People\. Opportunity\./);
   assert.match(main, /A stronger community <span>starts at home\.<\/span>/);
@@ -39,10 +40,12 @@ test("no-React public root uses the official full logo with the Family/Ecosystem
   assert.match(main, /Different experiences\. Same mission\. One connected ecosystem\./);
 });
 
-test("parser-seeded public hero preserves the optimized Family/Ecosystem first-paint contract", () => {
-  assert.match(indexHtml, /src="\/hlc-logo-public\.webp"/);
-  assert.match(indexHtml, /width="440" height="142"/);
-  assert.doesNotMatch(indexHtml, /\/hlc-logo-ui\.png/);
+test("parser-seeded public hero preserves optimized compact first-paint branding", () => {
+  assert.match(indexHtml, /rel="icon" type="image\/png" href="\/hlc-logo-transparent\.png"/);
+  assert.match(indexHtml, /src="\/hlc-logo-ui\.png"/);
+  assert.match(indexHtml, /width="52" height="52"/);
+  assert.doesNotMatch(indexHtml, /\/hlc-icon\.jpeg/);
+  assert.doesNotMatch(indexHtml, /src="\/hlc-logo-public\.webp"/);
   assert.match(indexHtml, /hlc-v2-home hlc-v2-parser-seed/);
   assert.match(indexHtml, /Homes\. People\. Opportunity\./);
   assert.match(indexHtml, /A stronger community <span style="color:#42b7ff">starts at home\.<\/span>/);

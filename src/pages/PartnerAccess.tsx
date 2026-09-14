@@ -3,6 +3,9 @@ import PublicSiteNav from "../components/PublicSiteNav";
 import "../styles/public-premium.css";
 import "../styles/public-board-pages-20260912.css";
 
+const PARTNER_PHOTO = "https://images.unsplash.com/photo-1758519288905-38b7b00c1023?auto=format&fit=crop&w=1400&q=82";
+const PARTNER_FALLBACK = "/partners-collaboration.svg";
+
 export default function PartnerAccess(){
   return <main className="hlc-public-page hlc-public-board-page" data-public-page="partners">
     <PublicSiteNav/>
@@ -19,7 +22,16 @@ export default function PartnerAccess(){
         </div>
       </header>
       <figure className="hlc-public-visual" aria-label="HomeLead Connect partner connection">
-        <img src="/hlc-frontdoor-people-first.webp" alt="People connecting around a home-service project" loading="eager" referrerPolicy="no-referrer"/>
+        <img
+          src={PARTNER_PHOTO}
+          alt="Community and business partners connecting in person"
+          loading="lazy"
+          referrerPolicy="no-referrer"
+          onError={(event) => {
+            const image = event.currentTarget;
+            if (!image.src.endsWith(PARTNER_FALLBACK)) image.src = PARTNER_FALLBACK;
+          }}
+        />
       </figure>
       <section className="hlc-public-grid" aria-label="How partner access works">
         <article className="hlc-public-card"><p className="hlc-public-card-label">01 · Relationship</p><h2>Identify the partner relationship.</h2><p>Contact HomeLead Connect and identify the business, organization, or referral relationship.</p></article>

@@ -1,0 +1,85 @@
+/* Final public-front-door visual corrections. Keep mobile-release-fix.css last. */
+
+/* Canonical public/auth logo authority. Never swap back to legacy JPEG artwork. */
+html body #root .hlc-public-site-nav__brand img,
+html body #root .hlc-auth-public-brand img {
+  content:url('/hlc-logo-transparent.png') !important;
+  object-fit:cover !important;
+  border-radius:50% !important;
+  clip-path:circle(50% at 50% 50%) !important;
+  background:transparent !important;
+}
+
+/* Keep headings centered, but keep fields/body copy naturally readable. */
+html body #root .hlc-public-board-page .hlc-public-card,
+html body #root .hlc-board-access-card,
+html body #root .hlc-public-about-page .hlc-about-card {
+  text-align:center !important;
+}
+html body #root .hlc-public-form,
+html body #root .hlc-request-form-card,
+html body #root .hlc-legal-card p,
+html body #root .hlc-legal-card li { text-align:left !important; }
+
+/* Prevent inherited transforms/negative offsets from producing overlaps. */
+html body #root .hlc-public-board-page *,
+html body #root .hlc-public-consistency-page *,
+html body #root .hlc-utility-page *,
+html body #root .hlc-request-service * { translate:none !important; }
+
+/* Secondary informational routes stay typography-led instead of recycling pathway photos.
+   Residents, Professionals and Partners retain their own unique route imagery. */
+html body #root [data-public-page="contractors"] .hlc-public-visual,
+html body #root [data-public-page="community"] .hlc-public-visual,
+html body #root [data-public-page="about"] .hlc-public-visual,
+html body #root [data-public-page="how"] .hlc-public-visual,
+html body #root [data-public-page="leadscope"] .hlc-public-visual,
+html body #root [data-public-page="services"] .hlc-public-visual,
+html body #root [data-public-page="pricing"] .hlc-public-visual,
+html body #root [data-public-page="trust"] .hlc-public-visual,
+html body #root [data-public-page="demo"] .hlc-public-visual {
+  display:none !important;
+}
+html body #root [data-public-page="contractors"] .hlc-public-shell--visual,
+html body #root [data-public-page="community"] .hlc-public-shell--visual,
+html body #root [data-public-page="about"] .hlc-public-shell--visual,
+html body #root [data-public-page="how"] .hlc-public-shell--visual,
+html body #root [data-public-page="leadscope"] .hlc-public-shell--visual,
+html body #root [data-public-page="services"] .hlc-public-shell--visual,
+html body #root [data-public-page="pricing"] .hlc-public-shell--visual,
+html body #root [data-public-page="trust"] .hlc-public-shell--visual,
+html body #root [data-public-page="demo"] .hlc-public-shell--visual {
+  grid-template-columns:1fr !important;
+}
+
+/* AuthShell owns login geometry and the explicit Harrisburg media element.
+   This late stylesheet only prevents legacy card paint from returning. */
+html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat {
+  background:#020a15 !important;
+  background-image:none !important;
+}
+html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card {
+  background:transparent !important;
+  border:0 !important;
+  border-radius:0 !important;
+  box-shadow:none !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+}
+html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card::before,
+html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card::after {display:none !important}
+html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-form-heading {text-align:center !important}
+
+@media(max-width:800px){
+  html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat {
+    background:#020a15 !important;
+    background-image:none !important;
+  }
+  html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-main {
+    padding-top:34vh !important;
+  }
+  html body #root#root#root#root .hlc-app-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card {
+    background:transparent !important;
+    padding:20px 8px 24px !important;
+  }
+}

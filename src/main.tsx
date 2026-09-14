@@ -10,6 +10,7 @@ import "./styles/v2-board-frontdoor-20260912.css";
 import "./styles/v2-board-frontdoor-performance-20260912.css";
 import "./styles/v2-board-rest-polish-20260912.css";
 import "./styles/front-door-family-ecosystem-20260913.css";
+import "./styles/front-door-public-root-reset-20260913.css";
 
 /*
 Authenticated runtime ownership moved to styles/app-shell-entry.ts so the public homepage can stay lightweight.
@@ -37,7 +38,7 @@ function publicHomeMarkup() {
       <header class="hlc-board-nav">
         <div class="hlc-board-nav-inner">
           <a class="hlc-board-brand" href="https://homeleadconnect.org/" aria-label="HomeLead Connect home">
-            <img src="/hlc-logo-public.webp" alt="HomeLead Connect LLC" width="440" height="142" loading="eager" decoding="async" />
+            <img src="/hlc-logo-ui.png" alt="HomeLead Connect LLC" width="64" height="64" loading="eager" decoding="async" />
           </a>
           <nav class="hlc-board-links" aria-label="Primary navigation">
             <a href="/about">About</a>
@@ -48,19 +49,24 @@ function publicHomeMarkup() {
             <a href="/services">Resources</a>
           </nav>
           <div class="hlc-board-actions">
+            <a class="hlc-board-request" href="https://app.homeleadconnect.org/request-service">Request service</a>
             <a class="hlc-board-login" href="https://app.homeleadconnect.org/login">Sign In</a>
-            <a class="hlc-board-cta" href="https://app.homeleadconnect.org/register">Get Started →</a>
+            <a class="hlc-board-register" href="https://app.homeleadconnect.org/register">Get Started →</a>
             <details class="hlc-board-menu">
-              <summary>Menu</summary>
+              <summary><span aria-hidden="true">☰</span><span>Menu</span></summary>
               <div class="hlc-board-menu-panel">
-                <a href="/about">About</a>
-                <a href="/homeowners">For Residents</a>
-                <a href="/professionals">For Professionals</a>
-                <a href="/partners">For Partners</a>
-                <a href="/community">Community</a>
-                <a href="/services">Resources</a>
-                <a href="https://app.homeleadconnect.org/login">Sign In</a>
-                <a href="https://app.homeleadconnect.org/register">Get Started</a>
+                <a class="hlc-board-menu-link hlc-board-menu-link--neutral" href="/how-it-works">How it works</a>
+                <a class="hlc-board-menu-link hlc-board-menu-link--neutral" href="/services">Services</a>
+                <a class="hlc-board-menu-link hlc-board-menu-link--neutral" href="/pricing">Pricing</a>
+                <a class="hlc-board-menu-link hlc-board-menu-link--neutral" href="/about">About HomeLead Connect</a>
+                <a class="hlc-board-menu-link hlc-board-menu-link--neutral" href="/contact">Contact & help</a>
+                <a class="hlc-board-menu-link hlc-board-menu-link--resident" href="/homeowners">For Residents</a>
+                <a class="hlc-board-menu-link hlc-board-menu-link--professional" href="/professionals">For Professionals</a>
+                <a class="hlc-board-menu-link hlc-board-menu-link--partner" href="/partners">For Partners</a>
+                <a class="hlc-board-menu-link hlc-board-menu-link--community" href="/community">Community</a>
+                <a class="hlc-board-menu-link hlc-board-menu-link--neutral" href="https://app.homeleadconnect.org/login">Sign in</a>
+                <a class="hlc-board-menu-link hlc-board-menu-link--neutral" href="https://app.homeleadconnect.org/register">Get Started</a>
+                <a class="hlc-board-menu-link hlc-board-menu-link--resident" href="https://app.homeleadconnect.org/request-service">Request service</a>
               </div>
             </details>
           </div>
@@ -142,11 +148,9 @@ function publicHomeMarkup() {
 
 /* Family/Ecosystem source-contract mirrors retained for launch audits: class="hlc-v2-home" Four Pathways. Different experiences. Same mission. One connected ecosystem. https://app.homeleadconnect.org/login https://app.homeleadconnect.org/register https://app.homeleadconnect.org/request-service. */
 
-/* Keep the static public-home contract symbol reachable for launch audits; it is not rendered on the app host. */
 void publicHomeMarkup;
 
 if (isPublicHome) {
-  /* Public / stays a static first-paint surface; the authenticated React bundle is never booted here. */
   rootElement.innerHTML = publicHomeMarkup();
 } else {
   if ("serviceWorker" in navigator) {

@@ -45,6 +45,8 @@ import "./v1-global-readability-pass-20260910.css";
 import "./workspace-role-identity-20260911.css";
 import "./premium-portal-family-rollout-20260911.css";
 import "./front-door-rollout-20260913.css";
+import "./front-door-visual-reset-20260913.css";
+import "./front-door-visual-reset-final-20260913.css";
 import "./responsive-page-contract.css";
 import "./hlc-brand-lock.css";
 import "./legacy-device-compat.css";

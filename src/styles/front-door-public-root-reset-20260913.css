@@ -1,0 +1,148 @@
+/* Public static root-only correction. */
+.hlc-board-home .hlc-board-nav {
+  position:relative !important;
+  z-index:80 !important;
+  width:100% !important;
+  border-bottom:1px solid rgba(151,187,222,.16) !important;
+  background:#031225 !important;
+  box-shadow:none !important;
+  backdrop-filter:none !important;
+}
+.hlc-board-home .hlc-board-nav-inner {
+  min-height:78px !important;
+  align-items:center !important;
+}
+.hlc-board-home .hlc-board-brand {
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:58px !important;
+  height:58px !important;
+  overflow:hidden !important;
+  border-radius:50% !important;
+  background:#fff !important;
+  box-shadow:0 0 0 1px rgba(255,255,255,.78) !important;
+}
+.hlc-board-home .hlc-board-brand img {
+  content:url('/hlc-logo-ui.png') !important;
+  display:block !important;
+  width:58px !important;
+  height:58px !important;
+  min-width:58px !important;
+  max-width:58px !important;
+  max-height:58px !important;
+  object-fit:cover !important;
+  clip-path:circle(50% at 50% 50%) !important;
+  border-radius:50% !important;
+  transform:none !important;
+}
+.hlc-board-home .hlc-board-request,
+.hlc-board-home .hlc-board-login,
+.hlc-board-home .hlc-board-register {
+  font-size:13px !important;
+  font-weight:800 !important;
+  text-decoration:none !important;
+}
+.hlc-board-home .hlc-board-request { color:#6ce6bb !important; }
+.hlc-board-home .hlc-board-login { color:#edf5fd !important; }
+.hlc-board-home .hlc-board-register {
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  min-height:42px !important;
+  padding:0 16px !important;
+  border-radius:999px !important;
+  background:#edf5fd !important;
+  color:#031225 !important;
+}
+.hlc-board-home .hlc-board-menu { position:static !important; }
+.hlc-board-home .hlc-board-menu > summary {
+  min-height:46px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:9px !important;
+  padding:0 17px !important;
+  border:1px solid rgba(224,237,249,.76) !important;
+  border-radius:999px !important;
+  background:transparent !important;
+  color:#fff !important;
+  box-shadow:none !important;
+  font-size:14px !important;
+  font-weight:900 !important;
+}
+.hlc-board-home .hlc-board-menu-panel {
+  position:absolute !important;
+  z-index:90 !important;
+  left:0 !important;
+  right:0 !important;
+  top:100% !important;
+  width:100% !important;
+  max-height:calc(100dvh - 78px) !important;
+  overflow-y:auto !important;
+  padding:12px max(24px,calc((100% - 760px)/2)) 22px !important;
+  border:0 !important;
+  border-bottom:1px solid rgba(151,187,222,.2) !important;
+  border-radius:0 !important;
+  background:#031225 !important;
+  box-shadow:none !important;
+}
+.hlc-board-home .hlc-board-menu-link {
+  display:flex !important;
+  align-items:center !important;
+  min-height:50px !important;
+  padding:0 4px !important;
+  border:0 !important;
+  border-bottom:1px solid rgba(151,187,222,.1) !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  font-size:16px !important;
+  font-weight:800 !important;
+  line-height:1.25 !important;
+  text-decoration:none !important;
+}
+.hlc-board-home .hlc-board-menu-link:last-child { border-bottom:0 !important; }
+.hlc-board-home .hlc-board-menu-link--neutral { color:#edf5fd !important; }
+.hlc-board-home .hlc-board-menu-link--resident { color:#6ce6bb !important; }
+.hlc-board-home .hlc-board-menu-link--professional { color:#6dd2ff !important; }
+.hlc-board-home .hlc-board-menu-link--partner { color:#ffd36a !important; }
+.hlc-board-home .hlc-board-menu-link--community { color:#c8a0ff !important; }
+
+/* Every visible homepage pathway owns a different lightweight local visual.
+   Destination pages use separate assets, so a user never sees the same picture twice. */
+.hlc-family-ecosystem .hlc-board-pathway--resident {
+  background-image:url('/hlc-frontdoor-resident-hero.webp') !important;
+  background-position:38% center !important;
+}
+.hlc-family-ecosystem .hlc-board-pathway--professional {
+  background-image:url('/hlc-frontdoor-professional.webp') !important;
+  background-position:50% center !important;
+}
+.hlc-family-ecosystem .hlc-board-pathway--partner {
+  background-image:url('/partners-collaboration.svg') !important;
+  background-position:50% center !important;
+}
+.hlc-family-ecosystem .hlc-board-pathway--community {
+  background-image:url('/hlc-frontdoor-people-first.webp') !important;
+  background-position:50% center !important;
+}
+
+@media(max-width:700px){
+  .hlc-board-home .hlc-board-nav-inner { min-height:72px !important; }
+  .hlc-board-home .hlc-board-brand{width:52px !important;height:52px !important}
+  .hlc-board-home .hlc-board-brand img{width:52px !important;height:52px !important;min-width:52px !important;max-width:52px !important;max-height:52px !important}
+  .hlc-board-home .hlc-board-login,
+  .hlc-board-home .hlc-board-register { display:none !important; }
+  .hlc-board-home .hlc-board-request { display:inline-flex !important;font-size:13px !important; }
+  .hlc-board-home .hlc-board-menu > summary { min-height:44px !important;padding-inline:15px !important; }
+  .hlc-board-home .hlc-board-menu-panel {
+    max-height:calc(100dvh - 72px) !important;
+    padding:10px 24px calc(18px + env(safe-area-inset-bottom)) !important;
+  }
+  .hlc-board-home .hlc-board-menu-link { min-height:48px !important;font-size:15px !important; }
+}
+@media(max-width:390px){
+  .hlc-board-home .hlc-board-actions { gap:9px !important; }
+  .hlc-board-home .hlc-board-request { font-size:12px !important; }
+  .hlc-board-home .hlc-board-menu > summary { padding-inline:12px !important;font-size:13px !important; }
+}
