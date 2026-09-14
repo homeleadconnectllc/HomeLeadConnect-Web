@@ -38,6 +38,72 @@ jobs:
           grep -q '"pages_build_output_dir": "./dist"' wrangler.jsonc
           grep -qxF '/* /index.html 200' public/_redirects
 
+      - name: Capture exact production entry assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          entry_js="$(grep -oE 'src="/assets/[^"]+\.js"' dist/index.html | head -n 1 | sed -E 's/^src="|"$//g')"
+          entry_css="$(grep -oE 'href="/assets/[^"]+\.css"' dist/index.html | head -n 1 | sed -E 's/^href="|"$//g')"
+          test -n "$entry_js"
+          test -n "$entry_css"
+          echo "ENTRY_JS=$entry_js" >> "$GITHUB_ENV"
+          echo "ENTRY_CSS=$entry_css" >> "$GITHUB_ENV"
+          echo "Expected entry JS:  $entry_js"
+          echo "Expected entry CSS: $entry_css"
+
+      - name: Wait for exact Pages build on public hosts
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          hosts=(
+            "https://homeleadconnect.org/"
+            "https://homeleadconnect-web.pages.dev/"
+          )
+
+          for host in "${hosts[@]}"; do
+            matched=""
+            for attempt in $(seq 1 30); do
+              cache_buster="hlc_verify=${GITHUB_SHA}-${attempt}"
+              html="$(curl --fail --silent --show-error --location \
+                --retry 3 --retry-all-errors --retry-delay 2 \
+                --connect-timeout 15 --max-time 45 \
+                -H 'Cache-Control: no-cache' \
+                "${host}?${cache_buster}")"
+
+              if grep -Fq "$ENTRY_JS" <<<"$html" && grep -Fq "$ENTRY_CSS" <<<"$html"; then
+                echo "$host serves exact built entry assets: $ENTRY_JS and $ENTRY_CSS"
+                matched="yes"
+                break
+              fi
+
+              echo "Attempt $attempt: $host has not published exact entry assets yet."
+              sleep 10
+            done
+
+            if [ -z "$matched" ]; then
+              echo "$host did not publish the exact build produced from $GITHUB_SHA."
+              exit 1
+            fi
+          done
+
+      - name: Verify public front-door runtime bundle marker
+        shell: bash
+        run: |
+          set -euo pipefail
+          marker='5727801'
+          for host in \
+            https://homeleadconnect.org \
+            https://homeleadconnect-web.pages.dev; do
+            asset_url="${host}${ENTRY_JS}?hlc_verify=${GITHUB_SHA}"
+            echo "Checking runtime marker in $asset_url"
+            curl --fail --silent --show-error --location \
+              --retry 3 --retry-all-errors --retry-delay 2 \
+              --connect-timeout 15 --max-time 45 \
+              -H 'Cache-Control: no-cache' \
+              "$asset_url" | grep -Fq "$marker"
+          done
+
       - name: Verify Cloudflare production surfaces
         shell: bash
         run: |
@@ -52,6 +118,7 @@ jobs:
             https://app.homeleadconnect.org/community-hub \
             https://app.homeleadconnect.org/documents \
             https://app.homeleadconnect.org/hq \
+            https://homeleadconnect.org/ \
             https://homeleadconnect-web.pages.dev/; do
             echo "Checking $url"
             curl --fail --silent --show-error --location \
@@ -66,5 +133,8 @@ jobs:
       - name: Record production verification target
         run: |
           echo "Verified source SHA: $GITHUB_SHA"
-          echo "Production host: https://app.homeleadconnect.org"
+          echo "Verified entry JS: $ENTRY_JS"
+          echo "Verified entry CSS: $ENTRY_CSS"
+          echo "Production public host: https://homeleadconnect.org"
+          echo "Production app host: https://app.homeleadconnect.org"
           echo "Cloudflare Pages project: homeleadconnect-web"
