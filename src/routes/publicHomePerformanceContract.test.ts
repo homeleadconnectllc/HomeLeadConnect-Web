@@ -29,32 +29,41 @@ test("public home renders without paying React startup cost", () => {
   assert.match(main, /https:\/\/app\.homeleadconnect\.org\/professional-application/);
 });
 
-test("no-React public root uses the official full logo with the Family/Ecosystem identity", () => {
+test("no-React public root uses the official full logo with the Connected Experience identity", () => {
   assert.match(main, /src="\/hlc-logo-public\.webp"/);
   assert.doesNotMatch(main, /\/hlc-logo-ui\.png/);
   assert.match(main, /class="hlc-board-home hlc-v2-home hlc-family-ecosystem"/);
-  assert.match(main, /Homes\. People\. Opportunity\./);
-  assert.match(main, /A stronger community <span>starts at home\.<\/span>/);
+  assert.match(main, /The Connected Experience/);
+  assert.match(main, /One place for the next right move\./);
+  assert.match(main, /Request service, find the right people, and keep the work connected from first conversation to follow-through\./);
+  assert.match(main, /Request home service/);
+  assert.match(main, /Meet the mission →/);
   assert.match(main, /Four Pathways<span>\.<\/span>/);
   assert.match(main, /Different experiences\. Same mission\. One connected ecosystem\./);
+  assert.doesNotMatch(main, /Homes\. People\. Opportunity\./);
+  assert.doesNotMatch(main, /<h1[^>]*>A stronger community/);
 });
 
-test("parser-seeded public hero preserves the optimized Family/Ecosystem first-paint contract", () => {
+test("parser-seeded public hero preserves the optimized Connected Experience first-paint contract", () => {
   assert.match(indexHtml, /src="\/hlc-logo-public\.webp"/);
   assert.match(indexHtml, /width="440" height="142"/);
   assert.doesNotMatch(indexHtml, /\/hlc-logo-ui\.png/);
   assert.match(indexHtml, /hlc-v2-home hlc-v2-parser-seed/);
-  assert.match(indexHtml, /Homes\. People\. Opportunity\./);
-  assert.match(indexHtml, /A stronger community <span style="color:#42b7ff">starts at home\.<\/span>/);
-  assert.match(indexHtml, /hlc-frontdoor-resident-hero-v2\.webp/);
-  assert.match(indexHtml, /rel="preload" as="image" href="\/hlc-frontdoor-resident-hero-v2\.webp" fetchpriority="high"/);
+  assert.match(indexHtml, /The Connected Experience/);
+  assert.match(indexHtml, /One place for the next right move\./);
+  assert.match(indexHtml, /Request service, find the right people, and keep the work connected from first conversation to follow-through\./);
+  assert.match(indexHtml, /Request home service/);
+  assert.match(indexHtml, /Meet the mission →/);
+  assert.doesNotMatch(indexHtml, /Homes\. People\. Opportunity\./);
+  assert.doesNotMatch(indexHtml, /A stronger community <span style="color:#42b7ff">starts at home\.<\/span>/);
 });
 
-test("public front door keeps shared parser authority while adding the Family/Ecosystem visual layer", () => {
+test("public front door keeps shared parser authority while adding the profile-protocol visual layer", () => {
   assert.match(indexHtml, /public-home-app-reconciliation-20260907\.css/);
   assert.match(main, /v2-cinematic-community-homepage-20260911\.css/);
   assert.match(main, /v2-board-alignment-20260912\.css/);
   assert.match(main, /front-door-family-ecosystem-20260913\.css/);
+  assert.match(main, /frontdoor-profile-protocol-20260913\.css/);
   assert.match(v2Authority, /\.hlc-v2-home/);
   assert.match(boardAuthority, /--board-navy/);
   assert.match(familyAuthority, /\.hlc-board-home\.hlc-family-ecosystem/);
@@ -63,7 +72,7 @@ test("public front door keeps shared parser authority while adding the Family/Ec
   assert.match(familyAuthority, /@media/);
 });
 
-test("Family/Ecosystem public front door remains complete beyond the hero", () => {
+test("Connected Experience public front door remains complete beyond the hero", () => {
   for (const expected of [
     "Four Pathways",
     "Different experiences. Same mission. One connected ecosystem.",
@@ -71,12 +80,12 @@ test("Family/Ecosystem public front door remains complete beyond the hero", () =
     "A stronger community <span>starts here.</span>",
     "Ready when you are",
     "Start with the path that fits you.",
-    "Business workspace: $49.99/month after 14-day trial.",
+    "Business workspace: $49.99/month after a 14-day trial.",
     "For Residents",
     "For Professionals",
     "For Partners",
-    "For Our Community",
-    "HomeLead Connect LLC",
+    "For Community",
+    "HomeLead Connect",
   ]) {
     assert.match(main, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")));
   }
