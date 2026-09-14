@@ -24,19 +24,22 @@ export default function AuthShell({
   return (
     <main className="hlc-auth-shell hlc-auth-shell--flat">
       <style>{`
-        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login {
-          min-width:0 !important;
-          background:#020a15 !important;
-          color:#f7fbff !important;
-        }
+        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login,
         html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login > .hlc-route-content {
           width:100% !important;
           max-width:none !important;
           min-width:0 !important;
+          min-height:100vh !important;
+          margin:0 !important;
           padding:0 !important;
+          border:0 !important;
+          border-radius:0 !important;
           background:#020a15 !important;
+          color:#f7fbff !important;
+          box-shadow:none !important;
           overflow:visible !important;
         }
+
         html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat {
           box-sizing:border-box !important;
           display:block !important;
@@ -55,6 +58,7 @@ export default function AuthShell({
           box-shadow:none !important;
           color:#f7fbff !important;
         }
+
         html body #root .hlc-auth-shell .hlc-auth-city-media {
           position:absolute !important;
           z-index:-3 !important;
@@ -70,27 +74,30 @@ export default function AuthShell({
           filter:saturate(.92) contrast(1.04) brightness(.78) !important;
           pointer-events:none !important;
         }
+
         html body #root .hlc-auth-shell .hlc-auth-city-shade {
           position:absolute !important;
           z-index:-2 !important;
           inset:0 !important;
           pointer-events:none !important;
-          background:linear-gradient(90deg,rgba(2,9,20,.20) 0%,rgba(2,9,20,.50) 42%,rgba(2,9,20,.88) 70%,rgba(2,9,20,.97) 100%) !important;
+          background:linear-gradient(90deg,rgba(2,9,20,.24) 0%,rgba(2,9,20,.40) 42%,rgba(2,9,20,.68) 68%,rgba(2,9,20,.82) 100%) !important;
         }
-        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat > .hlc-auth-public-nav {
+
+        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-public-nav {
           position:relative !important;
           z-index:50 !important;
-          isolation:isolate !important;
           background:#031225 !important;
           border-bottom:1px solid rgba(151,187,222,.16) !important;
           color:#f7fbff !important;
           box-shadow:none !important;
           backdrop-filter:none !important;
         }
-        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat > .hlc-auth-public-nav .hlc-auth-public-nav-inner {
+
+        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-public-nav-inner {
           background:transparent !important;
         }
-        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat > .hlc-auth-public-nav .hlc-auth-public-brand {
+
+        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-public-brand {
           display:flex !important;
           align-items:center !important;
           justify-content:center !important;
@@ -101,7 +108,8 @@ export default function AuthShell({
           background:#fff !important;
           box-shadow:0 0 0 1px rgba(255,255,255,.72) !important;
         }
-        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat > .hlc-auth-public-nav .hlc-auth-public-brand img {
+
+        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-public-brand img {
           display:block !important;
           width:54px !important;
           height:54px !important;
@@ -113,25 +121,27 @@ export default function AuthShell({
           padding:0 !important;
           background:transparent !important;
         }
-        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat > .hlc-auth-public-nav .hlc-auth-public-links a {
+
+        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-public-links a {
           color:#d7e5f2 !important;
           -webkit-text-fill-color:#d7e5f2 !important;
           background:transparent !important;
         }
-        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat > .hlc-auth-public-nav .hlc-auth-public-links a.hlc-auth-public-request {
+
+        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-public-links .hlc-auth-public-request {
           color:#8ff0c8 !important;
           -webkit-text-fill-color:#8ff0c8 !important;
           border:0 !important;
           background:transparent !important;
+          box-shadow:none !important;
         }
-        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-main {
+
+        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-main {
           position:relative !important;
           z-index:2 !important;
           display:grid !important;
           grid-template-columns:minmax(0,1fr) minmax(400px,500px) !important;
-          grid-template-rows:auto !important;
           align-items:center !important;
-          justify-items:stretch !important;
           gap:clamp(58px,8vw,112px) !important;
           width:min(1180px,calc(100vw - 48px)) !important;
           max-width:1180px !important;
@@ -141,24 +151,20 @@ export default function AuthShell({
           background:transparent !important;
           overflow:visible !important;
         }
-        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro {
-          display:block !important;
+
+        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-intro {
           grid-column:1 !important;
-          grid-row:1 !important;
           position:relative !important;
-          width:auto !important;
           max-width:590px !important;
           min-width:0 !important;
-          align-self:center !important;
-          justify-self:stretch !important;
           padding:0 0 0 32px !important;
           border-left:2px solid rgba(117,215,255,.72) !important;
-          visibility:visible !important;
-          opacity:1 !important;
-          transform:none !important;
+          background:transparent !important;
+          box-shadow:none !important;
           text-shadow:0 2px 18px rgba(0,0,0,.60) !important;
         }
-        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro h2 {
+
+        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-intro h2 {
           margin:10px 0 16px !important;
           color:#fff !important;
           -webkit-text-fill-color:#fff !important;
@@ -169,56 +175,64 @@ export default function AuthShell({
           letter-spacing:-.045em !important;
           text-wrap:balance !important;
         }
-        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro p,
-        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro span {
+
+        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-intro p,
+        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-intro span {
           color:#f2f7fd !important;
           -webkit-text-fill-color:#f2f7fd !important;
         }
-        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-form-surface {
+
+        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-form-surface {
           display:grid !important;
           grid-column:2 !important;
-          grid-row:1 !important;
           position:relative !important;
           width:100% !important;
           max-width:500px !important;
           min-width:0 !important;
           min-height:0 !important;
           margin:0 !important;
-          padding:28px 4px 28px 20px !important;
+          padding:20px 0 !important;
           align-self:center !important;
           justify-self:stretch !important;
           border:0 !important;
           border-radius:0 !important;
+          outline:0 !important;
           background:transparent !important;
+          background-color:transparent !important;
+          background-image:none !important;
           color:#f8fafc !important;
           box-shadow:none !important;
           backdrop-filter:none !important;
           -webkit-backdrop-filter:none !important;
-          visibility:visible !important;
-          opacity:1 !important;
-          transform:none !important;
-          z-index:2 !important;
+          isolation:auto !important;
+          overflow:visible !important;
         }
-        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-form-surface::before,
-        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-form-surface::after {
+
+        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-form-surface::before,
+        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-form-surface::after {
+          content:none !important;
           display:none !important;
         }
-        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-form-heading {
+
+        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-form-heading {
           display:grid !important;
           gap:9px !important;
           margin:0 0 5px !important;
           padding:0 !important;
           border:0 !important;
           background:transparent !important;
+          box-shadow:none !important;
           text-align:center !important;
         }
-        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card-brand {
+
+        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-card-brand {
           color:#72a7ff !important;
           -webkit-text-fill-color:#72a7ff !important;
           font-size:11px !important;
           letter-spacing:.15em !important;
         }
-        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-form-heading h1 {
+
+        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-form-heading h1 {
           margin:0 !important;
           color:#fff !important;
           -webkit-text-fill-color:#fff !important;
@@ -228,7 +242,8 @@ export default function AuthShell({
           line-height:1 !important;
           letter-spacing:-.045em !important;
         }
-        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card-description {
+
+        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-card-description {
           max-width:420px !important;
           margin:0 auto !important;
           color:#d3dfeb !important;
@@ -236,25 +251,31 @@ export default function AuthShell({
           font-size:15px !important;
           line-height:1.55 !important;
         }
-        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-form label,
-        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-form .hlc-password-field>span:first-child {
+
+        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-form label,
+        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-form .hlc-password-field > span:first-child,
+        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-form .hlc-password-label {
           color:#e5edf7 !important;
           -webkit-text-fill-color:#e5edf7 !important;
           visibility:visible !important;
           opacity:1 !important;
         }
-        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-form input {
-          background:rgba(2,12,25,.74) !important;
+
+        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-form input {
+          background:rgba(2,12,25,.58) !important;
           color:#fff !important;
           -webkit-text-fill-color:#fff !important;
           border:1px solid rgba(144,190,233,.38) !important;
           border-radius:8px !important;
           box-shadow:none !important;
         }
-        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card-footer {
+
+        html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-card-footer {
           background:transparent !important;
           border-radius:0 !important;
+          box-shadow:none !important;
         }
+
         @media(max-width:800px){
           html body #root .hlc-auth-shell .hlc-auth-city-media {
             inset:72px 0 auto 0 !important;
@@ -263,13 +284,15 @@ export default function AuthShell({
             object-position:center center !important;
             filter:saturate(.96) contrast(1.04) brightness(.82) !important;
           }
+
           html body #root .hlc-auth-shell .hlc-auth-city-shade {
             inset:72px 0 auto 0 !important;
-            height:48vh !important;
-            min-height:340px !important;
-            background:linear-gradient(180deg,rgba(2,9,20,.08) 0%,rgba(2,9,20,.24) 42%,rgba(2,9,20,.82) 76%,#020a15 100%) !important;
+            height:50vh !important;
+            min-height:350px !important;
+            background:linear-gradient(180deg,rgba(2,9,20,.06) 0%,rgba(2,9,20,.16) 42%,rgba(2,9,20,.68) 76%,#020a15 100%) !important;
           }
-          html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-main {
+
+          html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-main {
             display:block !important;
             width:calc(100vw - 32px) !important;
             max-width:none !important;
@@ -277,24 +300,30 @@ export default function AuthShell({
             margin:0 auto !important;
             padding:34vh 0 36px !important;
           }
-          html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro {
+
+          html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-intro {
             display:none !important;
           }
-          html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-form-surface {
+
+          html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-form-surface {
             display:grid !important;
             width:100% !important;
             max-width:540px !important;
             margin-inline:auto !important;
-            padding:20px 8px 24px !important;
+            padding:18px 8px 24px !important;
             border:0 !important;
             border-radius:0 !important;
             background:transparent !important;
+            background-color:transparent !important;
+            background-image:none !important;
             box-shadow:none !important;
           }
-          html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat > .hlc-auth-public-nav .hlc-auth-public-links a:not(.hlc-auth-public-request) {
+
+          html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-public-links a:not(.hlc-auth-public-request) {
             display:none !important;
           }
-          html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat > .hlc-auth-public-nav .hlc-auth-public-links .hlc-auth-public-request {
+
+          html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-public-links .hlc-auth-public-request {
             display:inline-flex !important;
             min-height:40px !important;
             margin-left:0 !important;
@@ -344,7 +373,7 @@ export default function AuthShell({
           </div>
         </section>
 
-        <section className="hlc-auth-form-surface" aria-labelledby="hlc-auth-title">
+        <div className="hlc-auth-form-surface" role="region" aria-labelledby="hlc-auth-title">
           <div className="hlc-auth-form-heading">
             {eyebrow && <p className="hlc-auth-card-brand">{eyebrow}</p>}
             <h1 id="hlc-auth-title">{title}</h1>
@@ -353,7 +382,7 @@ export default function AuthShell({
           {status}
           {children}
           {footer && <footer className="hlc-auth-card-footer">{footer}</footer>}
-        </section>
+        </div>
       </div>
     </main>
   );
