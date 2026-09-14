@@ -1,0 +1,31 @@
+/* Four Pathways photography-only visual pass.
+   Derived from verified production 2e2912d5c99b9135a0aa2def90d1d0b675647ac5.
+   No copy, layout, navigation, auth, route, or behavior changes. */
+
+.hlc-family-ecosystem .hlc-board-pathway--resident{
+  background-image:url('https://images.pexels.com/photos/12788466/pexels-photo-12788466.jpeg?cs=srgb&dl=pexels-mizunokozuki-12788466.jpg&fm=jpg');
+  background-size:cover;
+  background-repeat:no-repeat;
+  background-position:center 35%;
+}
+
+.hlc-family-ecosystem .hlc-board-pathway--professional{
+  background-image:url('https://images.pexels.com/photos/442160/pexels-photo-442160.jpeg?cs=srgb&dl=pexels-field-engineer-147254-442160.jpg&fm=jpg');
+  background-size:cover;
+  background-repeat:no-repeat;
+  background-position:center 30%;
+}
+
+.hlc-family-ecosystem .hlc-board-pathway--partner{
+  background-image:url('https://images.pexels.com/photos/8276198/pexels-photo-8276198.jpeg?cs=srgb&dl=pexels-pnw-prod-8276198.jpg&fm=jpg'),url('/partners-collaboration.svg');
+  background-size:cover,cover;
+  background-repeat:no-repeat,no-repeat;
+  background-position:center 40%,center center;
+}
+
+.hlc-family-ecosystem .hlc-board-pathway--community{
+  background-image:url('https://images.pexels.com/photos/32788612/pexels-photo-32788612.jpeg?cs=srgb&dl=pexels-shabazz-stuart-465927833-32788612.jpg&fm=jpg');
+  background-size:cover;
+  background-repeat:no-repeat;
+  background-position:center 35%;
+}
