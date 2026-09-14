@@ -201,3 +201,15 @@
 .hlc-public-site-nav a[href*="/register"]{
   --destination-accent:initial;
 }
+
+/* Button labels use dark ink over the destination fill, even when a broader destination text rule also matches. */
+.hlc-family-ecosystem .hlc-family-entry-actions a[href*="/request-service"],
+.hlc-family-ecosystem .hlc-family-entry-actions a[href*="/professional-application"],
+.hlc-family-ecosystem .hlc-family-entry-actions a[href="/partners"],
+.hlc-family-ecosystem .hlc-family-entry-actions a[href="/community"],
+.hlc-public-page .hlc-public-primary[href*="/request-service"],
+.hlc-public-page .hlc-public-primary[href*="/professional-application"],
+.hlc-public-page .hlc-public-primary[href$="/partners"],
+.hlc-public-page .hlc-public-primary[href$="/community"]{
+  color:var(--hlc-destination-ink)!important;
+}
