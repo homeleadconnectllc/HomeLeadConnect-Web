@@ -1,9 +1,9 @@
 /* Four Pathways photography-only visual pass.
-   Derived from verified production fa04e10d20091b8ef7012b675b3f2e2410ff0572.
+   Derived from verified production 2fc1a6c05f00cc956734ec7a2cfdd5cab4e7ae1a.
    No copy, layout, navigation, auth, route, or behavior changes. */
 
 .hlc-family-ecosystem .hlc-board-pathway--resident{
-  background-image:url('https://images.pexels.com/photos/7577378/pexels-photo-7577378.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200');
+  background-image:url('https://images.pexels.com/photos/5727801/pexels-photo-5727801.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200');
   background-size:cover;
   background-repeat:no-repeat;
   background-position:center 35%;
@@ -17,14 +17,14 @@
 }
 
 .hlc-family-ecosystem .hlc-board-pathway--partner{
-  background-image:url('https://images.pexels.com/photos/9429549/pexels-photo-9429549.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200'),url('/partners-collaboration.svg');
+  background-image:url('https://images.pexels.com/photos/9430884/pexels-photo-9430884.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200'),url('/partners-collaboration.svg');
   background-size:cover,cover;
   background-repeat:no-repeat,no-repeat;
   background-position:center 40%,center center;
 }
 
 .hlc-family-ecosystem .hlc-board-pathway--community{
-  background-image:url('https://images.pexels.com/photos/30477058/pexels-photo-30477058/free-photo-of-family-gathering-at-outdoor-community-event.jpeg?auto=compress&dpr=1&h=750&w=1260');
+  background-image:url('https://images.pexels.com/photos/30477317/pexels-photo-30477317/free-photo-of-outdoor-church-community-gathering-in-clemson.jpeg?auto=compress&w=1600');
   background-size:cover;
   background-repeat:no-repeat;
   background-position:center 35%;
