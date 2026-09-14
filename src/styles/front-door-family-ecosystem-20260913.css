@@ -203,7 +203,7 @@
 }
 .hlc-family-ecosystem .hlc-board-pathway--resident{--fd-accent:var(--fd-resident);background-image:url('/hlc-frontdoor-people-first.webp')}
 .hlc-family-ecosystem .hlc-board-pathway--professional{--fd-accent:var(--fd-professional);background-image:url('/hlc-frontdoor-professional.webp')}
-.hlc-family-ecosystem .hlc-board-pathway--partner{--fd-accent:var(--fd-partner);background-image:url('/hlc-frontdoor-resident-hero-v2.webp');background-position:32% center}
+.hlc-family-ecosystem .hlc-board-pathway--partner{--fd-accent:var(--fd-partner);background-image:url('https://images.unsplash.com/photo-1758519288905-38b7b00c1023?auto=format&fit=crop&w=1400&q=82'),url('/partners-collaboration.svg');background-position:50% center,50% center;background-size:cover,cover;background-repeat:no-repeat,no-repeat}
 .hlc-family-ecosystem .hlc-board-pathway--community{--fd-accent:var(--fd-community);background-image:url('/hlc-frontdoor-resident-hero-final.jpg');background-position:34% center}
 .hlc-family-ecosystem .hlc-board-pathway-content{inset:auto 30px 25px 34px;padding-right:0}
 .hlc-family-ecosystem .hlc-family-pathway-icon{
