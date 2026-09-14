@@ -1,0 +1,86 @@
+/* Owner-approved front-door profile visual system — presentation only. */
+.hlc-family-ecosystem{
+  --profile-resident:#62e6b4;
+  --profile-professional:#5ecbff;
+  --profile-partner:#ffc744;
+  --profile-community:#c98cff;
+}
+
+/* Match the approved reference typography: strong geometric sans, not editorial serif. */
+.hlc-family-ecosystem .hlc-family-hero-copy h1,
+.hlc-family-ecosystem .hlc-board-pathway-heading h2,
+.hlc-family-ecosystem .hlc-board-pathway-label,
+.hlc-family-ecosystem .hlc-family-vision h2{
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;
+  font-weight:900!important;
+  letter-spacing:-.045em!important;
+}
+
+/* Logo: clean white circular mark at the front door. */
+.hlc-family-ecosystem .hlc-board-brand{
+  width:78px!important;height:78px!important;min-width:78px!important;
+  display:grid!important;place-items:center!important;
+  overflow:hidden!important;border-radius:50%!important;
+  background:#fff!important;border:1px solid rgba(255,255,255,.9)!important;
+  box-shadow:0 12px 30px rgba(0,0,0,.28)!important;
+}
+.hlc-family-ecosystem .hlc-board-brand img{
+  width:72px!important;height:72px!important;max-height:none!important;
+  object-fit:contain!important;border-radius:50%!important;
+}
+
+/* Four profile cards: identical structure, title/button accents tied to each protocol. */
+.hlc-family-ecosystem .hlc-board-pathway{
+  min-height:420px!important;
+  border-radius:14px!important;
+  overflow:hidden!important;
+  border:1px solid rgba(151,190,228,.35)!important;
+  background-color:#06172b!important;
+  background-position:center 22%!important;
+  background-size:100% auto!important;
+  background-repeat:no-repeat!important;
+}
+.hlc-family-ecosystem .hlc-board-pathway:before{display:none!important}
+.hlc-family-ecosystem .hlc-board-pathway:after{
+  background:linear-gradient(180deg,rgba(2,10,22,.01) 20%,rgba(3,15,30,.18) 42%,rgba(3,15,30,.97) 68%,#06172b 100%)!important;
+}
+.hlc-family-ecosystem .hlc-board-pathway-content{
+  inset:auto 24px 22px 24px!important;
+  text-align:left!important;
+}
+.hlc-family-ecosystem .hlc-family-pathway-icon{display:none!important}
+.hlc-family-ecosystem .hlc-board-pathway-label{
+  font-size:clamp(25px,2vw,34px)!important;
+  line-height:1.02!important;
+  margin:0 0 9px!important;
+  color:#fff!important;
+}
+.hlc-family-ecosystem .hlc-board-pathway-copy{
+  max-width:100%!important;margin:0!important;color:#d7e1ed!important;
+  font-size:15px!important;line-height:1.48!important;
+}
+.hlc-family-ecosystem .hlc-family-pathway-link{
+  margin-top:14px!important;padding-bottom:3px!important;
+  border-bottom:2px solid currentColor!important;
+  font-size:15px!important;font-weight:900!important;line-height:1.25!important;
+}
+.hlc-family-ecosystem .hlc-board-pathway--resident{--fd-accent:var(--profile-resident)!important;background-image:url('/hlc-frontdoor-resident-hero-v2.webp')!important;background-position:center 25%!important}
+.hlc-family-ecosystem .hlc-board-pathway--professional{--fd-accent:var(--profile-professional)!important;background-image:url('/hlc-frontdoor-professional.webp')!important;background-position:center 20%!important}
+.hlc-family-ecosystem .hlc-board-pathway--partner{--fd-accent:var(--profile-partner)!important;background-image:url('https://images.unsplash.com/photo-1758519288905-38b7b00c1023?auto=format&fit=crop&w=1400&q=82'),url('/partners-collaboration.svg')!important;background-position:center 22%,center!important;background-size:100% auto,cover!important}
+.hlc-family-ecosystem .hlc-board-pathway--community{--fd-accent:var(--profile-community)!important;background-image:url('/hlc-frontdoor-people-first.webp')!important;background-position:center 22%!important}
+.hlc-family-ecosystem .hlc-board-pathway--resident .hlc-family-pathway-link{color:var(--profile-resident)!important}
+.hlc-family-ecosystem .hlc-board-pathway--professional .hlc-family-pathway-link{color:var(--profile-professional)!important}
+.hlc-family-ecosystem .hlc-board-pathway--partner .hlc-family-pathway-link{color:var(--profile-partner)!important}
+.hlc-family-ecosystem .hlc-board-pathway--community .hlc-family-pathway-link{color:var(--profile-community)!important}
+
+@media(max-width:680px){
+  .hlc-family-ecosystem .hlc-board-nav-inner{min-height:92px!important}
+  .hlc-family-ecosystem .hlc-board-brand{width:70px!important;height:70px!important;min-width:70px!important}
+  .hlc-family-ecosystem .hlc-board-brand img{width:64px!important;height:64px!important}
+  .hlc-family-ecosystem .hlc-board-pathway-inner{display:grid!important;grid-template-columns:1fr!important;gap:16px!important}
+  .hlc-family-ecosystem .hlc-board-pathway{min-height:430px!important;background-size:auto 58%!important;background-position:center top!important}
+  .hlc-family-ecosystem .hlc-board-pathway-content{inset:auto 22px 24px 22px!important}
+  .hlc-family-ecosystem .hlc-board-pathway-label{font-size:29px!important}
+  .hlc-family-ecosystem .hlc-board-pathway-copy{font-size:16px!important}
+  .hlc-family-ecosystem .hlc-family-pathway-link{font-size:16px!important}
+}

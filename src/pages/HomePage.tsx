@@ -2,13 +2,14 @@ import "../styles/v2-board-frontdoor-20260912.css";
 import "../styles/v2-board-frontdoor-performance-20260912.css";
 import "../styles/v2-board-rest-polish-20260912.css";
 import "../styles/front-door-family-ecosystem-20260913.css";
+import "../styles/frontdoor-profile-visual-system-20260913.css";
 
 /* Canonical SPA destinations retained for the public parser/audit contract: to="/request-service" to="/app" to="/community". */
 const pathways = [
-  { key: "resident", title: "For Residents", copy: "Build wealth. Find trusted professionals. Create your future.", href: "/homeowners", icon: "⌂" },
-  { key: "professional", title: "For Professionals", copy: "Grow your business. Get more opportunities.", href: "/professionals", icon: "▣" },
-  { key: "partner", title: "For Partners", copy: "Collaborate. Invest. Build a bigger impact.", href: "/partners", icon: "↔" },
-  { key: "community", title: "For Our Community", copy: "Stronger neighborhoods. Greater possibilities.", href: "/community", icon: "●" },
+  { key: "resident", title: "For Residents", copy: "Get help with the home in front of you—and keep the next step clear.", action: "Find resident support", href: "/homeowners" },
+  { key: "professional", title: "For Professionals", copy: "Build a more visible, accountable service business inside the network.", action: "Explore professional access", href: "/professionals" },
+  { key: "partner", title: "For Partners", copy: "Create referral relationships that respect people, context, and consent.", action: "Explore partner access", href: "/partners" },
+  { key: "community", title: "For Community", copy: "Find the people and resources that help neighborhoods move forward.", action: "Visit the community", href: "/community" },
 ] as const;
 
 const navLinks = [
@@ -26,7 +27,7 @@ export default function HomePage() {
       <header className="hlc-board-nav">
         <div className="hlc-board-nav-inner">
           <a className="hlc-board-brand" href="/" aria-label="HomeLead Connect home">
-            <img src="/hlc-logo-public.webp" alt="HomeLead Connect LLC" width={440} height={142} loading="eager" decoding="async" />
+            <img src="/hlc-logo-public.webp" alt="HomeLead Connect LLC" width={142} height={142} loading="eager" decoding="async" />
           </a>
           <nav className="hlc-board-links" aria-label="Primary navigation">
             {navLinks.map(([label, href]) => <a key={href} href={href}>{label}</a>)}
@@ -50,20 +51,14 @@ export default function HomePage() {
         <img className="hlc-family-hero-media" src="/hlc-frontdoor-resident-hero-v2.webp" alt="" width={1536} height={864} fetchPriority="high" decoding="async" />
         <div className="hlc-family-hero-inner">
           <div className="hlc-family-hero-copy">
-            <p className="hlc-family-kicker">Homes. People. Opportunity.</p>
-            <h1 id="hlc-family-hero-title">A stronger community <span>starts at home.</span></h1>
-            <p>HomeLead Connect brings residents, service professionals, partners and communities together through one connected ecosystem built around real people and real progress.</p>
+            <p className="hlc-family-kicker">The connected experience</p>
+            <h1 id="hlc-family-hero-title">One place for the next <span>right move.</span></h1>
+            <p>Request service, find the right people, and keep the work connected from first conversation to follow-through.</p>
             <div className="hlc-family-hero-actions">
-              <a className="hlc-board-cta" href="/request-service">Request Service</a>
-              <a className="hlc-family-secondary" href="#pathways">Explore the ecosystem →</a>
+              <a className="hlc-board-cta" href="/request-service">Request home service</a>
+              <a className="hlc-family-secondary" href="#vision">Meet the mission →</a>
             </div>
           </div>
-          <aside className="hlc-family-hero-note" aria-label="HomeLead Connect mission">
-            <span>People</span>
-            <span>Homes</span>
-            <span>Opportunity</span>
-            <strong>Together</strong>
-          </aside>
         </div>
       </section>
 
@@ -72,17 +67,14 @@ export default function HomePage() {
           <p className="hlc-family-kicker">The HomeLead Connect ecosystem</p>
           <h2 id="hlc-board-pathway-title">Four Pathways<span>.</span></h2>
           <p className="hlc-family-pathway-subtitle">Different experiences. Same mission. One connected ecosystem.</p>
-          <p className="hlc-family-pathway-copy">HomeLead Connect connects the people, services, businesses and relationships that make a community work.</p>
-          <a className="hlc-family-pathway-explore" href="#vision">Explore the ecosystem →</a>
         </div>
         <div className="hlc-board-pathway-inner">
           {pathways.map((p) => (
             <article className={`hlc-board-pathway hlc-board-pathway--${p.key}`} key={p.key}>
               <div className="hlc-board-pathway-content">
-                <div className="hlc-family-pathway-icon" aria-hidden="true">{p.icon}</div>
                 <p className="hlc-board-pathway-label">{p.title}</p>
                 <p className="hlc-board-pathway-copy">{p.copy}</p>
-                <a className="hlc-family-pathway-link" href={p.href}>Learn More →</a>
+                <a className="hlc-family-pathway-link" href={p.href}>{p.action} →</a>
               </div>
             </article>
           ))}
@@ -116,8 +108,7 @@ export default function HomePage() {
       </section>
 
       <footer className="hlc-board-footer">
-        <strong>HomeLead Connect LLC</strong>
-        <span>Connecting Homes. Creating Opportunities.</span>
+        <strong>HomeLead Connect</strong>
         <nav aria-label="Legal and accessibility">
           <a href="/privacy">Privacy</a>
           <a href="/terms">Terms</a>
