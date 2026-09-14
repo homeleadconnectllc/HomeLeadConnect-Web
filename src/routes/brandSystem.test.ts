@@ -81,21 +81,19 @@ test("official HLC mark stays canonical across shared UI, browser, PWA, and noti
   assert.match(serviceWorker, /badge:\s*"\/hlc-logo-transparent\.png"/);
 });
 
-test("canonical HLC logo asset is a 1024px RGBA PNG with a clean transparent outer band", () => {
+test("canonical HLC logo asset is the locked 1254px RGBA master derivative with transparent outer corners", () => {
   assert.deepEqual([...transparentLogo.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
-  assert.equal(transparentLogo.readUInt32BE(16), 1024);
-  assert.equal(transparentLogo.readUInt32BE(20), 1024);
+  assert.equal(transparentLogo.readUInt32BE(16), 1254);
+  assert.equal(transparentLogo.readUInt32BE(20), 1254);
   assert.equal(transparentLogo[24], 8);
   assert.equal(transparentLogo[25], 6);
 
-  const center = 512;
-  const edgeProbe = 18;
+  const last = 1253;
+  const center = 627;
   for (const [x, y] of [
-    [0, 0], [1023, 0], [0, 1023], [1023, 1023],
-    [center, edgeProbe], [center, 1023 - edgeProbe],
-    [edgeProbe, center], [1023 - edgeProbe, center],
+    [0, 0], [last, 0], [0, last], [last, last],
   ]) {
-    assert.equal(pngAlphaAt(transparentLogo, x, y), 0, `logo outer-band pixel ${x},${y} must be fully transparent`);
+    assert.equal(pngAlphaAt(transparentLogo, x, y), 0, `logo outer-corner pixel ${x},${y} must be fully transparent`);
   }
   assert.equal(pngAlphaAt(transparentLogo, center, center), 255, "logo center must remain fully opaque");
 });
