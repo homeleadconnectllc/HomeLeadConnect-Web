@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 jobs:
-  install-approved-master:
+  finalize-brand-references:
     if: "!contains(github.event.head_commit.message, '[brand-asset-bootstrap]')"
     runs-on: ubuntu-latest
     steps:
@@ -18,65 +18,36 @@ jobs:
           ref: sprint/master-logo-rollout-20260914
           fetch-depth: 0
 
-      - name: Install image tooling
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq imagemagick
-
-      - name: Fetch locked approved master source
-        run: |
-          set -euo pipefail
-          mkdir -p public/brand
-          curl --fail --location --silent --show-error \
-            'https://cdn.creativeclaw.co/u/5eda3385/images/466945f6-741c-439d-8dc9-9744f02ba2e6.png' \
-            --output public/brand/homelead-connect-master-source.png
-          identify public/brand/homelead-connect-master-source.png
-          test "$(identify -format '%wx%h' public/brand/homelead-connect-master-source.png)" = "1254x1254"
-
-      - name: Derive transparent production master without altering RGB artwork
-        run: |
-          set -euo pipefail
-          convert public/brand/homelead-connect-master-source.png \
-            \( -size 1254x1254 xc:none -fill white -draw 'circle 626.5,626.5 1247.5,626.5' \) \
-            -alpha off -compose CopyOpacity -composite \
-            public/brand/homelead-connect-master-transparent.png
-          test "$(identify -format '%wx%h' public/brand/homelead-connect-master-transparent.png)" = "1254x1254"
-          channels="$(identify -format '%[channels]' public/brand/homelead-connect-master-transparent.png)"
-          case "$channels" in *a*) ;; *) echo "Expected alpha channel, got: $channels"; exit 1;; esac
-
-      - name: Install PNG compatibility derivatives
-        run: |
-          set -euo pipefail
-          cp public/brand/homelead-connect-master-transparent.png public/hlc-logo-transparent.png
-          cp public/brand/homelead-connect-master-transparent.png public/hlc-logo-ui.png
-
-      - name: Repoint public logo references to canonical transparent master
+      - name: Repoint remaining public runtime and contract references
         run: |
           set -euo pipefail
           python3 - <<'PY'
           from pathlib import Path
-          for name in ("src/components/PublicSiteNav.tsx", "index.html"):
-              p = Path(name)
-              text = p.read_text()
-              text2 = text.replace("/hlc-logo-public.webp", "/brand/homelead-connect-master-transparent.png")
-              if text2 == text:
-                  raise SystemExit(f"Expected public logo reference not found in {name}")
-              p.write_text(text2)
+
+          main = Path("src/main.tsx")
+          text = main.read_text()
+          updated = text.replace("/hlc-logo-public.webp", "/brand/homelead-connect-master-transparent.png")
+          if updated == text:
+              raise SystemExit("Expected active public logo reference not found in src/main.tsx")
+          main.write_text(updated)
+
+          test = Path("src/routes/publicHomePerformanceContract.test.ts")
+          text = test.read_text()
+          old = r'/hlc-logo-public\\.webp'
+          new = r'/brand\\/homelead-connect-master-transparent\\.png'
+          updated = text.replace(old, new)
+          if updated == text:
+              raise SystemExit("Expected legacy logo contract not found in publicHomePerformanceContract.test.ts")
+          test.write_text(updated)
           PY
 
-      - name: Commit branding-only rollout assets
+      - name: Commit branding-only contract alignment
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add \
-            public/brand/homelead-connect-master-source.png \
-            public/brand/homelead-connect-master-transparent.png \
-            public/hlc-logo-transparent.png \
-            public/hlc-logo-ui.png \
-            src/components/PublicSiteNav.tsx \
-            index.html
+          git add src/main.tsx src/routes/publicHomePerformanceContract.test.ts
           git diff --cached --stat
           git diff --cached --name-only
-          git commit -m "Brand: install approved master logo [brand-asset-bootstrap]"
+          git commit -m "Brand: align remaining runtime logo references [brand-asset-bootstrap]"
           git push origin HEAD:sprint/master-logo-rollout-20260914
