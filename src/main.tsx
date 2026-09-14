@@ -38,7 +38,7 @@ function publicHomeMarkup() {
       <header class="hlc-board-nav">
         <div class="hlc-board-nav-inner">
           <a class="hlc-board-brand" href="https://homeleadconnect.org/" aria-label="HomeLead Connect home">
-            <img src="/hlc-logo-transparent.png" alt="HomeLead Connect LLC" width="64" height="64" loading="eager" decoding="async" />
+            <img src="/hlc-logo-transparent.png" srcset="/hlc-logo-ui.png 180w, /hlc-logo-transparent.png 1024w" sizes="58px" alt="HomeLead Connect LLC" width="64" height="64" loading="eager" decoding="async" />
           </a>
           <nav class="hlc-board-links" aria-label="Primary navigation">
             <a href="/about">About</a>
