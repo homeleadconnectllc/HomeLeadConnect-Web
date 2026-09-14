@@ -18,6 +18,11 @@ jobs:
           ref: sprint/master-logo-rollout-20260914
           fetch-depth: 0
 
+      - name: Install image tooling
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq imagemagick
+
       - name: Fetch locked approved master source
         run: |
           set -euo pipefail
@@ -36,7 +41,8 @@ jobs:
             -alpha off -compose CopyOpacity -composite \
             public/brand/homelead-connect-master-transparent.png
           test "$(identify -format '%wx%h' public/brand/homelead-connect-master-transparent.png)" = "1254x1254"
-          test "$(identify -format '%[channels]' public/brand/homelead-connect-master-transparent.png)" != "srgb"
+          channels="$(identify -format '%[channels]' public/brand/homelead-connect-master-transparent.png)"
+          case "$channels" in *a*) ;; *) echo "Expected alpha channel, got: $channels"; exit 1;; esac
 
       - name: Install PNG compatibility derivatives
         run: |
