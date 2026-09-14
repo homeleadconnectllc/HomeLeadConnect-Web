@@ -108,18 +108,18 @@
 .hlc-board-home .hlc-board-menu-link--partner { color:#ffd36a !important; }
 .hlc-board-home .hlc-board-menu-link--community { color:#c8a0ff !important; }
 
-/* Every visible homepage pathway owns a different local visual.
+/* Every visible homepage pathway owns a different lightweight local visual.
    Destination pages use separate assets, so a user never sees the same picture twice. */
 .hlc-family-ecosystem .hlc-board-pathway--resident {
   background-image:url('/hlc-frontdoor-resident-hero.webp') !important;
   background-position:38% center !important;
 }
 .hlc-family-ecosystem .hlc-board-pathway--professional {
-  background-image:url('/brand/avatars/Dion_Locked_HLC.png') !important;
-  background-position:50% 34% !important;
+  background-image:url('/hlc-frontdoor-professional.webp') !important;
+  background-position:50% center !important;
 }
 .hlc-family-ecosystem .hlc-board-pathway--partner {
-  background-image:url('../assets/hero.png') !important;
+  background-image:url('/partners-collaboration.svg') !important;
   background-position:50% center !important;
 }
 .hlc-family-ecosystem .hlc-board-pathway--community {
