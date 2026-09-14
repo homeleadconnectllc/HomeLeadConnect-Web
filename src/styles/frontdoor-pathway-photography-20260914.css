@@ -3,32 +3,37 @@
    Live runtime verification proved the pathway elements survive but their final
    background-image resolves empty. These selectors are intentionally scoped to
    the public HomeLead Connect ecosystem root and use !important so later visual
-   resets cannot erase the approved pathway photography.
+   resets cannot erase the pathway photography.
+
+   The first repair proved this authority path works, but loading direct Pexels
+   URLs introduced third-party cookie/Inspector issues and a severe mobile
+   Lighthouse regression. Use existing first-party public assets instead so the
+   public homepage owns both the style authority and image delivery path.
    No copy, layout, navigation, auth, route, backend, or behavior changes. */
 
 html body #root .hlc-family-ecosystem .hlc-board-pathway--resident{
-  background-image:url('https://images.pexels.com/photos/5727801/pexels-photo-5727801.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200') !important;
+  background-image:url('/hlc-frontdoor-resident-hero-v2.webp?source=5727801') !important;
   background-size:cover !important;
   background-repeat:no-repeat !important;
   background-position:center 35% !important;
 }
 
 html body #root .hlc-family-ecosystem .hlc-board-pathway--professional{
-  background-image:url('https://images.pexels.com/photos/442160/pexels-photo-442160.jpeg?cs=srgb&dl=pexels-field-engineer-147254-442160.jpg&fm=jpg') !important;
+  background-image:url('/hlc-frontdoor-professional.webp?source=442160') !important;
   background-size:cover !important;
   background-repeat:no-repeat !important;
   background-position:center 30% !important;
 }
 
 html body #root .hlc-family-ecosystem .hlc-board-pathway--partner{
-  background-image:url('https://images.pexels.com/photos/9430884/pexels-photo-9430884.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200'),url('/partners-collaboration.svg') !important;
-  background-size:cover,cover !important;
-  background-repeat:no-repeat,no-repeat !important;
-  background-position:center 40%,center center !important;
+  background-image:url('/partners-collaboration.svg?source=9430884') !important;
+  background-size:cover !important;
+  background-repeat:no-repeat !important;
+  background-position:center 40% !important;
 }
 
 html body #root .hlc-family-ecosystem .hlc-board-pathway--community{
-  background-image:url('https://images.pexels.com/photos/30477317/pexels-photo-30477317/free-photo-of-outdoor-church-community-gathering-in-clemson.jpeg?auto=compress&w=1600') !important;
+  background-image:url('/hlc-frontdoor-people-first.webp?source=30477317') !important;
   background-size:cover !important;
   background-repeat:no-repeat !important;
   background-position:center 35% !important;
