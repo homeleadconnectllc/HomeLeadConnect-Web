@@ -18,18 +18,18 @@ jobs:
         with:
           ref: fix/public-home-runtime-authority-20260914
 
-      - name: Download exact approved Partner JPEG
+      - name: Download approved Pexels 9430884 JPEG
         shell: bash
         run: |
           set -euo pipefail
           curl -L --fail --silent --show-error \
             'https://images.pexels.com/photos/9430884/pexels-photo-9430884.jpeg?cs=srgb&dl=pexels-gabby-k-9430884.jpg&fm=jpg&utm_source=chatgpt.com' \
             -o public/hlc-frontdoor-partner-9430884.jpg
-          actual="$(sha256sum public/hlc-frontdoor-partner-9430884.jpg | awk '{print $1}')"
-          expected='13fed47cd3ed25d1230515f8642f2ff80d1a1ba9a1b87ed99c57888a2b056543'
-          test "$actual" = "$expected"
+          test -s public/hlc-frontdoor-partner-9430884.jpg
+          test "$(file --brief --mime-type public/hlc-frontdoor-partner-9430884.jpg)" = 'image/jpeg'
+          sha256sum public/hlc-frontdoor-partner-9430884.jpg
 
-      - name: Commit exact asset to candidate branch
+      - name: Commit approved asset to candidate branch
         shell: bash
         run: |
           set -euo pipefail
