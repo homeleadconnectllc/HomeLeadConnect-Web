@@ -38,7 +38,7 @@ function publicHomeMarkup() {
       <header class="hlc-board-nav">
         <div class="hlc-board-nav-inner">
           <a class="hlc-board-brand" href="https://homeleadconnect.org/" aria-label="HomeLead Connect home">
-            <img src="/hlc-logo-transparent.png" srcset="/hlc-logo-ui.png 180w, /hlc-logo-transparent.png 1024w" sizes="58px" alt="HomeLead Connect LLC" width="64" height="64" loading="eager" decoding="async" />
+            <img src="/hlc-logo-transparent.png" alt="HomeLead Connect LLC" width="64" height="64" loading="eager" decoding="async" />
           </a>
           <nav class="hlc-board-links" aria-label="Primary navigation">
             <a href="/about">About</a>
@@ -51,6 +51,7 @@ function publicHomeMarkup() {
           <div class="hlc-board-actions">
             <a class="hlc-board-request" href="https://app.homeleadconnect.org/request-service">Request service</a>
             <a class="hlc-board-login" href="https://app.homeleadconnect.org/login">Sign In</a>
+            <a class="hlc-board-register" href="https://app.homeleadconnect.org/register">Get Started →</a>
             <details class="hlc-board-menu">
               <summary><span aria-hidden="true">☰</span><span>Menu</span></summary>
               <div class="hlc-board-menu-panel">
@@ -64,6 +65,7 @@ function publicHomeMarkup() {
                 <a class="hlc-board-menu-link hlc-board-menu-link--partner" href="/partners">For Partners</a>
                 <a class="hlc-board-menu-link hlc-board-menu-link--community" href="/community">Community</a>
                 <a class="hlc-board-menu-link hlc-board-menu-link--neutral" href="https://app.homeleadconnect.org/login">Sign in</a>
+                <a class="hlc-board-menu-link hlc-board-menu-link--neutral" href="https://app.homeleadconnect.org/register">Get Started</a>
                 <a class="hlc-board-menu-link hlc-board-menu-link--resident" href="https://app.homeleadconnect.org/request-service">Request service</a>
               </div>
             </details>
