@@ -213,3 +213,23 @@
 .hlc-public-page .hlc-public-primary[href$="/community"]{
   color:var(--hlc-destination-ink)!important;
 }
+
+/* Four Pathways image-fit repair: full-bleed media with role-specific crop points. */
+.hlc-family-ecosystem .hlc-board-pathway{
+  background-size:cover!important;
+  background-repeat:no-repeat!important;
+}
+.hlc-family-ecosystem .hlc-board-pathway--resident{
+  background-position:center 35%!important;
+}
+.hlc-family-ecosystem .hlc-board-pathway--professional{
+  background-position:center 30%!important;
+}
+.hlc-family-ecosystem .hlc-board-pathway--partner{
+  background-position:center 40%,center center!important;
+  background-size:cover,cover!important;
+  background-repeat:no-repeat,no-repeat!important;
+}
+.hlc-family-ecosystem .hlc-board-pathway--community{
+  background-position:center 35%!important;
+}
