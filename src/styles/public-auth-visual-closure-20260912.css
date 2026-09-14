@@ -48,6 +48,49 @@ html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-password-label {
   opacity: 1 !important;
 }
 
+/* Login owns one continuous Harrisburg scene. Keep the photograph behind the
+   complete account-access composition so the form can never read as a separate
+   dark card or panel merely because the image ends before the controls do. */
+html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat > img.hlc-auth-city-media {
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+}
+
+html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat > .hlc-auth-city-shade {
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  background:
+    linear-gradient(90deg, rgba(2,9,20,.18) 0%, rgba(2,9,20,.28) 44%, rgba(2,9,20,.46) 72%, rgba(2,9,20,.58) 100%),
+    linear-gradient(180deg, rgba(2,9,20,.06) 0%, rgba(2,9,20,.10) 55%, rgba(2,9,20,.24) 100%) !important;
+}
+
+@media (max-width: 800px) {
+  html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat > img.hlc-auth-city-media {
+    inset: 72px 0 0 0 !important;
+    width: 100% !important;
+    height: calc(100% - 72px) !important;
+    min-height: calc(100% - 72px) !important;
+    object-position: center center !important;
+    filter: saturate(.96) contrast(1.04) brightness(.76) !important;
+  }
+
+  html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat > .hlc-auth-city-shade {
+    inset: 72px 0 0 0 !important;
+    width: 100% !important;
+    height: calc(100% - 72px) !important;
+    min-height: calc(100% - 72px) !important;
+    background:
+      linear-gradient(180deg, rgba(2,9,20,.05) 0%, rgba(2,9,20,.14) 32%, rgba(2,9,20,.36) 62%, rgba(2,9,20,.54) 100%),
+      linear-gradient(90deg, rgba(2,9,20,.08), rgba(2,9,20,.22)) !important;
+  }
+}
+
 @media (max-width: 720px) {
   html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-public-links a:not(.hlc-auth-public-request) {
     display: none !important;
