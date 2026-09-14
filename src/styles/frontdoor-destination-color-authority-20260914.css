@@ -1,0 +1,215 @@
+/* HomeLead Connect public destination-color authority — presentation only.
+   Color follows destination/role, not component type.
+   No route, auth, data, billing, CRM, portal, or workflow behavior changes. */
+
+:root{
+  --hlc-resident:#62e6b3;
+  --hlc-professional:#55c8ff;
+  --hlc-partner:#ffc443;
+  --hlc-community:#c38cff;
+  --hlc-destination-ink:#03111f;
+}
+
+/* HOME / FOUR PATHWAYS — role title, CTA, border and destination identity stay together. */
+.hlc-family-ecosystem .hlc-board-pathway--resident{
+  border-color:color-mix(in srgb,var(--hlc-resident) 68%,transparent)!important;
+}
+.hlc-family-ecosystem .hlc-board-pathway--professional{
+  border-color:color-mix(in srgb,var(--hlc-professional) 68%,transparent)!important;
+}
+.hlc-family-ecosystem .hlc-board-pathway--partner{
+  border-color:color-mix(in srgb,var(--hlc-partner) 68%,transparent)!important;
+}
+.hlc-family-ecosystem .hlc-board-pathway--community{
+  border-color:color-mix(in srgb,var(--hlc-community) 68%,transparent)!important;
+}
+
+.hlc-family-ecosystem .hlc-board-pathway--resident .hlc-board-pathway-label,
+.hlc-family-ecosystem .hlc-board-pathway--resident .hlc-family-pathway-link{
+  color:var(--hlc-resident)!important;
+}
+.hlc-family-ecosystem .hlc-board-pathway--professional .hlc-board-pathway-label,
+.hlc-family-ecosystem .hlc-board-pathway--professional .hlc-family-pathway-link{
+  color:var(--hlc-professional)!important;
+}
+.hlc-family-ecosystem .hlc-board-pathway--partner .hlc-board-pathway-label,
+.hlc-family-ecosystem .hlc-board-pathway--partner .hlc-family-pathway-link{
+  color:var(--hlc-partner)!important;
+}
+.hlc-family-ecosystem .hlc-board-pathway--community .hlc-board-pathway-label,
+.hlc-family-ecosystem .hlc-board-pathway--community .hlc-family-pathway-link{
+  color:var(--hlc-community)!important;
+}
+
+/* PUBLIC HOME NAV + MOBILE MENU — destination determines text color. */
+.hlc-family-ecosystem .hlc-board-links a[href="/homeowners"],
+.hlc-family-ecosystem .hlc-board-menu-panel a[href="/homeowners"]{
+  color:var(--hlc-resident)!important;
+}
+.hlc-family-ecosystem .hlc-board-links a[href="/professionals"],
+.hlc-family-ecosystem .hlc-board-menu-panel a[href="/professionals"]{
+  color:var(--hlc-professional)!important;
+}
+.hlc-family-ecosystem .hlc-board-links a[href="/partners"],
+.hlc-family-ecosystem .hlc-board-menu-panel a[href="/partners"]{
+  color:var(--hlc-partner)!important;
+}
+.hlc-family-ecosystem .hlc-board-links a[href="/community"],
+.hlc-family-ecosystem .hlc-board-menu-panel a[href="/community"]{
+  color:var(--hlc-community)!important;
+}
+
+/* SHARED PUBLIC NAV — same authority on every front-door page. */
+.hlc-public-site-nav a[href$="/homeowners"]{color:var(--hlc-resident)!important}
+.hlc-public-site-nav a[href$="/professionals"]{color:var(--hlc-professional)!important}
+.hlc-public-site-nav a[href$="/partners"]{color:var(--hlc-partner)!important}
+.hlc-public-site-nav a[href$="/community"]{color:var(--hlc-community)!important}
+
+/* RESIDENT DESTINATIONS / SERVICE REQUESTS. */
+.hlc-family-ecosystem a[href*="/request-service"],
+.hlc-public-page a[href*="/request-service"]{
+  --destination-accent:var(--hlc-resident);
+}
+.hlc-family-ecosystem .hlc-mobile-request-link,
+.hlc-family-ecosystem .hlc-family-hero-actions a[href*="/request-service"]{
+  color:var(--hlc-resident)!important;
+}
+.hlc-family-ecosystem .hlc-family-hero-actions .hlc-board-cta[href*="/request-service"],
+.hlc-family-ecosystem .hlc-family-entry-actions a[href*="/request-service"],
+.hlc-public-page .hlc-public-primary[href*="/request-service"]{
+  background:var(--hlc-resident)!important;
+  border-color:var(--hlc-resident)!important;
+  color:var(--hlc-destination-ink)!important;
+}
+
+/* PROFESSIONAL DESTINATIONS. */
+.hlc-family-ecosystem .hlc-family-entry-actions a[href*="/professional-application"],
+.hlc-public-page .hlc-public-primary[href*="/professional-application"]{
+  background:var(--hlc-professional)!important;
+  border-color:var(--hlc-professional)!important;
+  color:var(--hlc-destination-ink)!important;
+}
+.hlc-family-ecosystem a[href="/professionals"],
+.hlc-public-page a[href$="/professionals"],
+.hlc-public-page a[href*="/professional-application"]{
+  color:var(--hlc-professional)!important;
+}
+
+/* PARTNER DESTINATIONS. */
+.hlc-family-ecosystem .hlc-family-entry-actions a[href="/partners"],
+.hlc-public-page .hlc-public-primary[href$="/partners"]{
+  background:var(--hlc-partner)!important;
+  border-color:var(--hlc-partner)!important;
+  color:var(--hlc-destination-ink)!important;
+}
+.hlc-family-ecosystem a[href="/partners"],
+.hlc-public-page a[href$="/partners"]{
+  color:var(--hlc-partner)!important;
+}
+
+/* COMMUNITY DESTINATIONS. */
+.hlc-family-ecosystem a[href="/community"],
+.hlc-public-page a[href$="/community"]{
+  color:var(--hlc-community)!important;
+}
+.hlc-family-ecosystem .hlc-family-entry-actions a[href="/community"],
+.hlc-public-page .hlc-public-primary[href$="/community"]{
+  background:var(--hlc-community)!important;
+  border-color:var(--hlc-community)!important;
+  color:var(--hlc-destination-ink)!important;
+}
+
+/* ROLE PAGES — titles, role labels, links, borders and primary buttons share one role color. */
+.hlc-public-page[data-public-page="homeowners"]{
+  --profile-accent:var(--hlc-resident);
+}
+.hlc-public-page[data-public-page="contractors"],
+.hlc-public-page[data-public-page="professionals"]{
+  --profile-accent:var(--hlc-professional);
+}
+.hlc-public-page[data-public-page="partners"]{
+  --profile-accent:var(--hlc-partner);
+}
+.hlc-public-page[data-public-page="community"]{
+  --profile-accent:var(--hlc-community);
+}
+
+.hlc-public-page[data-public-page="homeowners"] h1,
+.hlc-public-page[data-public-page="homeowners"] h2,
+.hlc-public-page[data-public-page="homeowners"] h3,
+.hlc-public-page[data-public-page="contractors"] h1,
+.hlc-public-page[data-public-page="contractors"] h2,
+.hlc-public-page[data-public-page="contractors"] h3,
+.hlc-public-page[data-public-page="professionals"] h1,
+.hlc-public-page[data-public-page="professionals"] h2,
+.hlc-public-page[data-public-page="professionals"] h3,
+.hlc-public-page[data-public-page="partners"] h1,
+.hlc-public-page[data-public-page="partners"] h2,
+.hlc-public-page[data-public-page="partners"] h3,
+.hlc-public-page[data-public-page="community"] h1,
+.hlc-public-page[data-public-page="community"] h2,
+.hlc-public-page[data-public-page="community"] h3,
+.hlc-public-page[data-public-page="homeowners"] .hlc-public-kicker,
+.hlc-public-page[data-public-page="contractors"] .hlc-public-kicker,
+.hlc-public-page[data-public-page="professionals"] .hlc-public-kicker,
+.hlc-public-page[data-public-page="partners"] .hlc-public-kicker,
+.hlc-public-page[data-public-page="community"] .hlc-public-kicker,
+.hlc-public-page[data-public-page="homeowners"] .hlc-public-card-label,
+.hlc-public-page[data-public-page="contractors"] .hlc-public-card-label,
+.hlc-public-page[data-public-page="professionals"] .hlc-public-card-label,
+.hlc-public-page[data-public-page="partners"] .hlc-public-card-label,
+.hlc-public-page[data-public-page="community"] .hlc-public-card-label,
+.hlc-public-page[data-public-page="homeowners"] .hlc-public-link,
+.hlc-public-page[data-public-page="contractors"] .hlc-public-link,
+.hlc-public-page[data-public-page="professionals"] .hlc-public-link,
+.hlc-public-page[data-public-page="partners"] .hlc-public-link,
+.hlc-public-page[data-public-page="community"] .hlc-public-link{
+  color:var(--profile-accent)!important;
+}
+
+.hlc-public-page[data-public-page="homeowners"] .hlc-public-primary,
+.hlc-public-page[data-public-page="contractors"] .hlc-public-primary,
+.hlc-public-page[data-public-page="professionals"] .hlc-public-primary,
+.hlc-public-page[data-public-page="partners"] .hlc-public-primary,
+.hlc-public-page[data-public-page="community"] .hlc-public-primary{
+  background:var(--profile-accent)!important;
+  border-color:var(--profile-accent)!important;
+  color:var(--hlc-destination-ink)!important;
+}
+
+.hlc-public-page[data-public-page="homeowners"] .hlc-public-card,
+.hlc-public-page[data-public-page="contractors"] .hlc-public-card,
+.hlc-public-page[data-public-page="professionals"] .hlc-public-card,
+.hlc-public-page[data-public-page="partners"] .hlc-public-card,
+.hlc-public-page[data-public-page="community"] .hlc-public-card,
+.hlc-public-page[data-public-page="homeowners"] .hlc-public-visual,
+.hlc-public-page[data-public-page="contractors"] .hlc-public-visual,
+.hlc-public-page[data-public-page="professionals"] .hlc-public-visual,
+.hlc-public-page[data-public-page="partners"] .hlc-public-visual,
+.hlc-public-page[data-public-page="community"] .hlc-public-visual{
+  border-color:color-mix(in srgb,var(--profile-accent) 58%,transparent)!important;
+}
+
+/* General actions remain neutral unless their destination is one of the four role protocols. */
+.hlc-family-ecosystem a[href="/about"],
+.hlc-family-ecosystem a[href="/services"],
+.hlc-family-ecosystem a[href*="/login"],
+.hlc-family-ecosystem a[href*="/register"],
+.hlc-public-site-nav a[href$="/about"],
+.hlc-public-site-nav a[href$="/services"],
+.hlc-public-site-nav a[href*="/login"],
+.hlc-public-site-nav a[href*="/register"]{
+  --destination-accent:initial;
+}
+
+/* Button labels use dark ink over the destination fill, even when a broader destination text rule also matches. */
+.hlc-family-ecosystem .hlc-family-entry-actions a[href*="/request-service"],
+.hlc-family-ecosystem .hlc-family-entry-actions a[href*="/professional-application"],
+.hlc-family-ecosystem .hlc-family-entry-actions a[href="/partners"],
+.hlc-family-ecosystem .hlc-family-entry-actions a[href="/community"],
+.hlc-public-page .hlc-public-primary[href*="/request-service"],
+.hlc-public-page .hlc-public-primary[href*="/professional-application"],
+.hlc-public-page .hlc-public-primary[href$="/partners"],
+.hlc-public-page .hlc-public-primary[href$="/community"]{
+  color:var(--hlc-destination-ink)!important;
+}
