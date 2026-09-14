@@ -1,31 +1,35 @@
-/* Four Pathways photography-only visual pass.
-   Derived from verified production 2fc1a6c05f00cc956734ec7a2cfdd5cab4e7ae1a.
-   No copy, layout, navigation, auth, route, or behavior changes. */
+/* Four Pathways production runtime photography authority.
+   Derived from canonical production e35dc3f0d9c9b1b0d6838123371f30c201d34a2f.
+   Live runtime verification proved the pathway elements survive but their final
+   background-image resolves empty. These selectors are intentionally scoped to
+   the public HomeLead Connect ecosystem root and use !important so later visual
+   resets cannot erase the approved pathway photography.
+   No copy, layout, navigation, auth, route, backend, or behavior changes. */
 
-.hlc-family-ecosystem .hlc-board-pathway--resident{
-  background-image:url('https://images.pexels.com/photos/5727801/pexels-photo-5727801.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200');
-  background-size:cover;
-  background-repeat:no-repeat;
-  background-position:center 35%;
+html body #root .hlc-family-ecosystem .hlc-board-pathway--resident{
+  background-image:url('https://images.pexels.com/photos/5727801/pexels-photo-5727801.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200') !important;
+  background-size:cover !important;
+  background-repeat:no-repeat !important;
+  background-position:center 35% !important;
 }
 
-.hlc-family-ecosystem .hlc-board-pathway--professional{
-  background-image:url('https://images.pexels.com/photos/442160/pexels-photo-442160.jpeg?cs=srgb&dl=pexels-field-engineer-147254-442160.jpg&fm=jpg');
-  background-size:cover;
-  background-repeat:no-repeat;
-  background-position:center 30%;
+html body #root .hlc-family-ecosystem .hlc-board-pathway--professional{
+  background-image:url('https://images.pexels.com/photos/442160/pexels-photo-442160.jpeg?cs=srgb&dl=pexels-field-engineer-147254-442160.jpg&fm=jpg') !important;
+  background-size:cover !important;
+  background-repeat:no-repeat !important;
+  background-position:center 30% !important;
 }
 
-.hlc-family-ecosystem .hlc-board-pathway--partner{
-  background-image:url('https://images.pexels.com/photos/9430884/pexels-photo-9430884.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200'),url('/partners-collaboration.svg');
-  background-size:cover,cover;
-  background-repeat:no-repeat,no-repeat;
-  background-position:center 40%,center center;
+html body #root .hlc-family-ecosystem .hlc-board-pathway--partner{
+  background-image:url('https://images.pexels.com/photos/9430884/pexels-photo-9430884.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200'),url('/partners-collaboration.svg') !important;
+  background-size:cover,cover !important;
+  background-repeat:no-repeat,no-repeat !important;
+  background-position:center 40%,center center !important;
 }
 
-.hlc-family-ecosystem .hlc-board-pathway--community{
-  background-image:url('https://images.pexels.com/photos/30477317/pexels-photo-30477317/free-photo-of-outdoor-church-community-gathering-in-clemson.jpeg?auto=compress&w=1600');
-  background-size:cover;
-  background-repeat:no-repeat;
-  background-position:center 35%;
+html body #root .hlc-family-ecosystem .hlc-board-pathway--community{
+  background-image:url('https://images.pexels.com/photos/30477317/pexels-photo-30477317/free-photo-of-outdoor-church-community-gathering-in-clemson.jpeg?auto=compress&w=1600') !important;
+  background-size:cover !important;
+  background-repeat:no-repeat !important;
+  background-position:center 35% !important;
 }
