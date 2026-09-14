@@ -30,7 +30,8 @@ test("public home renders without paying React startup cost", () => {
 });
 
 test("no-React public root uses the official full logo with the Connected Experience identity", () => {
-  assert.match(main, /src="\/hlc-logo-public\.webp"/);
+  assert.match(main, /src="\/hlc-logo-real\.webp"/);
+  assert.doesNotMatch(main, /\/hlc-logo-public\.webp/);
   assert.doesNotMatch(main, /\/hlc-logo-ui\.png/);
   assert.match(main, /class="hlc-board-home hlc-v2-home hlc-family-ecosystem"/);
   assert.match(main, /The Connected Experience/);
@@ -45,8 +46,9 @@ test("no-React public root uses the official full logo with the Connected Experi
 });
 
 test("parser-seeded public hero preserves the optimized Connected Experience first-paint contract", () => {
-  assert.match(indexHtml, /src="\/hlc-logo-public\.webp"/);
-  assert.match(indexHtml, /width="440" height="142"/);
+  assert.match(indexHtml, /src="\/hlc-logo-real\.webp"/);
+  assert.match(indexHtml, /width="600" height="500"/);
+  assert.doesNotMatch(indexHtml, /\/hlc-logo-public\.webp/);
   assert.doesNotMatch(indexHtml, /\/hlc-logo-ui\.png/);
   assert.match(indexHtml, /hlc-v2-home hlc-v2-parser-seed/);
   assert.match(indexHtml, /The Connected Experience/);
