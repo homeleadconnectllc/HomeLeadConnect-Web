@@ -74,28 +74,12 @@ jobs:
             '/four-pathways-community-hq-20260915.jpg'
           )
 
-          matches=()
-          while IFS= read -r css_file; do
-            all_present=yes
-            for marker in "${markers[@]}"; do
-              if ! grep -Fq "$marker" "$css_file"; then
-                all_present=no
-                break
-              fi
-            done
-            if [ "$all_present" = yes ]; then
-              matches+=("$css_file")
-            fi
-          done < <(find dist/assets -maxdepth 1 -type f -name '*.css' -print | sort)
-
-          if [ "${#matches[@]}" -ne 1 ]; then
-            echo "Expected exactly one built CSS chunk containing all Four Pathways markers; found ${#matches[@]}."
-            printf '%s\n' "${matches[@]:-}"
-            exit 1
-          fi
-
-          css_file="${matches[0]}"
-          css_asset="/${css_file#dist/}"
+          css_asset="$ENTRY_CSS"
+          css_file="dist${css_asset}"
+          test -f "$css_file"
+          for marker in "${markers[@]}"; do
+            grep -Fq "$marker" "$css_file"
+          done
           css_sha="$(sha256sum "$css_file" | awk '{print $1}')"
           echo "FOUR_PATHWAYS_CSS=$css_asset" >> "$GITHUB_ENV"
           echo "FOUR_PATHWAYS_CSS_SHA=$css_sha" >> "$GITHUB_ENV"
