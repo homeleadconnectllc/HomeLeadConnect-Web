@@ -1,0 +1,139 @@
+/* HomeLead Connect public-home section blend authority — 2026-09-15.
+   Presentation-only: remove hard horizontal color seams while preserving layout, content,
+   photography, routes, behavior, and the certified front-door structure. */
+
+/* Hero -> Four Pathways: finish the hero with a soft tonal falloff instead of a rule. */
+html body #root .hlc-family-ecosystem .hlc-family-hero{
+  border-bottom:0!important;
+  box-shadow:inset 0 -150px 130px -82px rgba(4,19,38,.72)!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-board-pathway-band{
+  position:relative!important;
+  border-top:0!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-board-pathway-band::after{
+  content:"";
+  position:absolute;
+  top:0;
+  right:0;
+  left:0;
+  height:220px;
+  pointer-events:none;
+  z-index:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(4,19,38,.98) 0%,
+    rgba(4,25,46,.72) 26%,
+    rgba(4,28,50,.42) 50%,
+    rgba(4,29,52,.16) 74%,
+    rgba(4,29,52,0) 100%
+  );
+}
+
+html body #root .hlc-family-ecosystem .hlc-board-pathway-heading,
+html body #root .hlc-family-ecosystem .hlc-board-pathway-inner{
+  position:relative!important;
+  z-index:1!important;
+}
+
+/* Four Pathways -> Vision: match the pathway floor first, then feather into Vision. */
+html body #root .hlc-family-ecosystem .hlc-family-vision{
+  border-top:0!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-family-vision::before{
+  content:"";
+  position:absolute;
+  top:0;
+  right:0;
+  left:0;
+  height:220px;
+  pointer-events:none;
+  z-index:1;
+  background:linear-gradient(
+    to bottom,
+    rgba(6,25,46,.98) 0%,
+    rgba(6,27,49,.70) 25%,
+    rgba(7,31,55,.40) 50%,
+    rgba(8,35,61,.15) 76%,
+    rgba(8,35,61,0) 100%
+  );
+}
+
+html body #root .hlc-family-ecosystem .hlc-family-vision-inner{
+  position:relative!important;
+  z-index:2!important;
+}
+
+/* Vision -> final entry: begin in the Vision tone and dissolve into the entry surface. */
+html body #root .hlc-family-ecosystem .hlc-family-entry{
+  position:relative!important;
+  border-top:0!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-family-entry::before{
+  content:"";
+  position:absolute;
+  top:0;
+  right:0;
+  left:0;
+  height:220px;
+  pointer-events:none;
+  z-index:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(11,41,69,.90) 0%,
+    rgba(9,35,60,.62) 28%,
+    rgba(7,29,51,.34) 54%,
+    rgba(6,25,45,.12) 78%,
+    rgba(6,25,45,0) 100%
+  );
+}
+
+html body #root .hlc-family-ecosystem .hlc-family-entry-inner{
+  position:relative!important;
+  z-index:1!important;
+}
+
+/* Final entry -> footer: prevent the last public-home boundary from reading as a flat strip. */
+html body #root .hlc-family-ecosystem .hlc-board-footer{
+  position:relative!important;
+  border-top:0!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-board-footer::before{
+  content:"";
+  position:absolute;
+  top:0;
+  right:0;
+  left:0;
+  height:150px;
+  pointer-events:none;
+  z-index:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(6,25,45,.72) 0%,
+    rgba(5,22,40,.42) 42%,
+    rgba(4,19,35,.14) 72%,
+    rgba(4,19,35,0) 100%
+  );
+}
+
+html body #root .hlc-family-ecosystem .hlc-board-footer > *{
+  position:relative!important;
+  z-index:1!important;
+}
+
+@media(max-width:680px){
+  html body #root .hlc-family-ecosystem .hlc-board-pathway-band::after,
+  html body #root .hlc-family-ecosystem .hlc-family-vision::before,
+  html body #root .hlc-family-ecosystem .hlc-family-entry::before{
+    height:180px;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-family-hero{
+    box-shadow:inset 0 -120px 110px -68px rgba(4,19,38,.76)!important;
+  }
+}
