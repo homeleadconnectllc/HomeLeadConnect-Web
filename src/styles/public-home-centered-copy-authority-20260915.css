@@ -67,10 +67,10 @@ html body #root .hlc-family-ecosystem .hlc-family-hero-copy .hlc-family-kicker{
 }
 
 html body #root .hlc-family-ecosystem .hlc-family-hero-copy h1{
-  max-width:14ch!important;
+  max-width:17ch!important;
   margin:0 auto!important;
   font-size:clamp(52px,5.8vw,82px)!important;
-  line-height:1.02!important;
+  line-height:1.1!important;
 }
 
 html body #root .hlc-family-ecosystem .hlc-family-hero-copy>p:not(.hlc-family-kicker){
@@ -144,7 +144,7 @@ html body #root .hlc-family-ecosystem .hlc-board-pathway-heading .hlc-family-kic
 html body #root .hlc-family-ecosystem .hlc-board-pathway-heading h2{
   margin:0!important;
   font-size:clamp(42px,4.5vw,62px)!important;
-  line-height:1.04!important;
+  line-height:1.12!important;
 }
 
 html body #root .hlc-family-ecosystem .hlc-board-pathway-heading h2 span{
@@ -190,7 +190,7 @@ html body #root .hlc-family-ecosystem .hlc-board-pathway-content{
 html body #root .hlc-family-ecosystem .hlc-board-pathway-label{
   margin:0 0 10px!important;
   font-size:clamp(27px,2.2vw,34px)!important;
-  line-height:1.1!important;
+  line-height:1.16!important;
 }
 
 html body #root .hlc-family-ecosystem .hlc-board-pathway-copy{
@@ -239,7 +239,7 @@ html body #root .hlc-family-ecosystem .hlc-family-vision h2{
   max-width:15ch!important;
   margin:0 auto!important;
   font-size:clamp(46px,4.8vw,72px)!important;
-  line-height:1.02!important;
+  line-height:1.1!important;
 }
 
 html body #root .hlc-family-ecosystem .hlc-family-vision-note{
@@ -280,7 +280,7 @@ html body #root .hlc-family-ecosystem .hlc-family-entry h2{
   max-width:20ch!important;
   margin:0 auto!important;
   font-size:clamp(32px,3.6vw,48px)!important;
-  line-height:1.1!important;
+  line-height:1.16!important;
 }
 
 html body #root .hlc-family-ecosystem .hlc-family-pricing-note{
@@ -369,7 +369,7 @@ html body #root .hlc-family-ecosystem .hlc-board-footer small{
   html body #root .hlc-family-ecosystem .hlc-family-hero-copy h1{
     max-width:11.5ch!important;
     font-size:clamp(38px,10.25vw,48px)!important;
-    line-height:1.04!important;
+    line-height:1.1!important;
     letter-spacing:-.03em!important;
   }
 
@@ -410,7 +410,7 @@ html body #root .hlc-family-ecosystem .hlc-board-footer small{
 
   html body #root .hlc-family-ecosystem .hlc-board-pathway-heading h2{
     font-size:clamp(36px,9vw,44px)!important;
-    line-height:1.08!important;
+    line-height:1.14!important;
   }
 
   html body #root .hlc-family-ecosystem .hlc-family-pathway-subtitle{
@@ -436,7 +436,7 @@ html body #root .hlc-family-ecosystem .hlc-board-footer small{
 
   html body #root .hlc-family-ecosystem .hlc-board-pathway-label{
     font-size:clamp(26px,7vw,30px)!important;
-    line-height:1.12!important;
+    line-height:1.18!important;
   }
 
   html body #root .hlc-family-ecosystem .hlc-board-pathway-copy{
@@ -469,7 +469,7 @@ html body #root .hlc-family-ecosystem .hlc-board-footer small{
   html body #root .hlc-family-ecosystem .hlc-family-vision h2{
     max-width:13ch!important;
     font-size:clamp(38px,10vw,48px)!important;
-    line-height:1.04!important;
+    line-height:1.1!important;
   }
 
   html body #root .hlc-family-ecosystem .hlc-family-vision-note{
@@ -489,7 +489,7 @@ html body #root .hlc-family-ecosystem .hlc-board-footer small{
   html body #root .hlc-family-ecosystem .hlc-family-entry h2{
     max-width:17ch!important;
     font-size:clamp(30px,8vw,38px)!important;
-    line-height:1.14!important;
+    line-height:1.18!important;
   }
 
   html body #root .hlc-family-ecosystem .hlc-family-pricing-note{
