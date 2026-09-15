@@ -1,6 +1,17 @@
 @media (max-width: 680px) {
+  .hlc-board-pathway-heading .hlc-family-pathway-subtitle {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center !important;
+    color: #42b7ff !important;
+  }
+
   .hlc-board-pathway-heading .hlc-family-pathway-subtitle .hlc-pathway-subtitle-line {
     display: block;
+    width: 100%;
+    text-align: center !important;
+    color: #42b7ff !important;
   }
 
   .hlc-board-pathway-heading .hlc-family-pathway-subtitle .hlc-pathway-subtitle-last-line {
