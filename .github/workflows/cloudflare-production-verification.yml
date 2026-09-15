@@ -31,10 +31,10 @@ jobs:
         run: |
           set -euo pipefail
           cat > /tmp/four-pathways.sha256 <<'EOF'
-          b561b5f1ec9205f98f6d64823a18ffc8336f9720da54c1d9f9aa37a2515d4af0  public/four-pathways-residents-hq-20260915.jpg
-          3b64008bf190d0aa9709602a1fed4168d6d9d5eca0edcbe4f5fddc6a9c7ef58f  public/four-pathways-professionals-hq-20260915.jpg
-          b2d36b2f1ba59690093a9b07db9996ad0062f83dde4c97eede1e5c7bd9bbc958  public/four-pathways-partners-hq-20260915.jpg
-          b0f867f47795b1cd1f94b0923befc8fb98aef8bca418a6e6c4152347d8550091  public/four-pathways-community-hq-20260915.jpg
+          8dae49e7a875aa12523f4fe7eaaff9fda49c3ff5438472e2e22e51d060d7e09b  public/four-pathways-residents-hq-20260915.jpg
+          4df6446e022a42f720b7ff90da6af8148d17787bf13f5adf2eb71ea8aa82cd46  public/four-pathways-professionals-hq-20260915.jpg
+          bb1514ec33d6ac4091ad7d8cdc548b294bd14cf54e8ba787c3f127ba06683c1a  public/four-pathways-partners-hq-20260915.jpg
+          75b1f369f5dea143dc6e53885cfd62884851e00e3ad6090c9ac50832bd6cea73  public/four-pathways-community-hq-20260915.jpg
           EOF
           sha256sum -c /tmp/four-pathways.sha256
 
@@ -240,10 +240,10 @@ jobs:
         run: |
           set -euo pipefail
           assets=(
-            'four-pathways-residents-hq-20260915.jpg|b561b5f1ec9205f98f6d64823a18ffc8336f9720da54c1d9f9aa37a2515d4af0'
-            'four-pathways-professionals-hq-20260915.jpg|3b64008bf190d0aa9709602a1fed4168d6d9d5eca0edcbe4f5fddc6a9c7ef58f'
-            'four-pathways-partners-hq-20260915.jpg|b2d36b2f1ba59690093a9b07db9996ad0062f83dde4c97eede1e5c7bd9bbc958'
-            'four-pathways-community-hq-20260915.jpg|b0f867f47795b1cd1f94b0923befc8fb98aef8bca418a6e6c4152347d8550091'
+            'four-pathways-residents-hq-20260915.jpg|8dae49e7a875aa12523f4fe7eaaff9fda49c3ff5438472e2e22e51d060d7e09b'
+            'four-pathways-professionals-hq-20260915.jpg|4df6446e022a42f720b7ff90da6af8148d17787bf13f5adf2eb71ea8aa82cd46'
+            'four-pathways-partners-hq-20260915.jpg|bb1514ec33d6ac4091ad7d8cdc548b294bd14cf54e8ba787c3f127ba06683c1a'
+            'four-pathways-community-hq-20260915.jpg|75b1f369f5dea143dc6e53885cfd62884851e00e3ad6090c9ac50832bd6cea73'
           )
 
           for host in \
