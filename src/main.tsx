@@ -18,6 +18,7 @@ import "./styles/public-home-centered-copy-authority-20260915.css";
 import "./styles/public-home-title-spacing-repair-20260915.css";
 import "./styles/public-home-section-blend-authority-20260915.css";
 import "./styles/public-home-final-composition-20260915.css";
+import "./styles/public-home-mobile-nav-v5-20260915.css";
 
 /*
 Authenticated runtime ownership moved to styles/app-shell-entry.ts so the public homepage can stay lightweight.
@@ -39,6 +40,9 @@ const APP_HOST = "app.homeleadconnect.org";
 const isPublicHome = window.location.pathname === "/" && window.location.hostname.toLowerCase() !== APP_HOST;
 const rootElement = document.getElementById("root")!;
 
+const mobileMenuIcon = (paths: string) => `<span class="hlc-mobile-icon-nav-v5__icon" aria-hidden="true"><svg viewBox="0 0 24 24">${paths}</svg></span>`;
+const mobileMenuItem = (tone: string, label: string, href: string, icon: string) => `<a class="hlc-mobile-icon-nav-v5__item hlc-mobile-icon-nav-v5__item--${tone}" href="${href}">${mobileMenuIcon(icon)}<span class="hlc-mobile-icon-nav-v5__label">${label}</span></a>`;
+
 function publicHomeMarkup() {
   return `
     <main class="hlc-board-home hlc-v2-home hlc-family-ecosystem">
@@ -50,7 +54,19 @@ function publicHomeMarkup() {
             <a class="hlc-board-login" href="https://app.homeleadconnect.org/login">Sign In</a>
             <a class="hlc-board-cta" href="https://app.homeleadconnect.org/register">Get Started →</a>
             <a class="hlc-mobile-sign-in-link" href="https://app.homeleadconnect.org/login">Sign In</a>
-            <details class="hlc-board-menu"><summary>Menu</summary><div class="hlc-board-menu-panel"><a href="/about">About</a><a href="/homeowners">For Residents</a><a href="/professionals">For Professionals</a><a href="/partners">For Partners</a><a href="/community">Community</a><a href="/services">Resources</a><a href="https://app.homeleadconnect.org/login">Sign In</a><a href="https://app.homeleadconnect.org/register">Get Started</a></div></details>
+            <details class="hlc-mobile-icon-nav-v5" data-mobile-nav-version="5">
+              <summary class="hlc-mobile-icon-nav-v5__trigger">Menu</summary>
+              <nav class="hlc-mobile-icon-nav-v5__panel" aria-label="Mobile navigation">
+                ${mobileMenuItem("about", "About", "/about", '<circle cx="12" cy="12" r="9"></circle><path d="M12 10v6"></path><path d="M12 7h.01"></path>')}
+                ${mobileMenuItem("resident", "For Residents", "/homeowners", '<path d="M3 11.5 12 4l9 7.5"></path><path d="M5.5 10.5V20h13v-9.5"></path><path d="M9.5 20v-6h5v6"></path>')}
+                ${mobileMenuItem("professional", "For Professionals", "/professionals", '<path d="m14.7 6.3 3-3a5 5 0 0 1-6.4 6.4L5 16l-3 3 3 3 3-3 6.3-6.3a5 5 0 0 1 6.4-6.4l-3 3-3-3Z"></path>')}
+                ${mobileMenuItem("partner", "For Partners", "/partners", '<path d="M10 13a5 5 0 0 0 7.54.54l2-2a5 5 0 0 0-7.07-7.07l-1.15 1.15"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-2 2a5 5 0 0 0 7.07 7.07l1.15-1.15"></path>')}
+                ${mobileMenuItem("community", "Community", "/community", '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>')}
+                ${mobileMenuItem("resources", "Resources", "/services", '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M4 4h16v16H6.5A2.5 2.5 0 0 1 4 17.5z"></path>')}
+                ${mobileMenuItem("signin", "Sign In", "https://app.homeleadconnect.org/login", '<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" x2="3" y1="12" y2="12"></line>')}
+                ${mobileMenuItem("start", "Get Started", "https://app.homeleadconnect.org/register", '<circle cx="12" cy="12" r="9"></circle><path d="m8.5 12 2.3 2.3 4.7-4.8"></path>')}
+              </nav>
+            </details>
           </div>
         </div>
       </header>
