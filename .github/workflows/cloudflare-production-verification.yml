@@ -26,6 +26,18 @@ jobs:
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit --fund=false
 
+      - name: Verify exact Four Pathways source assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > /tmp/four-pathways.sha256 <<'EOF'
+          0d88763205acc67093384d9d148df52f6b9612312169e9d20beb2b2bf1463fcb  public/four-pathways-residents-approved-20260915.jpg
+          4433f71c6ce26bd264491c3ae757f71bf3dc367bf47dd58e6d7291595aace7ae  public/four-pathways-professionals-approved-20260915.jpg
+          bd71a5522d255221afaed33c2c5b915a64a0ae7a3bbc13e130a2c31c7464fbe5  public/four-pathways-partners-approved-20260915.jpg
+          93c22a5e4b6a1024d22b36d493f455b63228160c0e2b11410cfe2a7affa8f58e  public/four-pathways-community-approved-20260915.jpg
+          EOF
+          sha256sum -c /tmp/four-pathways.sha256
+
       - name: Verify production source
         run: npm run verify:launch
 
@@ -92,10 +104,10 @@ jobs:
         run: |
           set -euo pipefail
           markers=(
-            '/four-pathways-residents.jpg'
-            '/four-pathways-professionals.jpg'
-            '/four-pathways-partners.jpg'
-            '/four-pathways-community.jpg'
+            '/four-pathways-residents-approved-20260915.jpg'
+            '/four-pathways-professionals-approved-20260915.jpg'
+            '/four-pathways-partners-approved-20260915.jpg'
+            '/four-pathways-community-approved-20260915.jpg'
           )
           for host in \
             https://homeleadconnect.org \
@@ -113,6 +125,37 @@ jobs:
               grep -Fq "$marker" "$runtime_asset"
             done
             rm -f "$runtime_asset"
+          done
+
+      - name: Verify deployed Four Pathways image hashes
+        shell: bash
+        run: |
+          set -euo pipefail
+          assets=(
+            'four-pathways-residents-approved-20260915.jpg|0d88763205acc67093384d9d148df52f6b9612312169e9d20beb2b2bf1463fcb'
+            'four-pathways-professionals-approved-20260915.jpg|4433f71c6ce26bd264491c3ae757f71bf3dc367bf47dd58e6d7291595aace7ae'
+            'four-pathways-partners-approved-20260915.jpg|bd71a5522d255221afaed33c2c5b915a64a0ae7a3bbc13e130a2c31c7464fbe5'
+            'four-pathways-community-approved-20260915.jpg|93c22a5e4b6a1024d22b36d493f455b63228160c0e2b11410cfe2a7affa8f58e'
+          )
+
+          for host in \
+            https://homeleadconnect.org \
+            https://homeleadconnect-web.pages.dev; do
+            for item in "${assets[@]}"; do
+              filename="${item%%|*}"
+              expected="${item##*|}"
+              tmp="$(mktemp)"
+              curl --fail --silent --show-error --location \
+                --retry 3 --retry-all-errors --retry-delay 2 \
+                --connect-timeout 15 --max-time 45 \
+                -H 'Cache-Control: no-cache' \
+                -o "$tmp" \
+                "${host}/${filename}?hlc_verify=${GITHUB_SHA}"
+              actual="$(sha256sum "$tmp" | awk '{print $1}')"
+              rm -f "$tmp"
+              test "$actual" = "$expected"
+              echo "$host/$filename hash verified: $actual"
+            done
           done
 
       - name: Verify Cloudflare production surfaces
@@ -146,6 +189,7 @@ jobs:
           echo "Verified source SHA: $GITHUB_SHA"
           echo "Verified entry JS: $ENTRY_JS"
           echo "Verified entry CSS: $ENTRY_CSS"
+          echo "Verified Four Pathways exact versioned asset hashes"
           echo "Production public host: https://homeleadconnect.org"
           echo "Production app host: https://app.homeleadconnect.org"
           echo "Cloudflare Pages project: homeleadconnect-web"
