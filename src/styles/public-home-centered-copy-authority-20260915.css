@@ -13,7 +13,7 @@ html body #root .hlc-family-ecosystem .hlc-board-footer{
 html body #root .hlc-family-ecosystem .hlc-family-hero-copy h1{
   max-width:14ch!important;
   margin-inline:auto!important;
-  font-size:clamp(42px,5.4vw,72px)!important;
+  font-size:clamp(50px,6vw,82px)!important;
   line-height:.98!important;
   text-wrap:balance;
 }
@@ -21,7 +21,7 @@ html body #root .hlc-family-ecosystem .hlc-family-hero-copy h1{
 html body #root .hlc-family-ecosystem .hlc-family-hero-copy>p:not(.hlc-family-kicker){
   max-width:62ch!important;
   margin-inline:auto!important;
-  font-size:clamp(16px,1.55vw,20px)!important;
+  font-size:clamp(18px,1.65vw,22px)!important;
   text-wrap:pretty;
 }
 
@@ -39,26 +39,26 @@ html body #root .hlc-family-ecosystem .hlc-board-pathway-heading{
 }
 
 html body #root .hlc-family-ecosystem .hlc-board-pathway-heading h2{
-  font-size:clamp(36px,4vw,54px)!important;
+  font-size:clamp(42px,4.6vw,62px)!important;
   line-height:1!important;
   text-wrap:balance;
 }
 
 html body #root .hlc-family-ecosystem .hlc-family-pathway-subtitle{
   max-width:62ch!important;
-  font-size:clamp(14px,1.25vw,16px)!important;
+  font-size:clamp(16px,1.35vw,18px)!important;
   line-height:1.55!important;
 }
 
 html body #root .hlc-family-ecosystem .hlc-board-pathway-label{
-  font-size:clamp(23px,2vw,32px)!important;
+  font-size:clamp(27px,2.3vw,36px)!important;
   line-height:1.08!important;
   text-wrap:balance;
 }
 
 html body #root .hlc-family-ecosystem .hlc-board-pathway-copy{
   max-width:38ch!important;
-  font-size:clamp(15px,1.2vw,16px)!important;
+  font-size:clamp(16px,1.3vw,18px)!important;
   line-height:1.5!important;
 }
 
@@ -74,7 +74,7 @@ html body #root .hlc-family-ecosystem .hlc-family-vision-inner{
 html body #root .hlc-family-ecosystem .hlc-family-vision h2{
   max-width:15ch!important;
   margin-inline:auto!important;
-  font-size:clamp(40px,4.7vw,68px)!important;
+  font-size:clamp(46px,5vw,74px)!important;
   line-height:.98!important;
   text-wrap:balance;
 }
@@ -82,7 +82,7 @@ html body #root .hlc-family-ecosystem .hlc-family-vision h2{
 html body #root .hlc-family-ecosystem .hlc-family-vision-note{
   justify-self:center!important;
   max-width:48ch!important;
-  font-size:clamp(14px,1.2vw,16px)!important;
+  font-size:clamp(16px,1.35vw,18px)!important;
 }
 
 html body #root .hlc-family-ecosystem .hlc-family-vision-note:before{
@@ -90,7 +90,7 @@ html body #root .hlc-family-ecosystem .hlc-family-vision-note:before{
 }
 
 html body #root .hlc-family-ecosystem .hlc-family-entry h2{
-  font-size:clamp(28px,3.5vw,44px)!important;
+  font-size:clamp(32px,3.8vw,48px)!important;
   line-height:1.08!important;
   text-wrap:balance;
 }
@@ -119,7 +119,7 @@ html body #root .hlc-family-ecosystem .hlc-family-hero-actions .hlc-board-cta{
   background:transparent!important;
   color:var(--hlc-resident)!important;
   box-shadow:none!important;
-  font-size:clamp(16px,1.4vw,18px)!important;
+  font-size:clamp(17px,1.5vw,19px)!important;
   line-height:1.25!important;
   text-decoration:none!important;
 }
@@ -134,6 +134,21 @@ html body #root .hlc-family-ecosystem .hlc-mobile-sign-in-link:focus-visible{
   outline-offset:4px!important;
 }
 
+html body #root .hlc-family-ecosystem .hlc-board-footer{
+  font-size:14px!important;
+  line-height:1.5!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-board-footer strong{
+  font-size:20px!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-board-footer span,
+html body #root .hlc-family-ecosystem .hlc-board-footer a,
+html body #root .hlc-family-ecosystem .hlc-board-footer small{
+  font-size:13px!important;
+}
+
 @media(max-width:680px){
   html body #root .hlc-family-ecosystem .hlc-mobile-sign-in-link{
     display:inline-flex!important;
@@ -146,71 +161,81 @@ html body #root .hlc-family-ecosystem .hlc-mobile-sign-in-link:focus-visible{
 
   html body #root .hlc-family-ecosystem .hlc-family-hero-copy h1{
     max-width:12ch!important;
-    font-size:clamp(34px,10.5vw,46px)!important;
+    font-size:clamp(38px,11vw,50px)!important;
     line-height:1!important;
   }
 
   html body #root .hlc-family-ecosystem .hlc-family-hero-copy .hlc-family-kicker{
     max-width:30ch!important;
-    font-size:10px!important;
+    font-size:11px!important;
     line-height:1.5!important;
     letter-spacing:.24em!important;
   }
 
   html body #root .hlc-family-ecosystem .hlc-family-hero-copy>p:not(.hlc-family-kicker){
     max-width:38ch!important;
-    font-size:15px!important;
+    font-size:17px!important;
     line-height:1.5!important;
   }
 
   html body #root .hlc-family-ecosystem .hlc-board-pathway-heading h2{
-    font-size:clamp(34px,9vw,42px)!important;
+    font-size:clamp(38px,9.5vw,46px)!important;
   }
 
   html body #root .hlc-family-ecosystem .hlc-family-pathway-subtitle{
     max-width:36ch!important;
-    font-size:14px!important;
+    font-size:15px!important;
   }
 
   html body #root .hlc-family-ecosystem .hlc-board-pathway-label{
-    font-size:clamp(23px,7vw,28px)!important;
+    font-size:clamp(25px,7.5vw,30px)!important;
   }
 
   html body #root .hlc-family-ecosystem .hlc-board-pathway-copy,
   html body #root .hlc-family-ecosystem .hlc-family-pathway-link{
-    font-size:14px!important;
+    font-size:15px!important;
   }
 
   html body #root .hlc-family-ecosystem .hlc-family-vision h2{
     max-width:13ch!important;
-    font-size:clamp(36px,10vw,46px)!important;
+    font-size:clamp(40px,10.5vw,50px)!important;
   }
 
   html body #root .hlc-family-ecosystem .hlc-family-vision-note{
     max-width:36ch!important;
-    font-size:14px!important;
-    line-height:1.6!important;
+    font-size:15px!important;
+    line-height:1.65!important;
   }
 
   html body #root .hlc-family-ecosystem .hlc-family-entry h2{
     max-width:18ch!important;
     margin-inline:auto!important;
-    font-size:clamp(27px,7.5vw,34px)!important;
+    font-size:clamp(30px,8vw,38px)!important;
   }
 
   html body #root .hlc-family-ecosystem .hlc-family-hero-actions .hlc-board-cta{
     width:auto!important;
     max-width:100%!important;
-    font-size:16px!important;
+    font-size:17px!important;
   }
+  html body #root .hlc-family-ecosystem .hlc-board-footer{
+    font-size:14px!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-board-footer span,
+  html body #root .hlc-family-ecosystem .hlc-board-footer a,
+  html body #root .hlc-family-ecosystem .hlc-board-footer small{
+    font-size:13px!important;
+  }
+
 }
 
 @media(max-width:380px){
   html body #root .hlc-family-ecosystem .hlc-family-hero-copy h1{
-    font-size:clamp(32px,10vw,38px)!important;
+    font-size:clamp(35px,10.5vw,42px)!important;
   }
 
   html body #root .hlc-family-ecosystem .hlc-board-pathway-label{
-    font-size:23px!important;
+    font-size:25px!important;
   }
 }
