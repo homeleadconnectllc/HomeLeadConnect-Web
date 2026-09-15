@@ -26,6 +26,16 @@ const forbiddenLegacyLogoReferences = [
   "/hlc-logo-final.png",
 ];
 
+function paethPredictor(a: number, b: number, c: number) {
+  const p = a + b - c;
+  const pa = Math.abs(p - a);
+  const pb = Math.abs(p - b);
+  const pc = Math.abs(p - c);
+  if (pa <= pb && pa <= pc) return a;
+  if (pb <= pc) return b;
+  return c;
+}
+
 function pngAlphaAt(buffer: Buffer, x: number, y: number) {
   const width = buffer.readUInt32BE(16);
   const height = buffer.readUInt32BE(20);
@@ -42,10 +52,31 @@ function pngAlphaAt(buffer: Buffer, x: number, y: number) {
   }
 
   const raw = inflateSync(Buffer.concat(idat));
-  const rowBytes = width * 4;
-  const rowStart = y * (rowBytes + 1);
-  assert.equal(raw[rowStart], 0, "canonical transparent logo must use unfiltered RGBA rows");
-  return raw[rowStart + 1 + x * 4 + 3];
+  const bytesPerPixel = 4;
+  const rowBytes = width * bytesPerPixel;
+  let rawOffset = 0;
+  let previous = Buffer.alloc(rowBytes);
+
+  for (let row = 0; row < height; row += 1) {
+    const filter = raw[rawOffset++];
+    const current = Buffer.alloc(rowBytes);
+    for (let i = 0; i < rowBytes; i += 1) {
+      const encoded = raw[rawOffset++];
+      const left = i >= bytesPerPixel ? current[i - bytesPerPixel] : 0;
+      const up = previous[i];
+      const upLeft = i >= bytesPerPixel ? previous[i - bytesPerPixel] : 0;
+      if (filter === 0) current[i] = encoded;
+      else if (filter === 1) current[i] = (encoded + left) & 0xff;
+      else if (filter === 2) current[i] = (encoded + up) & 0xff;
+      else if (filter === 3) current[i] = (encoded + Math.floor((left + up) / 2)) & 0xff;
+      else if (filter === 4) current[i] = (encoded + paethPredictor(left, up, upLeft)) & 0xff;
+      else assert.fail(`unsupported PNG filter type ${filter}`);
+    }
+    if (row === y) return current[x * bytesPerPixel + 3];
+    previous = current;
+  }
+
+  assert.fail("requested PNG row was not decoded");
 }
 
 test("HLC canonical brand lock stays global before legacy and final release guards", () => {
@@ -81,21 +112,19 @@ test("official HLC mark stays canonical across shared UI, browser, PWA, and noti
   assert.match(serviceWorker, /badge:\s*"\/hlc-logo-transparent\.png"/);
 });
 
-test("canonical HLC logo asset is a 1024px RGBA PNG with a clean transparent outer band", () => {
+test("canonical HLC logo asset is the locked 1254px RGBA master derivative with transparent outer corners", () => {
   assert.deepEqual([...transparentLogo.subarray(0, 8)], [137, 80, 78, 71, 13, 10, 26, 10]);
-  assert.equal(transparentLogo.readUInt32BE(16), 1024);
-  assert.equal(transparentLogo.readUInt32BE(20), 1024);
+  assert.equal(transparentLogo.readUInt32BE(16), 1254);
+  assert.equal(transparentLogo.readUInt32BE(20), 1254);
   assert.equal(transparentLogo[24], 8);
   assert.equal(transparentLogo[25], 6);
 
-  const center = 512;
-  const edgeProbe = 18;
+  const last = 1253;
+  const center = 627;
   for (const [x, y] of [
-    [0, 0], [1023, 0], [0, 1023], [1023, 1023],
-    [center, edgeProbe], [center, 1023 - edgeProbe],
-    [edgeProbe, center], [1023 - edgeProbe, center],
+    [0, 0], [last, 0], [0, last], [last, last],
   ]) {
-    assert.equal(pngAlphaAt(transparentLogo, x, y), 0, `logo outer-band pixel ${x},${y} must be fully transparent`);
+    assert.equal(pngAlphaAt(transparentLogo, x, y), 0, `logo outer-corner pixel ${x},${y} must be fully transparent`);
   }
   assert.equal(pngAlphaAt(transparentLogo, center, center), 255, "logo center must remain fully opaque");
 });
