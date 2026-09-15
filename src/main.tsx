@@ -17,6 +17,7 @@ import "./styles/public-header-logo-authority-20260915.css";
 import "./styles/public-home-centered-copy-authority-20260915.css";
 import "./styles/public-home-title-spacing-repair-20260915.css";
 import "./styles/public-home-section-blend-authority-20260915.css";
+import "./styles/public-home-final-composition-20260915.css";
 
 /*
 Authenticated runtime ownership moved to styles/app-shell-entry.ts so the public homepage can stay lightweight.
