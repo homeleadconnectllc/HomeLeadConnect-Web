@@ -82,7 +82,10 @@ test("public homepage centers responsive copy and keeps service request as a tex
   assert.match(main, /class="hlc-mobile-sign-in-link"[^>]*>Sign In<\/a>/);
   assert.doesNotMatch(main, /hlc-mobile-request-link/);
   assert.match(centeredCopyAuthority, /text-align:center!important/);
-  assert.match(centeredCopyAuthority, /font-size:clamp\(38px,11vw,50px\)!important/);
+  assert.match(centeredCopyAuthority, /font-size:clamp\(38px,10\.25vw,48px\)!important/);
+  assert.match(centeredCopyAuthority, /"Avenir Next","SF Pro Display","Segoe UI Variable Display"/);
+  assert.match(centeredCopyAuthority, /\.hlc-board-pathway-heading h2 span[\s\S]*display:inline!important/);
+  assert.match(centeredCopyAuthority, /\.hlc-board-pathway-content[\s\S]*position:relative!important/);
   assert.match(centeredCopyAuthority, /background:transparent!important/);
   assert.match(centeredCopyAuthority, /color:var\(--hlc-resident\)!important/);
 });
