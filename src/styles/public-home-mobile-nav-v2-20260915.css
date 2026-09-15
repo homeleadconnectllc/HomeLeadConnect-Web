@@ -1,0 +1,105 @@
+/* HomeLead Connect mobile navigation v2.
+   Isolated from the legacy .hlc-board-menu cascade so older menu rules cannot
+   resize, center, or otherwise restyle the live mobile navigation. */
+.hlc-mobile-nav-v2 {
+  display: none;
+  position: relative;
+}
+
+.hlc-mobile-nav-v2 > summary {
+  list-style: none;
+}
+
+.hlc-mobile-nav-v2 > summary::-webkit-details-marker {
+  display: none;
+}
+
+@media (max-width: 680px) {
+  .hlc-family-ecosystem .hlc-mobile-nav-v2 {
+    display: block;
+    position: relative;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__trigger {
+    display: inline-flex;
+    min-width: 94px;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 18px;
+    border: 1px solid #a9b9c8;
+    border-radius: 999px;
+    background: #03111f;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 850;
+    line-height: 1;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__panel {
+    position: absolute;
+    z-index: 1000;
+    top: calc(100% + 12px);
+    right: 0;
+    width: min(64vw, 244px);
+    min-width: 0;
+    max-width: 244px;
+    max-height: calc(100dvh - 126px);
+    overflow-y: auto;
+    display: grid;
+    gap: 3px;
+    padding: 9px;
+    border: 1px solid rgba(128,178,225,.42);
+    border-radius: 16px;
+    background: #06182a;
+    box-shadow: 0 24px 58px rgba(0,0,0,.46);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__item {
+    width: 100%;
+    min-height: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 11px;
+    padding: 8px 10px;
+    border-radius: 9px;
+    color: #e7eef6;
+    text-align: left;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 820;
+    line-height: 1.2;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__item:hover,
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__item:focus-visible {
+    background: #0d2a4b;
+    outline: none;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__icon {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__item--resident { color: #62e6b3; }
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__item--professional { color: #55c8ff; }
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__item--partner { color: #ffc443; }
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__item--community { color: #c38cff; }
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__item--neutral { color: #f4f7fb; }
+
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__item--start {
+    margin-top: 4px;
+    background: #62e6b3;
+    color: #03111f;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__item--start:hover,
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__item--start:focus-visible {
+    background: #7bedc0;
+  }
+}
