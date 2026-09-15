@@ -1,40 +1,11 @@
-/* Four Pathways production runtime photography authority.
-   Derived from canonical production e35dc3f0d9c9b1b0d6838123371f30c201d34a2f.
-   Live runtime verification proved the pathway elements survive but their final
-   background-image resolves empty. These selectors are intentionally scoped to
-   the public HomeLead Connect ecosystem root and use !important so later visual
-   resets cannot erase the pathway photography.
+/* Four Pathways temporary image hold.
+   Owner direction: all four pathway photographs stay absent until replacement
+   artwork is approved in a separate step. Preserve pathway copy, links, layout,
+   destination colors, navigation, auth, routes, backend, and behavior. */
 
-   The first repair proved this authority path works, but loading direct Pexels
-   URLs introduced third-party cookie/Inspector issues and a severe mobile
-   Lighthouse regression. Use existing first-party public assets instead so the
-   public homepage owns both the style authority and image delivery path.
-   No copy, layout, navigation, auth, route, backend, or behavior changes. */
-
-html body #root .hlc-family-ecosystem .hlc-board-pathway--resident{
-  background-image:url('/hlc-frontdoor-resident-hero-v2.webp?source=5727801') !important;
-  background-size:cover !important;
-  background-repeat:no-repeat !important;
-  background-position:center 35% !important;
-}
-
-html body #root .hlc-family-ecosystem .hlc-board-pathway--professional{
-  background-image:url('/hlc-frontdoor-professional.webp?source=442160') !important;
-  background-size:cover !important;
-  background-repeat:no-repeat !important;
-  background-position:center 30% !important;
-}
-
-html body #root .hlc-family-ecosystem .hlc-board-pathway--partner{
-  background-image:url('/hlc-frontdoor-partner-9430884.jpg') !important;
-  background-size:cover !important;
-  background-repeat:no-repeat !important;
-  background-position:center 40% !important;
-}
-
+html body #root .hlc-family-ecosystem .hlc-board-pathway--resident,
+html body #root .hlc-family-ecosystem .hlc-board-pathway--professional,
+html body #root .hlc-family-ecosystem .hlc-board-pathway--partner,
 html body #root .hlc-family-ecosystem .hlc-board-pathway--community{
-  background-image:url('/hlc-frontdoor-people-first.webp?source=30477317') !important;
-  background-size:cover !important;
-  background-repeat:no-repeat !important;
-  background-position:center 35% !important;
+  background-image:none !important;
 }
