@@ -1,0 +1,118 @@
+/* HomeLead Connect mobile menu — icon reference authority.
+   Matches owner-provided visual: compact dark panel, icon tiles at left,
+   labels at right, and route-specific accent colors. */
+.hlc-mobile-nav-v2 {
+  display: none;
+  position: relative;
+}
+
+.hlc-mobile-nav-v2 > summary {
+  list-style: none;
+}
+
+.hlc-mobile-nav-v2 > summary::-webkit-details-marker {
+  display: none;
+}
+
+@media (max-width: 680px) {
+  .hlc-family-ecosystem .hlc-mobile-nav-v2 {
+    display: block;
+    position: relative;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__trigger {
+    display: inline-flex;
+    min-width: 94px;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 18px;
+    border: 1px solid #a9b9c8;
+    border-radius: 999px;
+    background: #03111f;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 850;
+    line-height: 1;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__panel {
+    position: absolute;
+    z-index: 1200;
+    top: calc(100% + 12px);
+    right: 0;
+    width: min(74vw, 276px);
+    min-width: 244px;
+    max-width: 276px;
+    max-height: calc(100dvh - 126px);
+    overflow-y: auto;
+    display: grid;
+    gap: 4px;
+    padding: 10px;
+    border: 1px solid rgba(128,178,225,.34);
+    border-radius: 18px;
+    background: linear-gradient(180deg,#06182a 0%,#041321 100%);
+    box-shadow: 0 24px 58px rgba(0,0,0,.5);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__item {
+    width: 100%;
+    min-height: 48px;
+    display: grid;
+    grid-template-columns: 38px minmax(0,1fr);
+    align-items: center;
+    gap: 11px;
+    padding: 5px 8px;
+    border-radius: 11px;
+    color: #f4f7fb;
+    text-align: left;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 820;
+    line-height: 1.2;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__item:hover,
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__item:focus-visible {
+    background: rgba(24,66,105,.62);
+    outline: none;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__icon-tile {
+    width: 38px;
+    height: 38px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid currentColor;
+    border-radius: 7px;
+    background: rgba(10,30,50,.74);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.025);
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__icon {
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__item--resident .hlc-mobile-nav-v2__icon-tile { color: #62e6b3; }
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__item--professional .hlc-mobile-nav-v2__icon-tile { color: #55c8ff; }
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__item--partner .hlc-mobile-nav-v2__icon-tile { color: #ffc443; }
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__item--community .hlc-mobile-nav-v2__icon-tile { color: #c38cff; }
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__item--neutral .hlc-mobile-nav-v2__icon-tile { color: #78a8ff; }
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__item--start .hlc-mobile-nav-v2__icon-tile { color: #62e6b3; }
+
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__item--start {
+    margin-top: 4px;
+    border-top: 1px solid rgba(151,190,224,.18);
+    border-radius: 0 0 11px 11px;
+    color: #f4f7fb;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__item > span:last-child {
+    color: #f4f7fb;
+  }
+}

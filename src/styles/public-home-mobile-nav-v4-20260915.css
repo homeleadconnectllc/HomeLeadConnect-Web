@@ -1,0 +1,130 @@
+/* HomeLead Connect mobile menu v4 — isolated owner-reference authority.
+   New class family intentionally avoids every legacy/v2 mobile menu selector. */
+.hlc-mobile-icon-nav-v4 {
+  display: none;
+  position: relative;
+}
+
+.hlc-mobile-icon-nav-v4 > summary {
+  list-style: none;
+}
+
+.hlc-mobile-icon-nav-v4 > summary::-webkit-details-marker {
+  display: none;
+}
+
+@media (max-width: 680px) {
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v4 {
+    display: block !important;
+    position: relative !important;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v4__trigger {
+    display: inline-flex !important;
+    min-width: 94px !important;
+    min-height: 48px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 18px !important;
+    border: 1px solid #a9b9c8 !important;
+    border-radius: 999px !important;
+    background: #03111f !important;
+    color: #fff !important;
+    cursor: pointer !important;
+    font-size: 16px !important;
+    font-weight: 850 !important;
+    line-height: 1 !important;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v4__panel {
+    position: absolute !important;
+    z-index: 1600 !important;
+    top: calc(100% + 12px) !important;
+    right: 0 !important;
+    width: min(82vw, 320px) !important;
+    min-width: 270px !important;
+    max-width: 320px !important;
+    max-height: calc(100dvh - 126px) !important;
+    overflow-y: auto !important;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 6px !important;
+    padding: 12px !important;
+    border: 1px solid rgba(128,178,225,.42) !important;
+    border-radius: 18px !important;
+    background: #06182a !important;
+    box-shadow: 0 24px 58px rgba(0,0,0,.50) !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v4__item {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-height: 54px !important;
+    display: grid !important;
+    grid-template-columns: 42px minmax(0,1fr) !important;
+    align-items: center !important;
+    justify-items: stretch !important;
+    gap: 12px !important;
+    padding: 6px 8px !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 10px !important;
+    background: transparent !important;
+    color: #f4f7fb !important;
+    text-align: left !important;
+    text-decoration: none !important;
+    font-size: 16px !important;
+    font-weight: 820 !important;
+    line-height: 1.15 !important;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v4__item:hover,
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v4__item:focus-visible {
+    background: rgba(24,66,105,.62) !important;
+    outline: none !important;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v4__tile {
+    box-sizing: border-box !important;
+    width: 42px !important;
+    height: 42px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 1.5px solid currentColor !important;
+    border-radius: 8px !important;
+    background: rgba(10,30,50,.84) !important;
+    justify-self: start !important;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v4__icon {
+    display: block !important;
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+    min-height: 22px !important;
+    stroke: currentColor !important;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v4__label {
+    display: block !important;
+    color: #f4f7fb !important;
+    text-align: left !important;
+    justify-self: start !important;
+    white-space: nowrap !important;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v4__item--resident .hlc-mobile-icon-nav-v4__tile { color: #62e6b3 !important; }
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v4__item--professional .hlc-mobile-icon-nav-v4__tile { color: #55c8ff !important; }
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v4__item--partner .hlc-mobile-icon-nav-v4__tile { color: #ffc443 !important; }
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v4__item--community .hlc-mobile-icon-nav-v4__tile { color: #c38cff !important; }
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v4__item--neutral .hlc-mobile-icon-nav-v4__tile { color: #9fc5ff !important; }
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v4__item--start .hlc-mobile-icon-nav-v4__tile { color: #62e6b3 !important; }
+
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v4__item--start {
+    margin-top: 2px !important;
+    border-top: 1px solid rgba(151,190,224,.18) !important;
+    border-radius: 0 0 10px 10px !important;
+  }
+}
