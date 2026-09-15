@@ -4,37 +4,53 @@
 html body #root .hlc-family-ecosystem h1,
 html body #root .hlc-family-ecosystem h2,
 html body #root .hlc-family-ecosystem h3{
-  letter-spacing:-.015em!important;
+  letter-spacing:-.005em!important;
 }
 
 html body #root .hlc-family-ecosystem .hlc-family-hero-copy h1{
-  line-height:1.14!important;
+  line-height:1.20!important;
 }
 
 html body #root .hlc-family-ecosystem .hlc-board-pathway-heading h2{
-  line-height:1.15!important;
+  line-height:1.18!important;
 }
 
 html body #root .hlc-family-ecosystem .hlc-board-pathway-label{
-  letter-spacing:-.005em!important;
-  line-height:1.18!important;
+  letter-spacing:0!important;
+  line-height:1.22!important;
 }
 
 html body #root .hlc-family-ecosystem .hlc-family-vision h2{
-  line-height:1.14!important;
+  line-height:1.20!important;
 }
 
 html body #root .hlc-family-ecosystem .hlc-family-entry h2{
-  line-height:1.18!important;
+  line-height:1.22!important;
 }
 
 @media(max-width:680px){
   html body #root .hlc-family-ecosystem .hlc-family-hero-copy h1{
-    letter-spacing:-.015em!important;
-    line-height:1.15!important;
+    letter-spacing:0!important;
+    line-height:1.23!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-board-pathway-heading h2{
+    letter-spacing:0!important;
+    line-height:1.20!important;
   }
 
   html body #root .hlc-family-ecosystem .hlc-board-pathway-label{
+    letter-spacing:.005em!important;
+    line-height:1.24!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-family-vision h2{
     letter-spacing:0!important;
+    line-height:1.23!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-family-entry h2{
+    letter-spacing:0!important;
+    line-height:1.24!important;
   }
 }
