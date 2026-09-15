@@ -10,7 +10,8 @@ test("canonical public root exposes approved account-access entry points", () =>
   assert.match(main, /href="https:\/\/app\.homeleadconnect\.org\/login"[^>]*>Sign In<\/a>/);
   assert.match(main, /href="https:\/\/app\.homeleadconnect\.org\/register"[^>]*>Get Started(?: →)?<\/a>/);
   assert.match(main, /href="https:\/\/app\.homeleadconnect\.org\/request-service"[^>]*>Request home service<\/a>/);
-  assert.match(main, /href="https:\/\/app\.homeleadconnect\.org\/request-service"[^>]*>Request service<\/a>/);
+  assert.match(main, /class="hlc-mobile-sign-in-link" href="https:\/\/app\.homeleadconnect\.org\/login">Sign In<\/a>/);
+  assert.doesNotMatch(main, /hlc-mobile-request-link/);
 });
 
 test("parser-seeded public shell preserves the Connected Experience first-paint contract", () => {

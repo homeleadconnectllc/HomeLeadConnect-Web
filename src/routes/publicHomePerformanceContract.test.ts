@@ -9,6 +9,7 @@ const indexHtml = readFileSync(new URL("../../index.html", import.meta.url), "ut
 const v2Authority = readFileSync(new URL("../styles/v2-cinematic-community-homepage-20260911.css", import.meta.url), "utf8");
 const boardAuthority = readFileSync(new URL("../styles/v2-board-alignment-20260912.css", import.meta.url), "utf8");
 const familyAuthority = readFileSync(new URL("../styles/front-door-family-ecosystem-20260913.css", import.meta.url), "utf8");
+const centeredCopyAuthority = readFileSync(new URL("../styles/public-home-centered-copy-authority-20260915.css", import.meta.url), "utf8");
 
 const officialPublicLogo = /src="\/brand\/homelead-connect-master-transparent\.png"/;
 
@@ -73,6 +74,20 @@ test("public front door keeps shared parser authority while adding the profile-p
   assert.match(familyAuthority, /\.hlc-family-ecosystem \.hlc-board-pathway/);
   assert.match(familyAuthority, /\.hlc-family-vision/);
   assert.match(familyAuthority, /@media/);
+});
+
+test("public homepage centers responsive copy and keeps service request as a text action", () => {
+  assert.match(main, /public-home-centered-copy-authority-20260915\.css/);
+  assert.match(home, /public-home-centered-copy-authority-20260915\.css/);
+  assert.match(main, /class="hlc-mobile-sign-in-link"[^>]*>Sign In<\/a>/);
+  assert.doesNotMatch(main, /hlc-mobile-request-link/);
+  assert.match(centeredCopyAuthority, /text-align:center!important/);
+  assert.match(centeredCopyAuthority, /font-size:clamp\(38px,10\.25vw,48px\)!important/);
+  assert.match(centeredCopyAuthority, /"Avenir Next","SF Pro Display","Segoe UI Variable Display"/);
+  assert.match(centeredCopyAuthority, /\.hlc-board-pathway-heading h2 span[\s\S]*display:inline!important/);
+  assert.match(centeredCopyAuthority, /\.hlc-board-pathway-content[\s\S]*position:relative!important/);
+  assert.match(centeredCopyAuthority, /background:transparent!important/);
+  assert.match(centeredCopyAuthority, /color:var\(--hlc-resident\)!important/);
 });
 
 test("Connected Experience public front door remains complete beyond the hero", () => {

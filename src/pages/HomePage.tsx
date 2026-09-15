@@ -4,6 +4,7 @@ import "../styles/v2-board-rest-polish-20260912.css";
 import "../styles/front-door-family-ecosystem-20260913.css";
 import "../styles/frontdoor-profile-protocol-20260913.css";
 import "../styles/public-header-logo-authority-20260915.css";
+import "../styles/public-home-centered-copy-authority-20260915.css";
 
 /* Canonical SPA destinations retained for the public parser/audit contract: to="/request-service" to="/app" to="/community". */
 const pathways = [
@@ -36,7 +37,7 @@ export default function HomePage() {
           <div className="hlc-board-actions">
             <a className="hlc-board-login" href="/login">Sign In</a>
             <a className="hlc-board-cta" href="/register">Get Started →</a>
-            <a className="hlc-mobile-request-link" href="/request-service">Request service</a>
+            <a className="hlc-mobile-sign-in-link" href="/login">Sign In</a>
             <details className="hlc-board-menu">
               <summary>Menu</summary>
               <div className="hlc-board-menu-panel">
