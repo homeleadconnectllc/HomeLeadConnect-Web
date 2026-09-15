@@ -19,7 +19,7 @@ export default function PartnerAccess(){
         </div>
       </header>
       <figure className="hlc-public-visual" aria-label="HomeLead Connect partner connection">
-        <img src="/hlc-frontdoor-people-first.webp" alt="People connecting around a home-service project" loading="eager" referrerPolicy="no-referrer"/>
+        <img src="/four-pathways-residents-hq-20260915.jpg" alt="People connecting around a home-service project" loading="eager" referrerPolicy="no-referrer"/>
       </figure>
       <section className="hlc-public-grid" aria-label="How partner access works">
         <article className="hlc-public-card"><p className="hlc-public-card-label">01 · Relationship</p><h2>Identify the partner relationship.</h2><p>Contact HomeLead Connect and identify the business, organization, or referral relationship.</p></article>

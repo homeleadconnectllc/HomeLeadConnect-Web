@@ -4,22 +4,28 @@ import { join } from "node:path";
 
 const FRONTDOOR_ASSETS = [
   {
-    path: "hlc-frontdoor-resident-hero-final.jpg",
-    expectedSize: 295159,
-    expectedSha256: "3a208c0d1f99abc7e6e62c1808b887e7279111939521ad4ffb56b6f2b088ec3d",
+    path: "four-pathways-residents-hq-20260915.jpg",
+    expectedSize: 81169,
+    expectedSha256: "8dae49e7a875aa12523f4fe7eaaff9fda49c3ff5438472e2e22e51d060d7e09b",
     kind: "jpeg",
   },
   {
-    path: "hlc-frontdoor-people-first.webp",
-    expectedSize: 17976,
-    expectedSha256: "39ba92e934428d7ae0c74a70847e5da3ca27226185da9efa1792ce6471f23df8",
-    sourceAuthoritySha256: "623201a40a0e33daa3243eb3d0a906ade445df79abb4f83f833b35b02167fa7f",
+    path: "four-pathways-professionals-hq-20260915.jpg",
+    expectedSize: 94971,
+    expectedSha256: "4df6446e022a42f720b7ff90da6af8148d17787bf13f5adf2eb71ea8aa82cd46",
+    kind: "jpeg",
   },
   {
-    path: "hlc-frontdoor-professional.webp",
-    expectedSize: 19772,
-    expectedSha256: "d6fb656f3285e581fc3f049d65477496bc5b41d4d31f381d916acb4e678803db",
-    sourceAuthoritySha256: "04f1f1381906017bb74867bf28e27b1678801226653900e1c9f5a56eb030642d",
+    path: "four-pathways-partners-hq-20260915.jpg",
+    expectedSize: 107268,
+    expectedSha256: "bb1514ec33d6ac4091ad7d8cdc548b294bd14cf54e8ba787c3f127ba06683c1a",
+    kind: "jpeg",
+  },
+  {
+    path: "four-pathways-community-hq-20260915.jpg",
+    expectedSize: 121797,
+    expectedSha256: "75b1f369f5dea143dc6e53885cfd62884851e00e3ad6090c9ac50832bd6cea73",
+    kind: "jpeg",
   },
 ];
 

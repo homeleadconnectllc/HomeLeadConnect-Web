@@ -25,7 +25,7 @@ export default function AboutPage() {
         </div>
       </header>
       <figure className="hlc-public-visual">
-        <img src="/hlc-frontdoor-resident-hero-v2.webp" alt="Family at home" loading="eager" />
+        <img src="/four-pathways-residents-hq-20260915.jpg" alt="Family at home" loading="eager" />
       </figure>
       <section className="hlc-public-grid" aria-label="HomeLead Connect story">
         {cards.map(([label, title, sub, body]) => <article className="hlc-public-card" key={title}>

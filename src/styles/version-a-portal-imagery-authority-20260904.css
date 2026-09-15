@@ -6,25 +6,25 @@
 
 @layer hlcRedesign {
   #root .hlc-signed-in-shell {
-    --portal-story-image: url("https://images.unsplash.com/photo-1760354077162-51b4062c83a9?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=68&w=1600");
+    --portal-story-image: url("/four-pathways-partners-hq-20260915.jpg");
     --portal-story-position: center 46%;
   }
 
   /* Family / Resident — modern home, blue editorial treatment. */
   #root .hlc-signed-in-shell[class*="hlc-page-homeowner-portal"] {
-    --portal-story-image: url("https://images.unsplash.com/photo-1762180075273-0527bdc7fa85?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=68&w=1600");
+    --portal-story-image: url("/four-pathways-residents-hq-20260915.jpg");
     --portal-story-position: center 58%;
   }
 
   /* Professional / Provider — active skilled-trade work, green treatment. */
   #root .hlc-signed-in-shell[class*="hlc-page-contractor-portal"] {
-    --portal-story-image: url("https://images.pexels.com/photos/8961339/pexels-photo-8961339.jpeg?auto=compress&cs=tinysrgb&w=1600");
+    --portal-story-image: url("/four-pathways-professionals-hq-20260915.jpg");
     --portal-story-position: center 44%;
   }
 
   /* Partner / Property Manager — property portfolio, amber treatment. */
   #root .hlc-signed-in-shell[class*="hlc-page-partner-portal"] {
-    --portal-story-image: url("https://images.unsplash.com/photo-1781512436292-f2687f67f605?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=68&w=1600");
+    --portal-story-image: url("/four-pathways-partners-hq-20260915.jpg");
     --portal-story-position: center 50%;
   }
 
@@ -94,7 +94,7 @@
     border-radius: clamp(18px, 2.4vw, 26px);
     background-image:
       linear-gradient(90deg, rgba(9,9,27,.96) 0%, rgba(23,16,68,.72) 50%, rgba(115,87,255,.18) 100%),
-      url("https://images.unsplash.com/photo-1760354077162-51b4062c83a9?auto=format&fit=crop&fm=jpg&ixlib=rb-4.1.0&q=68&w=1600");
+      url("/four-pathways-partners-hq-20260915.jpg");
     background-size: cover;
     background-position: center 48%;
     background-repeat: no-repeat;

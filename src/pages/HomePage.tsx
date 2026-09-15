@@ -27,7 +27,7 @@ export default function HomePage() {
       <header className="hlc-board-nav">
         <div className="hlc-board-nav-inner">
           <a className="hlc-board-brand" href="/" aria-label="HomeLead Connect home">
-            <img src="/hlc-logo-public.webp" alt="HomeLead Connect LLC" width={440} height={142} loading="eager" decoding="async" />
+            <img src="/hlc-logo-transparent.png" alt="HomeLead Connect LLC" width={440} height={142} loading="eager" decoding="async" />
           </a>
           <nav className="hlc-board-links" aria-label="Primary navigation">
             {navLinks.map(([label, href]) => <a key={href} href={href}>{label}</a>)}

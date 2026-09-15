@@ -23,7 +23,7 @@ export default function Navbar() {
         }}
       >
         <img
-          src="/hlc-trans-logo.jpeg"
+          src="/hlc-logo-transparent.png"
           alt="HomeLead Connect"
           style={{
             height: 58,
