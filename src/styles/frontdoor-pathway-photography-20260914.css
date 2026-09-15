@@ -1,40 +1,38 @@
-/* Four Pathways production runtime photography authority.
-   Derived from canonical production e35dc3f0d9c9b1b0d6838123371f30c201d34a2f.
-   Live runtime verification proved the pathway elements survive but their final
-   background-image resolves empty. These selectors are intentionally scoped to
-   the public HomeLead Connect ecosystem root and use !important so later visual
-   resets cannot erase the pathway photography.
+/* Four Pathways approved image authority — 2026-09-15.
+   Owner-approved mapping:
+   Residents     -> moving/helping-neighbors
+   Professionals -> contractor/service professional
+   Partners      -> three-person business collaboration
+   Community     -> neighborhood sidewalk
 
-   The first repair proved this authority path works, but loading direct Pexels
-   URLs introduced third-party cookie/Inspector issues and a severe mobile
-   Lighthouse regression. Use existing first-party public assets instead so the
-   public homepage owns both the style authority and image delivery path.
-   No copy, layout, navigation, auth, route, backend, or behavior changes. */
+   These are first-party public assets and intentionally replace the retired
+   pathway photography. Keep selectors scoped to the public ecosystem root.
+   No copy, navigation, auth, route, backend, billing, or behavior changes. */
 
 html body #root .hlc-family-ecosystem .hlc-board-pathway--resident{
-  background-image:url('/hlc-frontdoor-resident-hero-v2.webp?source=5727801') !important;
+  background-image:url('/four-pathways-residents.jpg') !important;
   background-size:cover !important;
   background-repeat:no-repeat !important;
-  background-position:center 35% !important;
+  background-position:center 45% !important;
 }
 
 html body #root .hlc-family-ecosystem .hlc-board-pathway--professional{
-  background-image:url('/hlc-frontdoor-professional.webp?source=442160') !important;
+  background-image:url('/four-pathways-professionals.jpg') !important;
   background-size:cover !important;
   background-repeat:no-repeat !important;
-  background-position:center 30% !important;
+  background-position:center 32% !important;
 }
 
 html body #root .hlc-family-ecosystem .hlc-board-pathway--partner{
-  background-image:url('/hlc-frontdoor-partner-9430884.jpg') !important;
+  background-image:url('/four-pathways-partners.jpg') !important;
   background-size:cover !important;
   background-repeat:no-repeat !important;
-  background-position:center 40% !important;
+  background-position:center 42% !important;
 }
 
 html body #root .hlc-family-ecosystem .hlc-board-pathway--community{
-  background-image:url('/hlc-frontdoor-people-first.webp?source=30477317') !important;
+  background-image:url('/four-pathways-community.jpg') !important;
   background-size:cover !important;
   background-repeat:no-repeat !important;
-  background-position:center 35% !important;
+  background-position:center 45% !important;
 }
