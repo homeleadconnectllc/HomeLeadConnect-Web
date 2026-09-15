@@ -165,7 +165,7 @@ export default function RealtimeNotificationCenter() {
           const item = payload.new as NotificationRecord;
           setLatest(item);
           if (typeof Notification !== "undefined" && Notification.permission === "granted" && document.visibilityState !== "visible") {
-            const notice = new Notification(item.title, { body: item.body, icon: "/hlc-logo-final.png", tag: item.id });
+            const notice = new Notification(item.title, { body: item.body, icon: "/hlc-logo-transparent.png", tag: item.id });
             notice.onclick = () => { window.focus(); window.location.href = safeHlcDeepLink(item.deep_link); };
           }
         },

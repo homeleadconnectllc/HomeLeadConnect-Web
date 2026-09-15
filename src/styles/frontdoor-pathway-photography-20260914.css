@@ -35,5 +35,11 @@ html body #root .hlc-family-ecosystem .hlc-board-pathway--community{
   background-image:url('/four-pathways-community-hq-20260915.jpg') !important;
   background-size:cover !important;
   background-repeat:no-repeat !important;
-  background-position:center top !important;
+  background-position:center 72% !important;
+}
+
+@media (max-width:680px){
+  html body #root .hlc-family-ecosystem .hlc-board-pathway--community{
+    background-position:center 78% !important;
+  }
 }

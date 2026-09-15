@@ -199,24 +199,24 @@
 
 .hlc-family-ecosystem .hlc-board-pathway--resident{
   --fd-accent:var(--hlc-resident)!important;
-  background-image:url('/hlc-frontdoor-people-first.webp')!important;
+  background-image:url('/four-pathways-residents-hq-20260915.jpg')!important;
   background-position:50% 8%!important;
 }
 .hlc-family-ecosystem .hlc-board-pathway--professional{
   --fd-accent:var(--hlc-professional)!important;
-  background-image:url('/hlc-frontdoor-professional.webp')!important;
+  background-image:url('/four-pathways-professionals-hq-20260915.jpg')!important;
   background-position:50% 8%!important;
 }
 .hlc-family-ecosystem .hlc-board-pathway--partner{
   --fd-accent:var(--hlc-partner)!important;
-  background-image:url('https://images.unsplash.com/photo-1758519288905-38b7b00c1023?auto=format&fit=crop&w=1400&q=82'),url('/partners-collaboration.svg')!important;
-  background-position:50% 8%,50% 8%!important;
-  background-size:100% auto,100% auto!important;
+  background-image:url('/four-pathways-partners-hq-20260915.jpg')!important;
+  background-position:center 42%!important;
+  background-size:cover!important;
 }
 .hlc-family-ecosystem .hlc-board-pathway--community{
   --fd-accent:var(--hlc-community)!important;
-  background-image:url('/hlc-frontdoor-resident-hero-final.jpg')!important;
-  background-position:44% 8%!important;
+  background-image:url('/four-pathways-community-hq-20260915.jpg')!important;
+  background-position:center 72%!important;
 }
 .hlc-family-ecosystem .hlc-board-pathway--resident .hlc-family-pathway-link{color:var(--hlc-resident)!important}
 .hlc-family-ecosystem .hlc-board-pathway--professional .hlc-family-pathway-link{color:var(--hlc-professional)!important}
