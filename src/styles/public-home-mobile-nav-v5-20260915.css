@@ -1,0 +1,143 @@
+/* HomeLead Connect mobile menu v5 — owner-approved slim icon+label treatment. */
+.hlc-mobile-icon-nav-v5 {
+  display: none;
+  position: relative;
+}
+
+.hlc-mobile-icon-nav-v5 > summary {
+  list-style: none;
+}
+
+.hlc-mobile-icon-nav-v5 > summary::-webkit-details-marker {
+  display: none;
+}
+
+@media (max-width: 680px) {
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5 {
+    display: block !important;
+    position: relative !important;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__trigger {
+    display: inline-flex !important;
+    min-width: 94px !important;
+    min-height: 48px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 18px !important;
+    border: 1px solid #a9b9c8 !important;
+    border-radius: 999px !important;
+    background: #03111f !important;
+    color: #fff !important;
+    cursor: pointer !important;
+    font-size: 16px !important;
+    font-weight: 850 !important;
+    line-height: 1 !important;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__panel {
+    position: absolute !important;
+    z-index: 1600 !important;
+    top: calc(100% + 12px) !important;
+    right: 0 !important;
+    width: min(64vw, 252px) !important;
+    max-width: 252px !important;
+    min-width: 232px !important;
+    max-height: calc(100dvh - 126px) !important;
+    overflow-y: auto !important;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 6px !important;
+    padding: 18px 16px !important;
+    border: 1px solid rgba(128,178,225,.42) !important;
+    border-radius: 24px !important;
+    background: #06182a !important;
+    box-shadow: 0 24px 58px rgba(0,0,0,.50) !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__item {
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-height: 46px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 12px !important;
+    padding: 5px 4px !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 8px !important;
+    background: transparent !important;
+    color: #f4f7fb !important;
+    text-align: left !important;
+    text-decoration: none !important;
+    font-size: 16px !important;
+    font-weight: 850 !important;
+    line-height: 1.15 !important;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__item:hover,
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__item:focus-visible {
+    background: rgba(24,66,105,.38) !important;
+    outline: none !important;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__icon {
+    flex: 0 0 auto !important;
+    width: 24px !important;
+    height: 24px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: currentColor !important;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__icon svg {
+    display: block !important;
+    width: 24px !important;
+    height: 24px !important;
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 2.2 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__label {
+    display: inline-block !important;
+    color: currentColor !important;
+    text-align: left !important;
+    white-space: nowrap !important;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__item--about,
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__item--resources,
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__item--signin {
+    color: #f4f7fb !important;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__item--resident {
+    color: #62e6b3 !important;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__item--professional {
+    color: #55c8ff !important;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__item--partner {
+    color: #ffc443 !important;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__item--community {
+    color: #c38cff !important;
+  }
+
+  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__item--start {
+    color: #62e6b3 !important;
+    margin-top: 4px !important;
+    padding-top: 14px !important;
+    border-top: 1px solid rgba(255,255,255,.14) !important;
+    border-radius: 0 0 8px 8px !important;
+  }
+}
