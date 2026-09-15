@@ -12,6 +12,7 @@ import "./styles/v2-board-rest-polish-20260912.css";
 import "./styles/front-door-family-ecosystem-20260913.css";
 import "./styles/frontdoor-profile-protocol-20260913.css";
 import "./styles/frontdoor-destination-color-authority-20260914.css";
+import "./styles/frontdoor-pathway-photography-20260914.css";
 
 /*
 Authenticated runtime ownership moved to styles/app-shell-entry.ts so the public homepage can stay lightweight.
