@@ -14,6 +14,7 @@ import "./styles/frontdoor-profile-protocol-20260913.css";
 import "./styles/frontdoor-destination-color-authority-20260914.css";
 import "./styles/frontdoor-pathway-photography-20260914.css";
 import "./styles/public-header-logo-authority-20260915.css";
+import "./styles/public-home-centered-copy-authority-20260915.css";
 
 /*
 Authenticated runtime ownership moved to styles/app-shell-entry.ts so the public homepage can stay lightweight.
@@ -45,7 +46,7 @@ function publicHomeMarkup() {
           <div class="hlc-board-actions">
             <a class="hlc-board-login" href="https://app.homeleadconnect.org/login">Sign In</a>
             <a class="hlc-board-cta" href="https://app.homeleadconnect.org/register">Get Started →</a>
-            <a class="hlc-mobile-request-link" href="https://app.homeleadconnect.org/request-service">Request service</a>
+            <a class="hlc-mobile-sign-in-link" href="https://app.homeleadconnect.org/login">Sign In</a>
             <details class="hlc-board-menu"><summary>Menu</summary><div class="hlc-board-menu-panel"><a href="/about">About</a><a href="/homeowners">For Residents</a><a href="/professionals">For Professionals</a><a href="/partners">For Partners</a><a href="/community">Community</a><a href="/services">Resources</a><a href="https://app.homeleadconnect.org/login">Sign In</a><a href="https://app.homeleadconnect.org/register">Get Started</a></div></details>
           </div>
         </div>
