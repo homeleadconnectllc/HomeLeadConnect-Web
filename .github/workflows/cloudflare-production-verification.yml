@@ -97,11 +97,15 @@ jobs:
             https://homeleadconnect-web.pages.dev; do
             asset_url="${host}${ENTRY_JS}?hlc_verify=${GITHUB_SHA}"
             echo "Checking runtime marker in $asset_url"
+            runtime_asset="$(mktemp)"
             curl --fail --silent --show-error --location \
               --retry 3 --retry-all-errors --retry-delay 2 \
               --connect-timeout 15 --max-time 45 \
               -H 'Cache-Control: no-cache' \
-              "$asset_url" | grep -Fq "$marker"
+              -o "$runtime_asset" \
+              "$asset_url"
+            grep -Fq "$marker" "$runtime_asset"
+            rm -f "$runtime_asset"
           done
 
       - name: Verify Cloudflare production surfaces
