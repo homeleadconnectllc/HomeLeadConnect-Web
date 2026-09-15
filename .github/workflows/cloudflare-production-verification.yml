@@ -74,27 +74,49 @@ jobs:
             '/four-pathways-community-hq-20260915.jpg'
           )
 
-          matches=()
-          while IFS= read -r css_file; do
-            all_present=yes
+          has_all_markers() {
+            local css_file="$1"
             for marker in "${markers[@]}"; do
-              if ! grep -Fq "$marker" "$css_file"; then
-                all_present=no
-                break
-              fi
+              grep -Fq "$marker" "$css_file" || return 1
             done
-            if [ "$all_present" = yes ]; then
-              matches+=("$css_file")
-            fi
-          done < <(find dist/assets -maxdepth 1 -type f -name '*.css' -print | sort)
+            return 0
+          }
 
-          if [ "${#matches[@]}" -ne 1 ]; then
-            echo "Expected exactly one built CSS chunk containing all Four Pathways markers; found ${#matches[@]}."
-            printf '%s\n' "${matches[@]:-}"
-            exit 1
+          entry_css_file="dist/${ENTRY_CSS#/}"
+          css_file=""
+
+          # The public front door is rendered from the CSS linked directly by
+          # dist/index.html. Prefer that exact entry asset when it contains the
+          # Four Pathways authority. Other lazy CSS chunks may legitimately
+          # repeat the same image markers without becoming the deployed public
+          # front-door authority.
+          if [ -f "$entry_css_file" ] && has_all_markers "$entry_css_file"; then
+            css_file="$entry_css_file"
+            echo "Four Pathways authority resolved from exact entry CSS: $ENTRY_CSS"
+
+            while IFS= read -r candidate; do
+              if [ "$candidate" != "$entry_css_file" ] && has_all_markers "$candidate"; then
+                echo "Informational: additional lazy CSS chunk also contains all Four Pathways markers: $candidate"
+              fi
+            done < <(find dist/assets -maxdepth 1 -type f -name '*.css' -print | sort)
+          else
+            matches=()
+            while IFS= read -r candidate; do
+              if has_all_markers "$candidate"; then
+                matches+=("$candidate")
+              fi
+            done < <(find dist/assets -maxdepth 1 -type f -name '*.css' -print | sort)
+
+            if [ "${#matches[@]}" -ne 1 ]; then
+              echo "Entry CSS does not contain all Four Pathways markers, and fallback discovery did not resolve exactly one authoritative CSS chunk; found ${#matches[@]}."
+              printf '%s\n' "${matches[@]:-}"
+              exit 1
+            fi
+
+            css_file="${matches[0]}"
+            echo "Four Pathways authority resolved from single fallback CSS chunk: $css_file"
           fi
 
-          css_file="${matches[0]}"
           css_asset="/${css_file#dist/}"
           css_sha="$(sha256sum "$css_file" | awk '{print $1}')"
           echo "FOUR_PATHWAYS_CSS=$css_asset" >> "$GITHUB_ENV"
@@ -154,7 +176,7 @@ jobs:
             https://homeleadconnect-web.pages.dev; do
             asset_url="${host}${FOUR_PATHWAYS_CSS}?hlc_verify=${GITHUB_SHA}"
             echo "Checking exact Four Pathways CSS chunk at $asset_url"
-            
+
             css_asset="$(mktemp)"
             headers_file="$(mktemp)"
             http_status=""
@@ -165,8 +187,7 @@ jobs:
             downloaded_bytes=""
             actual_sha=""
             first_bytes=""
-            
-            # Capture full response details
+
             http_status=$(curl --fail --silent --show-error --location \
               --retry 3 --retry-all-errors --retry-delay 2 \
               --connect-timeout 15 --max-time 45 \
@@ -175,13 +196,13 @@ jobs:
               -D "$headers_file" \
               -o "$css_asset" \
               "$asset_url" || echo "CURL_FAILED")
-            
+
             if [ "$http_status" = "CURL_FAILED" ]; then
               echo "ERROR: curl command failed for $host"
               cat "$headers_file" 2>/dev/null || echo "(no headers captured)"
               exit 1
             fi
-            
+
             final_url=$(grep -i '^< HTTP' "$headers_file" | tail -1 || echo "unknown")
             content_type=$(grep -i '^content-type:' "$headers_file" | tail -1 | sed 's/^[^:]*: *//;s/\r$//' || echo "not-set")
             content_encoding=$(grep -i '^content-encoding:' "$headers_file" | tail -1 | sed 's/^[^:]*: *//;s/\r$//' || echo "none")
@@ -189,7 +210,7 @@ jobs:
             downloaded_bytes=$(wc -c < "$css_asset")
             actual_sha=$(sha256sum "$css_asset" | awk '{print $1}')
             first_bytes=$(head -c 100 "$css_asset" | head -c 50)
-            
+
             echo "=== Diagnostic Details for $host ==="
             echo "HTTP Status: $http_status"
             echo "Final URL: $final_url"
@@ -201,36 +222,32 @@ jobs:
             echo "Expected SHA-256: $FOUR_PATHWAYS_CSS_SHA"
             echo "First 50 bytes: $first_bytes"
             echo "=================================="
-            
-            # Verify HTTP status
+
             if [ "$http_status" != "200" ]; then
               echo "ERROR: HTTP $http_status (expected 200) from $host"
               exit 1
             fi
-            
-            # Check for HTML fallback (SPA fallback or error page)
+
             if grep -q '^<html' "$css_asset" || grep -q '^<!DOCTYPE' "$css_asset"; then
               echo "ERROR: Received HTML response instead of CSS from $host"
               head -20 "$css_asset"
               exit 1
             fi
-            
-            # Verify SHA-256 match
+
             if [ "$actual_sha" != "$FOUR_PATHWAYS_CSS_SHA" ]; then
               echo "ERROR: SHA-256 mismatch for $host"
               echo "Expected: $FOUR_PATHWAYS_CSS_SHA"
               echo "Got:      $actual_sha"
               exit 1
             fi
-            
-            # Verify all markers present
+
             for marker in "${markers[@]}"; do
               if ! grep -Fq "$marker" "$css_asset"; then
                 echo "ERROR: Marker '$marker' not found in deployed CSS from $host"
                 exit 1
               fi
             done
-            
+
             rm -f "$css_asset" "$headers_file"
             echo "$host serves exact Four Pathways CSS chunk: $FOUR_PATHWAYS_CSS ($actual_sha)"
           done
