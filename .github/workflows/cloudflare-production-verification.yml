@@ -154,20 +154,84 @@ jobs:
             https://homeleadconnect-web.pages.dev; do
             asset_url="${host}${FOUR_PATHWAYS_CSS}?hlc_verify=${GITHUB_SHA}"
             echo "Checking exact Four Pathways CSS chunk at $asset_url"
+            
             css_asset="$(mktemp)"
-            curl --fail --silent --show-error --location \
+            headers_file="$(mktemp)"
+            http_status=""
+            final_url=""
+            content_type=""
+            content_encoding=""
+            content_length=""
+            downloaded_bytes=""
+            actual_sha=""
+            first_bytes=""
+            
+            # Capture full response details
+            http_status=$(curl --fail --silent --show-error --location \
               --retry 3 --retry-all-errors --retry-delay 2 \
               --connect-timeout 15 --max-time 45 \
               -H 'Cache-Control: no-cache' \
+              -w '%{http_code}' \
+              -D "$headers_file" \
               -o "$css_asset" \
-              "$asset_url"
-
-            actual_sha="$(sha256sum "$css_asset" | awk '{print $1}')"
-            test "$actual_sha" = "$FOUR_PATHWAYS_CSS_SHA"
+              "$asset_url" || echo "CURL_FAILED")
+            
+            if [ "$http_status" = "CURL_FAILED" ]; then
+              echo "ERROR: curl command failed for $host"
+              cat "$headers_file" 2>/dev/null || echo "(no headers captured)"
+              exit 1
+            fi
+            
+            final_url=$(grep -i '^< HTTP' "$headers_file" | tail -1 || echo "unknown")
+            content_type=$(grep -i '^content-type:' "$headers_file" | tail -1 | sed 's/^[^:]*: *//;s/\r$//' || echo "not-set")
+            content_encoding=$(grep -i '^content-encoding:' "$headers_file" | tail -1 | sed 's/^[^:]*: *//;s/\r$//' || echo "none")
+            content_length=$(grep -i '^content-length:' "$headers_file" | tail -1 | sed 's/^[^:]*: *//;s/\r$//' || echo "not-set")
+            downloaded_bytes=$(wc -c < "$css_asset")
+            actual_sha=$(sha256sum "$css_asset" | awk '{print $1}')
+            first_bytes=$(head -c 100 "$css_asset" | head -c 50)
+            
+            echo "=== Diagnostic Details for $host ==="
+            echo "HTTP Status: $http_status"
+            echo "Final URL: $final_url"
+            echo "Content-Type: $content_type"
+            echo "Content-Encoding: $content_encoding"
+            echo "Content-Length header: $content_length"
+            echo "Downloaded byte count: $downloaded_bytes"
+            echo "Actual SHA-256: $actual_sha"
+            echo "Expected SHA-256: $FOUR_PATHWAYS_CSS_SHA"
+            echo "First 50 bytes: $first_bytes"
+            echo "=================================="
+            
+            # Verify HTTP status
+            if [ "$http_status" != "200" ]; then
+              echo "ERROR: HTTP $http_status (expected 200) from $host"
+              exit 1
+            fi
+            
+            # Check for HTML fallback (SPA fallback or error page)
+            if grep -q '^<html' "$css_asset" || grep -q '^<!DOCTYPE' "$css_asset"; then
+              echo "ERROR: Received HTML response instead of CSS from $host"
+              head -20 "$css_asset"
+              exit 1
+            fi
+            
+            # Verify SHA-256 match
+            if [ "$actual_sha" != "$FOUR_PATHWAYS_CSS_SHA" ]; then
+              echo "ERROR: SHA-256 mismatch for $host"
+              echo "Expected: $FOUR_PATHWAYS_CSS_SHA"
+              echo "Got:      $actual_sha"
+              exit 1
+            fi
+            
+            # Verify all markers present
             for marker in "${markers[@]}"; do
-              grep -Fq "$marker" "$css_asset"
+              if ! grep -Fq "$marker" "$css_asset"; then
+                echo "ERROR: Marker '$marker' not found in deployed CSS from $host"
+                exit 1
+              fi
             done
-            rm -f "$css_asset"
+            
+            rm -f "$css_asset" "$headers_file"
             echo "$host serves exact Four Pathways CSS chunk: $FOUR_PATHWAYS_CSS ($actual_sha)"
           done
 
