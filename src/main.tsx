@@ -15,6 +15,7 @@ import "./styles/frontdoor-destination-color-authority-20260914.css";
 import "./styles/frontdoor-pathway-photography-20260914.css";
 import "./styles/public-header-logo-authority-20260915.css";
 import "./styles/public-home-centered-copy-authority-20260915.css";
+import "./styles/public-home-title-spacing-repair-20260915.css";
 
 /*
 Authenticated runtime ownership moved to styles/app-shell-entry.ts so the public homepage can stay lightweight.
