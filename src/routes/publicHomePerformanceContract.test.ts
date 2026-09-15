@@ -82,7 +82,7 @@ test("public homepage centers responsive copy and keeps service request as a tex
   assert.match(main, /class="hlc-mobile-sign-in-link"[^>]*>Sign In<\/a>/);
   assert.doesNotMatch(main, /hlc-mobile-request-link/);
   assert.match(centeredCopyAuthority, /text-align:center!important/);
-  assert.match(centeredCopyAuthority, /font-size:clamp\(34px,10\.5vw,46px\)!important/);
+  assert.match(centeredCopyAuthority, /font-size:clamp\(38px,11vw,50px\)!important/);
   assert.match(centeredCopyAuthority, /background:transparent!important/);
   assert.match(centeredCopyAuthority, /color:var\(--hlc-resident\)!important/);
 });
