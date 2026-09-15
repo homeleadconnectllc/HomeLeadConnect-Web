@@ -13,6 +13,7 @@ import "./styles/front-door-family-ecosystem-20260913.css";
 import "./styles/frontdoor-profile-protocol-20260913.css";
 import "./styles/frontdoor-destination-color-authority-20260914.css";
 import "./styles/frontdoor-pathway-photography-20260914.css";
+import "./styles/public-header-logo-authority-20260915.css";
 
 /*
 Authenticated runtime ownership moved to styles/app-shell-entry.ts so the public homepage can stay lightweight.
@@ -39,7 +40,7 @@ function publicHomeMarkup() {
     <main class="hlc-board-home hlc-v2-home hlc-family-ecosystem">
       <header class="hlc-board-nav">
         <div class="hlc-board-nav-inner">
-          <a class="hlc-board-brand" href="https://homeleadconnect.org/" aria-label="HomeLead Connect home"><img src="/hlc-logo-ui.png" alt="HomeLead Connect LLC" width="180" height="180" loading="eager" decoding="async" /></a>
+          <a class="hlc-board-brand" href="https://homeleadconnect.org/" aria-label="HomeLead Connect home"><img src="/brand/homelead-connect-master-transparent.png" srcset="/hlc-logo-ui.png 180w, /brand/homelead-connect-master-transparent.png 1254w" sizes="(max-width: 680px) 56px, 64px" alt="HomeLead Connect LLC" width="1254" height="1254" loading="eager" decoding="async" fetchpriority="high" /></a>
           <nav class="hlc-board-links" aria-label="Primary navigation"><a href="/about">About</a><a href="/homeowners">For Residents</a><a href="/professionals">For Professionals</a><a href="/partners">For Partners</a><a href="/community">Community</a><a href="/services">Resources</a></nav>
           <div class="hlc-board-actions">
             <a class="hlc-board-login" href="https://app.homeleadconnect.org/login">Sign In</a>

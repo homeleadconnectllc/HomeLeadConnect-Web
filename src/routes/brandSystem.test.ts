@@ -17,7 +17,7 @@ const serviceWorker = readFileSync("public/sw.js", "utf8");
 const transparentLogo = readFileSync("public/hlc-logo-transparent.png");
 
 const canonicalLogoPath = "/hlc-logo-transparent.png";
-const activeBrandSurfaces = [navbar, footer, authShell, htmlEntry, manifest, serviceWorker];
+const activeBrandSurfaces = [navbar, footer, htmlEntry, manifest, serviceWorker];
 const forbiddenLegacyLogoReferences = [
   "/favicon.svg",
   "/hlc-icon.jpeg",
@@ -110,6 +110,7 @@ test("official HLC mark stays canonical across shared UI, browser, PWA, and noti
   assert.match(manifest, /"type"\s*:\s*"image\/png"/);
   assert.match(serviceWorker, /icon:\s*"\/hlc-logo-transparent\.png"/);
   assert.match(serviceWorker, /badge:\s*"\/hlc-logo-transparent\.png"/);
+  assert.match(authShell, /src="\/brand\/homelead-connect-master-transparent\.png"/);
 });
 
 test("canonical HLC logo asset is the locked 1254px RGBA master derivative with transparent outer corners", () => {

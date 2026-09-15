@@ -3,6 +3,7 @@ import "../styles/v2-board-frontdoor-performance-20260912.css";
 import "../styles/v2-board-rest-polish-20260912.css";
 import "../styles/front-door-family-ecosystem-20260913.css";
 import "../styles/frontdoor-profile-protocol-20260913.css";
+import "../styles/public-header-logo-authority-20260915.css";
 
 /* Canonical SPA destinations retained for the public parser/audit contract: to="/request-service" to="/app" to="/community". */
 const pathways = [
@@ -27,7 +28,7 @@ export default function HomePage() {
       <header className="hlc-board-nav">
         <div className="hlc-board-nav-inner">
           <a className="hlc-board-brand" href="/" aria-label="HomeLead Connect home">
-            <img src="/hlc-logo-transparent.png" alt="HomeLead Connect LLC" width={440} height={142} loading="eager" decoding="async" />
+            <img src="/brand/homelead-connect-master-transparent.png" srcSet="/hlc-logo-ui.png 180w, /brand/homelead-connect-master-transparent.png 1254w" sizes="(max-width: 680px) 56px, 64px" alt="HomeLead Connect LLC" width={1254} height={1254} loading="eager" decoding="async" fetchPriority="high" />
           </a>
           <nav className="hlc-board-links" aria-label="Primary navigation">
             {navLinks.map(([label, href]) => <a key={href} href={href}>{label}</a>)}

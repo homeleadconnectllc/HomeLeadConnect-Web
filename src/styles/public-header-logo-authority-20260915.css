@@ -1,0 +1,72 @@
+/* Official HomeLead Connect public-header logo authority — 2026-09-15.
+   Geometry only: preserve every header's existing height, navigation, CTAs,
+   routes, and behavior. */
+
+html body #root .hlc-board-brand,
+html body #root .hlc-public-site-nav__brand,
+html body #root .hlc-auth-public-brand{
+  box-sizing:border-box!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  flex:0 0 64px!important;
+  width:64px!important;
+  height:64px!important;
+  margin:0!important;
+  padding:0!important;
+}
+
+html body #root .hlc-board-brand picture,
+html body #root .hlc-public-site-nav__brand picture,
+html body #root .hlc-auth-public-brand picture{
+  display:block!important;
+  width:64px!important;
+  height:64px!important;
+  margin:0!important;
+  padding:0!important;
+}
+
+html body #root .hlc-board-brand img,
+html body #root .hlc-public-site-nav__brand img,
+html body #root .hlc-auth-public-brand img{
+  box-sizing:border-box!important;
+  display:block!important;
+  width:64px!important;
+  height:64px!important;
+  min-width:64px!important;
+  max-width:64px!important;
+  min-height:64px!important;
+  max-height:64px!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:50%!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+
+@media(max-width:680px){
+  html body #root .hlc-board-brand,
+  html body #root .hlc-public-site-nav__brand,
+  html body #root .hlc-auth-public-brand{
+    flex-basis:56px!important;
+    width:56px!important;
+    height:56px!important;
+  }
+
+  html body #root .hlc-board-brand picture,
+  html body #root .hlc-public-site-nav__brand picture,
+  html body #root .hlc-auth-public-brand picture,
+  html body #root .hlc-board-brand img,
+  html body #root .hlc-public-site-nav__brand img,
+  html body #root .hlc-auth-public-brand img{
+    width:56px!important;
+    height:56px!important;
+    min-width:56px!important;
+    max-width:56px!important;
+    min-height:56px!important;
+    max-height:56px!important;
+  }
+}
