@@ -1,37 +1,38 @@
-/* Four Pathways approved image authority — 2026-09-15.
+/* Four Pathways approved exact-asset authority — 2026-09-15.
    Owner-approved mapping:
    Residents     -> moving/helping-neighbors
    Professionals -> contractor/service professional
    Partners      -> three-person business collaboration
    Community     -> neighborhood sidewalk
 
-   These are first-party public assets and intentionally replace the retired
-   pathway photography. Keep selectors scoped to the public ecosystem root.
-   No copy, navigation, auth, route, backend, billing, or behavior changes. */
+   These versioned first-party assets are the locked production authority.
+   Do not substitute retired pathway photography. Keep selectors scoped to
+   the public ecosystem root. No copy, navigation, auth, route, backend,
+   billing, or behavior changes. */
 
 html body #root .hlc-family-ecosystem .hlc-board-pathway--resident{
-  background-image:url('/four-pathways-residents.jpg') !important;
+  background-image:url('/four-pathways-residents-approved-20260915.jpg') !important;
   background-size:cover !important;
   background-repeat:no-repeat !important;
   background-position:center 45% !important;
 }
 
 html body #root .hlc-family-ecosystem .hlc-board-pathway--professional{
-  background-image:url('/four-pathways-professionals.jpg') !important;
+  background-image:url('/four-pathways-professionals-approved-20260915.jpg') !important;
   background-size:cover !important;
   background-repeat:no-repeat !important;
   background-position:center 32% !important;
 }
 
 html body #root .hlc-family-ecosystem .hlc-board-pathway--partner{
-  background-image:url('/four-pathways-partners.jpg') !important;
+  background-image:url('/four-pathways-partners-approved-20260915.jpg') !important;
   background-size:cover !important;
   background-repeat:no-repeat !important;
   background-position:center 42% !important;
 }
 
 html body #root .hlc-family-ecosystem .hlc-board-pathway--community{
-  background-image:url('/four-pathways-community.jpg') !important;
+  background-image:url('/four-pathways-community-approved-20260915.jpg') !important;
   background-size:cover !important;
   background-repeat:no-repeat !important;
   background-position:center 45% !important;
