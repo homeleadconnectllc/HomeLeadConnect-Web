@@ -1,5 +1,29 @@
-/* HomeLead Connect public-home centered copy authority — 2026-09-15.
+/* HomeLead Connect public-home responsive type and spacing authority — 2026-09-15.
    Presentation only: preserve routes, behavior, logo geometry, and pathway photography. */
+
+html body #root .hlc-family-ecosystem{
+  --hlc-home-display:"Avenir Next","SF Pro Display","Segoe UI Variable Display","Segoe UI",Inter,ui-sans-serif,system-ui,sans-serif;
+  --hlc-home-body:"Avenir Next","SF Pro Text","Segoe UI Variable Text","Segoe UI",Inter,ui-sans-serif,system-ui,sans-serif;
+  font-family:var(--hlc-home-body)!important;
+}
+
+html body #root .hlc-family-ecosystem *,
+html body #root .hlc-family-ecosystem *:before,
+html body #root .hlc-family-ecosystem *:after{
+  box-sizing:border-box;
+}
+
+html body #root .hlc-family-ecosystem h1,
+html body #root .hlc-family-ecosystem h2,
+html body #root .hlc-family-ecosystem h3,
+html body #root .hlc-family-ecosystem .hlc-board-pathway-label{
+  font-family:var(--hlc-home-display)!important;
+  font-weight:800!important;
+  letter-spacing:-.035em!important;
+  overflow-wrap:normal;
+  word-break:normal;
+  text-wrap:balance;
+}
 
 html body #root .hlc-family-ecosystem .hlc-family-hero-copy,
 html body #root .hlc-family-ecosystem .hlc-board-pathway-heading,
@@ -7,105 +31,60 @@ html body #root .hlc-family-ecosystem .hlc-board-pathway-content,
 html body #root .hlc-family-ecosystem .hlc-family-vision-inner,
 html body #root .hlc-family-ecosystem .hlc-family-entry-inner,
 html body #root .hlc-family-ecosystem .hlc-board-footer{
+  min-width:0!important;
   text-align:center!important;
 }
 
-html body #root .hlc-family-ecosystem .hlc-family-hero-copy h1{
-  max-width:14ch!important;
-  margin-inline:auto!important;
-  font-size:clamp(50px,6vw,82px)!important;
-  line-height:.98!important;
-  text-wrap:balance;
-}
-
-html body #root .hlc-family-ecosystem .hlc-family-hero-copy>p:not(.hlc-family-kicker){
-  max-width:62ch!important;
-  margin-inline:auto!important;
-  font-size:clamp(18px,1.65vw,22px)!important;
-  text-wrap:pretty;
-}
-
-html body #root .hlc-family-ecosystem .hlc-family-kicker,
-html body #root .hlc-family-ecosystem .hlc-family-pathway-subtitle,
-html body #root .hlc-family-ecosystem .hlc-board-pathway-copy,
-html body #root .hlc-family-ecosystem .hlc-family-vision-note,
-html body #root .hlc-family-ecosystem .hlc-family-pricing-note{
-  margin-inline:auto!important;
-  text-wrap:pretty;
-}
-
-html body #root .hlc-family-ecosystem .hlc-board-pathway-heading{
-  display:block!important;
-}
-
-html body #root .hlc-family-ecosystem .hlc-board-pathway-heading h2{
-  font-size:clamp(42px,4.6vw,62px)!important;
-  line-height:1!important;
-  text-wrap:balance;
-}
-
-html body #root .hlc-family-ecosystem .hlc-family-pathway-subtitle{
-  max-width:62ch!important;
-  font-size:clamp(16px,1.35vw,18px)!important;
-  line-height:1.55!important;
-}
-
-html body #root .hlc-family-ecosystem .hlc-board-pathway-label{
-  font-size:clamp(27px,2.3vw,36px)!important;
-  line-height:1.08!important;
-  text-wrap:balance;
-}
-
-html body #root .hlc-family-ecosystem .hlc-board-pathway-copy{
-  max-width:38ch!important;
-  font-size:clamp(16px,1.3vw,18px)!important;
-  line-height:1.5!important;
-}
-
-html body #root .hlc-family-ecosystem .hlc-family-pathway-link{
-  display:inline-flex!important;
-  justify-content:center!important;
-}
-
-html body #root .hlc-family-ecosystem .hlc-family-vision-inner{
-  justify-items:center!important;
-}
-
-html body #root .hlc-family-ecosystem .hlc-family-vision h2{
-  max-width:15ch!important;
-  margin-inline:auto!important;
-  font-size:clamp(46px,5vw,74px)!important;
-  line-height:.98!important;
-  text-wrap:balance;
-}
-
-html body #root .hlc-family-ecosystem .hlc-family-vision-note{
-  justify-self:center!important;
-  max-width:48ch!important;
-  font-size:clamp(16px,1.35vw,18px)!important;
-}
-
-html body #root .hlc-family-ecosystem .hlc-family-vision-note:before{
-  margin-inline:auto!important;
-}
-
-html body #root .hlc-family-ecosystem .hlc-family-entry h2{
-  font-size:clamp(32px,3.8vw,48px)!important;
-  line-height:1.08!important;
-  text-wrap:balance;
-}
-
-html body #root .hlc-family-ecosystem .hlc-family-entry-actions,
-html body #root .hlc-family-ecosystem .hlc-board-footer nav{
-  justify-content:center!important;
-}
-
+/* Header actions: one consistent Sign In entry on mobile and desktop. */
 html body #root .hlc-family-ecosystem .hlc-mobile-sign-in-link{
   display:none;
   color:var(--hlc-resident)!important;
   text-decoration:none!important;
-  font-weight:850!important;
+  font-weight:800!important;
   white-space:nowrap;
+}
+
+/* Hero: fluid type with deliberate vertical rhythm. */
+html body #root .hlc-family-ecosystem .hlc-family-hero-inner{
+  width:min(1040px,calc(100% - 48px))!important;
+  padding:clamp(68px,7vw,96px) 0 clamp(60px,6vw,84px)!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-family-hero-copy{
+  max-width:960px!important;
+  margin-inline:auto!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-family-hero-copy .hlc-family-kicker{
+  max-width:34ch!important;
+  margin:0 auto 16px!important;
+  font-family:var(--hlc-home-body)!important;
+  font-size:12px!important;
+  font-weight:800!important;
+  line-height:1.5!important;
+  letter-spacing:.24em!important;
+  text-wrap:balance;
+}
+
+html body #root .hlc-family-ecosystem .hlc-family-hero-copy h1{
+  max-width:14ch!important;
+  margin:0 auto!important;
+  font-size:clamp(52px,5.8vw,82px)!important;
+  line-height:1.02!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-family-hero-copy>p:not(.hlc-family-kicker){
+  max-width:62ch!important;
+  margin:24px auto 0!important;
+  font-size:clamp(18px,1.55vw,21px)!important;
+  line-height:1.55!important;
+  text-wrap:pretty;
+}
+
+html body #root .hlc-family-ecosystem .hlc-family-hero-actions{
+  align-items:center!important;
+  gap:14px!important;
+  margin-top:30px!important;
 }
 
 html body #root .hlc-family-ecosystem .hlc-family-hero-actions .hlc-board-cta{
@@ -119,9 +98,16 @@ html body #root .hlc-family-ecosystem .hlc-family-hero-actions .hlc-board-cta{
   background:transparent!important;
   color:var(--hlc-resident)!important;
   box-shadow:none!important;
-  font-size:clamp(17px,1.5vw,19px)!important;
-  line-height:1.25!important;
+  font-size:18px!important;
+  line-height:1.35!important;
   text-decoration:none!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-family-secondary{
+  width:auto!important;
+  min-height:44px!important;
+  font-size:16px!important;
+  line-height:1.35!important;
 }
 
 html body #root .hlc-family-ecosystem .hlc-family-hero-actions .hlc-board-cta:hover{
@@ -134,13 +120,205 @@ html body #root .hlc-family-ecosystem .hlc-mobile-sign-in-link:focus-visible{
   outline-offset:4px!important;
 }
 
-html body #root .hlc-family-ecosystem .hlc-board-footer{
-  font-size:14px!important;
+/* Pathways: fix the legacy dot/span collision and let card copy determine height. */
+html body #root .hlc-family-ecosystem .hlc-board-pathway-band{
+  padding:clamp(54px,5.5vw,76px) 0 clamp(68px,6.5vw,92px)!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-board-pathway-heading{
+  display:block!important;
+  width:min(840px,calc(100% - 48px))!important;
+  max-width:840px!important;
+  margin:0 auto 38px!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-board-pathway-heading .hlc-family-kicker{
+  margin:0 auto 13px!important;
+  font-family:var(--hlc-home-body)!important;
+  font-size:12px!important;
   line-height:1.5!important;
+  letter-spacing:.23em!important;
+  text-wrap:balance;
+}
+
+html body #root .hlc-family-ecosystem .hlc-board-pathway-heading h2{
+  margin:0!important;
+  font-size:clamp(42px,4.5vw,62px)!important;
+  line-height:1.04!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-board-pathway-heading h2 span{
+  display:inline!important;
+  max-width:none!important;
+  margin:0!important;
+  color:#42b7ff!important;
+  font:inherit!important;
+  line-height:inherit!important;
+  letter-spacing:inherit!important;
+  text-align:inherit!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-family-pathway-subtitle{
+  max-width:58ch!important;
+  margin:17px auto 0!important;
+  font-family:var(--hlc-home-body)!important;
+  font-size:clamp(15px,1.25vw,17px)!important;
+  line-height:1.55!important;
+  letter-spacing:.14em!important;
+  text-wrap:balance;
+}
+
+html body #root .hlc-family-ecosystem .hlc-board-pathway-inner{
+  width:min(1040px,calc(100% - 48px))!important;
+  gap:24px!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-board-pathway{
+  height:auto!important;
+  min-height:430px!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-board-pathway-content{
+  position:relative!important;
+  inset:auto!important;
+  z-index:4!important;
+  width:100%!important;
+  min-width:0!important;
+  padding:clamp(250px,22vw,285px) 28px 28px!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-board-pathway-label{
+  margin:0 0 10px!important;
+  font-size:clamp(27px,2.2vw,34px)!important;
+  line-height:1.1!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-board-pathway-copy{
+  max-width:38ch!important;
+  margin:0 auto!important;
+  font-family:var(--hlc-home-body)!important;
+  font-size:clamp(16px,1.2vw,17px)!important;
+  line-height:1.55!important;
+  text-wrap:pretty;
+}
+
+html body #root .hlc-family-ecosystem .hlc-family-pathway-link{
+  display:inline-flex!important;
+  min-height:38px!important;
+  margin-top:16px!important;
+  align-items:center!important;
+  justify-content:center!important;
+  font-family:var(--hlc-home-body)!important;
+  font-size:16px!important;
+  line-height:1.35!important;
+}
+
+/* Vision: independent columns at wide sizes, clean stack before they can collide. */
+html body #root .hlc-family-ecosystem .hlc-family-vision{
+  min-height:0!important;
+  padding:clamp(68px,6vw,88px) 0!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-family-vision-inner{
+  width:min(1120px,calc(100% - 48px))!important;
+  grid-template-columns:minmax(0,1fr) minmax(300px,.78fr)!important;
+  gap:clamp(44px,6vw,86px)!important;
+  align-items:center!important;
+  justify-items:center!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-family-vision-kicker{
+  margin:0 auto 14px!important;
+  font-family:var(--hlc-home-body)!important;
+  font-size:12px!important;
+  line-height:1.5!important;
+  letter-spacing:.22em!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-family-vision h2{
+  max-width:15ch!important;
+  margin:0 auto!important;
+  font-size:clamp(46px,4.8vw,72px)!important;
+  line-height:1.02!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-family-vision-note{
+  justify-self:center!important;
+  max-width:42ch!important;
+  margin:0 auto!important;
+  font-family:var(--hlc-home-body)!important;
+  font-size:clamp(16px,1.25vw,18px)!important;
+  line-height:1.7!important;
+  text-wrap:pretty;
+}
+
+html body #root .hlc-family-ecosystem .hlc-family-vision-note:before{
+  margin:0 auto 20px!important;
+}
+
+/* Final entry and footer: explicit spacing prevents the links from colliding. */
+html body #root .hlc-family-ecosystem .hlc-family-entry{
+  padding:clamp(58px,5.5vw,78px) 24px!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-family-entry-inner{
+  width:min(1040px,100%)!important;
+  margin-inline:auto!important;
+  display:grid!important;
+  gap:28px!important;
+  justify-items:center!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-family-entry .hlc-family-kicker{
+  margin:0 auto 10px!important;
+  font-size:12px!important;
+  line-height:1.5!important;
+  letter-spacing:.2em!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-family-entry h2{
+  max-width:20ch!important;
+  margin:0 auto!important;
+  font-size:clamp(32px,3.6vw,48px)!important;
+  line-height:1.1!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-family-pricing-note{
+  margin:14px auto 0!important;
+  font-size:14px!important;
+  line-height:1.55!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-family-entry-actions{
+  display:flex!important;
+  flex-wrap:wrap!important;
+  gap:12px 22px!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-family-entry-actions a{
+  min-height:44px!important;
+  padding:10px 6px!important;
+  font-size:15px!important;
+  line-height:1.4!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-board-footer{
+  gap:12px 24px!important;
+  padding:36px 24px!important;
+  font-family:var(--hlc-home-body)!important;
+  font-size:14px!important;
+  line-height:1.55!important;
 }
 
 html body #root .hlc-family-ecosystem .hlc-board-footer strong{
-  font-size:20px!important;
+  font-size:19px!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-board-footer nav{
+  gap:10px 18px!important;
+  justify-content:center!important;
 }
 
 html body #root .hlc-family-ecosystem .hlc-board-footer span,
@@ -149,93 +327,218 @@ html body #root .hlc-family-ecosystem .hlc-board-footer small{
   font-size:13px!important;
 }
 
+@media(max-width:900px){
+  html body #root .hlc-family-ecosystem .hlc-family-vision-inner{
+    grid-template-columns:minmax(0,1fr)!important;
+    gap:32px!important;
+  }
+}
+
 @media(max-width:680px){
+  html body #root .hlc-family-ecosystem .hlc-board-nav-inner{
+    width:calc(100% - 28px)!important;
+    gap:12px!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-board-actions{
+    min-width:0!important;
+    gap:12px!important;
+  }
+
   html body #root .hlc-family-ecosystem .hlc-mobile-sign-in-link{
     display:inline-flex!important;
-    align-items:center!important;
-    justify-content:center!important;
     min-height:44px!important;
     padding-inline:4px!important;
+    align-items:center!important;
+    justify-content:center!important;
     font-size:15px!important;
   }
 
-  html body #root .hlc-family-ecosystem .hlc-family-hero-copy h1{
-    max-width:12ch!important;
-    font-size:clamp(38px,11vw,50px)!important;
-    line-height:1!important;
+  html body #root .hlc-family-ecosystem .hlc-family-hero-inner{
+    width:calc(100% - 32px)!important;
+    padding:54px 0 48px!important;
   }
 
   html body #root .hlc-family-ecosystem .hlc-family-hero-copy .hlc-family-kicker{
-    max-width:30ch!important;
+    max-width:28ch!important;
+    margin-bottom:14px!important;
     font-size:11px!important;
-    line-height:1.5!important;
-    letter-spacing:.24em!important;
+    letter-spacing:.18em!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-family-hero-copy h1{
+    max-width:11.5ch!important;
+    font-size:clamp(38px,10.25vw,48px)!important;
+    line-height:1.04!important;
+    letter-spacing:-.03em!important;
   }
 
   html body #root .hlc-family-ecosystem .hlc-family-hero-copy>p:not(.hlc-family-kicker){
-    max-width:38ch!important;
+    max-width:36ch!important;
+    margin-top:22px!important;
     font-size:17px!important;
-    line-height:1.5!important;
+    line-height:1.6!important;
   }
 
-  html body #root .hlc-family-ecosystem .hlc-board-pathway-heading h2{
-    font-size:clamp(38px,9.5vw,46px)!important;
+  html body #root .hlc-family-ecosystem .hlc-family-hero-actions{
+    gap:12px!important;
+    margin-top:26px!important;
   }
 
-  html body #root .hlc-family-ecosystem .hlc-family-pathway-subtitle{
-    max-width:36ch!important;
-    font-size:15px!important;
-  }
-
-  html body #root .hlc-family-ecosystem .hlc-board-pathway-label{
-    font-size:clamp(25px,7.5vw,30px)!important;
-  }
-
-  html body #root .hlc-family-ecosystem .hlc-board-pathway-copy,
-  html body #root .hlc-family-ecosystem .hlc-family-pathway-link{
-    font-size:15px!important;
-  }
-
-  html body #root .hlc-family-ecosystem .hlc-family-vision h2{
-    max-width:13ch!important;
-    font-size:clamp(40px,10.5vw,50px)!important;
-  }
-
-  html body #root .hlc-family-ecosystem .hlc-family-vision-note{
-    max-width:36ch!important;
-    font-size:15px!important;
-    line-height:1.65!important;
-  }
-
-  html body #root .hlc-family-ecosystem .hlc-family-entry h2{
-    max-width:18ch!important;
-    margin-inline:auto!important;
-    font-size:clamp(30px,8vw,38px)!important;
-  }
-
-  html body #root .hlc-family-ecosystem .hlc-family-hero-actions .hlc-board-cta{
+  html body #root .hlc-family-ecosystem .hlc-family-hero-actions .hlc-board-cta,
+  html body #root .hlc-family-ecosystem .hlc-family-secondary{
     width:auto!important;
     max-width:100%!important;
     font-size:17px!important;
   }
-  html body #root .hlc-family-ecosystem .hlc-board-footer{
+
+  html body #root .hlc-family-ecosystem .hlc-board-pathway-band{
+    padding:48px 0 62px!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-board-pathway-heading{
+    width:calc(100% - 32px)!important;
+    margin-bottom:30px!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-board-pathway-heading .hlc-family-kicker{
+    max-width:30ch!important;
+    margin-bottom:12px!important;
+    font-size:11px!important;
+    letter-spacing:.18em!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-board-pathway-heading h2{
+    font-size:clamp(36px,9vw,44px)!important;
+    line-height:1.08!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-family-pathway-subtitle{
+    max-width:34ch!important;
+    margin-top:15px!important;
+    font-size:15px!important;
+    line-height:1.6!important;
+    letter-spacing:.1em!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-board-pathway-inner{
+    width:calc(100% - 28px)!important;
+    gap:18px!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-board-pathway{
+    min-height:430px!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-board-pathway-content{
+    padding:245px 22px 26px!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-board-pathway-label{
+    font-size:clamp(26px,7vw,30px)!important;
+    line-height:1.12!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-board-pathway-copy{
+    max-width:32ch!important;
+    font-size:16px!important;
+    line-height:1.6!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-family-pathway-link{
+    min-height:40px!important;
+    margin-top:15px!important;
+    font-size:16px!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-family-vision{
+    padding:58px 0 64px!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-family-vision-inner{
+    width:calc(100% - 32px)!important;
+    gap:28px!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-family-vision-kicker{
+    max-width:30ch!important;
+    font-size:11px!important;
+    letter-spacing:.18em!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-family-vision h2{
+    max-width:13ch!important;
+    font-size:clamp(38px,10vw,48px)!important;
+    line-height:1.04!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-family-vision-note{
+    max-width:34ch!important;
+    font-size:16px!important;
+    line-height:1.7!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-family-entry{
+    padding:52px 18px 56px!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-family-entry-inner{
+    gap:24px!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-family-entry h2{
+    max-width:17ch!important;
+    font-size:clamp(30px,8vw,38px)!important;
+    line-height:1.14!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-family-pricing-note{
+    max-width:34ch!important;
     font-size:14px!important;
   }
 
-  html body #root .hlc-family-ecosystem .hlc-board-footer span,
-  html body #root .hlc-family-ecosystem .hlc-board-footer a,
-  html body #root .hlc-family-ecosystem .hlc-board-footer small{
-    font-size:13px!important;
+  html body #root .hlc-family-ecosystem .hlc-family-entry-actions{
+    width:100%!important;
+    flex-direction:column!important;
+    gap:8px!important;
   }
 
+  html body #root .hlc-family-ecosystem .hlc-family-entry-actions a{
+    width:auto!important;
+    max-width:100%!important;
+    min-height:44px!important;
+    padding:10px 4px!important;
+    font-size:15px!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-board-footer{
+    flex-direction:column!important;
+    gap:12px!important;
+    padding:34px 20px!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-board-footer nav{
+    gap:10px 16px!important;
+  }
 }
 
 @media(max-width:380px){
   html body #root .hlc-family-ecosystem .hlc-family-hero-copy h1{
-    font-size:clamp(35px,10.5vw,42px)!important;
+    max-width:11ch!important;
+    font-size:clamp(35px,10vw,40px)!important;
   }
 
-  html body #root .hlc-family-ecosystem .hlc-board-pathway-label{
-    font-size:25px!important;
+  html body #root .hlc-family-ecosystem .hlc-board-pathway-heading h2{
+    font-size:36px!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-board-pathway-content{
+    padding-inline:18px!important;
+  }
+}
+
+@media(min-width:1200px){
+  html body #root .hlc-family-ecosystem .hlc-board-pathway-inner{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
   }
 }
