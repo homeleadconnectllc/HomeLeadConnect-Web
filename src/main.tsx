@@ -18,6 +18,7 @@ import "./styles/public-home-centered-copy-authority-20260915.css";
 import "./styles/public-home-title-spacing-repair-20260915.css";
 import "./styles/public-home-section-blend-authority-20260915.css";
 import "./styles/public-home-final-composition-20260915.css";
+import "./styles/public-home-mobile-nav-v4-20260915.css";
 
 /*
 Authenticated runtime ownership moved to styles/app-shell-entry.ts so the public homepage can stay lightweight.
@@ -39,6 +40,9 @@ const APP_HOST = "app.homeleadconnect.org";
 const isPublicHome = window.location.pathname === "/" && window.location.hostname.toLowerCase() !== APP_HOST;
 const rootElement = document.getElementById("root")!;
 
+const icon = (body: string) => `<svg class="hlc-mobile-icon-nav-v4__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${body}</svg>`;
+const menuItem = (label: string, href: string, tone: string, iconBody: string) => `<a class="hlc-mobile-icon-nav-v4__item hlc-mobile-icon-nav-v4__item--${tone}" href="${href}"><span class="hlc-mobile-icon-nav-v4__tile" aria-hidden="true">${icon(iconBody)}</span><span class="hlc-mobile-icon-nav-v4__label">${label}</span></a>`;
+
 function publicHomeMarkup() {
   return `
     <main class="hlc-board-home hlc-v2-home hlc-family-ecosystem">
@@ -50,7 +54,19 @@ function publicHomeMarkup() {
             <a class="hlc-board-login" href="https://app.homeleadconnect.org/login">Sign In</a>
             <a class="hlc-board-cta" href="https://app.homeleadconnect.org/register">Get Started →</a>
             <a class="hlc-mobile-sign-in-link" href="https://app.homeleadconnect.org/login">Sign In</a>
-            <details class="hlc-board-menu"><summary>Menu</summary><div class="hlc-board-menu-panel"><a href="/about">About</a><a href="/homeowners">For Residents</a><a href="/professionals">For Professionals</a><a href="/partners">For Partners</a><a href="/community">Community</a><a href="/services">Resources</a><a href="https://app.homeleadconnect.org/login">Sign In</a><a href="https://app.homeleadconnect.org/register">Get Started</a></div></details>
+            <details class="hlc-mobile-icon-nav-v4" data-mobile-nav-version="4">
+              <summary class="hlc-mobile-icon-nav-v4__trigger">Menu</summary>
+              <nav class="hlc-mobile-icon-nav-v4__panel" aria-label="Mobile navigation">
+                ${menuItem("About", "/about", "neutral", '<circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/>')}
+                ${menuItem("For Residents", "/homeowners", "resident", '<path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10.5V20h13v-9.5"/><path d="M9 20v-6h6v6"/>')}
+                ${menuItem("For Professionals", "/professionals", "professional", '<path d="M14.7 6.3a4 4 0 0 0-5 5L3 18l3 3 6.7-6.7a4 4 0 0 0 5-5l-3 3-3-3 3-3Z"/>')}
+                ${menuItem("For Partners", "/partners", "partner", '<path d="M10 13a5 5 0 0 0 7.1.1l2-2a5 5 0 0 0-7.1-7.1l-1.1 1.1"/><path d="M14 11a5 5 0 0 0-7.1-.1l-2 2A5 5 0 0 0 12 20l1.1-1.1"/>')}
+                ${menuItem("Community", "/community", "community", '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>')}
+                ${menuItem("Resources", "/services", "neutral", '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4h16v16H6.5A2.5 2.5 0 0 1 4 17.5Z"/>')}
+                ${menuItem("Sign In", "https://app.homeleadconnect.org/login", "neutral", '<path d="M10 17l5-5-5-5"/><path d="M15 12H3"/><path d="M14 3h5a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-5"/>')}
+                ${menuItem("Get Started", "https://app.homeleadconnect.org/register", "start", '<circle cx="12" cy="12" r="9"/><path d="m9 12 2 2 4-4"/>')}
+              </nav>
+            </details>
           </div>
         </div>
       </header>
