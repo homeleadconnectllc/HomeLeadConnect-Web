@@ -6,7 +6,7 @@ import "../styles/front-door-family-ecosystem-20260913.css";
 import "../styles/frontdoor-profile-protocol-20260913.css";
 import "../styles/public-header-logo-authority-20260915.css";
 import "../styles/public-home-centered-copy-authority-20260915.css";
-import "../styles/public-home-mobile-nav-icon-reference-20260915.css";
+import "../styles/public-home-mobile-nav-v4-20260915.css";
 
 /* Canonical SPA destinations retained for the public parser/audit contract: to="/request-service" to="/app" to="/community". */
 const pathways = [
@@ -51,15 +51,15 @@ export default function HomePage() {
             <a className="hlc-board-login" href="/login">Sign In</a>
             <a className="hlc-board-cta" href="/register">Get Started →</a>
             <a className="hlc-mobile-sign-in-link" href="/login">Sign In</a>
-            <details className="hlc-mobile-nav-v2" data-mobile-nav-version="3">
-              <summary className="hlc-mobile-nav-v2__trigger">Menu</summary>
-              <nav className="hlc-mobile-nav-v2__panel" aria-label="Mobile navigation">
+            <details className="hlc-mobile-icon-nav-v4" data-mobile-nav-version="4">
+              <summary className="hlc-mobile-icon-nav-v4__trigger">Menu</summary>
+              <nav className="hlc-mobile-icon-nav-v4__panel" aria-label="Mobile navigation">
                 {mobileMenuLinks.map(({ label, href, Icon, tone }) => (
-                  <a className={`hlc-mobile-nav-v2__item hlc-mobile-nav-v2__item--${tone}`} key={href} href={href}>
-                    <span className="hlc-mobile-nav-v2__icon-tile" aria-hidden="true">
-                      <Icon className="hlc-mobile-nav-v2__icon" size={20} strokeWidth={2.2} />
+                  <a className={`hlc-mobile-icon-nav-v4__item hlc-mobile-icon-nav-v4__item--${tone}`} key={href} href={href}>
+                    <span className="hlc-mobile-icon-nav-v4__tile" aria-hidden="true">
+                      <Icon className="hlc-mobile-icon-nav-v4__icon" size={22} strokeWidth={2.2} />
                     </span>
-                    <span>{label}</span>
+                    <span className="hlc-mobile-icon-nav-v4__label">{label}</span>
                   </a>
                 ))}
               </nav>
