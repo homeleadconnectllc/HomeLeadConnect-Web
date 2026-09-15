@@ -43,12 +43,14 @@ html body #root .hlc-family-ecosystem .hlc-family-vision-kicker{
 /* Present the existing final app destination with the approved HomeLead Connect master artwork.
    The original link text remains in the DOM for accessibility and routing stays unchanged. */
 html body #root .hlc-family-ecosystem .hlc-family-entry-actions a:last-child{
-  width:96px!important;
-  min-width:96px!important;
-  height:96px!important;
-  min-height:96px!important;
+  width:74px!important;
+  min-width:74px!important;
+  height:74px!important;
+  min-height:74px!important;
   padding:0!important;
   margin:10px auto 0!important;
+  position:relative!important;
+  top:46px!important;
   border:0!important;
   border-radius:50%!important;
   background-color:transparent!important;
@@ -105,9 +107,10 @@ html body #root .hlc-family-ecosystem .hlc-family-entry-actions a:last-child:foc
   }
 
   html body #root .hlc-family-ecosystem .hlc-family-entry-actions a:last-child{
-    width:94px!important;
-    min-width:94px!important;
-    height:94px!important;
-    min-height:94px!important;
+    width:68px!important;
+    min-width:68px!important;
+    height:68px!important;
+    min-height:68px!important;
+    top:38px!important;
   }
 }
