@@ -1,0 +1,9 @@
+@media (max-width: 680px) {
+  .hlc-board-pathway-heading .hlc-family-pathway-subtitle .hlc-pathway-subtitle-line {
+    display: block;
+  }
+
+  .hlc-board-pathway-heading .hlc-family-pathway-subtitle .hlc-pathway-subtitle-last-line {
+    white-space: nowrap;
+  }
+}

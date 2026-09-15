@@ -19,6 +19,7 @@ import "./styles/public-home-title-spacing-repair-20260915.css";
 import "./styles/public-home-section-blend-authority-20260915.css";
 import "./styles/public-home-final-composition-20260915.css";
 import "./styles/public-home-mobile-nav-v5-20260915.css";
+import "./styles/public-home-pathway-heading-wrap-20260915.css";
 
 /*
 Authenticated runtime ownership moved to styles/app-shell-entry.ts so the public homepage can stay lightweight.
@@ -81,7 +82,7 @@ function publicHomeMarkup() {
       </section>
 
       <section id="pathways" class="hlc-board-pathway-band" aria-labelledby="hlc-board-pathway-title">
-        <div class="hlc-board-pathway-heading"><p class="hlc-family-kicker">The HomeLead Connect ecosystem</p><h2 id="hlc-board-pathway-title">Four Pathways<span>.</span></h2><p class="hlc-family-pathway-subtitle">Different experiences. Same mission. One connected ecosystem.</p></div>
+        <div class="hlc-board-pathway-heading"><p class="hlc-family-kicker">The HomeLead Connect ecosystem</p><h2 id="hlc-board-pathway-title">Four Pathways</h2><p class="hlc-family-pathway-subtitle"><span class="hlc-pathway-subtitle-line">Different experiences.</span> <span class="hlc-pathway-subtitle-line">Same mission.</span> <span class="hlc-pathway-subtitle-line hlc-pathway-subtitle-last-line">One connected ecosystem.</span></p></div>
         <div class="hlc-board-pathway-inner">
           <article class="hlc-board-pathway hlc-board-pathway--resident" style="background-image:url('/four-pathways-residents-hq-20260915.jpg');background-size:cover;background-repeat:no-repeat;background-position:center 42%;"><div class="hlc-board-pathway-content"><p class="hlc-board-pathway-label">For Residents</p><p class="hlc-board-pathway-copy">Get help with the home in front of you—and keep the next step clear.</p><a class="hlc-family-pathway-link" href="/homeowners">Find resident support →</a></div></article>
           <article class="hlc-board-pathway hlc-board-pathway--professional" style="background-image:url('/four-pathways-professionals-hq-20260915.jpg');background-size:cover;background-repeat:no-repeat;background-position:center 40%;"><div class="hlc-board-pathway-content"><p class="hlc-board-pathway-label">For Professionals</p><p class="hlc-board-pathway-copy">Build a more visible, accountable service business inside the network.</p><a class="hlc-family-pathway-link" href="/professionals">Explore professional access →</a></div></article>
