@@ -42,7 +42,7 @@ export default function AuthShell({
       <nav className="hlc-auth-public-nav" aria-label="Public site navigation">
         <div className="hlc-auth-public-nav-inner">
           <a className="hlc-auth-public-brand" href="https://homeleadconnect.org/" aria-label="HomeLead Connect home">
-            <img src="/brand/homelead-connect-master-transparent.png" alt="HomeLead Connect" width="1254" height="1254" />
+            <img src="/brand/homelead-connect-master-transparent.png" srcSet="/hlc-logo-ui.png 180w, /brand/homelead-connect-master-transparent.png 1254w" sizes="(max-width: 680px) 56px, 64px" alt="HomeLead Connect" width="1254" height="1254" />
           </a>
           <div className="hlc-auth-public-links">
             <a href="https://residents.homeleadconnect.org/">Residents</a>
