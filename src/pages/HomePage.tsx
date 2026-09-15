@@ -6,7 +6,7 @@ import "../styles/front-door-family-ecosystem-20260913.css";
 import "../styles/frontdoor-profile-protocol-20260913.css";
 import "../styles/public-header-logo-authority-20260915.css";
 import "../styles/public-home-centered-copy-authority-20260915.css";
-import "../styles/public-home-mobile-menu-polish-20260915.css";
+import "../styles/public-home-mobile-nav-v2-20260915.css";
 
 /* Canonical SPA destinations retained for the public parser/audit contract: to="/request-service" to="/app" to="/community". */
 const pathways = [
@@ -26,14 +26,14 @@ const navLinks = [
 ] as const;
 
 const mobileMenuLinks = [
-  { label: "About", href: "/about", Icon: Info },
-  { label: "For Residents", href: "/homeowners", Icon: House },
-  { label: "For Professionals", href: "/professionals", Icon: Briefcase },
-  { label: "For Partners", href: "/partners", Icon: Handshake },
-  { label: "Community", href: "/community", Icon: Users },
-  { label: "Resources", href: "/services", Icon: BookOpen },
-  { label: "Sign In", href: "/login", Icon: LogIn },
-  { label: "Get Started", href: "/register", Icon: ArrowRightCircle },
+  { label: "About", href: "/about", Icon: Info, tone: "neutral" },
+  { label: "For Residents", href: "/homeowners", Icon: House, tone: "resident" },
+  { label: "For Professionals", href: "/professionals", Icon: Briefcase, tone: "professional" },
+  { label: "For Partners", href: "/partners", Icon: Handshake, tone: "partner" },
+  { label: "Community", href: "/community", Icon: Users, tone: "community" },
+  { label: "Resources", href: "/services", Icon: BookOpen, tone: "neutral" },
+  { label: "Sign In", href: "/login", Icon: LogIn, tone: "neutral" },
+  { label: "Get Started", href: "/register", Icon: ArrowRightCircle, tone: "start" },
 ] as const;
 
 export default function HomePage() {
@@ -51,16 +51,16 @@ export default function HomePage() {
             <a className="hlc-board-login" href="/login">Sign In</a>
             <a className="hlc-board-cta" href="/register">Get Started →</a>
             <a className="hlc-mobile-sign-in-link" href="/login">Sign In</a>
-            <details className="hlc-board-menu">
-              <summary>Menu</summary>
-              <div className="hlc-board-menu-panel">
-                {mobileMenuLinks.map(({ label, href, Icon }) => (
-                  <a className="hlc-board-menu-item" key={href} href={href}>
-                    <Icon className="hlc-board-menu-icon" size={19} strokeWidth={2.2} aria-hidden="true" />
+            <details className="hlc-mobile-nav-v2" data-mobile-nav-version="2">
+              <summary className="hlc-mobile-nav-v2__trigger">Menu</summary>
+              <nav className="hlc-mobile-nav-v2__panel" aria-label="Mobile navigation">
+                {mobileMenuLinks.map(({ label, href, Icon, tone }) => (
+                  <a className={`hlc-mobile-nav-v2__item hlc-mobile-nav-v2__item--${tone}`} key={href} href={href}>
+                    <Icon className="hlc-mobile-nav-v2__icon" size={18} strokeWidth={2.2} aria-hidden="true" />
                     <span>{label}</span>
                   </a>
                 ))}
-              </div>
+              </nav>
             </details>
           </div>
         </div>
