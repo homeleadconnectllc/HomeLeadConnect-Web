@@ -1,3 +1,4 @@
+import { ArrowRightCircle, BookOpen, Briefcase, CircleInfo, Handshake, House, LogIn, Users } from "lucide-react";
 import "../styles/v2-board-frontdoor-20260912.css";
 import "../styles/v2-board-frontdoor-performance-20260912.css";
 import "../styles/v2-board-rest-polish-20260912.css";
@@ -5,6 +6,7 @@ import "../styles/front-door-family-ecosystem-20260913.css";
 import "../styles/frontdoor-profile-protocol-20260913.css";
 import "../styles/public-header-logo-authority-20260915.css";
 import "../styles/public-home-centered-copy-authority-20260915.css";
+import "../styles/public-home-mobile-menu-polish-20260915.css";
 
 /* Canonical SPA destinations retained for the public parser/audit contract: to="/request-service" to="/app" to="/community". */
 const pathways = [
@@ -21,6 +23,17 @@ const navLinks = [
   ["For Partners", "/partners"],
   ["Community", "/community"],
   ["Resources", "/services"],
+] as const;
+
+const mobileMenuLinks = [
+  { label: "About", href: "/about", Icon: CircleInfo },
+  { label: "For Residents", href: "/homeowners", Icon: House },
+  { label: "For Professionals", href: "/professionals", Icon: Briefcase },
+  { label: "For Partners", href: "/partners", Icon: Handshake },
+  { label: "Community", href: "/community", Icon: Users },
+  { label: "Resources", href: "/services", Icon: BookOpen },
+  { label: "Sign In", href: "/login", Icon: LogIn },
+  { label: "Get Started", href: "/register", Icon: ArrowRightCircle },
 ] as const;
 
 export default function HomePage() {
@@ -41,9 +54,12 @@ export default function HomePage() {
             <details className="hlc-board-menu">
               <summary>Menu</summary>
               <div className="hlc-board-menu-panel">
-                {navLinks.map(([label, href]) => <a key={href} href={href}>{label}</a>)}
-                <a href="/login">Sign In</a>
-                <a href="/register">Get Started</a>
+                {mobileMenuLinks.map(({ label, href, Icon }) => (
+                  <a className="hlc-board-menu-item" key={href} href={href}>
+                    <Icon className="hlc-board-menu-icon" size={19} strokeWidth={2.2} aria-hidden="true" />
+                    <span>{label}</span>
+                  </a>
+                ))}
               </div>
             </details>
           </div>
