@@ -87,16 +87,21 @@ jobs:
             fi
           done
 
-      - name: Verify public front-door runtime bundle marker
+      - name: Verify public front-door runtime bundle markers
         shell: bash
         run: |
           set -euo pipefail
-          marker='5727801'
+          markers=(
+            '/four-pathways-residents.jpg'
+            '/four-pathways-professionals.jpg'
+            '/four-pathways-partners.jpg'
+            '/four-pathways-community.jpg'
+          )
           for host in \
             https://homeleadconnect.org \
             https://homeleadconnect-web.pages.dev; do
             asset_url="${host}${ENTRY_JS}?hlc_verify=${GITHUB_SHA}"
-            echo "Checking runtime marker in $asset_url"
+            echo "Checking runtime markers in $asset_url"
             runtime_asset="$(mktemp)"
             curl --fail --silent --show-error --location \
               --retry 3 --retry-all-errors --retry-delay 2 \
@@ -104,7 +109,9 @@ jobs:
               -H 'Cache-Control: no-cache' \
               -o "$runtime_asset" \
               "$asset_url"
-            grep -Fq "$marker" "$runtime_asset"
+            for marker in "${markers[@]}"; do
+              grep -Fq "$marker" "$runtime_asset"
+            done
             rm -f "$runtime_asset"
           done
 
