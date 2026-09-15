@@ -31,10 +31,10 @@ jobs:
         run: |
           set -euo pipefail
           cat > /tmp/four-pathways.sha256 <<'EOF'
-          0d88763205acc67093384d9d148df52f6b9612312169e9d20beb2b2bf1463fcb  public/four-pathways-residents-approved-20260915.jpg
-          4433f71c6ce26bd264491c3ae757f71bf3dc367bf47dd58e6d7291595aace7ae  public/four-pathways-professionals-approved-20260915.jpg
-          bd71a5522d255221afaed33c2c5b915a64a0ae7a3bbc13e130a2c31c7464fbe5  public/four-pathways-partners-approved-20260915.jpg
-          93c22a5e4b6a1024d22b36d493f455b63228160c0e2b11410cfe2a7affa8f58e  public/four-pathways-community-approved-20260915.jpg
+          b561b5f1ec9205f98f6d64823a18ffc8336f9720da54c1d9f9aa37a2515d4af0  public/four-pathways-residents-hq-20260915.jpg
+          3b64008bf190d0aa9709602a1fed4168d6d9d5eca0edcbe4f5fddc6a9c7ef58f  public/four-pathways-professionals-hq-20260915.jpg
+          b2d36b2f1ba59690093a9b07db9996ad0062f83dde4c97eede1e5c7bd9bbc958  public/four-pathways-partners-hq-20260915.jpg
+          b0f867f47795b1cd1f94b0923befc8fb98aef8bca418a6e6c4152347d8550091  public/four-pathways-community-hq-20260915.jpg
           EOF
           sha256sum -c /tmp/four-pathways.sha256
 
@@ -68,10 +68,10 @@ jobs:
         run: |
           set -euo pipefail
           markers=(
-            '/four-pathways-residents-approved-20260915.jpg'
-            '/four-pathways-professionals-approved-20260915.jpg'
-            '/four-pathways-partners-approved-20260915.jpg'
-            '/four-pathways-community-approved-20260915.jpg'
+            '/four-pathways-residents-hq-20260915.jpg'
+            '/four-pathways-professionals-hq-20260915.jpg'
+            '/four-pathways-partners-hq-20260915.jpg'
+            '/four-pathways-community-hq-20260915.jpg'
           )
 
           matches=()
@@ -143,10 +143,10 @@ jobs:
         run: |
           set -euo pipefail
           markers=(
-            '/four-pathways-residents-approved-20260915.jpg'
-            '/four-pathways-professionals-approved-20260915.jpg'
-            '/four-pathways-partners-approved-20260915.jpg'
-            '/four-pathways-community-approved-20260915.jpg'
+            '/four-pathways-residents-hq-20260915.jpg'
+            '/four-pathways-professionals-hq-20260915.jpg'
+            '/four-pathways-partners-hq-20260915.jpg'
+            '/four-pathways-community-hq-20260915.jpg'
           )
 
           for host in \
@@ -240,10 +240,10 @@ jobs:
         run: |
           set -euo pipefail
           assets=(
-            'four-pathways-residents-approved-20260915.jpg|0d88763205acc67093384d9d148df52f6b9612312169e9d20beb2b2bf1463fcb'
-            'four-pathways-professionals-approved-20260915.jpg|4433f71c6ce26bd264491c3ae757f71bf3dc367bf47dd58e6d7291595aace7ae'
-            'four-pathways-partners-approved-20260915.jpg|bd71a5522d255221afaed33c2c5b915a64a0ae7a3bbc13e130a2c31c7464fbe5'
-            'four-pathways-community-approved-20260915.jpg|93c22a5e4b6a1024d22b36d493f455b63228160c0e2b11410cfe2a7affa8f58e'
+            'four-pathways-residents-hq-20260915.jpg|b561b5f1ec9205f98f6d64823a18ffc8336f9720da54c1d9f9aa37a2515d4af0'
+            'four-pathways-professionals-hq-20260915.jpg|3b64008bf190d0aa9709602a1fed4168d6d9d5eca0edcbe4f5fddc6a9c7ef58f'
+            'four-pathways-partners-hq-20260915.jpg|b2d36b2f1ba59690093a9b07db9996ad0062f83dde4c97eede1e5c7bd9bbc958'
+            'four-pathways-community-hq-20260915.jpg|b0f867f47795b1cd1f94b0923befc8fb98aef8bca418a6e6c4152347d8550091'
           )
 
           for host in \
