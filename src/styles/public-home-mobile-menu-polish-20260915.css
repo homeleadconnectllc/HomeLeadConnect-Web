@@ -1,0 +1,33 @@
+/* Mobile homepage menu polish — presentation only. */
+.hlc-family-ecosystem .hlc-board-menu-panel {
+  display: grid !important;
+  gap: 2px !important;
+}
+
+.hlc-family-ecosystem .hlc-board-menu-item {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 12px !important;
+  text-align: left !important;
+}
+
+.hlc-family-ecosystem .hlc-board-menu-icon {
+  flex: 0 0 auto;
+  opacity: .96;
+}
+
+@media (max-width: 680px) {
+  .hlc-family-ecosystem .hlc-board-menu-panel {
+    right: 0 !important;
+    width: min(72vw, 280px) !important;
+    max-width: 280px !important;
+    padding: 14px !important;
+    border-radius: 18px !important;
+  }
+
+  .hlc-family-ecosystem .hlc-board-menu-panel a {
+    min-height: 46px !important;
+    padding: 9px 11px !important;
+  }
+}
