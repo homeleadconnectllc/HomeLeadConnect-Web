@@ -42,8 +42,11 @@ test("no-React public root uses the official circular master mark", () => {
   assert.match(main, /Request service, find the right people, and keep the work connected from first conversation to follow-through\./);
   assert.match(main, /Request home service/);
   assert.match(main, /Meet the mission →/);
-  assert.match(main, /Four Pathways<span>\.<\/span>/);
-  assert.match(main, /Different experiences\. Same mission\. One connected ecosystem\./);
+  assert.match(main, /<h2 id="hlc-board-pathway-title">Four Pathways<\/h2>/);
+  assert.doesNotMatch(main, /Four Pathways<span>\.<\/span>/);
+  assert.match(main, /hlc-pathway-subtitle-line">Different experiences\.<\/span>/);
+  assert.match(main, /hlc-pathway-subtitle-line">Same mission\.<\/span>/);
+  assert.match(main, /hlc-pathway-subtitle-last-line">One connected ecosystem\.<\/span>/);
   assert.doesNotMatch(main, /Homes\. People\. Opportunity\./);
   assert.doesNotMatch(main, /<h1[^>]*>A stronger community/);
 });
@@ -93,7 +96,9 @@ test("public homepage centers responsive copy and keeps service request as a tex
 test("Connected Experience public front door remains complete beyond the hero", () => {
   for (const expected of [
     "Four Pathways",
-    "Different experiences. Same mission. One connected ecosystem.",
+    "Different experiences.",
+    "Same mission.",
+    "One connected ecosystem.",
     "The HomeLead Connect vision",
     "A stronger community <span>starts here.</span>",
     "Ready when you are",
