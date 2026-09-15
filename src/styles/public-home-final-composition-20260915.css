@@ -1,0 +1,83 @@
+/* HomeLead Connect — Front Page Final Composition Pass — 2026-09-15.
+   Presentation-only. Preserve content, routes, approved artwork, pathway photography,
+   authenticated app behavior, backend behavior, and existing section order. */
+
+/* Keep the public navigation/logo anchor present throughout the scroll. */
+html body #root .hlc-family-ecosystem .hlc-board-nav{
+  position:sticky!important;
+  top:0!important;
+  z-index:80!important;
+  box-shadow:0 10px 30px rgba(1,10,22,.22)!important;
+}
+
+/* Make the opening photograph visibly greet the visitor while retaining text contrast. */
+html body #root .hlc-family-ecosystem .hlc-family-hero{
+  background:
+    linear-gradient(90deg,rgba(2,10,22,.78),rgba(3,17,34,.48) 47%,rgba(4,19,38,.12) 77%,rgba(4,19,38,.03)),
+    url('/four-pathways-residents-hq-20260915.jpg') 62% center/cover no-repeat,
+    #06172b!important;
+}
+
+/* Two restrained white-to-transparent dividers: structure without hard seams. */
+html body #root .hlc-family-ecosystem .hlc-board-pathway-band,
+html body #root .hlc-family-ecosystem .hlc-family-entry{
+  border-top:1px solid transparent!important;
+  border-image:linear-gradient(90deg,transparent 8%,rgba(255,255,255,.05) 22%,rgba(255,255,255,.18) 50%,rgba(255,255,255,.05) 78%,transparent 92%) 1!important;
+}
+
+/* Tighten only excess vertical space; keep the existing hierarchy and breathing room. */
+html body #root .hlc-family-ecosystem .hlc-board-pathway-band{
+  padding-top:32px!important;
+  padding-bottom:28px!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-family-vision{
+  min-height:0!important;
+  padding-top:46px!important;
+  padding-bottom:50px!important;
+}
+
+html body #root .hlc-family-ecosystem .hlc-family-entry{
+  padding-top:44px!important;
+  padding-bottom:46px!important;
+}
+
+/* Keep the footer naturally at the page bottom without pinning it over content. */
+html body #root .hlc-family-ecosystem{
+  min-height:100vh!important;
+  min-height:100dvh!important;
+}
+html body #root .hlc-family-ecosystem .hlc-board-footer{
+  margin-top:auto!important;
+}
+
+@media(max-width:680px){
+  html body #root .hlc-family-ecosystem .hlc-family-hero{
+    min-height:570px!important;
+    background:
+      linear-gradient(90deg,rgba(2,10,22,.72),rgba(3,17,34,.48) 54%,rgba(4,19,38,.16) 82%,rgba(4,19,38,.06)),
+      url('/four-pathways-residents-hq-20260915.jpg') 66% center/cover no-repeat,
+      #06172b!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-family-hero-inner{
+    padding-top:58px!important;
+    padding-bottom:52px!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-board-pathway-band{
+    padding-top:26px!important;
+    padding-bottom:28px!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-family-vision{
+    min-height:0!important;
+    padding-top:40px!important;
+    padding-bottom:44px!important;
+  }
+
+  html body #root .hlc-family-ecosystem .hlc-family-entry{
+    padding-top:38px!important;
+    padding-bottom:40px!important;
+  }
+}
