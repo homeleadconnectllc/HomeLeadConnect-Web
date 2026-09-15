@@ -99,7 +99,7 @@ jobs:
             fi
           done
 
-      - name: Verify public front-door runtime bundle markers
+      - name: Verify public front-door CSS markers
         shell: bash
         run: |
           set -euo pipefail
@@ -112,19 +112,19 @@ jobs:
           for host in \
             https://homeleadconnect.org \
             https://homeleadconnect-web.pages.dev; do
-            asset_url="${host}${ENTRY_JS}?hlc_verify=${GITHUB_SHA}"
-            echo "Checking runtime markers in $asset_url"
-            runtime_asset="$(mktemp)"
+            asset_url="${host}${ENTRY_CSS}?hlc_verify=${GITHUB_SHA}"
+            echo "Checking Four Pathways markers in $asset_url"
+            css_asset="$(mktemp)"
             curl --fail --silent --show-error --location \
               --retry 3 --retry-all-errors --retry-delay 2 \
               --connect-timeout 15 --max-time 45 \
               -H 'Cache-Control: no-cache' \
-              -o "$runtime_asset" \
+              -o "$css_asset" \
               "$asset_url"
             for marker in "${markers[@]}"; do
-              grep -Fq "$marker" "$runtime_asset"
+              grep -Fq "$marker" "$css_asset"
             done
-            rm -f "$runtime_asset"
+            rm -f "$css_asset"
           done
 
       - name: Verify deployed Four Pathways image hashes
