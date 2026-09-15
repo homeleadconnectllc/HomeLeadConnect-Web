@@ -1,33 +1,46 @@
-/* Mobile homepage menu polish — presentation only. */
+/* Mobile homepage menu polish — presentation only.
+   Root repair: keep the live menu compact and left-scannable even when older
+   homepage menu rules are also present in the cascade. */
 .hlc-family-ecosystem .hlc-board-menu-panel {
   display: grid !important;
   gap: 2px !important;
 }
 
+.hlc-family-ecosystem .hlc-board-menu-panel > a,
 .hlc-family-ecosystem .hlc-board-menu-item {
   display: flex !important;
   align-items: center !important;
   justify-content: flex-start !important;
-  gap: 12px !important;
+  gap: 11px !important;
   text-align: left !important;
 }
 
 .hlc-family-ecosystem .hlc-board-menu-icon {
   flex: 0 0 auto;
-  opacity: .96;
+  width: 18px !important;
+  height: 18px !important;
+  opacity: .98;
 }
 
 @media (max-width: 680px) {
-  .hlc-family-ecosystem .hlc-board-menu-panel {
+  .hlc-family-ecosystem details.hlc-board-menu > .hlc-board-menu-panel {
     right: 0 !important;
-    width: min(72vw, 280px) !important;
-    max-width: 280px !important;
-    padding: 14px !important;
-    border-radius: 18px !important;
+    left: auto !important;
+    width: min(68vw, 250px) !important;
+    min-width: 0 !important;
+    max-width: 250px !important;
+    padding: 12px !important;
+    border-radius: 16px !important;
   }
 
-  .hlc-family-ecosystem .hlc-board-menu-panel a {
-    min-height: 46px !important;
-    padding: 9px 11px !important;
+  .hlc-family-ecosystem details.hlc-board-menu > .hlc-board-menu-panel > a {
+    width: 100% !important;
+    min-height: 44px !important;
+    padding: 8px 10px !important;
+    justify-content: flex-start !important;
+  }
+
+  .hlc-family-ecosystem details.hlc-board-menu > .hlc-board-menu-panel > a > span {
+    text-align: left !important;
   }
 }
