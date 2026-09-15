@@ -1,4 +1,4 @@
-import { ArrowRightCircle, BookOpen, Briefcase, CircleInfo, Handshake, House, LogIn, Users } from "lucide-react";
+import { ArrowRightCircle, BookOpen, Briefcase, Handshake, House, Info, LogIn, Users } from "lucide-react";
 import "../styles/v2-board-frontdoor-20260912.css";
 import "../styles/v2-board-frontdoor-performance-20260912.css";
 import "../styles/v2-board-rest-polish-20260912.css";
@@ -26,7 +26,7 @@ const navLinks = [
 ] as const;
 
 const mobileMenuLinks = [
-  { label: "About", href: "/about", Icon: CircleInfo },
+  { label: "About", href: "/about", Icon: Info },
   { label: "For Residents", href: "/homeowners", Icon: House },
   { label: "For Professionals", href: "/professionals", Icon: Briefcase },
   { label: "For Partners", href: "/partners", Icon: Handshake },
