@@ -10,8 +10,7 @@ const v2Authority = readFileSync(new URL("../styles/v2-cinematic-community-homep
 const boardAuthority = readFileSync(new URL("../styles/v2-board-alignment-20260912.css", import.meta.url), "utf8");
 const familyAuthority = readFileSync(new URL("../styles/front-door-family-ecosystem-20260913.css", import.meta.url), "utf8");
 
-const responsivePublicLogo = /src="\/hlc-logo-ui\.png"/;
-const oversizedMasterLogo = /src="\/brand\/homelead-connect-master-transparent\.png"/;
+const officialPublicLogo = /src="\/brand\/homelead-connect-master-transparent\.png"/;
 
 test("public home stays outside the authenticated application bundle while retaining route delivery", () => {
   assert.match(main, /isPublicHome/);
@@ -32,10 +31,9 @@ test("public home renders without paying React startup cost", () => {
   assert.match(main, /https:\/\/app\.homeleadconnect\.org\/professional-application/);
 });
 
-test("no-React public root uses the responsive derivative of the approved mark", () => {
-  assert.match(main, responsivePublicLogo);
-  assert.match(main, /width="180" height="180"/);
-  assert.doesNotMatch(main, oversizedMasterLogo);
+test("no-React public root uses the official circular master mark", () => {
+  assert.match(main, officialPublicLogo);
+  assert.match(main, /width="1254" height="1254"/);
   assert.doesNotMatch(main, /\/hlc-logo-public\.webp/);
   assert.match(main, /class="hlc-board-home hlc-v2-home hlc-family-ecosystem"/);
   assert.match(main, /The Connected Experience/);
@@ -50,9 +48,8 @@ test("no-React public root uses the responsive derivative of the approved mark",
 });
 
 test("parser-seeded public hero preserves the optimized Connected Experience first-paint contract", () => {
-  assert.match(indexHtml, responsivePublicLogo);
-  assert.match(indexHtml, /width="180" height="180"/);
-  assert.doesNotMatch(indexHtml, oversizedMasterLogo);
+  assert.match(indexHtml, officialPublicLogo);
+  assert.match(indexHtml, /width="1254" height="1254"/);
   assert.doesNotMatch(indexHtml, /\/hlc-logo-public\.webp/);
   assert.match(indexHtml, /hlc-v2-home hlc-v2-parser-seed/);
   assert.match(indexHtml, /The Connected Experience/);

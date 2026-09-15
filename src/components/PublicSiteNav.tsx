@@ -1,5 +1,6 @@
 import "../styles/public-site-nav.css";
 import "../styles/frontdoor-profile-protocol-20260913.css";
+import "../styles/public-header-logo-authority-20260915.css";
 
 const PUBLIC_ORIGIN = "https://homeleadconnect.org";
 const APP_ORIGIN = "https://app.homeleadconnect.org";
@@ -17,7 +18,7 @@ export default function PublicSiteNav() {
   return <nav className="hlc-public-site-nav" aria-label="Primary navigation">
     <div className="hlc-public-site-nav__inner">
       <a className="hlc-public-site-nav__brand" href={`${PUBLIC_ORIGIN}/`} aria-label="HomeLead Connect home">
-        <img src="/brand/homelead-connect-master-transparent.png" alt="HomeLead Connect" width={440} height={142} />
+        <img src="/brand/homelead-connect-master-transparent.png" alt="HomeLead Connect" width={1254} height={1254} />
       </a>
       <div className="hlc-public-site-nav__links">
         {links.map(([label, path]) => <a key={path} href={`${PUBLIC_ORIGIN}${path}`}>{label}</a>)}
