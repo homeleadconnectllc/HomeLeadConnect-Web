@@ -202,7 +202,7 @@ export default function AppLayout() {
           {showFieldDevices && <FieldDeviceCenter />}
         </Suspense>
       </div>
-      {((!session || focusedPublicIntake) || publicFrontDoorSurface) && !authFrontDoorSurface && <Footer />}
+      {((!session || focusedPublicIntake) || publicFrontDoorSurface || authFrontDoorSurface) && <Footer />}
       <Suspense fallback={null}>
         {signedInWorkspaceShell && <WorkspaceGuidance />}
         {signedInWorkspaceShell && <UniversalAITeamLauncher />}
