@@ -26,10 +26,14 @@ html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathwa
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-copy {
   background: #fff !important;
   color: #10233b !important;
+  opacity: 1 !important;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+  isolation: isolate !important;
 }
-/* Human screenshot inspection found a legacy visual effect still reducing hero-copy
-   visibility even though the color contract passed automation. Reset only the direct
-   hero-copy children so the four pathway heroes render at full readable opacity. */
+/* Human screenshot inspection is part of promotion authority. Reset legacy
+   presentation effects on both the hero-copy container and its direct children
+   so declared contrast colors render at full opacity on every pathway. */
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-copy > * {
   opacity: 1 !important;
   filter: none !important;
