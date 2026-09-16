@@ -1,35 +1,35 @@
-/* HomeLead Connect — approved Portal Showcase imagery authority.
-   Decorative stock photography is intentionally scoped to portal/dashboard storytelling surfaces.
+/* HomeLead Connect — Portal Showcase visual authority.
+   Role-specific interface illustrations replace public-page photography in signed-in workspaces.
    Dense CRM/work tables/messages remain image-free for clarity.
-   Sources are free-use stock imagery from Unsplash/Pexels; overlays preserve WCAG contrast.
+   Overlays preserve WCAG contrast.
 */
 
 @layer hlcRedesign {
   #root .hlc-signed-in-shell {
-    --portal-story-image: url("/four-pathways-partners-hq-20260915.jpg");
+    --portal-story-image: url("/portal-visuals/operations-command.svg");
     --portal-story-position: center 46%;
   }
 
-  /* Family / Resident — modern home, blue editorial treatment. */
+  /* Family / Resident — home-centered portal illustration. */
   #root .hlc-signed-in-shell[class*="hlc-page-homeowner-portal"] {
-    --portal-story-image: url("/four-pathways-residents-hq-20260915.jpg");
+    --portal-story-image: url("/portal-visuals/resident-home.svg");
     --portal-story-position: center 58%;
   }
 
-  /* Professional / Provider — active skilled-trade work, green treatment. */
+  /* Professional / Provider — service-work portal illustration. */
   #root .hlc-signed-in-shell[class*="hlc-page-contractor-portal"] {
-    --portal-story-image: url("/four-pathways-professionals-hq-20260915.jpg");
+    --portal-story-image: url("/portal-visuals/professional-service.svg");
     --portal-story-position: center 44%;
   }
 
-  /* Partner / Property Manager — property portfolio, amber treatment. */
+  /* Partner / Property Manager — property portfolio illustration. */
   #root .hlc-signed-in-shell[class*="hlc-page-partner-portal"] {
-    --portal-story-image: url("/four-pathways-partners-hq-20260915.jpg");
+    --portal-story-image: url("/portal-visuals/partner-property.svg");
     --portal-story-position: center 50%;
   }
 
-  /* A real photographic story strip belongs to each portal page/subpage, matching the approved showcase.
-     It is decorative: page headings/actions remain real DOM content immediately below. */
+  /* A role-specific story strip belongs to each portal family. It is decorative:
+     page headings/actions remain real DOM content immediately below. */
   #root .hlc-signed-in-shell:is(
     [class*="hlc-page-homeowner-portal"],
     [class*="hlc-page-contractor-portal"],
@@ -82,7 +82,7 @@
     background-repeat: no-repeat !important;
   }
 
-  /* Internal/Admin dashboard gets the technical night-architecture visual from the same mockup family,
+  /* Internal/Admin dashboard gets the technical operations visual from the same mockup family,
      but operational detail screens intentionally stay image-free. */
   #root .hlc-signed-in-shell.hlc-page-dashboard .hlc-route-content::before {
     content: "";
@@ -94,7 +94,7 @@
     border-radius: clamp(18px, 2.4vw, 26px);
     background-image:
       linear-gradient(90deg, rgba(9,9,27,.96) 0%, rgba(23,16,68,.72) 50%, rgba(115,87,255,.18) 100%),
-      url("/four-pathways-partners-hq-20260915.jpg");
+      url("/portal-visuals/operations-command.svg");
     background-size: cover;
     background-position: center 48%;
     background-repeat: no-repeat;

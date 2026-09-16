@@ -48,7 +48,7 @@
   -webkit-text-fill-color: var(--hlc-premium-muted) !important;
 }
 
-/* Resident — warm, human, home-first. Existing owner-supplied people image only. */
+/* Resident — warm, human, home-first. Portal graphics stay distinct from public photography. */
 #root:has(a[href="/homeowner-portal"][aria-current="page"]) {
   --hlc-workspace-accent: #f5b84b;
   --hlc-workspace-accent-strong: #d58a12;
@@ -59,12 +59,12 @@
 #root:has(a[href="/homeowner-portal"][aria-current="page"]) .hlc-portal-workspace {
   background-image:
     linear-gradient(90deg, rgba(2, 8, 17, .98) 0%, rgba(2, 8, 17, .9) 54%, rgba(2, 8, 17, .68) 100%),
-    url('/four-pathways-residents-hq-20260915.jpg') !important;
+    url('/portal-visuals/resident-home.svg') !important;
   background-size: cover !important;
   background-position: center !important;
 }
 
-/* Professional — cool cyan/teal, work/execution. Existing professional image. */
+/* Professional — cool cyan/teal, work/execution. */
 #root:has(a[href="/contractor-portal"][aria-current="page"]) {
   --hlc-workspace-accent: #36d9d0;
   --hlc-workspace-accent-strong: #0f9f98;
@@ -75,7 +75,7 @@
 #root:has(a[href="/contractor-portal"][aria-current="page"]) .hlc-portal-workspace {
   background-image:
     linear-gradient(90deg, rgba(2, 8, 17, .98) 0%, rgba(2, 8, 17, .9) 58%, rgba(2, 8, 17, .7) 100%),
-    url('/four-pathways-professionals-hq-20260915.jpg') !important;
+    url('/portal-visuals/professional-service.svg') !important;
   background-size: cover !important;
   background-position: center !important;
 }

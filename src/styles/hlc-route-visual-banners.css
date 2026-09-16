@@ -167,19 +167,6 @@
 .hlc-route-visual-ai { --hlc-route-accent: #5c8dff; }
 .hlc-route-visual-public { --hlc-route-accent: #2f7df6; }
 
-/* Global photographic layer: every major route family gets real stock imagery in addition to its infographic. */
-.hlc-route-visual-banner {
-  --hlc-route-stock-image: url("/four-pathways-partners-hq-20260915.jpg");
-}
-.hlc-route-visual-work { --hlc-route-stock-image: url("/four-pathways-professionals-hq-20260915.jpg"); }
-.hlc-route-visual-network { --hlc-route-stock-image: url("/four-pathways-partners-hq-20260915.jpg"); }
-.hlc-route-visual-community { --hlc-route-stock-image: url("/four-pathways-community-hq-20260915.jpg"); }
-.hlc-route-visual-academy { --hlc-route-stock-image: url("/four-pathways-professionals-hq-20260915.jpg"); }
-.hlc-route-visual-resources { --hlc-route-stock-image: url("/four-pathways-residents-hq-20260915.jpg"); }
-.hlc-route-visual-account { --hlc-route-stock-image: url("/four-pathways-community-hq-20260915.jpg"); }
-.hlc-route-visual-ai { --hlc-route-stock-image: url("/four-pathways-community-hq-20260915.jpg"); }
-.hlc-route-visual-public { --hlc-route-stock-image: url("/four-pathways-partners-hq-20260915.jpg"); }
-
 .hlc-route-visual-art {
   overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--hlc-route-accent) 22%, rgba(255,255,255,.10));
@@ -199,11 +186,9 @@
 
 .hlc-route-visual-art::before {
   z-index: -2;
-  background-image: var(--hlc-route-stock-image);
-  background-size: cover;
-  background-position: center;
-  filter: saturate(.82) contrast(1.05);
-  transform: scale(1.02);
+  background:
+    radial-gradient(circle at 78% 20%, color-mix(in srgb, var(--hlc-route-accent) 24%, transparent), transparent 34%),
+    linear-gradient(135deg, #07192b 0%, #0a2138 55%, #07131f 100%);
 }
 
 .hlc-route-visual-art::after {

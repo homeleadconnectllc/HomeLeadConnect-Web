@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import PublicSiteNav from "../components/PublicSiteNav";
+import { pageImage } from "../config/publicPageImagery";
 import "../styles/public-premium.css";
 import "../styles/public-board-pages-20260912.css";
 
@@ -10,6 +11,7 @@ const cards = [
 ] as const;
 
 export default function AboutPage() {
+  const visual = pageImage("about");
   return <main className="hlc-public-page hlc-public-board-page" data-public-page="about">
     <PublicSiteNav />
     <div className="hlc-public-shell hlc-public-shell--visual">
@@ -25,7 +27,7 @@ export default function AboutPage() {
         </div>
       </header>
       <figure className="hlc-public-visual">
-        <img src="/four-pathways-residents-hq-20260915.jpg" alt="Family at home" loading="eager" />
+        <img src={visual.src} alt={visual.alt} loading="eager" />
       </figure>
       <section className="hlc-public-grid" aria-label="HomeLead Connect story">
         {cards.map(([label, title, sub, body]) => <article className="hlc-public-card" key={title}>

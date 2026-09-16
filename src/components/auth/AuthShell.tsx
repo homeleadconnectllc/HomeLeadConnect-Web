@@ -1,4 +1,6 @@
 import type { ReactNode } from "react";
+import { useLocation } from "react-router-dom";
+import { pageImage } from "../../config/publicPageImagery";
 import "../../styles/public-auth-visual-closure-20260912.css";
 import "../../styles/public-header-logo-authority-20260915.css";
 
@@ -19,6 +21,8 @@ export default function AuthShell({
   status,
   eyebrow = "Account access",
 }: AuthShellProps) {
+  const { pathname } = useLocation();
+  const visual = pageImage(pathname === "/register" ? "register" : pathname === "/forgot-password" ? "forgotPassword" : pathname === "/reset-password" ? "resetPassword" : "login");
   return (
     <main className="hlc-auth-shell hlc-auth-shell--flat">
       <style>{`
@@ -37,7 +41,7 @@ export default function AuthShell({
         html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-form label, html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-form .hlc-password-field>span:first-child { color:#e5edf7 !important; -webkit-text-fill-color:#e5edf7 !important; visibility:visible !important; opacity:1 !important; }
         html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-form .hlc-password-field>span:first-child { display:block !important; height:auto !important; margin:0 !important; padding:0 !important; font-size:14px !important; font-weight:800 !important; line-height:1.35 !important; }
         @media(max-width:800px){ html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-main { grid-template-columns:1fr !important; width:min(760px,calc(100vw - 32px)) !important; max-width:760px !important; min-height:auto !important; padding:44px 0 40px !important; gap:24px !important; } html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card { grid-column:1 !important; grid-row:1 !important; max-width:520px !important; justify-self:center !important; align-self:start !important; } }
-        @media(max-width:720px){ html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat { min-height:100vh !important; padding:0 0 24px !important; } html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-main { display:block !important; width:calc(100vw - 24px) !important; max-width:none !important; min-height:auto !important; margin:0 auto !important; padding:24px 0 0 !important; } html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro { display:none !important; } html body #root .hlc-app-shell.hlc-public-shell.hlc-auth-shell--flat > .hlc-auth-public-nav .hlc-auth-public-links a:not(.hlc-auth-public-request) { display:none !important; } html body #root .hlc-app-shell.hlc-public-shell.hlc-auth-shell--flat > .hlc-auth-public-nav .hlc-auth-public-links .hlc-auth-public-request { display:inline-flex !important; min-height:40px !important; margin-left:0 !important; padding-inline:13px !important; } html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card { display:grid !important; width:100% !important; max-width:none !important; padding:24px 18px !important; border-radius:18px !important; } html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat > .hlc-auth-public-nav .hlc-auth-public-brand img { width:56px !important; height:56px !important; max-height:56px !important; } }
+        @media(max-width:720px){ html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat { min-height:100vh !important; padding:0 0 24px !important; } html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-main { display:block !important; width:calc(100vw - 24px) !important; max-width:none !important; min-height:auto !important; margin:0 auto !important; padding:24px 0 0 !important; } html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro { display:grid !important; margin:0 0 12px!important; } html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro > :not(.hlc-auth-intro-visual) { display:none!important; } html body #root .hlc-app-shell.hlc-public-shell.hlc-auth-shell--flat > .hlc-auth-public-nav .hlc-auth-public-links a:not(.hlc-auth-public-request) { display:none !important; } html body #root .hlc-app-shell.hlc-public-shell.hlc-auth-shell--flat > .hlc-auth-public-nav .hlc-auth-public-links .hlc-auth-public-request { display:inline-flex !important; min-height:40px !important; margin-left:0 !important; padding-inline:13px !important; } html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card { display:grid !important; width:100% !important; max-width:none !important; padding:24px 18px !important; border-radius:18px !important; } html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat > .hlc-auth-public-nav .hlc-auth-public-brand img { width:56px !important; height:56px !important; max-height:56px !important; } }
       `}</style>
       <nav className="hlc-auth-public-nav" aria-label="Public site navigation">
         <div className="hlc-auth-public-nav-inner">
@@ -58,6 +62,7 @@ export default function AuthShell({
 
       <div className="hlc-auth-main">
         <section className="hlc-auth-intro" aria-label="HomeLead Connect account overview">
+          <figure className="hlc-auth-intro-visual"><img src={visual.src} alt={visual.alt} loading="eager" /></figure>
           <p className="hlc-auth-intro-kicker">Home services, connected better</p>
           <h2>Your next step, kept clear.</h2>
           <p>Sign in to keep your home-service requests, conversations, appointments, and next steps together in one trusted place.</p>

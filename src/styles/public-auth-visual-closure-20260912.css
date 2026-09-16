@@ -6,16 +6,14 @@ html body #root .hlc-app-shell.hlc-public-shell.hlc-auth-front-door-surface > .h
   color: #f7fbff !important;
 }
 
-/* Login-only Harrisburg visual authority. The repeated root selector is intentional:
-   it outranks the later inline login shell shorthand without altering auth behavior. */
+/* Login-only visual authority. Route-specific photography now lives in AuthShell so
+   the account pages cannot accidentally inherit a homepage pathway image. */
 html body #root#root#root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat {
-  background-image:
-    linear-gradient(180deg, rgba(4, 17, 31, .86), rgba(4, 17, 31, .88) 65%, #06121f),
-    url('/four-pathways-community-hq-20260915.jpg') !important;
-  background-position: 0 0, 75% 50% !important;
-  background-size: auto, cover !important;
+  background-image: linear-gradient(180deg, rgba(4, 17, 31, .96), rgba(4, 17, 31, .94) 65%, #06121f) !important;
+  background-position: 0 0 !important;
+  background-size: auto !important;
   background-repeat: no-repeat !important;
-  background-attachment: scroll, scroll !important;
+  background-attachment: scroll !important;
 }
 
 html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-public-nav {
@@ -49,6 +47,25 @@ html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro-proof span:
   background: #62c6ff !important;
 }
 
+html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro-visual {
+  width: 100%;
+  height: clamp(220px, 31vw, 340px);
+  margin: 0 0 28px;
+  overflow: hidden;
+  border: 1px solid rgba(98, 198, 255, .24);
+  border-radius: 18px;
+  background: #0b1a2d;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .28);
+}
+
+html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro-visual img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
 html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-password-label {
   display: block !important;
   color: #e6f0fa !important;
@@ -61,6 +78,23 @@ html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-password-label {
 }
 
 @media (max-width: 720px) {
+  html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro {
+    display: grid !important;
+    min-height: 0 !important;
+    margin: 0 0 12px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+  html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro > :not(.hlc-auth-intro-visual) {
+    display: none !important;
+  }
+  html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro-visual {
+    height: 220px;
+    margin: 0;
+    border-radius: 14px;
+  }
   html body #root .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-public-links a:not(.hlc-auth-public-request) {
     display: none !important;
   }
