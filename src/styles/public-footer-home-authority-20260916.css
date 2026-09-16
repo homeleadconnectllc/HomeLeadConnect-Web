@@ -16,22 +16,30 @@
 }
 .hlc-public-footer-home-authority__brand{
   display:block!important;
+  width:clamp(132px,14vw,190px)!important;
+  height:clamp(132px,14vw,190px)!important;
+  flex:0 0 auto!important;
   margin:0 0 10px!important;
   padding:0!important;
-  background:transparent!important;
+  background-color:transparent!important;
+  background-image:url('/hlc-logo-ui.png')!important;
+  background-position:center!important;
+  background-repeat:no-repeat!important;
+  background-size:contain!important;
   border:0!important;
   text-decoration:none!important;
 }
 .hlc-public-footer-home-authority__brand img{
   display:block!important;
-  width:clamp(132px,14vw,190px)!important;
-  height:auto!important;
+  width:100%!important;
+  height:100%!important;
   margin:0 auto!important;
   object-fit:contain!important;
   border:0!important;
   border-radius:0!important;
   background:transparent!important;
   box-shadow:none!important;
+  opacity:0!important;
 }
 .hlc-public-footer-home-authority>strong{
   margin:10px 0 0;
@@ -123,7 +131,10 @@ html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority>sma
     padding:38px 18px 34px;
     gap:12px;
   }
-  .hlc-public-footer-home-authority__brand img{width:136px!important}
+  .hlc-public-footer-home-authority__brand{
+    width:136px!important;
+    height:136px!important;
+  }
   .hlc-public-footer-home-authority>strong{font-size:28px}
   .hlc-public-footer-home-authority>span{max-width:24ch;font-size:17px}
   .hlc-public-footer-home-authority nav{gap:10px 18px!important}
