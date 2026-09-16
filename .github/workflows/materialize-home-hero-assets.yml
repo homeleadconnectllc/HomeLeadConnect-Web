@@ -1,0 +1,40 @@
+name: Materialize locked homepage hero assets
+
+on:
+  push:
+    branches:
+      - sprint/homepage-visual-system-e2e-20260916
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: ${{ github.actor != 'github-actions[bot]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Rebuild locked hero assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .hero-assets/desktop.part* | base64 -d > public/home-hero-authority-desktop-20260916.webp
+          cat .hero-assets/mobile.part* | base64 -d > public/home-hero-authority-mobile-20260916.webp
+          test "$(wc -c < public/home-hero-authority-desktop-20260916.webp | tr -d ' ')" = "28136"
+          test "$(wc -c < public/home-hero-authority-mobile-20260916.webp | tr -d ' ')" = "21682"
+          echo "d293794b9f5fe3b93d6b1339dc36bba28a19995be15077031dd2d780b80a193d  public/home-hero-authority-desktop-20260916.webp" | sha256sum -c -
+          echo "b42f817acc7dbca221069e6f9d353dc2a441b4b2963cae3b530b7ba06bae1a9b  public/home-hero-authority-mobile-20260916.webp" | sha256sum -c -
+      - name: Commit materialized assets and remove staging files
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .hero-assets
+          rm -f .github/workflows/materialize-home-hero-assets.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git commit -m "Materialize locked homepage hero visual assets"
+          git push origin HEAD:sprint/homepage-visual-system-e2e-20260916
