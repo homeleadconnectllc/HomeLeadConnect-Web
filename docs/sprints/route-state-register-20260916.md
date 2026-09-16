@@ -1,0 +1,137 @@
+# HomeLead Connect Route and State Register
+
+Generated from `src/routes/AppRouter.tsx` on 2026-09-16. Dynamic route parameters are represented by their declared patterns. The global Suspense boundary supplies every route's loading state. Protected routes inherit authentication and authorization boundaries.
+
+Total explicit route patterns: **125**
+
+| # | Route | Audience / boundary | Component | Required state coverage | Visual authority |
+|---:|---|---|---|---|---|
+| 1 | `/` | Public | `<HostEntry` | Loading; success; mobile; desktop; keyboard | Homepage / Four Pathways authority |
+| 2 | `/app` | Public | `<AppEntry` | Loading; success; mobile; desktop; keyboard | No decorative photograph |
+| 3 | `/portal` | Public | `<AppEntry` | Loading; success; mobile; desktop; keyboard | No decorative photograph |
+| 4 | `/contact` | Public | `<ContactPage` | Default; validation; submitting; error; success; mobile; desktop; keyboard | Unique registered Black-centered page photograph |
+| 5 | `/request-service` | Public | `<RequestService` | Default; validation; submitting; error; success; mobile; desktop; keyboard | Unique registered Black-centered page photograph |
+| 6 | `/about` | Public | `<About` | Loading; success; mobile; desktop; keyboard | Unique registered Black-centered page photograph |
+| 7 | `/kendrell-memorial` | Public | `<Memorial` | Loading; success; mobile; desktop; keyboard | Memorial-owned visual; no invented likeness |
+| 8 | `/memorial` | Public | `<Memorial` | Loading; success; mobile; desktop; keyboard | Memorial-owned visual; no invented likeness |
+| 9 | `/homeowners` | Public | `<PublicInfo page="homeowners"` | Loading; success; mobile; desktop; keyboard | Unique registered Black-centered page photograph |
+| 10 | `/contractors` | Public | `<PublicInfo page="contractors"` | Loading; success; mobile; desktop; keyboard | Unique registered Black-centered page photograph |
+| 11 | `/how-it-works` | Public | `<PublicInfo page="how"` | Loading; success; mobile; desktop; keyboard | Unique registered Black-centered page photograph |
+| 12 | `/leadscope` | Public | `<PublicInfo page="leadscope"` | Loading; success; mobile; desktop; keyboard | Unique registered Black-centered page photograph |
+| 13 | `/community` | Public | `<PublicInfo page="community"` | Loading; success; mobile; desktop; keyboard | Unique registered Black-centered page photograph |
+| 14 | `/services` | Public | `<PublicJourney page="services"` | Loading; success; mobile; desktop; keyboard | Unique registered Black-centered page photograph |
+| 15 | `/pricing` | Public | `<PublicJourney page="pricing"` | Loading; success; mobile; desktop; keyboard | Unique registered Black-centered page photograph |
+| 16 | `/trust` | Public | `<PublicJourney page="trust"` | Loading; success; mobile; desktop; keyboard | Unique registered Black-centered page photograph |
+| 17 | `/professionals` | Public | `<PublicJourney page="professionals"` | Loading; success; mobile; desktop; keyboard | Unique registered Black-centered page photograph |
+| 18 | `/partners` | Public | `<PartnerAccess` | Loading; success; mobile; desktop; keyboard | Unique registered Black-centered page photograph |
+| 19 | `/demo` | Public | `<PublicJourney page="demo"` | Loading; success; mobile; desktop; keyboard | Unique registered Black-centered page photograph |
+| 20 | `/professional-application` | Public | `<ProfessionalApplication` | Default; validation; submitting; error; success; mobile; desktop; keyboard | Unique registered Black-centered page photograph |
+| 21 | `/accessibility` | Public | `<Accessibility` | Loading; success; mobile; desktop; keyboard | Unique registered Black-centered page photograph |
+| 22 | `/privacy` | Public | `<Legal page="privacy"` | Loading; success; mobile; desktop; keyboard | Unique registered Black-centered page photograph |
+| 23 | `/terms` | Public | `<Legal page="terms"` | Loading; success; mobile; desktop; keyboard | Unique registered Black-centered page photograph |
+| 24 | `/platform-disclosure` | Public | `<Legal page="platform"` | Loading; success; mobile; desktop; keyboard | Unique registered Black-centered page photograph |
+| 25 | `/login` | Public | `<Login` | Default; validation; submitting; error; success/redirect; mobile; desktop; keyboard | Unique registered Black-centered page photograph |
+| 26 | `/register` | Public | `<Register` | Default; validation; submitting; error; success/redirect; mobile; desktop; keyboard | Unique registered Black-centered page photograph |
+| 27 | `/forgot-password` | Public | `<ForgotPassword` | Default; validation; submitting; error; success/redirect; mobile; desktop; keyboard | Unique registered Black-centered page photograph |
+| 28 | `/reset-password` | Public | `<ResetPassword` | Default; validation; submitting; error; success/redirect; mobile; desktop; keyboard | Unique registered Black-centered page photograph |
+| 29 | `/portal/accept` | Public | `<AcceptInvitation` | Loading; invalid/expired token; signed-out handoff; error; success; mobile; desktop | No decorative photograph |
+| 30 | `/team/accept` | Public | `<AcceptWorkspaceInvitation` | Loading; invalid/expired token; signed-out handoff; error; success; mobile; desktop | No decorative photograph |
+| 31 | `/homeowner-portal` | Resident portal | `<HomeownerPortal` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 32 | `/homeowner-portal/leadscope` | Resident portal | `<ResidentLeadScope` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 33 | `/homeowner-portal/resources` | Resident portal | `<PortalResources audience="resident"` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 34 | `/homeowner-portal/requests` | Resident portal | `<HomeownerPortalSection section="requests"` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 35 | `/homeowner-portal/appointments` | Resident portal | `<HomeownerPortalSection section="appointments"` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 36 | `/homeowner-portal/jobs` | Resident portal | `<HomeownerPortalSection section="jobs"` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 37 | `/homeowner-portal/documents` | Resident portal | `<HomeownerPortalDocuments` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 38 | `/homeowner-portal/profile` | Resident portal | `<ResidentProfile` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 39 | `/homeowner-portal/settings` | Resident portal | `<ResidentProfile` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 40 | `/homeowner-portal/properties` | Resident portal | `<PropertyIntelligence` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 41 | `/homeowner-portal/matches` | Resident portal | `<Navigate to="/homeowner-portal" replace` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 42 | `/contractor-portal` | Professional portal | `<ContractorPortal` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 43 | `/contractor-portal/resources` | Professional portal | `<PortalResources audience="professional"` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 44 | `/contractor-portal/profile` | Professional portal | `<ContractorProfile` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 45 | `/contractor-portal/services` | Professional portal | `<ContractorPortalServices` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 46 | `/contractor-portal/documents` | Professional portal | `<ContractorPortalDocuments` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 47 | `/contractor-portal/team` | Professional portal | `<Navigate to="/contractor-portal" replace` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 48 | `/partner-portal` | Partner portal | `<PartnerPortal` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 49 | `/partner-portal/resources` | Partner portal | `<PortalResources audience="partner"` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 50 | `/messages` | Authenticated shared | `<Messages` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 51 | `/notifications` | Authenticated shared | `<Notifications` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 52 | `/academy` | Authenticated shared | `<AcademyWorkspace` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 53 | `/academy/paths` | Authenticated shared | `<AcademyWorkspace` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 54 | `/academy/practice/:moduleId` | Authenticated shared | `<AcademyWorkspace` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 55 | `/academy/certifications` | Authenticated shared | `<AcademyWorkspace` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 56 | `/academy/progress` | Authenticated shared | `<AcademyWorkspace` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 57 | `/academy/roleplay` | Authenticated shared | `<RoleplayKnowledgeWorkspace` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 58 | `/academy/library` | Authenticated shared | `<RoleplayKnowledgeWorkspace` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 59 | `/dashboard` | Internal workspace | `<Dashboard` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 60 | `/work` | Internal workspace | `<WorkHome` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 61 | `/work/matching` | Internal workspace | `<EligibilityFit` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 62 | `/start-here` | Internal workspace | `<StartHere` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 63 | `/ecosystem` | Internal workspace | `<Ecosystem` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 64 | `/workflow` | Internal workspace | `<Workflow` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 65 | `/automations` | Internal workspace | `<Automations` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 66 | `/activity` | Internal workspace | `<WorkspaceActivity` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 67 | `/partners/manage` | Internal workspace | `<PartnerManagement` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 68 | `/network` | Internal workspace | `<NetworkDirectory` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 69 | `/map` | Internal workspace | `<ProviderMap` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 70 | `/network/map` | Internal workspace | `<ProviderMap` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 71 | `/profiles` | Internal workspace | `<NetworkDirectory` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 72 | `/providers` | Internal workspace | `<NetworkDirectory` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 73 | `/providers/:providerId` | Internal workspace | `<LaunchSurface page="providerDetail"` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 74 | `/matching` | Internal workspace | `<CommunityMatchDeck` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 75 | `/community/swipe` | Internal workspace | `<CommunityMatchDeck` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 76 | `/network/service-areas` | Internal workspace | `<LaunchSurface page="serviceAreas"` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 77 | `/network/availability` | Internal workspace | `<LaunchSurface page="availability"` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 78 | `/network/eligibility` | Internal workspace | `<EligibilityFit` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 79 | `/network/saved` | Internal workspace | `<NetworkDirectory savedOnly` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 80 | `/community-hub` | Internal workspace | `<CommunityHub` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 81 | `/community/discover` | Internal workspace | `<CommunityDiscover` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 82 | `/community/messages` | Internal workspace | `<CommunityMessages` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 83 | `/community/challenges` | Internal workspace | `<CommunityChallenges` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 84 | `/community/academy` | Internal workspace | `<CommunityAcademy` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 85 | `/community/discussions` | Internal workspace | `<LaunchSurface page="discussions"` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 86 | `/community/reviews` | Internal workspace | `<LaunchSurface page="reviews"` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 87 | `/community/referrals` | Internal workspace | `<LaunchSurface page="referrals"` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 88 | `/community/events` | Internal workspace | `<LaunchSurface page="events"` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 89 | `/community/moderation` | Internal workspace | `<LaunchSurface page="moderation"` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 90 | `/community/groups` | Internal workspace | `<LaunchSurface page="groups"` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 91 | `/resources` | Internal workspace | `<ResourcesWorkspace` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 92 | `/resources/playbook` | Internal workspace | `<PortalResources audience="internal"` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 93 | `/resources/materials` | Internal workspace | `<ResourcesWorkspace` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 94 | `/resources/suppliers` | Internal workspace | `<ResourcesWorkspace` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 95 | `/resources/suppliers/map` | Internal workspace | `<ResourcesWorkspace` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 96 | `/help` | Internal workspace | `<OperationalGuide page="help"` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 97 | `/tutorials` | Internal workspace | `<OperationalGuide page="tutorials"` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 98 | `/rules` | Internal workspace | `<OperationalGuide page="rules"` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 99 | `/resources/forms` | Internal workspace | `<FormsChecklists` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 100 | `/profile` | Internal workspace | `<MyProfile` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 101 | `/analytics` | Internal workspace | `<Analytics` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 102 | `/analytics/forecasting` | Internal workspace | `<IntelligenceWorkspace` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 103 | `/analytics/sandbox` | Internal workspace | `<IntelligenceWorkspace` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 104 | `/hq/approvals` | Internal workspace | `<LaunchSurface page="approvals"` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 105 | `/hq/system-health` | Internal workspace | `<LaunchSurface page="systemHealth"` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 106 | `/settings/billing` | Internal workspace | `<BillingWorkspace` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 107 | `/leads` | Internal workspace | `<Leads` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 108 | `/leads/:leadId` | Internal workspace | `<LeadDetail` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 109 | `/estimator` | Internal workspace | `<Estimator` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 110 | `/jobs` | Internal workspace | `<Jobs` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 111 | `/jobs/:jobId` | Internal workspace | `<JobDetail` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 112 | `/calendar` | Internal workspace | `<Calendar` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 113 | `/settings` | Internal workspace | `<SettingsHome` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 114 | `/settings/workspace` | Internal workspace | `<Settings` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 115 | `/team` | Internal workspace | `<Team` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 116 | `/follow-ups` | Internal workspace | `<FollowUps` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 117 | `/manual-communications` | Internal workspace | `<ManualCommunications` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 118 | `/documents` | Internal workspace | `<Documents` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 119 | `/documents/scan` | Internal workspace | `<DocumentScan` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 120 | `/call-center` | Internal workspace | `<CallCenter` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 121 | `/hq/dedication` | Internal workspace | `<KendrellDedication` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 122 | `/hq` | Internal workspace | `<AgentWorkspace agentId="kendrell"` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 123 | `/operations` | Internal workspace | `<AgentWorkspace agentId="dion"` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 124 | `/customer-experience` | Internal workspace | `<AgentWorkspace agentId="diamond"` | Auth redirect; access denial; loading; empty; error; populated/success; mobile; desktop; keyboard | Role/interface graphics; no public photography |
+| 125 | `*` | Public | `<NotFound` | Not found; mobile; desktop | No decorative photograph |
+
+## Certification note
+
+Static route, access, workflow, visual-contract, and build coverage is enforced by `npm run verify:launch`. Physical browser capture at mobile and desktop widths remains a promotion gate and is not represented as completed by this register.

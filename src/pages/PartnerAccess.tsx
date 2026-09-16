@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import PublicSiteNav from "../components/PublicSiteNav";
+import { pageImage } from "../config/publicPageImagery";
 import "../styles/public-premium.css";
 import "../styles/public-board-pages-20260912.css";
 
 export default function PartnerAccess(){
+  const visual = pageImage("partners");
   return <main className="hlc-public-page hlc-public-board-page" data-public-page="partners">
     <PublicSiteNav/>
     <div className="hlc-public-shell hlc-public-shell--visual">
@@ -19,7 +21,7 @@ export default function PartnerAccess(){
         </div>
       </header>
       <figure className="hlc-public-visual" aria-label="HomeLead Connect partner connection">
-        <img src="/four-pathways-residents-hq-20260915.jpg" alt="People connecting around a home-service project" loading="eager" referrerPolicy="no-referrer"/>
+        <img src={visual.src} alt={visual.alt} loading="eager"/>
       </figure>
       <section className="hlc-public-grid" aria-label="How partner access works">
         <article className="hlc-public-card"><p className="hlc-public-card-label">01 · Relationship</p><h2>Identify the partner relationship.</h2><p>Contact HomeLead Connect and identify the business, organization, or referral relationship.</p></article>

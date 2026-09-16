@@ -28,7 +28,7 @@ export default function Contact() {
           </div>
         </header>
         <figure className="hlc-public-visual hlc-public-visual--contact" aria-label="Family planning a home project">
-          <img src="/four-pathways-residents-hq-20260915.jpg" alt="People connecting around a home-service project" loading="eager" />
+          <img src="/page-contact-how-can-we-help-20260916.webp" alt="Black HomeLead Connect support coordinator listening to a service question" loading="eager" />
         </figure>
         <section className="hlc-public-grid" aria-label="Contact pathways">
           {routes.map(([eyebrow, copy, to, action]) => (

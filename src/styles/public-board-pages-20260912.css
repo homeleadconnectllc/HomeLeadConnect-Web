@@ -61,6 +61,16 @@
   font-weight:700;
   line-height:.96;
   letter-spacing:-.045em;
+  text-wrap:balance;
+  overflow-wrap:break-word;
+}
+
+/* About has one long final word; keep it intact rather than leaving orphaned punctuation. */
+.hlc-public-board-page[data-public-page="about"] .hlc-public-hero h1{
+  font-size:clamp(38px,4.2vw,60px);
+  line-height:1.02;
+  overflow-wrap:normal;
+  word-break:normal;
 }
 
 .hlc-public-board-page .hlc-public-intro-copy,
@@ -262,7 +272,8 @@
   .hlc-public-board-page .hlc-public-hero{padding:34px 20px}
   .hlc-public-board-page .hlc-public-logo{width:150px}
   .hlc-public-board-page .hlc-public-hero h1,
-  .hlc-public-board-page .hlc-utility-title{font-size:clamp(38px,12vw,54px)}
+  .hlc-public-board-page .hlc-utility-title{font-size:clamp(36px,10.5vw,50px);line-height:1;letter-spacing:-.035em}
+  .hlc-public-board-page[data-public-page="about"] .hlc-public-hero h1{font-size:clamp(32px,9vw,38px);line-height:1.04}
   .hlc-public-board-page .hlc-public-intro-copy,
   .hlc-public-board-page .hlc-utility-lead{font-size:16px;line-height:1.58}
   .hlc-public-board-page .hlc-public-visual,

@@ -1,3 +1,5 @@
+import "../styles/public-footer-home-authority-20260916.css";
+
 const legalLinkStyle = {
   color: "#bfdbfe",
   fontWeight: 600,
@@ -5,16 +7,19 @@ const legalLinkStyle = {
 
 export default function Footer() {
   return (
-    <footer className="hlc-public-footer">
-      <a className="hlc-public-footer-brand" href="/" aria-label="HomeLead Connect home">
-        <span className="hlc-public-footer-mark" aria-hidden="true">
-          <img src="/hlc-logo-transparent.png" alt="" />
-        </span>
-        <span>
-          <strong>HomeLead Connect</strong>
-          <small>Home services network</small>
-        </span>
+    <footer className="hlc-public-footer hlc-board-footer hlc-public-footer-home-authority">
+      <a className="hlc-public-footer-home-authority__brand" href="/" aria-label="HomeLead Connect home">
+        <img
+          src="/hlc-logo-transparent.png"
+          srcSet="/hlc-logo-ui.png 180w, /hlc-logo-transparent.png 1254w"
+          sizes="(max-width: 680px) 136px, 190px"
+          alt="HomeLead Connect LLC"
+          width={1254}
+          height={1254}
+        />
       </a>
+      <strong>HomeLead Connect</strong>
+      <span>Connecting Homes. Creating Opportunities.</span>
       <nav
         aria-label="Legal and accessibility"
         style={{
@@ -31,7 +36,7 @@ export default function Footer() {
         <a style={legalLinkStyle} href="/accessibility">Accessibility</a>
         <a style={legalLinkStyle} href="/platform-disclosure">Platform disclosure</a>
       </nav>
-      <div>© {new Date().getFullYear()} HomeLead Connect LLC</div>
+      <small>© {new Date().getFullYear()} HomeLead Connect LLC</small>
     </footer>
   );
 }

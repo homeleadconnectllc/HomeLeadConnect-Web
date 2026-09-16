@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import PublicSiteNav from "../components/PublicSiteNav";
+import { pageImage } from "../config/publicPageImagery";
 import { trackAnalyticsEvent } from "../api/analytics";
 import { submitServiceRequest } from "../api/publicIntake";
 import { errorMessage } from "../lib/errorMessage";
@@ -18,6 +19,7 @@ const serviceLabels: Record<string, string> = {
 };
 
 export default function RequestService() {
+  const visual = pageImage("requestService");
   const [searchParams] = useSearchParams();
   const selectedService = serviceLabels[searchParams.get("service") || ""] || "";
   const [form, setForm] = useState({
@@ -91,6 +93,10 @@ export default function RequestService() {
         <a href="#request-form" className="hlc-request-primary">Start My Request ↓</a>
       </section>
 
+      <figure className="hlc-request-visual">
+        <img src={visual.src} alt={visual.alt} loading="eager" />
+      </figure>
+
       <section className="hlc-request-grid">
         <div id="request-form" className="hlc-request-form-card">
           <p className="hlc-request-kicker">SERVICE DETAILS</p>
@@ -128,6 +134,8 @@ const requestCss = `
 .hlc-request-service *{box-sizing:border-box}
 .hlc-request-hero,.hlc-request-form-card,.hlc-request-aside{background:#081426!important;color:#f8fafc!important;border:1px solid rgba(147,197,253,.24)!important;border-radius:14px!important;box-shadow:0 22px 55px rgba(2,6,23,.22)!important}
 .hlc-request-hero{padding:62px 34px!important;text-align:center!important;background:radial-gradient(circle at 18% 0%,rgba(32,200,244,.16),transparent 34%),linear-gradient(145deg,#06172c,#0a2039)!important}
+.hlc-request-visual{height:clamp(280px,44vw,520px)!important;margin:0!important;overflow:hidden!important;border:1px solid rgba(147,197,253,.24)!important;border-radius:14px!important;background:#081426!important;box-shadow:0 22px 55px rgba(2,6,23,.22)!important}
+.hlc-request-visual img{display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center 45%!important}
 .hlc-request-kicker{margin:0 0 12px!important;color:#20c8f4!important;font-size:12px!important;font-weight:900!important;letter-spacing:.19em!important;text-transform:uppercase!important}
 .hlc-request-hero h1{margin:0 auto 16px!important;max-width:800px!important;color:#fff!important;font-family:Georgia,"Times New Roman",serif!important;font-size:clamp(2.6rem,6vw,5rem)!important;font-weight:700!important;line-height:.96!important;letter-spacing:-.045em!important}
 .hlc-request-hero>p:not(.hlc-request-kicker){max-width:720px!important;margin:0 auto 24px!important;color:#dbeafe!important;font-size:18px!important;line-height:1.6!important;font-weight:600!important}
@@ -150,7 +158,7 @@ const requestCss = `
 .hlc-request-aside a{color:#67d9ff!important;font-weight:900!important;text-decoration:none!important}
 .hlc-request-error{padding:14px!important;border-radius:10px!important;background:#450a0a!important;color:#fecaca!important;border:1px solid #991b1b!important;font-weight:800!important}
 .hlc-request-trap{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
-@media(max-width:760px){.hlc-request-service{width:calc(100% - 20px)!important;margin:10px auto 38px!important;gap:12px!important}.hlc-request-grid{grid-template-columns:1fr!important;gap:12px!important}.hlc-request-hero{padding:38px 18px!important}.hlc-request-hero h1{font-size:clamp(2.35rem,12vw,3.4rem)!important}.hlc-request-hero>p:not(.hlc-request-kicker){font-size:15px!important}.hlc-request-form-card,.hlc-request-aside{padding:24px 18px!important}.hlc-request-aside{order:2!important}.hlc-request-form-card{order:1!important}}
+@media(max-width:760px){.hlc-request-service{width:calc(100% - 20px)!important;margin:10px auto 38px!important;gap:12px!important}.hlc-request-grid{grid-template-columns:1fr!important;gap:12px!important}.hlc-request-hero{padding:38px 18px!important}.hlc-request-hero h1{font-size:clamp(2.3rem,10.5vw,3.2rem)!important;text-wrap:balance!important}.hlc-request-hero>p:not(.hlc-request-kicker){font-size:15px!important}.hlc-request-visual{height:300px!important}.hlc-request-form-card,.hlc-request-aside{padding:24px 18px!important}.hlc-request-aside{order:2!important}.hlc-request-form-card{order:1!important}}
 `;
 
 const completionCss = `
