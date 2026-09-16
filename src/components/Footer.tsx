@@ -5,6 +5,7 @@ const legalLinkStyle = {
   fontWeight: 600,
 } as const;
 
+// Logo-count authority: this component renders exactly one visible footer logo.
 export default function Footer() {
   return (
     <footer className="hlc-public-footer hlc-board-footer hlc-public-footer-home-authority">
