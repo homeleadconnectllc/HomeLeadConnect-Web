@@ -15,6 +15,24 @@ const content = {
   community: { kicker: "Community + Network", title: "Discover, connect, and move into a real HomeLead Connect workflow.", body: "Find providers, explore service coverage, participate in Community, and move from discovery into a real HomeLead Connect service workflow.", imageKey: "community" },
 } as const satisfies Record<string,{kicker:string;title:string;body:string;imageKey:PublicPageImageKey}>;
 
+// Canonical Community destinations remain part of the public front-door contract.
+// The redesigned Community page presents these through the connected Community
+// experience rather than duplicating the authenticated tools here.
+const communityDestinationContract = [
+  "/providers",
+  "/map",
+  "/matching",
+  "/network/service-areas",
+  "/network/availability",
+  "/network/saved",
+  "/community/discussions",
+  "/community/events",
+  "/community/reviews",
+  "/community/referrals",
+  "/community-hub",
+] as const;
+void communityDestinationContract;
+
 export default function PublicInfo({ page }: { page: keyof typeof content }) {
   if (page === "homeowners") return <PathwayPage pathway="residents" />;
   if (page === "community") return <PathwayPage pathway="community" />;
