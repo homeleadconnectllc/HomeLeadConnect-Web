@@ -31,7 +31,7 @@ const mobileMenuLinks = [
 
 export default function PublicSiteNav() {
   return (
-    <header className="hlc-board-nav hlc-public-shared-nav">
+    <header className="hlc-board-nav hlc-family-ecosystem hlc-public-shared-nav">
       <div className="hlc-board-nav-inner">
         <a className="hlc-board-brand" href="/" aria-label="HomeLead Connect home">
           <img
