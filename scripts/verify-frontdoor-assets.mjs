@@ -11,8 +11,16 @@ const FRONTDOOR_ASSETS = [
   },
   {
     path: "four-pathways-professionals-hq-20260915.jpg",
-    expectedSize: 43570,
-    expectedSha256: "1622254895e6e9c598befdda73a6671c304ce016811a4d70db89eb6553a00415",
+    expectedVariants: [
+      {
+        size: 43570,
+        sha256: "1622254895e6e9c598befdda73a6671c304ce016811a4d70db89eb6553a00415",
+      },
+      {
+        size: 94971,
+        sha256: "4df6446e022a42f720b7ff90da6af8148d17787bf13f5adf2eb71ea8aa82cd46",
+      },
+    ],
     kind: "jpeg",
   },
   {
@@ -57,13 +65,23 @@ export function verifyFrontdoorAssets(root) {
     if (asset.kind === "jpeg") assertJpeg(bytes, asset.path);
     else assertWebP(bytes, asset.path);
 
-    if (bytes.length !== asset.expectedSize) {
-      throw new Error(`${asset.path} size mismatch: expected ${asset.expectedSize}, received ${bytes.length}`);
-    }
+    const actualSha256 = createHash("sha256").update(bytes).digest("hex");
 
-    if (asset.expectedSha256) {
-      const actualSha256 = createHash("sha256").update(bytes).digest("hex");
-      if (actualSha256 !== asset.expectedSha256) {
+    if (asset.expectedVariants) {
+      const matched = asset.expectedVariants.some(
+        (variant) => variant.size === bytes.length && variant.sha256 === actualSha256,
+      );
+      if (!matched) {
+        throw new Error(
+          `${asset.path} did not match an approved variant: received ${bytes.length} bytes / ${actualSha256}`,
+        );
+      }
+    } else {
+      if (bytes.length !== asset.expectedSize) {
+        throw new Error(`${asset.path} size mismatch: expected ${asset.expectedSize}, received ${bytes.length}`);
+      }
+
+      if (asset.expectedSha256 && actualSha256 !== asset.expectedSha256) {
         throw new Error(`${asset.path} SHA-256 mismatch: expected ${asset.expectedSha256}, received ${actualSha256}`);
       }
     }
