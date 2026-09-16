@@ -20,6 +20,7 @@ import "./styles/public-home-section-blend-authority-20260915.css";
 import "./styles/public-home-final-composition-20260915.css";
 import "./styles/public-home-mobile-nav-v5-20260915.css";
 import "./styles/public-home-pathway-heading-wrap-20260915.css";
+import "./styles/public-footer-home-authority-20260916.css";
 
 /*
 Authenticated runtime ownership moved to styles/app-shell-entry.ts so the public homepage can stay lightweight.
@@ -95,7 +96,7 @@ function publicHomeMarkup() {
 
       <section class="hlc-family-entry" aria-labelledby="hlc-family-entry-title"><div class="hlc-family-entry-inner"><div><p class="hlc-family-kicker">Ready when you are</p><h2 id="hlc-family-entry-title">Start with the path that fits you.</h2><p class="hlc-family-pricing-note">Business workspace: $49.99/month after a 14-day trial.</p></div><div class="hlc-family-entry-actions"><a href="https://app.homeleadconnect.org/request-service">Request Service</a><a href="https://app.homeleadconnect.org/professional-application">Apply as a Professional</a><a href="/partners">Explore Partnerships</a><a href="https://app.homeleadconnect.org/">Open the App</a></div></div></section>
 
-      <footer class="hlc-board-footer"><strong>HomeLead Connect</strong><span>Connecting Homes. Creating Opportunities.</span><nav aria-label="Legal and accessibility"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/accessibility">Accessibility</a><a href="/platform-disclosure">Platform disclosure</a></nav><small>© ${new Date().getFullYear()} HomeLead Connect LLC</small></footer>
+      <footer class="hlc-board-footer hlc-public-footer-home-authority"><a class="hlc-public-footer-home-authority__brand" href="/" aria-label="HomeLead Connect home"><img src="/hlc-logo-transparent.png" srcset="/hlc-logo-ui.png 180w, /hlc-logo-transparent.png 1254w" sizes="(max-width: 680px) 136px, 190px" alt="HomeLead Connect LLC" width="1254" height="1254" /></a><strong>HomeLead Connect</strong><span>Connecting Homes. Creating Opportunities.</span><nav aria-label="Legal and accessibility"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/accessibility">Accessibility</a><a href="/platform-disclosure">Platform disclosure</a></nav><small>© ${new Date().getFullYear()} HomeLead Connect LLC</small></footer>
     </main>`;
 }
 
