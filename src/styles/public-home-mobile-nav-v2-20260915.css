@@ -74,10 +74,14 @@
     line-height: 1.2;
   }
 
-  .hlc-family-ecosystem .hlc-mobile-nav-v2__item:hover,
+  .hlc-family-ecosystem .hlc-mobile-nav-v2__item:hover {
+    background: #0d2a4b;
+  }
+
   .hlc-family-ecosystem .hlc-mobile-nav-v2__item:focus-visible {
     background: #0d2a4b;
-    outline: none;
+    outline: 2px solid #fff;
+    outline-offset: 2px;
   }
 
   .hlc-family-ecosystem .hlc-mobile-nav-v2__icon {
