@@ -5,7 +5,7 @@ import PathwayPage from "./PathwayPage";
 import "../styles/public-premium.css";
 import "../styles/final-candidate-public-reconciliation.css";
 import "../styles/public-board-pages-20260912.css";
-import "../styles/four-pathways-exact-render-fix-20260916.css";
+import "../styles/pathway-exact-render-authority-20260916.css";
 
 const content = {
   about: { kicker: "About HomeLead Connect", title: "A connected operating layer for home-service work.", body: "HomeLead Connect LLC is a home-services technology platform based in Pennsylvania and designed for residents, professionals, partners, and service operations across supported locations. HomeLead Connect connects service requests, resident project planning, provider coordination, scheduling, jobs, communications, documents, workflow automation, analytics, and customer follow-through in one operating system.", imageKey: "about" },
