@@ -1,0 +1,28 @@
+name: Inspect Professional pathway asset
+
+on:
+  push:
+    branches:
+      - fix/professional-eyes-authoritative-v2-20260916
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - name: Inspect exact Professionals image
+        shell: bash
+        run: |
+          set -euo pipefail
+          file public/four-pathways-professionals-hq-20260915.jpg
+          wc -c public/four-pathways-professionals-hq-20260915.jpg
+          sha256sum public/four-pathways-professionals-hq-20260915.jpg
+          python - <<'PY'
+          from PIL import Image
+          p='public/four-pathways-professionals-hq-20260915.jpg'
+          with Image.open(p) as im:
+              print('dimensions', im.size, 'mode', im.mode, 'format', im.format)
+          PY
