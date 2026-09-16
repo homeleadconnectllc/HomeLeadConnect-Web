@@ -2,7 +2,9 @@
    Scoped authority prevents legacy page/link/details rules from restyling controls.
    Destination URLs and native details/summary behavior are unchanged.
    Repeated root specificity is limited to this header to defeat inherited
-   account and global reset authorities without changing those systems. */
+   account and global reset authorities without changing those systems.
+   Important layer precedence must match the earliest existing authority layer. */
+@layer hlcRedesign {
 html body #root#root#root#root .hlc-public-shell:has(.hlc-auth-shell) > .hlc-route-content {
   display: block !important;
   width: 100% !important;
@@ -173,4 +175,5 @@ html body #root#root#root#root .hlc-public-site-nav :is(a,summary):focus-visible
   html body #root#root#root#root .hlc-public-site-nav__actions { gap: 12px !important; }
   html body #root#root#root#root .hlc-public-site-nav__login { font-size: 15px !important; }
   html body #root#root#root#root .hlc-public-site-nav__actions > .hlc-public-site-nav__cta { display: none !important; }
+}
 }
