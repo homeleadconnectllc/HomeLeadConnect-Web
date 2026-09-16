@@ -30,14 +30,20 @@ html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathwa
   filter: none !important;
   mix-blend-mode: normal !important;
   isolation: isolate !important;
+  animation: none !important;
+  transition: none !important;
+  visibility: visible !important;
 }
-/* Human screenshot inspection is part of promotion authority. Reset legacy
-   presentation effects on both the hero-copy container and its direct children
-   so declared contrast colors render at full opacity on every pathway. */
+/* Human screenshot inspection is part of promotion authority. Keep hero copy at
+   its final readable state from first paint; capture timing must not expose a
+   legacy fade/transition state with near-invisible text. */
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-copy > * {
   opacity: 1 !important;
   filter: none !important;
   mix-blend-mode: normal !important;
+  animation: none !important;
+  transition: none !important;
+  visibility: visible !important;
 }
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero h1 {
   color: #10233b !important;
@@ -47,6 +53,9 @@ html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathwa
   background: none !important;
   -webkit-background-clip: border-box !important;
   background-clip: border-box !important;
+  animation: none !important;
+  transition: none !important;
+  visibility: visible !important;
 }
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-eyebrow {
   color: color-mix(in srgb,var(--pathway-accent) 58%,#071120) !important;
