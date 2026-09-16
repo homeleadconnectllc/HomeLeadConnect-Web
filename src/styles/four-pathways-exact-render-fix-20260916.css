@@ -20,25 +20,25 @@ html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathwa
   width: min(1360px,calc(100% - 56px)) !important;
   max-width: none !important;
   margin-inline: auto !important;
-  background: rgba(7,17,34,.62) !important;
-  color: #f7fafc !important;
+  background: #fff !important;
+  color: #10233b !important;
 }
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-copy {
-  background: transparent !important;
-  color: #f7fafc !important;
+  background: #fff !important;
+  color: #10233b !important;
 }
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero h1 {
-  color: #fff !important;
-  -webkit-text-fill-color: #fff !important;
+  color: #10233b !important;
+  -webkit-text-fill-color: #10233b !important;
 }
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-eyebrow {
-  color: var(--pathway-accent) !important;
-  -webkit-text-fill-color: var(--pathway-accent) !important;
+  color: color-mix(in srgb,var(--pathway-accent) 58%,#071120) !important;
+  -webkit-text-fill-color: color-mix(in srgb,var(--pathway-accent) 58%,#071120) !important;
 }
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-lead,
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-copy > small {
-  color: #b8c4d6 !important;
-  -webkit-text-fill-color: #b8c4d6 !important;
+  color: #52677f !important;
+  -webkit-text-fill-color: #52677f !important;
 }
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-primary {
   background: var(--pathway-accent) !important;
@@ -47,10 +47,10 @@ html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathwa
   -webkit-text-fill-color: #06111f !important;
 }
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-secondary {
-  background: rgba(8,18,37,.7) !important;
-  border-color: rgba(196,216,238,.3) !important;
-  color: #eef5fc !important;
-  -webkit-text-fill-color: #eef5fc !important;
+  background: #fff !important;
+  border-color: #b7c7d8 !important;
+  color: #183451 !important;
+  -webkit-text-fill-color: #183451 !important;
 }
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-section {
   background: transparent !important;
