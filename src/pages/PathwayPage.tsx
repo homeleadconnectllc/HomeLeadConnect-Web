@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { BriefcaseBusiness, CalendarDays, CheckCircle2, ClipboardList, FileText, Handshake, Home, MessageSquareText, Network, ShieldCheck, Sparkles, UsersRound } from "lucide-react";
 import PublicSiteNav from "../components/PublicSiteNav";
 import { pageImage } from "../config/publicPageImagery";
-import "../styles/four-pathways-pages-20260916.css";
+import "../styles/pathway-family-pages-20260916.css";
 
 export type PathwayPageKind = "residents" | "professionals" | "partners" | "community";
 
