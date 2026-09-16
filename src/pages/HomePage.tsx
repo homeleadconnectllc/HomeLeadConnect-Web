@@ -131,8 +131,8 @@ export default function HomePage() {
       <footer className="hlc-board-footer hlc-public-footer-home-authority">
         <a className="hlc-public-footer-home-authority__brand" href="/" aria-label="HomeLead Connect home">
           <img
-            src="/hlc-logo-transparent.png"
-            srcSet="/hlc-logo-ui.png 180w, /hlc-logo-transparent.png 1254w"
+            src="/brand/homelead-connect-master-transparent.png"
+            srcSet="/hlc-logo-ui.png 180w, /brand/homelead-connect-master-transparent.png 1254w"
             sizes="(max-width: 680px) 136px, 190px"
             alt="HomeLead Connect LLC"
             width={1254}
