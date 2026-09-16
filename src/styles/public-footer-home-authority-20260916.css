@@ -18,6 +18,8 @@
   display:block!important;
   width:clamp(132px,14vw,190px)!important;
   height:clamp(132px,14vw,190px)!important;
+  min-width:132px!important;
+  min-height:132px!important;
   flex:0 0 auto!important;
   margin:0 0 10px!important;
   padding:0!important;
@@ -99,6 +101,31 @@ html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority{
   font-size:inherit!important;
   line-height:1.4!important;
 }
+html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority__brand{
+  display:block!important;
+  width:clamp(132px,14vw,190px)!important;
+  height:clamp(132px,14vw,190px)!important;
+  min-width:132px!important;
+  min-height:132px!important;
+  flex:0 0 auto!important;
+  margin:0 0 10px!important;
+  padding:0!important;
+  background-color:transparent!important;
+  background-image:url('/hlc-logo-ui.png')!important;
+  background-position:center!important;
+  background-repeat:no-repeat!important;
+  background-size:contain!important;
+  border:0!important;
+  box-shadow:none!important;
+  text-decoration:none!important;
+}
+html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority__brand img{
+  display:block!important;
+  width:100%!important;
+  height:100%!important;
+  margin:0!important;
+  opacity:0!important;
+}
 html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority>strong{
   margin:10px 0 0!important;
   font-size:clamp(28px,3.2vw,42px)!important;
@@ -144,6 +171,12 @@ html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority>sma
   html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority{
     padding:38px 18px 34px!important;
     gap:12px!important;
+  }
+  html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority__brand{
+    width:136px!important;
+    height:136px!important;
+    min-width:136px!important;
+    min-height:136px!important;
   }
   html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority>strong{font-size:28px!important}
   html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority>span{max-width:24ch!important;font-size:17px!important}
