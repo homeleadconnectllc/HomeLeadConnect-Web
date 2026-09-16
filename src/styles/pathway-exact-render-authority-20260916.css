@@ -1,6 +1,12 @@
 /* Final exact-render authority for the pathway family.
    Loaded after legacy public-shell CSS so pathway contrast and route geometry
-   remain deterministic without changing non-pathway routes. */
+   remain deterministic without changing non-pathway routes.
+
+   Important declarations reverse cascade-layer priority. Keep this authority
+   inside the existing hlcRedesign layer so its high-specificity pathway rules
+   can beat older important rules in that layer instead of losing from the
+   unlayered important tier. */
+@layer hlcRedesign {
 html body #root#root#root#root#root#root#root#root .hlc-route-content:has(> .hlc-pathway-page) {
   width: 100% !important;
   max-width: none !important;
@@ -101,4 +107,5 @@ html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathwa
 }
 @media (max-width:680px) {
   html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero { width: 100% !important; }
+}
 }
