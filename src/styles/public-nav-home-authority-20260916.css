@@ -108,6 +108,16 @@
     padding-top: 0 !important;
   }
 
+  html body #root#root#root#root :is(
+    .hlc-page-contact,
+    .hlc-page-privacy,
+    .hlc-page-terms,
+    .hlc-page-accessibility,
+    .hlc-page-platform-disclosure
+  ).hlc-public-front-door-surface > .hlc-route-content {
+    padding-top: 0 !important;
+  }
+
   html body #root#root#root#root .hlc-public-shell:has(.hlc-auth-shell) > .hlc-route-content {
     display: block !important;
     width: 100% !important;
