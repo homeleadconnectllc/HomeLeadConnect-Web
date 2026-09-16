@@ -64,11 +64,23 @@ jobs:
       - name: Capture desktop Login screenshot
         run: |
           npx --yes lighthouse@13.4.1 http://127.0.0.1:4173/login --quiet --preset=desktop --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" --output=json --output-path=/tmp/login-desktop.json
+      - name: Capture interior and account header evidence
+        run: |
+          set -euo pipefail
+          for route in about register forgot-password reset-password; do
+            npx --yes lighthouse@13.4.1 "http://127.0.0.1:4173/$route" --quiet --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" --output=json --output-path="/tmp/$route-mobile.json"
+            npx --yes lighthouse@13.4.1 "http://127.0.0.1:4173/$route" --quiet --preset=desktop --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" --output=json --output-path="/tmp/$route-desktop.json"
+          done
       - name: Extract review images
         run: |
           node - <<'NODE'
           const fs = require('node:fs');
           const reports = [['home-mobile','/tmp/home-mobile.json'],['home-desktop','/tmp/home-desktop.json'],['login-mobile','/tmp/login-mobile.json'],['login-desktop','/tmp/login-desktop.json']];
+          for (const route of ['about', 'register', 'forgot-password', 'reset-password']) {
+            for (const viewport of ['mobile', 'desktop']) {
+              reports.push([`${route}-${viewport}`, `/tmp/${route}-${viewport}.json`]);
+            }
+          }
           for (const [name, path] of reports) {
             const report = JSON.parse(fs.readFileSync(path, 'utf8'));
             const data = report.audits?.['final-screenshot']?.details?.data;
@@ -87,5 +99,9 @@ jobs:
             /tmp/home-desktop.png
             /tmp/login-mobile.png
             /tmp/login-desktop.png
+            /tmp/about-*.png
+            /tmp/register-*.png
+            /tmp/forgot-password-*.png
+            /tmp/reset-password-*.png
           if-no-files-found: error
           retention-days: 14

@@ -1,7 +1,26 @@
 /* Public-page header inherits the approved homepage geometry and mobile menu.
    Scoped authority prevents legacy page/link/details rules from restyling controls.
-   Destination URLs and native details/summary behavior are unchanged. */
-html body #root nav.hlc-public-site-nav.hlc-public-site-nav {
+   Destination URLs and native details/summary behavior are unchanged.
+   Repeated root specificity is limited to this header to defeat inherited
+   account and global reset authorities without changing those systems. */
+html body #root#root#root#root .hlc-public-shell:has(.hlc-auth-shell) > .hlc-route-content {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  padding: 0 !important;
+}
+html body #root#root#root#root .hlc-auth-shell.hlc-auth-shell--flat {
+  display: block !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 0 24px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+html body #root#root#root#root nav.hlc-public-site-nav.hlc-public-site-nav {
   box-sizing: border-box !important;
   width: 100% !important;
   margin: 0 !important;
@@ -12,18 +31,20 @@ html body #root nav.hlc-public-site-nav.hlc-public-site-nav {
   border-radius: 0 !important;
   color: #e9f2fb !important;
 }
-html body #root .hlc-public-site-nav__inner {
+html body #root#root#root#root .hlc-public-site-nav__inner {
   box-sizing: border-box !important;
   width: min(1440px, calc(100% - 56px)) !important;
   min-height: 104px !important;
   gap: 24px !important;
 }
-html body #root .hlc-public-site-nav__actions {
+html body #root#root#root#root .hlc-public-site-nav__actions {
   min-width: 0 !important;
   margin-left: auto !important;
 }
-html body #root .hlc-public-site-nav__links a,
-html body #root .hlc-public-site-nav__login {
+html body #root#root#root#root .hlc-public-site-nav__links a,
+html body #root#root#root#root .hlc-public-site-nav__login {
+  color: #62e6b3 !important;
+  -webkit-text-fill-color: #62e6b3 !important;
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
@@ -32,15 +53,15 @@ html body #root .hlc-public-site-nav__login {
   text-decoration: none !important;
   white-space: nowrap !important;
 }
-html body #root .hlc-public-site-nav__login {
+html body #root#root#root#root .hlc-public-site-nav__login {
   display: inline-flex !important;
   align-items: center !important;
   min-height: 44px !important;
   padding-inline: 4px !important;
   font-weight: 850 !important;
 }
-html body #root .hlc-public-site-nav__links a { font-size: 12px !important; font-weight: 700 !important; }
-html body #root .hlc-public-site-nav__cta {
+html body #root#root#root#root .hlc-public-site-nav__links a { font-size: 12px !important; font-weight: 700 !important; }
+html body #root#root#root#root .hlc-public-site-nav__cta {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
@@ -57,7 +78,7 @@ html body #root .hlc-public-site-nav__cta {
   white-space: nowrap !important;
   box-shadow: 0 10px 26px rgba(13,124,240,.28) !important;
 }
-html body #root .hlc-public-site-nav__menu {
+html body #root#root#root#root .hlc-public-site-nav__menu {
   width: auto !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -66,7 +87,10 @@ html body #root .hlc-public-site-nav__menu {
   background: transparent !important;
   box-shadow: none !important;
 }
-html body #root .hlc-public-site-nav__menu > summary {
+html body #root#root#root#root .hlc-public-site-nav__menu > summary {
+  visibility: visible !important;
+  opacity: 1 !important;
+  text-indent: 0 !important;
   box-sizing: border-box !important;
   display: inline-flex !important;
   align-items: center !important;
@@ -85,11 +109,11 @@ html body #root .hlc-public-site-nav__menu > summary {
   line-height: 1 !important;
   box-shadow: none !important;
 }
-html body #root .hlc-public-site-nav__menu > summary::before,
-html body #root .hlc-public-site-nav__menu > summary::after {
+html body #root#root#root#root .hlc-public-site-nav__menu > summary::before,
+html body #root#root#root#root .hlc-public-site-nav__menu > summary::after {
   content: none !important;
 }
-html body #root .hlc-public-site-nav__menu-panel {
+html body #root#root#root#root .hlc-public-site-nav__menu-panel {
   box-sizing: border-box !important;
   z-index: 1000 !important;
   top: calc(100% + 12px) !important;
@@ -103,7 +127,7 @@ html body #root .hlc-public-site-nav__menu-panel {
   background: #06182a !important;
   box-shadow: 0 24px 58px rgba(0,0,0,.46) !important;
 }
-html body #root .hlc-public-site-nav__menu-panel a {
+html body #root#root#root#root .hlc-public-site-nav__menu-panel a {
   box-sizing: border-box !important;
   display: flex !important;
   align-items: center !important;
@@ -123,30 +147,30 @@ html body #root .hlc-public-site-nav__menu-panel a {
   text-decoration: none !important;
   box-shadow: none !important;
 }
-html body #root .hlc-public-site-nav__menu-panel a svg { flex: 0 0 18px; }
-html body #root .hlc-public-site-nav__menu-panel .hlc-public-site-nav__menu-item--resident { color: #62e6b3 !important; }
-html body #root .hlc-public-site-nav__menu-panel .hlc-public-site-nav__menu-item--professional { color: #55c8ff !important; }
-html body #root .hlc-public-site-nav__menu-panel .hlc-public-site-nav__menu-item--partner { color: #ffc443 !important; }
-html body #root .hlc-public-site-nav__menu-panel .hlc-public-site-nav__menu-item--community { color: #c38cff !important; }
-html body #root .hlc-public-site-nav__menu-panel .hlc-public-site-nav__menu-item--start {
+html body #root#root#root#root .hlc-public-site-nav__menu-panel a svg { flex: 0 0 18px; }
+html body #root#root#root#root .hlc-public-site-nav__menu-panel .hlc-public-site-nav__menu-item--resident { color: #62e6b3 !important; }
+html body #root#root#root#root .hlc-public-site-nav__menu-panel .hlc-public-site-nav__menu-item--professional { color: #55c8ff !important; }
+html body #root#root#root#root .hlc-public-site-nav__menu-panel .hlc-public-site-nav__menu-item--partner { color: #ffc443 !important; }
+html body #root#root#root#root .hlc-public-site-nav__menu-panel .hlc-public-site-nav__menu-item--community { color: #c38cff !important; }
+html body #root#root#root#root .hlc-public-site-nav__menu-panel .hlc-public-site-nav__menu-item--start {
   margin-top: 4px !important;
   background: #62e6b3 !important;
   color: #03111f !important;
 }
-html body #root .hlc-public-site-nav__menu-panel a:hover {
+html body #root#root#root#root .hlc-public-site-nav__menu-panel a:hover {
   background: #0d2a4b !important;
 }
-html body #root .hlc-public-site-nav :is(a,summary):focus-visible {
+html body #root#root#root#root .hlc-public-site-nav :is(a,summary):focus-visible {
   outline: 3px solid #55c8ff !important;
   outline-offset: 3px !important;
 }
 @media (max-width: 680px) {
-  html body #root .hlc-public-site-nav__inner {
+  html body #root#root#root#root .hlc-public-site-nav__inner {
     width: calc(100% - 28px) !important;
     min-height: 84px !important;
     gap: 12px !important;
   }
-  html body #root .hlc-public-site-nav__actions { gap: 12px !important; }
-  html body #root .hlc-public-site-nav__login { font-size: 15px !important; }
-  html body #root .hlc-public-site-nav__actions > .hlc-public-site-nav__cta { display: none !important; }
+  html body #root#root#root#root .hlc-public-site-nav__actions { gap: 12px !important; }
+  html body #root#root#root#root .hlc-public-site-nav__login { font-size: 15px !important; }
+  html body #root#root#root#root .hlc-public-site-nav__actions > .hlc-public-site-nav__cta { display: none !important; }
 }
