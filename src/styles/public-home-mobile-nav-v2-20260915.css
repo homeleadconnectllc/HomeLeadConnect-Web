@@ -80,8 +80,6 @@
 
   .hlc-family-ecosystem .hlc-mobile-nav-v2__item:focus-visible {
     background: #0d2a4b;
-    outline: 2px solid #fff;
-    outline-offset: 2px;
   }
 
   .hlc-family-ecosystem .hlc-mobile-nav-v2__icon {
@@ -105,5 +103,14 @@
   .hlc-family-ecosystem .hlc-mobile-nav-v2__item--start:hover,
   .hlc-family-ecosystem .hlc-mobile-nav-v2__item--start:focus-visible {
     background: #7bedc0;
+  }
+}
+
+@layer hlcRedesign {
+  @media (max-width: 680px) {
+    html body #root#root#root#root .hlc-family-ecosystem .hlc-mobile-nav-v2__item:focus-visible {
+      outline: 2px solid #fff !important;
+      outline-offset: 2px !important;
+    }
   }
 }
