@@ -17,7 +17,6 @@ function EntryState({ error = "" }: { error?: string }) {
     <PublicSiteNav />
     <section className="hlc-app-entry-state__shell" aria-live="polite">
       <div className="hlc-app-entry-state__panel">
-        <img className="hlc-app-entry-state__logo" src="/hlc-logo-transparent.png" alt="HomeLead Connect" width={440} height={142} />
         <p className="hlc-app-entry-state__kicker">HomeLead Connect access</p>
         <h1>{error ? "We kept your account protected." : "Opening your HomeLead Connect area."}</h1>
         {error ? <><p role="alert">{error}</p><p>Your account was not redirected to an unverified workspace or portal.</p></> : <><p role="status">Checking your approved HomeLead Connect destination and opening the correct workspace or portal.</p><div className="hlc-app-entry-state__pulse" aria-hidden="true" /></>}
