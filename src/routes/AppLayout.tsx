@@ -35,6 +35,10 @@ const PUBLIC_FRONT_DOOR_PATHS = new Set([
   "/privacy",
   "/terms",
   "/platform-disclosure",
+  "/memorial",
+  "/kendrell-memorial",
+  "/portal/accept",
+  "/team/accept",
 ]);
 
 function personaRouteClass(pathname: string) {

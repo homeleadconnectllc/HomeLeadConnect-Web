@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
+import PublicSiteNav from "../components/PublicSiteNav";
 
 export default function MemorialPage() {
   return (
-    <main className="hlc-public-story hlc-memorial-page">
+    <><PublicSiteNav /><main className="hlc-public-story hlc-memorial-page">
       <section className="hlc-public-story-hero hlc-memorial-hero" aria-labelledby="memorial-title">
         <p className="hlc-public-story-eyebrow">IN REMEMBRANCE</p>
         <h1 id="memorial-title">Kendrell Memorial</h1>
@@ -31,6 +32,6 @@ export default function MemorialPage() {
         <Link to="/about">Founder story</Link>
         <Link className="is-secondary" to="/">HomeLead Connect home</Link>
       </nav>
-    </main>
+    </main></>
   );
 }

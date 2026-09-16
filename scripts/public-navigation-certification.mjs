@@ -20,7 +20,7 @@ async function metrics(page) {
   return page.evaluate(() => {
     const header = document.querySelector('.hlc-public-site-nav, .hlc-board-nav');
     if (!header) return null;
-    const visible = (element) => !!element && element.getBoundingClientRect().width > 0 && getComputedStyle(element).visibility !== 'hidden' && getComputedStyle(element).display !== 'none';
+    const visible = (element) => !!element && element.checkVisibility({ checkVisibilityCSS: true }) && !(element.tagName !== 'SUMMARY' && element.closest('details') && !element.closest('details').open);
     const image = header.querySelector('img');
     const summary = [...header.querySelectorAll('summary')].find(visible);
     const login = [...header.querySelectorAll('a')].find(a => a.textContent.trim() === 'Sign In' && visible(a));
@@ -46,6 +46,7 @@ try {
     await authorityPage.close();
     for (const path of routes) {
       const page = await context.newPage();
+      page.setDefaultTimeout(5000);
       const name = `${path === '/' ? 'home' : path.slice(1).replaceAll('/', '-')}-${width}`;
       const result = { path, width, errors: [], authority };
       report.cases.push(result);
@@ -77,7 +78,7 @@ try {
             await summary.click();
             assert.equal(await summary.evaluate(element => element.parentElement.open), true, 'Menu did not open on click');
             const panel = header.locator('.hlc-public-site-nav__menu-panel, .hlc-mobile-nav-v2__panel');
-            assert.ok(await panel.isVisible(), 'Open menu panel is not visible');
+            await panel.waitFor({ state: 'visible', timeout: 5000 });
             const links = await panel.locator('a').evaluateAll(elements => elements.map(element => ({ label: element.textContent.trim(), path: new URL(element.href).pathname, box: element.getBoundingClientRect().toJSON() })));
             result.menuLinks = links;
             for (const destination of expectedPaths) check(() => assert.ok(links.some(link => link.path === destination), `Missing menu destination ${destination}`));

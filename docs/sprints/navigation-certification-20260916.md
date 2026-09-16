@@ -2,6 +2,25 @@
 
 Status: NOT CERTIFIED. No merge or production promotion authorized by this report.
 
+## Interaction gate added under owner approval
+
+GitHub Actions now installs the existing pinned Playwright Chromium runtime and
+executes anonymous navigation tests at 320, 390, and 1440 pixels across 30 routes.
+The mobile-runtime blocker below is historical and resolved by this CI gate.
+
+First tested interaction candidate: `2f3bbb67dd0b82583c5ca064e93790efa4d13727`.
+Run 35104417649, artifact 10449852398: 90 cases executed, 8 passed, 82 failed.
+Evidence was downloaded and inspected. Real failures included inset public
+headers, incorrect Sign In color, narrow/dark menu content, and missing memorial
+and company-invitation headers. Test defects also misclassified closed-details
+links as visible and checked menu layout before it settled. These defects are
+repaired without removing destination, touch-target, or interaction assertions.
+
+Scoped repairs retain existing invitation logic and memorial content, add shared
+headers to those pages, omit their duplicate application chrome, correct public
+header containers/menu styling, and retain keyboard focus indicators. All local
+launch checks passed; repaired exact-candidate CI evidence must still be reviewed.
+
 ## Exact evidence reviewed
 
 Candidate: `8724bf2fb9f5eb83793544f52421e4cca85e9ea5`.

@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { acceptWorkspaceInvitation, type AcceptedWorkspaceInvitation } from "../../api/team";
 import { useAuth } from "../../hooks/useAuth";
 import { errorMessage } from "../../lib/errorMessage";
+import PublicSiteNav from "../../components/PublicSiteNav";
 
 export default function AcceptWorkspaceInvitation() {
   const { session, loading } = useAuth();
@@ -26,7 +27,7 @@ export default function AcceptWorkspaceInvitation() {
     } finally { setBusy(false); }
   }
 
-  return <main style={pageStyle}>
+  return <><PublicSiteNav /><main style={pageStyle}>
     <section style={cardStyle}>
       <p style={{ fontWeight: 900, letterSpacing: ".05em", textTransform: "uppercase", margin: 0 }}>HomeLead Connect</p>
       <h1>Company workspace invitation</h1>
@@ -49,7 +50,7 @@ export default function AcceptWorkspaceInvitation() {
         <Link to="/dashboard">Open company dashboard</Link>
       </>}
     </section>
-  </main>;
+  </main></>;
 }
 
 const pageStyle = { width: "min(720px, calc(100% - 32px))", margin: "48px auto", fontFamily: "system-ui, sans-serif" };
