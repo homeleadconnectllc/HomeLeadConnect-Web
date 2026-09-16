@@ -42,6 +42,10 @@ jobs:
         run: npm ci --prefer-offline --no-audit --fund=false
       - name: Build candidate
         run: npm run build
+      - name: Install navigation interaction browser
+        run: |
+          npm install --no-save --ignore-scripts playwright@1.55.0
+          npx playwright install --with-deps chromium
       - name: Start rendered preview
         run: |
           set -euo pipefail
@@ -52,6 +56,8 @@ jobs:
           done
           cat /tmp/hlc-preview.log || true
           exit 30
+      - name: Certify exact-candidate navigation interactions
+        run: node scripts/public-navigation-certification.mjs
       - name: Capture mobile Home screenshot
         run: |
           npx --yes lighthouse@13.4.1 http://127.0.0.1:4173/ --quiet --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" --output=json --output-path=/tmp/home-mobile.json
@@ -90,6 +96,7 @@ jobs:
           fs.writeFileSync('/tmp/candidate-sha.txt', `${process.env.CANDIDATE_SHA}\n`);
           NODE
       - name: Upload visual review evidence
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: front-door-visual-review-${{ env.CANDIDATE_SHA }}
@@ -103,5 +110,6 @@ jobs:
             /tmp/register-*.png
             /tmp/forgot-password-*.png
             /tmp/reset-password-*.png
+            artifacts/public-navigation-certification
           if-no-files-found: error
           retention-days: 14
