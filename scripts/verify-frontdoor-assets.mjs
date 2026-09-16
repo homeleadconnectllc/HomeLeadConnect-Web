@@ -11,8 +11,8 @@ const FRONTDOOR_ASSETS = [
   },
   {
     path: "four-pathways-professionals-hq-20260915.jpg",
-    expectedSize: 94971,
-    expectedSha256: "4df6446e022a42f720b7ff90da6af8148d17787bf13f5adf2eb71ea8aa82cd46",
+    expectedSize: 43570,
+    expectedSha256: "1622254895e6e9c598befdda73a6671c304ce016811a4d70db89eb6553a00415",
     kind: "jpeg",
   },
   {
