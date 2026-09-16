@@ -77,6 +77,24 @@ jobs:
             npx --yes lighthouse@13.4.1 "http://127.0.0.1:4173/$route" --quiet --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" --output=json --output-path="/tmp/$route-mobile.json"
             npx --yes lighthouse@13.4.1 "http://127.0.0.1:4173/$route" --quiet --preset=desktop --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" --output=json --output-path="/tmp/$route-desktop.json"
           done
+      - name: Capture homepage footer evidence
+        run: |
+          node - <<'NODE'
+          const { chromium } = require('playwright');
+          (async () => {
+            const browser = await chromium.launch();
+            for (const [name, width, height] of [['mobile',390,844],['desktop',1440,900]]) {
+              const page = await browser.newPage({ viewport: { width, height } });
+              await page.goto('http://127.0.0.1:4173/', { waitUntil: 'networkidle' });
+              const footer = page.locator('.hlc-board-footer').last();
+              await footer.scrollIntoViewIfNeeded();
+              await footer.screenshot({ path: `/tmp/home-footer-${name}.png` });
+              const box = await footer.boundingBox();
+              if (!box || box.width < width * 0.9 || box.height < 100) throw new Error(`Footer geometry invalid at ${name}`);
+            }
+            await browser.close();
+          })().catch(error => { console.error(error); process.exit(1); });
+          NODE
       - name: Extract review images
         run: |
           node - <<'NODE'
@@ -104,6 +122,8 @@ jobs:
             /tmp/candidate-sha.txt
             /tmp/home-mobile.png
             /tmp/home-desktop.png
+            /tmp/home-footer-mobile.png
+            /tmp/home-footer-desktop.png
             /tmp/login-mobile.png
             /tmp/login-desktop.png
             /tmp/about-*.png
