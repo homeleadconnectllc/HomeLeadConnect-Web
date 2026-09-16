@@ -78,7 +78,8 @@ try {
             await summary.click();
             assert.equal(await summary.evaluate(element => element.parentElement.open), true, 'Menu did not open on click');
             const panel = header.locator('.hlc-public-site-nav__menu-panel, .hlc-mobile-nav-v2__panel');
-            await panel.waitFor({ state: 'visible', timeout: 5000 });
+            const firstPanelLink = panel.locator('a').first();
+            await firstPanelLink.waitFor({ state: 'visible', timeout: 5000 });
             const links = await panel.locator('a').evaluateAll(elements => elements.map(element => ({ label: element.textContent.trim(), path: new URL(element.href).pathname, box: element.getBoundingClientRect().toJSON() })));
             result.menuLinks = links;
             for (const destination of expectedPaths) check(() => assert.ok(links.some(link => link.path === destination), `Missing menu destination ${destination}`));
