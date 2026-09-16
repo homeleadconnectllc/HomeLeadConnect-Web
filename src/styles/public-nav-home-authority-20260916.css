@@ -4,19 +4,19 @@
    rules only for the shared public header. */
 @layer hlcRedesign {
   html body #root#root#root#root .hlc-public-shared-nav {
-    --blue: #0a70d8;
+    --blue: #0b6ed6;
     position: relative !important;
     inset: auto !important;
     z-index: 20 !important;
     box-sizing: border-box !important;
     width: 100vw !important;
     max-width: none !important;
-    min-height: 0 !important;
+    min-height: 105px !important;
     margin-left: calc(50% - 50vw) !important;
     margin-right: calc(50% - 50vw) !important;
     padding: 0 !important;
     overflow: visible !important;
-    background: linear-gradient(180deg,rgba(3,10,22,.82),rgba(3,10,22,.08)) !important;
+    background: #03111f !important;
     border: 0 !important;
     border-bottom: 1px solid rgba(255,255,255,.08) !important;
     border-radius: 0 !important;
@@ -26,7 +26,7 @@
   html body #root#root#root#root .hlc-public-shared-nav .hlc-board-nav-inner {
     box-sizing: border-box !important;
     width: min(1400px,calc(100% - 72px)) !important;
-    min-height: 88px !important;
+    min-height: 104px !important;
     margin: auto !important;
     padding: 0 !important;
     display: flex !important;
@@ -42,9 +42,10 @@
 
   html body #root#root#root#root .hlc-public-shared-nav .hlc-board-brand img {
     display: block !important;
-    width: 245px !important;
-    height: auto !important;
-    max-height: 70px !important;
+    width: 64px !important;
+    height: 64px !important;
+    max-width: 64px !important;
+    max-height: 64px !important;
     object-fit: contain !important;
   }
 
@@ -63,8 +64,8 @@
     background: transparent !important;
     border: 0 !important;
     box-shadow: none !important;
-    color: #f2f6fb !important;
-    -webkit-text-fill-color: #f2f6fb !important;
+    color: #f8fbff !important;
+    -webkit-text-fill-color: #f8fbff !important;
     text-decoration: none !important;
   }
 
@@ -89,9 +90,9 @@
     justify-content: center !important;
     min-height: 42px !important;
     padding: 0 18px !important;
-    border: 1px solid #0a70d8 !important;
-    border-radius: 999px !important;
-    background: #0a70d8 !important;
+    border: 1px solid #0b6ed6 !important;
+    border-radius: 12px !important;
+    background: #0b6ed6 !important;
     color: #fff !important;
     -webkit-text-fill-color: #fff !important;
     text-decoration: none !important;
@@ -127,16 +128,22 @@
   }
 
   @media (max-width: 680px) {
+    html body #root#root#root#root .hlc-public-shared-nav {
+      min-height: 85px !important;
+    }
+
     html body #root#root#root#root .hlc-public-shared-nav .hlc-board-nav-inner {
       width: calc(100% - 28px) !important;
-      min-height: 70px !important;
+      min-height: 84px !important;
       justify-content: space-between !important;
       gap: 12px !important;
     }
 
     html body #root#root#root#root .hlc-public-shared-nav .hlc-board-brand img {
-      width: 166px !important;
-      max-height: 50px !important;
+      width: 56px !important;
+      height: 56px !important;
+      max-width: 56px !important;
+      max-height: 56px !important;
     }
 
     html body #root#root#root#root .hlc-public-shared-nav .hlc-board-links,
