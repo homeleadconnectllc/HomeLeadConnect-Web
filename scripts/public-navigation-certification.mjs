@@ -104,7 +104,10 @@ try {
             result.menuLinks = menuState.links;
             for (const destination of expectedPaths) check(() => assert.ok(menuState.links.some(link => link.path === destination), `Missing menu destination ${destination}`));
             check(() => assert.ok(menuState.links.every(link => link.display !== 'none' && link.visibility !== 'hidden' && link.box.width > 0 && link.box.height >= 40), 'Menu links are not rendered usable touch targets'));
-            const restingFocusBackground = await header.locator('.hlc-mobile-nav-v2__panel a').first().evaluate(element => getComputedStyle(element).backgroundColor);
+            const restingFocusBackground = await summary.evaluate(element => {
+              const firstLink = element.parentElement.querySelector('nav a');
+              return firstLink ? getComputedStyle(firstLink).backgroundColor : null;
+            });
             await page.screenshot({ path: `${directory}/${name}-open.png` });
             await summary.click();
             assert.equal(await summary.evaluate(element => element.parentElement.open), false, 'Menu did not close on click');
