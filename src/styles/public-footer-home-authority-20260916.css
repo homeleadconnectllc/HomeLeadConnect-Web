@@ -1,0 +1,81 @@
+.hlc-public-footer-home-authority{
+  box-sizing:border-box;
+  width:100%;
+  margin:0;
+  padding:46px 24px 42px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:14px;
+  background:linear-gradient(180deg,#041326 0%,#03111f 100%);
+  border-top:1px solid rgba(126,177,228,.16);
+  color:#8fa3ba;
+  text-align:center;
+  font-family:"Avenir Next","SF Pro Text","Segoe UI Variable Text","Segoe UI",Inter,ui-sans-serif,system-ui,sans-serif;
+}
+.hlc-public-footer-home-authority__brand{
+  display:block;
+  margin:0 0 10px;
+  text-decoration:none;
+}
+.hlc-public-footer-home-authority__brand img{
+  display:block;
+  width:clamp(132px,14vw,190px);
+  height:auto;
+  margin:0 auto;
+}
+.hlc-public-footer-home-authority>strong{
+  margin:10px 0 0;
+  color:#fff;
+  font-size:clamp(28px,3.2vw,42px);
+  font-weight:800;
+  line-height:1.1;
+  letter-spacing:-.025em;
+}
+.hlc-public-footer-home-authority>span{
+  color:#8fa3ba;
+  font-size:clamp(17px,2vw,27px);
+  line-height:1.35;
+  letter-spacing:.01em;
+}
+.hlc-public-footer-home-authority nav{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:center;
+  gap:10px 28px;
+  margin:8px 0 2px;
+}
+.hlc-public-footer-home-authority nav a{
+  color:#eef4fb;
+  font-size:clamp(16px,1.75vw,25px);
+  font-weight:800;
+  line-height:1.25;
+  text-decoration:none;
+  border-bottom:2px solid currentColor;
+  padding-bottom:2px;
+}
+.hlc-public-footer-home-authority nav a:focus-visible,
+.hlc-public-footer-home-authority__brand:focus-visible{
+  outline:3px solid #55c8ff;
+  outline-offset:4px;
+}
+.hlc-public-footer-home-authority>small{
+  margin-top:8px;
+  color:#6f849c;
+  font-size:clamp(16px,1.8vw,25px);
+  line-height:1.4;
+}
+@media(max-width:680px){
+  .hlc-public-footer-home-authority{
+    padding:38px 18px 34px;
+    gap:12px;
+  }
+  .hlc-public-footer-home-authority__brand img{width:136px}
+  .hlc-public-footer-home-authority>strong{font-size:28px}
+  .hlc-public-footer-home-authority>span{max-width:24ch;font-size:17px}
+  .hlc-public-footer-home-authority nav{gap:10px 18px}
+  .hlc-public-footer-home-authority nav a{font-size:16px}
+  .hlc-public-footer-home-authority>small{font-size:16px}
+}
