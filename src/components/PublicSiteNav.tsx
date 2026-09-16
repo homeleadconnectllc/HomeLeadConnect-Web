@@ -1,6 +1,8 @@
+import { ArrowRightCircle, BookOpen, Briefcase, Handshake, House, Info, LogIn, Users } from "lucide-react";
 import "../styles/public-site-nav.css";
 import "../styles/frontdoor-profile-protocol-20260913.css";
 import "../styles/public-header-logo-authority-20260915.css";
+import "../styles/public-nav-home-authority-20260916.css";
 
 const PUBLIC_ORIGIN = "https://homeleadconnect.org";
 const APP_ORIGIN = "https://app.homeleadconnect.org";
@@ -13,6 +15,9 @@ const links = [
   ["Community", "/community"],
   ["Resources", "/services"],
 ] as const;
+
+const menuIcons = [Info, House, Briefcase, Handshake, Users, BookOpen] as const;
+const menuTones = ["neutral", "resident", "professional", "partner", "community", "neutral"] as const;
 
 export default function PublicSiteNav() {
   return <nav className="hlc-public-site-nav" aria-label="Primary navigation">
@@ -29,9 +34,12 @@ export default function PublicSiteNav() {
         <details className="hlc-public-site-nav__menu">
           <summary>Menu</summary>
           <div className="hlc-public-site-nav__menu-panel">
-            {links.map(([label, path]) => <a key={path} href={`${PUBLIC_ORIGIN}${path}`}>{label}</a>)}
-            <a href={`${APP_ORIGIN}/login`}>Sign In</a>
-            <a href={`${APP_ORIGIN}/register`}>Get Started</a>
+            {links.map(([label, path], index) => {
+              const Icon = menuIcons[index];
+              return <a className={`hlc-public-site-nav__menu-item--${menuTones[index]}`} key={path} href={`${PUBLIC_ORIGIN}${path}`}><Icon size={18} strokeWidth={2.2} aria-hidden="true"/><span>{label}</span></a>;
+            })}
+            <a href={`${APP_ORIGIN}/login`}><LogIn size={18} strokeWidth={2.2} aria-hidden="true"/><span>Sign In</span></a>
+            <a className="hlc-public-site-nav__menu-item--start" href={`${APP_ORIGIN}/register`}><ArrowRightCircle size={18} strokeWidth={2.2} aria-hidden="true"/><span>Get Started</span></a>
           </div>
         </details>
       </div>
