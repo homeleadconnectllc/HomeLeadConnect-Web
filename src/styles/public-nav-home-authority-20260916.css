@@ -29,8 +29,11 @@ html body #root#root#root#root .hlc-auth-shell.hlc-auth-shell--flat {
   border-radius: 0 !important;
 }
 html body #root#root#root#root nav.hlc-public-site-nav.hlc-public-site-nav {
+  position: relative !important;
+  left: calc(50% - 50vw) !important;
   box-sizing: border-box !important;
-  width: 100% !important;
+  width: 100vw !important;
+  max-width: none !important;
   margin: 0 !important;
   padding: 0 !important;
   background: #03111f !important;
