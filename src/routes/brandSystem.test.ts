@@ -18,7 +18,8 @@ const serviceWorker = readFileSync("public/sw.js", "utf8");
 const transparentLogo = readFileSync("public/hlc-logo-transparent.png");
 
 const canonicalLogoPath = "/hlc-logo-transparent.png";
-const activeBrandSurfaces = [navbar, footer, htmlEntry, manifest, serviceWorker];
+const canonicalPublicMasterPath = "/brand/homelead-connect-master-transparent.png";
+const browserBrandSurfaces = [navbar, htmlEntry, manifest, serviceWorker];
 const forbiddenLegacyLogoReferences = [
   "/favicon.svg",
   "/hlc-icon.jpeg",
@@ -101,9 +102,10 @@ test("brand lock replaces green matching, agent, and success presentation with H
 });
 
 test("official HLC mark stays canonical across shared UI, browser, PWA, and notifications", () => {
-  for (const surface of activeBrandSurfaces) {
+  for (const surface of browserBrandSurfaces) {
     assert.match(surface, new RegExp(canonicalLogoPath.replaceAll(".", "\\.")));
   }
+  assert.match(footer, new RegExp(canonicalPublicMasterPath.replaceAll(".", "\\.")));
 
   assert.match(htmlEntry, /rel="icon"[^>]+type="image\/png"[^>]+href="\/hlc-logo-transparent\.png"/);
   assert.match(htmlEntry, /rel="apple-touch-icon"[^>]+href="\/hlc-logo-transparent\.png"/);
@@ -142,7 +144,7 @@ test("shared logo presentation removes white outer corners without altering the 
 });
 
 test("active HLC brand surfaces reject legacy and placeholder logo references", () => {
-  for (const surface of activeBrandSurfaces) {
+  for (const surface of [...browserBrandSurfaces, footer]) {
     for (const legacyReference of forbiddenLegacyLogoReferences) {
       assert.doesNotMatch(surface, new RegExp(legacyReference.replaceAll(".", "\\.")));
     }

@@ -36,8 +36,6 @@ export default function PublicSiteNav() {
         <a className="hlc-board-brand" href="/" aria-label="HomeLead Connect home">
           <img
             src="/brand/homelead-connect-master-transparent.png"
-            srcSet="/hlc-logo-ui.png 180w, /brand/homelead-connect-master-transparent.png 1254w"
-            sizes="(max-width: 680px) 56px, 64px"
             alt="HomeLead Connect LLC"
             width={1254}
             height={1254}

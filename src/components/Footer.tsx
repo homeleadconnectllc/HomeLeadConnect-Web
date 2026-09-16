@@ -5,14 +5,13 @@ const legalLinkStyle = {
   fontWeight: 600,
 } as const;
 
+// Logo-count authority: this component renders exactly one visible footer logo.
 export default function Footer() {
   return (
     <footer className="hlc-public-footer hlc-board-footer hlc-public-footer-home-authority">
       <a className="hlc-public-footer-home-authority__brand" href="/" aria-label="HomeLead Connect home">
         <img
-          src="/hlc-logo-transparent.png"
-          srcSet="/hlc-logo-ui.png 180w, /hlc-logo-transparent.png 1254w"
-          sizes="(max-width: 680px) 136px, 190px"
+          src="/brand/homelead-connect-master-transparent.png"
           alt="HomeLead Connect LLC"
           width={1254}
           height={1254}

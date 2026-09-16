@@ -42,6 +42,21 @@ const viewports = [
 const outputDir = path.resolve("artifacts/authenticated-visual-proof");
 fs.mkdirSync(outputDir, { recursive: true });
 
+async function assertExactlyTwoVisibleLogos(page, label) {
+  const logoCount = await page.locator('img[alt="HomeLead Connect LLC"]').evaluateAll((nodes) => nodes.filter((node) => {
+    const style = window.getComputedStyle(node);
+    const rect = node.getBoundingClientRect();
+    return style.display !== "none"
+      && style.visibility !== "hidden"
+      && Number(style.opacity || "1") > 0
+      && rect.width > 0
+      && rect.height > 0;
+  }).length);
+  if (logoCount !== 2) {
+    throw new Error(`${label} expected exactly 2 visible HomeLead Connect logos but rendered ${logoCount}.`);
+  }
+}
+
 const tokenResponse = await fetch(`${supabaseUrl}/auth/v1/token?grant_type=password`, {
   method: "POST",
   headers: { apikey: supabaseAnonKey, "Content-Type": "application/json" },
@@ -85,6 +100,9 @@ try {
   await deepLinkPage.getByRole("button", { name: "Sign in to HomeLead Connect" }).click();
   await deepLinkPage.waitForURL((url) => url.pathname === "/hq/approvals", { timeout: 20_000 });
   await deepLinkPage.waitForLoadState("networkidle");
+  await deepLinkPage.waitForSelector('.hlc-navbar-brand img[alt="HomeLead Connect LLC"]', { state: "visible", timeout: 20_000 });
+  await deepLinkPage.waitForTimeout(1200);
+  await assertExactlyTwoVisibleLogos(deepLinkPage, "Protected deep-link after sign-in mobile");
   await deepLinkPage.screenshot({ path: path.join(outputDir, "protected-deep-link-after-sign-in-mobile.png"), fullPage: true });
   await deepLinkContext.close();
 
@@ -100,6 +118,7 @@ try {
       if (mustRenderAuthorizedWorkspace.has(route) && currentPath !== route) {
         throw new Error(`Authenticated visual proof expected ${route} but rendered ${currentPath}.`);
       }
+      await assertExactlyTwoVisibleLogos(page, `${route} ${viewportName}`);
       await page.screenshot({ path: path.join(outputDir, `${slug}-${viewportName}.png`), fullPage: true });
     }
 
