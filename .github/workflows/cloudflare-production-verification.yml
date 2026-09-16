@@ -32,7 +32,7 @@ jobs:
           set -euo pipefail
           cat > /tmp/four-pathways.sha256 <<'EOF'
           8dae49e7a875aa12523f4fe7eaaff9fda49c3ff5438472e2e22e51d060d7e09b  public/four-pathways-residents-hq-20260915.jpg
-          4df6446e022a42f720b7ff90da6af8148d17787bf13f5adf2eb71ea8aa82cd46  public/four-pathways-professionals-hq-20260915.jpg
+          1622254895e6e9c598befdda73a6671c304ce016811a4d70db89eb6553a00415  public/four-pathways-professionals-hq-20260915.jpg
           bb1514ec33d6ac4091ad7d8cdc548b294bd14cf54e8ba787c3f127ba06683c1a  public/four-pathways-partners-hq-20260915.jpg
           75b1f369f5dea143dc6e53885cfd62884851e00e3ad6090c9ac50832bd6cea73  public/four-pathways-community-hq-20260915.jpg
           EOF
@@ -85,11 +85,6 @@ jobs:
           entry_css_file="dist/${ENTRY_CSS#/}"
           css_file=""
 
-          # The public front door is rendered from the CSS linked directly by
-          # dist/index.html. Prefer that exact entry asset when it contains the
-          # Four Pathways authority. Other lazy CSS chunks may legitimately
-          # repeat the same image markers without becoming the deployed public
-          # front-door authority.
           if [ -f "$entry_css_file" ] && has_all_markers "$entry_css_file"; then
             css_file="$entry_css_file"
             echo "Four Pathways authority resolved from exact entry CSS: $ENTRY_CSS"
@@ -258,7 +253,7 @@ jobs:
           set -euo pipefail
           assets=(
             'four-pathways-residents-hq-20260915.jpg|8dae49e7a875aa12523f4fe7eaaff9fda49c3ff5438472e2e22e51d060d7e09b'
-            'four-pathways-professionals-hq-20260915.jpg|4df6446e022a42f720b7ff90da6af8148d17787bf13f5adf2eb71ea8aa82cd46'
+            'four-pathways-professionals-hq-20260915.jpg|1622254895e6e9c598befdda73a6671c304ce016811a4d70db89eb6553a00415'
             'four-pathways-partners-hq-20260915.jpg|bb1514ec33d6ac4091ad7d8cdc548b294bd14cf54e8ba787c3f127ba06683c1a'
             'four-pathways-community-hq-20260915.jpg|75b1f369f5dea143dc6e53885cfd62884851e00e3ad6090c9ac50832bd6cea73'
           )
