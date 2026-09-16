@@ -84,19 +84,26 @@ try {
           if (await summary.count()) {
             await summary.click();
             assert.equal(await summary.evaluate(element => element.parentElement.open), true, 'Menu did not open on click');
-            const panel = header.locator('.hlc-public-site-nav__menu-panel, .hlc-mobile-nav-v2__panel');
-            const panelState = await panel.evaluate(element => {
-              const style = getComputedStyle(element);
-              const box = element.getBoundingClientRect();
-              return { display: style.display, visibility: style.visibility, opacity: style.opacity, width: box.width, height: box.height };
+            const menuState = await summary.evaluate(element => {
+              const details = element.parentElement;
+              const panel = details.querySelector('nav');
+              if (!panel) return null;
+              const style = getComputedStyle(panel);
+              const box = panel.getBoundingClientRect();
+              const links = [...panel.querySelectorAll('a')].map(link => {
+                const linkStyle = getComputedStyle(link);
+                const linkBox = link.getBoundingClientRect();
+                return { label: link.textContent.trim(), path: new URL(link.href).pathname, box: linkBox.toJSON(), display: linkStyle.display, visibility: linkStyle.visibility };
+              });
+              return { panel: { display: style.display, visibility: style.visibility, opacity: style.opacity, width: box.width, height: box.height }, links };
             });
-            assert.notEqual(panelState.display, 'none', 'Menu panel is display:none after opening');
-            assert.notEqual(panelState.visibility, 'hidden', 'Menu panel is hidden after opening');
-            assert.ok(panelState.width > 0 && panelState.height > 0, 'Menu panel has no rendered geometry after opening');
-            const links = await panel.locator('a').evaluateAll(elements => elements.map(element => ({ label: element.textContent.trim(), path: new URL(element.href).pathname, box: element.getBoundingClientRect().toJSON(), display: getComputedStyle(element).display, visibility: getComputedStyle(element).visibility })));
-            result.menuLinks = links;
-            for (const destination of expectedPaths) check(() => assert.ok(links.some(link => link.path === destination), `Missing menu destination ${destination}`));
-            check(() => assert.ok(links.every(link => link.display !== 'none' && link.visibility !== 'hidden' && link.box.width > 0 && link.box.height >= 40), 'Menu links are not rendered usable touch targets'));
+            assert.ok(menuState, 'Menu panel is missing after opening');
+            assert.notEqual(menuState.panel.display, 'none', 'Menu panel is display:none after opening');
+            assert.notEqual(menuState.panel.visibility, 'hidden', 'Menu panel is hidden after opening');
+            assert.ok(menuState.panel.width > 0 && menuState.panel.height > 0, 'Menu panel has no rendered geometry after opening');
+            result.menuLinks = menuState.links;
+            for (const destination of expectedPaths) check(() => assert.ok(menuState.links.some(link => link.path === destination), `Missing menu destination ${destination}`));
+            check(() => assert.ok(menuState.links.every(link => link.display !== 'none' && link.visibility !== 'hidden' && link.box.width > 0 && link.box.height >= 40), 'Menu links are not rendered usable touch targets'));
             await page.screenshot({ path: `${directory}/${name}-open.png` });
             await summary.click();
             assert.equal(await summary.evaluate(element => element.parentElement.open), false, 'Menu did not close on click');
