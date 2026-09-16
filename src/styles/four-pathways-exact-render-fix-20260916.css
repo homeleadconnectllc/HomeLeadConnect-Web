@@ -1,0 +1,95 @@
+/* Final exact-render repair for the Four Pathways sprint.
+   Extra specificity is intentional: legacy public-shell rules use repeated
+   root selectors and load after route CSS. Scope is limited to pathway pages. */
+html body #root#root#root#root#root#root#root#root .hlc-route-content:has(> .hlc-pathway-page) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: radial-gradient(circle at 88% 8%,var(--pathway-accent-soft),transparent 30%),linear-gradient(180deg,#081225 0%,#09152a 45%,#071120 100%) !important;
+  color: #f7fafc !important;
+}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero {
+  width: min(1360px,calc(100% - 56px)) !important;
+  max-width: none !important;
+  margin-inline: auto !important;
+  background: #fff !important;
+  color: #10233b !important;
+}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-copy {
+  background: #fff !important;
+  color: #10233b !important;
+  opacity: 1 !important;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+  isolation: isolate !important;
+}
+/* Human screenshot inspection is part of promotion authority. Reset legacy
+   presentation effects on both the hero-copy container and its direct children
+   so declared contrast colors render at full opacity on every pathway. */
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-copy > * {
+  opacity: 1 !important;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero h1 {
+  color: #10233b !important;
+  -webkit-text-fill-color: #10233b !important;
+  opacity: 1 !important;
+  filter: none !important;
+  background: none !important;
+  -webkit-background-clip: border-box !important;
+  background-clip: border-box !important;
+}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-eyebrow {
+  color: color-mix(in srgb,var(--pathway-accent) 58%,#071120) !important;
+  -webkit-text-fill-color: color-mix(in srgb,var(--pathway-accent) 58%,#071120) !important;
+}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-lead,
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-copy > small {
+  color: #52677f !important;
+  -webkit-text-fill-color: #52677f !important;
+}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-primary {
+  background: var(--pathway-accent) !important;
+  border-color: var(--pathway-accent) !important;
+  color: #06111f !important;
+  -webkit-text-fill-color: #06111f !important;
+}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-secondary {
+  background: #fff !important;
+  border-color: #b7c7d8 !important;
+  color: #183451 !important;
+  -webkit-text-fill-color: #183451 !important;
+}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-section {
+  background: transparent !important;
+  color: #f7fafc !important;
+}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-card {
+  background: linear-gradient(145deg,var(--pathway-raised),var(--pathway-panel)) !important;
+  color: #fff !important;
+}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-card h3,
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-section-heading h2,
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-final h2,
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-reassurance h2 {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-card p,
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-section-heading > span,
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-reassurance p {
+  color: #b8c4d6 !important;
+  -webkit-text-fill-color: #b8c4d6 !important;
+}
+@media (max-width:680px) {
+  html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero { width: 100% !important; }
+}
