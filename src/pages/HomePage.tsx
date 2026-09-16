@@ -7,6 +7,7 @@ import "../styles/frontdoor-profile-protocol-20260913.css";
 import "../styles/public-header-logo-authority-20260915.css";
 import "../styles/public-home-centered-copy-authority-20260915.css";
 import "../styles/public-home-mobile-nav-v2-20260915.css";
+import "../styles/public-home-hero-authority-20260916.css";
 
 /* Canonical SPA destinations retained for the public parser/audit contract: to="/request-service" to="/app" to="/community". */
 const pathways = [
