@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 import { pageImage } from "../../config/publicPageImagery";
+import PublicSiteNav from "../PublicSiteNav";
 import "../../styles/public-auth-visual-closure-20260912.css";
 import "../../styles/public-header-logo-authority-20260915.css";
 
@@ -43,22 +44,7 @@ export default function AuthShell({
         @media(max-width:800px){ html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-main { grid-template-columns:1fr !important; width:min(760px,calc(100vw - 32px)) !important; max-width:760px !important; min-height:auto !important; padding:44px 0 40px !important; gap:24px !important; } html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card { grid-column:1 !important; grid-row:1 !important; max-width:520px !important; justify-self:center !important; align-self:start !important; } }
         @media(max-width:720px){ html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat { min-height:100vh !important; padding:0 0 24px !important; } html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-main { display:block !important; width:calc(100vw - 24px) !important; max-width:none !important; min-height:auto !important; margin:0 auto !important; padding:24px 0 0 !important; } html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro { display:grid !important; margin:0 0 12px!important; } html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-intro > :not(.hlc-auth-intro-visual) { display:none!important; } html body #root .hlc-app-shell.hlc-public-shell.hlc-auth-shell--flat > .hlc-auth-public-nav .hlc-auth-public-links a:not(.hlc-auth-public-request) { display:none !important; } html body #root .hlc-app-shell.hlc-public-shell.hlc-auth-shell--flat > .hlc-auth-public-nav .hlc-auth-public-links .hlc-auth-public-request { display:inline-flex !important; min-height:40px !important; margin-left:0 !important; padding-inline:13px !important; } html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat .hlc-auth-card { display:grid !important; width:100% !important; max-width:none !important; padding:24px 18px !important; border-radius:18px !important; } html body #root .hlc-app-shell.hlc-public-shell.hlc-page-login .hlc-auth-shell.hlc-auth-shell--flat > .hlc-auth-public-nav .hlc-auth-public-brand img { width:56px !important; height:56px !important; max-height:56px !important; } }
       `}</style>
-      <nav className="hlc-auth-public-nav" aria-label="Public site navigation">
-        <div className="hlc-auth-public-nav-inner">
-          <a className="hlc-auth-public-brand" href="https://homeleadconnect.org/" aria-label="HomeLead Connect home">
-            <img src="/brand/homelead-connect-master-transparent.png" srcSet="/hlc-logo-ui.png 180w, /brand/homelead-connect-master-transparent.png 1254w" sizes="(max-width: 680px) 56px, 64px" alt="HomeLead Connect" width="1254" height="1254" />
-          </a>
-          <div className="hlc-auth-public-links">
-            <a href="https://residents.homeleadconnect.org/">Residents</a>
-            <a href="https://professionals.homeleadconnect.org/">Professionals</a>
-            <a href="https://partners.homeleadconnect.org/">Partners</a>
-            <a href="https://platform.homeleadconnect.org/">Platform</a>
-            <a href="https://about.homeleadconnect.org/">About</a>
-            <a href="https://contact.homeleadconnect.org/">Contact</a>
-            <a className="hlc-auth-public-request" href="https://app.homeleadconnect.org/request-service">Request Service</a>
-          </div>
-        </div>
-      </nav>
+      <PublicSiteNav />
 
       <div className="hlc-auth-main">
         <section className="hlc-auth-intro" aria-label="HomeLead Connect account overview">
@@ -84,6 +70,15 @@ export default function AuthShell({
           {footer && <footer className="hlc-auth-card-footer">{footer}</footer>}
         </section>
       </div>
+      <nav aria-label="Account service and audience links" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "16px", padding: "24px 16px" }}>
+        <a href="https://residents.homeleadconnect.org/">Residents</a>
+        <a href="https://professionals.homeleadconnect.org/">Professionals</a>
+        <a href="https://partners.homeleadconnect.org/">Partners</a>
+        <a href="https://platform.homeleadconnect.org/">Platform</a>
+        <a href="https://about.homeleadconnect.org/">About</a>
+        <a href="https://contact.homeleadconnect.org/">Contact</a>
+        <a href="https://app.homeleadconnect.org/request-service">Request Service</a>
+      </nav>
     </main>
   );
 }

@@ -11,6 +11,7 @@ const authenticatedEntry = readFileSync("src/styles/authenticated-entry.ts", "ut
 const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
 const footer = readFileSync("src/components/Footer.tsx", "utf8");
 const authShell = readFileSync("src/components/auth/AuthShell.tsx", "utf8");
+const publicSiteNav = readFileSync("src/components/PublicSiteNav.tsx", "utf8");
 const htmlEntry = readFileSync("index.html", "utf8");
 const manifest = readFileSync("public/manifest.webmanifest", "utf8");
 const serviceWorker = readFileSync("public/sw.js", "utf8");
@@ -110,7 +111,8 @@ test("official HLC mark stays canonical across shared UI, browser, PWA, and noti
   assert.match(manifest, /"type"\s*:\s*"image\/png"/);
   assert.match(serviceWorker, /icon:\s*"\/hlc-logo-transparent\.png"/);
   assert.match(serviceWorker, /badge:\s*"\/hlc-logo-transparent\.png"/);
-  assert.match(authShell, /src="\/brand\/homelead-connect-master-transparent\.png"/);
+  assert.match(authShell, /<PublicSiteNav\s*\/>/);
+  assert.match(publicSiteNav, /src="\/brand\/homelead-connect-master-transparent\.png"/);
 });
 
 test("canonical HLC logo asset is the locked 1254px RGBA master derivative with transparent outer corners", () => {

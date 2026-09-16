@@ -1,7 +1,7 @@
 /* Public-page header inherits the approved homepage geometry and mobile menu.
    Scoped authority prevents legacy page/link/details rules from restyling controls.
    Destination URLs and native details/summary behavior are unchanged. */
-html body #root .hlc-public-site-nav {
+html body #root nav.hlc-public-site-nav.hlc-public-site-nav {
   box-sizing: border-box !important;
   width: 100% !important;
   margin: 0 !important;

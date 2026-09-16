@@ -16,6 +16,16 @@ const nonHomeVisualAuthorities = [
   "src/styles/version-a-portal-imagery-authority-20260904.css",
 ];
 
+test("account access uses the shared public header and preserves existing service destinations", () => {
+  const source = readFileSync(join(projectRoot, "src/components/auth/AuthShell.tsx"), "utf8");
+  assert.match(source, /<PublicSiteNav\s*\/>/);
+  assert.doesNotMatch(source, /<nav className="hlc-auth-public-nav"/);
+  for (const destination of ["residents", "professionals", "partners", "platform", "about", "contact"]) {
+    assert.ok(source.includes(`https://${destination}.homeleadconnect.org/`), `Missing existing ${destination} destination`);
+  }
+  assert.ok(source.includes("https://app.homeleadconnect.org/request-service"));
+});
+
 test("every registered page photograph has a unique file, hash, and descriptive Black-centered alt", () => {
   const entries = Object.entries(publicPageImagery);
   const sources = entries.map(([, image]) => image.src);
