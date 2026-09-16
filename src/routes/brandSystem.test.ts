@@ -18,7 +18,6 @@ const serviceWorker = readFileSync("public/sw.js", "utf8");
 const transparentLogo = readFileSync("public/hlc-logo-transparent.png");
 
 const canonicalLogoPath = "/hlc-logo-transparent.png";
-const canonicalPublicMasterPath = "/brand/homelead-connect-master-transparent.png";
 const browserBrandSurfaces = [navbar, htmlEntry, manifest, serviceWorker];
 const forbiddenLegacyLogoReferences = [
   "/favicon.svg",
@@ -105,7 +104,6 @@ test("official HLC mark stays canonical across shared UI, browser, PWA, and noti
   for (const surface of browserBrandSurfaces) {
     assert.match(surface, new RegExp(canonicalLogoPath.replaceAll(".", "\\.")));
   }
-  assert.match(footer, new RegExp(canonicalPublicMasterPath.replaceAll(".", "\\.")));
 
   assert.match(htmlEntry, /rel="icon"[^>]+type="image\/png"[^>]+href="\/hlc-logo-transparent\.png"/);
   assert.match(htmlEntry, /rel="apple-touch-icon"[^>]+href="\/hlc-logo-transparent\.png"/);
@@ -115,6 +113,7 @@ test("official HLC mark stays canonical across shared UI, browser, PWA, and noti
   assert.match(serviceWorker, /badge:\s*"\/hlc-logo-transparent\.png"/);
   assert.match(authShell, /<PublicSiteNav\s*\/>/);
   assert.match(publicSiteNav, /src="\/brand\/homelead-connect-master-transparent\.png"/);
+  assert.doesNotMatch(footer, /<img\b/);
 });
 
 test("canonical HLC logo asset is the locked 1254px RGBA master derivative with transparent outer corners", () => {
