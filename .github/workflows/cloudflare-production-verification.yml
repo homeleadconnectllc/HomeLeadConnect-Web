@@ -85,6 +85,11 @@ jobs:
           entry_css_file="dist/${ENTRY_CSS#/}"
           css_file=""
 
+          # The public front door is rendered from the CSS linked directly by
+          # dist/index.html. Prefer that exact entry asset when it contains the
+          # Four Pathways authority. Other lazy CSS chunks may legitimately
+          # repeat the same image markers without becoming the deployed public
+          # front-door authority.
           if [ -f "$entry_css_file" ] && has_all_markers "$entry_css_file"; then
             css_file="$entry_css_file"
             echo "Four Pathways authority resolved from exact entry CSS: $ENTRY_CSS"
