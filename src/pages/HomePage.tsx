@@ -1,5 +1,4 @@
 import { ArrowRightCircle, BookOpen, Briefcase, Handshake, House, Info, LogIn, Users } from "lucide-react";
-import Footer from "../components/Footer";
 import "../styles/v2-board-frontdoor-20260912.css";
 import "../styles/v2-board-frontdoor-performance-20260912.css";
 import "../styles/v2-board-rest-polish-20260912.css";
@@ -9,6 +8,7 @@ import "../styles/public-header-logo-authority-20260915.css";
 import "../styles/public-home-centered-copy-authority-20260915.css";
 import "../styles/public-home-mobile-nav-v2-20260915.css";
 import "../styles/public-home-hero-authority-20260916.css";
+import "../styles/public-footer-home-authority-20260916.css";
 
 /* Canonical SPA destinations retained for the public parser/audit contract: to="/request-service" to="/app" to="/community". */
 const pathways = [
@@ -128,7 +128,27 @@ export default function HomePage() {
         </div>
       </section>
 
-      <Footer />
+      <footer className="hlc-board-footer hlc-public-footer-home-authority">
+        <a className="hlc-public-footer-home-authority__brand" href="/" aria-label="HomeLead Connect home">
+          <img
+            src="/hlc-logo-transparent.png"
+            srcSet="/hlc-logo-ui.png 180w, /hlc-logo-transparent.png 1254w"
+            sizes="(max-width: 680px) 136px, 190px"
+            alt="HomeLead Connect LLC"
+            width={1254}
+            height={1254}
+          />
+        </a>
+        <strong>HomeLead Connect</strong>
+        <span>Connecting Homes. Creating Opportunities.</span>
+        <nav aria-label="Legal and accessibility">
+          <a href="/privacy">Privacy</a>
+          <a href="/terms">Terms</a>
+          <a href="/accessibility">Accessibility</a>
+          <a href="/platform-disclosure">Platform disclosure</a>
+        </nav>
+        <small>© {new Date().getFullYear()} HomeLead Connect LLC</small>
+      </footer>
     </main>
   );
 }
