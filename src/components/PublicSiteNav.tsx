@@ -8,6 +8,7 @@ import "../styles/public-header-logo-authority-20260915.css";
 import "../styles/public-home-centered-copy-authority-20260915.css";
 import "../styles/public-home-mobile-nav-v2-20260915.css";
 import "../styles/public-nav-home-authority-20260916.css";
+import "../styles/public-nav-visual-completion-20260916.css";
 
 const navLinks = [
   ["About", "/about"],
@@ -37,7 +38,7 @@ export default function PublicSiteNav() {
           <img
             src="/brand/homelead-connect-master-transparent.png"
             srcSet="/hlc-logo-ui.png 180w, /brand/homelead-connect-master-transparent.png 1254w"
-            sizes="(max-width: 680px) 56px, 64px"
+            sizes="(max-width: 680px) 52px, 64px"
             alt="HomeLead Connect LLC"
             width={1254}
             height={1254}
