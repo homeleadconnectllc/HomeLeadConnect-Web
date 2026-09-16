@@ -93,6 +93,7 @@ export default function AppLayout() {
   const publicFrontDoorSurface = PUBLIC_FRONT_DOOR_PATHS.has(location.pathname);
   const focusedPublicIntake = location.pathname === "/request-service";
   const authFrontDoorSurface = ["/login", "/register", "/forgot-password", "/reset-password"].includes(location.pathname);
+  const homepageSurface = location.pathname === "/";
   const signedInWorkspaceShell = Boolean(session) && !focusedPublicIntake && !publicFrontDoorSurface && !authFrontDoorSurface;
   const showAudioDevices = signedInWorkspaceShell && (location.pathname === "/settings" || location.pathname === "/call-center");
   const showFieldDevices = signedInWorkspaceShell && location.pathname === "/settings";
@@ -202,7 +203,7 @@ export default function AppLayout() {
           {showFieldDevices && <FieldDeviceCenter />}
         </Suspense>
       </div>
-      {((!session || focusedPublicIntake) || publicFrontDoorSurface || authFrontDoorSurface) && <Footer />}
+      {!homepageSurface && (((!session || focusedPublicIntake) || publicFrontDoorSurface || authFrontDoorSurface) && <Footer />)}
       <Suspense fallback={null}>
         {signedInWorkspaceShell && <WorkspaceGuidance />}
         {signedInWorkspaceShell && <UniversalAITeamLauncher />}
