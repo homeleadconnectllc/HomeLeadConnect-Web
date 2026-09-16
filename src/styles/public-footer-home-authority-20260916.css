@@ -15,39 +15,41 @@
   font-family:"Avenir Next","SF Pro Text","Segoe UI Variable Text","Segoe UI",Inter,ui-sans-serif,system-ui,sans-serif;
 }
 .hlc-public-footer-home-authority::before{
-  content:""!important;
-  display:block!important;
+  content:none!important;
+  display:none!important;
+  background:none!important;
+}
+.hlc-public-footer-home-authority__brand{
   position:static!important;
+  display:flex!important;
   order:-1!important;
   flex:0 0 auto!important;
   width:126px!important;
   height:126px!important;
-  min-width:126px!important;
-  min-height:126px!important;
   margin:0 0 8px!important;
+  padding:0!important;
+  overflow:hidden!important;
+  clip:auto!important;
+  white-space:normal!important;
+  border:0!important;
+  border-radius:50%!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+.hlc-public-footer-home-authority__brand img{
+  display:block!important;
+  width:126px!important;
+  height:126px!important;
+  max-width:126px!important;
+  max-height:126px!important;
+  object-fit:contain!important;
   border:0!important;
   border-radius:50%!important;
   clip-path:circle(49% at 50% 50%)!important;
-  background-color:transparent!important;
-  background-image:url('/brand/homelead-connect-master-transparent.png')!important;
-  background-position:center!important;
-  background-repeat:no-repeat!important;
-  background-size:104% 104%!important;
+  background:transparent!important;
   box-shadow:none!important;
   transform:none!important;
 }
-.hlc-public-footer-home-authority__brand{
-  position:absolute!important;
-  width:1px!important;
-  height:1px!important;
-  margin:-1px!important;
-  padding:0!important;
-  overflow:hidden!important;
-  clip:rect(0 0 0 0)!important;
-  white-space:nowrap!important;
-  border:0!important;
-}
-.hlc-public-footer-home-authority__brand img{display:block!important;width:1px!important;height:1px!important}
 .hlc-public-footer-home-authority>strong{
   margin:4px 0 0!important;
   color:#fff!important;
@@ -104,14 +106,25 @@ html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority{
   text-align:center!important;
 }
 html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority::before{
+  content:none!important;
+  display:none!important;
+  background:none!important;
+}
+html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority__brand{
+  display:flex!important;
   width:126px!important;
   height:126px!important;
-  min-width:126px!important;
-  min-height:126px!important;
   margin:0 0 8px!important;
+}
+html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority__brand img{
+  display:block!important;
+  width:126px!important;
+  height:126px!important;
+  max-width:126px!important;
+  max-height:126px!important;
   border-radius:50%!important;
   clip-path:circle(49% at 50% 50%)!important;
-  background:url('/brand/homelead-connect-master-transparent.png') center/104% 104% no-repeat!important;
+  object-fit:contain!important;
 }
 html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority>strong{font-size:34px!important;line-height:1.08!important}
 html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority>span{font-size:19px!important;line-height:1.35!important}
@@ -124,13 +137,18 @@ html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority>sma
     padding:34px 18px 30px!important;
     gap:10px!important;
   }
-  .hlc-public-footer-home-authority::before,
-  html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority::before{
+  .hlc-public-footer-home-authority__brand,
+  html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority__brand{
     width:104px!important;
     height:104px!important;
-    min-width:104px!important;
-    min-height:104px!important;
     margin-bottom:6px!important;
+  }
+  .hlc-public-footer-home-authority__brand img,
+  html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority__brand img{
+    width:104px!important;
+    height:104px!important;
+    max-width:104px!important;
+    max-height:104px!important;
   }
   .hlc-public-footer-home-authority>strong,
   html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority>strong{font-size:27px!important}
