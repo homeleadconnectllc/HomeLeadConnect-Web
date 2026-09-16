@@ -14,24 +14,50 @@ html body #root#root#root#root#root#root#root#root .hlc-route-content:has(> .hlc
   padding: 0 !important;
   overflow: visible !important;
 }
+
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page {
   width: 100% !important;
   max-width: none !important;
   margin: 0 !important;
   padding: 0 !important;
-  background: radial-gradient(circle at 88% 8%,var(--pathway-accent-soft),transparent 30%),linear-gradient(180deg,#081225 0%,#09152a 45%,#071120 100%) !important;
+  background:
+    radial-gradient(circle at 88% 8%,var(--pathway-accent-soft),transparent 30%),
+    linear-gradient(180deg,#081225 0%,#09152a 45%,#071120 100%) !important;
   color: #f7fafc !important;
 }
-html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero {
-  width: min(1360px,calc(100% - 56px)) !important;
-  max-width: none !important;
-  margin-inline: auto !important;
-  background: #fff !important;
-  color: #10233b !important;
+
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page[data-pathway="residents"] {
+  --pathway-accent:#45a9ff;
+  --pathway-accent-soft:rgba(69,169,255,.15);
 }
+
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page[data-pathway="professionals"] {
+  --pathway-accent:#45e0ad;
+  --pathway-accent-soft:rgba(69,224,173,.15);
+}
+
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero {
+  width: 100% !important;
+  max-width: none !important;
+  min-height: clamp(620px,76vh,820px) !important;
+  margin: 0 !important;
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: minmax(0,1.05fr) minmax(420px,.95fr) !important;
+  align-items: stretch !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  overflow: hidden !important;
+}
+
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-copy {
-  background: #fff !important;
-  color: #10233b !important;
+  position: relative !important;
+  z-index: 3 !important;
+  padding: clamp(72px,8vw,124px) clamp(28px,7vw,112px) !important;
+  background:
+    linear-gradient(90deg,#081225 0%,rgba(8,18,37,.96) 58%,rgba(8,18,37,.58) 100%) !important;
+  color: #f7fafc !important;
   opacity: 1 !important;
   filter: none !important;
   mix-blend-mode: normal !important;
@@ -40,58 +66,61 @@ html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathwa
   transition: none !important;
   visibility: visible !important;
 }
-/* Human screenshot inspection is part of promotion authority. Keep hero copy at
-   its final readable state from first paint; capture timing must not expose a
-   legacy fade/transition state with near-invisible text. */
+
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-copy > * {
   opacity: 1 !important;
   filter: none !important;
-  mix-blend-mode: normal !important;
   animation: none !important;
   transition: none !important;
   visibility: visible !important;
 }
+
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero h1 {
-  color: #10233b !important;
-  -webkit-text-fill-color: #10233b !important;
-  opacity: 1 !important;
-  filter: none !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
   background: none !important;
   -webkit-background-clip: border-box !important;
   background-clip: border-box !important;
-  animation: none !important;
-  transition: none !important;
-  visibility: visible !important;
 }
+
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-eyebrow {
-  color: color-mix(in srgb,var(--pathway-accent) 58%,#071120) !important;
-  -webkit-text-fill-color: color-mix(in srgb,var(--pathway-accent) 58%,#071120) !important;
+  color: var(--pathway-accent) !important;
+  -webkit-text-fill-color: var(--pathway-accent) !important;
 }
+
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-lead,
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-copy > small {
-  color: #52677f !important;
-  -webkit-text-fill-color: #52677f !important;
+  color: #b8c4d6 !important;
+  -webkit-text-fill-color: #b8c4d6 !important;
 }
-html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-primary {
-  background: var(--pathway-accent) !important;
-  border-color: var(--pathway-accent) !important;
-  color: #06111f !important;
-  -webkit-text-fill-color: #06111f !important;
+
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-visual {
+  min-height: inherit !important;
+  border: 0 !important;
+  border-radius: 0 !important;
 }
-html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-secondary {
-  background: #fff !important;
-  border-color: #b7c7d8 !important;
-  color: #183451 !important;
-  -webkit-text-fill-color: #183451 !important;
+
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-visual:after {
+  background:
+    linear-gradient(90deg,rgba(8,18,37,.72) 0%,rgba(8,18,37,.12) 42%,transparent 68%),
+    linear-gradient(180deg,transparent 58%,rgba(4,11,23,.64)) !important;
 }
+
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-section {
   background: transparent !important;
   color: #f7fafc !important;
 }
+
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-card {
-  background: linear-gradient(145deg,var(--pathway-raised),var(--pathway-panel)) !important;
+  padding: 30px 0 !important;
+  border: 0 !important;
+  border-top: 1px solid color-mix(in srgb,var(--pathway-accent) 38%,rgba(255,255,255,.08)) !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
   color: #fff !important;
 }
+
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-card h3,
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-section-heading h2,
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-final h2,
@@ -99,13 +128,33 @@ html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathwa
   color: #fff !important;
   -webkit-text-fill-color: #fff !important;
 }
+
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-card p,
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-section-heading > span,
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-reassurance p {
   color: #b8c4d6 !important;
   -webkit-text-fill-color: #b8c4d6 !important;
 }
+
+@media (max-width:900px) {
+  html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero {
+    grid-template-columns: 1fr !important;
+  }
+
+  html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-copy {
+    padding: 64px 28px 52px !important;
+    background: linear-gradient(180deg,#081225 0%,rgba(8,18,37,.94) 100%) !important;
+  }
+
+  html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-visual {
+    min-height: 430px !important;
+  }
+}
+
 @media (max-width:680px) {
-  html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero { width: 100% !important; }
+  html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero {
+    width: 100% !important;
+    min-height: 0 !important;
+  }
 }
 }
