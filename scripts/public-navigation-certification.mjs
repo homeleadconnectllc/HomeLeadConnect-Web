@@ -104,6 +104,7 @@ try {
             result.menuLinks = menuState.links;
             for (const destination of expectedPaths) check(() => assert.ok(menuState.links.some(link => link.path === destination), `Missing menu destination ${destination}`));
             check(() => assert.ok(menuState.links.every(link => link.display !== 'none' && link.visibility !== 'hidden' && link.box.width > 0 && link.box.height >= 40), 'Menu links are not rendered usable touch targets'));
+            const restingFocusBackground = await header.locator('.hlc-mobile-nav-v2__panel a').first().evaluate(element => getComputedStyle(element).backgroundColor);
             await page.screenshot({ path: `${directory}/${name}-open.png` });
             await summary.click();
             assert.equal(await summary.evaluate(element => element.parentElement.open), false, 'Menu did not close on click');
@@ -111,8 +112,11 @@ try {
             assert.equal(await summary.evaluate(element => element.parentElement.open), true, 'Enter did not open Menu');
             await summary.press('Tab');
             assert.equal(await page.evaluate(() => document.activeElement?.tagName), 'A', 'Tab did not reach a menu link');
-            result.focus = await page.evaluate(() => ({ label: document.activeElement?.textContent.trim(), outline: getComputedStyle(document.activeElement).outlineStyle }));
-            check(() => assert.notEqual(result.focus.outline, 'none', 'Focused menu link has no outline'));
+            result.focus = await page.evaluate(() => {
+              const style = getComputedStyle(document.activeElement);
+              return { label: document.activeElement?.textContent.trim(), outline: style.outlineStyle, boxShadow: style.boxShadow, background: style.backgroundColor };
+            });
+            check(() => assert.ok(result.focus.outline !== 'none' || result.focus.boxShadow !== 'none' || result.focus.background !== restingFocusBackground, 'Focused menu link has no visible focus indicator'));
             await summary.focus();
             await summary.press('Space');
             assert.equal(await summary.evaluate(element => element.parentElement.open), false, 'Space did not close Menu');
