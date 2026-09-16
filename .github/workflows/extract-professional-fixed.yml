@@ -1,0 +1,88 @@
+name: Extract authoritative Professional pathway image
+
+on:
+  push:
+    branches:
+      - fix/professional-eyes-root-repair-20260915
+
+permissions:
+  contents: write
+
+jobs:
+  extract-and-lock:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact repair branch
+        uses: actions/checkout@v7.0.1
+        with:
+          ref: fix/professional-eyes-root-repair-20260915
+          fetch-depth: 0
+
+      - name: Extract exact approved image and update only its verification contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          archive='public/Professional-Pathway-Fixed.zip'
+          target='public/four-pathways-professionals-hq-20260915.jpg'
+          extracted='/tmp/Professional-Pathway-Fixed.jpg'
+
+          test -f "$archive"
+          unzip -j -o "$archive" 'Professional-Pathway-Fixed.jpg' -d /tmp
+          test -s "$extracted"
+
+          magic="$(head -c 3 "$extracted" | xxd -p)"
+          test "$magic" = 'ffd8ff'
+
+          cp "$extracted" "$target"
+          new_hash="$(sha256sum "$target" | awk '{print $1}')"
+          new_size="$(wc -c < "$target" | tr -d ' ')"
+          old_hash='1622254895e6e9c598befdda73a6671c304ce016811a4d70db89eb6553a00415'
+
+          python - "$new_hash" "$new_size" "$old_hash" <<'PY'
+          import re, sys
+          from pathlib import Path
+
+          new_hash, new_size, old_hash = sys.argv[1:]
+
+          verify = Path('scripts/verify-frontdoor-assets.mjs')
+          text = verify.read_text()
+          pattern = re.compile(r'(path: "four-pathways-professionals-hq-20260915\.jpg",\s*\n\s*expectedSize: )\d+(,\s*\n\s*expectedSha256: ")[0-9a-f]{64}("[^}]*})', re.M)
+          text2, count = pattern.subn(rf'\g<1>{new_size}\g<2>{new_hash}\g<3>', text, count=1)
+          if count != 1:
+              raise SystemExit(f'Expected exactly one Professionals verification entry; found {count}')
+          verify.write_text(text2)
+
+          prod = Path('.github/workflows/cloudflare-production-verification.yml')
+          prod_text = prod.read_text()
+          occurrences = prod_text.count(old_hash)
+          if occurrences != 2:
+              raise SystemExit(f'Expected exactly two retired Professional hash occurrences in production verification; found {occurrences}')
+          prod.write_text(prod_text.replace(old_hash, new_hash))
+          PY
+
+          echo "Authoritative Professional asset SHA-256: $new_hash"
+          echo "Authoritative Professional asset bytes: $new_size"
+
+          git rm "$archive" .github/workflows/extract-professional-fixed.yml
+
+          changed="$(git diff --name-only)"
+          printf '%s\n' "$changed"
+          expected=$(printf '%s\n' \
+            '.github/workflows/cloudflare-production-verification.yml' \
+            'public/Professional-Pathway-Fixed.zip' \
+            'public/four-pathways-professionals-hq-20260915.jpg' \
+            'scripts/verify-frontdoor-assets.mjs' \
+            '.github/workflows/extract-professional-fixed.yml' | sort)
+          actual="$(printf '%s\n' "$changed" | sort)"
+          test "$actual" = "$expected"
+
+      - name: Commit exact repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/four-pathways-professionals-hq-20260915.jpg scripts/verify-frontdoor-assets.mjs .github/workflows/cloudflare-production-verification.yml
+          git commit -am 'Use authoritative fixed Professional pathway image'
+          git push origin HEAD:fix/professional-eyes-root-repair-20260915
