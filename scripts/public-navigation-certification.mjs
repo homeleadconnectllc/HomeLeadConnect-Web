@@ -20,7 +20,14 @@ async function metrics(page) {
   return page.evaluate(() => {
     const header = document.querySelector('.hlc-public-site-nav, .hlc-board-nav');
     if (!header) return null;
-    const visible = (element) => !!element && element.checkVisibility({ checkVisibilityCSS: true }) && !(element.tagName !== 'SUMMARY' && element.closest('details') && !element.closest('details').open);
+    const visible = (element) => {
+      if (!element) return false;
+      const details = element.tagName === 'SUMMARY' ? null : element.closest('details');
+      if (details && !details.open) return false;
+      const style = getComputedStyle(element);
+      const box = element.getBoundingClientRect();
+      return style.display !== 'none' && style.visibility !== 'hidden' && Number.parseFloat(style.opacity || '1') > 0 && box.width > 0 && box.height > 0;
+    };
     const image = header.querySelector('img');
     const summary = [...header.querySelectorAll('summary')].find(visible);
     const login = [...header.querySelectorAll('a')].find(a => a.textContent.trim() === 'Sign In' && visible(a));
@@ -74,16 +81,22 @@ try {
           check(() => assert.equal(measured.summary?.color, authority.summary?.color, 'Menu label color differs from Home'));
           check(() => assert.equal(measured.login?.color, authority.login?.color, 'Sign In color differs from Home'));
           check(() => assert.equal(measured.cta, null, 'Desktop CTA must not crowd the mobile header'));
-          if (await summary.isVisible()) {
+          if (await summary.count()) {
             await summary.click();
             assert.equal(await summary.evaluate(element => element.parentElement.open), true, 'Menu did not open on click');
             const panel = header.locator('.hlc-public-site-nav__menu-panel, .hlc-mobile-nav-v2__panel');
-            const firstPanelLink = panel.locator('a').first();
-            await firstPanelLink.waitFor({ state: 'visible', timeout: 5000 });
-            const links = await panel.locator('a').evaluateAll(elements => elements.map(element => ({ label: element.textContent.trim(), path: new URL(element.href).pathname, box: element.getBoundingClientRect().toJSON() })));
+            const panelState = await panel.evaluate(element => {
+              const style = getComputedStyle(element);
+              const box = element.getBoundingClientRect();
+              return { display: style.display, visibility: style.visibility, opacity: style.opacity, width: box.width, height: box.height };
+            });
+            assert.notEqual(panelState.display, 'none', 'Menu panel is display:none after opening');
+            assert.notEqual(panelState.visibility, 'hidden', 'Menu panel is hidden after opening');
+            assert.ok(panelState.width > 0 && panelState.height > 0, 'Menu panel has no rendered geometry after opening');
+            const links = await panel.locator('a').evaluateAll(elements => elements.map(element => ({ label: element.textContent.trim(), path: new URL(element.href).pathname, box: element.getBoundingClientRect().toJSON(), display: getComputedStyle(element).display, visibility: getComputedStyle(element).visibility })));
             result.menuLinks = links;
             for (const destination of expectedPaths) check(() => assert.ok(links.some(link => link.path === destination), `Missing menu destination ${destination}`));
-            check(() => assert.ok(links.every(link => link.box.width > 0 && link.box.height >= 40), 'Menu links are not usable touch targets'));
+            check(() => assert.ok(links.every(link => link.display !== 'none' && link.visibility !== 'hidden' && link.box.width > 0 && link.box.height >= 40), 'Menu links are not rendered usable touch targets'));
             await page.screenshot({ path: `${directory}/${name}-open.png` });
             await summary.click();
             assert.equal(await summary.evaluate(element => element.parentElement.open), false, 'Menu did not close on click');
@@ -93,6 +106,7 @@ try {
             assert.equal(await page.evaluate(() => document.activeElement?.tagName), 'A', 'Tab did not reach a menu link');
             result.focus = await page.evaluate(() => ({ label: document.activeElement?.textContent.trim(), outline: getComputedStyle(document.activeElement).outlineStyle }));
             check(() => assert.notEqual(result.focus.outline, 'none', 'Focused menu link has no outline'));
+            await summary.focus();
             await summary.press('Space');
             assert.equal(await summary.evaluate(element => element.parentElement.open), false, 'Space did not close Menu');
           }
