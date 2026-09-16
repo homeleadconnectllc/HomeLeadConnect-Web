@@ -15,6 +15,7 @@ const GlobalCommandSearch = lazy(() => import("../components/search/GlobalComman
 
 const SIDEBAR_COLLAPSED_KEY = "hlc-desktop-sidebar-collapsed";
 const DESKTOP_SHELL_QUERY = "(min-width: 1025px)";
+const APP_HOST = "app.homeleadconnect.org";
 const PUBLIC_FRONT_DOOR_PATHS = new Set([
   "/contact",
   "/request-service",
@@ -93,8 +94,11 @@ export default function AppLayout() {
   const publicFrontDoorSurface = PUBLIC_FRONT_DOOR_PATHS.has(location.pathname);
   const focusedPublicIntake = location.pathname === "/request-service";
   const authFrontDoorSurface = ["/login", "/register", "/forgot-password", "/reset-password"].includes(location.pathname);
-  const homepageSurface = location.pathname === "/";
-  const signedInWorkspaceShell = Boolean(session) && !focusedPublicIntake && !publicFrontDoorSurface && !authFrontDoorSurface;
+  const appEntrySurface = location.pathname === "/app" || location.pathname === "/portal" || (
+    location.pathname === "/" && typeof window !== "undefined" && window.location.hostname.toLowerCase() === APP_HOST
+  );
+  const homepageSurface = location.pathname === "/" && !appEntrySurface;
+  const signedInWorkspaceShell = Boolean(session) && !focusedPublicIntake && !publicFrontDoorSurface && !authFrontDoorSurface && !appEntrySurface;
   const showAudioDevices = signedInWorkspaceShell && (location.pathname === "/settings" || location.pathname === "/call-center");
   const showFieldDevices = signedInWorkspaceShell && location.pathname === "/settings";
   const routePersonaClass = signedInWorkspaceShell ? personaRouteClass(location.pathname) : "";
@@ -146,7 +150,7 @@ export default function AppLayout() {
   }, [location.key, location.pathname, location.hash]);
 
   useEffect(() => {
-    if (focusedPublicIntake || authFrontDoorSurface || publicFrontDoorSurface) return;
+    if (focusedPublicIntake || authFrontDoorSurface || publicFrontDoorSurface || appEntrySurface || homepageSurface) return;
     const logo = document.querySelector<HTMLElement>(".hlc-navbar-logo");
     if (!logo) return;
     const destination = session ? "/dashboard" : "/";
@@ -171,18 +175,13 @@ export default function AppLayout() {
       logo.removeAttribute("aria-label");
       logo.classList.remove("hlc-navbar-logo-home");
     };
-  }, [authFrontDoorSurface, focusedPublicIntake, navigate, publicFrontDoorSurface, session]);
+  }, [appEntrySurface, authFrontDoorSurface, focusedPublicIntake, homepageSurface, navigate, publicFrontDoorSurface, session]);
 
   return (
     <div className={`hlc-app-shell ${signedInWorkspaceShell ? "hlc-signed-in-shell" : "hlc-public-shell"} ${routeClass}${signedInWorkspaceShell && sidebarCollapsed ? " hlc-sidebar-is-collapsed" : ""}${routePersonaClass ? ` ${routePersonaClass}` : ""}${focusedPublicIntake ? " hlc-focused-public-intake" : ""}${authFrontDoorSurface ? " hlc-auth-front-door-surface" : ""}${publicFrontDoorSurface ? " hlc-public-front-door-surface" : ""}`}>
       <RuntimePhysicalAuthority />
       <AnalyticsTracker />
-      {!focusedPublicIntake && !authFrontDoorSurface && !publicFrontDoorSurface && <Navbar />}
-      {signedInWorkspaceShell && desktopShell && (
-        <Link className="hlc-desktop-page-brand" to="/dashboard" aria-label="HomeLead Connect dashboard">
-          <img src="/hlc-logo-transparent.png" alt="HomeLead Connect LLC" />
-        </Link>
-      )}
+      {!focusedPublicIntake && !authFrontDoorSurface && !publicFrontDoorSurface && !appEntrySurface && !homepageSurface && <Navbar />}
       {signedInWorkspaceShell && desktopShell && (
         <button
           className="hlc-desktop-sidebar-toggle"
@@ -196,14 +195,14 @@ export default function AppLayout() {
         </button>
       )}
       <div className="hlc-route-content">
-        {!session && !authFrontDoorSurface && !publicFrontDoorSurface && location.pathname !== "/" && <RouteVisualBanner />}
+        {!session && !authFrontDoorSurface && !publicFrontDoorSurface && !appEntrySurface && !homepageSurface && <RouteVisualBanner />}
         <Outlet />
         <Suspense fallback={null}>
           {showAudioDevices && <AudioDeviceCenter />}
           {showFieldDevices && <FieldDeviceCenter />}
         </Suspense>
       </div>
-      {!homepageSurface && (((!session || focusedPublicIntake) || publicFrontDoorSurface || authFrontDoorSurface) && <Footer />)}
+      {!homepageSurface && <Footer />}
       <Suspense fallback={null}>
         {signedInWorkspaceShell && <WorkspaceGuidance />}
         {signedInWorkspaceShell && <UniversalAITeamLauncher />}
