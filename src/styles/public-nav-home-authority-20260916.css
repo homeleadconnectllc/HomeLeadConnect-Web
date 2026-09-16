@@ -109,6 +109,14 @@
   }
 
   html body #root#root#root#root :is(
+    .hlc-utility-page,
+    .hlc-legal-page
+  ):has(> .hlc-public-shared-nav) {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  html body #root#root#root#root :is(
     .hlc-page-contact,
     .hlc-page-privacy,
     .hlc-page-terms,
