@@ -1,4 +1,5 @@
 import { ArrowRightCircle, BookOpen, Briefcase, Handshake, House, Info, LogIn, Users } from "lucide-react";
+import Footer from "../components/Footer";
 import "../styles/v2-board-frontdoor-20260912.css";
 import "../styles/v2-board-frontdoor-performance-20260912.css";
 import "../styles/v2-board-rest-polish-20260912.css";
@@ -127,17 +128,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <footer className="hlc-board-footer">
-        <strong>HomeLead Connect</strong>
-        <span>Connecting Homes. Creating Opportunities.</span>
-        <nav aria-label="Legal and accessibility">
-          <a href="/privacy">Privacy</a>
-          <a href="/terms">Terms</a>
-          <a href="/accessibility">Accessibility</a>
-          <a href="/platform-disclosure">Platform disclosure</a>
-        </nav>
-        <small>© {new Date().getFullYear()} HomeLead Connect LLC</small>
-      </footer>
+      <Footer />
     </main>
   );
 }
