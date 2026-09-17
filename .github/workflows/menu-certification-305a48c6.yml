@@ -1,0 +1,66 @@
+name: Repaired exact candidate public menu certification
+on:
+  push:
+    branches:
+      - evidence/mobile-public-menu-d08fb683-20260917
+    paths:
+      - .github/workflows/menu-certification-305a48c6.yml
+permissions:
+  contents: read
+jobs:
+  menu:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+    env:
+      VITE_SUPABASE_URL: https://blocked-backend.invalid
+      VITE_SUPABASE_ANON_KEY: sb_publishable_internal_menu_verification
+      VITE_AUTH_CAPTCHA_REQUIRED: "false"
+      MENU_ENGINE: ${{ matrix.engine }}
+    steps:
+      - name: Checkout immutable candidate
+        uses: actions/checkout@v4
+        with:
+          ref: 305a48c6a3ea8367f2a0dd51f5b4aa22380ed730
+          persist-credentials: false
+      - name: Prove exact checkout
+        run: |
+          test "$(git rev-parse HEAD)" = 305a48c6a3ea8367f2a0dd51f5b4aa22380ed730
+          test -z "$(git status --porcelain)"
+          git rev-parse HEAD
+          git rev-parse 'HEAD^{tree}'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - name: Install dependencies and browser test engine
+        run: |
+          npm ci --no-audit --fund=false
+          npm install --no-save --package-lock=false --ignore-scripts playwright@1.55.0
+          npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Build exact source
+        run: npm run build
+      - name: Start isolated static candidate
+        run: |
+          npm run preview -- --host 127.0.0.1 --port 4173 > /tmp/menu-preview.log 2>&1 &
+          for attempt in $(seq 1 30); do
+            if curl --silent --fail http://127.0.0.1:4173/ > /dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/menu-preview.log
+          exit 1
+      - name: Certify immutable candidate with backend blocked
+        env:
+          MENU_SOURCE: 305a48c6a3ea8367f2a0dd51f5b4aa22380ed730
+        run: node scripts/mobile-public-menu-repair-verification.mjs
+      - name: Upload screenshots and network audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: menu-${{ matrix.engine }}-305a48c6a3ea8367f2a0dd51f5b4aa22380ed730
+          path: artifacts/menu-${{ matrix.engine }}-305a48c6a3ea8367f2a0dd51f5b4aa22380ed730
+          if-no-files-found: error
+          retention-days: 14
