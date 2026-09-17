@@ -16,9 +16,10 @@ test("canonical public root exposes approved account-access entry points", () =>
 
 test("parser-seeded public shell preserves the Connected Experience first-paint contract", () => {
   assert.match(index, /class="hlc-v2-home hlc-v2-parser-seed"/);
-  assert.match(index, /aria-label="HomeLead Connect home"[^>]*>HomeLead Connect<\/a>/);
+  assert.match(index, /aria-label="HomeLead Connect home"[^>]*>[\s\S]*?data-hlc-master-logo="true"[^>]+src="\/hlc-logo-ui\.png"[\s\S]*?HomeLead Connect[\s\S]*?<\/a>/);
   assert.doesNotMatch(index, /src="\/brand\/homelead-connect-transparent-v2\.svg"/);
   assert.doesNotMatch(index, /<img[^>]+src="\/hlc-logo-public\.webp"/);
+  assert.doesNotMatch(index, /src="\/brand\/homelead-connect-master-transparent\.png"/);
   assert.match(index, /href="https:\/\/app\.homeleadconnect\.org\/request-service"[^>]*>Request home service<\/a>/);
   assert.match(index, /The Connected Experience/);
   assert.match(index, /One place for the next right move\./);
