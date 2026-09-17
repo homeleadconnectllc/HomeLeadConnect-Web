@@ -1,7 +1,8 @@
 /* Shared public navigation authority.
    Non-home public/account/invitation surfaces inherit the homepage navigation
    geometry so the logo, Sign In, and Menu controls do not shift between routes.
-   Keep this authority unlayered so it can override older unlayered front-door rules. */
+   Component-owned runtime invariants in PublicSiteNav provide the final visual
+   authority after route-level lazy CSS has loaded. */
 html body #root#root#root#root .hlc-public-shared-nav {
   --blue: #0b6ed6;
   position: relative !important;
@@ -90,6 +91,15 @@ html body #root#root#root#root .hlc-public-shared-nav .hlc-board-cta {
   font-size: 12px !important;
   font-weight: 900 !important;
   box-shadow: 0 10px 26px rgba(13,124,240,.28) !important;
+}
+
+/* Any public route that owns the shared nav begins at the same viewport origin as Home. */
+html body #root#root#root#root .hlc-app-shell.hlc-public-shell:has(.hlc-public-shared-nav) > .hlc-route-content {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 html body #root#root#root#root .hlc-public-page:has(> .hlc-public-shared-nav) {
