@@ -13,7 +13,7 @@
 }
 
 @media (max-width: 680px) {
-  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5 {
+  :is(.hlc-family-ecosystem,.hlc-public-shared-nav) .hlc-mobile-icon-nav-v5 {
     display: block !important;
     position: relative !important;
     margin: 0 !important;
@@ -24,7 +24,7 @@
     box-shadow: none !important;
   }
 
-  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__trigger {
+  :is(.hlc-family-ecosystem,.hlc-public-shared-nav) .hlc-mobile-icon-nav-v5__trigger {
     display: inline-flex !important;
     min-width: 44px !important;
     min-height: 48px !important;
@@ -42,7 +42,7 @@
     line-height: 1 !important;
   }
 
-  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__panel {
+  :is(.hlc-family-ecosystem,.hlc-public-shared-nav) .hlc-mobile-icon-nav-v5__panel {
     box-sizing: border-box !important;
     position: absolute !important;
     z-index: 1600 !important;
@@ -64,7 +64,7 @@
     -webkit-overflow-scrolling: touch;
   }
 
-  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__item {
+  :is(.hlc-family-ecosystem,.hlc-public-shared-nav) .hlc-mobile-icon-nav-v5__item {
     box-sizing: border-box !important;
     width: 100% !important;
     min-height: 46px !important;
@@ -85,13 +85,13 @@
     line-height: 1.15 !important;
   }
 
-  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__item:hover,
-  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__item:focus-visible {
+  :is(.hlc-family-ecosystem,.hlc-public-shared-nav) .hlc-mobile-icon-nav-v5__item:hover,
+  :is(.hlc-family-ecosystem,.hlc-public-shared-nav) .hlc-mobile-icon-nav-v5__item:focus-visible {
     background: rgba(24,66,105,.38) !important;
     outline: none !important;
   }
 
-  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__icon {
+  :is(.hlc-family-ecosystem,.hlc-public-shared-nav) .hlc-mobile-icon-nav-v5__icon {
     flex: 0 0 auto !important;
     width: 24px !important;
     height: 24px !important;
@@ -101,7 +101,7 @@
     color: currentColor !important;
   }
 
-  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__icon svg {
+  :is(.hlc-family-ecosystem,.hlc-public-shared-nav) .hlc-mobile-icon-nav-v5__icon svg {
     display: block !important;
     width: 24px !important;
     height: 24px !important;
@@ -112,36 +112,36 @@
     stroke-linejoin: round !important;
   }
 
-  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__label {
+  :is(.hlc-family-ecosystem,.hlc-public-shared-nav) .hlc-mobile-icon-nav-v5__label {
     display: inline-block !important;
     color: currentColor !important;
     text-align: left !important;
     white-space: nowrap !important;
   }
 
-  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__item--about,
-  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__item--resources,
-  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__item--signin {
+  :is(.hlc-family-ecosystem,.hlc-public-shared-nav) .hlc-mobile-icon-nav-v5__item--about,
+  :is(.hlc-family-ecosystem,.hlc-public-shared-nav) .hlc-mobile-icon-nav-v5__item--resources,
+  :is(.hlc-family-ecosystem,.hlc-public-shared-nav) .hlc-mobile-icon-nav-v5__item--signin {
     color: #f4f7fb !important;
   }
 
-  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__item--resident {
+  :is(.hlc-family-ecosystem,.hlc-public-shared-nav) .hlc-mobile-icon-nav-v5__item--resident {
     color: #62e6b3 !important;
   }
 
-  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__item--professional {
+  :is(.hlc-family-ecosystem,.hlc-public-shared-nav) .hlc-mobile-icon-nav-v5__item--professional {
     color: #55c8ff !important;
   }
 
-  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__item--partner {
+  :is(.hlc-family-ecosystem,.hlc-public-shared-nav) .hlc-mobile-icon-nav-v5__item--partner {
     color: #ffc443 !important;
   }
 
-  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__item--community {
+  :is(.hlc-family-ecosystem,.hlc-public-shared-nav) .hlc-mobile-icon-nav-v5__item--community {
     color: #c38cff !important;
   }
 
-  .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__item--start {
+  :is(.hlc-family-ecosystem,.hlc-public-shared-nav) .hlc-mobile-icon-nav-v5__item--start {
     color: #62e6b3 !important;
     margin-top: 4px !important;
     padding-top: 14px !important;
