@@ -12,6 +12,8 @@ const familyAuthority = readFileSync(new URL("../styles/front-door-family-ecosys
 const centeredCopyAuthority = readFileSync(new URL("../styles/public-home-centered-copy-authority-20260915.css", import.meta.url), "utf8");
 
 const revokedPublicLogo = /\/brand\/homelead-connect-transparent-v2\.svg/;
+const responsiveNavLogo = /\/hlc-logo-ui\.png/;
+const heavyweightMasterLogo = /\/brand\/homelead-connect-master-transparent\.png/;
 
 test("public home stays outside the authenticated application bundle while retaining route delivery", () => {
   assert.match(main, /isPublicHome/);
@@ -32,10 +34,12 @@ test("public home renders without paying React startup cost", () => {
   assert.match(main, /https:\/\/app\.homeleadconnect\.org\/professional-application/);
 });
 
-test("no-React public root uses owner-authorized text branding without revoked circular artwork", () => {
-  assert.match(main, /<a class="hlc-board-brand"[^>]+aria-label="HomeLead Connect home">HomeLead Connect<\/a>/);
+test("no-React public root uses the responsive approved logo without loading heavyweight master artwork", () => {
+  assert.match(main, /const NAV_LOGO = "\/hlc-logo-ui\.png"/);
+  assert.match(main, /<a class="hlc-board-brand"[^>]+aria-label="HomeLead Connect home">[\s\S]*?data-hlc-master-logo="true"[^>]+src="\$\{NAV_LOGO\}"[\s\S]*?hlc-brand-accessible-label">HomeLead Connect<\/span>[\s\S]*?<\/a>/);
+  assert.match(main, responsiveNavLogo);
   assert.doesNotMatch(main, revokedPublicLogo);
-  assert.doesNotMatch(main, /homelead-connect-master-transparent\.png/);
+  assert.doesNotMatch(main, heavyweightMasterLogo);
   assert.doesNotMatch(main, /\/hlc-logo-public\.webp/);
   assert.match(main, /class="hlc-board-home hlc-v2-home hlc-family-ecosystem"/);
   assert.match(main, /The Connected Experience/);
@@ -52,10 +56,11 @@ test("no-React public root uses owner-authorized text branding without revoked c
   assert.doesNotMatch(main, /<h1[^>]*>A stronger community/);
 });
 
-test("parser-seeded public hero uses text branding and preserves optimized first paint", () => {
-  assert.match(indexHtml, /<a href="https:\/\/homeleadconnect\.org\/" aria-label="HomeLead Connect home"[^>]*>HomeLead Connect<\/a>/);
+test("parser-seeded public hero uses the responsive approved logo and preserves optimized first paint", () => {
+  assert.match(indexHtml, /<a href="https:\/\/homeleadconnect\.org\/" aria-label="HomeLead Connect home"[^>]*>[\s\S]*?data-hlc-master-logo="true"[^>]+src="\/hlc-logo-ui\.png"[\s\S]*?HomeLead Connect[\s\S]*?<\/a>/);
+  assert.match(indexHtml, responsiveNavLogo);
   assert.doesNotMatch(indexHtml, revokedPublicLogo);
-  assert.doesNotMatch(indexHtml, /homelead-connect-master-transparent\.png/);
+  assert.doesNotMatch(indexHtml, heavyweightMasterLogo);
   assert.doesNotMatch(indexHtml, /\/hlc-logo-public\.webp/);
   assert.match(indexHtml, /hlc-v2-home hlc-v2-parser-seed/);
   assert.match(indexHtml, /The Connected Experience/);

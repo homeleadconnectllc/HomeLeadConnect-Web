@@ -5,6 +5,8 @@ import "../styles/public-header-logo-authority-20260915.css";
 import "../styles/public-home-mobile-nav-v5-20260915.css";
 import "../styles/public-nav-home-authority-20260916.css";
 
+const NAV_LOGO = "/hlc-logo-ui.png";
+
 const navLinks = [
   ["About", publicUrl("/about")],
   ["For Residents", publicUrl("/homeowners")],
@@ -36,12 +38,20 @@ export default function PublicSiteNav() {
     const nav = navRef.current;
     if (!nav) return;
 
-    // Public navigation is the top-edge authority on every public/account surface.
-    // Apply the final computed values directly at the shared component root so
-    // route-specific lazy CSS and terminal legacy authorities cannot repaint it.
     setImportant(nav, "background", "#03111f");
     setImportant(nav, "background-color", "#03111f");
     setImportant(nav, "background-image", "none");
+
+    const brand = nav.querySelector<HTMLElement>(".hlc-board-brand");
+    const brandImage = nav.querySelector<HTMLImageElement>("img[data-hlc-master-logo]");
+    setImportant(brand, "background", "transparent");
+    setImportant(brand, "background-image", "none");
+    setImportant(brandImage, "display", "block");
+    setImportant(brandImage, "visibility", "visible");
+    setImportant(brandImage, "opacity", "1");
+    setImportant(brandImage, "width", "100%");
+    setImportant(brandImage, "height", "100%");
+    setImportant(brandImage, "object-fit", "contain");
 
     const cta = nav.querySelector<HTMLElement>(".hlc-board-cta");
     setImportant(cta, "background", "#0b6ed6");
@@ -63,8 +73,6 @@ export default function PublicSiteNav() {
     setImportant(menuTrigger, "background-color", "transparent");
     setImportant(menuTrigger, "background-image", "none");
 
-    // Any route that mounts the shared public navigation must start at the same
-    // viewport origin as Home. Older auth/app shells may add top padding later.
     const routeContent = nav.closest<HTMLElement>(".hlc-route-content");
     setImportant(routeContent, "padding-top", "0");
     const authShell = nav.closest<HTMLElement>(".hlc-auth-shell");
@@ -89,7 +97,7 @@ export default function PublicSiteNav() {
   }, []);
 
   return <header ref={navRef} className="hlc-board-nav hlc-public-shared-nav"><div className="hlc-board-nav-inner">
-    <a className="hlc-board-brand" href={publicUrl("/")} aria-label="HomeLead Connect home">HomeLead Connect</a>
+    <a className="hlc-board-brand" href={publicUrl("/")} aria-label="HomeLead Connect home"><img className="hlc-navbar-master-logo" data-hlc-master-logo="true" src={NAV_LOGO} alt="" aria-hidden="true" /><span className="hlc-brand-accessible-label">HomeLead Connect</span></a>
     <nav className="hlc-board-links" aria-label="Primary navigation">{navLinks.map(([label, href]) => <a key={href} href={href}>{label}</a>)}</nav>
     <div className="hlc-board-actions"><a className="hlc-board-login" href={appUrl("/login")}>Sign In</a><a className="hlc-board-cta" href={appUrl("/register")}>Get Started →</a><a className="hlc-mobile-sign-in-link" href={appUrl("/login")}>Sign In</a><details className="hlc-mobile-icon-nav-v5" data-mobile-nav-version="5"><summary className="hlc-mobile-icon-nav-v5__trigger">Menu</summary><nav className="hlc-mobile-icon-nav-v5__panel" aria-label="Mobile navigation">{mobileMenuLinks.map(({ label, href, Icon, tone }) => <a className={`hlc-mobile-icon-nav-v5__item hlc-mobile-icon-nav-v5__item--${tone}`} key={href} href={href}><span className="hlc-mobile-icon-nav-v5__icon" aria-hidden="true"><Icon size={24} strokeWidth={2.2} /></span><span className="hlc-mobile-icon-nav-v5__label">{label}</span></a>)}</nav></details></div>
   </div></header>;

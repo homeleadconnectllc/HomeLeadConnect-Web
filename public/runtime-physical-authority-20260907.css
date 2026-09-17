@@ -10,6 +10,62 @@
   --hlc-runtime-text:#f8fafc;
   --hlc-runtime-muted:#aebdd0;
   --hlc-runtime-accent:#60a5fa;
+  --hlc-runtime-master-logo:url('/hlc-logo-ui.png');
+}
+
+/* GLOBAL NAVBAR LOGO — terminal physical authority.
+ * Keep the real approved responsive derivative visible after lazy route CSS and
+ * legacy reset layers settle. Container display is explicit because older logo
+ * suppression rules can otherwise collapse the image even when the img itself
+ * is visible.
+ */
+#root .hlc-board-brand,
+#root .hlc-public-site-nav__brand,
+#root .hlc-auth-public-brand{
+  background:transparent!important;
+  background-image:none!important;
+}
+#root .hlc-board-brand .hlc-navbar-master-logo,
+#root .hlc-public-site-nav__brand .hlc-navbar-master-logo,
+#root .hlc-auth-public-brand .hlc-navbar-master-logo{
+  display:block!important;
+  visibility:visible!important;
+  opacity:1!important;
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+  object-position:center!important;
+}
+#root .hlc-navbar-brand,
+#root .hlc-navbar-logo,
+#root .hlc-navbar-logo-home{
+  display:flex!important;
+  visibility:visible!important;
+  opacity:1!important;
+}
+#root .hlc-navbar-logo,
+#root .hlc-navbar-logo-home{
+  flex:0 0 auto!important;
+  min-width:48px!important;
+  width:48px!important;
+  height:48px!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+#root .hlc-navbar-brand img[alt="HomeLead Connect LLC"],
+#root .hlc-navbar-logo img,
+#root .hlc-navbar-logo-home img{
+  display:block!important;
+  visibility:visible!important;
+  opacity:1!important;
+  width:100%!important;
+  height:100%!important;
+  max-width:none!important;
+  max-height:none!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  content:url('/hlc-logo-ui.png')!important;
+  background:transparent!important;
 }
 
 /* AUTH — force the actual AuthShell and the surrounding public shell into one dark account surface. */
