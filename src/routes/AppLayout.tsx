@@ -202,7 +202,7 @@ export default function AppLayout() {
           {showFieldDevices && <FieldDeviceCenter />}
         </Suspense>
       </div>
-      {!homepageSurface && <Footer />}
+      <Footer />
       <Suspense fallback={null}>
         {signedInWorkspaceShell && <WorkspaceGuidance />}
         {signedInWorkspaceShell && <UniversalAITeamLauncher />}

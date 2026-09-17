@@ -82,18 +82,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      <footer className="hlc-board-footer hlc-public-footer-home-authority">
-        <strong>HomeLead Connect</strong>
-        <span>Connecting Homes. Creating Opportunities.</span>
-        <nav aria-label="Legal and accessibility">
-          <a href="/privacy">Privacy</a>
-          <a href="/terms">Terms</a>
-          <a href="/accessibility">Accessibility</a>
-          <a href="/platform-disclosure">Platform disclosure</a>
-        </nav>
-        <small>© {new Date().getFullYear()} HomeLead Connect LLC</small>
-      </footer>
     </main>
   );
 }
