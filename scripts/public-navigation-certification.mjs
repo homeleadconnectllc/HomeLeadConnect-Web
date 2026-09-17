@@ -28,13 +28,21 @@ async function metrics(page) {
       const box = element.getBoundingClientRect();
       return style.display !== 'none' && style.visibility !== 'hidden' && Number.parseFloat(style.opacity || '1') > 0 && box.width > 0 && box.height > 0;
     };
-    const image = header.querySelector('img');
+    const brand = header.querySelector('.hlc-board-brand, .hlc-public-site-nav__brand, .hlc-auth-public-brand');
+    const visibleBrandImage = [...header.querySelectorAll('img')].find(visible) ?? null;
     const summary = [...header.querySelectorAll('summary')].find(visible);
     const login = [...header.querySelectorAll('a')].find(a => a.textContent.trim() === 'Sign In' && visible(a));
     const cta = [...header.querySelectorAll('a')].find(a => a.textContent.includes('Get Started') && visible(a));
     const box = header.getBoundingClientRect();
     const properties = element => element ? { color: getComputedStyle(element).color, fill: getComputedStyle(element).webkitTextFillColor, background: getComputedStyle(element).backgroundColor, radius: getComputedStyle(element).borderRadius, font: getComputedStyle(element).fontSize } : null;
-    return { box: { x: box.x, y: box.y, width: box.width, height: box.height }, background: getComputedStyle(header).backgroundColor, image: { width: image?.getBoundingClientRect().width, height: image?.getBoundingClientRect().height, source: image?.getAttribute('src'), loaded: !!image?.naturalWidth }, summary: properties(summary), login: properties(login), cta: properties(cta), overflow: document.documentElement.scrollWidth > innerWidth + 1 };
+    return {
+      box: { x: box.x, y: box.y, width: box.width, height: box.height },
+      background: getComputedStyle(header).backgroundColor,
+      brand: brand ? { text: brand.textContent?.trim() ?? '', width: brand.getBoundingClientRect().width, height: brand.getBoundingClientRect().height } : null,
+      visibleBrandImage: !!visibleBrandImage,
+      summary: properties(summary), login: properties(login), cta: properties(cta),
+      overflow: document.documentElement.scrollWidth > innerWidth + 1
+    };
   });
 }
 
@@ -71,9 +79,8 @@ try {
         check(() => assert.ok(Math.abs(measured.box.width - authority.box.width) <= 2, 'Header width differs from Home'));
         check(() => assert.ok(Math.abs(measured.box.height - authority.box.height) <= 2, 'Header height differs from Home'));
         check(() => assert.equal(measured.background, authority.background, 'Header background differs from Home'));
-        check(() => assert.equal(measured.image.source, authority.image.source, 'Logo is not the homepage master'));
-        check(() => assert.equal(measured.image.width, authority.image.width, 'Logo size differs from Home'));
-        check(() => assert.ok(measured.image.loaded, 'Logo did not load'));
+        check(() => assert.equal(measured.brand?.text, 'HomeLead Connect', 'Text brand is missing or inconsistent'));
+        check(() => assert.equal(measured.visibleBrandImage, false, 'Revoked public logo artwork is visible'));
         const header = page.locator('.hlc-public-site-nav, .hlc-board-nav');
         const summary = header.locator('summary');
         if (width <= 680) {

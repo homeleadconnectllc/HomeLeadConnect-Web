@@ -50,7 +50,7 @@ function publicHomeMarkup() {
     <main class="hlc-board-home hlc-v2-home hlc-family-ecosystem">
       <header class="hlc-board-nav">
         <div class="hlc-board-nav-inner">
-          <a class="hlc-board-brand" href="https://homeleadconnect.org/" aria-label="HomeLead Connect home"><img src="/brand/homelead-connect-transparent-v2.svg" alt="HomeLead Connect LLC" width="512" height="512" loading="eager" decoding="async" fetchpriority="high" /></a>
+          <a class="hlc-board-brand" href="https://homeleadconnect.org/" aria-label="HomeLead Connect home">HomeLead Connect</a>
           <nav class="hlc-board-links" aria-label="Primary navigation"><a href="/about">About</a><a href="/homeowners">For Residents</a><a href="/professionals">For Professionals</a><a href="/partners">For Partners</a><a href="/community">Community</a><a href="/services">Resources</a></nav>
           <div class="hlc-board-actions">
             <a class="hlc-board-login" href="https://app.homeleadconnect.org/login">Sign In</a>

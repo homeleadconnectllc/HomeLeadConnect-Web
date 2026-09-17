@@ -32,7 +32,7 @@ const mobileMenuLinks = [
 
 export default function PublicSiteNav() {
   return <header className="hlc-board-nav hlc-family-ecosystem hlc-public-shared-nav"><div className="hlc-board-nav-inner">
-    <a className="hlc-board-brand" href={publicUrl("/")} aria-label="HomeLead Connect home"><img src="/brand/homelead-connect-transparent-v2.svg" alt="HomeLead Connect LLC" width={512} height={512} loading="eager" decoding="async" fetchPriority="high" /></a>
+    <a className="hlc-board-brand" href={publicUrl("/")} aria-label="HomeLead Connect home">HomeLead Connect</a>
     <nav className="hlc-board-links" aria-label="Primary navigation">{navLinks.map(([label, href]) => <a key={href} href={href}>{label}</a>)}</nav>
     <div className="hlc-board-actions"><a className="hlc-board-login" href={appUrl("/login")}>Sign In</a><a className="hlc-board-cta" href={appUrl("/register")}>Get Started →</a><a className="hlc-mobile-sign-in-link" href={appUrl("/login")}>Sign In</a><details className="hlc-mobile-nav-v2" data-mobile-nav-version="2"><summary className="hlc-mobile-nav-v2__trigger">Menu</summary><nav className="hlc-mobile-nav-v2__panel" aria-label="Mobile navigation">{mobileMenuLinks.map(({ label, href, Icon, tone }) => <a className={`hlc-mobile-nav-v2__item hlc-mobile-nav-v2__item--${tone}`} key={href} href={href}><Icon className="hlc-mobile-nav-v2__icon" size={18} strokeWidth={2.2} aria-hidden="true" /><span>{label}</span></a>)}</nav></details></div>
   </div></header>;
