@@ -113,7 +113,7 @@ test("official HLC mark stays canonical across shared UI, browser, PWA, and noti
   assert.match(serviceWorker, /badge:\s*"\/hlc-logo-transparent\.png"/);
   assert.match(authShell, /<PublicSiteNav\s*\/>/);
   assert.match(publicSiteNav, /src="\/brand\/homelead-connect-transparent-v2\.svg"/);
-  assert.match(footer, /src="\/brand\/homelead-connect-transparent-v2\.svg"/);
+  assert.doesNotMatch(footer, /<img\b|homelead-connect-transparent-v2\.svg/);
   assert.doesNotMatch(publicSiteNav, /homelead-connect-master-transparent\.png/);
   assert.doesNotMatch(footer, /homelead-connect-master-transparent\.png/);
 });
