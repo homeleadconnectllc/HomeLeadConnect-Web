@@ -5,7 +5,7 @@ on:
     branches:
       - 'visual/front-door-system-pass-20260910'
   pull_request:
-    types: [synchronize, reopened]
+    types: [opened, synchronize, reopened]
     branches:
       - main
   workflow_dispatch:
