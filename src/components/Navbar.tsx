@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { Link, useLocation } from "react-router-dom";
 import { ecosystemNavigation } from "../config/navigationPlacement";
 import type { EcosystemPage } from "../config/ecosystem";
+import { APP_HOME, publicUrl } from "../config/siteOrigins";
 import { useAuth } from "../hooks/useAuth";
 import { useAccountAccess } from "../hooks/useAccountAccess";
 import { canAccessWorkspacePath } from "../lib/accessPolicy";
@@ -42,6 +43,16 @@ const legacyMobileRouteAliases = [
 
 type MobileIconName = "home" | "work" | "community" | "messages" | "notifications" | "profile" | "more";
 type MobileNavItem = { label: string; route: string; icon: MobileIconName; matches?: string[] };
+type BrandAccess = { business: boolean; homeowner: boolean; contractor: boolean; partner: boolean };
+
+function signedInHome(access: BrandAccess) {
+  if (access.business) return APP_HOME;
+  if (access.homeowner) return "/homeowner-portal";
+  if (access.contractor) return "/contractor-portal";
+  if (access.partner) return "/partner-portal";
+  return "/portal/accept";
+}
+
 function MobileNavIcon({ name }: { name: MobileIconName }) {
   if (name === "home") return <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.8 12 3l9 7.8v9.1a1.1 1.1 0 0 1-1.1 1.1h-5.3v-6.2H9.4V21H4.1A1.1 1.1 0 0 1 3 19.9Z" /></svg>;
   if (name === "work") return <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M9 7V4h6v3M3 12h18" /></svg>;
@@ -111,7 +122,7 @@ export default function Navbar() {
   const signedIn = !loading && Boolean(session);
   const accessResolved = !session || (!access.loading && access.userId === session.user.id);
   const showBusinessTools = access.business && Boolean(access.role);
-  const brandDestination = signedIn ? (access.business ? "/dashboard" : access.homeowner ? "/homeowner-portal" : access.contractor ? "/contractor-portal" : access.partner ? "/partner-portal" : "/portal/accept") : "/login";
+  const brandDestination = signedIn ? signedInHome(access) : "/login";
   const mobilePrimaryLinks = useMemo<MobileNavItem[]>(() => {
     if (!signedIn || !accessResolved) return [];
     if (showBusinessTools && access.role) return [
@@ -134,7 +145,7 @@ export default function Navbar() {
 
   function renderDesktopMenuContents() {
     if (loading) return <p className="hlc-nav-access-note" role="status">Loading navigation…</p>;
-    if (!signedIn) return <><a href="https://homeleadconnect.org">Public Home</a><Link to="/request-service">Request Service</Link><Link to="/contact">Contact</Link><Link to="/login">Sign In</Link></>;
+    if (!signedIn) return <><a href={publicUrl("/")}>Public Home</a><Link to="/request-service">Request Service</Link><a href={publicUrl("/contact")}>Contact</a><Link to="/login">Sign In</Link></>;
     return <>
       <div className="hlc-navbar-groups" aria-label="Signed-in HomeLead Connect areas">
         {showBusinessTools && access.role && <details className="hlc-nav-group hlc-nav-agent-group" open={openGroup === "ai-team"}><summary onClick={(event) => { event.preventDefault(); toggleGroup("ai-team"); }}><span>AI Team</span><small>{agentNavigation.filter((agent) => canAccessWorkspacePath(access.role, agent.route)).length}</small></summary><div className="hlc-nav-menu hlc-agent-nav-menu">{agentNavigation.filter((agent) => canAccessWorkspacePath(access.role, agent.route)).map((agent) => <Link className="hlc-agent-nav-link" aria-current={location.pathname === agent.route ? "page" : undefined} key={agent.route} to={agent.route}><img src={agent.avatar} alt="" aria-hidden="true" /><span className="hlc-agent-nav-copy"><strong>{agent.label}</strong><small>{agent.purpose}</small></span></Link>)}</div></details>}
@@ -148,7 +159,7 @@ export default function Navbar() {
 
   function renderMobileMoreMenu() {
     if (loading || !accessResolved) return <p className="hlc-nav-access-note" role="status">Loading navigation…</p>;
-    if (!signedIn) return <nav className="hlc-mobile-more-quick" aria-label="HomeLead Connect links"><a href="https://homeleadconnect.org"><MobileNavIcon name="home" /><span><strong>Public Home</strong><small>Visit HomeLead Connect</small></span><b aria-hidden="true">→</b></a><Link to="/request-service" onClick={closeMobileMenu}><MobileNavIcon name="work" /><span><strong>Request Service</strong><small>Start a home-service request</small></span><b aria-hidden="true">→</b></Link><Link to="/login" onClick={closeMobileMenu}><MobileNavIcon name="profile" /><span><strong>Sign In</strong><small>Open your account</small></span><b aria-hidden="true">→</b></Link></nav>;
+    if (!signedIn) return <nav className="hlc-mobile-more-quick" aria-label="HomeLead Connect links"><a href={publicUrl("/")}><MobileNavIcon name="home" /><span><strong>Public Home</strong><small>Visit HomeLead Connect</small></span><b aria-hidden="true">→</b></a><Link to="/request-service" onClick={closeMobileMenu}><MobileNavIcon name="work" /><span><strong>Request Service</strong><small>Start a home-service request</small></span><b aria-hidden="true">→</b></Link><Link to="/login" onClick={closeMobileMenu}><MobileNavIcon name="profile" /><span><strong>Sign In</strong><small>Open your account</small></span><b aria-hidden="true">→</b></Link></nav>;
 
     return <>
       <div className="hlc-mobile-more-title"><span>MORE</span><strong>{showBusinessTools ? "HomeLead Connect" : access.homeowner ? "Resident" : access.contractor ? "Professional" : access.partner ? "Partner" : "Account"}</strong></div>
