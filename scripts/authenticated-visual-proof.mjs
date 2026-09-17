@@ -70,6 +70,7 @@ const authValue = JSON.stringify(session);
 
 const browser = await chromium.launch({ headless: true });
 try {
+  const deepLinkProof = (async () => {
   const deepLinkContext = await browser.newContext({ viewport: viewports[0][1] });
   const deepLinkPage = await deepLinkContext.newPage();
   const invitationToken = "visual-proof-token";
@@ -105,8 +106,9 @@ try {
   await assertExactlyOneVisibleLogo(deepLinkPage, "Protected deep-link after sign-in mobile");
   await deepLinkPage.screenshot({ path: path.join(outputDir, "protected-deep-link-after-sign-in-mobile.png"), fullPage: true });
   await deepLinkContext.close();
+  })();
 
-  for (const [viewportName, viewport] of viewports) {
+  const viewportProofs = viewports.map(async ([viewportName, viewport]) => {
     const context = await browser.newContext({ viewport });
     const page = await context.newPage();
     await page.addInitScript(({ key, value }) => localStorage.setItem(key, value), { key: authStorageKey, value: authValue });
@@ -123,7 +125,9 @@ try {
     }
 
     await context.close();
-  }
+  });
+
+  await Promise.all([deepLinkProof, ...viewportProofs]);
 } finally {
   await browser.close();
 }

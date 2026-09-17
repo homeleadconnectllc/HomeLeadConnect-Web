@@ -48,9 +48,6 @@ jobs:
       - name: Build candidate
         run: npm run build
 
-      - name: Install Playwright package
-        run: npm install --no-save --ignore-scripts playwright@1.55.0
-
       - name: Restore Playwright Chromium cache
         id: playwright-cache
         uses: actions/cache@v4
