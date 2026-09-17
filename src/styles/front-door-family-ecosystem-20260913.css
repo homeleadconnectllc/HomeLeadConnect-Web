@@ -294,3 +294,56 @@
   .hlc-family-ecosystem .hlc-family-vision h2{font-size:49px}
   .hlc-family-ecosystem .hlc-family-vision-note{font-size:14px}
 }
+
+@media (min-width: 681px) {
+  html body #root#root .hlc-family-ecosystem .hlc-board-pathway-inner {
+    width: 100%;
+    max-width: none;
+    gap: 0;
+  }
+
+  html body #root#root .hlc-family-ecosystem .hlc-board-pathway {
+    min-height: 360px;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  html body #root#root .hlc-family-ecosystem .hlc-board-pathway-content {
+    inset: auto 28px 30px;
+  }
+}
+
+@media (min-width: 681px) and (max-width: 1120px) {
+  html body #root#root#root#root .hlc-public-shared-nav .hlc-board-nav-inner {
+    width: min(100% - 32px, 1400px);
+    gap: 14px;
+  }
+
+  html body #root#root#root#root .hlc-public-shared-nav .hlc-board-brand {
+    flex: 0 0 auto;
+  }
+
+  html body #root#root#root#root .hlc-public-shared-nav .hlc-board-links {
+    display: flex !important;
+    flex: 1 1 auto;
+    justify-content: center;
+    gap: clamp(8px, 1.15vw, 18px);
+    min-width: 0;
+  }
+
+  html body #root#root#root#root .hlc-public-shared-nav .hlc-board-links a {
+    white-space: nowrap;
+    font-size: clamp(11px, 1.15vw, 14px);
+  }
+
+  html body #root#root#root#root .hlc-public-shared-nav .hlc-board-actions {
+    flex: 0 0 auto;
+    gap: 8px;
+  }
+
+  html body #root#root#root#root .hlc-public-shared-nav .hlc-mobile-nav-v2,
+  html body #root#root#root#root .hlc-public-shared-nav .hlc-mobile-sign-in-link {
+    display: none !important;
+  }
+}
