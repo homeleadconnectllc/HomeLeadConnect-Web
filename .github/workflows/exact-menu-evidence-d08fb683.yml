@@ -1,0 +1,225 @@
+name: Exact candidate public menu evidence
+on:
+  push:
+    branches:
+      - evidence/mobile-public-menu-d08fb683-20260917
+    paths:
+      - .github/workflows/exact-menu-evidence-d08fb683.yml
+permissions:
+  contents: read
+jobs:
+  menu:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+    env:
+      VITE_SUPABASE_URL: https://blocked-backend.invalid
+      VITE_SUPABASE_ANON_KEY: sb_publishable_internal_menu_verification
+      VITE_AUTH_CAPTCHA_REQUIRED: "false"
+      MENU_ENGINE: ${{ matrix.engine }}
+    steps:
+      - name: Checkout immutable candidate
+        uses: actions/checkout@v4
+        with:
+          ref: d08fb683aa510eccc72709325439c569fb28cffc
+          persist-credentials: false
+      - name: Prove exact checkout
+        run: |
+          test "$(git rev-parse HEAD)" = d08fb683aa510eccc72709325439c569fb28cffc
+          test -z "$(git status --porcelain)"
+          git rev-parse HEAD
+          git rev-parse 'HEAD^{tree}'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - name: Install dependencies and browser test engine
+        run: |
+          npm ci --no-audit --fund=false
+          npm install --no-save --package-lock=false --ignore-scripts playwright@1.55.0
+          npx playwright install --with-deps ${{ matrix.engine }}
+      - name: Build exact source
+        run: npm run build
+      - name: Start isolated static candidate
+        run: |
+          npm run preview -- --host 127.0.0.1 --port 4173 > /tmp/menu-preview.log 2>&1 &
+          for attempt in $(seq 1 30); do
+            if curl --silent --fail http://127.0.0.1:4173/ > /dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/menu-preview.log
+          exit 1
+      - name: Verify open menu, contrast, links, keyboard, and breakpoints with backend blocked
+        run: |
+          cat > .internal-menu-evidence.mjs <<'MENU_EVIDENCE'
+          import assert from 'node:assert/strict';
+          import fs from 'node:fs';
+          import crypto from 'node:crypto';
+          import { execFileSync } from 'node:child_process';
+          import { chromium, webkit } from 'playwright';
+          
+          const candidate = 'd08fb683aa510eccc72709325439c569fb28cffc';
+          assert.equal(execFileSync('git', ['rev-parse', 'HEAD'], {encoding:'utf8'}).trim(), candidate);
+          const base = 'http://127.0.0.1:4173';
+          const engineName = process.env.MENU_ENGINE;
+          const engine = {chromium, webkit}[engineName];
+          assert.ok(engine);
+          const output = 'artifacts/menu-' + engineName;
+          fs.mkdirSync(output, {recursive:true});
+          const report = {candidate, engine:engineName, browserVersion:null, cases:[], blocked:[], allowed:[], failures:[], limitations:['WebKit automated evidence is not physical iPhone owner certification.']};
+          const paths = ['/about','/homeowners','/professionals','/partners','/community','/services','/login','/register'];
+          const labels = ['About','For Residents','For Professionals','For Partners','Community','Resources','Sign In','Get Started'];
+          const routes = ['/','/login','/register','/about','/homeowners','/professionals','/partners','/community','/services'];
+          const viewports = [
+          {width:320,height:844},{width:390,height:844},{width:680,height:844},
+          {width:768,height:844},{width:1050,height:844},{width:1051,height:844},
+          {width:1440,height:1000},{width:844,height:390}
+          ];
+          const rgb = value => value.match(/[\d.]+/g).slice(0,3).map(Number);
+          const lum = value => rgb(value).map(n=>n/255).map(n=>n<=.04045?n/12.92:((n+.055)/1.055)**2.4).reduce((s,n,i)=>s+n*[.2126,.7152,.0722][i],0);
+          const contrast = (a,b)=>(Math.max(lum(a),lum(b))+.05)/(Math.min(lum(a),lum(b))+.05);
+          const browser = await engine.launch({headless:true});
+          report.browserVersion = browser.version();
+          try {
+          for (const viewport of viewports) {
+          const context = await browser.newContext({viewport, serviceWorkers:'block'});
+          await context.route('**/*', async route => {
+           const req=route.request(), url=new URL(req.url());
+           const backend = url.origin!==base || req.method()!=='GET' || ['xhr','fetch'].includes(req.resourceType()) || /^\/(api|rest|auth|functions)\//.test(url.pathname);
+           const item={method:req.method(),url:req.url(),type:req.resourceType()};
+           if(backend){report.blocked.push(item);await route.abort('blockedbyclient');}
+           else {report.allowed.push(item);await route.continue();}
+          });
+          await context.routeWebSocket('**/*', ws=>{report.blocked.push({type:'websocket',url:ws.url()});ws.close();});
+          for (const route of routes) {
+          const page=await context.newPage();
+          const slug=route==='/'?'home':route.slice(1);
+          const item={route,viewport,status:'RUNNING',errors:[],warnings:[]};
+          report.cases.push(item);
+          page.on('pageerror', e=>item.errors.push(e.message));
+          try {
+          await page.goto(base+route,{waitUntil:'networkidle',timeout:30000});
+          const header=page.locator('.hlc-public-shared-nav');
+          await header.waitFor({state:'visible',timeout:15000});
+          assert.equal(await header.count(),1,'exactly one public header');
+          assert.equal(item.errors.length,0,item.errors.join('\n'));
+          const trigger=header.locator('summary');
+          if(viewport.width<=1050){
+          await trigger.click();
+          item.geometry=await trigger.evaluate(summary=>{
+           const details=summary.parentElement,panel=details.querySelector('nav'),style=getComputedStyle;
+           const rect=e=>{const r=e.getBoundingClientRect();return {x:r.x,y:r.y,width:r.width,height:r.height,right:r.right,bottom:r.bottom};};
+           return {open:details.open,wrapperBorder:style(details).borderTopWidth,triggerBorder:style(summary).borderTopWidth,triggerShadow:style(summary).boxShadow,triggerBackground:style(summary).backgroundColor,trigger:rect(summary),
+           panel:{...rect(panel),background:style(panel).backgroundColor,overflowY:style(panel).overflowY,scrollHeight:panel.scrollHeight,clientHeight:panel.clientHeight},
+           header:rect(summary.closest('header')),
+           links:[...panel.querySelectorAll('a')].map(link=>({
+           href:link.href,path:new URL(link.href).pathname,label:link.querySelector('span').textContent.trim(),...rect(link),color:style(link).color,
+           background:style(link).backgroundColor,labelColor:style(link.querySelector('span')).color,labelFill:style(link.querySelector('span')).webkitTextFillColor,
+           labelOpacity:style(link.querySelector('span')).opacity,iconColor:style(link.querySelector('svg')).color,iconOpacity:style(link.querySelector('svg')).opacity,
+           labelBox:rect(link.querySelector('span')),iconBox:rect(link.querySelector('svg'))
+           }))
+           };
+          });
+          const state=item.geometry;
+          assert.equal(state.open,true);
+          assert.equal(state.wrapperBorder,'0px');
+          assert.equal(state.triggerBorder,'0px');
+          assert.equal(state.triggerShadow,'none');
+          assert.equal(state.triggerBackground,'rgba(0, 0, 0, 0)');
+          assert.ok(state.trigger.width>=44&&state.trigger.height>=44,'trigger touch target');
+          assert.ok(state.panel.x>=-.5&&state.panel.right<=viewport.width+.5,'panel inside viewport');
+          assert.ok(state.header.x>=-.5&&state.header.right<=viewport.width+.5,'header inside viewport');
+          assert.deepEqual(state.links.map(l=>l.path),paths,'unchanged navigation paths');
+          assert.deepEqual(state.links.map(l=>l.label),labels,'unchanged readable labels');
+          for(const link of state.links){
+           assert.ok([new URL(base).hostname,'app.homeleadconnect.org'].includes(new URL(link.href).hostname),'authorized link host');
+           assert.ok(link.height>=43,'link touch target');
+           assert.equal(link.labelColor,link.color,'label inherits link color');
+           assert.equal(link.labelFill,link.color,'text fill matches foreground');
+           assert.equal(link.iconColor,link.color,'icon inherits foreground');
+           assert.equal(link.labelOpacity,'1');
+           assert.equal(link.iconOpacity,'1');
+           assert.ok(link.iconBox.width>=16&&link.iconBox.height>=16,'visible icon');
+           assert.ok(link.labelBox.x>=link.x&&link.labelBox.right<=link.right+.5,'label inside link');
+           const bg=link.background==='rgba(0, 0, 0, 0)'?state.panel.background:link.background;
+           link.contrast=contrast(link.labelColor,bg);
+           assert.ok(link.contrast>=4.5,'text contrast >= 4.5:1');
+          }
+          item.screenshot=output+'/'+slug+'-'+viewport.width+'x'+viewport.height+'-open.png';
+          await page.screenshot({path:item.screenshot});
+          await trigger.click();
+          assert.equal(await trigger.evaluate(e=>e.parentElement.open),false,'click closes disclosure');
+          await trigger.press('Enter');
+          assert.equal(await trigger.evaluate(e=>e.parentElement.open),true,'Enter opens disclosure');
+          item.triggerFocus=await trigger.evaluate(e=>({active:document.activeElement===e,style:getComputedStyle(e).outlineStyle,width:getComputedStyle(e).outlineWidth}));
+          assert.equal(item.triggerFocus.active,true);
+          assert.notEqual(item.triggerFocus.style,'none','visible keyboard focus');
+          await trigger.press('Space');
+          assert.equal(await trigger.evaluate(e=>e.parentElement.open),false,'Space closes disclosure');
+          await trigger.press('Space');
+          assert.equal(await trigger.evaluate(e=>e.parentElement.open),true,'Space opens disclosure');
+          await trigger.press('Tab');
+          item.tabFocus=await page.evaluate(()=>({tag:document.activeElement?.tagName,path:document.activeElement?.href?new URL(document.activeElement.href).pathname:null}));
+          if(engineName==='webkit'&&item.tabFocus.path!==paths[0]){
+           item.warnings.push('WebKit default Tab omits links; testing native Option+Tab link navigation.');
+           await trigger.press('Alt+Tab');
+           item.optionTabFocus=await page.evaluate(()=>({tag:document.activeElement?.tagName,path:document.activeElement?.href?new URL(document.activeElement.href).pathname:null}));
+           assert.equal(item.optionTabFocus.path,paths[0],'Option+Tab reaches first menu link');
+          }else assert.equal(item.tabFocus.path,paths[0],'Tab reaches first menu link');
+          item.linkFocus=await header.locator('nav[aria-label="Mobile navigation"] a').first().evaluate(e=>({active:document.activeElement===e,style:getComputedStyle(e).outlineStyle,width:getComputedStyle(e).outlineWidth}));
+          assert.equal(item.linkFocus.active,true);
+          assert.notEqual(item.linkFocus.style,'none','visible menu link keyboard focus');
+          await page.keyboard.press('Enter');
+          await page.waitForURL(u=>u.pathname==='/about',{timeout:10000});
+          assert.equal(new URL(page.url()).origin,base,'keyboard link stays local');
+          item.keyboardNavigation='/about';
+          } else {
+          assert.equal(await trigger.isVisible(),false,'mobile menu hidden on desktop');
+          assert.equal(await header.locator('.hlc-board-links').isVisible(),true,'desktop navigation visible');
+          const desktopPaths=await header.locator('.hlc-board-links a').evaluateAll(links=>links.map(a=>new URL(a.href).pathname));
+          assert.deepEqual(desktopPaths,paths.slice(0,6));
+          item.screenshot=output+'/'+slug+'-'+viewport.width+'x'+viewport.height+'-desktop.png';
+          await page.screenshot({path:item.screenshot});
+          }
+          item.status='PASS';
+          console.log('PASS '+engineName+' '+route+' '+viewport.width+'x'+viewport.height);
+          }catch(e){
+          item.status='FAIL';item.failure=e.message;report.failures.push({route,viewport,error:e.message});
+          await page.screenshot({path:output+'/'+slug+'-'+viewport.width+'x'+viewport.height+'-failure.png'}).catch(()=>{});
+          console.error('FAIL '+engineName+' '+route+' '+viewport.width+'x'+viewport.height+' '+e.message);
+          }finally{await page.close();}
+          }
+          await context.close();
+          }
+          const context=await browser.newContext({serviceWorkers:'block'});
+          await context.route('**/*',r=>{if(new URL(r.request().url()).origin!==base){report.blocked.push({type:'blocking-self-check',url:r.request().url()});r.abort('blockedbyclient');}else r.continue();});
+          const page=await context.newPage();
+          await page.goto(base,{waitUntil:'networkidle'});
+          report.blockingSelfCheck=await page.evaluate(async()=>{try{await fetch('https://blocked-backend.invalid/network-blocking-self-check');return false;}catch{return true;}});
+          assert.equal(report.blockingSelfCheck,true);
+          await context.close();
+          }finally{
+          await browser.close();
+          report.allowedRequestCount=report.allowed.length;
+          report.allowed=report.allowed.filter(x=>x.method!=='GET'||new URL(x.url).origin!==base);
+          assert.equal(report.allowed.length,0,'zero nonlocal or write requests allowed');
+          report.sourceTree=execFileSync('git',['rev-parse','HEAD^{tree}'],{encoding:'utf8'}).trim();
+          report.entrySha256=crypto.createHash('sha256').update(fs.readFileSync('dist/index.html')).digest('hex');
+          fs.writeFileSync(output+'/report.json',JSON.stringify(report,null,2));
+          console.log(JSON.stringify({candidate,engine:engineName,passes:report.cases.filter(c=>c.status==='PASS').length,total:report.cases.length,failures:report.failures,blocked:report.blocked.length,blockingSelfCheck:report.blockingSelfCheck,sourceTree:report.sourceTree}));
+          }
+          if(report.failures.length)process.exitCode=1;
+          
+          MENU_EVIDENCE
+          node .internal-menu-evidence.mjs
+      - name: Upload exact-candidate screenshots and network audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: menu-${{ matrix.engine }}-d08fb683aa510eccc72709325439c569fb28cffc
+          path: artifacts/menu-${{ matrix.engine }}
+          if-no-files-found: error
+          retention-days: 14
