@@ -1,10 +1,11 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import type { Provider } from "@supabase/supabase-js";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { trackAnalyticsEvent } from "../../api/analytics";
 import AuthShell from "../../components/auth/AuthShell";
 import AuthTurnstile from "../../components/auth/AuthTurnstile";
 import { useAuth } from "../../hooks/useAuth";
+import { resolveUserDestination, type HlcDestination } from "../../lib/accessDestination";
 import { errorMessage } from "../../lib/errorMessage";
 import { isSupabaseConfigured, supabase, supabaseConfigMessage } from "../../lib/supabase";
 import { turnstileEnabled } from "../../lib/turnstile";
@@ -38,6 +39,27 @@ function withTimeout<T>(promise: PromiseLike<T>, timeoutMs: number): Promise<T> 
   });
 }
 
+function AuthenticatedLoginRedirect({ userId, requestedDestination }: { userId: string; requestedDestination: string | null }) {
+  const [target, setTarget] = useState<HlcDestination | string | null>(requestedDestination);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    if (requestedDestination) {
+      setTarget(requestedDestination);
+      return;
+    }
+    let active = true;
+    resolveUserDestination(userId)
+      .then((destination) => { if (active) setTarget(destination); })
+      .catch(() => { if (active) setFailed(true); });
+    return () => { active = false; };
+  }, [requestedDestination, userId]);
+
+  if (failed) return <Navigate to="/portal/accept" replace />;
+  if (!target) return null;
+  return <Navigate to={target} replace />;
+}
+
 export default function Login() {
   const { session, loading } = useAuth();
   const location = useLocation();
@@ -64,12 +86,18 @@ export default function Login() {
     queryNext?.startsWith("/team/accept?") || queryNext?.startsWith("/portal/accept?"),
   );
 
-  if (!loading && session) return <Navigate to={requestedDestination || "/app"} replace />;
+  if (!loading && session) {
+    return <AuthenticatedLoginRedirect userId={session.user.id} requestedDestination={requestedDestination} />;
+  }
 
   function resetStatus() { setError(""); setMessage(""); }
   function resetCaptcha() { setCaptchaToken(""); setCaptchaReset((value) => value + 1); }
-  function destination() {
-    return requestedDestination || "/app";
+  function callbackDestination() {
+    return requestedDestination ? `/login?next=${encodeURIComponent(requestedDestination)}` : "/login";
+  }
+
+  async function resolvedDestination(userId: string) {
+    return requestedDestination || await resolveUserDestination(userId);
   }
 
   async function login(event: FormEvent<HTMLFormElement>) {
@@ -79,14 +107,16 @@ export default function Login() {
     if (!isSupabaseConfigured()) { setError(supabaseConfigMessage); setBusy(false); return; }
 
     try {
-      const { error: authError } = await withTimeout(
+      const { data, error: authError } = await withTimeout(
         supabase.auth.signInWithPassword({ email, password, options: { captchaToken: captchaToken || undefined } }),
         SIGN_IN_TIMEOUT_MS,
       );
       resetCaptcha();
       if (authError) { setError(errorMessage(authError, "Unable to sign in.")); return; }
+      const userId = data.user?.id ?? data.session?.user.id;
+      if (!userId) { setError("Your session could not be opened."); return; }
       trackAnalyticsEvent("sign_in_completed", { method: "password" });
-      navigate(destination(), { replace: true });
+      navigate(await resolvedDestination(userId), { replace: true });
     } catch (authError) {
       resetCaptcha();
       if (authError instanceof Error && authError.message === "HLC_SIGN_IN_TIMEOUT") {
@@ -105,7 +135,7 @@ export default function Login() {
     setBusy(true); resetStatus();
     const { error: authError } = await supabase.auth.signInWithOtp({
       email,
-      options: { shouldCreateUser: !invitationFlow, emailRedirectTo: `${window.location.origin}${destination()}`, captchaToken: captchaToken || undefined },
+      options: { shouldCreateUser: !invitationFlow, emailRedirectTo: `${window.location.origin}${callbackDestination()}`, captchaToken: captchaToken || undefined },
     });
     resetCaptcha(); setBusy(false);
     if (authError) { setError(errorMessage(authError, "Unable to send the sign-in link.")); return; }
@@ -129,18 +159,20 @@ export default function Login() {
     event.preventDefault();
     if (!phoneAuthEnabled || invitationFlow) return;
     setBusy(true); resetStatus();
-    const { error: authError } = await supabase.auth.verifyOtp({ phone: phone.trim(), token: otp.trim(), type: "sms" });
+    const { data, error: authError } = await supabase.auth.verifyOtp({ phone: phone.trim(), token: otp.trim(), type: "sms" });
     setBusy(false);
     if (authError) { setError(errorMessage(authError, "Unable to verify that code.")); return; }
+    const userId = data.user?.id ?? data.session?.user.id;
+    if (!userId) { setError("Your session could not be opened."); return; }
     trackAnalyticsEvent("sign_in_completed", { method: "phone_otp" });
-    navigate(destination(), { replace: true });
+    navigate(await resolvedDestination(userId), { replace: true });
   }
 
   async function oauth(provider: Provider) {
     if (!socialAuthEnabled || invitationFlow) return;
     trackAnalyticsEvent("sign_in_started", { method: provider });
     setBusy(true); resetStatus();
-    const { error: authError } = await supabase.auth.signInWithOAuth({ provider, options: { redirectTo: `${window.location.origin}${destination()}` } });
+    const { error: authError } = await supabase.auth.signInWithOAuth({ provider, options: { redirectTo: `${window.location.origin}${callbackDestination()}` } });
     if (authError) { setError(errorMessage(authError, `${provider} sign-in is not configured yet.`)); setBusy(false); }
   }
 
