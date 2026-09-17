@@ -100,7 +100,7 @@ test("brand lock replaces green matching, agent, and success presentation with H
   assert.doesNotMatch(brandLock, /#34d399|#10b981|#059669|#047857|#0f766e|#15803d|#166534|#dcfce7|#ecfdf5/i);
 });
 
-test("official HLC mark stays canonical across shared UI, browser, PWA, and notifications", () => {
+test("official HLC mark stays canonical for browser/PWA while revoked public artwork stays absent", () => {
   for (const surface of browserBrandSurfaces) {
     assert.match(surface, new RegExp(canonicalLogoPath.replaceAll(".", "\\.")));
   }
@@ -112,8 +112,10 @@ test("official HLC mark stays canonical across shared UI, browser, PWA, and noti
   assert.match(serviceWorker, /icon:\s*"\/hlc-logo-transparent\.png"/);
   assert.match(serviceWorker, /badge:\s*"\/hlc-logo-transparent\.png"/);
   assert.match(authShell, /<PublicSiteNav\s*\/>/);
-  assert.match(publicSiteNav, /src="\/brand\/homelead-connect-transparent-v2\.svg"/);
-  assert.match(footer, /src="\/brand\/homelead-connect-transparent-v2\.svg"/);
+  assert.match(publicSiteNav, />HomeLead Connect<\/a>/);
+  assert.match(footer, /<strong>HomeLead Connect<\/strong>/);
+  assert.doesNotMatch(publicSiteNav, /homelead-connect-transparent-v2\.svg/);
+  assert.doesNotMatch(footer, /homelead-connect-transparent-v2\.svg/);
   assert.doesNotMatch(publicSiteNav, /homelead-connect-master-transparent\.png/);
   assert.doesNotMatch(footer, /homelead-connect-master-transparent\.png/);
 });
