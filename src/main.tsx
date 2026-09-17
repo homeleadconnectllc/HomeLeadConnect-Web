@@ -39,6 +39,7 @@ import "./styles/mobile-release-fix.css";
 */
 
 const APP_HOST = "app.homeleadconnect.org";
+const MASTER_LOGO = "/brand/homelead-connect-master-transparent.png";
 const isPublicHome = window.location.pathname === "/" && window.location.hostname.toLowerCase() !== APP_HOST;
 const rootElement = document.getElementById("root")!;
 
@@ -50,7 +51,7 @@ function publicHomeMarkup() {
     <main class="hlc-board-home hlc-v2-home hlc-family-ecosystem">
       <header class="hlc-board-nav">
         <div class="hlc-board-nav-inner">
-          <a class="hlc-board-brand" href="https://homeleadconnect.org/" aria-label="HomeLead Connect home">HomeLead Connect</a>
+          <a class="hlc-board-brand" href="https://homeleadconnect.org/" aria-label="HomeLead Connect home"><img class="hlc-navbar-master-logo" data-hlc-master-logo="true" src="${MASTER_LOGO}" alt="" aria-hidden="true" /><span class="hlc-brand-accessible-label">HomeLead Connect</span></a>
           <nav class="hlc-board-links" aria-label="Primary navigation"><a href="/about">About</a><a href="/homeowners">For Residents</a><a href="/professionals">For Professionals</a><a href="/partners">For Partners</a><a href="/community">Community</a><a href="/services">Resources</a></nav>
           <div class="hlc-board-actions">
             <a class="hlc-board-login" href="https://app.homeleadconnect.org/login">Sign In</a>

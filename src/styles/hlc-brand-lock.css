@@ -7,6 +7,7 @@
   --hlc-brand-navy: #0d1b3d;
   --hlc-brand-navy-deep: #07142d;
   --hlc-brand-blue: #1e5bff;
+  --hlc-blue: var(--hlc-brand-blue);
   --hlc-brand-blue-strong: #1748d6;
   --hlc-brand-blue-soft: #eaf1ff;
   --hlc-brand-white: #ffffff;
