@@ -157,6 +157,11 @@
       gap: 12px !important;
     }
 
+    /* Keep the disclosure anchored to the right when the pill is removed. */
+    html body #root#root#root#root .hlc-public-shared-nav .hlc-board-actions {
+      margin-left: auto !important;
+    }
+
     html body #root#root#root#root .hlc-public-shared-nav .hlc-board-brand img {
       width: 56px !important;
       height: 56px !important;
@@ -262,6 +267,14 @@
       color: inherit !important;
       -webkit-text-fill-color: currentColor !important;
       opacity: 1 !important;
+    }
+
+    /* The root reset also paints SVG descendants. Preserve each link's tone
+       on the actual stroked paths, including the dark Get Started icon. */
+    html body #root#root#root#root .hlc-public-shared-nav .hlc-mobile-nav-v2__icon,
+    html body #root#root#root#root .hlc-public-shared-nav .hlc-mobile-nav-v2__icon * {
+      color: inherit !important;
+      stroke: currentColor !important;
     }
 
     html body #root#root#root#root .hlc-public-shared-nav .hlc-mobile-nav-v2__trigger:focus-visible,
