@@ -13,6 +13,7 @@ writeFileSync(`${directory}/candidate-sha.txt`, `${sha}\n`);
 const routes = ['/', '/about', '/homeowners', '/contractors', '/professionals', '/partners', '/community', '/services', '/how-it-works', '/leadscope', '/pricing', '/trust', '/demo', '/contact', '/request-service', '/professional-application', '/privacy', '/terms', '/accessibility', '/platform-disclosure', '/login', '/register', '/forgot-password', '/reset-password', '/app', '/portal', '/memorial', '/kendrell-memorial', '/portal/accept', '/team/accept'];
 const widths = [320, 390, 1440];
 const expectedPaths = ['/about', '/homeowners', '/professionals', '/partners', '/community', '/services', '/login', '/register'];
+const expectedLogoPath = '/hlc-logo-ui.png';
 const report = { sha, routes, widths, cases: [], restrictions: 'Anonymous local build only; external requests blocked; no form submission, credential entry, backend writes, or production navigation.' };
 const browser = await chromium.launch();
 
@@ -29,7 +30,7 @@ async function metrics(page) {
       return style.display !== 'none' && style.visibility !== 'hidden' && Number.parseFloat(style.opacity || '1') > 0 && box.width > 0 && box.height > 0;
     };
     const brand = header.querySelector('.hlc-board-brand, .hlc-public-site-nav__brand, .hlc-auth-public-brand');
-    const visibleBrandImage = [...header.querySelectorAll('img')].find(visible) ?? null;
+    const visibleBrandImage = [...header.querySelectorAll('img[data-hlc-master-logo]')].find(visible) ?? null;
     const summary = [...header.querySelectorAll('summary')].find(visible);
     const login = [...header.querySelectorAll('a')].find(a => a.textContent.trim() === 'Sign In' && visible(a));
     const cta = [...header.querySelectorAll('a')].find(a => a.textContent.includes('Get Started') && visible(a));
@@ -39,7 +40,7 @@ async function metrics(page) {
       box: { x: box.x, y: box.y, width: box.width, height: box.height },
       background: getComputedStyle(header).backgroundColor,
       brand: brand ? { text: brand.textContent?.trim() ?? '', width: brand.getBoundingClientRect().width, height: brand.getBoundingClientRect().height } : null,
-      visibleBrandImage: !!visibleBrandImage,
+      visibleBrandImage: visibleBrandImage ? { src: new URL(visibleBrandImage.src).pathname, width: visibleBrandImage.getBoundingClientRect().width, height: visibleBrandImage.getBoundingClientRect().height } : null,
       summary: properties(summary), login: properties(login), cta: properties(cta),
       overflow: document.documentElement.scrollWidth > innerWidth + 1
     };
@@ -79,8 +80,10 @@ try {
         check(() => assert.ok(Math.abs(measured.box.width - authority.box.width) <= 2, 'Header width differs from Home'));
         check(() => assert.ok(Math.abs(measured.box.height - authority.box.height) <= 2, 'Header height differs from Home'));
         check(() => assert.equal(measured.background, authority.background, 'Header background differs from Home'));
-        check(() => assert.equal(measured.brand?.text, 'HomeLead Connect', 'Text brand is missing or inconsistent'));
-        check(() => assert.equal(measured.visibleBrandImage, false, 'Revoked public logo artwork is visible'));
+        check(() => assert.equal(measured.brand?.text, 'HomeLead Connect', 'Brand label is missing or inconsistent'));
+        check(() => assert.ok(measured.visibleBrandImage, 'Approved logo derivative is not physically visible'));
+        check(() => assert.equal(measured.visibleBrandImage?.src, expectedLogoPath, 'Visible navbar artwork is not the approved responsive derivative'));
+        check(() => assert.ok(measured.visibleBrandImage?.width >= 40 && measured.visibleBrandImage?.height >= 40, 'Approved logo is rendered too small to be visibly present'));
         const header = page.locator('.hlc-public-site-nav, .hlc-board-nav');
         const summary = header.locator('summary');
         if (width <= 680) {
