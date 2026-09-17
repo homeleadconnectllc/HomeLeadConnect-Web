@@ -40,14 +40,11 @@ function withTimeout<T>(promise: PromiseLike<T>, timeoutMs: number): Promise<T> 
 }
 
 function AuthenticatedLoginRedirect({ userId, requestedDestination }: { userId: string; requestedDestination: string | null }) {
-  const [target, setTarget] = useState<HlcDestination | string | null>(requestedDestination);
+  const [target, setTarget] = useState<HlcDestination | null>(null);
   const [failed, setFailed] = useState(false);
 
   useEffect(() => {
-    if (requestedDestination) {
-      setTarget(requestedDestination);
-      return;
-    }
+    if (requestedDestination) return;
     let active = true;
     resolveUserDestination(userId)
       .then((destination) => { if (active) setTarget(destination); })
@@ -55,6 +52,7 @@ function AuthenticatedLoginRedirect({ userId, requestedDestination }: { userId: 
     return () => { active = false; };
   }, [requestedDestination, userId]);
 
+  if (requestedDestination) return <Navigate to={requestedDestination} replace />;
   if (failed) return <Navigate to="/portal/accept" replace />;
   if (!target) return null;
   return <Navigate to={target} replace />;
