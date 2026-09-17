@@ -1,170 +1,25 @@
 /* Final exact-render authority for the pathway family.
    Loaded after legacy public-shell CSS so pathway contrast and route geometry
-   remain deterministic without changing non-pathway routes.
-
-   Important declarations reverse cascade-layer priority. Keep this authority
-   inside the existing hlcRedesign layer so its high-specificity pathway rules
-   can beat older important rules in that layer instead of losing from the
-   unlayered important tier. */
+   remain deterministic without changing non-pathway routes. */
 @layer hlcRedesign {
-html body #root#root#root#root#root#root#root#root .hlc-route-content:has(> .hlc-pathway-page) {
-  width: 100% !important;
-  max-width: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: visible !important;
-}
-
-html body #root#root#root#root#root#root#root#root .hlc-pathway-page {
-  width: 100% !important;
-  max-width: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  background:
-    radial-gradient(circle at 88% 8%,var(--pathway-accent-soft),transparent 30%),
-    linear-gradient(180deg,#081225 0%,#09152a 45%,#071120 100%) !important;
-  color: #f7fafc !important;
-}
-
-html body #root#root#root#root#root#root#root#root .hlc-pathway-page[data-pathway="residents"] {
-  --pathway-accent:#62e6b3;
-  --pathway-accent-soft:rgba(98,230,179,.15);
-}
-
-html body #root#root#root#root#root#root#root#root .hlc-pathway-page[data-pathway="professionals"] {
-  --pathway-accent:#55c8ff;
-  --pathway-accent-soft:rgba(85,200,255,.15);
-}
-
-html body #root#root#root#root#root#root#root#root .hlc-pathway-page[data-pathway="partners"] {
-  --pathway-accent:#ffc443;
-  --pathway-accent-soft:rgba(255,196,67,.15);
-}
-
-html body #root#root#root#root#root#root#root#root .hlc-pathway-page[data-pathway="community"] {
-  --pathway-accent:#c38cff;
-  --pathway-accent-soft:rgba(195,140,255,.15);
-}
-
-html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero {
-  width: 100% !important;
-  max-width: none !important;
-  min-height: clamp(620px,76vh,820px) !important;
-  margin: 0 !important;
-  position: relative !important;
-  display: grid !important;
-  grid-template-columns: minmax(0,1.05fr) minmax(420px,.95fr) !important;
-  align-items: stretch !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-  overflow: hidden !important;
-}
-
-html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-copy {
-  position: relative !important;
-  z-index: 3 !important;
-  padding: clamp(72px,8vw,124px) clamp(28px,7vw,112px) !important;
-  background:
-    linear-gradient(90deg,#081225 0%,rgba(8,18,37,.96) 58%,rgba(8,18,37,.58) 100%) !important;
-  color: #f7fafc !important;
-  opacity: 1 !important;
-  filter: none !important;
-  mix-blend-mode: normal !important;
-  isolation: isolate !important;
-  animation: none !important;
-  transition: none !important;
-  visibility: visible !important;
-}
-
-html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-copy > * {
-  opacity: 1 !important;
-  filter: none !important;
-  animation: none !important;
-  transition: none !important;
-  visibility: visible !important;
-}
-
-html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero h1 {
-  color: #fff !important;
-  -webkit-text-fill-color: #fff !important;
-  background: none !important;
-  -webkit-background-clip: border-box !important;
-  background-clip: border-box !important;
-}
-
-html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-eyebrow {
-  color: var(--pathway-accent) !important;
-  -webkit-text-fill-color: var(--pathway-accent) !important;
-}
-
-html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-lead,
-html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-copy > small {
-  color: #b8c4d6 !important;
-  -webkit-text-fill-color: #b8c4d6 !important;
-}
-
-html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-visual {
-  min-height: inherit !important;
-  border: 0 !important;
-  border-radius: 0 !important;
-}
-
-html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-visual:after {
-  background:
-    linear-gradient(90deg,rgba(8,18,37,.72) 0%,rgba(8,18,37,.12) 42%,transparent 68%),
-    linear-gradient(180deg,transparent 58%,rgba(4,11,23,.64)) !important;
-}
-
-html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-section {
-  background: transparent !important;
-  color: #f7fafc !important;
-}
-
-html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-card {
-  padding: 30px 0 !important;
-  border: 0 !important;
-  border-top: 1px solid color-mix(in srgb,var(--pathway-accent) 38%,rgba(255,255,255,.08)) !important;
-  border-radius: 0 !important;
-  background: transparent !important;
-  box-shadow: none !important;
-  color: #fff !important;
-}
-
-html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-card h3,
-html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-section-heading h2,
-html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-final h2,
-html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-reassurance h2 {
-  color: #fff !important;
-  -webkit-text-fill-color: #fff !important;
-}
-
-html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-card p,
-html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-section-heading > span,
-html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-reassurance p {
-  color: #b8c4d6 !important;
-  -webkit-text-fill-color: #b8c4d6 !important;
-}
-
-@media (max-width:900px) {
-  html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero {
-    grid-template-columns: 1fr !important;
-  }
-
-  html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-copy {
-    padding: 64px 28px 52px !important;
-    background: linear-gradient(180deg,#081225 0%,rgba(8,18,37,.94) 100%) !important;
-  }
-
-  html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-visual {
-    min-height: 430px !important;
-  }
-}
-
-@media (max-width:680px) {
-  html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero {
-    width: 100% !important;
-    min-height: 0 !important;
-  }
-}
+html body #root#root#root#root#root#root#root#root .hlc-route-content:has(> .hlc-pathway-page){width:100%!important;max-width:none!important;margin:0!important;padding:0!important;overflow:visible!important}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page{width:100%!important;max-width:none!important;margin:0!important;padding:0!important;background:radial-gradient(circle at 88% 8%,var(--pathway-accent-soft),transparent 30%),linear-gradient(180deg,#081225 0%,#09152a 45%,#071120 100%)!important;color:#f7fafc!important}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page[data-pathway="residents"]{--pathway-accent:#62e6b3;--pathway-accent-soft:rgba(98,230,179,.15)}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page[data-pathway="professionals"]{--pathway-accent:#55c8ff;--pathway-accent-soft:rgba(85,200,255,.15)}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page[data-pathway="partners"]{--pathway-accent:#ffc443;--pathway-accent-soft:rgba(255,196,67,.15)}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page[data-pathway="community"]{--pathway-accent:#c38cff;--pathway-accent-soft:rgba(195,140,255,.15)}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero{width:100%!important;max-width:none!important;min-height:clamp(620px,76vh,820px)!important;margin:0!important;position:relative!important;display:grid!important;grid-template-columns:minmax(0,1.05fr) minmax(420px,.95fr)!important;align-items:stretch!important;border:0!important;border-radius:0!important;background:transparent!important;overflow:hidden!important}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-copy{position:relative!important;z-index:3!important;padding:clamp(72px,8vw,124px) clamp(28px,7vw,112px)!important;background:linear-gradient(90deg,#081225 0%,rgba(8,18,37,.96) 58%,rgba(8,18,37,.58) 100%)!important;color:#f7fafc!important;opacity:1!important;filter:none!important;mix-blend-mode:normal!important;isolation:isolate!important;animation:none!important;transition:none!important;visibility:visible!important}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-copy>*{opacity:1!important;filter:none!important;animation:none!important;transition:none!important;visibility:visible!important}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero h1{color:#fff!important;-webkit-text-fill-color:#fff!important;background:none!important;-webkit-background-clip:border-box!important;background-clip:border-box!important}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-eyebrow{color:var(--pathway-accent)!important;-webkit-text-fill-color:var(--pathway-accent)!important}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-lead,html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-copy>small{color:#b8c4d6!important;-webkit-text-fill-color:#b8c4d6!important}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-visual{min-height:inherit!important;border:0!important;border-radius:0!important}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-visual:after{background:linear-gradient(90deg,rgba(8,18,37,.72) 0%,rgba(8,18,37,.12) 42%,transparent 68%),linear-gradient(180deg,transparent 58%,rgba(4,11,23,.64))!important}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-section{background:transparent!important;color:#f7fafc!important}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-card{padding:30px 0!important;border:0!important;border-top:1px solid color-mix(in srgb,var(--pathway-accent) 38%,rgba(255,255,255,.08))!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;color:#fff!important}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-card h3,html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-section-heading h2,html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-final h2,html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-reassurance h2{color:#fff!important;-webkit-text-fill-color:#fff!important}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-card p,html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-section-heading>span,html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-reassurance p{color:#b8c4d6!important;-webkit-text-fill-color:#b8c4d6!important}
+@media(max-width:900px){html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero{grid-template-columns:1fr!important}html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-copy{padding:64px 28px 52px!important;background:linear-gradient(180deg,#081225 0%,rgba(8,18,37,.94) 100%)!important}html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-visual{min-height:430px!important}}
+@media(max-width:680px){html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero{width:100%!important;min-height:0!important}}
 }
