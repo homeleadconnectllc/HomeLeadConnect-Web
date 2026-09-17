@@ -1,12 +1,6 @@
 import { ArrowRightCircle, BookOpen, Briefcase, Handshake, House, Info, LogIn, Users } from "lucide-react";
 import { appUrl, publicUrl } from "../config/siteOrigins";
-import "../styles/v2-board-frontdoor-20260912.css";
-import "../styles/v2-board-frontdoor-performance-20260912.css";
-import "../styles/v2-board-rest-polish-20260912.css";
-import "../styles/front-door-family-ecosystem-20260913.css";
-import "../styles/frontdoor-profile-protocol-20260913.css";
 import "../styles/public-header-logo-authority-20260915.css";
-import "../styles/public-home-centered-copy-authority-20260915.css";
 import "../styles/public-home-mobile-nav-v5-20260915.css";
 import "../styles/public-nav-home-authority-20260916.css";
 
@@ -31,7 +25,7 @@ const mobileMenuLinks = [
 ] as const;
 
 export default function PublicSiteNav() {
-  return <header className="hlc-board-nav hlc-family-ecosystem hlc-public-shared-nav"><div className="hlc-board-nav-inner">
+  return <header className="hlc-board-nav hlc-public-shared-nav"><div className="hlc-board-nav-inner">
     <a className="hlc-board-brand" href={publicUrl("/")} aria-label="HomeLead Connect home">HomeLead Connect</a>
     <nav className="hlc-board-links" aria-label="Primary navigation">{navLinks.map(([label, href]) => <a key={href} href={href}>{label}</a>)}</nav>
     <div className="hlc-board-actions"><a className="hlc-board-login" href={appUrl("/login")}>Sign In</a><a className="hlc-board-cta" href={appUrl("/register")}>Get Started →</a><a className="hlc-mobile-sign-in-link" href={appUrl("/login")}>Sign In</a><details className="hlc-mobile-icon-nav-v5" data-mobile-nav-version="5"><summary className="hlc-mobile-icon-nav-v5__trigger">Menu</summary><nav className="hlc-mobile-icon-nav-v5__panel" aria-label="Mobile navigation">{mobileMenuLinks.map(({ label, href, Icon, tone }) => <a className={`hlc-mobile-icon-nav-v5__item hlc-mobile-icon-nav-v5__item--${tone}`} key={href} href={href}><span className="hlc-mobile-icon-nav-v5__icon" aria-hidden="true"><Icon size={24} strokeWidth={2.2} /></span><span className="hlc-mobile-icon-nav-v5__label">{label}</span></a>)}</nav></details></div>
