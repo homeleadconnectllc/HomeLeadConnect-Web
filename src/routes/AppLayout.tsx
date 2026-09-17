@@ -50,15 +50,7 @@ function personaRouteClass(pathname: string) {
 }
 
 function stableRouteClass(pathname: string) {
-  const slug = pathname
-    .split("?")[0]
-    .split("#")[0]
-    .split("/")
-    .filter(Boolean)
-    .slice(0, 2)
-    .join("-")
-    .replace(/[^a-zA-Z0-9-]/g, "-")
-    .toLowerCase();
+  const slug = pathname.split("?")[0].split("#")[0].split("/").filter(Boolean).slice(0, 2).join("-").replace(/[^a-zA-Z0-9-]/g, "-").toLowerCase();
   return slug ? `hlc-page-${slug}` : "hlc-page-home";
 }
 
@@ -68,35 +60,22 @@ function resetRouteScroll() {
   if (scrollingElement) scrollingElement.scrollTop = 0;
   document.documentElement.scrollTop = 0;
   document.body.scrollTop = 0;
-
-  document
-    .querySelectorAll<HTMLElement>(
-      ".hlc-route-content, .hlc-mobile-portal-scroll, .hlc-command-search-panel, .hlc-agent-dock-panel, main",
-    )
-    .forEach((element) => {
-      element.scrollTop = 0;
-      element.scrollLeft = 0;
-    });
+  document.querySelectorAll<HTMLElement>(".hlc-route-content, .hlc-mobile-portal-scroll, .hlc-command-search-panel, .hlc-agent-dock-panel, main").forEach((element) => {
+    element.scrollTop = 0;
+    element.scrollLeft = 0;
+  });
 }
 
 export default function AppLayout() {
   const { session } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return window.localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === "1";
-  });
-  const [desktopShell, setDesktopShell] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return window.matchMedia(DESKTOP_SHELL_QUERY).matches;
-  });
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => typeof window !== "undefined" && window.localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === "1");
+  const [desktopShell, setDesktopShell] = useState(() => typeof window !== "undefined" && window.matchMedia(DESKTOP_SHELL_QUERY).matches);
   const publicFrontDoorSurface = PUBLIC_FRONT_DOOR_PATHS.has(location.pathname);
   const focusedPublicIntake = location.pathname === "/request-service";
   const authFrontDoorSurface = ["/login", "/register", "/forgot-password", "/reset-password"].includes(location.pathname);
-  const appEntrySurface = location.pathname === "/app" || location.pathname === "/portal" || (
-    location.pathname === "/" && typeof window !== "undefined" && window.location.hostname.toLowerCase() === APP_HOST
-  );
+  const appEntrySurface = location.pathname === "/app" || location.pathname === "/portal" || (location.pathname === "/" && typeof window !== "undefined" && window.location.hostname.toLowerCase() === APP_HOST);
   const homepageSurface = location.pathname === "/" && !appEntrySurface;
   const signedInWorkspaceShell = Boolean(session) && !focusedPublicIntake && !publicFrontDoorSurface && !authFrontDoorSurface && !appEntrySurface;
   const showAudioDevices = signedInWorkspaceShell && (location.pathname === "/settings" || location.pathname === "/call-center");
@@ -122,31 +101,20 @@ export default function AppLayout() {
     if (typeof window === "undefined" || !("scrollRestoration" in window.history)) return;
     const previous = window.history.scrollRestoration;
     window.history.scrollRestoration = "manual";
-    return () => {
-      window.history.scrollRestoration = previous;
-    };
+    return () => { window.history.scrollRestoration = previous; };
   }, []);
 
   useLayoutEffect(() => {
     if (typeof window === "undefined") return;
-
     if (location.hash) {
       const id = decodeURIComponent(location.hash.slice(1));
       const target = document.getElementById(id);
-      if (target) {
-        target.scrollIntoView({ block: "start" });
-        return;
-      }
+      if (target) { target.scrollIntoView({ block: "start" }); return; }
     }
-
     resetRouteScroll();
     const frame = window.requestAnimationFrame(resetRouteScroll);
     const timer = window.setTimeout(resetRouteScroll, 80);
-
-    return () => {
-      window.cancelAnimationFrame(frame);
-      window.clearTimeout(timer);
-    };
+    return () => { window.cancelAnimationFrame(frame); window.clearTimeout(timer); };
   }, [location.key, location.pathname, location.hash]);
 
   useEffect(() => {
@@ -156,10 +124,7 @@ export default function AppLayout() {
     const destination = session ? "/dashboard" : "/";
     const activate = () => navigate(destination);
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        activate();
-      }
+      if (event.key === "Enter" || event.key === " ") { event.preventDefault(); activate(); }
     };
     logo.setAttribute("role", "link");
     logo.setAttribute("tabindex", "0");
@@ -183,13 +148,7 @@ export default function AppLayout() {
       <AnalyticsTracker />
       {!focusedPublicIntake && !authFrontDoorSurface && !publicFrontDoorSurface && !appEntrySurface && !homepageSurface && <Navbar />}
       {signedInWorkspaceShell && desktopShell && (
-        <button
-          className="hlc-desktop-sidebar-toggle"
-          type="button"
-          aria-label={sidebarCollapsed ? "Expand workspace sidebar" : "Collapse workspace sidebar"}
-          aria-expanded={!sidebarCollapsed}
-          onClick={() => setSidebarCollapsed((current) => !current)}
-        >
+        <button className="hlc-desktop-sidebar-toggle" type="button" aria-label={sidebarCollapsed ? "Expand workspace sidebar" : "Collapse workspace sidebar"} aria-expanded={!sidebarCollapsed} onClick={() => setSidebarCollapsed((current) => !current)}>
           <span aria-hidden="true">{sidebarCollapsed ? "›" : "‹"}</span>
           <span className="hlc-sidebar-toggle-label">{sidebarCollapsed ? "Open sidebar" : "Close sidebar"}</span>
         </button>
@@ -197,12 +156,9 @@ export default function AppLayout() {
       <div className="hlc-route-content">
         {!session && !authFrontDoorSurface && !publicFrontDoorSurface && !appEntrySurface && !homepageSurface && <RouteVisualBanner />}
         <Outlet />
-        <Suspense fallback={null}>
-          {showAudioDevices && <AudioDeviceCenter />}
-          {showFieldDevices && <FieldDeviceCenter />}
-        </Suspense>
+        <Suspense fallback={null}>{showAudioDevices && <AudioDeviceCenter />}{showFieldDevices && <FieldDeviceCenter />}</Suspense>
       </div>
-      <Footer />
+      <Footer showLogo={!signedInWorkspaceShell} />
       <Suspense fallback={null}>
         {signedInWorkspaceShell && <WorkspaceGuidance />}
         {signedInWorkspaceShell && <UniversalAITeamLauncher />}

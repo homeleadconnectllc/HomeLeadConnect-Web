@@ -73,10 +73,10 @@ test("desktop shell reserves navigation and returns the full canvas when collaps
   assert.match(desktopSystem, /\.hlc-mobile-tabbar[\s\S]*display:\s*none\s*!important/);
 });
 
-test("desktop branding obeys the two-logo authority without an extra page-body brand", () => {
+test("desktop branding obeys the public-footer and single-workspace-logo authority", () => {
   assert.doesNotMatch(appLayout, /hlc-desktop-page-brand/);
   assert.match(appLayout, /<Navbar\s*\/>/);
-  assert.match(appLayout, /<Footer\s*\/>/);
+  assert.match(appLayout, /<Footer\s+showLogo=\{!signedInWorkspaceShell\}\s*\/>/);
   assert.match(shellRecovery, /\.hlc-navbar-brand[\s\S]*display:\s*none\s*!important/);
 });
 

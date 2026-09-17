@@ -11,7 +11,7 @@ const boardAuthority = readFileSync(new URL("../styles/v2-board-alignment-202609
 const familyAuthority = readFileSync(new URL("../styles/front-door-family-ecosystem-20260913.css", import.meta.url), "utf8");
 const centeredCopyAuthority = readFileSync(new URL("../styles/public-home-centered-copy-authority-20260915.css", import.meta.url), "utf8");
 
-const officialPublicLogo = /src="\/brand\/homelead-connect-master-transparent\.png"/;
+const officialPublicLogo = /src="\/brand\/homelead-connect-transparent-v2\.svg"/;
 
 test("public home stays outside the authenticated application bundle while retaining route delivery", () => {
   assert.match(main, /isPublicHome/);
@@ -32,9 +32,10 @@ test("public home renders without paying React startup cost", () => {
   assert.match(main, /https:\/\/app\.homeleadconnect\.org\/professional-application/);
 });
 
-test("no-React public root uses the official circular master mark", () => {
+test("no-React public root uses the owner-authorized transparent public mark", () => {
   assert.match(main, officialPublicLogo);
-  assert.match(main, /width="1254" height="1254"/);
+  assert.match(main, /width="512" height="512"/);
+  assert.doesNotMatch(main, /homelead-connect-master-transparent\.png/);
   assert.doesNotMatch(main, /\/hlc-logo-public\.webp/);
   assert.match(main, /class="hlc-board-home hlc-v2-home hlc-family-ecosystem"/);
   assert.match(main, /The Connected Experience/);
@@ -51,9 +52,10 @@ test("no-React public root uses the official circular master mark", () => {
   assert.doesNotMatch(main, /<h1[^>]*>A stronger community/);
 });
 
-test("parser-seeded public hero preserves the optimized Connected Experience first-paint contract", () => {
+test("parser-seeded public hero uses the same transparent public mark and preserves optimized first paint", () => {
   assert.match(indexHtml, officialPublicLogo);
-  assert.match(indexHtml, /width="1254" height="1254"/);
+  assert.match(indexHtml, /width="512" height="512"/);
+  assert.doesNotMatch(indexHtml, /homelead-connect-master-transparent\.png/);
   assert.doesNotMatch(indexHtml, /\/hlc-logo-public\.webp/);
   assert.match(indexHtml, /hlc-v2-home hlc-v2-parser-seed/);
   assert.match(indexHtml, /The Connected Experience/);
