@@ -10,28 +10,28 @@
     box-sizing: border-box !important;
     width: 100vw !important;
     max-width: none !important;
-    min-height: 72px !important;
+    min-height: 88px !important;
     margin-left: calc(50% - 50vw) !important;
     margin-right: calc(50% - 50vw) !important;
     padding: 0 !important;
     overflow: visible !important;
-    background: rgba(3,14,27,.94) !important;
+    background: #03111f !important;
     border: 0 !important;
-    border-bottom: 1px solid rgba(126,177,228,.16) !important;
+    border-bottom: 1px solid rgba(255,255,255,.08) !important;
     border-radius: 0 !important;
     color: #f8fbff !important;
-    backdrop-filter: blur(14px) !important;
+    backdrop-filter: none !important;
   }
 
   html body #root#root#root#root .hlc-public-shared-nav .hlc-board-nav-inner {
     box-sizing: border-box !important;
-    width: min(1440px,calc(100% - 56px)) !important;
-    min-height: 72px !important;
+    width: min(1400px,calc(100% - 72px)) !important;
+    min-height: 88px !important;
     margin: auto !important;
     padding: 0 !important;
     display: flex !important;
     align-items: center !important;
-    gap: 24px !important;
+    gap: 30px !important;
   }
 
   html body #root#root#root#root .hlc-public-shared-nav .hlc-board-brand {
@@ -44,7 +44,7 @@
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 30px !important;
+    gap: 26px !important;
     flex: 1 !important;
     font-size: 12px !important;
     font-weight: 800 !important;
@@ -80,16 +80,16 @@
     align-items: center !important;
     justify-content: center !important;
     min-height: 42px !important;
-    padding: 0 22px !important;
-    border: 1px solid #42d3ff !important;
-    border-radius: 12px !important;
-    background: linear-gradient(135deg,#0b6ed6,#075cb6) !important;
+    padding: 0 18px !important;
+    border: 1px solid #0b6ed6 !important;
+    border-radius: 999px !important;
+    background: #0b6ed6 !important;
     color: #fff !important;
     -webkit-text-fill-color: #fff !important;
     text-decoration: none !important;
     font-size: 12px !important;
     font-weight: 900 !important;
-    box-shadow: 0 12px 32px rgba(32,176,244,.22) !important;
+    box-shadow: 0 10px 26px rgba(13,124,240,.28) !important;
   }
 
   html body #root#root#root#root .hlc-public-page:has(> .hlc-public-shared-nav) {
@@ -135,12 +135,12 @@
 
   @media (max-width: 680px) {
     html body #root#root#root#root .hlc-public-shared-nav {
-      min-height: 66px !important;
+      min-height: 70px !important;
     }
 
     html body #root#root#root#root .hlc-public-shared-nav .hlc-board-nav-inner {
       width: calc(100% - 28px) !important;
-      min-height: 66px !important;
+      min-height: 70px !important;
       justify-content: space-between !important;
       gap: 12px !important;
     }
@@ -175,6 +175,14 @@
       position: relative !important;
       margin: 0 !important;
       padding: 0 !important;
+    }
+
+    html body #root#root#root#root .hlc-public-shared-nav .hlc-mobile-icon-nav-v5__trigger {
+      color: #fff !important;
+      -webkit-text-fill-color: #fff !important;
+      background: transparent !important;
+      border: 0 !important;
+      box-shadow: none !important;
     }
   }
 }
