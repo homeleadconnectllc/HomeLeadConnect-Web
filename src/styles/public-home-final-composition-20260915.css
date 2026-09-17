@@ -10,11 +10,11 @@ html body #root .hlc-family-ecosystem .hlc-board-nav{
   box-shadow:0 10px 30px rgba(1,10,22,.22)!important;
 }
 
-/* Keep the opening photograph clear while retaining text contrast. */
+/* Use the locked full-resolution hero artwork so the large cover treatment remains crisp. */
 html body #root .hlc-family-ecosystem .hlc-family-hero{
   background:
     linear-gradient(90deg,rgba(2,10,22,.66),rgba(3,17,34,.40) 47%,rgba(4,19,38,.10) 77%,rgba(4,19,38,.02)),
-    url('/hlc-homepage-hero-people-first.webp') 62% center/cover no-repeat,
+    url('/homepage-hero-locked-20260916.png') 62% center/cover no-repeat,
     #06172b!important;
 }
 
@@ -56,7 +56,7 @@ html body #root .hlc-family-ecosystem .hlc-board-footer{
     min-height:570px!important;
     background:
       linear-gradient(90deg,rgba(2,10,22,.58),rgba(3,17,34,.36) 54%,rgba(4,19,38,.12) 82%,rgba(4,19,38,.03)),
-      url('/hlc-homepage-hero-people-first.webp') 64% center/cover no-repeat,
+      url('/homepage-hero-locked-20260916.png') 64% center/cover no-repeat,
       #06172b!important;
   }
 
