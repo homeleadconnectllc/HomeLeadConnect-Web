@@ -53,3 +53,7 @@ import "./final-release-guard.css";
 import "./visual-reset-baseline-20260903.css";
 import "./visual-reset-hard-blank-20260903.css";
 import "./mobile-release-fix.css";
+
+/* Terminal navbar authority: intentionally last so legacy/hard-reset styles cannot
+   blank the approved master logo on authenticated or public app-host surfaces. */
+import "./public-header-logo-authority-20260915.css";
