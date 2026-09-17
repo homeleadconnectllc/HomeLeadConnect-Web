@@ -10,7 +10,7 @@
     box-sizing: border-box !important;
     width: 100vw !important;
     max-width: none !important;
-    min-height: 88px !important;
+    min-height: 104px !important;
     margin-left: calc(50% - 50vw) !important;
     margin-right: calc(50% - 50vw) !important;
     padding: 0 !important;
@@ -26,7 +26,7 @@
   html body #root#root#root#root .hlc-public-shared-nav .hlc-board-nav-inner {
     box-sizing: border-box !important;
     width: min(1400px,calc(100% - 72px)) !important;
-    min-height: 88px !important;
+    min-height: 104px !important;
     margin: auto !important;
     padding: 0 !important;
     display: flex !important;
@@ -135,12 +135,12 @@
 
   @media (max-width: 680px) {
     html body #root#root#root#root .hlc-public-shared-nav {
-      min-height: 70px !important;
+      min-height: 84px !important;
     }
 
     html body #root#root#root#root .hlc-public-shared-nav .hlc-board-nav-inner {
       width: calc(100% - 28px) !important;
-      min-height: 70px !important;
+      min-height: 84px !important;
       justify-content: space-between !important;
       gap: 12px !important;
     }
