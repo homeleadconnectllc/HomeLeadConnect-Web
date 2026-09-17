@@ -7,16 +7,20 @@ const layoutSource = readFileSync("src/routes/AppLayout.tsx", "utf8");
 const footerSource = readFileSync("src/components/Footer.tsx", "utf8");
 const footerCss = readFileSync("src/styles/public-footer-home-authority-20260916.css", "utf8");
 const bootstrapSource = readFileSync("src/main.tsx", "utf8");
-const transparentLogo = "/brand/homelead-connect-transparent-v2.svg";
 
-test("public pages use one centered transparent HomeLead Connect footer logo", () => {
+const retiredFooterLogoClass = "hlc-public-footer-home-authority__brand";
+const transparentFooterLogoAsset = "/brand/homelead-connect-transparent-v2.svg";
+
+test("shared public footers contain no logo while preserving footer branding text", () => {
   assert.equal(homeSource.includes("hlc-public-footer-home-authority"), false, "homepage React page must not own a duplicate footer");
-  assert.equal(layoutSource.includes("<Footer showLogo={!signedInWorkspaceShell} />"), true, "AppLayout must keep the restored footer logo public-only");
-  assert.equal(footerSource.includes("hlc-public-footer-home-authority__brand"), true, "shared footer must render a centered brand node when enabled");
-  assert.equal(footerSource.includes("showLogo = true"), true, "shared footer must support suppressing its logo on signed-in workspaces");
-  assert.equal(footerSource.includes(transparentLogo), true, "shared footer must use the transparent v2 logo");
-  assert.equal(bootstrapSource.includes("hlc-public-footer-home-authority__brand"), false, "parser-seeded homepage stays lightweight and uses CSS fallback");
-  assert.equal(footerCss.includes("hlc-public-footer-home-authority:not(:has(.hlc-public-footer-home-authority__brand))::before"), true, "parser-seeded homepage must receive the centered footer logo fallback");
-  assert.equal(footerCss.includes(transparentLogo), true, "footer fallback must use the transparent v2 logo");
-  assert.equal(footerSource.includes("homelead-connect-master-transparent.png"), false, "revoked badge must not be used by the shared footer");
+  assert.equal(layoutSource.includes("<Footer />"), true, "AppLayout must render the shared footer without logo state");
+  assert.equal(layoutSource.includes("showLogo="), false, "AppLayout must not pass retired footer-logo state");
+  assert.equal(footerSource.includes(retiredFooterLogoClass), false, "shared footer must not render a logo node");
+  assert.equal(footerSource.includes(transparentFooterLogoAsset), false, "shared footer must not reference the retired footer logo asset");
+  assert.equal(bootstrapSource.includes(retiredFooterLogoClass), false, "parser-seeded homepage must not inject a footer brand node");
+  assert.equal(footerCss.includes(retiredFooterLogoClass), false, "footer stylesheet must not retain retired footer-logo selectors");
+  assert.equal(footerCss.includes(transparentFooterLogoAsset), false, "footer stylesheet must not retain the retired footer-logo asset");
+  assert.equal(footerCss.includes(":has(.hlc-public-footer-home-authority__brand)"), false, "footer stylesheet must not retain parser-seeded logo fallback logic");
+  assert.equal(footerSource.includes("<strong>HomeLead Connect</strong>"), true, "footer text branding must remain");
+  assert.equal(footerSource.includes("Connecting Homes. Creating Opportunities."), true, "footer tagline must remain");
 });
