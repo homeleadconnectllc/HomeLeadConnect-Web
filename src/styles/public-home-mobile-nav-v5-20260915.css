@@ -16,18 +16,25 @@
   .hlc-family-ecosystem .hlc-mobile-icon-nav-v5 {
     display: block !important;
     position: relative !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
   }
 
   .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__trigger {
     display: inline-flex !important;
-    min-width: 94px !important;
+    min-width: 44px !important;
     min-height: 48px !important;
     align-items: center !important;
     justify-content: center !important;
-    padding: 0 18px !important;
-    border: 1px solid #a9b9c8 !important;
-    border-radius: 999px !important;
-    background: #03111f !important;
+    padding: 0 8px !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
     color: #fff !important;
     cursor: pointer !important;
     font-size: 16px !important;
@@ -36,6 +43,7 @@
   }
 
   .hlc-family-ecosystem .hlc-mobile-icon-nav-v5__panel {
+    box-sizing: border-box !important;
     position: absolute !important;
     z-index: 1600 !important;
     top: calc(100% + 12px) !important;

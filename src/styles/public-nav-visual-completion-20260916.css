@@ -35,13 +35,14 @@
       font-size: 14px !important;
     }
     html body #root#root#root#root .hlc-public-shared-nav .hlc-mobile-nav-v2__trigger {
-      min-width: 88px !important;
+      min-width: 44px !important;
       min-height: 44px !important;
-      padding-inline: 16px !important;
-      background: #f7fafc !important;
-      color: #081225 !important;
-      -webkit-text-fill-color: #081225 !important;
-      border-color: rgba(255,255,255,.9) !important;
+      padding-inline: 8px !important;
+      background: transparent !important;
+      color: #fff !important;
+      -webkit-text-fill-color: #fff !important;
+      border: 0 !important;
+      border-radius: 0 !important;
     }
   }
 }
