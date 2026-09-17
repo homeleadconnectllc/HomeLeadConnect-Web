@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useLayoutEffect, useState } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import RouteVisualBanner from "../components/RouteVisualBanner";
@@ -69,7 +69,6 @@ function resetRouteScroll() {
 export default function AppLayout() {
   const { session } = useAuth();
   const location = useLocation();
-  const navigate = useNavigate();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => typeof window !== "undefined" && window.localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === "1");
   const [desktopShell, setDesktopShell] = useState(() => typeof window !== "undefined" && window.matchMedia(DESKTOP_SHELL_QUERY).matches);
   const publicFrontDoorSurface = PUBLIC_FRONT_DOOR_PATHS.has(location.pathname);
@@ -116,31 +115,6 @@ export default function AppLayout() {
     const timer = window.setTimeout(resetRouteScroll, 80);
     return () => { window.cancelAnimationFrame(frame); window.clearTimeout(timer); };
   }, [location.key, location.pathname, location.hash]);
-
-  useEffect(() => {
-    if (focusedPublicIntake || authFrontDoorSurface || publicFrontDoorSurface || appEntrySurface || homepageSurface) return;
-    const logo = document.querySelector<HTMLElement>(".hlc-navbar-logo");
-    if (!logo) return;
-    const destination = session ? "/dashboard" : "/";
-    const activate = () => navigate(destination);
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Enter" || event.key === " ") { event.preventDefault(); activate(); }
-    };
-    logo.setAttribute("role", "link");
-    logo.setAttribute("tabindex", "0");
-    logo.setAttribute("aria-label", session ? "Return to HomeLead Connect dashboard" : "Go to HomeLead Connect home");
-    logo.classList.add("hlc-navbar-logo-home");
-    logo.addEventListener("click", activate);
-    logo.addEventListener("keydown", onKeyDown);
-    return () => {
-      logo.removeEventListener("click", activate);
-      logo.removeEventListener("keydown", onKeyDown);
-      logo.removeAttribute("role");
-      logo.removeAttribute("tabindex");
-      logo.removeAttribute("aria-label");
-      logo.classList.remove("hlc-navbar-logo-home");
-    };
-  }, [appEntrySurface, authFrontDoorSurface, focusedPublicIntake, homepageSurface, navigate, publicFrontDoorSurface, session]);
 
   return (
     <div className={`hlc-app-shell ${signedInWorkspaceShell ? "hlc-signed-in-shell" : "hlc-public-shell"} ${routeClass}${signedInWorkspaceShell && sidebarCollapsed ? " hlc-sidebar-is-collapsed" : ""}${routePersonaClass ? ` ${routePersonaClass}` : ""}${focusedPublicIntake ? " hlc-focused-public-intake" : ""}${authFrontDoorSurface ? " hlc-auth-front-door-surface" : ""}${publicFrontDoorSurface ? " hlc-public-front-door-surface" : ""}`}>
