@@ -40,10 +40,40 @@ jobs:
           test -n "${HLC_VISUAL_TEST_EMAIL:-}" || { echo 'Missing repository secret HLC_VISUAL_TEST_EMAIL'; exit 61; }
           test -n "${HLC_VISUAL_TEST_PASSWORD:-}" || { echo 'Missing repository secret HLC_VISUAL_TEST_PASSWORD'; exit 62; }
 
-      - name: Install Playwright Chromium
+      - name: Install Playwright package
+        run: npm install --no-save --ignore-scripts playwright@1.55.0
+
+      - name: Restore Playwright Chromium cache
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-chromium-1.55.0
+
+      - name: Install Chromium on cache miss
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install chromium
+
+      - name: Ensure Chromium runtime dependencies
         run: |
-          npm install --no-save --ignore-scripts playwright@1.55.0
-          npx playwright install --with-deps chromium
+          set -euo pipefail
+          if ! node - <<'NODE'
+          const { chromium } = require('playwright');
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            await browser.close();
+          })().catch(() => process.exit(1));
+          NODE
+          then
+            npx playwright install-deps chromium
+            node - <<'NODE'
+          const { chromium } = require('playwright');
+          (async () => {
+            const browser = await chromium.launch({ headless: true });
+            await browser.close();
+          })().catch(error => { console.error(error); process.exit(1); });
+          NODE
+          fi
 
       - name: Build exact candidate
         run: npm run build
