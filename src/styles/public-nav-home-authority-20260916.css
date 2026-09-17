@@ -145,7 +145,7 @@
     border-radius: 0 !important;
   }
 
-  @media (max-width: 680px) {
+  @media (max-width: 1050px) {
     html body #root#root#root#root .hlc-public-shared-nav {
       min-height: 85px !important;
     }

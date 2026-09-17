@@ -145,28 +145,29 @@
   font-weight:850!important;
 }
 
-/* Pathway heading is visually secondary under the new hero; cards remain the primary choice surface. */
+/* Pathway heading is visually secondary under the new hero; the pathway surface remains continuous. */
 .hlc-family-ecosystem .hlc-board-pathway-band{padding-top:18px!important}
 .hlc-family-ecosystem .hlc-board-pathway-heading{max-width:760px!important;margin-bottom:24px!important}
 .hlc-family-ecosystem .hlc-board-pathway-heading h2{font-size:clamp(38px,4vw,58px)!important}
 
-/* Pathway cards: one visual language, one accent protocol per audience. */
+/* Pathway surface: one continuous visual language with one accent protocol per audience. */
 .hlc-family-ecosystem .hlc-board-pathway-inner{
-  grid-template-columns:repeat(2,minmax(0,1fr))!important;
-  gap:16px!important;
-  max-width:1040px!important;
+  width:100%!important;
+  max-width:none!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+  gap:0!important;
   margin-inline:auto!important;
 }
 .hlc-family-ecosystem .hlc-board-pathway{
   min-height:430px!important;
-  border-radius:16px!important;
+  border-radius:0!important;
   overflow:hidden!important;
-  border:1px solid rgba(170,201,229,.30)!important;
+  border:0!important;
   background-color:#06182a!important;
-  background-size:100% auto!important;
+  background-size:cover!important;
   background-repeat:no-repeat!important;
   background-position:50% 0!important;
-  box-shadow:0 22px 60px rgba(0,0,0,.34)!important;
+  box-shadow:none!important;
 }
 .hlc-family-ecosystem .hlc-board-pathway:after{
   background:linear-gradient(180deg,rgba(2,13,24,0) 28%,rgba(2,13,24,.32) 49%,#06182a 68%,#06182a 100%)!important;
@@ -346,4 +347,25 @@
   .hlc-family-ecosystem .hlc-board-pathway-copy,
   .hlc-family-ecosystem .hlc-family-pathway-link{font-size:15px!important}
   .hlc-public-page .hlc-public-visual img{min-height:260px!important;max-height:380px!important}
+}
+
+@media(max-width:1050px){
+  .hlc-family-ecosystem .hlc-board-pathway-inner{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:0!important;
+  }
+}
+
+@media(max-width:680px){
+  .hlc-family-ecosystem .hlc-board-pathway-inner{
+    width:100%!important;
+    max-width:none!important;
+    grid-template-columns:1fr!important;
+    gap:0!important;
+  }
+  .hlc-family-ecosystem .hlc-board-pathway{
+    border-radius:0!important;
+    border:0!important;
+    box-shadow:none!important;
+  }
 }
