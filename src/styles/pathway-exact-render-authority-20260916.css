@@ -27,13 +27,23 @@ html body #root#root#root#root#root#root#root#root .hlc-pathway-page {
 }
 
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page[data-pathway="residents"] {
-  --pathway-accent:#45a9ff;
-  --pathway-accent-soft:rgba(69,169,255,.15);
+  --pathway-accent:#62e6b3;
+  --pathway-accent-soft:rgba(98,230,179,.15);
 }
 
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page[data-pathway="professionals"] {
-  --pathway-accent:#45e0ad;
-  --pathway-accent-soft:rgba(69,224,173,.15);
+  --pathway-accent:#55c8ff;
+  --pathway-accent-soft:rgba(85,200,255,.15);
+}
+
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page[data-pathway="partners"] {
+  --pathway-accent:#ffc443;
+  --pathway-accent-soft:rgba(255,196,67,.15);
+}
+
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page[data-pathway="community"] {
+  --pathway-accent:#c38cff;
+  --pathway-accent-soft:rgba(195,140,255,.15);
 }
 
 html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero {
