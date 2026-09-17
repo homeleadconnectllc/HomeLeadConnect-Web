@@ -130,6 +130,28 @@ html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority>spa
 html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority nav{gap:9px 22px!important;margin:8px 0 2px!important}
 html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority nav a{font-size:16px!important;line-height:1.25!important}
 html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority>small{font-size:15px!important}
+
+/* The parser-seeded public homepage has no React brand node. Give that one
+   footer the same official master artwork without changing the seed markup. */
+html body #root#root .hlc-public-footer-home-authority:not(:has(.hlc-public-footer-home-authority__brand))::before,
+html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority:not(:has(.hlc-public-footer-home-authority__brand))::before{
+  content:""!important;
+  box-sizing:border-box!important;
+  display:block!important;
+  width:84px!important;
+  height:84px!important;
+  margin:0 auto 4px!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:50%!important;
+  background-color:transparent!important;
+  background-image:url('/brand/homelead-connect-master-transparent.png')!important;
+  background-position:center!important;
+  background-repeat:no-repeat!important;
+  background-size:contain!important;
+  box-shadow:none!important;
+}
+
 @media(max-width:680px){
   .hlc-public-footer-home-authority,
   html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority{
@@ -142,7 +164,9 @@ html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority>sma
   .hlc-public-footer-home-authority__brand img,
   .hlc-public-footer-home-authority img,
   .hlc-board-footer .hlc-public-footer-home-authority__brand img,
-  html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority__brand img{
+  html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority__brand img,
+  html body #root#root .hlc-public-footer-home-authority:not(:has(.hlc-public-footer-home-authority__brand))::before,
+  html body #root#root .hlc-family-ecosystem .hlc-public-footer-home-authority:not(:has(.hlc-public-footer-home-authority__brand))::before{
     width:72px!important;
     height:72px!important;
     min-width:72px!important;
