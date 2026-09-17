@@ -1,6 +1,6 @@
 /* HomeLead Connect global navbar brand authority — owner-approved 2026-09-17.
-   The approved master logo is the physical navbar brand on public, auth, and app
-   surfaces. Keep the home destination, accessible text, and responsive geometry. */
+   Use the approved master artwork as the physical navbar logo while preserving
+   existing home destinations, navigation behavior, accessibility, and responsive geometry. */
 
 :root{
   --hlc-navbar-master-logo:url('/brand/homelead-connect-master-transparent.png');
@@ -9,12 +9,7 @@
   --hlc-navbar-logo-size-compact:46px;
 }
 
-/*
- * Public/shared/auth navigation brand.
- * Repeat #root intentionally: route-level lazy CSS loads after this file on some
- * surfaces. This selector is the final brand authority so later page styling may
- * change the page without erasing the approved navbar logo.
- */
+/* Public/shared/auth navigation brand: approved logo only. */
 html body #root#root#root#root .hlc-board-brand,
 html body #root#root#root#root .hlc-public-site-nav__brand,
 html body #root#root#root#root .hlc-auth-public-brand{
@@ -33,11 +28,7 @@ html body #root#root#root#root .hlc-auth-public-brand{
   padding:0!important;
   border:0!important;
   border-radius:0!important;
-  background-color:transparent!important;
-  background-image:var(--hlc-navbar-master-logo)!important;
-  background-position:center!important;
-  background-size:contain!important;
-  background-repeat:no-repeat!important;
+  background:var(--hlc-navbar-master-logo) center/contain no-repeat!important;
   color:transparent!important;
   -webkit-text-fill-color:transparent!important;
   font-size:0!important;
@@ -55,17 +46,8 @@ html body #root#root#root#root .hlc-auth-public-brand::before{
   display:none!important;
 }
 
-/* Legacy nested artwork remains suppressed; the single approved master above owns branding. */
-html body #root#root#root#root .hlc-board-brand picture,
-html body #root#root#root#root .hlc-public-site-nav__brand picture,
-html body #root#root#root#root .hlc-auth-public-brand picture,
-html body #root#root#root#root .hlc-board-brand img,
-html body #root#root#root#root .hlc-public-site-nav__brand img,
-html body #root#root#root#root .hlc-auth-public-brand img{
-  display:none!important;
-}
-
-/* Authenticated/app navbar uses the same approved master, independent of legacy child markup. */
+/* Authenticated/app navbar: keep the real image element visible so physical proof,
+   accessibility tooling, and browsers all see the approved artwork—not a CSS-only surrogate. */
 html body #root#root#root#root .hlc-navbar-brand{
   box-sizing:border-box!important;
   display:inline-flex!important;
@@ -99,17 +81,30 @@ html body #root#root#root#root .hlc-navbar-logo-home{
   border:0!important;
   border-radius:0!important;
   overflow:visible!important;
-  background-color:transparent!important;
-  background-image:var(--hlc-navbar-master-logo)!important;
-  background-position:center!important;
-  background-size:contain!important;
-  background-repeat:no-repeat!important;
+  background:none!important;
   box-shadow:none!important;
 }
 
 html body #root#root#root#root .hlc-navbar-logo img,
-html body #root#root#root#root .hlc-navbar-logo-home img{
-  display:none!important;
+html body #root#root#root#root .hlc-navbar-logo-home img,
+html body #root#root#root#root .hlc-navbar-brand img[alt="HomeLead Connect LLC"]{
+  box-sizing:border-box!important;
+  display:block!important;
+  visibility:visible!important;
+  opacity:1!important;
+  width:100%!important;
+  height:100%!important;
+  max-width:none!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  content:url('/brand/homelead-connect-master-transparent.png')!important;
+  background:transparent!important;
+  box-shadow:none!important;
 }
 
 @media(max-width:680px){
