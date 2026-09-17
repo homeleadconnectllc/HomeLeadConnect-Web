@@ -9,8 +9,8 @@ production environment.
 
 - Deploy this Vite application from the reviewed `main` commit; do not attach the
   production domain to a historical Next.js or prototype deployment.
-- Build with `npm run build` and serve `dist`. Netlify SPA fallback configuration
-  must preserve authenticated deep links.
+- Build with `npm run build` and serve `dist` from Cloudflare Pages. Cloudflare SPA
+  fallback configuration must preserve authenticated deep links.
 - Configure `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` in the deployment
   secret store. Never expose a service-role key to Vite.
 - Set the Supabase Auth Site URL to the canonical HTTPS origin and allow only the
@@ -42,7 +42,7 @@ production environment.
 - Deploy the Stripe webhook without JWT verification; Stripe authenticates with
   its webhook signature. Keep JWT verification enabled for user-invoked billing
   functions.
-- Store provider secrets only in Supabase/Netlify secret configuration. Rotate any
+- Store provider secrets only in Supabase/Cloudflare secret configuration. Rotate any
   secret that has ever appeared in client code or logs.
 
 ## Observability, recovery, and rollback
