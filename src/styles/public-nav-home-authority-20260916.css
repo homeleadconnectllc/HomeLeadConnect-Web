@@ -1,188 +1,187 @@
 /* Shared public navigation authority.
    Non-home public/account/invitation surfaces inherit the homepage navigation
-   geometry so the logo, Sign In, and Menu controls do not shift between routes. */
-@layer hlcRedesign {
+   geometry so the logo, Sign In, and Menu controls do not shift between routes.
+   Keep this authority unlayered so it can override older unlayered front-door rules. */
+html body #root#root#root#root .hlc-public-shared-nav {
+  --blue: #0b6ed6;
+  position: relative !important;
+  inset: auto !important;
+  z-index: 20 !important;
+  box-sizing: border-box !important;
+  width: 100vw !important;
+  max-width: none !important;
+  min-height: 104px !important;
+  margin-left: calc(50% - 50vw) !important;
+  margin-right: calc(50% - 50vw) !important;
+  padding: 0 !important;
+  overflow: visible !important;
+  background: #03111f !important;
+  border: 0 !important;
+  border-bottom: 1px solid rgba(255,255,255,.08) !important;
+  border-radius: 0 !important;
+  color: #f8fbff !important;
+  backdrop-filter: none !important;
+}
+
+html body #root#root#root#root .hlc-public-shared-nav .hlc-board-nav-inner {
+  box-sizing: border-box !important;
+  width: min(1400px,calc(100% - 72px)) !important;
+  min-height: 104px !important;
+  margin: auto !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 30px !important;
+}
+
+html body #root#root#root#root .hlc-public-shared-nav .hlc-board-brand {
+  display: flex !important;
+  align-items: center !important;
+  flex: 0 0 auto !important;
+}
+
+html body #root#root#root#root .hlc-public-shared-nav .hlc-board-links {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 26px !important;
+  flex: 1 !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+}
+
+html body #root#root#root#root .hlc-public-shared-nav .hlc-board-links a,
+html body #root#root#root#root .hlc-public-shared-nav .hlc-board-login {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: #f8fbff !important;
+  -webkit-text-fill-color: #f8fbff !important;
+  text-decoration: none !important;
+}
+
+html body #root#root#root#root .hlc-public-shared-nav .hlc-board-actions {
+  display: flex !important;
+  gap: 12px !important;
+  align-items: center !important;
+  margin-left: 0 !important;
+}
+
+html body #root#root#root#root .hlc-public-shared-nav .hlc-board-login {
+  display: inline-flex !important;
+  align-items: center !important;
+  min-height: 42px !important;
+  font-size: 12px !important;
+  font-weight: 850 !important;
+}
+
+html body #root#root#root#root .hlc-public-shared-nav .hlc-board-cta {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 42px !important;
+  padding: 0 18px !important;
+  border: 1px solid #0b6ed6 !important;
+  border-radius: 999px !important;
+  background: #0b6ed6 !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  text-decoration: none !important;
+  font-size: 12px !important;
+  font-weight: 900 !important;
+  box-shadow: 0 10px 26px rgba(13,124,240,.28) !important;
+}
+
+html body #root#root#root#root .hlc-public-page:has(> .hlc-public-shared-nav) {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding-top: 0 !important;
+}
+
+html body #root#root#root#root :is(.hlc-utility-page,.hlc-legal-page):has(> .hlc-public-shared-nav) {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+
+html body #root#root#root#root :is(
+  .hlc-page-contact,
+  .hlc-page-privacy,
+  .hlc-page-terms,
+  .hlc-page-accessibility,
+  .hlc-page-platform-disclosure
+).hlc-public-front-door-surface > .hlc-route-content {
+  padding-top: 0 !important;
+}
+
+html body #root#root#root#root .hlc-public-shell:has(.hlc-auth-shell) > .hlc-route-content {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  padding: 0 !important;
+}
+
+html body #root#root#root#root .hlc-auth-shell.hlc-auth-shell--flat {
+  display: block !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 0 24px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+
+@media (max-width: 680px) {
   html body #root#root#root#root .hlc-public-shared-nav {
-    --blue: #0b6ed6;
-    position: relative !important;
-    inset: auto !important;
-    z-index: 20 !important;
-    box-sizing: border-box !important;
-    width: 100vw !important;
-    max-width: none !important;
-    min-height: 104px !important;
-    margin-left: calc(50% - 50vw) !important;
-    margin-right: calc(50% - 50vw) !important;
-    padding: 0 !important;
-    overflow: visible !important;
-    background: #03111f !important;
-    border: 0 !important;
-    border-bottom: 1px solid rgba(255,255,255,.08) !important;
-    border-radius: 0 !important;
-    color: #f8fbff !important;
-    backdrop-filter: none !important;
+    min-height: 84px !important;
   }
 
   html body #root#root#root#root .hlc-public-shared-nav .hlc-board-nav-inner {
-    box-sizing: border-box !important;
-    width: min(1400px,calc(100% - 72px)) !important;
-    min-height: 104px !important;
-    margin: auto !important;
-    padding: 0 !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 30px !important;
-  }
-
-  html body #root#root#root#root .hlc-public-shared-nav .hlc-board-brand {
-    display: flex !important;
-    align-items: center !important;
-    flex: 0 0 auto !important;
-  }
-
-  html body #root#root#root#root .hlc-public-shared-nav .hlc-board-links {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 26px !important;
-    flex: 1 !important;
-    font-size: 12px !important;
-    font-weight: 800 !important;
-  }
-
-  html body #root#root#root#root .hlc-public-shared-nav .hlc-board-links a,
-  html body #root#root#root#root .hlc-public-shared-nav .hlc-board-login {
-    background: transparent !important;
-    border: 0 !important;
-    box-shadow: none !important;
-    color: #f8fbff !important;
-    -webkit-text-fill-color: #f8fbff !important;
-    text-decoration: none !important;
+    width: calc(100% - 28px) !important;
+    min-height: 84px !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
   }
 
   html body #root#root#root#root .hlc-public-shared-nav .hlc-board-actions {
-    display: flex !important;
-    gap: 12px !important;
-    align-items: center !important;
-    margin-left: 0 !important;
+    margin-left: auto !important;
   }
 
-  html body #root#root#root#root .hlc-public-shared-nav .hlc-board-login {
+  html body #root#root#root#root .hlc-public-shared-nav .hlc-board-links,
+  html body #root#root#root#root .hlc-public-shared-nav .hlc-board-login,
+  html body #root#root#root#root .hlc-public-shared-nav .hlc-board-cta {
+    display: none !important;
+  }
+
+  html body #root#root#root#root .hlc-public-shared-nav .hlc-mobile-sign-in-link {
     display: inline-flex !important;
     align-items: center !important;
-    min-height: 42px !important;
-    font-size: 12px !important;
+    min-height: 44px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    color: #62e6b3 !important;
+    -webkit-text-fill-color: #62e6b3 !important;
+    background: transparent !important;
+    border: 0 !important;
+    text-decoration: none !important;
+    font-size: 15px !important;
     font-weight: 850 !important;
   }
 
-  html body #root#root#root#root .hlc-public-shared-nav .hlc-board-cta {
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    min-height: 42px !important;
-    padding: 0 18px !important;
-    border: 1px solid #0b6ed6 !important;
-    border-radius: 999px !important;
-    background: #0b6ed6 !important;
-    color: #fff !important;
-    -webkit-text-fill-color: #fff !important;
-    text-decoration: none !important;
-    font-size: 12px !important;
-    font-weight: 900 !important;
-    box-shadow: 0 10px 26px rgba(13,124,240,.28) !important;
-  }
-
-  html body #root#root#root#root .hlc-public-page:has(> .hlc-public-shared-nav) {
-    width: 100% !important;
-    max-width: none !important;
-    margin: 0 !important;
-    padding-top: 0 !important;
-  }
-
-  html body #root#root#root#root :is(.hlc-utility-page,.hlc-legal-page):has(> .hlc-public-shared-nav) {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-  }
-
-  html body #root#root#root#root :is(
-    .hlc-page-contact,
-    .hlc-page-privacy,
-    .hlc-page-terms,
-    .hlc-page-accessibility,
-    .hlc-page-platform-disclosure
-  ).hlc-public-front-door-surface > .hlc-route-content {
-    padding-top: 0 !important;
-  }
-
-  html body #root#root#root#root .hlc-public-shell:has(.hlc-auth-shell) > .hlc-route-content {
+  html body #root#root#root#root .hlc-public-shared-nav .hlc-mobile-icon-nav-v5 {
     display: block !important;
-    width: 100% !important;
-    max-width: none !important;
+    position: relative !important;
+    margin: 0 !important;
     padding: 0 !important;
   }
 
-  html body #root#root#root#root .hlc-auth-shell.hlc-auth-shell--flat {
-    display: block !important;
-    box-sizing: border-box !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    max-width: none !important;
-    margin: 0 !important;
-    padding: 0 0 24px !important;
+  html body #root#root#root#root .hlc-public-shared-nav .hlc-mobile-icon-nav-v5__trigger {
+    color: #fff !important;
+    -webkit-text-fill-color: #fff !important;
+    background: transparent !important;
     border: 0 !important;
-    border-radius: 0 !important;
-  }
-
-  @media (max-width: 680px) {
-    html body #root#root#root#root .hlc-public-shared-nav {
-      min-height: 84px !important;
-    }
-
-    html body #root#root#root#root .hlc-public-shared-nav .hlc-board-nav-inner {
-      width: calc(100% - 28px) !important;
-      min-height: 84px !important;
-      justify-content: space-between !important;
-      gap: 12px !important;
-    }
-
-    html body #root#root#root#root .hlc-public-shared-nav .hlc-board-actions {
-      margin-left: auto !important;
-    }
-
-    html body #root#root#root#root .hlc-public-shared-nav .hlc-board-links,
-    html body #root#root#root#root .hlc-public-shared-nav .hlc-board-login,
-    html body #root#root#root#root .hlc-public-shared-nav .hlc-board-cta {
-      display: none !important;
-    }
-
-    html body #root#root#root#root .hlc-public-shared-nav .hlc-mobile-sign-in-link {
-      display: inline-flex !important;
-      align-items: center !important;
-      min-height: 44px !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      color: #62e6b3 !important;
-      -webkit-text-fill-color: #62e6b3 !important;
-      background: transparent !important;
-      border: 0 !important;
-      text-decoration: none !important;
-      font-size: 15px !important;
-      font-weight: 850 !important;
-    }
-
-    html body #root#root#root#root .hlc-public-shared-nav .hlc-mobile-icon-nav-v5 {
-      display: block !important;
-      position: relative !important;
-      margin: 0 !important;
-      padding: 0 !important;
-    }
-
-    html body #root#root#root#root .hlc-public-shared-nav .hlc-mobile-icon-nav-v5__trigger {
-      color: #fff !important;
-      -webkit-text-fill-color: #fff !important;
-      background: transparent !important;
-      border: 0 !important;
-      box-shadow: none !important;
-    }
+    box-shadow: none !important;
   }
 }
