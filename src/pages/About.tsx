@@ -38,6 +38,12 @@ export default function AboutPage() {
           {title === "Kendrell Memorial" && <Link className="hlc-public-link" to="/memorial">Visit the memorial →</Link>}
         </article>)}
       </section>
+      <section className="hlc-public-offer hlc-kendrell-dedication" aria-label="Kendrell dedication">
+        <p className="hlc-public-offer-label">A Brother’s Dedication</p>
+        <h2>A name carried forward with purpose</h2>
+        <p>Antoine Washington created the Kendrell command office to carry his brother’s name forward with purpose, care, and family pride.</p>
+        <Link className="hlc-public-link" to="/memorial">Visit the full Kendrell Memorial →</Link>
+      </section>
       <section className="hlc-public-offer" aria-label="HomeLead Connect credits">
         <p className="hlc-public-offer-label">Credits</p>
         <h2>Mission, product, and platform.</h2>
