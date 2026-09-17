@@ -40,9 +40,6 @@ jobs:
           test -n "${HLC_VISUAL_TEST_EMAIL:-}" || { echo 'Missing repository secret HLC_VISUAL_TEST_EMAIL'; exit 61; }
           test -n "${HLC_VISUAL_TEST_PASSWORD:-}" || { echo 'Missing repository secret HLC_VISUAL_TEST_PASSWORD'; exit 62; }
 
-      - name: Install Playwright package
-        run: npm install --no-save --ignore-scripts playwright@1.55.0
-
       - name: Restore Playwright Chromium cache
         id: playwright-cache
         uses: actions/cache@v4

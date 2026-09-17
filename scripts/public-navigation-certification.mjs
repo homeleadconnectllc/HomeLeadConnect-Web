@@ -48,7 +48,7 @@ async function metrics(page) {
 }
 
 try {
-  for (const width of widths) {
+  await Promise.all(widths.map(async (width) => {
     const context = await browser.newContext({ viewport: { width, height: 900 }, reducedMotion: 'reduce' });
     await context.route('**/*', route => {
       const url = new URL(route.request().url());
@@ -147,11 +147,10 @@ try {
         await page.screenshot({ path: `${directory}/${name}-failure.png` }).catch(() => {});
       } finally {
         await page.close();
-        writeFileSync(`${directory}/report.json`, JSON.stringify(report, null, 2));
       }
     }
     await context.close();
-  }
+  }));
 } finally {
   await browser.close();
 }

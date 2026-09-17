@@ -24,7 +24,7 @@ async function settle(page, url) {
 
 const browser = await chromium.launch({ headless: true });
 try {
-  for (const [viewportName, viewport] of viewports) {
+  await Promise.all(viewports.map(async ([viewportName, viewport]) => {
     const context = await browser.newContext({ viewport });
     const page = await context.newPage();
 
@@ -45,7 +45,7 @@ try {
     }
 
     await context.close();
-  }
+  }));
 
   fs.writeFileSync("/tmp/candidate-sha.txt", `${candidateSha}\n`);
   console.log(`Front door visual capture complete for ${candidateSha}`);
