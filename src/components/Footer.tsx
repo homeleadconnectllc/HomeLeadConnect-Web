@@ -8,6 +8,16 @@ const legalLinkStyle = {
 export default function Footer() {
   return (
     <footer className="hlc-public-footer hlc-board-footer hlc-public-footer-home-authority">
+      <a className="hlc-public-footer-home-authority__brand" href="/" aria-label="HomeLead Connect home">
+        <img
+          src="/brand/homelead-connect-master-transparent.png"
+          alt="HomeLead Connect LLC"
+          width={1254}
+          height={1254}
+          loading="lazy"
+          decoding="async"
+        />
+      </a>
       <strong>HomeLead Connect</strong>
       <span>Connecting Homes. Creating Opportunities.</span>
       <nav
