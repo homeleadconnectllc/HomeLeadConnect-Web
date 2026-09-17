@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { useLocation } from "react-router-dom";
+import { appUrl, publicUrl } from "../../config/siteOrigins";
 import { pageImage } from "../../config/publicPageImagery";
 import PublicSiteNav from "../PublicSiteNav";
 import "../../styles/public-auth-visual-closure-20260912.css";
@@ -71,13 +72,13 @@ export default function AuthShell({
         </section>
       </div>
       <nav aria-label="Account service and audience links" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "16px", padding: "24px 16px" }}>
-        <a href="https://residents.homeleadconnect.org/">Residents</a>
-        <a href="https://professionals.homeleadconnect.org/">Professionals</a>
-        <a href="https://partners.homeleadconnect.org/">Partners</a>
-        <a href="https://platform.homeleadconnect.org/">Platform</a>
-        <a href="https://about.homeleadconnect.org/">About</a>
-        <a href="https://contact.homeleadconnect.org/">Contact</a>
-        <a href="https://app.homeleadconnect.org/request-service">Request Service</a>
+        <a href={publicUrl("/homeowners")}>Residents</a>
+        <a href={publicUrl("/professionals")}>Professionals</a>
+        <a href={publicUrl("/partners")}>Partners</a>
+        <a href={publicUrl("/services")}>Platform</a>
+        <a href={publicUrl("/about")}>About</a>
+        <a href={publicUrl("/contact")}>Contact</a>
+        <a href={appUrl("/request-service")}>Request Service</a>
       </nav>
     </main>
   );

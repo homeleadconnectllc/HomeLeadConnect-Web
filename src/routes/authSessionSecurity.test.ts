@@ -28,11 +28,13 @@ test("auth state updates stop after provider teardown", () => {
   assert.match(authProvider, /active = false;[\s\S]*subscription\.unsubscribe\(\)/);
 });
 
-test("sign-in preserves a protected deep link even when the session redirect wins the form race", () => {
+test("sign-in preserves a protected deep link and bypasses the retired app-entry hop", () => {
   assert.match(login, /const stateNext =/);
   assert.match(login, /const requestedDestination = queryNext \|\| stateNext/);
-  assert.match(login, /session\) return <Navigate to=\{requestedDestination \|\| "\/app"\}/);
-  assert.match(login, /return requestedDestination \|\| "\/app"/);
+  assert.match(login, /return <AuthenticatedLoginRedirect userId=\{session\.user\.id\} requestedDestination=\{requestedDestination\} \/>/);
+  assert.match(login, /if \(requestedDestination\) return <Navigate to=\{requestedDestination\} replace \/>/);
+  assert.match(login, /return requestedDestination \|\| await resolveUserDestination\(userId\)/);
+  assert.doesNotMatch(login, /requestedDestination \|\| "\/app"/);
   assert.match(login, /register\?next=\$\{encodeURIComponent\(requestedDestination\)\}/);
 });
 
