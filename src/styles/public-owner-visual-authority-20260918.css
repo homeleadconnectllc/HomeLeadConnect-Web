@@ -227,3 +227,35 @@ html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-cta{
     display:none!important;
   }
 }
+
+
+/* Home's legacy nav authority uses repeated #root specificity.
+   This final owner authority intentionally outranks it on every public/shared route. */
+html body #root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-login,
+html body #root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-sign-in-link{
+  color:#e5edf6!important;
+  -webkit-text-fill-color:#e5edf6!important;
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+html body #root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-cta{
+  display:inline!important;
+  min-height:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  color:var(--page-accent)!important;
+  -webkit-text-fill-color:var(--page-accent)!important;
+}
+@media(max-width:680px){
+  html body #root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-sign-in-link{
+    display:none!important;
+  }
+}
