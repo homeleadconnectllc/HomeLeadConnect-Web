@@ -276,3 +276,38 @@ html body #root#root#root#root .hlc-auth-shell.hlc-auth-shell--flat {
     margin-right:calc(50% - 50vw)!important;
   }
 }
+
+
+/* OWNER ALIGNMENT LOCK — one invariant mobile action rail on every public route. */
+@media(max-width:680px){
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-nav-inner{
+    position:relative!important;
+    width:100%!important;
+    max-width:none!important;
+    margin:0!important;
+    padding:0 12px!important;
+    display:block!important;
+    min-height:84px!important;
+  }
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-brand{
+    position:absolute!important;
+    left:12px!important;
+    top:50%!important;
+    transform:translateY(-50%)!important;
+    margin:0!important;
+  }
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-actions{
+    position:absolute!important;
+    right:12px!important;
+    top:50%!important;
+    transform:translateY(-50%)!important;
+    margin:0!important;
+    padding:0!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:flex-end!important;
+    gap:14px!important;
+    width:auto!important;
+    max-width:none!important;
+  }
+}
