@@ -415,9 +415,8 @@ a[href*="/resources"]{
 
 
 /* OWNER LOGO COUNT AUTHORITY: public pages already carry the locked master logo in the shared nav. Suppress only the redundant footer image; retain footer identity, legal links, and workspace behavior. */
-.hlc-public-shell.hlc-public-front-door-surface:not(.hlc-signed-in-shell) .hlc-public-footer-master-logo{display:none!important}
-/* Homepage approved target: retain the main footer brand logo and suppress only the extra logo rendered above it. */
-.hlc-public-shell.hlc-page-home:not(.hlc-signed-in-shell) .hlc-public-footer-home-authority > .hlc-public-footer-master-logo:first-of-type{display:none!important}
+/* OWNER SINGLE-FOOTER-LOGO AUTHORITY — 2026-09-18
+   Keep the shared footer's one centered master logo. Do not suppress it on Home/front-door pages. */
 
 
 /* OWNER HOME-BACKGROUND UNIFICATION — 2026-09-18 */
