@@ -259,3 +259,13 @@ html body #root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-
     display:none!important;
   }
 }
+
+
+/* Mobile header contract: only logo + Menu are visible in the top bar. */
+@media(max-width:680px){
+  html body #root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-login,
+  html body #root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-cta,
+  html body #root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-sign-in-link{
+    display:none!important;
+  }
+}
