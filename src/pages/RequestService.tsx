@@ -113,6 +113,7 @@ export default function RequestService() {
           <p>After you submit, HomeLead Connect reviews the request and contacts you about provider coordination or scheduling when appropriate.</p>
           <ul><li>Renters are welcome.</li><li>No marketing enrollment.</li><li>No provider or appointment is promised before confirmation.</li></ul>
           <Link to="/contact">Need help? Contact HomeLead Connect →</Link>
+          <small className="hlc-request-photo-credit">Harrisburg skyline: J. Passepartout / CC BY-SA 4.0</small>
         </aside>
       </section>
     </main>
@@ -141,7 +142,7 @@ const requestCss = `
 .hlc-request-aside h2{margin:0 0 10px!important;color:#fff!important;font-family:Georgia,"Times New Roman",serif!important;font-size:clamp(1.7rem,3vw,2.35rem)!important;line-height:1.08!important}
 .hlc-request-aside>p:not(.hlc-request-kicker){margin:0 0 18px!important;color:#eef4fb!important;font-size:15px!important;line-height:1.65!important}
 .hlc-request-aside ul{margin:18px 0!important;padding-left:20px!important;color:#eef4fb!important;line-height:1.8!important}
-.hlc-request-aside a{color:#56e3ad!important;font-weight:900!important;text-decoration:none!important;border-bottom:1px solid currentColor!important}
+.hlc-request-aside a{color:#56e3ad!important;font-weight:900!important;text-decoration:none!important;border-bottom:1px solid currentColor!important}\n.hlc-request-photo-credit{display:block!important;margin-top:24px!important;color:#dbeafe!important;font-size:11px!important;line-height:1.45!important;opacity:.88!important}
 .hlc-request-error{padding:12px 0!important;border:0!important;border-radius:0!important;background:transparent!important;color:#fecaca!important;font-weight:900!important;text-shadow:0 1px 10px rgba(0,0,0,.8)!important}
 .hlc-request-trap{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
 @media(max-width:760px){.hlc-request-service{padding:38px 20px 48px!important;gap:28px!important;background-attachment:scroll!important;background-position:center top!important}.hlc-request-grid{grid-template-columns:1fr!important;gap:34px!important}.hlc-request-intro h1{font-size:clamp(2.5rem,11vw,3.5rem)!important}.hlc-request-intro>p:not(.hlc-request-kicker){font-size:16px!important}.hlc-request-form-card label span{align-items:center!important}.hlc-request-aside{order:2!important}.hlc-request-form-card{order:1!important}}
