@@ -915,3 +915,22 @@ html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathwa
     padding:92px 0 72px!important;
   }
 }
+
+
+/* Single mobile Sign In authority: one top-bar link, neutral across every route. */
+@media(max-width:680px){
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-login{
+    display:none!important;
+  }
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-sign-in-link{
+    display:inline!important;
+    color:#e5edf6!important;
+    -webkit-text-fill-color:#e5edf6!important;
+    background:transparent!important;
+    background-image:none!important;
+    border:0!important;
+    border-radius:0!important;
+    box-shadow:none!important;
+    padding:0!important;
+  }
+}
