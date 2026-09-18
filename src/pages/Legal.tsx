@@ -5,12 +5,6 @@ import "../styles/legal.css";
 
 type LegalPage = "privacy" | "terms" | "platform";
 
-const ReviewNotice = () => (
-  <p className="hlc-legal-review" role="note">
-    <strong>Attorney review pending.</strong> This Pennsylvania V1 draft is for pre-launch review and is not represented as attorney-approved.
-  </p>
-);
-
 function PrivacyPage() {
   const visual = pageImage("privacy");
   return <>
@@ -35,25 +29,10 @@ function PrivacyPage() {
             <a className="hlc-legal-secondary" href="https://homeleadconnect.org/">HomeLead Connect</a>
           </div>
         </div>
-
-        <aside className="hlc-legal-guide" aria-label="HomeLead Connect Privacy Center">
-          <div className="hlc-legal-avatar"><img src="/brand/avatars/Kendrell_Locked_HLC.png" alt="Kendrell, HomeLead Connect assistant" /></div>
-          <div className="hlc-legal-guide-label">HOMELEAD CONNECT PRIVACY CENTER</div>
-          <div className="hlc-legal-guide-title">Your information matters.</div>
-          <p>Kendrell can help you navigate HomeLead Connect account, privacy, security, and platform information.</p>
-          <div className="hlc-legal-guide-note">Platform guidance only · not legal advice</div>
-          <div className="hlc-legal-trust">
-            <div><strong>✓ Protected</strong><span>Account access</span></div>
-            <div><strong>◈ Scoped</strong><span>Workspace data</span></div>
-            <div><strong>◎ Secure</strong><span>Platform controls</span></div>
-          </div>
-        </aside>
       </div>
     </section>
 
     <figure className="hlc-legal-page-visual"><img src={visual.src} alt={visual.alt} loading="eager" /></figure>
-
-    <ReviewNotice />
 
     <section className="hlc-legal-card"><h2>1. Information We Collect</h2><p>We may collect information you provide directly to us, including your name, email address, phone number, service address, company information, service request details, appointment information, messages, documents, and other information you choose to submit.</p><p>We may also collect technical and usage information such as device type, browser type, IP address, pages viewed, application events, session information, and interaction data used to operate, secure, troubleshoot, and improve the HomeLead Connect platform.</p></section>
 
@@ -89,7 +68,7 @@ export default function Legal({ page }: { page: LegalPage }) {
   const visual = page === "terms" ? pageImage("terms") : page === "platform" ? pageImage("platform") : null;
   return <main className="hlc-legal-page"><PublicSiteNav/><div className="hlc-legal-shell">
     {page === "privacy" && <PrivacyPage />}
-    {page === "terms" && <><ReviewNotice/>{visual&&<figure className="hlc-legal-page-visual"><img src={visual.src} alt={visual.alt} loading="eager"/></figure>}<section className="hlc-legal-card"><h1>Terms of Service — launch draft</h1><h2>Platform role</h2><p>HomeLead Connect LLC provides software and marketplace/referral/coordination services. Unless a separate written agreement expressly states otherwise, HomeLead Connect is not the contractor or trade professional performing the underlying work. The identified service provider is responsible for its offer, contract, credentials, work, scheduling commitments, and legal obligations.</p><h2>SaaS trial and subscription</h2><p>The Pennsylvania V1 software plan includes a 14-day free trial and then renews monthly at $49.99 USD unless cancelled. A payment method is required to start the trial; no subscription charge is scheduled before the trial ends.</p><h2>Acceptable use and records</h2><p>Users must provide accurate information, use only records they are authorized to access, and not bypass security, consent, suppression, lifecycle, or provider restrictions.</p></section></>}
-    {page === "platform" && <><ReviewNotice/>{visual&&<figure className="hlc-legal-page-visual"><img src={visual.src} alt={visual.alt} loading="eager"/></figure>}<section className="hlc-legal-card"><h1>Platform and contractor disclosure — launch draft</h1><p>HomeLead Connect is a software/platform and marketplace/referral/coordination service. HomeLead Connect does not perform the underlying trade or home service merely because a request, LeadScope estimate, contractor offer, appointment, or message is recorded in the platform.</p><p>The actual contractor, subcontractor, mover, cleaner, painter, landscaper, repair provider, or other identified service business performs and is responsible for the underlying work and its customer agreement.</p><h2>Pennsylvania registrations</h2><p>When HomeLead Connect displays a Pennsylvania Home Improvement Contractor registration, it must be labeled factually with its registration number and source/check date. Registration is not a HomeLead Connect endorsement, competency finding, quality certification, or generic “Verified Contractor” badge.</p></section></>}
+    {page === "terms" && <>{visual&&<figure className="hlc-legal-page-visual"><img src={visual.src} alt={visual.alt} loading="eager"/></figure>}<section className="hlc-legal-card"><h1>Terms of Service</h1><h2>Platform role</h2><p>HomeLead Connect LLC provides software and marketplace/referral/coordination services. Unless a separate written agreement expressly states otherwise, HomeLead Connect is not the contractor or trade professional performing the underlying work. The identified service provider is responsible for its offer, contract, credentials, work, scheduling commitments, and legal obligations.</p><h2>SaaS trial and subscription</h2><p>The Pennsylvania V1 software plan includes a 14-day free trial and then renews monthly at $49.99 USD unless cancelled. A payment method is required to start the trial; no subscription charge is scheduled before the trial ends.</p><h2>Acceptable use and records</h2><p>Users must provide accurate information, use only records they are authorized to access, and not bypass security, consent, suppression, lifecycle, or provider restrictions.</p></section></>}
+    {page === "platform" && <>{visual&&<figure className="hlc-legal-page-visual"><img src={visual.src} alt={visual.alt} loading="eager"/></figure>}<section className="hlc-legal-card"><h1>Platform and contractor disclosure</h1><p>HomeLead Connect is a software/platform and marketplace/referral/coordination service. HomeLead Connect does not perform the underlying trade or home service merely because a request, LeadScope estimate, contractor offer, appointment, or message is recorded in the platform.</p><p>The actual contractor, subcontractor, mover, cleaner, painter, landscaper, repair provider, or other identified service business performs and is responsible for the underlying work and its customer agreement.</p><h2>Pennsylvania registrations</h2><p>When HomeLead Connect displays a Pennsylvania Home Improvement Contractor registration, it must be labeled factually with its registration number and source/check date. Registration is not a HomeLead Connect endorsement, competency finding, quality certification, or generic “Verified Contractor” badge.</p></section></>}
   </div></main>;
 }

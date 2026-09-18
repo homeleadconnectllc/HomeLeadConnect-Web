@@ -1,9 +1,11 @@
 import { useLayoutEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { ArrowRightCircle, BookOpen, Briefcase, Handshake, House, Info, LogIn, Users } from "lucide-react";
 import { appUrl, publicUrl } from "../config/siteOrigins";
 import "../styles/public-header-logo-authority-20260915.css";
 import "../styles/public-home-mobile-nav-v5-20260915.css";
 import "../styles/public-nav-home-authority-20260916.css";
+import "../styles/public-owner-visual-authority-20260918.css";
 
 const NAV_LOGO = "/hlc-logo-ui.png";
 
@@ -33,6 +35,8 @@ function setImportant(element: HTMLElement | null, property: string, value: stri
 
 export default function PublicSiteNav() {
   const navRef = useRef<HTMLElement>(null);
+  const { pathname } = useLocation();
+  const tone = pathname === "/homeowners" ? "resident" : pathname === "/professionals" || pathname === "/contractors" || pathname === "/professional-application" ? "professional" : pathname === "/partners" ? "partner" : pathname === "/community" ? "community" : pathname === "/services" ? "resources" : "neutral";
 
   useLayoutEffect(() => {
     const nav = navRef.current;
@@ -53,25 +57,38 @@ export default function PublicSiteNav() {
     setImportant(brandImage, "height", "100%");
     setImportant(brandImage, "object-fit", "contain");
 
-    const cta = nav.querySelector<HTMLElement>(".hlc-board-cta");
-    setImportant(cta, "background", "#0b6ed6");
-    setImportant(cta, "background-color", "#0b6ed6");
-    setImportant(cta, "background-image", "none");
-    setImportant(cta, "border-color", "#0b6ed6");
-    setImportant(cta, "color", "#fff");
-    setImportant(cta, "-webkit-text-fill-color", "#fff");
-
-    const mobileSignIn = nav.querySelector<HTMLElement>(".hlc-mobile-sign-in-link");
-    setImportant(mobileSignIn, "color", "#62e6b3");
-    setImportant(mobileSignIn, "-webkit-text-fill-color", "#62e6b3");
-    setImportant(mobileSignIn, "background", "transparent");
-
     const menuTrigger = nav.querySelector<HTMLElement>(".hlc-mobile-icon-nav-v5__trigger");
     setImportant(menuTrigger, "color", "#fff");
     setImportant(menuTrigger, "-webkit-text-fill-color", "#fff");
     setImportant(menuTrigger, "background", "transparent");
     setImportant(menuTrigger, "background-color", "transparent");
     setImportant(menuTrigger, "background-image", "none");
+
+    const login = nav.querySelector<HTMLElement>(".hlc-board-login");
+    const cta = nav.querySelector<HTMLElement>(".hlc-board-cta");
+    const mobileSignIn = nav.querySelector<HTMLElement>(".hlc-mobile-sign-in-link");
+    const applyGlobalHeaderActions = () => {
+      const mobile = window.matchMedia("(max-width: 680px)").matches;
+      for (const element of [login, cta]) {
+        setImportant(element, "background", "transparent");
+        setImportant(element, "background-color", "transparent");
+        setImportant(element, "background-image", "none");
+        setImportant(element, "border", "0");
+        setImportant(element, "border-radius", "0");
+        setImportant(element, "box-shadow", "none");
+        setImportant(element, "padding", "0");
+        setImportant(element, "min-height", "0");
+      }
+      setImportant(login, "color", "#e5edf6");
+      setImportant(login, "-webkit-text-fill-color", "#e5edf6");
+      setImportant(cta, "color", "var(--page-accent)");
+      setImportant(cta, "-webkit-text-fill-color", "var(--page-accent)");
+      setImportant(login, "display", mobile ? "none" : "inline");
+      setImportant(cta, "display", mobile ? "none" : "inline");
+      setImportant(mobileSignIn, "display", "none");
+    };
+    applyGlobalHeaderActions();
+    window.addEventListener("resize", applyGlobalHeaderActions);
 
     const routeContent = nav.closest<HTMLElement>(".hlc-route-content");
     setImportant(routeContent, "padding-top", "0");
@@ -93,12 +110,13 @@ export default function PublicSiteNav() {
     return () => {
       window.cancelAnimationFrame(frame);
       window.clearTimeout(settle);
+      window.removeEventListener("resize", applyGlobalHeaderActions);
     };
   }, []);
 
-  return <header ref={navRef} className="hlc-board-nav hlc-public-shared-nav"><div className="hlc-board-nav-inner">
+  return <header ref={navRef} className="hlc-board-nav hlc-public-shared-nav" data-public-tone={tone}><div className="hlc-board-nav-inner">
     <a className="hlc-board-brand" href={publicUrl("/")} aria-label="HomeLead Connect home"><img className="hlc-navbar-master-logo" data-hlc-master-logo="true" src={NAV_LOGO} alt="" aria-hidden="true" /><span className="hlc-brand-accessible-label">HomeLead Connect</span></a>
     <nav className="hlc-board-links" aria-label="Primary navigation">{navLinks.map(([label, href]) => <a key={href} href={href}>{label}</a>)}</nav>
-    <div className="hlc-board-actions"><a className="hlc-board-login" href={appUrl("/login")}>Sign In</a><a className="hlc-board-cta" href={appUrl("/register")}>Get Started →</a><a className="hlc-mobile-sign-in-link" href={appUrl("/login")}>Sign In</a><details className="hlc-mobile-icon-nav-v5" data-mobile-nav-version="5"><summary className="hlc-mobile-icon-nav-v5__trigger">Menu</summary><nav className="hlc-mobile-icon-nav-v5__panel" aria-label="Mobile navigation">{mobileMenuLinks.map(({ label, href, Icon, tone }) => <a className={`hlc-mobile-icon-nav-v5__item hlc-mobile-icon-nav-v5__item--${tone}`} key={href} href={href}><span className="hlc-mobile-icon-nav-v5__icon" aria-hidden="true"><Icon size={24} strokeWidth={2.2} /></span><span className="hlc-mobile-icon-nav-v5__label">{label}</span></a>)}</nav></details></div>
+    <div className="hlc-board-actions"><a className="hlc-board-login" href={appUrl("/login")}>Sign In</a><a className="hlc-board-cta" href={appUrl("/register")}>Get Started</a><a className="hlc-mobile-sign-in-link" href={appUrl("/login")}>Sign In</a><details className="hlc-mobile-icon-nav-v5" data-mobile-nav-version="5"><summary className="hlc-mobile-icon-nav-v5__trigger">Menu</summary><nav className="hlc-mobile-icon-nav-v5__panel" aria-label="Mobile navigation">{mobileMenuLinks.map(({ label, href, Icon, tone }) => <a className={`hlc-mobile-icon-nav-v5__item hlc-mobile-icon-nav-v5__item--${tone}`} key={href} href={href}><span className="hlc-mobile-icon-nav-v5__icon" aria-hidden="true"><Icon size={24} strokeWidth={2.2} /></span><span className="hlc-mobile-icon-nav-v5__label">{label}</span></a>)}</nav></details></div>
   </div></header>;
 }

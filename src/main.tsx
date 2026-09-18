@@ -21,6 +21,8 @@ import "./styles/public-home-final-composition-20260915.css";
 import "./styles/public-home-mobile-nav-v5-20260915.css";
 import "./styles/public-home-pathway-heading-wrap-20260915.css";
 import "./styles/public-footer-home-authority-20260916.css";
+import "./styles/public-nav-home-authority-20260916.css";
+import "./styles/public-owner-visual-authority-20260918.css";
 
 /*
 Authenticated runtime ownership moved to styles/app-shell-entry.ts so the public homepage can stay lightweight.
@@ -49,13 +51,13 @@ const mobileMenuItem = (tone: string, label: string, href: string, icon: string)
 function publicHomeMarkup() {
   return `
     <main class="hlc-board-home hlc-v2-home hlc-family-ecosystem">
-      <header class="hlc-board-nav">
+      <header class="hlc-board-nav hlc-public-shared-nav" data-public-tone="neutral">
         <div class="hlc-board-nav-inner">
           <a class="hlc-board-brand" href="https://homeleadconnect.org/" aria-label="HomeLead Connect home"><img class="hlc-navbar-master-logo" data-hlc-master-logo="true" src="${NAV_LOGO}" alt="" aria-hidden="true" /><span class="hlc-brand-accessible-label">HomeLead Connect</span></a>
           <nav class="hlc-board-links" aria-label="Primary navigation"><a href="/about">About</a><a href="/homeowners">For Residents</a><a href="/professionals">For Professionals</a><a href="/partners">For Partners</a><a href="/community">Community</a><a href="/services">Resources</a></nav>
           <div class="hlc-board-actions">
             <a class="hlc-board-login" href="https://app.homeleadconnect.org/login">Sign In</a>
-            <a class="hlc-board-cta" href="https://app.homeleadconnect.org/register">Get Started →</a>
+            <a class="hlc-board-cta" href="https://app.homeleadconnect.org/register">Get Started</a>
             <a class="hlc-mobile-sign-in-link" href="https://app.homeleadconnect.org/login">Sign In</a>
             <details class="hlc-mobile-icon-nav-v5" data-mobile-nav-version="5">
               <summary class="hlc-mobile-icon-nav-v5__trigger">Menu</summary>
@@ -87,7 +89,7 @@ function publicHomeMarkup() {
         <div class="hlc-board-pathway-heading"><p class="hlc-family-kicker">The HomeLead Connect ecosystem</p><h2 id="hlc-board-pathway-title">Four Pathways</h2><p class="hlc-family-pathway-subtitle"><span class="hlc-pathway-subtitle-line">Different experiences.</span> <span class="hlc-pathway-subtitle-line">Same mission.</span> <span class="hlc-pathway-subtitle-line hlc-pathway-subtitle-last-line">One connected ecosystem.</span></p></div>
         <div class="hlc-board-pathway-inner">
           <article class="hlc-board-pathway hlc-board-pathway--resident" style="background-image:url('/four-pathways-residents-hq-20260915.jpg');background-size:cover;background-repeat:no-repeat;background-position:center 42%;"><div class="hlc-board-pathway-content"><p class="hlc-board-pathway-label">For Residents</p><p class="hlc-board-pathway-copy">Get help with the home in front of you—and keep the next step clear.</p><a class="hlc-family-pathway-link" href="/homeowners">Find resident support →</a></div></article>
-          <article class="hlc-board-pathway hlc-board-pathway--professional" style="background-image:url('/four-pathways-professionals-hq-20260915.jpg');background-size:cover;background-repeat:no-repeat;background-position:center 40%;"><div class="hlc-board-pathway-content"><p class="hlc-board-pathway-label">For Professionals</p><p class="hlc-board-pathway-copy">Build a more visible, accountable service business inside the network.</p><a class="hlc-family-pathway-link" href="/professionals">Explore professional access →</a></div></article>
+          <article class="hlc-board-pathway hlc-board-pathway--professional" style="background-image:url('/page-professionals-provider-presence-20260916.webp');background-size:cover;background-repeat:no-repeat;background-position:center 40%;"><div class="hlc-board-pathway-content"><p class="hlc-board-pathway-label">For Professionals</p><p class="hlc-board-pathway-copy">Build a more visible, accountable service business inside the network.</p><a class="hlc-family-pathway-link" href="/professionals">Explore professional access →</a></div></article>
           <article class="hlc-board-pathway hlc-board-pathway--partner" style="background-image:url('/four-pathways-partners-hq-20260915.jpg');background-size:cover;background-repeat:no-repeat;background-position:center 40%;"><div class="hlc-board-pathway-content"><p class="hlc-board-pathway-label">For Partners</p><p class="hlc-board-pathway-copy">Create referral relationships that respect people, context, and consent.</p><a class="hlc-family-pathway-link" href="/partners">Explore partner access →</a></div></article>
           <article class="hlc-board-pathway hlc-board-pathway--community" style="background-image:url('/four-pathways-community-hq-20260915.jpg');background-size:cover;background-repeat:no-repeat;background-position:center 72%;"><div class="hlc-board-pathway-content"><p class="hlc-board-pathway-label">For Community</p><p class="hlc-board-pathway-copy">Find the people and resources that help neighborhoods move forward.</p><a class="hlc-family-pathway-link" href="/community">Visit the community →</a></div></article>
         </div>
