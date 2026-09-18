@@ -12,7 +12,8 @@ mkdirSync(directory, { recursive: true });
 writeFileSync(`${directory}/candidate-sha.txt`, `${sha}\n`);
 const routes = ['/', '/about', '/homeowners', '/contractors', '/professionals', '/partners', '/community', '/services', '/how-it-works', '/leadscope', '/pricing', '/trust', '/demo', '/contact', '/request-service', '/professional-application', '/privacy', '/terms', '/accessibility', '/platform-disclosure', '/login', '/register', '/forgot-password', '/reset-password', '/app', '/portal', '/memorial', '/kendrell-memorial', '/portal/accept', '/team/accept'];
 const widths = [320, 390, 1440];
-const expectedPaths = ['/about', '/homeowners', '/professionals', '/partners', '/community', '/services', '/login', '/register'];
+const expectedDesktopPaths = ['/about', '/homeowners', '/professionals', '/partners', '/community', '/services', '/login', '/register'];
+const expectedMobileMenuPaths = ['/about', '/homeowners', '/professionals', '/partners', '/community', '/services', '/register'];
 const expectedLogoPath = '/hlc-logo-ui.png';
 const report = { sha, routes, widths, cases: [], restrictions: 'Anonymous local build only; external requests blocked; no form submission, credential entry, backend writes, or production navigation.' };
 const browser = await chromium.launch();
@@ -115,7 +116,7 @@ try {
             assert.notEqual(menuState.panel.visibility, 'hidden', 'Menu panel is hidden after opening');
             assert.ok(menuState.panel.width > 0 && menuState.panel.height > 0, 'Menu panel has no rendered geometry after opening');
             result.menuLinks = menuState.links;
-            for (const destination of expectedPaths) check(() => assert.ok(menuState.links.some(link => link.path === destination), `Missing menu destination ${destination}`));
+            for (const destination of expectedMobileMenuPaths) check(() => assert.ok(menuState.links.some(link => link.path === destination), `Missing menu destination ${destination}`));
             check(() => assert.ok(menuState.links.every(link => link.display !== 'none' && link.visibility !== 'hidden' && link.box.width > 0 && link.box.height >= 40), 'Menu links are not rendered usable touch targets'));
             const restingFocusBackground = await summary.evaluate(element => {
               const firstLink = element.parentElement.querySelector('nav a');
@@ -141,7 +142,7 @@ try {
           check(() => assert.ok(measured.cta, 'Desktop Get Started is missing'));
           check(() => assert.equal(measured.cta?.background, authority.cta?.background, 'Desktop CTA background differs from Home'));
           const links = await header.locator('a').evaluateAll(elements => elements.filter(element => element.getBoundingClientRect().width > 0).map(element => new URL(element.href).pathname));
-          for (const destination of expectedPaths) check(() => assert.ok(links.includes(destination), `Missing desktop destination ${destination}`));
+          for (const destination of expectedDesktopPaths) check(() => assert.ok(links.includes(destination), `Missing desktop destination ${destination}`));
         }
         result.headerOverflow = await header.evaluate(element => element.scrollWidth > element.clientWidth + 1);
         check(() => assert.equal(result.headerOverflow, false, 'Header overflows horizontally'));
