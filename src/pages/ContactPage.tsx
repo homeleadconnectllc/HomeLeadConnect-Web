@@ -5,6 +5,7 @@ import "../styles/public-utility-flat.css";
 import "../styles/public-utility-imagery.css";
 import "../styles/public-board-pages-20260912.css";
 import "../styles/public-owner-visual-authority-20260918.css";
+import "../styles/public-owner-visual-final-20260918.css";
 
 const paths = [
   { eyebrow: "HOME HELP", title: "Request home service", body: "Tell HomeLead Connect what you need and route the request into the connected service workflow.", to: "/request-service", action: "Start service request" },
