@@ -132,7 +132,7 @@ export default function AppLayout() {
         <Outlet />
         <Suspense fallback={null}>{showAudioDevices && <AudioDeviceCenter />}{showFieldDevices && <FieldDeviceCenter />}</Suspense>
       </div>
-      <Footer showLogo={!signedInWorkspaceShell && !publicFrontDoorSurface && !homepageSurface} />
+      <Footer showLogo={!signedInWorkspaceShell} />
       <Suspense fallback={null}>
         {signedInWorkspaceShell && <WorkspaceGuidance />}
         {signedInWorkspaceShell && <UniversalAITeamLauncher />}
