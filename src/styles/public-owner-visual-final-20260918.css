@@ -66,3 +66,22 @@ html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.
   html body #root header.hlc-public-shared-nav :is(.hlc-board-login,.hlc-board-cta){display:none!important}
   html body #root header.hlc-public-shared-nav .hlc-mobile-sign-in-link{display:inline!important;color:#e5edf6!important;-webkit-text-fill-color:#e5edf6!important;background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important}
 }
+
+
+/* Final full-bleed family rule: interior public heroes match Home's viewport-wide parent composition. */
+html body #root :is(.hlc-pathway-hero,.hlc-public-board-page .hlc-public-hero,.hlc-utility-page .hlc-public-hero,.hlc-legal-hero){
+  width:100vw!important;
+  max-width:100vw!important;
+  margin-left:calc(50% - 50vw)!important;
+  margin-right:calc(50% - 50vw)!important;
+}
+html body #root .hlc-legal-hero :is(.hlc-legal-effective,.hlc-legal-effective span){
+  color:#e5edf6!important;
+  -webkit-text-fill-color:#e5edf6!important;
+  text-shadow:0 1px 12px rgba(0,0,0,.55)!important;
+}
+html body #root :is(.hlc-pathway-hero,.hlc-public-hero,.hlc-legal-hero) :is(h1,h2){
+  color:#fff!important;
+  -webkit-text-fill-color:#fff!important;
+  text-shadow:0 2px 18px rgba(0,0,0,.50)!important;
+}
