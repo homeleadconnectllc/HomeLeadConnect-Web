@@ -151,7 +151,8 @@
 }
 
 
-/* MOBILE MENU VISIBILITY LOCK — menu must render identically on every public route. */
+/* MOBILE MENU VISIBILITY LOCK — menu must render identically on every public route.
+   Canonical mobile menu color/visibility authority; page-family styles must not override this block. */
 @media(max-width:680px){
   html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-icon-nav-v5__panel{
     box-sizing:border-box!important;
