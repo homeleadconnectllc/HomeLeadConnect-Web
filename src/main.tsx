@@ -41,7 +41,7 @@ import "./styles/mobile-release-fix.css";
 */
 
 const APP_HOST = "app.homeleadconnect.org";
-const NAV_LOGO = "/brand/homelead-connect-master-transparent.png";
+const NAV_LOGO = "/hlc-logo-ui.png";
 const isPublicHome = window.location.pathname === "/" && window.location.hostname.toLowerCase() !== APP_HOST;
 const rootElement = document.getElementById("root")!;
 
@@ -99,7 +99,7 @@ function publicHomeMarkup() {
 
       <section class="hlc-family-entry" aria-labelledby="hlc-family-entry-title"><div class="hlc-family-entry-inner"><div><p class="hlc-family-kicker">Ready when you are</p><h2 id="hlc-family-entry-title">Start with the path that fits you.</h2><p class="hlc-family-pricing-note">Business workspace: $49.99/month after a 14-day trial.</p></div><div class="hlc-family-entry-actions"><a href="https://app.homeleadconnect.org/request-service">Request Service</a><a href="https://app.homeleadconnect.org/professional-application">Apply as a Professional</a><a href="/partners">Explore Partnerships</a><a href="https://app.homeleadconnect.org/">Open the App</a></div></div></section>
 
-      <footer class="hlc-board-footer hlc-public-footer-home-authority"><img class="hlc-public-footer-master-logo" src="/brand/homelead-connect-master-transparent.png" alt="HomeLead Connect LLC" /><strong>HomeLead Connect</strong><span>Connecting Homes. Creating Opportunities.</span><nav aria-label="Legal and accessibility"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/accessibility">Accessibility</a><a href="/platform-disclosure">Platform disclosure</a></nav><small>© ${new Date().getFullYear()} HomeLead Connect LLC</small></footer>
+      <footer class="hlc-board-footer hlc-public-footer-home-authority"><img class="hlc-public-footer-master-logo" src="/hlc-logo-ui.png" alt="HomeLead Connect LLC" /><strong>HomeLead Connect</strong><span>Connecting Homes. Creating Opportunities.</span><nav aria-label="Legal and accessibility"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/accessibility">Accessibility</a><a href="/platform-disclosure">Platform disclosure</a></nav><small>© ${new Date().getFullYear()} HomeLead Connect LLC</small></footer>
     </main>`;
 }
 
