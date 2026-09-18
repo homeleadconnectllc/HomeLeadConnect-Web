@@ -85,3 +85,78 @@ html body #root :is(.hlc-pathway-hero,.hlc-public-hero,.hlc-legal-hero) :is(h1,h
   -webkit-text-fill-color:#fff!important;
   text-shadow:0 2px 18px rgba(0,0,0,.50)!important;
 }
+
+
+/* OWNER COLOR/FAMILY LOCK — 2026-09-18
+   Public routes inherit Home's softer navy family. Blue is not the universal text color. */
+html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page){
+  background:
+    radial-gradient(circle at 50% -12%,rgba(66,183,255,.10),transparent 36%),
+    linear-gradient(180deg,#0c2b49 0%,#0a223b 48%,#071a2d 100%)!important;
+}
+
+/* Route accents are contextual, not globally blue. */
+html body #root .hlc-pathway-page[data-pathway="residents"]{--page-accent:#55e6b3!important}
+html body #root .hlc-pathway-page[data-pathway="professionals"]{--page-accent:#63d3ff!important}
+html body #root .hlc-pathway-page[data-pathway="partners"]{--page-accent:#f2c45f!important}
+html body #root .hlc-pathway-page[data-pathway="community"]{--page-accent:#c98cff!important}
+html body #root .hlc-public-board-page[data-public-page="services"]{--page-accent:#6edbd2!important}
+html body #root :is(.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page){--page-accent:#eef4fb}
+
+/* Content typography follows Home: white headlines, soft-light body copy. */
+html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
+:is(h1,h2,h3,strong){
+  color:#ffffff!important;
+  -webkit-text-fill-color:#ffffff!important;
+}
+html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
+:is(p,li,small,span){
+  color:#d6e2ee!important;
+  -webkit-text-fill-color:#d6e2ee!important;
+}
+
+/* Kicker/eyebrow color may carry the route accent. */
+html body #root .hlc-pathway-page :is(.hlc-pathway-eyebrow,.hlc-public-kicker),
+html body #root .hlc-public-board-page[data-public-page="services"] :is(.hlc-public-kicker,.hlc-public-card-label,.hlc-public-offer-label){
+  color:var(--page-accent)!important;
+  -webkit-text-fill-color:var(--page-accent)!important;
+}
+
+/* Primary actions use the route accent; secondary actions stay neutral.
+   This eliminates the same blue link treatment across every page. */
+html body #root .hlc-pathway-page :is(.hlc-pathway-primary,.hlc-pathway-text-link),
+html body #root .hlc-public-board-page :is(.hlc-public-primary,.hlc-public-link),
+html body #root .hlc-utility-page :is(.hlc-utility-primary,.hlc-public-primary,.hlc-public-link){
+  color:var(--page-accent)!important;
+  -webkit-text-fill-color:var(--page-accent)!important;
+}
+html body #root .hlc-pathway-page .hlc-pathway-secondary,
+html body #root .hlc-public-board-page .hlc-public-secondary,
+html body #root .hlc-utility-page :is(.hlc-utility-secondary,.hlc-public-secondary),
+html body #root .hlc-legal-page :is(.hlc-legal-primary,.hlc-legal-secondary){
+  color:#f4f7fb!important;
+  -webkit-text-fill-color:#f4f7fb!important;
+}
+
+/* Neutral public pages do not inherit bright blue text from legacy public-premium rules. */
+html body #root :is(
+  .hlc-public-board-page:not([data-public-page="services"]),
+  .hlc-utility-page,
+  .hlc-legal-page,
+  .hlc-public-story,
+  .hlc-memorial-page
+) :is(.hlc-public-primary,.hlc-public-link,.hlc-utility-primary,.hlc-legal-primary,.hlc-legal-secondary){
+  color:#f4f7fb!important;
+  -webkit-text-fill-color:#f4f7fb!important;
+}
+
+/* Footer retains the approved image-2 link treatment, but its logo must remain centered. */
+html body #root .hlc-public-footer-home-authority .hlc-public-footer-master-logo{
+  display:block!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+html body #root .hlc-public-footer-home-authority nav a{
+  color:#8fb8ff!important;
+  -webkit-text-fill-color:#8fb8ff!important;
+}
