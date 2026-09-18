@@ -415,8 +415,9 @@ a[href*="/resources"]{
 
 
 /* OWNER LOGO COUNT AUTHORITY: public pages already carry the locked master logo in the shared nav. Suppress only the redundant footer image; retain footer identity, legal links, and workspace behavior. */
-.hlc-public-shell.hlc-public-front-door-surface:not(.hlc-signed-in-shell) .hlc-public-footer-master-logo,
-.hlc-public-shell.hlc-page-home:not(.hlc-signed-in-shell) .hlc-public-footer-master-logo{display:none!important}
+.hlc-public-shell.hlc-public-front-door-surface:not(.hlc-signed-in-shell) .hlc-public-footer-master-logo{display:none!important}
+/* Homepage approved target: retain the main footer brand logo and suppress only the extra logo rendered above it. */
+.hlc-public-shell.hlc-page-home:not(.hlc-signed-in-shell) .hlc-public-footer-home-authority > .hlc-public-footer-master-logo:first-of-type{display:none!important}
 
 
 /* OWNER HOME-BACKGROUND UNIFICATION — 2026-09-18 */
@@ -437,3 +438,12 @@ html body #root .hlc-public-footer-home-authority{
   background:linear-gradient(180deg,#041326 0%,#031224 100%)!important;
   background-color:#041326!important;
 }
+
+
+/* OWNER FOOTER DESTINATION COLOR AUTHORITY — 2026-09-18 */
+/* Shared footer pathway links use the destination's locked color language. */
+html body #root .hlc-public-footer a[href*="/request-service"]{color:#56e3ad!important;-webkit-text-fill-color:#56e3ad!important}
+html body #root .hlc-public-footer a[href*="/professional-application"],
+html body #root .hlc-public-footer a[href*="/professionals"]{color:#55c7ff!important;-webkit-text-fill-color:#55c7ff!important}
+html body #root .hlc-public-footer a[href*="/partners"],
+html body #root .hlc-public-footer a[href*="/partner"]{color:#ffc95a!important;-webkit-text-fill-color:#ffc95a!important}

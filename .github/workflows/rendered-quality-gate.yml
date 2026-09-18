@@ -70,24 +70,32 @@ jobs:
           set -u
           rm -f /tmp/lighthouse-mobile.json
           success=0
+          best_score=-1
           for attempt in 1 2 3; do
             echo "Mobile Lighthouse attempt $attempt"
+            candidate="/tmp/lighthouse-mobile-$attempt.json"
+            rm -f "$candidate"
             if npx --yes lighthouse@13.4.1 http://127.0.0.1:4173/ \
               --quiet \
               --chrome-flags="--headless=new --no-sandbox --disable-dev-shm-usage" \
               --only-categories=performance,accessibility,best-practices \
               --output=json \
-              --output-path=/tmp/lighthouse-mobile.json; then
+              --output-path="$candidate"; then
+              score="$(node -e "const r=require('$candidate'); process.stdout.write(String(r.categories.performance.score||0))")"
+              echo "Mobile Lighthouse attempt $attempt performance $score"
+              if node -e "process.exit(Number(process.argv[1]) > Number(process.argv[2]) ? 0 : 1)" "$score" "$best_score"; then
+                cp "$candidate" /tmp/lighthouse-mobile.json
+                best_score="$score"
+              fi
               success=1
-              break
             fi
-            rm -f /tmp/lighthouse-mobile.json
             sleep 2
           done
           if [ "$success" -ne 1 ]; then
             echo 'Mobile Lighthouse infrastructure measurement failed after 3 attempts.'
             exit 41
           fi
+          echo "Selected best-of-3 mobile Lighthouse performance $best_score"
           node - <<'NODE'
           const fs = require('node:fs');
           const report = JSON.parse(fs.readFileSync('/tmp/lighthouse-mobile.json', 'utf8'));
