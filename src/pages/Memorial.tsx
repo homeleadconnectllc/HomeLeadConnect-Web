@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import PublicSiteNav from "../components/PublicSiteNav";
 import "../styles/public-owner-visual-authority-20260918.css";
 import "../styles/public-owner-visual-final-20260918.css";
-import Footer from "../components/Footer";
 
 export default function MemorialPage() {
   return (
@@ -35,6 +34,6 @@ export default function MemorialPage() {
         <Link to="/about">Founder story</Link>
         <Link className="is-secondary" to="/">HomeLead Connect home</Link>
       </nav>
-    <Footer/></main></>
+    </main></>
   );
 }
