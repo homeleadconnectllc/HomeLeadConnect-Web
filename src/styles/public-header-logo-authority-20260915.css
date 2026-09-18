@@ -3,7 +3,7 @@
    existing home destinations, navigation behavior, accessibility, and responsive geometry. */
 
 :root{
-  --hlc-navbar-master-logo:url('/brand/homelead-connect-master-transparent.png');
+  --hlc-navbar-master-logo:url('/hlc-logo-ui.png');
   --hlc-navbar-logo-size:64px;
   --hlc-navbar-logo-size-mobile:52px;
   --hlc-navbar-logo-size-compact:46px;
