@@ -20,7 +20,7 @@ const pathways = [
 
 export default function HomePage() {
   return (
-    <main className="hlc-board-home hlc-family-ecosystem">
+    <main className="hlc-board-home hlc-family-ecosystem hlc-public-owner-redesign" data-public-page="home">
       <PublicSiteNav />
 
       <section className="hlc-family-hero" aria-labelledby="hlc-family-hero-title">
