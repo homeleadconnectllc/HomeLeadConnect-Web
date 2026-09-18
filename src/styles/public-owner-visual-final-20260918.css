@@ -362,3 +362,36 @@ html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.
     -webkit-text-fill-color:#f4f7fb!important;
   }
 }
+
+
+/* GLOBAL PUBLIC DEAD-SPACE NORMALIZATION — owner direction 2026-09-18
+   Tighten accidental empty vertical regions without touching shared navigation. */
+html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
+:is(section,main,article){
+  scroll-margin-top:96px;
+}
+html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
+:is(.hlc-pathway-section,.hlc-public-card,.hlc-board-access-card,.hlc-public-offer,.hlc-legal-card,.hlc-public-story-card,.hlc-pathway-card){
+  min-height:0!important;
+  height:auto!important;
+}
+html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
+:is(.hlc-pathway-section,.hlc-public-card,.hlc-board-access-card,.hlc-public-offer,.hlc-legal-card,.hlc-public-story-card,.hlc-pathway-card):empty{
+  display:none!important;
+}
+html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
+:is(.hlc-pathway-section,.hlc-public-card,.hlc-board-access-card,.hlc-public-offer,.hlc-legal-card,.hlc-public-story-card,.hlc-pathway-card)+
+:is(.hlc-pathway-section,.hlc-public-card,.hlc-board-access-card,.hlc-public-offer,.hlc-legal-card,.hlc-public-story-card,.hlc-pathway-card){
+  margin-top:0!important;
+}
+@media(max-width:680px){
+  html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
+  :is(.hlc-pathway-section,.hlc-public-card,.hlc-board-access-card,.hlc-public-offer,.hlc-legal-card,.hlc-public-story-card,.hlc-pathway-card){
+    padding-top:clamp(28px,7vw,48px)!important;
+    padding-bottom:clamp(28px,7vw,48px)!important;
+  }
+  html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
+  :is(h1,h2,h3,p,figure,ul,ol):first-child{margin-top:0!important}
+  html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
+  :is(h1,h2,h3,p,figure,ul,ol):last-child{margin-bottom:0!important}
+}
