@@ -64,6 +64,32 @@ export default function PublicSiteNav() {
     setImportant(menuTrigger, "background-color", "transparent");
     setImportant(menuTrigger, "background-image", "none");
 
+    const login = nav.querySelector<HTMLElement>(".hlc-board-login");
+    const cta = nav.querySelector<HTMLElement>(".hlc-board-cta");
+    const mobileSignIn = nav.querySelector<HTMLElement>(".hlc-mobile-sign-in-link");
+    const applyGlobalHeaderActions = () => {
+      const mobile = window.matchMedia("(max-width: 680px)").matches;
+      for (const element of [login, cta]) {
+        setImportant(element, "background", "transparent");
+        setImportant(element, "background-color", "transparent");
+        setImportant(element, "background-image", "none");
+        setImportant(element, "border", "0");
+        setImportant(element, "border-radius", "0");
+        setImportant(element, "box-shadow", "none");
+        setImportant(element, "padding", "0");
+        setImportant(element, "min-height", "0");
+      }
+      setImportant(login, "color", "#e5edf6");
+      setImportant(login, "-webkit-text-fill-color", "#e5edf6");
+      setImportant(cta, "color", "var(--page-accent)");
+      setImportant(cta, "-webkit-text-fill-color", "var(--page-accent)");
+      setImportant(login, "display", mobile ? "none" : "inline");
+      setImportant(cta, "display", mobile ? "none" : "inline");
+      setImportant(mobileSignIn, "display", "none");
+    };
+    applyGlobalHeaderActions();
+    window.addEventListener("resize", applyGlobalHeaderActions);
+
     const routeContent = nav.closest<HTMLElement>(".hlc-route-content");
     setImportant(routeContent, "padding-top", "0");
     const authShell = nav.closest<HTMLElement>(".hlc-auth-shell");
@@ -84,6 +110,7 @@ export default function PublicSiteNav() {
     return () => {
       window.cancelAnimationFrame(frame);
       window.clearTimeout(settle);
+      window.removeEventListener("resize", applyGlobalHeaderActions);
     };
   }, []);
 
