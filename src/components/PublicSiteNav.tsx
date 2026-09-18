@@ -7,7 +7,7 @@ import "../styles/public-home-mobile-nav-v5-20260915.css";
 import "../styles/public-nav-home-authority-20260916.css";
 import "../styles/public-owner-visual-authority-20260918.css";
 
-const NAV_LOGO = "/hlc-logo-ui.png";
+const NAV_LOGO = "/brand/homelead-connect-official-master.svg";
 
 const navLinks = [
   ["About", publicUrl("/about")],
