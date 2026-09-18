@@ -32,7 +32,8 @@ async function metrics(page) {
     const brand = header.querySelector('.hlc-board-brand, .hlc-public-site-nav__brand, .hlc-auth-public-brand');
     const visibleBrandImage = [...header.querySelectorAll('img[data-hlc-master-logo]')].find(visible) ?? null;
     const summary = [...header.querySelectorAll('summary')].find(visible);
-    const login = [...header.querySelectorAll('a')].find(a => a.textContent.trim() === 'Sign In' && visible(a));
+    const visibleSignIns = [...header.querySelectorAll('a')].filter(a => a.textContent.trim() === 'Sign In' && visible(a));
+    const login = visibleSignIns[0] ?? null;
     const cta = [...header.querySelectorAll('a')].find(a => a.textContent.includes('Get Started') && visible(a));
     const box = header.getBoundingClientRect();
     const properties = element => element ? { color: getComputedStyle(element).color, fill: getComputedStyle(element).webkitTextFillColor, background: getComputedStyle(element).backgroundColor, radius: getComputedStyle(element).borderRadius, font: getComputedStyle(element).fontSize } : null;
@@ -41,7 +42,7 @@ async function metrics(page) {
       background: getComputedStyle(header).backgroundColor,
       brand: brand ? { text: brand.textContent?.trim() ?? '', width: brand.getBoundingClientRect().width, height: brand.getBoundingClientRect().height } : null,
       visibleBrandImage: visibleBrandImage ? { src: new URL(visibleBrandImage.src).pathname, width: visibleBrandImage.getBoundingClientRect().width, height: visibleBrandImage.getBoundingClientRect().height } : null,
-      summary: properties(summary), login: properties(login), cta: properties(cta),
+      summary: properties(summary), login: properties(login), visibleSignInCount: visibleSignIns.length, cta: properties(cta),
       overflow: document.documentElement.scrollWidth > innerWidth + 1
     };
   });
@@ -89,6 +90,7 @@ try {
         if (width <= 680) {
           check(() => assert.ok(measured.summary, 'Mobile Menu is not visible'));
           check(() => assert.equal(measured.summary?.color, authority.summary?.color, 'Menu label color differs from Home'));
+          check(() => assert.equal(measured.visibleSignInCount, 1, 'Mobile header must render exactly one visible Sign In'));
           check(() => assert.ok(measured.login, 'Mobile Sign In is not visible beside Menu'));
           check(() => assert.equal(measured.login?.color, authority.login?.color, 'Sign In color differs from Home'));
           check(() => assert.equal(measured.cta, null, 'Desktop Get Started must not crowd the mobile header'));
