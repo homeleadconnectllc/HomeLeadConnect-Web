@@ -215,6 +215,25 @@ export default function PublicSiteNav() {
       });
     }
 
+    const routeAccent: Record<string, string> = {
+      "/homeowners": "#55e6b3",
+      "/professionals": "#63d3ff",
+      "/contractors": "#63d3ff",
+      "/professional-application": "#63d3ff",
+      "/partners": "#f2c45f",
+      "/community": "#c98cff",
+      "/services": "#6edbd2",
+    };
+    const accent = routeAccent[pathname] ?? "#f4f7fb";
+    document.querySelectorAll<HTMLElement>(".hlc-pathway-eyebrow, .hlc-public-kicker, .hlc-public-card-label, .hlc-public-offer-label, .hlc-pathway-primary, .hlc-pathway-text-link, .hlc-public-primary, .hlc-public-link, .hlc-utility-primary").forEach((element) => {
+      setImportant(element, "color", accent);
+      setImportant(element, "-webkit-text-fill-color", accent);
+    });
+    document.querySelectorAll<HTMLElement>(".hlc-pathway-secondary, .hlc-public-secondary, .hlc-utility-secondary, .hlc-legal-primary, .hlc-legal-secondary").forEach((element) => {
+      setImportant(element, "color", "#f4f7fb");
+      setImportant(element, "-webkit-text-fill-color", "#f4f7fb");
+    });
+
     document.querySelectorAll<HTMLElement>(".hlc-public-grid, .hlc-board-access-grid, .hlc-public-card, .hlc-board-access-card, .hlc-public-offer, .hlc-legal-card, .hlc-legal-note, .hlc-legal-contact, .hlc-public-story-card, .hlc-pathway-card, .hlc-pathway-final, .hlc-pathway-reassurance, .hlc-leadscope-visual, .hlc-network-node, .hlc-professional-timeline, .hlc-professional-timeline li, .hlc-partner-trust-grid, .hlc-partner-trust-grid article, .hlc-partner-flow, .hlc-partner-flow span, .hlc-community-board, .hlc-community-sidebar, .hlc-community-feature-card, .hlc-community-post, .hlc-community-principles, .hlc-community-principles article").forEach((element) => {
       setImportant(element, "background", "transparent");
       setImportant(element, "background-image", "none");
