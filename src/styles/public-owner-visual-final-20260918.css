@@ -395,3 +395,42 @@ html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.
   html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
   :is(h1,h2,h3,p,figure,ul,ol):last-child{margin-bottom:0!important}
 }
+
+
+/* GLOBAL DESTINATION COLOR LANGUAGE — owner authority 2026-09-18
+   Link/action color communicates destination everywhere on public surfaces.
+   Preserve shared navigation geometry and behavior. */
+html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
+a[href*="/residents"],
+html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
+a[href*="/request-service"]{
+  color:#56e3ad!important;
+  -webkit-text-fill-color:#56e3ad!important;
+}
+html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
+a[href*="/professionals"],
+html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
+a[href*="/professional-application"]{
+  color:#55c7ff!important;
+  -webkit-text-fill-color:#55c7ff!important;
+}
+html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
+a[href*="/partners"],
+html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
+a[href*="/partner"]{
+  color:#ffc95a!important;
+  -webkit-text-fill-color:#ffc95a!important;
+}
+html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
+a[href*="/community"]{
+  color:#d77cff!important;
+  -webkit-text-fill-color:#d77cff!important;
+}
+/* Neutral/informational destinations stay neutral; do not falsely imply a pathway. */
+html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
+a[href*="/about"],
+html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
+a[href*="/resources"]{
+  color:#f4f7fb!important;
+  -webkit-text-fill-color:#f4f7fb!important;
+}
