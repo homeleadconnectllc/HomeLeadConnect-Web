@@ -311,3 +311,40 @@ html body #root#root#root#root .hlc-auth-shell.hlc-auth-shell--flat {
     max-width:none!important;
   }
 }
+
+
+/* MOBILE BASELINE LOCK — Sign In and Menu share one identical 44px control box. */
+@media(max-width:680px){
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav
+  :is(.hlc-mobile-sign-in-link,.hlc-mobile-icon-nav-v5,.hlc-mobile-icon-nav-v5__trigger){
+    box-sizing:border-box!important;
+    height:44px!important;
+    min-height:44px!important;
+    max-height:44px!important;
+    margin:0!important;
+    padding:0!important;
+    line-height:1!important;
+    vertical-align:middle!important;
+  }
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-sign-in-link,
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-icon-nav-v5__trigger{
+    display:inline-flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    font-size:16px!important;
+    font-weight:900!important;
+    line-height:1!important;
+    white-space:nowrap!important;
+  }
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-icon-nav-v5{
+    display:inline-flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+  }
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-icon-nav-v5__trigger{
+    list-style:none!important;
+  }
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-icon-nav-v5__trigger::-webkit-details-marker{
+    display:none!important;
+  }
+}
