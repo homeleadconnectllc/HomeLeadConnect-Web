@@ -8,7 +8,6 @@ import "../styles/public-board-pages-20260912.css";
 import "../styles/pathway-exact-render-authority-20260916.css";
 import "../styles/public-owner-visual-authority-20260918.css";
 import "../styles/public-owner-visual-final-20260918.css";
-import Footer from "../components/Footer";
 
 const content = {
   about: { kicker: "About HomeLead Connect", title: "A connected operating layer for home-service work.", body: "HomeLead Connect LLC is a home-services technology platform based in Pennsylvania and designed for residents, professionals, partners, and service operations across supported locations. HomeLead Connect connects service requests, resident project planning, provider coordination, scheduling, jobs, communications, documents, workflow automation, analytics, and customer follow-through in one operating system.", imageKey: "about" },
@@ -64,6 +63,6 @@ export default function PublicInfo({ page }: { page: keyof typeof content }) {
       </section>}
       {page === "contractors" && <section className="hlc-public-offer"><p className="hlc-public-offer-label">PROFESSIONAL ACCESS</p><div className="hlc-public-price"><strong>Application + protected portal</strong></div><p>Professionals can apply to join HomeLead Connect. Approved or invited participants use authenticated portal access for the records and services made available to their HomeLead Connect relationship.</p></section>}
     </div>
-    <Footer/>
+    
   </main>;
 }
