@@ -13,7 +13,7 @@ writeFileSync(`${directory}/candidate-sha.txt`, `${sha}\n`);
 const routes = ['/', '/about', '/homeowners', '/contractors', '/professionals', '/partners', '/community', '/services', '/how-it-works', '/leadscope', '/pricing', '/trust', '/demo', '/contact', '/request-service', '/professional-application', '/privacy', '/terms', '/accessibility', '/platform-disclosure', '/login', '/register', '/forgot-password', '/reset-password', '/app', '/portal', '/memorial', '/kendrell-memorial', '/portal/accept', '/team/accept'];
 const widths = [320, 390, 1440];
 const expectedPaths = ['/about', '/homeowners', '/professionals', '/partners', '/community', '/services', '/login', '/register'];
-const expectedLogoPath = '/hlc-logo-ui.png';
+const expectedLogoPath = '/brand/homelead-connect-master-transparent.png';
 const report = { sha, routes, widths, cases: [], restrictions: 'Anonymous local build only; external requests blocked; no form submission, credential entry, backend writes, or production navigation.' };
 const browser = await chromium.launch();
 
@@ -89,8 +89,9 @@ try {
         if (width <= 680) {
           check(() => assert.ok(measured.summary, 'Mobile Menu is not visible'));
           check(() => assert.equal(measured.summary?.color, authority.summary?.color, 'Menu label color differs from Home'));
+          check(() => assert.ok(measured.login, 'Mobile Sign In is not visible beside Menu'));
           check(() => assert.equal(measured.login?.color, authority.login?.color, 'Sign In color differs from Home'));
-          check(() => assert.equal(measured.cta, null, 'Desktop CTA must not crowd the mobile header'));
+          check(() => assert.equal(measured.cta, null, 'Desktop Get Started must not crowd the mobile header'));
           if (await summary.count()) {
             await summary.click();
             assert.equal(await summary.evaluate(element => element.parentElement.open), true, 'Menu did not open on click');
