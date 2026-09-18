@@ -14,7 +14,7 @@ const routes = ['/', '/about', '/homeowners', '/contractors', '/professionals', 
 const widths = [320, 390, 1440];
 const expectedDesktopPaths = ['/about', '/homeowners', '/professionals', '/partners', '/community', '/services', '/login', '/register'];
 const expectedMobileMenuPaths = ['/about', '/homeowners', '/professionals', '/partners', '/community', '/services', '/register'];
-const expectedLogoPath = '/hlc-logo-ui.png';
+const expectedLogoPath = '/icon-512.png';
 const report = { sha, routes, widths, cases: [], restrictions: 'Anonymous local build only; external requests blocked; no form submission, credential entry, backend writes, or production navigation.' };
 const browser = await chromium.launch();
 
