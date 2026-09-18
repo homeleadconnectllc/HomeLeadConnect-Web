@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import PublicSiteNav from "../components/PublicSiteNav";
 import { pageImage } from "../config/publicPageImagery";
 import "../styles/legal.css";
+import "../styles/public-owner-visual-authority-20260918.css";
 
 type LegalPage = "privacy" | "terms" | "platform";
 
