@@ -4,6 +4,7 @@ import PublicSiteNav from "../components/PublicSiteNav";
 import { pageImage } from "../config/publicPageImagery";
 import "../styles/pathway-family-pages-20260916.css";
 import "../styles/public-owner-visual-authority-20260918.css";
+import "../styles/public-owner-visual-final-20260918.css";
 
 export type PathwayPageKind = "residents" | "professionals" | "partners" | "community";
 
