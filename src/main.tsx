@@ -107,6 +107,54 @@ void publicHomeMarkup;
 
 if (isPublicHome) {
   rootElement.innerHTML = publicHomeMarkup();
+
+  const nav = rootElement.querySelector<HTMLElement>("header.hlc-public-shared-nav");
+  const inner = nav?.querySelector<HTMLElement>(".hlc-board-nav-inner") ?? null;
+  const actions = nav?.querySelector<HTMLElement>(".hlc-board-actions") ?? null;
+  const brand = nav?.querySelector<HTMLElement>(".hlc-board-brand") ?? null;
+  const login = nav?.querySelector<HTMLElement>(".hlc-board-login") ?? null;
+  const cta = nav?.querySelector<HTMLElement>(".hlc-board-cta") ?? null;
+  const mobileSignIn = nav?.querySelector<HTMLElement>(".hlc-mobile-sign-in-link") ?? null;
+  const mobileMenu = nav?.querySelector<HTMLElement>(".hlc-mobile-icon-nav-v5") ?? null;
+  const setStaticImportant = (element: HTMLElement | null, property: string, value: string) => element?.style.setProperty(property, value, "important");
+  const alignStaticHomeHeader = () => {
+    const mobile = window.matchMedia("(max-width: 680px)").matches;
+    if (!mobile) return;
+    setStaticImportant(nav, "width", "100%");
+    setStaticImportant(nav, "max-width", "none");
+    setStaticImportant(nav, "margin", "0");
+    setStaticImportant(nav, "padding", "0");
+    setStaticImportant(inner, "box-sizing", "border-box");
+    setStaticImportant(inner, "width", "100%");
+    setStaticImportant(inner, "max-width", "none");
+    setStaticImportant(inner, "margin", "0");
+    setStaticImportant(inner, "padding", "0 12px");
+    setStaticImportant(inner, "display", "grid");
+    setStaticImportant(inner, "grid-template-columns", "auto 1fr auto");
+    setStaticImportant(inner, "align-items", "center");
+    setStaticImportant(inner, "gap", "0");
+    setStaticImportant(brand, "grid-column", "1");
+    setStaticImportant(brand, "justify-self", "start");
+    setStaticImportant(actions, "grid-column", "3");
+    setStaticImportant(actions, "justify-self", "end");
+    setStaticImportant(actions, "margin", "0");
+    setStaticImportant(actions, "padding", "0");
+    setStaticImportant(actions, "width", "auto");
+    setStaticImportant(actions, "display", "flex");
+    setStaticImportant(actions, "align-items", "center");
+    setStaticImportant(actions, "justify-content", "flex-end");
+    setStaticImportant(actions, "gap", "14px");
+    setStaticImportant(login, "display", "none");
+    setStaticImportant(cta, "display", "none");
+    setStaticImportant(mobileSignIn, "display", "inline");
+    setStaticImportant(mobileSignIn, "margin", "0");
+    setStaticImportant(mobileSignIn, "padding", "0");
+    setStaticImportant(mobileMenu, "display", "block");
+    setStaticImportant(mobileMenu, "margin", "0");
+    setStaticImportant(mobileMenu, "padding", "0");
+  };
+  alignStaticHomeHeader();
+  window.addEventListener("resize", alignStaticHomeHeader);
 } else {
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
