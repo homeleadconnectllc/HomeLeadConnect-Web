@@ -1044,3 +1044,14 @@ html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathwa
     border-radius:0 0 8px 8px!important;
   }
 }
+
+
+/* Mobile menu keyboard/focus visibility contract. */
+@media(max-width:680px){
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-icon-nav-v5__item:focus-visible{
+    outline:2px solid currentColor!important;
+    outline-offset:2px!important;
+    background:rgba(24,66,105,.38)!important;
+    box-shadow:0 0 0 3px rgba(255,255,255,.08)!important;
+  }
+}
