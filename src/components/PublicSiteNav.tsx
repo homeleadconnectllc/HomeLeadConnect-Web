@@ -89,9 +89,13 @@ export default function PublicSiteNav() {
         const inner = nav.querySelector<HTMLElement>(".hlc-board-nav-inner");
         const actions = nav.querySelector<HTMLElement>(".hlc-board-actions");
         const mobileMenu = nav.querySelector<HTMLElement>(".hlc-mobile-icon-nav-v5");
-        setImportant(nav, "width", "100%");
-        setImportant(nav, "max-width", "none");
-        setImportant(nav, "margin", "0");
+        setImportant(nav, "position", "relative");
+        setImportant(nav, "left", "auto");
+        setImportant(nav, "right", "auto");
+        setImportant(nav, "width", "100vw");
+        setImportant(nav, "max-width", "100vw");
+        setImportant(nav, "margin-left", "calc(50% - 50vw)");
+        setImportant(nav, "margin-right", "calc(50% - 50vw)");
         setImportant(nav, "padding", "0");
         setImportant(inner, "box-sizing", "border-box");
         setImportant(inner, "width", "100%");
