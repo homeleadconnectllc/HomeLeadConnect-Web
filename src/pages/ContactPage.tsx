@@ -6,7 +6,6 @@ import "../styles/public-utility-imagery.css";
 import "../styles/public-board-pages-20260912.css";
 import "../styles/public-owner-visual-authority-20260918.css";
 import "../styles/public-owner-visual-final-20260918.css";
-import Footer from "../components/Footer";
 
 const paths = [
   { eyebrow: "HOME HELP", title: "Request home service", body: "Tell HomeLead Connect what you need and route the request into the connected service workflow.", to: "/request-service", action: "Start service request" },
@@ -22,5 +21,5 @@ export default function ContactPage() {
     <section className="hlc-utility-paths hlc-public-grid" aria-label="Contact paths">{paths.map((item) => <article className="hlc-utility-path hlc-public-card" key={item.title}><p className="hlc-utility-section-label hlc-public-card-label">{item.eyebrow}</p><div><h2>{item.title}</h2><p>{item.body}</p></div>{item.to.startsWith("mailto:") ? <a className="hlc-utility-link hlc-public-link" href={item.to}>{item.action} →</a> : <Link className="hlc-utility-link hlc-public-link" to={item.to}>{item.action} →</Link>}</article>)}</section>
     <section className="hlc-utility-contact-grid hlc-public-grid" aria-label="HomeLead Connect business contact"><div className="hlc-public-card"><p className="hlc-utility-section-label hlc-public-card-label">Business contact</p><h2 className="hlc-utility-title">HomeLead Connect LLC</h2><p className="hlc-utility-lead">Serving the Pennsylvania launch market with a connected platform for residents, professionals, and participating businesses.</p></div><div className="hlc-public-card hlc-utility-contact-details"><div><span className="hlc-utility-detail-label">Founder / Owner</span><strong>Antoine Washington</strong></div><div><span className="hlc-utility-detail-label">Email</span><a href="mailto:homeleadconnect@gmail.com">homeleadconnect@gmail.com</a></div><div><span className="hlc-utility-detail-label">Phone</span><a href="tel:+17172881785">717-288-1785</a></div><div><span className="hlc-utility-detail-label">Web</span><a href="https://homeleadconnect.org">homeleadconnect.org</a></div></div></section>
     <section className="hlc-utility-focus hlc-public-offer"><p className="hlc-utility-section-label hlc-public-offer-label">Ready when you are</p><h2>Start with the right HomeLead Connect path.</h2><p>Service requests enter the HomeLead Connect workflow for review. Submitting a request does not guarantee provider assignment, pricing, or an appointment.</p><div className="hlc-utility-actions hlc-public-actions"><Link className="hlc-utility-primary hlc-public-primary" to="/request-service">Request service →</Link></div></section>
-  </div><Footer/></main>;
+  </div></main>;
 }
