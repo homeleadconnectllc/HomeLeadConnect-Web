@@ -10,7 +10,7 @@ type FooterProps = {
 export default function Footer({ showLogo = true }: FooterProps) {
   return (
     <footer className="hlc-public-footer hlc-board-footer hlc-public-footer-home-authority">
-      {showLogo && <img className="hlc-public-footer-master-logo" src="/hlc-logo-ui.png" alt="HomeLead Connect LLC" />}
+      {showLogo && <img className="hlc-public-footer-master-logo" src="/icon-512.png" alt="HomeLead Connect LLC" />}
       <strong>HomeLead Connect</strong>
       <span>Connecting Homes. Creating Opportunities.</span>
       <nav aria-label="Legal and accessibility" style={{ display: "flex", justifyContent: "center", alignItems: "center", flexWrap: "wrap", gap: "10px 18px", marginBottom: 12 }}>
