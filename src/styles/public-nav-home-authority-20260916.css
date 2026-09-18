@@ -63,34 +63,37 @@ html body #root#root#root#root .hlc-public-shared-nav .hlc-board-login {
 
 html body #root#root#root#root .hlc-public-shared-nav .hlc-board-actions {
   display: flex !important;
-  gap: 12px !important;
+  gap: 18px !important;
   align-items: center !important;
-  margin-left: 0 !important;
+  margin-left: auto !important;
 }
 
 html body #root#root#root#root .hlc-public-shared-nav .hlc-board-login {
-  display: inline-flex !important;
+  display: inline !important;
   align-items: center !important;
-  min-height: 42px !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  color: #e5edf6 !important;
+  -webkit-text-fill-color: #e5edf6 !important;
   font-size: 12px !important;
   font-weight: 850 !important;
 }
 
 html body #root#root#root#root .hlc-public-shared-nav .hlc-board-cta {
-  display: inline-flex !important;
+  display: inline !important;
   align-items: center !important;
   justify-content: center !important;
-  min-height: 42px !important;
-  padding: 0 18px !important;
-  border: 1px solid #0b6ed6 !important;
-  border-radius: 999px !important;
-  background: #0b6ed6 !important;
-  color: #fff !important;
-  -webkit-text-fill-color: #fff !important;
+  min-height: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: var(--page-accent, #9bc1ff) !important;
+  -webkit-text-fill-color: var(--page-accent, #9bc1ff) !important;
   text-decoration: none !important;
   font-size: 12px !important;
   font-weight: 900 !important;
-  box-shadow: 0 10px 26px rgba(13,124,240,.28) !important;
+  box-shadow: none !important;
 }
 
 /* Any public route that owns the shared nav begins at the same viewport origin as Home. */
@@ -166,18 +169,7 @@ html body #root#root#root#root .hlc-auth-shell.hlc-auth-shell--flat {
   }
 
   html body #root#root#root#root .hlc-public-shared-nav .hlc-mobile-sign-in-link {
-    display: inline-flex !important;
-    align-items: center !important;
-    min-height: 44px !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    color: #62e6b3 !important;
-    -webkit-text-fill-color: #62e6b3 !important;
-    background: transparent !important;
-    border: 0 !important;
-    text-decoration: none !important;
-    font-size: 15px !important;
-    font-weight: 850 !important;
+    display: none !important;
   }
 
   html body #root#root#root#root .hlc-public-shared-nav .hlc-mobile-icon-nav-v5 {
