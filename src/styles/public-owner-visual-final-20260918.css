@@ -417,3 +417,23 @@ a[href*="/resources"]{
 /* OWNER LOGO COUNT AUTHORITY: public pages already carry the locked master logo in the shared nav. Suppress only the redundant footer image; retain footer identity, legal links, and workspace behavior. */
 .hlc-public-shell.hlc-public-front-door-surface:not(.hlc-signed-in-shell) .hlc-public-footer-master-logo,
 .hlc-public-shell.hlc-page-home:not(.hlc-signed-in-shell) .hlc-public-footer-master-logo{display:none!important}
+
+
+/* OWNER HOME-BACKGROUND UNIFICATION — 2026-09-18 */
+/* Public page canvas now uses the exact Home front-door navy family. Keep image-led heroes intact; normalize the page canvas, open content areas, and shared footer only. */
+html body #root .hlc-app-shell.hlc-public-shell:not(.hlc-signed-in-shell){
+  background:radial-gradient(circle at 80% 18%,rgba(29,139,255,.13),transparent 32%),linear-gradient(180deg,#031224 0%,#06172b 48%,#071a30 100%)!important;
+  background-color:#041326!important;
+}
+html body #root .hlc-app-shell.hlc-public-shell:not(.hlc-signed-in-shell)>.hlc-route-content{
+  background:transparent!important;
+  background-image:none!important;
+}
+html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page){
+  background:radial-gradient(circle at 80% 18%,rgba(29,139,255,.13),transparent 32%),linear-gradient(180deg,#031224 0%,#06172b 48%,#071a30 100%)!important;
+  background-color:#041326!important;
+}
+html body #root .hlc-public-footer-home-authority{
+  background:linear-gradient(180deg,#041326 0%,#031224 100%)!important;
+  background-color:#041326!important;
+}
