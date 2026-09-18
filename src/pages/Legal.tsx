@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import PublicSiteNav from "../components/PublicSiteNav";
 import { pageImage } from "../config/publicPageImagery";
 import "../styles/legal.css";
@@ -10,16 +9,6 @@ type LegalPage = "privacy" | "terms" | "platform";
 function PrivacyPage() {
   const visual = pageImage("privacy");
   return <>
-    <header className="hlc-legal-brandbar">
-      <Link to="/" aria-label="HomeLead Connect home">
-        <img className="hlc-legal-logo" src="/hlc-logo-transparent.png" alt="HomeLead Connect" />
-      </Link>
-      <div className="hlc-legal-status-copy">
-        <div className="hlc-legal-status-title">HomeLead Connect Privacy Center</div>
-        <div className="hlc-legal-status-subtitle">Secure access. Clear choices. Connected protection.</div>
-      </div>
-    </header>
-
     <section className="hlc-legal-hero">
       <div className="hlc-legal-hero-grid">
         <div>
