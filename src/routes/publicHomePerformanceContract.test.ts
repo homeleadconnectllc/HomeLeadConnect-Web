@@ -12,7 +12,7 @@ const familyAuthority = readFileSync(new URL("../styles/front-door-family-ecosys
 const centeredCopyAuthority = readFileSync(new URL("../styles/public-home-centered-copy-authority-20260915.css", import.meta.url), "utf8");
 
 const revokedPublicLogo = /\/brand\/homelead-connect-transparent-v2\.svg/;
-const responsiveNavLogo = /\/hlc-logo-ui\.png/;
+const responsiveNavLogo = /\/icon-512\.png/;
 const heavyweightMasterLogo = /\/brand\/homelead-connect-master-transparent\.png/;
 
 test("public home stays outside the authenticated application bundle while retaining route delivery", () => {
@@ -35,7 +35,7 @@ test("public home renders without paying React startup cost", () => {
 });
 
 test("no-React public root uses the responsive approved logo without loading heavyweight master artwork", () => {
-  assert.match(main, /const NAV_LOGO = "\/hlc-logo-ui\.png"/);
+  assert.match(main, /const NAV_LOGO = "\/icon-512\.png"/);
   assert.match(main, /<a class="hlc-board-brand"[^>]+aria-label="HomeLead Connect home">[\s\S]*?data-hlc-master-logo="true"[^>]+src="\$\{NAV_LOGO\}"[\s\S]*?hlc-brand-accessible-label">HomeLead Connect<\/span>[\s\S]*?<\/a>/);
   assert.match(main, responsiveNavLogo);
   assert.doesNotMatch(main, revokedPublicLogo);
@@ -57,7 +57,7 @@ test("no-React public root uses the responsive approved logo without loading hea
 });
 
 test("parser-seeded public hero uses the responsive approved logo and preserves optimized first paint", () => {
-  assert.match(indexHtml, /<a href="https:\/\/homeleadconnect\.org\/" aria-label="HomeLead Connect home"[^>]*>[\s\S]*?data-hlc-master-logo="true"[^>]+src="\/hlc-logo-ui\.png"[\s\S]*?HomeLead Connect[\s\S]*?<\/a>/);
+  assert.match(indexHtml, /<a href="https:\/\/homeleadconnect\.org\/" aria-label="HomeLead Connect home"[^>]*>[\s\S]*?data-hlc-master-logo="true"[^>]+src="\/icon-512\.png"[\s\S]*?HomeLead Connect[\s\S]*?<\/a>/);
   assert.match(indexHtml, responsiveNavLogo);
   assert.doesNotMatch(indexHtml, revokedPublicLogo);
   assert.doesNotMatch(indexHtml, heavyweightMasterLogo);
