@@ -7,7 +7,7 @@ import "../styles/public-home-mobile-nav-v5-20260915.css";
 import "../styles/public-nav-home-authority-20260916.css";
 import "../styles/public-owner-visual-authority-20260918.css";
 
-const NAV_LOGO = "/hlc-logo-ui.png";
+const NAV_LOGO = "/brand/homelead-connect-master-transparent.png";
 
 const navLinks = [
   ["About", publicUrl("/about")],
@@ -83,9 +83,9 @@ export default function PublicSiteNav() {
       setImportant(login, "-webkit-text-fill-color", "#e5edf6");
       setImportant(cta, "color", "var(--page-accent)");
       setImportant(cta, "-webkit-text-fill-color", "var(--page-accent)");
-      setImportant(login, "display", mobile ? "none" : "inline");
+      setImportant(login, "display", "inline");
       setImportant(cta, "display", mobile ? "none" : "inline");
-      setImportant(mobileSignIn, "display", "none");
+      setImportant(mobileSignIn, "display", mobile ? "inline" : "none");
     };
     applyGlobalHeaderActions();
     window.addEventListener("resize", applyGlobalHeaderActions);
