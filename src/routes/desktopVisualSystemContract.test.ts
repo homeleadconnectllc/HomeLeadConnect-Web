@@ -76,7 +76,7 @@ test("desktop shell reserves navigation and returns the full canvas when collaps
 test("desktop branding obeys the public-footer and single-workspace-logo authority", () => {
   assert.doesNotMatch(appLayout, /hlc-desktop-page-brand/);
   assert.match(appLayout, /<Navbar\s*\/>/);
-  assert.match(appLayout, /<Footer\s+showLogo=\{!signedInWorkspaceShell\}\s*\/>/);
+  assert.match(appLayout, /<Footer\s+showLogo=\{!signedInWorkspaceShell\s*&&\s*!homepageSurface\}\s*\/>/);
   assert.match(shellRecovery, /\.hlc-navbar-brand[\s\S]*display:\s*none\s*!important/);
 });
 
