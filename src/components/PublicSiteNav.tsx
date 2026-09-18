@@ -85,6 +85,35 @@ export default function PublicSiteNav() {
       setImportant(login, "display", mobile ? "none" : "inline");
       setImportant(cta, "display", mobile ? "none" : "inline");
       setImportant(mobileSignIn, "display", mobile ? "inline" : "none");
+      if (mobile) {
+        const inner = nav.querySelector<HTMLElement>(".hlc-board-nav-inner");
+        const actions = nav.querySelector<HTMLElement>(".hlc-board-actions");
+        const mobileMenu = nav.querySelector<HTMLElement>(".hlc-mobile-icon-nav-v5");
+        setImportant(nav, "width", "100%");
+        setImportant(nav, "max-width", "none");
+        setImportant(nav, "margin", "0");
+        setImportant(nav, "padding", "0");
+        setImportant(inner, "box-sizing", "border-box");
+        setImportant(inner, "width", "100%");
+        setImportant(inner, "max-width", "none");
+        setImportant(inner, "margin", "0");
+        setImportant(inner, "padding", "0 12px");
+        setImportant(inner, "display", "grid");
+        setImportant(inner, "grid-template-columns", "auto 1fr auto");
+        setImportant(inner, "align-items", "center");
+        setImportant(inner, "gap", "0");
+        setImportant(actions, "grid-column", "3");
+        setImportant(actions, "justify-self", "end");
+        setImportant(actions, "margin", "0");
+        setImportant(actions, "padding", "0");
+        setImportant(actions, "width", "auto");
+        setImportant(actions, "display", "flex");
+        setImportant(actions, "align-items", "center");
+        setImportant(actions, "justify-content", "flex-end");
+        setImportant(actions, "gap", "14px");
+        setImportant(mobileMenu, "margin", "0");
+        setImportant(mobileMenu, "padding", "0");
+      }
       setImportant(mobileSignIn, "color", "#e5edf6");
       setImportant(mobileSignIn, "-webkit-text-fill-color", "#e5edf6");
       setImportant(mobileSignIn, "background", "transparent");
@@ -137,7 +166,7 @@ export default function PublicSiteNav() {
       setImportant(hero, "border", "0");
       setImportant(hero, "border-radius", "0");
       setImportant(hero, "box-shadow", "none");
-      setImportant(hero, "background-image", `linear-gradient(180deg, rgba(3,17,31,.30), rgba(3,17,31,.68) 58%, rgba(3,17,31,.90)), url('${heroImage}')`);
+      setImportant(hero, "background-image", `linear-gradient(90deg, rgba(2,10,22,.58), rgba(3,17,34,.36) 54%, rgba(4,19,38,.12) 82%, rgba(4,19,38,.03)), linear-gradient(180deg, rgba(2,10,22,.06), transparent 58%, rgba(4,19,38,.38)), url('${heroImage}')`);
       setImportant(hero, "background-size", "cover");
       setImportant(hero, "background-position", "center");
       setImportant(hero, "background-repeat", "no-repeat");
@@ -160,6 +189,16 @@ export default function PublicSiteNav() {
     if (heroImage) {
       document.querySelectorAll<HTMLElement>(".hlc-pathway-hero-visual, .hlc-public-shell > .hlc-public-visual, .hlc-legal-hero + .hlc-legal-page-visual").forEach((element) => {
         setImportant(element, "display", "none");
+      });
+      document.querySelectorAll<HTMLElement>(".hlc-pathway-hero h1, .hlc-pathway-hero h2, .hlc-public-hero h1, .hlc-public-hero h2, .hlc-legal-hero h1, .hlc-legal-hero h2").forEach((element) => {
+        setImportant(element, "color", "#ffffff");
+        setImportant(element, "-webkit-text-fill-color", "#ffffff");
+        setImportant(element, "text-shadow", "0 2px 18px rgba(0,0,0,.50)");
+      });
+      document.querySelectorAll<HTMLElement>(".hlc-pathway-hero p, .hlc-pathway-hero small, .hlc-public-hero p, .hlc-public-hero small, .hlc-legal-hero p, .hlc-legal-hero small, .hlc-legal-hero span").forEach((element) => {
+        setImportant(element, "color", "#e5edf6");
+        setImportant(element, "-webkit-text-fill-color", "#e5edf6");
+        setImportant(element, "text-shadow", "0 1px 12px rgba(0,0,0,.55)");
       });
     }
 
