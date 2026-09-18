@@ -187,3 +187,78 @@ html body #root#root#root#root .hlc-auth-shell.hlc-auth-shell--flat {
     box-shadow: none !important;
   }
 }
+
+
+/* OWNER MOBILE HEADER ROOT AUTHORITY — 2026-09-18
+   No centered/boxed nav geometry. Logo hard-left, one Sign In + Menu hard-right. */
+@media (max-width:680px){
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav{
+    width:100%!important;
+    max-width:none!important;
+    margin:0!important;
+    padding:0!important;
+    border-radius:0!important;
+  }
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-nav-inner{
+    box-sizing:border-box!important;
+    width:100%!important;
+    max-width:none!important;
+    min-height:84px!important;
+    margin:0!important;
+    padding:0 14px 0 12px!important;
+    display:grid!important;
+    grid-template-columns:auto 1fr auto!important;
+    align-items:center!important;
+    gap:0!important;
+    justify-content:stretch!important;
+  }
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-brand{
+    grid-column:1!important;
+    justify-self:start!important;
+    margin:0!important;
+  }
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-links{
+    display:none!important;
+  }
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-actions{
+    grid-column:3!important;
+    justify-self:end!important;
+    align-self:center!important;
+    margin:0!important;
+    padding:0!important;
+    display:flex!important;
+    align-items:center!important;
+    justify-content:flex-end!important;
+    gap:14px!important;
+    width:auto!important;
+    max-width:none!important;
+  }
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-login,
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-cta{
+    display:none!important;
+  }
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-sign-in-link,
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-icon-nav-v5{
+    flex:0 0 auto!important;
+    margin:0!important;
+    padding:0!important;
+  }
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-sign-in-link{
+    display:inline!important;
+    white-space:nowrap!important;
+  }
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-icon-nav-v5{
+    display:block!important;
+    justify-self:end!important;
+  }
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-icon-nav-v5__trigger{
+    display:inline-flex!important;
+    align-items:center!important;
+    justify-content:flex-end!important;
+    min-width:0!important;
+    width:auto!important;
+    margin:0!important;
+    padding:0!important;
+    text-align:right!important;
+  }
+}
