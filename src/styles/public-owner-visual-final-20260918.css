@@ -338,29 +338,7 @@ html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.
     padding-right:20px!important;
   }
 
-  /* Menu is one shared readable control, independent of route typography. */
-  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-icon-nav-v5__panel{
-    right:20px!important;
-    width:min(88vw,320px)!important;
-    min-width:0!important;
-    max-width:320px!important;
-    padding:16px!important;
-    background:#06182a!important;
-    color:#f4f7fb!important;
-    -webkit-text-fill-color:#f4f7fb!important;
-  }
-  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-icon-nav-v5__item,
-  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-icon-nav-v5__item :is(span,strong,small),
-  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-icon-nav-v5__label{
-    opacity:1!important;
-    visibility:visible!important;
-    text-shadow:none!important;
-  }
-  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-icon-nav-v5__item--about,
-  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-icon-nav-v5__item--resources{
-    color:#f4f7fb!important;
-    -webkit-text-fill-color:#f4f7fb!important;
-  }
+
 }
 
 
