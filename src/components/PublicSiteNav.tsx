@@ -162,10 +162,13 @@ export default function PublicSiteNav() {
     const heroImage = heroImages[pathname];
     if (hero && heroImage) {
       setImportant(hero, "position", "relative");
-      setImportant(hero, "width", "100%");
-      setImportant(hero, "max-width", "none");
+      setImportant(hero, "width", "100vw");
+      setImportant(hero, "max-width", "100vw");
       setImportant(hero, "min-height", "690px");
-      setImportant(hero, "margin", "0");
+      setImportant(hero, "margin-left", "calc(50% - 50vw)");
+      setImportant(hero, "margin-right", "calc(50% - 50vw)");
+      setImportant(hero, "margin-top", "0");
+      setImportant(hero, "margin-bottom", "0");
       setImportant(hero, "padding", "0");
       setImportant(hero, "border", "0");
       setImportant(hero, "border-radius", "0");
@@ -194,12 +197,12 @@ export default function PublicSiteNav() {
       document.querySelectorAll<HTMLElement>(".hlc-pathway-hero-visual, .hlc-public-shell > .hlc-public-visual, .hlc-legal-hero + .hlc-legal-page-visual").forEach((element) => {
         setImportant(element, "display", "none");
       });
-      document.querySelectorAll<HTMLElement>(".hlc-pathway-hero h1, .hlc-pathway-hero h2, .hlc-public-hero h1, .hlc-public-hero h2, .hlc-legal-hero h1, .hlc-legal-hero h2").forEach((element) => {
+      document.querySelectorAll<HTMLElement>(".hlc-pathway-hero h1, .hlc-pathway-hero h2, .hlc-public-hero h1, .hlc-public-hero h2, .hlc-legal-hero h1, .hlc-legal-hero h2, .hlc-public-kicker, .hlc-pathway-eyebrow").forEach((element) => {
         setImportant(element, "color", "#ffffff");
         setImportant(element, "-webkit-text-fill-color", "#ffffff");
         setImportant(element, "text-shadow", "0 2px 18px rgba(0,0,0,.50)");
       });
-      document.querySelectorAll<HTMLElement>(".hlc-pathway-hero p, .hlc-pathway-hero small, .hlc-public-hero p, .hlc-public-hero small, .hlc-legal-hero p, .hlc-legal-hero small, .hlc-legal-hero span").forEach((element) => {
+      document.querySelectorAll<HTMLElement>(".hlc-pathway-hero p, .hlc-pathway-hero small, .hlc-public-hero p, .hlc-public-hero small, .hlc-legal-hero p, .hlc-legal-hero small, .hlc-legal-hero span, .hlc-legal-effective, .hlc-legal-effective span").forEach((element) => {
         setImportant(element, "color", "#e5edf6");
         setImportant(element, "-webkit-text-fill-color", "#e5edf6");
         setImportant(element, "text-shadow", "0 1px 12px rgba(0,0,0,.55)");
