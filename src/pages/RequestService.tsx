@@ -1,7 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import PublicSiteNav from "../components/PublicSiteNav";
-import { pageImage } from "../config/publicPageImagery";
 import { trackAnalyticsEvent } from "../api/analytics";
 import { submitServiceRequest } from "../api/publicIntake";
 import { errorMessage } from "../lib/errorMessage";
@@ -19,7 +18,6 @@ const serviceLabels: Record<string, string> = {
 };
 
 export default function RequestService() {
-  const visual = pageImage("requestService");
   const [searchParams] = useSearchParams();
   const selectedService = serviceLabels[searchParams.get("service") || ""] || "";
   const [form, setForm] = useState({
@@ -86,22 +84,14 @@ export default function RequestService() {
     <PublicSiteNav />
     <main className="hlc-request-service">
       <style>{requestCss}</style>
-      <section className="hlc-request-hero">
-        <p className="hlc-request-kicker">HOMELEAD CONNECT · SERVICE REQUEST</p>
-        <h1>Tell us what your home needs.</h1>
-        <p>Renters, homeowners, property managers, and everyday households can start with one request.</p>
-        <a href="#request-form" className="hlc-request-primary">Start My Request ↓</a>
+      <section className="hlc-request-intro" aria-labelledby="request-service-title">
+        <p className="hlc-request-kicker">SERVICE REQUEST</p>
+        <h1 id="request-service-title">Start your request</h1>
+        <p>Tell us what you need and how to reach you. We’ll contact you about the next step.</p>
       </section>
-
-      <figure className="hlc-request-visual">
-        <img src={visual.src} alt={visual.alt} loading="eager" />
-      </figure>
 
       <section className="hlc-request-grid">
         <div id="request-form" className="hlc-request-form-card">
-          <p className="hlc-request-kicker">SERVICE DETAILS</p>
-          <h2>Start your request</h2>
-          <p className="hlc-request-form-intro">Tell us what you need and how to reach you. We’ll contact you about the next step.</p>
 
           {error && <p role="alert" className="hlc-request-error">{error}</p>}
 
@@ -113,7 +103,7 @@ export default function RequestService() {
             <label><span>Email <em>Optional</em></span><input type="email" autoComplete="email" placeholder="you@example.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></label>
             <label><span>What home service or project do you need? <b>Required</b></span><textarea required minLength={10} rows={6} placeholder="Describe the repair, move, cleaning, HVAC issue, project, timing, or anything else that would help us understand what you need." value={form.projectDetails} onChange={(e) => setForm({ ...form, projectDetails: e.target.value })} /></label>
             <div className="hlc-request-privacy"><strong>What happens after you send this</strong><span>Your request goes to HomeLead Connect for review. We’ll contact you using the information above. You are not enrolling in marketing messages.</span></div>
-            <button disabled={busy} type="submit">{busy ? "Sending request…" : "Send My Request →"}</button>
+            <button disabled={busy} type="submit">{busy ? "Sending request…" : "Next Step →"}</button>
           </form>
         </div>
 
@@ -130,35 +120,31 @@ export default function RequestService() {
 }
 
 const requestCss = `
-.hlc-request-service{width:min(1180px,calc(100% - 28px))!important;margin:24px auto 72px!important;display:grid!important;gap:18px!important;color:#f8fafc!important}
+.hlc-request-service{position:relative!important;isolation:isolate!important;width:100%!important;max-width:none!important;margin:0!important;padding:clamp(44px,7vw,88px) clamp(20px,5vw,72px) 76px!important;display:grid!important;gap:34px!important;color:#f8fafc!important;background:linear-gradient(180deg,rgba(3,17,31,.42),rgba(3,17,31,.74)),url("https://commons.wikimedia.org/wiki/Special:Redirect/file/Harrisburg_PA_skyline.jpg") center 48%/cover fixed no-repeat,#071a2d!important}
 .hlc-request-service *{box-sizing:border-box}
-.hlc-request-hero,.hlc-request-form-card,.hlc-request-aside{background:#081426!important;color:#f8fafc!important;border:1px solid rgba(147,197,253,.24)!important;border-radius:14px!important;box-shadow:0 22px 55px rgba(2,6,23,.22)!important}
-.hlc-request-hero{padding:62px 34px!important;text-align:center!important;background:radial-gradient(circle at 18% 0%,rgba(32,200,244,.16),transparent 34%),linear-gradient(145deg,#06172c,#0a2039)!important}
-.hlc-request-visual{height:clamp(280px,44vw,520px)!important;margin:0!important;overflow:hidden!important;border:1px solid rgba(147,197,253,.24)!important;border-radius:14px!important;background:#081426!important;box-shadow:0 22px 55px rgba(2,6,23,.22)!important}
-.hlc-request-visual img{display:block!important;width:100%!important;height:100%!important;object-fit:cover!important;object-position:center 45%!important}
-.hlc-request-kicker{margin:0 0 12px!important;color:#20c8f4!important;font-size:12px!important;font-weight:900!important;letter-spacing:.19em!important;text-transform:uppercase!important}
-.hlc-request-hero h1{margin:0 auto 16px!important;max-width:800px!important;color:#fff!important;font-family:Georgia,"Times New Roman",serif!important;font-size:clamp(2.6rem,6vw,5rem)!important;font-weight:700!important;line-height:.96!important;letter-spacing:-.045em!important}
-.hlc-request-hero>p:not(.hlc-request-kicker){max-width:720px!important;margin:0 auto 24px!important;color:#dbeafe!important;font-size:18px!important;line-height:1.6!important;font-weight:600!important}
-.hlc-request-primary,.hlc-request-secondary{display:inline-flex!important;align-items:center!important;justify-content:center!important;min-height:50px!important;padding:13px 22px!important;border-radius:999px!important;text-decoration:none!important;font-weight:900!important}
-.hlc-request-primary{border:1px solid #42d3ff!important;background:linear-gradient(135deg,#0b6ed6,#075cb6)!important;color:#fff!important}
-.hlc-request-grid{display:grid!important;grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr)!important;gap:18px!important;align-items:start!important}
-.hlc-request-form-card,.hlc-request-aside{padding:34px!important}
-.hlc-request-form-card h2,.hlc-request-aside h2{margin:0 0 10px!important;color:#fff!important;font-family:Georgia,"Times New Roman",serif!important;font-size:clamp(1.9rem,4vw,2.8rem)!important;line-height:1.05!important}
-.hlc-request-form-intro,.hlc-request-aside>p:not(.hlc-request-kicker){margin:0 0 22px!important;color:#c7d2e3!important;font-size:16px!important;line-height:1.6!important}
+.hlc-request-intro{width:min(880px,100%)!important;margin:0 auto!important;padding:0!important;text-align:center!important;background:transparent!important;border:0!important;box-shadow:none!important}
+.hlc-request-kicker{margin:0 0 12px!important;color:#56e3ad!important;font-size:12px!important;font-weight:900!important;letter-spacing:.19em!important;text-transform:uppercase!important}
+.hlc-request-intro h1{margin:0 auto 14px!important;color:#fff!important;font-family:Georgia,"Times New Roman",serif!important;font-size:clamp(2.7rem,6vw,5rem)!important;font-weight:700!important;line-height:.98!important;letter-spacing:-.045em!important;text-shadow:0 2px 18px rgba(0,0,0,.55)!important}
+.hlc-request-intro>p:not(.hlc-request-kicker){max-width:650px!important;margin:0 auto!important;color:#f1f5f9!important;font-size:18px!important;line-height:1.6!important;font-weight:650!important;text-shadow:0 1px 12px rgba(0,0,0,.65)!important}
+.hlc-request-grid{width:min(1040px,100%)!important;margin:0 auto!important;display:grid!important;grid-template-columns:minmax(0,1fr) minmax(260px,.42fr)!important;gap:42px!important;align-items:start!important}
+.hlc-request-form-card,.hlc-request-aside{padding:0!important;background:transparent!important;color:#f8fafc!important;border:0!important;border-radius:0!important;box-shadow:none!important}
 .hlc-request-form-card form{display:grid!important;gap:18px!important}
-.hlc-request-form-card label{display:grid!important;gap:8px!important;color:#f8fafc!important;font-weight:800!important;font-size:15px!important}
+.hlc-request-form-card label{display:grid!important;gap:8px!important;color:#fff!important;font-weight:850!important;font-size:15px!important;text-shadow:0 1px 10px rgba(0,0,0,.72)!important}
 .hlc-request-form-card label span{display:flex!important;align-items:baseline!important;justify-content:space-between!important;gap:10px!important}
-.hlc-request-form-card label b,.hlc-request-form-card label em{font-size:10px!important;letter-spacing:.08em!important;text-transform:uppercase!important;color:#67d9ff!important;font-style:normal!important}
-.hlc-request-form-card input,.hlc-request-form-card select,.hlc-request-form-card textarea{width:100%!important;min-height:54px!important;padding:13px 14px!important;border:1px solid #52769d!important;border-radius:10px!important;background:#f8fafc!important;color:#0f172a!important;font:inherit!important;font-size:16px!important;font-weight:600!important}
+.hlc-request-form-card label b,.hlc-request-form-card label em{flex:0 0 auto!important;white-space:nowrap!important;font-size:10px!important;letter-spacing:.08em!important;text-transform:uppercase!important;color:#56e3ad!important;font-style:normal!important}
+.hlc-request-form-card input,.hlc-request-form-card select,.hlc-request-form-card textarea{width:100%!important;min-height:54px!important;padding:13px 14px!important;border:1px solid rgba(219,234,254,.78)!important;border-radius:8px!important;background:rgba(248,250,252,.92)!important;color:#0f172a!important;font:inherit!important;font-size:16px!important;font-weight:600!important;box-shadow:0 8px 24px rgba(2,6,23,.12)!important}
 .hlc-request-form-card textarea{min-height:150px!important;resize:vertical!important}
-.hlc-request-privacy{display:grid!important;gap:5px!important;padding:16px!important;border:1px solid #31577e!important;border-radius:12px!important;background:#0d2946!important;color:#dbeafe!important;line-height:1.55!important}
-.hlc-request-form-card button{min-height:58px!important;border:1px solid #42d3ff!important;border-radius:999px!important;background:linear-gradient(135deg,#0b6ed6,#075cb6)!important;color:#fff!important;font-size:16px!important;font-weight:900!important;cursor:pointer!important}
+.hlc-request-privacy{display:grid!important;gap:5px!important;padding:14px 0!important;border:0!important;border-radius:0!important;background:transparent!important;color:#f1f5f9!important;line-height:1.55!important;text-shadow:0 1px 10px rgba(0,0,0,.72)!important}
+.hlc-request-form-card button{justify-self:start!important;min-height:0!important;padding:4px 0!important;border:0!important;border-bottom:2px solid currentColor!important;border-radius:0!important;background:transparent!important;color:#56e3ad!important;font-size:17px!important;font-weight:900!important;cursor:pointer!important;box-shadow:none!important}
 .hlc-request-form-card button:disabled{opacity:.65!important;cursor:wait!important}
-.hlc-request-aside ul{margin:18px 0!important;padding-left:20px!important;color:#e2e8f0!important;line-height:1.8!important}
-.hlc-request-aside a{color:#67d9ff!important;font-weight:900!important;text-decoration:none!important}
-.hlc-request-error{padding:14px!important;border-radius:10px!important;background:#450a0a!important;color:#fecaca!important;border:1px solid #991b1b!important;font-weight:800!important}
+.hlc-request-aside{padding-top:4px!important;text-shadow:0 1px 12px rgba(0,0,0,.72)!important}
+.hlc-request-aside h2{margin:0 0 10px!important;color:#fff!important;font-family:Georgia,"Times New Roman",serif!important;font-size:clamp(1.7rem,3vw,2.35rem)!important;line-height:1.08!important}
+.hlc-request-aside>p:not(.hlc-request-kicker){margin:0 0 18px!important;color:#eef4fb!important;font-size:15px!important;line-height:1.65!important}
+.hlc-request-aside ul{margin:18px 0!important;padding-left:20px!important;color:#eef4fb!important;line-height:1.8!important}
+.hlc-request-aside a{color:#56e3ad!important;font-weight:900!important;text-decoration:none!important;border-bottom:1px solid currentColor!important}
+.hlc-request-error{padding:12px 0!important;border:0!important;border-radius:0!important;background:transparent!important;color:#fecaca!important;font-weight:900!important;text-shadow:0 1px 10px rgba(0,0,0,.8)!important}
 .hlc-request-trap{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;overflow:hidden!important}
-@media(max-width:760px){.hlc-request-service{width:calc(100% - 20px)!important;margin:10px auto 38px!important;gap:12px!important}.hlc-request-grid{grid-template-columns:1fr!important;gap:12px!important}.hlc-request-hero{padding:38px 18px!important}.hlc-request-hero h1{font-size:clamp(2.3rem,10.5vw,3.2rem)!important;text-wrap:balance!important}.hlc-request-hero>p:not(.hlc-request-kicker){font-size:15px!important}.hlc-request-visual{height:300px!important}.hlc-request-form-card,.hlc-request-aside{padding:24px 18px!important}.hlc-request-aside{order:2!important}.hlc-request-form-card{order:1!important}}
+@media(max-width:760px){.hlc-request-service{padding:38px 20px 48px!important;gap:28px!important;background-attachment:scroll!important;background-position:center top!important}.hlc-request-grid{grid-template-columns:1fr!important;gap:34px!important}.hlc-request-intro h1{font-size:clamp(2.5rem,11vw,3.5rem)!important}.hlc-request-intro>p:not(.hlc-request-kicker){font-size:16px!important}.hlc-request-form-card label span{align-items:center!important}.hlc-request-aside{order:2!important}.hlc-request-form-card{order:1!important}}
 `;
 
 const completionCss = `
