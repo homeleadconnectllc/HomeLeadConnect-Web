@@ -85,6 +85,11 @@ export default function PublicSiteNav() {
       setImportant(login, "display", mobile ? "none" : "inline");
       setImportant(cta, "display", mobile ? "none" : "inline");
       setImportant(mobileSignIn, "display", mobile ? "inline" : "none");
+      setImportant(mobileSignIn, "color", "#e5edf6");
+      setImportant(mobileSignIn, "-webkit-text-fill-color", "#e5edf6");
+      setImportant(mobileSignIn, "background", "transparent");
+      setImportant(mobileSignIn, "border", "0");
+      setImportant(mobileSignIn, "box-shadow", "none");
     };
     applyGlobalHeaderActions();
     window.addEventListener("resize", applyGlobalHeaderActions);
