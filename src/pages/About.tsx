@@ -5,6 +5,7 @@ import "../styles/public-premium.css";
 import "../styles/public-board-pages-20260912.css";
 import "../styles/public-owner-visual-authority-20260918.css";
 import "../styles/public-owner-visual-final-20260918.css";
+import Footer from "../components/Footer";
 
 const cards = [
   ["Founder & Builder", "Antoine Washington", "Founder · Owner · Product Creator · Lead Developer · Technical Architect", "Antoine Washington founded HomeLead Connect and has led the product vision, application build, workflow design, technical implementation, operational systems, launch hardening, and day-to-day platform development."],
@@ -23,5 +24,6 @@ export default function AboutPage() {
       <section className="hlc-public-offer hlc-kendrell-dedication" aria-label="Kendrell Charles Washington dedication"><figure className="hlc-kendrell-dedication-portrait"><img src="/brand/avatars/Kendrell_Locked_HLC.png" alt="Kendrell Charles Washington dedication portrait" /></figure><p className="hlc-public-offer-label">In Remembrance</p><h2>Kendrell Charles Washington</h2><p>A brother, a family story, and a name carried forward with purpose, care, and pride through HomeLead Connect.</p><Link className="hlc-public-link" to="/memorial">Visit the full dedication →</Link></section>
       <section className="hlc-public-offer" aria-label="HomeLead Connect credits"><p className="hlc-public-offer-label">Credits</p><h2>Mission, product, and platform.</h2><p>HomeLead Connect LLC product direction, platform architecture, application development, operations design, and launch implementation: Antoine Washington.</p><p>HomeLead Connect visual logo design credit: Dion Diamond.</p></section>
     </div>
+    <Footer/>
   </main>;
 }
