@@ -83,7 +83,7 @@ export default function PublicSiteNav() {
       setImportant(login, "-webkit-text-fill-color", "#e5edf6");
       setImportant(cta, "color", "var(--page-accent)");
       setImportant(cta, "-webkit-text-fill-color", "var(--page-accent)");
-      setImportant(login, "display", "inline");
+      setImportant(login, "display", mobile ? "none" : "inline");
       setImportant(cta, "display", mobile ? "none" : "inline");
       setImportant(mobileSignIn, "display", mobile ? "inline" : "none");
     };
