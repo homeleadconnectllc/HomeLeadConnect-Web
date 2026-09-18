@@ -1,0 +1,197 @@
+/* Owner-directed public visual authority — 2026-09-18.
+   Public pages only. Keeps application/auth/business logic untouched. */
+:root{
+  --hlc-public-base:#071a2d;
+  --hlc-public-base-soft:#0b2239;
+  --hlc-public-neutral:#e8eef6;
+  --hlc-public-resident:#43d89d;
+  --hlc-public-professional:#4ab8ff;
+  --hlc-public-partner:#f3b64a;
+  --hlc-public-community:#bd7cff;
+  --hlc-public-resources:#5fd6d1;
+}
+html body #root .hlc-public-shared-nav{
+  --page-accent:var(--hlc-public-neutral);
+  background:rgba(6,23,41,.97)!important;
+  border-bottom:1px solid rgba(255,255,255,.09)!important;
+}
+html body #root .hlc-public-shared-nav[data-public-tone="resident"]{--page-accent:var(--hlc-public-resident)}
+html body #root .hlc-public-shared-nav[data-public-tone="professional"]{--page-accent:var(--hlc-public-professional)}
+html body #root .hlc-public-shared-nav[data-public-tone="partner"]{--page-accent:var(--hlc-public-partner)}
+html body #root .hlc-public-shared-nav[data-public-tone="community"]{--page-accent:var(--hlc-public-community)}
+html body #root .hlc-public-shared-nav[data-public-tone="resources"]{--page-accent:var(--hlc-public-resources)}
+html body #root .hlc-public-shared-nav .hlc-board-nav-inner{
+  width:min(1480px,calc(100% - 56px))!important;
+  min-height:96px!important;
+  display:grid!important;
+  grid-template-columns:88px minmax(0,1fr) auto!important;
+  align-items:center!important;
+  column-gap:28px!important;
+}
+html body #root .hlc-public-shared-nav .hlc-board-brand{
+  width:78px!important;min-width:78px!important;max-width:78px!important;
+  height:78px!important;min-height:78px!important;max-height:78px!important;
+  flex-basis:78px!important;background:transparent!important;
+}
+html body #root .hlc-public-shared-nav .hlc-board-brand img{
+  display:block!important;visibility:visible!important;opacity:1!important;
+  width:78px!important;height:78px!important;max-width:78px!important;max-height:78px!important;
+  object-fit:contain!important;transform:none!important;clip-path:none!important;border-radius:50%!important;
+}
+html body #root .hlc-public-shared-nav .hlc-board-links{justify-self:center!important;gap:clamp(14px,1.7vw,28px)!important}
+html body #root .hlc-public-shared-nav .hlc-board-links a{color:#dce7f2!important;-webkit-text-fill-color:#dce7f2!important}
+html body #root .hlc-public-shared-nav .hlc-board-links a:hover,
+html body #root .hlc-public-shared-nav .hlc-board-links a:focus-visible{color:var(--page-accent)!important;-webkit-text-fill-color:var(--page-accent)!important}
+html body #root .hlc-public-shared-nav .hlc-board-actions{justify-self:end!important;margin-left:auto!important;gap:18px!important}
+html body #root .hlc-public-shared-nav .hlc-board-login,
+html body #root .hlc-public-shared-nav .hlc-mobile-sign-in-link{
+  color:#e5edf6!important;-webkit-text-fill-color:#e5edf6!important;background:transparent!important;border:0!important;box-shadow:none!important;
+}
+html body #root .hlc-public-shared-nav .hlc-board-cta{
+  min-height:0!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;
+  color:var(--page-accent)!important;-webkit-text-fill-color:var(--page-accent)!important;font-size:13px!important;font-weight:900!important;
+}
+html body #root .hlc-public-front-door-surface{--page-accent:#8fb8d8;background:var(--hlc-public-base)!important}
+html body #root .hlc-page-homeowners{--page-accent:var(--hlc-public-resident)}
+html body #root :is(.hlc-page-professionals,.hlc-page-contractors,.hlc-page-professional-application){--page-accent:var(--hlc-public-professional)}
+html body #root .hlc-page-partners{--page-accent:var(--hlc-public-partner)}
+html body #root .hlc-page-community{--page-accent:var(--hlc-public-community)}
+html body #root .hlc-page-services{--page-accent:var(--hlc-public-resources)}
+html body #root .hlc-public-board-page,
+html body #root .hlc-legal-page,
+html body #root .hlc-utility-page,
+html body #root .hlc-board-home{
+  background:
+    radial-gradient(circle at 50% -8%,color-mix(in srgb,var(--page-accent,#6ca5d4) 12%,transparent),transparent 34%),
+    linear-gradient(180deg,#0a2035 0%,var(--hlc-public-base) 44%,#061728 100%)!important;
+  color:#eef5fb!important;
+}
+html body #root .hlc-public-board-page[data-public-page="homeowners"]{--page-accent:var(--hlc-public-resident)}
+html body #root .hlc-public-board-page[data-public-page="professionals"],
+html body #root .hlc-public-board-page[data-public-page="contractors"]{--page-accent:var(--hlc-public-professional)}
+html body #root .hlc-public-board-page[data-public-page="partners"]{--page-accent:var(--hlc-public-partner)}
+html body #root .hlc-public-board-page[data-public-page="community"]{--page-accent:var(--hlc-public-community)}
+html body #root .hlc-public-board-page .hlc-public-shell,
+html body #root .hlc-utility-page .hlc-utility-shell,
+html body #root .hlc-legal-page .hlc-legal-shell{
+  width:min(1380px,calc(100% - 64px))!important;max-width:none!important;margin-inline:auto!important;
+}
+html body #root .hlc-public-board-page .hlc-public-shell--visual{
+  display:grid!important;grid-template-columns:1fr!important;gap:28px!important;
+}
+html body #root .hlc-public-board-page .hlc-public-hero,
+html body #root .hlc-utility-page .hlc-public-hero{
+  min-height:0!important;padding:72px 7vw 26px!important;border:0!important;background:transparent!important;box-shadow:none!important;text-align:center!important;
+}
+html body #root .hlc-public-board-page .hlc-public-hero>div,
+html body #root .hlc-utility-page .hlc-public-hero>div{margin-inline:auto!important}
+html body #root .hlc-public-board-page .hlc-public-hero h1,
+html body #root .hlc-utility-page .hlc-utility-title,
+html body #root .hlc-legal-page h1{margin-inline:auto!important;text-align:center!important;max-width:1000px!important;font-size:clamp(44px,5vw,76px)!important}
+html body #root .hlc-public-board-page .hlc-public-intro-copy,
+html body #root .hlc-utility-page .hlc-utility-lead,
+html body #root .hlc-legal-page p{margin-left:auto!important;margin-right:auto!important;text-align:center!important;max-width:860px!important}
+html body #root .hlc-public-board-page .hlc-public-kicker,
+html body #root .hlc-utility-page .hlc-public-kicker,
+html body #root .hlc-public-board-page .hlc-public-card-label,
+html body #root .hlc-public-board-page .hlc-public-offer-label{color:var(--page-accent)!important;-webkit-text-fill-color:var(--page-accent)!important;text-align:center!important}
+html body #root .hlc-public-board-page :is(.hlc-public-primary,.hlc-public-secondary,.hlc-public-link),
+html body #root .hlc-utility-page :is(.hlc-utility-primary,.hlc-utility-secondary),
+html body #root .hlc-legal-page :is(.hlc-legal-primary,.hlc-legal-secondary),
+html body #root .hlc-board-home :is(.hlc-family-secondary,.hlc-family-entry-actions a,.hlc-family-pathway-link),
+html body #root .hlc-board-home .hlc-family-hero-actions .hlc-board-cta{
+  display:inline!important;min-height:0!important;width:auto!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;
+  color:var(--page-accent,#7dc8ff)!important;-webkit-text-fill-color:var(--page-accent,#7dc8ff)!important;font-weight:900!important;text-decoration:none!important;
+}
+html body #root .hlc-public-board-page .hlc-public-actions,
+html body #root .hlc-utility-page .hlc-utility-actions,
+html body #root .hlc-board-home .hlc-family-hero-actions,
+html body #root .hlc-board-home .hlc-family-entry-actions{justify-content:center!important;align-items:center!important;gap:24px!important;text-align:center!important}
+html body #root .hlc-public-board-page .hlc-public-visual,
+html body #root .hlc-utility-page .hlc-public-visual,
+html body #root .hlc-legal-page .hlc-legal-page-visual{
+  width:100%!important;min-height:0!important;height:clamp(320px,48vw,620px)!important;margin:0 auto 36px!important;border:0!important;border-radius:0!important;overflow:hidden!important;background:transparent!important;box-shadow:none!important;
+}
+html body #root .hlc-public-board-page .hlc-public-visual img,
+html body #root .hlc-utility-page .hlc-public-visual img,
+html body #root .hlc-legal-page .hlc-legal-page-visual img{
+  display:block!important;width:100%!important;height:100%!important;min-height:0!important;object-fit:cover!important;transform:none!important;border-radius:0!important;
+}
+html body #root .hlc-public-board-page :is(.hlc-public-grid,.hlc-board-access-grid){
+  display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:0!important;border:0!important;background:transparent!important;
+}
+html body #root .hlc-public-board-page :is(.hlc-public-card,.hlc-board-access-card),
+html body #root .hlc-public-board-page .hlc-public-offer,
+html body #root .hlc-legal-page .hlc-legal-card{
+  min-height:0!important;margin:0!important;padding:38px clamp(20px,3vw,48px)!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;text-align:center!important;
+}
+html body #root .hlc-public-board-page :is(.hlc-public-card,.hlc-board-access-card)+:is(.hlc-public-card,.hlc-board-access-card){border-left:1px solid rgba(255,255,255,.11)!important}
+html body #root .hlc-public-board-page :is(.hlc-public-card,.hlc-board-access-card) h2,
+html body #root .hlc-public-board-page :is(.hlc-public-card,.hlc-board-access-card) p,
+html body #root .hlc-public-board-page :is(.hlc-public-card,.hlc-board-access-card) span,
+html body #root .hlc-public-board-page .hlc-public-offer :is(h2,p){text-align:center!important;margin-left:auto!important;margin-right:auto!important}
+html body #root .hlc-public-board-page .hlc-public-form,
+html body #root .hlc-public-board-page .hlc-public-sidecard{border:1px solid rgba(255,255,255,.13)!important;background:rgba(4,20,36,.7)!important;box-shadow:none!important}
+html body #root .hlc-board-home{--page-accent:#78c8ff}
+html body #root .hlc-board-home .hlc-family-hero{
+  min-height:min(74vh,760px)!important;
+  background:
+    linear-gradient(180deg,rgba(4,18,34,.34),rgba(4,18,34,.76)),
+    url('/hlc-homepage-hero-welcome-doorway-20260917.webp') center 46%/cover no-repeat!important;
+}
+html body #root .hlc-board-home .hlc-family-hero-copy{text-align:center!important;margin-inline:auto!important;max-width:880px!important}
+html body #root .hlc-board-home .hlc-family-hero-copy h1,
+html body #root .hlc-board-home .hlc-family-hero-copy p{margin-left:auto!important;margin-right:auto!important;text-align:center!important}
+html body #root .hlc-board-home .hlc-board-pathway-inner{grid-template-columns:1fr!important;gap:22px!important;background:transparent!important;border:0!important}
+html body #root .hlc-board-home .hlc-board-pathway{
+  min-height:340px!important;border:0!important;border-radius:0!important;overflow:hidden!important;background-size:cover!important;background-position:center!important;
+}
+html body #root .hlc-board-home .hlc-board-pathway--resident{background-image:linear-gradient(90deg,rgba(3,18,33,.82),rgba(3,18,33,.26)),url('/four-pathways-residents-hq-20260915.jpg')!important}
+html body #root .hlc-board-home .hlc-board-pathway--professional{background-image:linear-gradient(90deg,rgba(3,18,33,.82),rgba(3,18,33,.26)),url('/page-professionals-provider-presence-20260916.webp')!important}
+html body #root .hlc-board-home .hlc-board-pathway--partner{background-image:linear-gradient(90deg,rgba(3,18,33,.82),rgba(3,18,33,.26)),url('/four-pathways-partners-hq-20260915.jpg')!important}
+html body #root .hlc-board-home .hlc-board-pathway--community{background-image:linear-gradient(90deg,rgba(3,18,33,.82),rgba(3,18,33,.26)),url('/four-pathways-community-hq-20260915.jpg')!important}
+html body #root .hlc-board-home .hlc-board-pathway-content{max-width:720px!important;margin:0 auto!important;text-align:center!important;align-items:center!important}
+html body #root .hlc-kendrell-dedication{padding-top:64px!important;padding-bottom:64px!important}
+html body #root .hlc-kendrell-dedication-portrait{width:min(420px,78vw)!important;margin:0 auto 28px!important;overflow:hidden!important;border:0!important;border-radius:0!important;background:transparent!important}
+html body #root .hlc-kendrell-dedication-portrait img{display:block!important;width:100%!important;height:auto!important;aspect-ratio:4/5!important;object-fit:cover!important;object-position:center top!important;border-radius:0!important}
+html body #root .hlc-legal-page .hlc-legal-shell{padding-block:56px!important}
+html body #root .hlc-legal-page .hlc-legal-card{max-width:980px!important;margin-inline:auto!important;border-top:1px solid rgba(255,255,255,.11)!important}
+html body #root .hlc-legal-page .hlc-legal-card :is(h1,h2,p,li){text-align:center!important}
+html body #root .hlc-legal-page .hlc-legal-card ul{max-width:820px!important;margin-inline:auto!important;padding-left:0!important;list-style-position:inside!important}
+html body #root .hlc-legal-guide{display:none!important}
+html body #root .hlc-public-footer-home-authority{
+  width:100%!important;max-width:none!important;margin:0!important;padding:44px max(20px,4vw)!important;align-items:center!important;justify-content:center!important;text-align:center!important;background:#061728!important;
+}
+html body #root .hlc-public-footer-home-authority>*{margin-left:auto!important;margin-right:auto!important;text-align:center!important}
+html body #root .hlc-public-footer-home-authority nav a{color:var(--page-accent,#b7c9da)!important;-webkit-text-fill-color:var(--page-accent,#b7c9da)!important;background:transparent!important;border:0!important;text-decoration:none!important}
+@media(max-width:900px){
+  html body #root .hlc-public-board-page :is(.hlc-public-grid,.hlc-board-access-grid){grid-template-columns:1fr!important}
+  html body #root .hlc-public-board-page :is(.hlc-public-card,.hlc-board-access-card)+:is(.hlc-public-card,.hlc-board-access-card){border-left:0!important;border-top:1px solid rgba(255,255,255,.11)!important}
+}
+@media(max-width:680px){
+  html body #root .hlc-public-shared-nav .hlc-board-nav-inner{
+    width:calc(100% - 24px)!important;min-height:76px!important;grid-template-columns:60px 1fr auto!important;column-gap:10px!important;
+  }
+  html body #root .hlc-public-shared-nav .hlc-board-brand{
+    width:58px!important;min-width:58px!important;max-width:58px!important;height:58px!important;min-height:58px!important;max-height:58px!important;flex-basis:58px!important;
+  }
+  html body #root .hlc-public-shared-nav .hlc-board-brand img{width:58px!important;height:58px!important;max-width:58px!important;max-height:58px!important}
+  html body #root .hlc-public-shared-nav .hlc-mobile-sign-in-link{display:none!important}
+  html body #root .hlc-public-shared-nav .hlc-mobile-icon-nav-v5{grid-column:3!important;justify-self:end!important}
+  html body #root .hlc-public-board-page .hlc-public-shell,
+  html body #root .hlc-utility-page .hlc-utility-shell,
+  html body #root .hlc-legal-page .hlc-legal-shell{width:calc(100% - 28px)!important}
+  html body #root .hlc-public-board-page .hlc-public-hero,
+  html body #root .hlc-utility-page .hlc-public-hero{padding:46px 8px 20px!important}
+  html body #root .hlc-public-board-page .hlc-public-hero h1,
+  html body #root .hlc-utility-page .hlc-utility-title,
+  html body #root .hlc-legal-page h1{font-size:clamp(34px,10vw,46px)!important;line-height:1.04!important}
+  html body #root .hlc-public-board-page .hlc-public-intro-copy,
+  html body #root .hlc-utility-page .hlc-utility-lead,
+  html body #root .hlc-legal-page p{font-size:16px!important;line-height:1.65!important}
+  html body #root .hlc-public-board-page .hlc-public-visual,
+  html body #root .hlc-utility-page .hlc-public-visual,
+  html body #root .hlc-legal-page .hlc-legal-page-visual{height:clamp(250px,76vw,390px)!important;margin-bottom:24px!important}
+  html body #root .hlc-board-home .hlc-family-hero{min-height:650px!important;background-position:center center!important}
+  html body #root .hlc-board-home .hlc-board-pathway{min-height:300px!important}
+}
