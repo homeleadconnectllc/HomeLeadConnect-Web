@@ -68,7 +68,6 @@ function publicHomeMarkup() {
                 ${mobileMenuItem("partner", "For Partners", "/partners", '<path d="M10 13a5 5 0 0 0 7.54.54l2-2a5 5 0 0 0-7.07-7.07l-1.15 1.15"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-2 2a5 5 0 0 0 7.07 7.07l1.15-1.15"></path>')}
                 ${mobileMenuItem("community", "Community", "/community", '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>')}
                 ${mobileMenuItem("resources", "Resources", "/services", '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M4 4h16v16H6.5A2.5 2.5 0 0 1 4 17.5z"></path>')}
-                ${mobileMenuItem("signin", "Sign In", "https://app.homeleadconnect.org/login", '<path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" x2="3" y1="12" y2="12"></line>')}
                 ${mobileMenuItem("start", "Get Started", "https://app.homeleadconnect.org/register", '<circle cx="12" cy="12" r="9"></circle><path d="m8.5 12 2.3 2.3 4.7-4.8"></path>')}
               </nav>
             </details>
