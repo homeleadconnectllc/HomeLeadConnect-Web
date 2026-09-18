@@ -3,3 +3,19 @@
 /* HOME ROUTE DUPLICATE-LOGO AUTHORITY — 2026-09-18 */
 /* Keep the shared Footer component contract intact for every route, but suppress its image on the public Home route because Home already presents the official master mark in the shared navigation. */
 html body #root .hlc-app-shell.hlc-public-shell.hlc-page-home:not(.hlc-signed-in-shell) .hlc-public-footer-home-authority .hlc-public-footer-master-logo{display:none!important}
+
+/* OWNER DEMAND — LOCKED — 2026-09-18
+   Public homepage footer must contain zero logo imagery of any kind. Footer copy, legal links, spacing and background remain intact. */
+html body #root .hlc-app-shell.hlc-public-shell.hlc-page-home:not(.hlc-signed-in-shell) .hlc-public-footer-home-authority img,
+html body #root .hlc-app-shell.hlc-public-shell.hlc-page-home:not(.hlc-signed-in-shell) .hlc-public-footer-home-authority [class*="logo"],
+html body #root .hlc-app-shell.hlc-public-shell.hlc-page-home:not(.hlc-signed-in-shell) .hlc-public-footer-home-authority [class*="brand"] img{
+  display:none!important;
+  visibility:hidden!important;
+  background-image:none!important;
+}
+html body #root .hlc-app-shell.hlc-public-shell.hlc-page-home:not(.hlc-signed-in-shell) .hlc-public-footer-home-authority::before,
+html body #root .hlc-app-shell.hlc-public-shell.hlc-page-home:not(.hlc-signed-in-shell) .hlc-public-footer-home-authority::after{
+  content:none!important;
+  display:none!important;
+  background-image:none!important;
+}
