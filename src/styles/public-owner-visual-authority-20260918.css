@@ -649,12 +649,12 @@ html body #root header.hlc-public-shared-nav .hlc-board-brand{
 }
 html body #root header.hlc-public-shared-nav .hlc-board-brand img{
   object-fit:cover!important;
-  transform:scale(1.10)!important;
+  transform:none!important;
   transform-origin:center!important;
 }
 html body #root .hlc-public-footer-master-logo{
   object-fit:cover!important;
-  transform:scale(1.06)!important;
+  transform:none!important;
   transform-origin:center!important;
 }
 
