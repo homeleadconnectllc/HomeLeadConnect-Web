@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { ArrowRightCircle, BookOpen, Briefcase, Handshake, House, Info, LogIn, Users } from "lucide-react";
+import { ArrowRightCircle, BookOpen, Briefcase, Handshake, House, Info, Users } from "lucide-react";
 import { appUrl, publicUrl } from "../config/siteOrigins";
 import "../styles/public-header-logo-authority-20260915.css";
 import "../styles/public-home-mobile-nav-v5-20260915.css";
@@ -25,7 +25,6 @@ const mobileMenuLinks = [
   { label: "For Partners", href: publicUrl("/partners"), Icon: Handshake, tone: "partner" },
   { label: "Community", href: publicUrl("/community"), Icon: Users, tone: "community" },
   { label: "Resources", href: publicUrl("/services"), Icon: BookOpen, tone: "resources" },
-  { label: "Sign In", href: appUrl("/login"), Icon: LogIn, tone: "signin" },
   { label: "Get Started", href: appUrl("/register"), Icon: ArrowRightCircle, tone: "start" },
 ] as const;
 
