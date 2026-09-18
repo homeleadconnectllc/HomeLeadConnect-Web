@@ -639,3 +639,21 @@ html body #root .hlc-public-footer-home-authority>small{
     display:inline!important;
   }
 }
+
+
+/* Fit the approved optimized badge derivative to the visible circle.
+   The container contributes no white disc; mild crop removes derivative canvas padding. */
+html body #root header.hlc-public-shared-nav .hlc-board-brand{
+  border-radius:50%!important;
+  overflow:hidden!important;
+}
+html body #root header.hlc-public-shared-nav .hlc-board-brand img{
+  object-fit:cover!important;
+  transform:scale(1.10)!important;
+  transform-origin:center!important;
+}
+html body #root .hlc-public-footer-master-logo{
+  object-fit:cover!important;
+  transform:scale(1.06)!important;
+  transform-origin:center!important;
+}
