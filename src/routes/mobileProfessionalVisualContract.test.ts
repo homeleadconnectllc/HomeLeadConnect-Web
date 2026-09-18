@@ -80,7 +80,8 @@ test("physical iPhone resource authority targets the exact Rules and Legal DOM",
   assert.match(legal, /className="hlc-legal-page"/);
   assert.match(legal, /className="hlc-legal-hero"/);
   assert.match(legal, /className="hlc-legal-card"/);
-  assert.match(legal, /src="\/hlc-logo-transparent\.png"/);
+  assert.match(legal, /<PublicSiteNav\s*\/>/);
+  assert.doesNotMatch(legal, /className="hlc-legal-logo"/);
   assert.doesNotMatch(legal, /hlc-logo-final\.png/);
   assert.match(physicalResources, /\.hlc-signed-in-shell \.hlc-legal-hero[\s\S]*min-height: 0 !important/);
   assert.match(physicalResources, /\.hlc-signed-in-shell \.hlc-legal-guide[\s\S]*display: none !important/);

@@ -1,13 +1,13 @@
 import { useLayoutEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { ArrowRightCircle, BookOpen, Briefcase, Handshake, House, Info, LogIn, Users } from "lucide-react";
+import { ArrowRightCircle, BookOpen, Briefcase, Handshake, House, Info, Users } from "lucide-react";
 import { appUrl, publicUrl } from "../config/siteOrigins";
 import "../styles/public-header-logo-authority-20260915.css";
 import "../styles/public-home-mobile-nav-v5-20260915.css";
 import "../styles/public-nav-home-authority-20260916.css";
 import "../styles/public-owner-visual-authority-20260918.css";
 
-const NAV_LOGO = "/hlc-logo-ui.png";
+const NAV_LOGO = "/icon-512.png";
 
 const navLinks = [
   ["About", publicUrl("/about")],
@@ -25,7 +25,6 @@ const mobileMenuLinks = [
   { label: "For Partners", href: publicUrl("/partners"), Icon: Handshake, tone: "partner" },
   { label: "Community", href: publicUrl("/community"), Icon: Users, tone: "community" },
   { label: "Resources", href: publicUrl("/services"), Icon: BookOpen, tone: "resources" },
-  { label: "Sign In", href: appUrl("/login"), Icon: LogIn, tone: "signin" },
   { label: "Get Started", href: appUrl("/register"), Icon: ArrowRightCircle, tone: "start" },
 ] as const;
 
@@ -85,8 +84,165 @@ export default function PublicSiteNav() {
       setImportant(cta, "-webkit-text-fill-color", "var(--page-accent)");
       setImportant(login, "display", mobile ? "none" : "inline");
       setImportant(cta, "display", mobile ? "none" : "inline");
-      setImportant(mobileSignIn, "display", "none");
+      setImportant(mobileSignIn, "display", mobile ? "inline" : "none");
+      if (mobile) {
+        const inner = nav.querySelector<HTMLElement>(".hlc-board-nav-inner");
+        const actions = nav.querySelector<HTMLElement>(".hlc-board-actions");
+        const mobileMenu = nav.querySelector<HTMLElement>(".hlc-mobile-icon-nav-v5");
+        setImportant(nav, "position", "relative");
+        setImportant(nav, "left", "auto");
+        setImportant(nav, "right", "auto");
+        setImportant(nav, "width", "100vw");
+        setImportant(nav, "max-width", "100vw");
+        setImportant(nav, "margin-left", "calc(50% - 50vw)");
+        setImportant(nav, "margin-right", "calc(50% - 50vw)");
+        setImportant(nav, "padding", "0");
+        setImportant(inner, "box-sizing", "border-box");
+        setImportant(inner, "width", "100%");
+        setImportant(inner, "max-width", "none");
+        setImportant(inner, "margin", "0");
+        setImportant(inner, "padding", "0 12px");
+        setImportant(inner, "display", "block");
+        setImportant(inner, "position", "relative");
+        setImportant(inner, "min-height", "84px");
+        setImportant(inner, "padding", "0 12px");
+        setImportant(brand, "position", "absolute");
+        setImportant(brand, "left", "12px");
+        setImportant(brand, "top", "50%");
+        setImportant(brand, "transform", "translateY(-50%)");
+        setImportant(actions, "position", "absolute");
+        setImportant(actions, "right", "12px");
+        setImportant(actions, "top", "50%");
+        setImportant(actions, "transform", "translateY(-50%)");
+        setImportant(actions, "margin", "0");
+        setImportant(actions, "padding", "0");
+        setImportant(actions, "width", "auto");
+        setImportant(actions, "display", "flex");
+        setImportant(actions, "align-items", "center");
+        setImportant(actions, "justify-content", "flex-end");
+        setImportant(actions, "gap", "14px");
+        setImportant(mobileMenu, "margin", "0");
+        setImportant(mobileMenu, "padding", "0");
+      }
+      setImportant(mobileSignIn, "color", "#e5edf6");
+      setImportant(mobileSignIn, "-webkit-text-fill-color", "#e5edf6");
+      setImportant(mobileSignIn, "background", "transparent");
+      setImportant(mobileSignIn, "border", "0");
+      setImportant(mobileSignIn, "box-shadow", "none");
     };
+
+    const ownerVisualStyleId = "hlc-owner-public-visual-runtime";
+    let ownerVisualStyle = document.getElementById(ownerVisualStyleId) as HTMLStyleElement | null;
+    if (!ownerVisualStyle) {
+      ownerVisualStyle = document.createElement("style");
+      ownerVisualStyle.id = ownerVisualStyleId;
+      document.head.appendChild(ownerVisualStyle);
+    }
+    ownerVisualStyle.textContent = `
+      html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
+      :is(.hlc-public-grid,.hlc-board-access-grid,.hlc-public-card,.hlc-board-access-card,.hlc-public-offer,.hlc-legal-card,.hlc-legal-note,.hlc-legal-contact,.hlc-public-story-card,.hlc-pathway-card,.hlc-pathway-final,.hlc-pathway-reassurance,.hlc-leadscope-visual,.hlc-network-node,.hlc-professional-timeline,.hlc-professional-timeline li,.hlc-partner-trust-grid,.hlc-partner-trust-grid article,.hlc-partner-flow,.hlc-partner-flow span,.hlc-community-board,.hlc-community-sidebar,.hlc-community-feature-card,.hlc-community-post,.hlc-community-principles,.hlc-community-principles article){
+        background:transparent!important;background-image:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;outline:0!important;
+      }
+      html body #root :is(.hlc-public-card,.hlc-board-access-card)::before,
+      html body #root :is(.hlc-public-card,.hlc-board-access-card)::after{display:none!important;content:none!important}
+      html body #root :is(.hlc-public-shell,.hlc-utility-shell,.hlc-legal-shell){width:100%!important;max-width:none!important;margin:0!important;padding:0!important;background:transparent!important}
+      html body #root :is(.hlc-public-grid,.hlc-board-access-grid){display:block!important;width:min(1180px,calc(100% - 40px))!important;margin:0 auto!important}
+      html body #root :is(.hlc-public-card,.hlc-board-access-card,.hlc-public-offer,.hlc-legal-card,.hlc-public-story-card){width:100%!important;max-width:920px!important;margin:0 auto!important;padding:48px 0!important;text-align:center!important}
+      html body #root .hlc-pathway-section{width:min(1180px,calc(100% - 40px))!important;margin:0 auto!important;padding:76px 0!important;border:0!important;background:transparent!important}
+      html body #root .hlc-pathway-page :is(.hlc-resident-action-grid,.hlc-partner-types,.hlc-professional-benefits,.hlc-pathway-three-grid,.hlc-professional-metrics,.hlc-community-highlights){grid-template-columns:1fr!important;gap:0!important}
+      html body #root :is(.hlc-pathway-primary,.hlc-pathway-secondary,.hlc-pathway-text-link,.hlc-public-primary,.hlc-public-secondary,.hlc-public-link,.hlc-utility-primary,.hlc-utility-secondary,.hlc-legal-primary,.hlc-legal-secondary,.hlc-public-story-actions a){display:inline!important;width:auto!important;min-height:0!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;text-decoration:none!important}
+      html body #root .hlc-legal-page-visual{width:100%!important;max-width:none!important;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important}
+    `;
+
+    const heroImages: Record<string, string> = {
+      "/about": "/page-about-connected-home-help-20260916.webp",
+      "/homeowners": "/page-residents-request-help-20260916.webp",
+      "/professionals": "/page-professionals-provider-presence-20260916.webp",
+      "/partners": "/page-partners-referral-relationships-20260916.webp",
+      "/community": "/page-community-connected-neighbors-20260916.webp",
+      "/services": "/page-services-connected-journey-20260916.webp",
+      "/accessibility": "/page-accessibility-devices-inputs-20260916.webp",
+      "/privacy": "/page-privacy-built-in-20260916.webp",
+    };
+    const hero = document.querySelector<HTMLElement>(".hlc-pathway-hero, .hlc-public-board-page .hlc-public-hero, .hlc-utility-page .hlc-public-hero, .hlc-legal-hero");
+    const heroImage = heroImages[pathname];
+    if (hero && heroImage) {
+      setImportant(hero, "position", "relative");
+      setImportant(hero, "width", "100vw");
+      setImportant(hero, "max-width", "100vw");
+      setImportant(hero, "min-height", "690px");
+      setImportant(hero, "margin-left", "calc(50% - 50vw)");
+      setImportant(hero, "margin-right", "calc(50% - 50vw)");
+      setImportant(hero, "margin-top", "0");
+      setImportant(hero, "margin-bottom", "0");
+      setImportant(hero, "padding", "0");
+      setImportant(hero, "border", "0");
+      setImportant(hero, "border-radius", "0");
+      setImportant(hero, "box-shadow", "none");
+      setImportant(hero, "background-image", `linear-gradient(90deg, rgba(2,10,22,.32), rgba(3,17,34,.18) 54%, rgba(4,19,38,.06) 82%, rgba(4,19,38,.02)), linear-gradient(180deg, rgba(2,10,22,.03), transparent 62%, rgba(4,19,38,.26)), url('${heroImage}')`);
+      setImportant(hero, "background-size", "cover");
+      setImportant(hero, "background-position", "center");
+      setImportant(hero, "background-repeat", "no-repeat");
+    }
+
+    document.querySelectorAll<HTMLElement>(".hlc-pathway-hero-copy, .hlc-public-board-page .hlc-public-hero > div, .hlc-utility-page .hlc-public-hero > div, .hlc-legal-hero-grid").forEach((element) => {
+      setImportant(element, "position", "relative");
+      setImportant(element, "z-index", "1");
+      setImportant(element, "width", "min(980px, calc(100% - 36px))");
+      setImportant(element, "margin", "auto");
+      setImportant(element, "padding", "92px 0 72px");
+      setImportant(element, "background", "transparent");
+      setImportant(element, "background-image", "none");
+      setImportant(element, "border", "0");
+      setImportant(element, "border-radius", "0");
+      setImportant(element, "box-shadow", "none");
+      setImportant(element, "text-align", "center");
+    });
+
+    if (heroImage) {
+      document.querySelectorAll<HTMLElement>(".hlc-pathway-hero-visual, .hlc-public-shell > .hlc-public-visual, .hlc-legal-hero + .hlc-legal-page-visual").forEach((element) => {
+        setImportant(element, "display", "none");
+      });
+      document.querySelectorAll<HTMLElement>(".hlc-pathway-hero h1, .hlc-pathway-hero h2, .hlc-public-hero h1, .hlc-public-hero h2, .hlc-legal-hero h1, .hlc-legal-hero h2, .hlc-public-kicker, .hlc-pathway-eyebrow").forEach((element) => {
+        setImportant(element, "color", "#ffffff");
+        setImportant(element, "-webkit-text-fill-color", "#ffffff");
+        setImportant(element, "text-shadow", "0 2px 18px rgba(0,0,0,.50)");
+      });
+      document.querySelectorAll<HTMLElement>(".hlc-pathway-hero p, .hlc-pathway-hero small, .hlc-public-hero p, .hlc-public-hero small, .hlc-legal-hero p, .hlc-legal-hero small, .hlc-legal-hero span, .hlc-legal-effective, .hlc-legal-effective span").forEach((element) => {
+        setImportant(element, "color", "#e5edf6");
+        setImportant(element, "-webkit-text-fill-color", "#e5edf6");
+        setImportant(element, "text-shadow", "0 1px 12px rgba(0,0,0,.55)");
+      });
+    }
+
+    const routeAccent: Record<string, string> = {
+      "/homeowners": "#55e6b3",
+      "/professionals": "#63d3ff",
+      "/contractors": "#63d3ff",
+      "/professional-application": "#63d3ff",
+      "/partners": "#f2c45f",
+      "/community": "#c98cff",
+      "/services": "#6edbd2",
+    };
+    const accent = routeAccent[pathname] ?? "#f4f7fb";
+    document.querySelectorAll<HTMLElement>(".hlc-pathway-eyebrow, .hlc-public-kicker, .hlc-public-card-label, .hlc-public-offer-label, .hlc-pathway-primary, .hlc-pathway-text-link, .hlc-public-primary, .hlc-public-link, .hlc-utility-primary").forEach((element) => {
+      setImportant(element, "color", accent);
+      setImportant(element, "-webkit-text-fill-color", accent);
+    });
+    document.querySelectorAll<HTMLElement>(".hlc-pathway-secondary, .hlc-public-secondary, .hlc-utility-secondary, .hlc-legal-primary, .hlc-legal-secondary").forEach((element) => {
+      setImportant(element, "color", "#f4f7fb");
+      setImportant(element, "-webkit-text-fill-color", "#f4f7fb");
+    });
+
+    document.querySelectorAll<HTMLElement>(".hlc-public-grid, .hlc-board-access-grid, .hlc-public-card, .hlc-board-access-card, .hlc-public-offer, .hlc-legal-card, .hlc-legal-note, .hlc-legal-contact, .hlc-public-story-card, .hlc-pathway-card, .hlc-pathway-final, .hlc-pathway-reassurance, .hlc-leadscope-visual, .hlc-network-node, .hlc-professional-timeline, .hlc-professional-timeline li, .hlc-partner-trust-grid, .hlc-partner-trust-grid article, .hlc-partner-flow, .hlc-partner-flow span, .hlc-community-board, .hlc-community-sidebar, .hlc-community-feature-card, .hlc-community-post, .hlc-community-principles, .hlc-community-principles article").forEach((element) => {
+      setImportant(element, "background", "transparent");
+      setImportant(element, "background-image", "none");
+      setImportant(element, "border", "0");
+      setImportant(element, "border-radius", "0");
+      setImportant(element, "box-shadow", "none");
+      setImportant(element, "outline", "0");
+    });
+
     applyGlobalHeaderActions();
     window.addEventListener("resize", applyGlobalHeaderActions);
 
@@ -112,7 +268,7 @@ export default function PublicSiteNav() {
       window.clearTimeout(settle);
       window.removeEventListener("resize", applyGlobalHeaderActions);
     };
-  }, []);
+  }, [pathname]);
 
   return <header ref={navRef} className="hlc-board-nav hlc-public-shared-nav" data-public-tone={tone}><div className="hlc-board-nav-inner">
     <a className="hlc-board-brand" href={publicUrl("/")} aria-label="HomeLead Connect home"><img className="hlc-navbar-master-logo" data-hlc-master-logo="true" src={NAV_LOGO} alt="" aria-hidden="true" /><span className="hlc-brand-accessible-label">HomeLead Connect</span></a>

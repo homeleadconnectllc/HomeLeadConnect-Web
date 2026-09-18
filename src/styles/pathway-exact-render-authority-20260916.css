@@ -23,3 +23,29 @@ html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathwa
 @media(max-width:900px){html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero{grid-template-columns:1fr!important}html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-copy{padding:64px 28px 52px!important;background:linear-gradient(180deg,#081225 0%,rgba(8,18,37,.94) 100%)!important}html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-visual{min-height:430px!important}}
 @media(max-width:680px){html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero{width:100%!important;min-height:0!important}}
 }
+
+
+@layer hlcRedesign {
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero{
+  position:relative!important;isolation:isolate!important;display:flex!important;align-items:center!important;justify-content:center!important;width:100%!important;min-height:690px!important;background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;
+}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page[data-pathway="residents"] .hlc-pathway-hero{background-image:url('/page-residents-request-help-20260916.webp')!important}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page[data-pathway="professionals"] .hlc-pathway-hero{background-image:url('/page-professionals-provider-presence-20260916.webp')!important}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page[data-pathway="partners"] .hlc-pathway-hero{background-image:url('/page-partners-referral-relationships-20260916.webp')!important}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page[data-pathway="community"] .hlc-pathway-hero{background-image:url('/page-community-connected-neighbors-20260916.webp')!important}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero:before{
+  content:""!important;position:absolute!important;inset:0!important;z-index:0!important;background:linear-gradient(180deg,rgba(3,17,31,.30),rgba(3,17,31,.68) 58%,rgba(3,17,31,.90))!important;
+}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-copy{
+  position:relative!important;z-index:1!important;width:min(980px,calc(100% - 36px))!important;margin:auto!important;padding:92px 0 72px!important;background:transparent!important;text-align:center!important;align-items:center!important;
+}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-visual{display:none!important}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-section{
+  width:min(1180px,calc(100% - 40px))!important;margin:0 auto!important;padding:76px 0!important;border:0!important;background:transparent!important;
+}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page :is(.hlc-pathway-card,.hlc-pathway-final,.hlc-pathway-reassurance,.hlc-leadscope-visual,.hlc-network-node,.hlc-professional-timeline,.hlc-professional-timeline li,.hlc-partner-trust-grid,.hlc-partner-trust-grid article,.hlc-partner-flow,.hlc-partner-flow span,.hlc-community-board,.hlc-community-sidebar,.hlc-community-feature-card,.hlc-community-post,.hlc-community-principles,.hlc-community-principles article){
+  background:transparent!important;background-image:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;
+}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page :is(.hlc-resident-action-grid,.hlc-partner-types,.hlc-professional-benefits,.hlc-pathway-three-grid,.hlc-professional-metrics,.hlc-community-highlights){grid-template-columns:1fr!important;gap:0!important}
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-card{width:100%!important;max-width:920px!important;margin:0 auto!important;padding:34px 0!important;text-align:center!important}
+}

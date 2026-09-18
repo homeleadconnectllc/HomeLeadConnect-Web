@@ -16,3 +16,26 @@
   object-fit: cover;
   object-position: center;
 }
+
+
+/* OWNER ROOT AUTHORITY 2026-09-18 — legal pages stay in the homepage visual family. */
+.hlc-legal-page{background:linear-gradient(180deg,#0a2035 0%,#071a2d 46%,#03111f 100%)!important}
+.hlc-legal-shell{width:100%!important;max-width:none!important;margin:0!important;padding:0!important;background:transparent!important}
+.hlc-legal-brandbar{width:min(1180px,calc(100% - 40px))!important;margin:0 auto!important;padding:18px 0!important;border:0!important;background:transparent!important}
+.hlc-legal-hero{
+  position:relative!important;isolation:isolate!important;width:100%!important;min-height:690px!important;margin:0!important;padding:0!important;border:0!important;overflow:hidden!important;
+  background:#071a2d url('/page-privacy-built-in-20260916.webp') center/cover no-repeat!important;
+}
+.hlc-legal-hero:before{content:""!important;display:block!important;position:absolute!important;inset:0!important;z-index:0!important;background:linear-gradient(180deg,rgba(3,17,31,.30),rgba(3,17,31,.68) 58%,rgba(3,17,31,.90))!important}
+.hlc-legal-hero-grid{position:relative!important;z-index:1!important;width:min(980px,calc(100% - 36px))!important;margin:auto!important;padding:92px 0 72px!important;display:block!important;text-align:center!important}
+.hlc-legal-hero-grid>*{margin-left:auto!important;margin-right:auto!important;text-align:center!important}
+.hlc-legal-hero+.hlc-legal-page-visual{display:none!important}
+.hlc-legal-card{
+  width:min(920px,calc(100% - 40px))!important;max-width:none!important;margin:0 auto!important;padding:56px 0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;text-align:center!important;
+}
+.hlc-legal-card:before{display:none!important}
+.hlc-legal-card :is(h1,h2,p,li){text-align:center!important;margin-left:auto!important;margin-right:auto!important}
+.hlc-legal-page-visual{width:100%!important;max-width:none!important;height:clamp(320px,52vw,620px)!important;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:transparent!important}
+.hlc-legal-page-visual img{width:100%!important;height:100%!important;object-fit:cover!important;border-radius:0!important}
+.hlc-legal-note,.hlc-legal-contact{border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}
+.hlc-legal-primary,.hlc-legal-secondary{display:inline!important;width:auto!important;min-height:0!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important}

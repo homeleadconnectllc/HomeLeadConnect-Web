@@ -12,8 +12,9 @@ mkdirSync(directory, { recursive: true });
 writeFileSync(`${directory}/candidate-sha.txt`, `${sha}\n`);
 const routes = ['/', '/about', '/homeowners', '/contractors', '/professionals', '/partners', '/community', '/services', '/how-it-works', '/leadscope', '/pricing', '/trust', '/demo', '/contact', '/request-service', '/professional-application', '/privacy', '/terms', '/accessibility', '/platform-disclosure', '/login', '/register', '/forgot-password', '/reset-password', '/app', '/portal', '/memorial', '/kendrell-memorial', '/portal/accept', '/team/accept'];
 const widths = [320, 390, 1440];
-const expectedPaths = ['/about', '/homeowners', '/professionals', '/partners', '/community', '/services', '/login', '/register'];
-const expectedLogoPath = '/hlc-logo-ui.png';
+const expectedDesktopPaths = ['/about', '/homeowners', '/professionals', '/partners', '/community', '/services', '/login', '/register'];
+const expectedMobileMenuPaths = ['/about', '/homeowners', '/professionals', '/partners', '/community', '/services', '/register'];
+const expectedLogoPath = '/icon-512.png';
 const report = { sha, routes, widths, cases: [], restrictions: 'Anonymous local build only; external requests blocked; no form submission, credential entry, backend writes, or production navigation.' };
 const browser = await chromium.launch();
 
@@ -32,7 +33,8 @@ async function metrics(page) {
     const brand = header.querySelector('.hlc-board-brand, .hlc-public-site-nav__brand, .hlc-auth-public-brand');
     const visibleBrandImage = [...header.querySelectorAll('img[data-hlc-master-logo]')].find(visible) ?? null;
     const summary = [...header.querySelectorAll('summary')].find(visible);
-    const login = [...header.querySelectorAll('a')].find(a => a.textContent.trim() === 'Sign In' && visible(a));
+    const visibleSignIns = [...header.querySelectorAll('a')].filter(a => a.textContent.trim() === 'Sign In' && visible(a));
+    const login = visibleSignIns[0] ?? null;
     const cta = [...header.querySelectorAll('a')].find(a => a.textContent.includes('Get Started') && visible(a));
     const box = header.getBoundingClientRect();
     const properties = element => element ? { color: getComputedStyle(element).color, fill: getComputedStyle(element).webkitTextFillColor, background: getComputedStyle(element).backgroundColor, radius: getComputedStyle(element).borderRadius, font: getComputedStyle(element).fontSize } : null;
@@ -41,7 +43,7 @@ async function metrics(page) {
       background: getComputedStyle(header).backgroundColor,
       brand: brand ? { text: brand.textContent?.trim() ?? '', width: brand.getBoundingClientRect().width, height: brand.getBoundingClientRect().height } : null,
       visibleBrandImage: visibleBrandImage ? { src: new URL(visibleBrandImage.src).pathname, width: visibleBrandImage.getBoundingClientRect().width, height: visibleBrandImage.getBoundingClientRect().height } : null,
-      summary: properties(summary), login: properties(login), cta: properties(cta),
+      summary: properties(summary), login: properties(login), visibleSignInCount: visibleSignIns.length, cta: properties(cta),
       overflow: document.documentElement.scrollWidth > innerWidth + 1
     };
   });
@@ -89,8 +91,10 @@ try {
         if (width <= 680) {
           check(() => assert.ok(measured.summary, 'Mobile Menu is not visible'));
           check(() => assert.equal(measured.summary?.color, authority.summary?.color, 'Menu label color differs from Home'));
+          check(() => assert.equal(measured.visibleSignInCount, 1, 'Mobile header must render exactly one visible Sign In'));
+          check(() => assert.ok(measured.login, 'Mobile Sign In is not visible beside Menu'));
           check(() => assert.equal(measured.login?.color, authority.login?.color, 'Sign In color differs from Home'));
-          check(() => assert.equal(measured.cta, null, 'Desktop CTA must not crowd the mobile header'));
+          check(() => assert.equal(measured.cta, null, 'Desktop Get Started must not crowd the mobile header'));
           if (await summary.count()) {
             await summary.click();
             assert.equal(await summary.evaluate(element => element.parentElement.open), true, 'Menu did not open on click');
@@ -112,7 +116,7 @@ try {
             assert.notEqual(menuState.panel.visibility, 'hidden', 'Menu panel is hidden after opening');
             assert.ok(menuState.panel.width > 0 && menuState.panel.height > 0, 'Menu panel has no rendered geometry after opening');
             result.menuLinks = menuState.links;
-            for (const destination of expectedPaths) check(() => assert.ok(menuState.links.some(link => link.path === destination), `Missing menu destination ${destination}`));
+            for (const destination of expectedMobileMenuPaths) check(() => assert.ok(menuState.links.some(link => link.path === destination), `Missing menu destination ${destination}`));
             check(() => assert.ok(menuState.links.every(link => link.display !== 'none' && link.visibility !== 'hidden' && link.box.width > 0 && link.box.height >= 40), 'Menu links are not rendered usable touch targets'));
             const restingFocusBackground = await summary.evaluate(element => {
               const firstLink = element.parentElement.querySelector('nav a');
@@ -138,7 +142,7 @@ try {
           check(() => assert.ok(measured.cta, 'Desktop Get Started is missing'));
           check(() => assert.equal(measured.cta?.background, authority.cta?.background, 'Desktop CTA background differs from Home'));
           const links = await header.locator('a').evaluateAll(elements => elements.filter(element => element.getBoundingClientRect().width > 0).map(element => new URL(element.href).pathname));
-          for (const destination of expectedPaths) check(() => assert.ok(links.includes(destination), `Missing desktop destination ${destination}`));
+          for (const destination of expectedDesktopPaths) check(() => assert.ok(links.includes(destination), `Missing desktop destination ${destination}`));
         }
         result.headerOverflow = await header.evaluate(element => element.scrollWidth > element.clientWidth + 1);
         check(() => assert.equal(result.headerOverflow, false, 'Header overflows horizontally'));
