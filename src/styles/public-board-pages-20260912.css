@@ -293,3 +293,33 @@
   .hlc-public-board-page .hlc-utility-primary,
   .hlc-public-board-page .hlc-utility-secondary{width:100%}
 }
+
+
+/* OWNER ROOT AUTHORITY 2026-09-18 — homepage family, no decorative boxes. */
+.hlc-public-board-page .hlc-public-shell{
+  width:100%!important;max-width:none!important;margin:0!important;padding:0!important;background:transparent!important;
+}
+.hlc-public-board-page .hlc-public-hero{
+  position:relative!important;isolation:isolate!important;width:100%!important;max-width:none!important;min-height:690px!important;margin:0!important;padding:0!important;
+  border:0!important;border-radius:0!important;box-shadow:none!important;overflow:hidden!important;
+  background-color:#071a2d!important;background-size:cover!important;background-position:center!important;background-repeat:no-repeat!important;
+}
+.hlc-public-board-page .hlc-public-hero:before{
+  content:""!important;position:absolute!important;inset:0!important;z-index:0!important;display:block!important;background:linear-gradient(180deg,rgba(3,17,31,.32),rgba(3,17,31,.68) 58%,rgba(3,17,31,.9))!important;
+}
+.hlc-public-board-page .hlc-public-hero>div{
+  position:relative!important;z-index:1!important;width:min(980px,calc(100% - 36px))!important;margin:auto!important;padding:92px 0 72px!important;background:transparent!important;text-align:center!important;
+}
+.hlc-public-board-page[data-public-page="about"] .hlc-public-hero{background-image:url('/page-about-connected-home-help-20260916.webp')!important}
+.hlc-public-board-page[data-public-page="services"] .hlc-public-hero{background-image:url('/page-services-connected-journey-20260916.webp')!important}
+.hlc-public-board-page[data-public-page="accessibility"] .hlc-public-hero{background-image:url('/page-accessibility-devices-inputs-20260916.webp')!important}
+.hlc-public-board-page[data-public-page="about"] .hlc-public-shell>.hlc-public-visual,
+.hlc-public-board-page[data-public-page="services"] .hlc-public-shell>.hlc-public-visual,
+.hlc-public-board-page[data-public-page="accessibility"] .hlc-public-shell>.hlc-public-visual{display:none!important}
+.hlc-public-board-page .hlc-public-grid,.hlc-public-board-page .hlc-board-access-grid{
+  display:block!important;width:min(1180px,calc(100% - 40px))!important;margin:0 auto!important;padding:0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;overflow:visible!important;
+}
+.hlc-public-board-page :is(.hlc-public-card,.hlc-board-access-card,.hlc-public-offer){
+  width:100%!important;max-width:920px!important;margin:0 auto!important;padding:48px 0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;text-align:center!important;
+}
+.hlc-public-board-page .hlc-public-card:before,.hlc-public-board-page .hlc-public-card:after{display:none!important}
