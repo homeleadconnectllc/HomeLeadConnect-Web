@@ -13,7 +13,7 @@ writeFileSync(`${directory}/candidate-sha.txt`, `${sha}\n`);
 const routes = ['/', '/about', '/homeowners', '/contractors', '/professionals', '/partners', '/community', '/services', '/how-it-works', '/leadscope', '/pricing', '/trust', '/demo', '/contact', '/request-service', '/professional-application', '/privacy', '/terms', '/accessibility', '/platform-disclosure', '/login', '/register', '/forgot-password', '/reset-password', '/app', '/portal', '/memorial', '/kendrell-memorial', '/portal/accept', '/team/accept'];
 const widths = [320, 390, 1440];
 const expectedPaths = ['/about', '/homeowners', '/professionals', '/partners', '/community', '/services', '/login', '/register'];
-const expectedLogoPath = '/brand/homelead-connect-master-transparent.png';
+const expectedLogoPath = '/hlc-logo-ui.png';
 const report = { sha, routes, widths, cases: [], restrictions: 'Anonymous local build only; external requests blocked; no form submission, credential entry, backend writes, or production navigation.' };
 const browser = await chromium.launch();
 
