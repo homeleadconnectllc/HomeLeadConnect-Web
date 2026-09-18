@@ -281,3 +281,84 @@ html body #root .hlc-public-footer-home-authority nav a{
     box-shadow:0 0 0 3px rgba(255,255,255,.08)!important;
   }
 }
+
+
+/* OWNER FULL-WIDTH PUBLIC AUTHORITY — 2026-09-18
+   One viewport-wide presentation system across public routes. Primary content,
+   media and copy are sections, not cards. Functional form controls remain bounded. */
+html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
+:is(.hlc-pathway-section,.hlc-public-grid,.hlc-board-access-grid,.hlc-public-card,.hlc-board-access-card,.hlc-public-offer,.hlc-legal-card,.hlc-legal-note,.hlc-legal-contact,.hlc-public-story-card,.hlc-pathway-card,.hlc-pathway-final,.hlc-pathway-reassurance,.hlc-leadscope-visual,.hlc-network-node,.hlc-professional-timeline,.hlc-professional-timeline li,.hlc-partner-trust-grid,.hlc-partner-trust-grid article,.hlc-partner-flow,.hlc-partner-flow span,.hlc-community-board,.hlc-community-sidebar,.hlc-community-feature-card,.hlc-community-post,.hlc-community-principles,.hlc-community-principles article){
+  box-sizing:border-box!important;
+  width:100%!important;
+  max-width:none!important;
+  margin-left:0!important;
+  margin-right:0!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+  outline:0!important;
+  background:transparent!important;
+  background-image:none!important;
+}
+html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
+:is(.hlc-pathway-section,.hlc-public-card,.hlc-board-access-card,.hlc-public-offer,.hlc-legal-card,.hlc-public-story-card,.hlc-pathway-card){
+  padding-left:clamp(20px,5vw,72px)!important;
+  padding-right:clamp(20px,5vw,72px)!important;
+}
+html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
+:is(.hlc-pathway-hero-visual,.hlc-public-visual,.hlc-pathway-section img,.hlc-public-card img,.hlc-board-access-card img,.hlc-public-story-card img){
+  width:100%!important;
+  max-width:none!important;
+  margin-left:0!important;
+  margin-right:0!important;
+  border:0!important;
+  border-radius:0!important;
+  box-shadow:none!important;
+}
+html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
+:is(.hlc-pathway-section img,.hlc-public-card img,.hlc-board-access-card img,.hlc-public-story-card img){
+  height:auto!important;
+  object-fit:cover!important;
+}
+
+/* Shared public mobile width: identical viewport geometry on every route. */
+@media(max-width:680px){
+  html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page),
+  html body #root :is(.hlc-public-shell,.hlc-utility-shell,.hlc-legal-shell){
+    width:100%!important;
+    max-width:100%!important;
+    margin:0!important;
+    padding-left:0!important;
+    padding-right:0!important;
+    overflow-x:clip!important;
+  }
+  html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
+  :is(.hlc-pathway-section,.hlc-public-card,.hlc-board-access-card,.hlc-public-offer,.hlc-legal-card,.hlc-public-story-card,.hlc-pathway-card){
+    padding-left:20px!important;
+    padding-right:20px!important;
+  }
+
+  /* Menu is one shared readable control, independent of route typography. */
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-icon-nav-v5__panel{
+    right:20px!important;
+    width:min(88vw,320px)!important;
+    min-width:0!important;
+    max-width:320px!important;
+    padding:16px!important;
+    background:#06182a!important;
+    color:#f4f7fb!important;
+    -webkit-text-fill-color:#f4f7fb!important;
+  }
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-icon-nav-v5__item,
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-icon-nav-v5__item :is(span,strong,small),
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-icon-nav-v5__label{
+    opacity:1!important;
+    visibility:visible!important;
+    text-shadow:none!important;
+  }
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-icon-nav-v5__item--about,
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-icon-nav-v5__item--resources{
+    color:#f4f7fb!important;
+    -webkit-text-fill-color:#f4f7fb!important;
+  }
+}
