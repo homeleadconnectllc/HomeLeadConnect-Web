@@ -412,3 +412,8 @@ a[href*="/resources"]{
   color:#f4f7fb!important;
   -webkit-text-fill-color:#f4f7fb!important;
 }
+
+
+/* OWNER LOGO COUNT AUTHORITY: public pages already carry the locked master logo in the shared nav. Suppress only the redundant footer image; retain footer identity, legal links, and workspace behavior. */
+.hlc-public-front-door-surface .hlc-public-footer-master-logo,
+.hlc-page-home .hlc-public-footer-master-logo{display:none!important}
