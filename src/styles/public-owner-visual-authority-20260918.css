@@ -195,3 +195,35 @@ html body #root .hlc-public-footer-home-authority nav a{color:var(--page-accent,
   html body #root .hlc-board-home .hlc-family-hero{min-height:650px!important;background-position:center center!important}
   html body #root .hlc-board-home .hlc-board-pathway{min-height:300px!important}
 }
+
+
+/* Final global-header authority: outranks route-specific legacy header paint
+   without weakening the certification contract. */
+html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-login,
+html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-sign-in-link{
+  color:#e5edf6!important;
+  -webkit-text-fill-color:#e5edf6!important;
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+  border:0!important;
+  box-shadow:none!important;
+}
+html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-cta{
+  display:inline!important;
+  min-height:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  background-color:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  color:var(--page-accent)!important;
+  -webkit-text-fill-color:var(--page-accent)!important;
+}
+@media(max-width:680px){
+  html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-sign-in-link{
+    display:none!important;
+  }
+}
