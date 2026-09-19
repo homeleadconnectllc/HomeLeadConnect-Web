@@ -53,6 +53,7 @@ test("M6 homepage footer remains logo-free",()=>{
 test("retired public-family legacy styling cannot re-enter live public routes", () => {
   const mainSource = readFileSync("src/main.tsx","utf8");
   assert.doesNotMatch(mainSource, /public-family-legacy-entry/);
-  assert.match(mainSource, /const styleReady = isAppHost \? import\("\.\/styles\/app-shell-entry"\) : import\("\.\/index\.css"\)/);
+  assert.match(mainSource, /const styleReady = isPublicSiteRoute \? import\("\.\/index\.css"\) : import\("\.\/styles\/app-shell-entry"\)/);
+  assert.match(mainSource, /const isPublicSiteRoute = !isAppHost/);
   assert.equal(existsSync(path.join(process.cwd(), "src/styles/public-family-legacy-entry.ts")), false);
 });
