@@ -1,7 +1,6 @@
 import MobileNavigationDialogAccessibility from "../components/accessibility/MobileNavigationDialogAccessibility";
 import "./authenticated-entry";
 import "./manual-communications-launch-authority.css";
-import "./final-visual-punch.css";
 import "./desktop-agent-team-rail.css";
 import "./desktop-data-workspaces.css";
 import "./desktop-page-archetypes.css";
@@ -33,10 +32,6 @@ import "./mobile-a-plus-private-beta-closure.css";
 import "./soft-launch-manual-communications-authority.css";
 import "./e5-intelligence-sandbox.css";
 import "./e6-trial-entitlements.css";
-import "./hlc-global-visual-foundation.css";
-import "./hlc-route-visual-banners.css";
-import "./hlc-route-body-visuals.css";
-import "./hlc-adaptive-visual-rebalance.css";
 import "./hlc-unified-settings-index.css";
 import "./hlc-unified-screen-archetypes.css";
 import "./hlc-unified-detail-workspaces.css";
@@ -62,8 +57,6 @@ import "./work-home-source-authority.css";
 import "./dashboard-home-source-authority.css";
 import "./dashboard-context-hero.css";
 import "./ai-team-context-source-authority-20260905.css";
-import "./dashboard-ai-team-mobile-physical-fix-20260905.css";
-import "./master-authenticated-visual-certification-fix-20260907.css";
 
 export default function AuthenticatedStyles() {
   return <MobileNavigationDialogAccessibility />;
