@@ -4,7 +4,6 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import RouteVisualBanner from "../components/RouteVisualBanner";
 import AnalyticsTracker from "../components/analytics/AnalyticsTracker";
-import RuntimePhysicalAuthority from "../components/RuntimePhysicalAuthority";
 import { useAuth } from "../hooks/useAuth";
 
 const UniversalAITeamLauncher = lazy(() => import("../components/agents/UniversalAITeamLauncher"));
@@ -60,7 +59,7 @@ function resetRouteScroll() {
   if (scrollingElement) scrollingElement.scrollTop = 0;
   document.documentElement.scrollTop = 0;
   document.body.scrollTop = 0;
-  document.querySelectorAll<HTMLElement>(".hlc-route-content, .hlc-mobile-portal-scroll, .hlc-command-search-panel, .hlc-agent-dock-panel, main").forEach((element) => {
+  document.querySelectorAll<HTMLElement>(".hlc-route-content, .hlc-command-search-panel, .hlc-agent-dock-panel, main").forEach((element) => {
     element.scrollTop = 0;
     element.scrollLeft = 0;
   });
@@ -118,7 +117,6 @@ export default function AppLayout() {
 
   return (
     <div className={`${publicFrontDoorSurface ? "hlc-public-shell" : `hlc-app-shell ${signedInWorkspaceShell ? "hlc-signed-in-shell" : "hlc-public-shell"}`} ${routeClass}${signedInWorkspaceShell && sidebarCollapsed ? " hlc-sidebar-is-collapsed" : ""}${routePersonaClass ? ` ${routePersonaClass}` : ""}${focusedPublicIntake ? " hlc-focused-public-intake" : ""}${authFrontDoorSurface ? " hlc-auth-front-door-surface" : ""}${publicFrontDoorSurface ? " hlc-public-front-door-surface" : ""}`}>
-      <RuntimePhysicalAuthority />
       <AnalyticsTracker />
       {!focusedPublicIntake && !authFrontDoorSurface && !publicFrontDoorSurface && !appEntrySurface && !homepageSurface && <Navbar />}
       {signedInWorkspaceShell && desktopShell && (
