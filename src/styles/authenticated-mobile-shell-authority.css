@@ -26,7 +26,19 @@
   }
 
   .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-logo {
-    flex: 0 0 auto !important;
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    min-height: 48px !important;
+    flex: 0 0 48px !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-logo img {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 48px !important;
+    height: 48px !important;
   }
 
   .hlc-navbar .hlc-desktop-navigation {
