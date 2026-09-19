@@ -31,8 +31,8 @@ test("Automations preserves scheduled evidence, safe manual runs, registry guard
 test("Automations specialization mounts before final authority and keeps dense mobile rows", () => {
   const routeIndex = entry.indexOf("./automations-application-workspace.css");
   assert.ok(routeIndex >= 0);
-  assert.doesNotMatch(entry, /application-workspace-ui\\.css/);
-  assert.match(authenticatedStyles, /signed-in-professional-system\\.css/);
+  assert.doesNotMatch(entry, /application-workspace-ui\.css/);
+  assert.match(authenticatedStyles, /signed-in-professional-system\.css/);
   assert.ok(authenticatedStyles.indexOf("signed-in-professional-system.css") > authenticatedStyles.indexOf("dashboard-context-hero.css"));
   assert.match(styles, /\.hlc-automation-registry-head,\.hlc-automation-rule-row\{display:grid/);
   assert.match(styles, /@media\(max-width:720px\)/);
