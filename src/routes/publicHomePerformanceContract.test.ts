@@ -42,6 +42,6 @@ test("authenticated application remains lazy and isolated from public root", () 
   assert.match(main, /import\("\.\/styles\/app-shell-entry"\)/);
   assert.match(main, /import\("\.\/App\.tsx"\)/);
   assert.match(main, /AccountAccessProvider/);
-  assert.doesNotMatch(standaloneHome, /react-dom\\/client/);
+  assert.doesNotMatch(standaloneHome, /react-dom\/client/);
   assert.doesNotMatch(standaloneHome, /react-router-dom/);
 });
