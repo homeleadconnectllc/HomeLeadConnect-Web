@@ -97,7 +97,7 @@ export default function PublicSiteNav() {
       setImportant(cta, "color", "var(--page-accent)");
       setImportant(cta, "-webkit-text-fill-color", "var(--page-accent)");
       setImportant(login, "display", mobile ? "inline-flex" : "inline");
-      setImportant(cta, "display", mobile ? "none" : "inline");
+      setImportant(cta, "display", mobile ? "inline-flex" : "inline");
       if (mobile) {
         const inner = nav.querySelector<HTMLElement>(".hlc-board-nav-inner");
         const actions = nav.querySelector<HTMLElement>(".hlc-board-actions");
@@ -152,6 +152,13 @@ export default function PublicSiteNav() {
         setImportant(login, "font-weight", "900");
         setImportant(login, "visibility", "visible");
         setImportant(login, "opacity", "1");
+        setImportant(cta, "height", "44px");
+        setImportant(cta, "min-height", "44px");
+        setImportant(cta, "display", "inline-flex");
+        setImportant(cta, "align-items", "center");
+        setImportant(cta, "justify-content", "center");
+        setImportant(cta, "visibility", "visible");
+        setImportant(cta, "opacity", "1");
         setImportant(mobileTrigger, "height", "44px");
         setImportant(mobileTrigger, "min-height", "44px");
         setImportant(mobileTrigger, "display", "inline-flex");
