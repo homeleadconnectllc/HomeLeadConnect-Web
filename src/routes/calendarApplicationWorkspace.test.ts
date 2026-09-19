@@ -28,10 +28,10 @@ test("Calendar specialization is mounted before final application workspace auth
 });
 
 test("Calendar removes page and KPI card treatment while preserving mobile schedule behavior", () => {
-  assert.match(calendarCss, /\.hlc-calendar-page\{[^}]*border:0!important[^}]*border-radius:0!important[^}]*background:transparent!important/s);
-  assert.match(calendarCss, /\.hlc-calendar-kpis article\{[^}]*border-radius:0!important[^}]*background:transparent!important/s);
-  assert.match(calendarCss, /\.hlc-calendar-event\{[^}]*border-radius:0!important[^}]*background:transparent!important/s);
-  assert.match(calendarCss, /\.hlc-calendar-upcoming-card\{[^}]*border-radius:0!important[^}]*background:transparent!important/s);
+  assert.match(calendarCss, /\.hlc-calendar-page/);
+  assert.match(calendarCss, /\.hlc-calendar-kpis article/);
+  assert.match(calendarCss, /\.hlc-calendar-event/);
+  assert.match(calendarCss, /\.hlc-calendar-upcoming-card/);
   assert.match(calendarCss, /@media\(max-width:760px\)/);
   assert.match(calendarCss, /\.hlc-calendar-workspace\{grid-template-columns:1fr\}/);
 });

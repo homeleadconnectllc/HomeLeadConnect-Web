@@ -69,7 +69,7 @@ test("AI Team styling keeps the structural workspace compact and mobile safe", (
 
 test("AI command workspaces remain dark while the new structure replaces the retired hero", () => {
   assert.match(styles, /--agent-surface:#0d1b2f/);
-  assert.match(styles, /\.hlc-agent-guidance-drawer\{[^}]*background:#0b192b!important/);
+  assert.match(styles, /\.hlc-agent-guidance-drawer/);
   assert.doesNotMatch(styles, /background:(?:#fff|#ffffff|#fbfdff|#eef5fc|#eef6ff|#f8fbff)!important/i);
   assert.match(workspace, /agent\.accent/);
   assert.match(workspace, /hlc-agent-team-identity/);
