@@ -5,16 +5,11 @@ import test from "node:test";
 const applicationUi = readFileSync(new URL("../styles/application-workspace-ui.css", import.meta.url), "utf8");
 const authenticatedEntry = readFileSync(new URL("../styles/authenticated-entry.ts", import.meta.url), "utf8");
 
-test("application workspace UI remains structural authority beneath contrast and UX IA presentation", () => {
-  const applicationImport = 'import "./application-workspace-ui.css";';
-  const contrastImport = 'import "./launch-contrast-readability.css";';
-  const uxIaImport = 'import "./ux-ia-village-authority.css";';
+test("application workspace UI remains a current structural authority without retired global repaint layers", () => {
   assert.match(authenticatedEntry, /import "\.\/application-workspace-ui\.css";/);
-  assert.match(authenticatedEntry, /import "\.\/launch-contrast-readability\.css";/);
-  assert.match(authenticatedEntry, /import "\.\/ux-ia-village-authority\.css";/);
-  assert.ok(authenticatedEntry.indexOf(applicationImport) < authenticatedEntry.indexOf(contrastImport));
-  assert.ok(authenticatedEntry.indexOf(contrastImport) < authenticatedEntry.indexOf(uxIaImport));
-  assert.equal(authenticatedEntry.trim().split("\n").at(-1), uxIaImport);
+  assert.doesNotMatch(authenticatedEntry, /launch-contrast-readability\.css/);
+  assert.doesNotMatch(authenticatedEntry, /ux-ia-village-authority\.css/);
+  assert.doesNotMatch(authenticatedEntry, /global-workspace-visual-contract\.css/);
 });
 
 test("the routed workspace shell is flat instead of a giant card", () => {
