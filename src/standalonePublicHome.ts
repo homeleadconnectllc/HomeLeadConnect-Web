@@ -147,7 +147,10 @@ export function mountStandalonePublicHome(root: HTMLElement) {
   main.append(header, hero, pathwaySection, mission);
 
   const footer = make("footer", "hlc-public-footer hlc-board-footer hlc-public-footer-home-authority");
-  footer.append(make("strong", undefined, "HomeLead Connect"), make("span", undefined, "Connecting Homes. Creating Opportunities."));
+  const footerLogo = make("img", "hlc-public-footer-master-logo");
+  footerLogo.src = "/hlc-logo-ui.png";
+  footerLogo.alt = "HomeLead Connect LLC";
+  footer.append(footerLogo, make("strong", undefined, "HomeLead Connect"), make("span", undefined, "Connecting Homes. Creating Opportunities."));
   const legal = make("nav");
   legal.setAttribute("aria-label", "Legal and accessibility");
   for (const [label, path] of [["Privacy","/privacy"],["Terms","/terms"],["Accessibility","/accessibility"],["Platform disclosure","/platform-disclosure"]] as const) {
