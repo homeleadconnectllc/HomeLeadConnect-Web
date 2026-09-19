@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { BookOpen, Briefcase, Handshake, House, Info, Menu, Users, X } from "lucide-react";
 import { appUrl, publicUrl } from "../config/siteOrigins";
-import "../styles/public-owner-visual-authority-20260918.css";
+
 
 const NAV_LOGO = "/hlc-logo-ui.png";
 
@@ -53,6 +53,7 @@ export default function PublicSiteNav() {
   }, [menuOpen]);
 
   useLayoutEffect(() => {
+    if (pathname === "/") return;
     const nav = navRef.current;
     if (!nav) return;
 
