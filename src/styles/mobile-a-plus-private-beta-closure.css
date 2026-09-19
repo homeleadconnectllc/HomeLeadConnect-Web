@@ -74,23 +74,9 @@
 
 @media (max-width: 760px) {
 
-  #root :is(input, textarea, select) { color: #eef7ff; -webkit-text-fill-color: #eef7ff; caret-color: #9dccff; }
-  #root :is(input, textarea, select)::placeholder { color: #9fb4c9; opacity: 1; }
-  #root :is(input, textarea, select):disabled,
-  #root :is(input, textarea, select)[readonly] { color: #c7d6e5 !important; -webkit-text-fill-color: #c7d6e5 !important; opacity: .82 !important; }
-  #root select option { color: #0b1726; background: #f8fafc; }
-
   body:has([role="dialog"]) { overflow: hidden !important; overscroll-behavior: none !important; }
   #root [role="dialog"], body > [role="dialog"] { overscroll-behavior: contain !important; }
-
-  /* Global page presentation: page titles, top-level headers and footers are balanced and centered. */
-  #root main > header,
-  #root main > .page-header,
-  #root main > .hlc-page-header,
-  #root main > .hlc-workspace-header,
-  #root footer,
-  #root .hlc-footer { text-align: center !important; }
-  #root main h1 { text-align: center !important; margin-inline: auto !important; }
+  /* Global centering authority retired; route CSS owns alignment. */
 
   /* Eliminate one-letter-per-line and artificially narrow text columns. */
   #root main,
@@ -104,15 +90,6 @@
     white-space: normal;
   }
   #root main :is(h1,h2,h3,h4) { max-width: 100% !important; }
-  #root main :is(.hlc-dashboard-hero,.hlc-command-hero,.dashboard-hero,.command-center-hero) {
-    display: block !important;
-    width: 100% !important;
-    grid-template-columns: minmax(0,1fr) !important;
-  }
-  #root main :is(.hlc-dashboard-hero,.hlc-command-hero,.dashboard-hero,.command-center-hero) > * {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
 
   .hlc-app-directory { width: min(100% - 24px, 680px); margin: 16px auto 96px; gap: 14px; }
   .hlc-app-directory-hero { padding: 20px 16px; border-radius: 14px; }
