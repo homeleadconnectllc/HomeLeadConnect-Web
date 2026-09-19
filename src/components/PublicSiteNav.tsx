@@ -62,7 +62,6 @@ export default function PublicSiteNav() {
         aria-expanded={menuOpen}
         aria-controls="hlc-public-menu"
         onClick={() => setMenuOpen((open) => !open)}
-        style={{ cursor: "pointer", border: 0, padding: 0, color: "inherit" }}
       >
         <img className="hlc-navbar-master-logo" data-hlc-master-logo="true" src={NAV_LOGO} alt="" aria-hidden="true" />
         <span className="hlc-brand-accessible-label">HomeLead Connect</span>
@@ -79,7 +78,6 @@ export default function PublicSiteNav() {
       className="hlc-public-menu-backdrop"
       data-hlc-public-menu-open="true"
       onMouseDown={(event) => { if (event.target === event.currentTarget) setMenuOpen(false); }}
-      style={{ position: "fixed", inset: 0, zIndex: 1500, background: "rgba(2,10,22,.78)", backdropFilter: "blur(12px)", padding: "clamp(84px, 10vh, 120px) 18px 24px", overflowY: "auto" }}
     >
       <nav
         id="hlc-public-menu"
