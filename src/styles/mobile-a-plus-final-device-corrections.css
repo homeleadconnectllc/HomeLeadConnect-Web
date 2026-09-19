@@ -26,17 +26,17 @@
   #root .hlc-signed-in-shell .hlc-agent-dock:not(.is-open) {
     right: max(8px, env(safe-area-inset-right)) !important;
     bottom: calc(var(--hlc-final-nav-height) + env(safe-area-inset-bottom) + 8px) !important;
-    max-width: 48px !important;
+    max-width: 60px !important;
     gap: 0 !important;
   }
 
   #root .hlc-signed-in-shell .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger {
-    width: 48px !important;
-    min-width: 48px !important;
-    max-width: 48px !important;
-    height: 48px !important;
-    min-height: 48px !important;
-    max-height: 48px !important;
+    width: 60px !important;
+    min-width: 60px !important;
+    max-width: 60px !important;
+    height: 60px !important;
+    min-height: 60px !important;
+    max-height: 60px !important;
     padding: 2px !important;
     border-radius: 50% !important;
   }
