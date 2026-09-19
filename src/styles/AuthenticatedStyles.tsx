@@ -13,8 +13,6 @@ import "./provider-professional-profile.css";
 import "./e5-intelligence-sandbox.css";
 import "./e6-trial-entitlements.css";
 import "./hlc-unified-settings-index.css";
-import "./hlc-unified-screen-archetypes.css";
-import "./hlc-unified-detail-workspaces.css";
 import "./hlc-dashboard-structural-correction.css";
 import "./hlc-structural-correction.css";
 import "./hlc-purpose-built-workspaces.css";
