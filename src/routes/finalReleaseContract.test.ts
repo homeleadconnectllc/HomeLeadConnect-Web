@@ -29,10 +29,10 @@ for (const [name, source] of [["Home", home], ["Pricing", journey], ["Legal", le
   });
 }
 
-test("subscription-bearing public surfaces use the canonical $49.99 launch price", () => {
+test("public subscription surfaces use the canonical $49.99 launch price", () => {
+  assert.match(home, /\$49\.99\/month/);
   assert.match(journey, /\$49\.99 per month/);
   assert.match(legal, /\$49\.99 USD/);
-  assert.doesNotMatch(home, /\$\d+(?:\.\d{2})?(?:\/month| per month| USD)/);
 });
 
 test("preview surfaces use the release status lexicon", () => {
