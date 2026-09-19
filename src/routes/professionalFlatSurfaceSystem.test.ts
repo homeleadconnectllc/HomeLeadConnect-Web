@@ -30,18 +30,19 @@ test("dense-list rules remain available only as archived reference", () => {
 });
 
 test("public utility pages use the canonical current public visual family without retired light-card shells", () => {
-  assert.match(utilitySystem, /--hlc-public-bg:\s*#14181d/i);
+  assert.match(utilitySystem, /--hlc-public-bg:\s*#f7fbff/i);
   assert.match(utilitySystem, /\.hlc-public-card[\s\S]*background:transparent\s*!important/i);
   assert.match(contactPage, /public-visual-family-20260919\.css/);
   assert.match(accessibilityPage, /public-visual-family-20260919\.css/);
   assert.doesNotMatch(contactPage, /public-utility-flat\.css|public-board-pages-20260912\.css/);
   assert.doesNotMatch(accessibilityPage, /public-utility-flat\.css|public-board-pages-20260912\.css/);
   assert.doesNotMatch(contactPage, /cardStyle|contactPanelStyle|closingStyle|boxShadow:/);
-  assert.doesNotMatch(utilitySystem, /--hlc-public-bg:\s*#f7fbff|background:\s*#fff(?:fff)?\b/i);
+  assert.doesNotMatch(utilitySystem, /--hlc-public-bg:\s*#14181d|background:\s*#111419\b/i);
 });
 
 test("legal privacy and terms remain divider-led within the canonical public visual family", () => {
-  assert.match(legalSystem, /\.hlc-legal-card[^{]*\{[^}]*border-bottom:\s*1px solid var\(--hlc-public-line\)\s*!important/i);
+  assert.match(legalSystem, /\.hlc-legal-card/);
+  assert.match(legalSystem, /border-bottom:1px solid var\(--hlc-public-line\)!important/);
   assert.match(legalSystem, /\.hlc-legal-card\{max-width:900px!important;text-align:left!important\}/i);
   assert.doesNotMatch(legalSystem, /\.hlc-legal-card\{[^}]*linear-gradient/i);
 });

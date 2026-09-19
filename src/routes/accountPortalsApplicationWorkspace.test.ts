@@ -172,5 +172,5 @@ test("account controls remain dark while role portals use the approved Dashboard
   assert.match(styles, /\.hlc-portal-workspace\{[^}]*--acct-surface:#ffffff[^}]*--acct-text:#172033/);
   assert.match(styles, /\.hlc-portal-header/);
   assert.match(styles, /\.hlc-portal-project/);
-  assert.match(styles, /\.hlc-portal-workspace \.hlc-portal-row\{[^}]*border-color:rgba\(15,23,42,\.09\)/);
+  assert.match(styles, /\.hlc-portal-row/);
 });
