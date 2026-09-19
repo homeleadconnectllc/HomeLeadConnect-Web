@@ -10,24 +10,19 @@ const manualCommunicationsAuthority = readFileSync("src/styles/manual-communicat
 const mobileViewControls = readFileSync("src/components/MobileViewControls.tsx", "utf8");
 const appLayout = readFileSync("src/routes/AppLayout.tsx", "utf8");
 
-test("launch contrast authority is mounted last in the canonical authenticated stylesheet chain", () => {
-  const workspaceIndex = authenticatedStyles.indexOf("./application-workspace-ui.css");
-  const contrastIndex = authenticatedStyles.indexOf("./launch-contrast-readability.css");
-  assert.ok(workspaceIndex >= 0);
-  assert.ok(contrastIndex > workspaceIndex);
+test("retired launch contrast authority is no longer mounted over current workspace styling", () => {
+  assert.match(authenticatedStyles, /application-workspace-ui\.css/);
+  assert.doesNotMatch(authenticatedStyles, /launch-contrast-readability\.css/);
 });
 
-test("live-device authority mounts after the canonical authenticated stylesheet chain", () => {
-  const entryIndex = authenticatedStyleMount.indexOf("./authenticated-entry");
-  const liveDeviceIndex = authenticatedStyleMount.indexOf("./launch-live-device-authority.css");
-  assert.ok(entryIndex >= 0);
-  assert.ok(liveDeviceIndex > entryIndex);
+test("retired global live-device paint is not mounted after the authenticated stylesheet chain", () => {
+  assert.match(authenticatedStyleMount, /\.\/authenticated-entry/);
+  assert.doesNotMatch(authenticatedStyleMount, /launch-live-device-authority\.css/);
 });
 
-test("manual communications route authority mounts after the global live-device authority", () => {
-  const liveDeviceIndex = authenticatedStyleMount.indexOf("./launch-live-device-authority.css");
-  const manualIndex = authenticatedStyleMount.indexOf("./manual-communications-launch-authority.css");
-  assert.ok(manualIndex > liveDeviceIndex);
+test("manual communications keeps its narrow route authority without retired global live-device paint", () => {
+  assert.match(authenticatedStyleMount, /manual-communications-launch-authority\.css/);
+  assert.doesNotMatch(authenticatedStyleMount, /launch-live-device-authority\.css/);
   assert.match(appLayout, /function stableRouteClass/);
   assert.match(appLayout, /hlc-page-\$\{slug\}/);
 });
