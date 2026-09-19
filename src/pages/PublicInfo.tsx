@@ -2,11 +2,6 @@ import { Link } from "react-router-dom";
 import PublicSiteNav from "../components/PublicSiteNav";
 import { pageImage, type PublicPageImageKey } from "../config/publicPageImagery";
 import PathwayPage from "./PathwayPage";
-import "../styles/public-premium.css";
-import "../styles/final-candidate-public-reconciliation.css";
-import "../styles/public-board-pages-20260912.css";
-import "../styles/pathway-exact-render-authority-20260916.css";
-import "../styles/public-owner-visual-authority-20260918.css";
 import "../styles/public-owner-visual-final-20260918.css";
 
 const content = {
