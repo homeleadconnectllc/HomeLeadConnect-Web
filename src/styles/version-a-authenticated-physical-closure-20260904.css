@@ -5,11 +5,7 @@
 @layer hlcRedesign {
   /* Drawer paint retired: current mobile-command-menu-rebuild owns hlc-drawer-v2. */
 
-  #root .hlc-signed-in-shell > .hlc-navbar {
-    background: radial-gradient(circle at 18% 0%, color-mix(in srgb, var(--portal-accent) 24%, transparent), transparent 19rem),
-      linear-gradient(180deg, color-mix(in srgb, var(--portal-canvas-1) 96%, #000 4%), color-mix(in srgb, var(--portal-canvas-2) 88%, #070b14 12%)) !important;
-    border-color: var(--portal-line) !important; box-shadow: 18px 0 50px rgba(0,0,0,.20) !important;
-  }
+  /* Legacy sidebar paint retired; current shell authorities own .hlc-navbar. */
   #root .hlc-signed-in-shell .hlc-owner-home-link,
   #root .hlc-signed-in-shell .hlc-nav-group[open] > summary,
   #root .hlc-signed-in-shell .hlc-nav-menu a[aria-current="page"] { color: #fff !important; background: var(--portal-accent-soft) !important; border-color: var(--portal-line) !important; }
