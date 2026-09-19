@@ -3,11 +3,16 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const entry = readFileSync(new URL("../styles/authenticated-entry.ts", import.meta.url), "utf8");
+const mounted = readFileSync(new URL("../styles/AuthenticatedStyles.tsx", import.meta.url), "utf8");
 const css = readFileSync(new URL("../styles/signed-in-professional-system.css", import.meta.url), "utf8");
 const shell = readFileSync(new URL("../styles/mobile-a-plus-sprint-2-shell-closure.css", import.meta.url), "utf8");
 
 test("signed-in professional presentation remains mounted without retired certification paint", () => {
-  assert.match(entry, /import "\.\/signed-in-professional-system\.css";/);
+  assert.match(mounted, /import "\.\/signed-in-professional-system\.css";/);
+  assert.ok(
+    mounted.indexOf("signed-in-professional-system.css") > mounted.indexOf("dashboard-context-hero.css"),
+    "signed-in professional presentation must be the final AuthenticatedStyles visual import",
+  );
   for (const retired of [
     "mobile-all-screens-certification.css",
     "mobile-professional-certification.css",
@@ -15,7 +20,11 @@ test("signed-in professional presentation remains mounted without retired certif
     "design-system-foundation.css",
     "ux-ia-village-authority.css",
     "launch-contrast-readability.css",
-  ]) assert.doesNotMatch(entry, new RegExp(retired.replaceAll(".", "\\.")));
+  ]) {
+    const pattern = new RegExp(retired.replaceAll(".", "\\."));
+    assert.doesNotMatch(entry, pattern);
+    assert.doesNotMatch(mounted, pattern);
+  }
 });
 
 test("authenticated presentation owns one coherent charcoal and HLC-blue visual system", () => {

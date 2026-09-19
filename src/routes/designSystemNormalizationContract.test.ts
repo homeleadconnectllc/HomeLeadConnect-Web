@@ -11,9 +11,14 @@ const authenticatedStyles = readFileSync(new URL("../styles/AuthenticatedStyles.
 test("authenticated styling uses modular current authorities without retired global repaint layers", () => {
   for (const current of [
     "desktop-workspace-shell.css",
-    "signed-in-professional-system.css",
     "application-workspace-ui.css",
   ]) assert.ok(authenticatedEntry.includes(current));
+  assert.ok(authenticatedStyles.includes("signed-in-professional-system.css"));
+  assert.ok(
+    authenticatedStyles.indexOf("signed-in-professional-system.css") >
+      authenticatedStyles.indexOf("dashboard-context-hero.css"),
+    "current signed-in visual authority must load after legacy route/closure layers",
+  );
   assert.match(appShellEntry, /authenticated-mobile-shell-authority\.css/);
 
   for (const retired of [

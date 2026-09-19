@@ -41,7 +41,7 @@ test("every supported clickable route remains explicitly inventoried", () => {
 test("whole-app routes no longer depend on the retired global visual reference authority", () => {
   assert.doesNotMatch(authenticatedEntry, /full-app-visual-reference-authority\.css/);
   assert.match(authenticatedEntry, /application-workspace-ui\.css/);
-  assert.match(authenticatedEntry, /signed-in-professional-system\.css/);
+  assert.match(authenticatedStyles, /signed-in-professional-system\.css/);
 });
 
 test("shared route shell keeps route identity while root styling remains structural", () => {
