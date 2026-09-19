@@ -8,7 +8,9 @@ const mobileViewControls = readFileSync("src/components/MobileViewControls.tsx",
 const appLayout = readFileSync("src/routes/AppLayout.tsx", "utf8");
 
 test("retired global contrast and live-device paint stay disconnected", () => {
-  assert.match(authenticatedEntry, /application-workspace-ui\.css/);
+  assert.doesNotMatch(authenticatedEntry, /application-workspace-ui\.css/);
+  assert.match(authenticatedStyles, /signed-in-professional-system\.css/);
+  assert.ok(authenticatedStyles.indexOf("signed-in-professional-system.css") > authenticatedStyles.indexOf("dashboard-context-hero.css"));
   assert.doesNotMatch(authenticatedEntry, /launch-contrast-readability\.css/);
   assert.doesNotMatch(authenticatedStyles, /launch-live-device-authority\.css/);
   assert.doesNotMatch(authenticatedStyles, /manual-communications-launch-authority\.css/);
