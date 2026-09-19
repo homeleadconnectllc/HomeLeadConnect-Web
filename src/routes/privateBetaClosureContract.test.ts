@@ -36,7 +36,7 @@ test("current mobile command drawer owns the viewport with one scroll surface", 
   assert.match(drawerStyles, /body > \.hlc-drawer-v2\s*\{[^}]*inset:\s*0\s*!important/s);
   assert.match(drawerStyles, /body > \.hlc-drawer-v2\s*\{[^}]*height:\s*100dvh\s*!important/s);
   assert.match(drawerStyles, /\.hlc-drawer-v2-scroll\s*\{[^}]*overflow-y:\s*auto\s*!important/s);
-  assert.match(drawerStyles, /\.hlc-drawer-v2-close\s*\{[^}]*min-height:\s*40px\s*!important/s);
+  assert.match(drawerStyles, /\.hlc-drawer-v2-close\s*\{[^}]*min-height:\s*44px\s*!important/s);
 });
 
 test("current mobile drawer is rendered as the only portal command surface", () => {
