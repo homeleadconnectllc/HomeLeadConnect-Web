@@ -1,22 +1,6 @@
 /* index.css is loaded with the non-home application/public-family entry to keep the standalone homepage critical path lean. */
 
 
-/*
-Authenticated runtime ownership moved to styles/app-shell-entry.ts so the public homepage can stay lightweight.
-These source-contract mirrors keep the launch guards explicit without loading authenticated CSS on the public root.
-<AccountAccessProvider>
-import "./styles/premium-theme.css";
-import "./styles/premium-effects.css";
-import "./styles/global-premium-system.css";
-import "./styles/global-visual-pizzazz.css";
-import "./styles/contrast-contract.css";
-import "./styles/responsive-page-contract.css";
-import "./styles/hlc-brand-lock.css";
-import "./styles/legacy-device-compat.css";
-import "./styles/final-release-guard.css";
-import "./styles/mobile-release-fix.css";
-*/
-
 const APP_HOST = "app.homeleadconnect.org";
 const hostname = window.location.hostname.toLowerCase();
 const isAppHost = hostname === APP_HOST;
