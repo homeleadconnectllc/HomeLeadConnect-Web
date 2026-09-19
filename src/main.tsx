@@ -1,23 +1,4 @@
 import "./index.css";
-import "./styles/front-door-system-pass-20260910.css";
-import "./styles/front-door-refinement-20260910.css";
-import "./styles/front-door-mobile-redesign-20260911.css";
-import "./styles/front-door-mobile-polish-20260911.css";
-import "./styles/v2-cinematic-community-homepage-20260911.css";
-import "./styles/v2-mobile-image-layer-fix-20260912.css";
-import "./styles/v2-board-alignment-20260912.css";
-import "./styles/v2-board-frontdoor-20260912.css";
-import "./styles/v2-board-frontdoor-performance-20260912.css";
-import "./styles/v2-board-rest-polish-20260912.css";
-import "./styles/front-door-family-ecosystem-20260913.css";
-import "./styles/frontdoor-profile-protocol-20260913.css";
-import "./styles/frontdoor-destination-color-authority-20260914.css";
-import "./styles/frontdoor-pathway-photography-20260914.css";
-import "./styles/public-home-centered-copy-authority-20260915.css";
-import "./styles/public-home-title-spacing-repair-20260915.css";
-import "./styles/public-home-section-blend-authority-20260915.css";
-import "./styles/public-home-final-composition-20260915.css";
-import "./styles/public-home-pathway-heading-wrap-20260915.css";
 import "./styles/public-footer-home-authority-20260916.css";
 import "./styles/public-owner-visual-authority-20260918.css";
 
@@ -66,6 +47,7 @@ if (isPublicHome) {
     );
   });
 } else {
+  void import("./styles/public-family-legacy-entry");
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
       void navigator.serviceWorker.register("/sw.js", { updateViaCache: "none" }).then((registration) => {
