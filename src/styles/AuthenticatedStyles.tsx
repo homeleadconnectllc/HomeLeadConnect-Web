@@ -1,11 +1,5 @@
 import MobileNavigationDialogAccessibility from "../components/accessibility/MobileNavigationDialogAccessibility";
 import "./authenticated-entry";
-import "./desktop-data-workspaces.css";
-import "./desktop-page-archetypes.css";
-import "./desktop-core-workspaces.css";
-import "./desktop-workflow-communications.css";
-import "./desktop-discovery-community.css";
-import "./desktop-account-portals-agents.css";
 import "./calendar-mobile-action-order.css";
 import "./launch-messaging-simplification.css";
 import "./five-star-mobile-more.css";
