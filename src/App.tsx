@@ -1,7 +1,6 @@
 import { lazy, Suspense } from "react";
 import AppRouter from "./routes/AppRouter";
 import { useAuth } from "./hooks/useAuth";
-import "./styles/public-final-flat-authority.css";
 import "./styles/final-mobile-polish.css";
 import "./styles/global-logo-geometry.css";
 import "./styles/master-visual-system-20260907.css";
