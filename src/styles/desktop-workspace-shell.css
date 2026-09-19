@@ -94,6 +94,18 @@
     border-radius: 13px;
   }
 
+  .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-logo img {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 52px !important;
+    height: 52px !important;
+    min-width: 52px !important;
+    min-height: 52px !important;
+    object-fit: contain !important;
+    background: transparent !important;
+  }
+
   .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-brand-copy h2 {
     font-size: 18px;
   }
