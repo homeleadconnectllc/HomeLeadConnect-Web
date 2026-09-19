@@ -1,3 +1,9 @@
+/* Lightweight standalone-home reset; avoids loading the full application index stylesheet. */
+html,body,#root{margin:0;min-height:100%;background:#031426}
+*,*::before,*::after{box-sizing:border-box}
+body{overflow-x:hidden;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,a,input,select,textarea{font:inherit}
+img{max-width:100%}
 /* Owner-approved public homepage authority — 2026-09-18. Presentation only. */
 .hlc-owner-home{--cyan:#27c8ff;min-height:100vh;color:#f7fbff;background:radial-gradient(circle at 86% 8%,rgba(0,137,255,.38),transparent 31%),linear-gradient(135deg,#031426 0%,#05223e 58%,#06315a 100%);overflow:hidden}
 .hlc-owner-home .hlc-board-nav{--page-accent:var(--cyan);background:rgba(3,17,31,.88)!important;border-bottom:1px solid rgba(39,200,255,.3)!important}
