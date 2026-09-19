@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
+import path from "node:path";
 import test from "node:test";
 
 const main = readFileSync("src/main.tsx","utf8");
@@ -46,4 +47,13 @@ test("M6 homepage footer remains logo-free",()=>{
   const footerStart=standalone.indexOf('const footer = make("footer"');
   assert.ok(footerStart>=0);
   assert.doesNotMatch(standalone.slice(footerStart),/hlc-public-footer-master-logo|make\("img"/);
+});
+
+
+test("retired public-family legacy styling cannot re-enter live public routes", () => {
+  const mainSource = readFileSync("src/main.tsx","utf8");
+  assert.doesNotMatch(mainSource, /public-family-legacy-entry/);
+  assert.match(mainSource, /const styleReady = isPublicSiteRoute \? import\("\.\/index\.css"\) : import\("\.\/styles\/app-shell-entry"\)/);
+  assert.match(mainSource, /const isPublicSiteRoute = !isAppHost/);
+  assert.equal(existsSync(path.join(process.cwd(), "src/styles/public-family-legacy-entry.ts")), false);
 });
