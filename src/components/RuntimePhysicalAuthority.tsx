@@ -13,7 +13,7 @@ const AUTH_VISUAL_AUTHORITY = {
 } as const;
 
 const AUTH_ROUTE_PATTERN = /^\/(?:login|register|forgot-password|reset-password)(?:\/|$)/;
-const PUBLIC_VISUAL_ROUTE_PATTERN = /^\/(?:about|homeowners|contractors|professionals|partners|community|services|how-it-works|leadscope|pricing|trust|demo|contact|request-service|professional-application|privacy|terms|accessibility|platform-disclosure|memorial|kendrell-memorial|team\/accept)(?:\/|$)/;
+const PUBLIC_VISUAL_ROUTE_PATTERN = /^\/(?:about|homeowners|contractors|professionals|partners|community|services|how-it-works|leadscope|pricing|trust|demo|contact|request-service|professional-application|privacy|terms|accessibility|platform-disclosure|memorial|kendrell-memorial|login|register|forgot-password|reset-password|app|portal|portal\/accept|team\/accept)(?:\/|$)/;
 
 function activeAuthorities(includeAuthVisuals: boolean) {
   return includeAuthVisuals ? [...AUTHORITIES, AUTH_VISUAL_AUTHORITY] : AUTHORITIES;
@@ -49,6 +49,7 @@ export default function RuntimePhysicalAuthority() {
   useEffect(() => {
     if (PUBLIC_VISUAL_ROUTE_PATTERN.test(location.pathname)) {
       for (const authority of AUTHORITIES) document.getElementById(authority.id)?.remove();
+      document.getElementById(AUTH_VISUAL_AUTHORITY.id)?.remove();
       return;
     }
     const includeAuthVisuals = AUTH_ROUTE_PATTERN.test(location.pathname);
