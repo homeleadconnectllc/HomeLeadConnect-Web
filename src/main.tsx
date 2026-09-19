@@ -45,16 +45,6 @@ if (isPublicHome) {
   }
   void styleReady.then(async () => {
     const [reactModule, domModule, appModule, authModule, accessModule] = await Promise.all([import("react"), import("react-dom/client"), import("./App.tsx"), import("./context/AuthContext"), import("./context/AccountAccessProvider")]);
-    // App.tsx owns both public and authenticated routes, so its dependency graph can
-    // attach authenticated CSS after the route-specific public sheet. Keep the current
-    // public authority last in the cascade so public pages cannot inherit the retired
-    // dark shell at runtime.
-    const keepPublicVisualAuthorityLast = () => {
-      if (!isPublicSiteRoute && !isVisualFamilyEntryRoute) return;
-      const publicVisualSheet = Array.from(document.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"]'))
-        .find((link) => link.href.includes("public-visual-family-20260919"));
-      if (publicVisualSheet) document.head.append(publicVisualSheet);
-    };
     const { StrictMode, createElement } = reactModule;
     const { createRoot } = domModule;
     const App = appModule.default;
@@ -62,7 +52,5 @@ if (isPublicHome) {
     const AccountAccessProvider = accessModule.AccountAccessProvider;
     const root = createRoot(rootElement);
     root.render(createElement(StrictMode, null, createElement(AuthProvider, null, createElement(AccountAccessProvider, null, createElement(App)))));
-    window.requestAnimationFrame(() => window.requestAnimationFrame(keepPublicVisualAuthorityLast));
-    window.setTimeout(keepPublicVisualAuthorityLast, 500);
   });
 }
