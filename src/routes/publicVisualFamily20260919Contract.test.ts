@@ -4,7 +4,8 @@ import test from "node:test";
 
 const router = readFileSync("src/routes/AppRouter.tsx","utf8");
 const mainSource = readFileSync("src/main.tsx","utf8");
-const publicNav = readFileSync("src/components/PublicSiteNav.tsx","utf8");\nconst visualFamily = readFileSync("src/styles/public-visual-family-20260919.css","utf8");
+const publicNav = readFileSync("src/components/PublicSiteNav.tsx","utf8");
+const visualFamily = readFileSync("src/styles/public-visual-family-20260919.css","utf8");
 const files = {
   publicInfo: readFileSync("src/pages/PublicInfo.tsx","utf8"),
   publicJourney: readFileSync("src/pages/PublicJourney.tsx","utf8"),
