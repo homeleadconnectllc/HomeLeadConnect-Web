@@ -106,7 +106,7 @@ test("auth and app-entry routes join the visual family without the retired imper
   assert.doesNotMatch(files.authShell, /public-auth-visual-closure-20260912\.css|public-header-logo-authority-20260915\.css/);
   assert.doesNotMatch(files.login, /front-door-auth-refinement-20260910\.css|front-door-login-outer-authority-20260911\.css/);
   assert.doesNotMatch(files.appEntry, /app-entry-frontdoor-20260913\.css/);
-  assert.doesNotMatch(publicNav, /PUBLIC_VISUAL_RUNTIME_PATHS|publicSiteNavRuntime|useLayoutEffect/);
+  assert.doesNotMatch(publicNav, /PUBLIC_VISUAL_RUNTIME_PATHS|publicSiteNavRuntime|useLayoutEffect|rgba\\(2,10,22/);
 });
 
 test("canonical visual family permanently rejects dark charcoal and navy page shells", () => {
