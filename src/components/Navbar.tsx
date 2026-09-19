@@ -9,7 +9,7 @@ import { useAccountAccess } from "../hooks/useAccountAccess";
 import { canAccessWorkspacePath } from "../lib/accessPolicy";
 import { supabase } from "../lib/supabase";
 
-const logo = "/hlc-logo-transparent.png";
+const logo = "/hlc-logo-ui.png";
 const OPEN_HLC_COMMAND_SEARCH = "hlc:open-command-search";
 const declaredWorkspaceRoutes = new Set([
   "/dashboard", "/ecosystem", "/workflow", "/automations", "/hq", "/notifications", "/analytics", "/analytics/forecasting", "/analytics/sandbox",
@@ -187,7 +187,7 @@ export default function Navbar() {
 
   return <>
     <nav className={`hlc-navbar ${mobileOpen ? "menu-is-open" : ""}`} role="navigation" aria-label="Main navigation">
-      <Link className="hlc-navbar-brand" to={brandDestination} onClick={closeMobileMenu}><div className="hlc-navbar-logo hlc-navbar-logo-home"><img src={logo} alt="HomeLead Connect LLC" /></div><div className="hlc-navbar-brand-copy"><h2>HomeLead Connect</h2><span>{signedIn ? (showBusinessTools ? "HomeLead Connect workspace" : access.homeowner ? "Resident portal" : access.contractor ? "Professional portal" : access.partner ? "Partner portal" : "HomeLead Connect account") : "Home services network"}</span></div></Link>
+      <Link className="hlc-navbar-brand" to={brandDestination} onClick={closeMobileMenu}><div className="hlc-navbar-logo hlc-navbar-logo-home"><img src={logo} alt="HomeLead Connect LLC" data-hlc-master-logo="true" /></div><div className="hlc-navbar-brand-copy"><h2>HomeLead Connect</h2><span>{signedIn ? (showBusinessTools ? "HomeLead Connect workspace" : access.homeowner ? "Resident portal" : access.contractor ? "Professional portal" : access.partner ? "Partner portal" : "HomeLead Connect account") : "Home services network"}</span></div></Link>
       <button type="button" className="hlc-navbar-toggle" aria-expanded={mobileOpen} aria-label={mobileOpen ? "Close menu" : "Open menu"} onClick={() => setMobileOpenAt(mobileOpen ? null : location.pathname)}>{mobileOpen ? "Close" : "Menu"}</button>
       <div className="hlc-navbar-links hlc-desktop-navigation">{renderDesktopMenuContents()}</div>
     </nav>
