@@ -19,7 +19,7 @@ const transparentLogo = readFileSync("public/hlc-logo-transparent.png");
 
 const canonicalLogoPath = "/hlc-logo-transparent.png";
 const responsiveNavLogoPath = "/hlc-logo-ui.png";
-const browserBrandSurfaces = [navbar, htmlEntry, manifest, serviceWorker];
+const browserBrandSurfaces = [htmlEntry, manifest, serviceWorker];
 const forbiddenLegacyLogoReferences = [
   "/favicon.svg",
   "/hlc-icon.jpeg",
@@ -81,14 +81,12 @@ function pngAlphaAt(buffer: Buffer, x: number, y: number) {
   assert.fail("requested PNG row was not decoded");
 }
 
-test("HLC canonical brand lock stays global before legacy and final release guards", () => {
-  assert.match(mainEntry, /contrast-contract\.css";\s*import "\.\/styles\/responsive-page-contract\.css";\s*import "\.\/styles\/hlc-brand-lock\.css";\s*import "\.\/styles\/legacy-device-compat\.css";\s*import "\.\/styles\/final-release-guard\.css";/);
-  assert.match(authenticatedEntry, /workspace-premium-v3\.css/);
-  assert.match(brandLock, /--hlc-brand-navy: #0d1b3d/);
-  assert.match(brandLock, /--hlc-brand-blue: #1e5bff/);
-  assert.match(brandLock, /--hlc-brand-white: #ffffff/);
-  assert.match(brandLock, /--hlc-brand-charcoal: #111827/);
-  assert.match(brandLock, /font-family: "Poppins"/);
+test("HLC brand geometry remains available while retired global premium themes stay disconnected", () => {
+  assert.match(appEntry, /global-logo-geometry\.css/);
+  assert.match(mainEntry, /responsive-page-contract\.css/);
+  assert.match(mainEntry, /final-release-guard\.css/);
+  assert.doesNotMatch(authenticatedEntry, /workspace-premium-v3\.css|workspace-premium-v4\.css|ux-ia-village-authority\.css/);
+  assert.match(brandLock, /--hlc-brand-blue:/);
 });
 
 test("brand lock replaces green matching, agent, and success presentation with HLC blue-gray styling", () => {
@@ -105,6 +103,8 @@ test("official HLC mark stays canonical for browser/PWA while responsive approve
   for (const surface of browserBrandSurfaces) {
     assert.match(surface, new RegExp(canonicalLogoPath.replaceAll(".", "\\.")));
   }
+  assert.match(navbar, new RegExp(responsiveNavLogoPath.replaceAll(".", "\\.")));
+  assert.match(navbar, /data-hlc-master-logo="true"/);
 
   assert.match(htmlEntry, /rel="icon"[^>]+type="image\/png"[^>]+href="\/hlc-logo-transparent\.png"/);
   assert.match(htmlEntry, /rel="apple-touch-icon"[^>]+href="\/hlc-logo-transparent\.png"/);
