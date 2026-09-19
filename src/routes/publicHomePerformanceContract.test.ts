@@ -12,6 +12,9 @@ test("public homepage has one lightweight presentation authority", () => {
   assert.match(main, /mountStandalonePublicHome\(rootElement\)/);
   assert.doesNotMatch(main, /publicHomeMarkup/);
   assert.doesNotMatch(main, /rootElement\.innerHTML/);
+  assert.doesNotMatch(standaloneHome, /\.innerHTML\s*=/);
+  assert.match(standaloneHome, /replaceChildren\(\)/);
+  assert.match(standaloneHome, /createElement/);
   assert.doesNotMatch(indexHtml, /hlc-v2-parser-seed/);
   assert.doesNotMatch(indexHtml, /root\.innerHTML/);
   assert.match(main, /standalonePublicHome/);
