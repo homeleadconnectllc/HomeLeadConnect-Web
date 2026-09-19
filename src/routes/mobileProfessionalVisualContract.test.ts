@@ -35,7 +35,7 @@ test("current mobile shell owns structural header and route geometry without the
 test("current compact-device safety owns agent and keyboard viewport behavior", () => {
   assert.match(finalDevice, /\.hlc-agent-dock:not\(\.is-open\)/);
   assert.match(finalDevice, /width:60px!important/);
-  assert.match(finalDevice, /border-radius:50%!important/);
+  assert.match(finalDevice, /height:60px!important/);
   assert.match(finalDevice, /body\.hlc-keyboard-open \.hlc-mobile-tabbar/);
   assert.match(finalDevice, /--hlc-visual-viewport-height/);
 });

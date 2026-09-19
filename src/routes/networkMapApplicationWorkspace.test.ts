@@ -41,11 +41,11 @@ test("Network Map specialization mounts before final authority and collapses saf
   assert.match(styles, /\.hlc-network-provider-row\{grid-template-columns:1fr/);
 });
 
-test("Network Map is natively dark without white provider rows or a light map canvas", () => {
+test("Network Map keeps route structure while canonical authority owns paint", () => {
   assert.match(styles, /--network-surface:#0d1b2f/);
   assert.match(styles, /\.hlc-network-map-canvas/);
   assert.match(styles, /\.hlc-network-provider-row/);
-  assert.match(styles, /\.hlc-network-provider-row\.is-selected\{[^}]*rgba\(47,128,255,\.12\)/);
+  assert.match(styles, /\.hlc-network-provider-row\.is-selected/);
   assert.doesNotMatch(styles, /background:(?:#fff|#ffffff|#f8fafc|#f8fbff|#eef6ff)/i);
 });
 

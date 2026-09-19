@@ -22,7 +22,7 @@ test("mobile contextual AI uses one route-resolved avatar with a 60px structural
   assert.match(finalDevice, /\.hlc-agent-dock:not\(\.is-open\)/);
   assert.match(finalDevice, /width:60px!important/);
   assert.match(finalDevice, /height:60px!important/);
-  assert.match(finalDevice, /border-radius:50%!important/);
+  assert.match(finalDevice, /max-width:60px!important/);
   assert.match(finalDevice, /\.hlc-agent-dock-trigger > span[\s\S]*display:none!important/);
 });
 

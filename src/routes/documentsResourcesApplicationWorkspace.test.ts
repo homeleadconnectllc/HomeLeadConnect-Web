@@ -93,10 +93,10 @@ test("Documents Resources specialization mounts before final authority and colla
   assert.match(styles, /width:min\(100% - 24px,1440px\)/);
 });
 
-test("Documents and Resources are natively dark without pale form or command-bar islands", () => {
+test("Documents and Resources keep route structure while canonical authority owns paint", () => {
   assert.match(styles, /--resource-surface:#0d1b2f/);
   assert.match(styles, /\.hlc-documents-form select/);
-  assert.match(styles, /\.hlc-documents-guidance-row>strong\{[^}]*rgba\(47,128,255,\.14\)/);
-  assert.match(styles, /\.hlc-resources-commandbar a:hover,[\s\S]*rgba\(47,128,255,\.1\)/);
+  assert.match(styles, /\.hlc-documents-guidance-row>strong\{[^}]*display:grid/);
+  assert.match(styles, /\.hlc-resources-commandbar a:hover/);
   assert.doesNotMatch(styles, /background:(?:#fff|#ffffff|#fbfdff|#e7f1fb|#edf5ff)/i);
 });
