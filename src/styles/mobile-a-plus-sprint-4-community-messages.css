@@ -1,3 +1,4 @@
+/* Structural/feature behavior retained; local visual paint retired 2026-09-19. */
 /* Mobile A+ Sprint 4 — Community + Messages + Voice
    Compact-only authority. Desktop presentation remains untouched. */
 
@@ -171,9 +172,9 @@
     bottom: calc(72px + env(safe-area-inset-bottom));
     z-index: 12;
     padding: 12px;
-    background: rgba(6, 20, 39, 0.97);
+    
     backdrop-filter: blur(14px);
-    border-radius: 14px;
+    
   }
 
   .hlc-message-composer textarea {
