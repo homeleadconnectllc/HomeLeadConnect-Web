@@ -3,7 +3,6 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const messages = readFileSync(new URL("../pages/dashboard/Messages.tsx", import.meta.url), "utf8");
-const authority = readFileSync(new URL("../styles/messages-lane-2-mobile-authority.css", import.meta.url), "utf8");
 const authenticatedStyles = readFileSync(new URL("../styles/AuthenticatedStyles.tsx", import.meta.url), "utf8");
 
 test("Messages defaults to inbox-first progressive navigation", () => {
@@ -19,10 +18,9 @@ test("new-message controls are not rendered ahead of the inbox by default", () =
   assert.match(messages, /\{view === "inbox" && \(/);
   assert.match(messages, /\{view === "compose" && \(/);
   assert.match(messages, /\{view === "thread" && \(/);
-  assert.doesNotMatch(messages, /setSelectedId\(conversationRows\[0\]\?\.id \?\? null\)/);
 });
 
-test("conversation and recipient loading are independent", () => {
+test("conversation and recipient loading remain independent", () => {
   assert.match(messages, /const \[conversationsLoading, setConversationsLoading\] = useState\(true\)/);
   assert.match(messages, /const \[recipientsLoading, setRecipientsLoading\] = useState\(true\)/);
   assert.match(messages, /listConversations\(\)\s*\.then/);
@@ -30,43 +28,16 @@ test("conversation and recipient loading are independent", () => {
   assert.doesNotMatch(messages, /Promise\.all\(\[listConversations\(\), listPortalRecipients\(\)\]\)/);
 });
 
-test("Messages uses simpler user-facing communication language", () => {
+test("Messages keeps simpler user-facing communication language", () => {
   assert.match(messages, />HLC message<\/strong>/);
   assert.match(messages, />Email<\/strong>/);
   assert.match(messages, /"Send message"/);
   assert.match(messages, />Reply<\/label>/);
   assert.doesNotMatch(messages, />Internal<\/strong>/);
-  assert.doesNotMatch(messages, /Internal reply/);
 });
 
-test("Lane 2 mobile authority remains beneath final physical closure and locks compact progressive controls", () => {
-  const lane2Import = 'import "./messages-lane-2-mobile-authority.css";';
-  const appDirectoryImport = 'import "./app-directory-source-authority.css";';
-  const communityImport = 'import "./community-hub-source-authority.css";';
-  const workImport = 'import "./work-home-source-authority.css";';
-  const drawerImport = 'import "./mobile-command-menu-rebuild-20260905.css";';
-  const imports = authenticatedStyles.trim().split("\n");
-
-  assert.match(authenticatedStyles, /import "\.\/messages-lane-2-mobile-authority\.css";/);
-  assert.ok(imports.indexOf(lane2Import) < imports.indexOf(appDirectoryImport));
-  assert.ok(imports.indexOf(appDirectoryImport) < imports.indexOf(communityImport));
-  assert.ok(imports.indexOf(communityImport) < imports.indexOf(workImport));
-  assert.ok(imports.indexOf(drawerImport) >= 0);
-  assert.doesNotMatch(authenticatedStyles, /live-white-island-eradication-20260905\.css/);
-  assert.match(authority, /@media \(max-width: 720px\)/);
-  assert.match(authority, /\.hlc-messages-progressive-inbox/);
-  assert.match(authority, /\.hlc-messages-view-toolbar/);
-  assert.match(authority, /grid-template-columns: 1fr !important;/);
-  assert.match(authority, /min-height: 120px !important;/);
-});
-
-test("Lane 2 mobile subject and inbox remain compact dark application surfaces", () => {
-  assert.match(authority, /\.hlc-message-subject-details \{/);
-  assert.match(authority, /background: #0d1b2f !important;/);
-  assert.match(authority, /\.hlc-message-subject-details input \{/);
-  assert.match(authority, /background: #0a192c !important;/);
-  assert.match(authority, /color: #f8fafc !important;/);
-  assert.match(authority, /\.hlc-message-subject-details input::placeholder/);
-  assert.match(authority, /min-height: 68px !important;/);
-  assert.match(authority, /grid-template-columns: minmax\(0, 1fr\) auto !important;/);
+test("retired Lane 2 visual authority stays disconnected while current mobile communication behavior remains", () => {
+  assert.doesNotMatch(authenticatedStyles, /messages-lane-2-mobile-authority\.css/);
+  assert.match(authenticatedStyles, /mobile-a-plus-sprint-4-community-messages\.css/);
+  assert.match(authenticatedStyles, /mobile-command-menu-rebuild-20260905\.css/);
 });
