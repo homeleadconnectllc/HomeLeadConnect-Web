@@ -18,7 +18,6 @@ import "./global-smart-compose.css";
 import "./community-store.css";
 import "./community-match-deck.css";
 import "./workspace-route-cleanup.css";
-import "./desktop-shell-contract-v2.css";
 import "./mobile-agent-placement-contract.css";
 import "./lead-detail.css";
 import "./frontend-readiness-contract.css";
