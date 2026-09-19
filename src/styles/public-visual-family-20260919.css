@@ -511,15 +511,20 @@ html body #root :is(.hlc-public-shell,.hlc-utility-shell,.hlc-legal-shell,.hlc-p
   }
   html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-actions{
     max-width:none!important;
-    gap:6px!important;
+    gap:4px!important;
+    flex-wrap:nowrap!important;
   }
   html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-login{
-    display:none!important;
+    display:inline-flex!important;
+    min-height:44px!important;
+    padding:0 8px!important;
+    font-size:.72rem!important;
+    white-space:nowrap!important;
   }
   html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-cta{
     min-height:44px!important;
-    padding:0 10px!important;
-    font-size:.74rem!important;
+    padding:0 8px!important;
+    font-size:.72rem!important;
     white-space:nowrap!important;
   }
 }
