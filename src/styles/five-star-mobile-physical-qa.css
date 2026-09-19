@@ -157,14 +157,16 @@
   }
 
   #root .hlc-signed-in-shell .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger > img {
-    width: 52px !important;
-    min-width: 52px !important;
-    max-width: 52px !important;
-    height: 52px !important;
-    min-height: 52px !important;
-    max-height: 52px !important;
+    width: 42px !important;
+    min-width: 42px !important;
+    max-width: 42px !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    max-height: 42px !important;
     object-fit: cover !important;
+    border: 1px solid rgba(147, 197, 253, .5) !important;
     border-radius: 50% !important;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, .28) !important;
   }
 
   #root .hlc-signed-in-shell .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger > span {
