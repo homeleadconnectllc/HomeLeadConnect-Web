@@ -20,7 +20,6 @@ const analyticsHardening = readFileSync("src/styles/analytics-hardening.css", "u
 const dashboard = readFileSync("src/pages/dashboard/Dashboard.tsx", "utf8");
 const dashboardStructuralCss = readFileSync("src/styles/hlc-dashboard-structural-correction.css", "utf8");
 const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
-const workspaceNav = readFileSync("src/styles/workspace-nav.css", "utf8");
 const mobileAppShell = readFileSync("src/styles/mobile-app-shell.css", "utf8");
 const mobileShellClosure = readFileSync("src/styles/mobile-a-plus-sprint-2-shell-closure.css", "utf8");
 const desktopWorkspaceShell = readFileSync("src/styles/desktop-workspace-shell.css", "utf8");
