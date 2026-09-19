@@ -1,3 +1,4 @@
+import "../index.css";
 /* Legacy public-family presentation, loaded only outside the standalone public homepage critical path. */
 import "./front-door-system-pass-20260910.css";
 import "./front-door-refinement-20260910.css";
