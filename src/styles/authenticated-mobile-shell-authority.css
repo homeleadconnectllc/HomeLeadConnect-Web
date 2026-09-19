@@ -8,6 +8,7 @@
     z-index: 1000 !important;
     display: flex !important;
     width: 100% !important;
+    box-sizing: border-box !important;
     height: auto !important;
     min-height: 64px !important;
     max-height: 76px !important;
