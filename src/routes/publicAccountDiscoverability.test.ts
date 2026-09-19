@@ -22,7 +22,7 @@ test("public root uses the owner-approved single React presentation authority", 
   assert.doesNotMatch(main, /publicHomeMarkup|rootElement\.innerHTML/);
   assert.doesNotMatch(index, /hlc-v2-parser-seed|root\.innerHTML/);
   assert.match(index, /rel="preload" as="image" href="\/home-hero-authority-desktop-20260916\.webp"/);
-  assert.match(index, /rel="preload" as="image" href="\/hlc-homepage-hero-welcome-doorway-20260917\.webp"/);
+  assert.match(index, /rel="preload" as="image" href="\/home-hero-authority-mobile-20260916\.webp"/);
   for (const destination of ["/homeowners", "/professionals", "/partners", "/community"]) {
     assert.ok(home.includes(`href: "${destination}"`), `Missing approved homepage destination ${destination}`);
   }
