@@ -1,6 +1,5 @@
 import MobileNavigationDialogAccessibility from "../components/accessibility/MobileNavigationDialogAccessibility";
 import "./authenticated-entry";
-import "./desktop-agent-team-rail.css";
 import "./desktop-data-workspaces.css";
 import "./desktop-page-archetypes.css";
 import "./desktop-core-workspaces.css";
