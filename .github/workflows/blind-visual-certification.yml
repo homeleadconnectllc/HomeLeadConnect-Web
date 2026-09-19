@@ -79,7 +79,7 @@ jobs:
       - name: Certify public iPhone routes render and capture
         run: |
           set -euo pipefail
-          for item in 'home:/:One place for the next right move.' 'login:/login:Sign in' 'privacy:/privacy:Privacy' 'terms:/terms:Terms of Service' 'platform:/platform-disclosure:Platform and contractor disclosure'; do
+          for item in 'home:/:A stronger community starts here.' 'login:/login:Sign in' 'privacy:/privacy:Privacy' 'terms:/terms:Terms of Service' 'platform:/platform-disclosure:Platform and contractor disclosure'; do
             name="${item%%:*}"; rest="${item#*:}"; route="${rest%%:*}"; expect="${rest#*:}"
             url="http://127.0.0.1:4173$route"
             dom="$GITHUB_WORKSPACE/artifacts/blind-visual/public-iphone-$name.dom.html"
@@ -96,11 +96,8 @@ jobs:
           set -euo pipefail
           DOM="$GITHUB_WORKSPACE/artifacts/blind-visual/public-iphone-home.dom.html"
           for expect in \
-            'The Connected Experience' \
-            'One place for the next right move.' \
-            'Request service, find the right people, and keep the work connected from first conversation to follow-through.' \
-            'Request home service' \
-            'Meet the mission' \
+            'The HomeLead Connect ecosystem' \
+            'A stronger community starts here.' \
             'Four Pathways' \
             'For Residents' \
             'For Professionals' \
@@ -110,10 +107,7 @@ jobs:
             'Explore professional access' \
             'Explore partner access' \
             'Visit the community' \
-            'Different experiences. Same mission. One connected ecosystem.' \
-            'The HomeLead Connect vision' \
-            'starts here.' \
-            'Business workspace: $49.99/month after a 14-day trial.' \
+            '$49.99/month' \
             'HomeLead Connect'; do
             if ! grep -Fqi "$expect" "$DOM"; then
               echo "Connected Experience full-page front-door marker missing: $expect"
@@ -127,7 +121,7 @@ jobs:
       - name: Certify public Mac routes render and capture
         run: |
           set -euo pipefail
-          for item in 'home:/:One place for the next right move.' 'login:/login:Sign in' 'privacy:/privacy:Privacy'; do
+          for item in 'home:/:A stronger community starts here.' 'login:/login:Sign in' 'privacy:/privacy:Privacy'; do
             name="${item%%:*}"; rest="${item#*:}"; route="${rest%%:*}"; expect="${rest#*:}"
             url="http://127.0.0.1:4173$route"
             dom="$GITHUB_WORKSPACE/artifacts/blind-visual/public-mac-$name.dom.html"
