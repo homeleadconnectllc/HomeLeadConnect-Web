@@ -38,24 +38,17 @@ test("every supported clickable route remains explicitly inventoried", () => {
   }
 });
 
-test("whole-app visual reference authority is loaded in authenticated style order", () => {
-  assert.match(authenticatedEntry, /full-app-visual-reference-authority\.css/);
-  assert.match(authority, /Whole-app HLC visual reference authority/);
-  assert.match(authority, /no supported signed-in page should fall back to a white card wall/i);
-  assert.match(authority, /section:has\(> article\)/);
-  assert.match(authority, /input, select, textarea/);
-  assert.match(authority, /Mobile is a reorganized workspace/);
+test("whole-app routes no longer depend on the retired global visual reference authority", () => {
+  assert.doesNotMatch(authenticatedEntry, /full-app-visual-reference-authority\.css/);
+  assert.match(authenticatedEntry, /application-workspace-ui\.css/);
+  assert.match(authenticatedEntry, /signed-in-professional-system\.css/);
 });
 
-test("global visual storytelling is mounted once at the shared route shell", () => {
+test("shared route shell keeps route identity while root styling remains structural", () => {
   assert.match(appLayout, /RouteVisualBanner/);
   assert.match(appLayout, /<RouteVisualBanner\s*\/>/);
-  for (const source of [appShellEntry, authenticatedStyles]) {
-    assert.match(source, /hlc-global-visual-foundation\.css/);
-    assert.match(source, /hlc-route-visual-banners\.css/);
-    assert.match(source, /hlc-route-body-visuals\.css/);
-  }
-  assert.match(appShellEntry, /hlc-visual-storytelling\.css/);
+  assert.doesNotMatch(appShellEntry, /hlc-global-visual-foundation\.css|hlc-route-visual-banners\.css|hlc-route-body-visuals\.css|hlc-visual-storytelling\.css/);
+  assert.doesNotMatch(authenticatedStyles, /full-app-visual-reference-authority\.css/);
 });
 
 test("major product families receive distinct visual anchors instead of one cloned banner", () => {
