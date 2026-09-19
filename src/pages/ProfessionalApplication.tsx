@@ -4,8 +4,7 @@ import PublicSiteNav from "../components/PublicSiteNav";
 import { pageImage } from "../config/publicPageImagery";
 import { submitProfessionalApplication } from "../api/professionalApplications";
 import { errorMessage } from "../lib/errorMessage";
-import "../styles/public-premium.css";
-import "../styles/public-board-pages-20260912.css";
+import "../styles/public-owner-visual-final-20260918.css";
 
 const commonTrades = ["Handyman / home repair","HVAC / heating / cooling","Plumbing","Electrical","Roofing","Painting","Drywall / finishing","Cleaning / housekeeping","Moving / hauling","Landscaping / lawn care","Flooring","Carpentry","Siding / gutters","General contractor","Subcontractor"];
 export default function ProfessionalApplication(){
