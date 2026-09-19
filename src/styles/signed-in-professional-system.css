@@ -569,6 +569,11 @@
     background:var(--hlc-app-blue);
   }
 
+  /* Canonical mobile AI launcher presentation. Geometry remains structural. */
+  .hlc-signed-in-shell .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger{
+    border-radius:50%;
+  }
+
   .hlc-home-workspace{
     color:var(--hlc-app-text);
   }
