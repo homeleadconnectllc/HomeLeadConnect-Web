@@ -59,8 +59,8 @@ test("Community Premium canonical routes are declared while operational messages
 test("Community specialization mounts before final authority and v2 collapses safely on mobile", () => {
   const routeIndex = entry.indexOf("./community-application-workspace.css");
   assert.ok(routeIndex >= 0);
-  assert.doesNotMatch(entry, /application-workspace-ui\\.css/);
-  assert.match(authenticatedStyles, /signed-in-professional-system\\.css/);
+  assert.doesNotMatch(entry, /application-workspace-ui\.css/);
+  assert.match(authenticatedStyles, /signed-in-professional-system\.css/);
   assert.ok(authenticatedStyles.indexOf("signed-in-professional-system.css") > authenticatedStyles.indexOf("dashboard-context-hero.css"));
   assert.match(sourceAuthority, /\.hlc-community-v2-grid\{display:grid!important;grid-template-columns:/);
   assert.match(sourceAuthority, /@media\(max-width:760px\)/);
