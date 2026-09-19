@@ -3,7 +3,6 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const main = readFileSync(new URL("../main.tsx", import.meta.url), "utf8");
-const home = readFileSync(new URL("../pages/HomePage.tsx", import.meta.url), "utf8");
 const footer = readFileSync(new URL("../components/Footer.tsx", import.meta.url), "utf8");
 const standaloneHome = readFileSync(new URL("../standalonePublicHome.ts", import.meta.url), "utf8");
 const indexHtml = readFileSync(new URL("../../index.html", import.meta.url), "utf8");
