@@ -13,7 +13,7 @@ const workflowComms = readFileSync(new URL("../styles/desktop-workflow-communica
 const discoveryCommunity = readFileSync(new URL("../styles/desktop-discovery-community.css", import.meta.url), "utf8");
 const accountPortalsAgents = readFileSync(new URL("../styles/desktop-account-portals-agents.css", import.meta.url), "utf8");
 const finalPolish = readFileSync(new URL("../styles/authenticated-final-polish.css", import.meta.url), "utf8");
-const publicPolish = readFileSync(new URL("../styles/public-final-flat-authority.css", import.meta.url), "utf8");
+const publicVisualFamily = readFileSync(new URL("../styles/public-visual-family-20260919.css", import.meta.url), "utf8");
 const appLayout = readFileSync(new URL("./AppLayout.tsx", import.meta.url), "utf8");
 const app = readFileSync(new URL("../App.tsx", import.meta.url), "utf8");
 
@@ -99,12 +99,15 @@ test("signed-in routes share the final dark readable form and alert contract", (
   assert.match(finalPolish, /rgba\(248,\s*113,\s*113/);
 });
 
-test("public and trial surfaces load one final flat dark authority", () => {
-  assert.match(app, /public-final-flat-authority\.css/);
-  assert.match(publicPolish, /\.hlc-public-card[\s\S]*border-radius:\s*0\s*!important/);
-  assert.match(publicPolish, /\.hlc-auth-card[\s\S]*background:\s*transparent\s*!important/);
-  assert.match(publicPolish, /hlc-page-about[\s\S]*Kendrell_Locked_HLC\.png/);
-  assert.match(publicPolish, /input:not\(\[type="checkbox"\]/);
+test("public surfaces use the current owner-approved visual family without the retired flat authority", () => {
+  assert.doesNotMatch(app, /public-final-flat-authority\.css/);
+  assert.match(publicVisualFamily, /OWNER HOMEPAGE PARITY REPAIR/);
+  assert.match(publicVisualFamily, /data-pathway="residents"[\s\S]*#55e6b3/);
+  assert.match(publicVisualFamily, /data-pathway="professionals"[\s\S]*#39bfff/);
+  assert.match(publicVisualFamily, /data-pathway="partners"[\s\S]*#ffc84e/);
+  assert.match(publicVisualFamily, /data-pathway="community"[\s\S]*#c978ff/);
+  assert.match(publicVisualFamily, /hlc-kendrell-dedication/);
+  assert.doesNotMatch(publicVisualFamily, /page-residents-request-help-20260916\.webp/);
 });
 
 test("core desktop workspaces use continuous rows and flat command surfaces", () => {
