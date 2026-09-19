@@ -118,7 +118,7 @@ button{min-height:44px}
 #root .hlc-kendrell-dedication-portrait img{width:100%;height:100%;object-fit:cover}
 
 /* auth routes in the same light family */
-#root .hlc-auth-shell.hlc-auth-shell--flat{width:100%;min-height:100vh;margin:0;padding:0 0 56px;background:linear-gradient(180deg,#fff,#f5faff)}
+#root .hlc-auth-shell.hlc-auth-shell--flat{width:100%;min-height:100vh;margin:0;padding:0 0 56px;background:transparent}
 #root .hlc-auth-shell .hlc-auth-main{
   width:min(1180px,calc(100% - 40px));min-height:calc(100vh - 140px);margin:0 auto;
   padding:clamp(54px,7vw,92px) 0;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(360px,.82fr);
@@ -137,8 +137,8 @@ button{min-height:44px}
 #root .hlc-auth-shell .hlc-auth-intro-proof span{color:#526171!important;font-size:.88rem;font-weight:800}
 #root .hlc-auth-shell .hlc-auth-card{
   min-width:0;width:100%;margin:0;padding:clamp(28px,4vw,44px);text-align:left;
-  background:#fff!important;border:1px solid #d6e2ec!important;border-radius:18px!important;
-  box-shadow:0 18px 48px rgba(63,92,117,.10)!important;color:var(--hlc-public-ink)!important;
+  background:transparent!important;border:0!important;border-radius:0!important;
+  box-shadow:none!important;color:var(--hlc-public-ink)!important;
 }
 #root .hlc-auth-shell .hlc-auth-form-heading{margin-bottom:24px;text-align:left}
 #root .hlc-auth-shell .hlc-auth-form-heading h1{margin:0;font-family:var(--hlc-public-serif);font-size:clamp(2.35rem,4.6vw,4.4rem);line-height:.98;letter-spacing:-.04em}
@@ -173,7 +173,7 @@ html body #root#root .hlc-app-shell.hlc-public-shell.hlc-auth-front-door-surface
 }
 
 /* /app + /portal entry */
-#root .hlc-app-entry-state{min-height:100vh;background:linear-gradient(180deg,#fff,#eef7ff);color:var(--hlc-public-ink)}
+#root .hlc-app-entry-state{min-height:100vh;background:#14181d;color:#f4f7fa}
 #root .hlc-app-entry-state__shell{width:min(980px,calc(100% - 40px));min-height:calc(100vh - 84px);margin:0 auto;padding:64px 0;display:grid;place-items:center}
 #root .hlc-app-entry-state__panel{width:min(760px,100%);margin:0;padding:0;text-align:left;border:0;border-radius:0;background:transparent;box-shadow:none}
 #root .hlc-app-entry-state__kicker{margin:0 0 14px;color:var(--hlc-public-accent);font-size:.75rem;font-weight:900;letter-spacing:.18em;text-transform:uppercase}
@@ -184,17 +184,7 @@ html body #root#root .hlc-app-shell.hlc-public-shell.hlc-auth-front-door-surface
 @keyframes hlcEntrySpin{to{transform:rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){#root .hlc-app-entry-state__pulse{animation:none}}
 
-/* footer on visual-family routes */
-#root .hlc-public-footer-home-authority{
-  background:#fff!important;border-top:1px solid var(--hlc-public-line)!important;color:#657585!important;
-  box-shadow:none!important;
-}
-#root .hlc-public-footer-home-authority .hlc-public-footer-master-logo{
-  width:92px!important;height:92px!important;max-width:92px!important;max-height:92px!important;object-fit:contain!important;margin:0 auto 8px!important;
-}
-#root .hlc-public-footer-home-authority>strong{color:var(--hlc-public-ink)!important}
-#root .hlc-public-footer-home-authority>span,#root .hlc-public-footer-home-authority>small{color:#6b7a89!important}
-#root .hlc-public-footer-home-authority nav a{color:#315d86!important;-webkit-text-fill-color:#315d86!important}
+/* footer presentation is owned by the current public authority below */
 
 /* mobile */
 @media(max-width:800px){
@@ -228,23 +218,22 @@ html body #root#root .hlc-app-shell.hlc-public-shell.hlc-auth-front-door-surface
   #root .hlc-app-entry-state__shell{width:calc(100% - 28px);padding:42px 0}
 }
 
-/* OWNER HOMEPAGE PARITY REPAIR — 2026-09-19 */
-/* Owner-rejected light editorial divergence is superseded below.
-   Public pathway/about surfaces now inherit the homepage's cinematic navy authority.
-   Routes, content, forms, auth, portals, billing and backend behavior are unchanged. */
-
+/* OWNER CURRENT PUBLIC PRESENTATION — 2026-09-19
+   One flat editorial surface. No legacy navy wall, white footer slab, or card-shell navigation. */
 html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page){
-  --hlc-public-bg:#031426;
-  --hlc-public-surface:#05223e;
-  --hlc-public-surface-soft:#062b4e;
-  --hlc-public-ink:#f7fbff;
-  --hlc-public-muted:#c9d9e8;
-  --hlc-public-line:rgba(104,181,235,.26);
+  --hlc-public-bg:#14181d;
+  --hlc-public-surface:#1a2026;
+  --hlc-public-surface-soft:#20272e;
+  --hlc-public-ink:#f4f7fa;
+  --hlc-public-muted:#b8c1ca;
+  --hlc-public-line:rgba(214,224,234,.18);
+  min-height:100vh;
   background:
-    radial-gradient(circle at 86% 8%,rgba(0,137,255,.28),transparent 31%),
-    linear-gradient(135deg,#031426 0%,#05223e 58%,#06315a 100%)!important;
-  color:#f7fbff!important;
+    radial-gradient(circle at 82% 0%,color-mix(in srgb,var(--hlc-public-accent) 11%,transparent),transparent 32rem),
+    linear-gradient(180deg,#14181d 0%,#181d22 48%,#111419 100%)!important;
+  color:var(--hlc-public-ink)!important;
 }
+
 html body #root .hlc-pathway-page[data-pathway="residents"]{--hlc-public-accent:#55e6b3}
 html body #root .hlc-pathway-page[data-pathway="professionals"],
 html body #root .hlc-public-board-page[data-public-page="professionals"]{--hlc-public-accent:#39bfff}
@@ -252,174 +241,172 @@ html body #root .hlc-pathway-page[data-pathway="partners"]{--hlc-public-accent:#
 html body #root .hlc-pathway-page[data-pathway="community"]{--hlc-public-accent:#c978ff}
 
 html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
-:is(h1,h2,h3,strong){color:#fff!important;-webkit-text-fill-color:#fff!important}
+:is(h1,h2,h3,strong){color:#f7f9fb!important;-webkit-text-fill-color:#f7f9fb!important}
 html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
-:is(p,li,span,small){color:#c9d9e8!important}
-html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page)
-:is(.hlc-pathway-eyebrow,.hlc-public-kicker,.hlc-utility-kicker,.hlc-public-card-label,.hlc-public-offer-label,.hlc-public-story-eyebrow){
+:is(p,li,span,small){color:var(--hlc-public-muted)!important}
+html body #root :is(.hlc-pathway-eyebrow,.hlc-public-kicker,.hlc-utility-kicker,.hlc-public-card-label,.hlc-public-offer-label,.hlc-public-story-eyebrow){
   color:var(--hlc-public-accent)!important;-webkit-text-fill-color:var(--hlc-public-accent)!important
 }
 
-/* Match the standalone homepage navigation instead of switching to a light header. */
+/* Flat public navigation: logo + actions, no brand card. */
 html body #root header.hlc-board-nav.hlc-public-shared-nav{
   position:sticky;top:0;z-index:1400;
-  background:rgba(3,17,31,.94)!important;
-  border-bottom:1px solid color-mix(in srgb,var(--hlc-public-accent) 38%,transparent)!important;
-  box-shadow:none!important;
+  background:rgba(20,24,29,.96)!important;
+  border:0!important;border-bottom:1px solid var(--hlc-public-line)!important;
+  box-shadow:none!important
 }
 html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-nav-inner{
-  width:100%!important;max-width:none!important;min-height:84px!important;
-  padding:0 20px!important;background:#03111f!important;
+  width:100%!important;max-width:none!important;min-height:78px!important;
+  padding:0 18px!important;background:transparent!important
 }
 html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-brand{
-  background:transparent!important;color:#fff!important
+  display:inline-flex!important;align-items:center!important;gap:10px!important;
+  width:auto!important;min-width:0!important;padding:0!important;margin:0!important;
+  border:0!important;border-radius:0!important;background:transparent!important;
+  box-shadow:none!important;color:#f7f9fb!important
 }
+html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-brand-accessible-label{display:none!important}
 html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-navbar-master-logo{
-  width:72px!important;height:72px!important;object-fit:contain!important;border-radius:0!important;
-  background:transparent!important
+  width:62px!important;height:62px!important;object-fit:contain!important;border:0!important;
+  border-radius:50%!important;background:transparent!important;box-shadow:none!important
 }
 html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-public-menu-cue,
 html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-login{
-  color:#fff!important;-webkit-text-fill-color:#fff!important
+  color:#f7f9fb!important;-webkit-text-fill-color:#f7f9fb!important
 }
 html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-cta{
   color:var(--hlc-public-accent)!important;-webkit-text-fill-color:var(--hlc-public-accent)!important;
-  border:0!important
+  border:0!important;background:transparent!important
 }
+
+/* Full-width menu sheet: no rounded card container. */
 html body #root .hlc-public-menu-backdrop{
-  background:rgba(2,10,22,.82)!important;backdrop-filter:blur(12px)!important
+  background:rgba(9,11,14,.74)!important;backdrop-filter:blur(10px)!important;
+  padding:0!important
 }
 html body #root .hlc-public-menu-panel{
-  background:#06182a!important;border:1px solid rgba(128,178,225,.32)!important;
-  border-radius:28px!important;box-shadow:0 32px 90px rgba(0,0,0,.48)!important
+  width:100%!important;max-width:none!important;margin:0!important;
+  padding:28px 20px 34px!important;
+  background:#171c21!important;border:0!important;border-radius:0!important;box-shadow:none!important
 }
-html body #root .hlc-public-menu-primary a,
+html body #root .hlc-public-menu-primary{
+  width:min(1180px,100%)!important;margin:0 auto!important;
+  border-top:1px solid var(--hlc-public-line)!important
+}
+html body #root .hlc-public-menu-primary a{
+  border:0!important;border-bottom:1px solid var(--hlc-public-line)!important;
+  border-radius:0!important;background:transparent!important;box-shadow:none!important;
+  padding:14px 4px!important
+}
+html body #root .hlc-public-menu-secondary,
+html body #root .hlc-public-menu-account{
+  width:min(1180px,100%)!important;margin:18px auto 0!important;
+  gap:8px 18px!important
+}
 html body #root .hlc-public-menu-secondary a,
-html body #root .hlc-public-menu-account a{color:#e5edf6!important;-webkit-text-fill-color:#e5edf6!important}
+html body #root .hlc-public-menu-account a{
+  background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;
+  color:#dbe2e8!important;-webkit-text-fill-color:#dbe2e8!important
+}
 html body #root .hlc-public-menu-primary a[data-menu-tone="resident"]{color:#55e6b3!important;-webkit-text-fill-color:#55e6b3!important}
 html body #root .hlc-public-menu-primary a[data-menu-tone="professional"]{color:#39bfff!important;-webkit-text-fill-color:#39bfff!important}
 html body #root .hlc-public-menu-primary a[data-menu-tone="partner"]{color:#ffc84e!important;-webkit-text-fill-color:#ffc84e!important}
 html body #root .hlc-public-menu-primary a[data-menu-tone="community"]{color:#c978ff!important;-webkit-text-fill-color:#c978ff!important}
 html body #root .hlc-public-menu-primary a[aria-current="page"]{
-  border-left:3px solid currentColor!important;padding-left:14px!important
+  border-left:3px solid currentColor!important;padding-left:12px!important
 }
 
-/* Cinematic page hero: same depth, overlay and typography rhythm as Home. */
+/* Editorial hero without the old navy wall. */
 html body #root :is(.hlc-pathway-hero,.hlc-public-board-page .hlc-public-hero,.hlc-utility-page .hlc-public-hero,.hlc-legal-hero){
-  min-height:clamp(500px,68vh,720px)!important;
-  background-color:#05213a!important;background-size:cover!important;background-position:center 38%!important;
+  min-height:clamp(430px,58vh,640px)!important;
+  background-color:transparent!important;background-size:cover!important;background-position:center!important
 }
 html body #root :is(.hlc-pathway-hero,.hlc-public-board-page .hlc-public-hero,.hlc-utility-page .hlc-public-hero,.hlc-legal-hero)::before{
-  background:
-    linear-gradient(90deg,rgba(3,17,31,.97) 0%,rgba(3,17,31,.78) 35%,rgba(3,17,31,.18) 67%,rgba(3,17,31,.48) 100%),
-    linear-gradient(180deg,transparent 62%,#05213a 100%)!important
+  background:linear-gradient(180deg,rgba(20,24,29,.08),rgba(20,24,29,.38) 48%,rgba(20,24,29,.88) 100%)!important
 }
 html body #root :is(.hlc-pathway-hero-copy,.hlc-public-board-page .hlc-public-hero>div,.hlc-utility-page .hlc-public-hero>div,.hlc-legal-hero-grid){
-  width:min(1420px,calc(100% - 80px))!important;padding:clamp(74px,9vw,118px) 0!important
+  width:min(1320px,calc(100% - 56px))!important;padding:clamp(62px,8vw,104px) 0!important
 }
 html body #root :is(.hlc-pathway-hero-copy,.hlc-public-board-page .hlc-public-hero>div,.hlc-utility-page .hlc-public-hero>div,.hlc-legal-hero-grid) h1{
-  max-width:720px!important;color:#fff!important;-webkit-text-fill-color:#fff!important;
-  font-size:clamp(3.4rem,6vw,5.6rem)!important;line-height:.96!important
+  max-width:760px!important;font-size:clamp(3rem,6vw,5.2rem)!important;line-height:.98!important
 }
 html body #root :is(.hlc-pathway-lead,.hlc-public-intro-copy,.hlc-utility-lead,.hlc-legal-lead){
-  max-width:680px!important;color:#eef6ff!important;-webkit-text-fill-color:#eef6ff!important
+  max-width:720px!important;color:#dce3e9!important;-webkit-text-fill-color:#dce3e9!important
 }
 
-/* Pathway identity reads through accent lines, headings and actions without becoming four unrelated sites. */
+/* Sections are divider-led, never stacked cards. */
+html body #root .hlc-pathway-section,
+html body #root .hlc-public-grid,
+html body #root .hlc-public-offer,
+html body #root .hlc-board-access-grid{
+  background:transparent!important;box-shadow:none!important
+}
 html body #root .hlc-pathway-section{
-  width:min(1380px,calc(100% - 60px))!important;padding:clamp(58px,8vw,92px) 0!important;
-  border-top:1px solid color-mix(in srgb,var(--hlc-public-accent) 32%,transparent)!important;
-  background:transparent!important
+  width:min(1320px,calc(100% - 56px))!important;padding:clamp(54px,7vw,84px) 0!important;
+  border-top:1px solid color-mix(in srgb,var(--hlc-public-accent) 28%,transparent)!important
 }
 html body #root .hlc-pathway-section:nth-of-type(even),
 html body #root .hlc-public-grid:nth-of-type(even){
-  width:100%!important;max-width:none!important;
-  padding-left:max(30px,calc((100% - 1380px)/2))!important;
-  padding-right:max(30px,calc((100% - 1380px)/2))!important;
-  background:linear-gradient(90deg,rgba(2,14,27,.42),rgba(8,43,76,.54),rgba(2,14,27,.42))!important
+  background:transparent!important
 }
 html body #root :is(.hlc-public-card,.hlc-board-access-card,.hlc-public-offer,.hlc-pathway-card,.hlc-pathway-final,.hlc-pathway-reassurance,.hlc-community-feature-card,.hlc-community-post,.hlc-community-sidebar,.hlc-community-principles article,.hlc-partner-trust-grid article,.hlc-professional-timeline li,.hlc-legal-card,.hlc-public-story-card,.hlc-public-sidecard){
-  background:transparent!important;border-color:color-mix(in srgb,var(--hlc-public-accent) 30%,transparent)!important;
+  background:transparent!important;border:0!important;border-bottom:1px solid color-mix(in srgb,var(--hlc-public-accent) 24%,transparent)!important;
+  border-radius:0!important;box-shadow:none!important
+}
+
+/* Forms: no white card fields. */
+html body #root :is(.hlc-public-form,.hlc-request-form-card,.hlc-auth-card){
+  background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important
+}
+html body #root :is(.hlc-public-form,.hlc-request-form-card,.hlc-auth-card) :is(input,textarea,select){
+  background:rgba(255,255,255,.055)!important;color:#f7f9fb!important;-webkit-text-fill-color:#f7f9fb!important;
+  border:0!important;border-bottom:1px solid rgba(214,224,234,.32)!important;border-radius:0!important;
   box-shadow:none!important
 }
-html body #root :is(.hlc-public-card,.hlc-pathway-card,.hlc-legal-card,.hlc-public-story-card){
-  border-bottom:1px solid color-mix(in srgb,var(--hlc-public-accent) 28%,transparent)!important
+html body #root :is(.hlc-public-form,.hlc-request-form-card,.hlc-auth-card) label{
+  color:#e9eef3!important;-webkit-text-fill-color:#e9eef3!important
 }
-html body #root .hlc-pathway-section-heading h2,
-html body #root :is(.hlc-public-card,.hlc-pathway-card,.hlc-legal-card,.hlc-public-story-card,.hlc-public-offer) h2{
-  color:#fff!important;-webkit-text-fill-color:#fff!important
-}
-html body #root .hlc-pathway-section-heading>span,
-html body #root :is(.hlc-public-card,.hlc-pathway-card,.hlc-legal-card,.hlc-public-story-card,.hlc-public-offer) p{
-  color:#c9d9e8!important;-webkit-text-fill-color:#c9d9e8!important
-}
-html body #root .hlc-professional-timeline li>span,
-html body #root .hlc-partner-flow span{color:var(--hlc-public-accent)!important;-webkit-text-fill-color:var(--hlc-public-accent)!important}
 
-/* About / Kendrell stays in the same family and keeps the dedication visible. */
+/* About / Kendrell remains visible, flat and integrated. */
 html body #root .hlc-public-board-page[data-public-page="about"] .hlc-kendrell-dedication{
-  width:min(1180px,calc(100% - 60px))!important;margin:0 auto!important;
-  padding:clamp(58px,8vw,92px) 0!important;
-  border-top:1px solid rgba(57,191,255,.34)!important;border-bottom:1px solid rgba(57,191,255,.2)!important
+  width:min(1180px,calc(100% - 56px))!important;margin:0 auto!important;
+  padding:clamp(54px,7vw,84px) 0!important;
+  border-top:1px solid rgba(57,191,255,.28)!important;border-bottom:1px solid rgba(57,191,255,.18)!important
 }
 html body #root .hlc-kendrell-dedication-portrait{
-  width:168px!important;height:168px!important;border:2px solid #39bfff!important;
-  box-shadow:0 0 34px rgba(57,191,255,.24)!important;background:transparent!important
+  width:168px!important;height:168px!important;border:1px solid rgba(57,191,255,.5)!important;
+  box-shadow:none!important;background:transparent!important
 }
 
-/* Buttons echo Home: vivid accent, clean geometry, no light-page drift. */
-html body #root :is(.hlc-pathway-primary,.hlc-public-primary,.hlc-utility-primary,.hlc-legal-primary){
-  background:var(--hlc-public-accent)!important;border-color:var(--hlc-public-accent)!important;
-  color:#03111f!important;-webkit-text-fill-color:#03111f!important
-}
-html body #root :is(.hlc-pathway-secondary,.hlc-pathway-text-link,.hlc-public-secondary,.hlc-public-link,.hlc-utility-secondary,.hlc-legal-secondary,.hlc-public-story-actions a){
-  color:var(--hlc-public-accent)!important;-webkit-text-fill-color:var(--hlc-public-accent)!important
-}
-
-/* Forms remain functional but visually belong to the same public family. */
-html body #root .hlc-public-form :is(input,textarea,select){
-  background:rgba(255,255,255,.97)!important;color:#172033!important;border-color:rgba(104,181,235,.45)!important
-}
-html body #root .hlc-public-form label{color:#eef6ff!important}
-
-/* Shared non-home footer: centered master logo + one consistent treatment. */
-html body #root .hlc-public-front-door-surface .hlc-public-footer-home-authority{
+/* Footer stays in the same page field: no white slab. */
+html body #root .hlc-public-front-door-surface .hlc-public-footer-home-authority,
+#root .hlc-public-footer-home-authority{
   box-sizing:border-box!important;width:100%!important;margin:0!important;padding:34px 24px 38px!important;
   display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:12px!important;
-  background:#fff!important;color:#657585!important;border-top:1px solid #d8e4ef!important;text-align:center!important
+  background:#111419!important;color:#c0c8d0!important;border:0!important;border-top:1px solid var(--hlc-public-line)!important;
+  border-radius:0!important;box-shadow:none!important;text-align:center!important
 }
-html body #root .hlc-public-front-door-surface .hlc-public-footer-home-authority .hlc-public-footer-master-logo{
-  display:block!important;visibility:visible!important;width:92px!important;height:92px!important;
+html body #root .hlc-public-footer-home-authority .hlc-public-footer-master-logo{
+  display:block!important;visibility:visible!important;width:86px!important;height:86px!important;
   margin:0 auto 8px!important;object-fit:contain!important;background:transparent!important
 }
-html body #root .hlc-public-front-door-surface .hlc-public-footer-home-authority>strong{color:#172033!important;-webkit-text-fill-color:#172033!important}
-html body #root .hlc-public-front-door-surface .hlc-public-footer-home-authority>span,
-html body #root .hlc-public-front-door-surface .hlc-public-footer-home-authority>small{color:#657585!important;-webkit-text-fill-color:#657585!important}
-
-@media(max-width:760px){
-  html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-nav-inner{min-height:84px!important;padding:0 12px!important}
-  html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-navbar-master-logo{width:68px!important;height:68px!important}
-  html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-public-menu-cue{display:none!important}
-  html body #root :is(.hlc-pathway-hero,.hlc-public-board-page .hlc-public-hero,.hlc-utility-page .hlc-public-hero,.hlc-legal-hero){
-    min-height:440px!important;background-position:center top!important
-  }
-  html body #root :is(.hlc-pathway-hero,.hlc-public-board-page .hlc-public-hero,.hlc-utility-page .hlc-public-hero,.hlc-legal-hero)::before{
-    background:linear-gradient(180deg,rgba(3,17,31,.08) 0%,rgba(3,17,31,.18) 30%,rgba(3,17,31,.9) 68%,#031522 100%)!important
-  }
-  html body #root :is(.hlc-pathway-hero-copy,.hlc-public-board-page .hlc-public-hero>div,.hlc-utility-page .hlc-public-hero>div,.hlc-legal-hero-grid){
-    width:calc(100% - 34px)!important;padding:210px 0 42px!important
-  }
-  html body #root :is(.hlc-pathway-hero-copy,.hlc-public-board-page .hlc-public-hero>div,.hlc-utility-page .hlc-public-hero>div,.hlc-legal-hero-grid) h1{
-    max-width:10ch!important;font-size:clamp(2.75rem,12vw,4rem)!important
-  }
-  html body #root .hlc-pathway-section,
-  html body #root .hlc-public-grid,
-  html body #root .hlc-public-offer{width:calc(100% - 28px)!important;padding-left:0!important;padding-right:0!important}
-  html body #root .hlc-pathway-section:nth-of-type(even),
-  html body #root .hlc-public-grid:nth-of-type(even){width:100%!important;padding-left:14px!important;padding-right:14px!important}
+html body #root .hlc-public-footer-home-authority>strong{color:#f7f9fb!important;-webkit-text-fill-color:#f7f9fb!important}
+html body #root .hlc-public-footer-home-authority>span,
+html body #root .hlc-public-footer-home-authority>small{color:#9faab4!important;-webkit-text-fill-color:#9faab4!important}
+html body #root .hlc-public-footer-home-authority nav a{
+  color:#c9d4df!important;-webkit-text-fill-color:#c9d4df!important;background:transparent!important
 }
 
-
+@media(max-width:760px){
+  html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-nav-inner{min-height:72px!important;padding:0 12px!important}
+  html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-navbar-master-logo{width:56px!important;height:56px!important}
+  html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-public-menu-cue{display:inline-flex!important}
+  html body #root :is(.hlc-pathway-hero,.hlc-public-board-page .hlc-public-hero,.hlc-utility-page .hlc-public-hero,.hlc-legal-hero){min-height:380px!important}
+  html body #root :is(.hlc-pathway-hero-copy,.hlc-public-board-page .hlc-public-hero>div,.hlc-utility-page .hlc-public-hero>div,.hlc-legal-hero-grid){
+    width:calc(100% - 32px)!important;padding:120px 0 38px!important
+  }
+  html body #root .hlc-pathway-section{width:calc(100% - 32px)!important}
+}
 
 /* CURRENT PUBLIC STRUCTURAL SAFEGUARDS — no legacy paint */
 /* These rules preserve usability/containment only. They do not restore retired backgrounds or layout themes. */
