@@ -4,6 +4,7 @@ import { acceptWorkspaceInvitation, type AcceptedWorkspaceInvitation } from "../
 import { useAuth } from "../../hooks/useAuth";
 import { errorMessage } from "../../lib/errorMessage";
 import PublicSiteNav from "../../components/PublicSiteNav";
+import "../../styles/public-visual-family-20260919.css";
 
 export default function AcceptWorkspaceInvitation() {
   const { session, loading } = useAuth();
