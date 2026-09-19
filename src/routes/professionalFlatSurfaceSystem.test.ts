@@ -9,17 +9,16 @@ const legalSystem = utilitySystem;
 const contactPage = readFileSync("src/pages/ContactPage.tsx", "utf8");
 const accessibilityPage = readFileSync("src/pages/Accessibility.tsx", "utf8");
 
-test("professional flat surface system loads beneath structural contrast and UX IA authorities", () => {
+test("professional flat surface system loads with structural workspace UI and without retired global repaint authorities", () => {
   const lines = authenticatedEntry.trim().split("\n");
   const flatIndex = lines.indexOf('import "./professional-flat-surface-system.css";');
   const structuralIndex = lines.indexOf('import "./application-workspace-ui.css";');
-  const contrastIndex = lines.indexOf('import "./launch-contrast-readability.css";');
-  const uxIaIndex = lines.indexOf('import "./ux-ia-village-authority.css";');
   assert.ok(flatIndex >= 0);
+  assert.ok(structuralIndex >= 0);
   assert.ok(flatIndex < structuralIndex);
-  assert.ok(structuralIndex < contrastIndex);
-  assert.ok(contrastIndex < uxIaIndex);
-  assert.equal(lines.at(-1), 'import "./ux-ia-village-authority.css";');
+  assert.doesNotMatch(authenticatedEntry, /launch-contrast-readability\.css/);
+  assert.doesNotMatch(authenticatedEntry, /ux-ia-village-authority\.css/);
+  assert.doesNotMatch(authenticatedEntry, /design-system-foundation\.css/);
 });
 
 test("approved workspace direction removes floating card chrome without removing HLC role accents", () => {
@@ -40,15 +39,15 @@ test("dense lists and tables use separators instead of nested bright boxes", () 
   assert.match(surfaceSystem, /thead[\s\S]*rgba\(47, 128, 255, \.055\)/i);
 });
 
-test("public utility pages use the canonical light public visual family without legacy dark shells", () => {
-  assert.match(utilitySystem, /--hlc-public-bg:\s*#f7fbff/i);
+test("public utility pages use the canonical current public visual family without retired light-card shells", () => {
+  assert.match(utilitySystem, /--hlc-public-bg:\s*#14181d/i);
   assert.match(utilitySystem, /\.hlc-public-card[\s\S]*background:transparent\s*!important/i);
   assert.match(contactPage, /public-visual-family-20260919\.css/);
   assert.match(accessibilityPage, /public-visual-family-20260919\.css/);
   assert.doesNotMatch(contactPage, /public-utility-flat\.css|public-board-pages-20260912\.css/);
   assert.doesNotMatch(accessibilityPage, /public-utility-flat\.css|public-board-pages-20260912\.css/);
   assert.doesNotMatch(contactPage, /cardStyle|contactPanelStyle|closingStyle|boxShadow:/);
-  assert.doesNotMatch(utilitySystem, /--hlc-public-bg:\\s*#071a2d|--hlc-public-bg-2:\\s*#0b2845|background:\\s*#03111f/i);
+  assert.doesNotMatch(utilitySystem, /--hlc-public-bg:\\s*#f7fbff|background:\\s*#fff(?:fff)?\b/i);
 });
 
 test("legal privacy and terms remain divider-led within the canonical public visual family", () => {
