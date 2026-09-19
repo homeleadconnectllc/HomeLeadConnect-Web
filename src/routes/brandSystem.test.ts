@@ -18,7 +18,7 @@ const serviceWorker = readFileSync("public/sw.js", "utf8");
 const transparentLogo = readFileSync("public/hlc-logo-transparent.png");
 
 const canonicalLogoPath = "/hlc-logo-transparent.png";
-const responsiveNavLogoPath = "/icon-512.png";
+const responsiveNavLogoPath = "/hlc-logo-ui.png";
 const browserBrandSurfaces = [navbar, htmlEntry, manifest, serviceWorker];
 const forbiddenLegacyLogoReferences = [
   "/favicon.svg",
