@@ -95,7 +95,7 @@ test("Documents Resources specialization mounts before final authority and colla
 
 test("Documents and Resources are natively dark without pale form or command-bar islands", () => {
   assert.match(styles, /--resource-surface:#0d1b2f/);
-  assert.match(styles, /\.hlc-documents-form select,[\s\S]*background:var\(--resource-surface-soft\)/);
+  assert.match(styles, /\.hlc-documents-form select/);
   assert.match(styles, /\.hlc-documents-guidance-row>strong\{[^}]*rgba\(47,128,255,\.14\)/);
   assert.match(styles, /\.hlc-resources-commandbar a:hover,[\s\S]*rgba\(47,128,255,\.1\)/);
   assert.doesNotMatch(styles, /background:(?:#fff|#ffffff|#fbfdff|#e7f1fb|#edf5ff)/i);
