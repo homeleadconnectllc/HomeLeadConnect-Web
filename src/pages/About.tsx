@@ -11,7 +11,7 @@ const cards = [
 
 export default function AboutPage() {
   const visual = pageImage("about");
-  return <main className="hlc-public-page hlc-public-board-page hlc-public-owner-redesign" data-public-page="about">
+  return <main className="hlc-public-page hlc-public-board-page" data-public-page="about">
     <PublicSiteNav />
     <div className="hlc-public-shell hlc-public-shell--visual">
       <header className="hlc-public-hero"><div><p className="hlc-public-kicker">About HomeLead Connect</p><h1>Built to connect home help with real opportunities.</h1><p className="hlc-public-intro-copy">HomeLead Connect is a connected home-services platform for residents, professionals, service businesses, partners, and the teams coordinating the work between them.</p><div className="hlc-public-actions"><Link className="hlc-public-primary" to="/request-service">Request service</Link><Link className="hlc-public-secondary" to="/how-it-works">How HomeLead Connect works</Link></div></div></header>
