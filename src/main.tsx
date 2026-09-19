@@ -23,28 +23,8 @@ const isPublicHome = window.location.pathname === "/" && window.location.hostnam
 const rootElement = document.getElementById("root")!;
 
 if (isPublicHome) {
-  void Promise.all([
-    import("react"),
-    import("react-dom/client"),
-    import("./pages/HomePage.tsx"),
-    import("./components/Footer.tsx"),
-  ]).then(([reactModule, domModule, homeModule, footerModule]) => {
-    const { StrictMode, createElement, Fragment } = reactModule;
-    const { createRoot } = domModule;
-    const HomePage = homeModule.default;
-    const Footer = footerModule.default;
-    createRoot(rootElement).render(
-      createElement(
-        StrictMode,
-        null,
-        createElement(
-          Fragment,
-          null,
-          createElement(HomePage),
-          createElement(Footer, { showLogo: false }),
-        ),
-      ),
-    );
+  void import("./standalonePublicHome").then(({ mountStandalonePublicHome }) => {
+    mountStandalonePublicHome(rootElement);
   });
 } else {
   void import("./styles/public-owner-visual-authority-20260918.css");
