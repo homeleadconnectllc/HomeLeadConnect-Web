@@ -4,8 +4,8 @@ import test from "node:test";
 
 const authenticatedEntry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
 const surfaceSystem = readFileSync("src/styles/professional-flat-surface-system.css", "utf8");
-const utilitySystem = readFileSync("src/styles/public-utility-flat.css", "utf8");
-const legalSystem = readFileSync("src/styles/legal.css", "utf8");
+const utilitySystem = readFileSync("src/styles/public-visual-family-20260919.css", "utf8");
+const legalSystem = utilitySystem;
 const contactPage = readFileSync("src/pages/ContactPage.tsx", "utf8");
 const accessibilityPage = readFileSync("src/pages/Accessibility.tsx", "utf8");
 
@@ -40,18 +40,18 @@ test("dense lists and tables use separators instead of nested bright boxes", () 
   assert.match(surfaceSystem, /thead[\s\S]*rgba\(47, 128, 255, \.055\)/i);
 });
 
-test("public utility pages use the same flat navy HLC language instead of a bright card wall", () => {
-  assert.match(utilitySystem, /\.hlc-utility-page\{[^}]*#081426/i);
-  assert.match(utilitySystem, /\.hlc-utility-section\{[^}]*border-bottom:[^}]*background:transparent[^}]*border-radius:0[^}]*box-shadow:none/i);
-  assert.match(utilitySystem, /\.hlc-utility-path\{[^}]*border-bottom:/i);
-  assert.match(contactPage, /public-utility-flat\.css/);
-  assert.match(accessibilityPage, /public-utility-flat\.css/);
+test("public utility pages use the canonical public visual family instead of a bright card wall", () => {
+  assert.match(utilitySystem, /--hlc-public-bg:\s*#071a2d/i);
+  assert.match(utilitySystem, /\.hlc-public-card[\s\S]*background:transparent\s*!important/i);
+  assert.match(contactPage, /public-visual-family-20260919\.css/);
+  assert.match(accessibilityPage, /public-visual-family-20260919\.css/);
+  assert.doesNotMatch(contactPage, /public-utility-flat\.css|public-board-pages-20260912\.css/);
+  assert.doesNotMatch(accessibilityPage, /public-utility-flat\.css|public-board-pages-20260912\.css/);
   assert.doesNotMatch(contactPage, /cardStyle|contactPanelStyle|closingStyle|boxShadow:/);
-  assert.doesNotMatch(accessibilityPage, /hlc-public-card/);
 });
 
-test("legal privacy and terms are professional divider sections rather than stacked rounded cards", () => {
-  assert.match(legalSystem, /\.hlc-legal-card\{[^}]*border-bottom:[^}]*border-radius:0[^}]*background:transparent[^}]*box-shadow:none/i);
-  assert.match(legalSystem, /\.hlc-legal-hero\{[^}]*border-radius:0[^}]*background:transparent[^}]*box-shadow:none/i);
+test("legal privacy and terms remain divider-led within the canonical public visual family", () => {
+  assert.match(legalSystem, /\.hlc-legal-card[^{]*\{[^}]*border-bottom:\s*1px solid var\(--hlc-public-line\)\s*!important/i);
+  assert.match(legalSystem, /\.hlc-legal-card\{max-width:900px!important;text-align:left!important\}/i);
   assert.doesNotMatch(legalSystem, /\.hlc-legal-card\{[^}]*linear-gradient/i);
 });
