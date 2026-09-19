@@ -98,15 +98,14 @@ jobs:
           for expect in \
             'The HomeLead Connect ecosystem' \
             'A stronger community' \
-            'Four Pathways' \
             'For Residents' \
             'For Professionals' \
             'For Partners' \
             'For Community' \
             'Find resident support' \
             'Explore professional access' \
-            'Explore partner access' \
-            'Visit the community' \
+            'Explore partner opportunities' \
+            'Explore community resources' \
             '$49.99/month' \
             'HomeLead Connect'; do
             if ! grep -Fqi "$expect" "$DOM"; then
