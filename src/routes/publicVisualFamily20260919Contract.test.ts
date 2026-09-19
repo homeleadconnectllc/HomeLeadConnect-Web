@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const router = readFileSync("src/routes/AppRouter.tsx","utf8");
+const publicNav = readFileSync("src/components/PublicSiteNav.tsx","utf8");
 const files = {
   publicInfo: readFileSync("src/pages/PublicInfo.tsx","utf8"),
   publicJourney: readFileSync("src/pages/PublicJourney.tsx","utf8"),
@@ -82,4 +83,13 @@ test("shared route components cover the full public family", () => {
   assert.ok(files.pathway.includes('pathway === "professionals"'));
   assert.ok(files.pathway.includes('pathway === "partners"'));
   assert.ok(files.pathway.includes('pathway === "community"'));
+});
+
+
+test("public visual runtime is isolated from auth and app routes", () => {
+  assert.match(publicNav, /PUBLIC_VISUAL_RUNTIME_PATHS/);
+  for (const route of ["/login", "/register", "/forgot-password", "/reset-password", "/app", "/portal", "/portal/accept", "/team/accept"]) {
+    assert.ok(!publicNav.includes(`  "${route}",`), `Auth/app route ${route} must not enter the public visual runtime`);
+  }
+  assert.match(publicNav, /if \(!PUBLIC_VISUAL_RUNTIME_PATHS\.has\(pathname\)\) return;/);
 });
