@@ -293,7 +293,7 @@ export default function PublicSiteNav() {
     };
   }, [pathname]);
 
-  return <header ref={navRef} className="hlc-board-nav hlc-public-shared-nav" data-public-tone={tone}><div className="hlc-board-nav-inner">
+  return <header ref={navRef} className="hlc-board-nav hlc-public-shared-nav" data-hlc-public-navigation="true" data-public-tone={tone}><div className="hlc-board-nav-inner">
     <a className="hlc-board-brand" href={publicUrl("/")} aria-label="HomeLead Connect home"><img className="hlc-navbar-master-logo" data-hlc-master-logo="true" src={NAV_LOGO} alt="" aria-hidden="true" /><span className="hlc-brand-accessible-label">HomeLead Connect</span></a>
     <nav className="hlc-board-links" aria-label="Primary navigation">{navLinks.map(([label, href]) => <a key={href} href={href}>{label}</a>)}</nav>
     <div className="hlc-board-actions"><a className="hlc-board-login" href={appUrl("/login")}>Sign In</a><a className="hlc-board-cta" href={appUrl("/register")}>Get Started</a><a className="hlc-mobile-sign-in-link" href={appUrl("/login")}>Sign In</a><details className="hlc-mobile-icon-nav-v5" data-mobile-nav-version="5"><summary className="hlc-mobile-icon-nav-v5__trigger">Menu</summary><nav className="hlc-mobile-icon-nav-v5__panel" aria-label="Mobile navigation">{mobileMenuLinks.map(({ label, href, Icon, tone }) => <a className={`hlc-mobile-icon-nav-v5__item hlc-mobile-icon-nav-v5__item--${tone}`} key={href} href={href}><span className="hlc-mobile-icon-nav-v5__icon" aria-hidden="true"><Icon size={24} strokeWidth={2.2} /></span><span className="hlc-mobile-icon-nav-v5__label">{label}</span></a>)}</nav></details></div>
