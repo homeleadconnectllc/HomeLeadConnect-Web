@@ -68,67 +68,14 @@
   background:transparent!important;
 }
 
-/* AUTH — force the actual AuthShell and the surrounding public shell into one dark account surface. */
-html:has(#root .hlc-auth-shell),
-body:has(#root .hlc-auth-shell),
-#root:has(.hlc-auth-shell),
-#root .hlc-public-shell:has(.hlc-auth-shell),
-#root .hlc-public-shell:has(.hlc-auth-shell)>.hlc-route-content,
-#root .hlc-public-shell:has(.hlc-auth-shell) footer{
-  background:var(--hlc-runtime-bg)!important;
-  background-color:var(--hlc-runtime-bg)!important;
-  background-image:none!important;
-  color:var(--hlc-runtime-text)!important;
-}
+/* AUTH — structural compatibility only.
+ * Current public visual family owns AuthShell presentation.
+ */
 #root .hlc-public-shell:has(.hlc-auth-shell) .hlc-route-visual-banner{display:none!important}
 #root .hlc-auth-shell,
 #root .hlc-auth-shell *{
-  box-shadow:none!important;
-}
-#root .hlc-auth-shell,
-#root .hlc-auth-shell :is(.hlc-auth-brand,.hlc-auth-card,.hlc-auth-form-heading,.hlc-auth-method-tabs,.hlc-auth-card-footer,.hlc-auth-divider,.hlc-auth-provider-grid){
-  background:var(--hlc-runtime-bg)!important;
-  background-color:var(--hlc-runtime-bg)!important;
-  background-image:none!important;
-  border-color:var(--hlc-runtime-line)!important;
-  color:var(--hlc-runtime-text)!important;
-}
-#root .hlc-auth-shell :is(h1,h2,h3,label,strong,.hlc-auth-card-brand,.hlc-auth-eyebrow){
-  color:var(--hlc-runtime-text)!important;
-  -webkit-text-fill-color:var(--hlc-runtime-text)!important;
-}
-#root .hlc-auth-shell :is(p,small,span){
-  color:var(--hlc-runtime-muted)!important;
-  -webkit-text-fill-color:var(--hlc-runtime-muted)!important;
-}
-#root .hlc-auth-shell a{color:#93c5fd!important;-webkit-text-fill-color:#93c5fd!important}
-#root .hlc-auth-shell .hlc-auth-form :is(input,select,textarea){
-  background:var(--hlc-runtime-surface)!important;
-  background-color:var(--hlc-runtime-surface)!important;
-  background-image:none!important;
-  color:#fff!important;
-  -webkit-text-fill-color:#fff!important;
-  border:1px solid rgba(199,210,227,.28)!important;
-  border-radius:8px!important;
-}
-#root .hlc-auth-shell .hlc-auth-form input:-webkit-autofill,
-#root .hlc-auth-shell .hlc-auth-form input:-webkit-autofill:hover,
-#root .hlc-auth-shell .hlc-auth-form input:-webkit-autofill:focus{
-  -webkit-text-fill-color:#fff!important;
-  -webkit-box-shadow:0 0 0 1000px var(--hlc-runtime-surface) inset!important;
-  box-shadow:0 0 0 1000px var(--hlc-runtime-surface) inset!important;
-  caret-color:#fff!important;
-}
-#root .hlc-auth-shell .hlc-auth-method-tabs button{
-  background:var(--hlc-runtime-surface)!important;
-  background-image:none!important;
-  border:1px solid var(--hlc-runtime-line)!important;
-  color:#dbeafe!important;
-  -webkit-text-fill-color:#dbeafe!important;
-}
-#root .hlc-auth-shell .hlc-auth-method-tabs button[aria-pressed="true"]{background:#16345a!important;color:#fff!important;-webkit-text-fill-color:#fff!important}
-#root .hlc-auth-shell .hlc-auth-form>button[type="submit"]{
-  background:#2563eb!important;background-image:none!important;border-color:#2563eb!important;color:#fff!important;-webkit-text-fill-color:#fff!important;
+  box-sizing:border-box!important;
+  min-width:0!important;
 }
 
 /* AUTHENTICATED ROOT — remove the purple page wash at the shell itself. */
@@ -190,10 +137,6 @@ body:has(#root .hlc-auth-shell),
 #root .hlc-signed-in-shell .hlc-agent-workspace .hlc-agent-team-switcher :is(a,button){background:var(--hlc-runtime-surface-2)!important;background-image:none!important;color:#dbeafe!important;-webkit-text-fill-color:#dbeafe!important}
 
 @media(max-width:720px){
-  #root .hlc-auth-shell{width:100%!important;max-width:520px!important;margin:0 auto!important;padding:18px!important;border:0!important;border-radius:0!important}
-  #root .hlc-auth-brand{padding:0 0 14px!important}
-  #root .hlc-auth-card{padding:16px 0 0!important}
-  #root .hlc-auth-steps{display:none!important}
   #root .hlc-signed-in-shell .hlc-agent-workspace{padding:16px 16px 112px!important}
   #root .hlc-signed-in-shell .hlc-agent-workspace :is(.hlc-agent-team-header,.hlc-agent-chat-stage,.hlc-agent-action-workbench,.hlc-agent-result-rail>section,.hlc-agent-history,.hlc-agent-handoff){padding:14px 0!important;margin:0!important;border-radius:0!important;border-width:0 0 1px!important}
 }
