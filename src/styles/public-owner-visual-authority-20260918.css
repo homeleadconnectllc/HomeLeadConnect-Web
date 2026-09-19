@@ -1055,3 +1055,61 @@ html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathwa
     box-shadow:0 0 0 3px rgba(255,255,255,.08)!important;
   }
 }
+
+/* HLC-M1-MOBILE-SIGNIN-AUTHORITY */
+.hlc-mobile-sign-in-link {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  html body #root .hlc-public-shared-nav .hlc-board-nav-inner {
+    width: 100%;
+    min-height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  html body #root .hlc-public-shared-nav .hlc-board-actions {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-left: auto;
+  }
+
+  html body #root .hlc-public-shared-nav .hlc-board-login {
+    display: none !important;
+  }
+
+  html body #root .hlc-public-shared-nav .hlc-mobile-sign-in-link {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    min-width: 66px;
+    min-height: 44px;
+    padding: 8px 10px;
+    color: #f4f7fb !important;
+    -webkit-text-fill-color: #f4f7fb !important;
+    font-size: .88rem;
+    font-weight: 800;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    visibility: visible !important;
+    opacity: 1 !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  html body #root .hlc-public-shared-nav .hlc-board-cta {
+    display: none !important;
+  }
+
+  html body #root .hlc-public-shared-nav .hlc-public-menu-trigger {
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+}

@@ -328,6 +328,13 @@ export default function PublicSiteNav() {
       </button>
       <div className="hlc-board-actions">
         <a className="hlc-board-login" href={appUrl("/login")}>Sign In</a>
+        <a
+          className="hlc-mobile-sign-in-link"
+          href={appUrl("/login")}
+          aria-label="Sign in to HomeLead Connect"
+        >
+          Sign In
+        </a>
         <a className="hlc-board-cta" href={appUrl("/register")}>Get Started</a>
       </div>
     </div>
