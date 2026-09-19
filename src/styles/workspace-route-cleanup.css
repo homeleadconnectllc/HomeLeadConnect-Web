@@ -24,7 +24,7 @@
   .hlc-priority-item
 ) {
   
-  box-shadow: none !important;
+  
 }
 
 .hlc-signed-in-shell .hlc-command-center :is(.hlc-agent-card, .hlc-pulse-card) {
@@ -37,7 +37,7 @@
 
 .hlc-signed-in-shell .hlc-command-center .hlc-pulse-card-featured {
   
-  color: #f8fbff !important;
+  
 }
 
 .hlc-signed-in-shell .hlc-command-center .hlc-pulse-card-featured :is(strong, span, svg) {
@@ -85,7 +85,7 @@
   border: 0 !important;
   border-bottom: 1px solid var(--hlc-v4-line-soft) !important;
   
-  background: #fff !important;
+  
   
 }
 
@@ -146,7 +146,7 @@
 .hlc-signed-in-shell .hlc-job-open {
   border: 1px solid #1e5bff !important;
   
-  color: #fff !important;
+  
   font-weight: 800 !important;
   text-decoration: none !important;
 }
@@ -177,7 +177,7 @@
   padding: 20px !important;
   border: 1px solid var(--hlc-v4-line) !important;
   
-  background: #f8fafc !important;
+  
   
 }
 
@@ -196,7 +196,7 @@
   border: 0 !important;
   border-bottom: 1px solid var(--hlc-v4-line-soft) !important;
   
-  background: transparent !important;
+  
   
   text-align: left !important;
   
@@ -232,14 +232,14 @@
   padding: 12px 14px !important;
   border: 1px solid var(--hlc-v4-line-soft) !important;
   
-  background: #fff !important;
+  
   
 }
 
 .hlc-signed-in-shell .hlc-message-bubble-self {
   margin-left: auto !important;
   
-  background: #e8f0ff !important;
+  
 }
 
 .hlc-signed-in-shell .hlc-message-bubble p {
@@ -281,7 +281,7 @@
   padding: 22px 24px !important;
   border: 1px solid var(--hlc-v4-line) !important;
   
-  background: #f8fafc !important;
+  
   
 }
 

@@ -11,7 +11,7 @@
   
   border: 1px solid #e2e8f0;
   
-  background: #f7f9fc;
+  
   
 }
 
@@ -54,9 +54,9 @@
   flex-basis: 42px;
   border: 1px solid #cfe0fb;
   
-  color: #1769d2;
   
-  box-shadow: none;
+  
+  
   font-size: 19px;
 }
 
@@ -81,9 +81,9 @@
   padding: 0 15px;
   border: 1px solid #1769d2;
   
-  color: #fff;
   
-  box-shadow: none;
+  
+  
   font-size: 13px;
 }
 
@@ -91,7 +91,7 @@
 
 .hlc-native-calendar .hlc-calendar-primary-link.secondary {
   
-  color: #26364d;
+  
   
 }
 
@@ -106,7 +106,7 @@
   gap: 11px;
   border: 1px solid #e1e7ef;
   
-  background: #fff;
+  
   
 }
 
@@ -115,14 +115,14 @@
   height: 36px;
   flex-basis: 36px;
   
-  color: #1769d2;
+  
   
   font-size: 16px;
 }
 
 .hlc-native-calendar .hlc-calendar-kpi-icon.green {
   
-  background: #eaf8f2;
+  
 }
 
 .hlc-native-calendar .hlc-calendar-kpis small {
@@ -146,19 +146,19 @@
   padding: 10px 12px;
   border: 1px solid #dbe6f3;
   
-  color: #35506f;
+  
   
 }
 
 .hlc-native-calendar .hlc-calendar-banner.error {
   
-  color: #9f2d2d;
+  
   
 }
 
 .hlc-native-calendar .hlc-calendar-banner.success {
   
-  color: #176a46;
+  
   
 }
 
@@ -172,7 +172,7 @@
 .hlc-native-calendar .hlc-calendar-upcoming {
   border: 1px solid #e1e7ef;
   
-  background: #fff;
+  
   
 }
 
@@ -187,7 +187,7 @@
 .hlc-native-calendar .hlc-calendar-view-switch button,
 .hlc-native-calendar .hlc-calendar-mini-heading button {
   
-  color: #344054;
+  
   
 }
 
@@ -206,17 +206,17 @@
 
 .hlc-native-calendar .hlc-calendar-view-switch {
   
-  background: #f3f6f9;
+  
 }
 
 .hlc-native-calendar .hlc-calendar-view-switch button {
   
-  background: transparent;
+  
 }
 
 .hlc-native-calendar .hlc-calendar-view-switch button.active {
   
-  background: #1769d2;
+  
   
 }
 
@@ -224,7 +224,7 @@
   padding: 10px 14px;
   border-bottom: 1px solid #e9eef4;
   
-  background: #fff;
+  
 }
 
 .hlc-native-calendar .hlc-calendar-period-label strong {  }
@@ -245,16 +245,16 @@
   border: 1px solid #dbe5f0;
   border-left: 3px solid #2878d8;
   
-  color: #172033;
   
-  box-shadow: none;
+  
+  
 }
 
 .hlc-native-calendar .hlc-calendar-event:hover,
 .hlc-native-calendar .hlc-calendar-event.selected {
   transform: none;
   
-  background: #edf5ff;
+  
 }
 
 .hlc-native-calendar .hlc-calendar-event.status-completed {
@@ -286,22 +286,22 @@
 .hlc-native-calendar .hlc-calendar-status {
   min-height: 22px;
   
-  background: #eaf3ff;
+  
 }
 
 .hlc-native-calendar .hlc-calendar-status.status-completed {
   
-  background: #e8f7ef;
+  
 }
 
 .hlc-native-calendar .hlc-calendar-status.status-cancelled {
   
-  background: #fdecef;
+  
 }
 
 .hlc-native-calendar .hlc-calendar-status.status-no_show {
   
-  background: #fff2da;
+  
 }
 
 .hlc-native-calendar .hlc-calendar-detail-panel {
@@ -339,20 +339,20 @@
 .hlc-native-calendar .hlc-calendar-detail-actions a,
 .hlc-native-calendar .hlc-calendar-detail-actions button {
   
-  color: #344054;
   
-  box-shadow: none;
+  
+  
 }
 
 .hlc-native-calendar .hlc-calendar-detail-actions .primary {
   
-  color: #fff;
+  
   
 }
 
 .hlc-native-calendar .hlc-calendar-detail-actions .danger {
   
-  color: #a23d47;
+  
   
 }
 
@@ -364,7 +364,7 @@
 .hlc-native-calendar .hlc-calendar-empty > span,
 .hlc-native-calendar .hlc-calendar-detail-empty > span {
   
-  background: #edf4ff;
+  
 }
 
 .hlc-native-calendar .hlc-calendar-empty h2,
@@ -376,7 +376,7 @@
 .hlc-native-calendar .hlc-calendar-empty button,
 .hlc-native-calendar .hlc-calendar-detail-empty button {
   
-  color: #1769d2;
+  
   
 }
 
@@ -385,7 +385,7 @@
   padding: 16px;
   border: 1px solid #dfe7f0;
   
-  background: #fff;
+  
 }
 
 .hlc-native-calendar .hlc-native-event-composer-heading small {  }
@@ -393,7 +393,7 @@
 
 .hlc-native-calendar .hlc-native-event-composer-heading > button {
   
-  color: #344054;
+  
   
 }
 
@@ -403,13 +403,13 @@
 .hlc-native-calendar .hlc-native-event-composer select,
 .hlc-native-calendar .hlc-native-event-composer textarea {
   
-  color: #172033;
+  
   
 }
 
 .hlc-native-calendar .hlc-calendar-mini-month {
   
-  background: #fff;
+  
 }
 
 .hlc-native-calendar .hlc-calendar-mini-heading,
@@ -418,25 +418,25 @@
 .hlc-native-calendar .hlc-calendar-mini-grid button,
 .hlc-native-calendar .hlc-calendar-mini-grid > span {
   
-  background: #fff;
+  
 }
 
 .hlc-native-calendar .hlc-calendar-mini-grid button.has-items {
   
-  background: #f1f7ff;
+  
   
 }
 
 .hlc-native-calendar .hlc-calendar-mini-grid button.selected {
   
-  color: #fff;
   
-  box-shadow: none;
+  
+  
 }
 
 .hlc-native-calendar .hlc-calendar-mini-grid button.today:not(.selected) {
   
-  background: #f2fbf7;
+  
   
 }
 

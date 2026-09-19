@@ -49,7 +49,7 @@
   padding: 10px 12px;
   border: 1px solid #dbe3ed;
   
-  background: #fff;
+  
   
   font-size: 0.86rem;
 }
@@ -58,7 +58,7 @@
   margin-left: 5px;
   border: 0;
   
-  color: #1f5fd0;
+  
   font: inherit;
   font-weight: 750;
   cursor: pointer;
@@ -66,13 +66,13 @@
 
 .hlc-jobs-error {
   
-  background: #fff7f7;
+  
   
 }
 
 .hlc-jobs-success {
   
-  background: #f4fff7;
+  
   
 }
 
@@ -88,7 +88,7 @@
   padding: 13px 14px 12px;
   border: 1px solid #dbe3ed;
   
-  background: #fff;
+  
   
 }
 
@@ -112,7 +112,7 @@
   overflow: hidden;
   border: 1px solid #dbe3ed;
   
-  background: #fff;
+  
   
 }
 
@@ -129,7 +129,7 @@
   padding: 0 16px;
   border-bottom: 1px solid #e5eaf1;
   
-  color: #748095;
+  
   font-size: 0.7rem;
   font-weight: 800;
   letter-spacing: 0.06em;
@@ -153,7 +153,7 @@
 
 .hlc-job-row:hover {
   
-  box-shadow: inset 3px 0 0 #1f5fd0;
+  
 }
 
 .hlc-job-identity {
@@ -168,23 +168,23 @@
   height: 9px;
   flex: 0 0 9px;
   
-  background: #94a3b8;
+  
   
 }
 
 .hlc-job-status-dot[data-status="pending"] {
   
-  box-shadow: 0 0 0 4px #fff7ed;
+  
 }
 
 .hlc-job-status-dot[data-status="active"] {
   
-  box-shadow: 0 0 0 4px #eff6ff;
+  
 }
 
 .hlc-job-status-dot[data-status="completed"] {
   
-  box-shadow: 0 0 0 4px #f0fdf4;
+  
 }
 
 .hlc-job-status-dot[data-status="cancelled"] {
@@ -247,7 +247,7 @@
   padding: 0 30px 0 10px;
   border: 1px solid #cfd8e5;
   
-  background: #fff;
+  
   
   font: inherit;
   font-size: 0.8rem;
@@ -271,7 +271,7 @@
   padding: 0 12px;
   border: 1px solid #1f5fd0;
   
-  background: #1f5fd0;
+  
   
 }
 
@@ -356,7 +356,7 @@
     overflow: visible;
     border: 0;
     
-    background: transparent;
+    
     
   }
 
@@ -376,7 +376,7 @@
     padding: 13px;
     border: 1px solid #dbe3ed;
     
-    background: #fff;
+    
     
   }
 
@@ -442,7 +442,7 @@
     padding: 0 9px;
     border: 1px solid #cfd8e5;
     
-    background: #fff;
+    
     cursor: pointer;
     list-style: none;
   }
@@ -465,7 +465,7 @@
     overflow: hidden;
     border: 1px solid #d8e0ea;
     
-    background: #fff;
+    
     
   }
 

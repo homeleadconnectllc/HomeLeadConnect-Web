@@ -25,7 +25,7 @@
   width: 42px;
   height: 42px;
   
-  box-shadow: none;
+  
 }
 
 /* System state reads like a status line, not a decorated panel. */
@@ -35,7 +35,7 @@
   border: 0;
   border-bottom: 1px solid var(--dashboard-divider);
   
-  background: transparent;
+  
 }
 
 /* Metrics become a compact KPI rail with vertical separators. */
@@ -54,7 +54,7 @@
   border: 0;
   border-right: 1px solid var(--dashboard-divider);
   
-  background: transparent;
+  
   
 }
 
@@ -117,7 +117,7 @@
   border: 0;
   border-right: 1px solid var(--dashboard-divider);
   
-  background: rgba(15, 23, 42, .3);
+  
   
 }
 
@@ -127,7 +127,7 @@
 
 .hlc-command-center .hlc-quick-action-primary {
   
-  color: #dbeafe;
+  
 }
 
 .hlc-command-center .hlc-quick-action:hover {
@@ -141,7 +141,7 @@
   border: 0;
   border-bottom: 1px solid var(--dashboard-divider);
   
-  background: transparent;
+  
 }
 
 .hlc-command-center .hlc-priority-list {
@@ -168,7 +168,7 @@
   padding: 26px 0;
   border: 0;
   
-  background: transparent;
+  
   
 }
 
@@ -179,7 +179,7 @@
 
 .hlc-command-center .hlc-pulse-health {
   
-  background: transparent;
+  
 }
 
 .hlc-command-center .hlc-business-pulse-grid {
@@ -196,7 +196,7 @@
   border: 0;
   border-bottom: 1px solid var(--dashboard-divider);
   
-  background: transparent;
+  
   
 }
 
@@ -212,7 +212,7 @@
 .hlc-command-center .hlc-pulse-card:hover {
   transform: none;
   
-  box-shadow: none;
+  
 }
 
 .hlc-command-center .hlc-pulse-icon {
@@ -238,7 +238,7 @@
   border: 0;
   border-bottom: 1px solid var(--dashboard-divider);
   
-  background: transparent;
+  
 }
 
 .hlc-command-center .hlc-workspace-card:nth-child(odd) {
@@ -273,14 +273,14 @@
   border: 0;
   border-bottom: 1px solid var(--dashboard-divider);
   
-  background: transparent;
+  
   
 }
 
 .hlc-command-center .hlc-agent-team-section .hlc-agent-card:hover {
   transform: none;
   
-  box-shadow: none;
+  
 }
 
 .hlc-command-center .hlc-agent-team-section .hlc-agent-portrait-wrap {

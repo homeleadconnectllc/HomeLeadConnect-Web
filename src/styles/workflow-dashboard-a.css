@@ -11,9 +11,9 @@
   padding: 22px 24px !important;
   border: 1px solid #dbe3ee !important;
   
-  background: #ffffff !important;
   
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05) !important;
+  
+  
   text-align: center;
 }
 
@@ -45,7 +45,7 @@
   padding: 14px 16px !important;
   border: 1px solid #dbe3ee !important;
   
-  background: #ffffff !important;
+  
   
 }
 
@@ -53,7 +53,7 @@
   width: 34px !important;
   height: 34px !important;
   
-  color: #1d4ed8 !important;
+  
   font-size: 13px !important;
 }
 
@@ -100,7 +100,7 @@
   padding: 14px 16px !important;
   border: 1px solid #dbe3ee !important;
   
-  background: #f8fafc !important;
+  
   
   line-height: 1.45 !important;
 }

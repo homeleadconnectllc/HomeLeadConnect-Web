@@ -68,7 +68,7 @@
   height: 11px;
   border: 2px solid #06101d;
   
-  background: #3b82f6;
+  
 }
 
 .hlc-ai-presence-avatar[data-state="thinking"] > span {  }
@@ -94,7 +94,7 @@
   padding: 14px;
   border: 1px solid rgba(148, 163, 184, .16);
   
-  background: linear-gradient(145deg, rgba(15,23,42,.78), rgba(5,14,27,.74));
+  
 }
 
 .hlc-ai-welcome > strong {  font-size: 18px; }
@@ -112,7 +112,7 @@
   padding: 7px 10px;
   border: 1px solid color-mix(in srgb, var(--chat-agent-accent) 38%, #334155);
   
-  background: rgba(7,17,31,.8);
+  
   
   font-size: 12px;
   font-weight: 800;
@@ -124,14 +124,14 @@
   padding: 11px 13px;
   border: 1px solid rgba(148,163,184,.16) !important;
   
-  background: rgba(15,23,42,.78) !important;
+  
   
 }
 
 .hlc-ai-message.is-user {
   justify-self: end;
   
-  background: color-mix(in srgb, var(--chat-agent-accent) 12%, #09111f) !important;
+  
 }
 
 .hlc-ai-message strong {  font-size: 12px; }
@@ -143,7 +143,7 @@
   padding: 4px 9px;
   border: 1px solid rgba(148,163,184,.18);
   
-  background: rgba(3,10,21,.72);
+  
   
   font-size: 11px;
   font-weight: 800;
@@ -161,7 +161,7 @@
   width: 6px;
   height: 6px;
   
-  background: var(--chat-agent-accent);
+  
   animation: hlc-thinking-dot 1s ease-in-out infinite;
 }
 .hlc-ai-thinking span:nth-child(2) { animation-delay: .13s; }
@@ -173,7 +173,7 @@
   padding: 9px 11px;
   border: 1px solid rgba(248,113,113,.35);
   
-  background: rgba(127,29,29,.14);
+  
   
   font-size: 12px;
 }
@@ -185,7 +185,7 @@
   padding: 9px;
   border: 1px solid rgba(148,163,184,.2);
   
-  background: rgba(3,10,21,.9);
+  
   
 }
 
@@ -197,7 +197,7 @@
   padding: 10px 11px;
   border: 0 !important;
   
-  background: transparent !important;
+  
   
   font: inherit;
   line-height: 1.45;
@@ -225,7 +225,7 @@
   padding: 7px 10px;
   border: 1px solid rgba(148,163,184,.2) !important;
   
-  background: rgba(15,23,42,.86) !important;
+  
   
   font-weight: 800;
   cursor: pointer;
@@ -233,21 +233,21 @@
 
 .hlc-ai-icon-action span,
 .hlc-ai-settings > summary span { font-size: 11px; }
-.hlc-ai-icon-action.is-active {  color: #fff !important; }
+.hlc-ai-icon-action.is-active {   }
 
 .hlc-ai-send {
   margin-left: auto;
   min-width: 42px;
   padding-inline: 12px;
   
-  background: var(--chat-agent-accent) !important;
+  
   
   font-size: 17px;
 }
 
 .hlc-ai-send:disabled {
   
-  background: #111827 !important;
+  
   
 }
 
@@ -265,7 +265,7 @@
   padding: 12px;
   border: 1px solid rgba(148,163,184,.24);
   
-  background: #07111f;
+  
   
 }
 
@@ -320,7 +320,7 @@
     margin: -12px -12px 6px;
     padding: 11px 14px;
     
-    background: rgba(4,12,24,.97);
+    
   }
 
   .hlc-agent-dock.is-open .hlc-agent-panel-avatar { width: 38px; height: 38px; }
@@ -332,7 +332,7 @@
     padding: 4px 2px 0 !important;
     border: 0 !important;
     
-    box-shadow: none !important;
+    
   }
 
   .hlc-ai-chat-head { display: none; }
