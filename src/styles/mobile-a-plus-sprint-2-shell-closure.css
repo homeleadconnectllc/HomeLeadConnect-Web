@@ -14,14 +14,22 @@
     right:0!important;
     bottom:0!important;
     z-index:1800!important;
+    display:grid!important;
+    grid-template-columns:repeat(auto-fit,minmax(0,1fr))!important;
+    align-items:stretch!important;
     width:100%!important;
-    min-height:var(--hlc-mobile-nav-height)!important;
+    height:var(--hlc-mobile-nav-box)!important;
+    min-height:var(--hlc-mobile-nav-box)!important;
+    max-height:var(--hlc-mobile-nav-box)!important;
+    box-sizing:border-box!important;
     padding-bottom:var(--hlc-mobile-nav-safe)!important;
   }
 
   .hlc-mobile-tabbar > :is(a,button){
     min-width:0!important;
     min-height:44px!important;
+    height:100%!important;
+    box-sizing:border-box!important;
   }
 
   .hlc-signed-in-shell > .hlc-route-content{
