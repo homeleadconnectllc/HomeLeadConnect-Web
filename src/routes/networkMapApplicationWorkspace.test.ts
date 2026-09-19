@@ -80,12 +80,8 @@ test("Mobile A+ Sprint 3 keeps provider rows essential-first with visible fallba
   assert.match(sprint3Styles, /\.hlc-s3-provider-more\{display:block/);
 });
 
-test("Mobile A+ Sprint 3 authority mounts after the Sprint 2 closure without lowering earlier contracts", () => {
-  const sprint2Index = authenticatedStyles.indexOf("./mobile-a-plus-sprint-2-visual-closure.css");
-  const sprint3Index = authenticatedStyles.indexOf("./mobile-a-plus-sprint-3-network.css");
-  assert.ok(sprint2Index >= 0);
-  assert.ok(sprint3Index > sprint2Index);
-  assert.match(sprint3Styles, /@media \(max-width:720px\)/);
-  assert.match(sprint3Styles, /padding-bottom:calc\(118px \+ env\(safe-area-inset-bottom,0px\)\)/);
-  assert.match(sprint3Styles, /:focus-visible/);
+test("Network Map no longer depends on retired Sprint 2 or Sprint 3 visual authorities", () => {
+  assert.doesNotMatch(authenticatedStyles, /mobile-a-plus-sprint-2-visual-closure\.css/);
+  assert.doesNotMatch(authenticatedStyles, /mobile-a-plus-sprint-3-network\.css/);
+  assert.match(entry, /network-map-application-workspace\.css/);
 });
