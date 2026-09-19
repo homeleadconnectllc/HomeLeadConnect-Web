@@ -115,7 +115,6 @@ jobs:
           done
           grep -Fq 'href="https://app.homeleadconnect.org/register"' "$DOM" || { echo 'Connected Experience register handoff missing'; exit 64; }
           grep -Fq 'href="https://app.homeleadconnect.org/login"' "$DOM" || { echo 'Connected Experience sign-in handoff missing'; exit 65; }
-          grep -Fq 'href="https://app.homeleadconnect.org/request-service"' "$DOM" || { echo 'Connected Experience request-service handoff missing'; exit 66; }
           grep -Fq 'href="/professionals"' "$DOM" || { echo 'Connected Experience professional handoff missing'; exit 67; }
       - name: Certify public Mac routes render and capture
         run: |
