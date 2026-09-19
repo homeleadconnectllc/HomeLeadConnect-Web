@@ -4,59 +4,62 @@ import test from "node:test";
 
 const entry = readFileSync(new URL("../styles/authenticated-entry.ts", import.meta.url), "utf8");
 const css = readFileSync(new URL("../styles/signed-in-professional-system.css", import.meta.url), "utf8");
+const shell = readFileSync(new URL("../styles/mobile-a-plus-sprint-2-shell-closure.css", import.meta.url), "utf8");
 
-test("signed-in professional system remains mounted without retired global certification paint", () => {
+test("signed-in professional presentation remains mounted without retired certification paint", () => {
   assert.match(entry, /import "\.\/signed-in-professional-system\.css";/);
-  assert.doesNotMatch(entry, /mobile-all-screens-certification\.css/);
-  assert.doesNotMatch(entry, /mobile-professional-certification\.css/);
-  assert.doesNotMatch(entry, /global-readability-certification\.css/);
-  assert.doesNotMatch(entry, /design-system-foundation\.css/);
-  assert.doesNotMatch(entry, /ux-ia-village-authority\.css/);
-  assert.doesNotMatch(entry, /launch-contrast-readability\.css/);
+  for (const retired of [
+    "mobile-all-screens-certification.css",
+    "mobile-professional-certification.css",
+    "global-readability-certification.css",
+    "design-system-foundation.css",
+    "ux-ia-village-authority.css",
+    "launch-contrast-readability.css",
+  ]) assert.doesNotMatch(entry, new RegExp(retired.replaceAll(".", "\\.")));
 });
 
-test("signed-in professional system keeps operational pages aligned and restrained", () => {
-  assert.match(css, /\.hlc-leads-page/);
-  assert.match(css, /\.hlc-jobs-page/);
-  assert.match(css, /\.hlc-messages-page/);
-  assert.match(css, /text-align: left/);
-  assert.match(css, /border-radius: var\(--hlc-radius\)/);
-  assert.match(css, /box-shadow: none/);
+test("authenticated presentation owns one coherent charcoal and HLC-blue visual system", () => {
+  assert.match(css, /--hlc-app-bg:#0b1119/);
+  assert.match(css, /--hlc-app-blue:#2f80ff/);
+  assert.match(css, /\.hlc-signed-in-shell > \.hlc-navbar/);
+  assert.match(css, /\.hlc-desktop-sidebar-toggle/);
+  assert.match(css, /\.hlc-mobile-tabbar/);
+  assert.match(css, /\.hlc-home-greeting-v3/);
+  assert.match(css, /\.hlc-home-primary-grid/);
+  assert.doesNotMatch(css, /Dashboard \+ Analytics source-of-truth|legacy light-card contract/);
 });
 
-test("signed-in professional system protects readable brand surfaces", () => {
-  assert.match(css, /\.hlc-command-hero/);
-  assert.match(css, /#f8fafc/);
-  assert.match(css, /#dbeafe/);
-  assert.match(css, /\.hlc-chat-history-item\.is-selected/);
+test("authenticated links and controls do not fall back to raw browser presentation", () => {
+  assert.match(css, /\.hlc-signed-in-shell \.hlc-route-content a\{/);
+  assert.match(css, /text-decoration:none/);
+  assert.match(css, /\.hlc-signed-in-shell button\{/);
+  assert.match(css, /\.hlc-signed-in-shell :is\(input,select,textarea\)\{/);
 });
 
-test("dashboard and analytics are excluded from the legacy light-card contract at source", () => {
-  const lightContract = css.match(/\.hlc-signed-in-shell :is\([\s\S]*?\) \{\n {2}border: 1px solid var\(--hlc-soft-line\)/)?.[0] ?? "";
-  assert.doesNotMatch(lightContract, /\.hlc-workspace-card/);
-  assert.doesNotMatch(lightContract, /\.hlc-pulse-card/);
-  assert.doesNotMatch(lightContract, /\.hlc-analytics-kpi/);
-  assert.match(css, /Dashboard \+ Analytics source-of-truth/);
-  assert.match(css, /\.hlc-analytics-page, \.hlc-analytics-panel/);
-  assert.match(css, /background: #071426 !important/);
-  assert.match(css, /\.hlc-analytics-kpi strong/);
-  assert.match(css, /color: #f8fafc !important/);
+test("desktop navigation keeps readable active state and accessible collapse control", () => {
+  assert.match(css, /a\[aria-current="page"\]/);
+  assert.match(css, /box-shadow:inset 3px 0 var\(--hlc-app-blue\)/);
+  assert.match(css, /\.hlc-sidebar-toggle-label/);
+  assert.match(css, /clip:rect\(0 0 0 0\)/);
 });
 
-test("business pulse cannot regress to bright card-wall surfaces", () => {
-  assert.match(css, /\.hlc-business-pulse-section/);
-  assert.match(css, /border-radius: 0 !important/);
-  assert.match(css, /\.hlc-pulse-card \{/);
-  assert.match(css, /border-bottom: 1px solid #28415f !important/);
-  assert.match(css, /background: transparent !important/);
-  assert.match(css, /\.hlc-pulse-copy strong/);
-  assert.match(css, /-webkit-text-fill-color: #f8fafc !important/);
-  assert.match(css, /grid-template-columns: 1fr !important/);
-  assert.match(css, /gap: 0 !important/);
+test("mobile navigation presentation sits on top of a bounded structural tabbar", () => {
+  assert.match(shell, /display:grid!important/);
+  assert.match(shell, /grid-template-columns:repeat\(auto-fit,minmax\(0,1fr\)\)!important/);
+  assert.match(shell, /height:var\(--hlc-mobile-nav-box\)!important/);
+  assert.match(css, /\.hlc-mobile-tabbar > :is\(a,button\) svg/);
+  assert.match(css, /width:21px/);
+  assert.match(css, /stroke-width:1\.8/);
 });
 
-test("signed-in professional system keeps agent utility from covering the whole mobile app", () => {
-  assert.match(css, /height: min\(68dvh, 620px\)/);
-  assert.match(css, /bottom: calc\(84px \+ env\(safe-area-inset-bottom\)\)/);
-  assert.match(css, /\.hlc-mobile-tabbar \{ z-index: 1600/);
+test("current Dashboard presentation targets the live hlc-home markup", () => {
+  for (const selector of [
+    ".hlc-home-workspace",
+    ".hlc-home-topbar-v2",
+    ".hlc-home-metric-strip",
+    ".hlc-home-focus-panel",
+    ".hlc-home-schedule-panel",
+    ".hlc-home-quick-row-v2",
+    ".hlc-home-ai-rail",
+  ]) assert.ok(css.includes(selector), selector);
 });
