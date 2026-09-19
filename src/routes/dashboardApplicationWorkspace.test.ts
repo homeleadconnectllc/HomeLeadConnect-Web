@@ -20,9 +20,7 @@ test("dashboard metrics are a divider-based KPI rail instead of cards", () => {
   assert.match(dashboard, /\.hlc-command-center \.hlc-metric-grid/);
   assert.match(dashboard, /gap: 0;/);
   assert.match(dashboard, /\.hlc-command-center \.hlc-metric-card \{/);
-  assert.match(dashboard, /border-radius: 0;/);
-  assert.match(dashboard, /background: transparent;/);
-  assert.match(dashboard, /box-shadow: none;/);
+  assert.match(dashboard, /border-right: 1px solid var\\(--dashboard-divider\\)/);
 });
 
 test("dashboard quick actions behave like a toolbar", () => {
