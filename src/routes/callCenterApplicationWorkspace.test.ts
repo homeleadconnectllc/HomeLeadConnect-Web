@@ -36,8 +36,8 @@ test("Call Center preserves provider-neutral handoff, persisted sessions and int
 test("Call Center specialization mounts before final authority and becomes one-column on mobile", () => {
   const routeIndex = entry.indexOf("./call-center-application-workspace.css");
   assert.ok(routeIndex >= 0);
-  assert.doesNotMatch(entry, /application-workspace-ui\\.css/);
-  assert.match(authenticatedStyles, /signed-in-professional-system\\.css/);
+  assert.doesNotMatch(entry, /application-workspace-ui\.css/);
+  assert.match(authenticatedStyles, /signed-in-professional-system\.css/);
   assert.ok(authenticatedStyles.indexOf("signed-in-professional-system.css") > authenticatedStyles.indexOf("dashboard-context-hero.css"));
   assert.match(styles, /\.hlc-call-ledgers\{display:grid;grid-template-columns:1fr 1fr/);
   assert.match(styles, /@media\(max-width:720px\)/);
