@@ -220,17 +220,6 @@ html body #root#root .hlc-app-shell.hlc-public-shell.hlc-auth-front-door-surface
   #root .hlc-request-service{padding:44px 16px 60px}
   #root .hlc-request-grid{grid-template-columns:1fr;gap:36px}
 }
-@media(max-width:680px){
-  #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-nav-inner{width:100%;min-height:76px;padding:0 12px;grid-template-columns:auto 1fr auto}
-  #root header.hlc-board-nav.hlc-public-shared-nav .hlc-navbar-master-logo{width:48px!important;height:48px!important}
-  #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-actions{gap:9px}
-  #root header.hlc-board-nav.hlc-public-shared-nav :is(.hlc-board-login,.hlc-board-cta){
-    display:inline-flex!important;min-height:44px!important;align-items:center!important;font-size:.78rem!important;white-space:nowrap!important;
-  }
-  #root .hlc-public-menu-backdrop{padding:86px 10px 18px}
-  #root .hlc-public-menu-panel{padding:22px 18px;border-radius:14px!important}
-  #root .hlc-public-menu-primary{grid-template-columns:1fr}
-}
 @media(max-width:560px){
   #root .hlc-auth-shell .hlc-auth-main{width:calc(100% - 28px);padding-top:24px}
   #root .hlc-auth-shell .hlc-auth-intro-visual{height:205px}
