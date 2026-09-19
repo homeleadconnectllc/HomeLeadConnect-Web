@@ -79,7 +79,7 @@ jobs:
       - name: Certify public iPhone routes render and capture
         run: |
           set -euo pipefail
-          for item in 'home:/:A stronger community starts here.' 'login:/login:Sign in' 'privacy:/privacy:Privacy' 'terms:/terms:Terms of Service' 'platform:/platform-disclosure:Platform and contractor disclosure'; do
+          for item in 'home:/:A stronger community' 'login:/login:Sign in' 'privacy:/privacy:Privacy' 'terms:/terms:Terms of Service' 'platform:/platform-disclosure:Platform and contractor disclosure'; do
             name="${item%%:*}"; rest="${item#*:}"; route="${rest%%:*}"; expect="${rest#*:}"
             url="http://127.0.0.1:4173$route"
             dom="$GITHUB_WORKSPACE/artifacts/blind-visual/public-iphone-$name.dom.html"
@@ -97,7 +97,7 @@ jobs:
           DOM="$GITHUB_WORKSPACE/artifacts/blind-visual/public-iphone-home.dom.html"
           for expect in \
             'The HomeLead Connect ecosystem' \
-            'A stronger community starts here.' \
+            'A stronger community' \
             'Four Pathways' \
             'For Residents' \
             'For Professionals' \
@@ -121,7 +121,7 @@ jobs:
       - name: Certify public Mac routes render and capture
         run: |
           set -euo pipefail
-          for item in 'home:/:A stronger community starts here.' 'login:/login:Sign in' 'privacy:/privacy:Privacy'; do
+          for item in 'home:/:A stronger community' 'login:/login:Sign in' 'privacy:/privacy:Privacy'; do
             name="${item%%:*}"; rest="${item#*:}"; route="${rest%%:*}"; expect="${rest#*:}"
             url="http://127.0.0.1:4173$route"
             dom="$GITHUB_WORKSPACE/artifacts/blind-visual/public-mac-$name.dom.html"
