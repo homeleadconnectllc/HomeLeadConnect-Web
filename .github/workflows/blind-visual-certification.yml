@@ -24,6 +24,17 @@ jobs:
     steps:
       - name: Checkout exact candidate
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Assert exact candidate checkout
+        shell: bash
+        run: |
+          set -euo pipefail
+          EXPECTED="${{ github.event.pull_request.head.sha || github.sha }}"
+          ACTUAL="$(git rev-parse HEAD)"
+          echo "Expected exact candidate: $EXPECTED"
+          echo "Checked out candidate: $ACTUAL"
+          test "$ACTUAL" = "$EXPECTED"
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
