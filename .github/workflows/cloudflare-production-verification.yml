@@ -53,13 +53,16 @@ jobs:
         run: |
           set -euo pipefail
           entry_js="$(grep -oE 'src="/assets/[^"]+\.js"' dist/index.html | head -n 1 | sed -E 's/^src="|"$//g')"
-          entry_css="$(grep -oE 'href="/assets/[^"]+\.css"' dist/index.html | head -n 1 | sed -E 's/^href="|"$//g')"
+          entry_css="$(grep -oE 'href="/assets/[^"]+\.css"' dist/index.html | head -n 1 | sed -E 's/^href="|"$//g' || true)"
           test -n "$entry_js"
-          test -n "$entry_css"
           echo "ENTRY_JS=$entry_js" >> "$GITHUB_ENV"
           echo "ENTRY_CSS=$entry_css" >> "$GITHUB_ENV"
           echo "Expected entry JS:  $entry_js"
-          echo "Expected entry CSS: $entry_css"
+          if [ -n "$entry_css" ]; then
+            echo "Expected entry CSS: $entry_css"
+          else
+            echo "No direct entry CSS link found; accepting CSS-code-split build and verifying the authoritative CSS chunk separately."
+          fi
 
       - name: Locate built Four Pathways CSS chunk
         shell: bash
@@ -80,7 +83,10 @@ jobs:
             return 0
           }
 
-          entry_css_file="dist/${ENTRY_CSS#/}"
+          entry_css_file=""
+          if [ -n "${ENTRY_CSS:-}" ]; then
+            entry_css_file="dist/${ENTRY_CSS#/}"
+          fi
           css_file=""
 
           # The public front door is rendered from the CSS linked directly by
@@ -88,7 +94,7 @@ jobs:
           # Four Pathways authority. Other lazy CSS chunks may legitimately
           # repeat the same image markers without becoming the deployed public
           # front-door authority.
-          if [ -f "$entry_css_file" ] && has_all_markers "$entry_css_file"; then
+          if [ -n "$entry_css_file" ] && [ -f "$entry_css_file" ] && has_all_markers "$entry_css_file"; then
             css_file="$entry_css_file"
             echo "Four Pathways authority resolved from exact entry CSS: $ENTRY_CSS"
 
@@ -174,10 +180,16 @@ jobs:
                 -H 'Cache-Control: no-cache' \
                 "${host}?${cache_buster}")"
 
-              if grep -Fq "$ENTRY_JS" <<<"$html" && grep -Fq "$ENTRY_CSS" <<<"$html"; then
-                echo "$host serves exact built entry assets: $ENTRY_JS and $ENTRY_CSS"
-                matched="yes"
-                break
+              if grep -Fq "$ENTRY_JS" <<<"$html"; then
+                if [ -z "${ENTRY_CSS:-}" ] || grep -Fq "$ENTRY_CSS" <<<"$html"; then
+                  if [ -n "${ENTRY_CSS:-}" ]; then
+                    echo "$host serves exact built entry assets: $ENTRY_JS and $ENTRY_CSS"
+                  else
+                    echo "$host serves exact built entry JS: $ENTRY_JS; CSS is code-split and verified by exact chunk hash below."
+                  fi
+                  matched="yes"
+                  break
+                fi
               fi
 
               echo "Attempt $attempt: $host has not published exact entry assets yet."
@@ -343,7 +355,11 @@ jobs:
         run: |
           echo "Verified source SHA: $GITHUB_SHA"
           echo "Verified entry JS: $ENTRY_JS"
-          echo "Verified entry CSS: $ENTRY_CSS"
+          if [ -n "${ENTRY_CSS:-}" ]; then
+            echo "Verified entry CSS: $ENTRY_CSS"
+          else
+            echo "Verified entry CSS: none (CSS code-split build)"
+          fi
           echo "Verified Four Pathways CSS chunk: $FOUR_PATHWAYS_CSS"
           echo "Verified Four Pathways CSS SHA-256: $FOUR_PATHWAYS_CSS_SHA"
           echo "Verified Four Pathways exact versioned asset hashes"
