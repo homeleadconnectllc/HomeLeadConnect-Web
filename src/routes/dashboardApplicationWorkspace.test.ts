@@ -8,8 +8,8 @@ const authenticatedStyles = readFileSync(new URL("../styles/AuthenticatedStyles.
 
 test("dashboard specialization remains mounted without retired global visual authorities", () => {
   assert.match(authenticatedEntry, /import "\.\/dashboard-application-workspace\.css";/);
-  assert.doesNotMatch(authenticatedEntry, /application-workspace-ui\\.css/);
-  assert.match(authenticatedStyles, /signed-in-professional-system\\.css/);
+  assert.doesNotMatch(authenticatedEntry, /application-workspace-ui\.css/);
+  assert.match(authenticatedStyles, /signed-in-professional-system\.css/);
   assert.ok(authenticatedStyles.indexOf("signed-in-professional-system.css") > authenticatedStyles.indexOf("dashboard-context-hero.css"));
   assert.doesNotMatch(authenticatedEntry, /mobile-dashboard-live-authority\.css/);
   assert.doesNotMatch(authenticatedEntry, /launch-contrast-readability\.css/);
