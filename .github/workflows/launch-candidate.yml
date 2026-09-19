@@ -1,5 +1,5 @@
 # Mobile A+ exact-head certification uses the same launch gate and thresholds as production candidates.
-name: HLC Launch Candidate
+name: The HomeLead_Connect Experience — Launch Candidate
 
 on:
   push:
