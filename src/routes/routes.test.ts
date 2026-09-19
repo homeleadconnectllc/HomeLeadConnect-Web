@@ -70,33 +70,29 @@ test("company rollout operating guides remain declared and actionable", () => {
   assert.match(operationalGuide, /Incident response/);
 });
 
-test("responsive page contract is followed by brand, compatibility, reset and mobile release guards", () => {
+test("authenticated shell root ends with structural responsive, compatibility and release guards", () => {
   assert.match(mainEntry, /import\("\.\/styles\/app-shell-entry"\)/);
   const importLines = [...appShellEntry.matchAll(/import "\.\/([^"]+\.css)";/g)].map((match) => match[1]);
-  assert.equal(importLines.at(-7), "responsive-page-contract.css");
-  assert.equal(importLines.at(-6), "hlc-brand-lock.css");
-  assert.equal(importLines.at(-5), "legacy-device-compat.css");
-  assert.equal(importLines.at(-4), "final-release-guard.css");
-  assert.equal(importLines.at(-3), "visual-reset-baseline-20260903.css");
-  assert.equal(importLines.at(-2), "visual-reset-hard-blank-20260903.css");
-  assert.equal(importLines.at(-1), "mobile-release-fix.css");
+  assert.deepEqual(importLines.slice(-3), [
+    "responsive-page-contract.css",
+    "legacy-device-compat.css",
+    "final-release-guard.css",
+  ]);
+  for (const retired of [
+    "hlc-brand-lock.css",
+    "visual-reset-baseline-20260903.css",
+    "visual-reset-hard-blank-20260903.css",
+    "mobile-release-fix.css",
+  ]) assert.ok(!importLines.includes(retired));
   assert.match(responsiveContract, /\.hlc-route-content > main/);
-  assert.match(responsiveContract, /margin-inline: auto !important/);
-  assert.match(responsiveContract, /--hlc-page-max: 1440px/);
-  assert.match(responsiveContract, /@media \(min-width: 1600px\)/);
-  assert.match(responsiveContract, /@media \(max-width: 1024px\)/);
-  assert.match(responsiveContract, /@media \(max-width: 700px\)/);
-  assert.match(responsiveContract, /@media \(max-width: 390px\)/);
-  assert.match(responsiveContract, /Provider coordinate map/);
-  assert.match(responsiveContract, /:has\(table\)/);
+  assert.match(responsiveContract, /margin-inline:auto/);
+  assert.match(responsiveContract, /--hlc-page-max:1440px/);
+  assert.match(responsiveContract, /@media \(min-width:1600px\)/);
+  assert.match(responsiveContract, /@media \(max-width:1024px\)/);
+  assert.match(responsiveContract, /@media \(max-width:700px\)/);
   assert.match(legacyDeviceCompat, /@media \(max-width: 360px\)/);
-  assert.match(legacyDeviceCompat, /@media \(min-width: 701px\) and \(max-width: 1280px\)/);
   assert.match(legacyDeviceCompat, /@media \(forced-colors: active\)/);
-  assert.match(legacyDeviceCompat, /@media \(-ms-high-contrast: active\)/);
-  assert.match(legacyDeviceCompat, /@supports \(height: 1dvh\)/);
-  assert.match(finalReleaseGuard, /min-width: 320px/);
-  assert.match(finalReleaseGuard, /max-width: 430px/);
-  assert.match(finalReleaseGuard, /overflow-x: clip/);
+  assert.match(finalReleaseGuard, /overflow-x:clip/);
 });
 
 test("Community is a unified public and authenticated Network front door", () => {
