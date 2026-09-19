@@ -5,9 +5,6 @@ export type PublicNavRuntimeContext = {
 };
 
 export function applyPublicNavRuntime({ nav, pathname, setImportant }: PublicNavRuntimeContext) {
-  const nav = navRef.current;
-  if (!nav) return;
-
   setImportant(nav, "background", "#03111f");
   setImportant(nav, "background-color", "#03111f");
   setImportant(nav, "background-image", "none");
