@@ -25,9 +25,9 @@ test("private beta closure no longer owns retired mobile portal or drawer paint"
   assert.match(drawerStyles, /body > \.hlc-drawer-v2\s*\{/);
 });
 
-test("private beta closure guarantees readable dark fields and keyboard agent yielding", () => {
-  assert.match(styles, /-webkit-text-fill-color:\s*#eef7ff/);
-  assert.match(styles, /::placeholder/);
+test("private beta closure keeps keyboard and dialog safety without owning global field paint", () => {
+  assert.doesNotMatch(styles, /#root :is\(input, textarea, select\)/);
+  assert.match(styles, /body:has\(\[role="dialog"\]\).*overflow:\s*hidden/s);
   assert.match(styles, /body\.hlc-keyboard-open \.hlc-agent-dock:not\(\.is-open\)/);
 });
 
