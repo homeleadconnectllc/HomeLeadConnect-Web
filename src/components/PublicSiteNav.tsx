@@ -1,5 +1,4 @@
 import { useLayoutEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
 import { ArrowRightCircle, BookOpen, Briefcase, Handshake, House, Info, Users } from "lucide-react";
 import { appUrl, publicUrl } from "../config/siteOrigins";
 import "../styles/public-header-logo-authority-20260915.css";
@@ -34,7 +33,7 @@ function setImportant(element: HTMLElement | null, property: string, value: stri
 
 export default function PublicSiteNav() {
   const navRef = useRef<HTMLElement>(null);
-  const { pathname } = useLocation();
+  const pathname = typeof window !== "undefined" ? window.location.pathname : "/";
   const tone = pathname === "/homeowners" ? "resident" : pathname === "/professionals" || pathname === "/contractors" || pathname === "/professional-application" ? "professional" : pathname === "/partners" ? "partner" : pathname === "/community" ? "community" : pathname === "/services" ? "resources" : "neutral";
 
   useLayoutEffect(() => {
