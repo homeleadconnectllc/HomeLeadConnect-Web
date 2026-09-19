@@ -430,3 +430,70 @@ html body #root .hlc-public-front-door-surface .hlc-public-footer-home-authority
   html body #root .hlc-public-grid:nth-of-type(even){width:100%!important;padding-left:14px!important;padding-right:14px!important}
 }
 
+
+
+/* CURRENT PUBLIC STRUCTURAL SAFEGUARDS — no legacy paint */
+/* These rules preserve usability/containment only. They do not restore retired backgrounds or layout themes. */
+#root header.hlc-board-nav.hlc-public-shared-nav,
+#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-nav-inner,
+#root .hlc-public-menu-backdrop,
+#root .hlc-public-menu-panel{
+  box-sizing:border-box!important;
+  max-width:100%!important;
+}
+#root header.hlc-board-nav.hlc-public-shared-nav{width:100%!important;overflow-x:clip!important}
+#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-nav-inner{
+  min-width:0!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+}
+#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-brand,
+#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-actions{min-width:0!important}
+#root .hlc-public-menu-panel{
+  width:min(920px,100%)!important;
+  overflow-x:hidden!important;
+}
+#root .hlc-public-menu-primary{
+  display:grid!important;
+  grid-template-columns:repeat(auto-fit,minmax(min(210px,100%),1fr))!important;
+  gap:10px!important;
+}
+#root .hlc-public-menu-primary a,
+#root .hlc-public-menu-secondary a,
+#root .hlc-public-menu-account a{
+  box-sizing:border-box!important;
+  min-height:44px!important;
+  display:flex!important;
+  align-items:center!important;
+}
+#root .hlc-public-menu-primary a{padding:10px 8px!important}
+#root .hlc-public-menu-secondary,
+#root .hlc-public-menu-account{
+  display:flex!important;
+  flex-wrap:wrap!important;
+  min-width:0!important;
+}
+#root .hlc-legal-card{
+  border-bottom:1px solid var(--hlc-public-line)!important;
+}
+#root .hlc-legal-card:last-child{border-bottom:0!important}
+
+@media(max-width:680px){
+  #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-nav-inner{
+    grid-template-columns:minmax(0,1fr) auto!important;
+    width:100%!important;
+  }
+  #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-actions{
+    flex:0 0 auto!important;
+    max-width:60%!important;
+  }
+  #root .hlc-public-menu-backdrop{
+    width:100vw!important;
+    max-width:100vw!important;
+    overflow-x:hidden!important;
+  }
+  #root .hlc-public-menu-panel{
+    width:calc(100vw - 20px)!important;
+    max-width:calc(100vw - 20px)!important;
+  }
+  #root .hlc-public-menu-primary{grid-template-columns:1fr!important}
+}
