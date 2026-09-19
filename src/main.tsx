@@ -24,6 +24,7 @@ const isAppHost = hostname === APP_HOST;
 const pathname = window.location.pathname;
 const isPublicHome = pathname === "/" && !isAppHost;
 const isPublicSiteRoute = !isAppHost && /^\/(?:about|homeowners|contractors|professionals|partners|community|services|how-it-works|leadscope|pricing|trust|demo|contact|request-service|professional-application|privacy|terms|accessibility|platform-disclosure|memorial|kendrell-memorial)(?:\/|$)/.test(pathname);
+const isVisualFamilyEntryRoute = /^\/(?:login|register|forgot-password|reset-password|app|portal|portal\/accept)(?:\/|$)/.test(pathname);
 const rootElement = document.getElementById("root")!;
 
 if (isPublicHome) {
@@ -31,11 +32,10 @@ if (isPublicHome) {
     mountStandalonePublicHome(rootElement);
   });
 } else {
-  void import("./styles/public-owner-visual-authority-20260918.css");
   // Public routes use only their current page-level visual authority. Retired public-family
   // styles must not leak back into the live public site. Authenticated/app routes retain
   // their dedicated app shell styling on app.homeleadconnect.org.
-  const styleReady = isPublicSiteRoute ? import("./index.css") : import("./styles/app-shell-entry");
+  const styleReady = (isPublicSiteRoute || isVisualFamilyEntryRoute) ? import("./styles/public-visual-family-20260919.css") : import("./styles/app-shell-entry");
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
       void navigator.serviceWorker.register("/sw.js", { updateViaCache: "none" }).then((registration) => {
