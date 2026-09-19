@@ -17,7 +17,7 @@ const files = {
   memorial: readFileSync("src/pages/Memorial.tsx","utf8"),
 };
 
-const CURRENT_STYLE = 'import "../styles/public-owner-visual-final-20260918.css";';
+const CURRENT_STYLE = 'import "../styles/public-visual-family-20260919.css";';
 const retiredImports = [
   "public-premium.css",
   "public-board-pages-20260912.css",
@@ -29,6 +29,7 @@ const retiredImports = [
   "public-pathway-owner-authority-20260918.css",
   "final-candidate-public-reconciliation.css",
   "legal.css",
+  "public-owner-visual-final-20260918.css",
 ];
 
 test("all owner-listed public routes stay in the current public visual family", () => {
