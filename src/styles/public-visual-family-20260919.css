@@ -326,6 +326,15 @@ button{min-height:44px}
 #root .hlc-auth-shell .hlc-auth-success{display:grid;gap:18px}
 #root .hlc-auth-shell .hlc-auth-success-primary,#root .hlc-auth-shell .hlc-auth-success-next{display:grid;gap:6px;padding:18px 0;border-top:1px solid var(--hlc-public-line);border-bottom:1px solid var(--hlc-public-line);background:transparent;border-radius:0}
 
+/* Auth entry pages retain the app-shell lifecycle for authenticated handoff, but the
+   signed-out surface itself must remain viewport-bound. */
+html body #root#root .hlc-app-shell.hlc-public-shell.hlc-auth-front-door-surface,
+html body #root#root .hlc-app-shell.hlc-public-shell.hlc-auth-front-door-surface>.hlc-route-content,
+html body #root#root .hlc-app-shell.hlc-public-shell.hlc-auth-front-door-surface .hlc-auth-shell.hlc-auth-shell--flat,
+html body #root#root .hlc-app-shell.hlc-public-shell.hlc-auth-front-door-surface header.hlc-board-nav.hlc-public-shared-nav{
+  box-sizing:border-box!important;width:100%!important;max-width:none!important;min-width:0!important;margin-left:0!important;margin-right:0!important;
+}
+
 /* /app + /portal entry */
 #root .hlc-app-entry-state{min-height:100vh;background:linear-gradient(180deg,#fff,#eef7ff);color:var(--hlc-public-ink)}
 #root .hlc-app-entry-state__shell{width:min(980px,calc(100% - 40px));min-height:calc(100vh - 84px);margin:0 auto;padding:64px 0;display:grid;place-items:center}
