@@ -12,12 +12,10 @@ const leadCard = readFileSync("src/components/leads/LeadCard.tsx", "utf8");
 const requestService = readFileSync("src/pages/RequestService.tsx", "utf8");
 const professionalApplication = readFileSync("src/pages/ProfessionalApplication.tsx", "utf8");
 
-test("final UX contracts are composed inside the final authenticated presentation authority", () => {
-  assert.match(authenticatedStyles, /import "\.\/launch-global-presentation-authority\.css";/);
-  const flatIndex = presentation.indexOf('@import "./final-flat-geometry-contract.css";');
-  const uxIndex = presentation.indexOf('@import "./final-global-ux-contract.css";');
-  assert.ok(flatIndex >= 0);
-  assert.ok(uxIndex > flatIndex);
+test("retired final presentation authority is disconnected from the authenticated root", () => {
+  assert.doesNotMatch(authenticatedStyles, /launch-global-presentation-authority\.css/);
+  assert.match(presentation, /final-flat-geometry-contract\.css/);
+  assert.match(presentation, /final-global-ux-contract\.css/);
 });
 
 test("large signed-in surfaces remain dark and individual records have boundaries", () => {
