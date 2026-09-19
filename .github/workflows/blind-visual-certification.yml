@@ -24,6 +24,17 @@ jobs:
     steps:
       - name: Checkout exact candidate
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Assert exact candidate checkout
+        shell: bash
+        run: |
+          set -euo pipefail
+          EXPECTED="${{ github.event.pull_request.head.sha || github.sha }}"
+          ACTUAL="$(git rev-parse HEAD)"
+          echo "Expected exact candidate: $EXPECTED"
+          echo "Checked out candidate: $ACTUAL"
+          test "$ACTUAL" = "$EXPECTED"
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -79,7 +90,7 @@ jobs:
       - name: Certify public iPhone routes render and capture
         run: |
           set -euo pipefail
-          for item in 'home:/:One place for the next right move.' 'login:/login:Sign in' 'privacy:/privacy:Privacy' 'terms:/terms:Terms of Service' 'platform:/platform-disclosure:Platform and contractor disclosure'; do
+          for item in 'home:/:A stronger community' 'login:/login:Sign in' 'privacy:/privacy:Privacy' 'terms:/terms:Terms of Service' 'platform:/platform-disclosure:Platform and contractor disclosure'; do
             name="${item%%:*}"; rest="${item#*:}"; route="${rest%%:*}"; expect="${rest#*:}"
             url="http://127.0.0.1:4173$route"
             dom="$GITHUB_WORKSPACE/artifacts/blind-visual/public-iphone-$name.dom.html"
@@ -96,24 +107,17 @@ jobs:
           set -euo pipefail
           DOM="$GITHUB_WORKSPACE/artifacts/blind-visual/public-iphone-home.dom.html"
           for expect in \
-            'The Connected Experience' \
-            'One place for the next right move.' \
-            'Request service, find the right people, and keep the work connected from first conversation to follow-through.' \
-            'Request home service' \
-            'Meet the mission' \
-            'Four Pathways' \
+            'The HomeLead Connect ecosystem' \
+            'A stronger community' \
             'For Residents' \
             'For Professionals' \
             'For Partners' \
             'For Community' \
             'Find resident support' \
             'Explore professional access' \
-            'Explore partner access' \
-            'Visit the community' \
-            'Different experiences. Same mission. One connected ecosystem.' \
-            'The HomeLead Connect vision' \
-            'starts here.' \
-            'Business workspace: $49.99/month after a 14-day trial.' \
+            'Explore partner opportunities' \
+            'Explore community resources' \
+            '$49.99/month' \
             'HomeLead Connect'; do
             if ! grep -Fqi "$expect" "$DOM"; then
               echo "Connected Experience full-page front-door marker missing: $expect"
@@ -122,12 +126,11 @@ jobs:
           done
           grep -Fq 'href="https://app.homeleadconnect.org/register"' "$DOM" || { echo 'Connected Experience register handoff missing'; exit 64; }
           grep -Fq 'href="https://app.homeleadconnect.org/login"' "$DOM" || { echo 'Connected Experience sign-in handoff missing'; exit 65; }
-          grep -Fq 'href="https://app.homeleadconnect.org/request-service"' "$DOM" || { echo 'Connected Experience request-service handoff missing'; exit 66; }
           grep -Fq 'href="/professionals"' "$DOM" || { echo 'Connected Experience professional handoff missing'; exit 67; }
       - name: Certify public Mac routes render and capture
         run: |
           set -euo pipefail
-          for item in 'home:/:One place for the next right move.' 'login:/login:Sign in' 'privacy:/privacy:Privacy'; do
+          for item in 'home:/:A stronger community' 'login:/login:Sign in' 'privacy:/privacy:Privacy'; do
             name="${item%%:*}"; rest="${item#*:}"; route="${rest%%:*}"; expect="${rest#*:}"
             url="http://127.0.0.1:4173$route"
             dom="$GITHUB_WORKSPACE/artifacts/blind-visual/public-mac-$name.dom.html"

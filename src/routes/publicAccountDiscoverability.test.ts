@@ -4,30 +4,33 @@ import { readFileSync } from "node:fs";
 
 const main = readFileSync(new URL("../main.tsx", import.meta.url), "utf8");
 const index = readFileSync(new URL("../../index.html", import.meta.url), "utf8");
+const standaloneHome = readFileSync(new URL("../standalonePublicHome.ts", import.meta.url), "utf8");
+const nav = readFileSync(new URL("../components/PublicSiteNav.tsx", import.meta.url), "utf8");
 const router = readFileSync(new URL("./AppRouter.tsx", import.meta.url), "utf8");
 
-test("canonical public root exposes approved account-access entry points", () => {
-  assert.match(main, /href="https:\/\/app\.homeleadconnect\.org\/login"[^>]*>Sign In<\/a>/);
-  assert.match(main, /href="https:\/\/app\.homeleadconnect\.org\/register"[^>]*>Get Started(?: →)?<\/a>/);
-  assert.match(main, /href="https:\/\/app\.homeleadconnect\.org\/request-service"[^>]*>Request home service<\/a>/);
-  assert.match(main, /class="hlc-mobile-sign-in-link" href="https:\/\/app\.homeleadconnect\.org\/login">Sign In<\/a>/);
-  assert.doesNotMatch(main, /hlc-mobile-request-link/);
+test("canonical public root exposes approved account-access entry points through shared navigation", () => {
+  assert.match(standaloneHome, /hlc-public-menu-trigger/);
+  assert.match(standaloneHome, /APP_ORIGIN}\/login/);
+  assert.match(standaloneHome, /APP_ORIGIN}\/register/);
+  assert.ok(standaloneHome.includes('link(`${APP_ORIGIN}/login`, "hlc-board-login", "Sign In")'));
+  assert.ok(standaloneHome.includes('link(`${APP_ORIGIN}/register`, "hlc-board-cta", "Get Started")'));
+  assert.match(nav, /appUrl\("\/login"\)/);
+  assert.match(nav, /appUrl\("\/register"\)/);
 });
 
-test("parser-seeded public shell preserves the Connected Experience first-paint contract", () => {
-  assert.match(index, /class="hlc-v2-home hlc-v2-parser-seed"/);
-  assert.match(index, /aria-label="HomeLead Connect home"[^>]*>[\s\S]*?data-hlc-master-logo="true"[^>]+src="\/icon-512\.png"[\s\S]*?HomeLead Connect[\s\S]*?<\/a>/);
-  assert.doesNotMatch(index, /src="\/brand\/homelead-connect-transparent-v2\.svg"/);
-  assert.doesNotMatch(index, /<img[^>]+src="\/hlc-logo-public\.webp"/);
-  assert.doesNotMatch(index, /src="\/brand\/homelead-connect-master-transparent\.png"/);
-  assert.match(index, /href="https:\/\/app\.homeleadconnect\.org\/request-service"[^>]*>Request home service<\/a>/);
-  assert.match(index, /The Connected Experience/);
-  assert.match(index, /One place for the next right move\./);
-  assert.match(index, /Request service, find the right people, and keep the work connected from first conversation to follow-through\./);
-  assert.match(index, /Meet the mission →/);
-  assert.match(index, /Four Pathways/);
-  assert.doesNotMatch(index, /Homes\. People\. Opportunity\./);
-  assert.doesNotMatch(index, /A stronger community <span style="color:#42b7ff">starts at home\.<\/span>/);
+test("public root uses the owner-approved lightweight presentation authority", () => {
+  assert.match(main, /import\("\.\/standalonePublicHome"\)/);
+  assert.match(main, /mountStandalonePublicHome\(rootElement\)/);
+  assert.doesNotMatch(main, /import\("\.\/pages\/HomePage\.tsx"\)/);
+  assert.doesNotMatch(standaloneHome, /react-dom\/client|react-router-dom/);
+  assert.doesNotMatch(index, /hlc-v2-parser-seed|root\.innerHTML/);
+  assert.doesNotMatch(standaloneHome, /\.innerHTML\s*=/);
+  assert.match(standaloneHome, /replaceChildren\(\)/);
+  assert.match(index, /rel="preload" as="image" href="\/home-hero-authority-desktop-20260916\.webp"/);
+  assert.match(index, /rel="preload" as="image" href="\/home-hero-authority-mobile-20260916\.webp"/);
+  for (const destination of ["/homeowners", "/professionals", "/partners", "/community"]) {
+    assert.ok(standaloneHome.includes(destination), `Missing approved homepage destination ${destination}`);
+  }
 });
 
 test("canonical account routes remain declared for the public access flow", () => {

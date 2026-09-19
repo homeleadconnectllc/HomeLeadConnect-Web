@@ -153,9 +153,11 @@ requireText('supabase/migrations/20260814204700_enforce_leads_single_writer.sql'
 requireText('supabase/migrations/20260814210500_workspace_team_roles_and_invitations.sql', 'workspace_invitations');
 requireText('supabase/migrations/20260814210500_workspace_team_roles_and_invitations.sql', 'create_workspace_invitation');
 requireText('supabase/migrations/20260814211500_support_workspace_invitee_signup.sql', "v_account_type='workspace_invitee'");
-requireText('src/pages/HomePage.tsx', 'to="/request-service"');
-requireText('src/pages/HomePage.tsx', 'to="/app"');
-requireText('src/pages/HomePage.tsx', 'to="/community"');
+requireText('src/routes/AppRouter.tsx', 'path="/request-service"');
+requireText('src/routes/AppRouter.tsx', '<Route path="/app" element={<AppEntry/>}/>');
+requireText('src/pages/HomePage.tsx', 'href: "/community"');
+requireText('src/pages/HomePage.tsx', '$49.99/month');
+requireText('src/pages/HomePage.tsx', 'A stronger community');
 requireText('src/pages/ProfessionalApplication.tsx', 'submitProfessionalApplication');
 requireText('src/api/professionalApplications.ts', 'submit_professional_application');
 requireText('supabase/migrations/20260814163950_professional_application_intake.sql', 'enable row level security');

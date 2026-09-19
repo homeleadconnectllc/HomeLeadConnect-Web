@@ -99,6 +99,18 @@ jobs:
           node - <<'NODE'
           const fs = require('node:fs');
           const report = JSON.parse(fs.readFileSync('/tmp/lighthouse-mobile.json', 'utf8'));
+          const audit = (id) => report.audits[id];
+          const metric = (id) => ({ id, score: audit(id)?.score, value: audit(id)?.numericValue, display: audit(id)?.displayValue });
+          const opportunity = (id) => ({ id, score: audit(id)?.score, display: audit(id)?.displayValue, savings: audit(id)?.details?.overallSavingsMs ?? audit(id)?.details?.overallSavingsBytes ?? 0 });
+          console.log('Mobile Lighthouse diagnostics', {
+            metrics: ['first-contentful-paint','largest-contentful-paint','speed-index','total-blocking-time','cumulative-layout-shift'].map(metric),
+            opportunities: ['render-blocking-resources','unused-css-rules','unused-javascript','modern-image-formats','uses-optimized-images','uses-responsive-images','total-byte-weight','mainthread-work-breakdown','bootup-time'].map(opportunity),
+            lcpElement: audit('largest-contentful-paint-element')?.details?.items?.[0] ?? null,
+          });
+          NODE
+          node - <<'NODE'
+          const fs = require('node:fs');
+          const report = JSON.parse(fs.readFileSync('/tmp/lighthouse-mobile.json', 'utf8'));
           const score = (key) => Number(report.categories[key]?.score ?? 0);
           console.log('Mobile Lighthouse', {
             performance: score('performance'),

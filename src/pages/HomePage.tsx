@@ -1,86 +1,40 @@
 import PublicSiteNav from "../components/PublicSiteNav";
-import "../styles/v2-board-frontdoor-20260912.css";
-import "../styles/v2-board-frontdoor-performance-20260912.css";
-import "../styles/v2-board-rest-polish-20260912.css";
-import "../styles/front-door-family-ecosystem-20260913.css";
-import "../styles/frontdoor-profile-protocol-20260913.css";
-import "../styles/public-header-logo-authority-20260915.css";
-import "../styles/public-home-centered-copy-authority-20260915.css";
-import "../styles/public-home-mobile-nav-v2-20260915.css";
-import "../styles/public-home-hero-authority-20260916.css";
-import "../styles/public-footer-home-authority-20260916.css";
+import "../styles/public-home-owner-authority-20260918.css";
 
-/* Canonical SPA destinations retained for the public parser/audit contract: to="/request-service" to="/app" to="/community". */
 const pathways = [
-  { key: "resident", title: "For Residents", copy: "Get help with the home in front of you—and keep the next step clear.", href: "/homeowners", action: "Find resident support →", icon: "⌂" },
-  { key: "professional", title: "For Professionals", copy: "Build a more visible, accountable service business inside the network.", href: "/professionals", action: "Explore professional access →", icon: "▣" },
-  { key: "partner", title: "For Partners", copy: "Create referral relationships that respect people, context, and consent.", href: "/partners", action: "Explore partner access →", icon: "↔" },
-  { key: "community", title: "For Community", copy: "Find the people and resources that help neighborhoods move forward.", href: "/community", action: "Visit the community →", icon: "●" },
+  { key: "resident", title: "For Residents", copy: "Find help with the home in front of you—and keep the next step clear.", href: "/homeowners", action: "Find resident support →" },
+  { key: "professional", title: "For Professionals", copy: "Grow your business, get more opportunities, and do your best work.", href: "/professionals", action: "Explore professional access →" },
+  { key: "partner", title: "For Partners", copy: "Create referral relationships that respect people, context, and consent.", href: "/partners", action: "Explore partner opportunities →" },
+  { key: "community", title: "For Community", copy: "Find the people and resources that help build stronger neighborhoods.", href: "/community", action: "Explore community resources →" },
 ] as const;
 
 export default function HomePage() {
   return (
-    <main className="hlc-board-home hlc-family-ecosystem hlc-public-owner-redesign" data-public-page="home">
+    <main className="hlc-owner-home" data-public-page="home">
       <PublicSiteNav />
-
-      <section className="hlc-family-hero" aria-labelledby="hlc-family-hero-title">
-        <div className="hlc-family-hero-inner">
-          <div className="hlc-family-hero-copy">
-            <p className="hlc-family-kicker">The Connected Experience</p>
-            <h1 id="hlc-family-hero-title">One place for the next right move.</h1>
-            <p>Request service, find the right people, and keep the work connected from first conversation to follow-through.</p>
-            <div className="hlc-family-hero-actions">
-              <a className="hlc-board-cta" href="/request-service">Request home service</a>
-              <a className="hlc-family-secondary" href="#vision">Meet the mission →</a>
-            </div>
-          </div>
+      <section className="hlc-owner-hero" aria-labelledby="hlc-owner-title">
+        <picture className="hlc-owner-hero-media" aria-hidden="true">
+          <source media="(max-width: 680px)" srcSet="/home-hero-authority-mobile-20260916.webp" />
+          <img src="/home-hero-authority-desktop-20260916.webp" alt="" width="1600" height="900" fetchPriority="high" decoding="sync" />
+        </picture>
+        <div className="hlc-owner-hero-copy">
+          <p className="hlc-owner-kicker">The HomeLead Connect ecosystem</p>
+          <h1 id="hlc-owner-title">A stronger community <span>starts here.</span></h1>
+          <p className="hlc-owner-tagline">Connecting homes. Creating opportunities.</p>
+          <p className="hlc-owner-intro">The people. The services. The partnerships.<br />All in one place to help our communities move forward.</p>
+          <p className="hlc-owner-price"><strong>$49.99/month</strong> professional membership</p>
         </div>
+        <p className="hlc-owner-script">Stronger Homes. Brighter Futures.<small>Harrisburg, PA</small></p>
       </section>
-
-      <section id="pathways" className="hlc-board-pathway-band" aria-labelledby="hlc-board-pathway-title">
-        <div className="hlc-board-pathway-heading">
-          <p className="hlc-family-kicker">The HomeLead Connect ecosystem</p>
-          <h2 id="hlc-board-pathway-title">Four Pathways<span>.</span></h2>
-          <p className="hlc-family-pathway-subtitle">Different experiences. Same mission. One connected ecosystem.</p>
-        </div>
-        <div className="hlc-board-pathway-inner">
-          {pathways.map((p) => (
-            <article className={`hlc-board-pathway hlc-board-pathway--${p.key}`} key={p.key}>
-              <div className="hlc-board-pathway-content">
-                <div className="hlc-family-pathway-icon" aria-hidden="true">{p.icon}</div>
-                <p className="hlc-board-pathway-label">{p.title}</p>
-                <p className="hlc-board-pathway-copy">{p.copy}</p>
-                <a className="hlc-family-pathway-link" href={p.href}>{p.action}</a>
-              </div>
-            </article>
-          ))}
-        </div>
+      <section className="hlc-owner-pathways" aria-label="HomeLead Connect pathways">
+        {pathways.map((p) => <a className={`hlc-owner-pathway hlc-owner-pathway--${p.key}`} href={p.href} key={p.key}>
+          <span className="hlc-owner-pathway-photo" aria-hidden="true" />
+          <span className="hlc-owner-pathway-body"><strong>{p.title}</strong><span>{p.copy}</span><b>{p.action}</b></span>
+        </a>)}
       </section>
-
-      <section id="vision" className="hlc-family-vision" aria-labelledby="hlc-family-vision-title">
-        <div className="hlc-family-vision-inner">
-          <div>
-            <p className="hlc-family-vision-kicker">The HomeLead Connect vision</p>
-            <h2 id="hlc-family-vision-title">A stronger community <span>starts here.</span></h2>
-          </div>
-          <p className="hlc-family-vision-note">Communities move forward when residents, professionals, partners and local opportunity move forward together.</p>
-        </div>
-      </section>
-
-      <section className="hlc-family-entry" aria-labelledby="hlc-family-entry-title">
-        <div className="hlc-family-entry-inner">
-          <div>
-            <p className="hlc-family-kicker">Ready when you are</p>
-            <h2 id="hlc-family-entry-title">Start with the path that fits you.</h2>
-            <p className="hlc-family-pricing-note">Business workspace: $49.99/month after a 14-day trial.</p>
-          </div>
-          <div className="hlc-family-entry-actions">
-            <a href="/request-service">Request Service</a>
-            <a href="/professional-application">Apply as a Professional</a>
-            <a href="/partners">Explore Partnerships</a>
-            <a href="/app">Open the App</a>
-          </div>
-        </div>
+      <section className="hlc-owner-mission" aria-label="HomeLead Connect mission">
+        <p>Connecting Homes. Creating Opportunities.</p>
+        <div><span>⌂ <b>Stronger Homes</b></span><span>◎ <b>More Opportunities</b></span><span>↔ <b>Thriving Communities</b></span><span>↗ <b>Brighter Futures</b></span></div>
       </section>
     </main>
   );

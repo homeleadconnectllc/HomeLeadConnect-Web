@@ -44,7 +44,7 @@ html body #root .hlc-public-shared-nav .hlc-board-links a:hover,
 html body #root .hlc-public-shared-nav .hlc-board-links a:focus-visible{color:var(--page-accent)!important;-webkit-text-fill-color:var(--page-accent)!important}
 html body #root .hlc-public-shared-nav .hlc-board-actions{justify-self:end!important;margin-left:auto!important;gap:18px!important}
 html body #root .hlc-public-shared-nav .hlc-board-login,
-html body #root .hlc-public-shared-nav .hlc-mobile-sign-in-link{
+html body #root .hlc-public-shared-nav .hlc-retired-mobile-sign-in-link{
   color:#e5edf6!important;-webkit-text-fill-color:#e5edf6!important;background:transparent!important;border:0!important;box-shadow:none!important;
 }
 html body #root .hlc-public-shared-nav .hlc-board-cta{
@@ -176,7 +176,7 @@ html body #root .hlc-public-footer-home-authority nav a{color:var(--page-accent,
     width:58px!important;min-width:58px!important;max-width:58px!important;height:58px!important;min-height:58px!important;max-height:58px!important;flex-basis:58px!important;
   }
   html body #root .hlc-public-shared-nav .hlc-board-brand img{width:58px!important;height:58px!important;max-width:58px!important;max-height:58px!important}
-  html body #root .hlc-public-shared-nav .hlc-mobile-sign-in-link{display:none!important}
+  html body #root .hlc-public-shared-nav .hlc-retired-mobile-sign-in-link{display:none!important}
   html body #root .hlc-public-shared-nav .hlc-mobile-icon-nav-v5{grid-column:3!important;justify-self:end!important}
   html body #root .hlc-public-board-page .hlc-public-shell,
   html body #root .hlc-utility-page .hlc-utility-shell,
@@ -200,7 +200,7 @@ html body #root .hlc-public-footer-home-authority nav a{color:var(--page-accent,
 /* Final global-header authority: outranks route-specific legacy header paint
    without weakening the certification contract. */
 html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-login,
-html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-sign-in-link{
+html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-retired-mobile-sign-in-link{
   color:#e5edf6!important;
   -webkit-text-fill-color:#e5edf6!important;
   background:transparent!important;
@@ -223,7 +223,7 @@ html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-cta{
   -webkit-text-fill-color:var(--page-accent)!important;
 }
 @media(max-width:680px){
-  html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-sign-in-link{
+  html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-retired-mobile-sign-in-link{
     display:none!important;
   }
 }
@@ -232,7 +232,7 @@ html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-cta{
 /* Home's legacy nav authority uses repeated #root specificity.
    This final owner authority intentionally outranks it on every public/shared route. */
 html body #root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-login,
-html body #root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-sign-in-link{
+html body #root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-retired-mobile-sign-in-link{
   color:#e5edf6!important;
   -webkit-text-fill-color:#e5edf6!important;
   background:transparent!important;
@@ -255,7 +255,7 @@ html body #root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-
   -webkit-text-fill-color:var(--page-accent)!important;
 }
 @media(max-width:680px){
-  html body #root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-sign-in-link{
+  html body #root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-retired-mobile-sign-in-link{
     display:none!important;
   }
 }
@@ -265,7 +265,7 @@ html body #root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-
 @media(max-width:680px){
   html body #root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-login,
   html body #root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-cta,
-  html body #root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-sign-in-link{
+  html body #root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-retired-mobile-sign-in-link{
     display:none!important;
   }
 }
@@ -599,7 +599,7 @@ html body #root .hlc-public-footer-home-authority>small{
   }
   html body #root header.hlc-public-shared-nav .hlc-board-login,
   html body #root header.hlc-public-shared-nav .hlc-board-cta{display:none!important}
-  html body #root header.hlc-public-shared-nav .hlc-mobile-sign-in-link{
+  html body #root header.hlc-public-shared-nav .hlc-retired-mobile-sign-in-link{
     display:inline!important;
     color:var(--hlc-public-resident)!important;
     -webkit-text-fill-color:var(--hlc-public-resident)!important;
@@ -635,7 +635,7 @@ html body #root .hlc-public-footer-home-authority>small{
 /* The older logo+Menu-only mobile contract is superseded by the owner's
    current reference: mobile Sign In remains visible next to Menu. */
 @media(max-width:680px){
-  html body #root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-sign-in-link{
+  html body #root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-retired-mobile-sign-in-link{
     display:inline!important;
   }
 }
@@ -922,7 +922,7 @@ html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathwa
   html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-login{
     display:none!important;
   }
-  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-mobile-sign-in-link{
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-retired-mobile-sign-in-link{
     display:inline!important;
     color:#e5edf6!important;
     -webkit-text-fill-color:#e5edf6!important;
@@ -1053,5 +1053,105 @@ html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathwa
     outline-offset:2px!important;
     background:rgba(24,66,105,.38)!important;
     box-shadow:0 0 0 3px rgba(255,255,255,.08)!important;
+  }
+}
+
+/* HLC-M1-MOBILE-SIGNIN-AUTHORITY */
+.hlc-retired-mobile-sign-in-link {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  html body #root .hlc-public-shared-nav .hlc-board-nav-inner {
+    width: 100%;
+    min-height: 68px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  html body #root .hlc-public-shared-nav .hlc-board-actions {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-left: auto;
+  }
+
+  html body #root .hlc-public-shared-nav .hlc-board-login {
+    display: none !important;
+  }
+
+  html body #root .hlc-public-shared-nav .hlc-retired-mobile-sign-in-link {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    min-width: 66px;
+    min-height: 44px;
+    padding: 8px 10px;
+    color: #f4f7fb !important;
+    -webkit-text-fill-color: #f4f7fb !important;
+    font-size: .88rem;
+    font-weight: 800;
+    line-height: 1;
+    text-decoration: none;
+    white-space: nowrap;
+    visibility: visible !important;
+    opacity: 1 !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+
+  html body #root .hlc-public-shared-nav .hlc-board-cta {
+    display: none !important;
+  }
+
+  html body #root .hlc-public-shared-nav .hlc-public-menu-trigger {
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+}
+
+/* HLC-M1-SINGLE-SIGNIN-AUTHORITY
+   Existing .hlc-board-login is the only top-bar Sign In control. */
+@media (max-width: 680px) {
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-login {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 66px !important;
+    min-height: 44px !important;
+    height: 44px !important;
+    padding: 0 8px !important;
+    color: #f4f7fb !important;
+    -webkit-text-fill-color: #f4f7fb !important;
+    font-size: 1rem !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    background: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+}
+
+/* HLC-M1-MOBILE-GET-STARTED-AUTHORITY */
+@media (max-width: 680px) {
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-cta {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 44px !important;
+    height: 44px !important;
+    padding: 0 4px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    white-space: nowrap !important;
   }
 }

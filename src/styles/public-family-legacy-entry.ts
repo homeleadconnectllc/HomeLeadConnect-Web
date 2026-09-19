@@ -1,0 +1,21 @@
+import "../index.css";
+/* Legacy public-family presentation, loaded only outside the standalone public homepage critical path. */
+import "./front-door-system-pass-20260910.css";
+import "./front-door-refinement-20260910.css";
+import "./front-door-mobile-redesign-20260911.css";
+import "./front-door-mobile-polish-20260911.css";
+import "./v2-cinematic-community-homepage-20260911.css";
+import "./v2-mobile-image-layer-fix-20260912.css";
+import "./v2-board-alignment-20260912.css";
+import "./v2-board-frontdoor-20260912.css";
+import "./v2-board-frontdoor-performance-20260912.css";
+import "./v2-board-rest-polish-20260912.css";
+import "./front-door-family-ecosystem-20260913.css";
+import "./frontdoor-profile-protocol-20260913.css";
+import "./frontdoor-destination-color-authority-20260914.css";
+import "./frontdoor-pathway-photography-20260914.css";
+import "./public-home-centered-copy-authority-20260915.css";
+import "./public-home-title-spacing-repair-20260915.css";
+import "./public-home-section-blend-authority-20260915.css";
+import "./public-home-final-composition-20260915.css";
+import "./public-home-pathway-heading-wrap-20260915.css";
