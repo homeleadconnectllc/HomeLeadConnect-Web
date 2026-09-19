@@ -13,15 +13,12 @@ import "./styles/front-door-family-ecosystem-20260913.css";
 import "./styles/frontdoor-profile-protocol-20260913.css";
 import "./styles/frontdoor-destination-color-authority-20260914.css";
 import "./styles/frontdoor-pathway-photography-20260914.css";
-import "./styles/public-header-logo-authority-20260915.css";
 import "./styles/public-home-centered-copy-authority-20260915.css";
 import "./styles/public-home-title-spacing-repair-20260915.css";
 import "./styles/public-home-section-blend-authority-20260915.css";
 import "./styles/public-home-final-composition-20260915.css";
-import "./styles/public-home-mobile-nav-v5-20260915.css";
 import "./styles/public-home-pathway-heading-wrap-20260915.css";
 import "./styles/public-footer-home-authority-20260916.css";
-import "./styles/public-nav-home-authority-20260916.css";
 import "./styles/public-owner-visual-authority-20260918.css";
 
 /*
