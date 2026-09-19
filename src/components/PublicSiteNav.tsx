@@ -65,7 +65,7 @@ export default function PublicSiteNav() {
       >
         <img className="hlc-navbar-master-logo" data-hlc-master-logo="true" src={NAV_LOGO} alt="" aria-hidden="true" />
         <span className="hlc-brand-accessible-label">HomeLead Connect</span>
-        <span className="hlc-public-menu-cue" aria-hidden="true" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+        <span className="hlc-public-menu-cue" aria-hidden="true">
           {menuOpen ? <X size={18} /> : <Menu size={18} />}<span>Menu</span>
         </span>
       </button>
