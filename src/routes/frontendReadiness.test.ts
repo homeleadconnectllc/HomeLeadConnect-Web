@@ -58,9 +58,9 @@ test("authenticated shell cannot mount a second permanent mobile work dock", () 
   assert.match(navbar, /aria-label="Mobile primary navigation"/);
 });
 
-test("public shell legal links and brand accessible name remain Lighthouse-safe", () => {
-  assert.match(footer, /color: "#bfdbfe"/);
-  assert.match(footer, /fontWeight: 600/);
+test("public shell legal links and brand accessible name remain Lighthouse-safe without inline paint", () => {
+  assert.match(footer, /aria-label="Legal and accessibility"/);
+  assert.doesNotMatch(footer, /style=\{/);
   assert.match(navbar, /className="hlc-navbar-brand"/);
   assert.doesNotMatch(navbar, /className="hlc-navbar-brand"[^>]*aria-label=/);
 });
