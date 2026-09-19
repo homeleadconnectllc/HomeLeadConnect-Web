@@ -1,3 +1,4 @@
+/* Structural/feature behavior retained; local visual paint retired 2026-09-19. */
 /* Final compact-device geometry corrections.
    Visual theme is intentionally absent. */
 :root{
@@ -33,7 +34,7 @@
     max-height:60px!important;
     padding:2px!important;
     overflow:hidden!important;
-    border-radius:50%!important;
+    
   }
 
   #root .hlc-signed-in-shell .hlc-agent-dock:not(.is-open) .hlc-agent-dock-trigger > img{
