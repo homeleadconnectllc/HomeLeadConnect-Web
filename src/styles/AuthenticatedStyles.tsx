@@ -1,6 +1,5 @@
 import MobileNavigationDialogAccessibility from "../components/accessibility/MobileNavigationDialogAccessibility";
 import "./authenticated-entry";
-import "./manual-communications-launch-authority.css";
 import "./desktop-agent-team-rail.css";
 import "./desktop-data-workspaces.css";
 import "./desktop-page-archetypes.css";
@@ -29,7 +28,6 @@ import "./mobile-a-plus-final-device-round-2.css";
 import "./provider-professional-profile.css";
 import "./mobile-a-plus-final-device-round-3.css";
 import "./mobile-a-plus-private-beta-closure.css";
-import "./soft-launch-manual-communications-authority.css";
 import "./e5-intelligence-sandbox.css";
 import "./e6-trial-entitlements.css";
 import "./hlc-unified-settings-index.css";
@@ -45,18 +43,10 @@ import "./calendar-dashboard-a.css";
 import "./follow-ups-dashboard-a.css";
 import "./workflow-dashboard-a.css";
 import "./automations-dashboard-a.css";
-import "./version-a-role-portal-rollout-20260904.css";
 import "./version-a-protected-geometry-contracts-20260904.css";
-import "./version-a-portal-imagery-authority-20260904.css";
-import "./version-a-image2-final-authority-20260904.css";
 import "./mobile-command-menu-rebuild-20260905.css";
 import "./messages-lane-2-mobile-authority.css";
-import "./app-directory-source-authority.css";
-import "./community-hub-source-authority.css";
-import "./work-home-source-authority.css";
-import "./dashboard-home-source-authority.css";
 import "./dashboard-context-hero.css";
-import "./ai-team-context-source-authority-20260905.css";
 
 export default function AuthenticatedStyles() {
   return <MobileNavigationDialogAccessibility />;
