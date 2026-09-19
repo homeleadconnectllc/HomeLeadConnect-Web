@@ -1,4 +1,4 @@
-name: HLC Rendered Quality Gate
+name: The HomeLead_Connect Experience — Rendered Quality Gate
 
 on:
   push:
