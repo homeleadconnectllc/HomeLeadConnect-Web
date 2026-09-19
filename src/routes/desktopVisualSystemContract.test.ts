@@ -99,9 +99,9 @@ test("signed-in routes share the final dark readable form and alert contract", (
   assert.match(finalPolish, /rgba\(248,\s*113,\s*113/);
 });
 
-test("public surfaces use the current owner-approved visual family without the retired flat authority", () => {
+test("public surfaces use the current owner-approved flat editorial family without retired navy or white-card authorities", () => {
   assert.doesNotMatch(app, /public-final-flat-authority\.css/);
-  assert.match(publicVisualFamily, /OWNER HOMEPAGE PARITY REPAIR/);
+  assert.match(publicVisualFamily, /OWNER CURRENT PUBLIC PRESENTATION/);
   assert.match(publicVisualFamily, /data-pathway="residents"[\s\S]*#55e6b3/);
   assert.match(publicVisualFamily, /data-pathway="professionals"[\s\S]*#39bfff/);
   assert.match(publicVisualFamily, /data-pathway="partners"[\s\S]*#ffc84e/);
