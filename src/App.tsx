@@ -3,8 +3,6 @@ import AppRouter from "./routes/AppRouter";
 import { useAuth } from "./hooks/useAuth";
 import "./styles/final-mobile-polish.css";
 import "./styles/global-logo-geometry.css";
-import "./styles/master-visual-system-20260907.css";
-import "./styles/auth-physical-final-authority-20260907.css";
 
 const AuthenticatedStyles = lazy(() => import("./styles/AuthenticatedStyles"));
 const GlobalPullToRefresh = lazy(() => import("./components/GlobalPullToRefresh"));
