@@ -33,36 +33,7 @@
     min-height: 52px !important;
   }
 
-  /* More is part of the shell, not a second full-height page covering the nav. */
-  .hlc-mobile-portal {
-    position: fixed !important;
-    top: calc(62px + env(safe-area-inset-top)) !important;
-    right: 0 !important;
-    bottom: var(--hlc-mobile-nav-box) !important;
-    left: 0 !important;
-    inset: auto 0 var(--hlc-mobile-nav-box) 0 !important;
-    z-index: 1700 !important;
-    width: 100% !important;
-    height: auto !important;
-    min-height: 0 !important;
-    max-height: none !important;
-    padding: 0 !important;
-    overflow: hidden !important;
-    background: #071426 !important;
-  }
-
-  .hlc-mobile-portal-scroll {
-    display: block !important;
-    width: 100% !important;
-    height: 100% !important;
-    min-height: 0 !important;
-    max-height: 100% !important;
-    margin: 0 !important;
-    padding: 16px 18px 24px !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
-    overscroll-behavior: contain !important;
-  }
+  /* Retired mobile-portal geometry removed. */
 
   .hlc-navbar.menu-is-open {
     z-index: 1900 !important;
