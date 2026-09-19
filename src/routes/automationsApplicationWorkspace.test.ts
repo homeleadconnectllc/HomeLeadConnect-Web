@@ -5,6 +5,7 @@ import test from "node:test";
 const page = readFileSync("src/pages/dashboard/Automations.tsx", "utf8");
 const styles = readFileSync("src/styles/automations-application-workspace.css", "utf8");
 const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
+const authenticatedStyles = readFileSync("src/styles/AuthenticatedStyles.tsx", "utf8");
 
 test("Automations uses a dedicated management control workspace instead of generic card grids", () => {
   assert.match(page, /hlc-automations-workspace/);
@@ -29,9 +30,10 @@ test("Automations preserves scheduled evidence, safe manual runs, registry guard
 
 test("Automations specialization mounts before final authority and keeps dense mobile rows", () => {
   const routeIndex = entry.indexOf("./automations-application-workspace.css");
-  const finalIndex = entry.indexOf("./application-workspace-ui.css");
   assert.ok(routeIndex >= 0);
-  assert.ok(finalIndex > routeIndex);
+  assert.doesNotMatch(entry, /application-workspace-ui\\.css/);
+  assert.match(authenticatedStyles, /signed-in-professional-system\\.css/);
+  assert.ok(authenticatedStyles.indexOf("signed-in-professional-system.css") > authenticatedStyles.indexOf("dashboard-context-hero.css"));
   assert.match(styles, /\.hlc-automation-registry-head,\.hlc-automation-rule-row\{display:grid/);
   assert.match(styles, /@media\(max-width:720px\)/);
   assert.match(styles, /\.hlc-automation-run-row\{grid-template-columns:1fr/);
