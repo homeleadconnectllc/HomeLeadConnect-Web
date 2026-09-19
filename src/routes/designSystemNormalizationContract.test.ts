@@ -3,16 +3,14 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const mobileShell = readFileSync(new URL("../styles/authenticated-mobile-shell-authority.css", import.meta.url), "utf8");
-const applicationUi = readFileSync(new URL("../styles/application-workspace-ui.css", import.meta.url), "utf8");
 const authenticatedEntry = readFileSync(new URL("../styles/authenticated-entry.ts", import.meta.url), "utf8");
 const appShellEntry = readFileSync(new URL("../styles/app-shell-entry.ts", import.meta.url), "utf8");
 const authenticatedStyles = readFileSync(new URL("../styles/AuthenticatedStyles.tsx", import.meta.url), "utf8");
 
-test("authenticated styling uses modular current authorities without retired global repaint layers", () => {
-  for (const current of [
-    "desktop-workspace-shell.css",
-    "application-workspace-ui.css",
-  ]) assert.ok(authenticatedEntry.includes(current));
+test("authenticated styling uses structural modules with one final signed-in visual authority", () => {
+  assert.ok(authenticatedEntry.includes("desktop-workspace-shell.css"));
+  assert.doesNotMatch(authenticatedEntry, /professional-flat-surface-system\.css/);
+  assert.doesNotMatch(authenticatedEntry, /application-workspace-ui\.css/);
   assert.ok(authenticatedStyles.includes("signed-in-professional-system.css"));
   assert.ok(
     authenticatedStyles.indexOf("signed-in-professional-system.css") >
@@ -48,16 +46,4 @@ test("mobile shell remains compact-viewport scoped and structural", () => {
   assert.match(mobileShell, /box-sizing: border-box !important/);
   assert.match(mobileShell, /max-height: 76px !important/);
   assert.doesNotMatch(mobileShell, /linear-gradient|box-shadow/);
-});
-
-test("current application UI keeps routed workspaces flat by default", () => {
-  assert.match(applicationUi, /\.hlc-signed-in-shell > \.hlc-route-content > main/);
-  assert.match(applicationUi, /background:\s*transparent\s*!important/);
-  assert.match(applicationUi, /box-shadow:\s*none\s*!important/);
-});
-
-test("semantic cards remain explicit opt-ins instead of a global card wall", () => {
-  for (const surface of ["object", "inspector", "dialog"]) {
-    assert.ok(applicationUi.includes(`data-ui-surface="${surface}"`));
-  }
 });

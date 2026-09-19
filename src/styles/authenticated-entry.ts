@@ -35,8 +35,6 @@ import "./documents-resources-application-workspace.css";
 import "./account-portals-application-workspace.css";
 import "./ai-team-application-workspace.css";
 import "./e4-resources-sourcing.css";
-import "./professional-flat-surface-system.css";
-import "./application-workspace-ui.css";
 import "./mobile-embedded-browser-authority.css";
 import "./hlc-guidance-clickaway.css";
 import "./map-lead-identity-pass.css";

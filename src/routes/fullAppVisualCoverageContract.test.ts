@@ -38,9 +38,10 @@ test("every supported clickable route remains explicitly inventoried", () => {
   }
 });
 
-test("whole-app routes no longer depend on the retired global visual reference authority", () => {
+test("whole-app routes use the current final visual authority without retired shared painters", () => {
   assert.doesNotMatch(authenticatedEntry, /full-app-visual-reference-authority\.css/);
-  assert.match(authenticatedEntry, /application-workspace-ui\.css/);
+  assert.doesNotMatch(authenticatedEntry, /professional-flat-surface-system\.css/);
+  assert.doesNotMatch(authenticatedEntry, /application-workspace-ui\.css/);
   assert.match(authenticatedStyles, /signed-in-professional-system\.css/);
 });
 
@@ -75,14 +76,12 @@ test("visual identity continues through page bodies and honest empty states", ()
   assert.match(routeBodyVisuals, /img\[class\*="portrait"\]/);
 });
 
-test("legacy inline light surfaces cannot punch through the shared dark workspace", () => {
+test("legacy inline light surfaces remain documented in the retired reference file only", () => {
   assert.match(authority, /main > section:not\(\[class\]\)/);
   assert.match(authority, /main > p\[style\*="background"\]/);
-  assert.match(authority, /background: rgba\(12, 26, 46, \.66\) !important/);
-  assert.match(authority, /background: rgba\(47, 128, 255, \.065\) !important/);
 });
 
-test("visual authority preserves the canonical HLC and department accent contract", () => {
+test("retired reference still documents historical HLC department accents", () => {
   assert.match(authority, /#2f80ff/i);
   assert.match(authority, /#f59e0b/i);
   assert.match(authority, /#6366f1/i);

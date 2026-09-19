@@ -5,14 +5,14 @@ import test from "node:test";
 const applicationUi = readFileSync(new URL("../styles/application-workspace-ui.css", import.meta.url), "utf8");
 const authenticatedEntry = readFileSync(new URL("../styles/authenticated-entry.ts", import.meta.url), "utf8");
 
-test("application workspace UI remains a current structural authority without retired global repaint layers", () => {
-  assert.match(authenticatedEntry, /import "\.\/application-workspace-ui\.css";/);
+test("legacy application workspace painter remains disconnected from the active authenticated cascade", () => {
+  assert.doesNotMatch(authenticatedEntry, /application-workspace-ui\.css/);
   assert.doesNotMatch(authenticatedEntry, /launch-contrast-readability\.css/);
   assert.doesNotMatch(authenticatedEntry, /ux-ia-village-authority\.css/);
   assert.doesNotMatch(authenticatedEntry, /global-workspace-visual-contract\.css/);
 });
 
-test("the routed workspace shell is flat instead of a giant card", () => {
+test("archived workspace file remains flat and non-destructive if inspected independently", () => {
   assert.match(applicationUi, /\.hlc-signed-in-shell > \.hlc-route-content > main \{/);
   assert.match(applicationUi, /border: 0 !important;/);
   assert.match(applicationUi, /border-radius: 0 !important;/);
@@ -20,23 +20,10 @@ test("the routed workspace shell is flat instead of a giant card", () => {
   assert.match(applicationUi, /box-shadow: none !important;/);
 });
 
-test("structural regions are layout primitives unless they explicitly opt into a semantic surface", () => {
+test("archived structural regions still document semantic surface opt-ins", () => {
   assert.match(applicationUi, /:where\(section, article, form, fieldset\):not\(\.hlc-card\)/);
   assert.match(applicationUi, /:not\(\[data-ui-surface\]\)/);
-  assert.match(applicationUi, /background-image: none !important;/);
-});
-
-test("cards are semantic opt-ins for objects, inspectors, and dialogs", () => {
   for (const surface of ["object", "inspector", "dialog"]) {
     assert.match(applicationUi, new RegExp(`\\[data-ui-surface="${surface}"\\]`));
   }
-  assert.match(applicationUi, /border-radius: 12px !important;/);
-  assert.match(applicationUi, /box-shadow: none !important;/);
-});
-
-test("dense application surfaces favor rows, dividers, and compact mobile rails", () => {
-  assert.match(applicationUi, /tbody tr:hover/);
-  assert.match(applicationUi, /\[role="list"\] > \* \+ \*/);
-  assert.match(applicationUi, /@media \(max-width: 430px\)/);
-  assert.match(applicationUi, /width: 100% !important;/);
 });
