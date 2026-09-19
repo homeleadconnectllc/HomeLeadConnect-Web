@@ -102,6 +102,13 @@
   .hlc-signed-in-shell > .hlc-route-content > main{
     max-width:none;
   }
+
+  .hlc-signed-in-shell > .hlc-public-footer{
+    grid-column:1 / -1;
+    width:100%;
+    min-width:0;
+    box-sizing:border-box;
+  }
 }
 
 @media (max-width:1024px){
