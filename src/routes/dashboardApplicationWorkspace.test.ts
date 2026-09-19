@@ -4,12 +4,13 @@ import test from "node:test";
 
 const dashboard = readFileSync(new URL("../styles/dashboard-application-workspace.css", import.meta.url), "utf8");
 const authenticatedEntry = readFileSync(new URL("../styles/authenticated-entry.ts", import.meta.url), "utf8");
+const authenticatedStyles = readFileSync(new URL("../styles/AuthenticatedStyles.tsx", import.meta.url), "utf8");
 
 test("dashboard specialization remains mounted without retired global visual authorities", () => {
-  const dashboardImport = 'import "./dashboard-application-workspace.css";';
-  const applicationImport = 'import "./application-workspace-ui.css";';
   assert.match(authenticatedEntry, /import "\.\/dashboard-application-workspace\.css";/);
-  assert.ok(authenticatedEntry.indexOf(dashboardImport) < authenticatedEntry.indexOf(applicationImport));
+  assert.doesNotMatch(authenticatedEntry, /application-workspace-ui\\.css/);
+  assert.match(authenticatedStyles, /signed-in-professional-system\\.css/);
+  assert.ok(authenticatedStyles.indexOf("signed-in-professional-system.css") > authenticatedStyles.indexOf("dashboard-context-hero.css"));
   assert.doesNotMatch(authenticatedEntry, /mobile-dashboard-live-authority\.css/);
   assert.doesNotMatch(authenticatedEntry, /launch-contrast-readability\.css/);
   assert.doesNotMatch(authenticatedEntry, /ux-ia-village-authority\.css/);
