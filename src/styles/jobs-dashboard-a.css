@@ -1,9 +1,10 @@
+/* Legacy route structure retained; visual paint retired 2026-09-19. */
 .hlc-jobs-workspace {
   width: min(100%, 1360px);
   max-width: 1360px;
   margin: 0 auto;
   padding: 8px 20px 56px;
-  color: #182235;
+  
 }
 
 .hlc-jobs-header {
@@ -21,7 +22,7 @@
 
 .hlc-jobs-kicker {
   margin: 0 0 6px;
-  color: #1f5fd0;
+  
   font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.14em;
@@ -29,7 +30,7 @@
 
 .hlc-jobs-header h1 {
   margin: 0;
-  color: #182235;
+  
   font-size: clamp(1.85rem, 3vw, 2.45rem);
   line-height: 1.05;
   letter-spacing: -0.035em;
@@ -38,7 +39,7 @@
 .hlc-jobs-header h1 + p {
   max-width: 680px;
   margin: 8px auto 0;
-  color: #657184;
+  
   font-size: 0.94rem;
   line-height: 1.5;
 }
@@ -47,16 +48,16 @@
   margin: 0 0 12px;
   padding: 10px 12px;
   border: 1px solid #dbe3ed;
-  border-radius: 10px;
+  
   background: #fff;
-  color: #4d5a6d;
+  
   font-size: 0.86rem;
 }
 
 .hlc-jobs-state button {
   margin-left: 5px;
   border: 0;
-  background: transparent;
+  
   color: #1f5fd0;
   font: inherit;
   font-weight: 750;
@@ -64,15 +65,15 @@
 }
 
 .hlc-jobs-error {
-  border-color: #fecaca;
+  
   background: #fff7f7;
-  color: #9f2d2d;
+  
 }
 
 .hlc-jobs-success {
-  border-color: #bbf7d0;
+  
   background: #f4fff7;
-  color: #246b3f;
+  
 }
 
 .hlc-jobs-summary {
@@ -86,14 +87,14 @@
   min-width: 0;
   padding: 13px 14px 12px;
   border: 1px solid #dbe3ed;
-  border-radius: 12px;
+  
   background: #fff;
-  box-shadow: 0 1px 2px rgba(24, 34, 53, 0.03);
+  
 }
 
 .hlc-jobs-summary strong {
   display: block;
-  color: #182235;
+  
   font-size: 1.45rem;
   line-height: 1;
   letter-spacing: -0.03em;
@@ -102,7 +103,7 @@
 .hlc-jobs-summary small {
   display: block;
   margin-top: 5px;
-  color: #6b7789;
+  
   font-size: 0.76rem;
   font-weight: 700;
 }
@@ -110,9 +111,9 @@
 .hlc-jobs-board {
   overflow: hidden;
   border: 1px solid #dbe3ed;
-  border-radius: 14px;
+  
   background: #fff;
-  box-shadow: 0 1px 3px rgba(24, 34, 53, 0.04);
+  
 }
 
 .hlc-jobs-column-head,
@@ -127,7 +128,7 @@
   min-height: 40px;
   padding: 0 16px;
   border-bottom: 1px solid #e5eaf1;
-  background: #f7f9fc;
+  
   color: #748095;
   font-size: 0.7rem;
   font-weight: 800;
@@ -151,7 +152,7 @@
 }
 
 .hlc-job-row:hover {
-  background: #f8fbff;
+  
   box-shadow: inset 3px 0 0 #1f5fd0;
 }
 
@@ -166,28 +167,28 @@
   width: 9px;
   height: 9px;
   flex: 0 0 9px;
-  border-radius: 999px;
+  
   background: #94a3b8;
-  box-shadow: 0 0 0 4px #f1f5f9;
+  
 }
 
 .hlc-job-status-dot[data-status="pending"] {
-  background: #d97706;
+  
   box-shadow: 0 0 0 4px #fff7ed;
 }
 
 .hlc-job-status-dot[data-status="active"] {
-  background: #1f5fd0;
+  
   box-shadow: 0 0 0 4px #eff6ff;
 }
 
 .hlc-job-status-dot[data-status="completed"] {
-  background: #15803d;
+  
   box-shadow: 0 0 0 4px #f0fdf4;
 }
 
 .hlc-job-status-dot[data-status="cancelled"] {
-  background: #94a3b8;
+  
 }
 
 .hlc-job-identity-copy {
@@ -198,7 +199,7 @@
 
 .hlc-job-identity-copy strong {
   overflow: hidden;
-  color: #182235;
+  
   font-size: 0.95rem;
   line-height: 1.25;
   text-overflow: ellipsis;
@@ -207,7 +208,7 @@
 
 .hlc-job-identity-copy span,
 .hlc-job-value-cell small {
-  color: #7b8798;
+  
   font-size: 0.74rem;
   line-height: 1.35;
 }
@@ -219,13 +220,13 @@
 }
 
 .hlc-job-value-cell > strong {
-  color: #243247;
+  
   font-size: 0.93rem;
 }
 
 .hlc-job-cell-label {
   display: none;
-  color: #7b8798;
+  
   font-size: 0.69rem;
   font-weight: 800;
   letter-spacing: 0.04em;
@@ -245,9 +246,9 @@
   height: 36px;
   padding: 0 30px 0 10px;
   border: 1px solid #cfd8e5;
-  border-radius: 9px;
+  
   background: #fff;
-  color: #26364b;
+  
   font: inherit;
   font-size: 0.8rem;
   font-weight: 700;
@@ -256,7 +257,7 @@
 .hlc-job-open,
 .hlc-job-actions a,
 .hlc-job-actions summary {
-  color: #39506e;
+  
   font-size: 0.78rem;
   font-weight: 750;
   text-decoration: none;
@@ -269,9 +270,9 @@
   min-height: 36px;
   padding: 0 12px;
   border: 1px solid #1f5fd0;
-  border-radius: 9px;
+  
   background: #1f5fd0;
-  color: #fff;
+  
 }
 
 .hlc-s2-desktop-secondary {
@@ -283,7 +284,7 @@
 
 .hlc-job-actions .hlc-s2-desktop-secondary a:hover,
 .hlc-job-actions .hlc-s2-desktop-secondary a:focus-visible {
-  color: #1f5fd0;
+  
 }
 
 .hlc-jobs-empty {
@@ -292,12 +293,12 @@
   gap: 5px;
   min-height: 180px;
   padding: 30px 20px;
-  color: #667386;
+  
   text-align: center;
 }
 
 .hlc-jobs-empty strong {
-  color: #27364b;
+  
   font-size: 1rem;
 }
 
@@ -344,7 +345,7 @@
 
   .hlc-jobs-summary > span {
     padding: 11px 12px;
-    border-radius: 10px;
+    
   }
 
   .hlc-jobs-summary strong {
@@ -354,9 +355,9 @@
   .hlc-jobs-board {
     overflow: visible;
     border: 0;
-    border-radius: 0;
+    
     background: transparent;
-    box-shadow: none;
+    
   }
 
   .hlc-jobs-column-head {
@@ -374,9 +375,9 @@
     min-height: 0;
     padding: 13px;
     border: 1px solid #dbe3ed;
-    border-radius: 12px;
+    
     background: #fff;
-    box-shadow: 0 1px 2px rgba(24, 34, 53, 0.03);
+    
   }
 
   .hlc-job-row:last-child {
@@ -384,7 +385,7 @@
   }
 
   .hlc-job-row:hover {
-    box-shadow: 0 1px 2px rgba(24, 34, 53, 0.03);
+    
   }
 
   .hlc-job-identity-copy strong {
@@ -440,7 +441,7 @@
     min-height: 36px;
     padding: 0 9px;
     border: 1px solid #cfd8e5;
-    border-radius: 9px;
+    
     background: #fff;
     cursor: pointer;
     list-style: none;
@@ -463,9 +464,9 @@
     min-width: 180px;
     overflow: hidden;
     border: 1px solid #d8e0ea;
-    border-radius: 10px;
+    
     background: #fff;
-    box-shadow: 0 12px 28px rgba(24, 34, 53, 0.14);
+    
   }
 
   .hlc-s2-overflow-menu a {
