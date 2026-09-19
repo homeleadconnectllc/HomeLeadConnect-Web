@@ -6,21 +6,21 @@ const styles = readFileSync("src/styles/mobile-a-plus-sprint-7-integrated-access
 const styleEntry = readFileSync("src/styles/AuthenticatedStyles.tsx", "utf8");
 const router = readFileSync("src/routes/AppRouter.tsx", "utf8");
 
-const sprintAuthorities = [
-  "./mobile-a-plus-sprint-3-network.css",
+const activeSprintAuthorities = [
   "./mobile-a-plus-sprint-4-community-messages.css",
   "./mobile-a-plus-sprint-5-community-participation.css",
   "./mobile-a-plus-sprint-6-account-portals-resources.css",
   "./mobile-a-plus-sprint-7-integrated-accessibility.css",
 ];
 
-test("Sprint 7 integrated authority mounts after all prior Mobile A+ sprint authorities", () => {
+test("Sprint 7 integrated accessibility loads after the remaining active sprint behavior layers", () => {
   let previous = -1;
-  for (const authority of sprintAuthorities) {
+  for (const authority of activeSprintAuthorities) {
     const index = styleEntry.indexOf(authority);
-    assert.ok(index > previous, `${authority} must mount after the prior sprint authority`);
+    assert.ok(index > previous, `${authority} must mount after the prior active sprint layer`);
     previous = index;
   }
+  assert.doesNotMatch(styleEntry, /mobile-a-plus-sprint-3-network\.css/);
 });
 
 test("Sprint 7 encodes iPhone touch and WCAG focus safeguards", () => {
