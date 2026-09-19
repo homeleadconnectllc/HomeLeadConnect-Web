@@ -23,7 +23,6 @@ import "./five-star-mobile-more.css";
 import "./five-star-brand-runtime.css";
 import "./five-star-mobile-physical-qa.css";
 import "./five-star-mobile-physical-resources.css";
-import "./five-star-mobile-cascade-closure.css";
 import "./mobile-a-plus-sprint-2-work.css";
 import "./mobile-a-plus-sprint-2-iphone-qa.css";
 import "./mobile-a-plus-sprint-2-shell-closure.css";
