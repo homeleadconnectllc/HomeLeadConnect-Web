@@ -1,5 +1,4 @@
 import "./styles/public-home-owner-authority-20260918.css";
-import "./styles/public-footer-home-authority-20260916.css";
 import { APP_ORIGIN, PUBLIC_ORIGIN } from "./config/siteOrigins";
 
 const pathways = [
