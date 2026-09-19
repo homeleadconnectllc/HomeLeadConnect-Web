@@ -5,13 +5,11 @@ import test from "node:test";
 const entry = readFileSync(new URL("../styles/authenticated-entry.ts", import.meta.url), "utf8");
 const css = readFileSync(new URL("../styles/signed-in-professional-system.css", import.meta.url), "utf8");
 
-test("signed-in professional system remains mounted with mobile specialization and without retired global normalization paint", () => {
+test("signed-in professional system remains mounted without retired global certification paint", () => {
   assert.match(entry, /import "\.\/signed-in-professional-system\.css";/);
-  assert.match(entry, /import "\.\/mobile-all-screens-certification\.css";/);
-  assert.ok(
-    entry.indexOf('import "./signed-in-professional-system.css";') <
-      entry.indexOf('import "./mobile-all-screens-certification.css";'),
-  );
+  assert.doesNotMatch(entry, /mobile-all-screens-certification\.css/);
+  assert.doesNotMatch(entry, /mobile-professional-certification\.css/);
+  assert.doesNotMatch(entry, /global-readability-certification\.css/);
   assert.doesNotMatch(entry, /design-system-foundation\.css/);
   assert.doesNotMatch(entry, /ux-ia-village-authority\.css/);
   assert.doesNotMatch(entry, /launch-contrast-readability\.css/);
