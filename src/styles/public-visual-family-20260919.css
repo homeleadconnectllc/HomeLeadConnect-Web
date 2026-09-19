@@ -138,18 +138,6 @@ button{min-height:44px}
   font-weight:900!important;letter-spacing:.18em!important;text-transform:uppercase!important;
 }
 
-/* approved page imagery */
-#root .hlc-pathway-page[data-pathway="residents"] .hlc-pathway-hero{background-image:url('/page-residents-request-help-20260916.webp')}
-#root .hlc-pathway-page[data-pathway="professionals"] .hlc-pathway-hero{background-image:url('/page-professionals-provider-presence-20260916.webp')}
-#root .hlc-pathway-page[data-pathway="partners"] .hlc-pathway-hero{background-image:url('/page-partners-referral-relationships-20260916.webp')}
-#root .hlc-pathway-page[data-pathway="community"] .hlc-pathway-hero{background-image:url('/page-community-connected-neighbors-20260916.webp')}
-#root .hlc-public-board-page[data-public-page="about"] .hlc-public-hero{background-image:url('/page-about-connected-home-help-20260916.webp')}
-#root .hlc-public-board-page[data-public-page="services"] .hlc-public-hero{background-image:url('/page-services-connected-journey-20260916.webp')}
-#root .hlc-public-board-page[data-public-page="contact"] .hlc-public-hero{background-image:url('/page-about-connected-home-help-20260916.webp')}
-#root .hlc-public-board-page[data-public-page="accessibility"] .hlc-public-hero{background-image:url('/page-accessibility-devices-inputs-20260916.webp')}
-#root .hlc-legal-hero{background-image:url('/page-privacy-built-in-20260916.webp')}
-#root :is(.hlc-pathway-hero-visual,.hlc-public-board-page .hlc-public-shell>.hlc-public-visual,.hlc-utility-page .hlc-public-shell>.hlc-public-visual){display:none!important}
-
 /* editorial sections — alternating light fields, not dark stacks */
 #root :is(.hlc-pathway-section,.hlc-public-grid,.hlc-board-access-grid,.hlc-public-offer,.hlc-public-form-wrap,.hlc-legal-card,.hlc-public-story-card,.hlc-public-story-actions){
   width:min(var(--hlc-public-max),calc(100% - 40px));margin:0 auto;
@@ -558,6 +546,8 @@ html body #root .hlc-public-form label{color:#eef6ff!important}
 
 /* Shared non-home footer: centered master logo + one consistent treatment. */
 html body #root .hlc-public-front-door-surface .hlc-public-footer-home-authority{
+  box-sizing:border-box!important;width:100%!important;margin:0!important;padding:34px 24px 38px!important;
+  display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;gap:12px!important;
   background:#fff!important;color:#657585!important;border-top:1px solid #d8e4ef!important;text-align:center!important
 }
 html body #root .hlc-public-front-door-surface .hlc-public-footer-home-authority .hlc-public-footer-master-logo{
