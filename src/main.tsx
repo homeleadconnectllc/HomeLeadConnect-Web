@@ -19,7 +19,9 @@ import "./styles/mobile-release-fix.css";
 */
 
 const APP_HOST = "app.homeleadconnect.org";
-const isPublicHome = window.location.pathname === "/" && window.location.hostname.toLowerCase() !== APP_HOST;
+const hostname = window.location.hostname.toLowerCase();
+const isAppHost = hostname === APP_HOST;
+const isPublicHome = window.location.pathname === "/" && !isAppHost;
 const rootElement = document.getElementById("root")!;
 
 if (isPublicHome) {
@@ -28,7 +30,10 @@ if (isPublicHome) {
   });
 } else {
   void import("./styles/public-owner-visual-authority-20260918.css");
-  void import("./styles/public-family-legacy-entry");
+  // Public routes use only their current page-level visual authority. Retired public-family
+  // styles must not leak back into the live public site. Authenticated/app routes retain
+  // their dedicated app shell styling on app.homeleadconnect.org.
+  const styleReady = isAppHost ? import("./styles/app-shell-entry") : import("./index.css");
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
       void navigator.serviceWorker.register("/sw.js", { updateViaCache: "none" }).then((registration) => {
@@ -36,7 +41,7 @@ if (isPublicHome) {
       }).catch(() => {});
     });
   }
-  void import("./styles/app-shell-entry").then(async () => {
+  void styleReady.then(async () => {
     const [reactModule, domModule, appModule, authModule, accessModule] = await Promise.all([import("react"), import("react-dom/client"), import("./App.tsx"), import("./context/AuthContext"), import("./context/AccountAccessProvider")]);
     const { StrictMode, createElement } = reactModule;
     const { createRoot } = domModule;
