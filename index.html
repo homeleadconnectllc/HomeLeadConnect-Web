@@ -35,33 +35,8 @@
   </head>
   <body>
     <div id="root"></div>
-    <script>
-      (() => {
-        const appHost = 'app.homeleadconnect.org';
-        const publicHome = window.location.pathname === '/' && window.location.hostname.toLowerCase() !== appHost;
-        if (!publicHome) return;
-        const root = document.getElementById('root');
-        if (!root) return;
-        root.innerHTML = `
-          <main class="hlc-v2-home hlc-v2-parser-seed" style="min-height:100vh;background:linear-gradient(180deg,#020d18,#041625);color:#f8fbff;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
-            <header style="position:relative;z-index:5;border-bottom:1px solid rgba(176,203,229,.18);background:#03111f">
-              <div style="width:min(1040px,calc(100% - 24px));min-height:84px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px">
-                <a href="https://homeleadconnect.org/" aria-label="HomeLead Connect home" style="display:inline-flex;width:52px;height:52px;min-width:52px;align-items:center;justify-content:center;padding:0;text-decoration:none"><img data-hlc-master-logo="true" src="/icon-512.png" alt="" aria-hidden="true" style="display:block;width:100%;height:100%;object-fit:contain" /><span style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">HomeLead Connect</span></a>
-                <div style="display:flex;gap:12px;align-items:center"><a href="https://app.homeleadconnect.org/login" style="display:inline-flex;min-height:44px;align-items:center;color:#62e6b3;text-decoration:none;font-weight:850;font-size:15px">Sign In</a><span style="display:inline-flex;min-width:94px;min-height:48px;align-items:center;justify-content:center;border:1px solid #a9b9c8;border-radius:999px;color:#fff;font-size:16px;font-weight:850">Menu</span></div>
-              </div>
-            </header>
-            <section style="background:linear-gradient(180deg,#03111f,#041625);padding:46px 14px 30px;text-align:center">
-              <div style="max-width:900px;margin:0 auto">
-                <p style="margin:0 0 12px;color:#d7e5f4;font-size:11px;font-weight:900;letter-spacing:.30em;text-transform:uppercase">The Connected Experience</p>
-                <h1 style="max-width:900px;margin:0 auto;color:#fff;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:clamp(42px,12vw,58px);font-weight:900;line-height:.98;letter-spacing:-.055em">One place for the next right move.</h1>
-                <p style="max-width:760px;margin:16px auto 0;color:#d5e0eb;font-size:16px;line-height:1.45">Request service, find the right people, and keep the work connected from first conversation to follow-through.</p>
-                <div style="display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:22px"><a href="https://app.homeleadconnect.org/request-service" style="display:inline-flex;min-height:44px;padding:9px 4px 7px;align-items:center;justify-content:center;border-bottom:2px solid currentColor;background:transparent;color:#62e6b3;text-decoration:none;font-size:16px;font-weight:850">Request home service</a><a href="#pathways" style="display:inline-flex;min-height:38px;align-items:center;color:#dce6f1;text-decoration:none;border-bottom:2px solid #aab9c8;font-size:15px;font-weight:850">Meet the mission →</a></div>
-              </div>
-            </section>
-            <section id="pathways" style="padding:24px 14px 40px;background:#041625;text-align:center"><p style="margin:0 0 10px;color:#62e6b3;font-size:11px;font-weight:850;letter-spacing:.22em;text-transform:uppercase">The HomeLead Connect ecosystem</p><h2 style="margin:0;color:#fff;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:40px;line-height:1;font-weight:900;letter-spacing:-.04em">Four Pathways.</h2><p style="margin:12px auto 0;max-width:700px;color:#d7e0e9;font-size:15px;line-height:1.5">Different experiences. Same mission. One connected ecosystem.</p></section>
-          </main>`;
-      })();
-    </script>
+    <link rel="preload" as="image" href="/home-hero-authority-desktop-20260916.webp" media="(min-width: 681px)" fetchpriority="high" />
+    <link rel="preload" as="image" href="/hlc-homepage-hero-welcome-doorway-20260917.webp" media="(max-width: 680px)" fetchpriority="high" />
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
