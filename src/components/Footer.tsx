@@ -1,5 +1,4 @@
 import { publicUrl } from "../config/siteOrigins";
-import "../styles/public-footer-home-authority-20260916.css";
 
 const legalLinkStyle = { color: "#bfdbfe", fontWeight: 600 } as const;
 
