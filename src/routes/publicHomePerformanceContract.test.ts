@@ -18,7 +18,7 @@ test("public homepage has one React presentation authority", () => {
 
 test("public homepage preserves optimized hero discovery", () => {
   assert.match(indexHtml, /rel="preload" as="image" href="\/home-hero-authority-desktop-20260916\.webp"/);
-  assert.match(indexHtml, /rel="preload" as="image" href="\/hlc-homepage-hero-welcome-doorway-20260917\.webp"/);
+  assert.match(indexHtml, /rel="preload" as="image" href="\/home-hero-authority-mobile-20260916\.webp"/);
   assert.match(home, /public-home-owner-authority-20260918\.css/);
 });
 
