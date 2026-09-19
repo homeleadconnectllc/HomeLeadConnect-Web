@@ -4,7 +4,6 @@ import test from "node:test";
 
 const callCenter = readFileSync("src/pages/dashboard/CallCenter.tsx", "utf8");
 const manualCommunications = readFileSync("src/pages/dashboard/ManualCommunications.tsx", "utf8");
-const manualCommunicationsMobile = readFileSync("src/styles/soft-launch-manual-communications-authority.css", "utf8");
 const authenticatedStyles = readFileSync("src/styles/AuthenticatedStyles.tsx", "utf8");
 const postCallAutomation = readFileSync("src/lib/postCallAutomation.ts", "utf8");
 const messages = readFileSync("src/pages/dashboard/Messages.tsx", "utf8");
@@ -59,21 +58,14 @@ test("manual communications fail-open loading cannot be held hostage by supporti
   assert.doesNotMatch(manualCommunications, /Promise\.all\(\[\s*listLeads\(\),\s*listContractors\(\),\s*listManualCommunicationActivity\(\),\s*listConversations\(\),\s*canManageCommunications/);
 });
 
-test("manual communications iPhone selection feedback is rendered directly and controls stay readable", () => {
-  assert.ok(
-    authenticatedStyles.indexOf("soft-launch-manual-communications-authority.css") > authenticatedStyles.indexOf("soft-launch-mobile-dashboard-authority.css"),
-    "manual communications soft-launch authority must load last",
-  );
+test("manual communications selection feedback is rendered directly without retired soft-launch paint", () => {
+  assert.doesNotMatch(authenticatedStyles, /soft-launch-manual-communications-authority\.css/);
   assert.match(manualCommunications, /✓ Call selected/);
   assert.match(manualCommunications, /✓ Text selected/);
   assert.match(manualCommunications, /Step 3 next/);
   assert.match(manualCommunications, /Phone app/);
   assert.match(manualCommunications, /Messages app/);
   assert.doesNotMatch(manualCommunications, /Use your messages app/);
-  assert.match(manualCommunicationsMobile, /body\.hlc-page-manual-communications #root \.hlc-route-content :is\(input, select, textarea\)[\s\S]*background: #ffffff !important;[\s\S]*color: #172033 !important;/);
-  assert.match(manualCommunicationsMobile, /::placeholder[\s\S]*color: #536176 !important;[\s\S]*opacity: 1 !important;/);
-  assert.match(manualCommunicationsMobile, /button\[aria-pressed="true"\][\s\S]*border-color: #38bdf8 !important;[\s\S]*background: #0f3554 !important;/);
-  assert.match(manualCommunicationsMobile, /body\.hlc-page-manual-communications \.hlc-agent-dock:not\(\.is-open\)[\s\S]*transform: scale\(0\.8\) !important;/);
 });
 
 test("free Google Voice handoff returns to the canonical outcome and follow-up flow", () => {
