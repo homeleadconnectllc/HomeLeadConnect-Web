@@ -19,12 +19,12 @@ const nativeCalendarStyles = readFileSync("src/styles/hlc-native-calendar.css", 
 test("final device correction authorities remain ordered after Sprint 7", () => {
   const sprint7 = styleEntry.indexOf("./mobile-a-plus-sprint-7-integrated-accessibility.css");
   const correction = styleEntry.indexOf("./mobile-a-plus-final-device-corrections.css");
-  const gateClosure = styleEntry.indexOf("./mobile-a-plus-final-device-gate-closure.css");
   const round2Entry = styleEntry.indexOf("./mobile-a-plus-final-device-round-2.css");
   const providerEntry = styleEntry.indexOf("./provider-professional-profile.css");
   const round3Entry = styleEntry.indexOf("./mobile-a-plus-final-device-round-3.css");
   assert.ok(sprint7 >= 0 && correction > sprint7);
-  assert.ok(round2Entry > gateClosure && gateClosure > correction);
+  assert.ok(round2Entry > correction);
+  assert.doesNotMatch(styleEntry, /mobile-a-plus-final-device-gate-closure\.css/);
   assert.ok(round3Entry > providerEntry && providerEntry > round2Entry);
 });
 
