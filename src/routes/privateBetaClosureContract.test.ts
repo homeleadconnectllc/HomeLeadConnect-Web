@@ -79,8 +79,8 @@ test("agent chat cannot remain in Thinking indefinitely on a stalled client requ
   assert.match(agentChat, /getLocalizedAgentFallback\(agentId, locale\)/);
 });
 
-test("sidebar closure is the last authenticated mobile authority", () => {
-  const sidebar = styleEntry.lastIndexOf('import "./mobile-a-plus-sidebar-final-closure.css"');
-  const closure = styleEntry.lastIndexOf('import "./mobile-a-plus-private-beta-closure.css"');
-  assert.ok(sidebar > closure);
+test("current command menu remains the active authenticated mobile drawer authority", () => {
+  const current = styleEntry.lastIndexOf('import "./mobile-command-menu-rebuild-20260905.css"');
+  assert.ok(current >= 0);
+  assert.doesNotMatch(styleEntry, /mobile-a-plus-sidebar-final-closure\.css/);
 });
