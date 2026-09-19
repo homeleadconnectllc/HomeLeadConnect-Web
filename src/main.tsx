@@ -24,7 +24,7 @@ const isAppHost = hostname === APP_HOST;
 const pathname = window.location.pathname;
 const isPublicHome = pathname === "/" && !isAppHost;
 const isPublicSiteRoute = !isAppHost && /^\/(?:about|homeowners|contractors|professionals|partners|community|services|how-it-works|leadscope|pricing|trust|demo|contact|request-service|professional-application|privacy|terms|accessibility|platform-disclosure|memorial|kendrell-memorial)(?:\/|$)/.test(pathname);
-const isVisualFamilyEntryRoute = /^\/(?:login|register|forgot-password|reset-password|app|portal|portal\/accept)(?:\/|$)/.test(pathname);
+const isVisualFamilyEntryRoute = /^\/(?:login|register|forgot-password|reset-password|app|portal|portal\/accept|team\/accept)(?:\/|$)/.test(pathname);
 const rootElement = document.getElementById("root")!;
 
 if (isPublicHome) {
