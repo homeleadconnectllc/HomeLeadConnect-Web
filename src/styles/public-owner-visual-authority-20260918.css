@@ -1140,3 +1140,18 @@ html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathwa
     box-shadow: none !important;
   }
 }
+
+/* HLC-M1-MOBILE-GET-STARTED-AUTHORITY */
+@media (max-width: 680px) {
+  html body #root#root#root#root#root#root#root#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-cta {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 44px !important;
+    height: 44px !important;
+    padding: 0 4px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    white-space: nowrap !important;
+  }
+}
