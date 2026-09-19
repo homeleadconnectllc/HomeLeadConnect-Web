@@ -5,6 +5,7 @@ import test from "node:test";
 const page = readFileSync("src/pages/dashboard/Messages.tsx", "utf8");
 const styles = readFileSync("src/styles/messages-application-workspace.css", "utf8");
 const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
+const authenticatedStyles = readFileSync("src/styles/AuthenticatedStyles.tsx", "utf8");
 const api = readFileSync("src/api/messages.ts", "utf8");
 const recorder = readFileSync("src/components/messages/VoiceNoteRecorder.tsx", "utf8");
 
@@ -36,9 +37,10 @@ test("Messages preserves canonical conversations, deliberate email, replies and 
 
 test("Messages specialization remains beneath final authority while Lane 2 owns compact progressive layout", () => {
   const routeIndex = entry.indexOf("./messages-application-workspace.css");
-  const finalIndex = entry.indexOf("./application-workspace-ui.css");
   assert.ok(routeIndex >= 0);
-  assert.ok(finalIndex > routeIndex);
+  assert.doesNotMatch(entry, /application-workspace-ui\\.css/);
+  assert.match(authenticatedStyles, /signed-in-professional-system\\.css/);
+  assert.ok(authenticatedStyles.indexOf("signed-in-professional-system.css") > authenticatedStyles.indexOf("dashboard-context-hero.css"));
   assert.match(styles, /\.hlc-messages-console\{display:grid;grid-template-columns:/);
   assert.match(styles, /@media\(max-width:720px\)/);
   assert.match(styles, /\.hlc-messages-console\{grid-template-columns:1fr/);
