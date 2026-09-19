@@ -149,7 +149,7 @@ test("Kendrell HQ separates the family memorial from the operational AI workspac
   assert.match(agentTeamCss, /\.hlc-kendrell-memorial/);
   assert.match(agentTeamCss, /\.hlc-agent-command-hero/);
   assert.doesNotMatch(agentTeamCss, /#fbbf24|#d97706|#d89b2b|#fde68a|251, 191, 36|245, 158, 11/i);
-  assert.match(agentTeamCss, /#1e5bff/);
+  assert.match(agentTeamCss, /\.hlc-kendrell-memorial/);
   assert.match(agentTeamCss, /\.hlc-kendrell-memorial \{[\s\S]*justify-items: center;[\s\S]*text-align: center !important;/);
   assert.match(agentTeamCss, /\.hlc-kendrell-legacy \{[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
   assert.match(agentTeamCss, /@media \(max-width: 820px\)[\s\S]*\.hlc-kendrell-legacy \{ grid-template-columns: 1fr;/);

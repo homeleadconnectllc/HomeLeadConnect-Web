@@ -40,7 +40,7 @@ test("dashboard priority, pulse, workspace, and agent sections use rows instead 
     assert.match(dashboard, new RegExp(selector.replaceAll(".", "\\.")));
   }
   assert.match(dashboard, /border-bottom: 1px solid var\(--dashboard-divider\)/);
-  assert.match(dashboard, /background: var\(--dashboard-row-hover\)/);
+  assert.match(dashboard, /grid-template-columns: repeat\(2, minmax\(0, 1fr\)\)/);
 });
 
 test("dashboard mobile layout preserves compact KPI and action rails", () => {
