@@ -264,7 +264,10 @@ html body #root .hlc-public-menu-account{
   width:min(1180px,100%)!important;margin:18px auto 0!important;display:flex!important;flex-wrap:wrap!important;gap:8px 18px!important
 }
 html body #root .hlc-public-menu-secondary a,
-html body #root .hlc-public-menu-account a{color:var(--hlc-public-muted)!important;-webkit-text-fill-color:var(--hlc-public-muted)!important}
+html body #root .hlc-public-menu-account a{
+  display:inline-flex!important;align-items:center!important;min-height:44px!important;
+  color:var(--hlc-public-muted)!important;-webkit-text-fill-color:var(--hlc-public-muted)!important
+}
 html body #root .hlc-public-menu-primary a[data-menu-tone="resident"]{color:#16835e!important;-webkit-text-fill-color:#16835e!important}
 html body #root .hlc-public-menu-primary a[data-menu-tone="professional"]{color:#1479b8!important;-webkit-text-fill-color:#1479b8!important}
 html body #root .hlc-public-menu-primary a[data-menu-tone="partner"]{color:#9a6a00!important;-webkit-text-fill-color:#9a6a00!important}
