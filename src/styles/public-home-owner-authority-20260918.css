@@ -5,10 +5,8 @@
 .hlc-owner-home{
   --cyan:#27c8ff;
   min-height:100vh;
-  color:#f4f7fa;
-  background:
-    radial-gradient(circle at 84% 2%,rgba(39,200,255,.10),transparent 30rem),
-    linear-gradient(180deg,#14181d,#181d22 52%,#111419);
+  color:#172033;
+  background:#f7fbff;
   overflow:hidden;
 }
 
@@ -40,7 +38,7 @@
 .hlc-owner-pathway{
   --accent:#55e6b3;min-width:0;overflow:hidden;
   border:0;border-right:1px solid rgba(214,224,234,.14);border-radius:0;
-  background:transparent;box-shadow:none;color:#fff;text-decoration:none
+  background:transparent;box-shadow:none;color:#172033;text-decoration:none
 }
 .hlc-owner-pathway:last-child{border-right:0}
 .hlc-owner-pathway--professional{--accent:#39bfff}
@@ -53,15 +51,15 @@
 .hlc-owner-pathway--community .hlc-owner-pathway-photo{background-image:url('/four-pathways-community-hq-20260915.jpg')}
 .hlc-owner-pathway-body{display:flex;min-height:170px;padding:0 22px 24px;flex-direction:column;align-items:flex-start;text-align:left}
 .hlc-owner-pathway strong{margin-top:-5px;color:var(--accent);font-size:25px;line-height:1.04}
-.hlc-owner-pathway-body>span{margin-top:12px;font-size:15px;line-height:1.45;color:#cbd3da}
+.hlc-owner-pathway-body>span{margin-top:12px;font-size:15px;line-height:1.45;color:#5e6d80}
 .hlc-owner-pathway b{margin-top:auto;padding-top:14px;color:var(--accent);font-size:14px}
 
-.hlc-owner-mission{width:min(1320px,calc(100% - 56px));margin:34px auto 54px;text-align:center;color:#b8c8d5}
+.hlc-owner-mission{width:min(1320px,calc(100% - 56px));margin:34px auto 54px;text-align:center;color:#5e6d80}
 .hlc-owner-mission>p{font-size:12px;font-weight:850;letter-spacing:.24em;text-transform:uppercase}
 .hlc-owner-mission>div{display:grid;grid-template-columns:repeat(4,1fr);margin-top:24px;border-top:1px solid rgba(214,224,234,.14)}
 .hlc-owner-mission span{padding:16px 12px;border-right:1px solid rgba(214,224,234,.14);font-size:22px;color:#56cbff}
 .hlc-owner-mission span:last-child{border-right:0}
-.hlc-owner-mission b{margin-left:10px;color:#d7e0e7;font-size:14px}
+.hlc-owner-mission b{margin-left:10px;color:#33465a;font-size:14px}
 
 @media(max-width:680px){
   .hlc-owner-hero{min-height:410px;display:block;padding-top:190px}
