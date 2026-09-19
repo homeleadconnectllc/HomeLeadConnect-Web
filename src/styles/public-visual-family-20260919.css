@@ -259,3 +259,66 @@ body{margin:0}
   #root :is(.hlc-pathway-actions,.hlc-public-actions,.hlc-utility-actions,.hlc-legal-actions,.hlc-public-story-actions,.hlc-request-actions){gap:16px}
   #root .hlc-professional-timeline li{grid-template-columns:36px 1fr}
 }
+
+
+/* public base + shared navigation */
+html{color-scheme:dark;font-family:var(--hlc-public-sans);background:var(--hlc-public-bg);scroll-behavior:smooth}
+body{width:100%;min-width:0;overflow-x:hidden;color:var(--hlc-public-ink);font-family:var(--hlc-public-sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+#root{min-height:100svh;display:block;text-align:left}
+a{color:inherit}
+img,svg,video{max-width:100%;display:block}
+button,input,select,textarea{font:inherit}
+button{min-height:44px}
+:focus-visible{outline:3px solid var(--hlc-public-accent);outline-offset:3px}
+
+#root header.hlc-board-nav.hlc-public-shared-nav{
+  position:sticky;top:0;z-index:1400;width:100%;
+  background:rgba(4,17,31,.88);
+  border-bottom:1px solid rgba(196,220,244,.14);
+  backdrop-filter:blur(18px);
+}
+#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-nav-inner{
+  width:min(1240px,calc(100% - 32px));min-height:84px;margin:0 auto;
+  display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:20px;
+}
+#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-brand{
+  display:inline-flex!important;align-items:center!important;gap:10px!important;
+  background:transparent!important;border:0!important;color:#fff!important;
+}
+#root header.hlc-board-nav.hlc-public-shared-nav .hlc-navbar-master-logo{
+  width:54px!important;height:54px!important;object-fit:contain!important;border-radius:50%!important;
+}
+#root header.hlc-board-nav.hlc-public-shared-nav .hlc-brand-accessible-label{
+  position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;
+  overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;
+}
+#root header.hlc-board-nav.hlc-public-shared-nav .hlc-public-menu-cue{
+  color:#f7fbff!important;font-weight:850!important;font-size:.95rem!important;letter-spacing:.01em!important;
+}
+#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-actions{
+  display:flex;align-items:center;justify-content:flex-end;gap:20px;
+}
+#root header.hlc-board-nav.hlc-public-shared-nav :is(.hlc-board-login,.hlc-board-cta){
+  min-height:44px;display:inline-flex;align-items:center;padding:0;
+  color:#f7fbff!important;text-decoration:none!important;font-weight:850!important;
+  background:transparent!important;border:0!important;border-radius:0!important;box-shadow:none!important;
+}
+#root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-cta{
+  color:var(--hlc-public-accent)!important;border-bottom:1px solid currentColor!important;
+}
+#root .hlc-public-menu-backdrop{background:rgba(2,10,22,.82)!important;backdrop-filter:blur(14px)!important}
+#root .hlc-public-menu-panel{
+  background:#06182a!important;border:1px solid rgba(128,178,225,.28)!important;
+  border-radius:22px!important;box-shadow:0 30px 90px rgba(0,0,0,.48)!important;
+}
+#root .hlc-public-menu-panel a{text-decoration:none}
+
+@media(max-width:680px){
+  #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-nav-inner{
+    width:100%;min-height:78px;padding:0 16px;grid-template-columns:auto 1fr auto;
+  }
+  #root header.hlc-board-nav.hlc-public-shared-nav .hlc-navbar-master-logo{width:48px!important;height:48px!important}
+  #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-actions{gap:14px}
+  #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-cta{display:none!important}
+  #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-login{font-size:.92rem}
+}
