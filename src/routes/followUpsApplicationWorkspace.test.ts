@@ -29,8 +29,8 @@ test("Follow Ups preserves creation, completion, lead context, and durable empty
 test("Follow Ups specialization is mounted before final application workspace authority and collapses on mobile", () => {
   const routeIndex = entry.indexOf("./follow-ups-application-workspace.css");
   assert.ok(routeIndex >= 0);
-  assert.doesNotMatch(entry, /application-workspace-ui\\.css/);
-  assert.match(authenticatedStyles, /signed-in-professional-system\\.css/);
+  assert.doesNotMatch(entry, /application-workspace-ui\.css/);
+  assert.match(authenticatedStyles, /signed-in-professional-system\.css/);
   assert.ok(authenticatedStyles.indexOf("signed-in-professional-system.css") > authenticatedStyles.indexOf("dashboard-context-hero.css"));
   assert.match(styles, /\.hlc-followup-column-head,\.hlc-followup-row\{display:grid/);
   assert.match(styles, /@media\(max-width:720px\)/);
