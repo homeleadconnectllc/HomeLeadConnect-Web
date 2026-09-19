@@ -5,6 +5,7 @@ import test from "node:test";
 const page = readFileSync("src/pages/dashboard/CallCenter.tsx", "utf8");
 const styles = readFileSync("src/styles/call-center-application-workspace.css", "utf8");
 const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
+const authenticatedStyles = readFileSync("src/styles/AuthenticatedStyles.tsx", "utf8");
 
 test("Call Center uses a dedicated call-operations workspace instead of inline card composition", () => {
   assert.match(page, /hlc-call-center-workspace/);
@@ -34,9 +35,10 @@ test("Call Center preserves provider-neutral handoff, persisted sessions and int
 
 test("Call Center specialization mounts before final authority and becomes one-column on mobile", () => {
   const routeIndex = entry.indexOf("./call-center-application-workspace.css");
-  const finalIndex = entry.indexOf("./application-workspace-ui.css");
   assert.ok(routeIndex >= 0);
-  assert.ok(finalIndex > routeIndex);
+  assert.doesNotMatch(entry, /application-workspace-ui\\.css/);
+  assert.match(authenticatedStyles, /signed-in-professional-system\\.css/);
+  assert.ok(authenticatedStyles.indexOf("signed-in-professional-system.css") > authenticatedStyles.indexOf("dashboard-context-hero.css"));
   assert.match(styles, /\.hlc-call-ledgers\{display:grid;grid-template-columns:1fr 1fr/);
   assert.match(styles, /@media\(max-width:720px\)/);
   assert.match(styles, /\.hlc-call-line-row\{grid-template-columns:1fr/);
