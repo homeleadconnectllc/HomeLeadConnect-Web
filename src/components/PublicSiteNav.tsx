@@ -80,7 +80,6 @@ export default function PublicSiteNav() {
 
     const login = nav.querySelector<HTMLElement>(".hlc-board-login");
     const cta = nav.querySelector<HTMLElement>(".hlc-board-cta");
-    const mobileSignIn = nav.querySelector<HTMLElement>(".hlc-mobile-sign-in-link");
     const applyGlobalHeaderActions = () => {
       const mobile = window.matchMedia("(max-width: 680px)").matches;
       for (const element of [login, cta]) {
@@ -97,9 +96,8 @@ export default function PublicSiteNav() {
       setImportant(login, "-webkit-text-fill-color", "#e5edf6");
       setImportant(cta, "color", "var(--page-accent)");
       setImportant(cta, "-webkit-text-fill-color", "var(--page-accent)");
-      setImportant(login, "display", mobile ? "none" : "inline");
+      setImportant(login, "display", mobile ? "inline-flex" : "inline");
       setImportant(cta, "display", mobile ? "none" : "inline");
-      setImportant(mobileSignIn, "display", mobile ? "inline" : "none");
       if (mobile) {
         const inner = nav.querySelector<HTMLElement>(".hlc-board-nav-inner");
         const actions = nav.querySelector<HTMLElement>(".hlc-board-actions");
@@ -143,14 +141,17 @@ export default function PublicSiteNav() {
         setImportant(mobileMenu, "min-height", "44px");
         setImportant(mobileMenu, "display", "inline-flex");
         setImportant(mobileMenu, "align-items", "center");
-        setImportant(mobileSignIn, "height", "44px");
-        setImportant(mobileSignIn, "min-height", "44px");
-        setImportant(mobileSignIn, "display", "inline-flex");
-        setImportant(mobileSignIn, "align-items", "center");
-        setImportant(mobileSignIn, "justify-content", "center");
-        setImportant(mobileSignIn, "line-height", "1");
-        setImportant(mobileSignIn, "font-size", "16px");
-        setImportant(mobileSignIn, "font-weight", "900");
+        setImportant(login, "height", "44px");
+        setImportant(login, "min-height", "44px");
+        setImportant(login, "min-width", "66px");
+        setImportant(login, "display", "inline-flex");
+        setImportant(login, "align-items", "center");
+        setImportant(login, "justify-content", "center");
+        setImportant(login, "line-height", "1");
+        setImportant(login, "font-size", "16px");
+        setImportant(login, "font-weight", "900");
+        setImportant(login, "visibility", "visible");
+        setImportant(login, "opacity", "1");
         setImportant(mobileTrigger, "height", "44px");
         setImportant(mobileTrigger, "min-height", "44px");
         setImportant(mobileTrigger, "display", "inline-flex");
@@ -162,11 +163,6 @@ export default function PublicSiteNav() {
         setImportant(mobileTrigger, "padding", "0");
         setImportant(mobileTrigger, "margin", "0");
       }
-      setImportant(mobileSignIn, "color", "#e5edf6");
-      setImportant(mobileSignIn, "-webkit-text-fill-color", "#e5edf6");
-      setImportant(mobileSignIn, "background", "transparent");
-      setImportant(mobileSignIn, "border", "0");
-      setImportant(mobileSignIn, "box-shadow", "none");
     };
 
     const ownerVisualStyleId = "hlc-owner-public-visual-runtime";
@@ -328,13 +324,6 @@ export default function PublicSiteNav() {
       </button>
       <div className="hlc-board-actions">
         <a className="hlc-board-login" href={appUrl("/login")}>Sign In</a>
-        <a
-          className="hlc-mobile-sign-in-link"
-          href={appUrl("/login")}
-          aria-label="Sign in to HomeLead Connect"
-        >
-          Sign In
-        </a>
         <a className="hlc-board-cta" href={appUrl("/register")}>Get Started</a>
       </div>
     </div>
