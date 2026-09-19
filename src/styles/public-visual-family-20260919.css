@@ -50,7 +50,6 @@ button{min-height:44px}
   position:sticky;top:0;z-index:1400;width:100%;
   background:rgba(255,255,255,.94);
   border-bottom:1px solid var(--hlc-public-line);
-  backdrop-filter:blur(16px);
   box-shadow:0 8px 24px rgba(52,84,112,.06);
 }
 #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-nav-inner{
