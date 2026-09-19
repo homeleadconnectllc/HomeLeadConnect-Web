@@ -7,7 +7,6 @@ const journey = readFileSync("src/pages/PublicJourney.tsx", "utf8");
 const legal = readFileSync("src/pages/Legal.tsx", "utf8");
 const reserved = readFileSync("src/pages/dashboard/ReservedCapability.tsx", "utf8");
 const releaseGuard = readFileSync("src/styles/final-release-guard.css", "utf8");
-const globalPremium = readFileSync("src/styles/global-premium-system.css", "utf8");
 const workspaceRouteCleanup = readFileSync("src/styles/workspace-route-cleanup.css", "utf8");
 const desktopDashboardCertification = readFileSync("src/styles/desktop-dashboard-certification.css", "utf8");
 const mobileDashboardCertification = readFileSync("src/styles/mobile-dashboard-certification.css", "utf8");
