@@ -52,10 +52,6 @@ export default function PublicSiteNav() {
     };
   }, [menuOpen]);
 
-  useEffect(() => {
-    setMenuOpen(false);
-  }, [pathname]);
-
   useLayoutEffect(() => {
     const nav = navRef.current;
     if (!nav) return;
