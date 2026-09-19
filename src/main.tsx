@@ -31,11 +31,10 @@ if (isPublicHome) {
     mountStandalonePublicHome(rootElement);
   });
 } else {
-  void import("./styles/public-owner-visual-authority-20260918.css");
   // Public routes use only their current page-level visual authority. Retired public-family
   // styles must not leak back into the live public site. Authenticated/app routes retain
   // their dedicated app shell styling on app.homeleadconnect.org.
-  const styleReady = isPublicSiteRoute ? import("./index.css") : import("./styles/app-shell-entry");
+  const styleReady = isPublicSiteRoute ? import("./styles/public-visual-family-20260919.css") : import("./styles/app-shell-entry");
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
       void navigator.serviceWorker.register("/sw.js", { updateViaCache: "none" }).then((registration) => {
