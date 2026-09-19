@@ -12,8 +12,8 @@ test("canonical public root exposes approved account-access entry points through
   assert.match(standaloneHome, /hlc-public-menu-trigger/);
   assert.match(standaloneHome, /APP_ORIGIN}\/login/);
   assert.match(standaloneHome, /APP_ORIGIN}\/register/);
-  assert.match(standaloneHome, />Sign In<\/a>/);
-  assert.match(standaloneHome, />Get Started<\/a>/);
+  assert.match(standaloneHome, /link\(`\\$\{APP_ORIGIN\}\\/login`[^\n]*"Sign In"\)/);
+  assert.match(standaloneHome, /link\(`\\$\{APP_ORIGIN\}\\/register`[^\n]*"Get Started"\)/);
   assert.match(nav, /appUrl\("\/login"\)/);
   assert.match(nav, /appUrl\("\/register"\)/);
 });
@@ -24,6 +24,8 @@ test("public root uses the owner-approved lightweight presentation authority", (
   assert.doesNotMatch(main, /import\("\.\/pages\/HomePage\.tsx"\)/);
   assert.doesNotMatch(standaloneHome, /react-dom\/client|react-router-dom/);
   assert.doesNotMatch(index, /hlc-v2-parser-seed|root\.innerHTML/);
+  assert.doesNotMatch(standaloneHome, /\.innerHTML\s*=/);
+  assert.match(standaloneHome, /replaceChildren\(\)/);
   assert.match(index, /rel="preload" as="image" href="\/home-hero-authority-desktop-20260916\.webp"/);
   assert.match(index, /rel="preload" as="image" href="\/home-hero-authority-mobile-20260916\.webp"/);
   for (const destination of ["/homeowners", "/professionals", "/partners", "/community"]) {
