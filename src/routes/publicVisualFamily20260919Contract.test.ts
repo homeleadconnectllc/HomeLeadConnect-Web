@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const router = readFileSync("src/routes/AppRouter.tsx","utf8");
+const mainSource = readFileSync("src/main.tsx","utf8");
 const publicNav = readFileSync("src/components/PublicSiteNav.tsx","utf8");
 const files = {
   publicInfo: readFileSync("src/pages/PublicInfo.tsx","utf8"),
@@ -16,6 +17,9 @@ const files = {
   accessibility: readFileSync("src/pages/Accessibility.tsx","utf8"),
   legal: readFileSync("src/pages/Legal.tsx","utf8"),
   memorial: readFileSync("src/pages/Memorial.tsx","utf8"),
+  authShell: readFileSync("src/components/auth/AuthShell.tsx","utf8"),
+  login: readFileSync("src/pages/auth/Login.tsx","utf8"),
+  appEntry: readFileSync("src/pages/AppEntry.tsx","utf8"),
 };
 
 const CURRENT_STYLE = 'import "../styles/public-visual-family-20260919.css";';
@@ -56,6 +60,13 @@ test("all owner-listed public routes stay in the current public visual family", 
     "/terms",
     "/memorial",
     "/kendrell-memorial",
+    "/login",
+    "/register",
+    "/forgot-password",
+    "/reset-password",
+    "/app",
+    "/portal",
+    "/portal/accept",
   ]) {
     assert.ok(router.includes(`path="${route}"`), `Missing public visual-family route ${route}`);
   }
@@ -86,10 +97,17 @@ test("shared route components cover the full public family", () => {
 });
 
 
-test("public visual runtime is isolated from auth and app routes", () => {
+test("auth and app-entry routes join the visual family without the unstable imperative public runtime", () => {
+  assert.match(mainSource, /const isVisualFamilyEntryRoute =/);
+  assert.match(mainSource, /login\|register\|forgot-password\|reset-password\|app\|portal\|portal\\\/accept/);
+  assert.match(mainSource, /isPublicSiteRoute \|\| isVisualFamilyEntryRoute/);
+  assert.match(files.authShell, /public-visual-family-20260919\.css/);
+  assert.match(files.appEntry, /public-visual-family-20260919\.css/);
+  assert.doesNotMatch(files.authShell, /public-auth-visual-closure-20260912\.css|public-header-logo-authority-20260915\.css/);
+  assert.doesNotMatch(files.login, /front-door-auth-refinement-20260910\.css|front-door-login-outer-authority-20260911\.css/);
+  assert.doesNotMatch(files.appEntry, /app-entry-frontdoor-20260913\.css/);
   assert.match(publicNav, /PUBLIC_VISUAL_RUNTIME_PATHS/);
-  for (const route of ["/login", "/register", "/forgot-password", "/reset-password", "/app", "/portal", "/portal/accept", "/team/accept"]) {
-    assert.ok(!publicNav.includes(`  "${route}",`), `Auth/app route ${route} must not enter the public visual runtime`);
+  for (const route of ["/login", "/register", "/forgot-password", "/reset-password", "/app", "/portal", "/portal/accept"]) {
+    assert.ok(!publicNav.includes(`  "${route}",`), `Visual-family entry route ${route} must stay out of the imperative runtime`);
   }
-  assert.match(publicNav, /if \(!PUBLIC_VISUAL_RUNTIME_PATHS\.has\(pathname\)\) return;/);
 });
