@@ -38,8 +38,8 @@ test("Messages preserves canonical conversations, deliberate email, replies and 
 test("Messages specialization remains beneath final authority while Lane 2 owns compact progressive layout", () => {
   const routeIndex = entry.indexOf("./messages-application-workspace.css");
   assert.ok(routeIndex >= 0);
-  assert.doesNotMatch(entry, /application-workspace-ui\\.css/);
-  assert.match(authenticatedStyles, /signed-in-professional-system\\.css/);
+  assert.doesNotMatch(entry, /application-workspace-ui\.css/);
+  assert.match(authenticatedStyles, /signed-in-professional-system\.css/);
   assert.ok(authenticatedStyles.indexOf("signed-in-professional-system.css") > authenticatedStyles.indexOf("dashboard-context-hero.css"));
   assert.match(styles, /\.hlc-messages-console\{display:grid;grid-template-columns:/);
   assert.match(styles, /@media\(max-width:720px\)/);
