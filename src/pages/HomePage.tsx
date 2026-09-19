@@ -15,7 +15,7 @@ export default function HomePage() {
       <section className="hlc-owner-hero" aria-labelledby="hlc-owner-title">
         <picture className="hlc-owner-hero-media" aria-hidden="true">
           <source media="(max-width: 680px)" srcSet="/home-hero-authority-mobile-20260916.webp" />
-          <img src="/home-hero-authority-desktop-20260916.webp" alt="" width="1600" height="900" fetchPriority="high" decoding="async" />
+          <img src="/home-hero-authority-desktop-20260916.webp" alt="" width="1600" height="900" fetchPriority="high" decoding="sync" />
         </picture>
         <div className="hlc-owner-hero-copy">
           <p className="hlc-owner-kicker">The HomeLead Connect ecosystem</p>
