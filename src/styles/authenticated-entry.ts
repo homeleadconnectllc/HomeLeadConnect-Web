@@ -21,7 +21,6 @@ import "./workspace-route-cleanup.css";
 import "./mobile-agent-placement-contract.css";
 import "./lead-detail.css";
 import "./frontend-readiness-contract.css";
-import "./signed-in-professional-system.css";
 import "./dashboard-application-workspace.css";
 import "./leads-application-workspace.css";
 import "./jobs-application-workspace.css";

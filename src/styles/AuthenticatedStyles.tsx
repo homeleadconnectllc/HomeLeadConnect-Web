@@ -26,6 +26,10 @@ import "./automations-dashboard-a.css";
 import "./mobile-command-menu-rebuild-20260905.css";
 import "./dashboard-context-hero.css";
 
+// Current signed-in visual authority must load last so retired workspace/route paint
+// cannot override the owner-approved redesign. Structural and feature behavior stay intact.
+import "./signed-in-professional-system.css";
+
 export default function AuthenticatedStyles() {
   return <MobileNavigationDialogAccessibility />;
 }
