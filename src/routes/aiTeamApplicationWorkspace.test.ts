@@ -7,6 +7,7 @@ const agents = readFileSync("src/ai/agents.ts", "utf8");
 const styles = readFileSync("src/styles/ai-team-application-workspace.css", "utf8");
 const purposeBuiltStyles = readFileSync("src/styles/hlc-purpose-built-workspaces.css", "utf8");
 const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
+const authenticatedStyles = readFileSync("src/styles/AuthenticatedStyles.tsx", "utf8");
 
 test("AI Team retains one serious structural workspace for all three canonical agents", () => {
   assert.match(workspace, /hlc-agent-workspace hlc-agent-team-structural/);
@@ -53,9 +54,10 @@ test("AI Team preserves capability and authorization boundaries", () => {
 
 test("AI Team styling keeps the structural workspace compact and mobile safe", () => {
   const routeIndex = entry.indexOf("./ai-team-application-workspace.css");
-  const finalIndex = entry.indexOf("./application-workspace-ui.css");
   assert.ok(routeIndex >= 0);
-  assert.ok(finalIndex > routeIndex);
+  assert.doesNotMatch(entry, /application-workspace-ui\\.css/);
+  assert.match(authenticatedStyles, /signed-in-professional-system\\.css/);
+  assert.ok(authenticatedStyles.indexOf("signed-in-professional-system.css") > authenticatedStyles.indexOf("dashboard-context-hero.css"));
   assert.match(purposeBuiltStyles, /\.hlc-agent-workspace\{display:grid;gap:18px\}/);
   assert.match(purposeBuiltStyles, /\.hlc-agent-team-header\{display:flex;justify-content:space-between/);
   assert.match(purposeBuiltStyles, /\.hlc-agent-chat-stage\{display:grid;grid-template-columns:/);
