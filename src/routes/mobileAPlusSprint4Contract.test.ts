@@ -11,11 +11,9 @@ const messages = readFileSync("src/pages/dashboard/Messages.tsx", "utf8");
 const community = readFileSync("src/pages/dashboard/CommunityHub.tsx", "utf8");
 const recorder = readFileSync("src/components/messages/VoiceNoteRecorder.tsx", "utf8");
 
-test("Sprint 4 mobile authority mounts after Sprint 3 without replacing desktop authority", () => {
-  const sprint3 = styleEntry.indexOf("./mobile-a-plus-sprint-3-network.css");
-  const sprint4 = styleEntry.indexOf("./mobile-a-plus-sprint-4-community-messages.css");
-  assert.ok(sprint3 >= 0);
-  assert.ok(sprint4 > sprint3);
+test("Sprint 4 communication behavior remains mounted without retired Sprint 3 presentation", () => {
+  assert.doesNotMatch(styleEntry, /mobile-a-plus-sprint-3-network\.css/);
+  assert.match(styleEntry, /mobile-a-plus-sprint-4-community-messages\.css/);
   assert.match(styles, /@media \(max-width: 760px\)/);
 });
 
