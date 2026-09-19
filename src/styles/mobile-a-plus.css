@@ -97,12 +97,6 @@ button.hlc-command-icon-button {
     min-height: 48px;
   }
 
-  .hlc-mobile-portal-scroll {
-    max-width: 100%;
-    padding-bottom: calc(120px + env(safe-area-inset-bottom));
-    overflow-x: hidden;
-  }
-
   /* Keep Search HLC immediately visible whenever the More drawer is open. */
   .hlc-mobile-command-search-trigger {
     position: fixed;
@@ -189,8 +183,7 @@ button.hlc-command-icon-button {
     scroll-snap-align: start;
   }
 
-  .hlc-command-search-backdrop,
-  .hlc-mobile-portal {
+  .hlc-command-search-backdrop {
     max-width: 100vw;
     overflow-x: hidden;
     overscroll-behavior: contain;
