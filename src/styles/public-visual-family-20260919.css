@@ -55,22 +55,20 @@ button{min-height:44px}
 #root .hlc-partner-flow{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:12px}
 #root .hlc-community-feed{max-width:920px;margin:0}
 
-/* forms */
+/* forms — structure only */
 #root .hlc-public-form-wrap{
   padding:72px 0;display:grid!important;grid-template-columns:minmax(260px,.42fr) minmax(0,1fr)!important;
   gap:54px!important;align-items:start;
 }
 #root .hlc-public-sidecard{text-align:left!important;padding:0!important}
-#root .hlc-public-form{display:grid;gap:18px;padding:0!important;background:transparent!important;border:0!important;box-shadow:none!important}
-#root .hlc-public-form label,#root .hlc-request-form-card label{display:grid;gap:8px;color:var(--hlc-public-ink)!important;font-weight:800;text-align:left}
+#root .hlc-public-form{display:grid;gap:18px;padding:0!important}
+#root .hlc-public-form label,#root .hlc-request-form-card label{display:grid;gap:8px;text-align:left}
 #root .hlc-public-form :is(input,textarea,select),#root .hlc-request-form-card :is(input,select,textarea){
-  width:100%;min-height:54px;padding:13px 14px;background:#fff!important;color:#172033!important;
-  border:1px solid #c8d8e6!important;border-radius:8px!important;box-shadow:0 6px 18px rgba(56,88,116,.06)!important;
+  width:100%;min-height:54px;padding:13px 14px;
 }
 #root .hlc-public-form textarea,#root .hlc-request-form-card textarea{min-height:150px}
 #root .hlc-public-form button,#root .hlc-request-form-card button{
-  justify-self:start;min-height:46px;padding:0 20px;border:0;border-radius:9px;
-  background:var(--hlc-public-accent);color:#fff;font-weight:900;cursor:pointer;
+  justify-self:start;min-height:46px;padding:0 20px;cursor:pointer;
 }
 #root .hlc-public-consent{grid-template-columns:24px 1fr!important;align-items:start!important}
 
@@ -117,51 +115,27 @@ button{min-height:44px}
 #root .hlc-kendrell-dedication-portrait{width:160px;height:160px;margin:0 0 22px;border-radius:50%;overflow:hidden}
 #root .hlc-kendrell-dedication-portrait img{width:100%;height:100%;object-fit:cover}
 
-/* auth routes in the same light family */
-#root .hlc-auth-shell.hlc-auth-shell--flat{width:100%;min-height:100vh;margin:0;padding:0 0 56px;background:transparent}
+/* auth routes — structure only; paint belongs to current public authority */
+#root .hlc-auth-shell.hlc-auth-shell--flat{width:100%;min-height:100vh;margin:0;padding:0 0 56px}
 #root .hlc-auth-shell .hlc-auth-main{
   width:min(1180px,calc(100% - 40px));min-height:calc(100vh - 140px);margin:0 auto;
   padding:clamp(54px,7vw,92px) 0;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(360px,.82fr);
   gap:clamp(42px,7vw,88px);align-items:center;
 }
-#root .hlc-auth-shell .hlc-auth-intro{min-width:0;max-width:660px;margin:0;padding:0;text-align:left;background:transparent;border:0;box-shadow:none}
-#root .hlc-auth-shell .hlc-auth-intro-visual{width:100%;height:clamp(230px,30vw,350px);margin:0 0 30px;overflow:hidden;border:0;border-radius:18px;background:#edf6fd;box-shadow:none}
+#root .hlc-auth-shell .hlc-auth-intro{min-width:0;max-width:660px;margin:0;padding:0;text-align:left}
+#root .hlc-auth-shell .hlc-auth-intro-visual{width:100%;height:clamp(230px,30vw,350px);margin:0 0 30px;overflow:hidden}
 #root .hlc-auth-shell .hlc-auth-intro-visual img{width:100%;height:100%;object-fit:cover}
-#root .hlc-auth-shell .hlc-auth-intro-kicker,#root .hlc-auth-shell .hlc-auth-card-brand{
-  margin:0 0 12px;color:var(--hlc-public-accent)!important;-webkit-text-fill-color:var(--hlc-public-accent)!important;
-  font-size:.75rem;font-weight:900;letter-spacing:.18em;text-transform:uppercase;
-}
-#root .hlc-auth-shell .hlc-auth-intro h2{margin:0;max-width:11ch;font-family:var(--hlc-public-serif);font-size:clamp(2.6rem,5vw,5.2rem);line-height:.95;letter-spacing:-.04em}
-#root .hlc-auth-shell .hlc-auth-intro>p:not(.hlc-auth-intro-kicker){max-width:600px;margin:20px 0 0;color:#566677!important;font-size:1.04rem;line-height:1.7}
-#root .hlc-auth-shell .hlc-auth-intro-proof{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:26px;padding-top:22px;border-top:1px solid var(--hlc-public-line)}
-#root .hlc-auth-shell .hlc-auth-intro-proof span{color:#526171!important;font-size:.88rem;font-weight:800}
-#root .hlc-auth-shell .hlc-auth-card{
-  min-width:0;width:100%;margin:0;padding:clamp(28px,4vw,44px);text-align:left;
-  background:transparent!important;border:0!important;border-radius:0!important;
-  box-shadow:none!important;color:var(--hlc-public-ink)!important;
-}
-#root .hlc-auth-shell .hlc-auth-form-heading{margin-bottom:24px;text-align:left}
-#root .hlc-auth-shell .hlc-auth-form-heading h1{margin:0;font-family:var(--hlc-public-serif);font-size:clamp(2.35rem,4.6vw,4.4rem);line-height:.98;letter-spacing:-.04em}
-#root .hlc-auth-shell .hlc-auth-card-description{margin:14px 0 0;color:#607080!important;line-height:1.6}
-#root .hlc-auth-shell .hlc-auth-method-tabs{display:flex;flex-wrap:wrap;gap:18px;margin:0 0 24px;padding:0 0 14px;border:0;border-bottom:1px solid var(--hlc-public-line);background:transparent}
-#root .hlc-auth-shell .hlc-auth-method-tabs button{min-height:40px;padding:0;border:0;border-bottom:2px solid transparent;border-radius:0;background:transparent;color:#667587;font-weight:850;box-shadow:none}
-#root .hlc-auth-shell .hlc-auth-method-tabs button[aria-pressed="true"]{color:var(--hlc-public-ink);border-bottom-color:var(--hlc-public-accent)}
+#root .hlc-auth-shell .hlc-auth-method-tabs{display:flex;flex-wrap:wrap;gap:18px;margin:0 0 24px;padding:0 0 14px}
 #root .hlc-auth-shell .hlc-auth-form{display:grid;gap:15px}
-#root .hlc-auth-shell .hlc-auth-form label{display:grid;gap:8px;color:var(--hlc-public-ink)!important;font-size:.92rem;font-weight:800;text-align:left}
-#root .hlc-auth-shell .hlc-auth-form :is(input,select,textarea){width:100%;min-height:52px;padding:12px 13px;border:1px solid #c7d7e5;border-radius:8px;background:#fff;color:#172033;box-shadow:none;font-size:16px}
+#root .hlc-auth-shell .hlc-auth-form label{display:grid;gap:8px;text-align:left}
+#root .hlc-auth-shell .hlc-auth-form :is(input,select,textarea){width:100%;min-height:52px;padding:12px 13px;font-size:16px}
 #root .hlc-auth-shell .hlc-password-input-row{position:relative;display:flex;align-items:center}
 #root .hlc-auth-shell .hlc-password-input-row input{padding-right:126px}
-#root .hlc-auth-shell .hlc-password-toggle{position:absolute;right:8px;min-height:36px;padding:0 8px;border:0;background:transparent;color:#1965a6;font-size:.8rem;font-weight:850;box-shadow:none}
+#root .hlc-auth-shell .hlc-password-toggle{position:absolute;right:8px;min-height:36px;padding:0 8px}
 #root .hlc-auth-shell .hlc-auth-form>button,#root .hlc-auth-shell .hlc-auth-success-action{
   justify-self:start;display:inline-flex;align-items:center;min-height:46px;padding:0 20px;
-  border:0;border-radius:9px;background:var(--hlc-public-accent);color:#fff;font-weight:900;text-decoration:none;box-shadow:none;
 }
-#root .hlc-auth-shell .hlc-auth-card-footer{margin-top:26px;padding-top:20px;border-top:1px solid var(--hlc-public-line);color:#607080}
-#root .hlc-auth-shell .hlc-auth-card-footer p{margin:6px 0;color:#607080!important}
-#root .hlc-auth-shell .hlc-auth-card-footer a,#root .hlc-auth-shell>nav a{color:var(--hlc-public-accent);text-decoration:none;font-weight:800}
-#root .hlc-auth-shell>nav{border-top:1px solid var(--hlc-public-line)}
 #root .hlc-auth-shell .hlc-auth-success{display:grid;gap:18px}
-#root .hlc-auth-shell .hlc-auth-success-primary,#root .hlc-auth-shell .hlc-auth-success-next{display:grid;gap:6px;padding:18px 0;border-top:1px solid var(--hlc-public-line);border-bottom:1px solid var(--hlc-public-line);background:transparent;border-radius:0}
 
 /* Auth entry pages retain the app-shell lifecycle for authenticated handoff, but the
    signed-out surface itself must remain viewport-bound. */
@@ -172,40 +146,29 @@ html body #root#root .hlc-app-shell.hlc-public-shell.hlc-auth-front-door-surface
   box-sizing:border-box!important;width:100%!important;max-width:none!important;min-width:0!important;margin-left:0!important;margin-right:0!important;
 }
 
-/* /app + /portal entry */
+/* /app + /portal entry — current neutral field */
 #root .hlc-app-entry-state{min-height:100vh;background:#14181d;color:#f4f7fa}
 #root .hlc-app-entry-state__shell{width:min(980px,calc(100% - 40px));min-height:calc(100vh - 84px);margin:0 auto;padding:64px 0;display:grid;place-items:center}
-#root .hlc-app-entry-state__panel{width:min(760px,100%);margin:0;padding:0;text-align:left;border:0;border-radius:0;background:transparent;box-shadow:none}
+#root .hlc-app-entry-state__panel{width:min(760px,100%);margin:0;padding:0;text-align:left;border:0;background:transparent;box-shadow:none}
 #root .hlc-app-entry-state__kicker{margin:0 0 14px;color:var(--hlc-public-accent);font-size:.75rem;font-weight:900;letter-spacing:.18em;text-transform:uppercase}
-#root .hlc-app-entry-state__panel h1{max-width:13ch;margin:0 0 18px;font-family:var(--hlc-public-serif);font-size:clamp(3rem,7vw,6rem);line-height:.95;letter-spacing:-.045em}
-#root .hlc-app-entry-state__panel p{max-width:650px;margin:0;color:#5e6b7a;line-height:1.7}
-#root .hlc-app-entry-state__panel [role="alert"]{margin-top:22px;padding:18px 0;border:0;border-top:1px solid #e6b6b6;border-bottom:1px solid #e6b6b6;background:transparent;color:#a23a3a}
-#root .hlc-app-entry-state__pulse{width:44px;height:44px;margin:26px 0 0;border:3px solid #d8e8f4;border-top-color:var(--hlc-public-accent);border-radius:50%;animation:hlcEntrySpin .9s linear infinite}
+#root .hlc-app-entry-state__panel h1{max-width:13ch;margin:0 0 18px;font-size:clamp(3rem,7vw,6rem);line-height:.95;letter-spacing:-.045em}
+#root .hlc-app-entry-state__panel p{max-width:650px;margin:0;color:#b8c1ca;line-height:1.7}
+#root .hlc-app-entry-state__panel [role="alert"]{margin-top:22px;padding:18px 0;border:0;border-top:1px solid rgba(248,113,113,.35);border-bottom:1px solid rgba(248,113,113,.35);background:transparent}
+#root .hlc-app-entry-state__pulse{width:44px;height:44px;margin:26px 0 0;border:3px solid rgba(214,224,234,.18);border-top-color:var(--hlc-public-accent);border-radius:50%;animation:hlcEntrySpin .9s linear infinite}
 @keyframes hlcEntrySpin{to{transform:rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){#root .hlc-app-entry-state__pulse{animation:none}}
 
 /* footer presentation is owned by the current public authority below */
 
-/* mobile */
+/* mobile — structure only */
 @media(max-width:800px){
   #root :is(.hlc-resident-action-grid,.hlc-partner-types,.hlc-professional-benefits,.hlc-pathway-three-grid,.hlc-professional-metrics,.hlc-community-highlights,.hlc-partner-trust-grid,.hlc-community-principles),
   #root :is(.hlc-pathway-split,.hlc-pathway-network,.hlc-community-board){grid-template-columns:1fr!important;gap:0!important}
   #root .hlc-auth-shell .hlc-auth-main{grid-template-columns:1fr;gap:28px;padding:36px 0 48px}
   #root .hlc-auth-shell .hlc-auth-intro{max-width:none}
   #root .hlc-auth-shell .hlc-auth-intro-visual{height:230px;margin-bottom:0}
-  #root .hlc-auth-shell .hlc-auth-intro>:not(.hlc-auth-intro-visual){display:none}
-  #root .hlc-auth-shell .hlc-auth-card{padding:26px;border-radius:14px!important}
 }
 @media(max-width:760px){
-  #root :is(.hlc-pathway-hero,.hlc-public-board-page .hlc-public-hero,.hlc-utility-page .hlc-public-hero,.hlc-legal-hero){min-height:520px;background-position:center}
-  #root :is(.hlc-pathway-hero,.hlc-public-board-page .hlc-public-hero,.hlc-utility-page .hlc-public-hero,.hlc-legal-hero)::before{
-    background:linear-gradient(180deg,rgba(255,255,255,.90),rgba(255,255,255,.76) 72%,rgba(255,255,255,.94));
-  }
-  #root :is(.hlc-pathway-hero-copy,.hlc-public-board-page .hlc-public-hero>div,.hlc-utility-page .hlc-public-hero>div,.hlc-legal-hero-grid){
-    width:calc(100% - 28px);padding:66px 0 48px;text-align:left;
-  }
-  #root :is(.hlc-pathway-hero-copy,.hlc-public-board-page .hlc-public-hero>div,.hlc-utility-page .hlc-public-hero>div,.hlc-legal-hero-grid) h1{font-size:clamp(2.7rem,13vw,4.2rem)}
-  #root :is(.hlc-pathway-section,.hlc-public-grid,.hlc-board-access-grid,.hlc-public-offer,.hlc-public-form-wrap,.hlc-legal-card,.hlc-public-story-card,.hlc-public-story-actions){width:calc(100% - 28px)}
   #root .hlc-public-form-wrap{grid-template-columns:1fr!important;gap:34px!important;padding:52px 0}
   #root .hlc-request-service{padding:44px 16px 60px}
   #root .hlc-request-grid{grid-template-columns:1fr;gap:36px}
@@ -213,7 +176,6 @@ html body #root#root .hlc-app-shell.hlc-public-shell.hlc-auth-front-door-surface
 @media(max-width:560px){
   #root .hlc-auth-shell .hlc-auth-main{width:calc(100% - 28px);padding-top:24px}
   #root .hlc-auth-shell .hlc-auth-intro-visual{height:205px}
-  #root .hlc-auth-shell .hlc-auth-form-heading h1{font-size:clamp(2.3rem,11vw,3.5rem)}
   #root .hlc-auth-shell .hlc-auth-method-tabs{gap:12px}
   #root .hlc-app-entry-state__shell{width:calc(100% - 28px);padding:42px 0}
 }
