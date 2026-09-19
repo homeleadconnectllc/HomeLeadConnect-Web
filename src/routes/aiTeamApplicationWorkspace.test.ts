@@ -55,8 +55,8 @@ test("AI Team preserves capability and authorization boundaries", () => {
 test("AI Team styling keeps the structural workspace compact and mobile safe", () => {
   const routeIndex = entry.indexOf("./ai-team-application-workspace.css");
   assert.ok(routeIndex >= 0);
-  assert.doesNotMatch(entry, /application-workspace-ui\\.css/);
-  assert.match(authenticatedStyles, /signed-in-professional-system\\.css/);
+  assert.doesNotMatch(entry, /application-workspace-ui\.css/);
+  assert.match(authenticatedStyles, /signed-in-professional-system\.css/);
   assert.ok(authenticatedStyles.indexOf("signed-in-professional-system.css") > authenticatedStyles.indexOf("dashboard-context-hero.css"));
   assert.match(purposeBuiltStyles, /\.hlc-agent-workspace\{display:grid;gap:18px\}/);
   assert.match(purposeBuiltStyles, /\.hlc-agent-team-header\{display:flex;justify-content:space-between/);
