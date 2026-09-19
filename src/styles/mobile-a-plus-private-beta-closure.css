@@ -1,6 +1,5 @@
-/* HLC private-beta mobile closure.
-   Physical iPhone evidence is authoritative: full-screen navigation, readable controls,
-   concise task surfaces, modal isolation, and a discoverable app directory. */
+/* HLC private-beta mobile content/readability closure.
+   Drawer ownership is handled by the current hlc-drawer-v2 command-menu authority. */
 
 .hlc-app-directory {
   width: min(1120px, calc(100% - 32px));
@@ -74,40 +73,6 @@
 }
 
 @media (max-width: 760px) {
-  body:has(.hlc-mobile-portal) { overflow: hidden !important; overscroll-behavior: none !important; }
-  .hlc-mobile-portal {
-    position: fixed !important; inset: 0 !important; top: 0 !important; left: 0 !important;
-    width: 100vw !important; height: 100dvh !important; min-height: 100dvh !important;
-    z-index: 2147483000 !important; margin: 0 !important; padding: 0 !important;
-    background: rgba(2, 8, 18, .92) !important; overflow: hidden !important;
-    overscroll-behavior: contain !important;
-  }
-  .hlc-mobile-portal-scroll {
-    position: absolute !important; inset: 0 !important; top: 0 !important;
-    width: 100vw !important; height: 100dvh !important; max-height: 100dvh !important;
-    margin: 0 !important; padding: 0 16px max(28px, env(safe-area-inset-bottom)) !important;
-    overflow-y: auto !important; overscroll-behavior: contain !important; -webkit-overflow-scrolling: touch;
-    background: #071426 !important; box-shadow: none !important;
-    scroll-padding-top: 74px;
-  }
-  .hlc-mobile-drawer-close {
-    position: sticky !important;
-    top: 0 !important;
-    z-index: 20 !important;
-    display: flex !important;
-    width: calc(100% + 32px) !important;
-    margin: 0 -16px 14px !important;
-    min-height: calc(60px + env(safe-area-inset-top)) !important;
-    padding: max(12px, env(safe-area-inset-top)) 16px 12px !important;
-    align-items: flex-end !important;
-    justify-content: center !important;
-    border: 0 !important;
-    border-bottom: 1px solid rgba(148,163,184,.22) !important;
-    background: rgba(7,20,38,.98) !important;
-    color: #f8fbff !important;
-    font: inherit !important;
-    font-weight: 900 !important;
-  }
 
   #root :is(input, textarea, select) { color: #eef7ff; -webkit-text-fill-color: #eef7ff; caret-color: #9dccff; }
   #root :is(input, textarea, select)::placeholder { color: #9fb4c9; opacity: 1; }
@@ -164,7 +129,6 @@
   .hlc-app-directory-empty span { color: #b9cadb !important; }
 
   body.hlc-keyboard-open .hlc-agent-dock:not(.is-open),
-  body:has(.hlc-mobile-portal) .hlc-agent-dock:not(.is-open),
   body:has([role="dialog"]) .hlc-agent-dock:not(.is-open) {
     display: none !important; visibility: hidden !important; pointer-events: none !important;
   }
