@@ -4,7 +4,7 @@ import test from "node:test";
 
 const router = readFileSync("src/routes/AppRouter.tsx","utf8");
 const mainSource = readFileSync("src/main.tsx","utf8");
-const publicNav = readFileSync("src/components/PublicSiteNav.tsx","utf8");
+const publicNav = readFileSync("src/components/PublicSiteNav.tsx","utf8");\nconst visualFamily = readFileSync("src/styles/public-visual-family-20260919.css","utf8");
 const files = {
   publicInfo: readFileSync("src/pages/PublicInfo.tsx","utf8"),
   publicJourney: readFileSync("src/pages/PublicJourney.tsx","utf8"),
@@ -97,7 +97,7 @@ test("shared route components cover the full public family", () => {
 });
 
 
-test("auth and app-entry routes join the visual family without the unstable imperative public runtime", () => {
+test("auth and app-entry routes join the visual family without the retired imperative public runtime", () => {
   assert.match(mainSource, /const isVisualFamilyEntryRoute =/);
   assert.match(mainSource, /login\|register\|forgot-password\|reset-password\|app\|portal\|portal\\\/accept/);
   assert.match(mainSource, /isPublicSiteRoute \|\| isVisualFamilyEntryRoute/);
@@ -106,8 +106,12 @@ test("auth and app-entry routes join the visual family without the unstable impe
   assert.doesNotMatch(files.authShell, /public-auth-visual-closure-20260912\.css|public-header-logo-authority-20260915\.css/);
   assert.doesNotMatch(files.login, /front-door-auth-refinement-20260910\.css|front-door-login-outer-authority-20260911\.css/);
   assert.doesNotMatch(files.appEntry, /app-entry-frontdoor-20260913\.css/);
-  assert.match(publicNav, /PUBLIC_VISUAL_RUNTIME_PATHS/);
-  for (const route of ["/login", "/register", "/forgot-password", "/reset-password", "/app", "/portal", "/portal/accept"]) {
-    assert.ok(!publicNav.includes(`  "${route}",`), `Visual-family entry route ${route} must stay out of the imperative runtime`);
-  }
+  assert.doesNotMatch(publicNav, /PUBLIC_VISUAL_RUNTIME_PATHS|publicSiteNavRuntime|useLayoutEffect/);
+});
+
+test("canonical visual family permanently rejects dark charcoal and navy page shells", () => {
+  assert.match(visualFamily, /--hlc-public-bg:\s*#f7fbff/i);
+  assert.match(visualFamily, /--hlc-public-surface:\s*#ffffff/i);
+  assert.doesNotMatch(visualFamily, /#071a2d|#0b2845|#04111f|#03111f|#030914|#06182a/i);
+  assert.match(visualFamily, /background:rgba\(255,255,255,\.94\)/i);
 });
