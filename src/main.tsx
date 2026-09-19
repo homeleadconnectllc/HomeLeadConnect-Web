@@ -35,7 +35,6 @@ if (isPublicHome) {
   // Public routes use only their current page-level visual authority. Retired public-family
   // styles must not leak back into the live public site. Authenticated/app routes retain
   // their dedicated app shell styling on app.homeleadconnect.org.
-  const styleReady = (isPublicSiteRoute || isVisualFamilyEntryRoute) ? import("./styles/public-visual-family-20260919.css") : import("./styles/app-shell-entry");
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
       void navigator.serviceWorker.register("/sw.js", { updateViaCache: "none" }).then((registration) => {
@@ -43,7 +42,7 @@ if (isPublicHome) {
       }).catch(() => {});
     });
   }
-  void styleReady.then(async () => {
+  const mountReactApp = async () => {
     const [reactModule, domModule, appModule, authModule, accessModule] = await Promise.all([import("react"), import("react-dom/client"), import("./App.tsx"), import("./context/AuthContext"), import("./context/AccountAccessProvider")]);
     const { StrictMode, createElement } = reactModule;
     const { createRoot } = domModule;
@@ -52,5 +51,12 @@ if (isPublicHome) {
     const AccountAccessProvider = accessModule.AccountAccessProvider;
     const root = createRoot(rootElement);
     root.render(createElement(StrictMode, null, createElement(AuthProvider, null, createElement(AccountAccessProvider, null, createElement(App)))));
-  });
+  };
+  const usesPublicVisualFamily = isPublicSiteRoute || isVisualFamilyEntryRoute;
+  if (usesPublicVisualFamily) {
+    void import("./styles/public-visual-family-20260919.css").then(mountReactApp);
+  }
+  if (!usesPublicVisualFamily) {
+    void import("./styles/app-shell-entry").then(mountReactApp);
+  }
 }
