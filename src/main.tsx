@@ -1,5 +1,4 @@
 /* index.css is loaded with the non-home application/public-family entry to keep the standalone homepage critical path lean. */
-import "./styles/public-footer-home-authority-20260916.css";
 
 
 /*
