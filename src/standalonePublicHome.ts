@@ -72,7 +72,6 @@ export function mountStandalonePublicHome(root: HTMLElement) {
   const primaryWrap = make("div", "hlc-public-menu-primary");
   for (const [label, path] of primary) {
     const item = link(`${PUBLIC_ORIGIN}${path}`);
-    item.style.cssText = "display:flex;min-height:44px;align-items:center;padding:10px 0";
     item.append(make("span", undefined, label));
     primaryWrap.append(item);
   }
@@ -80,15 +79,12 @@ export function mountStandalonePublicHome(root: HTMLElement) {
   const secondaryWrap = make("div", "hlc-public-menu-secondary");
   for (const [label, path] of secondary) {
     const item = link(`${PUBLIC_ORIGIN}${path}`, undefined, label);
-    item.style.cssText = "display:inline-flex;min-height:44px;align-items:center;padding:10px 8px";
     secondaryWrap.append(item);
   }
 
   const accountWrap = make("div", "hlc-public-menu-account");
   const menuSignIn = link(`${APP_ORIGIN}/login`, undefined, "Sign In");
-  menuSignIn.style.cssText = "display:inline-flex;min-height:44px;align-items:center;padding:10px 14px";
   const menuStart = link(`${APP_ORIGIN}/register`, undefined, "Get Started");
-  menuStart.style.cssText = "display:inline-flex;min-height:44px;align-items:center;padding:10px 14px";
   accountWrap.append(menuSignIn, menuStart);
   panel.append(primaryWrap, secondaryWrap, accountWrap);
   backdrop.append(panel);
@@ -160,8 +156,6 @@ export function mountStandalonePublicHome(root: HTMLElement) {
   footer.append(legal, make("small", undefined, `© ${new Date().getFullYear()} HomeLead Connect LLC`));
   root.append(main, footer);
 
-  Object.assign(backdrop.style,{position:"fixed",inset:"0",zIndex:"1500",background:"rgba(2,10,22,.78)",padding:"clamp(84px, 10vh, 120px) 18px 24px",overflowY:"auto"});
-  Object.assign(panel.style,{width:"min(920px, 100%)",margin:"0 auto",padding:"clamp(24px, 5vw, 54px)",background:"#06182a",border:"1px solid rgba(128,178,225,.32)",borderRadius:"28px",boxShadow:"0 32px 90px rgba(0,0,0,.48)"});
 
   const close=()=>{backdrop.hidden=true;trigger.setAttribute("aria-expanded","false");trigger.setAttribute("aria-label","Open HomeLead Connect menu");document.body.style.overflow="";trigger.focus()};
   const open=()=>{backdrop.hidden=false;trigger.setAttribute("aria-expanded","true");trigger.setAttribute("aria-label","Close HomeLead Connect menu");document.body.style.overflow="hidden"};
