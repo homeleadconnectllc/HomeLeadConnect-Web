@@ -3,7 +3,7 @@ import { BookOpen, Briefcase, Handshake, House, Info, Menu, Users, X } from "luc
 import { appUrl, publicUrl } from "../config/siteOrigins";
 import "../styles/public-owner-visual-authority-20260918.css";
 
-const NAV_LOGO = "/icon-512.png";
+const NAV_LOGO = "/hlc-logo-ui.png";
 
 const primaryMenuLinks = [
   { label: "Home", href: publicUrl("/"), Icon: House, tone: "home" },
