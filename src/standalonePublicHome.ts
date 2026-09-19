@@ -32,9 +32,9 @@ export function mountStandalonePublicHome(root: HTMLElement) {
         </div>
         <div class="hlc-public-menu-backdrop" data-hlc-public-menu-open="true" hidden>
           <nav id="hlc-public-menu" class="hlc-public-menu-panel" aria-label="HomeLead Connect menu">
-            <div class="hlc-public-menu-primary">${primary.map(([label,path])=>`<a href="${publicHref(path)}"><span>${esc(label)}</span></a>`).join("")}</div>
-            <div class="hlc-public-menu-secondary">${secondary.map(([label,path])=>`<a href="${publicHref(path)}">${esc(label)}</a>`).join("")}</div>
-            <div class="hlc-public-menu-account"><a href="${APP_ORIGIN}/login">Sign In</a><a href="${APP_ORIGIN}/register">Get Started</a></div>
+            <div class="hlc-public-menu-primary">${primary.map(([label,path])=>`<a href="${publicHref(path)}" style="display:flex;min-height:44px;align-items:center;padding:10px 0"><span>${esc(label)}</span></a>`).join("")}</div>
+            <div class="hlc-public-menu-secondary">${secondary.map(([label,path])=>`<a href="${publicHref(path)}" style="display:inline-flex;min-height:44px;align-items:center;padding:10px 8px">${esc(label)}</a>`).join("")}</div>
+            <div class="hlc-public-menu-account"><a href="${APP_ORIGIN}/login" style="display:inline-flex;min-height:44px;align-items:center;padding:10px 14px">Sign In</a><a href="${APP_ORIGIN}/register" style="display:inline-flex;min-height:44px;align-items:center;padding:10px 14px">Get Started</a></div>
           </nav>
         </div>
       </header>
