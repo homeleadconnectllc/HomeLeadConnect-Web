@@ -50,28 +50,17 @@ test("320px through 430px viewports are explicitly contained", () => {
   assert.match(main, /\.\/styles\/final-release-guard\.css/);
 });
 
-test("global premium HLC design system stays mounted before final release guards", () => {
-  assert.match(main, /\.\/styles\/global-premium-system\.css/);
-  assert.ok(main.indexOf("./styles/global-premium-system.css") < main.indexOf("./styles/contrast-contract.css"));
-  assert.match(globalPremium, /--hlc-premium-blue:\s*#2563eb/);
-  assert.match(globalPremium, /--accent:\s*var\(--hlc-premium-blue\)/);
-  assert.match(globalPremium, /:where\(\.hlc-route-content, \.hlc-auth-shell\).*table/);
-  assert.match(globalPremium, /\.hlc-premium-empty/);
-  assert.match(globalPremium, /\.hlc-status-pill/);
-  assert.match(globalPremium, /prefers-reduced-motion/);
+test("retired global premium system is not mounted over the structural root", () => {
+  assert.doesNotMatch(main, /global-premium-system\.css/);
+  assert.match(main, /final-release-guard\.css/);
 });
 
-test("route cleanup is the final authenticated presentation layer", () => {
-  const v4Index = authenticatedStyles.indexOf("./workspace-premium-v4.css");
-  const cleanupIndex = authenticatedStyles.indexOf("./workspace-route-cleanup.css");
-  assert.ok(v4Index >= 0);
-  assert.ok(cleanupIndex > v4Index);
+test("route cleanup remains mounted without retired workspace premium v4", () => {
+  assert.doesNotMatch(authenticatedStyles, /workspace-premium-v4\.css/);
+  assert.match(authenticatedStyles, /workspace-route-cleanup\.css/);
   assert.match(workspaceRouteCleanup, /\.hlc-jobs-page/);
   assert.match(workspaceRouteCleanup, /\.hlc-calendar-page/);
   assert.match(workspaceRouteCleanup, /\.hlc-messages-page/);
-  assert.match(workspaceRouteCleanup, /main:not\(\[class\]\)/);
-  assert.match(workspaceRouteCleanup, /\.hlc-command-center/);
-  assert.match(workspaceRouteCleanup, /margin-bottom: calc\(172px \+ env\(safe-area-inset-bottom\)\) !important/);
 });
 
 test("desktop dashboard certification layer stays late in authenticated styles and keeps light metrics readable", () => {
@@ -146,5 +135,5 @@ test("installed iPhone navigation clears the status-bar safe area", () => {
   assert.match(indexHtml, /apple-mobile-web-app-status-bar-style/);
   assert.match(releaseGuard, /\.hlc-navbar \{[\s\S]*min-height: calc\(70px \+ env\(safe-area-inset-top\)\)/);
   assert.match(releaseGuard, /padding: calc\(11px \+ env\(safe-area-inset-top\)\)/);
-  assert.match(releaseGuard, /\.hlc-mobile-portal \{[\s\S]*inset: calc\(70px \+ env\(safe-area-inset-top\)\)/);
+  assert.doesNotMatch(releaseGuard, /\.hlc-mobile-portal\s*\{/);
 });
