@@ -41,147 +41,34 @@ import "./styles/mobile-release-fix.css";
 */
 
 const APP_HOST = "app.homeleadconnect.org";
-const NAV_LOGO = "/icon-512.png";
 const isPublicHome = window.location.pathname === "/" && window.location.hostname.toLowerCase() !== APP_HOST;
 const rootElement = document.getElementById("root")!;
 
-const mobileMenuIcon = (paths: string) => `<span class="hlc-mobile-icon-nav-v5__icon" aria-hidden="true"><svg viewBox="0 0 24 24">${paths}</svg></span>`;
-const mobileMenuItem = (tone: string, label: string, href: string, icon: string) => `<a class="hlc-mobile-icon-nav-v5__item hlc-mobile-icon-nav-v5__item--${tone}" href="${href}">${mobileMenuIcon(icon)}<span class="hlc-mobile-icon-nav-v5__label">${label}</span></a>`;
-
-function publicHomeMarkup() {
-  return `
-    <main class="hlc-board-home hlc-v2-home hlc-family-ecosystem">
-      <header class="hlc-board-nav hlc-public-shared-nav" data-public-tone="neutral">
-        <div class="hlc-board-nav-inner">
-          <a class="hlc-board-brand" href="https://homeleadconnect.org/" aria-label="HomeLead Connect home"><img class="hlc-navbar-master-logo" data-hlc-master-logo="true" src="${NAV_LOGO}" alt="" aria-hidden="true" /><span class="hlc-brand-accessible-label">HomeLead Connect</span></a>
-          <nav class="hlc-board-links" aria-label="Primary navigation"><a href="/about">About</a><a href="/homeowners">For Residents</a><a href="/professionals">For Professionals</a><a href="/partners">For Partners</a><a href="/community">Community</a><a href="/services">Resources</a></nav>
-          <div class="hlc-board-actions">
-            <a class="hlc-board-login" href="https://app.homeleadconnect.org/login">Sign In</a>
-            <a class="hlc-board-cta" href="https://app.homeleadconnect.org/register">Get Started</a>
-            <a class="hlc-mobile-sign-in-link" href="https://app.homeleadconnect.org/login">Sign In</a>
-            <details class="hlc-mobile-icon-nav-v5" data-mobile-nav-version="5">
-              <summary class="hlc-mobile-icon-nav-v5__trigger">Menu</summary>
-              <nav class="hlc-mobile-icon-nav-v5__panel" aria-label="Mobile navigation">
-                ${mobileMenuItem("about", "About", "/about", '<circle cx="12" cy="12" r="9"></circle><path d="M12 10v6"></path><path d="M12 7h.01"></path>')}
-                ${mobileMenuItem("resident", "For Residents", "/homeowners", '<path d="M3 11.5 12 4l9 7.5"></path><path d="M5.5 10.5V20h13v-9.5"></path><path d="M9.5 20v-6h5v6"></path>')}
-                ${mobileMenuItem("professional", "For Professionals", "/professionals", '<path d="m14.7 6.3 3-3a5 5 0 0 1-6.4 6.4L5 16l-3 3 3 3 3-3 6.3-6.3a5 5 0 0 1 6.4-6.4l-3 3-3-3Z"></path>')}
-                ${mobileMenuItem("partner", "For Partners", "/partners", '<path d="M10 13a5 5 0 0 0 7.54.54l2-2a5 5 0 0 0-7.07-7.07l-1.15 1.15"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-2 2a5 5 0 0 0 7.07 7.07l1.15-1.15"></path>')}
-                ${mobileMenuItem("community", "Community", "/community", '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path>')}
-                ${mobileMenuItem("resources", "Resources", "/services", '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M4 4h16v16H6.5A2.5 2.5 0 0 1 4 17.5z"></path>')}
-                ${mobileMenuItem("start", "Get Started", "https://app.homeleadconnect.org/register", '<circle cx="12" cy="12" r="9"></circle><path d="m8.5 12 2.3 2.3 4.7-4.8"></path>')}
-              </nav>
-            </details>
-          </div>
-        </div>
-      </header>
-
-      <section class="hlc-family-hero" aria-labelledby="hlc-family-hero-title">
-        <div class="hlc-family-hero-inner"><div class="hlc-family-hero-copy">
-          <p class="hlc-family-kicker">The Connected Experience</p>
-          <h1 id="hlc-family-hero-title">One place for the next right move.</h1>
-          <p>Request service, find the right people, and keep the work connected from first conversation to follow-through.</p>
-          <div class="hlc-family-hero-actions"><a class="hlc-board-cta" href="https://app.homeleadconnect.org/request-service">Request home service</a><a class="hlc-family-secondary" href="#vision">Meet the mission →</a></div>
-        </div></div>
-      </section>
-
-      <section id="pathways" class="hlc-board-pathway-band" aria-labelledby="hlc-board-pathway-title">
-        <div class="hlc-board-pathway-heading"><p class="hlc-family-kicker">The HomeLead Connect ecosystem</p><h2 id="hlc-board-pathway-title">Four Pathways</h2><p class="hlc-family-pathway-subtitle"><span class="hlc-pathway-subtitle-line">Different experiences.</span> <span class="hlc-pathway-subtitle-line">Same mission.</span> <span class="hlc-pathway-subtitle-line hlc-pathway-subtitle-last-line">One connected ecosystem.</span></p></div>
-        <div class="hlc-board-pathway-inner">
-          <article class="hlc-board-pathway hlc-board-pathway--resident" style="background-image:url('/four-pathways-residents-hq-20260915.jpg');background-size:cover;background-repeat:no-repeat;background-position:center 42%;"><div class="hlc-board-pathway-content"><p class="hlc-board-pathway-label">For Residents</p><p class="hlc-board-pathway-copy">Get help with the home in front of you—and keep the next step clear.</p><a class="hlc-family-pathway-link" href="/homeowners">Find resident support →</a></div></article>
-          <article class="hlc-board-pathway hlc-board-pathway--professional" style="background-image:url('/page-professionals-provider-presence-20260916.webp');background-size:cover;background-repeat:no-repeat;background-position:center 40%;"><div class="hlc-board-pathway-content"><p class="hlc-board-pathway-label">For Professionals</p><p class="hlc-board-pathway-copy">Build a more visible, accountable service business inside the network.</p><a class="hlc-family-pathway-link" href="/professionals">Explore professional access →</a></div></article>
-          <article class="hlc-board-pathway hlc-board-pathway--partner" style="background-image:url('/four-pathways-partners-hq-20260915.jpg');background-size:cover;background-repeat:no-repeat;background-position:center 40%;"><div class="hlc-board-pathway-content"><p class="hlc-board-pathway-label">For Partners</p><p class="hlc-board-pathway-copy">Create referral relationships that respect people, context, and consent.</p><a class="hlc-family-pathway-link" href="/partners">Explore partner access →</a></div></article>
-          <article class="hlc-board-pathway hlc-board-pathway--community" style="background-image:url('/four-pathways-community-hq-20260915.jpg');background-size:cover;background-repeat:no-repeat;background-position:center 72%;"><div class="hlc-board-pathway-content"><p class="hlc-board-pathway-label">For Community</p><p class="hlc-board-pathway-copy">Find the people and resources that help neighborhoods move forward.</p><a class="hlc-family-pathway-link" href="/community">Visit the community →</a></div></article>
-        </div>
-      </section>
-
-      <section id="vision" class="hlc-family-vision" aria-labelledby="hlc-family-vision-title"><div class="hlc-family-vision-inner"><div><p class="hlc-family-vision-kicker">The HomeLead Connect vision</p><h2 id="hlc-family-vision-title">A stronger community <span>starts here.</span></h2></div><p class="hlc-family-vision-note">Communities move forward when residents, professionals, partners and local opportunity move forward together.</p></div></section>
-
-      <section class="hlc-family-entry" aria-labelledby="hlc-family-entry-title"><div class="hlc-family-entry-inner"><div><p class="hlc-family-kicker">Ready when you are</p><h2 id="hlc-family-entry-title">Start with the path that fits you.</h2><p class="hlc-family-pricing-note">Business workspace: $49.99/month after a 14-day trial.</p></div><div class="hlc-family-entry-actions"><a href="https://app.homeleadconnect.org/request-service">Request Service</a><a href="https://app.homeleadconnect.org/professional-application">Apply as a Professional</a><a href="/partners">Explore Partnerships</a><a href="https://app.homeleadconnect.org/">Open the App</a></div></div></section>
-
-      <footer class="hlc-board-footer hlc-public-footer-home-authority"><img class="hlc-public-footer-master-logo" src="/icon-512.png" alt="HomeLead Connect LLC" /><strong>HomeLead Connect</strong><span>Connecting Homes. Creating Opportunities.</span><nav aria-label="Legal and accessibility"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/accessibility">Accessibility</a><a href="/platform-disclosure">Platform disclosure</a></nav><small>© ${new Date().getFullYear()} HomeLead Connect LLC</small></footer>
-    </main>`;
-}
-
-/* Family/Ecosystem source-contract mirrors retained for launch audits: class="hlc-v2-home" Four Pathways. Different experiences. Same mission. One connected ecosystem. https://app.homeleadconnect.org/login https://app.homeleadconnect.org/register https://app.homeleadconnect.org/request-service. */
-void publicHomeMarkup;
-
 if (isPublicHome) {
-  rootElement.innerHTML = publicHomeMarkup();
-
-  const nav = rootElement.querySelector<HTMLElement>("header.hlc-public-shared-nav");
-  const inner = nav?.querySelector<HTMLElement>(".hlc-board-nav-inner") ?? null;
-  const actions = nav?.querySelector<HTMLElement>(".hlc-board-actions") ?? null;
-  const brand = nav?.querySelector<HTMLElement>(".hlc-board-brand") ?? null;
-  const login = nav?.querySelector<HTMLElement>(".hlc-board-login") ?? null;
-  const cta = nav?.querySelector<HTMLElement>(".hlc-board-cta") ?? null;
-  const mobileSignIn = nav?.querySelector<HTMLElement>(".hlc-mobile-sign-in-link") ?? null;
-  const mobileMenu = nav?.querySelector<HTMLElement>(".hlc-mobile-icon-nav-v5") ?? null;
-  const mobileMenuTrigger = nav?.querySelector<HTMLElement>(".hlc-mobile-icon-nav-v5__trigger") ?? null;
-  const setStaticImportant = (element: HTMLElement | null, property: string, value: string) => element?.style.setProperty(property, value, "important");
-  const alignStaticHomeHeader = () => {
-    const mobile = window.matchMedia("(max-width: 680px)").matches;
-    if (!mobile) return;
-    setStaticImportant(nav, "width", "100%");
-    setStaticImportant(nav, "max-width", "none");
-    setStaticImportant(nav, "margin", "0");
-    setStaticImportant(nav, "padding", "0");
-    setStaticImportant(inner, "box-sizing", "border-box");
-    setStaticImportant(inner, "width", "100%");
-    setStaticImportant(inner, "max-width", "none");
-    setStaticImportant(inner, "margin", "0");
-    setStaticImportant(inner, "padding", "0 12px");
-    setStaticImportant(inner, "display", "block");
-    setStaticImportant(inner, "position", "relative");
-    setStaticImportant(inner, "min-height", "84px");
-    setStaticImportant(inner, "padding", "0 12px");
-    setStaticImportant(brand, "position", "absolute");
-    setStaticImportant(brand, "left", "12px");
-    setStaticImportant(brand, "top", "50%");
-    setStaticImportant(brand, "transform", "translateY(-50%)");
-    setStaticImportant(actions, "position", "absolute");
-    setStaticImportant(actions, "right", "12px");
-    setStaticImportant(actions, "top", "50%");
-    setStaticImportant(actions, "transform", "translateY(-50%)");
-    setStaticImportant(actions, "margin", "0");
-    setStaticImportant(actions, "padding", "0");
-    setStaticImportant(actions, "width", "auto");
-    setStaticImportant(actions, "display", "flex");
-    setStaticImportant(actions, "align-items", "center");
-    setStaticImportant(actions, "justify-content", "flex-end");
-    setStaticImportant(actions, "gap", "14px");
-    setStaticImportant(login, "display", "none");
-    setStaticImportant(cta, "display", "none");
-    setStaticImportant(mobileSignIn, "display", "inline");
-    setStaticImportant(mobileSignIn, "margin", "0");
-    setStaticImportant(mobileSignIn, "padding", "0");
-    setStaticImportant(mobileMenu, "display", "inline-flex");
-    setStaticImportant(mobileMenu, "align-items", "center");
-    setStaticImportant(mobileMenu, "height", "44px");
-    setStaticImportant(mobileMenu, "min-height", "44px");
-    setStaticImportant(mobileMenu, "margin", "0");
-    setStaticImportant(mobileMenu, "padding", "0");
-    setStaticImportant(mobileSignIn, "height", "44px");
-    setStaticImportant(mobileSignIn, "min-height", "44px");
-    setStaticImportant(mobileSignIn, "display", "inline-flex");
-    setStaticImportant(mobileSignIn, "align-items", "center");
-    setStaticImportant(mobileSignIn, "justify-content", "center");
-    setStaticImportant(mobileSignIn, "line-height", "1");
-    setStaticImportant(mobileSignIn, "font-size", "16px");
-    setStaticImportant(mobileSignIn, "font-weight", "900");
-    setStaticImportant(mobileMenuTrigger, "height", "44px");
-    setStaticImportant(mobileMenuTrigger, "min-height", "44px");
-    setStaticImportant(mobileMenuTrigger, "display", "inline-flex");
-    setStaticImportant(mobileMenuTrigger, "align-items", "center");
-    setStaticImportant(mobileMenuTrigger, "justify-content", "center");
-    setStaticImportant(mobileMenuTrigger, "line-height", "1");
-    setStaticImportant(mobileMenuTrigger, "font-size", "16px");
-    setStaticImportant(mobileMenuTrigger, "font-weight", "900");
-    setStaticImportant(mobileMenuTrigger, "margin", "0");
-    setStaticImportant(mobileMenuTrigger, "padding", "0");
-  };
-  alignStaticHomeHeader();
-  window.addEventListener("resize", alignStaticHomeHeader);
-} else {
+  void Promise.all([
+    import("react"),
+    import("react-dom/client"),
+    import("./pages/HomePage.tsx"),
+    import("./components/Footer.tsx"),
+  ]).then(([reactModule, domModule, homeModule, footerModule]) => {
+    const { StrictMode, createElement, Fragment } = reactModule;
+    const { createRoot } = domModule;
+    const HomePage = homeModule.default;
+    const Footer = footerModule.default;
+    createRoot(rootElement).render(
+      createElement(
+        StrictMode,
+        null,
+        createElement(
+          Fragment,
+          null,
+          createElement(HomePage),
+          createElement(Footer, { showLogo: false }),
+        ),
+      ),
+    );
+  });
+} else {{
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
       void navigator.serviceWorker.register("/sw.js", { updateViaCache: "none" }).then((registration) => {
