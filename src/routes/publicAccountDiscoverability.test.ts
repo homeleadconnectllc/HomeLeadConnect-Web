@@ -12,8 +12,8 @@ test("canonical public root exposes approved account-access entry points through
   assert.match(standaloneHome, /hlc-public-menu-trigger/);
   assert.match(standaloneHome, /APP_ORIGIN}\/login/);
   assert.match(standaloneHome, /APP_ORIGIN}\/register/);
-  assert.match(standaloneHome, /link\(`\\$\{APP_ORIGIN\}\\/login`[^\n]*"Sign In"\)/);
-  assert.match(standaloneHome, /link\(`\\$\{APP_ORIGIN\}\\/register`[^\n]*"Get Started"\)/);
+  assert.ok(standaloneHome.includes('link(`${APP_ORIGIN}/login`, "hlc-board-login", "Sign In")'));
+  assert.ok(standaloneHome.includes('link(`${APP_ORIGIN}/register`, "hlc-board-cta", "Get Started")'));
   assert.match(nav, /appUrl\("\/login"\)/);
   assert.match(nav, /appUrl\("\/register"\)/);
 });
