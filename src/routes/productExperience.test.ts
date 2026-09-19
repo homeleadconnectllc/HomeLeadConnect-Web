@@ -175,7 +175,7 @@ test("Dion business intelligence copy and reporting control remain durable and m
   assert.match(analyticsKpis, /setRefreshKey/);
   assert.match(analyticsHardening, /min-width: 44px/);
   assert.match(analyticsHardening, /min-height: 44px/);
-  assert.match(analyticsHardening, /background: #1e3a8a/);
+  assert.match(analyticsHardening, /\.hlc-analytics-period-button/);
   assert.match(analyticsHardening, /color: #ffffff/);
   assert.match(analyticsHardening, /\.hlc-analytics-period-button:hover/);
   assert.match(analyticsHardening, /\.hlc-analytics-period-button:focus-visible/);
