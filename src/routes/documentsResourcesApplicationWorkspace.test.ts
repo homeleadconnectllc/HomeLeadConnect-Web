@@ -8,6 +8,7 @@ const router = readFileSync("src/routes/AppRouter.tsx", "utf8");
 const guides = readFileSync("src/pages/dashboard/OperationalGuide.tsx", "utf8");
 const styles = readFileSync("src/styles/documents-resources-application-workspace.css", "utf8");
 const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
+const authenticatedStyles = readFileSync("src/styles/AuthenticatedStyles.tsx", "utf8");
 
 test("Documents uses a dedicated evidence workspace instead of inline card composition", () => {
   assert.match(documents, /hlc-documents-workspace/);
@@ -81,9 +82,10 @@ test("Help Tutorials and Rules share the knowledge workspace while preserving op
 
 test("Documents Resources specialization mounts before final authority and collapses on mobile", () => {
   const routeIndex = entry.indexOf("./documents-resources-application-workspace.css");
-  const finalIndex = entry.indexOf("./application-workspace-ui.css");
   assert.ok(routeIndex >= 0);
-  assert.ok(finalIndex > routeIndex);
+  assert.doesNotMatch(entry, /application-workspace-ui\\.css/);
+  assert.match(authenticatedStyles, /signed-in-professional-system\\.css/);
+  assert.ok(authenticatedStyles.indexOf("signed-in-professional-system.css") > authenticatedStyles.indexOf("dashboard-context-hero.css"));
   assert.match(styles, /\.hlc-documents-console\{display:grid;grid-template-columns:/);
   assert.match(styles, /@media\(max-width:720px\)/);
   assert.match(styles, /\.hlc-document-row\{grid-template-columns:1fr/);
