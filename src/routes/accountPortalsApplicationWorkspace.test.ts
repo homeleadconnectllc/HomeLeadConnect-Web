@@ -16,6 +16,7 @@ const router = readFileSync("src/routes/AppRouter.tsx", "utf8");
 const portalBoundary = readFileSync("src/routes/PortalAccessBoundary.tsx", "utf8");
 const styles = readFileSync("src/styles/account-portals-application-workspace.css", "utf8");
 const entry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
+const authenticatedStyles = readFileSync("src/styles/AuthenticatedStyles.tsx", "utf8");
 
 test("account surfaces use dedicated control workspaces instead of generic cards", () => {
   assert.match(settings, /hlc-account-workspace/);
@@ -152,9 +153,10 @@ test("resident property route is location-neutral at entry", () => {
 
 test("account portal specialization mounts before final authority and collapses on mobile", () => {
   const routeIndex = entry.indexOf("./account-portals-application-workspace.css");
-  const finalIndex = entry.indexOf("./application-workspace-ui.css");
   assert.ok(routeIndex >= 0);
-  assert.ok(finalIndex > routeIndex);
+  assert.doesNotMatch(entry, /application-workspace-ui\\.css/);
+  assert.match(authenticatedStyles, /signed-in-professional-system\\.css/);
+  assert.ok(authenticatedStyles.indexOf("signed-in-professional-system.css") > authenticatedStyles.indexOf("dashboard-context-hero.css"));
   assert.match(styles, /\.hlc-account-console\{display:grid;grid-template-columns:/);
   assert.match(styles, /@media\(max-width:720px\)/);
   assert.match(styles, /\.hlc-account-field-grid\{grid-template-columns:1fr/);
