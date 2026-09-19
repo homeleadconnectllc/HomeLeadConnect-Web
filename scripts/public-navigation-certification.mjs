@@ -20,7 +20,7 @@ const browser = await chromium.launch();
 
 async function metrics(page) {
   return page.evaluate(() => {
-    const header = document.querySelector('.hlc-public-site-nav, .hlc-board-nav');
+    const header = document.querySelector('.hlc-public-shared-nav, .hlc-public-site-nav');
     if (!header) return null;
     const visible = (element) => {
       if (!element) return false;
@@ -58,7 +58,7 @@ try {
     });
     const authorityPage = await context.newPage();
     await authorityPage.goto(base, { waitUntil: 'networkidle' });
-    await authorityPage.locator('.hlc-board-nav').waitFor();
+    await authorityPage.locator('.hlc-public-shared-nav, .hlc-public-site-nav').waitFor();
     await authorityPage.evaluate(() => document.fonts.ready);
     const authority = await metrics(authorityPage);
     await authorityPage.close();
@@ -71,7 +71,7 @@ try {
       try {
         const response = await page.goto(`${base}${path}`, { waitUntil: 'networkidle' });
         assert.ok(response?.ok(), `Route did not load: ${response?.status()}`);
-        await page.locator('.hlc-public-site-nav, .hlc-board-nav').waitFor({ timeout: 10000 });
+        await page.locator('.hlc-public-shared-nav, .hlc-public-site-nav').waitFor({ timeout: 10000 });
         await page.evaluate(() => document.fonts.ready);
         result.metrics = await metrics(page);
         await page.screenshot({ path: `${directory}/${name}-closed.png` });
@@ -86,7 +86,7 @@ try {
         check(() => assert.ok(measured.visibleBrandImage, 'Approved logo derivative is not physically visible'));
         check(() => assert.equal(measured.visibleBrandImage?.src, expectedLogoPath, 'Visible navbar artwork is not the approved responsive derivative'));
         check(() => assert.ok(measured.visibleBrandImage?.width >= 40 && measured.visibleBrandImage?.height >= 40, 'Approved logo is rendered too small to be visibly present'));
-        const header = page.locator('.hlc-public-site-nav, .hlc-board-nav');
+        const header = page.locator('.hlc-public-shared-nav, .hlc-public-site-nav');
         const summary = header.locator('summary');
         if (width <= 680) {
           check(() => assert.ok(measured.summary, 'Mobile Menu is not visible'));
