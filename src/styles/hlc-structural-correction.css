@@ -1,3 +1,4 @@
+/* Structural authority only; visual paint retired 2026-09-19. */
 /* Structural correction authority: real screen composition, not decorative restyling. */
 
 .hlc-messages-app-shell {
@@ -18,7 +19,7 @@
 
 .hlc-messages-app-topbar .hlc-messages-kicker {
   margin: 0 0 4px;
-  color: #75b9ff;
+  
   font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.14em;
@@ -34,10 +35,10 @@
 .hlc-conversation-empty-stage button {
   min-height: 42px;
   border: 1px solid rgba(117, 185, 255, 0.48);
-  border-radius: 12px;
+  
   padding: 0 16px;
-  background: #123158;
-  color: #f8fbff;
+  
+  
   font: inherit;
   font-weight: 800;
 }
@@ -48,15 +49,15 @@
   min-height: min(720px, calc(100vh - 220px));
   overflow: hidden;
   border: 1px solid rgba(143, 180, 222, 0.2);
-  border-radius: 20px;
-  background: #071524;
-  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.18);
+  
+  
+  
 }
 
 .hlc-conversation-list-panel {
   min-width: 0;
   border-right: 1px solid rgba(143, 180, 222, 0.16);
-  background: #0a192b;
+  
 }
 
 .hlc-conversation-list-heading {
@@ -72,7 +73,7 @@
 }
 
 .hlc-conversation-list-heading span {
-  color: #f8fbff;
+  
   font-weight: 850;
   font-size: 1.05rem;
 }
@@ -82,15 +83,15 @@
   place-items: center;
   min-width: 28px;
   height: 28px;
-  border-radius: 999px;
-  background: rgba(74, 144, 226, 0.18);
-  color: #9acbff;
+  
+  
+  
   font-size: 0.8rem;
 }
 
 .hlc-conversation-list-heading p {
   margin: 5px 0 0;
-  color: #8fa5bd;
+  
   font-size: 0.78rem;
 }
 
@@ -112,15 +113,15 @@
   padding: 12px 14px;
   border: 0;
   border-bottom: 1px solid rgba(143, 180, 222, 0.09);
-  border-radius: 0;
-  background: transparent;
-  color: #f8fbff;
+  
+  
+  
   text-align: left;
 }
 
 .hlc-messages-app-shell .hlc-message-inbox-row:hover,
 .hlc-messages-app-shell .hlc-message-inbox-row.is-selected {
-  background: rgba(58, 127, 204, 0.13);
+  
 }
 
 .hlc-message-avatar {
@@ -129,9 +130,9 @@
   width: 42px;
   height: 42px;
   border: 1px solid rgba(117, 185, 255, 0.3);
-  border-radius: 50%;
-  background: #112b49;
-  color: #b9ddff;
+  
+  
+  
   font-size: 0.9rem;
   font-weight: 900;
 }
@@ -145,7 +146,7 @@
 
 .hlc-messages-app-shell .hlc-message-inbox-main strong {
   overflow: hidden;
-  color: #f8fbff;
+  
   font-size: 0.9rem;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -153,7 +154,7 @@
 
 .hlc-messages-app-shell .hlc-message-inbox-main small {
   overflow: hidden;
-  color: #93a8be;
+  
   font-size: 0.76rem;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -164,7 +165,7 @@
   align-items: flex-end;
   flex-direction: column;
   gap: 8px;
-  color: #7f96ae;
+  
 }
 
 .hlc-messages-app-shell .hlc-message-inbox-meta small {
@@ -176,15 +177,15 @@
   place-items: center;
   min-width: 22px;
   height: 22px;
-  border-radius: 999px;
-  background: #2876c8;
-  color: #fff;
+  
+  
+  
   font-size: 0.7rem;
 }
 
 .hlc-conversation-stage {
   min-width: 0;
-  background: #081727;
+  
 }
 
 .hlc-conversation-empty-stage {
@@ -204,9 +205,9 @@
   height: 72px;
   margin-bottom: 18px;
   border: 1px solid rgba(117, 185, 255, 0.32);
-  border-radius: 24px;
-  background: #102a48;
-  color: #9fd0ff;
+  
+  
+  
   font-weight: 900;
   letter-spacing: 0.06em;
 }
@@ -219,7 +220,7 @@
 .hlc-conversation-empty-stage p {
   max-width: 360px;
   margin: 8px 0 20px;
-  color: #91a7be;
+  
 }
 
 .hlc-message-compose-view,
@@ -239,8 +240,8 @@
 .hlc-messages-app-shell .hlc-messages-back-action,
 .hlc-messages-app-shell .hlc-messages-new-secondary {
   border: 0;
-  background: transparent;
-  color: #91c7ff;
+  
+  
   font: inherit;
   font-size: 0.8rem;
   font-weight: 800;
@@ -254,7 +255,7 @@
 
 .hlc-message-stage-heading span,
 .hlc-messages-app-shell .hlc-message-thread-head span {
-  color: #75b9ff;
+  
   font-size: 0.68rem;
   font-weight: 850;
   letter-spacing: 0.12em;
@@ -263,14 +264,14 @@
 .hlc-message-stage-heading h2,
 .hlc-messages-app-shell .hlc-message-thread-head h2 {
   margin: 4px 0 0;
-  color: #f8fbff;
+  
   font-size: clamp(1.25rem, 2vw, 1.65rem);
 }
 
 .hlc-messages-app-shell .hlc-message-thread-head small {
   display: block;
   margin-top: 5px;
-  color: #8ea4bb;
+  
 }
 
 .hlc-messages-app-shell .hlc-message-stream {
@@ -289,15 +290,15 @@
   max-width: min(78%, 640px);
   padding: 10px 13px;
   border: 1px solid rgba(143, 180, 222, 0.14);
-  border-radius: 16px 16px 16px 5px;
-  background: #10243a;
+  
+  
 }
 
 .hlc-messages-app-shell .hlc-message-entry.is-self {
   align-self: flex-end;
-  border-color: rgba(87, 158, 239, 0.24);
-  border-radius: 16px 16px 5px 16px;
-  background: #123a66;
+  
+  
+  
 }
 
 .hlc-messages-app-shell .hlc-message-entry-meta {
@@ -313,12 +314,12 @@
 }
 
 .hlc-messages-app-shell .hlc-message-entry-meta small {
-  color: #91a7be;
+  
 }
 
 .hlc-messages-app-shell .hlc-message-entry p {
   margin: 5px 0 0;
-  color: #f2f7fc;
+  
   line-height: 1.45;
 }
 
@@ -333,9 +334,9 @@
 .hlc-messages-app-shell .hlc-message-quick-compose select,
 .hlc-messages-app-shell .hlc-message-quick-compose input {
   border: 1px solid rgba(143, 180, 222, 0.26);
-  border-radius: 12px;
-  background: #0b1d31;
-  color: #f8fbff;
+  
+  
+  
 }
 
 .hlc-messages-app-shell .hlc-message-composer textarea {
@@ -351,17 +352,17 @@
 }
 
 .hlc-messages-app-shell .hlc-message-composer-actions small {
-  color: #849ab2;
+  
 }
 
 .hlc-messages-app-shell .hlc-message-composer-actions button,
 .hlc-messages-app-shell .hlc-message-primary-send {
   min-height: 40px;
   border: 0;
-  border-radius: 10px;
+  
   padding: 0 15px;
-  background: #2d80d7;
-  color: #fff;
+  
+  
   font: inherit;
   font-weight: 850;
 }
@@ -392,14 +393,14 @@
     min-height: calc(100vh - 250px);
     overflow: visible;
     border: 0;
-    border-radius: 0;
-    background: transparent;
-    box-shadow: none;
+    
+    
+    
   }
 
   .hlc-conversation-list-panel {
     border: 0;
-    border-radius: 14px;
+    
     overflow: hidden;
   }
 
