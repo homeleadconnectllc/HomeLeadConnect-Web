@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import PublicSiteNav from "../components/PublicSiteNav";
 import { pageImage } from "../config/publicPageImagery";
-import "../styles/public-owner-visual-final-20260918.css";
+import "../styles/public-visual-family-20260919.css";
 
 const paths = [
   { eyebrow: "HOME HELP", title: "Request home service", body: "Tell HomeLead Connect what you need and route the request into the connected service workflow.", to: "/request-service", action: "Start service request" },
