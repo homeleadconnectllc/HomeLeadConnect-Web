@@ -318,9 +318,12 @@ button{min-height:44px}
     width:100%;min-height:78px;padding:0 16px;grid-template-columns:auto 1fr auto;
   }
   #root header.hlc-board-nav.hlc-public-shared-nav .hlc-navbar-master-logo{width:48px!important;height:48px!important}
-  #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-actions{gap:14px}
-  #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-cta{display:none!important}
-  #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-login{font-size:.92rem}
+  #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-actions{gap:10px}
+  #root header.hlc-board-nav.hlc-public-shared-nav :is(.hlc-board-login,.hlc-board-cta){
+    display:inline-flex!important;min-height:44px!important;align-items:center!important;
+    font-size:.82rem!important;white-space:nowrap!important;
+  }
+  #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-cta{border-bottom:1px solid currentColor!important}
 }
 
 
