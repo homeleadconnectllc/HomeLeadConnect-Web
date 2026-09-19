@@ -40,14 +40,14 @@ test("dense lists and tables use separators instead of nested bright boxes", () 
   assert.match(surfaceSystem, /thead[\s\S]*rgba\(47, 128, 255, \.055\)/i);
 });
 
-test("public utility pages use the canonical public visual family instead of a bright card wall", () => {
-  assert.match(utilitySystem, /--hlc-public-bg:\s*#071a2d/i);
+test("public utility pages use the canonical light public visual family without legacy dark shells", () => {
+  assert.match(utilitySystem, /--hlc-public-bg:\s*#f7fbff/i);
   assert.match(utilitySystem, /\.hlc-public-card[\s\S]*background:transparent\s*!important/i);
   assert.match(contactPage, /public-visual-family-20260919\.css/);
   assert.match(accessibilityPage, /public-visual-family-20260919\.css/);
   assert.doesNotMatch(contactPage, /public-utility-flat\.css|public-board-pages-20260912\.css/);
   assert.doesNotMatch(accessibilityPage, /public-utility-flat\.css|public-board-pages-20260912\.css/);
-  assert.doesNotMatch(contactPage, /cardStyle|contactPanelStyle|closingStyle|boxShadow:/);
+  assert.doesNotMatch(contactPage, /cardStyle|contactPanelStyle|closingStyle|boxShadow:/);\n  assert.doesNotMatch(utilitySystem, /--hlc-public-bg:\\s*#071a2d|--hlc-public-bg-2:\\s*#0b2845|background:\\s*#03111f/i);
 });
 
 test("legal privacy and terms remain divider-led within the canonical public visual family", () => {
