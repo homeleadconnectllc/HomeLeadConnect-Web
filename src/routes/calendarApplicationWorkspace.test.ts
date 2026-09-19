@@ -6,6 +6,7 @@ const calendarPage = readFileSync(new URL("../pages/dashboard/HlcNativeCalendar.
 const calendarApi = readFileSync(new URL("../api/hlcCalendar.ts", import.meta.url), "utf8");
 const calendarCss = readFileSync(new URL("../styles/calendar-application-workspace.css", import.meta.url), "utf8");
 const authenticatedEntry = readFileSync(new URL("../styles/authenticated-entry.ts", import.meta.url), "utf8");
+const authenticatedStyles = readFileSync(new URL("../styles/AuthenticatedStyles.tsx", import.meta.url), "utf8");
 
 test("Calendar keeps a dedicated native schedule workspace with job handoff and detail inspector", () => {
   assert.match(calendarPage, /className="hlc-calendar-workspace"/);
@@ -20,9 +21,10 @@ test("Calendar keeps a dedicated native schedule workspace with job handoff and 
 
 test("Calendar specialization is mounted before final application workspace authority", () => {
   const calendarIndex = authenticatedEntry.indexOf('import "./calendar-application-workspace.css"');
-  const finalIndex = authenticatedEntry.indexOf('import "./application-workspace-ui.css"');
   assert.ok(calendarIndex >= 0);
-  assert.ok(finalIndex > calendarIndex);
+  assert.doesNotMatch(authenticatedEntry, /application-workspace-ui\\.css/);
+  assert.match(authenticatedStyles, /signed-in-professional-system\\.css/);
+  assert.ok(authenticatedStyles.indexOf("signed-in-professional-system.css") > authenticatedStyles.indexOf("dashboard-context-hero.css"));
 });
 
 test("Calendar removes page and KPI card treatment while preserving mobile schedule behavior", () => {
