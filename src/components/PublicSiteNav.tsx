@@ -1,33 +1,11 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BookOpen, Briefcase, Handshake, House, Info, Menu, Users, X } from "lucide-react";
 import { appUrl, publicUrl } from "../config/siteOrigins";
 
 
 const NAV_LOGO = "/hlc-logo-ui.png";
 
-const PUBLIC_VISUAL_RUNTIME_PATHS = new Set([
-  "/about",
-  "/homeowners",
-  "/contractors",
-  "/professionals",
-  "/partners",
-  "/community",
-  "/services",
-  "/how-it-works",
-  "/leadscope",
-  "/pricing",
-  "/trust",
-  "/demo",
-  "/contact",
-  "/request-service",
-  "/professional-application",
-  "/accessibility",
-  "/platform-disclosure",
-  "/privacy",
-  "/terms",
-  "/memorial",
-  "/kendrell-memorial",
-]);
+
 
 
 const primaryMenuLinks = [
@@ -48,10 +26,6 @@ const secondaryMenuLinks = [
   ["Privacy", publicUrl("/privacy")],
   ["Terms", publicUrl("/terms")],
 ] as const;
-
-function setImportant(element: HTMLElement | null, property: string, value: string) {
-  element?.style.setProperty(property, value, "important");
-}
 
 export default function PublicSiteNav() {
   const navRef = useRef<HTMLElement>(null);
@@ -77,21 +51,6 @@ export default function PublicSiteNav() {
     };
   }, [menuOpen]);
 
-  useLayoutEffect(() => {
-    if (!PUBLIC_VISUAL_RUNTIME_PATHS.has(pathname)) return;
-    let cleanup: void | (() => void);
-    let cancelled = false;
-    void import("./publicSiteNavRuntime").then(({ applyPublicNavRuntime }) => {
-      if (cancelled) return;
-      const nav = navRef.current;
-      if (!nav) return;
-      cleanup = applyPublicNavRuntime({ nav, pathname, setImportant });
-    });
-    return () => {
-      cancelled = true;
-      cleanup?.();
-    };
-  }, [pathname]);
 
   return <header ref={navRef} className="hlc-board-nav hlc-public-shared-nav" data-hlc-public-navigation="true" data-public-tone={tone}>
     <div className="hlc-board-nav-inner">
@@ -126,23 +85,22 @@ export default function PublicSiteNav() {
         id="hlc-public-menu"
         className="hlc-public-menu-panel"
         aria-label="HomeLead Connect menu"
-        style={{ width: "min(920px, 100%)", margin: "0 auto", padding: "clamp(24px, 5vw, 54px)", background: "#06182a", border: "1px solid rgba(128,178,225,.32)", borderRadius: 28, boxShadow: "0 32px 90px rgba(0,0,0,.48)" }}
       >
-        <div className="hlc-public-menu-primary" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(210px,1fr))", gap: 12 }}>
+        <div className="hlc-public-menu-primary">
           {primaryMenuLinks.map(({ label, href, Icon, tone: linkTone }) => <a
             key={href}
             href={href}
             data-menu-tone={linkTone}
             aria-current={pathname === new URL(href, window.location.origin).pathname ? "page" : undefined}
-            style={{ minHeight: 52, display: "flex", alignItems: "center", gap: 12, padding: "10px 8px", color: linkTone === "resident" ? "#62e6b3" : linkTone === "professional" ? "#55c8ff" : linkTone === "partner" ? "#ffc443" : linkTone === "community" ? "#c38cff" : "#f4f7fb", textDecoration: "none", fontWeight: 800 }}
+
           ><Icon size={22} aria-hidden="true" /><span>{label}</span></a>)}
         </div>
-        <div className="hlc-public-menu-secondary" style={{ marginTop: 28, paddingTop: 22, borderTop: "1px solid rgba(255,255,255,.14)", display: "flex", flexWrap: "wrap", gap: "14px 22px" }}>
-          {secondaryMenuLinks.map(([label, href]) => <a key={href} href={href} style={{ color: "#c9d6e4", textDecoration: "none", minHeight: 44, display: "inline-flex", alignItems: "center" }}>{label}</a>)}
+        <div className="hlc-public-menu-secondary">
+          {secondaryMenuLinks.map(([label, href]) => <a key={href} href={href}>{label}</a>)}
         </div>
-        <div className="hlc-public-menu-account" style={{ marginTop: 26, display: "flex", flexWrap: "wrap", gap: 18 }}>
-          <a href={appUrl("/login")} style={{ color: "#f4f7fb", minHeight: 44, display: "inline-flex", alignItems: "center" }}>Sign In</a>
-          <a href={appUrl("/register")} style={{ color: "var(--page-accent, #63d3ff)", minHeight: 44, display: "inline-flex", alignItems: "center", fontWeight: 900 }}>Get Started</a>
+        <div className="hlc-public-menu-account">
+          <a href={appUrl("/login")}>Sign In</a>
+          <a href={appUrl("/register")}>Get Started</a>
         </div>
       </nav>
     </div>}
