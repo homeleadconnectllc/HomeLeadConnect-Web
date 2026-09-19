@@ -47,3 +47,11 @@ test("M6 homepage footer remains logo-free",()=>{
   assert.ok(footerStart>=0);
   assert.doesNotMatch(standalone.slice(footerStart),/hlc-public-footer-master-logo|make\("img"/);
 });
+
+
+test("retired public-family legacy styling cannot re-enter live public routes", () => {
+  const mainSource = read("src/main.tsx");
+  assert.doesNotMatch(mainSource, /public-family-legacy-entry/);
+  assert.match(mainSource, /const styleReady = isAppHost \? import\("\.\/styles\/app-shell-entry"\) : import\("\.\/index\.css"\)/);
+  assert.equal(existsSync(path.join(process.cwd(), "src/styles/public-family-legacy-entry.ts")), false);
+});
