@@ -8,12 +8,13 @@ const footer = readFileSync(new URL("../components/Footer.tsx", import.meta.url)
 const indexHtml = readFileSync(new URL("../../index.html", import.meta.url), "utf8");
 
 test("public homepage has one React presentation authority", () => {
-  assert.match(main, /import\("\.\/pages\/HomePage\.tsx"\)/);
-  assert.match(main, /createElement\(HomePage\)/);
+  assert.match(main, /import\("\.\/standalonePublicHome"\)/);
+  assert.match(main, /mountStandalonePublicHome\(rootElement\)/);
   assert.doesNotMatch(main, /publicHomeMarkup/);
   assert.doesNotMatch(main, /rootElement\.innerHTML/);
   assert.doesNotMatch(indexHtml, /hlc-v2-parser-seed/);
   assert.doesNotMatch(indexHtml, /root\.innerHTML/);
+  assert.match(main, /standalonePublicHome/);
 });
 
 test("public homepage preserves optimized hero discovery", () => {
