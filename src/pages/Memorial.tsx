@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import PublicSiteNav from "../components/PublicSiteNav";
-import "../styles/public-owner-visual-final-20260918.css";
+import "../styles/public-visual-family-20260919.css";
 
 export default function MemorialPage() {
   return (
