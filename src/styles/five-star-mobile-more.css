@@ -1,3 +1,4 @@
+/* Structural/feature behavior retained; local visual paint retired 2026-09-19. */
 @media (max-width: 720px) {
   .hlc-mobile-more-quick {
     display: grid;
@@ -17,9 +18,9 @@
     padding: 8px 2px;
     border: 0;
     border-bottom: 1px solid rgba(148, 180, 219, .1);
-    border-radius: 0;
-    background: transparent;
-    color: #eef5ff;
+    
+    
+    
     text-decoration: none;
   }
 
@@ -46,7 +47,7 @@
 
   .hlc-mobile-more-quick small {
     overflow: hidden;
-    color: #8ea1b8;
+    
     font-size: .66rem;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -54,7 +55,7 @@
 
   .hlc-mobile-more-quick > a::after {
     content: "›";
-    color: #7faeea;
+    
     font-size: 1rem;
   }
 }
