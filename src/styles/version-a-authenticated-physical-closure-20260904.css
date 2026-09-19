@@ -134,6 +134,6 @@
     #root .hlc-signed-in-shell :where(.hlc-parent-index-header,.hlc-settings-index-group,.hlc-account-header,.hlc-settings-section,.hlc-home-topbar,.hlc-home-focus-panel,.hlc-home-schedule-panel,.hlc-home-ai-rail,section[aria-labelledby="hlc-audio-device-title"],.hlc-field-device-center,.hlc-agent-chat-stage,.hlc-agent-action-workbench,.hlc-agent-result-rail > section,.hlc-agent-handoff,.hlc-agent-history) {
       width: 100% !important; max-width: none !important; margin-inline: 0 !important; border-radius: 16px !important;
     }
-    body > .hlc-drawer-v2 > .hlc-drawer-v2-scroll { padding-inline: 16px !important; }
+
   }
 }
