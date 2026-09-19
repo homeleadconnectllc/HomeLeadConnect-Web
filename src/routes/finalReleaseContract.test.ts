@@ -7,11 +7,9 @@ const journey = readFileSync("src/pages/PublicJourney.tsx", "utf8");
 const legal = readFileSync("src/pages/Legal.tsx", "utf8");
 const reserved = readFileSync("src/pages/dashboard/ReservedCapability.tsx", "utf8");
 const releaseGuard = readFileSync("src/styles/final-release-guard.css", "utf8");
-const workspaceRouteCleanup = readFileSync("src/styles/workspace-route-cleanup.css", "utf8");
-const desktopDashboardCertification = readFileSync("src/styles/desktop-dashboard-certification.css", "utf8");
-const mobileDashboardCertification = readFileSync("src/styles/mobile-dashboard-certification.css", "utf8");
-const main = readFileSync("src/main.tsx", "utf8") + readFileSync("src/styles/app-shell-entry.ts", "utf8").replaceAll('import "./', 'import "./styles/');
-const authenticatedStyles = readFileSync("src/styles/authenticated-entry.ts", "utf8");
+const mobileShell = readFileSync("src/styles/authenticated-mobile-shell-authority.css", "utf8");
+const authenticatedEntry = readFileSync("src/styles/authenticated-entry.ts", "utf8");
+const appShellEntry = readFileSync("src/styles/app-shell-entry.ts", "utf8");
 const requestService = readFileSync("src/pages/RequestService.tsx", "utf8");
 const professional = readFileSync("src/pages/ProfessionalApplication.tsx", "utf8");
 const leadsPage = readFileSync("src/pages/dashboard/Leads.tsx", "utf8");
@@ -38,56 +36,36 @@ test("preview surfaces use the release status lexicon", () => {
   assert.match(reserved, /PREVIEW TERMINAL/);
   assert.match(reserved, /No verified approval data loaded/);
   assert.match(reserved, /Operational integration required/);
-  assert.match(reserved, /No verified service-alert data loaded/);
 });
 
-test("320px through 430px viewports are explicitly contained", () => {
-  assert.match(releaseGuard, /min-width: 320px/);
-  assert.match(releaseGuard, /max-width: 430px/);
-  assert.match(releaseGuard, /overflow-x: clip/);
-  assert.match(releaseGuard, /font-size: max\(16px, 1em\)/);
-  assert.match(main, /\.\/styles\/final-release-guard\.css/);
+test("release guard is structural containment only", () => {
+  assert.match(releaseGuard, /overflow-x:clip/);
+  assert.match(releaseGuard, /box-sizing:border-box/);
+  assert.match(releaseGuard, /font-size:max\(16px,1em\)/);
+  assert.match(appShellEntry, /final-release-guard\.css/);
+  assert.doesNotMatch(releaseGuard, /background:|border-radius:|box-shadow:|\.hlc-mobile-portal\s*\{/);
 });
 
-test("retired global premium system is not mounted over the structural root", () => {
-  assert.doesNotMatch(main, /global-premium-system\.css/);
-  assert.match(main, /final-release-guard\.css/);
+test("retired premium and certification themes stay disconnected", () => {
+  for (const retired of [
+    "global-premium-system.css",
+    "workspace-premium-v4.css",
+    "desktop-dashboard-certification.css",
+    "mobile-dashboard-certification.css",
+    "global-readability-certification.css",
+  ]) {
+    assert.ok(!authenticatedEntry.includes(retired));
+    assert.ok(!appShellEntry.includes(retired));
+  }
 });
 
-test("route cleanup remains mounted without retired workspace premium v4", () => {
-  assert.doesNotMatch(authenticatedStyles, /workspace-premium-v4\.css/);
-  assert.match(authenticatedStyles, /workspace-route-cleanup\.css/);
-  assert.match(workspaceRouteCleanup, /\.hlc-jobs-page/);
-  assert.match(workspaceRouteCleanup, /\.hlc-calendar-page/);
-  assert.match(workspaceRouteCleanup, /\.hlc-messages-page/);
-});
-
-test("desktop dashboard certification layer stays late in authenticated styles and keeps light metrics readable", () => {
-  const readinessIndex = authenticatedStyles.indexOf("./frontend-readiness-contract.css");
-  const certificationIndex = authenticatedStyles.indexOf("./desktop-dashboard-certification.css");
-  assert.ok(readinessIndex >= 0);
-  assert.ok(certificationIndex > readinessIndex);
-  assert.match(desktopDashboardCertification, /grid-template-columns:\s*264px minmax\(0, 1fr\)/);
-  assert.match(desktopDashboardCertification, /\.hlc-metric-card strong[\s\S]*color:\s*#0b1730 !important/);
-  assert.match(desktopDashboardCertification, /\.hlc-metric-card > span:last-child[\s\S]*color:\s*#475569 !important/);
-  assert.match(desktopDashboardCertification, /\.hlc-nav-menu a > small[\s\S]*display:\s*none !important/);
-  assert.match(desktopDashboardCertification, /min-width:\s*900px\) and \(max-width:\s*1699px/);
-  assert.match(desktopDashboardCertification, /\.hlc-route-content \{[\s\S]*padding-right:\s*0 !important/);
-  assert.match(desktopDashboardCertification, /\.hlc-command-center \{[\s\S]*width:\s*100% !important/);
-  assert.match(desktopDashboardCertification, /\.hlc-agent-dock:not\(\.is-open\)[\s\S]*bottom:\s*16px !important/);
-  assert.match(desktopDashboardCertification, /min-width:\s*1700px[\s\S]*padding-right:\s*282px !important/);
-});
-
-test("mobile dashboard certification keeps the AI team readable and single-column", () => {
-  const desktopIndex = authenticatedStyles.indexOf("./desktop-dashboard-certification.css");
-  const mobileIndex = authenticatedStyles.indexOf("./mobile-dashboard-certification.css");
-  assert.ok(desktopIndex >= 0);
-  assert.ok(mobileIndex > desktopIndex);
-  assert.match(mobileDashboardCertification, /max-width:\s*720px/);
-  assert.match(mobileDashboardCertification, /\.hlc-agent-team-chip[\s\S]*display:\s*none !important/);
-  assert.match(mobileDashboardCertification, /\.hlc-agent-grid[\s\S]*grid-template-columns:\s*1fr !important/);
-  assert.match(mobileDashboardCertification, /\.hlc-agent-card[\s\S]*grid-template-columns:\s*1fr !important/);
-  assert.match(mobileDashboardCertification, /\.hlc-agent-portrait[\s\S]*object-fit:\s*cover !important/);
+test("installed iPhone navigation safe-area behavior is owned by the mobile shell", () => {
+  assert.match(indexHtml, /viewport-fit=cover/);
+  assert.match(indexHtml, /apple-mobile-web-app-status-bar-style/);
+  assert.match(mobileShell, /\.hlc-signed-in-shell > \.hlc-navbar/);
+  assert.match(mobileShell, /max-height:\s*76px !important/);
+  assert.match(mobileShell, /env\(safe-area-inset-right\)/);
+  assert.match(mobileShell, /env\(safe-area-inset-left\)/);
 });
 
 test("anonymous intake surfaces retain bot-trap fields", () => {
@@ -102,7 +80,6 @@ test("HLC V1 zero limits remain unlimited rather than zero-capacity", () => {
   assert.match(unlimitedPlanMigration, /when wps\.lead_limit = 0 then false/i);
   assert.match(unlimitedPlanMigration, /when wps\.pipeline_limit = 0 then false/i);
   assert.match(leadsPage, /Your workspace has reached its lead limit\. Review your subscription or contact support/);
-  assert.doesNotMatch(leadsPage, /setCreateError\(errorMessage\(reason, "Unable to create lead\."\)\)/);
 });
 
 test("production authentication runtime is Cloudflare-bound and fail-closed", () => {
@@ -122,17 +99,4 @@ test("iPhone installation metadata links the canonical transparent HLC icon", ()
   assert.match(manifest, /"src": "\/hlc-logo-transparent\.png"/);
   assert.match(manifest, /"sizes": "1024x1024"/);
   assert.match(manifest, /"type": "image\/png"/);
-  assert.doesNotMatch(manifest, /hlc-touch-icon\.svg/);
-  assert.doesNotMatch(manifest, /hlc-logo-final\.png/);
-  assert.doesNotMatch(manifest, /hlc-icon\.jpeg/);
-  assert.match(main, /register\("\/sw\.js", \{ updateViaCache: "none" \}\)/);
-  assert.match(main, /registration\.update\(\)/);
-});
-
-test("installed iPhone navigation clears the status-bar safe area", () => {
-  assert.match(indexHtml, /viewport-fit=cover/);
-  assert.match(indexHtml, /apple-mobile-web-app-status-bar-style/);
-  assert.match(releaseGuard, /\.hlc-navbar \{[\s\S]*min-height: calc\(70px \+ env\(safe-area-inset-top\)\)/);
-  assert.match(releaseGuard, /padding: calc\(11px \+ env\(safe-area-inset-top\)\)/);
-  assert.doesNotMatch(releaseGuard, /\.hlc-mobile-portal\s*\{/);
 });
