@@ -41,8 +41,3 @@ import "./map-lead-identity-pass.css";
 import "./agent-voice-playback-hotfix.css";
 import "./ux-ia-learning-library.css";
 import "./ux-ia-parent-pages.css";
-
-/* Current authenticated presentation authority.
-   Keep this import last: older feature/workspace styles above may own structure and behavior,
-   but must not become the final visual authority. */
-import "./signed-in-professional-system.css";
