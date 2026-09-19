@@ -47,7 +47,8 @@ test("public utility pages use the canonical light public visual family without 
   assert.match(accessibilityPage, /public-visual-family-20260919\.css/);
   assert.doesNotMatch(contactPage, /public-utility-flat\.css|public-board-pages-20260912\.css/);
   assert.doesNotMatch(accessibilityPage, /public-utility-flat\.css|public-board-pages-20260912\.css/);
-  assert.doesNotMatch(contactPage, /cardStyle|contactPanelStyle|closingStyle|boxShadow:/);\n  assert.doesNotMatch(utilitySystem, /--hlc-public-bg:\\s*#071a2d|--hlc-public-bg-2:\\s*#0b2845|background:\\s*#03111f/i);
+  assert.doesNotMatch(contactPage, /cardStyle|contactPanelStyle|closingStyle|boxShadow:/);
+  assert.doesNotMatch(utilitySystem, /--hlc-public-bg:\\s*#071a2d|--hlc-public-bg-2:\\s*#0b2845|background:\\s*#03111f/i);
 });
 
 test("legal privacy and terms remain divider-led within the canonical public visual family", () => {
