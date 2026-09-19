@@ -5,6 +5,10 @@ import test from "node:test";
 const router = readFileSync("src/routes/AppRouter.tsx","utf8");
 const mainSource = readFileSync("src/main.tsx","utf8");
 const publicNav = readFileSync("src/components/PublicSiteNav.tsx","utf8");
+const visualFamily = readFileSync("src/styles/public-visual-family-20260919.css","utf8");
+const indexHtml = readFileSync("index.html","utf8");
+const runtimeAuthority = readFileSync("src/components/RuntimePhysicalAuthority.tsx","utf8");
+const runtimeStructural = readFileSync("public/runtime-structural-safeguards-20260919.css","utf8");
 const files = {
   publicInfo: readFileSync("src/pages/PublicInfo.tsx","utf8"),
   publicJourney: readFileSync("src/pages/PublicJourney.tsx","utf8"),
@@ -39,47 +43,17 @@ const retiredImports = [
 
 test("all owner-listed public routes stay in the current public visual family", () => {
   for (const route of [
-    "/homeowners",
-    "/professionals",
-    "/professional-application",
-    "/contractors",
-    "/partners",
-    "/community",
-    "/services",
-    "/how-it-works",
-    "/leadscope",
-    "/pricing",
-    "/trust",
-    "/demo",
-    "/about",
-    "/contact",
-    "/request-service",
-    "/accessibility",
-    "/platform-disclosure",
-    "/privacy",
-    "/terms",
-    "/memorial",
-    "/kendrell-memorial",
-    "/login",
-    "/register",
-    "/forgot-password",
-    "/reset-password",
-    "/app",
-    "/portal",
-    "/portal/accept",
-  ]) {
-    assert.ok(router.includes(`path="${route}"`), `Missing public visual-family route ${route}`);
-  }
+    "/homeowners","/professionals","/professional-application","/contractors","/partners","/community",
+    "/services","/how-it-works","/leadscope","/pricing","/trust","/demo","/about","/contact",
+    "/request-service","/accessibility","/platform-disclosure","/privacy","/terms","/memorial",
+    "/kendrell-memorial","/login","/register","/forgot-password","/reset-password","/app","/portal","/portal/accept",
+  ]) assert.ok(router.includes(`path="${route}"`), `Missing public visual-family route ${route}`);
 });
 
 test("public page implementations use one current visual authority only", () => {
   for (const [name, source] of Object.entries(files)) {
-    if (name !== "partner") {
-      assert.ok(source.includes(CURRENT_STYLE), `${name} must import the current public visual authority`);
-    }
-    for (const retired of retiredImports) {
-      assert.ok(!source.includes(retired), `${name} still imports retired visual layer ${retired}`);
-    }
+    if (name !== "partner") assert.ok(source.includes(CURRENT_STYLE), `${name} must import the current public visual authority`);
+    for (const retired of retiredImports) assert.ok(!source.includes(retired), `${name} still imports retired visual layer ${retired}`);
   }
   assert.ok(files.partner.includes("<PathwayPage pathway=\"partners\"/>"));
   assert.ok(files.request.includes(CURRENT_STYLE));
@@ -96,8 +70,7 @@ test("shared route components cover the full public family", () => {
   assert.ok(files.pathway.includes('pathway === "community"'));
 });
 
-
-test("auth and app-entry routes join the visual family without the unstable imperative public runtime", () => {
+test("auth and app-entry routes join the visual family without the retired imperative public runtime", () => {
   assert.match(mainSource, /const isVisualFamilyEntryRoute =/);
   assert.match(mainSource, /login\|register\|forgot-password\|reset-password\|app\|portal\|portal\\\/accept/);
   assert.match(mainSource, /isPublicSiteRoute \|\| isVisualFamilyEntryRoute/);
@@ -106,8 +79,26 @@ test("auth and app-entry routes join the visual family without the unstable impe
   assert.doesNotMatch(files.authShell, /public-auth-visual-closure-20260912\.css|public-header-logo-authority-20260915\.css/);
   assert.doesNotMatch(files.login, /front-door-auth-refinement-20260910\.css|front-door-login-outer-authority-20260911\.css/);
   assert.doesNotMatch(files.appEntry, /app-entry-frontdoor-20260913\.css/);
-  assert.match(publicNav, /PUBLIC_VISUAL_RUNTIME_PATHS/);
-  for (const route of ["/login", "/register", "/forgot-password", "/reset-password", "/app", "/portal", "/portal/accept"]) {
-    assert.ok(!publicNav.includes(`  "${route}",`), `Visual-family entry route ${route} must stay out of the imperative runtime`);
+  assert.doesNotMatch(publicNav, /PUBLIC_VISUAL_RUNTIME_PATHS|publicSiteNavRuntime|useLayoutEffect|rgba\(2,10,22/);
+});
+
+test("runtime bootstrap cannot revive retired visual authority files", () => {
+  for (const retired of [
+    "public-home-app-reconciliation-20260907.css",
+    "runtime-physical-authority-20260907.css",
+    "runtime-portal-authority-20260907.css",
+    "physical-component-root-authority-20260907.css",
+    "frontdoor-login-visual-authority-20260910.css",
+    "board-login-authority-20260912.css",
+  ]) {
+    assert.ok(!indexHtml.includes(retired), `index.html still loads retired runtime painter ${retired}`);
+    assert.ok(!runtimeAuthority.includes(retired), `RuntimePhysicalAuthority can revive retired painter ${retired}`);
   }
+  assert.match(indexHtml, /runtime-structural-safeguards-20260919\.css/);
+  assert.match(runtimeAuthority, /runtime-structural-safeguards-20260919\.css/);
+  assert.doesNotMatch(runtimeStructural, /background(?:-color|-image)?\s*:|\bcolor\s*:|box-shadow\s*:|border-radius\s*:|gradient\(/i);
+});
+
+test("canonical visual family rejects retired navy page shells", () => {
+  assert.doesNotMatch(visualFamily, /#071a2d|#0b2845|#04111f|#03111f|#030914|#06182a/i);
 });

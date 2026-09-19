@@ -485,23 +485,7 @@
     grid-column: 1 / -1 !important;
   }
 
-  /* More drawer: one scroll owner with explicit safe-area and nav clearance. */
-  .hlc-mobile-portal {
-    top: calc(62px + env(safe-area-inset-top)) !important;
-    bottom: var(--hlc-mobile-nav-box, 84px) !important;
-    max-height: calc(100dvh - 62px - env(safe-area-inset-top) - var(--hlc-mobile-nav-box, 84px)) !important;
-    overflow: hidden !important;
-  }
-
-  .hlc-mobile-portal-scroll {
-    height: 100% !important;
-    max-height: 100% !important;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    overscroll-behavior-y: contain !important;
-    padding-bottom: calc(32px + env(safe-area-inset-bottom)) !important;
-    scroll-padding-bottom: calc(32px + env(safe-area-inset-bottom)) !important;
-  }
+  /* Retired More/mobile-portal geometry removed. */
 
   /* Authenticated Community Store: force actual product descendants off legacy white surfaces. */
   .hlc-page-community-hub .hlc-community-store-workspace,

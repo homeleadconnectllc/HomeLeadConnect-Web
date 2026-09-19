@@ -1,3 +1,4 @@
+/* Legacy route structure retained; visual paint retired 2026-09-19. */
 /* Dashboard-specific application workspace.
    The dashboard is an operating surface, not a collection of floating cards. */
 
@@ -23,8 +24,8 @@
 .hlc-command-center .hlc-command-icon-button {
   width: 42px;
   height: 42px;
-  border-radius: 9px;
-  box-shadow: none;
+  
+  
 }
 
 /* System state reads like a status line, not a decorated panel. */
@@ -33,8 +34,8 @@
   padding: 10px 0;
   border: 0;
   border-bottom: 1px solid var(--dashboard-divider);
-  border-radius: 0;
-  background: transparent;
+  
+  
 }
 
 /* Metrics become a compact KPI rail with vertical separators. */
@@ -52,9 +53,9 @@
   padding: 16px 18px;
   border: 0;
   border-right: 1px solid var(--dashboard-divider);
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
+  
+  
+  
 }
 
 .hlc-command-center .hlc-metric-card:last-child {
@@ -65,7 +66,7 @@
   grid-row: 1 / span 2;
   width: 34px;
   height: 34px;
-  border-radius: 9px;
+  
 }
 
 .hlc-command-center .hlc-metric-card strong {
@@ -80,7 +81,7 @@
 
 .hlc-command-center .hlc-metric-card:hover {
   transform: none;
-  background: var(--dashboard-row-hover);
+  
 }
 
 /* Sections are separated by rhythm and dividers instead of containers. */
@@ -107,7 +108,7 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0;
   border: 1px solid var(--dashboard-divider);
-  border-radius: 10px;
+  
   overflow: hidden;
 }
 
@@ -115,9 +116,9 @@
   min-height: 54px;
   border: 0;
   border-right: 1px solid var(--dashboard-divider);
-  border-radius: 0;
-  background: rgba(15, 23, 42, .3);
-  box-shadow: none;
+  
+  
+  
 }
 
 .hlc-command-center .hlc-quick-action:last-child {
@@ -125,13 +126,13 @@
 }
 
 .hlc-command-center .hlc-quick-action-primary {
-  background: rgba(37, 99, 235, .18);
-  color: #dbeafe;
+  
+  
 }
 
 .hlc-command-center .hlc-quick-action:hover {
   transform: none;
-  background: rgba(37, 99, 235, .12);
+  
 }
 
 /* Priority work is a true queue. */
@@ -139,8 +140,8 @@
   padding: 26px 0;
   border: 0;
   border-bottom: 1px solid var(--dashboard-divider);
-  border-radius: 0;
-  background: transparent;
+  
+  
 }
 
 .hlc-command-center .hlc-priority-list {
@@ -155,20 +156,20 @@
 }
 
 .hlc-command-center .hlc-priority-item:hover {
-  background: var(--dashboard-row-hover);
+  
 }
 
 .hlc-command-center .hlc-priority-marker {
-  border-radius: 8px;
+  
 }
 
 /* Business Pulse becomes a directory/command list rather than a card grid. */
 .hlc-command-center .hlc-business-pulse-section {
   padding: 26px 0;
   border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
+  
+  
+  
 }
 
 .hlc-command-center .hlc-business-pulse-heading {
@@ -177,8 +178,8 @@
 }
 
 .hlc-command-center .hlc-pulse-health {
-  border-radius: 8px;
-  background: transparent;
+  
+  
 }
 
 .hlc-command-center .hlc-business-pulse-grid {
@@ -194,9 +195,9 @@
   padding: 14px 10px;
   border: 0;
   border-bottom: 1px solid var(--dashboard-divider);
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
+  
+  
+  
 }
 
 .hlc-command-center .hlc-pulse-card:nth-child(odd) {
@@ -210,18 +211,18 @@
 
 .hlc-command-center .hlc-pulse-card:hover {
   transform: none;
-  background: var(--dashboard-row-hover);
-  box-shadow: none;
+  
+  
 }
 
 .hlc-command-center .hlc-pulse-icon {
   width: 36px;
   height: 36px;
-  border-radius: 9px;
+  
 }
 
 .hlc-command-center .hlc-pulse-copy > span:last-child {
-  color: var(--dashboard-muted);
+  
 }
 
 /* Workspace destinations become a dense launcher list. */
@@ -236,8 +237,8 @@
   padding: 12px 8px;
   border: 0;
   border-bottom: 1px solid var(--dashboard-divider);
-  border-radius: 0;
-  background: transparent;
+  
+  
 }
 
 .hlc-command-center .hlc-workspace-card:nth-child(odd) {
@@ -251,7 +252,7 @@
 
 .hlc-command-center .hlc-workspace-card:hover {
   transform: none;
-  background: var(--dashboard-row-hover);
+  
 }
 
 /* AI team is treated like staffed workspaces: compact identity rows, not promo cards. */
@@ -271,15 +272,15 @@
   padding: 14px 6px;
   border: 0;
   border-bottom: 1px solid var(--dashboard-divider);
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
+  
+  
+  
 }
 
 .hlc-command-center .hlc-agent-team-section .hlc-agent-card:hover {
   transform: none;
-  background: var(--dashboard-row-hover);
-  box-shadow: none;
+  
+  
 }
 
 .hlc-command-center .hlc-agent-team-section .hlc-agent-portrait-wrap {
@@ -290,7 +291,7 @@
 .hlc-command-center .hlc-agent-team-section .hlc-agent-portrait {
   width: 58px;
   height: 58px;
-  border-radius: 12px;
+  
 }
 
 .hlc-command-center .hlc-agent-team-section .hlc-agent-card-body {
@@ -320,7 +321,7 @@
 .hlc-command-center .hlc-agent-team-section .hlc-agent-open {
   grid-column: 1 / -1;
   margin-top: 6px;
-  color: #93c5fd;
+  
 }
 
 @media (max-width: 860px) {

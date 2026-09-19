@@ -38,24 +38,18 @@ test("every supported clickable route remains explicitly inventoried", () => {
   }
 });
 
-test("whole-app visual reference authority is loaded in authenticated style order", () => {
-  assert.match(authenticatedEntry, /full-app-visual-reference-authority\.css/);
-  assert.match(authority, /Whole-app HLC visual reference authority/);
-  assert.match(authority, /no supported signed-in page should fall back to a white card wall/i);
-  assert.match(authority, /section:has\(> article\)/);
-  assert.match(authority, /input, select, textarea/);
-  assert.match(authority, /Mobile is a reorganized workspace/);
+test("whole-app routes use the current final visual authority without retired shared painters", () => {
+  assert.doesNotMatch(authenticatedEntry, /full-app-visual-reference-authority\.css/);
+  assert.doesNotMatch(authenticatedEntry, /professional-flat-surface-system\.css/);
+  assert.doesNotMatch(authenticatedEntry, /application-workspace-ui\.css/);
+  assert.match(authenticatedStyles, /signed-in-professional-system\.css/);
 });
 
-test("global visual storytelling is mounted once at the shared route shell", () => {
+test("shared route shell keeps route identity while root styling remains structural", () => {
   assert.match(appLayout, /RouteVisualBanner/);
   assert.match(appLayout, /<RouteVisualBanner\s*\/>/);
-  for (const source of [appShellEntry, authenticatedStyles]) {
-    assert.match(source, /hlc-global-visual-foundation\.css/);
-    assert.match(source, /hlc-route-visual-banners\.css/);
-    assert.match(source, /hlc-route-body-visuals\.css/);
-  }
-  assert.match(appShellEntry, /hlc-visual-storytelling\.css/);
+  assert.doesNotMatch(appShellEntry, /hlc-global-visual-foundation\.css|hlc-route-visual-banners\.css|hlc-route-body-visuals\.css|hlc-visual-storytelling\.css/);
+  assert.doesNotMatch(authenticatedStyles, /full-app-visual-reference-authority\.css/);
 });
 
 test("major product families receive distinct visual anchors instead of one cloned banner", () => {
@@ -82,14 +76,12 @@ test("visual identity continues through page bodies and honest empty states", ()
   assert.match(routeBodyVisuals, /img\[class\*="portrait"\]/);
 });
 
-test("legacy inline light surfaces cannot punch through the shared dark workspace", () => {
+test("legacy inline light surfaces remain documented in the retired reference file only", () => {
   assert.match(authority, /main > section:not\(\[class\]\)/);
   assert.match(authority, /main > p\[style\*="background"\]/);
-  assert.match(authority, /background: rgba\(12, 26, 46, \.66\) !important/);
-  assert.match(authority, /background: rgba\(47, 128, 255, \.065\) !important/);
 });
 
-test("visual authority preserves the canonical HLC and department accent contract", () => {
+test("retired reference still documents historical HLC department accents", () => {
   assert.match(authority, /#2f80ff/i);
   assert.match(authority, /#f59e0b/i);
   assert.match(authority, /#6366f1/i);

@@ -2,6 +2,45 @@
    On phone/tablet viewports the inline desktop navigation must never render;
    Navbar.tsx owns mobile navigation through the Menu portal + mobile tab bar. */
 @media (max-width: 1024px) {
+  .hlc-signed-in-shell > .hlc-navbar {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+    display: flex !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    height: auto !important;
+    min-height: 64px !important;
+    max-height: 76px !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    padding: 8px max(12px, env(safe-area-inset-right)) 8px max(12px, env(safe-area-inset-left)) !important;
+    overflow: visible !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-brand {
+    min-width: 0 !important;
+    max-width: calc(100% - 64px) !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-logo {
+    width: 48px !important;
+    height: 48px !important;
+    min-width: 48px !important;
+    min-height: 48px !important;
+    flex: 0 0 48px !important;
+  }
+
+  .hlc-signed-in-shell > .hlc-navbar .hlc-navbar-logo img {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 48px !important;
+    height: 48px !important;
+  }
+
   .hlc-navbar .hlc-desktop-navigation {
     display: none !important;
   }

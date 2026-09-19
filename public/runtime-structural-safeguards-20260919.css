@@ -1,0 +1,82 @@
+/* HOMELEAD CONNECT — runtime structural safeguards only.
+   No palette, gradients, shadows, radii, or visual theme ownership belongs here. */
+
+html,body,#root{min-height:100%}
+
+#root .hlc-board-brand .hlc-navbar-master-logo,
+#root .hlc-public-site-nav__brand .hlc-navbar-master-logo,
+#root .hlc-auth-public-brand .hlc-navbar-master-logo,
+#root .hlc-navbar-brand img[alt="HomeLead Connect LLC"],
+#root .hlc-navbar-logo img,
+#root .hlc-navbar-logo-home img{
+  display:block!important;
+  visibility:visible!important;
+  opacity:1!important;
+  max-width:100%!important;
+  max-height:100%!important;
+  object-fit:contain!important;
+  object-position:center!important;
+}
+
+#root .hlc-auth-shell,
+#root .hlc-auth-shell *,
+#root .hlc-auth-shell *::before,
+#root .hlc-auth-shell *::after{
+  box-sizing:border-box!important;
+  min-width:0!important;
+}
+#root .hlc-public-shell:has(.hlc-auth-shell) .hlc-route-visual-banner{display:none!important}
+
+body>.hlc-agent-guidance-overlay .hlc-agent-guidance-drawer{
+  width:min(100%,520px)!important;
+  max-height:92dvh!important;
+  box-sizing:border-box!important;
+  overflow:auto!important;
+}
+body>.hlc-drawer-v2,
+body>.hlc-mobile-command-sheet{
+  box-sizing:border-box!important;
+  max-width:100vw!important;
+  overflow-x:hidden!important;
+}
+
+#root .hlc-signed-in-shell.hlc-page-work .hlc-work-home .hlc-parent-index-header{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  align-items:end!important;
+  gap:12px!important;
+  min-height:0!important;
+}
+#root .hlc-signed-in-shell.hlc-page-work .hlc-parent-agent-link{
+  min-height:44px!important;
+  align-self:end!important;
+}
+
+#root .hlc-signed-in-shell.hlc-page-messages .hlc-messaging-frame,
+#root .hlc-signed-in-shell.hlc-page-messages :is(.hlc-conversation-list-panel,.hlc-conversation-stage){
+  min-width:0!important;
+}
+
+#root :is(.hlc-agent-workspace,.hlc-ai-team-launcher) .hlc-ai-chat,
+#root :is(.hlc-agent-workspace,.hlc-ai-team-launcher) :is(.hlc-ai-chat-head,.hlc-ai-transcript,.hlc-ai-composer){
+  min-width:0!important;
+  box-sizing:border-box!important;
+}
+
+@media(max-width:720px){
+  body>.hlc-agent-guidance-overlay .hlc-agent-guidance-drawer{
+    max-height:88dvh!important;
+    padding-bottom:max(18px,env(safe-area-inset-bottom))!important;
+  }
+  #root .hlc-signed-in-shell.hlc-page-work .hlc-work-home .hlc-parent-index-header{
+    grid-template-columns:1fr!important;
+    align-items:start!important;
+  }
+  #root .hlc-signed-in-shell.hlc-page-work .hlc-parent-agent-link{width:fit-content!important}
+  #root .hlc-signed-in-shell.hlc-page-messages .hlc-messaging-frame{display:block!important}
+  #root .hlc-signed-in-shell.hlc-page-messages :is(.hlc-conversation-list-panel,.hlc-conversation-stage){min-height:0!important}
+  body>.hlc-mobile-command-sheet .hlc-drawer-v2-scroll{padding-bottom:max(92px,env(safe-area-inset-bottom))!important}
+  #root :is(.hlc-agent-workspace,.hlc-ai-team-launcher) .hlc-ai-chat-head{padding:10px!important}
+  #root :is(.hlc-agent-workspace,.hlc-ai-team-launcher) .hlc-ai-transcript{padding:10px!important;min-height:0!important}
+  #root :is(.hlc-agent-workspace,.hlc-ai-team-launcher) .hlc-ai-composer{padding:10px!important}
+}

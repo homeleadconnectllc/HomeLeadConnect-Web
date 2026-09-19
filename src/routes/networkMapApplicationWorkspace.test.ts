@@ -31,20 +31,21 @@ test("Network Map preserves provider data, confidence boundaries, management mut
 
 test("Network Map specialization mounts before final authority and collapses safely on mobile", () => {
   const routeIndex = entry.indexOf("./network-map-application-workspace.css");
-  const finalIndex = entry.indexOf("./application-workspace-ui.css");
   assert.ok(routeIndex >= 0);
-  assert.ok(finalIndex > routeIndex);
+  assert.doesNotMatch(entry, /application-workspace-ui\.css/);
+  assert.match(authenticatedStyles, /signed-in-professional-system\.css/);
+  assert.ok(authenticatedStyles.indexOf("signed-in-professional-system.css") > authenticatedStyles.indexOf("dashboard-context-hero.css"));
   assert.match(styles, /\.hlc-network-map-console\{display:grid;grid-template-columns:/);
   assert.match(styles, /@media\(max-width:720px\)/);
   assert.match(styles, /\.hlc-network-map-console\{grid-template-columns:1fr/);
   assert.match(styles, /\.hlc-network-provider-row\{grid-template-columns:1fr/);
 });
 
-test("Network Map is natively dark without white provider rows or a light map canvas", () => {
+test("Network Map keeps route structure while canonical authority owns paint", () => {
   assert.match(styles, /--network-surface:#0d1b2f/);
-  assert.match(styles, /\.hlc-network-map-canvas\{[^}]*linear-gradient\(180deg,#0b1c31,#081426\)/);
-  assert.match(styles, /\.hlc-network-provider-row\{[^}]*background:transparent/);
-  assert.match(styles, /\.hlc-network-provider-row\.is-selected\{[^}]*rgba\(47,128,255,\.12\)/);
+  assert.match(styles, /\.hlc-network-map-canvas/);
+  assert.match(styles, /\.hlc-network-provider-row/);
+  assert.match(styles, /\.hlc-network-provider-row\.is-selected/);
   assert.doesNotMatch(styles, /background:(?:#fff|#ffffff|#f8fafc|#f8fbff|#eef6ff)/i);
 });
 
@@ -80,12 +81,8 @@ test("Mobile A+ Sprint 3 keeps provider rows essential-first with visible fallba
   assert.match(sprint3Styles, /\.hlc-s3-provider-more\{display:block/);
 });
 
-test("Mobile A+ Sprint 3 authority mounts after the Sprint 2 closure without lowering earlier contracts", () => {
-  const sprint2Index = authenticatedStyles.indexOf("./mobile-a-plus-sprint-2-visual-closure.css");
-  const sprint3Index = authenticatedStyles.indexOf("./mobile-a-plus-sprint-3-network.css");
-  assert.ok(sprint2Index >= 0);
-  assert.ok(sprint3Index > sprint2Index);
-  assert.match(sprint3Styles, /@media \(max-width:720px\)/);
-  assert.match(sprint3Styles, /padding-bottom:calc\(118px \+ env\(safe-area-inset-bottom,0px\)\)/);
-  assert.match(sprint3Styles, /:focus-visible/);
+test("Network Map no longer depends on retired Sprint 2 or Sprint 3 visual authorities", () => {
+  assert.doesNotMatch(authenticatedStyles, /mobile-a-plus-sprint-2-visual-closure\.css/);
+  assert.doesNotMatch(authenticatedStyles, /mobile-a-plus-sprint-3-network\.css/);
+  assert.match(entry, /network-map-application-workspace\.css/);
 });

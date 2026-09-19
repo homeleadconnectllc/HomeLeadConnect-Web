@@ -1,3 +1,4 @@
+/* Structural/feature behavior retained; local visual paint retired 2026-09-19. */
 @media (max-width: 700px) {
   .hlc-calendar-page {
     padding-bottom: calc(132px + env(safe-area-inset-bottom));
@@ -24,7 +25,7 @@
     gap: 10px;
     padding: 14px 18px 16px;
     border-bottom: 1px solid rgba(98, 143, 200, .14);
-    background: rgba(7, 24, 44, .98);
+    
   }
 
   .hlc-calendar-detail-actions > a,

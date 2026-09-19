@@ -17,12 +17,6 @@
     padding-inline: 16px;
   }
 
-  .hlc-account-summary,
-  .hlc-portal-summary,
-  .hlc-resources-summary {
-    display: none;
-  }
-
   .hlc-settings-ledger,
   .hlc-portal-ledger,
   .hlc-resources-ledger,

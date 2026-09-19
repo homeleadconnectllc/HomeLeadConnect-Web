@@ -1,6 +1,5 @@
-/* HLC private-beta mobile closure.
-   Physical iPhone evidence is authoritative: full-screen navigation, readable controls,
-   concise task surfaces, modal isolation, and a discoverable app directory. */
+/* HLC private-beta mobile content/readability closure.
+   Drawer ownership is handled by the current hlc-drawer-v2 command-menu authority. */
 
 .hlc-app-directory {
   width: min(1120px, calc(100% - 32px));
@@ -74,58 +73,10 @@
 }
 
 @media (max-width: 760px) {
-  body:has(.hlc-mobile-portal) { overflow: hidden !important; overscroll-behavior: none !important; }
-  .hlc-mobile-portal {
-    position: fixed !important; inset: 0 !important; top: 0 !important; left: 0 !important;
-    width: 100vw !important; height: 100dvh !important; min-height: 100dvh !important;
-    z-index: 2147483000 !important; margin: 0 !important; padding: 0 !important;
-    background: rgba(2, 8, 18, .92) !important; overflow: hidden !important;
-    overscroll-behavior: contain !important;
-  }
-  .hlc-mobile-portal-scroll {
-    position: absolute !important; inset: 0 !important; top: 0 !important;
-    width: 100vw !important; height: 100dvh !important; max-height: 100dvh !important;
-    margin: 0 !important; padding: 0 16px max(28px, env(safe-area-inset-bottom)) !important;
-    overflow-y: auto !important; overscroll-behavior: contain !important; -webkit-overflow-scrolling: touch;
-    background: #071426 !important; box-shadow: none !important;
-    scroll-padding-top: 74px;
-  }
-  .hlc-mobile-drawer-close {
-    position: sticky !important;
-    top: 0 !important;
-    z-index: 20 !important;
-    display: flex !important;
-    width: calc(100% + 32px) !important;
-    margin: 0 -16px 14px !important;
-    min-height: calc(60px + env(safe-area-inset-top)) !important;
-    padding: max(12px, env(safe-area-inset-top)) 16px 12px !important;
-    align-items: flex-end !important;
-    justify-content: center !important;
-    border: 0 !important;
-    border-bottom: 1px solid rgba(148,163,184,.22) !important;
-    background: rgba(7,20,38,.98) !important;
-    color: #f8fbff !important;
-    font: inherit !important;
-    font-weight: 900 !important;
-  }
-
-  #root :is(input, textarea, select) { color: #eef7ff; -webkit-text-fill-color: #eef7ff; caret-color: #9dccff; }
-  #root :is(input, textarea, select)::placeholder { color: #9fb4c9; opacity: 1; }
-  #root :is(input, textarea, select):disabled,
-  #root :is(input, textarea, select)[readonly] { color: #c7d6e5 !important; -webkit-text-fill-color: #c7d6e5 !important; opacity: .82 !important; }
-  #root select option { color: #0b1726; background: #f8fafc; }
 
   body:has([role="dialog"]) { overflow: hidden !important; overscroll-behavior: none !important; }
   #root [role="dialog"], body > [role="dialog"] { overscroll-behavior: contain !important; }
-
-  /* Global page presentation: page titles, top-level headers and footers are balanced and centered. */
-  #root main > header,
-  #root main > .page-header,
-  #root main > .hlc-page-header,
-  #root main > .hlc-workspace-header,
-  #root footer,
-  #root .hlc-footer { text-align: center !important; }
-  #root main h1 { text-align: center !important; margin-inline: auto !important; }
+  /* Global centering authority retired; route CSS owns alignment. */
 
   /* Eliminate one-letter-per-line and artificially narrow text columns. */
   #root main,
@@ -139,15 +90,6 @@
     white-space: normal;
   }
   #root main :is(h1,h2,h3,h4) { max-width: 100% !important; }
-  #root main :is(.hlc-dashboard-hero,.hlc-command-hero,.dashboard-hero,.command-center-hero) {
-    display: block !important;
-    width: 100% !important;
-    grid-template-columns: minmax(0,1fr) !important;
-  }
-  #root main :is(.hlc-dashboard-hero,.hlc-command-hero,.dashboard-hero,.command-center-hero) > * {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
 
   .hlc-app-directory { width: min(100% - 24px, 680px); margin: 16px auto 96px; gap: 14px; }
   .hlc-app-directory-hero { padding: 20px 16px; border-radius: 14px; }
@@ -164,7 +106,6 @@
   .hlc-app-directory-empty span { color: #b9cadb !important; }
 
   body.hlc-keyboard-open .hlc-agent-dock:not(.is-open),
-  body:has(.hlc-mobile-portal) .hlc-agent-dock:not(.is-open),
   body:has([role="dialog"]) .hlc-agent-dock:not(.is-open) {
     display: none !important; visibility: hidden !important; pointer-events: none !important;
   }

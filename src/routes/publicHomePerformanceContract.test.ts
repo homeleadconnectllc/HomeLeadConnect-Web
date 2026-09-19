@@ -33,11 +33,11 @@ test("public homepage preserves owner-approved destinations", () => {
   assert.match(standaloneHome, /hlc-public-menu-trigger/);
 });
 
-test("homepage footer is rendered with zero logo imagery", () => {
+test("homepage footer renders the canonical centered HomeLead Connect logo", () => {
   assert.match(standaloneHome, /hlc-public-footer-home-authority/);
   assert.match(footer, /showLogo && <img/);
-  assert.doesNotMatch(standaloneHome, /hlc-public-footer-master-logo/);
-  assert.doesNotMatch(standaloneHome, /<footer[^>]*>[\\s\\S]*?<img/);
+  assert.match(standaloneHome, /hlc-public-footer-master-logo/);
+  assert.match(standaloneHome, /footerLogo\.src = "\/hlc-logo-ui\.png"/);
 });
 
 test("authenticated application remains lazy and isolated from public root", () => {

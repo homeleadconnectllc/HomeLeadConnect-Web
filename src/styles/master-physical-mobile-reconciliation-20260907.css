@@ -210,37 +210,7 @@
   -webkit-text-fill-color: #9fb0c5 !important;
 }
 
-/* Mobile More is rendered in a body portal, so it needs body-scoped authority. */
-body > .hlc-drawer-v2.hlc-mobile-command-sheet,
-body > .hlc-drawer-v2.hlc-mobile-command-sheet > .hlc-drawer-v2-scroll {
-  background: #081426 !important;
-  background-image: none !important;
-  color: #f8fafc !important;
-}
-
-body > .hlc-drawer-v2.hlc-mobile-command-sheet :is(.hlc-mobile-command-sheet-head,.hlc-mobile-more-title) {
-  border-color: rgba(199,210,227,.12) !important;
-  background: transparent !important;
-  color: #f8fafc !important;
-}
-
-body > .hlc-drawer-v2.hlc-mobile-command-sheet :is(a,button,.hlc-mobile-command-search-trigger) {
-  border-color: rgba(199,210,227,.12) !important;
-  background-color: #0d1a2d !important;
-  background-image: none !important;
-  color: #f8fafc !important;
-  box-shadow: none !important;
-}
-
-body > .hlc-drawer-v2.hlc-mobile-command-sheet :is(svg,b,.hlc-mobile-command-search-icon) {
-  color: #60a5fa !important;
-  stroke: #60a5fa !important;
-}
-
-body > .hlc-drawer-v2.hlc-mobile-command-sheet small {
-  color: #9fb0c5 !important;
-  -webkit-text-fill-color: #9fb0c5 !important;
-}
+/* Mobile command sheet paint retired here; current rebuild is sole drawer authority. */
 
 @media (max-width: 720px) {
   #root .hlc-page-work .hlc-parent-index-header,

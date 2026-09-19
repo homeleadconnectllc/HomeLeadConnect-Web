@@ -1,9 +1,10 @@
+/* Legacy route structure retained; visual paint retired 2026-09-19. */
 .hlc-automations-workspace {
   width: min(1120px, calc(100% - 40px));
   margin: 24px auto calc(112px + env(safe-area-inset-bottom));
   display: grid;
   gap: 14px;
-  color: #172033;
+  
 }
 
 .hlc-automations-header,
@@ -13,9 +14,9 @@
 .hlc-automation-history,
 .hlc-automation-boundary {
   border: 1px solid #dbe3ee;
-  border-radius: 16px;
-  background: #fff;
-  box-shadow: none;
+  
+  
+  
 }
 
 .hlc-automations-header {
@@ -35,7 +36,7 @@
 .hlc-automations-kicker,
 .hlc-automation-section-kicker {
   margin: 0;
-  color: #2563eb;
+  
   font-size: 12px;
   font-weight: 800;
   letter-spacing: .08em;
@@ -53,14 +54,14 @@
 .hlc-automation-monitor-copy > p:last-child,
 .hlc-automation-boundary p {
   margin: 0;
-  color: #5b667a;
+  
   line-height: 1.5;
 }
 
 .hlc-automations-workflow-link,
 .hlc-automation-run-action button {
   min-height: 40px;
-  border-radius: 10px;
+  
   font-weight: 700;
 }
 
@@ -69,7 +70,7 @@
   align-items: center;
   padding: 0 14px;
   border: 1px solid #cbd5e1;
-  color: #1d4ed8;
+  
   text-decoration: none;
   white-space: nowrap;
 }
@@ -85,8 +86,8 @@
   gap: 2px;
   padding: 14px 16px;
   border: 1px solid #dbe3ee;
-  border-radius: 14px;
-  background: #f8fafc;
+  
+  
 }
 
 .hlc-automations-summary strong {
@@ -95,7 +96,7 @@
 }
 
 .hlc-automations-summary small {
-  color: #64748b;
+  
   font-size: 11px;
   font-weight: 800;
   letter-spacing: .04em;
@@ -141,9 +142,9 @@
   align-items: center;
   margin-left: 6px;
   padding: 3px 7px;
-  border-radius: 999px;
-  background: #ecfdf5;
-  color: #047857;
+  
+  
+  
   font-size: 11px;
   vertical-align: middle;
 }
@@ -151,15 +152,15 @@
 .hlc-automation-evidence {
   align-content: start;
   padding: 14px;
-  border-radius: 12px;
-  background: #f8fafc;
+  
+  
 }
 
 .hlc-automation-evidence small,
 .hlc-automation-history-row small,
 .hlc-automation-rule-row small,
 .hlc-automation-run-row span {
-  color: #64748b;
+  
 }
 
 .hlc-automation-section-heading {
@@ -186,8 +187,8 @@
 .hlc-automation-rule-row,
 .hlc-automation-history-row {
   border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  background: #fff;
+  
+  
 }
 
 .hlc-automation-run-row {
@@ -212,8 +213,8 @@
 .hlc-automation-run-action button {
   padding: 0 14px;
   border: 1px solid #2563eb;
-  background: #2563eb;
-  color: #fff;
+  
+  
 }
 
 .hlc-automation-registry-head,
@@ -225,7 +226,7 @@
 
 .hlc-automation-registry-head {
   padding: 0 14px 8px;
-  color: #64748b;
+  
   font-size: 11px;
   font-weight: 800;
   letter-spacing: .04em;
@@ -251,9 +252,9 @@
 .hlc-automation-rule-guard > span {
   width: fit-content;
   padding: 3px 7px;
-  border-radius: 999px;
-  background: #eff6ff;
-  color: #1d4ed8;
+  
+  
+  
   font-size: 11px;
   font-weight: 800;
 }
@@ -278,17 +279,17 @@
 .hlc-automation-state {
   margin: 0;
   padding: 14px;
-  border-radius: 12px;
-  background: #f8fafc;
-  color: #5b667a;
+  
+  
+  
 }
 
 .hlc-automation-state.is-error {
-  color: #b91c1c;
+  
 }
 
 .hlc-automation-boundary {
-  background: #f8fafc;
+  
 }
 
 .hlc-automation-boundary strong {

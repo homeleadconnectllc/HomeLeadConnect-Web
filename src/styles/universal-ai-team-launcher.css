@@ -1,3 +1,4 @@
+/* Structural authority only; visual paint retired 2026-09-19. */
 .hlc-ai-team-launcher {
   position: fixed;
   right: max(20px, env(safe-area-inset-right));
@@ -21,10 +22,10 @@
   min-height: 52px;
   padding: 7px 14px 7px 7px;
   border: 1px solid rgba(96, 165, 250, 0.38);
-  border-radius: 999px;
-  background: rgba(8, 18, 35, 0.96);
-  color: #fff;
-  box-shadow: 0 16px 36px rgba(3, 10, 24, 0.34);
+  
+  
+  
+  
   cursor: pointer;
 }
 
@@ -32,9 +33,9 @@
   width: 38px;
   height: 38px;
   overflow: hidden;
-  border-radius: 50%;
+  
   border: 1px solid rgba(147, 197, 253, 0.5);
-  background: #0b172a;
+  
   flex: 0 0 auto;
   display: grid;
   place-items: center;
@@ -51,9 +52,9 @@
   place-items: center;
   width: 100%;
   height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(145deg, rgba(79,70,229,.42), rgba(14,22,57,.98));
-  color: #f8fafc;
+  
+  
+  
   font-size: .72rem;
   font-weight: 900;
   letter-spacing: .04em;
@@ -72,7 +73,7 @@
 
 .hlc-ai-team-trigger-copy small {
   margin-top: 3px;
-  color: #a9bad1;
+  
   font-size: 0.69rem;
 }
 
@@ -83,10 +84,10 @@
   display: flex;
   flex-direction: column;
   border: 1px solid rgba(96, 165, 250, 0.28);
-  border-radius: 20px;
-  background: rgba(7, 16, 31, 0.985);
-  color: #eef6ff;
-  box-shadow: 0 24px 70px rgba(2, 8, 23, 0.48);
+  
+  
+  
+  
 }
 
 .hlc-ai-team-menu-head,
@@ -108,7 +109,7 @@
 }
 
 .hlc-ai-team-menu-head small {
-  color: #7fb8ff;
+  
   font-size: 0.68rem;
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -122,9 +123,9 @@
   min-width: 40px;
   min-height: 40px;
   border: 0;
-  border-radius: 12px;
-  background: rgba(148, 163, 184, 0.1);
-  color: #eef6ff;
+  
+  
+  
   font-size: 1.4rem;
   cursor: pointer;
 }
@@ -143,9 +144,9 @@
   justify-items: center;
   gap: 6px;
   border: 1px solid rgba(148, 163, 184, 0.16);
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.035);
-  color: #dcecff;
+  
+  
+  
   cursor: pointer;
 }
 
@@ -156,14 +157,14 @@
 }
 
 .hlc-ai-team-agent-tabs button.is-active {
-  border-color: rgba(96, 165, 250, 0.72);
-  background: rgba(59, 130, 246, 0.14);
+  
+  
 }
 
 .hlc-ai-team-agent-tabs img {
   width: 42px;
   height: 42px;
-  border-radius: 50%;
+  
   object-fit: cover;
 }
 
@@ -186,7 +187,7 @@
 }
 
 .hlc-ai-team-agent-tabs small {
-  color: #9eb1ca;
+  
   font-size: 0.62rem;
 }
 
@@ -201,13 +202,13 @@
   top: 0;
   z-index: 2;
   padding: 9px 2px;
-  background: rgba(7, 16, 31, 0.98);
+  
   font-size: 0.74rem;
-  color: #b9cae0;
+  
 }
 
 .hlc-ai-team-active-head a {
-  color: #8fc2ff;
+  
   font-weight: 700;
   text-decoration: none;
 }
@@ -215,7 +216,7 @@
 .hlc-ai-team-empty {
   margin: 0;
   padding: 8px 16px 18px;
-  color: #aabbd0;
+  
   font-size: 0.82rem;
   line-height: 1.5;
 }
@@ -243,7 +244,7 @@
   .hlc-ai-team-menu {
     width: calc(100vw - 24px);
     max-height: calc(100dvh - 84px - env(safe-area-inset-top));
-    border-radius: 18px;
+    
   }
 
   .hlc-ai-team-agent-tabs {

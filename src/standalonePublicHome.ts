@@ -1,5 +1,5 @@
+import "./styles/public-visual-family-20260919.css";
 import "./styles/public-home-owner-authority-20260918.css";
-import "./styles/public-footer-home-authority-20260916.css";
 import { APP_ORIGIN, PUBLIC_ORIGIN } from "./config/siteOrigins";
 
 const pathways = [
@@ -73,7 +73,6 @@ export function mountStandalonePublicHome(root: HTMLElement) {
   const primaryWrap = make("div", "hlc-public-menu-primary");
   for (const [label, path] of primary) {
     const item = link(`${PUBLIC_ORIGIN}${path}`);
-    item.style.cssText = "display:flex;min-height:44px;align-items:center;padding:10px 0";
     item.append(make("span", undefined, label));
     primaryWrap.append(item);
   }
@@ -81,15 +80,12 @@ export function mountStandalonePublicHome(root: HTMLElement) {
   const secondaryWrap = make("div", "hlc-public-menu-secondary");
   for (const [label, path] of secondary) {
     const item = link(`${PUBLIC_ORIGIN}${path}`, undefined, label);
-    item.style.cssText = "display:inline-flex;min-height:44px;align-items:center;padding:10px 8px";
     secondaryWrap.append(item);
   }
 
   const accountWrap = make("div", "hlc-public-menu-account");
   const menuSignIn = link(`${APP_ORIGIN}/login`, undefined, "Sign In");
-  menuSignIn.style.cssText = "display:inline-flex;min-height:44px;align-items:center;padding:10px 14px";
   const menuStart = link(`${APP_ORIGIN}/register`, undefined, "Get Started");
-  menuStart.style.cssText = "display:inline-flex;min-height:44px;align-items:center;padding:10px 14px";
   accountWrap.append(menuSignIn, menuStart);
   panel.append(primaryWrap, secondaryWrap, accountWrap);
   backdrop.append(panel);
@@ -152,7 +148,10 @@ export function mountStandalonePublicHome(root: HTMLElement) {
   main.append(header, hero, pathwaySection, mission);
 
   const footer = make("footer", "hlc-public-footer hlc-board-footer hlc-public-footer-home-authority");
-  footer.append(make("strong", undefined, "HomeLead Connect"), make("span", undefined, "Connecting Homes. Creating Opportunities."));
+  const footerLogo = make("img", "hlc-public-footer-master-logo");
+  footerLogo.src = "/hlc-logo-ui.png";
+  footerLogo.alt = "HomeLead Connect LLC";
+  footer.append(footerLogo, make("strong", undefined, "HomeLead Connect"), make("span", undefined, "Connecting Homes. Creating Opportunities."));
   const legal = make("nav");
   legal.setAttribute("aria-label", "Legal and accessibility");
   for (const [label, path] of [["Privacy","/privacy"],["Terms","/terms"],["Accessibility","/accessibility"],["Platform disclosure","/platform-disclosure"]] as const) {
@@ -161,8 +160,6 @@ export function mountStandalonePublicHome(root: HTMLElement) {
   footer.append(legal, make("small", undefined, `© ${new Date().getFullYear()} HomeLead Connect LLC`));
   root.append(main, footer);
 
-  Object.assign(backdrop.style,{position:"fixed",inset:"0",zIndex:"1500",background:"rgba(2,10,22,.78)",padding:"clamp(84px, 10vh, 120px) 18px 24px",overflowY:"auto"});
-  Object.assign(panel.style,{width:"min(920px, 100%)",margin:"0 auto",padding:"clamp(24px, 5vw, 54px)",background:"#06182a",border:"1px solid rgba(128,178,225,.32)",borderRadius:"28px",boxShadow:"0 32px 90px rgba(0,0,0,.48)"});
 
   const close=()=>{backdrop.hidden=true;trigger.setAttribute("aria-expanded","false");trigger.setAttribute("aria-label","Open HomeLead Connect menu");document.body.style.overflow="";trigger.focus()};
   const open=()=>{backdrop.hidden=false;trigger.setAttribute("aria-expanded","true");trigger.setAttribute("aria-label","Close HomeLead Connect menu");document.body.style.overflow="hidden"};

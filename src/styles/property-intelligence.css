@@ -1,3 +1,4 @@
+/* Legacy route structure retained; visual paint retired 2026-09-19. */
 .hlc-property-form,
 .hlc-property-asset-form,
 .hlc-property-service-form {
@@ -52,7 +53,7 @@
 .hlc-property-asset-card {
   width: 100%;
   text-align: left;
-  color: inherit;
+  
   cursor: pointer;
 }
 

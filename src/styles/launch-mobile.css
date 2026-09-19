@@ -1,159 +1,57 @@
-/* Final mobile launch safety layer. CSS only; no route, auth, data, or business-logic changes. */
-
+/* Mobile launch safety — structural only.
+   Own containment and touch safety, not page presentation. */
 .hlc-route-content,
 .hlc-route-content > main,
 .hlc-route-content section,
 .hlc-route-content article,
 .hlc-route-content form,
 .hlc-route-content div,
-.hlc-route-content label {
-  min-width: 0;
+.hlc-route-content label{
+  min-width:0;
 }
 
-.hlc-route-content input,
-.hlc-route-content select,
-.hlc-route-content textarea,
-.hlc-route-content button {
-  box-sizing: border-box;
-  max-width: 100%;
+.hlc-route-content :is(input,select,textarea,button){
+  box-sizing:border-box;
+  max-width:100%;
 }
 
-.hlc-route-content input,
-.hlc-route-content select,
-.hlc-route-content textarea {
-  min-height: 44px;
+.hlc-route-content :is(input,select,textarea){
+  min-height:44px;
 }
 
-.hlc-route-content textarea {
-  resize: vertical;
+.hlc-route-content textarea{resize:vertical}
+
+.hlc-route-content :is(pre,code){
+  max-width:100%;
+  overflow-wrap:anywhere;
 }
 
-.hlc-route-content pre,
-.hlc-route-content code {
-  max-width: 100%;
-  overflow-wrap: anywhere;
-}
+.responsive-record-card{min-width:0}
 
-.responsive-record-card {
-  min-width: 0;
-}
-
-@media (max-width: 700px) {
-  .hlc-route-content > main {
-    width: calc(100% - 28px) !important;
-    margin: 24px auto !important;
-  }
-
-  .hlc-route-content > main h1 {
-    overflow-wrap: anywhere;
-  }
-
+@media (max-width:700px){
   .hlc-route-content form,
   .hlc-route-content section,
-  .hlc-route-content article {
-    max-width: 100%;
+  .hlc-route-content article{max-width:100%}
+
+  .hlc-route-content label{
+    display:grid;
+    gap:6px;
   }
 
-  .hlc-route-content label {
-    display: grid;
-    gap: 6px;
+  .hlc-route-content label > :is(input,select,textarea){width:100%}
+
+  .hlc-route-content :is(button,a){touch-action:manipulation}
+
+  .hlc-route-content pre{
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
   }
 
-  .hlc-route-content label > input,
-  .hlc-route-content label > select,
-  .hlc-route-content label > textarea {
-    width: 100%;
+  .responsive-record-card{
+    flex-direction:column!important;
+    align-items:stretch!important;
   }
 
-  .hlc-route-content button,
-  .hlc-route-content a {
-    touch-action: manipulation;
-  }
-
-  .hlc-route-content pre {
-    overflow-x: auto !important;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .responsive-record-card {
-    flex-direction: column !important;
-    align-items: stretch !important;
-    gap: 14px !important;
-  }
-
-  .responsive-record-card > div:last-child {
-    width: 100%;
-  }
-
-  .responsive-record-card button {
-    min-height: 44px;
-  }
-
-  /* iPhone acceptance: Home must read as an app landing surface, not a full-screen poster. */
-  .hlc-home {
-    padding: 18px 16px 34px !important;
-  }
-
-  .hlc-home-hero {
-    padding: 18px 0 24px !important;
-  }
-
-  .hlc-home-hero-logo {
-    width: 86px !important;
-    height: 86px !important;
-    padding: 9px !important;
-    border-radius: 20px !important;
-    box-shadow: 0 12px 34px rgba(15,23,42,.12) !important;
-  }
-
-  .hlc-home-hero-kicker {
-    margin: 14px 0 0 !important;
-    font-size: 13px !important;
-    letter-spacing: .055em !important;
-  }
-
-  .hlc-home-hero-title {
-    max-width: 560px !important;
-    margin: 9px auto 13px !important;
-    font-size: clamp(34px, 10vw, 48px) !important;
-    line-height: .98 !important;
-    letter-spacing: -1.7px !important;
-  }
-
-  .hlc-home-hero-copy {
-    max-width: 560px !important;
-    font-size: 16px !important;
-    line-height: 1.45 !important;
-  }
-
-  .hlc-home-hero-actions {
-    margin-top: 18px !important;
-    gap: 9px !important;
-  }
-
-  .hlc-home-hero-actions > a {
-    min-height: 44px;
-    padding: 11px 16px !important;
-  }
-
-  .hlc-home-hero-note {
-    margin-top: 10px !important;
-    font-size: 12px !important;
-    line-height: 1.35 !important;
-  }
-}
-
-@media (max-width: 390px) {
-  .hlc-route-content > main {
-    width: calc(100% - 22px) !important;
-  }
-
-  .hlc-home-hero-title {
-    font-size: clamp(31px, 9.6vw, 40px) !important;
-    letter-spacing: -1.4px !important;
-  }
-
-  .hlc-home-hero-copy {
-    font-size: 15px !important;
-  }
+  .responsive-record-card > div:last-child{width:100%}
+  .responsive-record-card button{min-height:44px}
 }

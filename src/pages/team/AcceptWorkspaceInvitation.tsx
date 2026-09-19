@@ -4,6 +4,7 @@ import { acceptWorkspaceInvitation, type AcceptedWorkspaceInvitation } from "../
 import { useAuth } from "../../hooks/useAuth";
 import { errorMessage } from "../../lib/errorMessage";
 import PublicSiteNav from "../../components/PublicSiteNav";
+import "../../styles/public-visual-family-20260919.css";
 
 export default function AcceptWorkspaceInvitation() {
   const { session, loading } = useAuth();
@@ -27,15 +28,15 @@ export default function AcceptWorkspaceInvitation() {
     } finally { setBusy(false); }
   }
 
-  return <><PublicSiteNav /><main style={pageStyle}>
-    <section style={cardStyle}>
-      <p style={{ fontWeight: 900, letterSpacing: ".05em", textTransform: "uppercase", margin: 0 }}>HomeLead Connect</p>
+  return <><PublicSiteNav /><main className="hlc-workspace-invite-page">
+    <section className="hlc-workspace-invite-panel">
+      <p className="hlc-workspace-invite-kicker">HomeLead Connect</p>
       <h1>Company workspace invitation</h1>
-      {!token && <p role="alert" style={{ color: "#b91c1c" }}>This invitation link is incomplete. Ask the company administrator for a new link.</p>}
+      {!token && <p role="alert" className="hlc-public-status is-error">This invitation link is incomplete. Ask the company administrator for a new link.</p>}
       {loading && <p role="status">Checking your HLC session…</p>}
       {!loading && token && !session && <>
         <p>Sign in with the exact email address that received this invitation. If you do not have an HLC account yet, create one first.</p>
-        <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+        <div className="hlc-workspace-invite-actions">
           <Link to={loginHref}>Sign in to accept</Link>
           <Link to={registerHref}>Create an HLC account</Link>
         </div>
@@ -44,14 +45,12 @@ export default function AcceptWorkspaceInvitation() {
         <p>This invitation is email-bound, single-use, and checked again by HLC before workspace access is granted.</p>
         <button type="button" disabled={busy} onClick={() => void accept()}>{busy ? "Accepting invitation…" : "Accept company invitation"}</button>
       </>}
-      {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
+      {error && <p role="alert" className="hlc-public-status is-error">{error}</p>}
       {accepted && <>
-        <p role="status" style={{ color: "#166534" }}><strong>Invitation accepted.</strong> You now have {accepted.member_role} access to {accepted.workspace_name}.</p>
+        <p role="status" className="hlc-public-status is-success"><strong>Invitation accepted.</strong> You now have {accepted.member_role} access to {accepted.workspace_name}.</p>
         <Link to="/dashboard">Open company dashboard</Link>
       </>}
     </section>
   </main></>;
 }
 
-const pageStyle = { width: "min(720px, calc(100% - 32px))", margin: "48px auto", fontFamily: "system-ui, sans-serif" };
-const cardStyle = { display: "grid", gap: 14, padding: 24, border: "1px solid #e2e8f0", borderRadius: 16, background: "#fff" };

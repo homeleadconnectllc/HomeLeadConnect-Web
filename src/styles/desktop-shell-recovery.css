@@ -15,36 +15,8 @@
     overflow-x: hidden !important;
   }
 
-  /* The brand belongs to the page, not to the navigation rail. */
-  #root .hlc-signed-in-shell > nav.hlc-navbar .hlc-navbar-brand {
-    display: none !important;
-  }
-
-  #root .hlc-signed-in-shell > .hlc-desktop-page-brand {
-    position: fixed !important;
-    z-index: 1190 !important;
-    top: 14px !important;
-    left: 50% !important;
-    display: grid !important;
-    width: 66px !important;
-    height: 66px !important;
-    place-items: center !important;
-    border: 1px solid rgba(148, 163, 184, .16) !important;
-    border-radius: 20px !important;
-    background: rgba(7, 17, 31, .88) !important;
-    box-shadow: 0 16px 38px rgba(2, 6, 23, .28) !important;
-    transform: translateX(-50%) !important;
-    backdrop-filter: blur(16px) !important;
-    -webkit-backdrop-filter: blur(16px) !important;
-  }
-
-  #root .hlc-signed-in-shell > .hlc-desktop-page-brand img {
-    display: block !important;
-    width: 54px !important;
-    height: 54px !important;
-    border-radius: 15px !important;
-    object-fit: cover !important;
-  }
+  /* Current desktop navigation owns the single visible HLC brand.
+     Retired page-brand substitution removed. */
 
   /* Keep the workspace navigation a compact real sidebar, never a viewport-wide sheet. */
   #root .hlc-signed-in-shell > nav.hlc-navbar {
