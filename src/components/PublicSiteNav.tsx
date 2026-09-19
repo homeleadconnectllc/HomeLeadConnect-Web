@@ -5,6 +5,31 @@ import { appUrl, publicUrl } from "../config/siteOrigins";
 
 const NAV_LOGO = "/hlc-logo-ui.png";
 
+const PUBLIC_VISUAL_RUNTIME_PATHS = new Set([
+  "/about",
+  "/homeowners",
+  "/contractors",
+  "/professionals",
+  "/partners",
+  "/community",
+  "/services",
+  "/how-it-works",
+  "/leadscope",
+  "/pricing",
+  "/trust",
+  "/demo",
+  "/contact",
+  "/request-service",
+  "/professional-application",
+  "/accessibility",
+  "/platform-disclosure",
+  "/privacy",
+  "/terms",
+  "/memorial",
+  "/kendrell-memorial",
+]);
+
+
 const primaryMenuLinks = [
   { label: "Home", href: publicUrl("/"), Icon: House, tone: "home" },
   { label: "About", href: publicUrl("/about"), Icon: Info, tone: "about" },
@@ -53,7 +78,7 @@ export default function PublicSiteNav() {
   }, [menuOpen]);
 
   useLayoutEffect(() => {
-    if (pathname === "/") return;
+    if (!PUBLIC_VISUAL_RUNTIME_PATHS.has(pathname)) return;
     let cleanup: void | (() => void);
     let cancelled = false;
     void import("./publicSiteNavRuntime").then(({ applyPublicNavRuntime }) => {
