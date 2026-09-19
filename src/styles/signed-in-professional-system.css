@@ -626,3 +626,121 @@
     display:none;
   }
 }
+
+
+/* LaunchSurface + owner approvals — canonical signed-in presentation.
+   Structure stays route-specific; paint is owned here, never inline. */
+.hlc-launch-surface{
+  width:min(1120px,calc(100% - 32px));
+  margin:32px auto;
+  display:grid;
+  gap:22px;
+  min-width:0;
+}
+.hlc-launch-hero{
+  display:grid;
+  gap:10px;
+  padding:10px 0 22px;
+  border-bottom:1px solid var(--hlc-app-line);
+  background:transparent;
+}
+.hlc-launch-heading-reset,.hlc-approval-title,.hlc-approval-contact{margin:0}
+.hlc-launch-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));
+  gap:18px 28px;
+}
+.hlc-launch-card{
+  display:grid;
+  gap:10px;
+  min-width:0;
+  padding:18px 0;
+  border:0;
+  border-bottom:1px solid var(--hlc-app-line);
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  line-height:1.55;
+}
+.hlc-launch-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+}
+.hlc-launch-territory{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+  gap:10px;
+  padding:14px 0;
+  border-top:1px solid var(--hlc-app-line);
+  border-bottom:1px solid var(--hlc-app-line);
+}
+.hlc-launch-metric-value{font-size:2rem}
+.hlc-approval-shell{display:grid;gap:22px}
+.hlc-approval-section{
+  display:grid;
+  gap:0;
+  min-width:0;
+  padding:20px 0;
+  border:0;
+  border-bottom:1px solid var(--hlc-app-line);
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  line-height:1.55;
+}
+.hlc-approval-heading,.hlc-approval-item-heading{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:14px;
+}
+.hlc-approval-heading{padding-bottom:16px}
+.hlc-approval-item{
+  display:grid;
+  gap:15px;
+  padding:22px 0;
+  border-top:1px solid var(--hlc-app-line);
+}
+.hlc-approval-eyebrow{
+  font-weight:850;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--hlc-app-blue);
+}
+.hlc-approval-details{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));
+  gap:12px;
+  margin:0;
+}
+.hlc-approval-access,.hlc-approval-status{
+  display:grid;
+  gap:6px;
+  margin:0;
+  padding:12px 0 12px 14px;
+  border-left:3px solid var(--hlc-app-blue);
+  background:transparent;
+  overflow-wrap:anywhere;
+}
+.hlc-approval-status.is-error{border-left-color:#ef6b73}
+.hlc-approval-status.is-success{border-left-color:var(--hlc-app-success)}
+.hlc-approval-summary{font-weight:850;cursor:pointer}
+.hlc-approval-history{
+  display:grid;
+  gap:3px;
+  padding:14px 0;
+  border-top:1px solid var(--hlc-app-line);
+}
+.hlc-approval-empty{
+  margin:0;
+  padding:18px 0;
+  border-top:1px solid var(--hlc-app-line);
+}
+@media(max-width:720px){
+  .hlc-launch-surface{width:calc(100% - 24px);margin:18px auto}
+  .hlc-launch-grid{grid-template-columns:1fr}
+  .hlc-approval-heading,.hlc-approval-item-heading{display:grid}
+}

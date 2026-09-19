@@ -502,3 +502,36 @@ html body #root :is(.hlc-public-shell,.hlc-utility-shell,.hlc-legal-shell,.hlc-p
     white-space:nowrap!important;
   }
 }
+
+
+/* Invitation/access handoff — canonical public-family presentation, no inline painter. */
+#root .hlc-workspace-invite-page{
+  width:min(720px,calc(100% - 32px));
+  margin:48px auto;
+  min-width:0;
+}
+#root .hlc-workspace-invite-panel{
+  display:grid;
+  gap:14px;
+  padding:28px 0;
+  border-top:1px solid var(--hlc-public-line);
+  border-bottom:1px solid var(--hlc-public-line);
+  background:transparent;
+}
+#root .hlc-workspace-invite-kicker{
+  margin:0;
+  font-weight:850;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:var(--hlc-public-accent);
+}
+#root .hlc-workspace-invite-actions{display:flex;gap:10px;flex-wrap:wrap}
+#root .hlc-public-status{
+  margin:0;
+  padding:12px 0 12px 14px;
+  border-left:3px solid var(--hlc-public-accent);
+  background:transparent;
+  overflow-wrap:anywhere;
+}
+#root .hlc-public-status.is-error{border-left-color:#d95b63}
+#root .hlc-public-status.is-success{border-left-color:#2f9d75}

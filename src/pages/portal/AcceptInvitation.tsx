@@ -33,7 +33,7 @@ export default function AcceptInvitation() {
 
   let content;
   if (!token) {
-    content = <p role="alert" style={{ color: "#b91c1c" }}>This invitation link is incomplete. Ask the HLC business that invited you to send a new invitation.</p>;
+    content = <p role="alert" className="hlc-public-status is-error">This invitation link is incomplete. Ask the HLC business that invited you to send a new invitation.</p>;
   } else if (authLoading) {
     content = <p role="status">Checking your HLC account…</p>;
   } else if (!session) {
@@ -43,7 +43,7 @@ export default function AcceptInvitation() {
     </>;
   } else {
     content = error
-      ? <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>
+      ? <p role="alert" className="hlc-public-status is-error">{error}</p>
       : <p role="status">{status}</p>;
   }
 
