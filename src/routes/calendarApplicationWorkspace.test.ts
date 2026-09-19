@@ -22,8 +22,8 @@ test("Calendar keeps a dedicated native schedule workspace with job handoff and 
 test("Calendar specialization is mounted before final application workspace authority", () => {
   const calendarIndex = authenticatedEntry.indexOf('import "./calendar-application-workspace.css"');
   assert.ok(calendarIndex >= 0);
-  assert.doesNotMatch(authenticatedEntry, /application-workspace-ui\\.css/);
-  assert.match(authenticatedStyles, /signed-in-professional-system\\.css/);
+  assert.doesNotMatch(authenticatedEntry, /application-workspace-ui\.css/);
+  assert.match(authenticatedStyles, /signed-in-professional-system\.css/);
   assert.ok(authenticatedStyles.indexOf("signed-in-professional-system.css") > authenticatedStyles.indexOf("dashboard-context-hero.css"));
 });
 
