@@ -130,6 +130,13 @@ try {
       const unexpectedRedirect = mustRenderAuthorizedWorkspace.has(route) && currentPath !== (expectedRedirects.get(route) || resolvedRoute);
       const metrics = await page.evaluate(() => ({
         overflow: document.documentElement.scrollWidth > innerWidth + 1,
+        compressedNavigation: [...document.querySelectorAll(".hlc-route-content nav > a")].filter(link => {
+          const box = link.getBoundingClientRect();
+          if (!box.width || !box.height) return false;
+          const range = document.createRange(); range.selectNodeContents(link);
+          return range.getBoundingClientRect().width > box.width + 2;
+        }).map(link => link.textContent.trim()),
+        workspaceFont: getComputedStyle(document.querySelector(".hlc-signed-in-shell") || document.body).fontFamily,
         heading: document.querySelector("h1")?.textContent?.trim() || null,
         blank: document.body.innerText.trim().length < 30,
         denied: /Your HomeLead Connect role does not allow this area/.test(document.body.innerText),
@@ -148,7 +155,7 @@ try {
   });
 
   await Promise.all([deepLinkProof, ...viewportProofs]);
-  const failures = proofResults.filter(row => row.overflow || row.blank || row.denied || row.unexpectedRedirect || row.logoFailure);
+  const failures = proofResults.filter(row => row.overflow || row.blank || row.denied || row.unexpectedRedirect || row.logoFailure || row.compressedNavigation.length);
   if (failures.length) throw new Error(`Authenticated visual layout failures: ${failures.map(row => `${row.route} ${row.viewport}`).join(", ")}`);
 } finally {
   await browser.close();

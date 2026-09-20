@@ -53,3 +53,6 @@
     width:calc(100% - (2 * var(--hlc-page-gutter)));
   }
 }
+
+/* Horizontal navigation keeps each label's intrinsic width inside its scroll rail. */
+.hlc-route-content nav > a{flex-shrink:0}
