@@ -117,7 +117,7 @@ button{min-height:44px}
 #root .hlc-kendrell-dedication-portrait img{width:100%;height:100%;object-fit:cover}
 
 /* auth routes — structure only; paint belongs to current public authority */
-#root .hlc-auth-shell.hlc-auth-shell--flat{width:100%;min-height:100vh;margin:0;padding:0 0 56px}
+#root .hlc-auth-shell.hlc-auth-shell--flat{display:block!important;width:100%;min-height:100vh;margin:0;padding:0 0 56px}
 #root .hlc-auth-shell,
 #root .hlc-auth-shell *,
 #root .hlc-auth-shell *::before,
@@ -135,13 +135,14 @@ button{min-height:44px}
 #root .hlc-auth-shell .hlc-auth-intro-visual{width:100%;height:clamp(230px,30vw,350px);margin:0 0 30px;overflow:hidden}
 #root .hlc-auth-shell .hlc-auth-intro-visual img{width:100%;height:100%;object-fit:cover}
 #root .hlc-auth-shell .hlc-auth-intro-proof{display:flex;flex-wrap:wrap;gap:10px 20px;margin-top:24px;line-height:1.5}
+#root .hlc-auth-shell :is(.hlc-auth-card-description,.hlc-auth-card-footer){color:var(--hlc-public-muted)!important}
 #root .hlc-auth-shell .hlc-auth-method-tabs{display:flex;flex-wrap:wrap;gap:18px;margin:0 0 24px;padding:0 0 14px}
 #root .hlc-auth-shell .hlc-auth-form{display:grid;gap:15px}
 #root .hlc-auth-shell .hlc-auth-form label{display:grid;gap:8px;text-align:left}
 #root .hlc-auth-shell .hlc-auth-form :is(input,select,textarea){width:100%;min-height:52px;padding:12px 13px;font-size:16px}
 #root .hlc-auth-shell .hlc-password-input-row{position:relative;display:flex;align-items:center}
 #root .hlc-auth-shell .hlc-password-input-row input{padding-right:126px}
-#root .hlc-auth-shell .hlc-password-toggle{position:absolute;right:8px;min-height:36px;padding:0 8px}
+#root .hlc-auth-shell .hlc-password-toggle{width:auto!important;position:absolute;right:8px;min-height:36px;padding:0 8px}
 #root .hlc-auth-shell .hlc-auth-form>button,#root .hlc-auth-shell .hlc-auth-success-action{
   justify-self:start;display:inline-flex;align-items:center;min-height:46px;padding:0 20px;
 }

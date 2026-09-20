@@ -140,6 +140,7 @@ try {
         heading: document.querySelector("h1")?.textContent?.trim() || null,
         blank: document.body.innerText.trim().length < 30,
         denied: /Your HomeLead Connect role does not allow this area/.test(document.body.innerText),
+        dataPermissionError: /You do not have permission to perform this action/.test(document.body.innerText),
       }));
       const result = {route, resolvedRoute, viewport: viewportName, currentPath, unexpectedRedirect, ...metrics,
         coverage: route.includes(":") ? "missing-record-state; no real record identity supplied" : "approved-workspace-session"};
