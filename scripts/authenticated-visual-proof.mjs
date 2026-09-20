@@ -38,6 +38,8 @@ for (const route of [...routeFamilies.shared, ...routeFamilies.internal]) {
   if (!routes.some(([, existing]) => existing === route)) routes.push([route.replace(/[^a-z0-9]/gi, "_").replace(/^_/, ""), route]);
 }
 const proofResults = [];
+// Existing bookmark redirect confirmed in src/pages/dashboard/Ecosystem.tsx.
+const expectedRedirects = new Map([["/ecosystem", "/dashboard"]]);
 
 const mustRenderAuthorizedWorkspace = new Set(routes.map(([, route]) => route));
 
@@ -125,19 +127,19 @@ try {
       await page.goto(`${baseUrl}${resolvedRoute}`, { waitUntil: "networkidle" });
       await page.waitForTimeout(1200);
       const currentPath = new URL(page.url()).pathname;
-      if (mustRenderAuthorizedWorkspace.has(route) && currentPath !== resolvedRoute) {
-        throw new Error(`Authenticated visual proof expected ${route} but rendered ${currentPath}.`);
-      }
+      const unexpectedRedirect = mustRenderAuthorizedWorkspace.has(route) && currentPath !== (expectedRedirects.get(route) || resolvedRoute);
       const metrics = await page.evaluate(() => ({
         overflow: document.documentElement.scrollWidth > innerWidth + 1,
         heading: document.querySelector("h1")?.textContent?.trim() || null,
         blank: document.body.innerText.trim().length < 30,
         denied: /Your HomeLead Connect role does not allow this area/.test(document.body.innerText),
       }));
-      proofResults.push({route, resolvedRoute, viewport: viewportName, currentPath, ...metrics,
+      proofResults.push({route, resolvedRoute, viewport: viewportName, currentPath, unexpectedRedirect, ...metrics,
         coverage: route.includes(":") ? "missing-record-state; no real record identity supplied" : "approved-workspace-session"});
       fs.writeFileSync(path.join(outputDir, "results.json"), JSON.stringify(proofResults, null, 2));
-      await assertExactlyOneVisibleLogo(page, `${route} ${viewportName}`);
+      try { await assertExactlyOneVisibleLogo(page, `${route} ${viewportName}`); }
+      catch { proofResults[proofResults.length - 1].logoFailure = true; }
+      fs.writeFileSync(path.join(outputDir, "results.json"), JSON.stringify(proofResults, null, 2));
       await page.screenshot({ path: path.join(outputDir, `${slug}-${viewportName}.png`), fullPage: true });
     }
 
@@ -145,7 +147,7 @@ try {
   });
 
   await Promise.all([deepLinkProof, ...viewportProofs]);
-  const failures = proofResults.filter(row => row.overflow || row.blank || row.denied);
+  const failures = proofResults.filter(row => row.overflow || row.blank || row.denied || row.unexpectedRedirect || row.logoFailure);
   if (failures.length) throw new Error(`Authenticated visual layout failures: ${failures.map(row => `${row.route} ${row.viewport}`).join(", ")}`);
 } finally {
   await browser.close();

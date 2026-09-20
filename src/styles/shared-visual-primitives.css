@@ -76,7 +76,7 @@
 .hlc-ui-margin-top-29e360{margin-top:28px}
 
 /* src/components/audio/AudioDeviceCenter.tsx */
-.hlc-ui-card-ea9374{width:min(980px, calc(100% - 32px));box-sizing:border-box;margin:0 auto 40px;padding:20px;border:1px solid #dbe4ee;border-radius:18px;background:var(--hlc-app-surface,#fff);color:var(--hlc-app-text,#0f172a);text-align:left;box-shadow:0 12px 40px rgba(15,23,42,.06)}
+.hlc-ui-card-ea9374{width:min(980px, calc(100% - 32px));box-sizing:border-box;margin:0 auto 40px;padding:20px;border:1px solid var(--hlc-app-line-strong,#dbe4ee);border-radius:18px;background:var(--hlc-app-surface,#fff);color:var(--hlc-app-text,#0f172a);text-align:left;box-shadow:0 12px 40px rgba(15,23,42,.06)}
 
 /* src/components/audio/AudioDeviceCenter.tsx */
 .hlc-ui-header-d26a7f{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:16px}
@@ -112,7 +112,7 @@
 .hlc-ui-color-d80273{color:#b91c1c}
 
 /* src/components/contractors/ContractorCard.tsx */
-.hlc-ui-card-a3839d{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px;border:1px solid #e2e8f0;border-radius:12px}
+.hlc-ui-card-a3839d{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px;border:1px solid var(--hlc-app-line-strong,#e2e8f0);border-radius:12px}
 
 /* src/components/contractors/ContractorCard.tsx */
 .hlc-ui-contractor-card-c9d2c2{margin:6px 0;color:var(--hlc-app-muted,#475569)}
@@ -121,7 +121,7 @@
 .hlc-ui-contractor-card-03b0f4{display:flex;align-items:center;gap:12px}
 
 /* src/components/estimator/MaterialShopLinks.tsx */
-.hlc-ui-section-6e03bb{width:min(1100px, calc(100% - 32px));margin:0 auto 48px;box-sizing:border-box;padding:24px;border:1px solid #dbe4ee;border-radius:20px;background:var(--hlc-app-surface,#ffffff);box-shadow:0 12px 40px rgba(15,23,42,.06);text-align:left}
+.hlc-ui-section-6e03bb{width:min(1100px, calc(100% - 32px));margin:0 auto 48px;box-sizing:border-box;padding:24px;border:1px solid var(--hlc-app-line-strong,#dbe4ee);border-radius:20px;background:var(--hlc-app-surface,#ffffff);box-shadow:0 12px 40px rgba(15,23,42,.06);text-align:left}
 
 /* src/components/estimator/MaterialShopLinks.tsx */
 .hlc-ui-heading-2fa939{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:18px}
@@ -133,13 +133,13 @@
 .hlc-ui-material-shop-links-4ee3af{margin:0;color:var(--hlc-app-muted,#475569);line-height:1.55}
 
 /* src/components/estimator/MaterialShopLinks.tsx */
-.hlc-ui-externalBadge-7cf346{padding:7px 10px;border-radius:999px;background:#eff6ff;color:#1d4ed8;font-size:12px;font-weight:800}
+.hlc-ui-externalBadge-7cf346{padding:7px 10px;border-radius:999px;background:var(--hlc-app-surface-2,#eff6ff);color:#1d4ed8;font-size:12px;font-weight:800}
 
 /* src/components/estimator/MaterialShopLinks.tsx */
 .hlc-ui-grid-32964a{display:grid;grid-template-columns:repeat(auto-fit, minmax(min(230px, 100%), 1fr));gap:12px}
 
 /* src/components/estimator/MaterialShopLinks.tsx */
-.hlc-ui-card-61e0ca{display:grid;gap:7px;min-height:132px;box-sizing:border-box;padding:16px;border:1px solid #e2e8f0;border-radius:14px;background:var(--hlc-app-surface,#f8fafc);text-decoration:none}
+.hlc-ui-card-61e0ca{display:grid;gap:7px;min-height:132px;box-sizing:border-box;padding:16px;border:1px solid var(--hlc-app-line-strong,#e2e8f0);border-radius:14px;background:var(--hlc-app-surface,#f8fafc);text-decoration:none}
 
 /* src/components/estimator/MaterialShopLinks.tsx */
 .hlc-ui-material-shop-links-8cbf07{color:var(--hlc-app-text,#0f172a);font-size:16px}
@@ -215,7 +215,7 @@
 .hlc-ui-layout-401ed7{display:grid;grid-template-columns:minmax(0, 1fr) minmax(280px, 320px);gap:24px;align-items:start}
 
 /* src/pages/Estimator.tsx */
-.hlc-ui-panel-843e5e{background:var(--hlc-app-surface,#fff);color:var(--hlc-app-text,#0f172a);border:1px solid #e2e8f0;border-radius:20px;padding:24px;box-shadow:0 12px 40px rgba(15,23,42,.06)}
+.hlc-ui-panel-843e5e{background:var(--hlc-app-surface,#fff);color:var(--hlc-app-text,#0f172a);border:1px solid var(--hlc-app-line-strong,#e2e8f0);border-radius:20px;padding:24px;box-shadow:0 12px 40px rgba(15,23,42,.06)}
 
 /* src/pages/Estimator.tsx */
 .hlc-ui-panelHeader-e3bb84{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:20px;flex-wrap:wrap}
@@ -230,7 +230,7 @@
 .hlc-ui-estimator-247aeb{display:grid;gap:16px}
 
 /* src/pages/Estimator.tsx */
-.hlc-ui-line-1172f7{display:grid;gap:14px;padding:16px;border:1px solid #e2e8f0;border-radius:14px;background:var(--hlc-app-surface,#f8fafc)}
+.hlc-ui-line-1172f7{display:grid;gap:14px;padding:16px;border:1px solid var(--hlc-app-line-strong,#e2e8f0);border-radius:14px;background:var(--hlc-app-surface,#f8fafc)}
 
 /* src/pages/Estimator.tsx */
 .hlc-ui-itemNumber-7709b6{font-size:13px;font-weight:800;color:#2563eb;text-transform:uppercase;letter-spacing:.06em}
@@ -245,7 +245,7 @@
 .hlc-ui-help-ae4659{color:var(--hlc-app-muted,#475569);font-size:13px;line-height:1.4}
 
 /* src/pages/Estimator.tsx */
-.hlc-ui-input-ace66c{padding:12px 13px;min-width:0;width:100%;box-sizing:border-box;border-radius:9px;border:1px solid #cbd5e1;background:var(--hlc-app-surface,#fff);color:var(--hlc-app-text,#0f172a);font-size:16px}
+.hlc-ui-input-ace66c{padding:12px 13px;min-width:0;width:100%;box-sizing:border-box;border-radius:9px;border:1px solid var(--hlc-app-line-strong,#cbd5e1);background:var(--hlc-app-surface,#fff);color:var(--hlc-app-text,#0f172a);font-size:16px}
 
 /* src/pages/Estimator.tsx */
 .hlc-ui-removeButton-8738e2{justify-self:start;padding:9px 14px}
@@ -287,7 +287,7 @@
 .hlc-ui-estimator-4ac42b{color:#fca5a5;margin:0}
 
 /* src/pages/Estimator.tsx */
-.hlc-ui-savedState-535878{display:grid;gap:6px;width:min(1100px, 100%);margin:14px auto 10px;padding:10px 14px;box-sizing:border-box;border:1px solid #bbf7d0;border-radius:12px;background:#f0fdf4;color:#14532d}
+.hlc-ui-savedState-535878{display:grid;gap:6px;width:min(1100px, 100%);margin:14px auto 10px;padding:10px 14px;box-sizing:border-box;border:1px solid #bbf7d0;border-radius:12px;background:var(--hlc-app-surface-2,#f0fdf4);color:#14532d}
 
 /* src/pages/Estimator.tsx */
 .hlc-ui-successRow-2a8abc{display:flex;align-items:center;justify-content:center;gap:8px;min-height:24px}
@@ -464,7 +464,7 @@
 .hlc-ui-eligibility-fit-ad6fec{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:18px}
 
 /* src/pages/dashboard/EligibilityFit.tsx */
-.hlc-ui-eligibility-fit-767813{padding:14px;border-radius:14px;background:#fff1f2;color:#9f1239}
+.hlc-ui-eligibility-fit-767813{padding:14px;border-radius:14px;background:var(--hlc-app-surface-2,#fff1f2);color:#9f1239}
 
 /* src/pages/dashboard/EligibilityFit.tsx */
 .hlc-ui-eligibility-fit-d63d21{display:grid;grid-template-columns:repeat(auto-fit, minmax(min(100%, 280px), 1fr));gap:16px}
@@ -572,7 +572,7 @@
 .hlc-ui-eyebrow-4e3630{margin:0;color:#60a5fa;font-weight:900;text-transform:uppercase}
 
 /* src/pages/dashboard/ReservedCapability.tsx */
-.hlc-ui-card-405522{padding:20px;border:1px solid #f59e0b;border-radius:16px;background:#fffbeb;line-height:1.6;overflow-wrap:anywhere}
+.hlc-ui-card-405522{padding:20px;border:1px solid #f59e0b;border-radius:16px;background:var(--hlc-app-surface-2,#fffbeb);line-height:1.6;overflow-wrap:anywhere}
 
 /* src/pages/dashboard/ReservedCapability.tsx */
 .hlc-ui-links-0a6a6c{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
@@ -638,13 +638,13 @@
 .hlc-ui-workflow-0f1307{margin:0;max-width:760px;line-height:1.6}
 
 /* src/pages/dashboard/Workflow.tsx */
-.hlc-ui-error-c556fa{color:#b91c1c;padding:14px;border:1px solid #fecaca;border-radius:12px;background:#fef2f2}
+.hlc-ui-error-c556fa{color:#b91c1c;padding:14px;border:1px solid #fecaca;border-radius:12px;background:var(--hlc-app-surface-2,#fef2f2)}
 
 /* src/pages/dashboard/Workflow.tsx */
 .hlc-ui-stageList-635a2b{display:grid;gap:12px;padding:0;margin:0;list-style:none}
 
 /* src/pages/dashboard/Workflow.tsx */
-.hlc-ui-stage-d6a331{display:grid;grid-template-columns:44px minmax(0, 1fr) auto;gap:16px;align-items:center;padding:18px;border:1px solid #cbd5e1;border-radius:16px;background:var(--hlc-app-surface,#fff)}
+.hlc-ui-stage-d6a331{display:grid;grid-template-columns:44px minmax(0, 1fr) auto;gap:16px;align-items:center;padding:18px;border:1px solid var(--hlc-app-line-strong,#cbd5e1);border-radius:16px;background:var(--hlc-app-surface,#fff)}
 
 /* src/pages/dashboard/Workflow.tsx */
 .hlc-ui-number-31cecc{display:grid;place-items:center;width:40px;height:40px;border-radius:999px;background:#dbeafe;color:#1d4ed8;font-weight:900}
@@ -671,7 +671,7 @@
 .hlc-ui-count-fe5cd0{font-size:24px;color:var(--hlc-app-text,#0f172a)}
 
 /* src/pages/dashboard/Workflow.tsx */
-.hlc-ui-notice-3d3dc9{padding:18px;border:1px solid #f59e0b;border-radius:14px;background:#fffbeb;line-height:1.5}
+.hlc-ui-notice-3d3dc9{padding:18px;border:1px solid #f59e0b;border-radius:14px;background:var(--hlc-app-surface-2,#fffbeb);line-height:1.5}
 
 /* src/pages/dashboard/WorkspaceActivity.tsx */
 .hlc-ui-page-4b18f2{width:min(1000px, calc(100% - 32px));margin:40px auto;display:grid;gap:18px}
@@ -695,7 +695,7 @@
 .hlc-ui-empty-f0b2c9{padding:24px;border:1px dashed #94a3b8;border-radius:16px;background:var(--hlc-app-surface,#f8fafc)}
 
 /* src/pages/dashboard/WorkspaceActivity.tsx */
-.hlc-ui-card-07eef7{padding:16px;border:1px solid #cbd5e1;border-radius:14px;background:var(--hlc-app-surface,#fff)}
+.hlc-ui-card-07eef7{padding:16px;border:1px solid var(--hlc-app-line-strong,#cbd5e1);border-radius:14px;background:var(--hlc-app-surface,#fff)}
 
 /* src/pages/dashboard/WorkspaceActivity.tsx */
 .hlc-ui-headerRow-09adb4{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
@@ -716,7 +716,7 @@
 .hlc-ui-eyebrow-321b33{margin:0;color:#818cf8;font-weight:900;text-transform:uppercase;letter-spacing:.04em}
 
 /* src/pages/portal/ContractorPortalDocuments.tsx */
-.hlc-ui-card-49ed16{display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap;padding:20px;border:1px solid #cbd5e1;border-radius:16px;background:var(--hlc-app-surface,#fff)}
+.hlc-ui-card-49ed16{display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap;padding:20px;border:1px solid var(--hlc-app-line-strong,#cbd5e1);border-radius:16px;background:var(--hlc-app-surface,#fff)}
 
 /* src/pages/portal/ContractorPortalDocuments.tsx, src/pages/portal/HomeownerPortalDocuments.tsx */
 .hlc-ui-contractor-portal-documents-e26ea4{margin:6px 0 0;color:var(--hlc-app-muted,#475569)}
@@ -731,7 +731,7 @@
 .hlc-ui-success-a1fdef{color:#166534;padding:14px;border:1px solid #bbf7d0;border-radius:12px}
 
 /* src/pages/portal/ContractorPortalServices.tsx, src/pages/portal/ResidentProfile.tsx */
-.hlc-ui-card-3215d5{display:grid;gap:14px;padding:20px;border:1px solid #cbd5e1;border-radius:16px;background:var(--hlc-app-surface,#fff)}
+.hlc-ui-card-3215d5{display:grid;gap:14px;padding:20px;border:1px solid var(--hlc-app-line-strong,#cbd5e1);border-radius:16px;background:var(--hlc-app-surface,#fff)}
 
 /* src/pages/portal/ContractorPortalServices.tsx */
 .hlc-ui-row-4e4882{display:flex;gap:12px;flex-wrap:wrap;align-items:end}
@@ -740,7 +740,7 @@
 .hlc-ui-primaryButton-f28891{min-height:44px;width:fit-content;padding:10px 16px;border:1px solid #0f172a;border-radius:10px;background:#0f172a;color:#fff;font-weight:900}
 
 /* src/pages/portal/ContractorPortalServices.tsx */
-.hlc-ui-item-3a0d46{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;padding:12px;border:1px solid #e2e8f0;border-radius:12px}
+.hlc-ui-item-3a0d46{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;padding:12px;border:1px solid var(--hlc-app-line-strong,#e2e8f0);border-radius:12px}
 
 /* src/pages/portal/ContractorPortalServices.tsx */
 .hlc-ui-grid-1bfa11{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;align-items:end}
@@ -767,7 +767,7 @@
 .hlc-ui-typeChip-141b17{padding:6px 10px;border-radius:999px;background:#dbeafe;color:#1e3a8a;font-weight:800}
 
 /* src/pages/portal/ContractorProfile.tsx */
-.hlc-ui-setup-704d69{padding:14px;border:1px solid #fde68a;border-radius:12px;background:#fffbeb;color:#92400e}
+.hlc-ui-setup-704d69{padding:14px;border:1px solid #fde68a;border-radius:12px;background:var(--hlc-app-surface-2,#fffbeb);color:#92400e}
 
 /* src/pages/portal/ContractorProfile.tsx */
 .hlc-ui-grid-2767ca{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
@@ -776,7 +776,7 @@
 .hlc-ui-primaryButton-fca71d{min-height:44px;width:fit-content;padding:10px 18px;border:1px solid #0f172a;border-radius:10px;background:#0f172a;color:#fff;font-weight:900}
 
 /* src/pages/portal/ContractorProfile.tsx */
-.hlc-ui-boundary-ff7b4e{padding:14px;border:1px solid #cbd5e1;border-radius:12px;background:var(--hlc-app-surface,#f8fafc);color:var(--hlc-app-muted,#475569)}
+.hlc-ui-boundary-ff7b4e{padding:14px;border:1px solid var(--hlc-app-line-strong,#cbd5e1);border-radius:12px;background:var(--hlc-app-surface,#f8fafc);color:var(--hlc-app-muted,#475569)}
 
 /* src/pages/portal/HomeownerPortalDocuments.tsx, src/pages/portal/HomeownerPortalSection.tsx */
 .hlc-ui-error-339caa{color:#b91c1c;padding:16px;border:1px solid #fecaca;border-radius:12px}
@@ -794,7 +794,7 @@
 .hlc-ui-margin-top-eb2cda{margin-top:4px}
 
 /* src/pages/portal/HomeownerPortalSection.tsx */
-.hlc-ui-completion-4e10d0{margin:16px 0;padding:16px;border:1px solid #cbd5e1;border-radius:12px;background:var(--hlc-app-surface,#f8fafc)}
+.hlc-ui-completion-4e10d0{margin:16px 0;padding:16px;border:1px solid var(--hlc-app-line-strong,#cbd5e1);border-radius:12px;background:var(--hlc-app-surface,#f8fafc)}
 
 /* src/pages/portal/HomeownerPortalSection.tsx */
 .hlc-ui-facts-ba7d94{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
@@ -815,7 +815,7 @@
 .hlc-ui-avatarFallback-10d813{font-weight:900;color:var(--hlc-app-muted,#334155)}
 
 /* src/pages/portal/ResidentProfile.tsx */
-.hlc-ui-boundary-783431{padding:14px;border:1px solid #bfdbfe;border-radius:12px;background:#eff6ff;color:#1e3a8a}
+.hlc-ui-boundary-783431{padding:14px;border:1px solid #bfdbfe;border-radius:12px;background:var(--hlc-app-surface-2,#eff6ff);color:#1e3a8a}
 
 /* src/pages/portal/ResidentProfile.tsx */
 .hlc-ui-primaryButton-d28d3b{min-height:44px;width:fit-content;padding:10px 18px;border-radius:10px;border:1px solid #0f172a;background:#0f172a;color:#fff;font-weight:900}
