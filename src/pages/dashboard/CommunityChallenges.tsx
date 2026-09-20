@@ -9,7 +9,7 @@ const challengeFamilies = [
 
 export default function CommunityChallenges() {
   return (
-    <main className="hlc-community-workspace" style={{ width: "min(1120px, calc(100% - 28px))", margin: "32px auto 80px" }}>
+    <main className="hlc-community-workspace hlc-ui-community-academy-7e5606" >
       <header className="hlc-community-header">
         <div>
           <p className="hlc-community-kicker">COMMUNITY · CHALLENGES</p>
@@ -24,21 +24,21 @@ export default function CommunityChallenges() {
         <Link to="/community/academy">Community Academy</Link>
       </nav>
 
-      <section style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 250px), 1fr))", gap: 16, marginTop: 20 }}>
+      <section className="hlc-ui-community-challenges-ba0bf1">
         {challengeFamilies.map((family) => (
-          <article className="hlc-premium-panel" key={family.title} style={{ padding: 20 }}>
-            <h2 style={{ marginTop: 0 }}>{family.title}</h2>
-            <ul style={{ lineHeight: 1.65 }}>
+          <article className="hlc-premium-panel hlc-ui-padding-46e678" key={family.title} >
+            <h2 className="hlc-ui-margin-top-a0925a">{family.title}</h2>
+            <ul className="hlc-ui-line-height-16d0e8">
               {family.examples.map((example) => <li key={example}>{example}</li>)}
             </ul>
-            <p style={{ marginBottom: 0 }}>{family.note}</p>
+            <p className="hlc-ui-margin-bottom-fa769a">{family.note}</p>
           </article>
         ))}
       </section>
 
-      <section className="hlc-premium-callout" style={{ padding: 22, marginTop: 20 }}>
-        <h2 style={{ marginTop: 0 }}>Challenge engine status</h2>
-        <p style={{ marginBottom: 0 }}>This page establishes the approved challenge families and anti-gaming boundaries. Enrollment, progress persistence, XP rewards, team scoring, and premium entitlement remain E2 Academy + Arcade work and are not fabricated here.</p>
+      <section className="hlc-premium-callout hlc-ui-connect-roleplay-session-c8e8bf" >
+        <h2 className="hlc-ui-margin-top-a0925a">Challenge engine status</h2>
+        <p className="hlc-ui-margin-bottom-fa769a">This page establishes the approved challenge families and anti-gaming boundaries. Enrollment, progress persistence, XP rewards, team scoring, and premium entitlement remain E2 Academy + Arcade work and are not fabricated here.</p>
       </section>
     </main>
   );

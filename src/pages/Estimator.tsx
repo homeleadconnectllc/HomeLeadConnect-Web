@@ -174,53 +174,53 @@ export default function Estimator() {
   const shortenedEstimateId = estimateId ? `${estimateId.slice(0, 8)}…${estimateId.slice(-4)}` : "";
 
   return (
-    <main style={pageStyle}>
-      <div style={{ width: "min(1100px, 100%)", margin: "0 auto" }}>
-        <header style={{ marginBottom: 32 }}>
-          <p style={eyebrowStyle}>HomeLead Connect</p>
-          <h1 style={{ margin: "8px 0", fontSize: "clamp(36px, 6vw, 64px)", letterSpacing: "-2px", color: "#0f172a" }}>
+    <main className="hlc-ui-page-d4fa89">
+      <div className="hlc-ui-estimator-bf88ee">
+        <header className="hlc-ui-margin-bottom-06dcf3">
+          <p className="hlc-ui-eyebrow-e4e43e">HomeLead Connect</p>
+          <h1 className="hlc-ui-estimator-1f2fa9">
             LeadScope
           </h1>
-          <p style={{ margin: 0, maxWidth: 700, color: "#475569", lineHeight: 1.6 }}>
+          <p className="hlc-ui-estimator-036a3c">
             Build the customer estimate, review the total, save it, and convert an accepted estimate into a job.
           </p>
-          {leadId !== null && lead && <p style={{ color: "#334155" }}><strong>Lead:</strong> {lead.full_name || `Lead #${lead.id}`} · {lead.email || lead.phone}</p>}
-          {leadParam && leadId === null && <p role="alert" style={errorStyle}>Invalid lead ID.</p>}
+          {leadId !== null && lead && <p className="hlc-ui-color-549bcd"><strong>Lead:</strong> {lead.full_name || `Lead #${lead.id}`} · {lead.email || lead.phone}</p>}
+          {leadParam && leadId === null && <p role="alert" className="hlc-ui-color-d80273">Invalid lead ID.</p>}
         </header>
 
-        <section className="estimate-layout" style={layoutStyle}>
-          <div style={panelStyle}>
-            <div style={panelHeaderStyle}>
+        <section className="estimate-layout hlc-ui-layout-401ed7" >
+          <div className="hlc-ui-panel-843e5e">
+            <div className="hlc-ui-panelHeader-e3bb84">
               <div>
-                <h2 style={{ margin: 0, color: "#0f172a" }}>Work and materials</h2>
-                <p style={{ color: "#64748b", margin: "6px 0 0" }}>
+                <h2 className="hlc-ui-estimator-36e3d1">Work and materials</h2>
+                <p className="hlc-ui-estimator-e77f7d">
                   Enter each part of the project, how many are needed, and the cost for one unit.
                 </p>
               </div>
               <button type="button" onClick={addLine} disabled={locked}>Add another item</button>
             </div>
 
-            <div style={{ display: "grid", gap: 16 }}>
+            <div className="hlc-ui-estimator-247aeb">
               {lines.map((line, index) => (
-                <div className="estimate-line" key={line.id} style={lineStyle}>
-                  <div style={itemNumberStyle}>Item {index + 1}</div>
+                <div className="estimate-line hlc-ui-line-1172f7" key={line.id} >
+                  <div className="hlc-ui-itemNumber-7709b6">Item {index + 1}</div>
 
-                  <label style={fieldStyle}>
-                    <span style={labelStyle}>What is this item?</span>
-                    <span style={helpStyle}>Example: Labor, drywall, faucet, paint</span>
+                  <label className="hlc-ui-field-7cddc4">
+                    <span className="hlc-ui-label-9393ed">What is this item?</span>
+                    <span className="hlc-ui-help-ae4659">Example: Labor, drywall, faucet, paint</span>
                     <input
                       aria-label={`Item ${index + 1} description`}
                       value={line.description}
                       disabled={locked}
                       onChange={(event) => updateLine(line.id, "description", event.target.value)}
                       placeholder="Enter work or material"
-                      style={inputStyle}
+                      className="hlc-ui-input-ace66c"
                     />
                   </label>
 
-                  <label style={fieldStyle}>
-                    <span style={labelStyle}>Quantity</span>
-                    <span style={helpStyle}>How many?</span>
+                  <label className="hlc-ui-field-7cddc4">
+                    <span className="hlc-ui-label-9393ed">Quantity</span>
+                    <span className="hlc-ui-help-ae4659">How many?</span>
                     <input
                       aria-label={`Item ${index + 1} quantity`}
                       type="number"
@@ -229,13 +229,13 @@ export default function Estimator() {
                       value={line.quantity}
                       disabled={locked}
                       onChange={(event) => updateLine(line.id, "quantity", event.target.value)}
-                      style={inputStyle}
+                      className="hlc-ui-input-ace66c"
                     />
                   </label>
 
-                  <label style={fieldStyle}>
-                    <span style={labelStyle}>Cost per item ($)</span>
-                    <span style={helpStyle}>Enter the price for one unit</span>
+                  <label className="hlc-ui-field-7cddc4">
+                    <span className="hlc-ui-label-9393ed">Cost per item ($)</span>
+                    <span className="hlc-ui-help-ae4659">Enter the price for one unit</span>
                     <input
                       aria-label={`Item ${index + 1} cost per item`}
                       type="number"
@@ -245,7 +245,7 @@ export default function Estimator() {
                       disabled={locked}
                       onChange={(event) => updateLine(line.id, "unitCost", event.target.value)}
                       placeholder="0.00"
-                      style={inputStyle}
+                      className="hlc-ui-input-ace66c"
                     />
                   </label>
 
@@ -254,7 +254,7 @@ export default function Estimator() {
                     onClick={() => removeLine(line.id)}
                     disabled={locked || lines.length === 1}
                     aria-label={`Remove ${line.description || `item ${index + 1}`}`}
-                    style={removeButtonStyle}
+                    className="hlc-ui-removeButton-8738e2"
                   >
                     Remove item
                   </button>
@@ -263,11 +263,11 @@ export default function Estimator() {
             </div>
           </div>
 
-          <aside style={summaryStyle}>
-            <h2 style={{ marginTop: 0 }}>LeadScope summary</h2>
-            <label style={summaryFieldStyle}>
-              <span style={summaryLabelStyle}>Markup percentage</span>
-              <span style={summaryHelpStyle}>Amount added above the item subtotal</span>
+          <aside className="hlc-ui-summary-bfe9ab">
+            <h2 className="hlc-ui-margin-top-a0925a">LeadScope summary</h2>
+            <label className="hlc-ui-summaryField-0b24c2">
+              <span className="hlc-ui-summaryLabel-97c99b">Markup percentage</span>
+              <span className="hlc-ui-summaryHelp-6f54e5">Amount added above the item subtotal</span>
               <input
                 type="number"
                 min="0"
@@ -275,18 +275,18 @@ export default function Estimator() {
                 value={markupPercent}
                 disabled={locked}
                 onChange={(event) => setMarkupPercent(Math.max(0, Number(event.target.value)))}
-                style={summaryInputStyle}
+                className="hlc-ui-summaryInput-986758"
               />
             </label>
 
-            <label style={summaryFieldStyle}>
-              <span style={summaryLabelStyle}>Estimate status</span>
-              <span style={summaryHelpStyle}>Draft until it is sent or accepted</span>
+            <label className="hlc-ui-summaryField-0b24c2">
+              <span className="hlc-ui-summaryLabel-97c99b">Estimate status</span>
+              <span className="hlc-ui-summaryHelp-6f54e5">Draft until it is sent or accepted</span>
               <select
                 value={status}
                 disabled={locked}
                 onChange={(event) => setStatus(event.target.value as EstimateStatus)}
-                style={summaryInputStyle}
+                className="hlc-ui-summaryInput-986758"
               >
                 {status === "converted" && <option value="converted">Converted to job</option>}
                 {editableStatuses.map((value) => (
@@ -300,26 +300,26 @@ export default function Estimator() {
               </select>
             </label>
 
-            <div style={{ display: "grid", gap: 14 }}>
+            <div className="hlc-ui-estimator-2c3d83">
               <SummaryRow label="Items subtotal" value={summary.subtotal} />
               <SummaryRow label={`Markup (${markupPercent}%)`} value={summary.markupAmount} />
-              <div style={{ height: 1, background: "#334155", margin: "4px 0" }} />
-              <div style={{ display: "flex", justifyContent: "space-between", gap: 16, fontSize: 22, fontWeight: 800 }}>
+              <div className="hlc-ui-estimator-b968a6" />
+              <div className="hlc-ui-estimator-5ac6ef">
                 <span>Customer total</span><span>{formatCurrency(summary.total)}</span>
               </div>
             </div>
 
-            <div style={{ display: "grid", gap: 10, marginTop: 24 }}>
-              {!authLoading && !session && <Link to="/login" style={{ color: "#93c5fd" }}>Sign in to save</Link>}
+            <div className="hlc-ui-estimator-7852a6">
+              {!authLoading && !session && <Link to="/login" className="hlc-ui-color-5a7678">Sign in to save</Link>}
               <button type="button" onClick={handleSave} disabled={busy || locked || !session}>
                 {busy ? "Working…" : estimateId ? "Update LeadScope estimate" : "Save LeadScope estimate"}
               </button>
               <button type="button" onClick={handleConvert} disabled={busy || !estimateId || status !== "accepted"}>
                 Create job from accepted estimate
               </button>
-              {message && message !== "LeadScope estimate saved." && <p role="status" style={{ color: "#86efac", margin: 0 }}>{message}</p>}
-              {error && <p role="alert" style={{ color: "#fca5a5", margin: 0 }}>{error}</p>}
-              {status === "converted" && <Link to={jobId ? `/jobs/${jobId}` : "/jobs"} style={{ color: "#93c5fd" }}>
+              {message && message !== "LeadScope estimate saved." && <p role="status" className="hlc-ui-estimator-6503ff">{message}</p>}
+              {error && <p role="alert" className="hlc-ui-estimator-4ac42b">{error}</p>}
+              {status === "converted" && <Link to={jobId ? `/jobs/${jobId}` : "/jobs"} className="hlc-ui-color-5a7678">
                 {jobId ? "Open created job" : "View jobs"}
               </Link>}
             </div>
@@ -327,15 +327,15 @@ export default function Estimator() {
         </section>
 
         {(message === "LeadScope estimate saved." || estimateId) && (
-          <section aria-label="Saved LeadScope estimate" style={savedStateStyle}>
+          <section aria-label="Saved LeadScope estimate" className="hlc-ui-savedState-535878">
             {message === "LeadScope estimate saved." && (
-              <div role="status" style={successRowStyle}>
-                <span aria-hidden="true" style={successIconStyle}>✓</span>
+              <div role="status" className="hlc-ui-successRow-2a8abc">
+                <span aria-hidden="true" className="hlc-ui-successIcon-136abb">✓</span>
                 <strong>Estimate saved</strong>
               </div>
             )}
             {estimateId && (
-              <div style={savedMetaStyle}>
+              <div className="hlc-ui-savedMeta-db24de">
                 <small>Estimate {shortenedEstimateId}</small>
                 <Link to={savedEstimateHref}>View saved estimate</Link>
               </div>
@@ -350,30 +350,7 @@ export default function Estimator() {
 }
 
 function SummaryRow({ label, value }: { label: string; value: number }) {
-  return <div style={{ display: "flex", justifyContent: "space-between", gap: 16, color: "#cbd5e1" }}>
-    <span>{label}</span><strong style={{ color: "#fff" }}>{formatCurrency(value)}</strong>
+  return <div className="hlc-ui-estimator-a9a9c4">
+    <span>{label}</span><strong className="hlc-ui-color-eedb26">{formatCurrency(value)}</strong>
   </div>;
 }
-
-const pageStyle = { minHeight: "100vh", background: "#f8fafc", padding: "48px 24px", fontFamily: "system-ui, sans-serif", color: "#0f172a" };
-const eyebrowStyle = { margin: 0, color: "#2563eb", fontWeight: 700, letterSpacing: ".08em", textTransform: "uppercase" as const, fontSize: 13 };
-const layoutStyle = { display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(280px, 320px)", gap: 24, alignItems: "start" };
-const panelStyle = { background: "#fff", color: "#0f172a", border: "1px solid #e2e8f0", borderRadius: 20, padding: 24, boxShadow: "0 12px 40px rgba(15,23,42,.06)" };
-const panelHeaderStyle = { display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 16, marginBottom: 20, flexWrap: "wrap" as const };
-const lineStyle = { display: "grid", gap: 14, padding: 16, border: "1px solid #e2e8f0", borderRadius: 14, background: "#f8fafc" };
-const itemNumberStyle = { fontSize: 13, fontWeight: 800, color: "#2563eb", textTransform: "uppercase" as const, letterSpacing: ".06em" };
-const fieldStyle = { display: "grid", gap: 5 };
-const labelStyle = { color: "#0f172a", fontWeight: 750, fontSize: 15 };
-const helpStyle = { color: "#475569", fontSize: 13, lineHeight: 1.4 };
-const inputStyle = { padding: "12px 13px", minWidth: 0, width: "100%", boxSizing: "border-box" as const, borderRadius: 9, border: "1px solid #cbd5e1", background: "#fff", color: "#0f172a", fontSize: 16 };
-const removeButtonStyle = { justifySelf: "start", padding: "9px 14px" };
-const summaryStyle = { background: "#111827", color: "#fff", borderRadius: 20, padding: 24, boxShadow: "0 20px 50px rgba(15,23,42,.18)" };
-const summaryFieldStyle = { display: "grid", gap: 6, color: "#e2e8f0", marginBottom: 18 };
-const summaryLabelStyle = { color: "#fff", fontWeight: 750 };
-const summaryHelpStyle = { color: "#cbd5e1", fontSize: 13, lineHeight: 1.4 };
-const summaryInputStyle = { padding: "12px 13px", borderRadius: 8, border: "1px solid #475569", background: "#fff", color: "#0f172a", fontSize: 16, width: "100%", boxSizing: "border-box" as const };
-const savedStateStyle = { display: "grid", gap: 6, width: "min(1100px, 100%)", margin: "14px auto 10px", padding: "10px 14px", boxSizing: "border-box" as const, border: "1px solid #bbf7d0", borderRadius: 12, background: "#f0fdf4", color: "#14532d" };
-const successRowStyle = { display: "flex", alignItems: "center", justifyContent: "center", gap: 8, minHeight: 24 };
-const successIconStyle = { display: "inline-grid", placeItems: "center", width: 22, height: 22, borderRadius: 999, background: "#16a34a", color: "#fff", fontWeight: 900 };
-const savedMetaStyle = { display: "flex", alignItems: "center", justifyContent: "center", gap: 10, flexWrap: "wrap" as const, color: "#334155" };
-const errorStyle = { color: "#b91c1c" };

@@ -24,21 +24,12 @@ export default function ContractorPortalDocuments() {
     catch (reason) { setError(errorMessage(reason, "Unable to open this document.")); }
   }
 
-  return <main style={pageStyle}>
-    <header style={heroStyle}><p style={eyebrowStyle}>Professional portal</p><h1 style={{ margin: 0 }}>Shared documents</h1><p style={{ marginBottom: 0 }}>Only files explicitly shared with your linked professional account are shown here.</p></header>
-    <nav aria-label="Professional portal sections" style={navStyle}><Link to="/contractor-portal">Work dashboard</Link><Link to="/contractor-portal/profile">Business profile</Link><Link to="/contractor-portal/services">Services & availability</Link><Link to="/messages">Messages</Link><Link to="/contractor-portal/documents" aria-current="page">Documents</Link></nav>
+  return <main className="hlc-ui-page-f9f9b9">
+    <header className="hlc-ui-hero-b4d8d2"><p className="hlc-ui-eyebrow-321b33">Professional portal</p><h1 className="hlc-ui-margin-ab79ea">Shared documents</h1><p className="hlc-ui-margin-bottom-fa769a">Only files explicitly shared with your linked professional account are shown here.</p></header>
+    <nav aria-label="Professional portal sections" className="hlc-ui-nav-c3daa7"><Link to="/contractor-portal">Work dashboard</Link><Link to="/contractor-portal/profile">Business profile</Link><Link to="/contractor-portal/services">Services & availability</Link><Link to="/messages">Messages</Link><Link to="/contractor-portal/documents" aria-current="page">Documents</Link></nav>
     {loading && <p role="status">Loading shared documents…</p>}
-    {error && <p role="alert" style={errorStyle}>{error}</p>}
-    {!loading && !error && documents.length === 0 && <section style={emptyStyle}><h2>No shared documents yet</h2><p>Files appear here only after an authorized HLC workspace shares them with your professional relationship.</p></section>}
-    {!loading && documents.map((document) => <article key={document.id} style={cardStyle}><div><strong>{document.filename}</strong><p style={{ margin: "6px 0 0", color: "#475569" }}>{document.entity_type}</p></div><button type="button" onClick={() => void openDocument(document)} style={primaryButtonStyle}>Open document</button></article>)}
+    {error && <p role="alert" className="hlc-ui-error-260ca0">{error}</p>}
+    {!loading && !error && documents.length === 0 && <section className="hlc-ui-empty-f0b2c9"><h2>No shared documents yet</h2><p>Files appear here only after an authorized HLC workspace shares them with your professional relationship.</p></section>}
+    {!loading && documents.map((document) => <article key={document.id} className="hlc-ui-card-49ed16"><div><strong>{document.filename}</strong><p className="hlc-ui-contractor-portal-documents-e26ea4">{document.entity_type}</p></div><button type="button" onClick={() => void openDocument(document)} className="hlc-ui-primaryButton-2fdf8e">Open document</button></article>)}
   </main>;
 }
-
-const pageStyle = { width: "min(960px, calc(100% - 32px))", margin: "40px auto", display: "grid", gap: 18 };
-const heroStyle = { padding: "clamp(22px,5vw,40px)", borderRadius: 22, color: "#f8fafc", background: "linear-gradient(135deg,#081426,#12365f)" };
-const eyebrowStyle = { margin: 0, color: "#818cf8", fontWeight: 900, textTransform: "uppercase" as const, letterSpacing: ".04em" };
-const navStyle = { display: "flex", flexWrap: "wrap" as const, gap: 14 };
-const cardStyle = { display: "flex", justifyContent: "space-between", gap: 14, alignItems: "center", flexWrap: "wrap" as const, padding: 20, border: "1px solid #cbd5e1", borderRadius: 16, background: "#fff" };
-const emptyStyle = { padding: 24, border: "1px dashed #94a3b8", borderRadius: 16, background: "#f8fafc" };
-const primaryButtonStyle = { minHeight: 44, padding: "10px 16px", border: "1px solid #0f172a", borderRadius: 10, background: "#0f172a", color: "#fff", fontWeight: 900 };
-const errorStyle = { color: "#b91c1c", padding: 14, border: "1px solid #fecaca", borderRadius: 12 };

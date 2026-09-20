@@ -88,7 +88,7 @@ export default function CommunityMessages() {
   }
 
   return (
-    <main className="hlc-community-workspace" style={{ width: "min(1100px, calc(100% - 28px))", margin: "32px auto 80px" }}>
+    <main className="hlc-community-workspace hlc-ui-community-messages-8de93f" >
       <header className="hlc-community-header">
         <div>
           <p className="hlc-community-kicker">COMMUNITY · PRIVATE MESSENGER</p>
@@ -107,13 +107,13 @@ export default function CommunityMessages() {
       {error && <p role="alert" className="hlc-match-alert">{error}</p>}
       {loading && <p role="status">Loading Community relationships…</p>}
 
-      {incoming.length > 0 && <section className="hlc-premium-callout" style={{ marginTop: 20, padding: 20 }}>
-        <h2 style={{ marginTop: 0 }}>Connection requests</h2>
-        <div style={{ display: "grid", gap: 12 }}>
-          {incoming.map((item) => <article key={item.connection_id} className="hlc-premium-panel" style={{ padding: 16 }}>
+      {incoming.length > 0 && <section className="hlc-premium-callout hlc-ui-community-messages-bf3417" >
+        <h2 className="hlc-ui-margin-top-a0925a">Connection requests</h2>
+        <div className="hlc-ui-community-messages-6d16aa">
+          {incoming.map((item) => <article key={item.connection_id} className="hlc-premium-panel hlc-ui-padding-3b0d88" >
             <strong>{item.peer_full_name || "HLC member"}</strong>
-            <p style={{ margin: "6px 0 12px" }}>{item.peer_headline || [item.peer_city, item.peer_state].filter(Boolean).join(", ") || "Community member"}</p>
-            <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+            <p className="hlc-ui-margin-f1319b">{item.peer_headline || [item.peer_city, item.peer_state].filter(Boolean).join(", ") || "Community member"}</p>
+            <div className="hlc-ui-community-messages-161d17">
               <button type="button" disabled={busy} onClick={() => void respond(item.connection_id, true)}>Accept</button>
               <button type="button" disabled={busy} onClick={() => void respond(item.connection_id, false)}>Decline</button>
             </div>
@@ -121,44 +121,44 @@ export default function CommunityMessages() {
         </div>
       </section>}
 
-      <section style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 300px), 1fr))", gap: 16, marginTop: 20 }}>
-        <aside className="hlc-premium-panel" style={{ padding: 16, minWidth: 0 }} aria-label="Accepted Community connections">
-          <h2 style={{ marginTop: 0 }}>Connections</h2>
-          <div style={{ display: "grid", gap: 8 }}>
-            {accepted.map((item) => <button key={item.connection_id} type="button" onClick={() => setSelectedPeerId(item.peer_user_id)} aria-pressed={selectedPeerId === item.peer_user_id} style={{ minHeight: 48, textAlign: "left", overflowWrap: "anywhere" }}>
+      <section className="hlc-ui-community-messages-111b30">
+        <aside className="hlc-premium-panel hlc-ui-community-messages-9a72f8"  aria-label="Accepted Community connections">
+          <h2 className="hlc-ui-margin-top-a0925a">Connections</h2>
+          <div className="hlc-ui-community-messages-f6664e">
+            {accepted.map((item) => <button key={item.connection_id} type="button" onClick={() => setSelectedPeerId(item.peer_user_id)} aria-pressed={selectedPeerId === item.peer_user_id} className="hlc-ui-community-messages-2495ac">
               <strong>{item.peer_full_name || "HLC member"}</strong><br />
               <small>{item.peer_role || "Community member"}</small>
             </button>)}
-            {!accepted.length && !loading && <p style={{ margin: 0 }}>No accepted Community connections yet.</p>}
+            {!accepted.length && !loading && <p className="hlc-ui-margin-ab79ea">No accepted Community connections yet.</p>}
           </div>
         </aside>
 
-        <section className="hlc-premium-panel" style={{ padding: 18, minWidth: 0 }} aria-label="Community conversation">
-          {!selected ? <div className="hlc-premium-empty"><h2>No open Community conversation.</h2><p>Accept a connection request or connect with a member in Discover first.</p><Link to="/community/discover" style={{ fontWeight: 900 }}>Discover members →</Link></div> : <>
-            <header style={{ borderBottom: "1px solid rgba(148,163,184,.24)", paddingBottom: 12, marginBottom: 14 }}>
-              <h2 style={{ margin: 0, overflowWrap: "anywhere" }}>{selected.peer_full_name || "HLC member"}</h2>
-              <p style={{ margin: "5px 0 0", overflowWrap: "anywhere" }}>{selected.peer_headline || "Accepted Community connection"}</p>
+        <section className="hlc-premium-panel hlc-ui-community-messages-3220a1"  aria-label="Community conversation">
+          {!selected ? <div className="hlc-premium-empty"><h2>No open Community conversation.</h2><p>Accept a connection request or connect with a member in Discover first.</p><Link to="/community/discover" className="hlc-ui-font-weight-52ee95">Discover members →</Link></div> : <>
+            <header className="hlc-ui-community-messages-07a29a">
+              <h2 className="hlc-ui-community-messages-063ffa">{selected.peer_full_name || "HLC member"}</h2>
+              <p className="hlc-ui-community-messages-a9bdc0">{selected.peer_headline || "Accepted Community connection"}</p>
             </header>
-            <div aria-live="polite" style={{ display: "grid", gap: 10, maxHeight: 440, overflowY: "auto", paddingBottom: 10 }}>
-              {messages.map((message) => <article key={message.id} style={{ padding: 12, borderRadius: 12, background: "rgba(148,163,184,.12)", minWidth: 0 }}>
-                <p style={{ margin: 0, whiteSpace: "pre-wrap", overflowWrap: "anywhere" }}>{message.body}</p>
+            <div aria-live="polite" className="hlc-ui-community-messages-abbf84">
+              {messages.map((message) => <article key={message.id} className="hlc-ui-community-messages-5af92a">
+                <p className="hlc-ui-community-messages-66f211">{message.body}</p>
                 <small>{new Date(message.created_at).toLocaleString()}</small>
               </article>)}
               {!messages.length && <p>No messages yet. This conversation is unlocked because the relationship is accepted.</p>}
             </div>
-            <form onSubmit={send} style={{ display: "grid", gap: 10, marginTop: 14, minWidth: 0 }}>
-              <label htmlFor="community-message-draft" style={{ fontWeight: 800 }}>Message</label>
-              <textarea id="community-message-draft" value={draft} onChange={(event) => setDraft(event.target.value)} maxLength={4000} rows={4} placeholder="Write a Community message…" style={{ width: "100%", maxWidth: "100%", boxSizing: "border-box" }} />
-              <button type="submit" disabled={busy || !draft.trim()} style={{ minHeight: 46 }}>Send Community message</button>
+            <form onSubmit={send} className="hlc-ui-community-messages-0e9e34">
+              <label htmlFor="community-message-draft" className="hlc-ui-font-weight-cde913">Message</label>
+              <textarea id="community-message-draft" value={draft} onChange={(event) => setDraft(event.target.value)} maxLength={4000} rows={4} placeholder="Write a Community message…" className="hlc-ui-community-messages-a73860" />
+              <button type="submit" disabled={busy || !draft.trim()} className="hlc-ui-min-height-33cc30">Send Community message</button>
             </form>
           </>}
         </section>
       </section>
 
-      <section style={{ marginTop: 20 }}>
+      <section className="hlc-ui-margin-top-eee3f8">
         <h2>When real work begins</h2>
         <p>Move the relationship into <strong>Start Service Request</strong>. The request, assignment, appointment, job, and operational communication then live in core HLC instead of social chat.</p>
-        <Link to="/request-service" style={{ fontWeight: 900 }}>Start a service request →</Link>
+        <Link to="/request-service" className="hlc-ui-font-weight-52ee95">Start a service request →</Link>
       </section>
     </main>
   );

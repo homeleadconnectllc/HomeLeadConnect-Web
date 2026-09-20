@@ -108,21 +108,21 @@ export default function AudioDeviceCenter() {
     }
   }
 
-  if (!supported) return <section style={cardStyle}><h2>Audio devices</h2><p>Your current browser does not expose audio-device management. Use the operating system audio controls.</p></section>;
+  if (!supported) return <section className="hlc-ui-card-ea9374"><h2>Audio devices</h2><p>Your current browser does not expose audio-device management. Use the operating system audio controls.</p></section>;
 
   return (
-    <section style={cardStyle} aria-labelledby="hlc-audio-device-title">
-      <div style={headerStyle}>
+    <section className="hlc-ui-card-ea9374" aria-labelledby="hlc-audio-device-title">
+      <div className="hlc-ui-header-d26a7f">
         <div>
-          <p style={eyebrowStyle}>Calls · agents · voice</p>
-          <h2 id="hlc-audio-device-title" style={{ margin: "4px 0" }}>Audio devices</h2>
-          <p style={{ margin: 0, color: "#64748b" }}>Choose and test available microphones and, where supported, speakers or headphones.</p>
+          <p className="hlc-ui-eyebrow-0f6b46">Calls · agents · voice</p>
+          <h2 id="hlc-audio-device-title" className="hlc-ui-margin-17a868">Audio devices</h2>
+          <p className="hlc-ui-audio-device-center-de73d4">Choose and test available microphones and, where supported, speakers or headphones.</p>
         </div>
         <button type="button" onClick={() => void refreshDevices(true)}>Allow / refresh devices</button>
       </div>
 
-      <div style={gridStyle}>
-        <label style={labelStyle}>Microphone
+      <div className="hlc-ui-grid-e24c4c">
+        <label className="hlc-ui-label-31f694">Microphone
           <select value={inputId} onChange={(event) => chooseInput(event.target.value)}>
             <option value="">System default</option>
             {inputs.map((device, index) => <option key={device.deviceId || `input-${index}`} value={device.deviceId}>{device.label || `Microphone ${index + 1}`}</option>)}
@@ -130,24 +130,18 @@ export default function AudioDeviceCenter() {
           <button type="button" onClick={() => void testMicrophone()}>Test microphone</button>
         </label>
 
-        <label style={labelStyle}>Speaker / headphones
+        <label className="hlc-ui-label-31f694">Speaker / headphones
           <select value={outputId} onChange={(event) => chooseOutput(event.target.value)} disabled={!outputRoutingSupported}>
             <option value="">System default</option>
             {outputs.map((device, index) => <option key={device.deviceId || `output-${index}`} value={device.deviceId}>{device.label || `Audio output ${index + 1}`}</option>)}
           </select>
           <button type="button" onClick={() => void testOutput()}>Test output</button>
-          {!outputRoutingSupported && <small style={{ color: "#64748b" }}>This browser keeps speaker/headphone routing in the operating system audio controls.</small>}
+          {!outputRoutingSupported && <small className="hlc-ui-color-acc22d">This browser keeps speaker/headphone routing in the operating system audio controls.</small>}
         </label>
       </div>
 
-      {status && <p role="status" style={{ color: "#166534", marginBottom: 0 }}>{status}</p>}
-      {error && <p role="alert" style={{ color: "#b91c1c", marginBottom: 0 }}>{error}</p>}
+      {status && <p role="status" className="hlc-ui-audio-device-center-903c4c">{status}</p>}
+      {error && <p role="alert" className="hlc-ui-audio-device-center-016834">{error}</p>}
     </section>
   );
 }
-
-const cardStyle = { width: "min(980px, calc(100% - 32px))", boxSizing: "border-box" as const, margin: "0 auto 40px", padding: 20, border: "1px solid #dbe4ee", borderRadius: 18, background: "#fff", color: "#0f172a", textAlign: "left" as const, boxShadow: "0 12px 40px rgba(15,23,42,.06)" };
-const headerStyle = { display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap" as const, gap: 14, marginBottom: 16 };
-const eyebrowStyle = { margin: 0, color: "#2563eb", fontSize: 12, fontWeight: 900, letterSpacing: ".08em", textTransform: "uppercase" as const };
-const gridStyle = { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 16 };
-const labelStyle = { display: "grid", gap: 8, minWidth: 0, fontWeight: 800 };

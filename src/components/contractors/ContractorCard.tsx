@@ -13,17 +13,17 @@ export default function ContractorCard({
   const location = [contractor.city, contractor.state].filter(Boolean).join(", ");
 
   return (
-    <article className="hlc-contractor-card" style={cardStyle}>
+    <article className="hlc-contractor-card hlc-ui-card-a3839d" >
       <div className="hlc-contractor-card__copy">
-        <h3 style={{ margin: 0 }}>
+        <h3 className="hlc-ui-margin-ab79ea">
           {contractor.company_name || contractor.contact_name || `Contractor #${contractor.id}`}
         </h3>
-        <p style={{ margin: "6px 0", color: "#475569" }}>
+        <p className="hlc-ui-contractor-card-c9d2c2">
           {[contractor.specialty, location].filter(Boolean).join(" · ") || "No specialty or location recorded"}
         </p>
         <small>Status: {contractor.status || "not specified"}</small>
       </div>
-      <div className="hlc-contractor-card__actions" style={{ display: "flex", alignItems: "center", gap: 12 }}>
+      <div className="hlc-contractor-card__actions hlc-ui-contractor-card-03b0f4" >
         {contractor.phone && <Link to={`/manual-communications?contact=contractor:${contractor.id}&channel=call`}>Call</Link>}
         <button type="button" disabled={disabled} onClick={() => onOffer(contractor)}>
           Offer job
@@ -32,13 +32,3 @@ export default function ContractorCard({
     </article>
   );
 }
-
-const cardStyle = {
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  gap: 16,
-  padding: 16,
-  border: "1px solid #e2e8f0",
-  borderRadius: 12,
-};

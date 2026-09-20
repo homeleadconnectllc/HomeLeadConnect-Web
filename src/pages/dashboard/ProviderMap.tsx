@@ -11,16 +11,6 @@ import type { Contractor } from "../../lib/types/database";
 type Point = { provider: Contractor; x: number; y: number };
 
 const RECORD_ACCENTS = ["#38BDF8", "#2DD4BF", "#FBBF24", "#FB923C", "#60A5FA", "#34D399", "#A78BFA"];
-const verifiedPinStyle: CSSProperties = {};
-const approximatePinStyle: CSSProperties = {};
-const selectedPinStyle = {
-  zIndex: 4,
-  transform: "translate(-50%,-50%) scale(1.14)",
-  outline: "2px solid rgba(255,255,255,.9)",
-  outlineOffset: 3,
-  boxShadow: "0 0 0 5px rgba(255,255,255,.08), 0 10px 26px rgba(0,0,0,.42)",
-};
-
 export default function ProviderMap() {
   const { session } = useAuth();
   const [providers, setProviders] = useState<Contractor[]>([]);
@@ -163,8 +153,7 @@ export default function ProviderMap() {
             const accent = providerAccent(provider);
             const selectedPin = selectedId === provider.id;
             const accuracyClass = provider.coordinate_accuracy === "approximate" ? "is-approximate" : "is-verified";
-            const confidenceStyle = provider.coordinate_accuracy === "approximate" ? approximatePinStyle : verifiedPinStyle;
-            const style = { ...confidenceStyle, ...(selectedPin ? selectedPinStyle : {}), "--record-accent": accent, left: `${x}%`, top: `${y}%` } as CSSProperties;
+            const style = { "--record-accent": accent, left: `${x}%`, top: `${y}%` } as CSSProperties;
             return <button
               key={provider.id}
               type="button"

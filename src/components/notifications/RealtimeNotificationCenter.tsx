@@ -179,16 +179,12 @@ export default function RealtimeNotificationCenter() {
 
   return (
     <div className="hlc-device-alert-center" aria-live="polite">
-      <aside className="hlc-device-alert-toast" style={toastStyle} aria-label="New HomeLead Connect alert">
-        <button type="button" aria-label="Dismiss alert" onClick={() => setLatest(null)} style={closeStyle}>×</button>
+      <aside className="hlc-device-alert-toast hlc-ui-toast-d3dbea"  aria-label="New HomeLead Connect alert">
+        <button type="button" aria-label="Dismiss alert" onClick={() => setLatest(null)} className="hlc-ui-close-b21ce6">×</button>
         <strong>{latest.title}</strong>
         <span>{latest.body}</span>
-        <Link to={safeHlcDeepLink(latest.deep_link)} onClick={() => setLatest(null)} style={linkStyle}>Open in HLC</Link>
+        <Link to={safeHlcDeepLink(latest.deep_link)} onClick={() => setLatest(null)} className="hlc-ui-link-10d466">Open in HLC</Link>
       </aside>
     </div>
   );
 }
-
-const toastStyle = { position: "relative" as const, display: "grid", gap: 7, width: "min(360px, calc(100vw - 28px))", boxSizing: "border-box" as const, padding: "16px 44px 16px 16px", border: "1px solid #334155", borderRadius: 16, background: "#0f172a", color: "#f8fafc", boxShadow: "0 22px 60px rgba(15,23,42,.38)", textAlign: "left" as const, pointerEvents: "auto" as const };
-const closeStyle = { position: "absolute" as const, top: 8, right: 8, minWidth: 36, minHeight: 36, border: 0, borderRadius: 10, background: "transparent", color: "#cbd5e1", fontSize: 24, cursor: "pointer" };
-const linkStyle = { color: "#93c5fd", fontWeight: 800 };

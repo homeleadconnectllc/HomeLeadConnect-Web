@@ -124,8 +124,8 @@ export default function PropertyIntelligence() {
       </section>
 
       {loading && <p role="status">Loading property records…</p>}
-      {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
-      {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
+      {error && <p role="alert" className="hlc-ui-color-d80273">{error}</p>}
+      {message && <p role="status" className="hlc-ui-color-b13aac">{message}</p>}
 
       <section className="hlc-workspace-grid" aria-label="Property setup">
         <form className="hlc-workspace-card hlc-property-form" onSubmit={addProperty}>
@@ -165,7 +165,7 @@ export default function PropertyIntelligence() {
             <button type="submit">Add equipment record</button>
           </form>
 
-          <div className="hlc-workspace-grid" style={{ marginTop: 20 }}>
+          <div className="hlc-workspace-grid hlc-ui-margin-top-eee3f8" >
             {visibleAssets.map((asset) => <button type="button" key={asset.id} className="hlc-workspace-card hlc-property-asset-card" onClick={() => setSelectedAssetId(asset.id)} aria-pressed={selectedAssetId === asset.id}>
               <span className="hlc-workspace-copy"><strong>{asset.label}</strong><span>{categories.find((item) => item.value === asset.asset_category)?.label || asset.asset_category} · {conditions.find((item) => item.value === asset.condition)?.label || asset.condition}</span></span>
               <small>{asset.manufacturer || "Manufacturer not recorded"}{asset.model_number ? ` · ${asset.model_number}` : ""}</small>
@@ -187,7 +187,7 @@ export default function PropertyIntelligence() {
             <label className="hlc-form-span-all">Notes<textarea maxLength={4000} rows={3} value={serviceForm.notes} onChange={(event) => setServiceForm({ ...serviceForm, notes: event.target.value })} /></label>
             <button type="submit">Record service event</button>
           </form>
-          <div className="hlc-activity-list" style={{ marginTop: 18 }}>
+          <div className="hlc-activity-list hlc-ui-margin-top-2bdf8e" >
             {visibleServiceEvents.map((item) => <article key={item.id} className="hlc-activity-item"><strong>{serviceTypes.find((type) => type.value === item.event_type)?.label || item.event_type}</strong><span>{new Date(`${item.occurred_on}T12:00:00`).toLocaleDateString()}{item.provider_name ? ` · ${item.provider_name}` : ""}{item.cost != null ? ` · ${new Intl.NumberFormat(undefined, { style: "currency", currency: "USD" }).format(item.cost)}` : ""}</span>{item.notes && <p>{item.notes}</p>}</article>)}
             {!visibleServiceEvents.length && <p>No service history recorded yet.</p>}
           </div>

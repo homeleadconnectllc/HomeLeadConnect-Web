@@ -4,7 +4,7 @@ import { authCaptchaConfigMessage, authCaptchaRequired, turnstileSiteKey } from 
 export default function AuthTurnstile({ onToken, resetSignal }: { onToken: (token: string) => void; resetSignal: number }) {
   if (!turnstileSiteKey) {
     return authCaptchaRequired
-      ? <p role="alert" style={{ color: "#b91c1c" }}>{authCaptchaConfigMessage}</p>
+      ? <p role="alert" className="hlc-ui-color-d80273">{authCaptchaConfigMessage}</p>
       : null;
   }
   return <div aria-label="Bot protection">

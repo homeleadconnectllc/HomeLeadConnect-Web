@@ -22,48 +22,40 @@ const retailers: Retailer[] = [
 
 export default function MaterialShopLinks() {
   return (
-    <section aria-labelledby="leadscope-material-shopping" style={sectionStyle}>
-      <div style={headingStyle}>
+    <section aria-labelledby="leadscope-material-shopping" className="hlc-ui-section-6e03bb">
+      <div className="hlc-ui-heading-2fa939">
         <div>
-          <p style={eyebrowStyle}>LeadScope material sourcing</p>
-          <h2 id="leadscope-material-shopping" style={{ margin: "4px 0 8px", color: "#0f172a" }}>Shop project materials</h2>
-          <p style={{ margin: 0, color: "#475569", lineHeight: 1.55 }}>
+          <p className="hlc-ui-eyebrow-0f6b46">LeadScope material sourcing</p>
+          <h2 id="leadscope-material-shopping" className="hlc-ui-material-shop-links-16a33d">Shop project materials</h2>
+          <p className="hlc-ui-material-shop-links-4ee3af">
             Open a third-party supplier to compare materials, availability, and current pricing while building the estimate.
           </p>
         </div>
-        <span style={externalBadgeStyle}>External stores</span>
+        <span className="hlc-ui-externalBadge-7cf346">External stores</span>
       </div>
 
-      <div style={gridStyle}>
+      <div className="hlc-ui-grid-32964a">
         {retailers.map((retailer) => (
           <a
             key={retailer.name}
             href={retailer.href}
             target="_blank"
             rel="noopener noreferrer"
-            style={cardStyle}
+            className="hlc-ui-card-61e0ca"
             aria-label={`Shop ${retailer.name} in a new tab`}
             onClick={() => trackAnalyticsEvent("material_store_open", { retailer: retailer.name })}
           >
-            <strong style={{ color: "#0f172a", fontSize: 16 }}>{retailer.name}</strong>
-            <span style={{ color: "#64748b", lineHeight: 1.45 }}>{retailer.categories}</span>
-            <span style={{ color: "#2563eb", fontWeight: 800 }}>Shop website ↗</span>
+            <strong className="hlc-ui-material-shop-links-8cbf07">{retailer.name}</strong>
+            <span className="hlc-ui-material-shop-links-953ace">{retailer.categories}</span>
+            <span className="hlc-ui-material-shop-links-6555ce">Shop website ↗</span>
           </a>
         ))}
       </div>
 
-      <p style={disclaimerStyle}>
+      <p className="hlc-ui-disclaimer-c1a35a">
         HomeLead Connect is not the seller. Product price, stock, delivery, warranties, returns, taxes, and purchase terms are controlled by the third-party retailer. Verify material specifications before adding costs to a LeadScope estimate.
       </p>
-      <p style={{ marginBottom: 0 }}><Link to="/resources/materials" style={{ fontWeight: 900 }}>Open the HLC material plan →</Link></p>
+      <p className="hlc-ui-margin-bottom-fa769a"><Link to="/resources/materials" className="hlc-ui-font-weight-52ee95">Open the HLC material plan →</Link></p>
     </section>
   );
 }
-
-const sectionStyle = { width: "min(1100px, calc(100% - 32px))", margin: "0 auto 48px", boxSizing: "border-box" as const, padding: 24, border: "1px solid #dbe4ee", borderRadius: 20, background: "#ffffff", boxShadow: "0 12px 40px rgba(15,23,42,.06)", textAlign: "left" as const };
-const headingStyle = { display: "flex", alignItems: "flex-start", justifyContent: "space-between", flexWrap: "wrap" as const, gap: 14, marginBottom: 18 };
-const eyebrowStyle = { margin: 0, color: "#2563eb", fontSize: 12, fontWeight: 900, letterSpacing: ".08em", textTransform: "uppercase" as const };
-const externalBadgeStyle = { padding: "7px 10px", borderRadius: 999, background: "#eff6ff", color: "#1d4ed8", fontSize: 12, fontWeight: 800 };
-const gridStyle = { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(230px, 100%), 1fr))", gap: 12 };
-const cardStyle = { display: "grid", gap: 7, minHeight: 132, boxSizing: "border-box" as const, padding: 16, border: "1px solid #e2e8f0", borderRadius: 14, background: "#f8fafc", textDecoration: "none" };
-const disclaimerStyle = { margin: "18px 0 0", paddingTop: 16, borderTop: "1px solid #e2e8f0", color: "#64748b", fontSize: 13, lineHeight: 1.5 };

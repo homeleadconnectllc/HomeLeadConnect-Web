@@ -24,8 +24,8 @@ export default function ResetPassword() {
   }
 
   const status = <>
-    {(error || !isSupabaseConfigured()) && <p role="alert" style={{ color: "#b91c1c" }}>{error || supabaseConfigMessage}</p>}
-    {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
+    {(error || !isSupabaseConfigured()) && <p role="alert" className="hlc-ui-color-d80273">{error || supabaseConfigMessage}</p>}
+    {message && <p role="status" className="hlc-ui-color-b13aac">{message}</p>}
   </>;
   const footer = message
     ? <p><Link to="/dashboard">Continue to dashboard</Link></p>

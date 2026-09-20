@@ -1,3 +1,4 @@
+@import "./shared-visual-primitives.css";
 /* HOMELEAD CONNECT — public structural foundation.
    One current variable set. Retired light-editorial and stacked-card authorities are not loaded here. */
 :root{
@@ -133,6 +134,7 @@ button{min-height:44px}
 #root .hlc-auth-shell .hlc-auth-intro{min-width:0;max-width:660px;margin:0;padding:0;text-align:left}
 #root .hlc-auth-shell .hlc-auth-intro-visual{width:100%;height:clamp(230px,30vw,350px);margin:0 0 30px;overflow:hidden}
 #root .hlc-auth-shell .hlc-auth-intro-visual img{width:100%;height:100%;object-fit:cover}
+#root .hlc-auth-shell .hlc-auth-intro-proof{display:flex;flex-wrap:wrap;gap:10px 20px;margin-top:24px;line-height:1.5}
 #root .hlc-auth-shell .hlc-auth-method-tabs{display:flex;flex-wrap:wrap;gap:18px;margin:0 0 24px;padding:0 0 14px}
 #root .hlc-auth-shell .hlc-auth-form{display:grid;gap:15px}
 #root .hlc-auth-shell .hlc-auth-form label{display:grid;gap:8px;text-align:left}
@@ -220,8 +222,11 @@ html body #root header.hlc-board-nav.hlc-public-shared-nav{
 }
 html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-nav-inner{
   width:100%!important;max-width:none!important;min-height:78px!important;
-  padding:0 18px!important;background:transparent!important
+  padding:0 18px!important;background:transparent!important;
+  display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:16px
 }
+html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-actions{display:flex;align-items:center;gap:16px}
+html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-actions a{display:inline-flex;align-items:center;min-height:44px;text-decoration:none}
 html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-brand{
   display:inline-flex!important;align-items:center!important;gap:10px!important;
   width:auto!important;min-width:0!important;padding:0!important;margin:0!important;
@@ -255,6 +260,7 @@ html body #root .hlc-public-menu-primary{
   width:min(1180px,100%)!important;margin:0 auto!important;border-top:1px solid var(--hlc-public-line)!important
 }
 html body #root .hlc-public-menu-primary a{
+  display:flex;align-items:center;gap:12px;text-decoration:none;
   min-height:44px!important;border:0!important;border-bottom:1px solid var(--hlc-public-line)!important;
   color:var(--hlc-public-ink)!important;-webkit-text-fill-color:var(--hlc-public-ink)!important;
   padding:14px 4px!important

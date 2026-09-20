@@ -8,7 +8,7 @@ const teachers = [
 
 export default function CommunityAcademy() {
   return (
-    <main className="hlc-community-workspace" style={{ width: "min(1120px, calc(100% - 28px))", margin: "32px auto 80px" }}>
+    <main className="hlc-community-workspace hlc-ui-community-academy-7e5606" >
       <header className="hlc-community-header">
         <div>
           <p className="hlc-community-kicker">COMMUNITY · ACADEMY</p>
@@ -24,23 +24,23 @@ export default function CommunityAcademy() {
         <Link to="/rules">Rules &amp; Safety</Link>
       </nav>
 
-      <section style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))", gap: 16, marginTop: 20 }}>
+      <section className="hlc-ui-community-academy-7d158c">
         {teachers.map((teacher) => (
-          <article className="hlc-premium-panel" key={teacher.name} style={{ padding: 20 }}>
-            <p style={{ margin: "0 0 5px", color: "#2563eb", fontWeight: 900 }}>HLC TEACHER</p>
-            <h2 style={{ margin: "0 0 8px" }}>{teacher.name}</h2>
+          <article className="hlc-premium-panel hlc-ui-padding-46e678" key={teacher.name} >
+            <p className="hlc-ui-community-academy-1e9fca">HLC TEACHER</p>
+            <h2 className="hlc-ui-margin-3e47b1">{teacher.name}</h2>
             <p>{teacher.focus}</p>
-            <Link to={teacher.route} style={{ fontWeight: 900 }}>Open {teacher.name} workspace →</Link>
+            <Link to={teacher.route} className="hlc-ui-font-weight-52ee95">Open {teacher.name} workspace →</Link>
           </article>
         ))}
       </section>
 
-      <section className="hlc-premium-panel" style={{ padding: 22, marginTop: 20 }}>
-        <h2 style={{ marginTop: 0 }}>Learn → Practice → Simulate → Certify → Apply → Progress</h2>
-        <p style={{ marginBottom: 14 }}>The E2 Academy now owns that progression. Community remains a compatible doorway rather than a second training system.</p>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
-          <Link to="/academy" style={{ fontWeight: 900 }}>Enter HLC Academy →</Link>
-          <Link to="/academy/paths" style={{ fontWeight: 900 }}>Browse learning paths →</Link>
+      <section className="hlc-premium-panel hlc-ui-connect-roleplay-session-c8e8bf" >
+        <h2 className="hlc-ui-margin-top-a0925a">Learn → Practice → Simulate → Certify → Apply → Progress</h2>
+        <p className="hlc-ui-margin-bottom-42a6ce">The E2 Academy now owns that progression. Community remains a compatible doorway rather than a second training system.</p>
+        <div className="hlc-ui-community-academy-ed550d">
+          <Link to="/academy" className="hlc-ui-font-weight-52ee95">Enter HLC Academy →</Link>
+          <Link to="/academy/paths" className="hlc-ui-font-weight-52ee95">Browse learning paths →</Link>
         </div>
       </section>
     </main>

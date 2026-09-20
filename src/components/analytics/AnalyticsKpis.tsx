@@ -194,7 +194,7 @@ export default function AnalyticsKpis() {
         </article>
       </div>
 
-      <h3 style={{ marginTop: 28 }}>Audience &amp; product activity</h3>
+      <h3 className="hlc-ui-margin-top-29e360">Audience &amp; product activity</h3>
       <div className="hlc-analytics-kpi-grid">
         {trafficCards.map(({ label, value, icon: Icon }) => (
           <article className="hlc-analytics-kpi" key={label}>
