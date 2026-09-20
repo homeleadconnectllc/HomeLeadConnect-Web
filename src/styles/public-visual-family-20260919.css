@@ -288,7 +288,7 @@ html body #root :is(.hlc-pathway-hero-copy,.hlc-public-board-page .hlc-public-he
   width:min(1320px,calc(100% - 56px))!important;padding:clamp(62px,8vw,104px) 0!important
 }
 html body #root :is(.hlc-pathway-hero-copy,.hlc-public-board-page .hlc-public-hero>div,.hlc-utility-page .hlc-public-hero>div,.hlc-legal-hero-grid) h1{
-  max-width:760px!important;font-size:clamp(3rem,6vw,5.2rem)!important;line-height:.98!important
+  max-width:760px!important;font-size:clamp(2.2rem,6vw,5.2rem)!important;line-height:1.12!important
 }
 html body #root :is(.hlc-pathway-lead,.hlc-public-intro-copy,.hlc-utility-lead,.hlc-legal-lead){
   max-width:720px!important;color:var(--hlc-public-muted)!important;-webkit-text-fill-color:var(--hlc-public-muted)!important
