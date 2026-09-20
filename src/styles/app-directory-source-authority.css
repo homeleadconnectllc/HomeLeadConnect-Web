@@ -1,6 +1,9 @@
 /* Physical-reference authority — App Directory.
    Keep every directory surface dark, compact and high-contrast. */
 .hlc-app-directory {
+  display:grid;
+  gap:24px;
+  padding-block:24px 64px;
   color-scheme: dark;
   background: #060b26 !important;
   color: #f8fafc !important;
@@ -108,3 +111,16 @@
   .hlc-app-directory-links > a,
   .hlc-app-directory-support > a { min-height:44px; }
 }
+
+/* Directory collections own their layout here as well as their visual treatment. */
+.hlc-app-directory :is(.hlc-app-directory-quick,.hlc-app-directory-links){display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+.hlc-app-directory-groups{display:grid;gap:28px}
+.hlc-app-directory-first-day,.hlc-app-directory-support{display:grid;gap:12px;padding:20px}
+.hlc-app-directory-first-day nav{display:flex;flex-wrap:wrap;gap:12px}
+.hlc-app-directory-first-day nav a{display:inline-flex;align-items:center;min-height:44px;padding:8px 12px}
+.hlc-app-directory :is(.hlc-app-directory-quick,.hlc-app-directory-links)>a{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;min-height:44px;padding:16px;text-align:left}
+.hlc-app-directory-quick>a{flex-wrap:wrap}
+.hlc-app-directory-quick>a>span{flex-basis:100%}
+.hlc-app-directory-links>a>span{display:grid;gap:8px}
+.hlc-app-directory-search{display:block;margin-block:20px}
+.hlc-app-directory-search input{width:100%;min-height:44px;padding:12px}
