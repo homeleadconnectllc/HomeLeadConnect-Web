@@ -134,11 +134,12 @@ try {
         blank: document.body.innerText.trim().length < 30,
         denied: /Your HomeLead Connect role does not allow this area/.test(document.body.innerText),
       }));
-      proofResults.push({route, resolvedRoute, viewport: viewportName, currentPath, unexpectedRedirect, ...metrics,
-        coverage: route.includes(":") ? "missing-record-state; no real record identity supplied" : "approved-workspace-session"});
+      const result = {route, resolvedRoute, viewport: viewportName, currentPath, unexpectedRedirect, ...metrics,
+        coverage: route.includes(":") ? "missing-record-state; no real record identity supplied" : "approved-workspace-session"};
+      proofResults.push(result);
       fs.writeFileSync(path.join(outputDir, "results.json"), JSON.stringify(proofResults, null, 2));
       try { await assertExactlyOneVisibleLogo(page, `${route} ${viewportName}`); }
-      catch { proofResults[proofResults.length - 1].logoFailure = true; }
+      catch { result.logoFailure = true; }
       fs.writeFileSync(path.join(outputDir, "results.json"), JSON.stringify(proofResults, null, 2));
       await page.screenshot({ path: path.join(outputDir, `${slug}-${viewportName}.png`), fullPage: true });
     }
