@@ -293,3 +293,13 @@ The reconciliation branch now maps About, Contact, Residents, and Request Servic
 The owner-approved long-term Request Service visual remains the verified Harrisburg river-to-city/Capitol photograph. The intended source has been re-verified as J. Passepartout's “Harrisburg PA skyline,” showing the Susquehanna River and Pennsylvania State Capitol under CC BY-SA 4.0. Until that licensed binary is deliberately added to the repository with attribution, the branch uses the existing request-specific local photograph rather than falsely crediting or reusing another page's image.
 
 Because the image corrections advance the exact head, certification must be evaluated again on the final post-correction SHA before any merge decision.
+
+
+### Manual rendered-evidence findings
+
+The downloaded front-door evidence exposed two presentation defects that automated PASS status did not make acceptable by itself:
+
+- Desktop Home rendered the tagline and membership price in a dark inherited color over the dark hero treatment. The homepage authority now explicitly keeps both supporting lines light/readable and has a regression contract.
+- Desktop About rendered the long hero heading at the generic public maximum, creating an oversized multi-line composition. The current public visual authority now gives About a narrower owner-specific scale while retaining the existing mobile-safe clamp, with a regression contract.
+
+This confirms the sprint rule that workflow success is necessary but not sufficient: rendered evidence is still manually inspected for owner-facing composition.
