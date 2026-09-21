@@ -56,7 +56,7 @@ test("mobile overlay state remains functional without retired release-theme CSS"
 
 test("mobile agent voice controls remain readable and dictated questions submit immediately", () => {
   assert.match(agentPremium, /\.hlc-ai-settings\[open\] > div \{/);
-  assert.match(agentChatPanel, /void sendMessage\(transcript\)/);
+  assert.match(agentChatPanel, /spokenTurnForAgent\(agentId, transcript\.text\)/);
   assert.match(agentChatPanel, /Voice input could not start/);
 });
 
