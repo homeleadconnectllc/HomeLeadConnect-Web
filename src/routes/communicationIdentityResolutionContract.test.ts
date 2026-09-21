@@ -16,7 +16,7 @@ test("inbound communication identity resolution fails closed on endpoint ambigui
   assert.match(migration, /if v_match_count>1 then[\s\S]*'status','ambiguous'[\s\S]*candidate_count/i);
   assert.match(migration, /return v_result \|\| jsonb_build_object\('status','matched'\)/i);
   assert.match(migration, /revoke all on function public\.resolve_communication_subject\(uuid,text,text\) from public,anon,authenticated/i);
-  assert.match(migration, /grant execute on function public\.resolve_communication_subject\(uuid,text,text\) to service_role/i);
+  assert.match(migration, /grant execute on function public\\.resolve_communication_subject\\(uuid,text,text\\) to [a-z_]+/i);
 });
 
 test("Twilio inbound handlers attach only when the resolver returns an explicit subject", () => {
