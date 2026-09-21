@@ -54,13 +54,13 @@ export default function HomeownerPortalSection({ section }: { section: PortalSec
     jobs: ["Jobs", "Active and completed work created from your linked service requests."],
   }[section];
 
-  return <main style={pageStyle}>
-    <header style={heroStyle}>
-      <p style={eyebrowStyle}>Homeowners and renters</p>
-      <h1 style={{ margin: 0 }}>{copy[0]}</h1>
+  return <main className="hlc-ui-page-f9f9b9">
+    <header className="hlc-ui-hero-340ab8">
+      <p className="hlc-ui-eyebrow-84ac4d">Homeowners and renters</p>
+      <h1 className="hlc-ui-margin-ab79ea">{copy[0]}</h1>
       <p>{copy[1]}</p>
     </header>
-    <nav aria-label="Resident portal sections" style={navStyle}>
+    <nav aria-label="Resident portal sections" className="hlc-ui-nav-c3daa7">
       <Link to="/homeowner-portal">Overview</Link>
       <Link to="/request-service">New request</Link>
       <Link to="/homeowner-portal/requests">Requests</Link>
@@ -70,13 +70,13 @@ export default function HomeownerPortalSection({ section }: { section: PortalSec
       <Link to="/homeowner-portal/documents">Documents</Link>
     </nav>
     {loading && <p role="status">Loading your {section}…</p>}
-    {error && <p role="alert" style={errorStyle}>{error}</p>}
+    {error && <p role="alert" className="hlc-ui-error-339caa">{error}</p>}
     {!loading && !error && section === "requests" && <RequestList relationships={relationships} />}
     {!loading && !error && section === "appointments" && (appointments.length === 0
       ? <EmptyState title="No appointments yet" detail="Confirmed visits will appear here after an HLC job is scheduled. If timing or access details need attention, use Messages instead of guessing at a schedule." action="/messages" actionLabel="Open messages" />
-      : appointments.map(({ relationship, job, appointment }) => <article key={appointment.id} style={cardStyle}>
-        <p style={eyebrowStyle}>{relationship.homeowner_name || "Your project"}</p>
-        <h2 style={{ marginTop: 4 }}>{job.name}</h2>
+      : appointments.map(({ relationship, job, appointment }) => <article key={appointment.id} className="hlc-ui-card-2235e3">
+        <p className="hlc-ui-eyebrow-84ac4d">{relationship.homeowner_name || "Your project"}</p>
+        <h2 className="hlc-ui-margin-top-eb2cda">{job.name}</h2>
         <p><strong>{new Date(appointment.appointment_date).toLocaleString()}</strong></p>
         <p>Ends: {appointment.appointment_end_at ? new Date(appointment.appointment_end_at).toLocaleString() : "Not provided"}</p>
         <p>Status: {appointment.status}</p>
@@ -84,18 +84,18 @@ export default function HomeownerPortalSection({ section }: { section: PortalSec
       </article>))}
     {!loading && !error && section === "jobs" && (jobs.length === 0
       ? <EmptyState title="No jobs yet" detail="A job will appear after a linked request and accepted scope advance into active work. You can keep following the request itself while HLC prepares that handoff." action="/homeowner-portal/requests" actionLabel="Open requests" />
-      : jobs.map(({ relationship, job }) => <article key={job.id} style={cardStyle}>
-        <p style={eyebrowStyle}>{relationship.homeowner_name || "Your project"}</p>
-        <h2 style={{ marginTop: 4 }}>{job.name}</h2>
+      : jobs.map(({ relationship, job }) => <article key={job.id} className="hlc-ui-card-2235e3">
+        <p className="hlc-ui-eyebrow-84ac4d">{relationship.homeowner_name || "Your project"}</p>
+        <h2 className="hlc-ui-margin-top-eb2cda">{job.name}</h2>
         <p>Status: <strong>{job.status}</strong></p>
         <p>Contract value: {formatCurrency(Number(job.contract_value))}</p>
         <p>{job.appointments.length} linked appointment{job.appointments.length === 1 ? "" : "s"}</p>
-        {job.status === "completed" && <section aria-label="Service completion" style={completionStyle}>
+        {job.status === "completed" && <section aria-label="Service completion" className="hlc-ui-completion-4e10d0">
           <strong>Service complete</strong>
           <p>This job is recorded as completed. If something still needs attention, report the issue to HLC so it can be reviewed without silently changing the recorded job status.</p>
           <Link to="/messages">Report an issue with this service</Link>
         </section>}
-        <div style={navStyle}><Link to="/messages">Open messages</Link><Link to="/homeowner-portal/documents">Open documents</Link>{job.appointments.length > 0 && <Link to="/homeowner-portal/appointments">Open appointments</Link>}</div>
+        <div className="hlc-ui-nav-c3daa7"><Link to="/messages">Open messages</Link><Link to="/homeowner-portal/documents">Open documents</Link>{job.appointments.length > 0 && <Link to="/homeowner-portal/appointments">Open appointments</Link>}</div>
       </article>))}
   </main>;
 }
@@ -116,10 +116,10 @@ function RequestList({ relationships }: { relationships: HomeownerPortalRelation
             ? { label: "Your estimate is recorded; HLC is preparing the next real handoff", route: "/messages", action: "Open messages" }
             : { label: "HLC has your request and is collecting the information needed for the next step", route: "/messages", action: "Add information" };
 
-    return <article key={`${relationship.workspace_id}:${relationship.lead_id}`} style={cardStyle}>
-      <p style={eyebrowStyle}>Request #{relationship.lead_id}</p>
-      <h2 style={{ marginTop: 4 }}>{relationship.homeowner_name || "Service request"}</h2>
-      <dl style={factsStyle}>
+    return <article key={`${relationship.workspace_id}:${relationship.lead_id}`} className="hlc-ui-card-2235e3">
+      <p className="hlc-ui-eyebrow-84ac4d">Request #{relationship.lead_id}</p>
+      <h2 className="hlc-ui-margin-top-eb2cda">{relationship.homeowner_name || "Service request"}</h2>
+      <dl className="hlc-ui-facts-ba7d94">
         <div><dt>Information review</dt><dd>{qualification.complete ? "Complete" : "In progress"}</dd></div>
         <div><dt>LeadScope estimates</dt><dd>{relationship.estimates.length}</dd></div>
         <div><dt>Jobs</dt><dd>{relationship.jobs.length}</dd></div>
@@ -135,15 +135,5 @@ function RequestList({ relationships }: { relationships: HomeownerPortalRelation
 }
 
 function EmptyState({ title, detail, action, actionLabel }: { title: string; detail: string; action?: string; actionLabel?: string }) {
-  return <section style={emptyStyle}><h2>{title}</h2><p>{detail}</p>{action && <Link to={action}>{actionLabel || "Continue"}</Link>}</section>;
+  return <section className="hlc-ui-empty-f0b2c9"><h2>{title}</h2><p>{detail}</p>{action && <Link to={action}>{actionLabel || "Continue"}</Link>}</section>;
 }
-
-const pageStyle = { width: "min(960px, calc(100% - 32px))", margin: "40px auto", display: "grid", gap: 18 };
-const heroStyle = { padding: "clamp(22px, 5vw, 40px)", borderRadius: 22, color: "#f8fafc", background: "linear-gradient(135deg,#081426,#12365f)" };
-const eyebrowStyle = { margin: 0, color: "#2563eb", fontWeight: 900, textTransform: "uppercase" as const, letterSpacing: ".04em" };
-const navStyle = { display: "flex", flexWrap: "wrap" as const, gap: 14 };
-const cardStyle = { padding: 20, border: "1px solid #dbeafe", borderRadius: 16, background: "#fff" };
-const completionStyle = { margin: "16px 0", padding: 16, border: "1px solid #cbd5e1", borderRadius: 12, background: "#f8fafc" };
-const emptyStyle = { padding: 24, border: "1px dashed #94a3b8", borderRadius: 16, background: "#f8fafc" };
-const factsStyle = { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(140px,1fr))", gap: 12 };
-const errorStyle = { color: "#b91c1c", padding: 16, border: "1px solid #fecaca", borderRadius: 12 };

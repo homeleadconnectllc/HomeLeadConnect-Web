@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { BookOpen, Briefcase, Handshake, House, Info, Menu, Users, X } from "lucide-react";
+import { BookOpen, Briefcase, Handshake, House, Info, Users } from "lucide-react";
 import { appUrl, publicUrl } from "../config/siteOrigins";
 
 
@@ -65,9 +65,6 @@ export default function PublicSiteNav() {
       >
         <img className="hlc-navbar-master-logo" data-hlc-master-logo="true" src={NAV_LOGO} alt="" aria-hidden="true" />
         <span className="hlc-brand-accessible-label">HomeLead Connect</span>
-        <span className="hlc-public-menu-cue" aria-hidden="true">
-          {menuOpen ? <X size={18} /> : <Menu size={18} />}<span>Menu</span>
-        </span>
       </button>
       <div className="hlc-board-actions">
         <a className="hlc-board-login" href={appUrl("/login")}>Sign In</a>

@@ -29,7 +29,7 @@ export default function PortalInviteButton({ role, targetId, email, label }: {
       <UserRoundPlus size={16} aria-hidden="true" />{busy ? "Sending invitation…" : label}
     </button>
     {!email && <small> Add an email address before inviting.</small>}
-    {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
-    {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
+    {message && <p role="status" className="hlc-ui-color-b13aac">{message}</p>}
+    {error && <p role="alert" className="hlc-ui-color-d80273">{error}</p>}
   </div>;
 }

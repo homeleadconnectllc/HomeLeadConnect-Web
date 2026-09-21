@@ -1,3 +1,4 @@
+import "./shared-visual-primitives.css";
 /* Root authenticated shell entry.
    Keep this layer structural/runtime-only. Presentation is owned by AuthenticatedStyles. */
 import "../index.css";

@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { chromium } from "playwright";
+import { routeFamilies } from "./visual-route-inventory.mjs";
 
 const baseUrl = process.env.HLC_VISUAL_BASE_URL || "http://127.0.0.1:4173";
 const supabaseUrl = process.env.VITE_SUPABASE_URL;
@@ -32,7 +33,15 @@ const routes = [
   ["resources", "/resources"],
 ];
 
-const mustRenderAuthorizedWorkspace = new Set(["/analytics", "/hq", "/community-hub", "/academy", "/help"]);
+// Use only the existing approved workspace identity. Portal identities are not assumed.
+for (const route of [...routeFamilies.shared, ...routeFamilies.internal]) {
+  if (!routes.some(([, existing]) => existing === route)) routes.push([route.replace(/[^a-z0-9]/gi, "_").replace(/^_/, ""), route]);
+}
+const proofResults = [];
+// Existing bookmark redirect confirmed in src/pages/dashboard/Ecosystem.tsx.
+const expectedRedirects = new Map([["/ecosystem", "/dashboard"]]);
+
+const mustRenderAuthorizedWorkspace = new Set(routes.map(([, route]) => route));
 
 const viewports = [
   ["mobile", { width: 390, height: 844 }],
@@ -114,13 +123,33 @@ try {
     await page.addInitScript(({ key, value }) => localStorage.setItem(key, value), { key: authStorageKey, value: authValue });
 
     for (const [slug, route] of routes) {
-      await page.goto(`${baseUrl}${route}`, { waitUntil: "networkidle" });
+      const resolvedRoute = route.replace(/:[^/]+/g, "1");
+      await page.goto(`${baseUrl}${resolvedRoute}`, { waitUntil: "networkidle" });
       await page.waitForTimeout(1200);
       const currentPath = new URL(page.url()).pathname;
-      if (mustRenderAuthorizedWorkspace.has(route) && currentPath !== route) {
-        throw new Error(`Authenticated visual proof expected ${route} but rendered ${currentPath}.`);
-      }
-      await assertExactlyOneVisibleLogo(page, `${route} ${viewportName}`);
+      const unexpectedRedirect = mustRenderAuthorizedWorkspace.has(route) && currentPath !== (expectedRedirects.get(route) || resolvedRoute);
+      const metrics = await page.evaluate(() => ({
+        overflow: document.documentElement.scrollWidth > innerWidth + 1,
+        compressedNavigation: [...document.querySelectorAll(".hlc-route-content nav > a")].filter(link => {
+          const box = link.getBoundingClientRect();
+          if (!box.width || !box.height) return false;
+          const range = document.createRange(); range.selectNodeContents(link);
+          return range.getBoundingClientRect().width > box.width + 2;
+        }).map(link => link.textContent.trim()),
+        narrowHeading: [...document.querySelectorAll("h1")].some(node => node.getBoundingClientRect().width > 0 && node.getBoundingClientRect().width < 120),
+        workspaceFont: getComputedStyle(document.querySelector(".hlc-signed-in-shell") || document.body).fontFamily,
+        heading: document.querySelector("h1")?.textContent?.trim() || null,
+        blank: document.body.innerText.trim().length < 30,
+        denied: /Your HomeLead Connect role does not allow this area/.test(document.body.innerText),
+        dataPermissionError: /You do not have permission to perform this action/.test(document.body.innerText),
+      }));
+      const result = {route, resolvedRoute, viewport: viewportName, currentPath, unexpectedRedirect, ...metrics,
+        coverage: route.includes(":") ? "missing-record-state; no real record identity supplied" : "approved-workspace-session"};
+      proofResults.push(result);
+      fs.writeFileSync(path.join(outputDir, "results.json"), JSON.stringify(proofResults, null, 2));
+      try { await assertExactlyOneVisibleLogo(page, `${route} ${viewportName}`); }
+      catch { result.logoFailure = true; }
+      fs.writeFileSync(path.join(outputDir, "results.json"), JSON.stringify(proofResults, null, 2));
       await page.screenshot({ path: path.join(outputDir, `${slug}-${viewportName}.png`), fullPage: true });
     }
 
@@ -128,6 +157,8 @@ try {
   });
 
   await Promise.all([deepLinkProof, ...viewportProofs]);
+  const failures = proofResults.filter(row => row.overflow || row.blank || row.denied || row.unexpectedRedirect || row.logoFailure || row.compressedNavigation.length || row.narrowHeading);
+  if (failures.length) throw new Error(`Authenticated visual layout failures: ${failures.map(row => `${row.route} ${row.viewport}`).join(", ")}`);
 } finally {
   await browser.close();
 }

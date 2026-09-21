@@ -53,7 +53,7 @@ export default function AuthShell({
           {footer && <footer className="hlc-auth-card-footer">{footer}</footer>}
         </section>
       </div>
-      <nav aria-label="Account service and audience links" style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "16px", padding: "24px 16px" }}>
+      <nav aria-label="Account service and audience links" className="hlc-ui-auth-shell-b00b7d">
         <a href={publicUrl("/homeowners")}>Residents</a>
         <a href={publicUrl("/professionals")}>Professionals</a>
         <a href={publicUrl("/partners")}>Partners</a>

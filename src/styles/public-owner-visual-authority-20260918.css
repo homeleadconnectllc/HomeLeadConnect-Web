@@ -645,9 +645,10 @@ html body #root .hlc-public-footer-home-authority>small{
    The container contributes no white disc; mild crop removes derivative canvas padding. */
 html body #root header.hlc-public-shared-nav .hlc-board-brand{
   border-radius:50%!important;
-  overflow:hidden!important;
+  overflow:visible!important;
 }
 html body #root header.hlc-public-shared-nav .hlc-board-brand img{
+  border-radius:50%!important;
   object-fit:cover!important;
   transform:none!important;
   transform-origin:center!important;

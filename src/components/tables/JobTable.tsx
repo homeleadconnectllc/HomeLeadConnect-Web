@@ -3,23 +3,23 @@ import type { CrmJob } from "../../lib/types/database";
 
 export default function JobTable({ jobs }: { jobs: CrmJob[] }) {
   return (
-    <div style={{ overflowX: "auto" }}>
-      <table style={{ width: "100%", borderCollapse: "collapse" }}>
+    <div className="hlc-ui-overflow-x-1b1d75">
+      <table className="hlc-ui-job-table-0ae647">
         <thead>
           <tr>
-            <th style={cellStyle}>Job</th>
-            <th style={cellStyle}>Value</th>
-            <th style={cellStyle}>Status</th>
-            <th style={cellStyle}>Created</th>
+            <th className="hlc-ui-cell-c1da27">Job</th>
+            <th className="hlc-ui-cell-c1da27">Value</th>
+            <th className="hlc-ui-cell-c1da27">Status</th>
+            <th className="hlc-ui-cell-c1da27">Created</th>
           </tr>
         </thead>
         <tbody>
           {jobs.map((job) => (
             <tr key={job.id}>
-              <td style={cellStyle}>{job.name}</td>
-              <td style={cellStyle}>{formatCurrency(Number(job.contract_value))}</td>
-              <td style={cellStyle}>{job.status}</td>
-              <td style={cellStyle}>{new Date(job.created_at).toLocaleDateString()}</td>
+              <td className="hlc-ui-cell-c1da27">{job.name}</td>
+              <td className="hlc-ui-cell-c1da27">{formatCurrency(Number(job.contract_value))}</td>
+              <td className="hlc-ui-cell-c1da27">{job.status}</td>
+              <td className="hlc-ui-cell-c1da27">{new Date(job.created_at).toLocaleDateString()}</td>
             </tr>
           ))}
         </tbody>
@@ -27,9 +27,3 @@ export default function JobTable({ jobs }: { jobs: CrmJob[] }) {
     </div>
   );
 }
-
-const cellStyle = {
-  padding: 12,
-  textAlign: "left" as const,
-  borderBottom: "1px solid #e2e8f0",
-};

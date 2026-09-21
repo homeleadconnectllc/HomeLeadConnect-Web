@@ -104,7 +104,7 @@ test("signed-in mobile navigation behaves like an adaptive field app", () => {
 });
 
 test("navigation, dashboard and contextual agents share one fail-closed account access source", () => {
-  assert.match(mainEntry, /<AccountAccessProvider>/);
+  assert.match(mainEntry, /<AccountAccessProvider>|createElement\(AccountAccessProvider,\s*null,\s*createElement\(App\)\)/);
   assert.match(accountAccessProvider, /from\("workspace_members"\)/);
   assert.match(accountAccessProvider, /from\("profiles"\)\.select\("role"\)/);
   assert.match(accountAccessProvider, /from\("homeowner_portal_links"\)/);
@@ -230,10 +230,11 @@ test("readability no longer depends on a retired global contrast repaint", () =>
 });
 
 test("provider map selection preserves coordinate confidence color", () => {
-  assert.match(providerMap, /provider\.coordinate_accuracy === "approximate" \? approximatePinStyle : verifiedPinStyle/);
-  const selectedStyle = providerMap.match(/const selectedPinStyle = \{([^}]+)\}/s)?.[1] ?? "";
-  assert.ok(selectedStyle, "selected pin style must exist");
-  assert.doesNotMatch(selectedStyle, /background\s*:/, "selected state must not replace approximate or verified pin color");
+  assert.match(providerMap, /provider\.coordinate_accuracy === "approximate" \? "is-approximate" : "is-verified"/);
+  const primitives = readFileSync("src/styles/shared-visual-primitives.css", "utf8");
+  const selectedStyle = primitives.match(/\.hlc-network-map-pin\.is-selected\{([^}]+)\}/)?.[1] ?? "";
+  assert.ok(selectedStyle, "selected pin CSS must exist");
+  assert.doesNotMatch(selectedStyle, /background\s*:/, "selected state must not replace coordinate-confidence color");
   assert.match(providerMap, /Approximate area/);
   assert.match(providerMap, /Verified map location/);
 });

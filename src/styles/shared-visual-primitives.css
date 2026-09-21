@@ -1,0 +1,835 @@
+/* Shared static presentation primitives.
+ * Extracted from routed UI; identical declarations share one class.
+ * Current public and signed-in visual authorities remain the final paint owners.
+ * Runtime measurements, record accents and gestures remain in their components. */
+
+/* src/components/academy/ConnectRoleplaySession.tsx, src/pages/dashboard/CommunityAcademy.tsx, src/pages/dashboard/CommunityChallenges.tsx, src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-connect-roleplay-session-c8e8bf{padding:22px;margin-top:20px}
+
+/* src/components/academy/ConnectRoleplaySession.tsx, src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-connect-roleplay-session-b73f73{margin:0 0 6px;font-weight:900}
+
+/* src/components/academy/ConnectRoleplaySession.tsx, src/pages/Estimator.tsx, src/pages/dashboard/CommunityAcademy.tsx, src/pages/dashboard/CommunityChallenges.tsx, src/pages/dashboard/CommunityDiscover.tsx, src/pages/dashboard/CommunityMessages.tsx, src/pages/dashboard/EligibilityFit.tsx, src/pages/dashboard/ManualCommunications.tsx, src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-margin-top-a0925a{margin-top:0}
+
+/* src/components/academy/ConnectRoleplaySession.tsx, src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-connect-roleplay-session-3165e5{display:block;font-weight:800}
+
+/* src/components/academy/ConnectRoleplaySession.tsx, src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-connect-roleplay-session-ae33ee{min-height:44px;margin-top:8px}
+
+/* src/components/academy/ConnectRoleplaySession.tsx */
+.hlc-ui-margin-top-c53ea1{margin-top:14px}
+
+/* src/components/academy/ConnectRoleplaySession.tsx, src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-connect-roleplay-session-32c3ff{font-weight:900;cursor:pointer}
+
+/* src/components/academy/ConnectRoleplaySession.tsx, src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-white-space-092af9{white-space:pre-wrap}
+
+/* src/components/academy/ConnectRoleplaySession.tsx */
+.hlc-ui-connect-roleplay-session-21249e{display:grid;gap:10px;margin-top:18px}
+
+/* src/components/academy/ConnectRoleplaySession.tsx, src/components/contractors/ContractorCard.tsx, src/pages/dashboard/CommunityMessages.tsx, src/pages/dashboard/ManualCommunications.tsx, src/pages/dashboard/ReservedCapability.tsx, src/pages/dashboard/Workflow.tsx, src/pages/dashboard/WorkspaceActivity.tsx, src/pages/portal/ContractorPortalDocuments.tsx, src/pages/portal/ContractorPortalServices.tsx, src/pages/portal/ContractorProfile.tsx, src/pages/portal/HomeownerPortalDocuments.tsx, src/pages/portal/HomeownerPortalSection.tsx, src/pages/portal/ResidentProfile.tsx */
+.hlc-ui-margin-ab79ea{margin:0}
+
+/* src/components/academy/ConnectRoleplaySession.tsx, src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-connect-roleplay-session-18aa29{padding:12px;border:1px solid currentColor;border-radius:12px}
+
+/* src/components/academy/ConnectRoleplaySession.tsx */
+.hlc-ui-connect-roleplay-session-baf145{margin-bottom:0;white-space:pre-wrap}
+
+/* src/components/academy/ConnectRoleplaySession.tsx, src/pages/dashboard/PropertyIntelligence.tsx */
+.hlc-ui-margin-top-2bdf8e{margin-top:18px}
+
+/* src/components/academy/ConnectRoleplaySession.tsx */
+.hlc-ui-connect-roleplay-session-ce203b{width:100%;margin-top:8px}
+
+/* src/components/academy/ConnectRoleplaySession.tsx */
+.hlc-ui-connect-roleplay-session-7d9d53{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+
+/* src/components/academy/ConnectRoleplaySession.tsx, src/pages/dashboard/CommunityMessages.tsx, src/pages/dashboard/EligibilityFit.tsx */
+.hlc-ui-font-weight-cde913{font-weight:800}
+
+/* src/components/academy/ConnectRoleplaySession.tsx */
+.hlc-ui-margin-top-6e1958{margin-top:22px}
+
+/* src/components/academy/ConnectRoleplaySession.tsx */
+.hlc-ui-margin-bottom-f85c70{margin-bottom:6px}
+
+/* src/components/academy/ConnectRoleplaySession.tsx */
+.hlc-ui-connect-roleplay-session-7aa13f{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:10px}
+
+/* src/components/academy/ConnectRoleplaySession.tsx */
+.hlc-ui-connect-roleplay-session-48ae92{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px;margin-top:18px}
+
+/* src/components/academy/ConnectRoleplaySession.tsx */
+.hlc-ui-connect-roleplay-session-9e2913{padding:16px;border:1px solid currentColor;border-radius:14px;margin-top:18px}
+
+/* src/components/academy/ConnectRoleplaySession.tsx */
+.hlc-ui-connect-roleplay-session-aca28c{margin-bottom:0;font-weight:900}
+
+/* src/components/academy/ConnectRoleplaySession.tsx, src/components/estimator/MaterialShopLinks.tsx, src/pages/dashboard/CommunityChallenges.tsx, src/pages/dashboard/CommunityDiscover.tsx, src/pages/dashboard/EligibilityFit.tsx, src/pages/dashboard/ManualCommunications.tsx, src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx, src/pages/dashboard/WorkspaceActivity.tsx, src/pages/portal/ContractorPortalDocuments.tsx, src/pages/portal/ContractorPortalServices.tsx, src/pages/portal/HomeownerPortalDocuments.tsx, src/pages/portal/ResidentProfile.tsx */
+.hlc-ui-margin-bottom-fa769a{margin-bottom:0}
+
+/* src/components/analytics/AnalyticsKpis.tsx */
+.hlc-ui-margin-top-29e360{margin-top:28px}
+
+/* src/components/audio/AudioDeviceCenter.tsx */
+.hlc-ui-card-ea9374{width:min(980px, calc(100% - 32px));box-sizing:border-box;margin:0 auto 40px;padding:20px;border:1px solid var(--hlc-app-line-strong,#dbe4ee);border-radius:18px;background:var(--hlc-app-surface,#fff);color:var(--hlc-app-text,#0f172a);text-align:left;box-shadow:0 12px 40px rgba(15,23,42,.06)}
+
+/* src/components/audio/AudioDeviceCenter.tsx */
+.hlc-ui-header-d26a7f{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:16px}
+
+/* src/components/audio/AudioDeviceCenter.tsx, src/components/estimator/MaterialShopLinks.tsx */
+.hlc-ui-eyebrow-0f6b46{margin:0;color:#2563eb;font-size:12px;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+
+/* src/components/audio/AudioDeviceCenter.tsx */
+.hlc-ui-margin-17a868{margin:4px 0}
+
+/* src/components/audio/AudioDeviceCenter.tsx */
+.hlc-ui-audio-device-center-de73d4{margin:0;color:var(--hlc-app-muted,#64748b)}
+
+/* src/components/audio/AudioDeviceCenter.tsx */
+.hlc-ui-grid-e24c4c{display:grid;grid-template-columns:repeat(auto-fit, minmax(min(280px, 100%), 1fr));gap:16px}
+
+/* src/components/audio/AudioDeviceCenter.tsx */
+.hlc-ui-label-31f694{display:grid;gap:8px;min-width:0;font-weight:800}
+
+/* src/components/audio/AudioDeviceCenter.tsx, src/pages/dashboard/JobDetail.tsx, src/pages/dashboard/Workflow.tsx */
+.hlc-ui-color-acc22d{color:var(--hlc-app-muted,#64748b)}
+
+/* src/components/audio/AudioDeviceCenter.tsx */
+.hlc-ui-audio-device-center-903c4c{color:#166534;margin-bottom:0}
+
+/* src/components/audio/AudioDeviceCenter.tsx */
+.hlc-ui-audio-device-center-016834{color:#b91c1c;margin-bottom:0}
+
+/* src/components/auth/AuthShell.tsx */
+.hlc-ui-auth-shell-b00b7d{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;padding:24px 16px}
+
+/* src/components/auth/AuthTurnstile.tsx, src/components/device/FieldDeviceCenter.tsx, src/components/portal/PortalInviteButton.tsx, src/components/scheduling/RescheduleDialog.tsx, src/pages/Estimator.tsx, src/pages/auth/ForgotPassword.tsx, src/pages/auth/Login.tsx, src/pages/auth/Register.tsx, src/pages/auth/ResetPassword.tsx, src/pages/dashboard/PropertyIntelligence.tsx */
+.hlc-ui-color-d80273{color:#b91c1c}
+
+/* src/components/contractors/ContractorCard.tsx */
+.hlc-ui-card-a3839d{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:16px;border:1px solid var(--hlc-app-line-strong,#e2e8f0);border-radius:12px}
+
+/* src/components/contractors/ContractorCard.tsx */
+.hlc-ui-contractor-card-c9d2c2{margin:6px 0;color:var(--hlc-app-muted,#475569)}
+
+/* src/components/contractors/ContractorCard.tsx */
+.hlc-ui-contractor-card-03b0f4{display:flex;align-items:center;gap:12px}
+
+/* src/components/estimator/MaterialShopLinks.tsx */
+.hlc-ui-section-6e03bb{width:min(1100px, calc(100% - 32px));margin:0 auto 48px;box-sizing:border-box;padding:24px;border:1px solid var(--hlc-app-line-strong,#dbe4ee);border-radius:20px;background:var(--hlc-app-surface,#ffffff);box-shadow:0 12px 40px rgba(15,23,42,.06);text-align:left}
+
+/* src/components/estimator/MaterialShopLinks.tsx */
+.hlc-ui-heading-2fa939{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-bottom:18px}
+
+/* src/components/estimator/MaterialShopLinks.tsx */
+.hlc-ui-material-shop-links-16a33d{margin:4px 0 8px;color:var(--hlc-app-text,#0f172a)}
+
+/* src/components/estimator/MaterialShopLinks.tsx */
+.hlc-ui-material-shop-links-4ee3af{margin:0;color:var(--hlc-app-muted,#475569);line-height:1.55}
+
+/* src/components/estimator/MaterialShopLinks.tsx */
+.hlc-ui-externalBadge-7cf346{padding:7px 10px;border-radius:999px;background:var(--hlc-app-surface-2,#eff6ff);color:#1d4ed8;font-size:12px;font-weight:800}
+
+/* src/components/estimator/MaterialShopLinks.tsx */
+.hlc-ui-grid-32964a{display:grid;grid-template-columns:repeat(auto-fit, minmax(min(230px, 100%), 1fr));gap:12px}
+
+/* src/components/estimator/MaterialShopLinks.tsx */
+.hlc-ui-card-61e0ca{display:grid;gap:7px;min-height:132px;box-sizing:border-box;padding:16px;border:1px solid var(--hlc-app-line-strong,#e2e8f0);border-radius:14px;background:var(--hlc-app-surface,#f8fafc);text-decoration:none}
+
+/* src/components/estimator/MaterialShopLinks.tsx */
+.hlc-ui-material-shop-links-8cbf07{color:var(--hlc-app-text,#0f172a);font-size:16px}
+
+/* src/components/estimator/MaterialShopLinks.tsx */
+.hlc-ui-material-shop-links-953ace{color:var(--hlc-app-muted,#64748b);line-height:1.45}
+
+/* src/components/estimator/MaterialShopLinks.tsx */
+.hlc-ui-material-shop-links-6555ce{color:#2563eb;font-weight:800}
+
+/* src/components/estimator/MaterialShopLinks.tsx */
+.hlc-ui-disclaimer-c1a35a{margin:18px 0 0;padding-top:16px;border-top:1px solid #e2e8f0;color:var(--hlc-app-muted,#64748b);font-size:13px;line-height:1.5}
+
+/* src/components/estimator/MaterialShopLinks.tsx, src/pages/dashboard/CommunityAcademy.tsx, src/pages/dashboard/CommunityDiscover.tsx, src/pages/dashboard/CommunityMessages.tsx, src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-font-weight-52ee95{font-weight:900}
+
+
+
+
+
+
+
+
+/* src/components/notifications/RealtimeNotificationCenter.tsx */
+.hlc-ui-toast-d3dbea{position:relative;display:grid;gap:7px;width:min(360px, calc(100vw - 28px));box-sizing:border-box;padding:16px 44px 16px 16px;border:1px solid #334155;border-radius:16px;background:#0f172a;color:#f8fafc;box-shadow:0 22px 60px rgba(15,23,42,.38);text-align:left;pointer-events:auto}
+
+/* src/components/notifications/RealtimeNotificationCenter.tsx */
+.hlc-ui-close-b21ce6{position:absolute;top:8px;right:8px;min-width:36px;min-height:36px;border:0;border-radius:10px;background:transparent;color:#cbd5e1;font-size:24px;cursor:pointer}
+
+/* src/components/notifications/RealtimeNotificationCenter.tsx */
+.hlc-ui-link-10d466{color:#93c5fd;font-weight:800}
+
+/* src/components/portal/PortalInviteButton.tsx, src/pages/auth/ForgotPassword.tsx, src/pages/auth/Login.tsx, src/pages/auth/ResetPassword.tsx, src/pages/dashboard/JobDetail.tsx, src/pages/dashboard/PropertyIntelligence.tsx */
+.hlc-ui-color-b13aac{color:#166534}
+
+/* src/components/scheduling/RescheduleDialog.tsx */
+.hlc-ui-dialog-3bb01a{display:grid;gap:10px;margin-bottom:18px;padding:18px;border:2px solid #0f172a;border-radius:12px}
+
+/* src/components/scheduling/RescheduleDialog.tsx */
+.hlc-ui-reschedule-dialog-9c4038{display:flex;gap:8px}
+
+/* src/components/tables/JobTable.tsx, src/components/tables/LeadTable.tsx */
+.hlc-ui-overflow-x-1b1d75{overflow-x:auto}
+
+/* src/components/tables/JobTable.tsx, src/components/tables/LeadTable.tsx */
+.hlc-ui-job-table-0ae647{width:100%;border-collapse:collapse}
+
+/* src/components/tables/JobTable.tsx, src/components/tables/LeadTable.tsx */
+.hlc-ui-cell-c1da27{padding:12px;text-align:left;border-bottom:1px solid #e2e8f0}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-page-d4fa89{min-height:100vh;background:var(--hlc-app-surface,#f8fafc);padding:48px 24px;font-family:system-ui, sans-serif;color:var(--hlc-app-text,#0f172a)}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-estimator-bf88ee{width:min(1100px, 100%);margin:0 auto}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-margin-bottom-06dcf3{margin-bottom:32px}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-eyebrow-e4e43e{margin:0;color:#2563eb;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:13px}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-estimator-1f2fa9{margin:8px 0;font-size:clamp(36px, 6vw, 64px);letter-spacing:-2px;color:var(--hlc-app-text,#0f172a)}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-estimator-036a3c{margin:0;max-width:700px;color:var(--hlc-app-muted,#475569);line-height:1.6}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-color-549bcd{color:var(--hlc-app-muted,#334155)}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-layout-401ed7{display:grid;grid-template-columns:minmax(0, 1fr) minmax(280px, 320px);gap:24px;align-items:start}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-panel-843e5e{background:var(--hlc-app-surface,#fff);color:var(--hlc-app-text,#0f172a);border:1px solid var(--hlc-app-line-strong,#e2e8f0);border-radius:20px;padding:24px;box-shadow:0 12px 40px rgba(15,23,42,.06)}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-panelHeader-e3bb84{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-estimator-36e3d1{margin:0;color:var(--hlc-app-text,#0f172a)}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-estimator-e77f7d{color:var(--hlc-app-muted,#64748b);margin:6px 0 0}
+
+/* src/pages/Estimator.tsx, src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-estimator-247aeb{display:grid;gap:16px}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-line-1172f7{display:grid;gap:14px;padding:16px;border:1px solid var(--hlc-app-line-strong,#e2e8f0);border-radius:14px;background:var(--hlc-app-surface,#f8fafc)}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-itemNumber-7709b6{font-size:13px;font-weight:800;color:#2563eb;text-transform:uppercase;letter-spacing:.06em}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-field-7cddc4{display:grid;gap:5px}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-label-9393ed{color:var(--hlc-app-text,#0f172a);font-weight:750;font-size:15px}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-help-ae4659{color:var(--hlc-app-muted,#475569);font-size:13px;line-height:1.4}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-input-ace66c{padding:12px 13px;min-width:0;width:100%;box-sizing:border-box;border-radius:9px;border:1px solid var(--hlc-app-line-strong,#cbd5e1);background:var(--hlc-app-surface,#fff);color:var(--hlc-app-text,#0f172a);font-size:16px}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-removeButton-8738e2{justify-self:start;padding:9px 14px}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-summary-bfe9ab{background:#111827;color:#fff;border-radius:20px;padding:24px;box-shadow:0 20px 50px rgba(15,23,42,.18)}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-summaryField-0b24c2{display:grid;gap:6px;color:#e2e8f0;margin-bottom:18px}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-summaryLabel-97c99b{color:#fff;font-weight:750}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-summaryHelp-6f54e5{color:#cbd5e1;font-size:13px;line-height:1.4}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-summaryInput-986758{padding:12px 13px;border-radius:8px;border:1px solid #475569;background:var(--hlc-app-surface,#fff);color:var(--hlc-app-text,#0f172a);font-size:16px;width:100%;box-sizing:border-box}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-estimator-2c3d83{display:grid;gap:14px}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-estimator-b968a6{height:1px;background:#334155;margin:4px 0}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-estimator-5ac6ef{display:flex;justify-content:space-between;gap:16px;font-size:22px;font-weight:800}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-estimator-7852a6{display:grid;gap:10px;margin-top:24px}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-color-5a7678{color:#93c5fd}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-estimator-6503ff{color:#86efac;margin:0}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-estimator-4ac42b{color:#fca5a5;margin:0}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-savedState-535878{display:grid;gap:6px;width:min(1100px, 100%);margin:14px auto 10px;padding:10px 14px;box-sizing:border-box;border:1px solid #bbf7d0;border-radius:12px;background:var(--hlc-app-surface-2,#f0fdf4);color:#14532d}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-successRow-2a8abc{display:flex;align-items:center;justify-content:center;gap:8px;min-height:24px}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-successIcon-136abb{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:999px;background:#16a34a;color:#fff;font-weight:900}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-savedMeta-db24de{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;color:var(--hlc-app-muted,#334155)}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-estimator-a9a9c4{display:flex;justify-content:space-between;gap:16px;color:#cbd5e1}
+
+/* src/pages/Estimator.tsx */
+.hlc-ui-color-eedb26{color:#fff}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* src/pages/dashboard/CommunityAcademy.tsx, src/pages/dashboard/CommunityChallenges.tsx */
+.hlc-ui-community-academy-7e5606{width:min(1120px, calc(100% - 28px));margin:32px auto 80px}
+
+/* src/pages/dashboard/CommunityAcademy.tsx */
+.hlc-ui-community-academy-7d158c{display:grid;grid-template-columns:repeat(auto-fit, minmax(min(100%, 260px), 1fr));gap:16px;margin-top:20px}
+
+/* src/pages/dashboard/CommunityAcademy.tsx, src/pages/dashboard/CommunityChallenges.tsx, src/pages/dashboard/EligibilityFit.tsx, src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-padding-46e678{padding:20px}
+
+/* src/pages/dashboard/CommunityAcademy.tsx, src/pages/dashboard/CommunityDiscover.tsx */
+.hlc-ui-community-academy-1e9fca{margin:0 0 5px;color:#2563eb;font-weight:900}
+
+/* src/pages/dashboard/CommunityAcademy.tsx, src/pages/dashboard/CommunityDiscover.tsx, src/pages/dashboard/EligibilityFit.tsx, src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-margin-3e47b1{margin:0 0 8px}
+
+/* src/pages/dashboard/CommunityAcademy.tsx */
+.hlc-ui-margin-bottom-42a6ce{margin-bottom:14px}
+
+/* src/pages/dashboard/CommunityAcademy.tsx */
+.hlc-ui-community-academy-ed550d{display:flex;flex-wrap:wrap;gap:12px}
+
+/* src/pages/dashboard/CommunityChallenges.tsx */
+.hlc-ui-community-challenges-ba0bf1{display:grid;grid-template-columns:repeat(auto-fit, minmax(min(100%, 250px), 1fr));gap:16px;margin-top:20px}
+
+/* src/pages/dashboard/CommunityChallenges.tsx */
+.hlc-ui-line-height-16d0e8{line-height:1.65}
+
+/* src/pages/dashboard/CommunityDiscover.tsx */
+.hlc-ui-community-discover-b6184f{width:min(1180px, calc(100% - 28px));margin:32px auto 80px}
+
+/* src/pages/dashboard/CommunityDiscover.tsx */
+.hlc-ui-community-discover-fd599b{padding:18px;margin-top:18px}
+
+/* src/pages/dashboard/CommunityDiscover.tsx */
+.hlc-ui-community-discover-38cfc5{display:grid;gap:8px;font-weight:800}
+
+/* src/pages/dashboard/CommunityDiscover.tsx */
+.hlc-ui-min-height-393a64{min-height:48px}
+
+/* src/pages/dashboard/CommunityDiscover.tsx */
+.hlc-ui-community-discover-eab2f8{display:grid;grid-template-columns:repeat(auto-fit, minmax(min(100%, 270px), 1fr));gap:16px;margin-top:18px}
+
+/* src/pages/dashboard/CommunityDiscover.tsx */
+.hlc-ui-overflow-a5317b{overflow:hidden}
+
+/* src/pages/dashboard/CommunityDiscover.tsx */
+.hlc-ui-community-discover-ac7a51{min-height:150px;display:grid;place-items:center;background:linear-gradient(145deg, #0a1d35, #164e7a);color:white;font-size:2.4rem;font-weight:900}
+
+/* src/pages/dashboard/CommunityDiscover.tsx */
+.hlc-ui-padding-d26477{padding:18px}
+
+/* src/pages/dashboard/CommunityDiscover.tsx */
+.hlc-ui-margin-8740a8{margin:0 0 12px}
+
+/* src/pages/dashboard/CommunityDiscover.tsx */
+.hlc-ui-community-discover-2b8743{margin:0 0 14px;line-height:1.55}
+
+/* src/pages/dashboard/CommunityDiscover.tsx */
+.hlc-ui-community-discover-7de392{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+
+/* src/pages/dashboard/CommunityDiscover.tsx */
+.hlc-ui-min-height-850e44{min-height:44px}
+
+/* src/pages/dashboard/CommunityDiscover.tsx */
+.hlc-ui-community-discover-523c62{margin-top:22px;padding:20px}
+
+/* src/pages/dashboard/CommunityMessages.tsx */
+.hlc-ui-community-messages-8de93f{width:min(1100px, calc(100% - 28px));margin:32px auto 80px}
+
+/* src/pages/dashboard/CommunityMessages.tsx */
+.hlc-ui-community-messages-bf3417{margin-top:20px;padding:20px}
+
+/* src/pages/dashboard/CommunityMessages.tsx, src/pages/dashboard/WorkspaceActivity.tsx */
+.hlc-ui-community-messages-6d16aa{display:grid;gap:12px}
+
+/* src/pages/dashboard/CommunityMessages.tsx, src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-padding-3b0d88{padding:16px}
+
+/* src/pages/dashboard/CommunityMessages.tsx */
+.hlc-ui-margin-f1319b{margin:6px 0 12px}
+
+/* src/pages/dashboard/CommunityMessages.tsx */
+.hlc-ui-community-messages-161d17{display:flex;gap:10px;flex-wrap:wrap}
+
+/* src/pages/dashboard/CommunityMessages.tsx */
+.hlc-ui-community-messages-111b30{display:grid;grid-template-columns:repeat(auto-fit, minmax(min(100%, 300px), 1fr));gap:16px;margin-top:20px}
+
+/* src/pages/dashboard/CommunityMessages.tsx */
+.hlc-ui-community-messages-9a72f8{padding:16px;min-width:0}
+
+/* src/pages/dashboard/CommunityMessages.tsx */
+.hlc-ui-community-messages-f6664e{display:grid;gap:8px}
+
+/* src/pages/dashboard/CommunityMessages.tsx */
+.hlc-ui-community-messages-2495ac{min-height:48px;text-align:left;overflow-wrap:anywhere}
+
+/* src/pages/dashboard/CommunityMessages.tsx */
+.hlc-ui-community-messages-3220a1{padding:18px;min-width:0}
+
+/* src/pages/dashboard/CommunityMessages.tsx */
+.hlc-ui-community-messages-07a29a{border-bottom:1px solid rgba(148,163,184,.24);padding-bottom:12px;margin-bottom:14px}
+
+/* src/pages/dashboard/CommunityMessages.tsx */
+.hlc-ui-community-messages-063ffa{margin:0;overflow-wrap:anywhere}
+
+/* src/pages/dashboard/CommunityMessages.tsx */
+.hlc-ui-community-messages-a9bdc0{margin:5px 0 0;overflow-wrap:anywhere}
+
+/* src/pages/dashboard/CommunityMessages.tsx */
+.hlc-ui-community-messages-abbf84{display:grid;gap:10px;max-height:440px;overflow-y:auto;padding-bottom:10px}
+
+/* src/pages/dashboard/CommunityMessages.tsx */
+.hlc-ui-community-messages-5af92a{padding:12px;border-radius:12px;background:rgba(148,163,184,.12);min-width:0}
+
+/* src/pages/dashboard/CommunityMessages.tsx */
+.hlc-ui-community-messages-66f211{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+
+/* src/pages/dashboard/CommunityMessages.tsx */
+.hlc-ui-community-messages-0e9e34{display:grid;gap:10px;margin-top:14px;min-width:0}
+
+/* src/pages/dashboard/CommunityMessages.tsx */
+.hlc-ui-community-messages-a73860{width:100%;max-width:100%;box-sizing:border-box}
+
+/* src/pages/dashboard/CommunityMessages.tsx */
+.hlc-ui-min-height-33cc30{min-height:46px}
+
+/* src/pages/dashboard/CommunityMessages.tsx, src/pages/dashboard/PropertyIntelligence.tsx, src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-margin-top-eee3f8{margin-top:20px}
+
+/* src/pages/dashboard/EligibilityFit.tsx */
+.hlc-ui-eligibility-fit-e0b965{width:min(1120px, calc(100% - 28px));margin:34px auto 76px}
+
+/* src/pages/dashboard/EligibilityFit.tsx */
+.hlc-ui-eligibility-fit-8185c2{padding:28px;margin-bottom:22px;text-align:center}
+
+/* src/pages/dashboard/EligibilityFit.tsx */
+.hlc-ui-eligibility-fit-65e965{margin:0 0 8px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:#2563eb}
+
+/* src/pages/dashboard/EligibilityFit.tsx */
+.hlc-ui-eligibility-fit-a2c5d9{margin:0 0 12px;font-size:clamp(2rem, 5vw, 4rem)}
+
+/* src/pages/dashboard/EligibilityFit.tsx */
+.hlc-ui-eligibility-fit-ef9443{margin:0 auto;max-width:760px;color:var(--hlc-app-muted,#475569)}
+
+/* src/pages/dashboard/EligibilityFit.tsx */
+.hlc-ui-eligibility-fit-ad6fec{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+
+/* src/pages/dashboard/EligibilityFit.tsx */
+.hlc-ui-eligibility-fit-767813{padding:14px;border-radius:14px;background:var(--hlc-app-surface-2,#fff1f2);color:#9f1239}
+
+/* src/pages/dashboard/EligibilityFit.tsx */
+.hlc-ui-eligibility-fit-d63d21{display:grid;grid-template-columns:repeat(auto-fit, minmax(min(100%, 280px), 1fr));gap:16px}
+
+/* src/pages/dashboard/EligibilityFit.tsx */
+.hlc-ui-eligibility-fit-a755ce{margin:0 0 5px;color:#2563eb;font-weight:900;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em}
+
+/* src/pages/dashboard/EligibilityFit.tsx */
+.hlc-ui-margin-536fa5{margin:0 0 10px}
+
+/* src/pages/dashboard/EligibilityFit.tsx */
+.hlc-ui-eligibility-fit-e71fea{display:flex;flex-wrap:wrap;gap:8px}
+
+/* src/pages/dashboard/EligibilityFit.tsx */
+.hlc-ui-eligibility-fit-5fb1c4{margin-top:24px;padding:22px}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-page-0fe80a{width:min(900px, calc(100% - 32px));margin:28px auto 100px;font-family:system-ui, sans-serif;color:#f8fafc}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-hero-71fb15{display:grid;gap:10px;margin-bottom:18px;padding:22px 0 18px;border-bottom:1px solid rgba(148,163,184,.2)}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-eyebrow-5f86ec{margin:0;font-weight:900;letter-spacing:0.08em;color:#7dd3fc;font-size:12px}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-manual-communications-b24d93{margin:0;color:#cbd5e1}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-manual-communications-eb1608{color:#fecaca;background:#450a0a;padding:12px;border-radius:10px}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-manual-communications-b6a500{color:#bbf7d0;background:#052e16;padding:12px;border-radius:10px}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-postCall-7d163e{display:grid;gap:14px;padding:20px;margin-bottom:20px;border:2px solid #38bdf8;border-radius:18px;background:linear-gradient(145deg, #0b1e34, #0d2d3d);box-shadow:0 18px 45px rgba(0, 0, 0, 0.24)}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-quickOutcomeGrid-c55b41{display:grid;grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));gap:10px}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-actionPanel-bc7076{display:grid;gap:0;overflow:hidden;border:1px solid rgba(148,163,184,.24);border-radius:16px;background:#0b1829}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-step-384a6d{display:grid;grid-template-columns:42px minmax(0,1fr);gap:12px;padding:18px;border-bottom:1px solid rgba(148,163,184,.16)}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-stepNumber-939291{display:grid;place-items:center;width:36px;height:36px;border-radius:999px;background:#0c4a6e;color:#e0f2fe;font-weight:900}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-stepBody-e191da{display:grid;gap:12px;min-width:0}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-stepHeading-e4432c{margin:0;font-size:18px}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-label-97e274{display:grid;gap:6px;font-weight:700;color:#e2e8f0}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-selectedContact-22bbaa{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:12px;border-radius:10px;background:#10243d;color:#dbeafe}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-channelGrid-a7ef9a{display:grid;grid-template-columns:repeat(2, minmax(0,1fr));gap:10px}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-primaryButton-f2bf7a{min-height:48px;padding:12px 16px;border:0;border-radius:10px;background:#0284c7;color:#fff;font-weight:900}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-handoff-f60592{display:grid;place-items:center;width:100%;min-height:52px;padding:12px 16px;border-radius:10px;background:#0369a1;color:#fff;font-weight:900;text-decoration:none}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-helper-6370cf{margin:0;color:#a8b8ca;line-height:1.5}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-secondaryPrimary-02985d{min-height:48px;padding:12px 16px;border:0;border-radius:10px;background:#0284c7;color:#fff;font-weight:900;background:#0f766e}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-advanced-2d0151{padding:18px;background:#081421}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-advancedSummary-470967{cursor:pointer;font-weight:800;color:#dbeafe}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-manual-communications-8b9d0b{display:grid;gap:12px;margin-top:14px}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-twoColumn-e22205{display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:12px}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-supportingDetails-c72fa5{margin-top:14px;padding:16px;border:1px solid rgba(148,163,184,.2);border-radius:12px;background:#091729}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-historyPanel-57ee4c{margin-top:20px;padding:18px;border:1px solid rgba(148,163,184,.2);border-radius:14px;background:#091729}
+
+/* src/pages/dashboard/ManualCommunications.tsx */
+.hlc-ui-history-4facb6{padding:12px 0;border-top:1px solid rgba(148,163,184,.18)}
+
+/* src/pages/dashboard/ReservedCapability.tsx */
+.hlc-ui-page-b43785{width:min(850px,calc(100% - 32px));margin:40px auto;display:grid;gap:20px}
+
+/* src/pages/dashboard/ReservedCapability.tsx */
+.hlc-ui-hero-524b19{padding:clamp(22px,5vw,42px);border-radius:22px;color:#f8fafc;background:linear-gradient(135deg,#081426,#12365f)}
+
+/* src/pages/dashboard/ReservedCapability.tsx */
+.hlc-ui-eyebrow-4e3630{margin:0;color:#60a5fa;font-weight:900;text-transform:uppercase}
+
+/* src/pages/dashboard/ReservedCapability.tsx */
+.hlc-ui-card-405522{padding:20px;border:1px solid #f59e0b;border-radius:16px;background:var(--hlc-app-surface-2,#fffbeb);line-height:1.6;overflow-wrap:anywhere}
+
+/* src/pages/dashboard/ReservedCapability.tsx */
+.hlc-ui-links-0a6a6c{display:flex;flex-wrap:wrap;gap:14px;justify-content:center}
+
+/* src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-padding-fef9b1{padding:22px}
+
+/* src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-roleplay-knowledge-workspace-552bc9{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+
+/* src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-roleplay-knowledge-workspace-5cf477{padding:16px;border:1px solid currentColor;border-radius:14px}
+
+/* src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-margin-top-92c18f{margin-top:16px}
+
+/* src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-roleplay-knowledge-workspace-e08a6b{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px;margin-top:12px}
+
+/* src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-roleplay-knowledge-workspace-bd2a5f{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+
+/* src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-roleplay-knowledge-workspace-b35e3b{width:min(1120px, calc(100% - 28px));margin:32px auto 96px}
+
+/* src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-roleplay-knowledge-workspace-c7c240{padding:20px;margin-top:20px}
+
+/* src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-roleplay-knowledge-workspace-021f5d{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px}
+
+/* src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-roleplay-knowledge-workspace-ee7d5b{padding:14px;border:1px solid currentColor;border-radius:14px}
+
+/* src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-roleplay-knowledge-workspace-cc6a99{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:10px}
+
+/* src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-roleplay-knowledge-workspace-363aea{margin-bottom:0;font-weight:800}
+
+/* src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-roleplay-knowledge-workspace-c39c55{width:100%;min-height:44px;margin-top:8px}
+
+/* src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-roleplay-knowledge-workspace-6284f2{display:block;font-weight:800;margin-top:14px}
+
+/* src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-roleplay-knowledge-workspace-3a24da{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:12px;margin-bottom:18px}
+
+/* src/pages/dashboard/RoleplayKnowledgeWorkspace.tsx */
+.hlc-ui-margin-top-66d8b5{margin-top:24px}
+
+/* src/pages/dashboard/Workflow.tsx */
+.hlc-ui-page-570095{width:min(1100px, calc(100% - 32px));margin:40px auto;display:grid;gap:22px}
+
+/* src/pages/dashboard/Workflow.tsx */
+.hlc-ui-hero-e10fa4{display:grid;gap:12px;padding:clamp(22px, 5vw, 42px);border-radius:22px;background:linear-gradient(135deg, #081426, #0f2c50);color:#f8fafc}
+
+/* src/pages/dashboard/Workflow.tsx */
+.hlc-ui-eyebrow-542700{margin:0;color:#60a5fa;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+
+/* src/pages/dashboard/Workflow.tsx */
+.hlc-ui-workflow-0f1307{margin:0;max-width:760px;line-height:1.6}
+
+/* src/pages/dashboard/Workflow.tsx */
+.hlc-ui-error-c556fa{color:#b91c1c;padding:14px;border:1px solid #fecaca;border-radius:12px;background:var(--hlc-app-surface-2,#fef2f2)}
+
+/* src/pages/dashboard/Workflow.tsx */
+.hlc-ui-stageList-635a2b{display:grid;gap:12px;padding:0;margin:0;list-style:none}
+
+/* src/pages/dashboard/Workflow.tsx */
+.hlc-ui-stage-d6a331{display:grid;grid-template-columns:44px minmax(0, 1fr) auto;gap:16px;align-items:center;padding:18px;border:1px solid var(--hlc-app-line-strong,#cbd5e1);border-radius:16px;background:var(--hlc-app-surface,#fff)}
+
+/* src/pages/dashboard/Workflow.tsx */
+.hlc-ui-number-31cecc{display:grid;place-items:center;width:40px;height:40px;border-radius:999px;background:#dbeafe;color:#1d4ed8;font-weight:900}
+
+/* src/pages/dashboard/Workflow.tsx */
+.hlc-ui-min-width-22a08c{min-width:0}
+
+/* src/pages/dashboard/Workflow.tsx */
+.hlc-ui-titleRow-4cc155{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+
+/* src/pages/dashboard/Workflow.tsx */
+.hlc-ui-workflow-5d48e7{margin:0;font-size:20px}
+
+/* src/pages/dashboard/Workflow.tsx */
+.hlc-ui-workflow-2cbd1b{margin:8px 0;color:var(--hlc-app-muted,#475569);line-height:1.5}
+
+/* src/pages/dashboard/Workflow.tsx */
+.hlc-ui-workflow-8e3850{margin:0;font-size:13px;color:var(--hlc-app-muted,#64748b)}
+
+/* src/pages/dashboard/Workflow.tsx */
+.hlc-ui-action-7979ef{display:grid;justify-items:end;gap:6px;text-align:right}
+
+/* src/pages/dashboard/Workflow.tsx */
+.hlc-ui-count-fe5cd0{font-size:24px;color:var(--hlc-app-text,#0f172a)}
+
+/* src/pages/dashboard/Workflow.tsx */
+.hlc-ui-notice-3d3dc9{padding:18px;border:1px solid #f59e0b;border-radius:14px;background:var(--hlc-app-surface-2,#fffbeb);line-height:1.5}
+
+/* src/pages/dashboard/WorkspaceActivity.tsx */
+.hlc-ui-page-4b18f2{width:min(1000px, calc(100% - 32px));margin:40px auto;display:grid;gap:18px}
+
+/* src/pages/dashboard/WorkspaceActivity.tsx, src/pages/portal/ContractorPortalDocuments.tsx, src/pages/portal/ContractorPortalServices.tsx */
+.hlc-ui-hero-b4d8d2{padding:clamp(22px,5vw,40px);border-radius:22px;color:#f8fafc;background:linear-gradient(135deg,#081426,#12365f)}
+
+/* src/pages/dashboard/WorkspaceActivity.tsx, src/pages/portal/HomeownerPortalDocuments.tsx, src/pages/portal/ResidentProfile.tsx */
+.hlc-ui-eyebrow-2aae40{margin:0;color:#60a5fa;font-weight:900;text-transform:uppercase;letter-spacing:.04em}
+
+/* src/pages/dashboard/WorkspaceActivity.tsx, src/pages/portal/ContractorPortalDocuments.tsx, src/pages/portal/ContractorPortalServices.tsx, src/pages/portal/ContractorProfile.tsx, src/pages/portal/HomeownerPortalDocuments.tsx, src/pages/portal/HomeownerPortalSection.tsx, src/pages/portal/ResidentProfile.tsx */
+.hlc-ui-nav-c3daa7{display:flex;flex-wrap:wrap;gap:14px}
+
+/* src/pages/dashboard/WorkspaceActivity.tsx, src/pages/portal/ContractorPortalServices.tsx, src/pages/portal/ContractorProfile.tsx, src/pages/portal/ResidentProfile.tsx */
+.hlc-ui-field-082906{display:grid;gap:6px;font-weight:700}
+
+/* src/pages/dashboard/WorkspaceActivity.tsx, src/pages/portal/ContractorPortalDocuments.tsx, src/pages/portal/ContractorPortalServices.tsx, src/pages/portal/ContractorProfile.tsx, src/pages/portal/ResidentProfile.tsx */
+.hlc-ui-error-260ca0{color:#b91c1c;padding:14px;border:1px solid #fecaca;border-radius:12px}
+
+/* src/pages/dashboard/WorkspaceActivity.tsx, src/pages/portal/ContractorPortalDocuments.tsx, src/pages/portal/ContractorProfile.tsx, src/pages/portal/HomeownerPortalDocuments.tsx, src/pages/portal/HomeownerPortalSection.tsx */
+.hlc-ui-empty-f0b2c9{padding:24px;border:1px dashed #94a3b8;border-radius:16px;background:var(--hlc-app-surface,#f8fafc)}
+
+/* src/pages/dashboard/WorkspaceActivity.tsx */
+.hlc-ui-card-07eef7{padding:16px;border:1px solid var(--hlc-app-line-strong,#cbd5e1);border-radius:14px;background:var(--hlc-app-surface,#fff)}
+
+/* src/pages/dashboard/WorkspaceActivity.tsx */
+.hlc-ui-headerRow-09adb4{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+/* src/pages/dashboard/WorkspaceActivity.tsx */
+.hlc-ui-margin-5c2df3{margin:6px 0}
+
+/* src/pages/dashboard/WorkspaceActivity.tsx */
+.hlc-ui-pre-161c2f{margin-top:8px;padding:12px;border-radius:10px;overflow-x:auto;background:#0f172a;color:#e2e8f0;white-space:pre-wrap}
+
+/* src/pages/errors/404.tsx */
+.hlc-ui-404-724fc0{width:min(700px, calc(100% - 32px));margin:80px auto;text-align:center}
+
+/* src/pages/portal/ContractorPortalDocuments.tsx, src/pages/portal/HomeownerPortalDocuments.tsx, src/pages/portal/HomeownerPortalSection.tsx */
+.hlc-ui-page-f9f9b9{width:min(960px, calc(100% - 32px));margin:40px auto;display:grid;gap:18px}
+
+/* src/pages/portal/ContractorPortalDocuments.tsx, src/pages/portal/ContractorPortalServices.tsx */
+.hlc-ui-eyebrow-321b33{margin:0;color:#818cf8;font-weight:900;text-transform:uppercase;letter-spacing:.04em}
+
+/* src/pages/portal/ContractorPortalDocuments.tsx */
+.hlc-ui-card-49ed16{display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap;padding:20px;border:1px solid var(--hlc-app-line-strong,#cbd5e1);border-radius:16px;background:var(--hlc-app-surface,#fff)}
+
+/* src/pages/portal/ContractorPortalDocuments.tsx, src/pages/portal/HomeownerPortalDocuments.tsx */
+.hlc-ui-contractor-portal-documents-e26ea4{margin:6px 0 0;color:var(--hlc-app-muted,#475569)}
+
+/* src/pages/portal/ContractorPortalDocuments.tsx */
+.hlc-ui-primaryButton-2fdf8e{min-height:44px;padding:10px 16px;border:1px solid #0f172a;border-radius:10px;background:#0f172a;color:#fff;font-weight:900}
+
+/* src/pages/portal/ContractorPortalServices.tsx, src/pages/portal/ContractorProfile.tsx */
+.hlc-ui-page-d2e8ad{width:min(980px, calc(100% - 32px));margin:40px auto;display:grid;gap:18px}
+
+/* src/pages/portal/ContractorPortalServices.tsx, src/pages/portal/ContractorProfile.tsx, src/pages/portal/ResidentProfile.tsx */
+.hlc-ui-success-a1fdef{color:#166534;padding:14px;border:1px solid #bbf7d0;border-radius:12px}
+
+/* src/pages/portal/ContractorPortalServices.tsx, src/pages/portal/ResidentProfile.tsx */
+.hlc-ui-card-3215d5{display:grid;gap:14px;padding:20px;border:1px solid var(--hlc-app-line-strong,#cbd5e1);border-radius:16px;background:var(--hlc-app-surface,#fff)}
+
+/* src/pages/portal/ContractorPortalServices.tsx */
+.hlc-ui-row-4e4882{display:flex;gap:12px;flex-wrap:wrap;align-items:end}
+
+/* src/pages/portal/ContractorPortalServices.tsx */
+.hlc-ui-primaryButton-f28891{min-height:44px;width:fit-content;padding:10px 16px;border:1px solid #0f172a;border-radius:10px;background:#0f172a;color:#fff;font-weight:900}
+
+/* src/pages/portal/ContractorPortalServices.tsx */
+.hlc-ui-item-3a0d46{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;padding:12px;border:1px solid var(--hlc-app-line-strong,#e2e8f0);border-radius:12px}
+
+/* src/pages/portal/ContractorPortalServices.tsx */
+.hlc-ui-grid-1bfa11{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;align-items:end}
+
+/* src/pages/portal/ContractorPortalServices.tsx */
+.hlc-ui-checkbox-886c5c{display:flex;gap:8px;align-items:center;font-weight:700}
+
+/* src/pages/portal/ContractorProfile.tsx, src/pages/portal/HomeownerPortalDocuments.tsx, src/pages/portal/HomeownerPortalSection.tsx, src/pages/portal/ResidentProfile.tsx */
+.hlc-ui-hero-340ab8{padding:clamp(22px, 5vw, 40px);border-radius:22px;color:#f8fafc;background:linear-gradient(135deg,#081426,#12365f)}
+
+/* src/pages/portal/ContractorProfile.tsx, src/pages/portal/HomeownerPortalSection.tsx */
+.hlc-ui-eyebrow-84ac4d{margin:0;color:#2563eb;font-weight:900;text-transform:uppercase;letter-spacing:.04em}
+
+/* src/pages/portal/ContractorProfile.tsx */
+.hlc-ui-card-d0af8d{display:grid;gap:14px;padding:20px;border:1px solid #dbeafe;border-radius:16px;background:var(--hlc-app-surface,#fff)}
+
+/* src/pages/portal/ContractorProfile.tsx */
+.hlc-ui-sectionHeading-47f399{display:flex;justify-content:space-between;gap:14px;align-items:center;flex-wrap:wrap}
+
+/* src/pages/portal/ContractorProfile.tsx */
+.hlc-ui-margin-af3c2c{margin:4px 0 0}
+
+/* src/pages/portal/ContractorProfile.tsx */
+.hlc-ui-typeChip-141b17{padding:6px 10px;border-radius:999px;background:#dbeafe;color:#1e3a8a;font-weight:800}
+
+/* src/pages/portal/ContractorProfile.tsx */
+.hlc-ui-setup-704d69{padding:14px;border:1px solid #fde68a;border-radius:12px;background:var(--hlc-app-surface-2,#fffbeb);color:#92400e}
+
+/* src/pages/portal/ContractorProfile.tsx */
+.hlc-ui-grid-2767ca{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+
+/* src/pages/portal/ContractorProfile.tsx */
+.hlc-ui-primaryButton-fca71d{min-height:44px;width:fit-content;padding:10px 18px;border:1px solid #0f172a;border-radius:10px;background:#0f172a;color:#fff;font-weight:900}
+
+/* src/pages/portal/ContractorProfile.tsx */
+.hlc-ui-boundary-ff7b4e{padding:14px;border:1px solid var(--hlc-app-line-strong,#cbd5e1);border-radius:12px;background:var(--hlc-app-surface,#f8fafc);color:var(--hlc-app-muted,#475569)}
+
+/* src/pages/portal/HomeownerPortalDocuments.tsx, src/pages/portal/HomeownerPortalSection.tsx */
+.hlc-ui-error-339caa{color:#b91c1c;padding:16px;border:1px solid #fecaca;border-radius:12px}
+
+/* src/pages/portal/HomeownerPortalDocuments.tsx */
+.hlc-ui-card-45abaf{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:20px;border:1px solid #dbeafe;border-radius:16px;background:var(--hlc-app-surface,#fff)}
+
+/* src/pages/portal/HomeownerPortalDocuments.tsx */
+.hlc-ui-openButton-55fdfe{min-height:44px;padding:10px 16px;border:1px solid #0f172a;border-radius:10px;background:#0f172a;color:#fff;font-weight:800;cursor:pointer}
+
+/* src/pages/portal/HomeownerPortalSection.tsx */
+.hlc-ui-card-2235e3{padding:20px;border:1px solid #dbeafe;border-radius:16px;background:var(--hlc-app-surface,#fff)}
+
+/* src/pages/portal/HomeownerPortalSection.tsx */
+.hlc-ui-margin-top-eb2cda{margin-top:4px}
+
+/* src/pages/portal/HomeownerPortalSection.tsx */
+.hlc-ui-completion-4e10d0{margin:16px 0;padding:16px;border:1px solid var(--hlc-app-line-strong,#cbd5e1);border-radius:12px;background:var(--hlc-app-surface,#f8fafc)}
+
+/* src/pages/portal/HomeownerPortalSection.tsx */
+.hlc-ui-facts-ba7d94{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+
+/* src/pages/portal/ResidentProfile.tsx */
+.hlc-ui-page-79f12a{width:min(900px, calc(100% - 32px));margin:40px auto;display:grid;gap:18px}
+
+/* src/pages/portal/ResidentProfile.tsx */
+.hlc-ui-identityRow-7630fe{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+
+/* src/pages/portal/ResidentProfile.tsx */
+.hlc-ui-avatarFrame-37272c{width:72px;height:72px;border-radius:999px;overflow:hidden;border:2px solid #cbd5e1;background:#e2e8f0;display:grid;place-items:center}
+
+/* src/pages/portal/ResidentProfile.tsx */
+.hlc-ui-avatar-3f368a{width:100%;height:100%;object-fit:cover}
+
+/* src/pages/portal/ResidentProfile.tsx */
+.hlc-ui-avatarFallback-10d813{font-weight:900;color:var(--hlc-app-muted,#334155)}
+
+/* src/pages/portal/ResidentProfile.tsx */
+.hlc-ui-boundary-783431{padding:14px;border:1px solid #bfdbfe;border-radius:12px;background:var(--hlc-app-surface-2,#eff6ff);color:#1e3a8a}
+
+/* src/pages/portal/ResidentProfile.tsx */
+.hlc-ui-primaryButton-d28d3b{min-height:44px;width:fit-content;padding:10px 18px;border-radius:10px;border:1px solid #0f172a;background:#0f172a;color:#fff;font-weight:900}
+
+/* src/routes/PortalAccessBoundary.tsx */
+.hlc-ui-padding-d583ce{padding:32px}
+
+/* Finite UI states are CSS-owned; only measured/data-derived values stay inline. */
+.hlc-communication-channel{display:grid;gap:4px;min-height:86px;padding:12px;border:1px solid rgba(148,163,184,.28);border-radius:12px;background:#0f2035;color:#f8fafc;text-align:left}
+.hlc-communication-channel[aria-pressed="true"]{border:2px solid #38bdf8;background:#10304d}
+.hlc-communication-decision{padding:12px;background:#450a0a;border:1px solid #dc2626;border-radius:10px;color:#fee2e2}
+.hlc-communication-decision[data-decision="ALLOW"]{background:#052e16;border-color:#16a34a;color:#dcfce7}
+.hlc-job-detail__status[data-scheduled="true"]{color:#166534}
+.hlc-job-detail__status[data-scheduled="false"]{color:#92400e}
+.hlc-roleplay-variant{min-height:40px;padding:8px 12px;font-weight:700}
+.hlc-roleplay-variant[aria-pressed="true"]{font-weight:900}
+.hlc-network-map-pin.is-selected{z-index:4;transform:translate(-50%,-50%) scale(1.14);outline:2px solid rgba(255,255,255,.9);outline-offset:3px;box-shadow:0 0 0 5px rgba(255,255,255,.08),0 10px 26px rgba(0,0,0,.42)}

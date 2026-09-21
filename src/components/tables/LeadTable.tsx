@@ -3,23 +3,23 @@ import type { Lead } from "../../lib/types/database";
 
 export default function LeadTable({ leads }: { leads: Lead[] }) {
   return (
-    <div style={{ overflowX: "auto" }}>
-      <table style={{ width: "100%", borderCollapse: "collapse" }}>
+    <div className="hlc-ui-overflow-x-1b1d75">
+      <table className="hlc-ui-job-table-0ae647">
         <thead>
           <tr>
-            <th style={cellStyle}>Lead</th>
-            <th style={cellStyle}>Contact</th>
-            <th style={cellStyle}>Status</th>
-            <th style={cellStyle}>Action</th>
+            <th className="hlc-ui-cell-c1da27">Lead</th>
+            <th className="hlc-ui-cell-c1da27">Contact</th>
+            <th className="hlc-ui-cell-c1da27">Status</th>
+            <th className="hlc-ui-cell-c1da27">Action</th>
           </tr>
         </thead>
         <tbody>
           {leads.map((lead) => (
             <tr key={lead.id}>
-              <td style={cellStyle}>{lead.full_name || `Lead #${lead.id}`}</td>
-              <td style={cellStyle}>{lead.email || lead.phone}</td>
-              <td style={cellStyle}>{lead.status || "new"}</td>
-              <td style={cellStyle}>
+              <td className="hlc-ui-cell-c1da27">{lead.full_name || `Lead #${lead.id}`}</td>
+              <td className="hlc-ui-cell-c1da27">{lead.email || lead.phone}</td>
+              <td className="hlc-ui-cell-c1da27">{lead.status || "new"}</td>
+              <td className="hlc-ui-cell-c1da27">
                 <Link to={`/estimator?lead=${lead.id}`}>Create Estimate</Link>
               </td>
             </tr>
@@ -29,9 +29,3 @@ export default function LeadTable({ leads }: { leads: Lead[] }) {
     </div>
   );
 }
-
-const cellStyle = {
-  padding: 12,
-  textAlign: "left" as const,
-  borderBottom: "1px solid #e2e8f0",
-};

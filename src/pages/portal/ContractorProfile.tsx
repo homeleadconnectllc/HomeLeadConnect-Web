@@ -70,13 +70,13 @@ export default function ContractorProfile() {
     }
   }
 
-  return <main style={pageStyle}>
-    <header style={heroStyle}>
-      <p style={eyebrowStyle}>Professional portal</p>
-      <h1 style={{ margin: 0 }}>Business/provider profile</h1>
+  return <main className="hlc-ui-page-d2e8ad">
+    <header className="hlc-ui-hero-340ab8">
+      <p className="hlc-ui-eyebrow-84ac4d">Professional portal</p>
+      <h1 className="hlc-ui-margin-ab79ea">Business/provider profile</h1>
       <p>The canonical provider records explicitly linked to your signed-in account. Profile type describes the business; it never grants HLC permissions.</p>
     </header>
-    <nav aria-label="Professional portal sections" style={navStyle}>
+    <nav aria-label="Professional portal sections" className="hlc-ui-nav-c3daa7">
       <Link to="/contractor-portal">Work dashboard</Link>
       <Link to="/contractor-portal/profile" aria-current="page">Business profile</Link>
       <Link to="/contractor-portal/services">Services and service areas</Link>
@@ -84,60 +84,44 @@ export default function ContractorProfile() {
       <Link to="/contractor-portal/documents">Documents</Link>
     </nav>
     {loading && <p role="status">Loading linked businesses…</p>}
-    {error && <p role="alert" style={errorStyle}>{error}</p>}
-    {message && <p role="status" style={successStyle}>{message}</p>}
-    {!loading && !error && data.links.length === 0 && <section style={emptyStyle}>
+    {error && <p role="alert" className="hlc-ui-error-260ca0">{error}</p>}
+    {message && <p role="status" className="hlc-ui-success-a1fdef">{message}</p>}
+    {!loading && !error && data.links.length === 0 && <section className="hlc-ui-empty-f0b2c9">
       <h2>No linked business</h2>
       <p>This account does not currently have an authorized contractor-company relationship. An approved invitation is required; an email match alone does not grant access.</p>
       <p><Link to="/professional-application">Open professional application</Link></p>
     </section>}
 
-    {profiles.map((profile) => <form key={profile.id} onSubmit={(event) => void submit(event, profile)} style={cardStyle}>
-      <div style={sectionHeadingStyle}>
-        <div><p style={eyebrowStyle}>Linked provider #{profile.id}</p><h2 style={{ margin: "4px 0 0" }}>{profile.company_name || profile.contact_name || "Professional profile"}</h2></div>
-        <span style={typeChipStyle}>{providerTypes.find((type) => type.value === profile.provider_type)?.label || profile.provider_type}</span>
+    {profiles.map((profile) => <form key={profile.id} onSubmit={(event) => void submit(event, profile)} className="hlc-ui-card-d0af8d">
+      <div className="hlc-ui-sectionHeading-47f399">
+        <div><p className="hlc-ui-eyebrow-84ac4d">Linked provider #{profile.id}</p><h2 className="hlc-ui-margin-af3c2c">{profile.company_name || profile.contact_name || "Professional profile"}</h2></div>
+        <span className="hlc-ui-typeChip-141b17">{providerTypes.find((type) => type.value === profile.provider_type)?.label || profile.provider_type}</span>
       </div>
 
-      <label style={fieldStyle}>Professional type
+      <label className="hlc-ui-field-082906">Professional type
         <select value={profile.provider_type} onChange={(event) => updateField(profile.id, "provider_type", event.target.value as ProviderType)}>
           {providerTypes.map((type) => <option key={type.value} value={type.value}>{type.label}</option>)}
         </select>
       </label>
-      {profile.provider_type === "subcontractor" && <p style={setupStyle}><strong>Subcontractor Experience — Product Setup Required.</strong> HLC preserves identity/company, contact and specialty. Contractor hierarchy, crews, sub-assignment, homeowner access, schedule scope, payment split and completion authority are not inferred by this profile.</p>}
+      {profile.provider_type === "subcontractor" && <p className="hlc-ui-setup-704d69"><strong>Subcontractor Experience — Product Setup Required.</strong> HLC preserves identity/company, contact and specialty. Contractor hierarchy, crews, sub-assignment, homeowner access, schedule scope, payment split and completion authority are not inferred by this profile.</p>}
 
-      <div style={gridStyle}>
-        <label style={fieldStyle}>Company name<input value={profile.company_name || ""} onChange={(event) => updateField(profile.id, "company_name", event.target.value)} /></label>
-        <label style={fieldStyle}>Primary contact<input value={profile.contact_name || ""} onChange={(event) => updateField(profile.id, "contact_name", event.target.value)} /></label>
-        <label style={fieldStyle}>Specialty / service<input value={profile.specialty || ""} onChange={(event) => updateField(profile.id, "specialty", event.target.value)} /></label>
-        <label style={fieldStyle}>Phone<input type="tel" value={profile.phone || ""} onChange={(event) => updateField(profile.id, "phone", event.target.value)} /></label>
-        <label style={fieldStyle}>Email<input type="email" value={profile.email || ""} onChange={(event) => updateField(profile.id, "email", event.target.value)} /></label>
-        <label style={fieldStyle}>Website<input type="url" value={profile.website || ""} onChange={(event) => updateField(profile.id, "website", event.target.value)} /></label>
-        <label style={fieldStyle}>Street address<input value={profile.address || ""} onChange={(event) => updateField(profile.id, "address", event.target.value)} /></label>
-        <label style={fieldStyle}>City<input value={profile.city || ""} onChange={(event) => updateField(profile.id, "city", event.target.value)} /></label>
-        <label style={fieldStyle}>State<input value={profile.state || ""} onChange={(event) => updateField(profile.id, "state", event.target.value)} /></label>
-        <label style={fieldStyle}>ZIP<input value={profile.zip || ""} onChange={(event) => updateField(profile.id, "zip", event.target.value)} /></label>
+      <div className="hlc-ui-grid-2767ca">
+        <label className="hlc-ui-field-082906">Company name<input value={profile.company_name || ""} onChange={(event) => updateField(profile.id, "company_name", event.target.value)} /></label>
+        <label className="hlc-ui-field-082906">Primary contact<input value={profile.contact_name || ""} onChange={(event) => updateField(profile.id, "contact_name", event.target.value)} /></label>
+        <label className="hlc-ui-field-082906">Specialty / service<input value={profile.specialty || ""} onChange={(event) => updateField(profile.id, "specialty", event.target.value)} /></label>
+        <label className="hlc-ui-field-082906">Phone<input type="tel" value={profile.phone || ""} onChange={(event) => updateField(profile.id, "phone", event.target.value)} /></label>
+        <label className="hlc-ui-field-082906">Email<input type="email" value={profile.email || ""} onChange={(event) => updateField(profile.id, "email", event.target.value)} /></label>
+        <label className="hlc-ui-field-082906">Website<input type="url" value={profile.website || ""} onChange={(event) => updateField(profile.id, "website", event.target.value)} /></label>
+        <label className="hlc-ui-field-082906">Street address<input value={profile.address || ""} onChange={(event) => updateField(profile.id, "address", event.target.value)} /></label>
+        <label className="hlc-ui-field-082906">City<input value={profile.city || ""} onChange={(event) => updateField(profile.id, "city", event.target.value)} /></label>
+        <label className="hlc-ui-field-082906">State<input value={profile.state || ""} onChange={(event) => updateField(profile.id, "state", event.target.value)} /></label>
+        <label className="hlc-ui-field-082906">ZIP<input value={profile.zip || ""} onChange={(event) => updateField(profile.id, "zip", event.target.value)} /></label>
       </div>
 
-      <button type="submit" disabled={busyId !== null} style={primaryButtonStyle}>{busyId === profile.id ? "Saving…" : "Save professional profile"}</button>
-      <p style={boundaryStyle}>This self-service form cannot change HLC verification state, license approval, provider eligibility, assignment authority, workspace membership, map coordinates, billing, or internal staff roles.</p>
+      <button type="submit" disabled={busyId !== null} className="hlc-ui-primaryButton-fca71d">{busyId === profile.id ? "Saving…" : "Save professional profile"}</button>
+      <p className="hlc-ui-boundary-ff7b4e">This self-service form cannot change HLC verification state, license approval, provider eligibility, assignment authority, workspace membership, map coordinates, billing, or internal staff roles.</p>
       <p><strong>Current portal work:</strong> {data.assignments.filter((assignment) => assignment.contractor_id === profile.id).length} offer(s) or assignment(s)</p>
       <p><Link to="/contractor-portal/services">Continue to services & availability</Link></p>
     </form>)}
   </main>;
 }
-
-const pageStyle = { width: "min(980px, calc(100% - 32px))", margin: "40px auto", display: "grid", gap: 18 };
-const heroStyle = { padding: "clamp(22px, 5vw, 40px)", borderRadius: 22, color: "#f8fafc", background: "linear-gradient(135deg,#081426,#12365f)" };
-const eyebrowStyle = { margin: 0, color: "#2563eb", fontWeight: 900, textTransform: "uppercase" as const, letterSpacing: ".04em" };
-const navStyle = { display: "flex", flexWrap: "wrap" as const, gap: 14 };
-const cardStyle = { display: "grid", gap: 14, padding: 20, border: "1px solid #dbeafe", borderRadius: 16, background: "#fff" };
-const emptyStyle = { padding: 24, border: "1px dashed #94a3b8", borderRadius: 16, background: "#f8fafc" };
-const errorStyle = { color: "#b91c1c", padding: 14, border: "1px solid #fecaca", borderRadius: 12 };
-const successStyle = { color: "#166534", padding: 14, border: "1px solid #bbf7d0", borderRadius: 12 };
-const fieldStyle = { display: "grid", gap: 6, fontWeight: 700 };
-const gridStyle = { display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))", gap: 12 };
-const sectionHeadingStyle = { display: "flex", justifyContent: "space-between", gap: 14, alignItems: "center", flexWrap: "wrap" as const };
-const typeChipStyle = { padding: "6px 10px", borderRadius: 999, background: "#dbeafe", color: "#1e3a8a", fontWeight: 800 };
-const setupStyle = { padding: 14, border: "1px solid #fde68a", borderRadius: 12, background: "#fffbeb", color: "#92400e" };
-const boundaryStyle = { padding: 14, border: "1px solid #cbd5e1", borderRadius: 12, background: "#f8fafc", color: "#475569" };
-const primaryButtonStyle = { minHeight: 44, width: "fit-content", padding: "10px 18px", border: "1px solid #0f172a", borderRadius: 10, background: "#0f172a", color: "#fff", fontWeight: 900 };

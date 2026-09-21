@@ -79,7 +79,7 @@ test("free Google Voice handoff returns to the canonical outcome and follow-up f
 });
 
 test("manual communication compliance stays visible but secondary to the task flow", () => {
-  assert.match(manualCommunications, /<details style=\{advancedStyle\}>/);
+  assert.match(manualCommunications, /<details className="hlc-ui-advanced-[a-f0-9]+">/);
   assert.match(manualCommunications, /How HLC records manual calls and texts/);
   assert.match(manualCommunications, /HLC opens the selected device\/provider after a compliance check/);
   assert.match(manualCommunications, /It does not claim a call connected, a text delivered, or a provider synchronized unless provider evidence proves it/);

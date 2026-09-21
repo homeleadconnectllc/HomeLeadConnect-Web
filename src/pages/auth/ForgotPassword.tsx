@@ -32,8 +32,8 @@ export default function ForgotPassword() {
   }
 
   const status = <>
-    {(error || !isSupabaseConfigured()) && <p role="alert" style={{ color: "#b91c1c" }}>{error || supabaseConfigMessage}</p>}
-    {message && <p role="status" style={{ color: "#166534" }}>{message}</p>}
+    {(error || !isSupabaseConfigured()) && <p role="alert" className="hlc-ui-color-d80273">{error || supabaseConfigMessage}</p>}
+    {message && <p role="status" className="hlc-ui-color-b13aac">{message}</p>}
   </>;
   const footer = <>
     <p><Link to="/login">Return to sign in</Link></p>

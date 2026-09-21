@@ -75,7 +75,7 @@ export default function Register() {
   }
 
   const status = <>
-    {(error || !isSupabaseConfigured()) && <p role="alert" style={{ color: "#b91c1c" }}>{error || supabaseConfigMessage}</p>}
+    {(error || !isSupabaseConfigured()) && <p role="alert" className="hlc-ui-color-d80273">{error || supabaseConfigMessage}</p>}
   </>;
   const footer = <>
     <p>Already registered? <Link to={loginHref}>Sign in</Link>.</p>

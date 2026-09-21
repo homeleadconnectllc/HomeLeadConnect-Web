@@ -66,7 +66,7 @@ export default function CommunityDiscover() {
   }
 
   return (
-    <main className="hlc-community-workspace" style={{ width: "min(1180px, calc(100% - 28px))", margin: "32px auto 80px" }}>
+    <main className="hlc-community-workspace hlc-ui-community-discover-b6184f" >
       <header className="hlc-community-header">
         <div>
           <p className="hlc-community-kicker">COMMUNITY · DISCOVER</p>
@@ -82,32 +82,32 @@ export default function CommunityDiscover() {
         <Link to="/network/map">Map</Link>
       </nav>
 
-      <section className="hlc-premium-panel" style={{ padding: 18, marginTop: 18 }}>
-        <label htmlFor="community-discover-search" style={{ display: "grid", gap: 8, fontWeight: 800 }}>
+      <section className="hlc-premium-panel hlc-ui-community-discover-fd599b" >
+        <label htmlFor="community-discover-search" className="hlc-ui-community-discover-38cfc5">
           Search Community members
-          <input id="community-discover-search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Name, role, headline, city, or state" style={{ minHeight: 48 }} />
+          <input id="community-discover-search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Name, role, headline, city, or state" className="hlc-ui-min-height-393a64" />
         </label>
       </section>
 
       {error && <p role="alert" className="hlc-match-alert">{error}</p>}
       {loading && <p role="status">Loading Community members…</p>}
 
-      <section aria-label="Community member results" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 270px), 1fr))", gap: 16, marginTop: 18 }}>
+      <section aria-label="Community member results" className="hlc-ui-community-discover-eab2f8">
         {visible.map((member) => {
           const relationship = relationshipByPeer.get(member.user_id);
           const status = relationship?.relationship_status;
           return (
-            <article key={member.user_id} className="hlc-premium-panel" style={{ overflow: "hidden" }}>
-              <div aria-hidden="true" style={{ minHeight: 150, display: "grid", placeItems: "center", background: "linear-gradient(145deg, #0a1d35, #164e7a)", color: "white", fontSize: "2.4rem", fontWeight: 900 }}>{initials(member)}</div>
-              <div style={{ padding: 18 }}>
-                <p style={{ margin: "0 0 5px", color: "#2563eb", fontWeight: 900 }}>{member.role || "HLC member"}</p>
-                <h2 style={{ margin: "0 0 8px" }}>{displayName(member)}</h2>
-                <p style={{ margin: "0 0 8px" }}>{member.headline || "Community member"}</p>
-                <p style={{ margin: "0 0 12px" }}>{[member.city, member.state].filter(Boolean).join(", ") || "Location not shared"}</p>
-                {member.bio && <p style={{ margin: "0 0 14px", lineHeight: 1.55 }}>{member.bio}</p>}
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center" }}>
-                  {status === "accepted" ? <Link to="/community/messages" style={{ fontWeight: 900 }}>Message</Link> : null}
-                  {!status ? <button type="button" onClick={() => void requestConnection(member.user_id)} disabled={busyId === member.user_id} style={{ minHeight: 44 }}>{busyId === member.user_id ? "Requesting…" : "Connect"}</button> : null}
+            <article key={member.user_id} className="hlc-premium-panel hlc-ui-overflow-a5317b" >
+              <div aria-hidden="true" className="hlc-ui-community-discover-ac7a51">{initials(member)}</div>
+              <div className="hlc-ui-padding-d26477">
+                <p className="hlc-ui-community-academy-1e9fca">{member.role || "HLC member"}</p>
+                <h2 className="hlc-ui-margin-3e47b1">{displayName(member)}</h2>
+                <p className="hlc-ui-margin-3e47b1">{member.headline || "Community member"}</p>
+                <p className="hlc-ui-margin-8740a8">{[member.city, member.state].filter(Boolean).join(", ") || "Location not shared"}</p>
+                {member.bio && <p className="hlc-ui-community-discover-2b8743">{member.bio}</p>}
+                <div className="hlc-ui-community-discover-7de392">
+                  {status === "accepted" ? <Link to="/community/messages" className="hlc-ui-font-weight-52ee95">Message</Link> : null}
+                  {!status ? <button type="button" onClick={() => void requestConnection(member.user_id)} disabled={busyId === member.user_id} className="hlc-ui-min-height-850e44">{busyId === member.user_id ? "Requesting…" : "Connect"}</button> : null}
                   {status && <span className="hlc-status-pill">{status === "pending" ? `${relationship?.direction === "incoming" ? "Request received" : "Request sent"}` : status}</span>}
                 </div>
               </div>
@@ -117,9 +117,9 @@ export default function CommunityDiscover() {
         {!loading && !visible.length && !error && <div className="hlc-premium-empty"><h2>No matching Community members.</h2><p>Only members who explicitly opt into Community discovery appear here.</p></div>}
       </section>
 
-      <section className="hlc-premium-callout" style={{ marginTop: 22, padding: 20 }}>
-        <h2 style={{ marginTop: 0 }}>Connection is permission, not assignment.</h2>
-        <p style={{ marginBottom: 0 }}>Private Community messaging unlocks only after acceptance. Real work still transitions through Start Service Request and operational communication remains at <Link to="/messages">/messages</Link>.</p>
+      <section className="hlc-premium-callout hlc-ui-community-discover-523c62" >
+        <h2 className="hlc-ui-margin-top-a0925a">Connection is permission, not assignment.</h2>
+        <p className="hlc-ui-margin-bottom-fa769a">Private Community messaging unlocks only after acceptance. Real work still transitions through Start Service Request and operational communication remains at <Link to="/messages">/messages</Link>.</p>
       </section>
     </main>
   );

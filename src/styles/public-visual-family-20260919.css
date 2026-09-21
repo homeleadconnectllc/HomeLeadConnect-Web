@@ -1,3 +1,4 @@
+@import "./shared-visual-primitives.css";
 /* HOMELEAD CONNECT — public structural foundation.
    One current variable set. Retired light-editorial and stacked-card authorities are not loaded here. */
 :root{
@@ -15,7 +16,7 @@
 
 html,body,#root{min-height:100%}
 html{scroll-behavior:smooth}
-body{margin:0;width:100%;min-width:0;overflow-x:hidden;background:var(--hlc-public-bg);color:var(--hlc-public-ink);font-family:var(--hlc-public-sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{line-height:1.6;margin:0;width:100%;min-width:0;overflow-x:hidden;background:var(--hlc-public-bg);color:var(--hlc-public-ink);font-family:var(--hlc-public-sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 #root{width:100%;max-width:none;min-height:100svh;text-align:left}
 a{color:inherit}
 img,svg,video{max-width:100%;display:block}
@@ -116,7 +117,7 @@ button{min-height:44px}
 #root .hlc-kendrell-dedication-portrait img{width:100%;height:100%;object-fit:cover}
 
 /* auth routes — structure only; paint belongs to current public authority */
-#root .hlc-auth-shell.hlc-auth-shell--flat{width:100%;min-height:100vh;margin:0;padding:0 0 56px}
+#root .hlc-auth-shell.hlc-auth-shell--flat{display:block!important;width:100%;min-height:100vh;margin:0;padding:0 0 56px}
 #root .hlc-auth-shell,
 #root .hlc-auth-shell *,
 #root .hlc-auth-shell *::before,
@@ -133,13 +134,15 @@ button{min-height:44px}
 #root .hlc-auth-shell .hlc-auth-intro{min-width:0;max-width:660px;margin:0;padding:0;text-align:left}
 #root .hlc-auth-shell .hlc-auth-intro-visual{width:100%;height:clamp(230px,30vw,350px);margin:0 0 30px;overflow:hidden}
 #root .hlc-auth-shell .hlc-auth-intro-visual img{width:100%;height:100%;object-fit:cover}
+#root .hlc-auth-shell .hlc-auth-intro-proof{display:flex;flex-wrap:wrap;gap:10px 20px;margin-top:24px;line-height:1.5}
+#root .hlc-auth-shell :is(.hlc-auth-card-description,.hlc-auth-card-footer){color:var(--hlc-public-muted)!important}
 #root .hlc-auth-shell .hlc-auth-method-tabs{display:flex;flex-wrap:wrap;gap:18px;margin:0 0 24px;padding:0 0 14px}
 #root .hlc-auth-shell .hlc-auth-form{display:grid;gap:15px}
 #root .hlc-auth-shell .hlc-auth-form label{display:grid;gap:8px;text-align:left}
 #root .hlc-auth-shell .hlc-auth-form :is(input,select,textarea){width:100%;min-height:52px;padding:12px 13px;font-size:16px}
 #root .hlc-auth-shell .hlc-password-input-row{position:relative;display:flex;align-items:center}
 #root .hlc-auth-shell .hlc-password-input-row input{padding-right:126px}
-#root .hlc-auth-shell .hlc-password-toggle{position:absolute;right:8px;min-height:36px;padding:0 8px}
+#root .hlc-auth-shell .hlc-password-toggle{width:auto!important;position:absolute;right:8px;min-height:36px;padding:0 8px}
 #root .hlc-auth-shell .hlc-auth-form>button,#root .hlc-auth-shell .hlc-auth-success-action{
   justify-self:start;display:inline-flex;align-items:center;min-height:46px;padding:0 20px;
 }
@@ -220,22 +223,35 @@ html body #root header.hlc-board-nav.hlc-public-shared-nav{
 }
 html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-nav-inner{
   width:100%!important;max-width:none!important;min-height:78px!important;
-  padding:0 18px!important;background:transparent!important
+  padding:0 18px!important;background:transparent!important;
+  display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:16px
 }
+html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-actions{display:flex;align-items:center;gap:16px}
+html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-actions a{display:inline-flex;align-items:center;min-height:44px;text-decoration:none}
 html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-brand{
-  display:inline-flex!important;align-items:center!important;gap:10px!important;
-  width:auto!important;min-width:0!important;padding:0!important;margin:0!important;
+  position:relative!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;justify-self:start;
+  width:62px!important;min-width:62px!important;height:62px!important;padding:0!important;margin:0!important;
   border:0!important;border-radius:0!important;background:transparent!important;
-  box-shadow:none!important;color:var(--hlc-public-ink)!important
+  box-shadow:none!important;color:var(--hlc-public-ink)!important;overflow:visible!important;isolation:isolate!important
 }
 html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-brand-accessible-label{display:none!important}
 html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-navbar-master-logo{
   width:62px!important;height:62px!important;object-fit:contain!important;border:0!important;
   border-radius:50%!important;background:transparent!important;box-shadow:none!important
 }
-html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-public-menu-cue,
 html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-login{
   color:var(--hlc-public-ink)!important;-webkit-text-fill-color:var(--hlc-public-ink)!important
+}
+html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-public-menu-trigger::after{
+  content:"";position:absolute;inset:-4px;z-index:-1;border:2px solid rgba(30,169,255,.4);
+  border-radius:50%;box-shadow:0 0 0 0 rgba(30,169,255,0),0 0 12px rgba(30,169,255,.16);
+  pointer-events:none;animation:hlc-logo-menu-glimmer 5.2s ease-in-out infinite
+}
+html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-public-menu-trigger:is(:hover,:focus-visible,[aria-expanded="true"])::after{
+  border-color:rgba(30,169,255,.9);box-shadow:0 0 0 3px rgba(30,169,255,.13),0 0 18px rgba(30,169,255,.48)
+}
+html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-public-menu-trigger:focus-visible{
+  outline:3px solid #0b6ed6!important;outline-offset:6px!important
 }
 html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-cta{
   color:var(--hlc-public-accent)!important;-webkit-text-fill-color:var(--hlc-public-accent)!important;
@@ -255,6 +271,7 @@ html body #root .hlc-public-menu-primary{
   width:min(1180px,100%)!important;margin:0 auto!important;border-top:1px solid var(--hlc-public-line)!important
 }
 html body #root .hlc-public-menu-primary a{
+  display:flex;align-items:center;gap:12px;text-decoration:none;
   min-height:44px!important;border:0!important;border-bottom:1px solid var(--hlc-public-line)!important;
   color:var(--hlc-public-ink)!important;-webkit-text-fill-color:var(--hlc-public-ink)!important;
   padding:14px 4px!important
@@ -282,7 +299,7 @@ html body #root :is(.hlc-pathway-hero-copy,.hlc-public-board-page .hlc-public-he
   width:min(1320px,calc(100% - 56px))!important;padding:clamp(62px,8vw,104px) 0!important
 }
 html body #root :is(.hlc-pathway-hero-copy,.hlc-public-board-page .hlc-public-hero>div,.hlc-utility-page .hlc-public-hero>div,.hlc-legal-hero-grid) h1{
-  max-width:760px!important;font-size:clamp(3rem,6vw,5.2rem)!important;line-height:.98!important
+  max-width:760px!important;margin:0 0 24px;font-size:clamp(2.2rem,6vw,5.2rem)!important;line-height:1.12!important
 }
 html body #root :is(.hlc-pathway-lead,.hlc-public-intro-copy,.hlc-utility-lead,.hlc-legal-lead){
   max-width:720px!important;color:var(--hlc-public-muted)!important;-webkit-text-fill-color:var(--hlc-public-muted)!important
@@ -364,7 +381,7 @@ html body #root .hlc-public-footer-home-authority nav a{color:#365a7a!important;
 @media(max-width:760px){
   html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-nav-inner{min-height:72px!important;padding:0 12px!important}
   html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-navbar-master-logo{width:56px!important;height:56px!important}
-  html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-public-menu-cue{display:inline-flex!important}
+  html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-brand{width:56px!important;min-width:56px!important;height:56px!important}
   html body #root :is(.hlc-pathway-hero,.hlc-public-board-page .hlc-public-hero,.hlc-utility-page .hlc-public-hero,.hlc-legal-hero){min-height:380px!important}
   html body #root :is(.hlc-pathway-hero-copy,.hlc-public-board-page .hlc-public-hero>div,.hlc-utility-page .hlc-public-hero>div,.hlc-legal-hero-grid){
     width:calc(100% - 32px)!important;padding:96px 0 38px!important
@@ -373,7 +390,7 @@ html body #root .hlc-public-footer-home-authority nav a{color:#365a7a!important;
 }
 @media(max-width:680px){
   #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-nav-inner{grid-template-columns:minmax(0,1fr) auto!important;width:100%!important}
-  #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-actions{flex:0 0 auto!important;max-width:60%!important}
+  #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-actions{flex:0 0 auto!important;max-width:none!important}
   #root .hlc-public-menu-backdrop{width:100vw!important;max-width:100vw!important;overflow-x:hidden!important}
   #root .hlc-public-menu-panel{width:calc(100vw - 20px)!important;max-width:calc(100vw - 20px)!important}
   #root .hlc-public-menu-primary{grid-template-columns:1fr!important}
@@ -384,15 +401,23 @@ html body #root :is(.hlc-public-board-page,.hlc-pathway-page,.hlc-utility-page,.
 html body #root :is(.hlc-public-shell,.hlc-utility-shell,.hlc-legal-shell,.hlc-pathway-hero,.hlc-public-hero,.hlc-request-grid){min-width:0!important;max-width:100%!important}
 @media(max-width:420px){
   html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-nav-inner{padding-left:6px!important;padding-right:6px!important;column-gap:4px!important}
-  html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-brand{gap:4px!important;flex:1 1 auto!important;max-width:46%!important;overflow:hidden!important}
+  html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-brand{width:50px!important;min-width:50px!important;height:50px!important;flex:0 0 50px!important;max-width:50px!important;overflow:visible!important}
   html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-navbar-master-logo{width:50px!important;height:50px!important;flex:0 0 50px!important}
-  html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-public-menu-cue{gap:3px!important;min-width:0!important;font-size:.68rem!important;white-space:nowrap!important}
-  html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-actions{flex:0 1 auto!important;max-width:54%!important;min-width:0!important;gap:0!important;flex-wrap:nowrap!important}
+  html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-actions{flex:0 1 auto!important;max-width:none!important;min-width:0!important;gap:0!important;flex-wrap:nowrap!important}
   html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-login,
   html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-cta{
     display:inline-flex!important;align-items:center!important;min-width:0!important;min-height:44px!important;
-    padding:0 5px!important;font-size:.68rem!important;white-space:nowrap!important
+    padding:0 5px!important;font-size:.8125rem!important;white-space:nowrap!important
   }
+}
+
+@keyframes hlc-logo-menu-glimmer{
+  0%,72%,100%{opacity:.32;transform:scale(1);box-shadow:0 0 0 0 rgba(30,169,255,0),0 0 10px rgba(30,169,255,.12)}
+  82%{opacity:1;transform:scale(1.06);box-shadow:0 0 0 4px rgba(30,169,255,.12),0 0 20px rgba(30,169,255,.5)}
+  90%{opacity:.5;transform:scale(1.01)}
+}
+@media(prefers-reduced-motion:reduce){
+  html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-public-menu-trigger::after{animation:none!important;opacity:.55!important}
 }
 
 /* Invitation/access handoff — canonical public-family presentation, no inline painter. */
@@ -426,3 +451,11 @@ html body #root :is(.hlc-public-shell,.hlc-utility-shell,.hlc-legal-shell,.hlc-p
 }
 #root .hlc-public-status.is-error{border-left-color:#d95b63}
 #root .hlc-public-status.is-success{border-left-color:#2f9d75}
+
+/* Shared pathway hero structure: preserve copy and existing imagery at both sizes. */
+#root .hlc-pathway-hero{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:center;gap:clamp(24px,4vw,64px);padding:clamp(32px,5vw,72px) max(24px,calc((100vw - 1320px)/2))}
+html body #root .hlc-pathway-hero>.hlc-pathway-hero-copy{width:100%!important;padding:0!important;min-width:0}
+#root .hlc-pathway-hero-visual{margin:0;min-width:0;width:100%}
+#root .hlc-pathway-hero-visual>img{display:block;width:100%;height:clamp(300px,38vw,560px);object-fit:cover}
+#root .hlc-pathway-float-card{display:grid;gap:6px;padding-block:16px}
+@media(max-width:760px){#root .hlc-pathway-hero{grid-template-columns:1fr;padding:32px 16px;gap:28px}#root .hlc-pathway-hero-visual>img{height:280px}}

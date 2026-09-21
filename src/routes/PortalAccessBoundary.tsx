@@ -14,7 +14,7 @@ function fallbackDestination(access: ReturnType<typeof useAccountAccess>) {
 export default function PortalAccessBoundary({ audience }: { audience: PortalAudience }) {
   const access = useAccountAccess();
 
-  if (access.loading) return <main style={{ padding: 32 }}><p role="status">Checking portal access…</p></main>;
+  if (access.loading) return <main className="hlc-ui-padding-d583ce"><p role="status">Checking portal access…</p></main>;
 
   const allowed = audience === "resident"
     ? access.homeowner

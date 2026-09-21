@@ -89,7 +89,7 @@ export default function FieldDeviceCenter() {
         <button type="button" onClick={() => void testShare()}>Test device share</button>
       </div>
       {locationStatus && <p role="status">{locationStatus}</p>}
-      {error && <p role="alert" style={{ color: "#b91c1c" }}>{error}</p>}
+      {error && <p role="alert" className="hlc-ui-color-d80273">{error}</p>}
     </section>
   );
 }
