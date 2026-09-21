@@ -259,3 +259,21 @@ Compared the large prototype visual authorities selector-by-selector instead of 
 ### Result
 
 No large prototype CSS file is eligible for wholesale replacement. Any remaining visual delta must be proven at the selector/page level and verified in rendered desktop/mobile evidence.
+
+
+## Verified reconciliation checkpoint 5 — remaining cleanup surfaces
+
+Compared the remaining Stage-2 cleanup components against current Web.
+
+| Surface | Disposition | Verified result |
+| --- | --- | --- |
+| Workflow | Keep Current | Workflow content, stage routes, counts and completion rule align; differences are class ownership/presentation only. |
+| Workspace Activity | Keep Current | Activity loading/filter/history behavior aligns; differences are class ownership/presentation only. |
+| Launch Surface | Keep Current | Data and action behavior align. Web contains later presentation/status class corrections. |
+| Community Discover | Keep Current | Search, connection request, accepted-message route and service-transition copy align; differences are presentation classes. |
+| Reserved Capability | Keep Current | Capability lookup and dashboard/workflow/automation links align; differences are presentation classes. |
+| 404 | Keep Current | Same not-found behavior; current Web uses the later shared UI class. |
+
+### Result
+
+The Stage-2 component cleanup does not contain missing business behavior for these surfaces. Copying these prototype files would primarily restore older component-specific class systems, so they remain preserved evidence rather than integration payload.
