@@ -245,3 +245,17 @@ Compared current Web against prototype visual-system checkpoint `e4a33ad54aa2a8c
 ### Result
 
 No route-test or audit file from the preserved prototype should replace the current Web versions. Prototype tests remain useful historical evidence, but several encode presentation contracts that current Web intentionally retired.
+
+
+## Verified reconciliation checkpoint 4 — CSS and imagery authority
+
+Compared the large prototype visual authorities selector-by-selector instead of copying either stylesheet wholesale.
+
+- **Public visual family — Keep Current Web as authority.** The prototype stylesheet contains older public-menu cue/mobile sign-in/team-invite presentation contracts. Current Web contains the newer logo-trigger menu, workspace-invite treatment, current public/footer authority, current pathway hero structure, destination-color rules, and current Request Service presentation.
+- Several prototype-only selector names are still represented by current page markup but are intentionally styled by later Web authorities (for example Request Service/pathway classes). Their absence from the current `public-visual-family-20260919.css` alone is not evidence of missing functionality.
+- **Network/map workspace — Keep Current layered Web authority.** Prototype and Web expose the same network-map class family, but prototype bakes more paint directly into `network-map-application-workspace.css`. Current Web distributes the later visual/mobile state across `map-lead-identity-pass.css`, `mobile-a-plus-sprint-3-network.css`, `hlc-unified-screen-archetypes.css`, and shared visual primitives. Current Web already owns selected-provider state and map-canvas treatment.
+- **Imagery — no blind restoration.** Image paths or CSS image declarations from prototype are not copied merely because they exist there. Each visible image must be traced to current page ownership and checked against the current unique-image/page-title rules before replacement.
+
+### Result
+
+No large prototype CSS file is eligible for wholesale replacement. Any remaining visual delta must be proven at the selector/page level and verified in rendered desktop/mobile evidence.
