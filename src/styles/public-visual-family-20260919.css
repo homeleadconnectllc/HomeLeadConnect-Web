@@ -301,7 +301,10 @@ html body #root :is(.hlc-pathway-hero-copy,.hlc-public-board-page .hlc-public-he
 html body #root :is(.hlc-pathway-hero-copy,.hlc-public-board-page .hlc-public-hero>div,.hlc-utility-page .hlc-public-hero>div,.hlc-legal-hero-grid) h1{
   max-width:760px!important;margin:0 0 24px;font-size:clamp(2.2rem,6vw,5.2rem)!important;line-height:1.12!important
 }
-html body #root .hlc-public-board-page[data-public-page="about"] .hlc-public-hero>div h1{\n  max-width:980px!important;font-size:clamp(2.4rem,4vw,4rem)!important;line-height:1.04!important;overflow-wrap:normal!important;word-break:normal!important\n}\nhtml body #root :is(.hlc-pathway-lead,.hlc-public-intro-copy,.hlc-utility-lead,.hlc-legal-lead){
+html body #root .hlc-public-board-page[data-public-page="about"] .hlc-public-hero>div h1{
+  max-width:980px!important;font-size:clamp(2.4rem,4vw,4rem)!important;line-height:1.04!important;overflow-wrap:normal!important;word-break:normal!important
+}
+html body #root :is(.hlc-pathway-lead,.hlc-public-intro-copy,.hlc-utility-lead,.hlc-legal-lead){
   max-width:720px!important;color:var(--hlc-public-muted)!important;-webkit-text-fill-color:var(--hlc-public-muted)!important
 }
 
