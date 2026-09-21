@@ -12,7 +12,8 @@
     "inventory:routes": "node scripts/generate-route-state-register.mjs",
     "launch:audit": "node scripts/launch-static-audit.mjs",
     "verify:launch": "npm run lint && npm run test:visual && npm run test:acceptance && npm run launch:audit && npm run build",
-    "preview": "node scripts/serve-dist.mjs"
+    "preview": "node scripts/serve-dist.mjs",
+    "verify:inventory": "npm run inventory:routes && git diff --exit-code -- docs/sprints/route-state-register-current.md"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
