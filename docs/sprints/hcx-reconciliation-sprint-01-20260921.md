@@ -122,3 +122,33 @@ Updated dispositions:
 | Web package/build/test authority | Keep Current |
 | Prototype route-family audit script | Bring Forward/adapt after compatibility check |
 | Large prototype CSS authorities | Needs Technical Verification selector-by-selector; no wholesale copy |
+
+
+## Verified reconciliation checkpoint 2 — prototype cleanup versus current Web
+
+Repository-tree and source-level comparison confirms that current Web has already advanced beyond the preserved prototype cleanup in the major static-style areas.
+
+- Current Web now enforces static-style cleanup repository-wide by parsing every TSX source file. Only explicitly reviewed runtime properties are allowed: calculated widths/progress, agent/lead accents, ProviderMap coordinates/accent, and other genuinely data-derived values.
+- The prototype cleanup test guarded a fixed list of previously cleaned files. That work remains valuable historical evidence, but the current Web guard is broader and stronger because newly added TSX files are inspected automatically.
+- Current Web also explicitly prevents PublicSiteNav from reintroducing runtime style injection through `setImportant`, dynamically-created `<style>` elements, or the retired owner visual style block.
+- Prototype communications/mobile/product tests still reference retired presentation layers such as `mobile-release-fix.css`, `final-release-guard.css`, `premium-theme.css`, `premium-effects.css`, and the old manual-communications soft-launch authority. Current Web intentionally tests that several of those retired layers stay disconnected.
+- Prototype `index.html` still loads older runtime/public CSS authorities and the older dark theme/status-bar treatment. Current Web uses the newer structural safeguard and current light public authority. Prototype launch markup is therefore not a bring-forward candidate.
+- Prototype `package.json` adds the static-style guard to acceptance while current Web already includes that guard in the visual suite together with public entry classification and logo-menu coverage. Keep the current Web test/build authority.
+- The prototype visual-route-family audit reads a documentation JSON inventory; current Web has already adapted the audit to import the executable route-family inventory module. Keep the current Web implementation.
+- The four prototype legacy scaffold files remain useful as a historical removal record, but no prototype implementation should be restored merely to reproduce that older test.
+
+Updated dispositions:
+
+| Area | Verified disposition |
+| --- | --- |
+| Prototype fixed-list inline-style cleanup test | Superseded by stronger repository-wide Web guard |
+| Prototype cleaned TSX presentation extractions | Keep Current Web; cleanup objective already enforced globally |
+| Prototype communications tests tied to retired soft-launch CSS | Superseded |
+| Prototype mobile tests tied to final-release/mobile-release CSS | Superseded |
+| Prototype product tests tied to retired premium paint | Superseded |
+| Prototype index.html runtime paint stack | Superseded — do not restore |
+| Prototype package scripts | Keep Current Web |
+| Prototype route-family audit | Already adapted in Web; keep current implementation |
+| Prototype continuity and sprint documentation | Preserve as historical evidence, not runtime authority |
+
+This checkpoint means the preserved prototype branches are not being discarded; their intended cleanup outcomes have been compared against the current production-derived Web authority. Where current Web already contains a broader or newer implementation, the prototype copy is marked superseded instead of being copied back and risking regression.
