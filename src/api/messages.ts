@@ -1,6 +1,5 @@
 import { getCurrentWorkspaceId, supabase } from "./client";
 import { dispatchInternalNotification } from "./internalNotifications";
-import { normalizeEmailTarget } from "../lib/contactTargets";
 
 export type ConversationMessage = {
   id: string;
@@ -32,6 +31,8 @@ export type PortalRecipient = {
 export type EmailTransmissionResult = {
   id: string;
   status: "sent" | "failed" | "blocked" | "review" | "queued";
+  provider_name?: string;
+  delivery_mode?: "manual_handoff" | "adapter_required";
   error?: string;
 };
 
@@ -149,8 +150,6 @@ export async function sendPortalEmail(input: {
   messageId?: string;
   requestId?: string;
 }) {
-  const recipientEmail = normalizeEmailTarget(input.recipient.email);
-  if (!recipientEmail) throw new Error("This contact does not have an email address.");
   const { data, error } = await supabase.functions.invoke("send-communication", {
     body: {
       subjectType: input.recipient.role === "homeowner" ? "lead" : "contractor",
@@ -166,8 +165,9 @@ export async function sendPortalEmail(input: {
   });
   if (error) throw new Error(await providerErrorMessage(error));
   const result = data as EmailTransmissionResult | null;
-  if (!result || result.status !== "sent") {
-    throw new Error(result?.error || `Email was not sent${result?.status ? ` (${result.status})` : ""}.`);
+  if (!result) throw new Error("Communication service returned no transmission result.");
+  if (result.status === "failed" || result.status === "blocked") {
+    throw new Error(result.error || `Email was not sent (${result.status}).`);
   }
   return result;
 }
