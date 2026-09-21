@@ -22,4 +22,5 @@ test("homepage extension cannot repaint shared navigation or footer", () => {
 test("homepage hero supporting copy remains readable over the dark desktop image treatment", () => {
   assert.match(home,/\.hlc-owner-tagline\{[^}]*color:#f8fafc/);
   assert.match(home,/\.hlc-owner-price\{[^}]*color:#f8fafc/);
+  assert.doesNotMatch(home,/\\n/);
 });
