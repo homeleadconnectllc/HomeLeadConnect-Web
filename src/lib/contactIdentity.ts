@@ -1,4 +1,4 @@
-import { normalizeEmailTarget, normalizePhoneTarget } from "./contactTargets";
+import { normalizeEmailTarget, normalizePhoneTarget } from "./contactTargets.ts";
 
 export type ContactEndpointKind = "phone" | "email";
 
