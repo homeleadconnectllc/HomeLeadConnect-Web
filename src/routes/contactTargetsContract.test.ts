@@ -18,3 +18,11 @@ test("blank communication targets never produce actionable links", () => {
 test("email targets are trimmed and safely encoded", () => {
   assert.equal(emailHref(" resident+home@example.com "), "mailto:resident%2Bhome%40example.com");
 });
+
+test("provider email sends remain server-resolved instead of trusting a client destination", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const messages = await readFile("src/api/messages.ts", "utf8");
+  assert.match(messages, /normalizeEmailTarget\(input\.recipient\.email\)/);
+  assert.doesNotMatch(messages, /recipientEmail,/);
+  assert.match(messages, /functions\.invoke\("send-communication"/);
+});
