@@ -159,11 +159,6 @@ export default function Messages() {
     const draftSubject = subject.trim() || "HomeLead Connect message";
     const draftBody = newBody.trim();
     const shouldSendEmail = sendEmailCopy;
-    if (shouldSendEmail && !recipient.email) {
-      setError("This contact does not have an email address. Choose HLC message instead.");
-      return;
-    }
-
     setBusy(true);
     setError("");
     setMessage("");
@@ -176,8 +171,10 @@ export default function Messages() {
 
       if (shouldSendEmail) {
         try {
-          await sendPortalEmail({ recipient, subject: draftSubject, body: draftBody, conversationId: id });
-          setMessage("Email sent and saved in HLC.");
+          const transmission = await sendPortalEmail({ recipient, subject: draftSubject, body: draftBody, conversationId: id });
+          if (transmission.status === "sent") setMessage("Email sent and saved in HLC.");
+          else if (transmission.status === "queued") setMessage("Email queued and saved in HLC.");
+          else setMessage("Email saved in HLC and requires provider review before delivery.");
         } catch (reason) {
           setMessage("Conversation saved in HLC.");
           setError(errorMessage(reason, "Email could not be sent. The conversation was still saved."));
@@ -344,7 +341,7 @@ export default function Messages() {
                           </option>
                         ))}
                       </select>
-                      {selectedRecipient && <small>{selectedRecipient.email ? `Email available: ${selectedRecipient.email}` : "HLC message only"}</small>}
+                      {selectedRecipient && <small>Email delivery is verified by HLC at send time.</small>}
                     </label>
 
                     <fieldset className="hlc-message-delivery-choice">
@@ -353,8 +350,8 @@ export default function Messages() {
                         <input type="radio" name="deliveryMode" value="internal" checked={deliveryMode === "internal"} onChange={() => setDeliveryMode("internal")} />
                         <span><strong>HLC message</strong><small>Keep this conversation inside HLC</small></span>
                       </label>
-                      <label className={!selectedRecipient?.email ? "is-disabled" : ""}>
-                        <input type="radio" name="deliveryMode" value="email" checked={sendEmailCopy} disabled={!selectedRecipient?.email} onChange={() => setDeliveryMode("email")} />
+                      <label>
+                        <input type="radio" name="deliveryMode" value="email" checked={sendEmailCopy} onChange={() => setDeliveryMode("email")} />
                         <span><strong>Email</strong><small>Send an email and save it here</small></span>
                       </label>
                     </fieldset>
