@@ -31,7 +31,7 @@ test("canonical AI role labels and department accents stay locked without purple
 
 test("agent pages use the exact locked portrait assets", () => {
   const expected = {
-    kendrell: ["/brand/avatars/Kendrell_Locked_HLC.png", "c4e037c88a9e2533c0dfc20ed0c340d7fa14b901e91e60515132f78a62926127"],
+    kendrell: ["/brand/avatars/Kendrell_Locked_HLC.png", "f267d8d4c0232b1c361aee8c1b236b8e3731406c899750b6ec1068ec642e6f5c"],
     dion: ["/brand/avatars/Dion_Locked_HLC.png", "14e344c4bf8e4cf6e05a42602f98ba901fe4358b51e3e22d304333d479d08e7f"],
     diamond: ["/brand/avatars/Diamond_Locked_HLC.png", "141ac383739313fa8f658ab0564f0b792ccd345b92c7b3dea74fddd5802489d1"],
   } as const;
@@ -41,6 +41,26 @@ test("agent pages use the exact locked portrait assets", () => {
     const asset = readFileSync(`public${publicPath}`);
     assert.equal(createHash("sha256").update(asset).digest("hex"), sha256);
   }
+});
+
+test("agent source portraits and official logo remain identity locked", () => {
+  const registry = readFileSync("docs/governance/ASSET_REGISTRY.md", "utf8");
+  const expectedSources = {
+    kendrell: ["public/brand/avatars/sources/Kendrell_Identity_Source_20260920.jpeg", "21c088ab032e4e6ea942d9e227a745084ee757bb0cacda01d54f6387d9630492"],
+    dion: ["public/brand/avatars/sources/Dion_Identity_Source_20260920.jpeg", "37a59dadce0c9caa1048f68bffdd11348fbe269adceb7ffcf7cc1e3e4e5e9b69"],
+    diamond: ["public/brand/avatars/sources/Diamond_Identity_Source_20260920.jpeg", "81e2013f2db167c96c0a489692db7b8811aea84822a11a978638311322463581"],
+  } as const;
+
+  for (const [agentId, [sourcePath, sha256]] of Object.entries(expectedSources)) {
+    const asset = readFileSync(sourcePath);
+    assert.equal(createHash("sha256").update(asset).digest("hex"), sha256, `${agentId} source portrait must not drift`);
+    assert.match(registry, new RegExp(sourcePath.replaceAll(".", "\\.")));
+  }
+
+  const officialLogo = readFileSync("public/brand/homelead-connect-official-master.svg");
+  assert.equal(createHash("sha256").update(officialLogo).digest("hex"), "31c97d8b6880a93c711bded854950ec304af7e2a9d1c8a3e6e6abbd2886a4813");
+  assert.match(registry, /Never alter agent facial identity/);
+  assert.match(registry, /Never alter, redraw, approximate, retype, or restyle the official logo/);
 });
 
 test("agent capabilities remain role-scoped and deterministic", () => {
