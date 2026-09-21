@@ -196,3 +196,37 @@ Updated dispositions:
 | Current Web dynamic route audit | Keep Current |
 | Prototype locked agent source portraits | Needs Owner Review / visual verification before visible-asset replacement |
 | Prototype agent identity hash tests | Bring Forward only with the approved portrait source set |
+
+
+## Verified reconciliation checkpoint 2
+
+The prototype cleanup and visual-system branches have now been compared directly against current Web production rather than treated as whole-branch candidates.
+
+- The current Web static-inline-style guard is stronger than the prototype cleanup guard because it scans repository-wide TSX and permits only reviewed runtime-derived properties. Keep the Web guard as authority.
+- The prototype's useful legacy-removal assertion is narrow and can be adapted independently if the referenced retired scaffold files are confirmed absent in the Web candidate.
+- Prototype mobile-agent tests depend on retired `mobile-release-fix.css` and `final-release-guard.css` presentation. Current Web instead tests the newer Mobile A+ structural/device corrections. Keep current Web mobile-agent behavior and test authority; do not revive retired release paint.
+- Prototype communications tests likewise depend on a retired soft-launch communications stylesheet. Current Web explicitly verifies that retired stylesheet is disconnected. Keep current Web communications authority.
+- Prototype product-experience tests enforce global forced centering and older workspace/agent presentation. Current Web intentionally uses responsive containment, the current desktop workspace shell, and no permanent AI rail. The older prototype assertions are superseded.
+- Prototype `index.html` points at older runtime/front-door stylesheet authorities and an older homepage hero asset. Current Web has the newer structural safeguard classification, current theme metadata, and current homepage hero authority. Keep current Web entry point.
+- Prototype `package.json` adds the static-inline guard to acceptance while current Web already runs that guard in the visual suite together with public-entry and logo-menu contracts. Keep current Web package/test command authority.
+- Prototype `board-login-authority-20260912.css` and `runtime-physical-authority-20260907.css` contain older auth presentation paint. Current Web deliberately leaves auth presentation to the current public visual family. Do not restore the older auth paint wholesale.
+- The visual route-family audit exists in both histories. Current Web's version reads the current Web route inventory module, so it is already adapted to the authoritative repository and no prototype copy is needed.
+
+Updated dispositions:
+
+| Area | Verified disposition |
+| --- | --- |
+| Repository-wide static-inline visual guard | Keep Current Web |
+| Prototype retired-scaffold absence guard | Bring Forward only as a narrow assertion after path verification |
+| Prototype mobile agent release-paint tests | Superseded |
+| Prototype communications soft-launch paint tests | Superseded |
+| Prototype forced-global-centering/product paint tests | Superseded |
+| Prototype index.html launch paint | Superseded |
+| Prototype package/test command authority | Superseded |
+| Prototype auth/runtime physical paint | Superseded; preserve current Web structural compatibility |
+| Visual route-family audit | Keep Current Web; already adapted |
+| Prototype runtime/data behavior | No wholesale import; inspect only remaining capability-specific deltas |
+
+### Integration rule after checkpoint 2
+
+The reconciliation has crossed an important boundary: broad prototype visual authorities are not to be copied into Web. Remaining prototype work is now evaluated only for unique capability or behavior that current Web does not already contain. This prevents older navigation, retired paint layers, forced global centering, and obsolete mobile-agent geometry from returning while still allowing genuinely stronger individual capabilities to be recovered.
