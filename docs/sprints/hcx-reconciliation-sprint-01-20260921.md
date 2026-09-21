@@ -230,3 +230,18 @@ Updated dispositions:
 ### Integration rule after checkpoint 2
 
 The reconciliation has crossed an important boundary: broad prototype visual authorities are not to be copied into Web. Remaining prototype work is now evaluated only for unique capability or behavior that current Web does not already contain. This prevents older navigation, retired paint layers, forced global centering, and obsolete mobile-agent geometry from returning while still allowing genuinely stronger individual capabilities to be recovered.
+
+
+## Verified reconciliation checkpoint 3 — route-family and mobile test authority
+
+Compared current Web against prototype visual-system checkpoint `e4a33ad54aa2a8c293e97cfd14d6e05a883e9540`.
+
+- **No-static-inline-style enforcement — Keep Current Web.** Prototype audits a fixed list of cleaned files. Web now walks repository-wide TSX and permits only reviewed runtime-calculated properties, so it is broader and stronger.
+- **Product experience tests — Keep Current Web.** Prototype assertions depend on retired premium/release paint and forced global centering. Web explicitly verifies responsive containment without forced global centering, the current desktop workspace shell, and retirement of the permanent AI rail/release CSS.
+- **Mobile agent dock tests — Keep Current Web.** Prototype expects the older 54px/release-guard implementation. Web verifies the current 60px structural target and viewport-owned mobile sheet without retired release-theme CSS.
+- **Communications tests — Keep Current Web.** Prototype expects retired soft-launch manual-communications paint. Web explicitly verifies that retired stylesheet is disconnected while preserving selection feedback and the current advanced-details treatment.
+- **Visual route-family audit — Keep Current Web implementation.** Prototype reads a static JSON inventory. Web builds the audit inventory from the current `visual-route-inventory.mjs`, reducing drift between the executable route inventory and audit.
+
+### Result
+
+No route-test or audit file from the preserved prototype should replace the current Web versions. Prototype tests remain useful historical evidence, but several encode presentation contracts that current Web intentionally retired.
