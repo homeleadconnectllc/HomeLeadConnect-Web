@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import RouteVisualBanner from "../components/RouteVisualBanner";
 import AnalyticsTracker from "../components/analytics/AnalyticsTracker";
+import ConnectivityStatus from "../components/connectivity/ConnectivityStatus";
 import { useAuth } from "../hooks/useAuth";
 
 const UniversalAITeamLauncher = lazy(() => import("../components/agents/UniversalAITeamLauncher"));
@@ -135,6 +136,7 @@ export default function AppLayout() {
         {signedInWorkspaceShell && <WorkspaceGuidance />}
         {signedInWorkspaceShell && <UniversalAITeamLauncher />}
         {signedInWorkspaceShell && <GlobalCommandSearch />}
+        {signedInWorkspaceShell && <ConnectivityStatus />}
       </Suspense>
     </div>
   );
