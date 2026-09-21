@@ -3,6 +3,7 @@ import { ArrowLeft, CalendarClock, Calculator, Mail, MessageSquare, Phone, Brief
 import { Link, useParams } from "react-router-dom";
 import { getLead, type LeadRecord } from "../../api/leads";
 import { errorMessage } from "../../lib/errorMessage";
+import { emailHref, phoneHref } from "../../lib/contactTargets";
 
 function displayDate(value: string | null | undefined) {
   if (!value) return "Not set";
@@ -32,6 +33,8 @@ export default function LeadDetail() {
   if (error || !lead) return <main className="hlc-lead-detail-page"><Link to="/leads">← Back to Leads</Link><p role="alert">{error || "Lead not found."}</p></main>;
 
   const pipeline = lead.stage || lead.status || "new";
+  const callTarget = phoneHref(lead.phone);
+  const mailTarget = emailHref(lead.email);
   return (
     <main className="hlc-lead-detail-page">
       <Link className="hlc-lead-detail-back" to="/leads"><ArrowLeft size={18} aria-hidden="true" />Back to Leads</Link>
@@ -61,8 +64,8 @@ export default function LeadDetail() {
         <section className="hlc-lead-detail-panel">
           <h2>Contact information</h2>
           <dl>
-            <div><dt>Email</dt><dd>{lead.email ? <a href={`mailto:${lead.email}`}><Mail size={16} aria-hidden="true" />{lead.email}</a> : "Not provided"}</dd></div>
-            <div><dt>Phone</dt><dd>{lead.phone ? <a href={`tel:${lead.phone}`}><Phone size={16} aria-hidden="true" />{lead.phone}</a> : "Not provided"}</dd></div>
+            <div><dt>Email</dt><dd>{mailTarget ? <a href={mailTarget}><Mail size={16} aria-hidden="true" />{lead.email}</a> : "Not provided"}</dd></div>
+            <div><dt>Phone</dt><dd>{callTarget ? <a href={callTarget}><Phone size={16} aria-hidden="true" />{lead.phone}</a> : "Not provided"}</dd></div>
             <div><dt>Source</dt><dd>{lead.source || "Not recorded"}</dd></div>
             <div><dt>Lead ID</dt><dd>{lead.lead_code ? `#${lead.lead_code}` : String(lead.id)}</dd></div>
           </dl>
