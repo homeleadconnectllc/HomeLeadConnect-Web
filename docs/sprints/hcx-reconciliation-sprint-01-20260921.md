@@ -97,3 +97,28 @@ These are product requirements, not permission to bypass existing privacy, autho
 ## Cleanup rule
 
 No repository, branch, folder, Supabase project, deployment, key, or historical artifact is deleted merely because its name looks old or duplicated. Runtime dependency is determined by technical fingerprints and verified references first.
+
+
+## Verified reconciliation checkpoint 1
+
+Direct GitHub comparison after prototype access was restored:
+
+- Prototype cleanup head is exactly `9056dc10578f50a3821c1ba60a3fe4aab2cad965`.
+- Prototype visual-system head is exactly `e4a33ad54aa2a8c293e97cfd14d6e05a883e9540`.
+- The branches diverge by one commit each from merge base `32200a8e0dc4b7d6b95b0b033b797c62d29bbdf2`.
+- Current Web production already contains the ProviderMap finite selected-state class and CSS while retaining runtime/data-derived coordinate and accent values.
+- Current Web ProviderMap and both prototype heads are semantically aligned for the inspected map behavior; the prototype file differs only in non-substantive file text/formatting at this checkpoint.
+- Prototype `PublicSiteNav.tsx` is superseded by current Web navigation. The prototype still contains the visible Menu/hamburger cue and older logo asset, while current Web contains the owner-approved logo-only menu trigger and current master-logo derivative.
+- Current Web `package.json` remains authority. It already carries the stronger production test/build suite, including public logo-menu coverage and static-inline visual guards. Prototype package changes will not replace it wholesale.
+- The prototype route-family audit remains a candidate to adapt as an additional guard rather than replacing current launch verification.
+
+Updated dispositions:
+
+| Area | Verified disposition |
+| --- | --- |
+| PublicSiteNav prototype implementation | Superseded — keep current Web |
+| ProviderMap component behavior | Keep Current — required selected-state cleanup is already represented in Web |
+| ProviderMap selected-state CSS | Keep Current — present in current shared/Web style authorities |
+| Web package/build/test authority | Keep Current |
+| Prototype route-family audit script | Bring Forward/adapt after compatibility check |
+| Large prototype CSS authorities | Needs Technical Verification selector-by-selector; no wholesale copy |
