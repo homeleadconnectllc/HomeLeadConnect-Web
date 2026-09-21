@@ -48,3 +48,18 @@ test("interior page components never reuse Four Pathways photography", () => {
   const offenders = sources.filter((path) => readFileSync(path, "utf8").includes("four-pathways-"));
   assert.deepEqual(offenders, [], `Four Pathways photography leaked into interior pages: ${offenders.join(", ")}`);
 });
+
+
+test("public visual authorities keep About, Contact, Residents, and Request Service imagery isolated", () => {
+  const authority = readFileSync(join(projectRoot, "src/styles/public-owner-visual-final-20260918.css"), "utf8");
+  const requestSource = readFileSync(join(projectRoot, "src/pages/RequestService.tsx"), "utf8");
+
+  assert.match(authority, /data-public-page="about"[^\n]+page-about-connected-home-help-20260916\.webp/);
+  assert.match(authority, /data-public-page="contact"[^\n]+page-contact-how-can-we-help-20260916\.webp/);
+  assert.match(authority, /data-pathway="residents"[^\n]+page-residents-request-help-20260916\.webp/);
+  assert.match(authority, /hlc-request-service[^\n]+page-request-service-home-needs-20260916\.webp/);
+
+  assert.doesNotMatch(authority, /data-public-page="contact"[^\n]+page-about-connected-home-help-20260916\.webp/);
+  assert.doesNotMatch(authority, /hlc-request-service[^\n]+page-residents-request-help-20260916\.webp/);
+  assert.doesNotMatch(requestSource, /Harrisburg skyline: J\. Passepartout/);
+});
