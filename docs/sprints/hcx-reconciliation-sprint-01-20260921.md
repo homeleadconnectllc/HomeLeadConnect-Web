@@ -152,3 +152,47 @@ Updated dispositions:
 | Prototype continuity and sprint documentation | Preserve as historical evidence, not runtime authority |
 
 This checkpoint means the preserved prototype branches are not being discarded; their intended cleanup outcomes have been compared against the current production-derived Web authority. Where current Web already contains a broader or newer implementation, the prototype copy is marked superseded instead of being copied back and risking regression.
+
+
+## Verified reconciliation checkpoint 3 — preserved capabilities not yet present in Web
+
+The prototype history was also checked for useful capability work that was not merely visual cleanup.
+
+### Multilingual spoken agent addressing — integrated
+
+Prototype commit `b47d1dde4f6711b2209da7c73fbf4c420dde0094` adds continuous/interim speech recognition and spoken-name handling for Kendrell, Dion, and Diamond.
+
+Before that prototype commit, both `AgentChatPanel.tsx` and `multilingualAgentContract.test.ts` have blob hashes exactly identical to current Web production. This establishes a clean lineage: current Web was still at the direct pre-feature version of those two files.
+
+The exact post-feature file contents were therefore brought forward to this reconciliation branch without replacing unrelated Web work.
+
+Integrated branch commits:
+- `3ede568fb285d6df44f4f56e9edeadcbb89f110b` — multilingual spoken agent addressing implementation.
+- `4c72b938c266fd7b60fc4167671ee87ffc727009` — matching multilingual contract coverage.
+
+The existing Web acceptance command already includes `src/routes/multilingualAgentContract.test.ts`, so no package-script replacement is required.
+
+### Route-family authority — reconciled as organization evidence
+
+Prototype route-family authority lists exactly 125 unique routes. Current Web `AppRouter.tsx` also declares exactly 125 unique routes, and set comparison shows zero routes present on only one side.
+
+Prototype route-family metadata remains useful for the HCX product map (public, resident/family, professional, partner, shared signed-in, internal workspace; plus owner/focus descriptions). Current Web's executable visual inventory remains the stronger runtime audit because it derives route families from the current router rather than relying on a duplicated static route list.
+
+Disposition: preserve the prototype taxonomy as reconciliation/product-organization evidence; keep the current Web dynamic route audit as code authority.
+
+### Agent portrait identity lock — preserved, not blindly copied
+
+Prototype commit `b0434235d1c45d92ce8a03cbcf6ed49b9dc956f9` added locked source portraits for Kendrell, Dion, and Diamond plus stricter asset-registry/hash tests. Current Web does not contain the same identity-lock package, and its current Kendrell portrait hash differs from the prototype's locked hash.
+
+Because the owner has reported image/identity problems and these are binary identity assets, this is intentionally **Needs Owner Review / visual verification**, not an automatic replacement. The source assets and their hashes remain preserved in the prototype repository.
+
+Updated dispositions:
+
+| Area | Verified disposition |
+| --- | --- |
+| Multilingual spoken agent addressing | Bring Forward — integrated on reconciliation branch |
+| Multilingual contract test | Bring Forward — integrated on reconciliation branch |
+| Prototype 125-route taxonomy | Preserve as organization evidence; route set verified equal to Web |
+| Current Web dynamic route audit | Keep Current |
+| Prototype locked agent source portraits | Needs Owner Review / visual verification before visible-asset replacement |
+| Prototype agent identity hash tests | Bring Forward only with the approved portrait source set |
