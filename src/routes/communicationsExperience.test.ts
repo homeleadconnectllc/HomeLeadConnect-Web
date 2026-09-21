@@ -104,6 +104,11 @@ test("Messages can deliberately send a portal message through the canonical emai
   assert.match(messagesApi, /functions\.invoke\("send-communication"/);
   assert.match(messagesApi, /channel: "email"/);
   assert.match(messagesApi, /subjectId/);
+  assert.doesNotMatch(messagesApi, /normalizeEmailTarget\(input\.recipient\.email\)/);
+  assert.match(messages, /transmission\.status === "sent"/);
+  assert.match(messages, /transmission\.status === "queued"/);
+  assert.match(messages, /requires provider review before delivery/);
+  assert.match(messages, /Email delivery is verified by HLC at send time/);
   assert.match(sendCommunication, /requestedSubject/);
   assert.match(sendCommunication, /subject: emailSubject/);
 });
