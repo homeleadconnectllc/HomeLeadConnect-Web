@@ -33,8 +33,12 @@ async function withStore<T>(mode: IDBTransactionMode, run: (store: IDBObjectStor
     return await new Promise<T>((resolve, reject) => {
       const tx = db.transaction(DRAFTS, mode);
       const request = run(tx.objectStore(DRAFTS));
-      request.onsuccess = () => resolve(request.result);
+      let result: T;
+      request.onsuccess = () => { result = request.result; };
       request.onerror = () => reject(request.error ?? new Error("Durable state operation failed"));
+      tx.oncomplete = () => resolve(result);
+      tx.onerror = () => reject(tx.error ?? new Error("Durable state transaction failed"));
+      tx.onabort = () => reject(tx.error ?? new Error("Durable state transaction was aborted"));
     });
   } finally {
     db.close();
