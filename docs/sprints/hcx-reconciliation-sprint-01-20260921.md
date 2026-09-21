@@ -184,7 +184,7 @@ Disposition: preserve the prototype taxonomy as reconciliation/product-organizat
 
 Prototype commit `b0434235d1c45d92ce8a03cbcf6ed49b9dc956f9` added locked source portraits for Kendrell, Dion, and Diamond plus stricter asset-registry/hash tests. Current Web does not contain the same identity-lock package, and its current Kendrell portrait hash differs from the prototype's locked hash.
 
-Because the owner has reported image/identity problems and these are binary identity assets, this is intentionally **Needs Owner Review / visual verification**, not an automatic replacement. The source assets and their hashes remain preserved in the prototype repository.
+Owner authorization now covers bringing these locked identity assets forward on the isolated reconciliation branch. The prototype-locked Kendrell portrait, all three source identity portraits, asset-registry rules, and hash guards are integrated here. They still require rendered visual verification before any production promotion.
 
 Updated dispositions:
 
@@ -194,8 +194,8 @@ Updated dispositions:
 | Multilingual contract test | Bring Forward — integrated on reconciliation branch |
 | Prototype 125-route taxonomy | Preserve as organization evidence; route set verified equal to Web |
 | Current Web dynamic route audit | Keep Current |
-| Prototype locked agent source portraits | Needs Owner Review / visual verification before visible-asset replacement |
-| Prototype agent identity hash tests | Bring Forward only with the approved portrait source set |
+| Prototype locked agent source portraits | Bring Forward — integrated under owner authorization; visual verification required before promotion |
+| Prototype agent identity hash tests | Bring Forward — integrated with the locked portrait source set |
 
 
 ## Verified reconciliation checkpoint 2
