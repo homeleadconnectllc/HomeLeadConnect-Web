@@ -277,3 +277,19 @@ Compared the remaining Stage-2 cleanup components against current Web.
 ### Result
 
 The Stage-2 component cleanup does not contain missing business behavior for these surfaces. Copying these prototype files would primarily restore older component-specific class systems, so they remain preserved evidence rather than integration payload.
+
+
+## Verified reconciliation checkpoint 6 — rendered evidence and page image ownership
+
+The exact head at the start of this checkpoint (`fc8f2f0fdd74712de6d78ab613036a622579f871`) passed all five required workflows: Launch Candidate, Blind Visual Certification, Rendered Quality Gate, Front Door Visual Review, and Authenticated Visual Proof. The downloaded evidence includes desktop/mobile front-door captures and the broad authenticated route sweep.
+
+The image-ownership trace then found two real CSS mapping defects that the registry-only uniqueness test could not see:
+
+- Contact was reusing the About photograph instead of its dedicated Contact asset.
+- Request Service was reusing the Residents photograph while displaying a Harrisburg skyline attribution that did not describe the rendered file.
+
+The reconciliation branch now maps About, Contact, Residents, and Request Service to separate page-owned assets and adds a source-level contract preventing those two regressions. The stale skyline attribution was removed because the skyline file was not actually being rendered.
+
+The owner-approved long-term Request Service visual remains the verified Harrisburg river-to-city/Capitol photograph. The intended source has been re-verified as J. Passepartout's “Harrisburg PA skyline,” showing the Susquehanna River and Pennsylvania State Capitol under CC BY-SA 4.0. Until that licensed binary is deliberately added to the repository with attribution, the branch uses the existing request-specific local photograph rather than falsely crediting or reusing another page's image.
+
+Because the image corrections advance the exact head, certification must be evaluated again on the final post-correction SHA before any merge decision.
