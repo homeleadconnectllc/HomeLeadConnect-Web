@@ -29,6 +29,7 @@ The approved authenticated workflow uses HLC_VISUAL_TEST_EMAIL/HLC_VISUAL_TEST_P
 ## Rendered exception fixes
 
 - Public header: restore grid layout, intrinsic account-link sizing and menu rows; separate account-benefit labels.
+- Public menu trigger: the official circular logo is the single visible trigger on every public/account route. The former hamburger icon and `Menu` label are removed; a restrained blue ring/glimmer signals interactivity, with a static reduced-motion fallback and explicit keyboard focus.
 - Pathway family: paired desktop hero copy/imagery, mobile stacking and readable heading line height.
 - Signed-in system: explicit sans-serif typography, token-based neutral/status surface fallbacks, intrinsic navigation-link width.
 - App Directory: restore collection/link layout in its existing CSS owner.
@@ -48,4 +49,3 @@ One dedicated workspace identity does not certify all internal roles or resident
 Manual review checks: desktop/mobile header and menu; public/account entry; workflow/activity; CRM and communications; Resources/navigation; Community descendants; directory; memorial; forms/empty/error states. Review existing-record detail actions and audience-specific portal interiors only with separately approved sessions.
 
 No merge, production deployment, or paid creative generation occurred. The final branch is intentionally a draft review candidate while audience-specific proof remains outstanding.
-

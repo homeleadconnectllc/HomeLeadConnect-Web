@@ -54,10 +54,6 @@ export function mountStandalonePublicHome(root: HTMLElement) {
   logo.alt = "";
   logo.setAttribute("aria-hidden", "true");
   trigger.append(logo, make("span", "hlc-brand-accessible-label", "HomeLead Connect"));
-  const cue = make("span", "hlc-public-menu-cue");
-  cue.setAttribute("aria-hidden", "true");
-  cue.append(document.createTextNode("☰ "), make("span", undefined, "Menu"));
-  trigger.append(cue);
 
   const actions = make("div", "hlc-board-actions");
   actions.append(link(`${APP_ORIGIN}/login`, "hlc-board-login", "Sign In"), link(`${APP_ORIGIN}/register`, "hlc-board-cta", "Get Started"));
