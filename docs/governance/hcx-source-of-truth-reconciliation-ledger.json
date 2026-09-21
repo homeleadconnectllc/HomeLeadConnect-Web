@@ -206,6 +206,27 @@
       "builderAction": "PRESERVE",
       "conflictSupersededInformation": "Prototype-only repository directions are superseded for current production integration work.",
       "remainingRisk": "Do not reconnect or wholesale-merge prototype backend/runtime behavior."
+    },
+    {
+      "id": "retired-runtime-file-salvage-policy",
+      "occurredAt": "2026-09-21T00:00:00-04:00",
+      "createdAt": null,
+      "modifiedAt": null,
+      "observedAt": null,
+      "source": "Owner directive",
+      "sourceIdentifier": "HCX runtime retirement / file-salvage rule",
+      "requirement": "Retired environments may contribute useful historical files, but they are not live runtime, preview, deployment, or release-authority systems.",
+      "currentAuthority": "Cloudflare is the live deployment path. Netlify, Vercel, localhost, and retired Vite-hosted environments may be inspected only for reusable files and evidence.",
+      "implementedLocation": "HCX reconciliation process",
+      "dataHome": "GitHub after selective reconciliation",
+      "workflowTrigger": "historical source inspection",
+      "permissionModel": "reuse files only after comparison against current GitHub/Supabase/owner authority",
+      "testEvidence": "Owner clarified that historical environments may be mined for components, CSS, images, routes, tests, docs, and patterns, but must not be revived as live systems.",
+      "authority": "owner-specification",
+      "status": "current",
+      "builderAction": "RECONCILE",
+      "conflictSupersededInformation": "Any historical instruction that treats Netlify, Vercel, localhost, or retired Vite runtime as a current live destination is superseded.",
+      "remainingRisk": "Recovered files can contain stale backend, auth, deployment, visual, or product assumptions and must be adapted before use."
     }
   ]
 }
