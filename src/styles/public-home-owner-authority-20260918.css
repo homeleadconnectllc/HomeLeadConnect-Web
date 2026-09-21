@@ -25,7 +25,8 @@
 .hlc-owner-hero h1{max-width:700px;margin:0;font-size:clamp(48px,5.3vw,78px);line-height:.98;letter-spacing:-.04em;color:#fff}
 .hlc-owner-hero h1 span{display:block;color:#56cbff}
 .hlc-owner-tagline{margin:18px 0 0;font-size:21px;color:#f8fafc}
-.hlc-owner-intro{margin:18px 0 0;font-size:17px;line-height:1.48;color:#e3e9ee}\n.hlc-owner-price{margin:18px 0 0;color:#f8fafc}
+.hlc-owner-intro{margin:18px 0 0;font-size:17px;line-height:1.48;color:#e3e9ee}
+.hlc-owner-price{margin:18px 0 0;color:#f8fafc}
 .hlc-owner-script{position:absolute;right:7%;top:30%;margin:0;text-align:center;font-style:italic;font-size:26px;color:#fff;text-shadow:0 2px 14px rgba(0,0,0,.35)}
 .hlc-owner-script small{display:block;margin-top:8px;color:#58d4ff;font-style:normal;font-size:12px;font-weight:800;letter-spacing:.2em;text-transform:uppercase}
 
