@@ -25,9 +25,10 @@ type RecognitionLike = {
   lang: string;
   interimResults: boolean;
   continuous: boolean;
+  maxAlternatives?: number;
   start: () => void;
   stop: () => void;
-  onresult: ((event: { results: ArrayLike<{ 0: { transcript: string } }> }) => void) | null;
+  onresult: ((event: { resultIndex?: number; results: ArrayLike<{ 0: { transcript: string }; isFinal?: boolean }> }) => void) | null;
   onerror: ((event: { error?: string }) => void) | null;
   onend: (() => void) | null;
 };
@@ -40,6 +41,12 @@ const avatarByAgent: Record<AgentId, string> = {
   kendrell: "/brand/avatars/Kendrell_Locked_HLC.png",
   dion: "/brand/avatars/Dion_Locked_HLC.png",
   diamond: "/brand/avatars/Diamond_Locked_HLC.png",
+};
+
+const spokenAgentNamePatterns: Record<AgentId, RegExp[]> = {
+  kendrell: [/\bkendrell\b/i, /\bken[\s-]?drayl\b/i, /\bken\s+drill\b/i, /\bbossman\s+ken\b/i],
+  dion: [/\bdion\b/i, /\bdee[\s-]?yon\b/i, /\bdeon\b/i],
+  diamond: [/\bdiamond\b/i, /\bdie[\s-]?men\b/i, /\bdia[\s-]?mond\b/i],
 };
 
 const quickPrompts: Record<ResolvedAgentLocale, Record<AgentId, string[]>> = {
@@ -83,6 +90,39 @@ function getRecognitionConstructor(): RecognitionConstructor | null {
   return speechWindow.SpeechRecognition || speechWindow.webkitSpeechRecognition || null;
 }
 
+function collapseSpokenWhitespace(text: string) {
+  return text.replace(/\s+/g, " ").trim();
+}
+
+function recognitionTranscript(event: { resultIndex?: number; results: ArrayLike<{ 0: { transcript: string }; isFinal?: boolean }> }) {
+  const start = typeof event.resultIndex === "number" ? event.resultIndex : 0;
+  const pieces: string[] = [];
+  let hasFinal = false;
+  for (let index = start; index < event.results.length; index += 1) {
+    const result = event.results[index];
+    const transcript = result?.[0]?.transcript;
+    if (!transcript) continue;
+    const final = result.isFinal !== false;
+    if (final) {
+      hasFinal = true;
+      pieces.push(transcript);
+    } else if (!hasFinal) {
+      pieces.push(transcript);
+    }
+  }
+  return { text: collapseSpokenWhitespace(pieces.join(" ")), final: hasFinal || event.results.length > 0 && event.results[start]?.isFinal === undefined };
+}
+
+function spokenTurnForAgent(agentId: AgentId, text: string) {
+  const clean = collapseSpokenWhitespace(text);
+  if (!clean) return "";
+  const addressed = spokenAgentNamePatterns[agentId].some((pattern) => pattern.test(clean));
+  if (addressed && clean.split(/\s+/).length <= 2) {
+    return `${agents[agentId].name}, I am speaking to you. Please respond.`;
+  }
+  return clean;
+}
+
 export default function AgentChatPanel({ agentId, agentName, accent }: { agentId: AgentId; agentName: string; accent: string }) {
   const browserLocale = typeof navigator !== "undefined" ? navigator.language : "en-US";
   const [messages, setMessages] = useState<AgentChatMessage[]>([]);
@@ -96,6 +136,7 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
   const [activeLocale, setActiveLocale] = useState<ResolvedAgentLocale>(() => resolveAgentLocale(getAgentLocalePreference(), "", browserLocale));
   const [voicePreferences, setVoicePreferences] = useState<AgentVoicePreferences>(() => getAgentVoicePreferences());
   const recognitionRef = useRef<RecognitionLike | null>(null);
+  const lastSpokenTurnRef = useRef("");
   const previousAgentIdRef = useRef<AgentId>(agentId);
   const agentGenerationRef = useRef(0);
   const recognitionSupported = typeof window !== "undefined" && Boolean(getRecognitionConstructor());
@@ -259,15 +300,22 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
     if (!Constructor) return;
     const recognition = new Constructor();
     recognition.lang = activeLocale;
-    recognition.interimResults = false;
-    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.continuous = true;
+    recognition.maxAlternatives = 1;
     recognition.onresult = (event) => {
-      const transcript = event.results[0]?.[0]?.transcript?.trim();
-      if (!transcript) return;
-      setDraft(transcript);
+      const transcript = recognitionTranscript(event);
+      if (!transcript.text) return;
+      const spokenTurn = spokenTurnForAgent(agentId, transcript.text);
+      setDraft(spokenTurn);
+      if (!transcript.final) return;
+      const normalized = spokenTurn.toLocaleLowerCase();
+      if (!spokenTurn || normalized === lastSpokenTurnRef.current) return;
+      lastSpokenTurnRef.current = normalized;
       setListening(false);
+      recognition.stop();
       recognitionRef.current = null;
-      void sendMessage(transcript);
+      void sendMessage(spokenTurn);
     };
     recognition.onerror = (event) => {
       setError(event.error ? `Voice input error: ${event.error}` : "Voice input failed.");
@@ -278,6 +326,7 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
       recognitionRef.current = null;
     };
     recognitionRef.current = recognition;
+    lastSpokenTurnRef.current = "";
     setListening(true);
     setError("");
     try {
@@ -342,7 +391,7 @@ export default function AgentChatPanel({ agentId, agentName, accent }: { agentId
       <label className="sr-only" htmlFor={`${agentId}-chat-input`}>{copy.message} {agentName}</label>
       <textarea id={`${agentId}-chat-input`} maxLength={4000} rows={2} value={draft} onChange={(event) => setDraft(event.target.value)} placeholder={`${copy.message} ${agentName}…`} lang={activeLocale} dir={activeLocale === "ar-SA" ? "rtl" : "auto"} />
       <div className="hlc-ai-composer-actions">
-        {recognitionSupported && <button className={`hlc-ai-icon-action ${listening ? "is-active" : ""}`} type="button" aria-pressed={listening} onClick={toggleDictation} title={copy.talk}>{listening ? "■" : "🎤"}<span>{listening ? `${copy.listening}…` : copy.talk}</span></button>}
+        {recognitionSupported && <button className={`hlc-ai-icon-action ${listening ? "is-active" : ""}`} type="button" aria-pressed={listening} onClick={toggleDictation} title={`${copy.talk} · ${agentName}`}>{listening ? "■" : "🎤"}<span>{listening ? `${copy.listening}…` : copy.talk}</span></button>}
         <details className="hlc-ai-settings">
           <summary title={copy.options}><span className="hlc-ai-settings-label">Voice</span><span className="sr-only">{copy.options}</span></summary>
           <div>
