@@ -100,7 +100,7 @@ body{margin:0}
 #root .hlc-pathway-page[data-pathway="professionals"] .hlc-pathway-hero{background-image:url('/page-professionals-provider-presence-20260916.webp')}
 #root .hlc-pathway-page[data-pathway="partners"] .hlc-pathway-hero{background-image:url('/page-partners-referral-relationships-20260916.webp')}
 #root .hlc-pathway-page[data-pathway="community"] .hlc-pathway-hero{background-image:url('/page-community-connected-neighbors-20260916.webp')}
-#root .hlc-public-board-page[data-public-page="about"] .hlc-public-hero{background-image:url('/page-about-connected-home-help-20260916.webp')}
+#root .hlc-public-board-page[data-public-page="about"] .hlc-public-hero{background-image:url('/page-contact-how-can-we-help-20260916.webp')}
 #root .hlc-public-board-page[data-public-page="services"] .hlc-public-hero{background-image:url('/page-services-connected-journey-20260916.webp')}
 #root .hlc-public-board-page[data-public-page="contact"] .hlc-public-hero{background-image:linear-gradient(180deg,rgba(2,12,24,.10),rgba(2,12,24,.82)),url('/page-about-connected-home-help-20260916.webp')}
 #root .hlc-public-board-page[data-public-page="accessibility"] .hlc-public-hero{background-image:url('/page-accessibility-devices-inputs-20260916.webp')}
@@ -205,7 +205,7 @@ body{margin:0}
 #root .hlc-public-consent{grid-template-columns:24px 1fr!important;align-items:start!important}
 
 /* request service joins the same system */
-#root .hlc-request-service{padding:clamp(48px,7vw,90px) 20px 80px;background:linear-gradient(180deg,rgba(3,17,31,.40),rgba(3,17,31,.86)),url('/page-residents-request-help-20260916.webp') center/cover fixed no-repeat}
+#root .hlc-request-service{padding:clamp(48px,7vw,90px) 20px 80px;background:linear-gradient(180deg,rgba(3,17,31,.40),rgba(3,17,31,.86)),url('/page-request-service-home-needs-20260916.webp') center/cover fixed no-repeat}
 #root .hlc-request-intro{width:min(900px,100%);margin:0 auto 44px;text-align:center}
 #root .hlc-request-intro h1{margin:0;font-family:var(--hlc-public-serif);font-size:clamp(3rem,7vw,6rem);line-height:.95;letter-spacing:-.045em}
 #root .hlc-request-intro>p:not(.hlc-request-kicker){max-width:680px;margin:18px auto 0;line-height:1.65;color:#e5edf6}
