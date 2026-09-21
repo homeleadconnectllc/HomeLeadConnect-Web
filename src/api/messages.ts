@@ -154,7 +154,6 @@ export async function sendPortalEmail(input: {
   const { data, error } = await supabase.functions.invoke("send-communication", {
     body: {
       subjectType: input.recipient.role === "homeowner" ? "lead" : "contractor",
-      recipientEmail,
       subjectId: input.recipient.subjectId,
       channel: "email",
       purpose: "service",
