@@ -112,7 +112,6 @@ export default function RequestService() {
           <p>After you submit, HomeLead Connect reviews the request and contacts you about provider coordination or scheduling when appropriate.</p>
           <ul><li>Renters are welcome.</li><li>No marketing enrollment.</li><li>No provider or appointment is promised before confirmation.</li></ul>
           <Link to="/contact">Need help? Contact HomeLead Connect →</Link>
-          <small className="hlc-request-photo-credit">Harrisburg skyline: J. Passepartout / CC BY-SA 4.0</small>
         </aside>
       </section>
     </main>
