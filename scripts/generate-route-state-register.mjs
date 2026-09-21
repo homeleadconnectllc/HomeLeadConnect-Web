@@ -3,7 +3,7 @@ import { resolve } from "node:path";
 
 const root = process.cwd();
 const routerPath = resolve(root, "src/routes/AppRouter.tsx");
-const outputPath = resolve(root, "docs/sprints/route-state-register-20260916.md");
+const outputPath = resolve(root, "docs/sprints/route-state-register-current.md");
 const router = readFileSync(routerPath, "utf8");
 const protectedStart = router.indexOf('<Route element={<ProtectedLayout/>}>');
 const workspaceStart = router.indexOf('<Route element={<WorkspaceLayout/>}>');
@@ -63,7 +63,7 @@ for (const match of router.matchAll(routePattern)) {
 const lines = [
   "# HomeLead Connect Route and State Register",
   "",
-  "Generated from `src/routes/AppRouter.tsx` on 2026-09-16. Dynamic route parameters are represented by their declared patterns. The global Suspense boundary supplies every route's loading state. Protected routes inherit authentication and authorization boundaries.",
+  "Generated from `src/routes/AppRouter.tsx` by the current repository inventory script. Dynamic route parameters are represented by their declared patterns. The global Suspense boundary supplies every route's loading state. Protected routes inherit authentication and authorization boundaries.",
   "",
   `Total explicit route patterns: **${rows.length}**`,
   "",
