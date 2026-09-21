@@ -1,5 +1,6 @@
 import { getCurrentWorkspaceId, supabase } from "./client";
 import { dispatchInternalNotification } from "./internalNotifications";
+import { normalizeEmailTarget } from "../lib/contactTargets";
 
 export type ConversationMessage = {
   id: string;
@@ -148,10 +149,12 @@ export async function sendPortalEmail(input: {
   messageId?: string;
   requestId?: string;
 }) {
-  if (!input.recipient.email) throw new Error("This contact does not have an email address.");
+  const recipientEmail = normalizeEmailTarget(input.recipient.email);
+  if (!recipientEmail) throw new Error("This contact does not have an email address.");
   const { data, error } = await supabase.functions.invoke("send-communication", {
     body: {
       subjectType: input.recipient.role === "homeowner" ? "lead" : "contractor",
+      recipientEmail,
       subjectId: input.recipient.subjectId,
       channel: "email",
       purpose: "service",
