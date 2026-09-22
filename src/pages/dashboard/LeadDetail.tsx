@@ -54,8 +54,9 @@ export default function LeadDetail() {
       </header>
 
       <section className="hlc-lead-detail-actions" aria-label="Lead actions">
-        {lead.phone && <Link to={`/manual-communications?contact=lead:${lead.id}&channel=call`}><Phone size={18} aria-hidden="true" />Call</Link>}
-        <Link to={`/manual-communications?contact=lead:${lead.id}`}><MessageSquare size={18} aria-hidden="true" />Communicate</Link>
+        {lead.phone && <Link to={`/manual-communications?contact=lead:${lead.id}&channel=call&purpose=lead_follow_up`}><Phone size={18} aria-hidden="true" />Call</Link>}
+        {lead.phone && <Link to={`/manual-communications?contact=lead:${lead.id}&channel=sms&purpose=lead_follow_up`}><MessageSquare size={18} aria-hidden="true" />Text</Link>}
+        {lead.email && <Link to={`/messages?compose=email&lead=${lead.id}`}><Mail size={18} aria-hidden="true" />Email</Link>}
         <Link to={`/follow-ups?lead=${lead.id_uuid}`}><CalendarClock size={18} aria-hidden="true" />Follow up</Link>
         <Link to={`/estimator?lead=${lead.id}`}><Calculator size={18} aria-hidden="true" />Create estimate</Link>
       </section>
@@ -102,7 +103,7 @@ export default function LeadDetail() {
         <h2>Related work</h2>
         <div>
           <Link to={`/follow-ups?lead=${lead.id_uuid}`}><CalendarClock size={18} aria-hidden="true" /><span><strong>Follow-ups</strong><small>Review or schedule the next action</small></span></Link>
-          <Link to={`/manual-communications?contact=lead:${lead.id}`}><MessageSquare size={18} aria-hidden="true" /><span><strong>Communication</strong><small>Call, text, and communication history</small></span></Link>
+          <Link to={`/manual-communications?contact=lead:${lead.id}&purpose=lead_follow_up`}><MessageSquare size={18} aria-hidden="true" /><span><strong>Communication</strong><small>Call, text, and communication history</small></span></Link>
           <Link to={`/estimator?lead=${lead.id}`}><Calculator size={18} aria-hidden="true" /><span><strong>Estimates</strong><small>Create or continue estimating</small></span></Link>
           <Link to={`/jobs?lead=${lead.id}`}><BriefcaseBusiness size={18} aria-hidden="true" /><span><strong>Jobs</strong><small>Review work created from accepted estimates for this lead</small></span></Link>
         </div>
