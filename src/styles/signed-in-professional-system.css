@@ -242,7 +242,7 @@
 .hlc-signed-in-shell > .hlc-public-footer :is(img,strong,span,nav){display:none!important}
 
 @media(max-width:900px){
-  .hlc-signed-in-shell > .hlc-route-content{padding-bottom:calc(74px + env(safe-area-inset-bottom))!important;background:#f6f9fc!important}
+  .hlc-signed-in-shell > .hlc-route-content{padding-bottom:calc(108px + env(safe-area-inset-bottom))!important;background:#f6f9fc!important}
   .hlc-signed-in-shell .hlc-route-content > main{padding-inline:14px!important}
   .hlc-signed-in-shell .hlc-mobile-tabbar{border-top:1px solid var(--hlc-app-line)!important;background:rgba(255,255,255,.96)!important;box-shadow:0 -8px 24px rgba(23,34,49,.09)!important}
   .hlc-signed-in-shell .hlc-mobile-tabbar :is(a,button){color:#69788a!important;background:transparent!important;border:0!important}
