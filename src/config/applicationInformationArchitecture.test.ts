@@ -38,8 +38,12 @@ test("production navigation exposes major E1-E7 destinations under their intende
   const requiredRoutes = [
     "/work",
     "/analytics",
-    "/matching",
+    "/work/matching",
+    "/network",
+    "/profiles",
+    "/providers",
     "/community/discover",
+    "/community/swipe",
     "/community/messages",
     "/community/challenges",
     "/community/academy",
@@ -55,7 +59,12 @@ test("production navigation exposes major E1-E7 destinations under their intende
   for (const route of requiredRoutes) {
     assert.ok(routeToGroup.has(route), `production navigation is missing ${route}`);
   }
-  assert.equal(routeToGroup.get("/matching"), "community");
+  assert.equal(routeToGroup.get("/work/matching"), "work");
+  assert.equal(routeToGroup.get("/network"), "network");
+  assert.equal(routeToGroup.get("/profiles"), "network");
+  assert.equal(routeToGroup.get("/providers"), "network");
+  assert.equal(routeToGroup.get("/community/swipe"), "community");
+  assert.equal(routeToGroup.has("/matching"), false);
   assert.equal(routeToGroup.get("/analytics"), "analytics");
   assert.equal(routeToGroup.get("/academy"), "academy");
   assert.equal(routeToGroup.get("/academy/roleplay"), "academy");
