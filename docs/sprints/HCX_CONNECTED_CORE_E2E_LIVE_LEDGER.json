@@ -1,0 +1,196 @@
+{
+  "schemaVersion": 1,
+  "milestone": "Connected Core E2E",
+  "certification": "NOT_YET_CERTIFIED",
+  "observedAt": "2026-09-22T09:37:00Z",
+  "repository": "homeleadconnectllc/HomeLeadConnect-Web",
+  "branch": "sprint/hcx-reconciliation-01-20260921",
+  "pr": 479,
+  "candidateSha": "cb9e467f51b32a3e0a0c9eab321744560b76670b",
+  "baseSha": "c3fcecbaafefdf8285cc5170e3c9eb133f55912b",
+  "productionSupabase": "cguhtshclyybivvdnpig",
+  "reconciliationSupabase": "agfwqnirspmptjiqrrtk",
+  "releaseRule": "Production promotion remains owner-controlled. A later material commit invalidates exact-head evidence until rerun.",
+  "statusVocabulary": [
+    "implemented",
+    "partial",
+    "verify",
+    "blocked-external",
+    "owner-review"
+  ],
+  "workstreams": [
+    {
+      "id": "CC-01",
+      "name": "Canonical Identity + Contact Core",
+      "status": "partial",
+      "hardBlocker": true,
+      "evidence": [
+        "src/lib/contactIdentity.ts canonicalizes phone/email and fails closed on ambiguous candidates.",
+        "src/routes/contactIdentityContract.test.ts verifies formatting collapse and ambiguity handling.",
+        "supabase/migrations/20260921232736_harden_communication_subject_identity_resolution.sql exists in repository/test lineage and reconciliation project.",
+        "Production schema currently has no demonstrated canonical person/contact-endpoint table authority; legacy lead/contractor/profile records remain active inputs."
+      ],
+      "gaps": [
+        "Persist one canonical person identity and contact-point model with provenance/history.",
+        "Deploy/verify ambiguity-safe server resolver in production only through approved release.",
+        "Prove multi-role person context without duplicate person records.",
+        "Prove invitation acceptance binds intended identity/context without email-equality authority."
+      ],
+      "nextAction": "Design and rehearse additive person/contact persistence + reconciliation in the non-production project; do not migrate production."
+    },
+    {
+      "id": "CC-02",
+      "name": "CRM Canonical Lifecycle",
+      "status": "partial",
+      "hardBlocker": true,
+      "evidence": [
+        "Public intake, leads, estimates, jobs, appointments and follow-ups exist with RLS enabled.",
+        "Request/lead idempotency and causal intake migrations exist.",
+        "save_estimate_with_lines and transition_crm_job enforce transactional/authorized mutations."
+      ],
+      "gaps": [
+        "Canonical person/customer foreign-key relationship is not yet the demonstrated CRM root.",
+        "Full request→lead→appointment→estimate→job→follow-up state proof is not yet certified as one chain.",
+        "Duplicate/parallel state-machine audit remains required."
+      ],
+      "nextAction": "Produce authoritative relationship map and controlled request-to-job rehearsal against reconciliation Supabase."
+    },
+    {
+      "id": "CC-03",
+      "name": "Communications E2E",
+      "status": "partial",
+      "hardBlocker": false,
+      "evidence": [
+        "Production contains communication compliance checks, transmissions, provider events, conversations and messages with RLS enabled.",
+        "Provider-neutral queue preserves blocked/review/queued distinctions and idempotency keys.",
+        "Resend/Twilio/manual handoff paths and operator-reported activity exist.",
+        "Manual activity can append lead activity/call logs without fabricating provider delivery."
+      ],
+      "gaps": [
+        "Production inbound endpoint ambiguity remains a blocker to identity-safe attachment.",
+        "Controlled queued→sent→delivered/failed and call-state transition rehearsals remain required.",
+        "Bounce/rejection and out-of-order webhook certification remains required."
+      ],
+      "nextAction": "Use reconciliation environment for provider-state normalization/idempotency tests; preserve production provider data."
+    },
+    {
+      "id": "CC-04",
+      "name": "Scheduling",
+      "status": "verify",
+      "hardBlocker": false,
+      "evidence": [
+        "Appointments and calendar mapping foundations exist with RLS enabled.",
+        "Atomic job appointment reschedule and validation migrations exist.",
+        "Current production contains canonical appointment records."
+      ],
+      "gaps": [
+        "Controlled concurrency race proof is required.",
+        "Reminder invalidation/version behavior after reschedule requires explicit evidence.",
+        "External calendar failure/retry truth requires certification."
+      ],
+      "nextAction": "Add controlled scheduling lifecycle/failure tests in reconciliation project."
+    },
+    {
+      "id": "CC-05",
+      "name": "Workflow + Automation Engine",
+      "status": "partial",
+      "hardBlocker": false,
+      "evidence": [
+        "Automation registry defines trigger/outcome/guardrail semantics.",
+        "Production automation_jobs runtime is populated and RLS protected.",
+        "Workflow integrity hardening closes direct browser mutation paths for estimates/jobs."
+      ],
+      "gaps": [
+        "Certification-critical automation runs need one execution contract covering definition/version, trigger, idempotency, permission-at-execution, retries, partial failure and correlation.",
+        "Quiet/business-hour execution semantics require persisted proof.",
+        "Duplicate-trigger and retry-exhaustion rehearsals remain required."
+      ],
+      "nextAction": "Inventory certification-critical automations and bind each to persisted runtime evidence and failure tests."
+    },
+    {
+      "id": "CC-06",
+      "name": "Notifications + Sound",
+      "status": "partial",
+      "hardBlocker": false,
+      "evidence": [
+        "Notifications and internal_notification_deliveries exist with RLS/server-only idempotency controls.",
+        "Internal alerts are dispatched only after canonical writes and do not define workflow completion."
+      ],
+      "gaps": [
+        "Dedicated interface/notification sound runtime was not demonstrated in the inspected source evidence.",
+        "Sound preference, replay suppression, polling dedupe and Safari/mobile behavior require implementation or explicit no-sound classification.",
+        "Notification delivery state must remain downstream of authoritative business events."
+      ],
+      "nextAction": "Complete sound inventory first; add only a small centralized presentation layer if justified, with preferences and dedupe."
+    },
+    {
+      "id": "CC-07",
+      "name": "Permission + RLS Foundation",
+      "status": "verify",
+      "hardBlocker": true,
+      "evidence": [
+        "Inspected production and reconciliation public tables report RLS enabled.",
+        "Browser credential and privilege-hardening acceptance contracts exist.",
+        "Workspace/member and role-aware mutation functions are present."
+      ],
+      "gaps": [
+        "Direct cross-tenant query/mutation/search/document/export denial matrix must be rerun against controlled identities.",
+        "Final RLS proof depends on canonical identity/person context from CC-01."
+      ],
+      "nextAction": "Execute a controlled deny/allow matrix in reconciliation Supabase after identity model is fixed."
+    },
+    {
+      "id": "CC-08",
+      "name": "Failure + Recovery",
+      "status": "partial",
+      "hardBlocker": false,
+      "evidence": [
+        "Durable draft/reconnect contracts exist for safe local state.",
+        "Provider/transmission and automation runtimes preserve explicit failure status fields.",
+        "Idempotency mechanisms exist in public intake, communications and internal notification delivery."
+      ],
+      "gaps": [
+        "Fault-injection coverage for lost response, reconnect, partial automation, provider timeout and retry exhaustion is incomplete.",
+        "Human escalation ownership on terminal failure requires end-to-end proof."
+      ],
+      "nextAction": "Build a non-production fault-injection matrix and record authoritative reconciliation outcomes."
+    },
+    {
+      "id": "CC-09",
+      "name": "Mobile Connected Core",
+      "status": "verify",
+      "hardBlocker": false,
+      "evidence": [
+        "Mobile A+ integrated acceptance contracts cover 390px-class routes, touch targets, focus, safe areas and text sizing.",
+        "Authenticated visual proof is green on the current exact head."
+      ],
+      "gaps": [
+        "Core phone/SMS/email/appointment/failure/retry/reconnect journeys still require controlled mobile E2E evidence.",
+        "Mobile must consume the same server authority as desktop for every consequential action."
+      ],
+      "nextAction": "Run route/journey evidence on 390px against the branch preview after each functional hardening checkpoint."
+    },
+    {
+      "id": "CC-10",
+      "name": "Exact-Build Certification",
+      "status": "verify",
+      "hardBlocker": true,
+      "evidence": [
+        "Current observed branch head cb9e467f51b32a3e0a0c9eab321744560b76670b completed all five visual/launch gates successfully before this sprint ledger commit."
+      ],
+      "gaps": [
+        "This milestone cannot pass until CC-01 through CC-09 meet their binary exit criteria.",
+        "Any material sprint commit requires fresh exact-head certification."
+      ],
+      "nextAction": "Rerun all required checks on the new post-sprint exact head; do not promote production."
+    }
+  ],
+  "sprintExitCriteria": [
+    "CC-01 through CC-10 are represented in one live machine-readable ledger.",
+    "Ledger distinguishes implemented/partial/verify from certification PASS.",
+    "Production and reconciliation Supabase evidence remain distinct.",
+    "No production migration or destructive data change is performed.",
+    "A contract test prevents accidental declaration of Connected Core PASS while hard blockers remain.",
+    "Exact-head CI is rerun after ledger/test changes."
+  ]
+}
