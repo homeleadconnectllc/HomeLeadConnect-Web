@@ -51,8 +51,8 @@ const viewports = [
 const outputDir = path.resolve("artifacts/authenticated-visual-proof");
 fs.mkdirSync(outputDir, { recursive: true });
 
-async function assertExactlyOneVisibleLogo(page, label) {
-  const logoCount = await page.locator('img[alt="HomeLead Connect LLC"]').evaluateAll((nodes) => nodes.filter((node) => {
+async function visibleLogoCount(page) {
+  return page.locator('img[alt="HomeLead Connect LLC"]').evaluateAll((nodes) => nodes.filter((node) => {
     const style = window.getComputedStyle(node);
     const rect = node.getBoundingClientRect();
     return style.display !== "none"
@@ -61,6 +61,15 @@ async function assertExactlyOneVisibleLogo(page, label) {
       && rect.width > 0
       && rect.height > 0;
   }).length);
+}
+
+async function assertExactlyOneVisibleLogo(page, label) {
+  const deadline = Date.now() + 4_000;
+  let logoCount = await visibleLogoCount(page);
+  while (logoCount !== 1 && Date.now() < deadline) {
+    await page.waitForTimeout(150);
+    logoCount = await visibleLogoCount(page);
+  }
   if (logoCount !== 1) {
     throw new Error(`${label} expected exactly 1 visible HomeLead Connect logo but rendered ${logoCount}.`);
   }
