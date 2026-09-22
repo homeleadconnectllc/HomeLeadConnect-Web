@@ -13,7 +13,7 @@ test("normalizes only recognized internal HLC roles", () => {
 });
 
 test("owner can open command, billing, management and operational routes", () => {
-  for (const path of ["/hq", "/hq/system-health", "/settings/billing", "/workflow", "/automations", "/analytics", "/team", "/leads", "/jobs", "/calendar"]) {
+  for (const path of ["/hq", "/hq/system-health", "/hq/build-tracker", "/settings/billing", "/workflow", "/automations", "/analytics", "/team", "/leads", "/jobs", "/calendar"]) {
     assert.equal(canAccessWorkspacePath("owner", path), true, path);
   }
 });
@@ -23,6 +23,7 @@ test("manager can open assigned command areas but not owner-only billing authori
   assert.equal(canAccessWorkspacePath("manager", "/hq/approvals"), true);
   assert.equal(canAccessWorkspacePath("manager", "/hq/dedication"), true);
   assert.equal(canAccessWorkspacePath("manager", "/settings/billing"), false);
+  assert.equal(canAccessWorkspacePath("manager", "/hq/build-tracker"), false);
   assert.equal(canAccessWorkspacePath("manager", "/workflow"), true);
   assert.equal(canAccessWorkspacePath("manager", "/automations"), true);
   assert.equal(canAccessWorkspacePath("manager", "/analytics"), true);
@@ -34,7 +35,7 @@ test("technician gets operational work but not management control planes", () =>
   for (const path of ["/leads", "/jobs", "/calendar", "/documents", "/call-center", "/manual-communications", "/network", "/providers"]) {
     assert.equal(canAccessWorkspacePath("technician", path), true, path);
   }
-  for (const path of ["/hq", "/settings/billing", "/workflow", "/automations", "/analytics", "/settings", "/team", "/operations", "/customer-experience", "/community/moderation"]) {
+  for (const path of ["/hq", "/hq/build-tracker", "/settings/billing", "/workflow", "/automations", "/analytics", "/settings", "/team", "/operations", "/customer-experience", "/community/moderation"]) {
     assert.equal(canAccessWorkspacePath("technician", path), false, path);
   }
 });

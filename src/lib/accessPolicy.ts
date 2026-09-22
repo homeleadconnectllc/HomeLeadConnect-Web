@@ -5,6 +5,7 @@ const managerRoles = new Set<InternalRole>(["owner", "manager"]);
 
 const ownerOnlyPrefixes = [
   "/settings/billing",
+  "/hq/build-tracker",
 ];
 
 const managerPrefixes = [
