@@ -9,6 +9,7 @@ import type { Lead } from "../../lib/types/database";
 import { errorMessage } from "../../lib/errorMessage";
 import { useAccountAccess } from "../../hooks/useAccountAccess";
 import { KendrellMemorial } from "./KendrellDedication";
+import { useModalDialogAccessibility } from "../../hooks/useModalDialogAccessibility";
 
 export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
   const agent = agents[agentId];
@@ -27,6 +28,7 @@ export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
   const [message, setMessage] = useState("");
   const [guidanceOpen, setGuidanceOpen] = useState(false);
   const [showNudge, setShowNudge] = useState(false);
+  const guidanceDialogRef = useModalDialogAccessibility<HTMLElement>(guidanceOpen, () => setGuidanceOpen(false));
 
   const load = useCallback(async () => {
     const [runRows, handoffRows, leadRows] = await Promise.all([listAgentRuns(agentId), listAgentHandoffs(agentId), listLeads()]);
@@ -53,9 +55,7 @@ export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
   useEffect(() => {
     if (!guidanceOpen) return;
     document.body.classList.add("hlc-agent-guidance-open");
-    function closeOnEscape(event: KeyboardEvent) { if (event.key === "Escape") setGuidanceOpen(false); }
-    window.addEventListener("keydown", closeOnEscape);
-    return () => { document.body.classList.remove("hlc-agent-guidance-open"); window.removeEventListener("keydown", closeOnEscape); };
+    return () => { document.body.classList.remove("hlc-agent-guidance-open"); };
   }, [guidanceOpen]);
 
   const selectedLead = useMemo(() => leads.find((lead) => String(lead.id) === leadId), [leadId, leads]);
@@ -161,7 +161,7 @@ export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
     <button type="button" className="hlc-agent-help-fab" aria-label={`Open ${agent.name} help`} onClick={() => setGuidanceOpen(true)}><span aria-hidden="true">?</span><span>{agent.name}</span></button>
 
     {guidanceOpen && createPortal(<div className="hlc-agent-guidance-overlay" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setGuidanceOpen(false); }}>
-      <section className="hlc-agent-guidance-drawer" role="dialog" aria-modal="true" aria-labelledby={`${agentId}-guidance-title`}>
+      <section ref={guidanceDialogRef} className="hlc-agent-guidance-drawer" role="dialog" aria-modal="true" aria-labelledby={`${agentId}-guidance-title`}>
         <div className="hlc-agent-guidance-head"><div className="hlc-agent-guidance-identity">{agent.image && <img src={agent.image} alt="" aria-hidden="true" />}<span><small>{agent.role}</small><strong id={`${agentId}-guidance-title`}>{agent.name} Command</strong><em>Online · workspace protected</em></span></div><button autoFocus type="button" aria-label="Close guidance" onClick={() => setGuidanceOpen(false)}>Close</button></div>
         <div className="hlc-agent-guidance-intro"><span>Command guidance</span><h2>Make the next decision clear.</h2><p>{agent.introduction}</p></div>
         <h3>How {agent.name} can help</h3>
