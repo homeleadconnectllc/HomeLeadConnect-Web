@@ -37,7 +37,7 @@ try {
         await footer.waitFor({ state: "visible", timeout: 10_000 });
         await footer.scrollIntoViewIfNeeded();
         const box = await footer.boundingBox();
-        if (!box || box.width < viewport.width * 0.9 || box.height < 100) {
+        if (!box || box.width < viewport.width * 0.9 || box.height < 36 || box.height > 120) {
           throw new Error(`Footer geometry invalid at ${viewportName}`);
         }
         await footer.screenshot({ path: `/tmp/home-footer-${viewportName}.png` });

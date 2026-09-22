@@ -9,6 +9,7 @@ const GlobalSmartCompose = lazy(() => import("./components/GlobalSmartCompose"))
 const MobileViewControls = lazy(() => import("./components/MobileViewControls"));
 const MessageDraftPersistence = lazy(() => import("./components/messages/MessageDraftPersistence"));
 const MobileViewportAuthority = lazy(() => import("./components/MobileViewportAuthority"));
+const PresentationSoundFeedback = lazy(() => import("./components/audio/PresentationSoundFeedback"));
 
 function App() {
   const { session } = useAuth();
@@ -23,6 +24,7 @@ function App() {
           <GlobalSmartCompose />
           <MobileViewControls />
           <MessageDraftPersistence />
+          <PresentationSoundFeedback />
         </Suspense>
       )}
       <AppRouter />

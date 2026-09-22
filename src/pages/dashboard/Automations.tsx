@@ -4,7 +4,7 @@ import { listAutomationJobs, runAutomation, type AutomationJobRecord, type Autom
 import { automationRegistry, type AutomationMode } from "../../config/automation";
 
 type SafeAutomation = "workflow_health_check" | "followup_scan" | "owner_attention_scan";
-type RuntimeMessage = { tone: "success" | "error"; text: string };
+type RuntimeMessage = { tone: "progress" | "success" | "error"; text: string };
 const safeRuns: Array<{ id: SafeAutomation; label: string; description: string }> = [
   { id: "workflow_health_check", label: "Run workflow health check", description: "Counts live leads, jobs, assignments and scheduled appointments without changing workflow state." },
   { id: "followup_scan", label: "Scan follow-ups", description: "Checks overdue and upcoming follow-ups for the authenticated workspace." },
@@ -68,7 +68,7 @@ export default function Automations() {
       const label = statusLabels[response.status] ?? response.status;
       setRuntimeMessages((current) => ({
         ...current,
-        [jobType]: { tone: response.status === "failed" || response.status === "blocked" ? "error" : "success", text: `${response.job_type} ${label.toLowerCase()}.` },
+        [jobType]: { tone: response.status === "failed" || response.status === "blocked" ? "error" : response.status === "success" || response.status === "succeeded" ? "success" : "progress", text: `${response.job_type} ${label.toLowerCase()}.` },
       }));
       await refresh();
     } catch (reason) {
@@ -96,6 +96,17 @@ export default function Automations() {
         {(["AUTOMATIC", "RECOMMEND", "CONFIRM", "BLOCKED"] as AutomationMode[]).map((mode) => (
           <span key={mode} data-mode={mode}><strong>{modeCounts[mode]}</strong><small>{mode}</small></span>
         ))}
+      </section>
+
+      <section className="hlc-automation-truth" aria-labelledby="automation-truth-title">
+        <div><p className="hlc-automation-section-kicker">Execution truth</p><h2 id="automation-truth-title">A trigger starts work. Evidence proves the result.</h2></div>
+        <ol>
+          <li><strong>Triggered</strong><span>The qualifying event was recorded.</span></li>
+          <li><strong>Running</strong><span>The action is processing; success is not assumed.</span></li>
+          <li><strong>Completed</strong><span>The authoritative result and completion evidence were persisted.</span></li>
+          <li><strong>Failed / retry</strong><span>The failure stays visible with attempts, recovery, and escalation.</span></li>
+        </ol>
+        <p><strong>Notification boundary:</strong> a notification reports activity; it is not the workflow action or proof that the action completed. Business hours, quiet hours, consent, suppression, and destination checks remain action-time guardrails. Sound is optional presentation feedback only.</p>
       </section>
 
       <section className="hlc-automation-monitor" aria-labelledby="scheduled-workflow-title">

@@ -191,6 +191,16 @@ html body #root#root .hlc-app-shell.hlc-public-shell.hlc-auth-front-door-surface
   #root .hlc-app-entry-state__shell{width:calc(100% - 28px);padding:42px 0}
 }
 
+/* Full-app image geometry rule: photographs crop inside intentional frames.
+   Logos remain contained; people are never stretched to fill a rectangle. */
+#root :is(.hlc-public-visual,.hlc-pathway-portrait,.hlc-auth-intro-visual,.hlc-kendrell-dedication-portrait){overflow:hidden}
+#root :is(.hlc-public-visual,.hlc-pathway-portrait,.hlc-auth-intro-visual,.hlc-kendrell-dedication-portrait)>img{
+  width:100%!important;height:100%!important;object-fit:cover!important;object-position:50% 32%!important
+}
+#root :is(.hlc-navbar-master-logo,.hlc-public-footer-master-logo,[data-hlc-master-logo]){
+  object-fit:contain!important;object-position:center!important
+}
+
 /* OWNER CURRENT PUBLIC PRESENTATION — 2026-09-19
    Light editorial field. Shared structure above; one canonical painter below. */
 html body #root :is(.hlc-pathway-page,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page,.hlc-public-story,.hlc-memorial-page){
