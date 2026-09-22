@@ -8,7 +8,9 @@ const router = readFileSync(routerPath, "utf8");
 const protectedStart = router.indexOf('<Route element={<ProtectedLayout/>}>');
 const workspaceStart = router.indexOf('<Route element={<WorkspaceLayout/>}>');
 const workspaceEnd = router.indexOf('</Route></Route><Route path="*"');
-const routePattern = /<Route path="([^"]+)" element=\{([\s\S]*?)\/>\}/g;
+// Route expressions close as `}/>`; nested self-closing JSX closes as `/>`.
+// Matching the nested close truncated composed elements and swallowed routes.
+const routePattern = /<Route path="([^"]+)" element=\{([\s\S]*?)\}\/\>/g;
 const publicPhotoRoutes = new Set([
   "/about", "/homeowners", "/contractors", "/how-it-works", "/leadscope", "/community",
   "/services", "/pricing", "/trust", "/professionals", "/partners", "/demo", "/contact",
