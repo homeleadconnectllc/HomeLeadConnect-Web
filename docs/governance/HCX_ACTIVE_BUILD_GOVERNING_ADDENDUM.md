@@ -3,6 +3,10 @@
 Status: ACTIVE IMMEDIATELY  
 Effect: clarifies authority and guardrails; does not restart, reset, or invalidate correctly completed work.
 
+## Permanent whole-system execution rule
+
+Every sprint is governed by `HCX_GLOBAL_WHOLE_SYSTEM_EXECUTION_RULE.md` at task, affected-system, and bounded application-impact scope. A reported page or file is an entry point, not automatically the whole defect or the whole solution. Determine root cause, ownership layer, blast radius, canonical repair, and affected-surface verification without widening into unrelated redesign.
+
 ## Autonomous execution
 Continue approved E2E milestones without routine owner approval for bounded, reversible, non-production work already resolved by HomeLead Connect authority. Investigate, reconcile, implement, refactor where necessary, repair, test/retest, document, commit and push appropriate non-production work.
 
