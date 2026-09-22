@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { useModalDialogAccessibility } from "../../hooks/useModalDialogAccessibility";
 
 type Tutorial = { key: string; title: string; intro: string; steps: string[] };
 type TutorialDefinition = { match: (path: string) => boolean; tutorial: Tutorial };
@@ -39,6 +40,10 @@ export default function LiveTutorialDock() {
   const [step, setStep] = useState(0);
   const open = Boolean(tutorial && openKey === tutorial.key);
   const current = tutorial?.steps[Math.min(step, tutorial.steps.length - 1)] ?? "";
+  const dialogRef = useModalDialogAccessibility<HTMLElement>(open, () => {
+    if (tutorial) sessionStorage.setItem(seenKey(tutorial), "1");
+    setOpenKey(null);
+  });
 
   useEffect(() => {
     document.body.classList.toggle("hlc-tutorial-open", open);
@@ -77,7 +82,7 @@ export default function LiveTutorialDock() {
 
   return (
     <aside className="hlc-contextual-tutorial" aria-label={`${activeTutorial.title} tutorial`}>
-      <section className="hlc-contextual-tutorial-panel" role="dialog" aria-modal="true" aria-labelledby="hlc-contextual-tutorial-title">
+      <section ref={dialogRef} className="hlc-contextual-tutorial-panel" role="dialog" aria-modal="true" aria-labelledby="hlc-contextual-tutorial-title">
         <div className="hlc-contextual-tutorial-head">
           <div>
             <small>Quick guide</small>
