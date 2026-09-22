@@ -5,6 +5,7 @@ import {
   relationshipMatrix,
   experienceDomainsMustRemainDistinct,
 } from "../config/experiencePlacementAuthority.ts";
+import { ecosystemNavigation } from "../config/navigationPlacement.ts";
 
 test("every capability has one governed primary home and complete placement metadata", () => {
   const ids = new Set<string>();
@@ -62,4 +63,19 @@ test("experience domains that carry different authority stay explicitly separate
   assert.ok(experienceDomainsMustRemainDistinct.length >= 6);
   assert.ok(experienceDomainsMustRemainDistinct.some(([a,b]) => a === "messages" && b === "community"));
   assert.ok(experienceDomainsMustRemainDistinct.some(([a,b]) => a === "community" && b === "work"));
+});
+
+
+test("Network and Community remain separate navigation domains", () => {
+  const routeToGroup = new Map(
+    ecosystemNavigation.flatMap((group) => group.pages.map((page) => [page.route, group.id] as const)),
+  );
+  for (const route of ["/network", "/map", "/providers", "/profiles"]) {
+    assert.equal(routeToGroup.get(route), "network", `${route} must stay in Network`);
+  }
+  for (const route of ["/community-hub", "/community/discover", "/community/swipe", "/community/messages", "/community/reviews", "/community/referrals"]) {
+    assert.equal(routeToGroup.get(route), "community", `${route} must stay in Community`);
+  }
+  assert.equal(routeToGroup.get("/work/matching"), "work");
+  assert.equal(routeToGroup.has("/matching"), false, "legacy /matching deep link must not become a competing navigation home");
 });
