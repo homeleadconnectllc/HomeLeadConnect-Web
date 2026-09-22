@@ -21,6 +21,7 @@ const stagedUnpromotedFiles = [
   "20260911101544_revoke_public_execute_resolve_billing_workspace_access.sql",
   "20260921232736_harden_communication_subject_identity_resolution.sql",
   "20260922202500_harden_non_user_rpc_execute.sql",
+  "20260922204000_remove_broken_current_workspace_policy.sql",
 ];
 const productionPlanFiles = migrationFiles.filter((name) => !stagedUnpromotedFiles.includes(name));
 const plan = readFileSync("supabase/RELEASE_MIGRATION_PLAN.md", "utf8");
