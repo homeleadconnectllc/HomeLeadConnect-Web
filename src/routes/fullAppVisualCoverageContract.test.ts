@@ -13,7 +13,7 @@ const authenticatedEntry = readFileSync(new URL("../styles/authenticated-entry.t
 const authority = readFileSync(new URL("../styles/full-app-visual-reference-authority.css", import.meta.url), "utf8");
 
 const expectedReachableRoutes = [
-  "/", "/app", "/portal", "/contact", "/request-service", "/about", "/homeowners", "/contractors",
+  "/", "/app", "/portal", "/contact", "/request-service", "/about", "/homeowners", "/residents", "/contractors",
   "/how-it-works", "/leadscope", "/community", "/services", "/pricing", "/trust", "/professionals", "/demo",
   "/professional-application", "/accessibility", "/privacy", "/terms", "/platform-disclosure", "/login", "/register",
   "/forgot-password", "/reset-password", "/portal/accept", "/team/accept", "/homeowner-portal", "/contractor-portal",
