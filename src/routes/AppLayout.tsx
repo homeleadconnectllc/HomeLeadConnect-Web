@@ -21,6 +21,7 @@ const PUBLIC_FRONT_DOOR_PATHS = new Set([
   "/request-service",
   "/about",
   "/homeowners",
+  "/residents",
   "/contractors",
   "/how-it-works",
   "/leadscope",
