@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { BookOpen, Briefcase, Handshake, House, Info, Users } from "lucide-react";
 import { appUrl, publicUrl } from "../config/siteOrigins";
+import "../styles/public-tinyfish-qa-20260921.css";
 
 
 const NAV_LOGO = "/hlc-logo-ui.png";
@@ -64,6 +65,7 @@ export default function PublicSiteNav() {
         onClick={() => setMenuOpen((open) => !open)}
       >
         <img className="hlc-navbar-master-logo" data-hlc-master-logo="true" src={NAV_LOGO} alt="" aria-hidden="true" />
+        <span className="hlc-public-menu-visible-label" aria-hidden="true">Menu</span>
         <span className="hlc-brand-accessible-label">HomeLead Connect</span>
       </button>
       <div className="hlc-board-actions">
