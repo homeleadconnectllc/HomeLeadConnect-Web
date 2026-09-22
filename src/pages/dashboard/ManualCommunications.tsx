@@ -42,6 +42,11 @@ type ContactOption = {
 };
 
 const LOAD_TIMEOUT_MS = 6000;
+const communicationPurposes: CommunicationPurpose[] = ["service", "appointment", "lead_follow_up", "marketing"];
+
+function communicationPurposeFromQuery(value: string | null): CommunicationPurpose {
+  return communicationPurposes.includes(value as CommunicationPurpose) ? value as CommunicationPurpose : "service";
+}
 
 function withTimeout<T>(promise: Promise<T>, fallback: T, timeoutMs = LOAD_TIMEOUT_MS): Promise<T> {
   return Promise.race([
@@ -85,7 +90,7 @@ export default function ManualCommunications() {
   const [channel, setChannel] = useState<ManualCommunicationChannel>(() => searchParams.get("channel") === "sms" ? "sms" : "call");
   const [transport, setTransport] = useState<ManualCommunicationTransport>(() => pendingAtEntry?.transport || (searchParams.get("transport") === "google_voice" ? "google_voice" : "device_native"));
   const [direction, setDirection] = useState<"inbound" | "outbound">(() => searchParams.get("direction") === "inbound" ? "inbound" : "outbound");
-  const [purpose, setPurpose] = useState<CommunicationPurpose>(() => pendingAtEntry?.purpose || "service");
+  const [purpose, setPurpose] = useState<CommunicationPurpose>(() => pendingAtEntry?.purpose || communicationPurposeFromQuery(searchParams.get("purpose")));
   const [outcome, setOutcome] = useState("");
   const [notes, setNotes] = useState("");
   const [followUpAt, setFollowUpAt] = useState("");
