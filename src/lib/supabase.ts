@@ -2,16 +2,21 @@ import { createClient } from "@supabase/supabase-js";
 
 const envSupabaseUrl = import.meta.env.VITE_SUPABASE_URL || "";
 const envSupabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || "";
+const envSupabaseTarget = (import.meta.env.VITE_SUPABASE_TARGET || "").trim().toLowerCase();
 
 // The production custom hostname is pinned to the canonical project. E3 Cloudflare
-// preview deployments are pinned to the isolated reconciliation project so runtime
-// certification cannot drift into production even if preview environment variables do.
+// preview deployments remain pinned to the isolated reconciliation project unless an
+// explicit non-production consolidation target is selected. The consolidation target
+// is ignored on the production hostname, so a build-time environment variable cannot
+// redirect app.homeleadconnect.org away from the canonical production project.
 // Publishable keys are browser-safe; privileged access still depends on RLS,
 // authenticated JWTs, and server-side keys.
 const hostedProductionUrl = "https://cguhtshclyybivvdnpig.supabase.co";
 const hostedProductionPublishableKey = "sb_publishable_MQioEyUGv8MNlowJgVyXYQ_kf5cyafA";
 const e3IsolatedPreviewUrl = "https://agfwqnirspmptjiqrrtk.supabase.co";
 const e3IsolatedPreviewPublishableKey = "sb_publishable_oe-fZIb14XWNWgk5-0pPfw_Xqb0dqYv";
+const consolidationUrl = "https://lvpouzxqojgmmmzbnnwv.supabase.co";
+const consolidationPublishableKey = "sb_publishable_vkEYuHYM7y1GJaf2ZRpMzg_tBJUBo7p";
 
 function isHostedHlcRuntime() {
   if (typeof window === "undefined") return false;
@@ -25,20 +30,35 @@ function isCloudflarePreviewRuntime() {
   return host === "homeleadconnect-web.pages.dev" || host.endsWith(".homeleadconnect-web.pages.dev");
 }
 
+function isConsolidationRuntime() {
+  return !isHostedHlcRuntime() && envSupabaseTarget === "consolidation";
+}
+
 const supabaseUrl = isHostedHlcRuntime()
   ? hostedProductionUrl
-  : isCloudflarePreviewRuntime()
-    ? e3IsolatedPreviewUrl
-    : envSupabaseUrl;
+  : isConsolidationRuntime()
+    ? consolidationUrl
+    : isCloudflarePreviewRuntime()
+      ? e3IsolatedPreviewUrl
+      : envSupabaseUrl;
 const supabaseAnonKey = isHostedHlcRuntime()
   ? hostedProductionPublishableKey
-  : isCloudflarePreviewRuntime()
-    ? e3IsolatedPreviewPublishableKey
-    : envSupabaseAnonKey;
+  : isConsolidationRuntime()
+    ? consolidationPublishableKey
+    : isCloudflarePreviewRuntime()
+      ? e3IsolatedPreviewPublishableKey
+      : envSupabaseAnonKey;
 
 export const supabaseConfig = {
   url: supabaseUrl,
   anonKey: supabaseAnonKey,
+  target: isHostedHlcRuntime()
+    ? "production"
+    : isConsolidationRuntime()
+      ? "consolidation"
+      : isCloudflarePreviewRuntime()
+        ? "reconciliation"
+        : "environment",
   missing: [
     !supabaseUrl && "VITE_SUPABASE_URL",
     !supabaseAnonKey && "VITE_SUPABASE_ANON_KEY",
