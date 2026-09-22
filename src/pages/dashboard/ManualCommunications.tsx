@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
 import { useSearchParams } from "react-router-dom";
 import { listLeads } from "../../api/leads";
 import { listContractors } from "../../api/contractors";
@@ -101,6 +101,7 @@ export default function ManualCommunications() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const returnPromptRef = useRef<HTMLElement>(null);
 
   const contacts = useMemo<ContactOption[]>(() => [
     ...leads.filter((lead) => lead.phone).map((lead) => ({
@@ -188,6 +189,25 @@ export default function ManualCommunications() {
       document.removeEventListener("visibilitychange", promptIfReturned);
     };
   }, []);
+
+  useEffect(() => {
+    if (!returnPromptOpen || !selected) return;
+    const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    returnPromptRef.current?.focus();
+    return () => previouslyFocused?.focus();
+  }, [returnPromptOpen, selected]);
+
+  function dismissReturnPrompt() {
+    clearPendingManualCall();
+    setReturnPromptOpen(false);
+    setMessage("Pending call prompt dismissed without recording an outcome.");
+  }
+
+  function handleReturnPromptKeyDown(event: KeyboardEvent<HTMLElement>) {
+    if (event.key !== "Escape") return;
+    event.preventDefault();
+    dismissReturnPrompt();
+  }
 
   function resetCheck() {
     setCheck(null);
@@ -303,14 +323,14 @@ export default function ManualCommunications() {
     {error && <p role="alert" className="hlc-ui-manual-communications-eb1608">{error}</p>}
     {message && <p role="status" className="hlc-ui-manual-communications-b6a500">{message}</p>}
 
-    {returnPromptOpen && selected && <section role="dialog" aria-modal="true" aria-labelledby="post-call-heading" className="hlc-ui-postCall-7d163e">
+    {returnPromptOpen && selected && <section ref={returnPromptRef} tabIndex={-1} onKeyDown={handleReturnPromptKeyDown} role="dialog" aria-modal="true" aria-labelledby="post-call-heading" aria-describedby="post-call-description" className="hlc-ui-postCall-7d163e">
       <p className="hlc-ui-eyebrow-5f86ec">STEP 4 · RECORD OUTCOME</p>
       <h2 id="post-call-heading" className="hlc-ui-margin-ab79ea">What happened with {selected.label}?</h2>
-      <p className="hlc-ui-margin-ab79ea">One tap saves the result. No-answer, voicemail and callback outcomes also schedule a follow-up for this time tomorrow when the contact is a lead.</p>
+      <p id="post-call-description" className="hlc-ui-margin-ab79ea">One tap saves the result. No-answer, voicemail and callback outcomes also schedule a follow-up for this time tomorrow when the contact is a lead.</p>
       <div className="hlc-ui-quickOutcomeGrid-c55b41">
         {quickCallOutcomes.map((item) => <button key={item.label} disabled={busy} type="button" onClick={() => void quickSaveOutcome(item.label, item.followUp)}>{busy ? "Saving…" : item.label}</button>)}
       </div>
-      <button type="button" disabled={busy} onClick={() => { clearPendingManualCall(); setReturnPromptOpen(false); setMessage("Pending call prompt dismissed without recording an outcome."); }}>This was not a completed call</button>
+      <button type="button" disabled={busy} onClick={dismissReturnPrompt}>This was not a completed call</button>
     </section>}
 
     {!loading && <form onSubmit={saveActivity} className="hlc-ui-actionPanel-bc7076">
