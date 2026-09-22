@@ -10,6 +10,7 @@ import {
 import { errorMessage } from "../../lib/errorMessage";
 import { getDispositionById, intelligentDispositions } from "../../data/intelligentDispositions";
 import { objectionGuides, scriptLibrary } from "../../data/scriptLibrary";
+import { useModalDialogAccessibility } from "../../hooks/useModalDialogAccessibility";
 
 function formatPhoneNumber(value: string) {
   const digits = value.replace(/\D/g, "");
@@ -45,6 +46,9 @@ export default function CallCenter() {
   const [editingCallId, setEditingCallId] = useState<string | null>(null);
   const [disposition, setDisposition] = useState("");
   const [notes, setNotes] = useState("");
+  const dispositionDialogRef = useModalDialogAccessibility<HTMLElement>(Boolean(editingCallId), () => {
+    if (!saving) setEditingCallId(null);
+  });
 
   const googleVoicePhone = phones.find((phone) => phone.provider_type === "google_voice") ?? null;
   const deviceMode = useMemo(() => getDeviceMode(), []);
@@ -186,7 +190,7 @@ export default function CallCenter() {
       )}
 
       {editingCallId && (
-        <section className="hlc-call-disposition" role="dialog" aria-modal="true" aria-labelledby="call-disposition-heading" data-smart-compose="off">
+        <section ref={dispositionDialogRef} className="hlc-call-disposition" role="dialog" aria-modal="true" aria-labelledby="call-disposition-heading" data-smart-compose="off">
           <div className="hlc-call-section-heading"><div><span>INTELLIGENT WRAP-UP</span><h2 id="call-disposition-heading">Record call outcome</h2></div></div>
           <label>Disposition
             <select autoFocus required value={disposition} onChange={(event) => setDisposition(event.target.value)}>
