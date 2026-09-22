@@ -34,6 +34,8 @@ export default function Messages() {
   const { session } = useAuth();
   const [searchParams] = useSearchParams();
   const composeVoiceNote = searchParams.get("compose") === "voice-note";
+  const composeEmail = searchParams.get("compose") === "email";
+  const contextualLeadId = searchParams.get("lead")?.trim() || "";
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [recipients, setRecipients] = useState<PortalRecipient[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -98,7 +100,19 @@ export default function Messages() {
 
     listPortalRecipients()
       .then((recipientRows) => {
-        if (active) setRecipients(recipientRows);
+        if (!active) return;
+        setRecipients(recipientRows);
+        if (composeEmail) {
+          setView("compose");
+          setDeliveryMode("email");
+          const contextualRecipient = recipientRows.find((recipient) => recipient.role === "homeowner" && recipient.subjectId === contextualLeadId);
+          if (contextualRecipient) {
+            setRecipientId(contextualRecipient.linkId);
+            setRecipientError("");
+          } else if (contextualLeadId) {
+            setRecipientError("This lead is not connected to an active resident portal yet. Call or text the lead, or connect the resident portal before sending tracked email from HLC.");
+          }
+        }
       })
       .catch((reason: unknown) => {
         if (active) setRecipientError(errorMessage(reason, "Unable to load contacts for a new message."));
@@ -108,7 +122,7 @@ export default function Messages() {
       });
 
     return () => { active = false; };
-  }, [composeVoiceNote]);
+  }, [composeEmail, composeVoiceNote, contextualLeadId]);
 
   const selected = useMemo(
     () => conversations.find((item) => item.id === selectedId) ?? null,
