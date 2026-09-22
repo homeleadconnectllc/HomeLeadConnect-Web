@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { useSearchParams } from "react-router-dom";
 import { listLeads } from "../../api/leads";
 import { listContractors } from "../../api/contractors";
@@ -31,6 +31,7 @@ import {
   shouldPromptForReturnedCall,
   suggestedFollowUpLocal,
 } from "../../lib/postCallAutomation";
+import { useModalDialogAccessibility } from "../../hooks/useModalDialogAccessibility";
 
 type ContactOption = {
   key: string;
@@ -101,8 +102,6 @@ export default function ManualCommunications() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
-  const returnPromptRef = useRef<HTMLElement>(null);
-
   const contacts = useMemo<ContactOption[]>(() => [
     ...leads.filter((lead) => lead.phone).map((lead) => ({
       key: `lead:${lead.id}`,
@@ -122,6 +121,7 @@ export default function ManualCommunications() {
   ], [leads, contractors]);
 
   const selected = contacts.find((contact) => contact.key === contactKey) ?? null;
+  const returnPromptRef = useModalDialogAccessibility<HTMLElement>(returnPromptOpen && Boolean(selected), dismissReturnPrompt);
   const nativeTarget = selected ? normalizeNativePhoneTarget(selected.phone) : "";
 
   async function reload() {
@@ -190,23 +190,10 @@ export default function ManualCommunications() {
     };
   }, []);
 
-  useEffect(() => {
-    if (!returnPromptOpen || !selected) return;
-    const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    returnPromptRef.current?.focus();
-    return () => previouslyFocused?.focus();
-  }, [returnPromptOpen, selected]);
-
   function dismissReturnPrompt() {
     clearPendingManualCall();
     setReturnPromptOpen(false);
     setMessage("Pending call prompt dismissed without recording an outcome.");
-  }
-
-  function handleReturnPromptKeyDown(event: KeyboardEvent<HTMLElement>) {
-    if (event.key !== "Escape") return;
-    event.preventDefault();
-    dismissReturnPrompt();
   }
 
   function resetCheck() {
@@ -323,7 +310,7 @@ export default function ManualCommunications() {
     {error && <p role="alert" className="hlc-ui-manual-communications-eb1608">{error}</p>}
     {message && <p role="status" className="hlc-ui-manual-communications-b6a500">{message}</p>}
 
-    {returnPromptOpen && selected && <section ref={returnPromptRef} tabIndex={-1} onKeyDown={handleReturnPromptKeyDown} role="dialog" aria-modal="true" aria-labelledby="post-call-heading" aria-describedby="post-call-description" className="hlc-ui-postCall-7d163e">
+    {returnPromptOpen && selected && <section ref={returnPromptRef} role="dialog" aria-modal="true" aria-labelledby="post-call-heading" aria-describedby="post-call-description" className="hlc-ui-postCall-7d163e">
       <p className="hlc-ui-eyebrow-5f86ec">STEP 4 · RECORD OUTCOME</p>
       <h2 id="post-call-heading" className="hlc-ui-margin-ab79ea">What happened with {selected.label}?</h2>
       <p id="post-call-description" className="hlc-ui-margin-ab79ea">One tap saves the result. No-answer, voicemail and callback outcomes also schedule a follow-up for this time tomorrow when the contact is a lead.</p>
