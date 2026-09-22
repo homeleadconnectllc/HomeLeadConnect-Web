@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { requireAppointmentTimeRange } from "../../lib/appointments/timeRange";
+import { useModalDialogAccessibility } from "../../hooks/useModalDialogAccessibility";
 
 type Props = {
   initialStart: string;
@@ -13,6 +14,7 @@ export default function RescheduleDialog({ initialStart, initialEnd, busy, onCan
   const [start, setStart] = useState(() => toLocalInputValue(initialStart));
   const [end, setEnd] = useState(() => toLocalInputValue(initialEnd));
   const [error, setError] = useState("");
+  const dialogRef = useModalDialogAccessibility<HTMLElement>(true, () => { if (!busy) onCancel(); });
 
   async function confirm() {
     let range: ReturnType<typeof requireAppointmentTimeRange>;
@@ -26,7 +28,7 @@ export default function RescheduleDialog({ initialStart, initialEnd, busy, onCan
     await onConfirm(range.start, range.end);
   }
 
-  return <section role="dialog" aria-modal="true" aria-labelledby="reschedule-heading" className="hlc-ui-dialog-3bb01a">
+  return <section ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="reschedule-heading" className="hlc-ui-dialog-3bb01a">
     <h2 id="reschedule-heading">Reschedule appointment</h2>
     <p>The current appointment will remain in history as cancelled.</p>
     {error && <p role="alert" className="hlc-ui-color-d80273">{error}</p>}
