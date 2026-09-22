@@ -22,7 +22,7 @@ export default function HomePage() {
           <h1 id="hlc-owner-title">A stronger community <span>starts here.</span></h1>
           <p className="hlc-owner-tagline">Connecting homes. Creating opportunities.</p>
           <p className="hlc-owner-intro">The people. The services. The partnerships.<br />All in one place to help our communities move forward.</p>
-          <p className="hlc-owner-price"><strong>$49.99/month</strong> professional membership</p>
+          <p className="hlc-owner-price"><strong>14 days free</strong> for the professional business workspace · then <strong>$49.99/month</strong>.</p>
         </div>
         <p className="hlc-owner-script">Stronger Homes. Brighter Futures.<small>Harrisburg, PA</small></p>
       </section>
