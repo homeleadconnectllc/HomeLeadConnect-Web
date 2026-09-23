@@ -2,12 +2,12 @@
   "schemaVersion": 1,
   "milestone": "Connected Core E2E",
   "certification": "NOT_YET_CERTIFIED",
-  "observedAt": "2026-09-23T07:15:00Z",
+  "observedAt": "2026-09-23T14:05:00Z",
   "repository": "homeleadconnectllc/HomeLeadConnect-Web",
-  "branch": "sprint/hcx-automation-truth-20260923",
-  "pr": 479,
-  "startingAuthority": "a079941ffcb72ccefd221917927f9ddf850cfe87",
-  "candidateSha": "a079941ffcb72ccefd221917927f9ddf850cfe87",
+  "branch": "sprint/hcx-communication-truth-20260923",
+  "pr": null,
+  "startingAuthority": "5ccb1d415e87c530a3947a3914c3a0bb6ee81c0f",
+  "candidateSha": "5ccb1d415e87c530a3947a3914c3a0bb6ee81c0f",
   "baseSha": "c3fcecbaafefdf8285cc5170e3c9eb133f55912b",
   "productionSupabase": "cguhtshclyybivvdnpig",
   "reconciliationSupabase": "agfwqnirspmptjiqrrtk",
@@ -66,14 +66,17 @@
         "Production contains communication compliance checks, transmissions, provider events, conversations and messages with RLS enabled.",
         "Provider-neutral queue preserves blocked/review/queued distinctions and idempotency keys.",
         "Resend/Twilio/manual handoff paths and operator-reported activity exist.",
-        "Manual activity can append lead activity/call logs without fabricating provider delivery."
+        "Manual activity can append lead activity/call logs without fabricating provider delivery.",
+        "Consolidation now persists organization business/quiet-hour policy snapshots and one durable row per provider delivery attempt.",
+        "Provider acceptance remains sent; only an idempotent provider callback can mark a provider-backed transmission delivered.",
+        "Controlled rehearsal proved two retry waits, third-attempt exhaustion, one terminal notification, callback deduplication and CRM outcome evidence."
       ],
       "gaps": [
         "Production inbound endpoint ambiguity remains a blocker to identity-safe attachment.",
-        "Controlled queued→sent→delivered/failed and call-state transition rehearsals remain required.",
-        "Bounce/rejection and out-of-order webhook certification remains required."
+        "Live provider-secret delivery remains external and unclaimed.",
+        "Out-of-order webhook precedence and provider-timeout worker pickup remain required."
       ],
-      "nextAction": "Use reconciliation environment for provider-state normalization/idempotency tests; preserve production provider data."
+      "nextAction": "Certify out-of-order callback precedence, timeout pickup and inbound ambiguity-safe attachment without changing production."
     },
     {
       "id": "CC-04",
@@ -107,10 +110,10 @@
       ],
       "gaps": [
         "Certification-critical consequential automations still require definition/version and domain-specific action correlation beyond the current read-only operational scans.",
-        "Quiet/business-hour execution semantics require persisted proof.",
+        "Communication action-time quiet/business-hour execution semantics now have persisted non-production proof.",
         "Automatic worker pickup for retry_wait is not enabled; retries are explicit and owner/manager initiated in this bounded sprint."
       ],
-      "nextAction": "Bind the communication follow-up automation to action-time consent, quiet/business-hour policy, provider result, and terminal escalation evidence."
+      "nextAction": "Bind an explicitly versioned communication follow-up automation to the certified communication attempt/runtime rather than adding a second sender."
     },
     {
       "id": "CC-06",
@@ -120,7 +123,8 @@
       "evidence": [
         "Notifications and internal_notification_deliveries exist with RLS/server-only idempotency controls.",
         "Internal alerts are dispatched only after canonical writes and do not define workflow completion.",
-        "Presentation sound runtime, preference, quiet hours, replay suppression and semantic event mapping now exist in source and contracts."
+        "Presentation sound runtime, preference, quiet hours, replay suppression and semantic event mapping now exist in source and contracts.",
+        "Communication exhaustion now produces one deduplicated owner/manager notification only after the authoritative attempt reaches terminal failure."
       ],
       "gaps": [
         "Sound behavior on Safari/mobile physical devices still requires device certification.",
@@ -155,8 +159,8 @@
         "Idempotency mechanisms exist in public intake, communications and internal notification delivery."
       ],
       "gaps": [
-        "Automation retry exhaustion is now rehearsed with three durable failed attempt rows and one terminal audit event; lost response, reconnect, partial domain action and provider timeout remain incomplete.",
-        "Human escalation ownership on terminal failure requires end-to-end proof."
+        "Automation retry exhaustion is rehearsed with durable attempt and terminal audit evidence.",
+        "Communication retry exhaustion is rehearsed with three attempt rows, one terminal notification and CRM failure evidence; lost response, reconnect and provider timeout worker pickup remain incomplete."
       ],
       "nextAction": "Build a non-production fault-injection matrix and record authoritative reconciliation outcomes."
     },

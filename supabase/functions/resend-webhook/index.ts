@@ -109,77 +109,27 @@ Deno.serve(async (request) => {
   const delivered = event.type === "email.delivered";
   const failed = ["email.bounced", "email.failed", "email.complained"].includes(event.type);
   const delayed = event.type === "email.delivery_delayed";
-  const update = delivered
-    ? { status: "delivered", delivered_at: new Date().toISOString(), failure_code: null, failure_message: null }
-    : failed
-      ? { status: "failed", failure_code: event.type, failure_message: "Resend reported that the email was not deliverable." }
-      : delayed
-        ? { status: "sent", failure_code: "delivery_delayed", failure_message: "Email delivery is delayed." }
-        : null;
-
-  if (update) {
-    const { error: updateError } = await admin.from("communication_transmissions").update(update).eq("id", transmission.id);
-    if (updateError) {
-      const message = safeDbError(updateError);
-      console.error("Resend webhook transmission state update failed", eventId, transmission.id, event.type, message);
-      await admin.from("communication_provider_events").update({
-        workspace_id: transmission.workspace_id,
-        transmission_id: transmission.id,
-        processing_status: "failed",
-        error_message: message,
-      }).eq("provider_name", "resend").eq("provider_event_key", eventId);
-      return json(500, { error: "Webhook transmission update failed." });
-    }
+  const outcome = delivered ? "delivered" : failed ? "failed" : delayed ? "delayed" : "ignored";
+  const { data: result, error: outcomeError } = await admin.rpc("record_communication_provider_outcome", {
+    p_provider_name: "resend",
+    p_provider_event_key: eventId,
+    p_provider_reference: providerReference,
+    p_event_type: event.type,
+    p_outcome: outcome,
+    p_failure_code: failed ? event.type : null,
+    p_failure_message: failed ? "Resend reported that the email was not deliverable." : null,
+  });
+  if (outcomeError) {
+    const message = safeDbError(outcomeError);
+    console.error("Resend webhook outcome persistence failed", eventId, transmission.id, event.type, message);
+    await admin.from("communication_provider_events").update({
+      workspace_id: transmission.workspace_id,
+      transmission_id: transmission.id,
+      processing_status: "failed",
+      error_message: message,
+    }).eq("provider_name", "resend").eq("provider_event_key", eventId);
+    return json(500, { error: "Webhook outcome persistence failed." });
   }
-
-  if (["email.bounced", "email.complained"].includes(event.type)) {
-    const { data: existing, error: suppressionLookupError } = await admin.from("communication_suppressions").select("id")
-      .eq("workspace_id", transmission.workspace_id).eq("channel", "email").eq("destination", transmission.destination).is("released_at", null).maybeSingle();
-    if (suppressionLookupError) {
-      const message = safeDbError(suppressionLookupError);
-      console.error("Resend webhook suppression lookup failed", eventId, transmission.id, message);
-      await admin.from("communication_provider_events").update({
-        workspace_id: transmission.workspace_id,
-        transmission_id: transmission.id,
-        processing_status: "failed",
-        error_message: message,
-      }).eq("provider_name", "resend").eq("provider_event_key", eventId);
-      return json(500, { error: "Webhook suppression lookup failed." });
-    }
-    if (!existing) {
-      const { error: suppressionError } = await admin.from("communication_suppressions").insert({
-        workspace_id: transmission.workspace_id,
-        channel: "email",
-        destination: transmission.destination,
-        reason: event.type === "email.complained" ? "Recipient reported spam" : "Permanent email bounce",
-        source: "resend_webhook",
-      });
-      if (suppressionError?.code !== "23505" && suppressionError) {
-        const message = safeDbError(suppressionError);
-        console.error("Resend webhook suppression persistence failed", eventId, transmission.id, message);
-        await admin.from("communication_provider_events").update({
-          workspace_id: transmission.workspace_id,
-          transmission_id: transmission.id,
-          processing_status: "failed",
-          error_message: message,
-        }).eq("provider_name", "resend").eq("provider_event_key", eventId);
-        return json(500, { error: "Webhook suppression update failed." });
-      }
-    }
-  }
-
-  const { error: processedError } = await admin.from("communication_provider_events").update({
-    workspace_id: transmission.workspace_id,
-    transmission_id: transmission.id,
-    processing_status: update ? "processed" : "ignored",
-    error_message: null,
-    processed_at: new Date().toISOString(),
-  }).eq("provider_name", "resend").eq("provider_event_key", eventId);
-  if (processedError) {
-    console.error("Resend webhook final provider-event update failed", eventId, transmission.id, safeDbError(processedError));
-    return json(500, { error: "Webhook finalization failed." });
-  }
-
-  console.log("Resend webhook processed", eventId, event.type, providerReference, update ? "processed" : "ignored");
-  return json(200, { status: update ? "processed" : "ignored" });
+  console.log("Resend webhook processed", eventId, event.type, providerReference, outcome);
+  return json(200, result);
 });

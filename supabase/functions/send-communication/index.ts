@@ -74,17 +74,45 @@ Deno.serve(async (request) => {
 
   if (queued.status !== "queued") return json(409, queued);
 
+  const beginAttempt = async () => {
+    const { data, error } = await admin.rpc("begin_communication_delivery_attempt", { p_transmission_id: transmission.id });
+    if (error) throw error;
+    return data as { attempt_id?: string; status: string; decision?: string; reasons?: string[]; retry_after?: string };
+  };
+  const failAttempt = async (attemptId: string, code: string, message: string) => {
+    const { data, error } = await admin.rpc("complete_communication_delivery_attempt", {
+      p_attempt_id: attemptId,
+      p_result: "failed",
+      p_provider_reference: null,
+      p_failure_code: code,
+      p_failure_message: message,
+    });
+    if (error) throw error;
+    return data;
+  };
+  const acceptAttempt = async (attemptId: string, providerReference: string) => {
+    const { data, error } = await admin.rpc("complete_communication_delivery_attempt", {
+      p_attempt_id: attemptId,
+      p_result: "accepted",
+      p_provider_reference: providerReference,
+      p_failure_code: null,
+      p_failure_message: null,
+    });
+    if (error) throw error;
+    return data;
+  };
+
   if (providerName === "resend" && channel === "email") {
     const resendKey = Deno.env.get("RESEND_API_KEY");
     const resendFrom = Deno.env.get("RESEND_FROM_EMAIL");
     if (!resendKey || !resendFrom) {
-      await admin.from("communication_transmissions").update({ status: "failed", failure_code: "RESEND_NOT_CONNECTED", failure_message: "Resend email adapter is not configured.", attempt_count: 1 }).eq("id", transmission.id);
-      return json(503, { id: transmission.id, status: "failed", provider_name: providerName, error: "Email provider is not configured." });
+      return json(503, { id: transmission.id, status: "queued", provider_name: providerName, error: "Email provider is not configured; no delivery attempt was started." });
     }
     if (!transmission.content) return json(400, { error: "Email content is required." });
+    const attempt = await beginAttempt();
+    if (attempt.status !== "started" || !attempt.attempt_id) return json(409, { id: transmission.id, provider_name: providerName, ...attempt });
     const requestedSubject = typeof body.subject === "string" ? body.subject.trim() : "";
     const emailSubject = requestedSubject.slice(0, 160) || `HomeLead Connect — ${String(body.purpose || "service").replaceAll("_", " ")}`;
-    await admin.from("communication_transmissions").update({ status: "sending", attempt_count: 1 }).eq("id", transmission.id).eq("status", "queued");
     const providerResponse = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: { Authorization: `Bearer ${resendKey}`, "Content-Type": "application/json", "Idempotency-Key": requestId },
@@ -93,11 +121,11 @@ Deno.serve(async (request) => {
     const providerBody = await providerResponse.json().catch(() => ({}));
     if (!providerResponse.ok || typeof providerBody.id !== "string") {
       const failure = typeof providerBody.message === "string" ? providerBody.message : "Email provider request failed.";
-      await admin.from("communication_transmissions").update({ status: "failed", failure_code: String(providerResponse.status), failure_message: failure }).eq("id", transmission.id);
-      return json(502, { id: transmission.id, status: "failed", provider_name: providerName, error: failure });
+      const result = await failAttempt(attempt.attempt_id, String(providerResponse.status), failure);
+      return json(502, { id: transmission.id, provider_name: providerName, error: failure, result });
     }
-    await admin.from("communication_transmissions").update({ status: "sent", provider_reference: providerBody.id, sent_at: new Date().toISOString(), failure_code: null, failure_message: null }).eq("id", transmission.id);
-    return json(200, { id: transmission.id, status: "sent", provider_name: providerName });
+    const result = await acceptAttempt(attempt.attempt_id, providerBody.id);
+    return json(200, { id: transmission.id, status: "sent", provider_name: providerName, result });
   }
 
   if (providerName === "twilio" && (channel === "sms" || channel === "call")) {
@@ -107,8 +135,7 @@ Deno.serve(async (request) => {
     const messagingServiceSid = Deno.env.get("TWILIO_MESSAGING_SERVICE_SID");
     const callbackBase = Deno.env.get("TWILIO_WEBHOOK_BASE_URL");
     if (!accountSid || !authToken || !from || !callbackBase) {
-      await admin.from("communication_transmissions").update({ status: "failed", failure_code: "TWILIO_NOT_CONNECTED", failure_message: "Twilio adapter is not configured.", attempt_count: 1 }).eq("id", transmission.id);
-      return json(503, { id: transmission.id, status: "failed", provider_name: providerName, error: "Phone provider adapter is not configured." });
+      return json(503, { id: transmission.id, status: "queued", provider_name: providerName, error: "Phone provider adapter is not configured; no delivery attempt was started." });
     }
 
     const endpoint = channel === "sms" ? "Messages.json" : "Calls.json";
@@ -127,7 +154,8 @@ Deno.serve(async (request) => {
       form.set("StatusCallbackEvent", "initiated ringing answered completed");
     }
 
-    await admin.from("communication_transmissions").update({ status: "sending", attempt_count: 1 }).eq("id", transmission.id).eq("status", "queued");
+    const attempt = await beginAttempt();
+    if (attempt.status !== "started" || !attempt.attempt_id) return json(409, { id: transmission.id, provider_name: providerName, ...attempt });
     const providerResponse = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${accountSid}/${endpoint}`, {
       method: "POST",
       headers: { Authorization: `Basic ${btoa(`${accountSid}:${authToken}`)}`, "Content-Type": "application/x-www-form-urlencoded" },
@@ -136,11 +164,11 @@ Deno.serve(async (request) => {
     const providerBody = await providerResponse.json().catch(() => ({}));
     if (!providerResponse.ok) {
       const failure = typeof providerBody.message === "string" ? providerBody.message : "Provider request failed.";
-      await admin.from("communication_transmissions").update({ status: "failed", failure_code: String(providerBody.code || providerResponse.status), failure_message: failure }).eq("id", transmission.id);
-      return json(502, { id: transmission.id, status: "failed", provider_name: providerName, error: failure });
+      const result = await failAttempt(attempt.attempt_id, String(providerBody.code || providerResponse.status), failure);
+      return json(502, { id: transmission.id, provider_name: providerName, error: failure, result });
     }
-    await admin.from("communication_transmissions").update({ status: "sent", provider_reference: providerBody.sid, sent_at: new Date().toISOString(), failure_code: null, failure_message: null }).eq("id", transmission.id);
-    return json(200, { id: transmission.id, status: "sent", provider_name: providerName });
+    const result = await acceptAttempt(attempt.attempt_id, providerBody.sid);
+    return json(200, { id: transmission.id, status: "sent", provider_name: providerName, result });
   }
 
   await admin.from("communication_transmissions").update({

@@ -23,7 +23,7 @@ const stagedUnpromotedFiles = [
   "20260922202500_harden_non_user_rpc_execute.sql",
   "20260922204000_remove_broken_current_workspace_policy.sql",
   "20260923065504_harden_automation_execution_truth.sql",
-  "20260923092000_restore_current_workspace_id_authenticated_execute.sql",
+  "20260923134940_harden_communication_action_time_truth.sql",
 ];
 const productionPlanFiles = migrationFiles.filter((name) => !stagedUnpromotedFiles.includes(name));
 const plan = readFileSync("supabase/RELEASE_MIGRATION_PLAN.md", "utf8");
