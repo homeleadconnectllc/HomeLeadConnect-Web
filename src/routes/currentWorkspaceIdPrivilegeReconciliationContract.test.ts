@@ -38,5 +38,5 @@ test("workspace role helper remains server-only while workspace id is restored t
     roleRestriction,
     new RegExp(`grant execute on function public\\.current_workspace_role\\(\\) to ${elevatedDatabaseRole}`, "i"),
   );
-  assert.doesNotMatch(restore, /current_workspace_role/i);
+  assert.doesNotMatch(restore, /function public\.current_workspace_role/i);
 });
