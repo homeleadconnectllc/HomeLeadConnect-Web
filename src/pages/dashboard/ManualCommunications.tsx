@@ -62,6 +62,9 @@ const reasonLabels: Record<string, string> = {
   destination_suppressed: "This phone number is suppressed or on the workspace do-not-contact list.",
   sms_consent_not_proven: "SMS consent has not been recorded for this purpose.",
   outside_permitted_calling_window: "This marketing call is outside the permitted calling window.",
+  quiet_hours_active: "The organization quiet-hours window is active.",
+  outside_business_hours: "This action is outside the organization business-hours window.",
+  email_marketing_consent_not_proven: "Marketing email consent has not been recorded.",
   contact_location_unknown: "The contact location needs review before marketing outreach.",
   dnc_screening_required: "A current do-not-call screening is required for marketing outreach.",
   automated_or_prerecorded_review_required: "Automated or prerecorded communication needs review.",
@@ -360,7 +363,7 @@ export default function ManualCommunications() {
           <h2 id="manual-step-open" className="hlc-ui-stepHeading-e4432c">Check &amp; open</h2>
           {direction === "outbound" && !check && <button className="hlc-ui-primaryButton-f2bf7a" disabled={busy || !selected} type="button" onClick={checkAction}>{busy ? "Checking…" : `Check before ${channel === "call" ? "calling" : "texting"}`}</button>}
           {direction === "outbound" && check && <div role="status" className="hlc-communication-decision" data-decision={check.decision}>
-            <strong>{check.decision === "ALLOW" ? "Ready to continue" : "Contact blocked"}</strong>
+            <strong>{check.decision === "ALLOW" ? "Ready to continue" : check.decision === "REVIEW" ? "Review required" : "Contact blocked"}</strong>
             {check.reasons.length > 0 && <ul>{check.reasons.map((reason) => <li key={reason}>{reasonLabels[reason] || reason}</li>)}</ul>}
             {check.decision === "ALLOW" && <p className="hlc-ui-margin-bottom-fa769a">The safety check is clear. Open the selected app, complete the manual action, then come back to HLC.</p>}
           </div>}

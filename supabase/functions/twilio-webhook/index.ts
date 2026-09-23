@@ -86,12 +86,24 @@ Deno.serve(async (request) => {
       eventWorkspaceId=businessNumber.workspace_id;
     }
   } else if (sid) {
-    const update: Record<string, unknown> = { status: ["delivered","completed"].includes(status) ? "delivered" : ["failed","undelivered","canceled","busy","no-answer"].includes(status) ? "failed" : "sent" };
-    if (update.status === "delivered") update.delivered_at = new Date().toISOString();
-    if (update.status === "failed") { update.failure_code = params.get("ErrorCode") || status; update.failure_message = "Twilio reported delivery failure."; }
-    const { data: transmission } = await admin.from("communication_transmissions").update(update).eq("provider_name", "twilio").eq("provider_reference", sid).select("id,workspace_id").maybeSingle();
-    transmissionId = transmission?.id || null;
-    eventWorkspaceId = transmission?.workspace_id || null;
+    const providerOutcome = ["delivered","completed"].includes(status)
+      ? "delivered"
+      : ["failed","undelivered","canceled","busy","no-answer"].includes(status) ? "failed" : "ignored";
+    const { data: providerResult, error: providerOutcomeError } = await admin.rpc("record_communication_provider_outcome", {
+      p_provider_name: "twilio",
+      p_provider_event_key: eventKey,
+      p_provider_reference: sid,
+      p_event_type: status,
+      p_outcome: providerOutcome,
+      p_failure_code: providerOutcome === "failed" ? params.get("ErrorCode") || status : null,
+      p_failure_message: providerOutcome === "failed" ? "Twilio reported delivery failure." : null,
+    });
+    if (providerOutcomeError) return new Response("Outcome persistence failed", { status: 500 });
+    transmissionId = providerResult?.transmission_id || null;
+    if (transmissionId) {
+      const { data: transmission } = await admin.from("communication_transmissions").select("workspace_id").eq("id", transmissionId).maybeSingle();
+      eventWorkspaceId = transmission?.workspace_id || null;
+    }
     const normalized=["in-progress","answered"].includes(status)?"answered":status==="completed"?"completed":["busy"].includes(status)?"busy":["no-answer"].includes(status)?"no_answer":["failed"].includes(status)?"failed":["canceled"].includes(status)?"cancelled":"requested";
     const terminal=["completed","busy","no_answer","failed","cancelled"].includes(normalized);
     const legacyDialState=terminal?"ended":normalized==="answered"?"in_call":"dialing";
