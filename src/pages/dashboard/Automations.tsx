@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { listAutomationJobs, runAutomation, type AutomationJobRecord, type AutomationJobStatus } from "../../api/automations";
+import { listAutomationAttempts, listAutomationJobs, retryAutomation, runAutomation, type AutomationAttemptRecord, type AutomationJobRecord, type AutomationJobStatus } from "../../api/automations";
 import { automationRegistry, type AutomationMode } from "../../config/automation";
 
 type SafeAutomation = "workflow_health_check" | "followup_scan" | "owner_attention_scan";
@@ -18,6 +18,7 @@ const statusLabels: Record<AutomationJobStatus, string> = {
   failed: "Failed",
   running: "Processing",
   succeeded: "Success",
+  retry_wait: "Retry available",
   blocked: "Blocked",
 };
 
@@ -30,6 +31,7 @@ const jobLabels: Record<string, string> = {
 
 export default function Automations() {
   const [jobs, setJobs] = useState<AutomationJobRecord[]>([]);
+  const [attempts, setAttempts] = useState<AutomationAttemptRecord[]>([]);
   const [historyState, setHistoryState] = useState<"loading" | "ready" | "error">("loading");
   const [busy, setBusy] = useState<Partial<Record<SafeAutomation, boolean>>>({});
   const [runtimeMessages, setRuntimeMessages] = useState<Partial<Record<SafeAutomation, RuntimeMessage>>>({});
@@ -42,15 +44,18 @@ export default function Automations() {
   const refresh = useCallback(async () => {
     const rows = await listAutomationJobs();
     setJobs(rows);
+    setAttempts(await listAutomationAttempts(rows.map((job) => job.id)));
     setHistoryState("ready");
   }, []);
 
   useEffect(() => {
     let active = true;
     listAutomationJobs()
-      .then((rows) => {
+      .then(async (rows) => {
         if (!active) return;
         setJobs(rows);
+        setAttempts(await listAutomationAttempts(rows.map((job) => job.id)));
+        if (!active) return;
         setHistoryState("ready");
       })
       .catch(() => {
@@ -75,6 +80,23 @@ export default function Automations() {
       setRuntimeMessages((current) => ({
         ...current,
         [jobType]: { tone: "error", text: reason instanceof Error ? reason.message : "Automation run failed." },
+      }));
+    } finally {
+      setBusy((current) => ({ ...current, [jobType]: false }));
+    }
+  }
+
+  async function retry(job: AutomationJobRecord) {
+    const jobType = job.job_type as SafeAutomation;
+    if (busy[jobType]) return;
+    setBusy((current) => ({ ...current, [jobType]: true }));
+    try {
+      await retryAutomation(job.id);
+      await refresh();
+    } catch (reason) {
+      setRuntimeMessages((current) => ({
+        ...current,
+        [jobType]: { tone: "error", text: reason instanceof Error ? reason.message : "Automation retry failed." },
       }));
     } finally {
       setBusy((current) => ({ ...current, [jobType]: false }));
@@ -180,8 +202,18 @@ export default function Automations() {
             {jobs.map((job) => (
               <article className="hlc-automation-history-row" key={job.id} data-status={job.status}>
                 <div><strong>{jobLabels[job.job_type] ?? job.job_type}</strong><small>Created {new Date(job.created_at).toLocaleString()}</small></div>
-                <div><span>{statusLabels[job.status] ?? job.status}</span><small>Attempts {job.retry_count} / {job.max_attempts}</small></div>
-                <div>{job.result && <pre>{JSON.stringify(job.result, null, 2)}</pre>}{job.last_error && <small role="alert">{job.last_error}</small>}</div>
+                <div>
+                  <span>{statusLabels[job.status] ?? job.status}</span>
+                  <small>Attempts {job.retry_count} / {job.max_attempts}</small>
+                  {job.status === "retry_wait" && <button className="hlc-automation-retry" type="button" onClick={() => retry(job)} disabled={Boolean(busy[job.job_type as SafeAutomation])}>Retry safely</button>}
+                </div>
+                <div>
+                  {job.result && <pre>{JSON.stringify(job.result, null, 2)}</pre>}
+                  {job.last_error && <small role="alert">{job.last_error}</small>}
+                  {attempts.filter((attempt) => attempt.automation_job_id === job.id).map((attempt) => (
+                    <small key={attempt.id}>Attempt {attempt.attempt_number}: {attempt.status}{attempt.completed_at ? ` · ${new Date(attempt.completed_at).toLocaleString()}` : ""}</small>
+                  ))}
+                </div>
               </article>
             ))}
           </div>

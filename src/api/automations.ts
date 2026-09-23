@@ -7,6 +7,7 @@ export type AutomationJobStatus =
   | "failed"
   | "running"
   | "succeeded"
+  | "retry_wait"
   | "blocked";
 
 export type AutomationJobRecord = {
@@ -29,6 +30,21 @@ export type AutomationRunResult = {
   status: AutomationJobStatus;
   result: Record<string, unknown> | null;
   duplicate: boolean;
+  attempt_count: number;
+  max_attempts: number;
+  exhausted: boolean;
+  error?: string;
+};
+
+export type AutomationAttemptRecord = {
+  id: string;
+  automation_job_id: string;
+  attempt_number: number;
+  status: "processing" | "success" | "failed";
+  started_at: string;
+  completed_at: string | null;
+  result: Record<string, unknown> | null;
+  error_message: string | null;
 };
 
 export async function listAutomationJobs(limit = 50) {
@@ -51,4 +67,21 @@ export async function runAutomation(jobType: "workflow_health_check" | "followup
   });
   if (error) throw error;
   return data as AutomationRunResult;
+}
+
+export async function retryAutomation(jobId: string) {
+  const { data, error } = await supabase.rpc("retry_hlc_automation", { p_job_id: jobId });
+  if (error) throw error;
+  return data as AutomationRunResult;
+}
+
+export async function listAutomationAttempts(jobIds: string[]) {
+  if (jobIds.length === 0) return [];
+  const { data, error } = await supabase
+    .from("automation_job_attempts")
+    .select("id,automation_job_id,attempt_number,status,started_at,completed_at,result,error_message")
+    .in("automation_job_id", jobIds)
+    .order("attempt_number", { ascending: false });
+  if (error) throw error;
+  return (data ?? []) as AutomationAttemptRecord[];
 }

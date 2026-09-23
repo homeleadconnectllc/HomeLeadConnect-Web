@@ -2,14 +2,16 @@
   "schemaVersion": 1,
   "milestone": "Connected Core E2E",
   "certification": "NOT_YET_CERTIFIED",
-  "observedAt": "2026-09-22T09:37:00Z",
+  "observedAt": "2026-09-23T07:15:00Z",
   "repository": "homeleadconnectllc/HomeLeadConnect-Web",
-  "branch": "sprint/hcx-reconciliation-01-20260921",
+  "branch": "sprint/hcx-automation-truth-20260923",
   "pr": 479,
-  "candidateSha": "cb9e467f51b32a3e0a0c9eab321744560b76670b",
+  "startingAuthority": "a079941ffcb72ccefd221917927f9ddf850cfe87",
+  "candidateSha": "a079941ffcb72ccefd221917927f9ddf850cfe87",
   "baseSha": "c3fcecbaafefdf8285cc5170e3c9eb133f55912b",
   "productionSupabase": "cguhtshclyybivvdnpig",
   "reconciliationSupabase": "agfwqnirspmptjiqrrtk",
+  "consolidationSupabase": "lvpouzxqojgmmmzbnnwv",
   "releaseRule": "Production promotion remains owner-controlled. A later material commit invalidates exact-head evidence until rerun.",
   "statusVocabulary": [
     "implemented",
@@ -98,14 +100,17 @@
       "evidence": [
         "Automation registry defines trigger/outcome/guardrail semantics.",
         "Production automation_jobs runtime is populated and RLS protected.",
-        "Workflow integrity hardening closes direct browser mutation paths for estimates/jobs."
+        "Workflow integrity hardening closes direct browser mutation paths for estimates/jobs.",
+        "Consolidation rehearsal now persists one automation_job_attempts row per attempt, separates retry_wait from terminal failed, and records success, failed-attempt, and retry-exhaustion audit events.",
+        "Duplicate triggers reuse the canonical automation_jobs row and do not execute a second attempt.",
+        "Owner/manager RLS and RPC checks were rehearsed; a technician could neither read automation history nor invoke a run."
       ],
       "gaps": [
-        "Certification-critical automation runs need one execution contract covering definition/version, trigger, idempotency, permission-at-execution, retries, partial failure and correlation.",
+        "Certification-critical consequential automations still require definition/version and domain-specific action correlation beyond the current read-only operational scans.",
         "Quiet/business-hour execution semantics require persisted proof.",
-        "Duplicate-trigger and retry-exhaustion rehearsals remain required."
+        "Automatic worker pickup for retry_wait is not enabled; retries are explicit and owner/manager initiated in this bounded sprint."
       ],
-      "nextAction": "Inventory certification-critical automations and bind each to persisted runtime evidence and failure tests."
+      "nextAction": "Bind the communication follow-up automation to action-time consent, quiet/business-hour policy, provider result, and terminal escalation evidence."
     },
     {
       "id": "CC-06",
@@ -114,14 +119,14 @@
       "hardBlocker": false,
       "evidence": [
         "Notifications and internal_notification_deliveries exist with RLS/server-only idempotency controls.",
-        "Internal alerts are dispatched only after canonical writes and do not define workflow completion."
+        "Internal alerts are dispatched only after canonical writes and do not define workflow completion.",
+        "Presentation sound runtime, preference, quiet hours, replay suppression and semantic event mapping now exist in source and contracts."
       ],
       "gaps": [
-        "Dedicated interface/notification sound runtime was not demonstrated in the inspected source evidence.",
-        "Sound preference, replay suppression, polling dedupe and Safari/mobile behavior require implementation or explicit no-sound classification.",
+        "Sound behavior on Safari/mobile physical devices still requires device certification.",
         "Notification delivery state must remain downstream of authoritative business events."
       ],
-      "nextAction": "Complete sound inventory first; add only a small centralized presentation layer if justified, with preferences and dedupe."
+      "nextAction": "Certify sound preference, quiet-hour, replay-suppression and Safari/mobile behavior on physical devices without treating sound as state."
     },
     {
       "id": "CC-07",
@@ -150,7 +155,7 @@
         "Idempotency mechanisms exist in public intake, communications and internal notification delivery."
       ],
       "gaps": [
-        "Fault-injection coverage for lost response, reconnect, partial automation, provider timeout and retry exhaustion is incomplete.",
+        "Automation retry exhaustion is now rehearsed with three durable failed attempt rows and one terminal audit event; lost response, reconnect, partial domain action and provider timeout remain incomplete.",
         "Human escalation ownership on terminal failure requires end-to-end proof."
       ],
       "nextAction": "Build a non-production fault-injection matrix and record authoritative reconciliation outcomes."
