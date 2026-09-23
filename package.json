@@ -41,7 +41,7 @@
     "baseline-browser-mapping": "^2.11.1",
     "browserslist": "^4.28.7",
     "eslint": "^10.6.0",
-    "eslint-plugin-react-hooks": "^6.0.1",
+    "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.3",
     "globals": "^17.7.0",
     "playwright": "1.55.0",
