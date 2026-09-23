@@ -38,7 +38,8 @@ try {
         await footer.scrollIntoViewIfNeeded();
         const box = await footer.boundingBox();
         if (!box || box.width < viewport.width * 0.9 || box.height < 36 || box.height > 120) {
-          throw new Error(`Footer geometry invalid at ${viewportName}`);
+          const geometry = box ? `${Math.round(box.width)}x${Math.round(box.height)}` : "missing";
+          throw new Error(`Footer geometry invalid at ${viewportName}: ${geometry}; expected width >= ${Math.round(viewport.width * 0.9)} and height 36-120`);
         }
         await footer.screenshot({ path: `/tmp/home-footer-${viewportName}.png` });
       }
