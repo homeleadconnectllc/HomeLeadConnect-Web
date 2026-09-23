@@ -26,3 +26,11 @@ The exact tap that led to the iOS prompt is not visible in the screenshots. The 
 - Updated the Call Center test and added an exact-target physical-handoff regression contract to launch verification.
 
 **Proof boundary:** Source/contracts and CI can verify generated target and affordances. A real Google Voice call, recipient connection, and physical iPhone return flow require a new owner-controlled device check on an approved domain after the corrected candidate becomes available there. No additional external calls were placed during this repair.
+
+## Controlled follow-up destination
+
+Owner designated **7175854761** as the test destination; **7172881785** remains the Google Voice account number. The physical-handoff contract now requires `tel:7175854761` for the controlled contact and explicitly distinguishes it from `tel:7172881785`. No provider or account setting is changed by the test.
+
+A rollback-only nonproduction rehearsal (`HCX_CONTROLLED_GOOGLE_VOICE_DESTINATION_PROOF.sql`) inserted a synthetic lead at 7175854761, ran the actual `evaluate_communication_compliance` RPC as an authenticated workspace member, and confirmed the resulting check referenced that lead, call channel, and Google Voice transport. It returned `BLOCK` with `provider_not_connected`; the associated lead still resolved to 7175854761. Fixture user, lead, check, and provider connection counts were all zero after rollback. This proves selection and policy association, not an outbound Google Voice call.
+
+For the owner-controlled retest on the approved app domain, choose a contact whose saved phone is 7175854761, run the manual communication check, and proceed only on ALLOW. For the device-native path the iOS prompt should present 7175854761. For Google Voice, HomeLead Connect displays/copies 7175854761 after ALLOW, but opens only the generic Google Voice surface; the operator must enter/confirm 7175854761 in Google Voice. An iOS carrier prompt may show an access number, so that prompt alone cannot prove final recipient routing. Verify the dialed contact in Voice and independently verify the actual intended recipient before marking the full Google Voice handoff PASS. If policy BLOCKS, stop: no outbound handoff or completed-call record is authorized.

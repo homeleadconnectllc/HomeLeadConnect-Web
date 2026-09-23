@@ -7,9 +7,12 @@ const manual = readFileSync("src/pages/dashboard/ManualCommunications.tsx", "utf
 const api = readFileSync("src/api/manualCommunications.ts", "utf8");
 const callCenter = readFileSync("src/pages/dashboard/CallCenter.tsx", "utf8");
 
-test("the selected Resident Test phone stays the native device destination", () => {
-  assert.equal(normalizePhoneTarget("7175519897"), "7175519897");
-  assert.equal(phoneHref("7175519897"), "tel:7175519897");
+test("the controlled destination stays distinct from the Google Voice account number", () => {
+  const controlledDestination = "7175854761";
+  const googleVoiceAccountNumber = "7172881785";
+  assert.equal(normalizePhoneTarget(controlledDestination), controlledDestination);
+  assert.equal(phoneHref(controlledDestination), "tel:7175854761");
+  assert.notEqual(phoneHref(controlledDestination), phoneHref(googleVoiceAccountNumber));
   assert.match(api, /normalizeNativePhoneTarget = normalizePhoneTarget/);
   assert.match(manual, /nativeTarget = selected \? normalizeNativePhoneTarget\(selected\.phone\) : ""/);
   assert.match(manual, /canHandoff = direction === "outbound" && check\?\.decision === "ALLOW" && Boolean\(nativeTarget\)/);
