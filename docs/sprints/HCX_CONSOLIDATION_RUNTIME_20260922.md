@@ -33,7 +33,7 @@ The clean consolidation destination now contains the production-plan September s
 Security follow-up verified on 2026-09-22:
 
 - `resolve_billing_workspace_access()`: `anon EXECUTE = false`; `authenticated EXECUTE = true`; `service_role EXECUTE = true`.
-- `rls_auto_enable()`: `anon/authenticated/service_role EXECUTE = false`; owner/postgres remains.
+- `rls_auto_enable()` was removed from this hardening contract after clean effective-production replay confirmed that the function is not present in canonical database history; no replacement function was created.
 - Supabase anonymous SECURITY DEFINER advisor findings dropped from 5 to 3 after this correction.
 - Remaining anonymous SECURITY DEFINER findings are the explicitly public-facing boundaries:
   - `record_hlc_analytics_event(...)`

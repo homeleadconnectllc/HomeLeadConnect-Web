@@ -6,5 +6,3 @@
 revoke execute on function public.resolve_billing_workspace_access() from public, anon;
 grant execute on function public.resolve_billing_workspace_access() to authenticated;
 grant execute on function public.resolve_billing_workspace_access() to service_role;
-
-revoke execute on function public.rls_auto_enable() from public, anon, authenticated, service_role;

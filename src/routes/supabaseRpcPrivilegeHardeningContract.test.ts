@@ -10,7 +10,3 @@ test("billing resolver removes inherited PUBLIC execute while preserving signed-
   assert.match(hardening, /grant execute on function public\.resolve_billing_workspace_access\(\) to authenticated/i);
   assert.match(hardening, new RegExp(`grant execute on function public\\.resolve_billing_workspace_access\\(\\) to ${elevatedDatabaseRole}`, "i"));
 });
-
-test("DDL event-trigger function is not exposed as a browser RPC", () => {
-  assert.match(hardening, new RegExp(`revoke execute on function public\\.rls_auto_enable\\(\\) from public, anon, authenticated, ${elevatedDatabaseRole}`, "i"));
-});
