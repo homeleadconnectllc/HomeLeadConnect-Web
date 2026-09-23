@@ -1,4 +1,5 @@
 import { supabase } from "./client";
+import { normalizePhoneTarget } from "../lib/contactTargets";
 
 export type ManualCommunicationSubject = "lead" | "contractor";
 export type ManualCommunicationChannel = "call" | "sms";
@@ -26,11 +27,7 @@ export type ManualCommunicationActivity = {
   created_at: string;
 };
 
-export function normalizeNativePhoneTarget(phone: string) {
-  const trimmed = phone.trim();
-  const digits = trimmed.replace(/\D/g, "");
-  return `${trimmed.startsWith("+") ? "+" : ""}${digits}`;
-}
+export const normalizeNativePhoneTarget = normalizePhoneTarget;
 
 async function evaluateManualAction(input: {
   subjectType: ManualCommunicationSubject;

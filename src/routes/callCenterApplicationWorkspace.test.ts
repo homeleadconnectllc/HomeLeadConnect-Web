@@ -29,7 +29,8 @@ test("Call Center preserves provider-neutral handoff, persisted sessions and int
   assert.match(page, /https:\/\/voice\.google\.com\//);
   assert.match(page, /transport=google_voice&direction=outbound/);
   assert.match(page, /transport=google_voice&direction=inbound/);
-  assert.match(page, /tel:\$\{phone\.phone_number\}/);
+  assert.doesNotMatch(page, /href=\{`tel:\$\{phone\.phone_number\}`\}/);
+  assert.match(page, /dialing the company line will not connect you to the selected contact/);
   assert.match(page, /does not provide embedded Answer, Hold, Transfer, Hang Up controls/);
 });
 

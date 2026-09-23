@@ -242,7 +242,19 @@ export default function ManualCommunications() {
     if (!selected || channel !== "call" || direction !== "outbound" || check?.decision !== "ALLOW") return;
     beginPendingManualCall({ contactKey: selected.key, transport, purpose, complianceCheck: check, conversationId, requestId });
     setReturnPromptOpen(false);
-    setMessage("Call opened. HLC will ask for the outcome when you return.");
+    setMessage(transport === "google_voice"
+      ? "Google Voice opened. Enter the selected contact number and place the call there; record only what actually happened when you return."
+      : "Phone app opened for the selected contact. Record only what actually happened when you return.");
+  }
+
+  async function copyGoogleVoiceDestination() {
+    if (!canHandoff || transport !== "google_voice") return;
+    try {
+      await navigator.clipboard.writeText(nativeTarget);
+      setMessage("Selected contact number copied. Paste it into Google Voice to contact this person.");
+    } catch {
+      setError("Copy was unavailable. Select the contact number shown here and enter it in Google Voice.");
+    }
   }
 
   async function persistActivity(reportedOutcome: string, reportedFollowUpAt = followUpAt) {
@@ -368,7 +380,12 @@ export default function ManualCommunications() {
             {check.decision === "ALLOW" && <p className="hlc-ui-margin-bottom-fa769a">The safety check is clear. Open the selected app, complete the manual action, then come back to HLC.</p>}
           </div>}
           {canHandoff && transport === "device_native" && <a href={`${channel === "call" ? "tel" : "sms"}:${nativeTarget}`} onClick={channel === "call" ? startCallHandoff : undefined} className="hlc-ui-handoff-f60592" aria-label={`${openLabel} for ${selected?.label || "selected contact"}`}>{openLabel}</a>}
-          {direction === "outbound" && check?.decision === "ALLOW" && transport === "google_voice" && <a href="https://voice.google.com/" target="_blank" rel="noreferrer" onClick={channel === "call" ? startCallHandoff : undefined} className="hlc-ui-handoff-f60592">Open Google Voice</a>}
+          {canHandoff && transport === "google_voice" && <div className="hlc-ui-manual-communications-8b9d0b">
+            <label className="hlc-ui-label-97e274">Selected contact number for Google Voice<input readOnly value={nativeTarget} onFocus={(event) => event.currentTarget.select()} /></label>
+            <button type="button" onClick={() => void copyGoogleVoiceDestination()}>Copy selected number</button>
+            <p className="hlc-ui-helper-6370cf">Open Google Voice and enter this selected contact number there. HomeLead Connect does not pass it automatically or call through the company number. Confirm the destination inside Google Voice before placing the call or text.</p>
+            <a href="https://voice.google.com/" target="_blank" rel="noreferrer" onClick={channel === "call" ? startCallHandoff : undefined} className="hlc-ui-handoff-f60592">Open Google Voice</a>
+          </div>}
           {!selected && <p className="hlc-ui-helper-6370cf">Choose a contact in Step 1 to continue.</p>}
         </div>
       </section>
@@ -420,7 +437,7 @@ export default function ManualCommunications() {
     {!loading && configuredNumber && <details className="hlc-ui-supportingDetails-c72fa5">
       <summary className="hlc-ui-advancedSummary-470967">Optional Google Voice</summary>
       <p>Manual operator number: <strong>{configuredNumber}</strong></p>
-      <a href="https://voice.google.com/" target="_blank" rel="noreferrer">Open Google Voice</a>
+      <a href="https://voice.google.com/" target="_blank" rel="noreferrer">Open Google Voice account (no selected contact)</a>
     </details>}
 
     {!loading && <section className="hlc-ui-historyPanel-57ee4c">
