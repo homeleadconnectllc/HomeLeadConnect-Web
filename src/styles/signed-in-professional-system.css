@@ -955,3 +955,120 @@ html body #root .hlc-signed-in-shell>.hlc-navbar{color:#f6f8fb!important;backgro
 html body #root .hlc-signed-in-shell .hlc-route-content :is(h1,h2,h3,h4,strong,dt,dd){color:var(--hlc-app-text)!important}
 html body #root .hlc-signed-in-shell .hlc-route-content :is(p,li,label,small){color:var(--hlc-app-muted)!important}
 html body #root .hlc-signed-in-shell>.hlc-public-footer{min-height:0!important;padding:10px 18px!important;background:transparent!important}
+
+/* The light workspace must keep its text and panels on the same canvas.
+   Earlier dark panel fills survived the light theme on the physical iPhone. */
+html body #root .hlc-signed-in-shell .hlc-home-focus-panel,
+html body #root .hlc-signed-in-shell .hlc-home-schedule-panel{
+  background:var(--hlc-app-surface)!important;
+  color:var(--hlc-app-text)!important;
+  border-color:var(--hlc-app-line)!important;
+}
+html body #root .hlc-signed-in-shell .hlc-home-panel-title h2,
+html body #root .hlc-signed-in-shell .hlc-home-focus-copy strong,
+html body #root .hlc-signed-in-shell .hlc-home-schedule-list strong{
+  color:var(--hlc-app-text)!important;
+}
+html body #root .hlc-signed-in-shell .hlc-home-panel-title>span,
+html body #root .hlc-signed-in-shell .hlc-home-panel-head>a{
+  color:var(--hlc-portal-accent)!important;
+}
+
+/* More is portaled under body, outside .hlc-signed-in-shell. Give that single
+   dialog its own readable surface rather than inheriting the public page's
+   typography and colors after an in-app sign-in. */
+@media(max-width:760px){
+  body:has(> .hlc-mobile-command-sheet)>#root{
+    filter:brightness(.55)!important;
+    pointer-events:none!important;
+  }
+  body>.hlc-mobile-command-sheet{
+    background:rgba(14,24,37,.58)!important;
+    font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;
+    color:#172231!important;
+  }
+  body>.hlc-mobile-command-sheet>.hlc-drawer-v2-scroll{
+    max-height:min(78dvh,700px)!important;
+    height:auto!important;
+    margin:auto 10px 0!important;
+    padding:16px!important;
+    border:1px solid #d7e1eb!important;
+    border-radius:20px!important;
+    background:#f8fbfe!important;
+    box-shadow:0 18px 48px rgba(14,24,37,.22)!important;
+  }
+  body>.hlc-mobile-command-sheet .hlc-mobile-command-sheet-head,
+  body>.hlc-mobile-command-sheet .hlc-mobile-more-title{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:space-between!important;
+    gap:12px!important;
+    color:#172231!important;
+    font-size:14px!important;
+  }
+  body>.hlc-mobile-command-sheet .hlc-mobile-command-sheet-head>span,
+  body>.hlc-mobile-command-sheet .hlc-mobile-more-title strong{
+    color:#172231!important;
+  }
+  body>.hlc-mobile-command-sheet .hlc-mobile-more-title span{
+    color:#426b9c!important;
+    font-size:11px!important;
+    font-weight:800!important;
+    letter-spacing:.12em!important;
+  }
+  body>.hlc-mobile-command-sheet :is(.hlc-drawer-v2-close,.hlc-mobile-more-signout){
+    min-height:44px!important;
+    border:1px solid #bdcad8!important;
+    border-radius:11px!important;
+    background:#fff!important;
+    color:#172231!important;
+    font:inherit!important;
+  }
+  body>.hlc-mobile-command-sheet .hlc-mobile-command-search-trigger,
+  body>.hlc-mobile-command-sheet .hlc-mobile-more-quick>a{
+    width:100%!important;
+    min-height:62px!important;
+    padding:10px 12px!important;
+    border:1px solid #d7e1eb!important;
+    border-radius:12px!important;
+    background:#fff!important;
+    color:#172231!important;
+    text-decoration:none!important;
+    font:inherit!important;
+  }
+  body>.hlc-mobile-command-sheet .hlc-mobile-command-search-trigger{
+    display:grid!important;
+    grid-template-columns:30px minmax(0,1fr) auto!important;
+    align-items:center!important;
+    gap:10px!important;
+    text-align:left!important;
+  }
+  body>.hlc-mobile-command-sheet .hlc-mobile-more-quick{
+    display:grid!important;
+    gap:8px!important;
+  }
+  body>.hlc-mobile-command-sheet .hlc-mobile-more-quick>a{
+    display:grid!important;
+    grid-template-columns:30px minmax(0,1fr) auto!important;
+    align-items:center!important;
+    gap:10px!important;
+  }
+  body>.hlc-mobile-command-sheet :is(.hlc-mobile-command-search-trigger,.hlc-mobile-more-quick>a) :is(strong,small,b){
+    display:block!important;
+    color:#172231!important;
+    overflow-wrap:anywhere!important;
+  }
+  body>.hlc-mobile-command-sheet :is(.hlc-mobile-command-search-trigger,.hlc-mobile-more-quick>a) small{
+    color:#5b6b7d!important;
+    font-size:12px!important;
+  }
+  body>.hlc-mobile-command-sheet .hlc-mobile-menu-utilities{
+    position:relative!important;
+    max-height:none!important;
+    color:#172231!important;
+  }
+  body>.hlc-mobile-command-sheet .hlc-mobile-menu-view-actions button{
+    min-height:44px!important;
+    color:#172231!important;
+  }
+}

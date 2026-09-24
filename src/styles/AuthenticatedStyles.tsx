@@ -1,4 +1,8 @@
 import MobileNavigationDialogAccessibility from "../components/accessibility/MobileNavigationDialogAccessibility";
+// Sign-in can navigate to a workspace without reloading the page. Load the
+// structural app shell here too so that transition has the same foundation as
+// a direct visit to an authenticated route.
+import "./app-shell-entry";
 import "./authenticated-entry";
 import "./calendar-mobile-action-order.css";
 import "./launch-messaging-simplification.css";
@@ -29,6 +33,7 @@ import "./dashboard-context-hero.css";
 // Current signed-in visual authority must load last so retired workspace/route paint
 // cannot override the owner-approved redesign. Structural and feature behavior stay intact.
 import "./signed-in-professional-system.css";
+import "./connected-app-family-20260923.css";
 
 export default function AuthenticatedStyles() {
   return <MobileNavigationDialogAccessibility />;

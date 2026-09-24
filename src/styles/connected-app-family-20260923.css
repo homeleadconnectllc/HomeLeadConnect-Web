@@ -1,0 +1,67 @@
+/* The signed-in product shares the front-door atmosphere while keeping its
+   light, readable work canvas. Portal contexts provide the audience color. */
+html body #root .hlc-signed-in-shell{
+  --hlc-app-bg:#f3f8fc;
+  --hlc-app-text:#172b3f;
+  --hlc-app-muted:#526579;
+  --hlc-app-line:rgba(23,58,83,.14);
+  --hlc-portal-accent:#3088c0;
+  --hlc-portal-accent-soft:rgba(48,136,192,.12);
+  background:linear-gradient(180deg,#eaf3fa,#f8fbfd)!important;
+}
+html body #root .hlc-signed-in-shell:has(.hlc-portal-workspace.is-resident){--hlc-portal-accent:#16866a;--hlc-portal-accent-soft:rgba(22,134,106,.12)}
+html body #root .hlc-signed-in-shell:has(.hlc-portal-workspace.is-professional){--hlc-portal-accent:#1479b8;--hlc-portal-accent-soft:rgba(20,121,184,.12)}
+html body #root .hlc-signed-in-shell:has(.hlc-portal-workspace.is-partner){--hlc-portal-accent:#a97513;--hlc-portal-accent-soft:rgba(169,117,19,.12)}
+html body #root .hlc-signed-in-shell:has(:is(.hlc-community-v2,.hlc-community-workspace:not(.hlc-ui-roleplay-knowledge-workspace-b35e3b))){--hlc-portal-accent:#8957b2;--hlc-portal-accent-soft:rgba(137,87,178,.12)}
+html body #root .hlc-signed-in-shell .hlc-portal-workspace.is-resident{--hlc-portal-accent:#16866a;--hlc-portal-accent-soft:rgba(22,134,106,.12)}
+html body #root .hlc-signed-in-shell .hlc-portal-workspace.is-professional{--hlc-portal-accent:#1479b8;--hlc-portal-accent-soft:rgba(20,121,184,.12)}
+html body #root .hlc-signed-in-shell .hlc-portal-workspace.is-partner{--hlc-portal-accent:#a97513;--hlc-portal-accent-soft:rgba(169,117,19,.12)}
+html body #root .hlc-signed-in-shell .hlc-community-workspace:not(.hlc-ui-roleplay-knowledge-workspace-b35e3b){
+  --community-blue:#8957b2;--community-line:rgba(137,87,178,.36);
+  --hlc-portal-accent:#8957b2;--hlc-portal-accent-soft:rgba(137,87,178,.12);
+}
+html body #root .hlc-signed-in-shell .hlc-community-v2{
+  --hlc-portal-accent:#c291eb;--hlc-portal-accent-soft:rgba(137,87,178,.17);
+  background:radial-gradient(ellipse at 84% 6%,rgba(137,87,178,.23),transparent 45%),linear-gradient(180deg,#121f38,#152139)!important;
+}
+html body #root .hlc-signed-in-shell .hlc-community-v2 :is(.hlc-community-v2-eyebrow,.hlc-community-v2-heading>span,.hlc-community-v2-context-card>span){color:#dbb4f4!important;-webkit-text-fill-color:#dbb4f4!important}
+html body #root .hlc-signed-in-shell .hlc-community-v2 :is(.hlc-community-v2-commandbar a,.hlc-community-v2-context-actions a):is(:hover,:focus-visible){color:#e7c9ff!important;border-color:#bf8aec!important}
+html body #root .hlc-signed-in-shell>.hlc-navbar{
+  background:linear-gradient(90deg,rgba(9,30,53,.98),rgba(18,47,71,.96))!important;
+  border-bottom:1px solid rgba(190,219,240,.18)!important;box-shadow:0 10px 22px rgba(8,29,49,.12)!important;
+}
+html body #root .hlc-signed-in-shell>.hlc-route-content{
+  background:radial-gradient(ellipse at 84% 1%,var(--hlc-portal-accent-soft),transparent 40%),linear-gradient(180deg,#eff6fa 0%,#f8fbfd 42%,#f3f8fb 100%)!important;
+  color:var(--hlc-app-text)!important;
+}
+html body #root .hlc-signed-in-shell .hlc-route-content :is(.hlc-portal-header,.hlc-account-header,.hlc-home-topbar-v2){
+  background:linear-gradient(110deg,#0c2743,color-mix(in srgb,var(--hlc-portal-accent) 20%,#18405d))!important;
+  color:#f4f9ff!important;
+  border:1px solid rgba(186,213,234,.23)!important;
+  box-shadow:0 14px 28px rgba(11,37,58,.12)!important;
+}
+html body #root .hlc-signed-in-shell .hlc-route-content :is(.hlc-portal-header,.hlc-account-header,.hlc-home-topbar-v2) :is(h1,h2,h3,p,span,strong){color:#f6fbff!important;-webkit-text-fill-color:#f6fbff!important}
+html body #root .hlc-signed-in-shell .hlc-portal-workspace :is(.hlc-portal-project,.hlc-portal-stat,.hlc-portal-section){border-color:var(--hlc-app-line)!important}
+html body #root .hlc-signed-in-shell .hlc-portal-workspace .hlc-portal-header .hlc-account-kicker{color:color-mix(in srgb,var(--hlc-portal-accent) 45%,white)!important;-webkit-text-fill-color:color-mix(in srgb,var(--hlc-portal-accent) 45%,white)!important}
+html body #root .hlc-signed-in-shell .hlc-portal-workspace .hlc-portal-actions a[aria-current="page"]{color:var(--hlc-portal-accent)!important;-webkit-text-fill-color:var(--hlc-portal-accent)!important}
+html body #root .hlc-signed-in-shell .hlc-route-content :is(.hlc-portal-workspace,.hlc-community-workspace) a:not(.hlc-navbar-brand){text-decoration-color:var(--hlc-portal-accent)}
+html body #root .hlc-signed-in-shell>.hlc-public-footer{background:transparent!important;border-top:1px solid var(--hlc-app-line)!important}
+/* Carry the family effects through work surfaces without turning every page
+   into a dark hero or a stack of floating cards. */
+html body #root .hlc-signed-in-shell .hlc-route-content :is(.hlc-portal-workspace,.hlc-community-workspace,.hlc-account-workspace){
+  background-image:radial-gradient(ellipse at 92% 0%,var(--hlc-portal-accent-soft),transparent 46%)!important;
+}
+html body #root .hlc-signed-in-shell .hlc-route-content :is(.hlc-portal-workspace,.hlc-community-workspace) :is(h1,h2){text-wrap:balance}
+html body #root .hlc-signed-in-shell .hlc-route-content :is(.hlc-portal-workspace,.hlc-community-workspace) img:not([data-hlc-master-logo]):not([class*="avatar"]){object-fit:cover;object-position:center}
+html body #root .hlc-signed-in-shell .hlc-route-content :is(a,button){transition:background-color .2s ease,border-color .2s ease,color .2s ease,transform .2s ease}
+html body #root .hlc-signed-in-shell .hlc-route-content :is(a,button):focus-visible{outline:3px solid var(--hlc-portal-accent)!important;outline-offset:3px!important}
+@media(hover:hover){
+  html body #root .hlc-signed-in-shell .hlc-route-content :is(.hlc-portal-workspace,.hlc-community-workspace) a:hover{color:var(--hlc-portal-accent)!important}
+  html body #root .hlc-signed-in-shell .hlc-route-content :is(.hlc-portal-workspace,.hlc-community-workspace) button:hover{border-color:var(--hlc-portal-accent)!important}
+}
+@media(prefers-reduced-motion:reduce){html body #root .hlc-signed-in-shell .hlc-route-content :is(a,button){transition:none!important;animation:none!important}}
+@media(max-width:680px){
+  html body #root .hlc-signed-in-shell>.hlc-navbar{min-height:70px!important}
+  html body #root .hlc-signed-in-shell>.hlc-route-content{padding-bottom:calc(112px + env(safe-area-inset-bottom))!important}
+  html body #root .hlc-signed-in-shell .hlc-mobile-tabbar{background:rgba(250,252,255,.97)!important;backdrop-filter:blur(14px)}
+}

@@ -3,6 +3,7 @@ import PublicSiteNav from "../components/PublicSiteNav";
 import { pageImage } from "../config/publicPageImagery";
 import PathwayPage from "./PathwayPage";
 import "../styles/public-visual-family-20260919.css";
+import "../styles/connected-visual-family-20260923.css";
 
 type PublicJourneyKey = "services" | "pricing" | "trust" | "professionals" | "demo";
 const content: Record<PublicJourneyKey, { title: string; intro: string; sections: Array<[string, string]>; primary: [string, string]; kicker: string; appPrimary?: boolean }> = {

@@ -37,7 +37,7 @@ if (isPublicHome) {
   };
   const usesPublicVisualFamily = isPublicSiteRoute || isVisualFamilyEntryRoute;
   if (usesPublicVisualFamily) {
-    void import("./styles/public-visual-family-20260919.css").then(mountReactApp);
+    void import("./styles/public-visual-family-20260919.css").then(() => import("./styles/connected-visual-family-20260923.css")).then(mountReactApp);
   }
   if (!usesPublicVisualFamily) {
     void import("./styles/app-shell-entry").then(mountReactApp);
