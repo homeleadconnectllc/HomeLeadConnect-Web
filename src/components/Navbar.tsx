@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type MouseEvent as ReactMouseEvent } from "react";
 import { createPortal } from "react-dom";
 import { Link, useLocation } from "react-router-dom";
 import { ecosystemNavigation } from "../config/navigationPlacement";
@@ -140,6 +140,14 @@ export default function Navbar() {
   const businessPrimaryAreaActive = showBusinessTools && mobilePrimaryLinks.some((item) => mobileRouteIsActive(location.pathname, item));
   const moreIsActive = mobileOpen || (showBusinessTools && !businessPrimaryAreaActive);
   function closeMobileMenu() { setMobileOpenAt(null); }
+  function handleBrandActivation(event: ReactMouseEvent<HTMLAnchorElement>) {
+    if (!window.matchMedia("(max-width: 1024px)").matches) {
+      closeMobileMenu();
+      return;
+    }
+    event.preventDefault();
+    setMobileOpenAt(mobileOpen ? null : location.pathname);
+  }
   function openGlobalSearch() { closeMobileMenu(); window.requestAnimationFrame(() => window.dispatchEvent(new Event(OPEN_HLC_COMMAND_SEARCH))); }
   function toggleGroup(id: string) { setOpenGroupState({ pathname: location.pathname, id: openGroup === id ? "" : id }); }
 
@@ -176,7 +184,7 @@ export default function Navbar() {
   }
 
   const mobileDrawer = mobileOpen && typeof document !== "undefined" ? createPortal(
-    <div className="hlc-drawer-v2 hlc-mobile-command-sheet" role="dialog" aria-modal="true" aria-label="More HomeLead Connect areas">
+    <div id="hlc-mobile-command-menu" className="hlc-drawer-v2 hlc-mobile-command-sheet" role="dialog" aria-modal="true" aria-label="More HomeLead Connect areas">
       <div className="hlc-drawer-v2-scroll">
         <div className="hlc-mobile-command-sheet-head"><span>HomeLead Connect</span><button className="hlc-drawer-v2-close" type="button" onClick={closeMobileMenu} aria-label="Close HomeLead Connect navigation">Close</button></div>
         {renderMobileMoreMenu()}
@@ -187,8 +195,7 @@ export default function Navbar() {
 
   return <>
     <nav className={`hlc-navbar ${mobileOpen ? "menu-is-open" : ""}`} role="navigation" aria-label="Main navigation">
-      <Link className="hlc-navbar-brand" to={brandDestination} onClick={closeMobileMenu}><div className="hlc-navbar-logo hlc-navbar-logo-home"><img src={logo} alt="HomeLead Connect LLC" data-hlc-master-logo="true" /></div><div className="hlc-navbar-brand-copy"><h2>HomeLead Connect</h2><span>{signedIn ? (showBusinessTools ? "HomeLead Connect workspace" : access.homeowner ? "Resident portal" : access.contractor ? "Professional portal" : access.partner ? "Partner portal" : "HomeLead Connect account") : "Home services network"}</span></div></Link>
-      <button type="button" className="hlc-navbar-toggle" aria-expanded={mobileOpen} aria-label={mobileOpen ? "Close menu" : "Open menu"} onClick={() => setMobileOpenAt(mobileOpen ? null : location.pathname)}>{mobileOpen ? "Close" : "Menu"}</button>
+      <Link className="hlc-navbar-brand" to={brandDestination} onClick={handleBrandActivation} aria-expanded={mobileOpen} aria-controls="hlc-mobile-command-menu" aria-haspopup="dialog"><div className="hlc-navbar-logo hlc-navbar-logo-home"><img src={logo} alt="HomeLead Connect LLC" data-hlc-master-logo="true" /></div><div className="hlc-navbar-brand-copy"><h2>HomeLead Connect</h2><span>{signedIn ? (showBusinessTools ? "HomeLead Connect workspace" : access.homeowner ? "Resident portal" : access.contractor ? "Professional portal" : access.partner ? "Partner portal" : "HomeLead Connect account") : "Home services network"}</span></div></Link>
       <div className="hlc-navbar-links hlc-desktop-navigation">{renderDesktopMenuContents()}</div>
     </nav>
     {signedIn && accessResolved && mobilePrimaryLinks.length > 0 && <nav className="hlc-mobile-tabbar" aria-label="Mobile primary navigation">{mobilePrimaryLinks.map((item) => { const active = mobileRouteIsActive(location.pathname, item); return <Link key={item.route} to={item.route} className={active ? "is-active" : undefined} aria-current={active ? "page" : undefined} onClick={closeMobileMenu}><MobileNavIcon name={item.icon} /><span>{item.label}</span></Link>; })}<button type="button" className={moreIsActive ? "is-active" : undefined} aria-expanded={mobileOpen} aria-label={mobileOpen ? "Close all HomeLead Connect areas" : "Open all HomeLead Connect areas"} onClick={() => setMobileOpenAt(mobileOpen ? null : location.pathname)}><MobileNavIcon name="more" /><span>More</span></button></nav>}

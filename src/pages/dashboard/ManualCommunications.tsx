@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { useSearchParams } from "react-router-dom";
 import { listLeads } from "../../api/leads";
-import { listContractors } from "../../api/contractors";
+import {
+  listContractorCommunicationContacts,
+  type ContractorCommunicationContact,
+} from "../../api/contractors";
 import { createFollowUp } from "../../api/followUps";
 import {
   checkGoogleVoiceAction,
@@ -18,7 +21,7 @@ import {
   type ManualCommunicationSubject,
   type ManualCommunicationTransport,
 } from "../../api/manualCommunications";
-import type { Contractor, Lead } from "../../lib/types/database";
+import type { Lead } from "../../lib/types/database";
 import { errorMessage } from "../../lib/errorMessage";
 import { listConversations, type Conversation } from "../../api/messages";
 import { useAuth } from "../../hooks/useAuth";
@@ -83,7 +86,7 @@ export default function ManualCommunications() {
   const [searchParams] = useSearchParams();
   const pendingAtEntry = useMemo(() => readPendingManualCall(), []);
   const [leads, setLeads] = useState<Lead[]>([]);
-  const [contractors, setContractors] = useState<Contractor[]>([]);
+  const [contractors, setContractors] = useState<ContractorCommunicationContact[]>([]);
   const [history, setHistory] = useState<ManualCommunicationActivity[]>([]);
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [conversationId, setConversationId] = useState(() => pendingAtEntry?.conversationId || "");
@@ -130,7 +133,7 @@ export default function ManualCommunications() {
   async function reload() {
     const [leadRows, contractorRows] = await Promise.all([
       withTimeout(listLeads(), [] as Lead[]),
-      withTimeout(listContractors(), [] as Contractor[]),
+      withTimeout(listContractorCommunicationContacts(), [] as ContractorCommunicationContact[]),
     ]);
     setLeads(leadRows);
     setContractors(contractorRows);
@@ -149,7 +152,7 @@ export default function ManualCommunications() {
 
     Promise.all([
       withTimeout(listLeads(), [] as Lead[]),
-      withTimeout(listContractors(), [] as Contractor[]),
+      withTimeout(listContractorCommunicationContacts(), [] as ContractorCommunicationContact[]),
     ])
       .then(([leadRows, contractorRows]) => {
         if (!active) return;

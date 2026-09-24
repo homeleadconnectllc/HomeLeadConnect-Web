@@ -4,6 +4,14 @@ import type { Contractor } from "../lib/types/database";
 const contractorColumns =
   "id,workspace_id,company_name,contact_name,phone,email,website,address,city,state,zip,latitude,longitude,coordinate_accuracy,coordinate_source,status,specialty,license_number,created_at,updated_at";
 
+const contractorCommunicationColumns =
+  "id,company_name,contact_name,phone";
+
+export type ContractorCommunicationContact = Pick<
+  Contractor,
+  "id" | "company_name" | "contact_name" | "phone"
+>;
+
 export type ContractorFilters = {
   specialty?: string;
   city?: string;
@@ -48,6 +56,24 @@ export async function listContractors(
   const { data, error } = await query;
   if (error) throw error;
   return (data ?? []) as Contractor[];
+}
+
+/**
+ * Loads only the identity and destination fields needed by manual
+ * communications. Communication handoff must not depend on optional provider
+ * directory/map columns being present in a particular backend revision.
+ */
+export async function listContractorCommunicationContacts(): Promise<ContractorCommunicationContact[]> {
+  const workspaceId = await getCurrentWorkspaceId();
+  const { data, error } = await supabase
+    .from("contractors")
+    .select(contractorCommunicationColumns)
+    .eq("workspace_id", workspaceId)
+    .not("phone", "is", null)
+    .order("company_name");
+
+  if (error) throw error;
+  return (data ?? []) as ContractorCommunicationContact[];
 }
 
 export async function getContractor(id: number): Promise<Contractor> {

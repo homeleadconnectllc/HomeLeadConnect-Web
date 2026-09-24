@@ -27,6 +27,8 @@ test("mobile modal navigation owns keyboard focus until it closes", () => {
 test("mobile modal navigation restores focus to the invoking navigation control", () => {
   assert.match(navigationAccessibility, /previousFocus/);
   assert.match(navigationAccessibility, /document\.contains\(previousFocus\)/);
-  assert.match(navigationAccessibility, /\.hlc-navbar-toggle/);
+  assert.match(navigationAccessibility, /\.hlc-navbar-brand\[aria-controls=/);
+  assert.match(navigationAccessibility, /aria-expanded="true"/);
+  assert.doesNotMatch(navigationAccessibility, /\.hlc-navbar-toggle/);
   assert.match(navigationAccessibility, /target\?\.focus\(\)/);
 });
