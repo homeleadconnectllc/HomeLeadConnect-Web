@@ -5,6 +5,7 @@ import test from "node:test";
 const styles = readFileSync("src/styles/account-portals-application-workspace.css", "utf8");
 const lockedStyles = readFileSync("src/styles/hcx-locked-visual-authority-20260924.css", "utf8");
 const authenticatedStyles = readFileSync("src/styles/AuthenticatedStyles.tsx", "utf8");
+const signedInProfessionalSystem = readFileSync("src/styles/signed-in-professional-system.css", "utf8");
 const resident = readFileSync("src/pages/portal/HomeownerPortal.tsx", "utf8");
 const partner = readFileSync("src/pages/portal/PartnerPortal.tsx", "utf8");
 const accessProvider = readFileSync("src/context/AccountAccessProvider.tsx", "utf8");
@@ -26,13 +27,12 @@ test("role portals use the owner-approved light pathway visual authority", () =>
   assert.match(lockedStyles, /#8449ae/);
   assert.match(lockedStyles, /linear-gradient/);
   assert.match(lockedStyles, /prefers-reduced-motion/);
-  assert.match(authenticatedStyles, /signed-in-professional-system\.css/);
+  // signed-in-professional-system.css must NOT be imported at runtime anymore
+  assert.doesNotMatch(authenticatedStyles, /signed-in-professional-system\.css/);
   assert.match(authenticatedStyles, /hcx-locked-visual-authority-20260924\.css/);
-  assert.ok(
-    authenticatedStyles.indexOf("hcx-locked-visual-authority-20260924.css") >
-      authenticatedStyles.indexOf("signed-in-professional-system.css"),
-    "owner-locked pathway authority must load after historical signed-in paint",
-  );
+
+  // The file may still exist for history, but must not be imported or have runtime authority
+  assert.match(signedInProfessionalSystem, /hlc-signed-in-shell/);
   assert.match(styles, /\.hlc-portal-workspace\.is-resident/);
   assert.match(styles, /\.hlc-portal-workspace\.is-professional/);
   assert.match(styles, /\.hlc-portal-workspace\.is-partner/);
