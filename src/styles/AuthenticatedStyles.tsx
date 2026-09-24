@@ -26,6 +26,11 @@ import "./automations-dashboard-a.css";
 import "./mobile-command-menu-rebuild-20260905.css";
 import "./dashboard-context-hero.css";
 
+/* 
+  signed-in-professional-system.css is now disconnected from runtime authority.
+  All visual authority is now provided by hcx-locked-visual-authority-20260924.css.
+  This import is intentionally removed as part of the HCX mission.
+*/
 // Current signed-in visual authority must load last so retired workspace/route paint
 // cannot override the owner-approved redesign. Structural and feature behavior stay intact.
 /* Owner-locked HCX visual reconciliation.
