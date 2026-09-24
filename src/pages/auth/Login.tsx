@@ -1,3 +1,4 @@
+import { publicUrl } from "../../config/siteOrigins";
 import { useEffect, useState, type FormEvent } from "react";
 import type { Provider } from "@supabase/supabase-js";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
@@ -180,7 +181,7 @@ export default function Login() {
   const footer = <>
     <p><Link to="/forgot-password">Forgot your password?</Link></p>
     <p>New here? <Link to={registerHref} aria-label="Create your account">Create account</Link>.</p>
-    <p><a href="https://homeleadconnect.org">Public site</a></p>
+    <p><a href={publicUrl("/")}>Public site</a></p>
   </>;
 
   return <AuthShell title="Welcome back" description={invitationFlow ? "Sign in with the email address that received the invitation." : "Choose the sign-in method that works best for you."} status={status} footer={footer}>

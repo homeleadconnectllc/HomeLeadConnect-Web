@@ -232,11 +232,15 @@ html body #root#root .hlc-auth-shell .hlc-auth-method-tabs button[aria-pressed="
 html body #root#root .hlc-public-footer-home-authority,
 html body #root#root .hlc-public-front-door-surface .hlc-public-footer-home-authority{
   display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
-  gap:5px!important;padding:20px 20px 24px!important;background:linear-gradient(180deg,#0b2038,#091c32)!important;
+  gap:1px!important;padding:8px 20px 10px!important;background:linear-gradient(180deg,#0b2038,#091c32)!important;
   border-top:1px solid rgba(199,222,241,.12)!important;color:#d6e6f4!important;text-align:center!important;
 }
-html body #root#root .hlc-public-footer-home-authority .hlc-public-footer-master-logo{width:48px!important;height:48px!important;margin:0 auto 4px!important}
-html body #root#root .hlc-public-footer-home-authority nav{justify-content:center!important;margin:3px auto!important}
+html body #root#root .hlc-public-footer-home-authority .hlc-public-footer-master-logo{width:36px!important;height:36px!important;margin:0 auto 2px!important}
+html body #root#root .hlc-public-footer-home-authority>strong{font-size:.8rem!important;line-height:1.1!important}
+html body #root#root .hlc-public-footer-home-authority>span,
+html body #root#root .hlc-public-footer-home-authority>small{font-size:.67rem!important;line-height:1.1!important}
+html body #root#root .hlc-public-footer-home-authority nav{justify-content:center!important;gap:2px 12px!important;margin:1px auto!important}
+html body #root#root .hlc-public-footer-home-authority nav a{font-size:.67rem!important;line-height:1.1!important}
 /* Shared effects are quiet, contextual and reversible. Photography is cropped,
    never stretched; accent treatment follows the audience on every pathway. */
 html body #root#root .hlc-pathway-page .hlc-pathway-section,
@@ -275,5 +279,15 @@ html body #root#root :is(.hlc-utility-page:not(.hlc-public-board-page),.hlc-lega
     width:100%!important;max-width:none!important;padding:0!important;margin:0!important;text-align:center!important;
   }
   html body #root#root .hlc-public-footer-home-authority,
-  html body #root#root .hlc-public-front-door-surface .hlc-public-footer-home-authority{padding:16px 14px 22px!important}
+  html body #root#root .hlc-public-front-door-surface .hlc-public-footer-home-authority{
+    padding:8px 10px 10px!important;gap:1px!important;min-height:0!important;
+  }
+  html body #root#root .hlc-public-footer-home-authority .hlc-public-footer-master-logo{
+    width:32px!important;height:32px!important;margin:0 auto 2px!important;
+  }
+  html body #root#root .hlc-public-footer-home-authority>strong{font-size:.72rem!important;line-height:1.1!important}
+  html body #root#root .hlc-public-footer-home-authority>span,
+  html body #root#root .hlc-public-footer-home-authority>small{font-size:.62rem!important;line-height:1.1!important}
+  html body #root#root .hlc-public-footer-home-authority nav{gap:2px 9px!important;margin:1px auto!important}
+  html body #root#root .hlc-public-footer-home-authority nav a{font-size:.62rem!important;line-height:1.1!important}
 }

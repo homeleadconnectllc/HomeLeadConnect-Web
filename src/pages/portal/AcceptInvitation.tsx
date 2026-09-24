@@ -1,3 +1,4 @@
+import { publicUrl } from "../../config/siteOrigins";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { acceptPortalInvitation, type PortalRole } from "../../api/portals";
@@ -52,7 +53,7 @@ export default function AcceptInvitation() {
       <p><Link to={`/login?next=${encodedDestination}`}>Sign in to your HomeLead Connect account</Link></p>
       <p>New to HomeLead Connect? <Link to={`/register?next=${encodedDestination}`}>Create your portal identity</Link>.</p>
     </>
-    : <p><a href="https://homeleadconnect.org">Return to HomeLead Connect</a></p>;
+    : <p><a href={publicUrl("/")}>Return to HomeLead Connect</a></p>;
 
   return <AuthShell
     eyebrow="HomeLead Connect invitation"
