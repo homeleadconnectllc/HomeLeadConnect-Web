@@ -63,4 +63,8 @@ test("public shell legal links and brand accessible name remain Lighthouse-safe 
   assert.doesNotMatch(footer, /style=\{/);
   assert.match(navbar, /className="hlc-navbar-brand"/);
   assert.doesNotMatch(navbar, /className="hlc-navbar-brand"[^>]*aria-label=/);
+  assert.match(navbar, /onClick=\{handleBrandActivation\}/);
+  assert.match(navbar, /window\.matchMedia\("\(max-width: 1024px\)"\)/);
+  assert.match(navbar, /aria-controls="hlc-mobile-command-menu"/);
+  assert.doesNotMatch(navbar, /className="hlc-navbar-toggle"/);
 });

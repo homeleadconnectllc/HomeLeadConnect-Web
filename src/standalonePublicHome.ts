@@ -1,5 +1,6 @@
 import "./styles/public-visual-family-20260919.css";
 import "./styles/public-home-owner-authority-20260918.css";
+import "./styles/connected-visual-family-20260923.css";
 import { APP_ORIGIN, PUBLIC_ORIGIN } from "./config/siteOrigins";
 
 const pathways = [
@@ -55,9 +56,13 @@ export function mountStandalonePublicHome(root: HTMLElement) {
   logo.setAttribute("aria-hidden", "true");
   trigger.append(logo, make("span", "hlc-brand-accessible-label", "HomeLead Connect"));
 
+  const desktopLinks = make("nav", "hlc-public-desktop-links");
+  desktopLinks.setAttribute("aria-label", "Public pages");
+  for (const [label, path] of primary.slice(1)) desktopLinks.append(link(`${PUBLIC_ORIGIN}${path}`, undefined, label));
+
   const actions = make("div", "hlc-board-actions");
   actions.append(link(`${APP_ORIGIN}/login`, "hlc-board-login", "Sign In"), link(`${APP_ORIGIN}/register`, "hlc-board-cta", "Get Started"));
-  navInner.append(trigger, actions);
+  navInner.append(trigger, desktopLinks, actions);
 
   const backdrop = make("div", "hlc-public-menu-backdrop");
   backdrop.dataset.hlcPublicMenuOpen = "true";
@@ -113,7 +118,7 @@ export function mountStandalonePublicHome(root: HTMLElement) {
   intro.append(document.createTextNode("The people. The services. The partnerships."), make("br"), document.createTextNode("All in one place to help our communities move forward."));
   heroCopy.append(intro);
   const price = make("p", "hlc-owner-price");
-  price.append(make("strong", undefined, "$49.99/month"), document.createTextNode(" professional membership"));
+  price.append(make("strong", undefined, "14 days free"), document.createTextNode(" for the professional business workspace · then "), make("strong", undefined, "$49.99/month"), document.createTextNode("."));
   heroCopy.append(price);
   const script = make("p", "hlc-owner-script", "Stronger Homes. Brighter Futures.");
   script.append(make("small", undefined, "Harrisburg, PA"));

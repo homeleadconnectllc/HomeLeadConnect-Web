@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { BookOpen, Briefcase, Handshake, House, Info, Users } from "lucide-react";
 import { appUrl, publicUrl } from "../config/siteOrigins";
+import { useAuth } from "../hooks/useAuth";
 import "../styles/public-tinyfish-qa-20260921.css";
 
 
@@ -29,6 +30,7 @@ const secondaryMenuLinks = [
 ] as const;
 
 export default function PublicSiteNav() {
+  const { session } = useAuth();
   const navRef = useRef<HTMLElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -65,12 +67,12 @@ export default function PublicSiteNav() {
         onClick={() => setMenuOpen((open) => !open)}
       >
         <img className="hlc-navbar-master-logo" data-hlc-master-logo="true" src={NAV_LOGO} alt="" aria-hidden="true" />
-        <span className="hlc-public-menu-visible-label" aria-hidden="true">Menu</span>
         <span className="hlc-brand-accessible-label">HomeLead Connect</span>
       </button>
+      <nav className="hlc-public-desktop-links" aria-label="Public pages">{primaryMenuLinks.slice(1).map(({ label, href, tone: linkTone }) => <a key={href} href={href} data-menu-tone={linkTone}>{label}</a>)}</nav>
       <div className="hlc-board-actions">
         <a className="hlc-board-login" href={appUrl("/login")}>Sign In</a>
-        <a className="hlc-board-cta" href={appUrl("/register")}>Get Started</a>
+        {!session && <a className="hlc-board-cta" href={appUrl("/register")}>Get Started</a>}
       </div>
     </div>
     {menuOpen && <div
@@ -97,7 +99,7 @@ export default function PublicSiteNav() {
         </div>
         <div className="hlc-public-menu-account">
           <a href={appUrl("/login")}>Sign In</a>
-          <a href={appUrl("/register")}>Get Started</a>
+          {!session && <a href={appUrl("/register")}>Get Started</a>}
         </div>
       </nav>
     </div>}

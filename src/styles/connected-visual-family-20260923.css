@@ -1,0 +1,293 @@
+/* Reconciles the approved front-door composition with the current public routes.
+   Visual-only: content, destinations, identity, and form behavior stay owned by their components. */
+:root{
+  --hlc-family-navy:#0a2039;
+  --hlc-family-deep:#08192e;
+  --hlc-family-text:#f6f9ff;
+  --hlc-family-muted:#c6d8e9;
+}
+html body #root :is(.hlc-owner-home,.hlc-pathway-page,.hlc-public-board-page){
+  --hlc-public-ink:var(--hlc-family-text);
+  --hlc-public-muted:var(--hlc-family-muted);
+  --hlc-public-line:rgba(195,219,241,.16);
+  color:var(--hlc-family-text)!important;
+  background:radial-gradient(ellipse at 80% 20%,rgba(48,123,169,.17),transparent 44%),linear-gradient(180deg,#0b2038,#102c46 50%,#0b2038 100%)!important;
+}
+html body #root .hlc-pathway-page[data-pathway="residents"]{--hlc-public-accent:#65e5ba;--hlc-family-mist:rgba(55,179,135,.18);--hlc-family-hero-bottom:#0a302e}
+html body #root .hlc-pathway-page[data-pathway="professionals"]{--hlc-public-accent:#6bd5ff;--hlc-family-mist:rgba(66,155,216,.19);--hlc-family-hero-bottom:#0b2748}
+html body #root .hlc-pathway-page[data-pathway="partners"]{--hlc-public-accent:#f6cc75;--hlc-family-mist:rgba(199,140,50,.19);--hlc-family-hero-bottom:#302612}
+html body #root .hlc-pathway-page[data-pathway="community"]{--hlc-public-accent:#d8a4fc;--hlc-family-mist:rgba(148,90,205,.23);--hlc-family-hero-bottom:#29183e}
+html body #root .hlc-pathway-page{
+  background:radial-gradient(ellipse at 83% 22%,var(--hlc-family-mist),transparent 45%),linear-gradient(180deg,var(--hlc-family-hero-bottom),#102940 70%,#0b2038)!important;
+}
+html body #root .hlc-public-board-page[data-public-page="about"]{--hlc-public-accent:#83cefa;--hlc-family-mist:rgba(94,160,219,.19)}
+html body #root :is(.hlc-owner-home,.hlc-pathway-page,.hlc-public-board-page) :is(h1,h2,h3,h4,strong){color:var(--hlc-family-text)!important;-webkit-text-fill-color:var(--hlc-family-text)!important}
+html body #root :is(.hlc-pathway-page,.hlc-public-board-page) :is(p,li,small){color:var(--hlc-family-muted)!important;-webkit-text-fill-color:var(--hlc-family-muted)!important}
+html body #root :is(.hlc-pathway-eyebrow,.hlc-public-kicker,.hlc-public-card-label,.hlc-public-offer-label){color:var(--hlc-public-accent)!important;-webkit-text-fill-color:var(--hlc-public-accent)!important}
+
+/* A slim, translucent navigation sits across both origins. The official badge
+   is the single public menu trigger. */
+html body #root header.hlc-board-nav.hlc-public-shared-nav{
+  position:sticky!important;top:0!important;z-index:1400!important;
+  background:rgba(8,27,49,.86)!important;border-bottom:1px solid rgba(198,223,244,.18)!important;
+  backdrop-filter:blur(18px)!important;color:#f6faff!important;
+}
+html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-nav-inner{
+  display:grid!important;grid-template-columns:68px minmax(0,1fr) auto!important;
+  align-items:center!important;gap:clamp(12px,2vw,28px)!important;
+  min-height:72px!important;padding:5px clamp(16px,3vw,48px)!important;
+}
+html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-public-desktop-links{
+  display:flex!important;justify-content:center!important;align-items:center!important;gap:clamp(12px,1.5vw,26px)!important;
+  min-width:0;
+}
+html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-public-desktop-links a,
+html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-login{
+  color:#eef6ff!important;-webkit-text-fill-color:#eef6ff!important;text-decoration:none!important;
+  white-space:nowrap;font-size:clamp(.72rem,.91vw,.92rem);font-weight:600;
+}
+html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-public-desktop-links a:hover{color:var(--hlc-public-accent,#73cfff)!important;-webkit-text-fill-color:var(--hlc-public-accent,#73cfff)!important}
+html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-cta{color:#73d1fa!important;-webkit-text-fill-color:#73d1fa!important;background:transparent!important;border:0!important;box-shadow:none!important}
+html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-public-menu-trigger{
+  display:inline-flex!important;justify-content:center!important;align-items:center!important;
+  width:62px!important;min-width:62px!important;height:62px!important;padding:0!important;
+  border:0!important;border-radius:50%!important;background:transparent!important;
+  box-shadow:none!important;color:#eef6ff!important;
+}
+html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-public-menu-trigger .hlc-navbar-master-logo{width:62px!important;height:62px!important;max-width:none!important;object-fit:contain!important}
+html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-public-menu-trigger::after{display:block!important;inset:-3px!important;border-radius:50%!important;opacity:.65!important}
+html body #root .hlc-public-menu-panel{background:#f5f9fd!important;color:#17304b!important}
+
+/* Home is the parent: one photographic field from the header to the four paths. */
+html body #root .hlc-owner-home{background:linear-gradient(180deg,#0a2039,#112f49 58%,#0a2039)!important}
+html body #root .hlc-owner-hero{min-height:clamp(620px,65vw,770px)!important;background:#0b2039!important;isolation:isolate}
+html body #root .hlc-owner-hero-media{position:absolute!important;inset:0!important;height:100%!important}
+html body #root .hlc-owner-hero-media img{width:100%!important;height:100%!important;object-fit:cover!important;object-position:center 42%!important}
+html body #root .hlc-owner-hero::after{
+  background:linear-gradient(90deg,rgba(5,21,41,.9) 0%,rgba(6,27,48,.66) 41%,rgba(8,28,48,.12) 78%),linear-gradient(0deg,#0b2039 0%,transparent 46%,rgba(5,22,41,.16) 100%)!important;
+}
+html body #root .hlc-owner-hero::before{
+  left:40%!important;top:0!important;width:75%!important;height:28%!important;
+  border-top:2px solid #64cfff!important;box-shadow:0 -5px 15px -6px #55bfff!important;
+  z-index:2!important;opacity:.8!important;
+}
+html body #root .hlc-owner-hero-copy{width:min(1300px,calc(100% - 64px))!important}
+html body #root .hlc-owner-hero-copy :is(p,h1),html body #root .hlc-owner-hero-copy h1 span{color:#f8fbff!important;-webkit-text-fill-color:#f8fbff!important;text-shadow:0 2px 15px rgba(4,14,25,.25)}
+html body #root .hlc-owner-hero-copy h1 span{color:#73d1ff!important;-webkit-text-fill-color:#73d1ff!important}
+html body #root .hlc-owner-kicker{color:#a6e8ff!important;-webkit-text-fill-color:#a6e8ff!important}
+html body #root .hlc-owner-price{font-size:.86rem;opacity:.86}
+html body #root .hlc-owner-pathways{margin:-78px auto 0!important;border:0!important;gap:12px!important}
+html body #root .hlc-owner-pathway{
+  position:relative;min-height:320px;border:1px solid color-mix(in srgb,var(--accent) 38%,transparent)!important;
+  border-radius:16px!important;overflow:hidden!important;background:#09243e!important;
+  box-shadow:0 18px 34px rgba(3,15,27,.2),0 0 18px color-mix(in srgb,var(--accent) 22%,transparent)!important;isolation:isolate;
+}
+html body #root .hlc-owner-pathway-photo{height:100%!important;min-height:320px!important;position:absolute;inset:0;mask-image:none!important;background-position:center 35%!important}
+html body #root .hlc-owner-pathway::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(5,20,39,.98),rgba(7,24,43,.38) 60%,transparent);pointer-events:none;z-index:0}
+html body #root .hlc-owner-pathway-body{position:relative;z-index:1;display:flex!important;flex-direction:column!important;min-height:320px!important;justify-content:flex-end;padding:22px!important}
+html body #root .hlc-owner-pathway-body>strong{margin-top:auto!important}
+html body #root .hlc-owner-pathway strong{font-size:clamp(1.2rem,1.8vw,1.6rem)!important;color:var(--accent)!important;-webkit-text-fill-color:var(--accent)!important}
+html body #root .hlc-owner-pathway-body>span{color:#e8f3fc!important;-webkit-text-fill-color:#e8f3fc!important}
+html body #root .hlc-owner-pathway b{margin-top:8px!important;color:var(--accent)!important;-webkit-text-fill-color:var(--accent)!important}
+html body #root .hlc-owner-mission{color:#d5e6f4!important;margin-block:30px 40px!important}
+html body #root .hlc-owner-mission b{color:#ecf7ff!important}
+
+/* Audience stories blend the existing route-specific photography into the same field. */
+html body #root .hlc-pathway-hero,html body #root .hlc-public-board-page .hlc-public-hero{
+  position:relative!important;isolation:isolate;overflow:hidden!important;min-height:clamp(560px,60vw,710px)!important;
+  background:radial-gradient(ellipse at 80% 36%,var(--hlc-family-mist,rgba(73,158,218,.18)),transparent 56%),linear-gradient(180deg,#0c263f,#0b2038)!important;
+  border:0!important;
+}
+html body #root .hlc-pathway-hero{display:flex!important;align-items:center!important;padding:clamp(60px,7vw,100px) max(28px,calc((100vw - 1300px)/2))!important}
+html body #root .hlc-pathway-hero::before,
+html body #root .hlc-owner-hero::before{
+  display:block!important;content:"";position:absolute;left:29%;top:2%;width:95%;height:58%;
+  border-top:1px solid var(--hlc-public-accent,#64cfff);border-radius:50%;
+  transform:rotate(-12deg);box-shadow:0 -4px 15px -8px var(--hlc-public-accent,#64cfff);
+  pointer-events:none;z-index:0;opacity:.74;
+}
+html body #root .hlc-pathway-hero-visual{position:absolute!important;inset:0 0 0 34%;width:66%!important;margin:0!important;z-index:-1}
+html body #root .hlc-pathway-hero-visual>img{width:100%!important;height:100%!important;object-fit:cover!important;object-position:50% 40%!important}
+html body #root .hlc-pathway-hero::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,var(--hlc-family-hero-bottom,#0b2038) 0%,rgba(11,32,56,.84) 38%,rgba(11,32,56,.08) 79%),linear-gradient(0deg,var(--hlc-family-hero-bottom,#0b2038),transparent 42%)!important}
+html body #root .hlc-pathway-hero>.hlc-pathway-hero-copy{position:relative!important;z-index:1;width:min(690px,62%)!important;max-width:none!important;padding:0!important}
+html body #root .hlc-pathway-hero h1,html body #root .hlc-public-board-page .hlc-public-hero h1{font-size:clamp(2.8rem,5.4vw,5.5rem)!important;line-height:1.03!important;letter-spacing:-.045em!important;color:#fff!important;-webkit-text-fill-color:#fff!important;text-wrap:balance}
+html body #root .hlc-pathway-hero-copy .hlc-pathway-lead,html body #root .hlc-public-board-page .hlc-public-hero .hlc-public-intro-copy{max-width:650px!important;color:#edf6ff!important;-webkit-text-fill-color:#edf6ff!important;font-size:clamp(1rem,1.4vw,1.15rem);line-height:1.6}
+html body #root .hlc-pathway-hero-copy>small{color:#bdd3e5!important;-webkit-text-fill-color:#bdd3e5!important}
+html body #root .hlc-pathway-hero-visual>div{display:none!important}
+html body #root .hlc-pathway-actions,html body #root .hlc-public-actions{justify-content:flex-start!important;gap:14px 24px!important}
+html body #root .hlc-pathway-actions a,html body #root .hlc-public-actions a,html body #root .hlc-public-card a{color:var(--hlc-public-accent)!important;-webkit-text-fill-color:var(--hlc-public-accent)!important;font-weight:750;text-decoration:none}
+html body #root .hlc-pathway-actions a:hover,html body #root .hlc-public-actions a:hover{text-decoration:underline;text-underline-offset:5px}
+html body #root .hlc-pathway-section,html body #root .hlc-public-grid,html body #root .hlc-public-offer{
+  background:transparent!important;border-top:1px solid rgba(202,225,244,.13)!important;color:#f6faff!important;
+}
+html body #root .hlc-pathway-section-heading{text-align:center!important;margin-inline:auto!important}
+html body #root .hlc-pathway-section-heading h2{max-width:940px;margin-inline:auto!important}
+html body #root .hlc-pathway-section-heading :is(p,span){color:#bcd0e1!important}
+html body #root :is(.hlc-pathway-card,.hlc-public-card,.hlc-community-post,.hlc-community-sidebar,.hlc-partner-trust-grid article,.hlc-community-principles article){background:transparent!important;border:0!important;border-bottom:1px solid rgba(199,222,241,.17)!important;box-shadow:none!important;color:#f6faff!important}
+html body #root :is(.hlc-pathway-card,.hlc-public-card,.hlc-community-post) :is(p,span,small){color:#c4d7e8!important;-webkit-text-fill-color:#c4d7e8!important}
+html body #root .hlc-public-board-page .hlc-public-shell--visual{position:relative!important;display:flex;flex-direction:column;isolation:isolate}
+html body #root .hlc-public-board-page .hlc-public-hero{order:0!important;z-index:1;display:flex!important;align-items:center!important}
+html body #root#root .hlc-public-board-page .hlc-public-hero{background:transparent!important}
+html body #root .hlc-public-board-page .hlc-public-hero>div{position:relative!important;z-index:1;width:min(1100px,calc(100% - 56px))!important;margin:auto!important;text-align:center!important;padding:90px 0 100px!important}
+html body #root .hlc-public-board-page .hlc-public-hero h1,html body #root .hlc-public-board-page .hlc-public-hero .hlc-public-intro-copy{margin-inline:auto!important}
+html body #root .hlc-public-board-page .hlc-public-actions{justify-content:center!important}
+html body #root .hlc-public-board-page .hlc-public-visual{position:absolute!important;inset:0 0 auto!important;z-index:0;width:100%!important;height:clamp(560px,60vw,710px)!important;margin:0!important;border:0!important;overflow:hidden!important}
+html body #root .hlc-public-board-page .hlc-public-visual img{width:100%!important;height:100%!important;object-fit:cover!important;object-position:center 42%!important}
+html body #root .hlc-public-board-page .hlc-public-visual::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#0b2038,rgba(8,27,48,.58) 54%,rgba(8,26,45,.42));pointer-events:none}
+html body #root .hlc-public-board-page :is(.hlc-public-grid,.hlc-public-offer){position:relative;order:2}
+html body #root .hlc-public-board-page .hlc-kendrell-dedication-portrait{margin:0 auto 18px!important;border-radius:50%!important}
+html body #root .hlc-public-board-page .hlc-kendrell-dedication{text-align:center!important}
+html body #root .hlc-public-board-page .hlc-public-grid{gap:0 28px!important}
+html body #root .hlc-public-board-page .hlc-public-card{padding:28px 0!important}
+
+/* Compact shared footer: centered official badge, blended with the page. */
+html body #root .hlc-public-footer-home-authority{
+  display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
+  gap:5px!important;padding:20px 20px 24px!important;background:linear-gradient(180deg,#0b2038,#091c32)!important;
+  border-top:1px solid rgba(199,222,241,.12)!important;color:#d6e6f4!important;text-align:center!important;
+}
+html body #root .hlc-public-footer-home-authority .hlc-public-footer-master-logo{display:block!important;width:48px!important;height:48px!important;margin:0 auto 4px!important;object-fit:contain!important}
+html body #root .hlc-public-footer-home-authority>strong{font-size:.88rem!important;color:#fff!important;-webkit-text-fill-color:#fff!important}
+html body #root .hlc-public-footer-home-authority>span,html body #root .hlc-public-footer-home-authority>small{font-size:.72rem!important;color:#bfd2e4!important;-webkit-text-fill-color:#bfd2e4!important}
+html body #root .hlc-public-footer-home-authority nav{display:flex!important;flex-wrap:wrap!important;justify-content:center!important;gap:4px 16px!important;margin:3px auto!important}
+html body #root .hlc-public-footer-home-authority nav a{font-size:.72rem!important;color:#bad9f0!important;-webkit-text-fill-color:#bad9f0!important}
+
+@media(max-width:850px){
+  html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-nav-inner{grid-template-columns:60px 1fr auto!important;gap:8px!important;padding-inline:14px!important}
+  html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-public-desktop-links{display:none!important}
+  html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-actions{grid-column:3!important}
+}
+@media(max-width:680px){
+  html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-nav-inner{grid-template-columns:54px minmax(0,1fr)!important;min-height:70px!important;gap:8px!important;padding:5px 12px!important}
+  html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-public-menu-trigger{width:52px!important;min-width:52px!important;height:52px!important;grid-column:1!important}
+  html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-public-menu-trigger .hlc-navbar-master-logo{width:52px!important;height:52px!important}
+  html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-actions{grid-column:2!important;justify-content:flex-end!important;gap:8px!important}
+  html body #root header.hlc-board-nav.hlc-public-shared-nav .hlc-board-actions a{font-size:.78rem!important;padding-inline:2px!important}
+  html body #root .hlc-owner-hero{min-height:660px!important;display:flex!important;align-items:flex-end!important;padding:0 0 55px!important}
+  html body #root .hlc-owner-hero-media{height:100%!important}
+  html body #root .hlc-owner-hero-media img{height:100%!important;object-position:54% 20%!important}
+  html body #root .hlc-owner-hero::after{background:linear-gradient(0deg,#0b2039 0%,rgba(8,29,51,.95) 22%,rgba(8,29,51,.6) 54%,rgba(8,29,51,.02) 90%)!important}
+  html body #root .hlc-owner-hero-copy{width:calc(100% - 36px)!important;margin:0 auto!important;text-align:center!important}
+  html body #root .hlc-owner-hero h1{max-width:12ch!important;margin-inline:auto!important;font-size:clamp(2.7rem,11vw,4rem)!important}
+  html body #root .hlc-owner-kicker{font-size:.65rem!important}
+  html body #root .hlc-owner-tagline{font-size:1rem!important}
+  html body #root .hlc-owner-intro{font-size:.88rem!important}
+  html body #root .hlc-owner-script{top:26px!important;right:14px!important;font-size:1rem!important}
+  html body #root .hlc-owner-price{font-size:.74rem!important}
+  html body #root .hlc-owner-pathways{width:calc(100% - 28px)!important;margin:-12px auto 0!important;grid-template-columns:1fr!important;gap:9px!important}
+  html body #root .hlc-owner-pathway{min-height:112px!important;border-radius:11px!important}
+  html body #root#root .hlc-owner-pathway{display:block!important;min-height:136px!important}
+  html body #root .hlc-owner-pathway-photo{min-height:112px!important;width:39%!important;height:100%!important;mask-image:linear-gradient(90deg,#000 55%,transparent)!important}
+  html body #root .hlc-owner-pathway::after{background:linear-gradient(90deg,rgba(7,25,45,.12),rgba(7,25,45,.94) 46%)!important}
+  html body #root#root .hlc-owner-pathway-body{display:flex!important;flex-direction:column!important;align-items:flex-start!important;justify-content:center!important;width:66%!important;margin-left:34%!important;min-height:136px!important;padding:12px 14px!important;box-sizing:border-box!important}
+  html body #root .hlc-owner-pathway strong{font-size:1.1rem!important}
+  html body #root .hlc-owner-pathway-body>strong{margin-top:0!important}
+  html body #root .hlc-owner-pathway-body>span{font-size:.73rem!important;margin-top:4px!important}
+  html body #root .hlc-owner-pathway b{display:none!important}
+  html body #root .hlc-pathway-hero{min-height:675px!important;display:flex!important;align-items:flex-end!important;padding:350px 18px 62px!important}
+  html body #root .hlc-pathway-hero-visual{inset:0 0 auto!important;width:100%!important;height:100%!important}
+  html body #root .hlc-pathway-hero-visual>img{height:100%!important;object-position:50% 20%!important}
+  html body #root .hlc-pathway-hero::after{background:linear-gradient(0deg,var(--hlc-family-hero-bottom,#0b2038) 0%,rgba(11,32,56,.98) 25%,rgba(11,32,56,.65) 55%,rgba(11,32,56,.02) 94%)!important}
+  html body #root .hlc-pathway-hero>.hlc-pathway-hero-copy{width:100%!important;text-align:center!important}
+  html body #root .hlc-pathway-hero h1,html body #root .hlc-public-board-page .hlc-public-hero h1{font-size:clamp(2.25rem,9vw,3.3rem)!important;line-height:1.07!important}
+  html body #root .hlc-pathway-actions{justify-content:center!important;margin-top:16px!important}
+  html body #root .hlc-public-board-page .hlc-public-hero{min-height:660px!important;align-items:flex-end!important}
+  html body #root .hlc-public-board-page .hlc-public-hero>div{width:calc(100% - 36px)!important;padding:300px 0 48px!important}
+  html body #root .hlc-public-board-page .hlc-public-visual{height:660px!important}
+  html body #root .hlc-public-board-page .hlc-public-visual img{object-position:50% 20%!important}
+  html body #root .hlc-public-board-page .hlc-public-visual::after{background:linear-gradient(0deg,#0b2038,rgba(11,32,56,.92) 30%,rgba(11,32,56,.14) 87%)!important}
+  html body #root .hlc-public-board-page .hlc-public-grid,html body #root .hlc-public-board-page .hlc-public-offer,html body #root .hlc-pathway-section{width:calc(100% - 36px)!important;padding-block:38px!important}
+  html body #root .hlc-public-footer-home-authority{padding:16px 14px 22px!important;gap:4px!important}
+  html body #root .hlc-public-footer-home-authority nav{gap:4px 12px!important}
+}
+@media(prefers-reduced-motion:reduce){html body #root .hlc-owner-pathway,html body #root .hlc-pathway-hero-visual img{transition:none!important}}
+
+/* Retired pathway and compact-footer rules use repeated #root selectors. Keep
+   this narrow bridge until those old rules are removed in a separate purge. */
+html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-copy{
+  width:min(690px,58%)!important;max-width:690px!important;margin:0!important;padding:0!important;
+  background:transparent!important;text-align:left!important;
+}
+html body #root#root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero::before{
+  display:block!important;content:""!important;position:absolute!important;
+  inset:auto!important;left:29%!important;top:2%!important;width:95%!important;height:58%!important;
+  background:none!important;border-top:1px solid var(--hlc-public-accent)!important;border-radius:50%!important;
+  transform:rotate(-12deg)!important;box-shadow:0 -4px 15px -8px var(--hlc-public-accent)!important;
+  pointer-events:none!important;z-index:0!important;opacity:.74!important;
+}
+/* The app's sign-in door belongs to the same family as the public Home and
+   the signed-in portals. Form fields retain their accessible light interiors. */
+html body #root#root .hlc-auth-shell.hlc-auth-shell--flat{
+  background:radial-gradient(ellipse at 74% 12%,rgba(60,139,183,.18),transparent 45%),linear-gradient(180deg,#0a2039,#16354e 55%,#0b2038)!important;
+  color:#f7faff!important;
+}
+html body #root#root .hlc-auth-shell .hlc-auth-main{background:transparent!important;min-height:calc(100vh - 160px)!important}
+html body #root#root .hlc-auth-shell .hlc-auth-intro-visual{border-radius:14px!important;mask-image:linear-gradient(#000 76%,transparent 100%)}
+html body #root#root .hlc-auth-shell :is(.hlc-auth-intro,.hlc-auth-card){background:transparent!important;border:0!important;box-shadow:none!important;color:#f7faff!important}
+html body #root#root .hlc-auth-shell :is(h1,h2,h3,strong,label){color:#f7faff!important;-webkit-text-fill-color:#f7faff!important}
+html body #root#root .hlc-auth-shell :is(p,span,li,.hlc-auth-card-description,.hlc-auth-card-footer){color:#d3e3f0!important;-webkit-text-fill-color:#d3e3f0!important}
+html body #root#root .hlc-auth-shell :is(a,.hlc-auth-method-tabs button[aria-pressed="true"]){color:#83d2fa!important;-webkit-text-fill-color:#83d2fa!important}
+html body #root#root .hlc-auth-shell :is(input,select,textarea){background:#f8fbff!important;color:#142338!important;-webkit-text-fill-color:#142338!important;border:1px solid rgba(217,230,243,.42)!important}
+html body #root#root .hlc-auth-shell .hlc-auth-method-tabs button[aria-pressed="false"]{color:#cad9e8!important;-webkit-text-fill-color:#cad9e8!important}
+html body #root#root .hlc-public-footer-home-authority,
+html body #root#root .hlc-public-front-door-surface .hlc-public-footer-home-authority{
+  display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;
+  gap:1px!important;padding:8px 20px 10px!important;background:linear-gradient(180deg,#0b2038,#091c32)!important;
+  border-top:1px solid rgba(199,222,241,.12)!important;color:#d6e6f4!important;text-align:center!important;
+}
+html body #root#root .hlc-public-footer-home-authority .hlc-public-footer-master-logo{width:36px!important;height:36px!important;margin:0 auto 2px!important}
+html body #root#root .hlc-public-footer-home-authority>strong{font-size:.8rem!important;line-height:1.1!important}
+html body #root#root .hlc-public-footer-home-authority>span,
+html body #root#root .hlc-public-footer-home-authority>small{font-size:.67rem!important;line-height:1.1!important}
+html body #root#root .hlc-public-footer-home-authority nav{justify-content:center!important;gap:2px 12px!important;margin:1px auto!important}
+html body #root#root .hlc-public-footer-home-authority nav a{font-size:.67rem!important;line-height:1.1!important}
+/* Shared effects are quiet, contextual and reversible. Photography is cropped,
+   never stretched; accent treatment follows the audience on every pathway. */
+html body #root#root .hlc-pathway-page .hlc-pathway-section,
+html body #root#root .hlc-public-board-page :is(.hlc-public-grid,.hlc-public-offer){
+  background-image:radial-gradient(ellipse at 85% 5%,var(--hlc-family-mist,rgba(67,151,210,.12)),transparent 48%)!important;
+  background-color:transparent!important;
+}
+html body #root .hlc-owner-pathway,
+html body #root .hlc-pathway-actions a,
+html body #root .hlc-public-actions a,
+html body #root header.hlc-board-nav .hlc-public-desktop-links a{
+  transition:transform .22s ease,border-color .22s ease,box-shadow .22s ease,color .22s ease!important;
+}
+@media(hover:hover){
+  html body #root .hlc-owner-pathway:hover{transform:translateY(-3px)!important;border-color:var(--accent)!important;box-shadow:0 22px 40px rgba(4,16,33,.24)!important}
+  html body #root .hlc-pathway-actions a:hover,
+  html body #root .hlc-public-actions a:hover{transform:translateY(-2px)!important}
+  html body #root .hlc-public-menu-primary a:hover{background:color-mix(in srgb,var(--hlc-public-accent) 9%,white)!important}
+}
+html body #root .hlc-owner-pathway:focus-visible,
+html body #root .hlc-pathway-actions a:focus-visible,
+html body #root header.hlc-board-nav .hlc-public-menu-trigger:focus-visible{outline:3px solid var(--hlc-public-accent,#71c8fa)!important;outline-offset:4px!important}
+/* Utility, legal and memorial routes stay quieter and lighter while retaining
+   the same misted family and blended footer. Their forms and legal copy stay intact. */
+html body #root#root :is(.hlc-utility-page:not(.hlc-public-board-page),.hlc-legal-page,.hlc-public-story,.hlc-memorial-page){
+  background:radial-gradient(ellipse at 90% 4%,rgba(98,170,211,.15),transparent 42%),linear-gradient(180deg,#f4f9fc,#eaf3f9 64%,#dceaf5)!important;
+}
+html body #root#root :is(.hlc-utility-page:not(.hlc-public-board-page),.hlc-legal-page,.hlc-public-story,.hlc-memorial-page) :is(h1,h2,h3){color:#16334e!important;-webkit-text-fill-color:#16334e!important;text-wrap:balance}
+html body #root#root :is(.hlc-utility-page:not(.hlc-public-board-page),.hlc-legal-page,.hlc-public-story,.hlc-memorial-page) :is(.hlc-legal-card,.hlc-public-story-card){background:transparent!important;box-shadow:none!important}
+@media(prefers-reduced-motion:reduce){
+  html body #root :is(.hlc-owner-pathway,.hlc-pathway-actions a,.hlc-public-actions a,.hlc-public-desktop-links a){transition:none!important;animation:none!important}
+  html body #root .hlc-owner-pathway:hover,html body #root .hlc-pathway-actions a:hover,html body #root .hlc-public-actions a:hover{transform:none!important}
+}
+@media(max-width:680px){
+  html body #root#root#root#root#root#root#root#root .hlc-pathway-page .hlc-pathway-hero-copy{
+    width:100%!important;max-width:none!important;padding:0!important;margin:0!important;text-align:center!important;
+  }
+  html body #root#root .hlc-public-footer-home-authority,
+  html body #root#root .hlc-public-front-door-surface .hlc-public-footer-home-authority{
+    padding:8px 10px 10px!important;gap:1px!important;min-height:0!important;
+  }
+  html body #root#root .hlc-public-footer-home-authority .hlc-public-footer-master-logo{
+    width:32px!important;height:32px!important;margin:0 auto 2px!important;
+  }
+  html body #root#root .hlc-public-footer-home-authority>strong{font-size:.72rem!important;line-height:1.1!important}
+  html body #root#root .hlc-public-footer-home-authority>span,
+  html body #root#root .hlc-public-footer-home-authority>small{font-size:.62rem!important;line-height:1.1!important}
+  html body #root#root .hlc-public-footer-home-authority nav{gap:2px 9px!important;margin:1px auto!important}
+  html body #root#root .hlc-public-footer-home-authority nav a{font-size:.62rem!important;line-height:1.1!important}
+}

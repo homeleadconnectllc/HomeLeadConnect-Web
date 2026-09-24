@@ -1,5 +1,6 @@
 import PublicSiteNav from "../components/PublicSiteNav";
 import "../styles/public-home-owner-authority-20260918.css";
+import "../styles/connected-visual-family-20260923.css";
 
 const pathways = [
   { key: "resident", title: "For Residents", copy: "Find help with the home in front of you—and keep the next step clear.", href: "/homeowners", action: "Find resident support →" },

@@ -1,3 +1,4 @@
+import { appUrl, publicUrl } from "../config/siteOrigins";
 import PublicSiteNav from "../components/PublicSiteNav";
 import { pageImage } from "../config/publicPageImagery";
 import "../styles/public-visual-family-20260919.css";
@@ -14,8 +15,8 @@ function PrivacyPage() {
           <p className="hlc-legal-lead">This Privacy Policy explains how HomeLead Connect LLC collects, uses, shares, and protects information when you use our websites, applications, forms, communications, and services.</p>
           <div className="hlc-legal-effective"><span className="hlc-legal-status-dot"/>Effective August 15, 2026</div>
           <div className="hlc-legal-actions">
-            <a className="hlc-legal-primary" href="https://app.homeleadconnect.org/">Open HomeLead Connect App →</a>
-            <a className="hlc-legal-secondary" href="https://homeleadconnect.org/">HomeLead Connect</a>
+            <a className="hlc-legal-primary" href={appUrl("/")}>Open HomeLead Connect App →</a>
+            <a className="hlc-legal-secondary" href={publicUrl("/")}>HomeLead Connect</a>
           </div>
         </div>
       </div>
@@ -49,7 +50,7 @@ function PrivacyPage() {
 
     <section className="hlc-legal-card"><h2>13. Changes to This Privacy Policy</h2><p>We may update this Privacy Policy from time to time. The current version will be posted on this page with an updated effective date when appropriate.</p></section>
 
-    <section className="hlc-legal-card"><h2>14. Contact Us</h2><p>Privacy, account, or platform questions may be directed to HomeLead Connect LLC.</p><div className="hlc-legal-contact"><strong>HomeLead Connect LLC</strong><span>Harrisburg, Pennsylvania</span><a href="mailto:homeleadconnect@gmail.com">homeleadconnect@gmail.com</a><a href="https://homeleadconnect.org/">homeleadconnect.org</a><a href="https://app.homeleadconnect.org/">app.homeleadconnect.org</a></div></section>
+    <section className="hlc-legal-card"><h2>14. Contact Us</h2><p>Privacy, account, or platform questions may be directed to HomeLead Connect LLC.</p><div className="hlc-legal-contact"><strong>HomeLead Connect LLC</strong><span>Harrisburg, Pennsylvania</span><a href="mailto:homeleadconnect@gmail.com">homeleadconnect@gmail.com</a><a href={publicUrl("/")}>homeleadconnect.org</a><a href={appUrl("/")}>app.homeleadconnect.org</a></div></section>
   </>;
 }
 

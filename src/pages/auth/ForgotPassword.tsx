@@ -1,3 +1,4 @@
+import { publicUrl } from "../../config/siteOrigins";
 import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import AuthShell from "../../components/auth/AuthShell";
@@ -37,7 +38,7 @@ export default function ForgotPassword() {
   </>;
   const footer = <>
     <p><Link to="/login">Return to sign in</Link></p>
-    <p><a href="https://homeleadconnect.org">Public site</a></p>
+    <p><a href={publicUrl("/")}>Public site</a></p>
   </>;
 
   return <AuthShell title="Recover your account" description="Enter your email and we’ll send a secure recovery link when the account exists." status={status} footer={footer}>

@@ -2,12 +2,12 @@
   "schemaVersion": 1,
   "milestone": "Connected Core E2E",
   "certification": "NOT_YET_CERTIFIED",
-  "observedAt": "2026-09-23T14:05:00Z",
+  "observedAt": "2026-09-23T15:22:00Z",
   "repository": "homeleadconnectllc/HomeLeadConnect-Web",
-  "branch": "sprint/hcx-communication-truth-20260923",
+  "branch": "sprint/hcx-communication-finish-20260923",
   "pr": null,
-  "startingAuthority": "5ccb1d415e87c530a3947a3914c3a0bb6ee81c0f",
-  "candidateSha": "5ccb1d415e87c530a3947a3914c3a0bb6ee81c0f",
+  "startingAuthority": "bb77cca804ae04684335c170540131f24ff83095",
+  "candidateSha": "bb77cca804ae04684335c170540131f24ff83095",
   "baseSha": "c3fcecbaafefdf8285cc5170e3c9eb133f55912b",
   "productionSupabase": "cguhtshclyybivvdnpig",
   "reconciliationSupabase": "agfwqnirspmptjiqrrtk",
@@ -69,14 +69,16 @@
         "Manual activity can append lead activity/call logs without fabricating provider delivery.",
         "Consolidation now persists organization business/quiet-hour policy snapshots and one durable row per provider delivery attempt.",
         "Provider acceptance remains sent; only an idempotent provider callback can mark a provider-backed transmission delivered.",
-        "Controlled rehearsal proved two retry waits, third-attempt exhaustion, one terminal notification, callback deduplication and CRM outcome evidence."
+        "Controlled rehearsal proved two retry waits, third-attempt exhaustion, one terminal notification, callback deduplication and CRM outcome evidence.",
+        "Finish rehearsal proved delivered-before-failed callback precedence, duplicate-event suppression, shared-phone ambiguity, unique email resolution, due retry selection, lost-response quarantine and inert-by-default pickup scheduling.",
+        "Twilio inbound now keeps unmatched event evidence and applies STOP suppression to the endpoint before resolving a person; Google Voice remains operator-reported manual handoff."
       ],
       "gaps": [
-        "Production inbound endpoint ambiguity remains a blocker to identity-safe attachment.",
-        "Live provider-secret delivery remains external and unclaimed.",
-        "Out-of-order webhook precedence and provider-timeout worker pickup remain required."
+        "Production inbound endpoint ambiguity remains a blocker until staged resolver and webhook are promoted.",
+        "Live provider-secret delivery and physical Google Voice/device handoff remain external and unclaimed.",
+        "The scheduled retry pickup is deliberately disabled in consolidation until an Edge worker URL, token and provider sandbox are configured; synthetic enqueue is not proof of live HTTP dispatch."
       ],
-      "nextAction": "Certify out-of-order callback precedence, timeout pickup and inbound ambiguity-safe attachment without changing production."
+      "nextAction": "Run a controlled live provider sandbox and Edge pickup with configured secrets, then physical iPhone/Google Voice handoff before exact-SHA owner release decision."
     },
     {
       "id": "CC-04",

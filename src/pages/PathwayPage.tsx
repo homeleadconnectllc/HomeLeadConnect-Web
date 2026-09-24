@@ -3,6 +3,7 @@ import { BriefcaseBusiness, CalendarDays, CheckCircle2, ClipboardList, FileText,
 import PublicSiteNav from "../components/PublicSiteNav";
 import { pageImage } from "../config/publicPageImagery";
 import "../styles/public-visual-family-20260919.css";
+import "../styles/connected-visual-family-20260923.css";
 
 export type PathwayPageKind = "residents" | "professionals" | "partners" | "community";
 

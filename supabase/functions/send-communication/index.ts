@@ -19,36 +19,47 @@ Deno.serve(async (request) => {
   const service = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   if (!url || !anon || !service) return json(503, { error: "Communication service is not configured." });
 
-  const authorization = request.headers.get("Authorization");
-  if (!authorization) return json(401, { error: "Authentication is required." });
-  const userClient = createClient(url, anon, { global: { headers: { Authorization: authorization } } });
-  const { data: auth, error: authError } = await userClient.auth.getUser();
-  if (authError || !auth.user) return json(401, { error: "Authentication is required." });
-
   let body: Record<string, unknown>;
   try { body = await request.json(); } catch { return json(400, { error: "A valid JSON body is required." }); }
-  const channel = String(body.channel || "").toLowerCase();
-  if (!["sms", "email", "call"].includes(channel)) return json(400, { error: "Unsupported communication channel." });
-
-  const requestId = typeof body.clientRequestId === "string" ? body.clientRequestId : crypto.randomUUID();
-  const { data: queued, error: queueError } = await userClient.rpc("queue_communication_transmission", {
-    p_subject_type: body.subjectType,
-    p_subject_id: body.subjectId,
-    p_channel: channel,
-    p_purpose: body.purpose,
-    p_content: body.content || null,
-    p_client_request_id: requestId,
-    p_conversation_id: body.conversationId || null,
-    p_message_id: body.messageId || null,
-  });
-  if (queueError) return json(400, { error: queueError.message });
-
   const admin = createClient(url, service, { auth: { persistSession: false } });
+  const workerToken = Deno.env.get("HLC_COMMUNICATION_RETRY_TOKEN");
+  const worker = Boolean(workerToken) && request.headers.get("X-HLC-Communication-Worker") === workerToken;
+  if (body.transmissionId && !worker) return json(403, { error: "A retry requires the internal worker." });
+  if (worker && !body.transmissionId) return json(400, { error: "A retry transmission is required." });
+  let queued: { id: string; status: string; provider_name?: string };
+  if (worker) {
+    const id = typeof body.transmissionId === "string" ? body.transmissionId : "";
+    if (!/^[0-9a-f-]{36}$/i.test(id)) return json(400, { error: "A transmission ID is required." });
+    const { data: due, error: dueError } = await admin.rpc("list_due_communication_retries", { p_limit: 20 });
+    if (dueError) return json(500, { error: "Retry eligibility could not be checked." });
+    if (!(due as Array<{ transmission_id: string }>).some((item) => item.transmission_id === id)) {
+      return json(409, { id, status: "not_due" });
+    }
+    queued = { id, status: "queued" };
+  } else {
+    const authorization = request.headers.get("Authorization");
+    if (!authorization) return json(401, { error: "Authentication is required." });
+    const userClient = createClient(url, anon, { global: { headers: { Authorization: authorization } } });
+    const { data: auth, error: authError } = await userClient.auth.getUser();
+    if (authError || !auth.user) return json(401, { error: "Authentication is required." });
+    const channel = String(body.channel || "").toLowerCase();
+    if (!["sms", "email", "call"].includes(channel)) return json(400, { error: "Unsupported communication channel." });
+    const requestId = typeof body.clientRequestId === "string" ? body.clientRequestId : crypto.randomUUID();
+    const { data, error } = await userClient.rpc("queue_communication_transmission", {
+      p_subject_type: body.subjectType, p_subject_id: body.subjectId, p_channel: channel,
+      p_purpose: body.purpose, p_content: body.content || null, p_client_request_id: requestId,
+      p_conversation_id: body.conversationId || null, p_message_id: body.messageId || null,
+    });
+    if (error) return json(400, { error: error.message });
+    queued = data;
+  }
   const { data: transmission, error: loadError } = await admin.from("communication_transmissions")
-    .select("id,workspace_id,channel,destination,content,status,provider_name")
+    .select("id,workspace_id,channel,destination,content,status,provider_name,purpose,client_request_id")
     .eq("id", queued.id).single();
   if (loadError || !transmission) return json(500, { error: "Queued communication could not be loaded." });
 
+  const channel = transmission.channel;
+  const requestId = transmission.client_request_id;
   const providerName = String(transmission.provider_name || queued.provider_name || "unconfigured").toLowerCase();
   const { data: providerConnection } = await admin.from("communication_provider_connections")
     .select("status,sender_identity")
@@ -106,13 +117,13 @@ Deno.serve(async (request) => {
     const resendKey = Deno.env.get("RESEND_API_KEY");
     const resendFrom = Deno.env.get("RESEND_FROM_EMAIL");
     if (!resendKey || !resendFrom) {
-      return json(503, { id: transmission.id, status: "queued", provider_name: providerName, error: "Email provider is not configured; no delivery attempt was started." });
+      return json(503, { id: transmission.id, status: transmission.status, provider_name: providerName, error: "Email provider is not configured; no delivery attempt was started." });
     }
     if (!transmission.content) return json(400, { error: "Email content is required." });
     const attempt = await beginAttempt();
     if (attempt.status !== "started" || !attempt.attempt_id) return json(409, { id: transmission.id, provider_name: providerName, ...attempt });
     const requestedSubject = typeof body.subject === "string" ? body.subject.trim() : "";
-    const emailSubject = requestedSubject.slice(0, 160) || `HomeLead Connect — ${String(body.purpose || "service").replaceAll("_", " ")}`;
+    const emailSubject = requestedSubject.slice(0, 160) || `HomeLead Connect — ${String(transmission.purpose || "service").replaceAll("_", " ")}`;
     const providerResponse = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: { Authorization: `Bearer ${resendKey}`, "Content-Type": "application/json", "Idempotency-Key": requestId },
@@ -135,7 +146,7 @@ Deno.serve(async (request) => {
     const messagingServiceSid = Deno.env.get("TWILIO_MESSAGING_SERVICE_SID");
     const callbackBase = Deno.env.get("TWILIO_WEBHOOK_BASE_URL");
     if (!accountSid || !authToken || !from || !callbackBase) {
-      return json(503, { id: transmission.id, status: "queued", provider_name: providerName, error: "Phone provider adapter is not configured; no delivery attempt was started." });
+      return json(503, { id: transmission.id, status: transmission.status, provider_name: providerName, error: "Phone provider adapter is not configured; no delivery attempt was started." });
     }
 
     const endpoint = channel === "sms" ? "Messages.json" : "Calls.json";
