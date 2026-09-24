@@ -3,17 +3,36 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 
 const styles = readFileSync("src/styles/account-portals-application-workspace.css", "utf8");
+const lockedStyles = readFileSync("src/styles/hcx-locked-visual-authority-20260924.css", "utf8");
+const authenticatedStyles = readFileSync("src/styles/AuthenticatedStyles.tsx", "utf8");
 const resident = readFileSync("src/pages/portal/HomeownerPortal.tsx", "utf8");
 const partner = readFileSync("src/pages/portal/PartnerPortal.tsx", "utf8");
 const accessProvider = readFileSync("src/context/AccountAccessProvider.tsx", "utf8");
 const accessContext = readFileSync("src/context/account-access-context.ts", "utf8");
 
-test("role portals use the approved Dashboard Version A light visual authority", () => {
+test("role portals use the owner-approved light pathway visual authority", () => {
   assert.match(styles, /Dashboard Version A portal authority/);
   assert.match(styles, /\.hlc-portal-workspace\{--acct-line:#d7e0ea;/);
   assert.match(styles, /--acct-surface:#ffffff/);
   assert.match(styles, /--acct-text:#172033/);
-  assert.match(styles, /\.hlc-portal-workspace \.hlc-portal-project\{[^}]*background:#fff!important/);
+  // 2026-09-24 owner authority: role portals remain light, but are no longer
+  // forced into one pure-white environment. Each pathway owns its soft visual field.
+  assert.match(lockedStyles, /\.hlc-portal-workspace\.is-resident/);
+  assert.match(lockedStyles, /\.hlc-portal-workspace\.is-professional/);
+  assert.match(lockedStyles, /\.hlc-portal-workspace\.is-partner/);
+  assert.match(lockedStyles, /#16866a/);
+  assert.match(lockedStyles, /#1479b8/);
+  assert.match(lockedStyles, /#9a6a0a/);
+  assert.match(lockedStyles, /#8449ae/);
+  assert.match(lockedStyles, /linear-gradient/);
+  assert.match(lockedStyles, /prefers-reduced-motion/);
+  assert.match(authenticatedStyles, /signed-in-professional-system\.css/);
+  assert.match(authenticatedStyles, /hcx-locked-visual-authority-20260924\.css/);
+  assert.ok(
+    authenticatedStyles.indexOf("hcx-locked-visual-authority-20260924.css") >
+      authenticatedStyles.indexOf("signed-in-professional-system.css"),
+    "owner-locked pathway authority must load after historical signed-in paint",
+  );
   assert.match(styles, /\.hlc-portal-workspace\.is-resident/);
   assert.match(styles, /\.hlc-portal-workspace\.is-professional/);
   assert.match(styles, /\.hlc-portal-workspace\.is-partner/);

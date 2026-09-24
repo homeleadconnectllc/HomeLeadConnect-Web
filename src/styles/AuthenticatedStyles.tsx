@@ -30,6 +30,10 @@ import "./dashboard-context-hero.css";
 // cannot override the owner-approved redesign. Structural and feature behavior stay intact.
 import "./signed-in-professional-system.css";
 
+/* Owner-locked HCX visual reconciliation.
+   Must remain after historical authenticated paint authorities. */
+import "./hcx-locked-visual-authority-20260924.css";
+
 export default function AuthenticatedStyles() {
   return <MobileNavigationDialogAccessibility />;
 }
