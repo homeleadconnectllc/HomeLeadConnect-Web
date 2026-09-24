@@ -27,6 +27,8 @@ The two owner reference images supplied on September 24 show a curved light trac
 
 During local reconciliation a proposed separate Menu control was implemented briefly, before commit or deployment. The owner clarified that the official logo itself must open the menu. The separate control was removed; `publicLogoMenuContract.test.ts` and `brandSystem.test.ts` continue to require the single official logo trigger, accessible open/close naming and official asset. The earlier test failure reflected the incorrect local interpretation and was corrected before any candidate was created.
 
+The first temporary preview surfaced public navigation pointing to the two production origins. `siteOrigins.ts` now resolves both public and app links to the same pages.dev origin only on the existing Cloudflare Pages preview domain. This keeps the six-page owner review and Sign In within the isolated reconciliation environment. The production domains retain their canonical split, and the preview backend is still pinned to E3 in `src/lib/supabase.ts`; no DNS or provider setting changed. A direct origin mapping regression test covers this boundary.
+
 No schema, Edge Function, communication transport, provider configuration, role decision, workflow or protected route was changed for the visual release gate. The earlier exact candidate remains superseded only once a new visual candidate is created and certified.
 
 ## Proof and owner review
