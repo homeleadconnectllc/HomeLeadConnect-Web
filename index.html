@@ -7,8 +7,11 @@
     <link rel="apple-touch-icon" href="/hlc-logo-transparent.png" />
     <script>
       (() => {
-        const isStandalonePublicHome = window.location.pathname === "/" && window.location.hostname.toLowerCase() !== "app.homeleadconnect.org";
-        if (isStandalonePublicHome) return;
+        const hostname = window.location.hostname.toLowerCase();
+        const pathname = window.location.pathname;
+        const isAppHost = hostname === "app.homeleadconnect.org";
+        const isPublicVisualCandidateRoute = !isAppHost && /^\/(?:|about|homeowners|residents|contractors|professionals|partners|community|services|how-it-works|leadscope|pricing|trust|demo|contact|request-service|professional-application|privacy|terms|accessibility|platform-disclosure|memorial|kendrell-memorial)\/?$/.test(pathname);
+        if (isPublicVisualCandidateRoute) return;
         document.write('<link id="hlc-runtime-structural-safeguards" rel="stylesheet" href="/runtime-structural-safeguards-20260919.css" />');
       })();
     </script>
