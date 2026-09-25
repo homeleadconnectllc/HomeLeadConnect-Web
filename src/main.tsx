@@ -44,6 +44,7 @@ if (isPublicHome) {
     void Promise.all([
       import("./styles/mockup-authority-20260924.css"),
       import("./styles/home-no-glow-20260925.css"),
+      import("./styles/public-full-bleed-20260925.css"),
     ]).then(mountReactApp);
   }
   if (!usesCurrentVisualAuthority) {
