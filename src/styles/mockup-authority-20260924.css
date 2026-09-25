@@ -112,6 +112,11 @@
 .hlc-public-actions a:hover,.hlc-public-link:hover { text-decoration:underline; text-underline-offset:4px }
 .hlc-public-visual { position:relative; max-width:1180px; height:clamp(290px,40vw,550px); margin:-12px auto 0; overflow:hidden; border-radius:0 0 35% 8% / 0 0 11% 4%; mask-image:linear-gradient(0deg,transparent,#000 23%,#000) }
 .hlc-public-visual img { display:block; width:100%; height:100%; object-fit:cover }
+.hlc-public-page[data-public-page=about] .hlc-public-hero { min-height:clamp(400px,47vw,620px); padding-bottom:clamp(110px,12vw,190px); background:radial-gradient(ellipse at 74% 22%,rgba(72,158,194,.28),transparent 55%),linear-gradient(145deg,#102e4c,#102841 70%,#183b51) }
+.hlc-public-page[data-public-page=about] .hlc-public-hero:after { height:170px; background:linear-gradient(0deg,rgba(21,49,67,.35),transparent); z-index:0; pointer-events:none }
+.hlc-public-page[data-public-page=about] .hlc-public-hero>div { position:relative; z-index:1 }
+.hlc-public-page[data-public-page=about] .hlc-public-visual { z-index:2; margin-top:clamp(-175px,-13vw,-95px); height:clamp(340px,42vw,560px); border-radius:45% 45% 12% 12% / 9% 9% 5% 5%; mask-image:linear-gradient(180deg,transparent 0%,#000 21%,#000 73%,transparent 100%) }
+.hlc-public-page[data-public-page=about] .hlc-public-grid { position:relative; z-index:3; margin-top:-38px; background:linear-gradient(180deg,transparent,#eaf3f9 45%) }
 .hlc-public-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(18px,3vw,36px); padding:clamp(40px,6vw,90px) clamp(8px,3vw,40px); max-width:1250px; margin:auto }
 .hlc-public-card { padding:20px 10px 26px; border-top:2px solid #64c4e6; line-height:1.65 }
 .hlc-public-card h2 { font-size:clamp(22px,2.4vw,32px); line-height:1.18; margin:13px 0 }
