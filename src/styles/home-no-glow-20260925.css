@@ -1,6 +1,6 @@
 /* Owner launch correction — 2026-09-25.
-   Remove decorative glow from public imagery and pathway presentation.
-   Keep audience colors as restrained accents only. Photography should read naturally. */
+   Keep photography clean, restore only purposeful motion, and use each pathway
+   color as its own restrained outline effect. */
 .hcx-shell .hlc-navbar-master-logo,
 .hlc-navbar-master-logo {
   filter: none;
@@ -16,9 +16,10 @@
   isolation: isolate;
 }
 
+/* The official logo is the menu trigger. Use a simple pulse, not a glow. */
 .hlc-board-brand .hlc-navbar-master-logo {
   transform-origin: center;
-  animation: none;
+  animation: hlc-logo-pulse 2.8s ease-in-out infinite;
 }
 
 .hlc-board-brand::after {
@@ -28,23 +29,40 @@
 .hlc-board-brand:hover .hlc-navbar-master-logo,
 .hlc-board-brand:focus-visible .hlc-navbar-master-logo,
 .hlc-board-brand[aria-expanded="true"] .hlc-navbar-master-logo {
-  transform: none;
+  animation-play-state: paused;
+  transform: scale(1.055);
   filter: none;
 }
 
-/* Home pathway cards: keep the pathway color without neon treatment. */
-.hcx-shell .hcx-pathway-link,
-.hcx-shell .hcx-pathway-link:hover {
-  box-shadow: none;
-  text-shadow: none;
+@keyframes hlc-logo-pulse {
+  0%, 58%, 100% { transform: scale(1); }
+  68% { transform: scale(1.075); }
+  78% { transform: scale(1.018); }
+  86% { transform: scale(1.055); }
+  94% { transform: scale(1); }
 }
 
+/* Each Home pathway keeps its own portal color on the outline, with a restrained
+   pulse around the edge only. The photo itself does not glow. */
 .hcx-shell .hcx-pathway-link {
-  border-width: 1px;
+  border-width: 2px;
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--tone) 0%, transparent);
+  text-shadow: none;
+  animation: hcx-pathway-outline-pulse 3.2s ease-in-out infinite;
 }
 
 .hcx-shell .hcx-pathway-link:hover {
   transform: translateY(-2px);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tone) 38%, transparent);
+}
+
+.hcx-shell .hcx-pathway-link:nth-child(2) { animation-delay: .18s; }
+.hcx-shell .hcx-pathway-link:nth-child(3) { animation-delay: .36s; }
+.hcx-shell .hcx-pathway-link:nth-child(4) { animation-delay: .54s; }
+
+@keyframes hcx-pathway-outline-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--tone) 0%, transparent); }
+  50% { box-shadow: 0 0 0 2px color-mix(in srgb, var(--tone) 28%, transparent); }
 }
 
 /* Pathway page photography stays clean: no glowing arc or decorative halo. */
@@ -66,7 +84,15 @@
   opacity: .72;
 }
 
+/* Keep the secondary hero line off people's faces. */
 .hcx-script {
+  left: 50%;
+  right: auto;
+  top: 26px;
+  width: min(320px, 72vw);
+  max-width: 320px;
+  transform: translateX(-50%);
+  text-align: center;
   text-shadow: 0 1px 3px rgba(3, 15, 28, .6);
 }
 
@@ -81,7 +107,7 @@
   box-shadow: none;
 }
 
-/* Mobile Home cards: image and content meet at a clean edge instead of fading. */
+/* Mobile Home: shorter hero, breathing room after the image, clean card edges. */
 @media (max-width: 680px) {
   .hcx-shell .hcx-pathway-link:after {
     background: linear-gradient(
@@ -93,9 +119,8 @@
     );
   }
 
-  /* Center the Home hero message on the photography with only a neutral scrim. */
   .hcx-shell .hcx-home-hero {
-    min-height: 650px;
+    min-height: 520px;
     align-items: center;
   }
 
@@ -108,13 +133,13 @@
   }
 
   .hcx-shell .hcx-home-hero:after {
-    background: rgba(3, 15, 28, .44);
+    background: rgba(3, 15, 28, .42);
   }
 
   .hcx-shell .hcx-home-copy {
     width: min(100% - 40px, 620px);
     margin: auto;
-    padding: 48px 0;
+    padding: 72px 0 30px;
     text-align: center;
     align-self: center;
   }
@@ -135,6 +160,26 @@
 
   .hcx-shell .hcx-kicker {
     text-align: center;
+  }
+
+  .hcx-shell .hcx-script {
+    top: 18px;
+    left: 50%;
+    right: auto;
+    width: min(270px, 70vw);
+    max-width: 270px;
+    transform: translateX(-50%);
+    font-size: 14px;
+    line-height: 1.15;
+  }
+
+  .hcx-shell .hcx-script small {
+    margin-top: 6px;
+    font-size: 9px;
+  }
+
+  .hcx-shell .hcx-pathway-links {
+    margin-top: 26px;
   }
 
   .hlc-board-nav {
@@ -192,6 +237,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .hlc-board-brand .hlc-navbar-master-logo,
+  .hcx-shell .hcx-pathway-link {
+    animation: none;
+  }
+
   .hcx-pathway-link,
   .hcx-pathway-link:before {
     transition: none;
