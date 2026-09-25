@@ -1,0 +1,95 @@
+/* Owner correction — 2026-09-25.
+   Public/front-door pages should read as full-page experiences, not framed documents.
+   Keep readable text measures inside sections, but let the page, photography, atmosphere,
+   section backgrounds, and primary layout run edge-to-edge. */
+
+html,
+body,
+#root {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
+body {
+  overflow-x: clip;
+}
+
+:is(.hcx-shell,.hcx-pathway,.hlc-public-board-page,.hlc-utility-page,.hlc-legal-page) {
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Remove the outer page-frame treatment. */
+:is(.hlc-public-shell,.hlc-utility-shell,.hlc-legal-shell) {
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* Major public sections occupy the page width; their own padding controls readability. */
+:is(.hlc-public-hero,.hlc-public-visual,.hlc-public-grid,.hlc-public-offer,
+    .hlc-utility-paths,.hlc-utility-contact-grid,.hlc-request-grid,.hlc-public-form-wrap) {
+  width: 100%;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.hlc-public-grid {
+  padding-left: clamp(20px,5vw,82px);
+  padding-right: clamp(20px,5vw,82px);
+}
+
+/* Offers are sections, not floating cards. */
+.hlc-public-offer {
+  border-radius: 0;
+  padding-left: clamp(24px,8vw,120px);
+  padding-right: clamp(24px,8vw,120px);
+}
+
+/* The standalone Home page should also use the viewport instead of a centered board width. */
+.hcx-pathway-links,
+.hcx-mission {
+  width: 100%;
+  max-width: none;
+}
+
+.hcx-pathway-links {
+  padding-left: clamp(14px,2.5vw,40px);
+  padding-right: clamp(14px,2.5vw,40px);
+}
+
+/* Pathway process rails can span the page while keeping the content structured. */
+.hcx-flow {
+  width: 100%;
+  max-width: none;
+}
+
+@media (max-width: 680px) {
+  :is(.hlc-public-shell,.hlc-utility-shell,.hlc-legal-shell) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .hlc-public-grid {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .hlc-public-offer {
+    margin-bottom: 0;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .hlc-public-visual {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
