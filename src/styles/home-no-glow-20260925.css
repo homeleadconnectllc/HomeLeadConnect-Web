@@ -10,51 +10,57 @@
   box-shadow: none;
 }
 
-/* Subtle affordance: the official logo should feel alive enough to signal that
-   it is the mobile menu control, without becoming a constant decorative glow. */
+/* The official logo is the menu trigger. Give the logo itself a restrained
+   heartbeat so the control reads as alive/clickable, rather than relying on a
+   static ring. */
 .hlc-board-brand {
   position: relative;
   isolation: isolate;
 }
 
+.hlc-board-brand .hlc-navbar-master-logo {
+  transform-origin: center;
+  animation: hlc-logo-heartbeat 3.2s ease-in-out infinite;
+}
+
 .hlc-board-brand::after {
   content: "";
   position: absolute;
-  inset: 5px;
+  inset: 4px;
   z-index: -1;
   border-radius: 50%;
-  border: 1px solid rgba(83, 194, 252, .58);
-  box-shadow: 0 0 0 0 rgba(83, 194, 252, .24);
-  opacity: .7;
+  border: 1px solid rgba(83, 194, 252, .42);
+  opacity: .42;
   pointer-events: none;
-  animation: hlc-logo-affordance 3.8s ease-out infinite;
+  animation: hlc-logo-ripple 3.2s ease-out infinite;
+}
+
+.hlc-board-brand:hover .hlc-navbar-master-logo,
+.hlc-board-brand:focus-visible .hlc-navbar-master-logo,
+.hlc-board-brand[aria-expanded="true"] .hlc-navbar-master-logo {
+  animation-play-state: paused;
+  transform: scale(1.045);
 }
 
 .hlc-board-brand:hover::after,
 .hlc-board-brand:focus-visible::after,
 .hlc-board-brand[aria-expanded="true"]::after {
-  border-color: rgba(111, 214, 255, .92);
-  box-shadow: 0 0 0 5px rgba(83, 194, 252, .12);
-  opacity: 1;
+  opacity: .8;
   animation-play-state: paused;
 }
 
-@keyframes hlc-logo-affordance {
-  0%, 58%, 100% {
-    transform: scale(.96);
-    opacity: .42;
-    box-shadow: 0 0 0 0 rgba(83, 194, 252, .22);
-  }
-  70% {
-    transform: scale(1.04);
-    opacity: .82;
-    box-shadow: 0 0 0 5px rgba(83, 194, 252, .08);
-  }
-  82% {
-    transform: scale(1);
-    opacity: .58;
-    box-shadow: 0 0 0 9px rgba(83, 194, 252, 0);
-  }
+@keyframes hlc-logo-heartbeat {
+  0%, 56%, 100% { transform: scale(1); filter: none; }
+  64% { transform: scale(1.075); filter: brightness(1.08); }
+  71% { transform: scale(1.015); filter: none; }
+  78% { transform: scale(1.055); filter: brightness(1.05); }
+  86% { transform: scale(1); filter: none; }
+}
+
+@keyframes hlc-logo-ripple {
+  0%, 56%, 100% { transform: scale(.96); opacity: .28; }
+  66% { transform: scale(1.06); opacity: .7; }
+  84% { transform: scale(1.18); opacity: 0; }
 }
 
 /* Home pathway cards are the one intentional glow moment. */
@@ -136,9 +142,9 @@
     text-align: center;
   }
 
-  /* Mobile menu repair: the logo opens a real drawer below the header instead
-     of exposing a clipped partial panel. Keep every destination visible and
-     scrollable, with pathway destination colors preserved. */
+  /* Mobile menu: keep it clearly a drawer rather than a second full screen.
+     Leave visible page/backdrop space on the right so the relationship to the
+     underlying page remains obvious. */
   .hlc-board-nav {
     position: relative;
     z-index: 1000;
@@ -155,15 +161,15 @@
   }
 
   .hlc-public-menu-panel {
-    width: min(390px, 100vw);
-    max-width: 100%;
+    width: min(330px, 84vw);
+    max-width: 84vw;
     height: calc(100dvh - 68px);
     max-height: calc(100dvh - 68px);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     padding: 18px 18px 30px;
     background: #10283f;
-    border-radius: 0;
+    border-radius: 0 18px 18px 0;
     box-shadow: 18px 0 40px rgba(0,0,0,.28);
   }
 
@@ -194,8 +200,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .hlc-board-brand .hlc-navbar-master-logo,
   .hlc-board-brand::after {
     animation: none;
-    opacity: .58;
   }
 }
