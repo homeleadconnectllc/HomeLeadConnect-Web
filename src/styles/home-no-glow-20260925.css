@@ -1,0 +1,22 @@
+/* Owner correction — 2026-09-25.
+   Remove decorative neon/glow treatment from the public Home and pathway family.
+   Preserve semantic pathway colors, focus visibility, and subtle neutral depth. */
+.hcx-shell .hlc-navbar-master-logo {
+  filter: none;
+}
+
+.hcx-shell .hlc-board-cta {
+  box-shadow: none;
+}
+
+.hcx-shell .hcx-pathway-link {
+  box-shadow: 0 10px 24px rgba(3, 15, 28, .16), inset 0 0 18px rgba(0, 0, 0, .18);
+}
+
+.hcx-shell .hcx-pathway-link:hover {
+  box-shadow: 0 12px 26px rgba(3, 15, 28, .20);
+}
+
+.hcx-pathway .hcx-pathway-media:before {
+  filter: none;
+}
