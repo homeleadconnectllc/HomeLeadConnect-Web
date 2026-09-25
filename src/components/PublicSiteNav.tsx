@@ -89,7 +89,7 @@ export default function PublicSiteNav() {
 
   const backdropStyle = {
     position: "fixed",
-    inset: "76px 0 0",
+    inset: "var(--hlc-public-nav-height, 76px) 0 0",
     zIndex: 9998,
     background: "rgba(3,11,25,.55)",
     overscrollBehavior: "contain",
@@ -101,7 +101,7 @@ export default function PublicSiteNav() {
     left: 0,
     width: "min(390px,92vw)",
     height: "100%",
-    maxHeight: "calc(100dvh - 76px)",
+    maxHeight: "calc(100dvh - var(--hlc-public-nav-height, 76px))",
     overflowY: "auto",
     WebkitOverflowScrolling: "touch",
     background: "#10283f",
