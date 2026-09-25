@@ -247,3 +247,59 @@
     transition: none;
   }
 }
+
+/* Global photographic treatment — owner correction 2026-09-25.
+   Images may blend tonally into their sections, but photography itself must never glow. */
+:is(
+  .hcx-home-hero picture,
+  .hcx-pathway-media,
+  .hcx-feature,
+  .hlc-public-visual,
+  .hlc-auth-intro-visual,
+  .hlc-utility-visual,
+  .hlc-legal-page-visual
+),
+:is(
+  .hcx-home-hero picture img,
+  .hcx-pathway-media img,
+  .hcx-feature img,
+  .hlc-public-visual img,
+  .hlc-auth-intro-visual img,
+  .hlc-utility-visual img,
+  .hlc-legal-page-visual img
+) {
+  filter: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+/* Remove mask-based bright halos. Keep transitions tonal through section overlays instead. */
+.hlc-public-visual,
+.hlc-public-page[data-public-page="about"] .hlc-public-visual,
+.hlc-legal-page-visual {
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+}
+
+/* Any decorative layer around photography must stay flat and non-luminous. */
+:is(
+  .hcx-home-hero,
+  .hcx-pathway-media,
+  .hcx-feature,
+  .hlc-public-visual,
+  .hlc-auth-intro-visual,
+  .hlc-utility-visual,
+  .hlc-legal-page-visual
+)::before,
+:is(
+  .hcx-home-hero,
+  .hcx-pathway-media,
+  .hcx-feature,
+  .hlc-public-visual,
+  .hlc-auth-intro-visual,
+  .hlc-utility-visual,
+  .hlc-legal-page-visual
+)::after {
+  filter: none !important;
+  box-shadow: none !important;
+}
