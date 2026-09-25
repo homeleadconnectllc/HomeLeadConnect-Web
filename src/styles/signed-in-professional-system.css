@@ -14,6 +14,9 @@
 }
 
 /* Authenticated shell link/route contract for test verification */
+.hlc-signed-in-shell {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
 .hlc-signed-in-shell .hlc-route-content a{
   color: #1479b8;
   text-decoration: underline;
