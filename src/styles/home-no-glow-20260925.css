@@ -42,4 +42,50 @@
       #071e35 100%
     );
   }
+
+  /* Owner placement correction: center the Home hero message directly on top
+     of the header photography instead of letting the copy fall into a separate
+     dark block beneath the image. Use only a neutral readability scrim. */
+  .hcx-shell .hcx-home-hero {
+    min-height: 650px;
+    align-items: center;
+  }
+
+  .hcx-shell .hcx-home-hero picture {
+    height: 100%;
+  }
+
+  .hcx-shell .hcx-home-hero picture img {
+    object-position: 57% center;
+  }
+
+  .hcx-shell .hcx-home-hero:after {
+    background: rgba(3, 15, 28, .48);
+  }
+
+  .hcx-shell .hcx-home-copy {
+    width: min(100% - 40px, 620px);
+    margin: auto;
+    padding: 48px 0;
+    text-align: center;
+    align-self: center;
+  }
+
+  .hcx-shell .hcx-home-copy h1,
+  .hcx-shell .hcx-home-copy p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hcx-shell .hcx-home-copy h1 {
+    max-width: 560px;
+  }
+
+  .hcx-shell .hcx-home-copy p:not(.hcx-kicker) {
+    max-width: 540px;
+  }
+
+  .hcx-shell .hcx-kicker {
+    text-align: center;
+  }
 }
