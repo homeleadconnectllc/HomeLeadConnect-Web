@@ -1,18 +1,16 @@
-/* Owner correction — 2026-09-25.
-   Keep decorative glow off the broader public family, but preserve a restrained
-   pathway-colored glow on the four Home pathway cards. Keep photography natural
-   and avoid gradient/fade treatment where the mobile image meets card content. */
-.hcx-shell .hlc-navbar-master-logo {
+/* Owner launch correction — 2026-09-25.
+   Remove decorative glow from public imagery and pathway presentation.
+   Keep audience colors as restrained accents only. Photography should read naturally. */
+.hcx-shell .hlc-navbar-master-logo,
+.hlc-navbar-master-logo {
   filter: none;
 }
 
-.hcx-shell .hlc-board-cta {
+.hcx-shell .hlc-board-cta,
+.hlc-board-cta {
   box-shadow: none;
 }
 
-/* The official logo is the menu trigger. Give the logo itself a restrained
-   heartbeat so the control reads as alive/clickable, rather than relying on a
-   static ring. */
 .hlc-board-brand {
   position: relative;
   isolation: isolate;
@@ -20,71 +18,70 @@
 
 .hlc-board-brand .hlc-navbar-master-logo {
   transform-origin: center;
-  animation: hlc-logo-heartbeat 3.2s ease-in-out infinite;
+  animation: none;
 }
 
 .hlc-board-brand::after {
-  content: "";
-  position: absolute;
-  inset: 4px;
-  z-index: -1;
-  border-radius: 50%;
-  border: 1px solid rgba(83, 194, 252, .42);
-  opacity: .42;
-  pointer-events: none;
-  animation: hlc-logo-ripple 3.2s ease-out infinite;
+  content: none;
 }
 
 .hlc-board-brand:hover .hlc-navbar-master-logo,
 .hlc-board-brand:focus-visible .hlc-navbar-master-logo,
 .hlc-board-brand[aria-expanded="true"] .hlc-navbar-master-logo {
-  animation-play-state: paused;
-  transform: scale(1.045);
-}
-
-.hlc-board-brand:hover::after,
-.hlc-board-brand:focus-visible::after,
-.hlc-board-brand[aria-expanded="true"]::after {
-  opacity: .8;
-  animation-play-state: paused;
-}
-
-@keyframes hlc-logo-heartbeat {
-  0%, 56%, 100% { transform: scale(1); filter: none; }
-  64% { transform: scale(1.075); filter: brightness(1.08); }
-  71% { transform: scale(1.015); filter: none; }
-  78% { transform: scale(1.055); filter: brightness(1.05); }
-  86% { transform: scale(1); filter: none; }
-}
-
-@keyframes hlc-logo-ripple {
-  0%, 56%, 100% { transform: scale(.96); opacity: .28; }
-  66% { transform: scale(1.06); opacity: .7; }
-  84% { transform: scale(1.18); opacity: 0; }
-}
-
-/* Home pathway cards are the one intentional glow moment. */
-.hcx-shell .hcx-pathway-link {
-  box-shadow:
-    0 0 15px color-mix(in srgb, var(--tone) 58%, transparent),
-    0 10px 24px rgba(3, 15, 28, .16),
-    inset 0 0 18px rgba(0, 0, 0, .18);
-}
-
-.hcx-shell .hcx-pathway-link:hover {
-  box-shadow:
-    0 0 21px color-mix(in srgb, var(--tone) 66%, transparent),
-    0 12px 26px rgba(3, 15, 28, .20);
-}
-
-/* Keep pathway-page media accents clean rather than glowing. */
-.hcx-pathway .hcx-pathway-media:before {
+  transform: none;
   filter: none;
 }
 
-/* Mobile Home cards: image and content meet at a clean edge instead of fading
-   through each other. The image remains natural and the text stays on a solid
-   readable surface. */
+/* Home pathway cards: keep the pathway color without neon treatment. */
+.hcx-shell .hcx-pathway-link,
+.hcx-shell .hcx-pathway-link:hover {
+  box-shadow: none;
+  text-shadow: none;
+}
+
+.hcx-shell .hcx-pathway-link {
+  border-width: 1px;
+}
+
+.hcx-shell .hcx-pathway-link:hover {
+  transform: translateY(-2px);
+}
+
+/* Pathway page photography stays clean: no glowing arc or decorative halo. */
+.hcx-pathway .hcx-pathway-media:before {
+  content: none;
+  display: none;
+  filter: none;
+}
+
+.hcx-pathway .hcx-pathway-media,
+.hcx-pathway .hcx-pathway-media img {
+  filter: none;
+  box-shadow: none;
+}
+
+.hcx-pathway .hcx-pathway-media:after {
+  background: linear-gradient(90deg, var(--deep), transparent 22%),
+              linear-gradient(0deg, var(--deep), transparent 20%);
+  opacity: .72;
+}
+
+.hcx-script {
+  text-shadow: 0 1px 3px rgba(3, 15, 28, .6);
+}
+
+/* Keep feature imagery natural as well. */
+.hcx-feature,
+.hcx-feature img,
+.hlc-public-visual,
+.hlc-public-visual img,
+.hlc-auth-intro-visual,
+.hlc-auth-intro-visual img {
+  filter: none;
+  box-shadow: none;
+}
+
+/* Mobile Home cards: image and content meet at a clean edge instead of fading. */
 @media (max-width: 680px) {
   .hcx-shell .hcx-pathway-link:after {
     background: linear-gradient(
@@ -96,9 +93,7 @@
     );
   }
 
-  /* Owner placement correction: center the Home hero message directly on top
-     of the header photography instead of letting the copy fall into a separate
-     dark block beneath the image. Use only a neutral readability scrim. */
+  /* Center the Home hero message on the photography with only a neutral scrim. */
   .hcx-shell .hcx-home-hero {
     min-height: 650px;
     align-items: center;
@@ -113,7 +108,7 @@
   }
 
   .hcx-shell .hcx-home-hero:after {
-    background: rgba(3, 15, 28, .48);
+    background: rgba(3, 15, 28, .44);
   }
 
   .hcx-shell .hcx-home-copy {
@@ -142,9 +137,6 @@
     text-align: center;
   }
 
-  /* Mobile menu: keep it clearly a drawer rather than a second full screen.
-     Leave visible page/backdrop space on the right so the relationship to the
-     underlying page remains obvious. */
   .hlc-board-nav {
     position: relative;
     z-index: 1000;
@@ -170,7 +162,7 @@
     padding: 18px 18px 30px;
     background: #10283f;
     border-radius: 0 18px 18px 0;
-    box-shadow: 18px 0 40px rgba(0,0,0,.28);
+    box-shadow: 18px 0 40px rgba(0,0,0,.22);
   }
 
   .hlc-public-menu-primary,
@@ -200,8 +192,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hlc-board-brand .hlc-navbar-master-logo,
-  .hlc-board-brand::after {
-    animation: none;
+  .hcx-pathway-link,
+  .hcx-pathway-link:before {
+    transition: none;
   }
 }
