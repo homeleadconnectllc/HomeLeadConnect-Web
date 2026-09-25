@@ -1,6 +1,7 @@
 /* Owner correction — 2026-09-25.
-   Remove decorative neon/glow treatment from the public Home and pathway family.
-   Preserve semantic pathway colors, focus visibility, and subtle neutral depth. */
+   Keep decorative glow off the broader public family, but preserve a restrained
+   pathway-colored glow on the four Home pathway cards. Keep photography natural
+   and avoid gradient/fade treatment where the mobile image meets card content. */
 .hcx-shell .hlc-navbar-master-logo {
   filter: none;
 }
@@ -9,14 +10,36 @@
   box-shadow: none;
 }
 
+/* Home pathway cards are the one intentional glow moment. */
 .hcx-shell .hcx-pathway-link {
-  box-shadow: 0 10px 24px rgba(3, 15, 28, .16), inset 0 0 18px rgba(0, 0, 0, .18);
+  box-shadow:
+    0 0 15px color-mix(in srgb, var(--tone) 58%, transparent),
+    0 10px 24px rgba(3, 15, 28, .16),
+    inset 0 0 18px rgba(0, 0, 0, .18);
 }
 
 .hcx-shell .hcx-pathway-link:hover {
-  box-shadow: 0 12px 26px rgba(3, 15, 28, .20);
+  box-shadow:
+    0 0 21px color-mix(in srgb, var(--tone) 66%, transparent),
+    0 12px 26px rgba(3, 15, 28, .20);
 }
 
+/* Keep pathway-page media accents clean rather than glowing. */
 .hcx-pathway .hcx-pathway-media:before {
   filter: none;
+}
+
+/* Mobile Home cards: image and content meet at a clean edge instead of fading
+   through each other. The image remains natural and the text stays on a solid
+   readable surface. */
+@media (max-width: 680px) {
+  .hcx-shell .hcx-pathway-link:after {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      transparent 28%,
+      #071e35 28%,
+      #071e35 100%
+    );
+  }
 }
