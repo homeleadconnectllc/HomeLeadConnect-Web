@@ -1,0 +1,365 @@
+/*
+ * HCX LOCKED VISUAL AUTHORITY — 2026-09-24
+ *
+ * Presentation-only reconciliation layer.
+ * No workflow, routing, permission, data, or state behavior belongs here.
+ *
+ * Owner authority:
+ * - HCX is NOT a universal dark UI.
+ * - Resident     = soft green environment.
+ * - Professional = soft cyan/blue environment.
+ * - Partner      = soft muted-gold environment.
+ * - Community    = soft purple environment.
+ * - Strong pathway color belongs to its matching pathway only.
+ * - Navy is supporting/connective, not the universal page background.
+ */
+
+.hlc-signed-in-shell {
+  --hcx-ink: #13243a;
+  --hcx-muted: #5e6f82;
+  --hcx-line: rgba(19, 36, 58, .11);
+  --hcx-white: #ffffff;
+  --hcx-radius: 18px;
+  --hcx-shadow: 0 12px 32px rgba(24, 42, 64, .075);
+  --hcx-shadow-hover: 0 16px 38px rgba(24, 42, 64, .105);
+}
+
+/* ==========================================================
+   RESIDENT — GREEN
+   ========================================================== */
+
+.hlc-signed-in-shell :is(
+  .hlc-page-homeowner-portal,
+  .hlc-page-resident-profile,
+  .hlc-page-resident-leadscope,
+  .hlc-page-homeowner-portal-documents,
+  .hlc-portal-workspace.is-resident
+) {
+  --hlc-portal-accent: #16866a;
+  --hlc-portal-accent-soft: rgba(22, 134, 106, .10);
+  --hcx-pathway: #16866a;
+  --hcx-pathway-soft: #eaf7f1;
+  --hcx-pathway-mist: #f5fbf8;
+  --hcx-pathway-line: rgba(22, 134, 106, .18);
+
+  color: var(--hcx-ink);
+  background:
+    radial-gradient(circle at 92% 5%, rgba(72, 185, 142, .12), transparent 31rem),
+    linear-gradient(145deg, #f7fcf9 0%, #edf8f3 52%, #f9fcfb 100%);
+}
+
+/* ==========================================================
+   PROFESSIONAL — CYAN / BLUE
+   ========================================================== */
+
+.hlc-signed-in-shell :is(
+  .hlc-page-contractor-portal,
+  .hlc-page-contractor-profile,
+  .hlc-page-contractor-portal-documents,
+  .hlc-page-contractor-portal-services,
+  .hlc-portal-workspace.is-professional
+) {
+  --hlc-portal-accent: #1479b8;
+  --hlc-portal-accent-soft: rgba(20, 121, 184, .10);
+  --hcx-pathway: #1479b8;
+  --hcx-pathway-soft: #eaf6fb;
+  --hcx-pathway-mist: #f5fbfe;
+  --hcx-pathway-line: rgba(20, 121, 184, .18);
+
+  color: var(--hcx-ink);
+  background:
+    radial-gradient(circle at 92% 5%, rgba(57, 191, 255, .12), transparent 31rem),
+    linear-gradient(145deg, #f7fcff 0%, #edf8fc 52%, #fafcfd 100%);
+}
+
+/* ==========================================================
+   PARTNER — MUTED GOLD
+   ========================================================== */
+
+.hlc-signed-in-shell :is(
+  .hlc-page-partner-portal,
+  .hlc-page-partner-portal-resources,
+  .hlc-portal-workspace.is-partner
+) {
+  --hlc-portal-accent: #9a6a0a;
+  --hlc-portal-accent-soft: rgba(200, 142, 20, .12);
+  --hcx-pathway: #9a6a0a;
+  --hcx-pathway-soft: #fbf4e5;
+  --hcx-pathway-mist: #fdfaf3;
+  --hcx-pathway-line: rgba(154, 106, 10, .19);
+
+  color: var(--hcx-ink);
+  background:
+    radial-gradient(circle at 92% 5%, rgba(255, 200, 78, .14), transparent 31rem),
+    linear-gradient(145deg, #fdfbf6 0%, #faf3e4 52%, #fdfbf7 100%);
+}
+
+/* ==========================================================
+   COMMUNITY — PURPLE
+   ========================================================== */
+
+.hlc-signed-in-shell :is(
+  .hlc-page-community-hub,
+  .hlc-page-community-discover,
+  .hlc-page-community-messages,
+  .hlc-page-community-challenges,
+  .hlc-page-community-academy,
+  .hlc-page-community-groups,
+  .hlc-page-community-discussions,
+  .hlc-page-community-reviews,
+  .hlc-page-community-referrals,
+  .hlc-page-community-events,
+  .hlc-page-community-moderation,
+  .hlc-page-community-swipe,
+  .hlc-community-workspace
+) {
+  --hlc-portal-accent: #8449ae;
+  --hlc-portal-accent-soft: rgba(132, 73, 174, .10);
+  --hcx-pathway: #8449ae;
+  --hcx-pathway-soft: #f3ecf8;
+  --hcx-pathway-mist: #faf7fc;
+  --hcx-pathway-line: rgba(132, 73, 174, .18);
+
+  color: var(--hcx-ink);
+  background:
+    radial-gradient(circle at 92% 5%, rgba(201, 120, 255, .12), transparent 31rem),
+    linear-gradient(145deg, #fcf9fd 0%, #f4edf8 52%, #fcfafc 100%);
+}
+
+/* ==========================================================
+   SHARED PATHWAY SURFACE LANGUAGE
+   ========================================================== */
+
+.hlc-signed-in-shell :is(
+  .hlc-portal-workspace,
+  .hlc-community-workspace
+) {
+  min-height: 100%;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.hlc-signed-in-shell :is(
+  .hlc-portal-workspace,
+  .hlc-community-workspace
+) :is(
+  article,
+  .hlc-panel,
+  .hlc-card,
+  .hlc-summary-card,
+  .hlc-community-row,
+  .hlc-community-context section
+) {
+  border-color: var(--hcx-pathway-line, var(--hcx-line));
+}
+
+/*
+ * Cards remain light and calm rather than turning the whole application
+ * into either a white-card grid or a dark dashboard.
+ */
+.hlc-signed-in-shell :is(
+  .hlc-portal-workspace,
+  .hlc-community-workspace
+) :is(
+  .hlc-panel,
+  .hlc-card,
+  .hlc-summary-card
+) {
+  background: rgba(255, 255, 255, .76);
+  box-shadow: var(--hcx-shadow);
+  backdrop-filter: blur(8px);
+}
+
+/* Pathway accent owns active/selected state. */
+.hlc-signed-in-shell :is(
+  .hlc-portal-workspace,
+  .hlc-community-workspace
+) :is(
+  [aria-current="page"],
+  [aria-selected="true"],
+  .is-active,
+  .active
+) {
+  color: var(--hcx-pathway, var(--hlc-portal-accent));
+}
+
+/* Links use pathway identity without painting every control solid. */
+.hlc-signed-in-shell :is(
+  .hlc-portal-workspace,
+  .hlc-community-workspace
+) a:not(.hlc-button):not([class*="button"]) {
+  text-decoration-color: color-mix(
+    in srgb,
+    var(--hcx-pathway, var(--hlc-portal-accent)) 38%,
+    transparent
+  );
+}
+
+/* ==========================================================
+   PREMIUM INTERACTION — RESTRAINED
+   ========================================================== */
+
+@media (hover:hover) and (pointer:fine) {
+  .hlc-signed-in-shell :is(
+    .hlc-portal-workspace,
+    .hlc-community-workspace
+  ) :is(
+    .hlc-card,
+    .hlc-summary-card,
+    .hlc-community-row
+  ) {
+    transition:
+      transform 180ms ease,
+      box-shadow 180ms ease,
+      border-color 180ms ease,
+      background-color 180ms ease;
+  }
+
+  .hlc-signed-in-shell :is(
+    .hlc-portal-workspace,
+    .hlc-community-workspace
+  ) :is(
+    .hlc-card,
+    .hlc-summary-card,
+    .hlc-community-row
+  ):hover {
+    transform: translateY(-2px);
+    box-shadow: var(--hcx-shadow-hover);
+    border-color: var(--hcx-pathway-line, var(--hcx-line));
+  }
+}
+
+.hlc-signed-in-shell :is(
+  .hlc-portal-workspace,
+  .hlc-community-workspace
+) :focus-visible {
+  outline-color: var(--hcx-pathway, var(--hlc-portal-accent));
+}
+
+/* ==========================================================
+   MOBILE
+   ========================================================== */
+
+@media (max-width: 720px) {
+  .hlc-signed-in-shell :is(
+    .hlc-portal-workspace,
+    .hlc-community-workspace
+  ) {
+    width: 100%;
+    margin-inline: 0;
+    padding-inline: 14px;
+    border-radius: 0;
+  }
+
+  .hlc-signed-in-shell :is(
+    .hlc-portal-workspace,
+    .hlc-community-workspace
+  ) :is(
+    button,
+    a,
+    input,
+    select,
+    textarea
+  ) {
+    touch-action: manipulation;
+  }
+}
+
+/* ==========================================================
+   ACCESSIBILITY
+   ========================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .hlc-signed-in-shell *,
+  .hlc-signed-in-shell *::before,
+  .hlc-signed-in-shell *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .001ms !important;
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+/* HCX-locked visual authority for signed-in professional system.
+   This file is the exclusive runtime presentation authority for authenticated professional routes.
+   All legacy and superseded CSS is disconnected from runtime.
+   Do not override or supplement this file except by explicit owner direction. */
+
+/* Example: import this file LAST in the authenticated entrypoint. */
+/* import "./hcx-locked-visual-authority-20260924.css"; */
+
+/* Place all current, owner-approved, September 23/24 HCX visual rules here. */
+/* ... (actual CSS rules are maintained in this file as the canonical source) ... */
+
+/* ==========================================================
+   AUTHENTICATED INTERACTION CONTRACTS
+   ========================================================== */
+
+.hlc-signed-in-shell .hlc-route-content a{
+  text-decoration: none;
+}
+
+.hlc-signed-in-shell .hlc-route-content a:hover{
+  text-decoration: underline;
+  text-underline-offset: .18em;
+}
+
+.hlc-signed-in-shell a[aria-current="page"]{
+  color: var(--hcx-pathway, var(--hlc-portal-accent, #176fa8));
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* ==========================================================
+   MOBILE TABBAR PRESENTATION
+   ========================================================== */
+
+.hlc-signed-in-shell .hlc-mobile-tabbar{
+  position: relative;
+}
+
+.hlc-signed-in-shell .hlc-mobile-tabbar svg{
+  width:21px;
+  height:21px;
+  stroke-width:1.8;
+}
+
+/* ==========================================================
+   DASHBOARD — LIVE STRUCTURAL MARKUP
+   ========================================================== */
+
+.hlc-signed-in-shell .hlc-home-workspace{
+  width: min(100%, 1440px);
+  margin-inline: auto;
+  color: var(--hcx-ink);
+}
+
+.hlc-signed-in-shell .hlc-home-topbar-v2{
+  border-bottom: 1px solid var(--hcx-line);
+}
+
+.hlc-signed-in-shell .hlc-home-metric-strip{
+  border-block: 1px solid var(--hcx-line);
+}
+
+.hlc-signed-in-shell .hlc-home-focus-panel{
+  border-top: 3px solid var(--hcx-pathway, #176fa8);
+}
+
+.hlc-signed-in-shell .hlc-home-schedule-panel{
+  border-top: 1px solid var(--hcx-line);
+}
+
+.hlc-signed-in-shell .hlc-home-quick-row-v2{
+  border-block: 1px solid var(--hcx-line);
+}
+
+.hlc-signed-in-shell .hlc-home-ai-rail{
+  border-top: 1px solid var(--hcx-line);
+}
+
+@media (max-width: 720px){
+  .hlc-signed-in-shell .hlc-home-workspace{
+    width:100%;
+    margin-inline:0;
+  }
+}
