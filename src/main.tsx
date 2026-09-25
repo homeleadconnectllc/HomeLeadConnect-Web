@@ -1,3 +1,5 @@
+import "./styles/pathway-outline-effects-20260925.css";
+
 /* index.css is loaded with the non-home application/public-family entry to keep the standalone homepage critical path lean. */
 
 const APP_HOST = "app.homeleadconnect.org";
