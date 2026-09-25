@@ -1,0 +1,6 @@
+/* Shared public-menu layer contract for both React public pages and standalone Home. */
+.hlc-board-nav[data-menu-open="true"],
+.hlc-board-nav:has(.hlc-public-menu-backdrop:not([hidden])) {
+  z-index:10000;
+  isolation:isolate;
+}
