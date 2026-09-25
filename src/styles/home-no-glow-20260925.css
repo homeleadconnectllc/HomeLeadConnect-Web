@@ -127,7 +127,7 @@
   }
 
   .hcx-shell .hcx-home-hero:after {
-    background: rgba(3, 15, 28, .42);
+    background: rgba(0, 0, 0, .22);
   }
 
   .hcx-shell .hcx-home-copy {
@@ -243,8 +243,8 @@
 }
 
 /* Global photographic treatment — owner correction 2026-09-25.
-   Photography must stay clean: no glow, halo, masked fade, colored edge band,
-   decorative photo overlay, or luminous separation from the next section. */
+   Photography must stay clean: no glow, halo, masked fade, colored tint,
+   colored edge band, decorative photo overlay, or luminous separation. */
 :is(
   .hcx-home-hero picture,
   .hcx-pathway-media,
@@ -266,6 +266,8 @@
   filter: none !important;
   box-shadow: none !important;
   text-shadow: none !important;
+  mix-blend-mode: normal !important;
+  background-blend-mode: normal !important;
 }
 
 :is(
@@ -281,9 +283,10 @@
   border: 0 !important;
   outline: 0 !important;
   background-image: none !important;
+  background-color: transparent !important;
 }
 
-/* Remove the actual photo-edge overlays rather than merely removing their glow. */
+/* Remove all colored/tinted overlay layers from dedicated image areas. */
 :is(
   .hcx-pathway-media,
   .hcx-feature,
@@ -303,11 +306,22 @@
   content: none !important;
   display: none !important;
   background: none !important;
+  background-color: transparent !important;
+  opacity: 0 !important;
+  filter: none !important;
+  box-shadow: none !important;
+  mix-blend-mode: normal !important;
+}
+
+/* Hero photography may retain only a neutral contrast veil for readable overlaid text. */
+.hcx-home-hero::after {
+  background: linear-gradient(90deg, rgba(0,0,0,.36) 0%, rgba(0,0,0,.18) 48%, rgba(0,0,0,0) 82%),
+              linear-gradient(0deg, rgba(0,0,0,.24), rgba(0,0,0,0) 32%) !important;
   filter: none !important;
   box-shadow: none !important;
 }
 
-/* Do not leave a synthetic dark strip directly beneath public photography. */
+/* Do not leave a synthetic dark or colored strip directly beneath public photography. */
 :is(
   .hcx-pathway-media,
   .hcx-feature,
