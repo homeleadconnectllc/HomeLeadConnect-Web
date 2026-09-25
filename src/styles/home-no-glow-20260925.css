@@ -88,4 +88,60 @@
   .hcx-shell .hcx-kicker {
     text-align: center;
   }
+
+  /* Mobile menu repair: the logo opens a real drawer below the header instead
+     of exposing a clipped partial panel. Keep every destination visible and
+     scrollable, with pathway destination colors preserved. */
+  .hlc-board-nav {
+    position: relative;
+    z-index: 1000;
+  }
+
+  .hlc-public-menu-backdrop {
+    position: fixed;
+    inset: 68px 0 0;
+    z-index: 999;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    background: rgba(3, 11, 25, .72);
+  }
+
+  .hlc-public-menu-panel {
+    width: min(390px, 100vw);
+    max-width: 100%;
+    height: calc(100dvh - 68px);
+    max-height: calc(100dvh - 68px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 18px 18px 30px;
+    background: #10283f;
+    border-radius: 0;
+    box-shadow: 18px 0 40px rgba(0,0,0,.28);
+  }
+
+  .hlc-public-menu-primary,
+  .hlc-public-menu-secondary,
+  .hlc-public-menu-account {
+    display: grid;
+    gap: 6px;
+  }
+
+  .hlc-public-menu-primary a,
+  .hlc-public-menu-secondary a,
+  .hlc-public-menu-account a {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+  }
+
+  .hlc-public-menu-primary a {
+    padding: 12px 10px;
+  }
+
+  .hlc-public-menu-secondary,
+  .hlc-public-menu-account {
+    margin-top: 16px;
+    padding-top: 16px;
+  }
 }
