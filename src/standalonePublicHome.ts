@@ -1,5 +1,6 @@
 import "./styles/mockup-authority-20260924.css";
 import "./styles/home-no-glow-20260925.css";
+import "./styles/public-full-bleed-20260925.css";
 import { APP_ORIGIN, PUBLIC_ORIGIN } from "./config/siteOrigins";
 
 const pathways=[["resident","For Residents","Find help with the home in front of you—and keep the next step clear.","/homeowners","Find resident support →"],["professional","For Professionals","Grow your business, get more opportunities, and do your best work.","/professionals","Explore professional access →"],["partner","For Partners","Create referral relationships that respect people, context, and consent.","/partners","Explore partner opportunities →"],["community","For Community","Find the people and resources that help build stronger neighborhoods.","/community","Explore community resources →"]] as const;
