@@ -1,6 +1,24 @@
 /* Shared public-menu layer contract for both React public pages and standalone Home. */
+.hlc-board-nav {
+  --hlc-public-nav-height: 76px;
+}
+
 .hlc-board-nav[data-menu-open="true"],
 .hlc-board-nav:has(.hlc-public-menu-backdrop:not([hidden])) {
   z-index:10000;
   isolation:isolate;
+}
+
+.hlc-public-menu-backdrop {
+  inset:var(--hlc-public-nav-height) 0 0;
+}
+
+.hlc-public-menu-panel {
+  max-height:calc(100dvh - var(--hlc-public-nav-height));
+}
+
+@media(max-width:900px) {
+  .hlc-board-nav {
+    --hlc-public-nav-height: 68px;
+  }
 }
