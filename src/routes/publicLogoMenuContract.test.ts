@@ -9,7 +9,7 @@ const visualFamily = readFileSync("src/styles/mockup-authority-20260924.css", "u
 test("the official circular logo controls the menu without a second menu button", () => {
   assert.match(publicNav, /className="hlc-board-brand"/);
   assert.match(publicNav, /aria-label=\{menuOpen\?"Close HomeLead Connect menu":"Open HomeLead Connect menu"\}/);
-  assert.match(publicNav, /<img className="hlc-navbar-master-logo" src=\{NAV_LOGO\} alt="" aria-hidden="true"/);
+  assert.match(publicNav, /<img className="hlc-navbar-master-logo" src=\{NAV_LOGO\} data-hlc-master-logo="true" alt="" aria-hidden="true"/);
   assert.match(publicNav, /aria-expanded=\{menuOpen\} aria-controls="hlc-public-menu"/);
   assert.match(standaloneHome, /trigger\.append\(logo,make\("span","hlc-brand-accessible-label","HomeLead Connect"\)\)/);
   assert.match(standaloneHome, /trigger\.setAttribute\("aria-controls","hlc-public-menu"\)/);
@@ -17,9 +17,9 @@ test("the official circular logo controls the menu without a second menu button"
 });
 
 test("logo menu has visible focus, an actual hidden state, and reduced motion", () => {
-  assert.match(visualFamily, /\.hlc-public-menu-backdrop\[hidden\]\{display:none\}/);
+  assert.match(visualFamily, /\.hlc-public-menu-backdrop\[hidden\]\s*\{\s*display:\s*none/);
   assert.match(visualFamily, /\.hlc-board-brand:focus-visible/);
-  assert.match(visualFamily, /\.hlc-board-brand\[aria-expanded="true"\]/);
+  assert.match(visualFamily, /\.hlc-board-brand\[aria-expanded=(?:"true"|true)\]/);
   assert.match(visualFamily, /prefers-reduced-motion:reduce/);
   assert.match(publicNav, /event\.key==="Escape"/);
   assert.match(standaloneHome, /e\.key==="Escape"/);

@@ -21,23 +21,23 @@ test("public homepage has one lightweight presentation authority", () => {
 });
 
 test("public homepage preserves optimized hero discovery", () => {
-  assert.match(indexHtml, /rel="preload" as="image" href="\/home-hero-authority-desktop-20260916\.webp"/);
-  assert.match(indexHtml, /rel="preload" as="image" href="\/home-hero-authority-mobile-20260916\.webp"/);
-  assert.match(standaloneHome, /public-home-owner-authority-20260918\.css/);
+  assert.match(indexHtml, /rel="preload" as="image" href="\/hlc-homepage-hero-welcome-doorway-20260917\.webp"/);
+  assert.match(standaloneHome, /img\.src="\/hlc-homepage-hero-welcome-doorway-20260917\.webp"/);
+  assert.match(standaloneHome, /mockup-authority-20260924\.css/);
 });
 
 test("public homepage preserves owner-approved destinations", () => {
   for (const href of ["/homeowners", "/professionals", "/partners", "/community"]) {
     assert.match(standaloneHome, new RegExp(href.replace("/", "\\/")));
   }
-  assert.match(standaloneHome, /hlc-public-menu-trigger/);
+  assert.match(standaloneHome, /trigger\.setAttribute\("aria-controls","hlc-public-menu"\)/);
 });
 
 test("homepage footer renders the canonical centered HomeLead Connect logo", () => {
-  assert.match(standaloneHome, /hlc-public-footer-home-authority/);
+  assert.match(standaloneHome, /make\("footer","hlc-public-footer"\)/);
   assert.match(footer, /showLogo && <img/);
   assert.match(standaloneHome, /hlc-public-footer-master-logo/);
-  assert.match(standaloneHome, /footerLogo\.src = "\/hlc-logo-ui\.png"/);
+  assert.match(standaloneHome, /footerLogo\.src="\/hlc-logo-ui\.png"/);
 });
 
 test("authenticated application remains lazy and isolated from public root", () => {
