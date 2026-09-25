@@ -5,6 +5,8 @@ import test from "node:test";
 const publicNav = readFileSync("src/components/PublicSiteNav.tsx", "utf8");
 const standaloneHome = readFileSync("src/standalonePublicHome.ts", "utf8");
 const visualFamily = readFileSync("src/styles/mockup-authority-20260924.css", "utf8");
+const sharedMenuLayer = readFileSync("src/styles/public-menu-layer-20260925.css", "utf8");
+const mainEntry = readFileSync("src/main.tsx", "utf8");
 
 test("the official circular logo controls the menu without a second menu button", () => {
   assert.match(publicNav, /className="hlc-board-brand"/);
@@ -35,4 +37,12 @@ test("React public menu stays above page stacking contexts and contains interact
   assert.match(publicNav, /onPointerDown=\{\(event\)\s*=>/);
   assert.match(publicNav, /event\.target\s*===\s*event\.currentTarget/);
   assert.match(publicNav, /maxHeight:\s*"calc\(100dvh - 76px\)"/);
+});
+
+test("shared menu layer protects both React public pages and standalone Home", () => {
+  assert.match(mainEntry, /import "\.\/styles\/public-menu-layer-20260925\.css"/);
+  assert.match(sharedMenuLayer, /\.hlc-board-nav\[data-menu-open="true"\]/);
+  assert.match(sharedMenuLayer, /\.hlc-board-nav:has\(\.hlc-public-menu-backdrop:not\(\[hidden\]\)\)/);
+  assert.match(sharedMenuLayer, /z-index:\s*10000/);
+  assert.match(sharedMenuLayer, /isolation:\s*isolate/);
 });
