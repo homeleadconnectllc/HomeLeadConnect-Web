@@ -41,7 +41,10 @@ if (isPublicHome) {
 
   const usesCurrentVisualAuthority = isPublicSiteRoute || isVisualFamilyEntryRoute;
   if (usesCurrentVisualAuthority) {
-    void import("./styles/mockup-authority-20260924.css").then(mountReactApp);
+    void Promise.all([
+      import("./styles/mockup-authority-20260924.css"),
+      import("./styles/home-no-glow-20260925.css"),
+    ]).then(mountReactApp);
   }
   if (!usesCurrentVisualAuthority) {
     void import("./styles/app-shell-entry").then(mountReactApp);
