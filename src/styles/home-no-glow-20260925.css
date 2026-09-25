@@ -10,6 +10,53 @@
   box-shadow: none;
 }
 
+/* Subtle affordance: the official logo should feel alive enough to signal that
+   it is the mobile menu control, without becoming a constant decorative glow. */
+.hlc-board-brand {
+  position: relative;
+  isolation: isolate;
+}
+
+.hlc-board-brand::after {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  z-index: -1;
+  border-radius: 50%;
+  border: 1px solid rgba(83, 194, 252, .58);
+  box-shadow: 0 0 0 0 rgba(83, 194, 252, .24);
+  opacity: .7;
+  pointer-events: none;
+  animation: hlc-logo-affordance 3.8s ease-out infinite;
+}
+
+.hlc-board-brand:hover::after,
+.hlc-board-brand:focus-visible::after,
+.hlc-board-brand[aria-expanded="true"]::after {
+  border-color: rgba(111, 214, 255, .92);
+  box-shadow: 0 0 0 5px rgba(83, 194, 252, .12);
+  opacity: 1;
+  animation-play-state: paused;
+}
+
+@keyframes hlc-logo-affordance {
+  0%, 58%, 100% {
+    transform: scale(.96);
+    opacity: .42;
+    box-shadow: 0 0 0 0 rgba(83, 194, 252, .22);
+  }
+  70% {
+    transform: scale(1.04);
+    opacity: .82;
+    box-shadow: 0 0 0 5px rgba(83, 194, 252, .08);
+  }
+  82% {
+    transform: scale(1);
+    opacity: .58;
+    box-shadow: 0 0 0 9px rgba(83, 194, 252, 0);
+  }
+}
+
 /* Home pathway cards are the one intentional glow moment. */
 .hcx-shell .hcx-pathway-link {
   box-shadow:
@@ -143,5 +190,12 @@
   .hlc-public-menu-account {
     margin-top: 16px;
     padding-top: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hlc-board-brand::after {
+    animation: none;
+    opacity: .58;
   }
 }
