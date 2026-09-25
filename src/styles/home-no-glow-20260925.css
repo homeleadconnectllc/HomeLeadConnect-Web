@@ -78,12 +78,6 @@
   box-shadow: none;
 }
 
-.hcx-pathway .hcx-pathway-media:after {
-  background: linear-gradient(90deg, var(--deep), transparent 22%),
-              linear-gradient(0deg, var(--deep), transparent 20%);
-  opacity: .72;
-}
-
 /* Keep the secondary hero line off people's faces. */
 .hcx-script {
   left: 50%;
@@ -249,7 +243,8 @@
 }
 
 /* Global photographic treatment — owner correction 2026-09-25.
-   Images may blend tonally into their sections, but photography itself must never glow. */
+   Photography must stay clean: no glow, halo, masked fade, colored edge band,
+   decorative photo overlay, or luminous separation from the next section. */
 :is(
   .hcx-home-hero picture,
   .hcx-pathway-media,
@@ -273,17 +268,23 @@
   text-shadow: none !important;
 }
 
-/* Remove mask-based bright halos. Keep transitions tonal through section overlays instead. */
-.hlc-public-visual,
-.hlc-public-page[data-public-page="about"] .hlc-public-visual,
-.hlc-legal-page-visual {
+:is(
+  .hcx-pathway-media,
+  .hcx-feature,
+  .hlc-public-visual,
+  .hlc-auth-intro-visual,
+  .hlc-utility-visual,
+  .hlc-legal-page-visual
+) {
   -webkit-mask-image: none !important;
   mask-image: none !important;
+  border: 0 !important;
+  outline: 0 !important;
+  background-image: none !important;
 }
 
-/* Any decorative layer around photography must stay flat and non-luminous. */
+/* Remove the actual photo-edge overlays rather than merely removing their glow. */
 :is(
-  .hcx-home-hero,
   .hcx-pathway-media,
   .hcx-feature,
   .hlc-public-visual,
@@ -292,7 +293,6 @@
   .hlc-legal-page-visual
 )::before,
 :is(
-  .hcx-home-hero,
   .hcx-pathway-media,
   .hcx-feature,
   .hlc-public-visual,
@@ -300,6 +300,22 @@
   .hlc-utility-visual,
   .hlc-legal-page-visual
 )::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
   filter: none !important;
   box-shadow: none !important;
+}
+
+/* Do not leave a synthetic dark strip directly beneath public photography. */
+:is(
+  .hcx-pathway-media,
+  .hcx-feature,
+  .hlc-public-visual,
+  .hlc-auth-intro-visual,
+  .hlc-utility-visual,
+  .hlc-legal-page-visual
+) + * {
+  box-shadow: none !important;
+  border-top: 0 !important;
 }
