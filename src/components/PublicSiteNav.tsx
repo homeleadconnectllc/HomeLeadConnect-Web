@@ -3,6 +3,7 @@ import { BookOpen, Briefcase, Handshake, House, Info, Users } from "lucide-react
 import { appUrl, publicUrl } from "../config/siteOrigins";
 import { useAuth } from "../hooks/useAuth";
 import "../styles/mockup-authority-20260924.css";
+import "../styles/public-navigation-certification-fixes-20260926.css";
 
 const NAV_LOGO = "/hlc-logo-ui.png";
 const primaryMenuLinks = [
