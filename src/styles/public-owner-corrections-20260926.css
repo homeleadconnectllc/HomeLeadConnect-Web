@@ -1,0 +1,65 @@
+/* Explicit owner corrections — 2026-09-26.
+   This layer intentionally loads after the current public visual authority. */
+
+/* Public page headings use copy only. Keep the official navigation/brand logo,
+   but do not repeat a centered decorative logo inside hero heading content. */
+.hlc-public-hero > div > .hlc-public-brand,
+.hlc-public-hero .hlc-public-logo {
+  display: none !important;
+}
+
+/* Professional public forms own the professional blue pathway identity.
+   Resident green remains reserved for resident/request-service surfaces. */
+[data-public-page="professionals"] .hlc-public-form input,
+[data-public-page="professionals"] .hlc-public-form select,
+[data-public-page="professionals"] .hlc-public-form textarea {
+  border-color: rgba(50, 174, 254, .42) !important;
+}
+
+[data-public-page="professionals"] .hlc-public-form input:focus,
+[data-public-page="professionals"] .hlc-public-form select:focus,
+[data-public-page="professionals"] .hlc-public-form textarea:focus {
+  border-color: #32aefe !important;
+  box-shadow: 0 0 0 3px rgba(50, 174, 254, .18) !important;
+}
+
+[data-public-page="professionals"] .hlc-public-form button {
+  background: #168ce2 !important;
+  color: #fff !important;
+}
+
+[data-public-page="professionals"] .hlc-public-consent input {
+  accent-color: #168ce2 !important;
+}
+
+/* Full-bleed imagery may span the page; forms retain a readable bounded measure. */
+[data-public-page="professionals"] .hlc-public-form-wrap {
+  width: min(1040px, calc(100% - 32px)) !important;
+  max-width: 1040px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: clamp(8px, 2vw, 22px) !important;
+  padding-right: clamp(8px, 2vw, 22px) !important;
+}
+
+[data-public-page="professionals"] .hlc-public-form {
+  width: min(100%, 680px) !important;
+  max-width: 680px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 700px) {
+  [data-public-page="professionals"] .hlc-public-form-wrap {
+    width: calc(100% - 28px) !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  [data-public-page="professionals"] .hlc-public-form {
+    width: 100% !important;
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+}
