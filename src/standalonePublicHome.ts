@@ -1,6 +1,7 @@
 import "./styles/mockup-authority-20260924.css";
 import "./styles/home-no-glow-20260925.css";
 import "./styles/public-full-bleed-20260925.css";
+import "./styles/home-pathway-defer-20260926.css";
 import { APP_ORIGIN, PUBLIC_ORIGIN } from "./config/siteOrigins";
 
 const pathways = [
@@ -183,8 +184,13 @@ export function mountStandalonePublicHome(root: HTMLElement) {
   for (const [key, title, body, href, action] of pathways) {
     const item = link(href, "hcx-pathway-link");
     item.dataset.tone = key;
+    item.dataset.mediaReady = "false";
     const content = make("span");
-    content.append(make("strong", undefined, title), make("span", undefined, body), make("b", undefined, action));
+    content.append(make("strong", undefined, title), make("span", undefined, body));
+    if (key === "professional") {
+      content.append(make("small", "hcx-pathway-price", "$49.99/month professional membership"));
+    }
+    content.append(make("b", undefined, action));
     item.append(content);
     pathSection.append(item);
   }
@@ -219,6 +225,20 @@ export function mountStandalonePublicHome(root: HTMLElement) {
   }
   footer.append(legal, make("small", undefined, `© ${new Date().getFullYear()} HomeLead Connect LLC`));
   root.append(main, footer);
+
+  const deferredPathwayMedia = Array.from(pathSection.querySelectorAll<HTMLElement>(".hcx-pathway-link[data-media-ready='false']"));
+  if ("IntersectionObserver" in window) {
+    const mediaObserver = new IntersectionObserver((entries, observer) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        (entry.target as HTMLElement).dataset.mediaReady = "true";
+        observer.unobserve(entry.target);
+      }
+    }, { rootMargin: "96px 0px", threshold: 0.01 });
+    for (const card of deferredPathwayMedia) mediaObserver.observe(card);
+  } else {
+    for (const card of deferredPathwayMedia) card.dataset.mediaReady = "true";
+  }
 
   let priorOverflow = document.body.style.overflow;
 
