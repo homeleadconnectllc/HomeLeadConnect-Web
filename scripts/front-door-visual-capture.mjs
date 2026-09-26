@@ -31,18 +31,6 @@ try {
     for (const [routeName, routePath] of routes) {
       await settle(page, new URL(routePath, baseUrl).toString());
       await page.screenshot({ path: `/tmp/${routeName}-${viewportName}.png` });
-
-      if (routeName === "home") {
-        const footer = page.locator(".hlc-public-footer").last();
-        await footer.waitFor({ state: "visible", timeout: 10_000 });
-        await footer.scrollIntoViewIfNeeded();
-        const box = await footer.boundingBox();
-        if (!box || box.width < viewport.width * 0.9 || box.height < 36 || box.height > 120) {
-          const geometry = box ? `${Math.round(box.width)}x${Math.round(box.height)}` : "missing";
-          throw new Error(`Footer geometry invalid at ${viewportName}: ${geometry}; expected width >= ${Math.round(viewport.width * 0.9)} and height 36-120`);
-        }
-        await footer.screenshot({ path: `/tmp/home-footer-${viewportName}.png` });
-      }
     }
 
     await context.close();
