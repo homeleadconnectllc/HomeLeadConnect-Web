@@ -1,0 +1,11 @@
+.hcx-pathway-link[data-media-ready="false"]:before {
+  background-image:none!important;
+}
+
+.hcx-pathway-price {
+  color:#dff3ff;
+  font-size:12px;
+  font-weight:750;
+  line-height:1.35;
+  letter-spacing:.01em;
+}
