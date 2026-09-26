@@ -5,7 +5,7 @@
 }
 * { box-sizing:border-box }
 .hcx-shell { min-height:100vh; color:#fff; background:#081d35; font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif }
-.hlc-board-nav { position:relative; z-index:40; background:rgba(8,31,55,.91); border-bottom:1px solid var(--hcx-line); backdrop-filter:blur(18px) }
+.hlc-board-nav { position:relative; z-index:40; width:100%; min-width:0; background:rgba(8,31,55,.91); border-bottom:1px solid var(--hcx-line); backdrop-filter:blur(18px) }
 .hlc-board-nav-inner { min-height:76px; max-width:1440px; margin:auto; padding:0 clamp(18px,4vw,64px); display:flex; align-items:center; gap:28px }
 .hlc-board-brand { border:0; background:none; padding:0; min-width:52px; min-height:52px; border-radius:50%; display:grid; place-items:center; cursor:pointer }
 .hlc-navbar-master-logo { width:58px; height:58px; object-fit:contain; filter:drop-shadow(0 5px 12px rgba(38,183,250,.26)) }
@@ -16,7 +16,7 @@
 .hlc-board-cta { background:linear-gradient(110deg,#168ce2,#42bbfb); padding:10px 16px; border-radius:9px; box-shadow:0 5px 20px rgba(29,165,240,.22) }
 .hlc-board-nav a:hover,.hlc-public-footer a:hover { text-decoration:underline; text-underline-offset:4px }
 .hlc-board-brand:focus-visible,.hlc-board-nav a:focus-visible,.hlc-public-footer a:focus-visible,.hcx-pathway-link:focus-visible { outline:3px solid #fff; outline-offset:4px }
-.hlc-board-brand[aria-expanded=true] { box-shadow:0 0 0 3px rgba(64,186,251,.5) }
+.hlc-board-brand[aria-expanded=true] { box-shadow:none }
 .hlc-public-menu-backdrop { position:fixed; inset:76px 0 0; background:rgba(3,11,25,.6); display:flex; justify-content:flex-start }
 .hlc-public-menu-backdrop[hidden] { display:none }
 .hlc-public-menu-panel { width:min(390px,92vw); height:100%; overflow-y:auto; background:#10283f; padding:28px; box-shadow:24px 0 60px rgba(0,0,0,.3) }
@@ -24,10 +24,10 @@
 .hlc-public-menu-primary a { padding:14px 12px; border-radius:14px; display:flex; align-items:center; gap:12px }
 .hlc-public-menu-secondary,.hlc-public-menu-account { margin-top:20px; padding-top:20px; border-top:1px solid var(--hcx-line) }
 .hlc-public-menu-secondary a,.hlc-public-menu-account a { padding:8px 12px }
-.hlc-public-menu-primary a:nth-child(3) { color:var(--hcx-resident) }
-.hlc-public-menu-primary a:nth-child(4) { color:var(--hcx-pro) }
-.hlc-public-menu-primary a:nth-child(5) { color:var(--hcx-partner) }
-.hlc-public-menu-primary a:nth-child(6) { color:var(--hcx-community) }
+.hlc-board-nav :is(.hlc-public-desktop-links,.hlc-public-menu-primary) a[data-menu-tone=resident] { color:var(--hcx-resident) }
+.hlc-board-nav :is(.hlc-public-desktop-links,.hlc-public-menu-primary) a[data-menu-tone=professional] { color:var(--hcx-pro) }
+.hlc-board-nav :is(.hlc-public-desktop-links,.hlc-public-menu-primary) a[data-menu-tone=partner] { color:var(--hcx-partner) }
+.hlc-board-nav :is(.hlc-public-desktop-links,.hlc-public-menu-primary) a[data-menu-tone=community] { color:var(--hcx-community) }
 .hcx-home-hero { position:relative; min-height:clamp(530px,48vw,700px); display:flex; align-items:center; overflow:hidden; background:#091f39 }
 .hcx-home-hero picture,.hcx-home-hero picture img { position:absolute; inset:0; width:100%; height:100% }
 .hcx-home-hero picture img { object-fit:cover; object-position:68% center }
@@ -102,7 +102,7 @@
 /* Shared public stories: the live route content remains authoritative. */
 .hlc-public-board-page,.hlc-utility-page,.hlc-legal-page { min-height:100vh; background:#eaf3f9; color:var(--hcx-ink); font-family:Inter,ui-sans-serif,system-ui,sans-serif }
 .hlc-public-shell,.hlc-utility-shell,.hlc-legal-shell { max-width:1420px; margin:auto; padding:0 clamp(18px,4vw,60px) 72px }
-.hlc-public-hero { position:relative; min-height:clamp(280px,36vw,450px); display:grid; align-items:center; text-align:center; padding:clamp(48px,7vw,100px) clamp(16px,5vw,80px) 48px; color:#fff; background:radial-gradient(circle at 80% 0,rgba(63,185,250,.28),transparent 44%),linear-gradient(130deg,#0a2745,#09203a); isolation:isolate }
+.hlc-public-hero { position:relative; min-height:clamp(280px,36vw,450px); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:clamp(48px,7vw,100px) clamp(16px,5vw,80px) 48px; color:#fff; background:radial-gradient(circle at 80% 0,rgba(63,185,250,.28),transparent 44%),linear-gradient(130deg,#0a2745,#09203a); isolation:isolate }
 .hlc-public-hero:after { content:""; position:absolute; inset:auto 0 -1px; height:60px; background:linear-gradient(0deg,#eaf3f9,transparent); z-index:-1 }
 .hlc-public-hero>div { max-width:970px; margin:auto }
 .hlc-public-kicker,.hlc-utility-kicker,.hlc-public-card-label,.hlc-public-offer-label { font-size:12px; font-weight:850; letter-spacing:.18em; text-transform:uppercase; color:#5bd0f6 }

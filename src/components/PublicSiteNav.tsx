@@ -116,8 +116,8 @@ export default function PublicSiteNav() {
         </button>
 
         <nav className="hlc-public-desktop-links" aria-label="Public pages">
-          {primaryMenuLinks.slice(1).map(({ label, href }) => (
-            <a key={href} href={href}>{label}</a>
+          {primaryMenuLinks.slice(1).map(({ label, href, tone: linkTone }) => (
+            <a key={href} href={href} data-menu-tone={linkTone}>{label}</a>
           ))}
         </nav>
 
