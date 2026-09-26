@@ -205,11 +205,7 @@ export function mountStandalonePublicHome(root: HTMLElement) {
   main.append(header, hero, pathSection, mission);
 
   const footer = make("footer", "hlc-public-footer");
-  const footerLogo = make("img", "hlc-public-footer-master-logo");
-  footerLogo.src = "/hlc-logo-ui.png";
-  footerLogo.alt = "HomeLead Connect LLC";
   footer.append(
-    footerLogo,
     make("strong", undefined, "HomeLead Connect"),
     make("span", undefined, "Connecting Homes. Creating Opportunities."),
   );

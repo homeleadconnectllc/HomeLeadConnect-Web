@@ -544,21 +544,12 @@ html body #root .hcx-pathway-media {
 }
 
 
-/* =========================================================
-   OWNER NAVIGATION AUTHORITY — KEEP NAV WORDING
-   Removing the duplicate nav strip must NOT remove navigation.
-   The navigation wording remains directly on the main nav surface.
-   ========================================================= */
+/* The full wording belongs on the desktop nav. On narrow screens the same
+   destinations remain in the logo menu so the header can fit the viewport. */
 
 @media (max-width: 900px) {
   html body #root .hcx-pathway .hlc-public-desktop-links {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    background: transparent !important;
-    background-image: none !important;
-    box-shadow: none !important;
-    border: 0 !important;
+    display: none !important;
   }
 }
 
@@ -731,8 +722,13 @@ html body #root footer.hlc-public-footer a {
   border-left: 0 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
-  outline: 0 !important;
   text-decoration: none !important;
+}
+
+html body #root .hlc-public-footer a:focus-visible,
+html body #root .hlc-board-footer a:focus-visible {
+  outline: 3px solid currentColor !important;
+  outline-offset: 4px !important;
 }
 
 /* Remove decorative pseudo-elements that can create tiny strips. */
