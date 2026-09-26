@@ -36,8 +36,8 @@ try {
             pathname: location.pathname,
             overflow: document.documentElement.scrollWidth > innerWidth + 1,
             heading: document.querySelector('h1')?.textContent?.trim() || null,
-            nav: rect('.hlc-public-shared-nav'),
-            logo: rect('.hlc-public-shared-nav [data-hlc-master-logo]'),
+            nav: rect('.hlc-board-nav'),
+            logo: rect('.hlc-board-nav [data-hlc-master-logo]'),
             missingImages: [...document.images].filter(image => visible(image) && image.complete && !image.naturalWidth).map(image => image.getAttribute('src')),
             errorOverlay: !!document.querySelector('vite-error-overlay'),
             crampedHeroHeading: [...document.querySelectorAll('.hlc-pathway-hero h1, .hlc-public-hero h1, .hlc-legal-hero h1')].some(element => {
@@ -52,11 +52,12 @@ try {
         if (metrics.errorOverlay || errors.length) failures.push('page-error');
         if (metrics.missingImages.length) failures.push('missing-images');
         if (metrics.nav && metrics.nav.height > 110) failures.push('oversized-header');
+        if (family.id === 'public' && pattern !== '*' && !metrics.nav) failures.push('missing-public-header');
         if (metrics.logo && (metrics.logo.width > 90 || metrics.logo.height > 90 || metrics.logo.y < -1)) failures.push('logo-outside-header');
         const protectedRoute = family.id !== 'public';
         if (protectedRoute && metrics.pathname !== '/login') failures.push('unexpected-public-boundary');
         let menu = 'not-present';
-        const trigger = page.locator('.hlc-public-menu-trigger');
+        const trigger = page.locator('.hlc-board-brand');
         if (golden.has(pattern) && await trigger.count()) {
           await trigger.click();
           if (await trigger.getAttribute('aria-expanded') !== 'true') failures.push('menu-did-not-open');
@@ -73,9 +74,10 @@ try {
     }
     // Catch stale mobile presentation after a real viewport resize.
     await page.goto(base + '/homeowners');
+    await page.locator('.hlc-board-nav').waitFor({ state: 'visible' });
     await page.setViewportSize({ width: width === 390 ? 1440 : 390, height: 900 });
     await page.waitForTimeout(300);
-    const resize = await page.locator('.hlc-public-shared-nav').boundingBox();
+    const resize = await page.locator('.hlc-board-nav').boundingBox();
     if (!resize || resize.height > 110) throw new Error('Header failed resize check');
     await page.close();
   }

@@ -21,6 +21,14 @@ test("authenticated shell has one universal AI Team launcher without the retired
   assert.match(universalAiTeamLauncher, /key=\{activeAgent\.id\}/);
 });
 
+test("portal audience limits the launcher and hides internal agent destinations", () => {
+  assert.match(appLayout, /authorizedShell && <UniversalAITeamLauncher \/>/);
+  assert.match(universalAiTeamLauncher, /portalAudience === "resident"[\s\S]*agent\.id === "diamond"/);
+  assert.match(universalAiTeamLauncher, /portalAudience === "professional"[\s\S]*agent\.id === "dion"/);
+  assert.match(universalAiTeamLauncher, /!portalAudience && account\.business && account\.role && canAccessWorkspacePath\(account\.role, activeAgent\.route\)/);
+  for (const accent of ["#b7761d", "#5b5abb", "#16866a"]) assert.match(universalAiTeamLauncher, new RegExp(accent, "i"));
+});
+
 test("retained contextual agent implementation still teaches the current workspace tab", () => {
   assert.match(contextualAgentDock, /type TabTutorial/);
   assert.match(contextualAgentDock, /title: "How to work Leads"/);

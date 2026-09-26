@@ -15,9 +15,9 @@ type AgentConfig = {
 };
 
 const AGENTS: AgentConfig[] = [
-  { id: "kendrell", name: "Kendrell", role: "Command", route: "/hq", avatar: "/brand/avatars/Kendrell_Locked_HLC.png", accent: "#3B82F6" },
-  { id: "dion", name: "Dion", role: "Operations & BI", route: "/operations", avatar: "/brand/avatars/Dion_Locked_HLC.png", accent: "#3B82F6" },
-  { id: "diamond", name: "Diamond", role: "Customer Experience", route: "/customer-experience", avatar: "/brand/avatars/Diamond_Locked_HLC.png", accent: "#60A5FA" },
+  { id: "kendrell", name: "Kendrell", role: "Command", route: "/hq", avatar: "/brand/avatars/Kendrell_Locked_HLC.png", accent: "#b7761d" },
+  { id: "dion", name: "Dion", role: "Operations & BI", route: "/operations", avatar: "/brand/avatars/Dion_Locked_HLC.png", accent: "#5b5abb" },
+  { id: "diamond", name: "Diamond", role: "Customer Experience", route: "/customer-experience", avatar: "/brand/avatars/Diamond_Locked_HLC.png", accent: "#16866a" },
 ];
 
 const DEDICATED_AGENT_ROUTES = new Set(["/hq", "/operations", "/customer-experience"]);
@@ -69,13 +69,17 @@ export default function UniversalAITeamLauncher() {
   const [launcherOpen, setLauncherOpen] = useState(false);
   const [launcherPath, setLauncherPath] = useState(location.pathname);
   const [activeAgentId, setActiveAgentId] = useState<AgentId | null>(null);
+  const portalAudience = location.pathname.startsWith("/homeowner-portal") ? "resident" : location.pathname.startsWith("/contractor-portal") ? "professional" : location.pathname.startsWith("/partner-portal") ? "partner" : null;
 
   const authorizedAgents = useMemo(() => {
+    if (portalAudience === "resident") return account.homeowner ? AGENTS.filter((agent) => agent.id === "diamond") : [];
+    if (portalAudience === "partner") return account.partner ? AGENTS.filter((agent) => agent.id === "diamond") : [];
+    if (portalAudience === "professional") return account.contractor ? AGENTS.filter((agent) => agent.id === "dion") : [];
     if (account.business && account.role) return AGENTS.filter((agent) => canAccessWorkspacePath(account.role!, agent.route));
     if (account.contractor) return AGENTS.filter((agent) => agent.id === "dion");
     if (account.homeowner || account.partner) return AGENTS.filter((agent) => agent.id === "diamond");
     return [];
-  }, [account.business, account.contractor, account.homeowner, account.partner, account.role]);
+  }, [account.business, account.contractor, account.homeowner, account.partner, account.role, portalAudience]);
 
   const visibleAgents = useMemo(() => {
     const contextual = contextualAgentIds(location.pathname);
@@ -113,7 +117,7 @@ export default function UniversalAITeamLauncher() {
           </div>
           {activeAgent ? (
             <section className="hlc-ai-team-active-panel" aria-label={`${activeAgent.name} assistant`}>
-              <div className="hlc-ai-team-active-head"><span>{activeAgent.name} is active</span><Link to={activeAgent.route}>Open dedicated page</Link></div>
+              <div className="hlc-ai-team-active-head"><span>{activeAgent.name} is active</span>{!portalAudience && account.business && account.role && canAccessWorkspacePath(account.role, activeAgent.route) && <Link to={activeAgent.route}>Open dedicated page</Link>}</div>
               <AgentChatPanel key={activeAgent.id} agentId={activeAgent.id} agentName={activeAgent.name} accent={activeAgent.accent} />
             </section>
           ) : (

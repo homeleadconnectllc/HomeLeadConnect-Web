@@ -43,18 +43,23 @@ if (isPublicHome) {
     root.render(createElement(StrictMode, null, createElement(AuthProvider, null, createElement(AccountAccessProvider, null, createElement(App)))));
   };
 
-  const usesCurrentVisualAuthority = isPublicSiteRoute || isVisualFamilyEntryRoute;
-  if (usesCurrentVisualAuthority) {
-    void Promise.all([
+  const loadCurrentVisualAuthority = async () => {
+    await Promise.all([
       import("./styles/mockup-authority-20260924.css"),
       import("./styles/home-no-glow-20260925.css"),
       import("./styles/public-full-bleed-20260925.css"),
-    ]).then(async () => {
-      await import("./styles/public-owner-corrections-20260926.css");
-      await mountReactApp();
-    });
+    ]);
+    await import("./styles/public-owner-corrections-20260926.css");
+  };
+
+  const usesCurrentVisualAuthority = isPublicSiteRoute || isVisualFamilyEntryRoute;
+  if (usesCurrentVisualAuthority) {
+    void loadCurrentVisualAuthority().then(mountReactApp);
   }
   if (!usesCurrentVisualAuthority) {
-    void import("./styles/app-shell-entry").then(mountReactApp);
+    // A protected deep link may redirect to sign-in. The authenticated style
+    // entry is mounted by App only after a session exists; keep the signed-out
+    // entry visually identical to a direct auth visit.
+    void loadCurrentVisualAuthority().then(mountReactApp);
   }
 }

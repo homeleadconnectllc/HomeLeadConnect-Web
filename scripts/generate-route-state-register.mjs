@@ -27,6 +27,58 @@ function audience(path, offset) {
   return "Authenticated shared";
 }
 
+const publicFamilies = {
+  "/": "Home", "/app": "Entry", "/portal": "Entry", "/contact": "Contact", "/request-service": "Resident",
+  "/about": "About", "/kendrell-memorial": "Memorial", "/memorial": "Memorial", "/homeowners": "Resident",
+  "/contractors": "Professional", "/how-it-works": "About", "/leadscope": "Professional", "/community": "Community",
+  "/services": "Services", "/pricing": "Services", "/trust": "Trust", "/professionals": "Professional",
+  "/partners": "Partner", "/demo": "Entry", "/professional-application": "Professional",
+  "/accessibility": "Legal", "/privacy": "Legal", "/terms": "Legal", "/platform-disclosure": "Legal",
+  "/login": "Auth", "/register": "Auth", "/forgot-password": "Auth", "/reset-password": "Auth",
+  "/portal/accept": "Invitation", "/team/accept": "Invitation", "/residents": "Resident", "*": "System state",
+};
+
+function family(path, routeAudience) {
+  if (routeAudience === "Public") return publicFamilies[path];
+  if (routeAudience === "Resident portal") return "Resident";
+  if (routeAudience === "Professional portal") return "Professional";
+  if (routeAudience === "Partner portal") return "Partner";
+  if (path === "/messages" || path === "/notifications") return "Communications";
+  if (path.startsWith("/academy")) return "Academy";
+  if (path.startsWith("/community") || path === "/matching") return "Community";
+  if (["/network", "/map", "/profiles", "/providers"].some((prefix) => path === prefix || path.startsWith(`${prefix}/`))) return "Network";
+  if (path.startsWith("/resources") || ["/help", "/tutorials", "/rules", "/documents", "/documents/scan"].includes(path)) return "Resources";
+  if (path.startsWith("/hq") || ["/operations", "/customer-experience"].includes(path)) return "HQ and agents";
+  if (path.startsWith("/analytics")) return "Analytics";
+  if (path.startsWith("/settings") || ["/profile", "/team"].includes(path)) return "Account and settings";
+  if (["/manual-communications", "/call-center"].includes(path)) return "Communications";
+  if (path.startsWith("/partners/")) return "Partner operations";
+  if (["/dashboard", "/start-here", "/ecosystem", "/activity"].includes(path)) return "Dashboard";
+  if (["/work", "/work/matching", "/workflow", "/automations", "/leads", "/estimator", "/jobs", "/calendar", "/follow-ups"].includes(path) || /^\/(?:leads|jobs)\//.test(path)) return "Work";
+  return undefined;
+}
+
+function pageType(path, element) {
+  if (element.startsWith("Navigate ")) return "Redirect";
+  if (path === "*") return "System state";
+  if (["/login", "/register", "/forgot-password", "/reset-password", "/portal/accept", "/team/accept"].includes(path)) return "Auth / onboarding";
+  if (["/contact", "/request-service", "/professional-application"].includes(path)) return "Intake form";
+  if (["/privacy", "/terms", "/accessibility", "/platform-disclosure"].includes(path)) return "Legal / information";
+  if (/\/(?:[^/]+Id|practice\/:[^/]+)$/.test(path)) return "Record detail";
+  if (/\/(?:settings|profile|team|billing)$/.test(path)) return "Settings / control center";
+  if (/\/(?:map|service-areas|availability)$/.test(path)) return "Map / geography";
+  if (/\/(?:messages|notifications|call-center|manual-communications)$/.test(path)) return "Communications";
+  if (/\/(?:calendar|appointments)$/.test(path)) return "Calendar / scheduling";
+  if (/\/(?:analytics|forecasting|sandbox)$/.test(path)) return "Analytics / reporting";
+  if (/\/(?:documents|scan|materials|forms)$/.test(path)) return "Documents / resources";
+  if (/\/(?:automations|workflow|roleplay|library)$/.test(path)) return "Operational workspace";
+  if (/\/(?:dashboard|portal|app|hq|operations|customer-experience|community-hub)$/.test(path) || path === "/") return "Dashboard / home";
+  if (path.startsWith("/community") || path === "/matching") return "Community / feed";
+  if (path.startsWith("/homeowner-portal") || path.startsWith("/contractor-portal") || path.startsWith("/partner-portal")) return "Portal workspace";
+  if (publicFamilies[path]) return "Public marketing";
+  return "Index / list";
+}
+
 function requiredStates(path, routeAudience, element) {
   if (path === "*") return "Not found; mobile; desktop";
   if (element.startsWith("Navigate ")) return "Redirect destination; browser back/forward";
@@ -59,8 +111,11 @@ for (const match of router.matchAll(routePattern)) {
   const element = elementRaw.replace(/\s+/g, " ").trim();
   const offset = match.index ?? 0;
   const routeAudience = audience(path, offset);
-  rows.push({ path, element, audience: routeAudience, states: requiredStates(path, routeAudience, element), visual: visualAuthority(path, routeAudience) });
+  const routeFamily = family(path, routeAudience);
+  if (!routeFamily) throw new Error(`Route ${path} is missing a family owner`);
+  rows.push({ path, element, audience: routeAudience, family: routeFamily, pageType: pageType(path, element), states: requiredStates(path, routeAudience, element), visual: visualAuthority(path, routeAudience) });
 }
+if (new Set(rows.map((row) => row.path)).size !== rows.length) throw new Error("Duplicate route patterns in AppRouter");
 
 const lines = [
   "# HomeLead Connect Route and State Register",
@@ -69,9 +124,9 @@ const lines = [
   "",
   `Total explicit route patterns: **${rows.length}**`,
   "",
-  "| # | Route | Audience / boundary | Component | Required state coverage | Visual authority |",
-  "|---:|---|---|---|---|---|",
-  ...rows.map((row, index) => `| ${index + 1} | \`${row.path}\` | ${row.audience} | \`${row.element.replaceAll("|", "\\|")}\` | ${row.states} | ${row.visual} |`),
+  "| # | Route | Audience / boundary | Family / owner | Page type | Component | Required state coverage | Visual authority |",
+  "|---:|---|---|---|---|---|---|---|",
+  ...rows.map((row, index) => `| ${index + 1} | \`${row.path}\` | ${row.audience} | ${row.family} | ${row.pageType} | \`${row.element.replaceAll("|", "\\|")}\` | ${row.states} | ${row.visual} |`),
   "",
   "## Certification note",
   "",

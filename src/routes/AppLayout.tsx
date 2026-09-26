@@ -6,6 +6,8 @@ import RouteVisualBanner from "../components/RouteVisualBanner";
 import AnalyticsTracker from "../components/analytics/AnalyticsTracker";
 import ConnectivityStatus from "../components/connectivity/ConnectivityStatus";
 import { useAuth } from "../hooks/useAuth";
+import { useAccountAccess } from "../hooks/useAccountAccess";
+import { canAccessWorkspacePath } from "../lib/accessPolicy";
 
 const UniversalAITeamLauncher = lazy(() => import("../components/agents/UniversalAITeamLauncher"));
 const AudioDeviceCenter = lazy(() => import("../components/audio/AudioDeviceCenter"));
@@ -55,6 +57,16 @@ function stableRouteClass(pathname: string) {
   return slug ? `hlc-page-${slug}` : "hlc-page-home";
 }
 
+function routeFamily(pathname: string) {
+  if (pathname.startsWith("/homeowner-portal") || ["/homeowners", "/residents", "/request-service"].includes(pathname)) return "resident";
+  if (pathname.startsWith("/contractor-portal") || ["/contractors", "/professionals", "/professional-application", "/leadscope"].includes(pathname)) return "professional";
+  if (pathname.startsWith("/partner-portal") || pathname.startsWith("/partners")) return "partner";
+  if (pathname.startsWith("/community") || pathname === "/matching") return "community";
+  if (pathname.startsWith("/hq") || ["/operations", "/customer-experience"].includes(pathname)) return "hq";
+  if (["/login", "/register", "/forgot-password", "/reset-password", "/portal/accept", "/team/accept"].includes(pathname)) return "auth";
+  return "neutral";
+}
+
 function resetRouteScroll() {
   const scrollingElement = document.scrollingElement as HTMLElement | null;
   window.scrollTo({ top: 0, left: 0, behavior: "auto" });
@@ -69,6 +81,7 @@ function resetRouteScroll() {
 
 export default function AppLayout() {
   const { session } = useAuth();
+  const access = useAccountAccess();
   const location = useLocation();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => typeof window !== "undefined" && window.localStorage.getItem(SIDEBAR_COLLAPSED_KEY) === "1");
   const [desktopShell, setDesktopShell] = useState(() => typeof window !== "undefined" && window.matchMedia(DESKTOP_SHELL_QUERY).matches);
@@ -78,8 +91,16 @@ export default function AppLayout() {
   const appEntrySurface = location.pathname === "/app" || location.pathname === "/portal" || (location.pathname === "/" && typeof window !== "undefined" && window.location.hostname.toLowerCase() === APP_HOST);
   const homepageSurface = location.pathname === "/" && !appEntrySurface;
   const signedInWorkspaceShell = Boolean(session) && !focusedPublicIntake && !publicFrontDoorSurface && !authFrontDoorSurface && !appEntrySurface;
-  const showAudioDevices = signedInWorkspaceShell && (location.pathname === "/settings" || location.pathname === "/call-center");
-  const showFieldDevices = signedInWorkspaceShell && location.pathname === "/settings";
+  const accessResolved = Boolean(session) && !access.loading && access.userId === session?.user.id;
+  const portalAudience = location.pathname.startsWith("/homeowner-portal") ? "resident" : location.pathname.startsWith("/contractor-portal") ? "professional" : location.pathname.startsWith("/partner-portal") ? "partner" : null;
+  const portalAllowed = portalAudience === "resident" ? access.homeowner : portalAudience === "professional" ? access.contractor : portalAudience === "partner" ? access.partner : true;
+  const sharedRoute = ["/messages", "/notifications", "/profile"].includes(location.pathname);
+  const internalRoute = !portalAudience && !sharedRoute;
+  const sharedAllowed = !sharedRoute || Boolean((access.business && access.role) || access.homeowner || access.contractor);
+  const authorizedShell = signedInWorkspaceShell && accessResolved && portalAllowed && sharedAllowed && (!internalRoute || (access.business && Boolean(access.role) && canAccessWorkspacePath(access.role!, location.pathname)));
+  const internalTools = authorizedShell && access.business && Boolean(access.role) && !portalAudience;
+  const showAudioDevices = internalTools && (location.pathname === "/settings" || location.pathname === "/call-center");
+  const showFieldDevices = internalTools && location.pathname === "/settings";
   const routePersonaClass = signedInWorkspaceShell ? personaRouteClass(location.pathname) : "";
   const routeClass = stableRouteClass(location.pathname);
 
@@ -118,10 +139,10 @@ export default function AppLayout() {
   }, [location.key, location.pathname, location.hash]);
 
   return (
-    <div className={`${publicFrontDoorSurface ? "hlc-public-shell" : `hlc-app-shell ${signedInWorkspaceShell ? "hlc-signed-in-shell" : "hlc-public-shell"}`} ${routeClass}${signedInWorkspaceShell && sidebarCollapsed ? " hlc-sidebar-is-collapsed" : ""}${routePersonaClass ? ` ${routePersonaClass}` : ""}${focusedPublicIntake ? " hlc-focused-public-intake" : ""}${authFrontDoorSurface ? " hlc-auth-front-door-surface" : ""}${publicFrontDoorSurface ? " hlc-public-front-door-surface" : ""}`}>
+    <div data-hlc-family={routeFamily(location.pathname)} data-hlc-audience={portalAudience ?? (signedInWorkspaceShell ? "workspace" : "public")} className={`${publicFrontDoorSurface ? "hlc-public-shell" : `hlc-app-shell ${signedInWorkspaceShell ? "hlc-signed-in-shell" : "hlc-public-shell"}`} ${routeClass}${internalTools && sidebarCollapsed ? " hlc-sidebar-is-collapsed" : ""}${routePersonaClass ? ` ${routePersonaClass}` : ""}${focusedPublicIntake ? " hlc-focused-public-intake" : ""}${authFrontDoorSurface ? " hlc-auth-front-door-surface" : ""}${publicFrontDoorSurface ? " hlc-public-front-door-surface" : ""}`}>
       <AnalyticsTracker />
-      {!focusedPublicIntake && !authFrontDoorSurface && !publicFrontDoorSurface && !appEntrySurface && !homepageSurface && <Navbar />}
-      {signedInWorkspaceShell && desktopShell && (
+      {!focusedPublicIntake && !authFrontDoorSurface && !publicFrontDoorSurface && !appEntrySurface && !homepageSurface && (!session || authorizedShell) && <Navbar />}
+      {internalTools && desktopShell && (
         <button className="hlc-desktop-sidebar-toggle" type="button" aria-label={sidebarCollapsed ? "Expand workspace sidebar" : "Collapse workspace sidebar"} aria-expanded={!sidebarCollapsed} onClick={() => setSidebarCollapsed((current) => !current)}>
           <span aria-hidden="true">{sidebarCollapsed ? "›" : "‹"}</span>
           <span className="hlc-sidebar-toggle-label">{sidebarCollapsed ? "Open sidebar" : "Close sidebar"}</span>
@@ -134,10 +155,10 @@ export default function AppLayout() {
       </div>
       <Footer showLogo={!signedInWorkspaceShell && !homepageSurface} />
       <Suspense fallback={null}>
-        {signedInWorkspaceShell && <WorkspaceGuidance />}
-        {signedInWorkspaceShell && <UniversalAITeamLauncher />}
-        {signedInWorkspaceShell && <GlobalCommandSearch />}
-        {signedInWorkspaceShell && <ConnectivityStatus />}
+        {internalTools && <WorkspaceGuidance />}
+        {authorizedShell && <UniversalAITeamLauncher />}
+        {authorizedShell && (access.business || access.homeowner || access.contractor) && <GlobalCommandSearch />}
+        {authorizedShell && <ConnectivityStatus />}
       </Suspense>
     </div>
   );

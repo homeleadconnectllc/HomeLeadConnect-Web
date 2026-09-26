@@ -72,18 +72,10 @@ html body #root .hlc-signed-in-shell .hlc-route-content :is(a,button):focus-visi
 html body #root .hlc-signed-in-shell{
   --hlc-portal-rgb:48,136,192;
   --hlc-portal-deep:#123d5c;
-  --hlc-portal-photo:url('/hcx-commercial-professional-arrival.webp');
 }
-html body #root .hlc-signed-in-shell:is(
-  .hlc-page-homeowner-portal,.hlc-page-homeowner-portal-requests,
-  .hlc-page-homeowner-portal-appointments,.hlc-page-homeowner-portal-jobs,
-  .hlc-page-homeowner-portal-documents,.hlc-page-homeowner-portal-profile,
-  .hlc-page-homeowner-portal-settings,.hlc-page-homeowner-portal-properties,
-  .hlc-page-homeowner-portal-matches,.hlc-page-homeowner-portal-leadscope
-){
+html body #root .hlc-signed-in-shell[data-hlc-family="resident"]{
   --hlc-portal-accent:#16866a;--hlc-portal-rgb:22,134,106;
   --hlc-portal-accent-soft:rgba(22,134,106,.13);--hlc-portal-deep:#0d4a3d;
-  --hlc-portal-photo:url('/hcx-commercial-resident-service.webp');
 }
 html body #root .hlc-signed-in-shell:is(
   .hlc-page-contractor-portal,.hlc-page-contractor-portal-profile,
@@ -95,22 +87,14 @@ html body #root .hlc-signed-in-shell:is(
 ){
   --hlc-portal-accent:#1479b8;--hlc-portal-rgb:20,121,184;
   --hlc-portal-accent-soft:rgba(20,121,184,.13);--hlc-portal-deep:#123f65;
-  --hlc-portal-photo:url('/hcx-commercial-professional-arrival.webp');
 }
-html body #root .hlc-signed-in-shell:is(.hlc-page-partner-portal,.hlc-page-partner-portal-resources,.hlc-page-partners-manage){
+html body #root .hlc-signed-in-shell[data-hlc-family="partner"]{
   --hlc-portal-accent:#a97513;--hlc-portal-rgb:169,117,19;
   --hlc-portal-accent-soft:rgba(169,117,19,.14);--hlc-portal-deep:#5c4215;
-  --hlc-portal-photo:url('/four-pathways-partners-hq-20260915.jpg');
 }
-html body #root .hlc-signed-in-shell:is(
-  .hlc-page-community-hub,.hlc-page-community-discover,.hlc-page-community-messages,
-  .hlc-page-community-challenges,.hlc-page-community-academy,.hlc-page-community-discussions,
-  .hlc-page-community-reviews,.hlc-page-community-referrals,.hlc-page-community-events,
-  .hlc-page-community-moderation,.hlc-page-community-groups,.hlc-page-community-swipe
-){
+html body #root .hlc-signed-in-shell[data-hlc-family="community"]{
   --hlc-portal-accent:#8957b2;--hlc-portal-rgb:137,87,178;
   --hlc-portal-accent-soft:rgba(137,87,178,.14);--hlc-portal-deep:#4a2c68;
-  --hlc-portal-photo:url('/four-pathways-community-hq-20260915.jpg');
 }
 
 html body #root .hlc-signed-in-shell>.hlc-navbar{
@@ -118,31 +102,22 @@ html body #root .hlc-signed-in-shell>.hlc-navbar{
   box-shadow:0 12px 30px rgba(8,29,49,.14),inset 0 -1px rgba(var(--hlc-portal-rgb),.18)!important;
 }
 html body #root .hlc-signed-in-shell>.hlc-route-content{
-  background-image:
-    linear-gradient(180deg,rgba(244,250,253,.80) 0,rgba(247,251,253,.94) 210px,#f5f9fc 380px),
-    var(--hlc-portal-photo)!important;
-  background-position:top center!important;
-  background-repeat:no-repeat!important;
-  background-size:100% 390px,100% 390px!important;
+  background:#f5f9fc!important;
 }
 html body #root .hlc-signed-in-shell .hlc-route-content :is(.hlc-portal-header,.hlc-account-header,.hlc-home-topbar-v2){
   position:relative!important;isolation:isolate;overflow:hidden!important;
-  background-image:
-    linear-gradient(105deg,rgba(7,27,47,.94),color-mix(in srgb,var(--hlc-portal-deep) 78%,transparent) 64%,rgba(8,28,48,.34)),
-    var(--hlc-portal-photo)!important;
-  background-position:center,center 36%!important;background-size:cover!important;
+  background:linear-gradient(110deg,#0c2743,color-mix(in srgb,var(--hlc-portal-accent) 20%,#18405d))!important;
   border-color:rgba(var(--hlc-portal-rgb),.28)!important;
-  box-shadow:0 18px 42px rgba(11,37,58,.14)!important;
+  box-shadow:0 8px 22px rgba(11,37,58,.10)!important;
 }
 html body #root .hlc-signed-in-shell .hlc-route-content :is(
   .hlc-portal-project,.hlc-portal-stat,.hlc-portal-section,.hlc-settings-section,
   .hlc-account-section,.hlc-home-focus-panel,.hlc-home-schedule-panel,
   [class*="workspace-card"],[class*="summary-card"],[class*="metric-card"],[class*="queue-card"]
 ){
-  background:rgba(255,255,255,.91)!important;
+  background:#fff!important;
   border-color:rgba(var(--hlc-portal-rgb),.17)!important;
-  box-shadow:0 14px 36px rgba(28,54,74,.07)!important;
-  backdrop-filter:blur(12px);
+  box-shadow:0 2px 9px rgba(28,54,74,.035)!important;
 }
 html body #root .hlc-signed-in-shell .hlc-route-content :is(.hlc-home-panel-title>span,.hlc-account-kicker,.hlc-automations-kicker,.hlc-ui-eyebrow-5f86ec){
   color:var(--hlc-portal-accent)!important;-webkit-text-fill-color:var(--hlc-portal-accent)!important;
@@ -153,7 +128,7 @@ html body #root .hlc-signed-in-shell .hlc-route-content :is(.hlc-home-panel-titl
 html body #root .hlc-signed-in-shell.hlc-page-manual-communications .hlc-ui-page-0fe80a{color:var(--hlc-app-text)!important}
 html body #root .hlc-signed-in-shell.hlc-page-manual-communications :is(.hlc-ui-actionPanel-bc7076,.hlc-ui-supportingDetails-c72fa5,.hlc-ui-historyPanel-57ee4c,.hlc-ui-advanced-2d0151,.hlc-ui-postCall-7d163e){
   color:var(--hlc-app-text)!important;background:rgba(255,255,255,.92)!important;
-  border-color:rgba(var(--hlc-portal-rgb),.20)!important;box-shadow:0 14px 34px rgba(23,55,78,.07)!important;
+  border-color:rgba(var(--hlc-portal-rgb),.20)!important;box-shadow:0 2px 9px rgba(23,55,78,.035)!important;
 }
 html body #root .hlc-signed-in-shell.hlc-page-manual-communications .hlc-ui-step-384a6d{border-color:rgba(var(--hlc-portal-rgb),.15)!important}
 html body #root .hlc-signed-in-shell.hlc-page-manual-communications :is(.hlc-ui-stepHeading-e4432c,.hlc-ui-label-97e274,.hlc-ui-advancedSummary-470967){color:var(--hlc-app-text)!important}
@@ -167,7 +142,7 @@ html body #root .hlc-signed-in-shell.hlc-page-manual-communications .hlc-ui-sele
   html body #root .hlc-signed-in-shell>.hlc-navbar .hlc-navbar-brand{
     width:58px!important;min-width:58px!important;max-width:58px!important;
     min-height:58px!important;padding:0!important;border:0!important;border-radius:50%!important;
-    cursor:pointer!important;box-shadow:0 0 0 1px rgba(var(--hlc-portal-rgb),.22),0 0 22px rgba(var(--hlc-portal-rgb),.18)!important;
+    cursor:pointer!important;box-shadow:0 0 0 1px rgba(var(--hlc-portal-rgb),.22)!important;
   }
   html body #root .hlc-signed-in-shell>.hlc-navbar .hlc-navbar-brand-copy{display:none!important}
   html body #root .hlc-signed-in-shell>.hlc-navbar .hlc-navbar-logo{width:58px!important;height:58px!important;min-width:58px!important}
@@ -175,7 +150,7 @@ html body #root .hlc-signed-in-shell.hlc-page-manual-communications .hlc-ui-sele
   html body #root .hlc-signed-in-shell>.hlc-navbar .hlc-navbar-brand:is(:focus-visible,[aria-expanded="true"]){
     outline:3px solid color-mix(in srgb,var(--hlc-portal-accent) 72%,white)!important;outline-offset:3px!important;
   }
-  html body #root .hlc-signed-in-shell>.hlc-route-content{background-size:100% 280px,auto 280px!important}
+  html body #root .hlc-signed-in-shell>.hlc-route-content{background-size:auto!important}
 }
 @media(prefers-reduced-motion:reduce){
   html body #root .hlc-signed-in-shell :is(.hlc-navbar-brand,.hlc-route-content a,.hlc-route-content button){transition:none!important;animation:none!important}
