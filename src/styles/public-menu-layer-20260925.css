@@ -10,11 +10,26 @@
 }
 
 .hlc-public-menu-backdrop {
+  position:fixed;
   inset:var(--hlc-public-nav-height) 0 0;
+  z-index:9998;
+  background:rgba(3,11,25,.55);
+  overscroll-behavior:contain;
 }
 
 .hlc-public-menu-panel {
+  position:absolute;
+  top:0;
+  left:0;
+  width:min(390px,92vw);
+  height:100%;
   max-height:calc(100dvh - var(--hlc-public-nav-height));
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  background:#10283f;
+  padding:28px;
+  box-shadow:24px 0 60px rgba(0,0,0,.3);
+  z-index:9999;
 }
 
 @media(max-width:900px) {
