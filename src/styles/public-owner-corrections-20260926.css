@@ -63,3 +63,739 @@
     padding-right: 14px !important;
   }
 }
+
+/* =========================================================
+   HCX NATURAL PHOTO AUTHORITY — 2026-09-26
+   Owner rule:
+   Photography stays natural.
+   Pathway identity belongs around photography, never over it.
+   No purple/green/blue/gold/navy wash on public photographs.
+   ========================================================= */
+
+/* Real image elements */
+:is(
+  .hcx-pathway-media,
+  .hlc-public-visual,
+  .hlc-board-hero,
+  .hlc-board-pathway,
+  .hlc-frontdoor-photo-band,
+  .hlc-utility-visual,
+  .hlc-v2-vision-media
+) img {
+  filter: none !important;
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
+}
+
+/* Dedicated photo containers must not blend pathway color into imagery. */
+:is(
+  .hcx-pathway-media,
+  .hlc-public-visual,
+  .hlc-board-hero,
+  .hlc-board-pathway,
+  .hlc-frontdoor-photo-band,
+  .hlc-utility-visual,
+  .hlc-v2-vision-media
+) {
+  background-blend-mode: normal !important;
+  mix-blend-mode: normal !important;
+}
+
+/* Retire historical decorative color washes over dedicated photographs. */
+:is(
+  .hcx-pathway-media,
+  .hlc-public-visual,
+  .hlc-board-pathway,
+  .hlc-frontdoor-photo-band,
+  .hlc-utility-visual,
+  .hlc-v2-vision-media
+)::before,
+:is(
+  .hcx-pathway-media,
+  .hlc-public-visual,
+  .hlc-board-pathway,
+  .hlc-frontdoor-photo-band,
+  .hlc-utility-visual,
+  .hlc-v2-vision-media
+)::after {
+  background: transparent !important;
+  background-image: none !important;
+}
+
+/*
+ * Hero exception:
+ * Do not erase structural hero layers indiscriminately.
+ * Remove color treatment from the photograph itself while preserving
+ * text readability until each hero is individually certified.
+ */
+.hlc-board-hero-media {
+  filter: none !important;
+  opacity: 1 !important;
+  mix-blend-mode: normal !important;
+}
+
+/* ==========================================================
+   HCX FAMILY RESEMBLANCE — COMMUNITY
+   Owner checkpoint: 2026-09-26
+   Purple / expansive / social / ambient ripple
+   Photography is a protected surface.
+   ========================================================== */
+
+html body #root .hcx-pathway[data-pathway="community"] {
+  --community-accent: #cf80f7;
+  --community-deep: #28133e;
+  --community-mid: #45205f;
+  --community-field: #f0e8f7;
+  --community-ripple: rgba(207, 128, 247, 0.22);
+}
+
+/* Keep the navigation. Give Community its own family tone. */
+html body #root .hcx-pathway[data-pathway="community"] .hlc-board-nav {
+  background:
+    radial-gradient(circle at 82% 0%,
+      rgba(207,128,247,.14),
+      transparent 38%),
+    linear-gradient(105deg, #211333 0%, #302047 52%, #17283d 100%) !important;
+  border-bottom: 1px solid rgba(207,128,247,.22) !important;
+}
+
+/* Protected photography: absolutely no tint, filter or overlay. */
+html body #root .hcx-pathway[data-pathway="community"] .hcx-pathway-media img {
+  filter: none !important;
+  mix-blend-mode: normal !important;
+  opacity: 1 !important;
+}
+
+/* Kill historical photo overlays without touching the photograph. */
+html body #root .hcx-pathway[data-pathway="community"] .hcx-pathway-media::before,
+html body #root .hcx-pathway[data-pathway="community"] .hcx-pathway-media::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+}
+
+/* Community hero copy: deep purple, not generic navy. */
+html body #root .hcx-pathway[data-pathway="community"] .hcx-pathway-copy {
+  background:
+    radial-gradient(circle at 12% 18%,
+      rgba(207,128,247,.16),
+      transparent 34%),
+    linear-gradient(145deg, #311548 0%, #24153a 58%, #1d1734 100%) !important;
+}
+
+/* Community's connected path has ambient depth instead of a flat field. */
+html body #root .hcx-pathway[data-pathway="community"] .hcx-story {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 15% 20%,
+      rgba(207,128,247,.10),
+      transparent 25%),
+    radial-gradient(circle at 86% 74%,
+      rgba(155,105,220,.10),
+      transparent 30%),
+    linear-gradient(180deg, #f5effa 0%, #eee5f6 52%, #f8f4fb 100%) !important;
+}
+
+/* Expanding social/ripple signature. UI only. */
+html body #root .hcx-pathway[data-pathway="community"] .hcx-story::before,
+html body #root .hcx-pathway[data-pathway="community"] .hcx-story::after {
+  content: "";
+  position: absolute;
+  border: 1px solid rgba(178,111,224,.16);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+html body #root .hcx-pathway[data-pathway="community"] .hcx-story::before {
+  width: 440px;
+  height: 440px;
+  left: -280px;
+  top: 16%;
+  animation: hcx-community-ripple 9s ease-in-out infinite;
+}
+
+html body #root .hcx-pathway[data-pathway="community"] .hcx-story::after {
+  width: 560px;
+  height: 560px;
+  right: -360px;
+  bottom: -220px;
+  animation: hcx-community-ripple 11s ease-in-out infinite reverse;
+}
+
+html body #root .hcx-pathway[data-pathway="community"] .hcx-story > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Make the four steps feel connected rather than four cloned cards. */
+html body #root .hcx-pathway[data-pathway="community"] .hcx-flow {
+  position: relative;
+}
+
+html body #root .hcx-pathway[data-pathway="community"] .hcx-flow::before {
+  content: "";
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  top: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(207,128,247,.45),
+    rgba(118,90,166,.18),
+    rgba(207,128,247,.45),
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* Community final CTA: family field with soft radial movement. */
+html body #root .hcx-pathway[data-pathway="community"] .hcx-final {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 115%,
+      rgba(207,128,247,.17),
+      transparent 46%),
+    linear-gradient(180deg, #f4eef9 0%, #eee4f6 100%) !important;
+}
+
+/* Community footer. Keep footer structure; hide ONLY footer logo. */
+html body #root .hcx-pathway[data-pathway="community"] + .hlc-public-footer,
+html body #root .hcx-pathway[data-pathway="community"] ~ .hlc-public-footer {
+  background:
+    radial-gradient(circle at 50% 0%,
+      rgba(207,128,247,.16),
+      transparent 42%),
+    linear-gradient(180deg, #251536 0%, #160e25 100%) !important;
+  border-top: 1px solid rgba(207,128,247,.20) !important;
+}
+
+/* Global requested footer-logo cleanup.
+   Navbar/master navigation logo is intentionally untouched. */
+html body #root .hlc-public-footer .hlc-public-footer-master-logo {
+  display: none !important;
+}
+
+@keyframes hcx-community-ripple {
+  0%, 100% {
+    transform: scale(.92);
+    opacity: .30;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: .65;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html body #root .hcx-pathway[data-pathway="community"] .hcx-story::before,
+  html body #root .hcx-pathway[data-pathway="community"] .hcx-story::after {
+    animation: none !important;
+  }
+}
+
+
+/* =========================================================
+   HCX COMMUNITY — PROTECT NATURAL HERO PHOTOGRAPHY
+   Owner verified in-browser 2026-09-26
+   ========================================================= */
+
+html body #root .hcx-pathway[data-pathway="community"] .hcx-pathway-hero::after {
+  display: none !important;
+  content: none !important;
+}
+
+html body #root .hcx-pathway[data-pathway="community"] .hcx-pathway-media img {
+  filter: none !important;
+  mix-blend-mode: normal !important;
+  opacity: 1 !important;
+}
+
+/* Keep retired duplicate footer logo suppressed. */
+html body #root .hlc-public-footer-master-logo {
+  display: none !important;
+}
+
+/* ==========================================================
+   PROFESSIONALS PATHWAY — OWNER VISUAL CORRECTION
+   2026-09-26
+   Preserve structure, photography, navigation, and routing.
+   ========================================================== */
+
+/* Protect professional hero photography from inherited washes. */
+html body #root .hcx-pathway[data-pathway="professionals"] .hcx-pathway-media img {
+  filter: none !important;
+  mix-blend-mode: normal !important;
+  opacity: 1 !important;
+}
+
+/* Keep the professional content field light and precise. */
+html body #root .hcx-pathway[data-pathway="professionals"] {
+  --professional-accent: #28b7f5;
+  --professional-field: #eaf7fc;
+  --professional-deep: #082d4d;
+}
+
+/* Give pale professional sections subtle directional movement
+   without introducing glow or heavy decoration. */
+html body #root .hcx-pathway[data-pathway="professionals"] .hcx-story,
+html body #root .hcx-pathway[data-pathway="professionals"] .hcx-features,
+html body #root .hcx-pathway[data-pathway="professionals"] .hcx-final {
+  background-image:
+    linear-gradient(
+      115deg,
+      rgba(40, 183, 245, 0.045) 0%,
+      transparent 34%,
+      rgba(40, 183, 245, 0.025) 67%,
+      transparent 100%
+    );
+}
+
+/* Professionals footer:
+   replace generic navy with its own cyan-blue tonal transition. */
+html body #root .hlc-page-professionals .hlc-public-footer,
+html body #root .hlc-page-professionals footer.hlc-public-footer.hlc-board-footer,
+html body #root .hcx-pathway[data-pathway="professionals"] ~ .hlc-public-footer {
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(40, 183, 245, 0.18) 0%,
+      rgba(40, 183, 245, 0.06) 30%,
+      transparent 48%
+    ),
+    linear-gradient(
+      180deg,
+      #164866 0%,
+      #0b3555 48%,
+      #07263f 100%
+    ) !important;
+  border-top: 1px solid rgba(40, 183, 245, 0.20) !important;
+}
+
+/* Retired duplicate footer logo stays suppressed. */
+html body #root .hlc-public-footer-master-logo {
+  display: none !important;
+}
+
+
+/* ==========================================================
+   PATHWAY BOOKENDS — NAVIGATION + FOOTER VISUAL SYNC
+   Owner direction: 2026-09-26
+   Surface treatment only. No navigation structure/behavior.
+   ========================================================== */
+
+/* PROFESSIONALS
+   Match navigation surface language to approved footer. */
+html body #root .hlc-page-professionals .hlc-public-nav,
+html body #root .hlc-page-professionals .hlc-public-header,
+html body #root .hlc-page-professionals nav {
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(40, 183, 245, 0.16) 0%,
+      rgba(40, 183, 245, 0.05) 34%,
+      transparent 52%
+    ),
+    linear-gradient(
+      180deg,
+      #164866 0%,
+      #0b3555 52%,
+      #07263f 100%
+    ) !important;
+}
+
+/* Preserve a restrained edge rather than a hard divider. */
+html body #root .hlc-page-professionals .hlc-public-nav,
+html body #root .hlc-page-professionals .hlc-public-header {
+  border-bottom-color: rgba(40, 183, 245, 0.20) !important;
+}
+
+/* COMMUNITY
+   Match navigation surface language to approved footer. */
+html body #root .hlc-page-community .hlc-public-nav,
+html body #root .hlc-page-community .hlc-public-header,
+html body #root .hlc-page-community nav {
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(207, 128, 247, 0.18) 0%,
+      rgba(207, 128, 247, 0.06) 30%,
+      transparent 48%
+    ),
+    linear-gradient(
+      180deg,
+      #352047 0%,
+      #28133e 48%,
+      #1d102c 100%
+    ) !important;
+}
+
+html body #root .hlc-page-community .hlc-public-nav,
+html body #root .hlc-page-community .hlc-public-header {
+  border-bottom-color: rgba(207, 128, 247, 0.18) !important;
+}
+
+
+/* =========================================================
+   PATHWAY NAV ↔ FOOTER MATERIAL SYNC
+   Owner authority: navigation and footer use the same
+   pathway-specific visual language.
+   ========================================================= */
+
+/* Inner nav must not create a separate colored strip. */
+html body #root .hcx-pathway .hlc-board-nav-inner {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* PROFESSIONALS — same material language as footer */
+html body #root .hcx-pathway[data-pathway="professionals"] > .hlc-board-nav {
+  background:
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(40, 183, 245, 0.18) 0%,
+      rgba(40, 183, 245, 0.06) 30%,
+      transparent 48%
+    ),
+    linear-gradient(
+      180deg,
+      #164866 0%,
+      #0b3555 48%,
+      #07263f 100%
+    ) !important;
+
+  border-bottom: 1px solid rgba(40, 183, 245, 0.20) !important;
+}
+
+/* COMMUNITY — same material language as footer */
+html body #root .hcx-pathway[data-pathway="community"] > .hlc-board-nav {
+  background:
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(207, 128, 247, 0.18) 0%,
+      rgba(207, 128, 247, 0.06) 30%,
+      transparent 48%
+    ),
+    linear-gradient(
+      180deg,
+      #352047 0%,
+      #28133e 48%,
+      #1d102c 100%
+    ) !important;
+
+  border-bottom: 1px solid rgba(207, 128, 247, 0.18) !important;
+}
+
+
+/* =========================================================
+   NAVIGATION SURFACE CORRECTION
+   Desktop links must live directly on the pathway nav surface.
+   Do not render a second gradient strip behind the links.
+   ========================================================= */
+
+html body #root .hcx-pathway .hlc-public-desktop-links {
+  background: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+
+
+/* =========================================================
+   PUBLIC PHOTOGRAPHY — NATURAL IMAGE AUTHORITY
+   Owner rule:
+   Public photography renders in its natural/original color.
+   Pathway identity belongs to surrounding UI, not photo tint.
+   ========================================================= */
+
+/* Pathway hero/media photography */
+html body #root .hcx-pathway-media {
+  background-color: transparent !important;
+  background-blend-mode: normal !important;
+  mix-blend-mode: normal !important;
+  filter: none !important;
+}
+
+html body #root .hcx-pathway-media > img,
+html body #root .hcx-pathway-media img {
+  filter: none !important;
+  mix-blend-mode: normal !important;
+  opacity: 1 !important;
+}
+
+/* Remove decorative/tinted layers sitting over pathway photos. */
+html body #root .hcx-pathway-media::before,
+html body #root .hcx-pathway-media::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* Keep pathway identity on UI surfaces, never on photography. */
+html body #root .hcx-pathway-media {
+  isolation: isolate;
+}
+
+
+/* The full wording belongs on the desktop nav. On narrow screens the same
+   destinations remain in the logo menu so the header can fit the viewport. */
+
+@media (max-width: 900px) {
+  html body #root .hcx-pathway .hlc-public-desktop-links {
+    display: none !important;
+  }
+}
+
+
+/* =========================================================
+   HCX GLOBAL FAMILY BOOKENDS
+   OWNER AUTHORITY — 2026-09-26
+
+   Nav + footer are permanent shared HCX structures.
+   Their geometry, wording, logo placement and behavior stay
+   consistent throughout the experience.
+
+   FAMILY CHANGES COLOR ONLY:
+   Residents     = green
+   Professionals = cyan-blue
+   Partners      = gold
+   Community     = purple
+
+   Photography remains natural and untinted.
+   ========================================================= */
+
+/* ---------- SHARED FAMILY VARIABLES ---------- */
+
+html body #root .hcx-pathway[data-pathway="residents"],
+html body #root .hcx-pathway[data-pathway="resident"],
+html body #root .hlc-page-residents,
+html body #root .hlc-page-homeowners {
+  --hcx-family-color: #35c98b;
+  --hcx-family-deep: #123f38;
+  --hcx-family-dark: #082d2b;
+  --hcx-family-line: rgba(53, 201, 139, .22);
+}
+
+html body #root .hcx-pathway[data-pathway="professionals"],
+html body #root .hcx-pathway[data-pathway="professional"],
+html body #root .hlc-page-professionals {
+  --hcx-family-color: #36b9ff;
+  --hcx-family-deep: #164866;
+  --hcx-family-dark: #07263f;
+  --hcx-family-line: rgba(54, 185, 255, .22);
+}
+
+html body #root .hcx-pathway[data-pathway="partners"],
+html body #root .hcx-pathway[data-pathway="partner"],
+html body #root .hlc-page-partners {
+  --hcx-family-color: #f4b84f;
+  --hcx-family-deep: #55401d;
+  --hcx-family-dark: #33270f;
+  --hcx-family-line: rgba(244, 184, 79, .22);
+}
+
+html body #root .hcx-pathway[data-pathway="community"],
+html body #root .hlc-page-community,
+html body #root .hlc-page-community-hub,
+html body #root .hlc-page-community-discover,
+html body #root .hlc-page-community-messages,
+html body #root .hlc-page-community-challenges,
+html body #root .hlc-page-community-academy,
+html body #root .hlc-page-community-discussions,
+html body #root .hlc-page-community-reviews,
+html body #root .hlc-page-community-referrals,
+html body #root .hlc-page-community-events,
+html body #root .hlc-page-community-groups,
+html body #root .hlc-page-community-moderation,
+html body #root .hlc-page-community-swipe {
+  --hcx-family-color: #b873ff;
+  --hcx-family-deep: #352047;
+  --hcx-family-dark: #1d102c;
+  --hcx-family-line: rgba(184, 115, 255, .22);
+}
+
+/* ---------- ONE SHARED NAV MATERIAL ---------- */
+
+html body #root :is(
+  .hcx-pathway,
+  .hlc-page-residents,
+  .hlc-page-homeowners,
+  .hlc-page-professionals,
+  .hlc-page-partners,
+  .hlc-page-community,
+  .hlc-page-community-hub,
+  .hlc-page-community-discover,
+  .hlc-page-community-messages,
+  .hlc-page-community-challenges,
+  .hlc-page-community-academy,
+  .hlc-page-community-discussions,
+  .hlc-page-community-reviews,
+  .hlc-page-community-referrals,
+  .hlc-page-community-events,
+  .hlc-page-community-groups,
+  .hlc-page-community-moderation,
+  .hlc-page-community-swipe
+) .hlc-board-nav {
+  background:
+    linear-gradient(
+      180deg,
+      var(--hcx-family-deep),
+      var(--hcx-family-dark)
+    ) !important;
+  border-bottom: 1px solid var(--hcx-family-line) !important;
+}
+
+/* No second colored bar behind desktop wording. */
+html body #root .hlc-board-nav .hlc-public-desktop-links {
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* ---------- ONE SHARED FOOTER MATERIAL ---------- */
+
+html body #root :is(
+  .hcx-pathway,
+  .hlc-page-residents,
+  .hlc-page-homeowners,
+  .hlc-page-professionals,
+  .hlc-page-partners,
+  .hlc-page-community,
+  .hlc-page-community-hub,
+  .hlc-page-community-discover,
+  .hlc-page-community-messages,
+  .hlc-page-community-challenges,
+  .hlc-page-community-academy,
+  .hlc-page-community-discussions,
+  .hlc-page-community-reviews,
+  .hlc-page-community-referrals,
+  .hlc-page-community-events,
+  .hlc-page-community-groups,
+  .hlc-page-community-moderation,
+  .hlc-page-community-swipe
+) .hlc-public-footer {
+  background:
+    linear-gradient(
+      180deg,
+      var(--hcx-family-deep),
+      var(--hcx-family-dark)
+    ) !important;
+  border-top: 1px solid var(--hcx-family-line) !important;
+}
+
+/*
+   GLOBAL BOOKEND CONTRACT:
+   Do NOT alter nav/footer geometry per family.
+   Do NOT move logo.
+   Do NOT change navigation wording.
+   Do NOT add family-specific duplicate nav/footer components.
+   Family identity is expressed through color.
+*/
+
+
+/* ==========================================================
+   HCX SHARED FOOTER — CLEAN LEGAL LINKS
+   OWNER VISUAL AUTHORITY — 2026-09-26
+
+   All family footers use the same legal-link treatment.
+   Family color may change; link geometry/decorations do not.
+   No boxes, strips, pills, borders, or decorative underlines.
+   ========================================================== */
+
+html body #root .hlc-public-footer a,
+html body #root .hlc-board-footer a,
+html body #root footer.hlc-public-footer a {
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  border-top: 0 !important;
+  border-right: 0 !important;
+  border-bottom: 0 !important;
+  border-left: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  text-decoration: none !important;
+}
+
+html body #root .hlc-public-footer a:focus-visible,
+html body #root .hlc-board-footer a:focus-visible {
+  outline: 3px solid currentColor !important;
+  outline-offset: 4px !important;
+}
+
+/* Remove decorative pseudo-elements that can create tiny strips. */
+html body #root .hlc-public-footer a::before,
+html body #root .hlc-public-footer a::after,
+html body #root .hlc-board-footer a::before,
+html body #root .hlc-board-footer a::after {
+  content: none !important;
+  display: none !important;
+  border: 0 !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+/*
+  GLOBAL FOOTER CONTRACT:
+  Legal links remain plain text in every HCX family.
+  Residents / Professionals / Partners / Community differ
+  through family color only — never link decoration.
+*/
+
+/* ==========================================================
+   HCX FOOTER LEGAL LINKS — FINAL SPECIFICITY CORRECTION
+   Owner verified 2026-09-26
+
+   Override legacy public-footer-home-authority underline.
+   Preserve footer geometry, colors, spacing, and behavior.
+   ========================================================== */
+
+html body #root .hlc-public-footer-home-authority nav a,
+html body #root#root .hlc-public-footer-home-authority nav a,
+html body #root .hlc-board-footer.hlc-public-footer-home-authority nav a,
+html body #root footer.hlc-public-footer.hlc-public-footer-home-authority nav a {
+  border: 0 !important;
+  border-bottom: 0 !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+  background-image: none !important;
+  padding-bottom: 0 !important;
+}
+
+/* Keep hover clean too. */
+html body #root .hlc-public-footer-home-authority nav a:hover,
+html body #root#root .hlc-public-footer-home-authority nav a:hover {
+  border: 0 !important;
+  border-bottom: 0 !important;
+  text-decoration: none !important;
+}
+
+
+/* =========================================================
+   HCX FOOTER LEGAL LINKS — OWNER FINAL
+   2026-09-26
+
+   Remove legacy underline/border from shared footer links.
+   Keep family footer colors and all other footer styling.
+   ========================================================= */
+
+html body #root .hlc-public-footer.hlc-public-footer-home-authority nav a,
+html body #root .hlc-public-footer.hlc-public-footer-home-authority nav a:link,
+html body #root .hlc-public-footer.hlc-public-footer-home-authority nav a:visited,
+html body #root .hlc-public-footer.hlc-public-footer-home-authority nav a:hover,
+html body #root .hlc-public-footer.hlc-public-footer-home-authority nav a:active {
+  border: 0 !important;
+  border-bottom: 0 !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+  padding-bottom: 0 !important;
+  background-image: none !important;
+}
