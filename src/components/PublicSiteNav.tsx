@@ -60,7 +60,7 @@ export default function PublicSiteNav() {
       if (event.key === "Escape") {
         event.preventDefault();
         setMenuOpen(false);
-        window.requestAnimationFrame(() => menuButtonRef.current?.focus());
+        menuButtonRef.current?.focus();
         return;
       }
 
