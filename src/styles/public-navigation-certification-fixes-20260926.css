@@ -28,3 +28,28 @@
 [data-public-page="professionals"] .hlc-public-form textarea {
   width: 100%;
 }
+
+/* Owner correction 2026-09-26: the official circular logo is the single global
+   navigation brand mark and should breathe subtly without causing layout shift. */
+#root .hlc-navbar-master-logo {
+  transform-origin: 50% 50%;
+  animation: hlc-nav-logo-pulse 3.6s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes hlc-nav-logo-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.045);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #root .hlc-navbar-master-logo {
+    animation: none;
+    transform: none;
+    will-change: auto;
+  }
+}
