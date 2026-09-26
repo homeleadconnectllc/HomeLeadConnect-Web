@@ -6,6 +6,7 @@ const publicNav = readFileSync("src/components/PublicSiteNav.tsx", "utf8");
 const standaloneHome = readFileSync("src/standalonePublicHome.ts", "utf8");
 const visualFamily = readFileSync("src/styles/mockup-authority-20260924.css", "utf8");
 const sharedMenuLayer = readFileSync("src/styles/public-menu-layer-20260925.css", "utf8");
+const navigationFixes = readFileSync("src/styles/public-navigation-certification-fixes-20260926.css", "utf8");
 const mainEntry = readFileSync("src/main.tsx", "utf8");
 
 test("the official circular logo controls the menu without a second menu button", () => {
@@ -25,6 +26,14 @@ test("logo menu has visible focus, an actual hidden state, and reduced motion", 
   assert.match(visualFamily, /prefers-reduced-motion:reduce/);
   assert.match(publicNav, /event\.key\s*===\s*"Escape"/);
   assert.match(standaloneHome, /event\.key\s*===\s*"Escape"/);
+});
+
+test("the official navigation logo pulses globally without layout movement and respects reduced motion", () => {
+  assert.match(mainEntry, /import "\.\/styles\/public-navigation-certification-fixes-20260926\.css"/);
+  assert.match(navigationFixes, /#root\s+\.hlc-navbar-master-logo\s*\{[\s\S]*?animation:\s*hlc-nav-logo-pulse\s+3\.6s\s+ease-in-out\s+infinite/);
+  assert.match(navigationFixes, /@keyframes\s+hlc-nav-logo-pulse/);
+  assert.match(navigationFixes, /transform:\s*scale\(1\.045\)/);
+  assert.match(navigationFixes, /@media\s*\(prefers-reduced-motion:\s*reduce\)[\s\S]*?#root\s+\.hlc-navbar-master-logo[\s\S]*?animation:\s*none/);
 });
 
 test("React public menu stays above page stacking contexts and contains interaction", () => {
