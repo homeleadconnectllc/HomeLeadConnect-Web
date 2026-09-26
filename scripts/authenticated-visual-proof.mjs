@@ -37,10 +37,10 @@ const routes = [
 for (const route of [...routeFamilies.shared, ...routeFamilies.internal]) {
   if (!routes.some(([, existing]) => existing === route)) routes.push([route.replace(/[^a-z0-9]/gi, "_").replace(/^_/, ""), route]);
 }
+
 const proofResults = [];
 // Existing bookmark redirect confirmed in src/pages/dashboard/Ecosystem.tsx.
 const expectedRedirects = new Map([["/ecosystem", "/dashboard"]]);
-
 const mustRenderAuthorizedWorkspace = new Set(routes.map(([, route]) => route));
 
 const viewports = [
@@ -50,6 +50,31 @@ const viewports = [
 
 const outputDir = path.resolve("artifacts/authenticated-visual-proof");
 fs.mkdirSync(outputDir, { recursive: true });
+
+const NAVIGATION_TIMEOUT_MS = 15_000;
+const UI_TIMEOUT_MS = 10_000;
+const SETTLE_MS = 350;
+
+function configurePage(page) {
+  page.setDefaultNavigationTimeout(NAVIGATION_TIMEOUT_MS);
+  page.setDefaultTimeout(UI_TIMEOUT_MS);
+}
+
+async function waitForRenderedDocument(page) {
+  await page.waitForSelector("body", { state: "visible", timeout: UI_TIMEOUT_MS });
+  await page.evaluate(async () => {
+    if (document.fonts?.ready) await document.fonts.ready;
+  });
+  await page.waitForTimeout(SETTLE_MS);
+}
+
+async function gotoRendered(page, url, { requireWorkspace = false } = {}) {
+  await page.goto(url, { waitUntil: "domcontentloaded", timeout: NAVIGATION_TIMEOUT_MS });
+  await waitForRenderedDocument(page);
+  if (requireWorkspace) {
+    await page.waitForSelector(".hlc-signed-in-shell", { state: "visible", timeout: UI_TIMEOUT_MS });
+  }
+}
 
 async function visibleLogoCount(page) {
   return page.locator('img[alt="HomeLead Connect LLC"]').evaluateAll((nodes) => nodes.filter((node) => {
@@ -75,11 +100,19 @@ async function assertExactlyOneVisibleLogo(page, label) {
   }
 }
 
-const tokenResponse = await fetch(`${supabaseUrl}/auth/v1/token?grant_type=password`, {
-  method: "POST",
-  headers: { apikey: supabaseAnonKey, "Content-Type": "application/json" },
-  body: JSON.stringify({ email, password }),
-});
+const tokenController = new AbortController();
+const tokenTimeout = setTimeout(() => tokenController.abort(), 15_000);
+let tokenResponse;
+try {
+  tokenResponse = await fetch(`${supabaseUrl}/auth/v1/token?grant_type=password`, {
+    method: "POST",
+    headers: { apikey: supabaseAnonKey, "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
+    signal: tokenController.signal,
+  });
+} finally {
+  clearTimeout(tokenTimeout);
+}
 if (!tokenResponse.ok) throw new Error(`Visual-proof auth failed: ${tokenResponse.status}`);
 const session = await tokenResponse.json();
 
@@ -89,85 +122,117 @@ const authValue = JSON.stringify(session);
 const browser = await chromium.launch({ headless: true });
 try {
   const deepLinkProof = (async () => {
-  const deepLinkContext = await browser.newContext({ viewport: viewports[0][1] });
-  const deepLinkPage = await deepLinkContext.newPage();
-  const invitationToken = "visual-proof-token";
-  const invitationDestination = `/portal/accept?token=${invitationToken}`;
-  const encodedInvitationDestination = encodeURIComponent(invitationDestination);
-  await deepLinkPage.goto(`${baseUrl}${invitationDestination}`, { waitUntil: "networkidle" });
-  const signInHref = await deepLinkPage.getByRole("link", { name: "Sign in to your HomeLead Connect account" }).getAttribute("href");
-  const registerHref = await deepLinkPage.getByRole("link", { name: "Create your portal identity" }).getAttribute("href");
-  if (signInHref !== `/login?next=${encodedInvitationDestination}`) {
-    throw new Error(`Portal invitation sign-in lost its token: ${signInHref ?? "missing href"}.`);
-  }
-  if (registerHref !== `/register?next=${encodedInvitationDestination}`) {
-    throw new Error(`Portal invitation registration lost its token: ${registerHref ?? "missing href"}.`);
-  }
-  await deepLinkPage.getByRole("link", { name: "Sign in to your HomeLead Connect account" }).click();
-  await deepLinkPage.waitForURL((url) => url.pathname === "/login" && url.searchParams.get("next") === invitationDestination, { timeout: 20_000 });
-  const createAccountHref = await deepLinkPage.getByRole("link", { name: "Create your account" }).getAttribute("href");
-  if (createAccountHref !== `/register?next=${encodedInvitationDestination}`) {
-    throw new Error(`Login registration handoff lost the portal invitation: ${createAccountHref ?? "missing href"}.`);
-  }
+    const deepLinkContext = await browser.newContext({ viewport: viewports[0][1] });
+    const deepLinkPage = await deepLinkContext.newPage();
+    configurePage(deepLinkPage);
+    const invitationToken = "visual-proof-token";
+    const invitationDestination = `/portal/accept?token=${invitationToken}`;
+    const encodedInvitationDestination = encodeURIComponent(invitationDestination);
 
-  await deepLinkPage.goto(`${baseUrl}/hq/approvals`, { waitUntil: "networkidle" });
-  if (new URL(deepLinkPage.url()).pathname !== "/login") {
-    throw new Error(`Protected deep-link proof expected /login but rendered ${new URL(deepLinkPage.url()).pathname}.`);
-  }
-  await deepLinkPage.getByLabel("Email").fill(email);
-  await deepLinkPage.getByLabel("Password").fill(password);
-  await deepLinkPage.getByRole("button", { name: "Sign in to HomeLead Connect" }).click();
-  await deepLinkPage.waitForURL((url) => url.pathname === "/hq/approvals", { timeout: 20_000 });
-  await deepLinkPage.waitForLoadState("networkidle");
-  await deepLinkPage.waitForSelector('.hlc-navbar-brand img[alt="HomeLead Connect LLC"]', { state: "visible", timeout: 20_000 });
-  await deepLinkPage.waitForTimeout(1200);
-  await assertExactlyOneVisibleLogo(deepLinkPage, "Protected deep-link after sign-in mobile");
-  await deepLinkPage.screenshot({ path: path.join(outputDir, "protected-deep-link-after-sign-in-mobile.png"), fullPage: true });
-  await deepLinkContext.close();
+    try {
+      await gotoRendered(deepLinkPage, `${baseUrl}${invitationDestination}`);
+      const signInHref = await deepLinkPage.getByRole("link", { name: "Sign in to your HomeLead Connect account" }).getAttribute("href");
+      const registerHref = await deepLinkPage.getByRole("link", { name: "Create your portal identity" }).getAttribute("href");
+      if (signInHref !== `/login?next=${encodedInvitationDestination}`) {
+        throw new Error(`Portal invitation sign-in lost its token: ${signInHref ?? "missing href"}.`);
+      }
+      if (registerHref !== `/register?next=${encodedInvitationDestination}`) {
+        throw new Error(`Portal invitation registration lost its token: ${registerHref ?? "missing href"}.`);
+      }
+      await deepLinkPage.getByRole("link", { name: "Sign in to your HomeLead Connect account" }).click();
+      await deepLinkPage.waitForURL((url) => url.pathname === "/login" && url.searchParams.get("next") === invitationDestination, { timeout: UI_TIMEOUT_MS });
+      const createAccountHref = await deepLinkPage.getByRole("link", { name: "Create your account" }).getAttribute("href");
+      if (createAccountHref !== `/register?next=${encodedInvitationDestination}`) {
+        throw new Error(`Login registration handoff lost the portal invitation: ${createAccountHref ?? "missing href"}.`);
+      }
+
+      await gotoRendered(deepLinkPage, `${baseUrl}/hq/approvals`);
+      if (new URL(deepLinkPage.url()).pathname !== "/login") {
+        throw new Error(`Protected deep-link proof expected /login but rendered ${new URL(deepLinkPage.url()).pathname}.`);
+      }
+      await deepLinkPage.getByLabel("Email").fill(email);
+      await deepLinkPage.getByLabel("Password").fill(password);
+      await deepLinkPage.getByRole("button", { name: "Sign in to HomeLead Connect" }).click();
+      await deepLinkPage.waitForURL((url) => url.pathname === "/hq/approvals", { timeout: 20_000 });
+      await deepLinkPage.waitForSelector(".hlc-signed-in-shell", { state: "visible", timeout: UI_TIMEOUT_MS });
+      await deepLinkPage.waitForSelector('.hlc-navbar-brand img[alt="HomeLead Connect LLC"]', { state: "visible", timeout: UI_TIMEOUT_MS });
+      await waitForRenderedDocument(deepLinkPage);
+      await assertExactlyOneVisibleLogo(deepLinkPage, "Protected deep-link after sign-in mobile");
+      await deepLinkPage.screenshot({ path: path.join(outputDir, "protected-deep-link-after-sign-in-mobile.png"), fullPage: true });
+    } finally {
+      await deepLinkContext.close();
+    }
   })();
 
   const viewportProofs = viewports.map(async ([viewportName, viewport]) => {
     const context = await browser.newContext({ viewport });
     const page = await context.newPage();
+    configurePage(page);
     await page.addInitScript(({ key, value }) => localStorage.setItem(key, value), { key: authStorageKey, value: authValue });
 
-    for (const [slug, route] of routes) {
-      const resolvedRoute = route.replace(/:[^/]+/g, "1");
-      await page.goto(`${baseUrl}${resolvedRoute}`, { waitUntil: "networkidle" });
-      await page.waitForTimeout(1200);
-      const currentPath = new URL(page.url()).pathname;
-      const unexpectedRedirect = mustRenderAuthorizedWorkspace.has(route) && currentPath !== (expectedRedirects.get(route) || resolvedRoute);
-      const metrics = await page.evaluate(() => ({
-        overflow: document.documentElement.scrollWidth > innerWidth + 1,
-        compressedNavigation: [...document.querySelectorAll(".hlc-route-content nav > a")].filter(link => {
-          const box = link.getBoundingClientRect();
-          if (!box.width || !box.height) return false;
-          const range = document.createRange(); range.selectNodeContents(link);
-          return range.getBoundingClientRect().width > box.width + 2;
-        }).map(link => link.textContent.trim()),
-        narrowHeading: [...document.querySelectorAll("h1")].some(node => node.getBoundingClientRect().width > 0 && node.getBoundingClientRect().width < 120),
-        workspaceFont: getComputedStyle(document.querySelector(".hlc-signed-in-shell") || document.body).fontFamily,
-        heading: document.querySelector("h1")?.textContent?.trim() || null,
-        blank: document.body.innerText.trim().length < 30,
-        denied: /Your HomeLead Connect role does not allow this area/.test(document.body.innerText),
-        dataPermissionError: /You do not have permission to perform this action/.test(document.body.innerText),
-      }));
-      const result = {route, resolvedRoute, viewport: viewportName, currentPath, unexpectedRedirect, ...metrics,
-        coverage: route.includes(":") ? "missing-record-state; no real record identity supplied" : "approved-workspace-session"};
-      proofResults.push(result);
-      fs.writeFileSync(path.join(outputDir, "results.json"), JSON.stringify(proofResults, null, 2));
-      try { await assertExactlyOneVisibleLogo(page, `${route} ${viewportName}`); }
-      catch { result.logoFailure = true; }
-      fs.writeFileSync(path.join(outputDir, "results.json"), JSON.stringify(proofResults, null, 2));
-      await page.screenshot({ path: path.join(outputDir, `${slug}-${viewportName}.png`), fullPage: true });
-    }
+    try {
+      for (const [slug, route] of routes) {
+        const resolvedRoute = route.replace(/:[^/]+/g, "1");
+        const result = {
+          route,
+          resolvedRoute,
+          viewport: viewportName,
+          coverage: route.includes(":") ? "missing-record-state; no real record identity supplied" : "approved-workspace-session",
+        };
 
-    await context.close();
+        try {
+          await gotoRendered(page, `${baseUrl}${resolvedRoute}`, { requireWorkspace: true });
+          const currentPath = new URL(page.url()).pathname;
+          const unexpectedRedirect = mustRenderAuthorizedWorkspace.has(route) && currentPath !== (expectedRedirects.get(route) || resolvedRoute);
+          const metrics = await page.evaluate(() => ({
+            overflow: document.documentElement.scrollWidth > innerWidth + 1,
+            compressedNavigation: [...document.querySelectorAll(".hlc-route-content nav > a")].filter(link => {
+              const box = link.getBoundingClientRect();
+              if (!box.width || !box.height) return false;
+              const range = document.createRange();
+              range.selectNodeContents(link);
+              return range.getBoundingClientRect().width > box.width + 2;
+            }).map(link => link.textContent.trim()),
+            narrowHeading: [...document.querySelectorAll("h1")].some(node => node.getBoundingClientRect().width > 0 && node.getBoundingClientRect().width < 120),
+            workspaceFont: getComputedStyle(document.querySelector(".hlc-signed-in-shell") || document.body).fontFamily,
+            heading: document.querySelector("h1")?.textContent?.trim() || null,
+            blank: document.body.innerText.trim().length < 30,
+            denied: /Your HomeLead Connect role does not allow this area/.test(document.body.innerText),
+            dataPermissionError: /You do not have permission to perform this action/.test(document.body.innerText),
+          }));
+          Object.assign(result, { currentPath, unexpectedRedirect, ...metrics });
+
+          try {
+            await assertExactlyOneVisibleLogo(page, `${route} ${viewportName}`);
+          } catch (error) {
+            result.logoFailure = true;
+            result.logoFailureReason = error instanceof Error ? error.message : String(error);
+          }
+
+          await page.screenshot({ path: path.join(outputDir, `${slug}-${viewportName}.png`), fullPage: true });
+        } catch (error) {
+          result.navigationFailure = true;
+          result.navigationFailureReason = error instanceof Error ? error.message : String(error);
+          try {
+            await page.screenshot({ path: path.join(outputDir, `${slug}-${viewportName}-failure.png`), fullPage: true, timeout: UI_TIMEOUT_MS });
+          } catch (screenshotError) {
+            result.screenshotFailureReason = screenshotError instanceof Error ? screenshotError.message : String(screenshotError);
+          }
+        }
+
+        proofResults.push(result);
+        fs.writeFileSync(path.join(outputDir, "results.json"), JSON.stringify(proofResults, null, 2));
+      }
+    } finally {
+      await context.close();
+    }
   });
 
   await Promise.all([deepLinkProof, ...viewportProofs]);
-  const failures = proofResults.filter(row => row.overflow || row.blank || row.denied || row.unexpectedRedirect || row.logoFailure || row.compressedNavigation.length || row.narrowHeading);
-  if (failures.length) throw new Error(`Authenticated visual layout failures: ${failures.map(row => `${row.route} ${row.viewport}`).join(", ")}`);
+  const failures = proofResults.filter(row => row.navigationFailure || row.overflow || row.blank || row.denied || row.unexpectedRedirect || row.logoFailure || row.compressedNavigation?.length || row.narrowHeading);
+  if (failures.length) {
+    throw new Error(`Authenticated visual layout failures: ${failures.map(row => `${row.route} ${row.viewport}${row.navigationFailureReason ? ` (${row.navigationFailureReason})` : ""}`).join(", ")}`);
+  }
 } finally {
   await browser.close();
 }
