@@ -81,6 +81,10 @@ Principles:
 - Empty states always explain the next useful action.
 - Loading, success, warning, error, offline and permission-denied states must be explicitly designed.
 
+### Global public imagery rule
+
+Soften public image edges so photos blend into their sections. Remove the hard flat “mounted on wall” look. Use subtle fades/masks and gentle section blending while keeping photos crisp, natural, and correctly cropped with `object-fit`. Avoid blur, muddy overlays, stretched imagery, or obvious rectangular cutoffs.
+
 ## 6. Global search and command
 
 HLC should support a unified search entry point that can locate authorized:

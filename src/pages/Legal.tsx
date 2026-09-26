@@ -1,7 +1,6 @@
 import { appUrl, publicUrl } from "../config/siteOrigins";
 import PublicSiteNav from "../components/PublicSiteNav";
 import { pageImage } from "../config/publicPageImagery";
-import "../styles/public-visual-family-20260919.css";
 
 type LegalPage = "privacy" | "terms" | "platform";
 

@@ -48,14 +48,14 @@ try {
         const response = await page.goto(`${base}${path}`, { waitUntil: 'networkidle' });
         assert.ok(response?.ok(), `Route did not load: ${response?.status()}`);
 
-        const header = page.locator('[data-hlc-public-navigation="true"]');
+        const header = page.locator('header.hlc-board-nav');
         await header.waitFor();
 
-        const logo = header.locator('img[data-hlc-master-logo="true"]');
+        const logo = header.locator('img[data-hlc-master-logo="true"], img.hlc-navbar-master-logo');
         assert.equal(await visible(logo), true, 'Approved logo is not physically visible');
         assert.equal(await logo.evaluate(element => new URL(element.src).pathname), expectedLogoPath, 'Visible navbar artwork is not the approved responsive derivative');
 
-        const trigger = header.locator('button.hlc-public-menu-trigger');
+        const trigger = header.locator('button.hlc-board-brand');
         assert.equal(await visible(trigger), true, 'Logo menu trigger is not visible');
         assert.equal(await trigger.getAttribute('aria-controls'), 'hlc-public-menu', 'Menu trigger does not identify menu panel');
         assert.equal(await trigger.getAttribute('aria-expanded'), 'false', 'Menu trigger must start closed');

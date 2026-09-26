@@ -5,7 +5,7 @@ import { readFileSync } from "node:fs";
 const authenticatedStyles = readFileSync(new URL("../styles/AuthenticatedStyles.tsx", import.meta.url), "utf8");
 const authenticatedEntry = readFileSync(new URL("../styles/authenticated-entry.ts", import.meta.url), "utf8");
 const desktopShell = readFileSync(new URL("../styles/desktop-workspace-shell.css", import.meta.url), "utf8");
-const publicVisualFamily = readFileSync(new URL("../styles/public-visual-family-20260919.css", import.meta.url), "utf8");
+const publicVisualFamily = readFileSync(new URL("../styles/mockup-authority-20260924.css", import.meta.url), "utf8");
 const appLayout = readFileSync(new URL("./AppLayout.tsx", import.meta.url), "utf8");
 const app = readFileSync(new URL("../App.tsx", import.meta.url), "utf8");
 
@@ -44,12 +44,12 @@ test("desktop branding uses the signed-in Navbar as the single workspace logo", 
   assert.doesNotMatch(authenticatedStyles, /desktop-agent-team-rail\.css/);
 });
 
-test("public surfaces keep the current owner-approved visual family separate from authenticated structure", () => {
+test("public surfaces use the current mockup authority and preserve audience colors", () => {
   assert.doesNotMatch(app, /public-final-flat-authority\.css/);
-  assert.match(publicVisualFamily, /OWNER CURRENT PUBLIC PRESENTATION/);
-  assert.match(publicVisualFamily, /data-pathway="residents"[\s\S]*#55e6b3/);
-  assert.match(publicVisualFamily, /data-pathway="professionals"[\s\S]*#39bfff/);
-  assert.match(publicVisualFamily, /data-pathway="partners"[\s\S]*#ffc84e/);
-  assert.match(publicVisualFamily, /data-pathway="community"[\s\S]*#c978ff/);
+  assert.match(publicVisualFamily, /--hcx-resident:#36e6b8/);
+  assert.match(publicVisualFamily, /--hcx-pro:#32aefe/);
+  assert.match(publicVisualFamily, /--hcx-partner:#ffd16d/);
+  assert.match(publicVisualFamily, /--hcx-community:#cf80f7/);
   assert.match(publicVisualFamily, /hlc-kendrell-dedication/);
+  assert.doesNotMatch(authenticatedStyles, /public-visual-family-20260919\.css/);
 });

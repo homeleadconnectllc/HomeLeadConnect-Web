@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 import PublicSiteNav from "../components/PublicSiteNav";
 import { pageImage } from "../config/publicPageImagery";
-import "../styles/public-visual-family-20260919.css";
-import "../styles/connected-visual-family-20260923.css";
 
 const cards = [
   ["Founder & Builder", "Antoine Washington", "Founder · Owner · Product Creator · Lead Developer · Technical Architect", "Antoine Washington founded HomeLead Connect and has led the product vision, application build, workflow design, technical implementation, operational systems, launch hardening, and day-to-day platform development."],

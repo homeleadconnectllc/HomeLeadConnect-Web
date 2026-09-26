@@ -1,7 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import PublicSiteNav from "../components/PublicSiteNav";
-import "../styles/public-visual-family-20260919.css";
 import { trackAnalyticsEvent } from "../api/analytics";
 import { submitServiceRequest } from "../api/publicIntake";
 import { errorMessage } from "../lib/errorMessage";

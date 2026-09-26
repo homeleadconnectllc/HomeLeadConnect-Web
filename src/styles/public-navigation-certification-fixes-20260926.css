@@ -1,0 +1,55 @@
+.hlc-public-menu-secondary a,
+.hlc-public-menu-account a {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+[data-public-page="professionals"] .hlc-public-shell--visual,
+[data-public-page="professionals"] .hlc-public-hero,
+[data-public-page="professionals"] .hlc-public-visual,
+[data-public-page="professionals"] .hlc-public-form-wrap,
+[data-public-page="professionals"] .hlc-public-sidecard,
+[data-public-page="professionals"] .hlc-public-form,
+[data-public-page="professionals"] .hlc-public-form > *,
+[data-public-page="professionals"] .hlc-public-form input,
+[data-public-page="professionals"] .hlc-public-form textarea,
+[data-public-page="professionals"] .hlc-public-form button {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+[data-public-page="professionals"] .hlc-public-shell--visual {
+  overflow-x: clip;
+}
+
+[data-public-page="professionals"] .hlc-public-form input,
+[data-public-page="professionals"] .hlc-public-form textarea {
+  width: 100%;
+}
+
+/* Owner correction 2026-09-26: the official circular logo is the single global
+   navigation brand mark and should breathe subtly without causing layout shift. */
+#root .hlc-navbar-master-logo {
+  transform-origin: 50% 50%;
+  animation: hlc-nav-logo-pulse 3.6s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes hlc-nav-logo-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.045);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #root .hlc-navbar-master-logo {
+    animation: none;
+    transform: none;
+    will-change: auto;
+  }
+}
