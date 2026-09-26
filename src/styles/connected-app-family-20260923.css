@@ -1,0 +1,182 @@
+/* The signed-in product shares the front-door atmosphere while keeping its
+   light, readable work canvas. Portal contexts provide the audience color. */
+html body #root .hlc-signed-in-shell{
+  --hlc-app-bg:#f3f8fc;
+  --hlc-app-text:#172b3f;
+  --hlc-app-muted:#526579;
+  --hlc-app-line:rgba(23,58,83,.14);
+  --hlc-portal-accent:#3088c0;
+  --hlc-portal-accent-soft:rgba(48,136,192,.12);
+  background:linear-gradient(180deg,#eaf3fa,#f8fbfd)!important;
+}
+html body #root .hlc-signed-in-shell:has(.hlc-portal-workspace.is-resident){--hlc-portal-accent:#16866a;--hlc-portal-accent-soft:rgba(22,134,106,.12)}
+html body #root .hlc-signed-in-shell:has(.hlc-portal-workspace.is-professional){--hlc-portal-accent:#1479b8;--hlc-portal-accent-soft:rgba(20,121,184,.12)}
+html body #root .hlc-signed-in-shell:has(.hlc-portal-workspace.is-partner){--hlc-portal-accent:#a97513;--hlc-portal-accent-soft:rgba(169,117,19,.12)}
+html body #root .hlc-signed-in-shell:has(:is(.hlc-community-v2,.hlc-community-workspace:not(.hlc-ui-roleplay-knowledge-workspace-b35e3b))){--hlc-portal-accent:#8957b2;--hlc-portal-accent-soft:rgba(137,87,178,.12)}
+html body #root .hlc-signed-in-shell .hlc-portal-workspace.is-resident{--hlc-portal-accent:#16866a;--hlc-portal-accent-soft:rgba(22,134,106,.12)}
+html body #root .hlc-signed-in-shell .hlc-portal-workspace.is-professional{--hlc-portal-accent:#1479b8;--hlc-portal-accent-soft:rgba(20,121,184,.12)}
+html body #root .hlc-signed-in-shell .hlc-portal-workspace.is-partner{--hlc-portal-accent:#a97513;--hlc-portal-accent-soft:rgba(169,117,19,.12)}
+html body #root .hlc-signed-in-shell .hlc-community-workspace:not(.hlc-ui-roleplay-knowledge-workspace-b35e3b){
+  --community-blue:#8957b2;--community-line:rgba(137,87,178,.36);
+  --hlc-portal-accent:#8957b2;--hlc-portal-accent-soft:rgba(137,87,178,.12);
+}
+html body #root .hlc-signed-in-shell .hlc-community-v2{
+  --hlc-portal-accent:#c291eb;--hlc-portal-accent-soft:rgba(137,87,178,.17);
+  background:radial-gradient(ellipse at 84% 6%,rgba(137,87,178,.23),transparent 45%),linear-gradient(180deg,#121f38,#152139)!important;
+}
+html body #root .hlc-signed-in-shell .hlc-community-v2 :is(.hlc-community-v2-eyebrow,.hlc-community-v2-heading>span,.hlc-community-v2-context-card>span){color:#dbb4f4!important;-webkit-text-fill-color:#dbb4f4!important}
+html body #root .hlc-signed-in-shell .hlc-community-v2 :is(.hlc-community-v2-commandbar a,.hlc-community-v2-context-actions a):is(:hover,:focus-visible){color:#e7c9ff!important;border-color:#bf8aec!important}
+html body #root .hlc-signed-in-shell>.hlc-navbar{
+  background:linear-gradient(90deg,rgba(9,30,53,.98),rgba(18,47,71,.96))!important;
+  border-bottom:1px solid rgba(190,219,240,.18)!important;box-shadow:0 10px 22px rgba(8,29,49,.12)!important;
+}
+html body #root .hlc-signed-in-shell>.hlc-route-content{
+  background:radial-gradient(ellipse at 84% 1%,var(--hlc-portal-accent-soft),transparent 40%),linear-gradient(180deg,#eff6fa 0%,#f8fbfd 42%,#f3f8fb 100%)!important;
+  color:var(--hlc-app-text)!important;
+}
+html body #root .hlc-signed-in-shell .hlc-route-content :is(.hlc-portal-header,.hlc-account-header,.hlc-home-topbar-v2){
+  background:linear-gradient(110deg,#0c2743,color-mix(in srgb,var(--hlc-portal-accent) 20%,#18405d))!important;
+  color:#f4f9ff!important;
+  border:1px solid rgba(186,213,234,.23)!important;
+  box-shadow:0 14px 28px rgba(11,37,58,.12)!important;
+}
+html body #root .hlc-signed-in-shell .hlc-route-content :is(.hlc-portal-header,.hlc-account-header,.hlc-home-topbar-v2) :is(h1,h2,h3,p,span,strong){color:#f6fbff!important;-webkit-text-fill-color:#f6fbff!important}
+html body #root .hlc-signed-in-shell .hlc-portal-workspace :is(.hlc-portal-project,.hlc-portal-stat,.hlc-portal-section){border-color:var(--hlc-app-line)!important}
+html body #root .hlc-signed-in-shell .hlc-portal-workspace .hlc-portal-header .hlc-account-kicker{color:color-mix(in srgb,var(--hlc-portal-accent) 45%,white)!important;-webkit-text-fill-color:color-mix(in srgb,var(--hlc-portal-accent) 45%,white)!important}
+html body #root .hlc-signed-in-shell .hlc-portal-workspace .hlc-portal-actions a[aria-current="page"]{color:var(--hlc-portal-accent)!important;-webkit-text-fill-color:var(--hlc-portal-accent)!important}
+html body #root .hlc-signed-in-shell .hlc-route-content :is(.hlc-portal-workspace,.hlc-community-workspace) a:not(.hlc-navbar-brand){text-decoration-color:var(--hlc-portal-accent)}
+html body #root .hlc-signed-in-shell>.hlc-public-footer{background:transparent!important;border-top:1px solid var(--hlc-app-line)!important}
+/* Carry the family effects through work surfaces without turning every page
+   into a dark hero or a stack of floating cards. */
+html body #root .hlc-signed-in-shell .hlc-route-content :is(.hlc-portal-workspace,.hlc-community-workspace,.hlc-account-workspace){
+  background-image:radial-gradient(ellipse at 92% 0%,var(--hlc-portal-accent-soft),transparent 46%)!important;
+}
+html body #root .hlc-signed-in-shell .hlc-route-content :is(.hlc-portal-workspace,.hlc-community-workspace) :is(h1,h2){text-wrap:balance}
+html body #root .hlc-signed-in-shell .hlc-route-content :is(.hlc-portal-workspace,.hlc-community-workspace) img:not([data-hlc-master-logo]):not([class*="avatar"]){object-fit:cover;object-position:center}
+html body #root .hlc-signed-in-shell .hlc-route-content :is(a,button){transition:background-color .2s ease,border-color .2s ease,color .2s ease,transform .2s ease}
+html body #root .hlc-signed-in-shell .hlc-route-content :is(a,button):focus-visible{outline:3px solid var(--hlc-portal-accent)!important;outline-offset:3px!important}
+@media(hover:hover){
+  html body #root .hlc-signed-in-shell .hlc-route-content :is(.hlc-portal-workspace,.hlc-community-workspace) a:hover{color:var(--hlc-portal-accent)!important}
+  html body #root .hlc-signed-in-shell .hlc-route-content :is(.hlc-portal-workspace,.hlc-community-workspace) button:hover{border-color:var(--hlc-portal-accent)!important}
+}
+@media(prefers-reduced-motion:reduce){html body #root .hlc-signed-in-shell .hlc-route-content :is(a,button){transition:none!important;animation:none!important}}
+@media(max-width:680px){
+  html body #root .hlc-signed-in-shell>.hlc-navbar{min-height:70px!important}
+  html body #root .hlc-signed-in-shell>.hlc-route-content{padding-bottom:calc(112px + env(safe-area-inset-bottom))!important}
+  html body #root .hlc-signed-in-shell .hlc-mobile-tabbar{background:rgba(250,252,255,.97)!important;backdrop-filter:blur(14px)}
+}
+
+/* 2026-09-24 connected-product family authority.
+   The public pathways do not end at sign-in: each destination carries its
+   atmosphere into the authenticated product while preserving shared logic. */
+html body #root .hlc-signed-in-shell{
+  --hlc-portal-rgb:48,136,192;
+  --hlc-portal-deep:#123d5c;
+  --hlc-portal-photo:url('/hcx-commercial-professional-arrival.webp');
+}
+html body #root .hlc-signed-in-shell:is(
+  .hlc-page-homeowner-portal,.hlc-page-homeowner-portal-requests,
+  .hlc-page-homeowner-portal-appointments,.hlc-page-homeowner-portal-jobs,
+  .hlc-page-homeowner-portal-documents,.hlc-page-homeowner-portal-profile,
+  .hlc-page-homeowner-portal-settings,.hlc-page-homeowner-portal-properties,
+  .hlc-page-homeowner-portal-matches,.hlc-page-homeowner-portal-leadscope
+){
+  --hlc-portal-accent:#16866a;--hlc-portal-rgb:22,134,106;
+  --hlc-portal-accent-soft:rgba(22,134,106,.13);--hlc-portal-deep:#0d4a3d;
+  --hlc-portal-photo:url('/hcx-commercial-resident-service.webp');
+}
+html body #root .hlc-signed-in-shell:is(
+  .hlc-page-contractor-portal,.hlc-page-contractor-portal-profile,
+  .hlc-page-contractor-portal-services,.hlc-page-contractor-portal-documents,
+  .hlc-page-contractor-portal-resources,.hlc-page-contractor-portal-team,
+  .hlc-page-dashboard,.hlc-page-work,.hlc-page-leads,.hlc-page-estimator,
+  .hlc-page-jobs,.hlc-page-calendar,.hlc-page-follow-ups,.hlc-page-workflow,
+  .hlc-page-automations,.hlc-page-call-center,.hlc-page-manual-communications
+){
+  --hlc-portal-accent:#1479b8;--hlc-portal-rgb:20,121,184;
+  --hlc-portal-accent-soft:rgba(20,121,184,.13);--hlc-portal-deep:#123f65;
+  --hlc-portal-photo:url('/hcx-commercial-professional-arrival.webp');
+}
+html body #root .hlc-signed-in-shell:is(.hlc-page-partner-portal,.hlc-page-partner-portal-resources,.hlc-page-partners-manage){
+  --hlc-portal-accent:#a97513;--hlc-portal-rgb:169,117,19;
+  --hlc-portal-accent-soft:rgba(169,117,19,.14);--hlc-portal-deep:#5c4215;
+  --hlc-portal-photo:url('/four-pathways-partners-hq-20260915.jpg');
+}
+html body #root .hlc-signed-in-shell:is(
+  .hlc-page-community-hub,.hlc-page-community-discover,.hlc-page-community-messages,
+  .hlc-page-community-challenges,.hlc-page-community-academy,.hlc-page-community-discussions,
+  .hlc-page-community-reviews,.hlc-page-community-referrals,.hlc-page-community-events,
+  .hlc-page-community-moderation,.hlc-page-community-groups,.hlc-page-community-swipe
+){
+  --hlc-portal-accent:#8957b2;--hlc-portal-rgb:137,87,178;
+  --hlc-portal-accent-soft:rgba(137,87,178,.14);--hlc-portal-deep:#4a2c68;
+  --hlc-portal-photo:url('/four-pathways-community-hq-20260915.jpg');
+}
+
+html body #root .hlc-signed-in-shell>.hlc-navbar{
+  background:linear-gradient(155deg,rgba(8,26,45,.98),color-mix(in srgb,var(--hlc-portal-deep) 72%,#0a2039))!important;
+  box-shadow:0 12px 30px rgba(8,29,49,.14),inset 0 -1px rgba(var(--hlc-portal-rgb),.18)!important;
+}
+html body #root .hlc-signed-in-shell>.hlc-route-content{
+  background-image:
+    linear-gradient(180deg,rgba(244,250,253,.80) 0,rgba(247,251,253,.94) 210px,#f5f9fc 380px),
+    var(--hlc-portal-photo)!important;
+  background-position:top center!important;
+  background-repeat:no-repeat!important;
+  background-size:100% 390px,100% 390px!important;
+}
+html body #root .hlc-signed-in-shell .hlc-route-content :is(.hlc-portal-header,.hlc-account-header,.hlc-home-topbar-v2){
+  position:relative!important;isolation:isolate;overflow:hidden!important;
+  background-image:
+    linear-gradient(105deg,rgba(7,27,47,.94),color-mix(in srgb,var(--hlc-portal-deep) 78%,transparent) 64%,rgba(8,28,48,.34)),
+    var(--hlc-portal-photo)!important;
+  background-position:center,center 36%!important;background-size:cover!important;
+  border-color:rgba(var(--hlc-portal-rgb),.28)!important;
+  box-shadow:0 18px 42px rgba(11,37,58,.14)!important;
+}
+html body #root .hlc-signed-in-shell .hlc-route-content :is(
+  .hlc-portal-project,.hlc-portal-stat,.hlc-portal-section,.hlc-settings-section,
+  .hlc-account-section,.hlc-home-focus-panel,.hlc-home-schedule-panel,
+  [class*="workspace-card"],[class*="summary-card"],[class*="metric-card"],[class*="queue-card"]
+){
+  background:rgba(255,255,255,.91)!important;
+  border-color:rgba(var(--hlc-portal-rgb),.17)!important;
+  box-shadow:0 14px 36px rgba(28,54,74,.07)!important;
+  backdrop-filter:blur(12px);
+}
+html body #root .hlc-signed-in-shell .hlc-route-content :is(.hlc-home-panel-title>span,.hlc-account-kicker,.hlc-automations-kicker,.hlc-ui-eyebrow-5f86ec){
+  color:var(--hlc-portal-accent)!important;-webkit-text-fill-color:var(--hlc-portal-accent)!important;
+}
+
+/* Manual communications is a Professional workflow. Its old generated dark
+   primitives are presentation debt, not business-state authority. */
+html body #root .hlc-signed-in-shell.hlc-page-manual-communications .hlc-ui-page-0fe80a{color:var(--hlc-app-text)!important}
+html body #root .hlc-signed-in-shell.hlc-page-manual-communications :is(.hlc-ui-actionPanel-bc7076,.hlc-ui-supportingDetails-c72fa5,.hlc-ui-historyPanel-57ee4c,.hlc-ui-advanced-2d0151,.hlc-ui-postCall-7d163e){
+  color:var(--hlc-app-text)!important;background:rgba(255,255,255,.92)!important;
+  border-color:rgba(var(--hlc-portal-rgb),.20)!important;box-shadow:0 14px 34px rgba(23,55,78,.07)!important;
+}
+html body #root .hlc-signed-in-shell.hlc-page-manual-communications .hlc-ui-step-384a6d{border-color:rgba(var(--hlc-portal-rgb),.15)!important}
+html body #root .hlc-signed-in-shell.hlc-page-manual-communications :is(.hlc-ui-stepHeading-e4432c,.hlc-ui-label-97e274,.hlc-ui-advancedSummary-470967){color:var(--hlc-app-text)!important}
+html body #root .hlc-signed-in-shell.hlc-page-manual-communications :is(.hlc-ui-manual-communications-b24d93,.hlc-ui-helper-6370cf){color:var(--hlc-app-muted)!important}
+html body #root .hlc-signed-in-shell.hlc-page-manual-communications .hlc-ui-stepNumber-939291{background:var(--hlc-portal-accent)!important;color:#fff!important}
+html body #root .hlc-signed-in-shell.hlc-page-manual-communications .hlc-ui-selectedContact-22bbaa{background:var(--hlc-portal-accent-soft)!important;color:var(--hlc-app-text)!important}
+
+/* The circular brand is the authenticated mobile menu control. There is no
+   adjacent Menu button; focus, expanded state and touch feedback stay visible. */
+@media(max-width:1024px){
+  html body #root .hlc-signed-in-shell>.hlc-navbar .hlc-navbar-brand{
+    width:58px!important;min-width:58px!important;max-width:58px!important;
+    min-height:58px!important;padding:0!important;border:0!important;border-radius:50%!important;
+    cursor:pointer!important;box-shadow:0 0 0 1px rgba(var(--hlc-portal-rgb),.22),0 0 22px rgba(var(--hlc-portal-rgb),.18)!important;
+  }
+  html body #root .hlc-signed-in-shell>.hlc-navbar .hlc-navbar-brand-copy{display:none!important}
+  html body #root .hlc-signed-in-shell>.hlc-navbar .hlc-navbar-logo{width:58px!important;height:58px!important;min-width:58px!important}
+  html body #root .hlc-signed-in-shell>.hlc-navbar .hlc-navbar-logo img{width:58px!important;height:58px!important;object-fit:contain!important}
+  html body #root .hlc-signed-in-shell>.hlc-navbar .hlc-navbar-brand:is(:focus-visible,[aria-expanded="true"]){
+    outline:3px solid color-mix(in srgb,var(--hlc-portal-accent) 72%,white)!important;outline-offset:3px!important;
+  }
+  html body #root .hlc-signed-in-shell>.hlc-route-content{background-size:100% 280px,auto 280px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  html body #root .hlc-signed-in-shell :is(.hlc-navbar-brand,.hlc-route-content a,.hlc-route-content button){transition:none!important;animation:none!important}
+}

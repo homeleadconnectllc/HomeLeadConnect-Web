@@ -1,0 +1,16 @@
+.hcx-pathway-link[data-media-ready="false"]:before {
+  background-image:none!important;
+}
+
+.hcx-pathway-price {
+  color:#dff3ff;
+  font-size:12px;
+  font-weight:750;
+  line-height:1.35;
+  letter-spacing:.01em;
+}
+
+/* Owner correction 2026-09-26: remove the standalone Home footer from the rendered page. */
+.hcx-shell + .hlc-public-footer {
+  display:none!important;
+}

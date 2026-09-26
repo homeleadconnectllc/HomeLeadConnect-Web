@@ -47,29 +47,48 @@ Deno.serve(async (request) => {
   let callSessionId: string | null = null;
   let eventWorkspaceId: string | null = connection?.workspace_id || null;
   if (params.get("Body") && connection?.workspace_id) {
-    const { data: subject } = await admin.rpc("resolve_communication_subject", {
+    // Opt-outs apply to the endpoint even when several contacts share the number.
+    if (/^\s*(stop|stopall|unsubscribe|cancel|end|quit)\s*$/i.test(params.get("Body") || "")) {
+      const { data: existing } = await admin.from("communication_suppressions").select("id")
+        .eq("workspace_id", connection.workspace_id).eq("channel", "sms").eq("destination", from).is("released_at", null).maybeSingle();
+      if (!existing) {
+        const { error: suppressionError } = await admin.from("communication_suppressions").insert({
+          workspace_id: connection.workspace_id, channel: "sms", destination: from,
+          reason: "Recipient opt-out keyword", source: "twilio_inbound",
+        });
+        if (suppressionError) return new Response("Opt-out persistence failed", { status: 500 });
+      }
+    }
+    const { data: subject, error: subjectError } = await admin.rpc("resolve_communication_subject", {
       p_workspace_id: connection.workspace_id, p_channel: "sms", p_destination: from,
     });
+    if (subjectError) return new Response("Subject resolution failed", { status: 500 });
     const subjectType = subject?.subject_type;
     const subjectId = subject?.subject_id;
     if (subjectType && subjectId) {
-      const { data: inbound } = await admin.from("communication_transmissions").insert({
+      const { data: inbound, error: inboundError } = await admin.from("communication_transmissions").insert({
         workspace_id: connection.workspace_id, subject_type: subjectType, subject_id: String(subjectId), channel: "sms",
         direction: "inbound", purpose: "service", destination: from, content: params.get("Body"), provider_name: "twilio",
         provider_reference: sid, client_request_id: crypto.randomUUID(), status: "received",
       }).select("id").single();
+      if (inboundError) return new Response("Inbound persistence failed", { status: 500 });
       transmissionId = inbound?.id || null;
-      if (/^\s*(stop|stopall|unsubscribe|cancel|end|quit)\s*$/i.test(params.get("Body") || "")) {
-        const { data: existing } = await admin.from("communication_suppressions").select("id")
-          .eq("workspace_id", connection.workspace_id).eq("channel", "sms").eq("destination", from).is("released_at", null).maybeSingle();
-        if (!existing) await admin.from("communication_suppressions").insert({ workspace_id: connection.workspace_id, channel: "sms", destination: from, reason: "Recipient opt-out keyword", source: "twilio_inbound" });
-      }
+    } else {
+      const { error: unmatchedError } = await admin.from("communication_provider_events").update({
+        workspace_id: connection.workspace_id,
+        unmatched_channel: "sms",
+        unmatched_source: from,
+        unmatched_content: params.get("Body"),
+        unmatched_reason: subject?.status === "ambiguous" ? "ambiguous_contact" : "unknown_contact",
+      }).eq("provider_name", "twilio").eq("provider_event_key", eventKey);
+      if (unmatchedError) return new Response("Unmatched inbound persistence failed", { status: 500 });
     }
   } else if (sid && params.get("CallStatus") === "ringing") {
     const { data: businessNumber } = await admin.from("business_phone_numbers").select("id,workspace_id,provider_connection_id")
       .eq("provider_type","twilio").eq("phone_number",to).eq("inbound_enabled",true).eq("readiness_state","connected").maybeSingle();
     if (businessNumber) {
-      const { data: subject } = await admin.rpc("resolve_communication_subject",{p_workspace_id:businessNumber.workspace_id,p_channel:"call",p_destination:from});
+      const { data: subject, error: subjectError } = await admin.rpc("resolve_communication_subject",{p_workspace_id:businessNumber.workspace_id,p_channel:"call",p_destination:from});
+      if (subjectError) return new Response("Subject resolution failed", { status: 500 });
       const callPayload = {workspace_id:businessNumber.workspace_id,status:"active",lock_owner:"twilio",current_lead_id:subject?.subject_type==="lead"?Number(subject.subject_id):null,dial_state:"dialing",last_action_at:new Date().toISOString(),business_phone_id:businessNumber.id,provider_connection_id:businessNumber.provider_connection_id,provider_call_id:sid,direction:"inbound",normalized_state:"ringing",provider_raw_state:params.get("CallStatus"),subject_type:subject?.subject_type||null,subject_id:subject?.subject_id?String(subject.subject_id):null};
       const { data: existingCall } = await admin.from("call_sessions").select("id").eq("provider_connection_id",businessNumber.provider_connection_id).eq("provider_call_id",sid).maybeSingle();
       if (existingCall) {
@@ -80,18 +99,38 @@ Deno.serve(async (request) => {
         callSessionId=createdCall?.id||null;
       }
       if(subject?.subject_type&&subject?.subject_id){
-        const {data:inboundCall}=await admin.from("communication_transmissions").insert({workspace_id:businessNumber.workspace_id,subject_type:subject.subject_type,subject_id:String(subject.subject_id),channel:"call",direction:"inbound",purpose:"service",destination:from,provider_name:"twilio",provider_reference:sid,client_request_id:crypto.randomUUID(),status:"received"}).select("id").single();
+        const {data:inboundCall,error:inboundCallError}=await admin.from("communication_transmissions").insert({workspace_id:businessNumber.workspace_id,subject_type:subject.subject_type,subject_id:String(subject.subject_id),channel:"call",direction:"inbound",purpose:"service",destination:from,provider_name:"twilio",provider_reference:sid,client_request_id:crypto.randomUUID(),status:"received"}).select("id").single();
+        if (inboundCallError) return new Response("Inbound persistence failed", { status: 500 });
         transmissionId=inboundCall?.id||null;
+      } else {
+        const { error: unmatchedError } = await admin.from("communication_provider_events").update({
+          workspace_id: businessNumber.workspace_id,
+          unmatched_channel: "call", unmatched_source: from,
+          unmatched_reason: subject?.status === "ambiguous" ? "ambiguous_contact" : "unknown_contact",
+        }).eq("provider_name", "twilio").eq("provider_event_key", eventKey);
+        if (unmatchedError) return new Response("Unmatched inbound persistence failed", { status: 500 });
       }
       eventWorkspaceId=businessNumber.workspace_id;
     }
   } else if (sid) {
-    const update: Record<string, unknown> = { status: ["delivered","completed"].includes(status) ? "delivered" : ["failed","undelivered","canceled","busy","no-answer"].includes(status) ? "failed" : "sent" };
-    if (update.status === "delivered") update.delivered_at = new Date().toISOString();
-    if (update.status === "failed") { update.failure_code = params.get("ErrorCode") || status; update.failure_message = "Twilio reported delivery failure."; }
-    const { data: transmission } = await admin.from("communication_transmissions").update(update).eq("provider_name", "twilio").eq("provider_reference", sid).select("id,workspace_id").maybeSingle();
-    transmissionId = transmission?.id || null;
-    eventWorkspaceId = transmission?.workspace_id || null;
+    const providerOutcome = ["delivered","completed"].includes(status)
+      ? "delivered"
+      : ["failed","undelivered","canceled","busy","no-answer"].includes(status) ? "failed" : "ignored";
+    const { data: providerResult, error: providerOutcomeError } = await admin.rpc("record_communication_provider_outcome", {
+      p_provider_name: "twilio",
+      p_provider_event_key: eventKey,
+      p_provider_reference: sid,
+      p_event_type: status,
+      p_outcome: providerOutcome,
+      p_failure_code: providerOutcome === "failed" ? params.get("ErrorCode") || status : null,
+      p_failure_message: providerOutcome === "failed" ? "Twilio reported delivery failure." : null,
+    });
+    if (providerOutcomeError) return new Response("Outcome persistence failed", { status: 500 });
+    transmissionId = providerResult?.transmission_id || null;
+    if (transmissionId) {
+      const { data: transmission } = await admin.from("communication_transmissions").select("workspace_id").eq("id", transmissionId).maybeSingle();
+      eventWorkspaceId = transmission?.workspace_id || null;
+    }
     const normalized=["in-progress","answered"].includes(status)?"answered":status==="completed"?"completed":["busy"].includes(status)?"busy":["no-answer"].includes(status)?"no_answer":["failed"].includes(status)?"failed":["canceled"].includes(status)?"cancelled":"requested";
     const terminal=["completed","busy","no_answer","failed","cancelled"].includes(normalized);
     const legacyDialState=terminal?"ended":normalized==="answered"?"in_call":"dialing";
@@ -100,7 +139,8 @@ Deno.serve(async (request) => {
     eventWorkspaceId=eventWorkspaceId||callSession?.workspace_id||null;
   }
 
-  await admin.from("communication_provider_events").update({ workspace_id: eventWorkspaceId, transmission_id: transmissionId, call_session_id: callSessionId, processing_status: transmissionId || callSessionId ? "processed" : "ignored", processed_at: new Date().toISOString() })
+  const { error: eventUpdateError } = await admin.from("communication_provider_events").update({ workspace_id: eventWorkspaceId, transmission_id: transmissionId, call_session_id: callSessionId, processing_status: transmissionId || callSessionId || (eventWorkspaceId && params.get("Body")) ? "processed" : "ignored", processed_at: new Date().toISOString() })
     .eq("provider_name", "twilio").eq("provider_event_key", eventKey);
+  if (eventUpdateError) return new Response("Provider event persistence failed", { status: 500 });
   return new Response("ok", { status: 200 });
 });

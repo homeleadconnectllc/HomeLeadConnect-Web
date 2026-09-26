@@ -3,6 +3,7 @@ import { Calculator, CalendarClock, Mail, MessageSquare, MoreHorizontal, Phone }
 import type { CSSProperties } from "react";
 import type { LeadRecord } from "../../api/leads";
 import PortalInviteButton from "../portal/PortalInviteButton";
+import { phoneHref, smsHref } from "../../lib/contactTargets";
 
 const LEAD_ACCENTS = ["#38BDF8", "#2DD4BF", "#FBBF24", "#FB923C", "#60A5FA", "#34D399", "#A78BFA"];
 
@@ -18,10 +19,6 @@ function residentTypeFromNotes(notes: string | null) {
   return match?.[1]?.trim() || null;
 }
 
-function nativePhoneTarget(phone: string | null | undefined) {
-  return String(phone || "").replace(/[^\d+*#]/g, "");
-}
-
 export default function LeadCard({ lead }: { lead: LeadRecord }) {
   const pipelineLabel = lead.stage || lead.status || "new";
   const appointmentLabel = lead.appointment_at
@@ -30,12 +27,13 @@ export default function LeadCard({ lead }: { lead: LeadRecord }) {
   const accent = leadAccent(lead);
   const rowStyle = { "--lead-accent": accent } as CSSProperties;
   const residentType = residentTypeFromNotes(lead.notes);
-  const phoneTarget = nativePhoneTarget(lead.phone);
+  const callTarget = phoneHref(lead.phone);
+  const textTarget = smsHref(lead.phone);
 
   const secondaryActions = (
     <>
-      {phoneTarget && <a href={`tel:${phoneTarget}`}><Phone size={15} aria-hidden="true" />Call</a>}
-      {phoneTarget && <a href={`sms:${phoneTarget}`}><MessageSquare size={15} aria-hidden="true" />Text</a>}
+      {callTarget && <a href={callTarget}><Phone size={15} aria-hidden="true" />Call</a>}
+      {textTarget && <a href={textTarget}><MessageSquare size={15} aria-hidden="true" />Text</a>}
       {lead.phone && <Link to={`/manual-communications?contact=lead:${lead.id}&channel=call`}><MessageSquare size={15} aria-hidden="true" />Log</Link>}
       <PortalInviteButton role="homeowner" targetId={lead.id} email={lead.email} label="Invite" />
     </>

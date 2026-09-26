@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { listAutomationJobs, runAutomation, type AutomationJobRecord, type AutomationJobStatus } from "../../api/automations";
+import { listAutomationAttempts, listAutomationJobs, retryAutomation, runAutomation, type AutomationAttemptRecord, type AutomationJobRecord, type AutomationJobStatus } from "../../api/automations";
 import { automationRegistry, type AutomationMode } from "../../config/automation";
 
 type SafeAutomation = "workflow_health_check" | "followup_scan" | "owner_attention_scan";
-type RuntimeMessage = { tone: "success" | "error"; text: string };
+type RuntimeMessage = { tone: "progress" | "success" | "error"; text: string };
 const safeRuns: Array<{ id: SafeAutomation; label: string; description: string }> = [
   { id: "workflow_health_check", label: "Run workflow health check", description: "Counts live leads, jobs, assignments and scheduled appointments without changing workflow state." },
   { id: "followup_scan", label: "Scan follow-ups", description: "Checks overdue and upcoming follow-ups for the authenticated workspace." },
@@ -18,6 +18,7 @@ const statusLabels: Record<AutomationJobStatus, string> = {
   failed: "Failed",
   running: "Processing",
   succeeded: "Success",
+  retry_wait: "Retry available",
   blocked: "Blocked",
 };
 
@@ -30,6 +31,7 @@ const jobLabels: Record<string, string> = {
 
 export default function Automations() {
   const [jobs, setJobs] = useState<AutomationJobRecord[]>([]);
+  const [attempts, setAttempts] = useState<AutomationAttemptRecord[]>([]);
   const [historyState, setHistoryState] = useState<"loading" | "ready" | "error">("loading");
   const [busy, setBusy] = useState<Partial<Record<SafeAutomation, boolean>>>({});
   const [runtimeMessages, setRuntimeMessages] = useState<Partial<Record<SafeAutomation, RuntimeMessage>>>({});
@@ -42,15 +44,18 @@ export default function Automations() {
   const refresh = useCallback(async () => {
     const rows = await listAutomationJobs();
     setJobs(rows);
+    setAttempts(await listAutomationAttempts(rows.map((job) => job.id)));
     setHistoryState("ready");
   }, []);
 
   useEffect(() => {
     let active = true;
     listAutomationJobs()
-      .then((rows) => {
+      .then(async (rows) => {
         if (!active) return;
         setJobs(rows);
+        setAttempts(await listAutomationAttempts(rows.map((job) => job.id)));
+        if (!active) return;
         setHistoryState("ready");
       })
       .catch(() => {
@@ -68,13 +73,30 @@ export default function Automations() {
       const label = statusLabels[response.status] ?? response.status;
       setRuntimeMessages((current) => ({
         ...current,
-        [jobType]: { tone: response.status === "failed" || response.status === "blocked" ? "error" : "success", text: `${response.job_type} ${label.toLowerCase()}.` },
+        [jobType]: { tone: response.status === "failed" || response.status === "blocked" ? "error" : response.status === "success" || response.status === "succeeded" ? "success" : "progress", text: `${response.job_type} ${label.toLowerCase()}.` },
       }));
       await refresh();
     } catch (reason) {
       setRuntimeMessages((current) => ({
         ...current,
         [jobType]: { tone: "error", text: reason instanceof Error ? reason.message : "Automation run failed." },
+      }));
+    } finally {
+      setBusy((current) => ({ ...current, [jobType]: false }));
+    }
+  }
+
+  async function retry(job: AutomationJobRecord) {
+    const jobType = job.job_type as SafeAutomation;
+    if (busy[jobType]) return;
+    setBusy((current) => ({ ...current, [jobType]: true }));
+    try {
+      await retryAutomation(job.id);
+      await refresh();
+    } catch (reason) {
+      setRuntimeMessages((current) => ({
+        ...current,
+        [jobType]: { tone: "error", text: reason instanceof Error ? reason.message : "Automation retry failed." },
       }));
     } finally {
       setBusy((current) => ({ ...current, [jobType]: false }));
@@ -96,6 +118,17 @@ export default function Automations() {
         {(["AUTOMATIC", "RECOMMEND", "CONFIRM", "BLOCKED"] as AutomationMode[]).map((mode) => (
           <span key={mode} data-mode={mode}><strong>{modeCounts[mode]}</strong><small>{mode}</small></span>
         ))}
+      </section>
+
+      <section className="hlc-automation-truth" aria-labelledby="automation-truth-title">
+        <div><p className="hlc-automation-section-kicker">Execution truth</p><h2 id="automation-truth-title">A trigger starts work. Evidence proves the result.</h2></div>
+        <ol>
+          <li><strong>Triggered</strong><span>The qualifying event was recorded.</span></li>
+          <li><strong>Running</strong><span>The action is processing; success is not assumed.</span></li>
+          <li><strong>Completed</strong><span>The authoritative result and completion evidence were persisted.</span></li>
+          <li><strong>Failed / retry</strong><span>The failure stays visible with attempts, recovery, and escalation.</span></li>
+        </ol>
+        <p><strong>Notification boundary:</strong> a notification reports activity; it is not the workflow action or proof that the action completed. Business hours, quiet hours, consent, suppression, and destination checks remain action-time guardrails. Sound is optional presentation feedback only.</p>
       </section>
 
       <section className="hlc-automation-monitor" aria-labelledby="scheduled-workflow-title">
@@ -169,8 +202,18 @@ export default function Automations() {
             {jobs.map((job) => (
               <article className="hlc-automation-history-row" key={job.id} data-status={job.status}>
                 <div><strong>{jobLabels[job.job_type] ?? job.job_type}</strong><small>Created {new Date(job.created_at).toLocaleString()}</small></div>
-                <div><span>{statusLabels[job.status] ?? job.status}</span><small>Attempts {job.retry_count} / {job.max_attempts}</small></div>
-                <div>{job.result && <pre>{JSON.stringify(job.result, null, 2)}</pre>}{job.last_error && <small role="alert">{job.last_error}</small>}</div>
+                <div>
+                  <span>{statusLabels[job.status] ?? job.status}</span>
+                  <small>Attempts {job.retry_count} / {job.max_attempts}</small>
+                  {job.status === "retry_wait" && <button className="hlc-automation-retry" type="button" onClick={() => retry(job)} disabled={Boolean(busy[job.job_type as SafeAutomation])}>Retry safely</button>}
+                </div>
+                <div>
+                  {job.result && <pre>{JSON.stringify(job.result, null, 2)}</pre>}
+                  {job.last_error && <small role="alert">{job.last_error}</small>}
+                  {attempts.filter((attempt) => attempt.automation_job_id === job.id).map((attempt) => (
+                    <small key={attempt.id}>Attempt {attempt.attempt_number}: {attempt.status}{attempt.completed_at ? ` · ${new Date(attempt.completed_at).toLocaleString()}` : ""}</small>
+                  ))}
+                </div>
               </article>
             ))}
           </div>

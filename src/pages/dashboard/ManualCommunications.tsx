@@ -1,7 +1,10 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { useSearchParams } from "react-router-dom";
 import { listLeads } from "../../api/leads";
-import { listContractors } from "../../api/contractors";
+import {
+  listContractorCommunicationContacts,
+  type ContractorCommunicationContact,
+} from "../../api/contractors";
 import { createFollowUp } from "../../api/followUps";
 import {
   checkGoogleVoiceAction,
@@ -18,7 +21,7 @@ import {
   type ManualCommunicationSubject,
   type ManualCommunicationTransport,
 } from "../../api/manualCommunications";
-import type { Contractor, Lead } from "../../lib/types/database";
+import type { Lead } from "../../lib/types/database";
 import { errorMessage } from "../../lib/errorMessage";
 import { listConversations, type Conversation } from "../../api/messages";
 import { useAuth } from "../../hooks/useAuth";
@@ -31,6 +34,7 @@ import {
   shouldPromptForReturnedCall,
   suggestedFollowUpLocal,
 } from "../../lib/postCallAutomation";
+import { useModalDialogAccessibility } from "../../hooks/useModalDialogAccessibility";
 
 type ContactOption = {
   key: string;
@@ -42,6 +46,11 @@ type ContactOption = {
 };
 
 const LOAD_TIMEOUT_MS = 6000;
+const communicationPurposes: CommunicationPurpose[] = ["service", "appointment", "lead_follow_up", "marketing"];
+
+function communicationPurposeFromQuery(value: string | null): CommunicationPurpose {
+  return communicationPurposes.includes(value as CommunicationPurpose) ? value as CommunicationPurpose : "service";
+}
 
 function withTimeout<T>(promise: Promise<T>, fallback: T, timeoutMs = LOAD_TIMEOUT_MS): Promise<T> {
   return Promise.race([
@@ -56,6 +65,9 @@ const reasonLabels: Record<string, string> = {
   destination_suppressed: "This phone number is suppressed or on the workspace do-not-contact list.",
   sms_consent_not_proven: "SMS consent has not been recorded for this purpose.",
   outside_permitted_calling_window: "This marketing call is outside the permitted calling window.",
+  quiet_hours_active: "The organization quiet-hours window is active.",
+  outside_business_hours: "This action is outside the organization business-hours window.",
+  email_marketing_consent_not_proven: "Marketing email consent has not been recorded.",
   contact_location_unknown: "The contact location needs review before marketing outreach.",
   dnc_screening_required: "A current do-not-call screening is required for marketing outreach.",
   automated_or_prerecorded_review_required: "Automated or prerecorded communication needs review.",
@@ -74,7 +86,7 @@ export default function ManualCommunications() {
   const [searchParams] = useSearchParams();
   const pendingAtEntry = useMemo(() => readPendingManualCall(), []);
   const [leads, setLeads] = useState<Lead[]>([]);
-  const [contractors, setContractors] = useState<Contractor[]>([]);
+  const [contractors, setContractors] = useState<ContractorCommunicationContact[]>([]);
   const [history, setHistory] = useState<ManualCommunicationActivity[]>([]);
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [conversationId, setConversationId] = useState(() => pendingAtEntry?.conversationId || "");
@@ -85,7 +97,7 @@ export default function ManualCommunications() {
   const [channel, setChannel] = useState<ManualCommunicationChannel>(() => searchParams.get("channel") === "sms" ? "sms" : "call");
   const [transport, setTransport] = useState<ManualCommunicationTransport>(() => pendingAtEntry?.transport || (searchParams.get("transport") === "google_voice" ? "google_voice" : "device_native"));
   const [direction, setDirection] = useState<"inbound" | "outbound">(() => searchParams.get("direction") === "inbound" ? "inbound" : "outbound");
-  const [purpose, setPurpose] = useState<CommunicationPurpose>(() => pendingAtEntry?.purpose || "service");
+  const [purpose, setPurpose] = useState<CommunicationPurpose>(() => pendingAtEntry?.purpose || communicationPurposeFromQuery(searchParams.get("purpose")));
   const [outcome, setOutcome] = useState("");
   const [notes, setNotes] = useState("");
   const [followUpAt, setFollowUpAt] = useState("");
@@ -96,7 +108,6 @@ export default function ManualCommunications() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
-
   const contacts = useMemo<ContactOption[]>(() => [
     ...leads.filter((lead) => lead.phone).map((lead) => ({
       key: `lead:${lead.id}`,
@@ -116,12 +127,13 @@ export default function ManualCommunications() {
   ], [leads, contractors]);
 
   const selected = contacts.find((contact) => contact.key === contactKey) ?? null;
+  const returnPromptRef = useModalDialogAccessibility<HTMLElement>(returnPromptOpen && Boolean(selected), dismissReturnPrompt);
   const nativeTarget = selected ? normalizeNativePhoneTarget(selected.phone) : "";
 
   async function reload() {
     const [leadRows, contractorRows] = await Promise.all([
       withTimeout(listLeads(), [] as Lead[]),
-      withTimeout(listContractors(), [] as Contractor[]),
+      withTimeout(listContractorCommunicationContacts(), [] as ContractorCommunicationContact[]),
     ]);
     setLeads(leadRows);
     setContractors(contractorRows);
@@ -140,7 +152,7 @@ export default function ManualCommunications() {
 
     Promise.all([
       withTimeout(listLeads(), [] as Lead[]),
-      withTimeout(listContractors(), [] as Contractor[]),
+      withTimeout(listContractorCommunicationContacts(), [] as ContractorCommunicationContact[]),
     ])
       .then(([leadRows, contractorRows]) => {
         if (!active) return;
@@ -183,6 +195,12 @@ export default function ManualCommunications() {
       document.removeEventListener("visibilitychange", promptIfReturned);
     };
   }, []);
+
+  function dismissReturnPrompt() {
+    clearPendingManualCall();
+    setReturnPromptOpen(false);
+    setMessage("Pending call prompt dismissed without recording an outcome.");
+  }
 
   function resetCheck() {
     setCheck(null);
@@ -227,7 +245,19 @@ export default function ManualCommunications() {
     if (!selected || channel !== "call" || direction !== "outbound" || check?.decision !== "ALLOW") return;
     beginPendingManualCall({ contactKey: selected.key, transport, purpose, complianceCheck: check, conversationId, requestId });
     setReturnPromptOpen(false);
-    setMessage("Call opened. HLC will ask for the outcome when you return.");
+    setMessage(transport === "google_voice"
+      ? "Google Voice opened. Enter the selected contact number and place the call there; record only what actually happened when you return."
+      : "Phone app opened for the selected contact. Record only what actually happened when you return.");
+  }
+
+  async function copyGoogleVoiceDestination() {
+    if (!canHandoff || transport !== "google_voice") return;
+    try {
+      await navigator.clipboard.writeText(nativeTarget);
+      setMessage("Selected contact number copied. Paste it into Google Voice to contact this person.");
+    } catch {
+      setError("Copy was unavailable. Select the contact number shown here and enter it in Google Voice.");
+    }
   }
 
   async function persistActivity(reportedOutcome: string, reportedFollowUpAt = followUpAt) {
@@ -298,14 +328,14 @@ export default function ManualCommunications() {
     {error && <p role="alert" className="hlc-ui-manual-communications-eb1608">{error}</p>}
     {message && <p role="status" className="hlc-ui-manual-communications-b6a500">{message}</p>}
 
-    {returnPromptOpen && selected && <section role="dialog" aria-modal="true" aria-labelledby="post-call-heading" className="hlc-ui-postCall-7d163e">
+    {returnPromptOpen && selected && <section ref={returnPromptRef} role="dialog" aria-modal="true" aria-labelledby="post-call-heading" aria-describedby="post-call-description" className="hlc-ui-postCall-7d163e">
       <p className="hlc-ui-eyebrow-5f86ec">STEP 4 · RECORD OUTCOME</p>
       <h2 id="post-call-heading" className="hlc-ui-margin-ab79ea">What happened with {selected.label}?</h2>
-      <p className="hlc-ui-margin-ab79ea">One tap saves the result. No-answer, voicemail and callback outcomes also schedule a follow-up for this time tomorrow when the contact is a lead.</p>
+      <p id="post-call-description" className="hlc-ui-margin-ab79ea">One tap saves the result. No-answer, voicemail and callback outcomes also schedule a follow-up for this time tomorrow when the contact is a lead.</p>
       <div className="hlc-ui-quickOutcomeGrid-c55b41">
         {quickCallOutcomes.map((item) => <button key={item.label} disabled={busy} type="button" onClick={() => void quickSaveOutcome(item.label, item.followUp)}>{busy ? "Saving…" : item.label}</button>)}
       </div>
-      <button type="button" disabled={busy} onClick={() => { clearPendingManualCall(); setReturnPromptOpen(false); setMessage("Pending call prompt dismissed without recording an outcome."); }}>This was not a completed call</button>
+      <button type="button" disabled={busy} onClick={dismissReturnPrompt}>This was not a completed call</button>
     </section>}
 
     {!loading && <form onSubmit={saveActivity} className="hlc-ui-actionPanel-bc7076">
@@ -348,12 +378,17 @@ export default function ManualCommunications() {
           <h2 id="manual-step-open" className="hlc-ui-stepHeading-e4432c">Check &amp; open</h2>
           {direction === "outbound" && !check && <button className="hlc-ui-primaryButton-f2bf7a" disabled={busy || !selected} type="button" onClick={checkAction}>{busy ? "Checking…" : `Check before ${channel === "call" ? "calling" : "texting"}`}</button>}
           {direction === "outbound" && check && <div role="status" className="hlc-communication-decision" data-decision={check.decision}>
-            <strong>{check.decision === "ALLOW" ? "Ready to continue" : "Contact blocked"}</strong>
+            <strong>{check.decision === "ALLOW" ? "Ready to continue" : check.decision === "REVIEW" ? "Review required" : "Contact blocked"}</strong>
             {check.reasons.length > 0 && <ul>{check.reasons.map((reason) => <li key={reason}>{reasonLabels[reason] || reason}</li>)}</ul>}
             {check.decision === "ALLOW" && <p className="hlc-ui-margin-bottom-fa769a">The safety check is clear. Open the selected app, complete the manual action, then come back to HLC.</p>}
           </div>}
           {canHandoff && transport === "device_native" && <a href={`${channel === "call" ? "tel" : "sms"}:${nativeTarget}`} onClick={channel === "call" ? startCallHandoff : undefined} className="hlc-ui-handoff-f60592" aria-label={`${openLabel} for ${selected?.label || "selected contact"}`}>{openLabel}</a>}
-          {direction === "outbound" && check?.decision === "ALLOW" && transport === "google_voice" && <a href="https://voice.google.com/" target="_blank" rel="noreferrer" onClick={channel === "call" ? startCallHandoff : undefined} className="hlc-ui-handoff-f60592">Open Google Voice</a>}
+          {canHandoff && transport === "google_voice" && <div className="hlc-ui-manual-communications-8b9d0b">
+            <label className="hlc-ui-label-97e274">Selected contact number for Google Voice<input readOnly value={nativeTarget} onFocus={(event) => event.currentTarget.select()} /></label>
+            <button type="button" onClick={() => void copyGoogleVoiceDestination()}>Copy selected number</button>
+            <p className="hlc-ui-helper-6370cf">Open Google Voice and enter this selected contact number there. HomeLead Connect does not pass it automatically or call through the company number. Confirm the destination inside Google Voice before placing the call or text.</p>
+            <a href="https://voice.google.com/" target="_blank" rel="noreferrer" onClick={channel === "call" ? startCallHandoff : undefined} className="hlc-ui-handoff-f60592">Open Google Voice</a>
+          </div>}
           {!selected && <p className="hlc-ui-helper-6370cf">Choose a contact in Step 1 to continue.</p>}
         </div>
       </section>
@@ -405,7 +440,7 @@ export default function ManualCommunications() {
     {!loading && configuredNumber && <details className="hlc-ui-supportingDetails-c72fa5">
       <summary className="hlc-ui-advancedSummary-470967">Optional Google Voice</summary>
       <p>Manual operator number: <strong>{configuredNumber}</strong></p>
-      <a href="https://voice.google.com/" target="_blank" rel="noreferrer">Open Google Voice</a>
+      <a href="https://voice.google.com/" target="_blank" rel="noreferrer">Open Google Voice account (no selected contact)</a>
     </details>}
 
     {!loading && <section className="hlc-ui-historyPanel-57ee4c">

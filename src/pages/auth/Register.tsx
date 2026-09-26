@@ -1,3 +1,4 @@
+import { publicUrl } from "../../config/siteOrigins";
 import { useState, type FormEvent } from "react";
 import { Link, useLocation } from "react-router-dom";
 import AuthShell from "../../components/auth/AuthShell";
@@ -58,7 +59,7 @@ export default function Register() {
       title={invitedIdentity ? "Your identity is created" : "Your company workspace is created"}
       description={invitedIdentity ? "Confirm your email, then return to the invitation." : "You’re done here for now. Your account and workspace are ready for confirmation."}
       status={null}
-      footer={<p><a href="https://homeleadconnect.org">Public site</a></p>}
+      footer={<p><a href={publicUrl("/")}>Public site</a></p>}
     >
       <section className="hlc-auth-success" aria-live="polite">
         <div className="hlc-auth-success-primary">
@@ -79,7 +80,7 @@ export default function Register() {
   </>;
   const footer = <>
     <p>Already registered? <Link to={loginHref}>Sign in</Link>.</p>
-    <p><a href="https://homeleadconnect.org">Public site</a></p>
+    <p><a href={publicUrl("/")}>Public site</a></p>
   </>;
 
   return <AuthShell

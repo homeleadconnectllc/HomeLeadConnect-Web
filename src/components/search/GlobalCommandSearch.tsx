@@ -3,6 +3,7 @@ import { Search, X } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAccountAccess } from "../../hooks/useAccountAccess";
 import { canAccessWorkspacePath } from "../../lib/accessPolicy";
+import { useModalDialogAccessibility } from "../../hooks/useModalDialogAccessibility";
 import "../../styles/global-command-search.css";
 
 export const OPEN_HLC_COMMAND_SEARCH = "hlc:open-command-search";
@@ -62,6 +63,7 @@ export default function GlobalCommandSearch() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const dialogRef = useModalDialogAccessibility<HTMLDivElement>(open, () => setOpen(false));
 
   useEffect(() => {
     const openSearch = () => setOpen(true);
@@ -84,9 +86,7 @@ export default function GlobalCommandSearch() {
     if (!open) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const frame = window.requestAnimationFrame(() => inputRef.current?.focus());
     return () => {
-      window.cancelAnimationFrame(frame);
       document.body.style.overflow = previous;
     };
   }, [open]);
@@ -120,12 +120,13 @@ export default function GlobalCommandSearch() {
     <div className="hlc-cmd-v2-backdrop" role="presentation" onMouseDown={(event) => {
       if (event.currentTarget === event.target) setOpen(false);
     }}>
-      <div id="hlc-command-search-source" className="hlc-cmd-v2-shell" role="dialog" aria-modal="true" aria-label="Search HomeLead Connect">
+      <div ref={dialogRef} id="hlc-command-search-source" className="hlc-cmd-v2-shell" role="dialog" aria-modal="true" aria-label="Search HomeLead Connect">
         <div className="hlc-cmd-v2-head">
           <Search className="hlc-cmd-v2-search-icon" size={20} aria-hidden="true" />
           <input
             className="hlc-cmd-v2-input"
             ref={inputRef}
+            autoFocus
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search HomeLead Connect..."

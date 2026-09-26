@@ -4,18 +4,69 @@ import test from "node:test";
 
 const publicNav = readFileSync("src/components/PublicSiteNav.tsx", "utf8");
 const standaloneHome = readFileSync("src/standalonePublicHome.ts", "utf8");
-const visualFamily = readFileSync("src/styles/public-visual-family-20260919.css", "utf8");
+const visualFamily = readFileSync("src/styles/mockup-authority-20260924.css", "utf8");
+const sharedMenuLayer = readFileSync("src/styles/public-menu-layer-20260925.css", "utf8");
+const mainEntry = readFileSync("src/main.tsx", "utf8");
 
-test("the official logo is the only visible public menu trigger", () => {
-  assert.match(publicNav, /className="hlc-board-brand hlc-public-menu-trigger"/);
-  assert.match(publicNav, /aria-label=\{menuOpen \? "Close HomeLead Connect menu" : "Open HomeLead Connect menu"\}/);
-  assert.doesNotMatch(publicNav, /hlc-public-menu-cue|<Menu\b|<X\b/);
-  assert.doesNotMatch(standaloneHome, /hlc-public-menu-cue|☰|"Menu"/);
+test("the official circular logo controls the menu without a second menu button", () => {
+  assert.match(publicNav, /className="hlc-board-brand"/);
+  assert.match(publicNav, /aria-label=\{menuOpen\s*\?\s*"Close HomeLead Connect menu"\s*:\s*"Open HomeLead Connect menu"\}/);
+  assert.match(publicNav, /className="hlc-navbar-master-logo"[\s\S]*?src=\{NAV_LOGO\}[\s\S]*?data-hlc-master-logo="true"[\s\S]*?alt=""[\s\S]*?aria-hidden="true"/);
+  assert.match(publicNav, /aria-expanded=\{menuOpen\}[\s\S]*?aria-controls="hlc-public-menu"/);
+  assert.match(standaloneHome, /trigger\.append\(logo, make\("span", "hlc-brand-accessible-label", "HomeLead Connect"\)\)/);
+  assert.match(standaloneHome, /trigger\.setAttribute\("aria-controls", "hlc-public-menu"\)/);
+  assert.doesNotMatch(publicNav, /<Menu\b|<X\b|hlc-navbar-toggle/);
 });
 
-test("the logo menu cue is accessible and motion-safe", () => {
-  assert.match(visualFamily, /hlc-public-menu-trigger::after/);
-  assert.match(visualFamily, /hlc-logo-menu-glimmer/);
+test("logo menu has visible focus, an actual hidden state, and reduced motion", () => {
+  assert.match(visualFamily, /\.hlc-public-menu-backdrop\[hidden\]\s*\{\s*display:\s*none/);
+  assert.match(visualFamily, /\.hlc-board-brand:focus-visible/);
+  assert.match(visualFamily, /\.hlc-board-brand\[aria-expanded=(?:"true"|true)\]/);
   assert.match(visualFamily, /prefers-reduced-motion:reduce/);
-  assert.match(visualFamily, /hlc-public-menu-trigger:focus-visible/);
+  assert.match(publicNav, /event\.key\s*===\s*"Escape"/);
+  assert.match(standaloneHome, /event\.key\s*===\s*"Escape"/);
+});
+
+test("React public menu stays above page stacking contexts and contains interaction", () => {
+  assert.match(publicNav, /data-menu-open=\{menuOpen\s*\?\s*"true"\s*:\s*"false"\}/);
+  assert.match(sharedMenuLayer, /\.hlc-board-nav\[data-menu-open="true"\][\s\S]*?z-index:\s*10000/);
+  assert.match(sharedMenuLayer, /\.hlc-board-nav\[data-menu-open="true"\][\s\S]*?isolation:\s*isolate/);
+  assert.match(publicNav, /document\.body\.style\.overflow\s*=\s*"hidden"/);
+  assert.match(publicNav, /document\.body\.style\.overflow\s*=\s*priorOverflow/);
+  assert.match(publicNav, /event\.key\s*!==\s*"Tab"/);
+  assert.match(publicNav, /last\.focus\(\)/);
+  assert.match(publicNav, /first\.focus\(\)/);
+  assert.match(publicNav, /onPointerDown=\{\(event\)\s*=>/);
+  assert.match(publicNav, /event\.target\s*===\s*event\.currentTarget/);
+  assert.match(publicNav, /className="hlc-public-menu-backdrop"/);
+  assert.match(publicNav, /className="hlc-public-menu-panel"/);
+});
+
+test("standalone Home menu matches React focus, pointer, scroll, and ARIA behavior", () => {
+  assert.match(standaloneHome, /header\.dataset\.menuOpen\s*=\s*"false"/);
+  assert.match(standaloneHome, /header\.dataset\.menuOpen\s*=\s*"true"/);
+  assert.match(standaloneHome, /trigger\.setAttribute\("aria-label", "Open HomeLead Connect menu"\)/);
+  assert.match(standaloneHome, /trigger\.setAttribute\("aria-label", "Close HomeLead Connect menu"\)/);
+  assert.match(standaloneHome, /document\.body\.style\.overflow\s*=\s*"hidden"/);
+  assert.match(standaloneHome, /document\.body\.style\.overflow\s*=\s*priorOverflow/);
+  assert.match(standaloneHome, /requestAnimationFrame\(\(\)\s*=>\s*getMenuControls\(\)\[0\]\?\.focus\(\)\)/);
+  assert.match(standaloneHome, /addEventListener\("pointerdown"/);
+  assert.doesNotMatch(standaloneHome, /addEventListener\("mousedown"/);
+  assert.match(standaloneHome, /event\.key\s*!==\s*"Tab"/);
+  assert.match(standaloneHome, /last\.focus\(\)/);
+  assert.match(standaloneHome, /first\.focus\(\)/);
+  assert.match(standaloneHome, /requestAnimationFrame\(\(\)\s*=>\s*trigger\.focus\(\)\)/);
+});
+
+test("shared menu layer protects both surfaces and owns responsive header offset", () => {
+  assert.match(mainEntry, /import "\.\/styles\/public-menu-layer-20260925\.css"/);
+  assert.match(sharedMenuLayer, /--hlc-public-nav-height:\s*76px/);
+  assert.match(sharedMenuLayer, /@media\(max-width:900px\)/);
+  assert.match(sharedMenuLayer, /--hlc-public-nav-height:\s*68px/);
+  assert.match(sharedMenuLayer, /\.hlc-public-menu-backdrop\s*\{[\s\S]*?inset:var\(--hlc-public-nav-height\) 0 0/);
+  assert.match(sharedMenuLayer, /\.hlc-public-menu-panel\s*\{[\s\S]*?max-height:calc\(100dvh - var\(--hlc-public-nav-height\)\)/);
+  assert.match(sharedMenuLayer, /\.hlc-board-nav\[data-menu-open="true"\]/);
+  assert.match(sharedMenuLayer, /\.hlc-board-nav:has\(\.hlc-public-menu-backdrop:not\(\[hidden\]\)\)/);
+  assert.match(sharedMenuLayer, /z-index:\s*10000/);
+  assert.match(sharedMenuLayer, /isolation:\s*isolate/);
 });

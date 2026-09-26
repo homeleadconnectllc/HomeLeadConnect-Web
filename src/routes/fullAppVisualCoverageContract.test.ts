@@ -11,9 +11,10 @@ const routeVisualStyles = readFileSync(new URL("../styles/hlc-route-visual-banne
 const routeBodyVisuals = readFileSync(new URL("../styles/hlc-route-body-visuals.css", import.meta.url), "utf8");
 const authenticatedEntry = readFileSync(new URL("../styles/authenticated-entry.ts", import.meta.url), "utf8");
 const authority = readFileSync(new URL("../styles/full-app-visual-reference-authority.css", import.meta.url), "utf8");
+const connectedFamily = readFileSync(new URL("../styles/connected-app-family-20260923.css", import.meta.url), "utf8");
 
 const expectedReachableRoutes = [
-  "/", "/app", "/portal", "/contact", "/request-service", "/about", "/homeowners", "/contractors",
+  "/", "/app", "/portal", "/contact", "/request-service", "/about", "/homeowners", "/residents", "/contractors",
   "/how-it-works", "/leadscope", "/community", "/services", "/pricing", "/trust", "/professionals", "/demo",
   "/professional-application", "/accessibility", "/privacy", "/terms", "/platform-disclosure", "/login", "/register",
   "/forgot-password", "/reset-password", "/portal/accept", "/team/accept", "/homeowner-portal", "/contractor-portal",
@@ -86,4 +87,20 @@ test("retired reference still documents historical HLC department accents", () =
   assert.match(authority, /#f59e0b/i);
   assert.match(authority, /#6366f1/i);
   assert.match(authority, /#10b981/i);
+});
+
+test("public pathway identity continues into its authenticated destination family", () => {
+  assert.match(authenticatedStyles, /connected-app-family-20260923\.css/);
+  for (const routeFamily of [
+    "hlc-page-homeowner-portal",
+    "hlc-page-contractor-portal",
+    "hlc-page-partner-portal",
+    "hlc-page-community-hub",
+  ]) assert.match(connectedFamily, new RegExp(routeFamily));
+  for (const color of ["#16866a", "#1479b8", "#a97513", "#8957b2"]) {
+    assert.match(connectedFamily, new RegExp(color, "i"));
+  }
+  assert.match(connectedFamily, /hcx-commercial-resident-service\.webp/);
+  assert.match(connectedFamily, /hcx-commercial-professional-arrival\.webp/);
+  assert.match(connectedFamily, /prefers-reduced-motion:reduce/);
 });

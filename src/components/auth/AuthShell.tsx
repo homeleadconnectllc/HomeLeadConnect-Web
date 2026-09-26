@@ -3,7 +3,6 @@ import { useLocation } from "react-router-dom";
 import { appUrl, publicUrl } from "../../config/siteOrigins";
 import { pageImage } from "../../config/publicPageImagery";
 import PublicSiteNav from "../PublicSiteNav";
-import "../../styles/public-visual-family-20260919.css";
 
 type AuthShellProps = {
   title: string;

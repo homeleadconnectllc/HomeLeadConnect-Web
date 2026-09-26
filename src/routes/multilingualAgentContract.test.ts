@@ -52,6 +52,8 @@ test("all supported languages enforce native on-topic evidence-based HLC guidanc
 
 test("voice input and free native playback both follow the resolved locale", () => {
   assert.match(panel, /recognition\.lang = activeLocale/);
+  assert.match(panel, /recognition\.interimResults = true/);
+  assert.match(panel, /recognition\.continuous = true/);
   assert.match(panel, /speakAgentText\(agentId, text, locale, \(\) => setVoicePhase\("speaking"\)\)/);
   assert.match(voiceClient, /new SpeechSynthesisUtterance\(nativeSpeechText\(text, locale\)\)/);
   assert.match(voiceClient, /utterance\.lang = locale/);
@@ -60,6 +62,15 @@ test("voice input and free native playback both follow the resolved locale", () 
   assert.match(voiceClient, /lang\.startsWith\(`\$\{language\}-`\)/);
   assert.match(voiceClient, /if \(locale !== "en-US"\) return text/);
   assert.doesNotMatch(voiceClient, /hlc-agent-voice|audio\/speech|response_format/);
+});
+
+test("all three agents recognize spoken names and pronunciation variants before conversation turns are sent", () => {
+  assert.match(panel, /const spokenAgentNamePatterns: Record<AgentId, RegExp\[\]>/);
+  assert.match(panel, /kendrell:[\s\S]*ken\[\\s-\]\?drayl[\s\S]*bossman\\s\+ken/);
+  assert.match(panel, /dion:[\s\S]*dee\[\\s-\]\?yon[\s\S]*deon/);
+  assert.match(panel, /diamond:[\s\S]*die\[\\s-\]\?men[\s\S]*dia\[\\s-\]\?mond/);
+  assert.match(panel, /spokenTurnForAgent\(agentId, transcript\.text\)/);
+  assert.match(panel, /I am speaking to you\. Please respond\./);
 });
 
 test("Kendrell pronunciation and single authoritative native playback remain launch-locked", () => {

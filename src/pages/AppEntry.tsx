@@ -4,7 +4,6 @@ import PublicSiteNav from "../components/PublicSiteNav";
 import { useAuth } from "../hooks/useAuth";
 import { errorMessage } from "../lib/errorMessage";
 import { resolveUserDestination, type HlcDestination } from "../lib/accessDestination";
-import "../styles/public-visual-family-20260919.css";
 
 type Resolution = {
   userId: string;

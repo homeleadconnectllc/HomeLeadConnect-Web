@@ -24,7 +24,7 @@ export default function MobileNavigationDialogAccessibility() {
     const restoreFocus = () => {
       const target = previousFocus && document.contains(previousFocus)
         ? previousFocus
-        : document.querySelector<HTMLElement>(".hlc-navbar-toggle");
+        : document.querySelector<HTMLElement>('.hlc-navbar-brand[aria-controls="hlc-mobile-command-menu"]');
       activeDialog = null;
       previousFocus = null;
       cancelAnimationFrame(focusFrame);
@@ -57,7 +57,7 @@ export default function MobileNavigationDialogAccessibility() {
 
       if (event.key === "Escape") {
         event.preventDefault();
-        document.querySelector<HTMLElement>('.hlc-navbar-toggle[aria-expanded="true"]')?.click();
+        document.querySelector<HTMLElement>('.hlc-navbar-brand[aria-controls="hlc-mobile-command-menu"][aria-expanded="true"]')?.click();
         return;
       }
 

@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import RouteVisualBanner from "../components/RouteVisualBanner";
 import AnalyticsTracker from "../components/analytics/AnalyticsTracker";
+import ConnectivityStatus from "../components/connectivity/ConnectivityStatus";
 import { useAuth } from "../hooks/useAuth";
 
 const UniversalAITeamLauncher = lazy(() => import("../components/agents/UniversalAITeamLauncher"));
@@ -20,6 +21,7 @@ const PUBLIC_FRONT_DOOR_PATHS = new Set([
   "/request-service",
   "/about",
   "/homeowners",
+  "/residents",
   "/contractors",
   "/how-it-works",
   "/leadscope",
@@ -135,6 +137,7 @@ export default function AppLayout() {
         {signedInWorkspaceShell && <WorkspaceGuidance />}
         {signedInWorkspaceShell && <UniversalAITeamLauncher />}
         {signedInWorkspaceShell && <GlobalCommandSearch />}
+        {signedInWorkspaceShell && <ConnectivityStatus />}
       </Suspense>
     </div>
   );

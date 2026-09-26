@@ -11,7 +11,7 @@ test("public stylesheet classification does not swallow protected route descenda
   for (const route of ["/community/discover", "/community/reviews", "/community/swipe", "/partners/manage", "/dashboard"]) {
     assert.equal(publicRoute.test(route), false, route);
   }
-  for (const route of ["/community", "/community/", "/partners", "/homeowners", "/professional-application", "/privacy"]) {
+  for (const route of ["/community", "/community/", "/partners", "/homeowners", "/residents", "/professional-application", "/privacy"]) {
     assert.equal(publicRoute.test(route), true, route);
   }
 });

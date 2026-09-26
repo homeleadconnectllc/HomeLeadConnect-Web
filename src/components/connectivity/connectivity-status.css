@@ -1,0 +1,16 @@
+.hlc-connectivity-status {
+  position: fixed;
+  inset-inline: 12px;
+  bottom: calc(12px + env(safe-area-inset-bottom));
+  z-index: 1200;
+  max-width: 680px;
+  margin-inline: auto;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: rgba(10, 28, 48, .94);
+  color: #fff;
+  font-size: .9rem;
+  line-height: 1.35;
+  text-align: center;
+  box-shadow: 0 8px 28px rgba(0,0,0,.24);
+}

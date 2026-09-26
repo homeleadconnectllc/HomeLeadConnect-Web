@@ -1,0 +1,299 @@
+.hlc-build-tracker {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 26px 0 72px;
+}
+
+.hlc-build-tracker-header {
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(150, 179, 214, .18);
+}
+
+.hlc-build-tracker-header h1 {
+  margin: 5px 0 8px;
+}
+
+.hlc-build-tracker-header p {
+  max-width: 760px;
+  margin: 0;
+  line-height: 1.55;
+}
+
+.hlc-build-tracker-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(280px, .8fr);
+  gap: 28px;
+  padding: 28px 0;
+  border-bottom: 1px solid rgba(150, 179, 214, .18);
+}
+
+.hlc-build-tracker-overall > span,
+.hlc-build-tracker-item-head span,
+.hlc-build-tracker-decision-head span {
+  display: block;
+  font-size: .72rem;
+  font-weight: 850;
+  letter-spacing: .13em;
+}
+
+.hlc-build-tracker-overall > strong {
+  display: block;
+  margin: 6px 0 10px;
+  font-size: clamp(2rem, 4vw, 3.6rem);
+  line-height: 1;
+}
+
+.hlc-build-tracker-progress {
+  display: block;
+  width: 100%;
+  height: 7px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(150, 179, 214, .16);
+  color: currentColor;
+  appearance: none;
+}
+
+.hlc-build-tracker-progress::-webkit-progress-bar {
+  background: rgba(150, 179, 214, .16);
+  border-radius: 999px;
+}
+
+.hlc-build-tracker-progress::-webkit-progress-value {
+  background: currentColor;
+  border-radius: 999px;
+}
+
+.hlc-build-tracker-progress::-moz-progress-bar {
+  background: currentColor;
+  border-radius: 999px;
+}
+
+.hlc-build-tracker-overall small {
+  display: block;
+  margin-top: 9px;
+  line-height: 1.45;
+}
+
+.hlc-build-tracker-summary dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  border: 1px solid rgba(150, 179, 214, .16);
+}
+
+.hlc-build-tracker-summary dl > div {
+  padding: 15px;
+}
+
+.hlc-build-tracker-summary dt {
+  font-size: .75rem;
+}
+
+.hlc-build-tracker-summary dd {
+  margin: 4px 0 0;
+  font-size: 1.45rem;
+  font-weight: 850;
+}
+
+.hlc-build-tracker-boundary {
+  display: flex;
+  gap: 10px 18px;
+  align-items: baseline;
+  padding: 15px 0;
+  border-bottom: 1px solid rgba(150, 179, 214, .18);
+}
+
+.hlc-build-tracker-boundary span {
+  line-height: 1.5;
+}
+
+.hlc-build-tracker-filters {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 20px 0;
+  scrollbar-width: thin;
+}
+
+.hlc-build-tracker-filters button {
+  flex: 0 0 auto;
+  min-height: 40px;
+  padding: 7px 11px;
+  border: 1px solid rgba(150, 179, 214, .22);
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.hlc-build-tracker-filters button.is-active {
+  border-color: currentColor;
+  font-weight: 800;
+}
+
+.hlc-build-tracker-list {
+  display: grid;
+  gap: 0;
+}
+
+.hlc-build-tracker-item {
+  padding: 26px 0;
+  border-bottom: 1px solid rgba(150, 179, 214, .18);
+}
+
+.hlc-build-tracker-item-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 22px;
+  align-items: flex-start;
+}
+
+.hlc-build-tracker-item-head h3 {
+  margin: 5px 0 0;
+  font-size: clamp(1.22rem, 2vw, 1.7rem);
+}
+
+.hlc-build-tracker-statuses {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.hlc-build-tracker-statuses strong,
+.hlc-build-tracker-statuses em {
+  padding: 5px 8px;
+  border: 1px solid rgba(150, 179, 214, .22);
+  border-radius: 999px;
+  font-size: .76rem;
+  font-style: normal;
+}
+
+.hlc-build-tracker-statuses em.is-owner-decision,
+.hlc-build-tracker-statuses em.is-external-blocker {
+  border-style: dashed;
+}
+
+.hlc-build-tracker-item .hlc-build-tracker-progress {
+  margin-top: 15px;
+}
+
+.hlc-build-tracker-activity {
+  max-width: 900px;
+  margin: 16px 0 0;
+  line-height: 1.6;
+}
+
+.hlc-build-tracker-facts {
+  display: grid;
+  grid-template-columns: minmax(145px, .25fr) minmax(0, 1fr);
+  gap: 8px 18px;
+  margin: 18px 0 0;
+}
+
+.hlc-build-tracker-facts dt {
+  font-weight: 800;
+}
+
+.hlc-build-tracker-facts dd {
+  margin: 0;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.hlc-build-tracker-facts code {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.hlc-build-tracker-decision {
+  margin-top: 22px;
+  padding: 20px 0 0;
+  border-top: 1px dashed rgba(150, 179, 214, .28);
+}
+
+.hlc-build-tracker-decision-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.hlc-build-tracker-decision-head h4 {
+  margin: 5px 0 0;
+}
+
+.hlc-build-tracker-options {
+  margin: 14px 0;
+}
+
+.hlc-build-tracker-options p,
+.hlc-build-tracker-decision > p {
+  margin: 7px 0;
+  line-height: 1.5;
+}
+
+.hlc-build-tracker-decision label {
+  display: grid;
+  gap: 7px;
+  max-width: 440px;
+  margin-top: 16px;
+}
+
+.hlc-build-tracker-decision select {
+  min-height: 44px;
+  width: 100%;
+  padding: 9px 10px;
+  border: 1px solid rgba(150, 179, 214, .26);
+  border-radius: 10px;
+  background: inherit;
+  color: inherit;
+  font: inherit;
+}
+
+.hlc-build-tracker-decision small {
+  display: block;
+  max-width: 760px;
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+.hlc-build-tracker-owner-action {
+  margin-top: 13px !important;
+}
+
+@media (max-width: 760px) {
+  .hlc-build-tracker {
+    width: min(100% - 24px, 1180px);
+    padding-top: 18px;
+  }
+
+  .hlc-build-tracker-summary {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .hlc-build-tracker-item-head,
+  .hlc-build-tracker-decision-head,
+  .hlc-build-tracker-boundary {
+    display: grid;
+  }
+
+  .hlc-build-tracker-statuses {
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .hlc-build-tracker-facts {
+    grid-template-columns: 1fr;
+    gap: 3px;
+  }
+
+  .hlc-build-tracker-facts dd {
+    margin-bottom: 9px;
+  }
+}

@@ -4,6 +4,7 @@ import test from "node:test";
 
 const callCenter = readFileSync("src/pages/dashboard/CallCenter.tsx", "utf8");
 const manualCommunications = readFileSync("src/pages/dashboard/ManualCommunications.tsx", "utf8");
+const contractorsApi = readFileSync("src/api/contractors.ts", "utf8");
 const authenticatedStyles = readFileSync("src/styles/AuthenticatedStyles.tsx", "utf8");
 const postCallAutomation = readFileSync("src/lib/postCallAutomation.ts", "utf8");
 const messages = readFileSync("src/pages/dashboard/Messages.tsx", "utf8");
@@ -51,11 +52,24 @@ test("manual communications fail-open loading cannot be held hostage by supporti
   assert.match(manualCommunications, /const LOAD_TIMEOUT_MS = 6000/);
   assert.match(manualCommunications, /function withTimeout<T>/);
   assert.match(manualCommunications, /withTimeout\(listLeads\(\), \[\] as Lead\[\]\)/);
-  assert.match(manualCommunications, /withTimeout\(listContractors\(\), \[\] as Contractor\[\]\)/);
+  assert.match(manualCommunications, /withTimeout\(listContractorCommunicationContacts\(\), \[\] as ContractorCommunicationContact\[\]\)/);
   assert.match(manualCommunications, /void withTimeout\(listManualCommunicationActivity\(\), \[\] as ManualCommunicationActivity\[\]\)/);
   assert.match(manualCommunications, /void withTimeout\(listConversations\(\), \[\] as Conversation\[\]\)/);
   assert.match(manualCommunications, /finally\(\(\) => \{\s*if \(active\) setLoading\(false\);\s*\}\)/);
-  assert.doesNotMatch(manualCommunications, /Promise\.all\(\[\s*listLeads\(\),\s*listContractors\(\),\s*listManualCommunicationActivity\(\),\s*listConversations\(\),\s*canManageCommunications/);
+  assert.doesNotMatch(manualCommunications, /Promise\.all\(\[\s*listLeads\(\),\s*listContractorCommunicationContacts\(\),\s*listManualCommunicationActivity\(\),\s*listConversations\(\),\s*canManageCommunications/);
+});
+
+test("manual communication contacts do not depend on provider map schema", () => {
+  const query = contractorsApi.match(
+    /const contractorCommunicationColumns\s*=\s*\n?\s*"([^"]+)"/,
+  );
+
+  assert.ok(query, "communication-specific contractor projection must exist");
+  assert.equal(query[1], "id,company_name,contact_name,phone");
+  assert.doesNotMatch(query[1], /latitude|longitude|coordinate_/);
+  assert.match(contractorsApi, /export async function listContractorCommunicationContacts/);
+  assert.match(manualCommunications, /listContractorCommunicationContacts/);
+  assert.doesNotMatch(manualCommunications, /\blistContractors\b/);
 });
 
 test("manual communications selection feedback is rendered directly without retired soft-launch paint", () => {
@@ -104,6 +118,11 @@ test("Messages can deliberately send a portal message through the canonical emai
   assert.match(messagesApi, /functions\.invoke\("send-communication"/);
   assert.match(messagesApi, /channel: "email"/);
   assert.match(messagesApi, /subjectId/);
+  assert.doesNotMatch(messagesApi, /normalizeEmailTarget\(input\.recipient\.email\)/);
+  assert.match(messages, /transmission\.status === "sent"/);
+  assert.match(messages, /transmission\.status === "queued"/);
+  assert.match(messages, /requires provider review before delivery/);
+  assert.match(messages, /Email delivery is verified by HLC at send time/);
   assert.match(sendCommunication, /requestedSubject/);
   assert.match(sendCommunication, /subject: emailSubject/);
 });

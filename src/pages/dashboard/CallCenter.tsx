@@ -10,6 +10,7 @@ import {
 import { errorMessage } from "../../lib/errorMessage";
 import { getDispositionById, intelligentDispositions } from "../../data/intelligentDispositions";
 import { objectionGuides, scriptLibrary } from "../../data/scriptLibrary";
+import { useModalDialogAccessibility } from "../../hooks/useModalDialogAccessibility";
 
 function formatPhoneNumber(value: string) {
   const digits = value.replace(/\D/g, "");
@@ -45,6 +46,9 @@ export default function CallCenter() {
   const [editingCallId, setEditingCallId] = useState<string | null>(null);
   const [disposition, setDisposition] = useState("");
   const [notes, setNotes] = useState("");
+  const dispositionDialogRef = useModalDialogAccessibility<HTMLElement>(Boolean(editingCallId), () => {
+    if (!saving) setEditingCallId(null);
+  });
 
   const googleVoicePhone = phones.find((phone) => phone.provider_type === "google_voice") ?? null;
   const deviceMode = useMemo(() => getDeviceMode(), []);
@@ -186,7 +190,7 @@ export default function CallCenter() {
       )}
 
       {editingCallId && (
-        <section className="hlc-call-disposition" role="dialog" aria-modal="true" aria-labelledby="call-disposition-heading" data-smart-compose="off">
+        <section ref={dispositionDialogRef} className="hlc-call-disposition" role="dialog" aria-modal="true" aria-labelledby="call-disposition-heading" data-smart-compose="off">
           <div className="hlc-call-section-heading"><div><span>INTELLIGENT WRAP-UP</span><h2 id="call-disposition-heading">Record call outcome</h2></div></div>
           <label>Disposition
             <select autoFocus required value={disposition} onChange={(event) => setDisposition(event.target.value)}>
@@ -218,7 +222,8 @@ export default function CallCenter() {
               <div className="hlc-call-line-identity"><strong>{phone.display_name}: {formatPhoneNumber(phone.phone_number)}</strong><small>{providerLabel(phone.provider_type)} · {phone.readiness_state.replaceAll("_", " ")}{phone.is_primary ? " · Primary HomeLead Connect number" : ""}</small></div>
               <div className="hlc-call-line-capabilities" aria-label="Phone provider capabilities"><span>{capabilityLabel(phone.browser_calling_enabled, "In-app calling ready", "Calls use provider/device handoff")}</span><span>{capabilityLabel(phone.sms_enabled, "In-app SMS ready", "SMS uses provider/manual logging")}</span><span>{phone.inbound_enabled ? "Inbound events synchronized" : "Inbound events require operator/provider evidence"}</span></div>
               {phone.provider_type === "google_voice" && !phone.browser_calling_enabled && <p className="hlc-call-line-note">Google Voice is a connected carrier for this line. HomeLead Connect prepares contact and compliance context, opens the carrier surface, and preserves operator-reported history. Live Google Voice call controls stay inside Google Voice unless a supported API is connected later.</p>}
-              <div className="hlc-call-line-actions">{phone.provider_type === "google_voice" ? <><a className="is-primary" href="https://voice.google.com/" target="_blank" rel="noreferrer">{voiceLaunchLabel}</a><Link to="/manual-communications?channel=call&transport=google_voice&direction=outbound">Outbound call</Link><Link to="/manual-communications?channel=sms&transport=google_voice&direction=outbound">Outbound text</Link><Link to="/manual-communications?channel=call&transport=google_voice&direction=inbound">Log inbound call</Link><Link to="/manual-communications?channel=sms&transport=google_voice&direction=inbound">Log inbound text</Link><a href={`tel:${phone.phone_number}`}>Use device Phone app</a></> : <><a href={`tel:${phone.phone_number}`}>Call from this device</a><Link to="/manual-communications?channel=call&transport=device_native&direction=outbound">Outbound call</Link><Link to="/manual-communications?channel=sms&transport=device_native&direction=outbound">Outbound text</Link><Link to="/manual-communications?channel=call&transport=device_native&direction=inbound">Log inbound call</Link><Link to="/manual-communications?channel=sms&transport=device_native&direction=inbound">Log inbound text</Link></>}</div>
+              <div className="hlc-call-line-actions">{phone.provider_type === "google_voice" ? <><a className="is-primary" href="https://voice.google.com/" target="_blank" rel="noreferrer">{voiceLaunchLabel}</a><Link to="/manual-communications?channel=call&transport=google_voice&direction=outbound">Outbound call</Link><Link to="/manual-communications?channel=sms&transport=google_voice&direction=outbound">Outbound text</Link><Link to="/manual-communications?channel=call&transport=google_voice&direction=inbound">Log inbound call</Link><Link to="/manual-communications?channel=sms&transport=google_voice&direction=inbound">Log inbound text</Link></> : <><Link to="/manual-communications?channel=call&transport=device_native&direction=outbound">Outbound call</Link><Link to="/manual-communications?channel=sms&transport=device_native&direction=outbound">Outbound text</Link><Link to="/manual-communications?channel=call&transport=device_native&direction=inbound">Log inbound call</Link><Link to="/manual-communications?channel=sms&transport=device_native&direction=inbound">Log inbound text</Link></>}</div>
+              <p className="hlc-call-line-note">This is the HomeLead Connect company line. To call a resident or professional, choose that contact through Outbound call; dialing the company line will not connect you to the selected contact.</p>
             </article>
           ))}
         </div>

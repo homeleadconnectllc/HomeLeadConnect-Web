@@ -1,0 +1,21 @@
+# HomeLead Connect — Legacy Capability Reconciliation Matrix
+
+Status: ACTIVE IMPLEMENTATION LEDGER  
+Evidence rule: historical claims establish investigation targets, not implementation truth.
+
+| Historical capability | Historical source/name | Current HomeLead Connect home | Current implementation | Data source | Trigger/action | Permission/entitlement | Status | Gap/fix | Verification evidence |
+|---|---|---|---|---|---|---|---|---|---|
+| Contact identity: phone/email | CRM / communications | CRM record + Contact Methods + Communications | Canonical target helpers and manual/provider communications exist | Current contact/lead + communication services | Call/Text/Email | Must resolve role, record access, consent and channel eligibility | partially implemented | Finish canonical contact-method/dedupe and history association audit | `src/lib/contactTargets.ts`; communications APIs; acceptance contracts |
+| Manual calls/SMS | Prior communications | Communications / Call Workspace | Provider-neutral manual communications API and call surfaces exist | Supabase communication records | Device/native/provider handoff + log | Compliance evaluation required | implemented/current | Verify every direct call/text entry uses governed eligibility/history path | `src/api/manualCommunications.ts`; Call Center |
+| Provider email | Prior messaging | Unified communications | Server-resolved send-communication boundary exists | Supabase edge function/transmissions | Send email | Destination resolved server-side; compliance result enforced | implemented/current | Verify review/blocked/queued UX and record association | `src/api/messages.ts`; `send-communication` edge function |
+| Durable offline drafts | Mobile A+ | Work / Drafts / Offline Queue | IndexedDB foundation + connectivity state exists | Device IndexedDB | Save/load/remove safe draft | User scoped; unsafe consequential operations excluded | partially implemented | Wire real composers/forms, retry/recovery/conflict and mobile-safe indicator | `src/lib/durableOfflineState.ts`; connectivity component |
+| Agent experiences | Legacy voice/AI | Universal AI launcher/panel + agent pages | Current architecture requires Kendrell/Dion/Diamond role separation | Current AI surfaces | Assist/draft/summarize/prepare | Effective user authority | partially implemented | Inventory overlapping legacy launchers/rails and reconcile | Current design/governance contracts |
+| Lead Vacuum | Historical lead tooling | LeadScope + CRM | To verify | To verify | Lead discovery/qualification/routing | Current permission/entitlement rules | planned-only | Compare historical capability with LeadScope implementation before disposition | Repository/runtime audit required |
+| Base44 prototype capability | Base44/prototype | Canonical current routes/workspaces | Evidence only until verified | Current repo/runtime | Varies | Current authority only | superseded | Recover only still-valid capability; never parallel implementation | Repository/runtime audit required |
+| OAuth/integrations | Prior SaaS/integration work | Integrations / Admin | To verify | Integration configuration + provider APIs | Connect/sync/reconcile | Organization/role/security governed | partially implemented | Inventory providers, token ownership, sync direction, retry and audit | Repository/schema/runtime audit required |
+| Scheduling lifecycle | CRM/appointment work | Calendar / Appointments / Communications | To verify comprehensively | Appointment records | schedule/reschedule/cancel/outcome/follow-up | Record access + workflow + communication eligibility | partially implemented | E2E lifecycle and automation reconciliation | Route/API/schema/runtime audit required |
+| Subscription/SaaS | Historical SaaS | Billing / Entitlements | To verify against current central pricing/entitlement authority | Billing/catalog records | subscribe/change/add-on/downgrade/cancel | Billing authority separate from feature permission | partially implemented | Remove page-local assumptions; verify lifecycle/record access | Current entitlement/governance audit required |
+
+## Rule for updates
+
+Do not promote a row to `implemented/current` from documentation alone. Attach repository/schema/runtime/E2E evidence. Add discovered historical capabilities rather than silently omitting them.

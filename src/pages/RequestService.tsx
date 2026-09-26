@@ -1,7 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import PublicSiteNav from "../components/PublicSiteNav";
-import "../styles/public-visual-family-20260919.css";
 import { trackAnalyticsEvent } from "../api/analytics";
 import { submitServiceRequest } from "../api/publicIntake";
 import { errorMessage } from "../lib/errorMessage";
@@ -100,7 +99,7 @@ export default function RequestService() {
             <label><span>Best phone number <b>Required</b></span><input required type="tel" autoComplete="tel" placeholder="(717) 555-0123" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} /></label>
             <label><span>Resident / customer type <b>Required</b></span><select value={form.residentType} onChange={(e) => setForm({ ...form, residentType: e.target.value as ResidentType })}><option>Renter</option><option>Homeowner</option><option>Property manager</option><option>Other</option></select></label>
             <label><span>Email <em>Optional</em></span><input type="email" autoComplete="email" placeholder="you@example.com" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} /></label>
-            <label><span>What home service or project do you need? <b>Required</b></span><textarea required minLength={10} rows={6} placeholder="Describe the repair, move, cleaning, HVAC issue, project, timing, or anything else that would help us understand what you need." value={form.projectDetails} onChange={(e) => setForm({ ...form, projectDetails: e.target.value })} /></label>
+            <label><span>What home service or project do you need? <b>Required</b></span><textarea required minLength={10} rows={4} placeholder="Describe the repair, move, cleaning, HVAC issue, project, timing, or anything else that would help us understand what you need." value={form.projectDetails} onChange={(e) => setForm({ ...form, projectDetails: e.target.value })} /></label>
             <div className="hlc-request-privacy"><strong>What happens after you send this</strong><span>Your request goes to HomeLead Connect for review. We’ll contact you using the information above. You are not enrolling in marketing messages.</span></div>
             <button disabled={busy} type="submit">{busy ? "Sending request…" : "Next Step →"}</button>
           </form>
@@ -112,7 +111,6 @@ export default function RequestService() {
           <p>After you submit, HomeLead Connect reviews the request and contacts you about provider coordination or scheduling when appropriate.</p>
           <ul><li>Renters are welcome.</li><li>No marketing enrollment.</li><li>No provider or appointment is promised before confirmation.</li></ul>
           <Link to="/contact">Need help? Contact HomeLead Connect →</Link>
-          <small className="hlc-request-photo-credit">Harrisburg skyline: J. Passepartout / CC BY-SA 4.0</small>
         </aside>
       </section>
     </main>

@@ -1,4 +1,6 @@
 import { Link } from "react-router-dom";
+import { useAccountAccess } from "../../hooks/useAccountAccess";
+import { canAccessWorkspacePath } from "../../lib/accessPolicy";
 
 const sections = [
   {
@@ -37,6 +39,9 @@ const sections = [
 ] as const;
 
 export default function SettingsHome() {
+  const account = useAccountAccess();
+  const canOpenBuildTracker = Boolean(account.role && canAccessWorkspacePath(account.role, "/hq/build-tracker"));
+
   return (
     <main className="hlc-settings-home hlc-parent-index">
       <header className="hlc-parent-index-header">
@@ -66,6 +71,26 @@ export default function SettingsHome() {
           </section>
         ))}
       </nav>
+
+      {canOpenBuildTracker && (
+        <section className="hlc-settings-index-group" aria-labelledby="hlc-owner-system-build-title">
+          <div className="hlc-settings-index-copy">
+            <span>OWNER</span>
+            <h2 id="hlc-owner-system-build-title">System build & release</h2>
+            <p>Track HCX implementation, readiness, evidence, owner decisions and production-release boundaries.</p>
+          </div>
+          <div className="hlc-settings-index-links">
+            <Link to="/hq/build-tracker">
+              <span>System Build Tracker</span>
+              <b aria-hidden="true">→</b>
+            </Link>
+            <Link to="/hq/system-health">
+              <span>System health</span>
+              <b aria-hidden="true">→</b>
+            </Link>
+          </div>
+        </section>
+      )}
     </main>
   );
 }

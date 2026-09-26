@@ -184,7 +184,7 @@ export default function NetworkDirectory({ savedOnly = false }: { savedOnly?: bo
     </details>
 
     <nav className="hlc-account-inline-links hlc-s3-network-tools" aria-label="Network tools">
-      <Link to="/matching">Matching</Link>
+      <Link to="/work/matching">Operational matching</Link>
       <Link to="/network/service-areas">Manage service areas</Link>
       <Link to="/network/availability">Manage availability</Link>
       <Link to="/network/saved">Saved providers</Link>

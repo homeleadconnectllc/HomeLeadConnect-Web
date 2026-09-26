@@ -7,8 +7,11 @@
     <link rel="apple-touch-icon" href="/hlc-logo-transparent.png" />
     <script>
       (() => {
-        const isStandalonePublicHome = window.location.pathname === "/" && window.location.hostname.toLowerCase() !== "app.homeleadconnect.org";
-        if (isStandalonePublicHome) return;
+        const hostname = window.location.hostname.toLowerCase();
+        const pathname = window.location.pathname;
+        const isAppHost = hostname === "app.homeleadconnect.org";
+        const isPublicVisualCandidateRoute = !isAppHost && /^\/(?:|about|homeowners|residents|contractors|professionals|partners|community|services|how-it-works|leadscope|pricing|trust|demo|contact|request-service|professional-application|privacy|terms|accessibility|platform-disclosure|memorial|kendrell-memorial)\/?$/.test(pathname);
+        if (isPublicVisualCandidateRoute) return;
         document.write('<link id="hlc-runtime-structural-safeguards" rel="stylesheet" href="/runtime-structural-safeguards-20260919.css" />');
       })();
     </script>
@@ -31,8 +34,7 @@
   </head>
   <body>
     <div id="root"></div>
-    <link rel="preload" as="image" href="/home-hero-authority-desktop-20260916.webp" media="(min-width: 681px)" fetchpriority="high" />
-    <link rel="preload" as="image" href="/home-hero-authority-mobile-20260916.webp" media="(max-width: 680px)" fetchpriority="high" />
+    <link rel="preload" as="image" href="/hlc-homepage-hero-welcome-doorway-20260917.webp" fetchpriority="high" />
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

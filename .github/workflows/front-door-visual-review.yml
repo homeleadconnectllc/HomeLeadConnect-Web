@@ -106,8 +106,6 @@ jobs:
             /tmp/candidate-sha.txt
             /tmp/home-mobile.png
             /tmp/home-desktop.png
-            /tmp/home-footer-mobile.png
-            /tmp/home-footer-desktop.png
             /tmp/login-mobile.png
             /tmp/login-desktop.png
             /tmp/about-*.png

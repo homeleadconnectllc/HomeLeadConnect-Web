@@ -1,0 +1,335 @@
+/* Owner launch correction — 2026-09-25.
+   Keep photography clean, restore only purposeful motion, and use each pathway
+   color as its own restrained outline effect. */
+.hcx-shell .hlc-navbar-master-logo,
+.hlc-navbar-master-logo {
+  filter: none;
+}
+
+.hcx-shell .hlc-board-cta,
+.hlc-board-cta {
+  box-shadow: none;
+}
+
+.hlc-board-brand {
+  position: relative;
+  isolation: isolate;
+}
+
+/* The official logo is the menu trigger. Use a simple pulse, not a glow. */
+.hlc-board-brand .hlc-navbar-master-logo {
+  transform-origin: center;
+  animation: hlc-logo-pulse 2.8s ease-in-out infinite;
+}
+
+.hlc-board-brand::after {
+  content: none;
+}
+
+.hlc-board-brand:hover .hlc-navbar-master-logo,
+.hlc-board-brand:focus-visible .hlc-navbar-master-logo,
+.hlc-board-brand[aria-expanded="true"] .hlc-navbar-master-logo {
+  animation-play-state: paused;
+  transform: scale(1.055);
+  filter: none;
+}
+
+@keyframes hlc-logo-pulse {
+  0%, 58%, 100% { transform: scale(1); }
+  68% { transform: scale(1.075); }
+  78% { transform: scale(1.018); }
+  86% { transform: scale(1.055); }
+  94% { transform: scale(1); }
+}
+
+/* Each Home pathway keeps its own portal color on the outline, with a restrained
+   pulse around the edge only. The photo itself does not glow. */
+.hcx-shell .hcx-pathway-link {
+  border-width: 2px;
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--tone) 0%, transparent);
+  text-shadow: none;
+  animation: hcx-pathway-outline-pulse 3.2s ease-in-out infinite;
+}
+
+.hcx-shell .hcx-pathway-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--tone) 38%, transparent);
+}
+
+.hcx-shell .hcx-pathway-link:nth-child(2) { animation-delay: .18s; }
+.hcx-shell .hcx-pathway-link:nth-child(3) { animation-delay: .36s; }
+.hcx-shell .hcx-pathway-link:nth-child(4) { animation-delay: .54s; }
+
+@keyframes hcx-pathway-outline-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--tone) 0%, transparent); }
+  50% { box-shadow: 0 0 0 2px color-mix(in srgb, var(--tone) 28%, transparent); }
+}
+
+/* Pathway page photography stays clean: no glowing arc or decorative halo. */
+.hcx-pathway .hcx-pathway-media:before {
+  content: none;
+  display: none;
+  filter: none;
+}
+
+.hcx-pathway .hcx-pathway-media,
+.hcx-pathway .hcx-pathway-media img {
+  filter: none;
+  box-shadow: none;
+}
+
+/* Keep the secondary hero line off people's faces. */
+.hcx-script {
+  left: 50%;
+  right: auto;
+  top: 26px;
+  width: min(320px, 72vw);
+  max-width: 320px;
+  transform: translateX(-50%);
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(3, 15, 28, .6);
+}
+
+/* Keep feature imagery natural as well. */
+.hcx-feature,
+.hcx-feature img,
+.hlc-public-visual,
+.hlc-public-visual img,
+.hlc-auth-intro-visual,
+.hlc-auth-intro-visual img {
+  filter: none;
+  box-shadow: none;
+}
+
+/* Mobile Home: shorter hero, breathing room after the image, clean card edges. */
+@media (max-width: 680px) {
+  .hcx-shell .hcx-pathway-link:after {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      transparent 28%,
+      #071e35 28%,
+      #071e35 100%
+    );
+  }
+
+  .hcx-shell .hcx-home-hero {
+    min-height: 520px;
+    align-items: center;
+  }
+
+  .hcx-shell .hcx-home-hero picture {
+    height: 100%;
+  }
+
+  .hcx-shell .hcx-home-hero picture img {
+    object-position: 57% center;
+  }
+
+  .hcx-shell .hcx-home-hero:after {
+    background: rgba(0, 0, 0, .22);
+  }
+
+  .hcx-shell .hcx-home-copy {
+    width: min(100% - 40px, 620px);
+    margin: auto;
+    padding: 72px 0 30px;
+    text-align: center;
+    align-self: center;
+  }
+
+  .hcx-shell .hcx-home-copy h1,
+  .hcx-shell .hcx-home-copy p {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hcx-shell .hcx-home-copy h1 {
+    max-width: 560px;
+  }
+
+  .hcx-shell .hcx-home-copy p:not(.hcx-kicker) {
+    max-width: 540px;
+  }
+
+  .hcx-shell .hcx-kicker {
+    text-align: center;
+  }
+
+  .hcx-shell .hcx-script {
+    top: 18px;
+    left: 50%;
+    right: auto;
+    width: min(270px, 70vw);
+    max-width: 270px;
+    transform: translateX(-50%);
+    font-size: 14px;
+    line-height: 1.15;
+  }
+
+  .hcx-shell .hcx-script small {
+    margin-top: 6px;
+    font-size: 9px;
+  }
+
+  .hcx-shell .hcx-pathway-links {
+    margin-top: 26px;
+  }
+
+  .hlc-board-nav {
+    position: relative;
+    z-index: 1000;
+  }
+
+  .hlc-public-menu-backdrop {
+    position: fixed;
+    inset: 68px 0 0;
+    z-index: 999;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    background: rgba(3, 11, 25, .72);
+  }
+
+  .hlc-public-menu-panel {
+    width: min(330px, 84vw);
+    max-width: 84vw;
+    height: calc(100dvh - 68px);
+    max-height: calc(100dvh - 68px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 18px 18px 30px;
+    background: #10283f;
+    border-radius: 0 18px 18px 0;
+    box-shadow: 18px 0 40px rgba(0,0,0,.22);
+  }
+
+  .hlc-public-menu-primary,
+  .hlc-public-menu-secondary,
+  .hlc-public-menu-account {
+    display: grid;
+    gap: 6px;
+  }
+
+  .hlc-public-menu-primary a,
+  .hlc-public-menu-secondary a,
+  .hlc-public-menu-account a {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+  }
+
+  .hlc-public-menu-primary a {
+    padding: 12px 10px;
+  }
+
+  .hlc-public-menu-secondary,
+  .hlc-public-menu-account {
+    margin-top: 16px;
+    padding-top: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hlc-board-brand .hlc-navbar-master-logo,
+  .hcx-shell .hcx-pathway-link {
+    animation: none;
+  }
+
+  .hcx-pathway-link,
+  .hcx-pathway-link:before {
+    transition: none;
+  }
+}
+
+/* Global photographic treatment — owner correction 2026-09-25.
+   Photography must stay clean: no glow, halo, masked fade, colored tint,
+   colored edge band, decorative photo overlay, or luminous separation. */
+:is(
+  .hcx-home-hero picture,
+  .hcx-pathway-media,
+  .hcx-feature,
+  .hlc-public-visual,
+  .hlc-auth-intro-visual,
+  .hlc-utility-visual,
+  .hlc-legal-page-visual
+),
+:is(
+  .hcx-home-hero picture img,
+  .hcx-pathway-media img,
+  .hcx-feature img,
+  .hlc-public-visual img,
+  .hlc-auth-intro-visual img,
+  .hlc-utility-visual img,
+  .hlc-legal-page-visual img
+) {
+  filter: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  mix-blend-mode: normal !important;
+  background-blend-mode: normal !important;
+}
+
+:is(
+  .hcx-pathway-media,
+  .hcx-feature,
+  .hlc-public-visual,
+  .hlc-auth-intro-visual,
+  .hlc-utility-visual,
+  .hlc-legal-page-visual
+) {
+  -webkit-mask-image: none !important;
+  mask-image: none !important;
+  border: 0 !important;
+  outline: 0 !important;
+  background-image: none !important;
+  background-color: transparent !important;
+}
+
+/* Remove all colored/tinted overlay layers from dedicated image areas. */
+:is(
+  .hcx-pathway-media,
+  .hcx-feature,
+  .hlc-public-visual,
+  .hlc-auth-intro-visual,
+  .hlc-utility-visual,
+  .hlc-legal-page-visual
+)::before,
+:is(
+  .hcx-pathway-media,
+  .hcx-feature,
+  .hlc-public-visual,
+  .hlc-auth-intro-visual,
+  .hlc-utility-visual,
+  .hlc-legal-page-visual
+)::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  background-color: transparent !important;
+  opacity: 0 !important;
+  filter: none !important;
+  box-shadow: none !important;
+  mix-blend-mode: normal !important;
+}
+
+/* Hero photography may retain only a neutral contrast veil for readable overlaid text. */
+.hcx-home-hero::after {
+  background: linear-gradient(90deg, rgba(0,0,0,.36) 0%, rgba(0,0,0,.18) 48%, rgba(0,0,0,0) 82%),
+              linear-gradient(0deg, rgba(0,0,0,.24), rgba(0,0,0,0) 32%) !important;
+  filter: none !important;
+  box-shadow: none !important;
+}
+
+/* Do not leave a synthetic dark or colored strip directly beneath public photography. */
+:is(
+  .hcx-pathway-media,
+  .hcx-feature,
+  .hlc-public-visual,
+  .hlc-auth-intro-visual,
+  .hlc-utility-visual,
+  .hlc-legal-page-visual
+) + * {
+  box-shadow: none !important;
+  border-top: 0 !important;
+}

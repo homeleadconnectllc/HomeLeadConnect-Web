@@ -102,3 +102,9 @@ test("runtime bootstrap cannot revive retired visual authority files", () => {
 test("canonical visual family rejects retired navy page shells", () => {
   assert.doesNotMatch(visualFamily, /#071a2d|#0b2845|#04111f|#03111f|#030914|#06182a/i);
 });
+
+
+test("About hero keeps the owner-approved readable heading scale", () => {
+  assert.match(visualFamily,/data-public-page="about"[^\n]+hlc-public-hero>div h1\{/);
+  assert.match(visualFamily,/font-size:clamp\(2\.4rem,4vw,4rem\)!important/);
+});

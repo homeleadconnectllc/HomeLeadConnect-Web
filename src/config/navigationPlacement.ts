@@ -16,9 +16,11 @@ const additionsByGroup: Record<string, EcosystemPage[]> = {
   command: [],
   work: [
     page("Work Home", "/work", "Dion", ["Business", "Operations"], "Operational front door for active requests, jobs, scheduling, matching and next actions."),
+    page("Operational Matching", "/work/matching", "Dion", ["Business", "Operations"], "Project-fit matching, eligibility review and assignment evidence inside the Work lifecycle."),
   ],
   community: [
-    page("Discover People", "/community/discover", "Diamond", ["All signed-in roles"], "Find people and relationship opportunities inside the HLC community."),
+    page("Discover People", "/community/discover", "Diamond", ["All signed-in roles"], "Find opt-in people and relationship opportunities inside the HLC community without creating CRM access."),
+    page("Swipe Match", "/community/swipe", "Diamond", ["All signed-in roles"], "Community relationship discovery only; never provider assignment or operational matching."),
     page("Community Messages", "/community/messages", "Diamond", ["All signed-in roles"], "Connection-gated private community conversations."),
     page("Challenges", "/community/challenges", "Diamond", ["All signed-in roles"], "Community participation challenges and progress."),
     page("Community Learning", "/community/academy", "Diamond", ["All signed-in roles"], "Community education and guided participation learning."),
@@ -96,22 +98,23 @@ const workGroup: EcosystemNavigationGroup | null = workBase
     }
   : null;
 
+const networkGroup: EcosystemNavigationGroup | null = networkBase
+  ? {
+      ...networkBase,
+      label: "Network & Discovery",
+      purpose: "Provider directory, profiles, privacy-safe map and saved discovery. Operational matching stays in Work; Community relationships stay in Community.",
+      pages: networkBase.pages.filter((item) => item.route !== "/matching"),
+    }
+  : null;
+
 const communityGroup: EcosystemNavigationGroup | null = communityBase
   ? {
       ...communityBase,
       label: "Community",
-      purpose: "The HLC village: people, discussions, local activity, map, providers, reviews, referrals and events.",
+      purpose: "Opt-in people, discussions, events, reviews, referrals and relationship-based community interaction.",
       pages: mergePages(
-        [
-          communityBase.pages.find((item) => item.route === "/community-hub"),
-          networkBase?.pages.find((item) => item.route === "/map"),
-          networkBase?.pages.find((item) => item.route === "/providers"),
-          networkBase?.pages.find((item) => item.route === "/network"),
-          networkBase?.pages.find((item) => item.route === "/profiles"),
-          ...(additionsByGroup.community ?? []),
-          ...communityBase.pages.filter((item) => item.route !== "/community-hub"),
-          networkBase?.pages.find((item) => item.route === "/matching"),
-        ].filter((item): item is EcosystemPage => Boolean(item)),
+        additionsByGroup.community ?? [],
+        communityBase.pages,
       ),
     }
   : null;
@@ -144,6 +147,7 @@ const accountGroup: EcosystemNavigationGroup | null = accountBase
 export const ecosystemNavigation: EcosystemNavigationGroup[] = [
   commandGroup,
   workGroup,
+  networkGroup,
   communityGroup,
   messagesGroup,
   communicationGroup,
