@@ -15,6 +15,7 @@ test("public homepage has one lightweight presentation authority", () => {
   assert.doesNotMatch(standaloneHome, /\.innerHTML\s*=/);
   assert.match(standaloneHome, /replaceChildren\(\)/);
   assert.match(standaloneHome, /createElement/);
+  assert.match(standaloneHome, /createElementNS/);
   assert.doesNotMatch(indexHtml, /hlc-v2-parser-seed/);
   assert.doesNotMatch(indexHtml, /root\.innerHTML/);
   assert.match(main, /standalonePublicHome/);
@@ -22,7 +23,7 @@ test("public homepage has one lightweight presentation authority", () => {
 
 test("public homepage preserves optimized hero discovery", () => {
   assert.match(indexHtml, /rel="preload" as="image" href="\/hlc-homepage-hero-welcome-doorway-20260917\.webp"/);
-  assert.match(standaloneHome, /img\.src="\/hlc-homepage-hero-welcome-doorway-20260917\.webp"/);
+  assert.match(standaloneHome, /img\.src\s*=\s*"\/hlc-homepage-hero-welcome-doorway-20260917\.webp"/);
   assert.match(standaloneHome, /mockup-authority-20260924\.css/);
 });
 
@@ -30,14 +31,14 @@ test("public homepage preserves owner-approved destinations", () => {
   for (const href of ["/homeowners", "/professionals", "/partners", "/community"]) {
     assert.match(standaloneHome, new RegExp(href.replace("/", "\\/")));
   }
-  assert.match(standaloneHome, /trigger\.setAttribute\("aria-controls","hlc-public-menu"\)/);
+  assert.match(standaloneHome, /trigger\.setAttribute\(\s*"aria-controls"\s*,\s*"hlc-public-menu"\s*\)/);
 });
 
 test("homepage footer renders the canonical centered HomeLead Connect logo", () => {
-  assert.match(standaloneHome, /make\("footer","hlc-public-footer"\)/);
+  assert.match(standaloneHome, /make\(\s*"footer"\s*,\s*"hlc-public-footer"\s*\)/);
   assert.match(footer, /showLogo && <img/);
   assert.match(standaloneHome, /hlc-public-footer-master-logo/);
-  assert.match(standaloneHome, /footerLogo\.src="\/hlc-logo-ui\.png"/);
+  assert.match(standaloneHome, /footerLogo\.src\s*=\s*"\/hlc-logo-ui\.png"/);
 });
 
 test("authenticated application remains lazy and isolated from public root", () => {
