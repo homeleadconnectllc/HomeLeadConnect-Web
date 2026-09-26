@@ -28,7 +28,9 @@ test("logo menu has visible focus, an actual hidden state, and reduced motion", 
 });
 
 test("React public menu stays above page stacking contexts and contains interaction", () => {
-  assert.match(publicNav, /style=\{menuOpen\s*\?\s*\{\s*zIndex:\s*10000\s*\}\s*:\s*undefined\}/);
+  assert.match(publicNav, /data-menu-open=\{menuOpen\s*\?\s*"true"\s*:\s*"false"\}/);
+  assert.match(sharedMenuLayer, /\.hlc-board-nav\[data-menu-open="true"\][\s\S]*?z-index:\s*10000/);
+  assert.match(sharedMenuLayer, /\.hlc-board-nav\[data-menu-open="true"\][\s\S]*?isolation:\s*isolate/);
   assert.match(publicNav, /document\.body\.style\.overflow\s*=\s*"hidden"/);
   assert.match(publicNav, /document\.body\.style\.overflow\s*=\s*priorOverflow/);
   assert.match(publicNav, /event\.key\s*!==\s*"Tab"/);
@@ -36,8 +38,8 @@ test("React public menu stays above page stacking contexts and contains interact
   assert.match(publicNav, /first\.focus\(\)/);
   assert.match(publicNav, /onPointerDown=\{\(event\)\s*=>/);
   assert.match(publicNav, /event\.target\s*===\s*event\.currentTarget/);
-  assert.match(publicNav, /inset:\s*"var\(--hlc-public-nav-height, 76px\) 0 0"/);
-  assert.match(publicNav, /maxHeight:\s*"calc\(100dvh - var\(--hlc-public-nav-height, 76px\)\)"/);
+  assert.match(publicNav, /className="hlc-public-menu-backdrop"/);
+  assert.match(publicNav, /className="hlc-public-menu-panel"/);
 });
 
 test("standalone Home menu matches React focus, pointer, scroll, and ARIA behavior", () => {
