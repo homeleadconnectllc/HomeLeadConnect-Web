@@ -87,36 +87,12 @@ export default function PublicSiteNav() {
     };
   }, [menuOpen]);
 
-  const backdropStyle = {
-    position: "fixed",
-    inset: "var(--hlc-public-nav-height, 76px) 0 0",
-    zIndex: 9998,
-    background: "rgba(3,11,25,.55)",
-    overscrollBehavior: "contain",
-  } as const;
-
-  const panelStyle = {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "min(390px,92vw)",
-    height: "100%",
-    maxHeight: "calc(100dvh - var(--hlc-public-nav-height, 76px))",
-    overflowY: "auto",
-    WebkitOverflowScrolling: "touch",
-    background: "#10283f",
-    padding: "28px",
-    boxShadow: "24px 0 60px rgba(0,0,0,.3)",
-    zIndex: 9999,
-  } as const;
-
   return (
     <header
       ref={navRef}
       className="hlc-board-nav"
       data-public-tone={tone}
       data-menu-open={menuOpen ? "true" : "false"}
-      style={menuOpen ? { zIndex: 10000 } : undefined}
     >
       <div className="hlc-board-nav-inner">
         <button
@@ -153,7 +129,6 @@ export default function PublicSiteNav() {
       {menuOpen && (
         <div
           className="hlc-public-menu-backdrop"
-          style={backdropStyle}
           onPointerDown={(event) => {
             if (event.target === event.currentTarget) setMenuOpen(false);
           }}
@@ -162,7 +137,6 @@ export default function PublicSiteNav() {
             ref={menuPanelRef}
             id="hlc-public-menu"
             className="hlc-public-menu-panel"
-            style={panelStyle}
             aria-label="HomeLead Connect menu"
           >
             <div className="hlc-public-menu-primary">
