@@ -141,7 +141,7 @@ export default function AppLayout() {
   return (
     <div data-hlc-family={routeFamily(location.pathname)} data-hlc-audience={portalAudience ?? (signedInWorkspaceShell ? "workspace" : "public")} className={`${publicFrontDoorSurface ? "hlc-public-shell" : `hlc-app-shell ${signedInWorkspaceShell ? "hlc-signed-in-shell" : "hlc-public-shell"}`} ${routeClass}${internalTools && sidebarCollapsed ? " hlc-sidebar-is-collapsed" : ""}${routePersonaClass ? ` ${routePersonaClass}` : ""}${focusedPublicIntake ? " hlc-focused-public-intake" : ""}${authFrontDoorSurface ? " hlc-auth-front-door-surface" : ""}${publicFrontDoorSurface ? " hlc-public-front-door-surface" : ""}`}>
       <AnalyticsTracker />
-      {!focusedPublicIntake && !authFrontDoorSurface && !publicFrontDoorSurface && !appEntrySurface && !homepageSurface && (!session || authorizedShell) && <Navbar />}
+      {!focusedPublicIntake && !authFrontDoorSurface && !publicFrontDoorSurface && !appEntrySurface && !homepageSurface && <Navbar />}
       {internalTools && desktopShell && (
         <button className="hlc-desktop-sidebar-toggle" type="button" aria-label={sidebarCollapsed ? "Expand workspace sidebar" : "Collapse workspace sidebar"} aria-expanded={!sidebarCollapsed} onClick={() => setSidebarCollapsed((current) => !current)}>
           <span aria-hidden="true">{sidebarCollapsed ? "›" : "‹"}</span>
