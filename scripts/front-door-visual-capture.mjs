@@ -33,7 +33,7 @@ try {
       await page.screenshot({ path: `/tmp/${routeName}-${viewportName}.png` });
 
       if (routeName === "home") {
-        const footer = page.locator(".hlc-board-footer").last();
+        const footer = page.locator(".hlc-public-footer").last();
         await footer.waitFor({ state: "visible", timeout: 10_000 });
         await footer.scrollIntoViewIfNeeded();
         const box = await footer.boundingBox();
