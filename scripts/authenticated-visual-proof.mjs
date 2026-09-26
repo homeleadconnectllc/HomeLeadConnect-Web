@@ -54,6 +54,7 @@ fs.mkdirSync(outputDir, { recursive: true });
 const NAVIGATION_TIMEOUT_MS = 15_000;
 const UI_TIMEOUT_MS = 10_000;
 const SETTLE_MS = 350;
+const WORKSPACE_LOADING_TITLE = "Opening your workspace";
 
 function configurePage(page) {
   page.setDefaultNavigationTimeout(NAVIGATION_TIMEOUT_MS);
@@ -68,11 +69,25 @@ async function waitForRenderedDocument(page) {
   await page.waitForTimeout(SETTLE_MS);
 }
 
+async function waitForResolvedWorkspace(page) {
+  await page.waitForSelector(".hlc-signed-in-shell", { state: "visible", timeout: UI_TIMEOUT_MS });
+  try {
+    await page.waitForFunction((loadingTitle) => {
+      const heading = document.querySelector("h1")?.textContent?.trim();
+      return heading !== loadingTitle;
+    }, WORKSPACE_LOADING_TITLE, { timeout: UI_TIMEOUT_MS });
+  } catch (error) {
+    const heading = await page.locator("h1").first().textContent().catch(() => null);
+    throw new Error(`Workspace resolution timeout: still rendering ${JSON.stringify(heading?.trim() || "no heading")} after ${UI_TIMEOUT_MS}ms.`, { cause: error });
+  }
+  await waitForRenderedDocument(page);
+}
+
 async function gotoRendered(page, url, { requireWorkspace = false } = {}) {
   await page.goto(url, { waitUntil: "domcontentloaded", timeout: NAVIGATION_TIMEOUT_MS });
   await waitForRenderedDocument(page);
   if (requireWorkspace) {
-    await page.waitForSelector(".hlc-signed-in-shell", { state: "visible", timeout: UI_TIMEOUT_MS });
+    await waitForResolvedWorkspace(page);
   }
 }
 
@@ -154,9 +169,8 @@ try {
       await deepLinkPage.getByLabel("Password").fill(password);
       await deepLinkPage.getByRole("button", { name: "Sign in to HomeLead Connect" }).click();
       await deepLinkPage.waitForURL((url) => url.pathname === "/hq/approvals", { timeout: 20_000 });
-      await deepLinkPage.waitForSelector(".hlc-signed-in-shell", { state: "visible", timeout: UI_TIMEOUT_MS });
+      await waitForResolvedWorkspace(deepLinkPage);
       await deepLinkPage.waitForSelector('.hlc-navbar-brand img[alt="HomeLead Connect LLC"]', { state: "visible", timeout: UI_TIMEOUT_MS });
-      await waitForRenderedDocument(deepLinkPage);
       await assertExactlyOneVisibleLogo(deepLinkPage, "Protected deep-link after sign-in mobile");
       await deepLinkPage.screenshot({ path: path.join(outputDir, "protected-deep-link-after-sign-in-mobile.png"), fullPage: true });
     } finally {
