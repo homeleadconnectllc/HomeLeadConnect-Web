@@ -333,3 +333,69 @@
   box-shadow: none !important;
   border-top: 0 !important;
 }
+
+/* ==========================================================
+   HCX NATURAL PHOTOGRAPHY AUTHORITY — 2026-09-26
+   Photography remains natural.
+   Pathway identity belongs to borders, typography and surfaces,
+   never as a colored wash over people or photography.
+   ========================================================== */
+
+/* Home four-pathway photography */
+html body #root .hlc-board-home .hlc-board-pathway--resident {
+  background-image:url('/four-pathways-residents-hq-20260915.jpg') !important;
+}
+
+html body #root .hlc-board-home .hlc-board-pathway--professional {
+  background-image:url('/page-professionals-provider-presence-20260916.webp') !important;
+}
+
+html body #root .hlc-board-home .hlc-board-pathway--partner {
+  background-image:url('/four-pathways-partners-hq-20260915.jpg') !important;
+}
+
+html body #root .hlc-board-home .hlc-board-pathway--community {
+  background-image:url('/four-pathways-community-hq-20260915.jpg') !important;
+}
+
+/* Do not recolor the pathway photographs themselves. */
+html body #root .hlc-board-home .hlc-board-pathway {
+  background-blend-mode:normal !important;
+  filter:none !important;
+}
+
+/* Individual public pathway hero photography */
+html body #root .hcx-pathway-media img,
+html body #root .hlc-pathway-hero-visual img,
+html body #root .hlc-public-visual img {
+  filter:none !important;
+  mix-blend-mode:normal !important;
+  opacity:1 !important;
+}
+
+/*
+ * Remove pathway-colored image washes.
+ * Neutral readability treatment may remain where text actually
+ * overlaps photography.
+ */
+html body #root .hcx-pathway-media::before {
+  display:none !important;
+  content:none !important;
+}
+
+html body #root .hcx-pathway-media::after {
+  background:linear-gradient(
+    90deg,
+    rgba(3,12,24,.48) 0%,
+    rgba(3,12,24,.12) 27%,
+    transparent 52%
+  ) !important;
+}
+
+/* Community photograph gets the same natural-photo treatment. */
+html body #root [data-pathway="community"] .hcx-pathway-media::after,
+html body #root .hlc-public-page[data-public-page="community"] .hlc-public-visual::before,
+html body #root .hlc-public-page[data-public-page="community"] .hlc-public-visual::after {
+  background:transparent !important;
+  background-image:none !important;
+}
