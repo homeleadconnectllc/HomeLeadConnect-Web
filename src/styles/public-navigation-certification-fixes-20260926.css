@@ -1,0 +1,30 @@
+.hlc-public-menu-secondary a,
+.hlc-public-menu-account a {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+}
+
+[data-public-page="professionals"] .hlc-public-shell--visual,
+[data-public-page="professionals"] .hlc-public-hero,
+[data-public-page="professionals"] .hlc-public-visual,
+[data-public-page="professionals"] .hlc-public-form-wrap,
+[data-public-page="professionals"] .hlc-public-sidecard,
+[data-public-page="professionals"] .hlc-public-form,
+[data-public-page="professionals"] .hlc-public-form > *,
+[data-public-page="professionals"] .hlc-public-form input,
+[data-public-page="professionals"] .hlc-public-form textarea,
+[data-public-page="professionals"] .hlc-public-form button {
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+[data-public-page="professionals"] .hlc-public-shell--visual {
+  overflow-x: clip;
+}
+
+[data-public-page="professionals"] .hlc-public-form input,
+[data-public-page="professionals"] .hlc-public-form textarea {
+  width: 100%;
+}
