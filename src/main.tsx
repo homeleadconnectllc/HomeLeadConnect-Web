@@ -49,7 +49,10 @@ if (isPublicHome) {
       import("./styles/mockup-authority-20260924.css"),
       import("./styles/home-no-glow-20260925.css"),
       import("./styles/public-full-bleed-20260925.css"),
-    ]).then(mountReactApp);
+    ]).then(async () => {
+      await import("./styles/public-owner-corrections-20260926.css");
+      await mountReactApp();
+    });
   }
   if (!usesCurrentVisualAuthority) {
     void import("./styles/app-shell-entry").then(mountReactApp);

@@ -40,7 +40,6 @@ export default function PublicInfo({ page }: { page: keyof typeof content }) {
     <PublicSiteNav/>
     <div className="hlc-public-shell hlc-public-shell--visual">
       <header className="hlc-public-hero"><div>
-        <div className="hlc-public-brand"><img className="hlc-public-logo" src="/hlc-logo-transparent.png" alt="HomeLead Connect LLC" width={220} height={71}/></div>
         <p className="hlc-public-kicker">{item.kicker}</p><h1>{item.title}</h1><p className="hlc-public-intro-copy">{item.body}</p>
         <div className="hlc-public-actions">{page === "contractors" && <Link className="hlc-public-primary" to="/professional-application">Apply as a professional</Link>}{page === "leadscope" && <Link className="hlc-public-primary" to="/app">Open HomeLead Connect</Link>}<Link className="hlc-public-secondary" to="/contact">Contact HomeLead Connect</Link></div>
       </div></header>

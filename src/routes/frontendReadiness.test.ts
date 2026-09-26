@@ -10,6 +10,9 @@ const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
 const footer = readFileSync("src/components/Footer.tsx", "utf8");
 const mobileControls = readFileSync("src/components/MobileViewControls.tsx", "utf8");
 const mobileShell = readFileSync("src/styles/mobile-message-shell-controls.css", "utf8");
+const authenticatedVisualProof = readFileSync("scripts/authenticated-visual-proof.mjs", "utf8");
+const publicInfo = readFileSync("src/pages/PublicInfo.tsx", "utf8");
+const publicOwnerCorrections = readFileSync("src/styles/public-owner-corrections-20260926.css", "utf8");
 
 test("final frontend readiness guard is mounted in the authenticated style bundle", () => {
   assert.match(authenticatedStyles, /frontend-readiness-contract\.css/);
@@ -56,6 +59,32 @@ test("authenticated shell cannot mount a second permanent mobile work dock", () 
   assert.doesNotMatch(authenticatedStyles, /mobile-work-dock\.css/);
   assert.match(navbar, /className="hlc-mobile-tabbar"/);
   assert.match(navbar, /aria-label="Mobile primary navigation"/);
+});
+
+test("authenticated visual proof waits for workspace resolution instead of measuring the loading shell", () => {
+  assert.match(authenticatedVisualProof, /const WORKSPACE_LOADING_TITLE = "Opening your workspace"/);
+  assert.match(authenticatedVisualProof, /async function waitForResolvedWorkspace\(page\)/);
+  assert.match(authenticatedVisualProof, /heading !== loadingTitle/);
+  assert.match(authenticatedVisualProof, /Workspace resolution timeout:/);
+  assert.match(authenticatedVisualProof, /await waitForResolvedWorkspace\(page\)/);
+});
+
+test("public information heroes do not mount centered duplicate brand logos", () => {
+  assert.doesNotMatch(publicInfo, /hlc-public-brand/);
+  assert.doesNotMatch(publicInfo, /hlc-public-logo/);
+  assert.match(publicOwnerCorrections, /\.hlc-public-hero > div > \.hlc-public-brand/);
+  assert.match(publicOwnerCorrections, /\.hlc-public-hero \.hlc-public-logo/);
+  assert.match(publicOwnerCorrections, /display: none !important/);
+});
+
+test("professional public forms keep professional blue identity and bounded mobile measure", () => {
+  assert.match(main, /public-owner-corrections-20260926\.css/);
+  assert.match(publicOwnerCorrections, /\[data-public-page="professionals"\] \.hlc-public-form input:focus/);
+  assert.match(publicOwnerCorrections, /border-color: #32aefe !important/);
+  assert.match(publicOwnerCorrections, /background: #168ce2 !important/);
+  assert.match(publicOwnerCorrections, /accent-color: #168ce2 !important/);
+  assert.match(publicOwnerCorrections, /width: min\(1040px, calc\(100% - 32px\)\) !important/);
+  assert.match(publicOwnerCorrections, /width: calc\(100% - 28px\) !important/);
 });
 
 test("public shell legal links and brand accessible name remain Lighthouse-safe without inline paint", () => {

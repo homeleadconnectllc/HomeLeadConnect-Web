@@ -27,17 +27,20 @@ jobs:
       - name: Install dependencies
         run: npm ci --prefer-offline --no-audit --fund=false
 
-      - name: Verify exact Four Pathways source assets
+      - name: Verify current Home pathway source assets
         shell: bash
         run: |
           set -euo pipefail
-          cat > /tmp/four-pathways.sha256 <<'EOF'
-          8dae49e7a875aa12523f4fe7eaaff9fda49c3ff5438472e2e22e51d060d7e09b  public/four-pathways-residents-hq-20260915.jpg
-          4df6446e022a42f720b7ff90da6af8148d17787bf13f5adf2eb71ea8aa82cd46  public/four-pathways-professionals-hq-20260915.jpg
-          bb1514ec33d6ac4091ad7d8cdc548b294bd14cf54e8ba787c3f127ba06683c1a  public/four-pathways-partners-hq-20260915.jpg
-          75b1f369f5dea143dc6e53885cfd62884851e00e3ad6090c9ac50832bd6cea73  public/four-pathways-community-hq-20260915.jpg
-          EOF
-          sha256sum -c /tmp/four-pathways.sha256
+          assets=(
+            'page-residents-request-help-20260916.webp'
+            'page-professionals-provider-presence-20260916.webp'
+            'page-partners-referral-relationships-20260916.webp'
+            'page-community-connected-neighbors-20260916.webp'
+          )
+          for asset in "${assets[@]}"; do
+            test -s "public/$asset"
+            echo "Current Home pathway source asset present: public/$asset"
+          done
 
       - name: Verify production source
         run: npm run verify:launch
@@ -64,69 +67,38 @@ jobs:
             echo "No direct entry CSS link found; accepting CSS-code-split build and verifying the authoritative CSS chunk separately."
           fi
 
-      - name: Locate built Four Pathways CSS chunk
+      - name: Locate built current Home pathway CSS chunk
         shell: bash
         run: |
           set -euo pipefail
           markers=(
-            '/four-pathways-residents-hq-20260915.jpg'
-            '/four-pathways-professionals-hq-20260915.jpg'
-            '/four-pathways-partners-hq-20260915.jpg'
-            '/four-pathways-community-hq-20260915.jpg'
+            '/page-residents-request-help-20260916.webp'
+            '/page-professionals-provider-presence-20260916.webp'
+            '/page-partners-referral-relationships-20260916.webp'
+            '/page-community-connected-neighbors-20260916.webp'
           )
 
-          has_all_markers() {
-            local css_file="$1"
-            for marker in "${markers[@]}"; do
-              grep -Fq "$marker" "$css_file" || return 1
-            done
-            return 0
-          }
-
-          entry_css_file=""
-          if [ -n "${ENTRY_CSS:-}" ]; then
-            entry_css_file="dist/${ENTRY_CSS#/}"
+          matches=(dist/assets/mockup-authority-20260924-*.css)
+          if [ "${#matches[@]}" -ne 1 ] || [ ! -f "${matches[0]}" ]; then
+            echo "Expected exactly one built mockup-authority CSS chunk; found ${#matches[@]}."
+            printf '%s\n' "${matches[@]:-}"
+            exit 1
           fi
-          css_file=""
 
-          # The public front door is rendered from the CSS linked directly by
-          # dist/index.html. Prefer that exact entry asset when it contains the
-          # Four Pathways authority. Other lazy CSS chunks may legitimately
-          # repeat the same image markers without becoming the deployed public
-          # front-door authority.
-          if [ -n "$entry_css_file" ] && [ -f "$entry_css_file" ] && has_all_markers "$entry_css_file"; then
-            css_file="$entry_css_file"
-            echo "Four Pathways authority resolved from exact entry CSS: $ENTRY_CSS"
-
-            while IFS= read -r candidate; do
-              if [ "$candidate" != "$entry_css_file" ] && has_all_markers "$candidate"; then
-                echo "Informational: additional lazy CSS chunk also contains all Four Pathways markers: $candidate"
-              fi
-            done < <(find dist/assets -maxdepth 1 -type f -name '*.css' -print | sort)
-          else
-            matches=()
-            while IFS= read -r candidate; do
-              if has_all_markers "$candidate"; then
-                matches+=("$candidate")
-              fi
-            done < <(find dist/assets -maxdepth 1 -type f -name '*.css' -print | sort)
-
-            if [ "${#matches[@]}" -ne 1 ]; then
-              echo "Entry CSS does not contain all Four Pathways markers, and fallback discovery did not resolve exactly one authoritative CSS chunk; found ${#matches[@]}."
-              printf '%s\n' "${matches[@]:-}"
+          css_file="${matches[0]}"
+          for marker in "${markers[@]}"; do
+            if ! grep -Fq "$marker" "$css_file"; then
+              echo "Current Home pathway marker '$marker' missing from $css_file"
               exit 1
             fi
-
-            css_file="${matches[0]}"
-            echo "Four Pathways authority resolved from single fallback CSS chunk: $css_file"
-          fi
+          done
 
           css_asset="/${css_file#dist/}"
           css_sha="$(sha256sum "$css_file" | awk '{print $1}')"
-          echo "FOUR_PATHWAYS_CSS=$css_asset" >> "$GITHUB_ENV"
-          echo "FOUR_PATHWAYS_CSS_SHA=$css_sha" >> "$GITHUB_ENV"
-          echo "Four Pathways CSS chunk: $css_asset"
-          echo "Four Pathways CSS SHA-256: $css_sha"
+          echo "HOME_PATHWAY_CSS=$css_asset" >> "$GITHUB_ENV"
+          echo "HOME_PATHWAY_CSS_SHA=$css_sha" >> "$GITHUB_ENV"
+          echo "Current Home pathway CSS chunk: $css_asset"
+          echo "Current Home pathway CSS SHA-256: $css_sha"
 
       - name: Wait for Cloudflare Pages deployment check
         shell: bash
@@ -136,7 +108,7 @@ jobs:
           set -euo pipefail
 
           for attempt in $(seq 1 90); do
-            check_json="$(gh api               -H 'Accept: application/vnd.github+json'               "/repos/${GITHUB_REPOSITORY}/commits/${GITHUB_SHA}/check-runs")"
+            check_json="$(gh api -H 'Accept: application/vnd.github+json' "/repos/${GITHUB_REPOSITORY}/commits/${GITHUB_SHA}/check-runs")"
 
             cloudflare_status="$(jq -r '[.check_runs[] | select(.name == "Cloudflare Pages")][0].status // "missing"' <<<"$check_json")"
             cloudflare_conclusion="$(jq -r '[.check_runs[] | select(.name == "Cloudflare Pages")][0].conclusion // ""' <<<"$check_json")"
@@ -202,22 +174,22 @@ jobs:
             fi
           done
 
-      - name: Verify exact deployed Four Pathways CSS chunk
+      - name: Verify exact deployed current Home pathway CSS chunk
         shell: bash
         run: |
           set -euo pipefail
           markers=(
-            '/four-pathways-residents-hq-20260915.jpg'
-            '/four-pathways-professionals-hq-20260915.jpg'
-            '/four-pathways-partners-hq-20260915.jpg'
-            '/four-pathways-community-hq-20260915.jpg'
+            '/page-residents-request-help-20260916.webp'
+            '/page-professionals-provider-presence-20260916.webp'
+            '/page-partners-referral-relationships-20260916.webp'
+            '/page-community-connected-neighbors-20260916.webp'
           )
 
           for host in \
             https://homeleadconnect.org \
             https://homeleadconnect-web.pages.dev; do
-            asset_url="${host}${FOUR_PATHWAYS_CSS}?hlc_verify=${GITHUB_SHA}"
-            echo "Checking exact Four Pathways CSS chunk at $asset_url"
+            asset_url="${host}${HOME_PATHWAY_CSS}?hlc_verify=${GITHUB_SHA}"
+            echo "Checking exact current Home pathway CSS chunk at $asset_url"
 
             css_asset="$(mktemp)"
             headers_file="$(mktemp)"
@@ -261,7 +233,7 @@ jobs:
             echo "Content-Length header: $content_length"
             echo "Downloaded byte count: $downloaded_bytes"
             echo "Actual SHA-256: $actual_sha"
-            echo "Expected SHA-256: $FOUR_PATHWAYS_CSS_SHA"
+            echo "Expected SHA-256: $HOME_PATHWAY_CSS_SHA"
             echo "First 50 bytes: $first_bytes"
             echo "=================================="
 
@@ -276,9 +248,9 @@ jobs:
               exit 1
             fi
 
-            if [ "$actual_sha" != "$FOUR_PATHWAYS_CSS_SHA" ]; then
+            if [ "$actual_sha" != "$HOME_PATHWAY_CSS_SHA" ]; then
               echo "ERROR: SHA-256 mismatch for $host"
-              echo "Expected: $FOUR_PATHWAYS_CSS_SHA"
+              echo "Expected: $HOME_PATHWAY_CSS_SHA"
               echo "Got:      $actual_sha"
               exit 1
             fi
@@ -291,26 +263,25 @@ jobs:
             done
 
             rm -f "$css_asset" "$headers_file"
-            echo "$host serves exact Four Pathways CSS chunk: $FOUR_PATHWAYS_CSS ($actual_sha)"
+            echo "$host serves exact current Home pathway CSS chunk: $HOME_PATHWAY_CSS ($actual_sha)"
           done
 
-      - name: Verify deployed Four Pathways image hashes
+      - name: Verify deployed current Home pathway image hashes
         shell: bash
         run: |
           set -euo pipefail
           assets=(
-            'four-pathways-residents-hq-20260915.jpg|8dae49e7a875aa12523f4fe7eaaff9fda49c3ff5438472e2e22e51d060d7e09b'
-            'four-pathways-professionals-hq-20260915.jpg|4df6446e022a42f720b7ff90da6af8148d17787bf13f5adf2eb71ea8aa82cd46'
-            'four-pathways-partners-hq-20260915.jpg|bb1514ec33d6ac4091ad7d8cdc548b294bd14cf54e8ba787c3f127ba06683c1a'
-            'four-pathways-community-hq-20260915.jpg|75b1f369f5dea143dc6e53885cfd62884851e00e3ad6090c9ac50832bd6cea73'
+            'page-residents-request-help-20260916.webp'
+            'page-professionals-provider-presence-20260916.webp'
+            'page-partners-referral-relationships-20260916.webp'
+            'page-community-connected-neighbors-20260916.webp'
           )
 
           for host in \
             https://homeleadconnect.org \
             https://homeleadconnect-web.pages.dev; do
-            for item in "${assets[@]}"; do
-              filename="${item%%|*}"
-              expected="${item##*|}"
+            for filename in "${assets[@]}"; do
+              expected="$(sha256sum "public/$filename" | awk '{print $1}')"
               tmp="$(mktemp)"
               curl --fail --silent --show-error --location \
                 --retry 3 --retry-all-errors --retry-delay 2 \
@@ -320,7 +291,12 @@ jobs:
                 "${host}/${filename}?hlc_verify=${GITHUB_SHA}"
               actual="$(sha256sum "$tmp" | awk '{print $1}')"
               rm -f "$tmp"
-              test "$actual" = "$expected"
+              if [ "$actual" != "$expected" ]; then
+                echo "ERROR: image hash mismatch for $host/$filename"
+                echo "Expected: $expected"
+                echo "Got:      $actual"
+                exit 1
+              fi
               echo "$host/$filename hash verified: $actual"
             done
           done
@@ -360,9 +336,9 @@ jobs:
           else
             echo "Verified entry CSS: none (CSS code-split build)"
           fi
-          echo "Verified Four Pathways CSS chunk: $FOUR_PATHWAYS_CSS"
-          echo "Verified Four Pathways CSS SHA-256: $FOUR_PATHWAYS_CSS_SHA"
-          echo "Verified Four Pathways exact versioned asset hashes"
+          echo "Verified current Home pathway CSS chunk: $HOME_PATHWAY_CSS"
+          echo "Verified current Home pathway CSS SHA-256: $HOME_PATHWAY_CSS_SHA"
+          echo "Verified current Home pathway exact deployed asset hashes"
           echo "Production public host: https://homeleadconnect.org"
           echo "Production app host: https://app.homeleadconnect.org"
           echo "Cloudflare Pages project: homeleadconnect-web"
