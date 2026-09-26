@@ -10,6 +10,7 @@ const navbar = readFileSync("src/components/Navbar.tsx", "utf8");
 const footer = readFileSync("src/components/Footer.tsx", "utf8");
 const mobileControls = readFileSync("src/components/MobileViewControls.tsx", "utf8");
 const mobileShell = readFileSync("src/styles/mobile-message-shell-controls.css", "utf8");
+const authenticatedVisualProof = readFileSync("scripts/authenticated-visual-proof.mjs", "utf8");
 
 test("final frontend readiness guard is mounted in the authenticated style bundle", () => {
   assert.match(authenticatedStyles, /frontend-readiness-contract\.css/);
@@ -56,6 +57,14 @@ test("authenticated shell cannot mount a second permanent mobile work dock", () 
   assert.doesNotMatch(authenticatedStyles, /mobile-work-dock\.css/);
   assert.match(navbar, /className="hlc-mobile-tabbar"/);
   assert.match(navbar, /aria-label="Mobile primary navigation"/);
+});
+
+test("authenticated visual proof waits for workspace resolution instead of measuring the loading shell", () => {
+  assert.match(authenticatedVisualProof, /const WORKSPACE_LOADING_TITLE = "Opening your workspace"/);
+  assert.match(authenticatedVisualProof, /async function waitForResolvedWorkspace\(page\)/);
+  assert.match(authenticatedVisualProof, /heading !== loadingTitle/);
+  assert.match(authenticatedVisualProof, /Workspace resolution timeout:/);
+  assert.match(authenticatedVisualProof, /await waitForResolvedWorkspace\(page\)/);
 });
 
 test("public shell legal links and brand accessible name remain Lighthouse-safe without inline paint", () => {
