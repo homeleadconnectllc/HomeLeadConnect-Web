@@ -1,3 +1,4 @@
+import { errorMessage } from "../../lib/errorMessage";
 import { useMemo, useState } from "react";
 import { trackAnalyticsEvent } from "../../api/analytics";
 
@@ -43,7 +44,7 @@ export default function FieldDeviceCenter() {
       },
       (reason) => {
         setLocationStatus("");
-        setError(reason.message || "Location permission was not granted.");
+        setError(errorMessage(reason, "Location permission was not granted."));
       },
       { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 },
     );
@@ -60,7 +61,7 @@ export default function FieldDeviceCenter() {
       trackAnalyticsEvent("device_share_tested");
     } catch (reason) {
       if (reason instanceof DOMException && reason.name === "AbortError") return;
-      setError(reason instanceof Error ? reason.message : "Unable to open the device share sheet.");
+      setError(errorMessage(reason, "Unable to open the device share sheet."));
     }
   }
 
