@@ -259,6 +259,8 @@ try {
               await page.locator(".hlc-calendar-banner.error").waitFor({ state: "visible" });
               result.calendarPartialFailure = (await page.locator(".hlc-calendar-banner.error").innerText()).includes("HLC events could not be refreshed")
                 && await page.getByRole("button", { name: "Retry calendar" }).isVisible();
+              await page.getByRole("button", { name: "Show support reference" }).click();
+              result.calendarSupportReference = /^CAL-(?:NA|[45]\d\d)-PGRST000$/.test(await page.locator(".hlc-calendar-support-reference").innerText());
             } finally {
               await page.unroute(eventEndpoint);
             }
@@ -370,7 +372,7 @@ try {
   });
 
   await Promise.all([deepLinkProof, ...viewportProofs]);
-  const failures = proofResults.filter(row => row.navigationFailure || row.overflow || row.blank || row.denied || row.unexpectedRedirect || row.logoFailure || row.compressedNavigation?.length || row.narrowHeading || row.agentGuidanceLayout === false || row.calendarPartialFailure === false || row.calendarRetryRecovered === false || row.quickActionContrast === false || row.aiTeamNamesFit === false || row.guideLegible === false || row.communityText === false || (row.mobileMenu && (row.mobileMenu.signOutCount !== 1 || !row.mobileMenu.viewBeforeSignOut || row.mobileMenu.duplicateChevron || row.mobileMenu.viewButtons.length !== 2 || row.mobileMenu.viewButtons.some(button => button.color === button.background))));
+  const failures = proofResults.filter(row => row.navigationFailure || row.overflow || row.blank || row.denied || row.unexpectedRedirect || row.logoFailure || row.compressedNavigation?.length || row.narrowHeading || row.agentGuidanceLayout === false || row.calendarPartialFailure === false || row.calendarSupportReference === false || row.calendarRetryRecovered === false || row.quickActionContrast === false || row.aiTeamNamesFit === false || row.guideLegible === false || row.communityText === false || (row.mobileMenu && (row.mobileMenu.signOutCount !== 1 || !row.mobileMenu.viewBeforeSignOut || row.mobileMenu.duplicateChevron || row.mobileMenu.viewButtons.length !== 2 || row.mobileMenu.viewButtons.some(button => button.color === button.background))));
   if (failures.length) {
     throw new Error(`Authenticated visual layout failures: ${failures.map(row => `${row.route} ${row.viewport}${row.navigationFailureReason ? ` (${row.navigationFailureReason})` : ""}`).join(", ")}`);
   }
