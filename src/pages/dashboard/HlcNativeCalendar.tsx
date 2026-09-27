@@ -39,6 +39,12 @@ function formatTime(value: string) { return new Intl.DateTimeFormat(undefined, {
 function localInputValue(date: Date) { const offset = date.getTimezoneOffset() * 60_000; return new Date(date.getTime() - offset).toISOString().slice(0, 16); }
 function contractorName(appointment: JobAppointment) { return appointment.contractor?.company_name || appointment.contractor?.contact_name || `Contractor #${appointment.contractor_id}`; }
 function eventTypeLabel(type: HlcCalendarEventType) { return ({ meeting: "Meeting", reminder: "Reminder", task: "Task", focus: "Focus block", other: "Other" } as const)[type]; }
+function supportReference(reason: unknown) {
+  if (!reason || typeof reason !== "object") return "CAL-UNKNOWN";
+  const code = "code" in reason && typeof reason.code === "string" && /^[A-Z0-9]{5,12}$/i.test(reason.code) ? reason.code : "UNKNOWN";
+  const status = "status" in reason && typeof reason.status === "number" && reason.status >= 400 && reason.status < 600 ? String(reason.status) : "NA";
+  return `CAL-${status}-${code}`;
+}
 
 export default function HlcNativeCalendar() {
   const now = useMemo(() => new Date(), []);
@@ -48,6 +54,8 @@ export default function HlcNativeCalendar() {
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [errorReference, setErrorReference] = useState("");
+  const [showErrorReference, setShowErrorReference] = useState(false);
   const [message, setMessage] = useState("");
   const [rescheduling, setRescheduling] = useState<JobAppointment | null>(null);
   const [selected, setSelected] = useState<SelectedItem>(null);
@@ -57,6 +65,8 @@ export default function HlcNativeCalendar() {
 
   const load = useCallback(async () => {
     setError("");
+    setErrorReference("");
+    setShowErrorReference(false);
     try {
       const [appointmentResult, eventResult] = await Promise.allSettled([
         listWorkspaceAppointments(),
@@ -68,11 +78,14 @@ export default function HlcNativeCalendar() {
       if (eventResult.status === "fulfilled") setNativeEvents(eventResult.value);
       else unavailable.push("HLC events");
       if (unavailable.length) {
+        const failed = eventResult.status === "rejected" ? eventResult.reason : appointmentResult.status === "rejected" ? appointmentResult.reason : null;
+        setErrorReference(supportReference(failed));
         // Keep any successfully loaded or previously visible records, but make
         // the incomplete schedule explicit. Never expose database diagnostics.
         setError(`${unavailable.join(" and ")} could not be refreshed. The schedule may be incomplete. Please try again.`);
       }
     } catch (reason) {
+      setErrorReference(supportReference(reason));
       setError(errorMessage(reason, "Unable to load the HLC calendar."));
     } finally {
       setLoading(false);
@@ -95,7 +108,7 @@ export default function HlcNativeCalendar() {
   async function run(action: () => Promise<unknown>, success: string) {
     setBusy(true); setError(""); setMessage("");
     try { await action(); await load(); setMessage(success); return true; }
-    catch (reason) { setError(errorMessage(reason, "Unable to update the HLC calendar.")); return false; }
+    catch (reason) { setErrorReference(supportReference(reason)); setShowErrorReference(false); setError(errorMessage(reason, "Unable to update the HLC calendar.")); return false; }
     finally { setBusy(false); }
   }
 
@@ -125,7 +138,7 @@ export default function HlcNativeCalendar() {
   return <main className="hlc-calendar-page hlc-native-calendar">
     <header className="hlc-calendar-header"><div><div className="hlc-calendar-breadcrumbs"><Link to="/jobs">Work</Link><span>/</span><span>Calendar</span></div><div className="hlc-calendar-title-row"><span className="hlc-calendar-title-icon" aria-hidden="true">▣</span><div><h1>HLC Calendar</h1><p>Your workspace schedule is authoritative here. Google Calendar is optional, not required.</p></div></div></div><div className="hlc-native-calendar-header-actions"><button type="button" className="hlc-calendar-primary-link" onClick={() => setNewEventOpen(true)}>+ New event</button><Link className="hlc-calendar-primary-link secondary" to="/jobs">View jobs <span>→</span></Link></div></header>
     <section className="hlc-calendar-kpis" aria-label="Calendar summary"><article><span className="hlc-calendar-kpi-icon">◫</span><div><small>Today</small><strong>{todayCount}</strong><span>scheduled items</span></div></article><article><span className="hlc-calendar-kpi-icon">◩</span><div><small>This week</small><strong>{weekCount}</strong><span>calendar items</span></div></article><article><span className="hlc-calendar-kpi-icon green">✓</span><div><small>Job appointments</small><strong>{appointmentCount}</strong><span>active</span></div></article><article><span className="hlc-calendar-kpi-icon">＋</span><div><small>HLC events</small><strong>{nativeCount}</strong><span>active</span></div></article></section>
-    {loading && <div className="hlc-calendar-banner">Loading HLC Calendar…</div>}{error && <div className="hlc-calendar-banner error" role="alert">{error} <button type="button" onClick={() => { setLoading(true); void load(); }}>Retry calendar</button></div>}{message && <div className="hlc-calendar-banner success" role="status">{message}</div>}
+    {loading && <div className="hlc-calendar-banner">Loading HLC Calendar…</div>}{error && <div className="hlc-calendar-banner error" role="alert">{error} <button type="button" onClick={() => { setLoading(true); void load(); }}>Retry calendar</button> {errorReference && <button type="button" onClick={() => setShowErrorReference(true)}>Show support reference</button>}{showErrorReference && <span className="hlc-calendar-support-reference">{errorReference}</span>}</div>}{message && <div className="hlc-calendar-banner success" role="status">{message}</div>}
     {newEventOpen && <section className="hlc-native-event-composer"><div className="hlc-native-event-composer-heading"><div><small>HLC native event</small><h2>New calendar event</h2></div><button type="button" onClick={() => setNewEventOpen(false)}>Close</button></div><form onSubmit={createEvent}><label>Title<input name="title" required maxLength={200} placeholder="Team meeting, reminder, focus block…" /></label><label>Type<select name="eventType" defaultValue="meeting"><option value="meeting">Meeting</option><option value="reminder">Reminder</option><option value="task">Task</option><option value="focus">Focus block</option><option value="other">Other</option></select></label><label>Start<input name="start" type="datetime-local" required defaultValue={defaultStart} /></label><label>End<input name="end" type="datetime-local" required defaultValue={defaultEnd} /></label><label className="wide">Notes<textarea name="description" rows={3} placeholder="Optional notes" /></label><button className="hlc-calendar-primary-link wide" type="submit" disabled={busy}>{busy ? "Saving…" : "Create HLC event"}</button></form></section>}
     {rescheduling?.appointment_end_at && <RescheduleDialog initialStart={rescheduling.appointment_date} initialEnd={rescheduling.appointment_end_at} busy={busy} onCancel={() => setRescheduling(null)} onConfirm={reschedule} />}
     <section className="hlc-calendar-workspace"><div className="hlc-calendar-board"><div className="hlc-calendar-toolbar"><div className="hlc-calendar-nav-controls"><button type="button" onClick={() => { setSelectedDate(today); setSelected(null); }}>Today</button><button type="button" onClick={() => moveDate(-1)}>‹</button><button type="button" onClick={() => moveDate(1)}>›</button><div className="hlc-calendar-date-label"><span>◫</span>{formatDate(selectedDate)}</div></div><div className="hlc-calendar-view-switch">{(["day", "week", "month"] as CalendarView[]).map((option) => <button key={option} type="button" className={view === option ? "active" : ""} onClick={() => { setView(option); setSelected(null); }}>{option[0].toUpperCase() + option.slice(1)}</button>)}</div></div><div className="hlc-calendar-period-label"><span>{view} schedule</span><strong>{visibleItems.length} {visibleItems.length === 1 ? "item" : "items"}</strong></div><div className="hlc-calendar-timeline">{!loading && !error && visibleItems.length === 0 && <div className="hlc-calendar-empty"><span>◫</span><h2>No calendar items here</h2><p>Create an HLC event or schedule a job appointment.</p><button type="button" onClick={() => setNewEventOpen(true)}>Create event</button></div>}{visibleItems.map((item) => { const active = selected?.kind === item.kind && selected.id === item.id; return <button type="button" key={`${item.kind}-${item.id}`} className={`hlc-calendar-event status-${item.status}${item.kind === "event" ? " native" : ""}${active ? " selected" : ""}`} onClick={() => setSelected({ kind: item.kind, id: item.id } as SelectedItem)}><div className="hlc-calendar-event-time"><strong>{formatTime(item.start)}</strong><span>{item.end ? formatTime(item.end) : "Open end"}</span></div><div className="hlc-calendar-event-copy"><div className="hlc-calendar-event-heading"><strong>{item.title}</strong><span className={`hlc-calendar-status status-${item.status}`}>{item.kind === "event" ? "HLC event" : item.status}</span></div><span>{item.subtitle}</span>{item.notes && <small>{item.notes}</small>}</div><span className="hlc-calendar-event-arrow">→</span></button>; })}</div></div>
