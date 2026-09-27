@@ -1,0 +1,124 @@
+/* Published layout lab narrative adapted to the existing HCX background. */
+.hcx-story-journey,
+.hcx-story-audiences {
+  background: #081d35;
+  color: #edf7ff;
+}
+
+.hcx-story-journey {
+  padding: clamp(72px, 9vw, 132px) clamp(20px, 5vw, 72px);
+}
+
+.hcx-story-intro {
+  max-width: 820px;
+  margin: 0 auto 54px;
+  text-align: center;
+}
+
+.hcx-story-kicker {
+  margin: 0 0 13px;
+  color: #85dff5;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+.hcx-story-intro h2,
+.hcx-story-audience h2 {
+  margin: 0 0 18px;
+  color: #f5fbff;
+  font-size: clamp(2rem, 4vw, 3.6rem);
+  line-height: 1.1;
+  letter-spacing: -.035em;
+}
+
+.hcx-story-intro > p:last-child,
+.hcx-story-audience-copy > p:not(.hcx-story-kicker) {
+  margin: 0;
+  color: #cadbe8;
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  line-height: 1.65;
+}
+
+.hcx-story-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  max-width: 1260px;
+  gap: clamp(18px, 2.5vw, 36px);
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+  counter-reset: hcx-journey;
+}
+
+.hcx-story-steps li {
+  min-width: 0;
+  border-top: 1px solid #54738b;
+  padding-top: 23px;
+  counter-increment: hcx-journey;
+}
+
+.hcx-story-steps li::before {
+  content: counter(hcx-journey, decimal-leading-zero);
+  display: block;
+  margin-bottom: 18px;
+  color: #85dff5;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.hcx-story-steps li:nth-child(1)::before { color: #62d5aa; }
+.hcx-story-steps li:nth-child(2)::before { color: #6ac8ff; }
+.hcx-story-steps li:nth-child(3)::before { color: #ffd16d; }
+.hcx-story-steps li:nth-child(4)::before { color: #d99af6; }
+.hcx-story-steps h3 { margin: 0 0 12px; color: #f5fbff; font-size: 1.15rem; }
+.hcx-story-steps p { margin: 0; color: #b8cad9; line-height: 1.6; }
+
+.hcx-story-audience {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(24px, 5vw, 80px);
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: clamp(48px, 6vw, 90px) clamp(20px, 5vw, 72px);
+  border-top: 1px solid #34516a;
+}
+
+.hcx-story-audience[data-family="professional"] .hcx-story-audience-copy { order: 2; }
+.hcx-story-audience-copy { text-align: center; }
+.hcx-story-audience-copy > p:not(.hcx-story-kicker) { max-width: 540px; margin: 0 auto; }
+.hcx-story-audience img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 12px;
+}
+.hcx-story-link {
+  display: inline-block;
+  margin-top: 26px;
+  color: #62d5aa;
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+.hcx-story-audience[data-family="professional"] .hcx-story-link { color: #76ccff; }
+
+/* The prior pathway grid overlapped the hero; it now follows the story sections. */
+.hcx-story-audiences + .hcx-pathway-links { margin-top: 0; padding-top: 36px; }
+
+@media (max-width: 760px) {
+  .hcx-story-journey { padding-block: 64px; }
+  .hcx-story-intro { margin-bottom: 34px; }
+  .hcx-story-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hcx-story-audience { grid-template-columns: 1fr; padding-block: 56px; }
+  .hcx-story-audience[data-family="professional"] .hcx-story-audience-copy { order: 0; }
+  .hcx-story-audience img { aspect-ratio: 5 / 4; }
+}
+
+@media (max-width: 480px) {
+  .hcx-story-steps { grid-template-columns: 1fr; }
+  .hcx-story-steps li { padding-top: 18px; }
+}
