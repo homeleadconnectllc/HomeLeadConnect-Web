@@ -18,8 +18,14 @@ html body #root .hlc-signed-in-shell .hlc-community-workspace:not(.hlc-ui-rolepl
 }
 html body #root .hlc-signed-in-shell .hlc-community-v2{
   --hlc-portal-accent:#c291eb;--hlc-portal-accent-soft:rgba(137,87,178,.17);
+  --hlc-app-text:#f8fafc;--hlc-app-muted:#cbd5e1;--hlc-app-soft:#e2e8f0;
   background:radial-gradient(ellipse at 84% 6%,rgba(137,87,178,.23),transparent 45%),linear-gradient(180deg,#121f38,#152139)!important;
 }
+html body #root .hlc-signed-in-shell .hlc-community-v2 :is(
+  .hlc-community-v2-agent,.hlc-community-v2-commandbar>a,
+  .hlc-community-v2-row-action,.hlc-community-v2-context-actions>a,
+  .hlc-community-v2-more-links>a
+){color:#f2eafa!important;-webkit-text-fill-color:#f2eafa!important}
 html body #root .hlc-signed-in-shell .hlc-community-v2 :is(.hlc-community-v2-eyebrow,.hlc-community-v2-heading>span,.hlc-community-v2-context-card>span){color:#dbb4f4!important;-webkit-text-fill-color:#dbb4f4!important}
 html body #root .hlc-signed-in-shell .hlc-community-v2 :is(.hlc-community-v2-commandbar a,.hlc-community-v2-context-actions a):is(:hover,:focus-visible){color:#e7c9ff!important;border-color:#bf8aec!important}
 html body #root .hlc-signed-in-shell>.hlc-navbar{
@@ -117,6 +123,18 @@ body>.hlc-mobile-command-sheet[data-hlc-family="partner"]{--hlc-portal-accent:#a
 body>.hlc-mobile-command-sheet[data-hlc-family="community"]{--hlc-portal-accent:#8957b2;--hlc-portal-accent-soft:rgba(137,87,178,.14)}
 body>.hlc-mobile-command-sheet .hlc-mobile-more-title span{color:var(--hlc-portal-accent)!important}
 body>.hlc-mobile-command-sheet>.hlc-drawer-v2-scroll{border-color:var(--hlc-portal-accent-soft)!important}
+body>.hlc-mobile-command-sheet .hlc-mobile-view-controls-host{order:3;width:100%!important}
+body>.hlc-mobile-command-sheet .hlc-mobile-view-controls-host .hlc-mobile-menu-utilities{
+  display:grid!important;gap:8px!important;margin:0!important;padding:10px!important;
+  background:#fff!important;border:1px solid #d7e1eb!important;color:#172231!important;
+}
+body>.hlc-mobile-command-sheet .hlc-mobile-view-controls-host .hlc-mobile-menu-utilities-label{color:#584184!important}
+body>.hlc-mobile-command-sheet .hlc-mobile-view-controls-host .hlc-mobile-menu-view-actions button{
+  background:#f4f1f9!important;color:#233044!important;border-color:#c7bed8!important;
+}
+body>.hlc-mobile-command-sheet .hlc-mobile-view-controls-host .hlc-mobile-menu-view-actions button.is-active{
+  background:var(--hlc-portal-accent-soft)!important;color:#172231!important;border-color:var(--hlc-portal-accent)!important;
+}
 body>.hlc-mobile-command-sheet .hlc-mobile-more-quick>a:is(:hover,:focus-visible){border-color:var(--hlc-portal-accent)!important;background:var(--hlc-portal-accent-soft)!important}
 body>.hlc-mobile-command-sheet :is(.hlc-mobile-command-search-trigger,.hlc-mobile-more-quick>a):focus-visible{outline:3px solid var(--hlc-portal-accent)!important}
 
