@@ -224,6 +224,32 @@ try {
           }
 
           await page.screenshot({ path: path.join(outputDir, `${slug}-${viewportName}.png`), fullPage: true });
+          if (route === "/community-hub") {
+            result.communityText = await page.locator(".hlc-community-v2").evaluate((community) => {
+              const readable = (element) => {
+                const style = getComputedStyle(element);
+                const color = style.webkitTextFillColor === "currentcolor" ? style.color : style.webkitTextFillColor;
+                const channels = color.match(/[\d.]+/g)?.slice(0, 3).map(Number) || [];
+                return channels.length === 3 && Math.min(...channels) >= 145;
+              };
+              return [...community.querySelectorAll("h1,h2,h3,p")]
+                .filter((element) => element.getBoundingClientRect().height > 0)
+                .every(readable);
+            });
+            if (viewportName === "mobile") {
+              await page.getByRole("button", { name: "Open all HomeLead Connect areas" }).click();
+              await page.locator(".hlc-mobile-menu-utilities").waitFor({ state: "visible" });
+              result.mobileMenu = await page.locator(".hlc-mobile-command-sheet").evaluate((menu) => ({
+                signOutCount: menu.querySelectorAll(".hlc-mobile-more-signout, .hlc-mobile-early-signout").length,
+                viewButtons: [...menu.querySelectorAll(".hlc-mobile-menu-view-actions button")].map((button) => ({
+                  label: button.textContent?.trim(),
+                  color: getComputedStyle(button).color,
+                  background: getComputedStyle(button).backgroundColor,
+                })),
+              }));
+              await page.screenshot({ path: path.join(outputDir, "community-menu-mobile.png"), fullPage: true });
+            }
+          }
         } catch (error) {
           result.navigationFailure = true;
           result.navigationFailureReason = error instanceof Error ? error.message : String(error);
@@ -243,7 +269,7 @@ try {
   });
 
   await Promise.all([deepLinkProof, ...viewportProofs]);
-  const failures = proofResults.filter(row => row.navigationFailure || row.overflow || row.blank || row.denied || row.unexpectedRedirect || row.logoFailure || row.compressedNavigation?.length || row.narrowHeading);
+  const failures = proofResults.filter(row => row.navigationFailure || row.overflow || row.blank || row.denied || row.unexpectedRedirect || row.logoFailure || row.compressedNavigation?.length || row.narrowHeading || row.communityText === false || (row.mobileMenu && (row.mobileMenu.signOutCount !== 1 || row.mobileMenu.viewButtons.length !== 2 || row.mobileMenu.viewButtons.some(button => button.color === button.background))));
   if (failures.length) {
     throw new Error(`Authenticated visual layout failures: ${failures.map(row => `${row.route} ${row.viewport}${row.navigationFailureReason ? ` (${row.navigationFailureReason})` : ""}`).join(", ")}`);
   }

@@ -1,3 +1,4 @@
+import { errorMessage } from "../../lib/errorMessage";
 import { useMemo, useState } from "react";
 import {
   CONNECT_SCORING_RUBRIC,
@@ -46,7 +47,7 @@ export default function ConnectRoleplaySession({ scenario, initialVariant = "sta
       const response = await sendConnectRoleplayTurn({ scenarioId: scenario.id, variant, transcript: nextMessages });
       setMessages([...nextMessages, { role: "counterpart", text: response.reply }]);
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : "CONNECT could not continue the roleplay.");
+      setError(errorMessage(caught, "CONNECT could not continue the roleplay."));
     } finally {
       setBusy(false);
     }
@@ -60,7 +61,7 @@ export default function ConnectRoleplaySession({ scenario, initialVariant = "sta
       const result = await finishConnectRoleplay({ scenarioId: scenario.id, variant, transcript: messages });
       setScore(result);
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : "CONNECT could not score this roleplay.");
+      setError(errorMessage(caught, "CONNECT could not score this roleplay."));
     } finally {
       setBusy(false);
     }

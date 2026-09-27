@@ -59,11 +59,11 @@ test("mobile drawer uses App Directory links instead of duplicate desktop naviga
 
 test("mobile view controls target the current command menu natural order", () => {
   assert.match(viewControls, /hlc-mobile-view-controls-host/);
-  assert.match(viewControls, /const quickActions = menu\.querySelector<HTMLElement>\("\.hlc-mobile-more-quick"\)/);
-  assert.match(viewControls, /insertBefore\(host, quickActions\)/);
+  assert.match(viewControls, /const signOut = menu\.querySelector<HTMLElement>\("\.hlc-mobile-more-signout"\)/);
+  assert.match(viewControls, /insertBefore\(host, signOut\)/);
   assert.match(viewControls, />Mobile</);
   assert.match(viewControls, />Desktop</);
-  assert.match(viewControls, /hlc-mobile-early-signout/);
+  assert.doesNotMatch(viewControls, /hlc-mobile-early-signout/);
 });
 
 test("current command menu is the authenticated mobile drawer authority", () => {

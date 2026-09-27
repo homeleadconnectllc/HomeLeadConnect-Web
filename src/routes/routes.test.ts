@@ -15,7 +15,6 @@ const communityMatchingApi = readFileSync("src/api/communityMatching.ts", "utf8"
 const communityMatchingMigration = readFileSync("supabase/migrations/20260817035500_community_match_decisions.sql", "utf8");
 const communityMatchingGrantMigration = readFileSync("supabase/migrations/20260817041000_harden_community_match_decision_privileges.sql", "utf8");
 const publicInfo = readFileSync("src/pages/PublicInfo.tsx", "utf8");
-const mainEntry = readFileSync("src/main.tsx", "utf8");
 const appShellEntry = readFileSync("src/styles/app-shell-entry.ts", "utf8");
 const responsiveContract = readFileSync("src/styles/responsive-page-contract.css", "utf8");
 const legacyDeviceCompat = readFileSync("src/styles/legacy-device-compat.css", "utf8");
@@ -71,7 +70,7 @@ test("company rollout operating guides remain declared and actionable", () => {
 });
 
 test("authenticated shell root ends with structural responsive, compatibility and release guards", () => {
-  assert.match(mainEntry, /import\("\.\/styles\/app-shell-entry"\)/);
+  assert.match(readFileSync("src/styles/AuthenticatedStyles.tsx", "utf8"), /import "\.\/app-shell-entry";/);
   const importLines = [...appShellEntry.matchAll(/import "\.\/([^"]+\.css)";/g)].map((match) => match[1]);
   assert.deepEqual(importLines.slice(-3), [
     "responsive-page-contract.css",

@@ -123,7 +123,11 @@ export function mountStandalonePublicHome(root: HTMLElement) {
 
   const desktop = make("nav", "hlc-public-desktop-links");
   desktop.setAttribute("aria-label", "Public pages");
-  for (const [label, path] of primary.slice(1)) desktop.append(link(`${PUBLIC_ORIGIN}${path}`, undefined, label));
+  for (const [label, path, tone] of primary.slice(1)) {
+    const item = link(`${PUBLIC_ORIGIN}${path}`, undefined, label);
+    item.dataset.menuTone = tone;
+    desktop.append(item);
+  }
 
   const actions = make("div", "hlc-board-actions");
   actions.append(
@@ -205,11 +209,7 @@ export function mountStandalonePublicHome(root: HTMLElement) {
   main.append(header, hero, pathSection, mission);
 
   const footer = make("footer", "hlc-public-footer");
-  const footerLogo = make("img", "hlc-public-footer-master-logo");
-  footerLogo.src = "/hlc-logo-ui.png";
-  footerLogo.alt = "HomeLead Connect LLC";
   footer.append(
-    footerLogo,
     make("strong", undefined, "HomeLead Connect"),
     make("span", undefined, "Connecting Homes. Creating Opportunities."),
   );

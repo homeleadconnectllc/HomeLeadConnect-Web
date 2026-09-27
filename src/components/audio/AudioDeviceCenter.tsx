@@ -1,3 +1,4 @@
+import { errorMessage } from "../../lib/errorMessage";
 import { useEffect, useState } from "react";
 
 type SinkCapableAudio = HTMLAudioElement & { setSinkId?: (deviceId: string) => Promise<void> };
@@ -23,7 +24,7 @@ export default function AudioDeviceCenter() {
       setOutputs(devices.filter((device) => device.kind === "audiooutput"));
       setStatus("Audio devices refreshed.");
     } catch (reason) {
-      setError(reason instanceof Error ? reason.message : "Unable to access audio devices.");
+      setError(errorMessage(reason, "Unable to access audio devices."));
     } finally {
       permissionStream?.getTracks().forEach((track) => track.stop());
     }
@@ -75,7 +76,7 @@ export default function AudioDeviceCenter() {
       stream.getTracks().forEach((item) => item.stop());
       await refreshDevices(false);
     } catch (reason) {
-      setError(reason instanceof Error ? reason.message : "Microphone test failed.");
+      setError(errorMessage(reason, "Microphone test failed."));
     }
   }
 
@@ -104,7 +105,7 @@ export default function AudioDeviceCenter() {
       }, 450);
       setStatus(outputRoutingSupported ? "Output test played on the selected device." : "Output test played using the operating system's current audio route.");
     } catch (reason) {
-      setError(reason instanceof Error ? reason.message : "Output test failed.");
+      setError(errorMessage(reason, "Output test failed."));
     }
   }
 

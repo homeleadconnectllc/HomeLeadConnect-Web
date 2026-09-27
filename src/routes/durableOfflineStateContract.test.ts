@@ -23,5 +23,5 @@ test("workspace shell exposes connection loss without blocking public intake", (
   assert.match(status, /navigator\.onLine/);
   assert.match(status, /role="status"/);
   assert.match(layout, /ConnectivityStatus/);
-  assert.match(layout, /signedInWorkspaceShell && <ConnectivityStatus/);
+  assert.match(layout, /authorizedShell && <ConnectivityStatus/);
 });

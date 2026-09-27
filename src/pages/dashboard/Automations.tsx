@@ -1,3 +1,4 @@
+import { errorMessage } from "../../lib/errorMessage";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { listAutomationAttempts, listAutomationJobs, retryAutomation, runAutomation, type AutomationAttemptRecord, type AutomationJobRecord, type AutomationJobStatus } from "../../api/automations";
@@ -79,7 +80,7 @@ export default function Automations() {
     } catch (reason) {
       setRuntimeMessages((current) => ({
         ...current,
-        [jobType]: { tone: "error", text: reason instanceof Error ? reason.message : "Automation run failed." },
+        [jobType]: { tone: "error", text: errorMessage(reason, "Automation run failed.") },
       }));
     } finally {
       setBusy((current) => ({ ...current, [jobType]: false }));
@@ -96,7 +97,7 @@ export default function Automations() {
     } catch (reason) {
       setRuntimeMessages((current) => ({
         ...current,
-        [jobType]: { tone: "error", text: reason instanceof Error ? reason.message : "Automation retry failed." },
+        [jobType]: { tone: "error", text: errorMessage(reason, "Automation retry failed.") },
       }));
     } finally {
       setBusy((current) => ({ ...current, [jobType]: false }));

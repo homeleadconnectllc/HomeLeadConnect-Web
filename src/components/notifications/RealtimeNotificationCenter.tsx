@@ -1,3 +1,4 @@
+import { errorMessage } from "../../lib/errorMessage";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../../api/client";
@@ -97,7 +98,7 @@ export function DeviceAlertSettings() {
       setPushStatus("HLC alerts are connected to this device.");
       trackAnalyticsEvent("device_alerts_enabled");
     } catch (reason) {
-      setPushStatus(reason instanceof Error ? reason.message : "Background alerts could not be connected.");
+      setPushStatus(errorMessage(reason, "Background alerts could not be connected."));
     } finally {
       setPushBusy(false);
     }
@@ -115,7 +116,7 @@ export function DeviceAlertSettings() {
       setPushStatus("HLC device alerts are disabled on this device.");
       trackAnalyticsEvent("device_alerts_disabled");
     } catch (reason) {
-      setPushStatus(reason instanceof Error ? reason.message : "Device alerts could not be disabled.");
+      setPushStatus(errorMessage(reason, "Device alerts could not be disabled."));
     } finally {
       setPushBusy(false);
     }
