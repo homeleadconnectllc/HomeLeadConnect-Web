@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import PublicSiteNav from "../components/PublicSiteNav";
 import { pageImage, type PublicPageImageKey } from "../config/publicPageImagery";
 import PathwayPage from "./PathwayPage";
+import PublicEditorialIntro from "../components/PublicEditorialIntro";
 
 const content = {
   about: { kicker: "About HomeLead Connect", title: "A connected operating layer for home-service work.", body: "HomeLead Connect LLC is a home-services technology platform based in Pennsylvania and designed for residents, professionals, partners, and service operations across supported locations. HomeLead Connect connects service requests, resident project planning, provider coordination, scheduling, jobs, communications, documents, workflow automation, analytics, and customer follow-through in one operating system.", imageKey: "about" },
@@ -44,6 +45,7 @@ export default function PublicInfo({ page }: { page: keyof typeof content }) {
         <div className="hlc-public-actions">{page === "contractors" && <Link className="hlc-public-primary" to="/professional-application">Apply as a professional</Link>}{page === "leadscope" && <Link className="hlc-public-primary" to="/app">Open HomeLead Connect</Link>}<Link className="hlc-public-secondary" to="/contact">Contact HomeLead Connect</Link></div>
       </div></header>
       <figure className="hlc-public-visual"><img src={visual.src} alt={visual.alt} loading="eager"/></figure>
+      <PublicEditorialIntro eyebrow="The connected experience" title={page === "about" ? "The people and purpose behind HomeLead Connect." : "A clear path for every stage of the work."} body={page === "about" ? "Built in Pennsylvania around useful connections, clear responsibilities, and follow-through." : "The next step stays attached to the right record and the right relationship."}/>
       {page === "about" ? <section className="hlc-public-grid" aria-label="HomeLead Connect ownership and credits">
         <article className="hlc-public-card"><p className="hlc-public-card-label">Founder & builder</p><h2>Antoine Washington</h2><p><strong>Founder · Owner · Product Creator · Lead Developer · Technical Architect</strong></p><p>Antoine Washington leads the HomeLead Connect product vision, application build, workflow design, technical implementation, operating systems, and launch hardening.</p></article>
         <article className="hlc-public-card"><p className="hlc-public-card-label">Operating model</p><h2>Connection + guidance + execution</h2><p>HomeLead Connect is designed to keep customer requests, providers, scheduling, communications, documents, automation, and completion history connected instead of scattering the work across unrelated tools.</p></article>
