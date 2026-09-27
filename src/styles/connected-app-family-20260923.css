@@ -123,7 +123,7 @@ body>.hlc-mobile-command-sheet[data-hlc-family="partner"]{--hlc-portal-accent:#a
 body>.hlc-mobile-command-sheet[data-hlc-family="community"]{--hlc-portal-accent:#8957b2;--hlc-portal-accent-soft:rgba(137,87,178,.14)}
 body>.hlc-mobile-command-sheet .hlc-mobile-more-title span{color:var(--hlc-portal-accent)!important}
 body>.hlc-mobile-command-sheet>.hlc-drawer-v2-scroll{border-color:var(--hlc-portal-accent-soft)!important}
-body>.hlc-mobile-command-sheet .hlc-mobile-view-controls-host{order:3;width:100%!important}
+body>.hlc-mobile-command-sheet .hlc-mobile-view-controls-host{width:100%!important}
 body>.hlc-mobile-command-sheet .hlc-mobile-view-controls-host .hlc-mobile-menu-utilities{
   display:grid!important;gap:8px!important;margin:0!important;padding:10px!important;
   background:#fff!important;border:1px solid #d7e1eb!important;color:#172231!important;
@@ -137,6 +137,40 @@ body>.hlc-mobile-command-sheet .hlc-mobile-view-controls-host .hlc-mobile-menu-v
 }
 body>.hlc-mobile-command-sheet .hlc-mobile-more-quick>a:is(:hover,:focus-visible){border-color:var(--hlc-portal-accent)!important;background:var(--hlc-portal-accent-soft)!important}
 body>.hlc-mobile-command-sheet :is(.hlc-mobile-command-search-trigger,.hlc-mobile-more-quick>a):focus-visible{outline:3px solid var(--hlc-portal-accent)!important}
+
+/* Dark dashboard shortcuts need their own reading tokens inside the light work canvas. */
+html body #root .hlc-signed-in-shell .hlc-route-content .hlc-home-quick-row-v2>a{
+  --hlc-app-text:#f8fafc;--hlc-app-muted:#f8fafc;
+  color:#f8fafc!important;-webkit-text-fill-color:#f8fafc!important;
+}
+html body #root .hlc-signed-in-shell .hlc-route-content .hlc-home-quick-row-v2>a>span{
+  color:#f8fafc!important;-webkit-text-fill-color:#f8fafc!important;opacity:1!important;
+}
+html body #root .hlc-signed-in-shell .hlc-route-content .hlc-home-ai-rail{
+  --hlc-app-text:#172231;--hlc-app-muted:#526579;
+  background:#fff!important;border-color:rgba(var(--hlc-portal-rgb),.17)!important;
+}
+html body #root .hlc-signed-in-shell .hlc-route-content .hlc-home-ai-links>a{
+  background:#f3f8fc!important;border-color:rgba(var(--hlc-portal-rgb),.16)!important;
+}
+html body #root .hlc-signed-in-shell .hlc-route-content .hlc-home-ai-rail :is(strong,small,.hlc-home-ai-heading span){
+  color:var(--hlc-app-text)!important;-webkit-text-fill-color:var(--hlc-app-text)!important;
+}
+html body #root .hlc-signed-in-shell .hlc-route-content .hlc-home-ai-rail .hlc-home-ai-heading span{
+  color:var(--hlc-app-muted)!important;-webkit-text-fill-color:var(--hlc-app-muted)!important;
+}
+@media(max-width:820px){
+  html body #root .hlc-signed-in-shell .hlc-route-content .hlc-home-ai-links>a{
+    display:flex!important;flex-direction:column!important;align-items:center!important;
+    justify-content:center!important;text-align:center!important;min-width:0!important;
+  }
+  html body #root .hlc-signed-in-shell .hlc-route-content .hlc-home-ai-links>a>span{
+    width:100%!important;text-align:center!important;
+  }
+  html body #root .hlc-signed-in-shell .hlc-route-content .hlc-home-ai-links>a strong{
+    font-size:.72rem!important;overflow-wrap:normal!important;word-break:normal!important;
+  }
+}
 
 html body #root .hlc-signed-in-shell>.hlc-navbar{
   background:linear-gradient(155deg,rgba(8,26,45,.98),color-mix(in srgb,var(--hlc-portal-deep) 72%,#0a2039))!important;

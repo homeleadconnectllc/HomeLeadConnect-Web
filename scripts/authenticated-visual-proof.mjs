@@ -224,6 +224,20 @@ try {
           }
 
           await page.screenshot({ path: path.join(outputDir, `${slug}-${viewportName}.png`), fullPage: true });
+          if (route === "/dashboard" && viewportName === "mobile") {
+            result.quickActionContrast = await page.locator(".hlc-home-quick-row-v2 > a > span").evaluateAll((labels) => labels.length === 5 && labels.every((label) => {
+              const style = getComputedStyle(label);
+              const color = style.webkitTextFillColor === "currentcolor" ? style.color : style.webkitTextFillColor;
+              const channels = color.match(/[\d.]+/g)?.slice(0, 3).map(Number) || [];
+              return channels.length === 3 && Math.min(...channels) >= 190;
+            }));
+            result.aiTeamNamesFit = await page.locator(".hlc-home-ai-links > a strong").evaluateAll((names) => names.every((name) => {
+              if (!name.getBoundingClientRect().height) return true;
+              const range = document.createRange();
+              range.selectNodeContents(name);
+              return range.getClientRects().length <= 1;
+            }));
+          }
           if (route === "/community-hub") {
             result.communityText = await page.locator(".hlc-community-v2").evaluate((community) => {
               const readable = (element) => {
@@ -241,6 +255,11 @@ try {
               await page.locator(".hlc-mobile-menu-utilities").waitFor({ state: "visible" });
               result.mobileMenu = await page.locator(".hlc-mobile-command-sheet").evaluate((menu) => ({
                 signOutCount: menu.querySelectorAll(".hlc-mobile-more-signout, .hlc-mobile-early-signout").length,
+                viewBeforeSignOut: !!menu.querySelector(".hlc-mobile-view-controls-host + .hlc-mobile-more-signout")
+                  && menu.querySelector(".hlc-mobile-view-controls-host").getBoundingClientRect().top
+                    < menu.querySelector(".hlc-mobile-more-signout").getBoundingClientRect().top,
+                duplicateChevron: [...menu.querySelectorAll(".hlc-mobile-more-quick > a")].some((link) =>
+                  !["none", "normal", '""'].includes(getComputedStyle(link, "::after").content)),
                 viewButtons: [...menu.querySelectorAll(".hlc-mobile-menu-view-actions button")].map((button) => ({
                   label: button.textContent?.trim(),
                   color: getComputedStyle(button).color,
@@ -269,7 +288,7 @@ try {
   });
 
   await Promise.all([deepLinkProof, ...viewportProofs]);
-  const failures = proofResults.filter(row => row.navigationFailure || row.overflow || row.blank || row.denied || row.unexpectedRedirect || row.logoFailure || row.compressedNavigation?.length || row.narrowHeading || row.communityText === false || (row.mobileMenu && (row.mobileMenu.signOutCount !== 1 || row.mobileMenu.viewButtons.length !== 2 || row.mobileMenu.viewButtons.some(button => button.color === button.background))));
+  const failures = proofResults.filter(row => row.navigationFailure || row.overflow || row.blank || row.denied || row.unexpectedRedirect || row.logoFailure || row.compressedNavigation?.length || row.narrowHeading || row.quickActionContrast === false || row.aiTeamNamesFit === false || row.communityText === false || (row.mobileMenu && (row.mobileMenu.signOutCount !== 1 || !row.mobileMenu.viewBeforeSignOut || row.mobileMenu.duplicateChevron || row.mobileMenu.viewButtons.length !== 2 || row.mobileMenu.viewButtons.some(button => button.color === button.background))));
   if (failures.length) {
     throw new Error(`Authenticated visual layout failures: ${failures.map(row => `${row.route} ${row.viewport}${row.navigationFailureReason ? ` (${row.navigationFailureReason})` : ""}`).join(", ")}`);
   }
