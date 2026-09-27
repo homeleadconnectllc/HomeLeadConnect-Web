@@ -194,8 +194,31 @@ try {
           coverage: route.includes(":") ? "missing-record-state; no real record identity supplied" : "approved-workspace-session",
         };
 
+        // Record only table names, HTTP status and database error codes. Never
+        // persist auth headers, query strings, response rows or account data.
+        const calendarResponses = [];
+        const onCalendarResponse = async (response) => {
+          const table = new URL(response.url()).pathname.match(/\/rest\/v1\/(profiles|appointments|hlc_calendar_events)$/)?.[1];
+          if (!table) return;
+          let code = null;
+          if (!response.ok()) {
+            try {
+              const body = await response.json();
+              code = typeof body?.code === "string" ? body.code : null;
+            } catch { /* non-JSON failure */ }
+          }
+          calendarResponses.push({ table, status: response.status(), code });
+        };
+        if (route === "/calendar") page.on("response", onCalendarResponse);
+
         try {
           await gotoRendered(page, `${baseUrl}${resolvedRoute}`, { requireWorkspace: true });
+          if (route === "/calendar") {
+            await page.waitForFunction(() => !document.body.innerText.includes("Loading HLC Calendar"), { timeout: UI_TIMEOUT_MS });
+            await page.waitForTimeout(400);
+            result.calendarRequests = calendarResponses;
+            result.calendarErrorVisible = await page.locator(".hlc-calendar-banner.error").isVisible();
+          }
           const currentPath = new URL(page.url()).pathname;
           const unexpectedRedirect = mustRenderAuthorizedWorkspace.has(route) && currentPath !== (expectedRedirects.get(route) || resolvedRoute);
           const metrics = await page.evaluate(() => ({
@@ -316,6 +339,8 @@ try {
             result.screenshotFailureReason = screenshotError instanceof Error ? screenshotError.message : String(screenshotError);
           }
         }
+
+        if (route === "/calendar") page.off("response", onCalendarResponse);
 
         proofResults.push(result);
         fs.writeFileSync(path.join(outputDir, "results.json"), JSON.stringify(proofResults, null, 2));
