@@ -10,6 +10,7 @@ import { errorMessage } from "../../lib/errorMessage";
 import { useAccountAccess } from "../../hooks/useAccountAccess";
 import { KendrellMemorial } from "./KendrellDedication";
 import { useModalDialogAccessibility } from "../../hooks/useModalDialogAccessibility";
+import "../../styles/agent-guidance-dialog.css";
 
 export default function AgentWorkspace({ agentId }: { agentId: AgentId }) {
   const agent = agents[agentId];

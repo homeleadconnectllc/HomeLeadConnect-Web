@@ -224,6 +224,31 @@ try {
           }
 
           await page.screenshot({ path: path.join(outputDir, `${slug}-${viewportName}.png`), fullPage: true });
+          if (route === "/hq" && viewportName === "mobile") {
+            await page.getByRole("button", { name: "Open Kendrell help" }).click();
+            result.agentGuidanceLayout = await page.locator(".hlc-agent-guidance-drawer").evaluate((drawer) => {
+              const overlay = drawer.parentElement;
+              const head = drawer.querySelector(".hlc-agent-guidance-head");
+              const intro = drawer.querySelector(".hlc-agent-guidance-intro");
+              const cards = drawer.querySelector(".hlc-agent-guidance-cards");
+              const first = cards?.querySelector("details");
+              const next = first?.nextElementSibling;
+              const bounds = [head, intro, cards, first, next].map(node => node?.getBoundingClientRect());
+              const [headerBox, introBox, cardsBox, firstBox, nextBox] = bounds;
+              const bodyStyle = getComputedStyle(drawer);
+              return getComputedStyle(overlay).position === "fixed"
+                && Number(getComputedStyle(overlay).zIndex) >= 1000
+                && drawer.getBoundingClientRect().width >= innerWidth - 2
+                && bodyStyle.overflowY === "auto"
+                && headerBox.bottom <= introBox.top + 2
+                && introBox.bottom <= cardsBox.top + 80
+                && firstBox.bottom <= nextBox.top + 2
+                && getComputedStyle(intro).backgroundColor !== "rgba(0, 0, 0, 0)"
+                && getComputedStyle(document.querySelector(".hlc-mobile-tabbar")).visibility === "hidden";
+            });
+            await page.screenshot({ path: path.join(outputDir, "kendrell-guidance-mobile.png"), fullPage: true });
+            await page.getByRole("button", { name: "Close guidance" }).click();
+          }
           if (route === "/dashboard" && viewportName === "mobile") {
             result.quickActionContrast = await page.locator(".hlc-home-quick-row-v2 > a > span").evaluateAll((labels) => labels.length === 5 && labels.every((label) => {
               const style = getComputedStyle(label);
@@ -301,7 +326,7 @@ try {
   });
 
   await Promise.all([deepLinkProof, ...viewportProofs]);
-  const failures = proofResults.filter(row => row.navigationFailure || row.overflow || row.blank || row.denied || row.unexpectedRedirect || row.logoFailure || row.compressedNavigation?.length || row.narrowHeading || row.quickActionContrast === false || row.aiTeamNamesFit === false || row.guideLegible === false || row.communityText === false || (row.mobileMenu && (row.mobileMenu.signOutCount !== 1 || !row.mobileMenu.viewBeforeSignOut || row.mobileMenu.duplicateChevron || row.mobileMenu.viewButtons.length !== 2 || row.mobileMenu.viewButtons.some(button => button.color === button.background))));
+  const failures = proofResults.filter(row => row.navigationFailure || row.overflow || row.blank || row.denied || row.unexpectedRedirect || row.logoFailure || row.compressedNavigation?.length || row.narrowHeading || row.agentGuidanceLayout === false || row.quickActionContrast === false || row.aiTeamNamesFit === false || row.guideLegible === false || row.communityText === false || (row.mobileMenu && (row.mobileMenu.signOutCount !== 1 || !row.mobileMenu.viewBeforeSignOut || row.mobileMenu.duplicateChevron || row.mobileMenu.viewButtons.length !== 2 || row.mobileMenu.viewButtons.some(button => button.color === button.background))));
   if (failures.length) {
     throw new Error(`Authenticated visual layout failures: ${failures.map(row => `${row.route} ${row.viewport}${row.navigationFailureReason ? ` (${row.navigationFailureReason})` : ""}`).join(", ")}`);
   }
