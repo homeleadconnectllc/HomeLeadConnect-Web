@@ -17,6 +17,7 @@ import {
   type EventAttendanceResponse,
 } from "../../api/communityParticipation";
 import { errorMessage } from "../../lib/errorMessage";
+import { suggestedEventStart } from "../../lib/eventTime";
 
 type Page = "discussions" | "groups" | "events";
 
@@ -37,7 +38,7 @@ export default function CommunityParticipation({ page }: { page: Page }) {
   const [currentUserId, setCurrentUserId] = useState("");
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [eventAt, setEventAt] = useState("");
+  const [eventAt, setEventAt] = useState(() => suggestedEventStart());
   const [replyDrafts, setReplyDrafts] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState<string | null>(null);
@@ -109,9 +110,9 @@ export default function CommunityParticipation({ page }: { page: Page }) {
       } else {
         if (!title.trim() || !body.trim()) throw new Error("Title and details are required.");
         if (page === "events" && !eventAt) throw new Error("Event date and time are required.");
-        await createCommunityPost({ kind: page === "discussions" ? "discussion" : "event", title, body, eventAt: eventAt || undefined });
+        await createCommunityPost({ kind: page === "discussions" ? "discussion" : "event", title, body, eventAt: page === "events" ? new Date(eventAt).toISOString() : undefined });
       }
-      setTitle(""); setBody(""); setEventAt("");
+      setTitle(""); setBody(""); setEventAt(suggestedEventStart());
       await load();
     } catch (reason) {
       setError(errorMessage(reason, `Unable to create Community ${page === "groups" ? "group" : "post"}.`));
@@ -160,7 +161,7 @@ export default function CommunityParticipation({ page }: { page: Page }) {
     <section className="hlc-settings-section" aria-label={`Create ${page}`}>
       <label>{page === "groups" ? "Group name" : "Title"}<input value={title} onChange={(event) => setTitle(event.target.value)} maxLength={160} /></label>
       <label>{page === "groups" ? "Description" : "Details"}<textarea value={body} onChange={(event) => setBody(event.target.value)} rows={4} maxLength={4000} /></label>
-      {page === "events" && <label>Event date &amp; time<input type="datetime-local" value={eventAt} onChange={(event) => setEventAt(event.target.value)} /></label>}
+      {page === "events" && <label>When<input type="datetime-local" required value={eventAt} onChange={(event) => setEventAt(event.target.value)} /></label>}
       <button type="button" disabled={busy !== null} onClick={() => void createPrimary()}>{busy === "create" ? "Saving…" : page === "groups" ? "Create group" : page === "events" ? "Publish event" : "Start discussion"}</button>
     </section>
 
