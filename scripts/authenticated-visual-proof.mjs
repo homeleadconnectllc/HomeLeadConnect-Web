@@ -214,7 +214,7 @@ try {
         try {
           await gotoRendered(page, `${baseUrl}${resolvedRoute}`, { requireWorkspace: true });
           if (route === "/calendar") {
-            await page.waitForFunction(() => !document.body.innerText.includes("Loading HLC Calendar"), { timeout: UI_TIMEOUT_MS });
+            await page.waitForFunction(() => !document.body.innerText.includes("Loading Calendar"), { timeout: UI_TIMEOUT_MS });
             await page.waitForTimeout(400);
             result.calendarRequests = calendarResponses;
             result.calendarErrorVisible = await page.locator(".hlc-calendar-banner.error").isVisible();
@@ -248,6 +248,11 @@ try {
 
           await page.screenshot({ path: path.join(outputDir, `${slug}-${viewportName}.png`), fullPage: true });
           if (route === "/calendar" && viewportName === "mobile") {
+            await page.locator(".hlc-native-calendar-header-actions button").click();
+            result.simpleEventForm = Boolean(await page.locator('.hlc-native-event-composer input[name="start"]').inputValue())
+              && await page.locator('.hlc-native-event-composer select[name="duration"]').inputValue() === "60"
+              && await page.locator('.hlc-native-event-composer input[name="end"]').count() === 0;
+            await page.locator(".hlc-native-event-composer-heading button").click();
             const eventEndpoint = "**/rest/v1/hlc_calendar_events?*";
             await page.route(eventEndpoint, (request) => request.fulfill({
               status: 503,
@@ -257,7 +262,7 @@ try {
             try {
               await gotoRendered(page, `${baseUrl}/calendar`, { requireWorkspace: true });
               await page.locator(".hlc-calendar-banner.error").waitFor({ state: "visible" });
-              result.calendarPartialFailure = (await page.locator(".hlc-calendar-banner.error").innerText()).includes("HLC events could not be refreshed")
+              result.calendarPartialFailure = (await page.locator(".hlc-calendar-banner.error").innerText()).includes("Events could not be refreshed")
                 && await page.getByRole("button", { name: "Retry calendar" }).isVisible();
               await page.getByRole("button", { name: "Show support reference" }).click();
               result.calendarSupportReference = /^CAL-(?:NA|[45]\d\d)-PGRST000$/.test(await page.locator(".hlc-calendar-support-reference").innerText());
@@ -267,6 +272,9 @@ try {
             await page.getByRole("button", { name: "Retry calendar" }).click();
             await page.locator(".hlc-calendar-banner.error").waitFor({ state: "hidden" });
             result.calendarRetryRecovered = true;
+          }
+          if (route === "/community/events" && viewportName === "mobile") {
+            result.communityEventTimeReady = Boolean(await page.locator('.hlc-settings-section input[type="datetime-local"]').first().inputValue());
           }
           if (route === "/hq" && viewportName === "mobile") {
             await page.getByRole("button", { name: "Open Kendrell help" }).click();
@@ -372,7 +380,7 @@ try {
   });
 
   await Promise.all([deepLinkProof, ...viewportProofs]);
-  const failures = proofResults.filter(row => row.navigationFailure || row.overflow || row.blank || row.denied || row.unexpectedRedirect || row.logoFailure || row.compressedNavigation?.length || row.narrowHeading || row.agentGuidanceLayout === false || row.calendarPartialFailure === false || row.calendarSupportReference === false || row.calendarRetryRecovered === false || row.quickActionContrast === false || row.aiTeamNamesFit === false || row.guideLegible === false || row.communityText === false || (row.mobileMenu && (row.mobileMenu.signOutCount !== 1 || !row.mobileMenu.viewBeforeSignOut || row.mobileMenu.duplicateChevron || row.mobileMenu.viewButtons.length !== 2 || row.mobileMenu.viewButtons.some(button => button.color === button.background))));
+  const failures = proofResults.filter(row => row.navigationFailure || row.overflow || row.blank || row.denied || row.unexpectedRedirect || row.logoFailure || row.compressedNavigation?.length || row.narrowHeading || row.agentGuidanceLayout === false || row.simpleEventForm === false || row.communityEventTimeReady === false || row.calendarPartialFailure === false || row.calendarSupportReference === false || row.calendarRetryRecovered === false || row.quickActionContrast === false || row.aiTeamNamesFit === false || row.guideLegible === false || row.communityText === false || (row.mobileMenu && (row.mobileMenu.signOutCount !== 1 || !row.mobileMenu.viewBeforeSignOut || row.mobileMenu.duplicateChevron || row.mobileMenu.viewButtons.length !== 2 || row.mobileMenu.viewButtons.some(button => button.color === button.background))));
   if (failures.length) {
     throw new Error(`Authenticated visual layout failures: ${failures.map(row => `${row.route} ${row.viewport}${row.navigationFailureReason ? ` (${row.navigationFailureReason})` : ""}`).join(", ")}`);
   }
