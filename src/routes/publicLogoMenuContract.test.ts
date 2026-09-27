@@ -55,7 +55,7 @@ test("standalone Home menu matches React focus, pointer, scroll, and ARIA behavi
   assert.match(standaloneHome, /event\.key\s*!==\s*"Tab"/);
   assert.match(standaloneHome, /last\.focus\(\)/);
   assert.match(standaloneHome, /first\.focus\(\)/);
-  assert.match(standaloneHome, /requestAnimationFrame\(\(\)\s*=>\s*trigger\.focus\(\)\)/);
+  assert.match(standaloneHome, /if \(restoreFocus\) trigger\.focus\(\)/);
 });
 
 test("shared menu layer protects both surfaces and owns responsive header offset", () => {

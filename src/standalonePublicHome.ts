@@ -2,6 +2,7 @@ import "./styles/mockup-authority-20260924.css";
 import "./styles/home-no-glow-20260925.css";
 import "./styles/public-full-bleed-20260925.css";
 import "./styles/home-pathway-defer-20260926.css";
+import "./styles/base44-story-adaptation-20260927.css";
 import { APP_ORIGIN, PUBLIC_ORIGIN } from "./config/siteOrigins";
 
 const pathways = [
@@ -183,6 +184,46 @@ export function mountStandalonePublicHome(root: HTMLElement) {
   script.append(make("small", undefined, "Harrisburg, PA"));
   hero.append(picture, copy, script);
 
+  // Adapt the published layout lab's narrative order using HCX-owned copy,
+  // destinations, and imagery. This is presentation only; no Base44 runtime.
+  const journey = make("section", "hcx-story-journey");
+  journey.setAttribute("aria-labelledby", "hcx-story-journey-title");
+  const journeyIntro = make("div", "hcx-story-intro");
+  journeyIntro.append(make("p", "hcx-story-kicker", "The journey"));
+  const journeyTitle = make("h2", undefined, "From a home need to work completed.");
+  journeyTitle.id = "hcx-story-journey-title";
+  journeyIntro.append(journeyTitle, make("p", undefined, "Four connected steps keep the request, opportunity, work, and follow-through together."));
+  const journeySteps = make("ol", "hcx-story-steps");
+  for (const [title, detail] of [
+    ["A resident shares the need", "Describe the home project and add the details that help clarify the next step."],
+    ["The request takes shape", "HomeLead Connect organizes useful context before it reaches a professional."],
+    ["A professional connects", "The right people can review the opportunity and coordinate the work."],
+    ["The work moves forward", "Communication and records keep the journey connected through follow-through."],
+  ]) {
+    const step = make("li");
+    step.append(make("h3", undefined, title), make("p", undefined, detail));
+    journeySteps.append(step);
+  }
+  journey.append(journeyIntro, journeySteps);
+
+  const audience = make("section", "hcx-story-audiences");
+  audience.setAttribute("aria-label", "Residents and professionals");
+  for (const [family, kicker, title, detail, image, destination, action] of [
+    ["resident", "For residents", "Start with the problem in front of you.", "Share what the home needs once, then keep the request and next step clear as the work moves forward.", "/page-residents-request-help-20260916.webp", "/homeowners", "Explore resident support →"],
+    ["professional", "For professionals", "Find opportunities with useful context.", "Bring your service business into a connected experience for opportunity, scheduling, work, and follow-through.", "/page-professionals-provider-presence-20260916.webp", "/professionals", "Explore professional access →"],
+  ]) {
+    const section = make("article", "hcx-story-audience");
+    section.dataset.family = family;
+    const body = make("div", "hcx-story-audience-copy");
+    body.append(make("p", "hcx-story-kicker", kicker), make("h2", undefined, title), make("p", undefined, detail), link(destination, "hcx-story-link", action));
+    const photo = make("img");
+    photo.src = image;
+    photo.alt = family === "resident" ? "Resident and service professional reviewing a home request" : "Home service professionals coordinating a residential project";
+    photo.loading = "lazy";
+    section.append(body, photo);
+    audience.append(section);
+  }
+
   const pathSection = make("section", "hcx-pathway-links");
   pathSection.setAttribute("aria-label", "HomeLead Connect pathways");
   for (const [key, title, body, href, action] of pathways) {
@@ -206,7 +247,7 @@ export function mountStandalonePublicHome(root: HTMLElement) {
     missionItems.append(make("span", undefined, label));
   }
   mission.append(missionItems);
-  main.append(header, hero, pathSection, mission);
+  main.append(header, hero, journey, audience, pathSection, mission);
 
   const footer = make("footer", "hlc-public-footer");
   footer.append(
@@ -251,7 +292,7 @@ export function mountStandalonePublicHome(root: HTMLElement) {
     trigger.setAttribute("aria-expanded", "false");
     trigger.setAttribute("aria-label", "Open HomeLead Connect menu");
     document.body.style.overflow = priorOverflow;
-    if (restoreFocus) window.requestAnimationFrame(() => trigger.focus());
+    if (restoreFocus) trigger.focus();
   };
 
   const open = () => {

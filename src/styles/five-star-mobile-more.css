@@ -53,9 +53,4 @@
     white-space: nowrap;
   }
 
-  .hlc-mobile-more-quick > a::after {
-    content: "›";
-    
-    font-size: 1rem;
-  }
 }

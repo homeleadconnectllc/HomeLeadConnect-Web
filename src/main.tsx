@@ -50,6 +50,7 @@ if (isPublicHome) {
       import("./styles/public-full-bleed-20260925.css"),
     ]);
     await import("./styles/public-owner-corrections-20260926.css");
+    await import("./styles/base44-public-editorial-20260927.css");
   };
 
   const usesCurrentVisualAuthority = isPublicSiteRoute || isVisualFamilyEntryRoute;

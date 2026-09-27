@@ -86,13 +86,15 @@ export default function CalendarSignificanceMarkers() {
 
     async function refreshMarkers() {
       try {
-        const [appointments, events] = await Promise.all([
+        const [appointmentResult, eventResult] = await Promise.allSettled([
           listWorkspaceAppointments(),
           listHlcCalendarEvents(),
         ]);
         if (cancelled) return;
 
         const scheduledDates = new Map<string, number>();
+        const appointments = appointmentResult.status === "fulfilled" ? appointmentResult.value : [];
+        const events = eventResult.status === "fulfilled" ? eventResult.value : [];
         appointments
           .filter((appointment) => appointment.status === "scheduled")
           .forEach((appointment) => incrementDateCount(scheduledDates, appointment.appointment_date));

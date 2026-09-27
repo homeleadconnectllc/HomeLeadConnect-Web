@@ -194,8 +194,31 @@ try {
           coverage: route.includes(":") ? "missing-record-state; no real record identity supplied" : "approved-workspace-session",
         };
 
+        // Record only table names, HTTP status and database error codes. Never
+        // persist auth headers, query strings, response rows or account data.
+        const calendarResponses = [];
+        const onCalendarResponse = async (response) => {
+          const table = new URL(response.url()).pathname.match(/\/rest\/v1\/(profiles|appointments|hlc_calendar_events)$/)?.[1];
+          if (!table) return;
+          let code = null;
+          if (!response.ok()) {
+            try {
+              const body = await response.json();
+              code = typeof body?.code === "string" ? body.code : null;
+            } catch { /* non-JSON failure */ }
+          }
+          calendarResponses.push({ table, status: response.status(), code });
+        };
+        if (route === "/calendar") page.on("response", onCalendarResponse);
+
         try {
           await gotoRendered(page, `${baseUrl}${resolvedRoute}`, { requireWorkspace: true });
+          if (route === "/calendar") {
+            await page.waitForFunction(() => !document.body.innerText.includes("Loading Calendar"), { timeout: UI_TIMEOUT_MS });
+            await page.waitForTimeout(400);
+            result.calendarRequests = calendarResponses;
+            result.calendarErrorVisible = await page.locator(".hlc-calendar-banner.error").isVisible();
+          }
           const currentPath = new URL(page.url()).pathname;
           const unexpectedRedirect = mustRenderAuthorizedWorkspace.has(route) && currentPath !== (expectedRedirects.get(route) || resolvedRoute);
           const metrics = await page.evaluate(() => ({
@@ -224,6 +247,87 @@ try {
           }
 
           await page.screenshot({ path: path.join(outputDir, `${slug}-${viewportName}.png`), fullPage: true });
+          if (route === "/calendar" && viewportName === "mobile") {
+            await page.locator(".hlc-native-calendar-header-actions button").click();
+            result.simpleEventForm = Boolean(await page.locator('.hlc-native-event-composer input[name="start"]').inputValue())
+              && await page.locator('.hlc-native-event-composer select[name="duration"]').inputValue() === "60"
+              && await page.locator('.hlc-native-event-composer input[name="end"]').count() === 0;
+            await page.locator(".hlc-native-event-composer-heading button").click();
+            const eventEndpoint = "**/rest/v1/hlc_calendar_events?*";
+            await page.route(eventEndpoint, (request) => request.fulfill({
+              status: 503,
+              contentType: "application/json",
+              body: JSON.stringify({ code: "PGRST000", message: "Simulated service failure" }),
+            }));
+            try {
+              await gotoRendered(page, `${baseUrl}/calendar`, { requireWorkspace: true });
+              await page.locator(".hlc-calendar-banner.error").waitFor({ state: "visible" });
+              result.calendarPartialFailure = (await page.locator(".hlc-calendar-banner.error").innerText()).includes("Events could not be refreshed")
+                && await page.getByRole("button", { name: "Retry calendar" }).isVisible();
+              await page.getByRole("button", { name: "Show support reference" }).click();
+              result.calendarSupportReference = /^CAL-(?:NA|[45]\d\d)-PGRST000$/.test(await page.locator(".hlc-calendar-support-reference").innerText());
+            } finally {
+              await page.unroute(eventEndpoint);
+            }
+            await page.getByRole("button", { name: "Retry calendar" }).click();
+            await page.locator(".hlc-calendar-banner.error").waitFor({ state: "hidden" });
+            result.calendarRetryRecovered = true;
+          }
+          if (route === "/community/events" && viewportName === "mobile") {
+            result.communityEventTimeReady = Boolean(await page.locator('.hlc-settings-section input[type="datetime-local"]').first().inputValue());
+          }
+          if (route === "/hq" && viewportName === "mobile") {
+            await page.getByRole("button", { name: "Open Kendrell help" }).click();
+            result.agentGuidanceLayout = await page.locator(".hlc-agent-guidance-drawer").evaluate((drawer) => {
+              const overlay = drawer.parentElement;
+              const head = drawer.querySelector(".hlc-agent-guidance-head");
+              const intro = drawer.querySelector(".hlc-agent-guidance-intro");
+              const cards = drawer.querySelector(".hlc-agent-guidance-cards");
+              const first = cards?.querySelector("details");
+              const next = first?.nextElementSibling;
+              const bounds = [head, intro, cards, first, next].map(node => node?.getBoundingClientRect());
+              const [headerBox, introBox, cardsBox, firstBox, nextBox] = bounds;
+              const bodyStyle = getComputedStyle(drawer);
+              return getComputedStyle(overlay).position === "fixed"
+                && Number(getComputedStyle(overlay).zIndex) >= 1000
+                && drawer.getBoundingClientRect().width >= innerWidth - 2
+                && bodyStyle.overflowY === "auto"
+                && headerBox.bottom <= introBox.top + 2
+                && introBox.bottom <= cardsBox.top + 80
+                && firstBox.bottom <= nextBox.top + 2
+                && getComputedStyle(intro).backgroundColor !== "rgba(0, 0, 0, 0)"
+                && getComputedStyle(document.querySelector(".hlc-mobile-tabbar")).visibility === "hidden";
+            });
+            await page.screenshot({ path: path.join(outputDir, "kendrell-guidance-mobile.png"), fullPage: true });
+            await page.getByRole("button", { name: "Close guidance" }).click();
+          }
+          if (route === "/dashboard" && viewportName === "mobile") {
+            result.quickActionContrast = await page.locator(".hlc-home-quick-row-v2 > a > span").evaluateAll((labels) => labels.length === 5 && labels.every((label) => {
+              const style = getComputedStyle(label);
+              const color = style.webkitTextFillColor === "currentcolor" ? style.color : style.webkitTextFillColor;
+              const channels = color.match(/[\d.]+/g)?.slice(0, 3).map(Number) || [];
+              return channels.length === 3 && Math.min(...channels) >= 190;
+            }));
+            result.aiTeamNamesFit = await page.locator(".hlc-home-ai-links > a strong").evaluateAll((names) => names.every((name) => {
+              if (!name.getBoundingClientRect().height) return true;
+              const range = document.createRange();
+              range.selectNodeContents(name);
+              return range.getClientRects().length <= 1;
+            }));
+            await page.getByRole("button", { name: "Open instructions for this page" }).click();
+            result.guideLegible = await page.locator(".hlc-route-guide").evaluate((guide) => {
+              const style = getComputedStyle(guide);
+              const alpha = style.backgroundColor.startsWith("rgba")
+                ? Number(style.backgroundColor.match(/[\d.]+/g)?.[3] || 0) : 1;
+              const tabBar = document.querySelector(".hlc-mobile-tabbar")?.getBoundingClientRect();
+              const bounds = guide.getBoundingClientRect();
+              return alpha >= .95 && parseFloat(style.paddingLeft) >= 16
+                && bounds.width >= 250 && bounds.bottom <= (tabBar?.top ?? innerHeight) + 2;
+            });
+            await page.screenshot({ path: path.join(outputDir, "dashboard-guide-mobile.png"), fullPage: true });
+            await page.getByRole("button", { name: "Close instructions" }).click();
+            if (await page.locator(".hlc-route-guide").count()) result.guideLegible = false;
+          }
           if (route === "/community-hub") {
             result.communityText = await page.locator(".hlc-community-v2").evaluate((community) => {
               const readable = (element) => {
@@ -241,6 +345,11 @@ try {
               await page.locator(".hlc-mobile-menu-utilities").waitFor({ state: "visible" });
               result.mobileMenu = await page.locator(".hlc-mobile-command-sheet").evaluate((menu) => ({
                 signOutCount: menu.querySelectorAll(".hlc-mobile-more-signout, .hlc-mobile-early-signout").length,
+                viewBeforeSignOut: !!menu.querySelector(".hlc-mobile-view-controls-host + .hlc-mobile-more-signout")
+                  && menu.querySelector(".hlc-mobile-view-controls-host").getBoundingClientRect().top
+                    < menu.querySelector(".hlc-mobile-more-signout").getBoundingClientRect().top,
+                duplicateChevron: [...menu.querySelectorAll(".hlc-mobile-more-quick > a")].some((link) =>
+                  !["none", "normal", '""'].includes(getComputedStyle(link, "::after").content)),
                 viewButtons: [...menu.querySelectorAll(".hlc-mobile-menu-view-actions button")].map((button) => ({
                   label: button.textContent?.trim(),
                   color: getComputedStyle(button).color,
@@ -260,6 +369,8 @@ try {
           }
         }
 
+        if (route === "/calendar") page.off("response", onCalendarResponse);
+
         proofResults.push(result);
         fs.writeFileSync(path.join(outputDir, "results.json"), JSON.stringify(proofResults, null, 2));
       }
@@ -269,7 +380,7 @@ try {
   });
 
   await Promise.all([deepLinkProof, ...viewportProofs]);
-  const failures = proofResults.filter(row => row.navigationFailure || row.overflow || row.blank || row.denied || row.unexpectedRedirect || row.logoFailure || row.compressedNavigation?.length || row.narrowHeading || row.communityText === false || (row.mobileMenu && (row.mobileMenu.signOutCount !== 1 || row.mobileMenu.viewButtons.length !== 2 || row.mobileMenu.viewButtons.some(button => button.color === button.background))));
+  const failures = proofResults.filter(row => row.navigationFailure || row.overflow || row.blank || row.denied || row.unexpectedRedirect || row.logoFailure || row.compressedNavigation?.length || row.narrowHeading || row.agentGuidanceLayout === false || row.simpleEventForm === false || row.communityEventTimeReady === false || row.calendarPartialFailure === false || row.calendarSupportReference === false || row.calendarRetryRecovered === false || row.quickActionContrast === false || row.aiTeamNamesFit === false || row.guideLegible === false || row.communityText === false || (row.mobileMenu && (row.mobileMenu.signOutCount !== 1 || !row.mobileMenu.viewBeforeSignOut || row.mobileMenu.duplicateChevron || row.mobileMenu.viewButtons.length !== 2 || row.mobileMenu.viewButtons.some(button => button.color === button.background))));
   if (failures.length) {
     throw new Error(`Authenticated visual layout failures: ${failures.map(row => `${row.route} ${row.viewport}${row.navigationFailureReason ? ` (${row.navigationFailureReason})` : ""}`).join(", ")}`);
   }

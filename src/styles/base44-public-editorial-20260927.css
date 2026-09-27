@@ -1,0 +1,57 @@
+/* Shared public story hierarchy adapted from the visual lab. Existing page
+   backgrounds, photography, family accents, and operational forms remain authoritative. */
+.hlc-public-board-page .hcx-editorial-intro {
+  width: 100%;
+  padding: clamp(72px, 8vw, 116px) clamp(20px, 6vw, 90px) clamp(30px, 4vw, 58px);
+  margin: 0;
+  text-align: center;
+  background: transparent;
+}
+
+.hlc-public-board-page .hcx-editorial-intro .hcx-editorial-eyebrow {
+  margin: 0 auto 12px;
+  color: #257ba7;
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+}
+
+.hlc-public-board-page .hcx-editorial-intro h2 {
+  max-width: 880px;
+  margin: 0 auto 18px;
+  color: #10243b;
+  font-size: clamp(2rem, 4vw, 3.8rem);
+  letter-spacing: -.04em;
+  line-height: 1.1;
+}
+
+.hlc-public-board-page .hcx-editorial-intro > p:last-child:not(.hcx-editorial-eyebrow) {
+  max-width: 720px;
+  margin: 0 auto;
+  color: #455f74;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  line-height: 1.6;
+}
+
+.hlc-public-board-page .hcx-editorial-intro + .hlc-public-grid {
+  padding-top: 0;
+}
+
+.hlc-public-board-page .hcx-editorial-intro + .hlc-public-grid .hlc-public-card {
+  border-top: 1px solid rgba(29, 90, 119, .28);
+  padding-top: 30px;
+}
+
+.hlc-public-board-page .hcx-editorial-intro + .hlc-public-grid .hlc-public-card h2 {
+  text-wrap: balance;
+}
+
+@media (max-width: 600px) {
+  .hlc-public-board-page .hcx-editorial-intro {
+    padding-block: 64px 30px;
+  }
+  .hlc-public-board-page .hcx-editorial-intro + .hlc-public-grid .hlc-public-card {
+    padding-top: 24px;
+  }
+}
