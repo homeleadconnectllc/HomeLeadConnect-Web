@@ -237,6 +237,19 @@ try {
               range.selectNodeContents(name);
               return range.getClientRects().length <= 1;
             }));
+            await page.getByRole("button", { name: "Open instructions for this page" }).click();
+            result.guideLegible = await page.locator(".hlc-route-guide").evaluate((guide) => {
+              const style = getComputedStyle(guide);
+              const alpha = style.backgroundColor.startsWith("rgba")
+                ? Number(style.backgroundColor.match(/[\d.]+/g)?.[3] || 0) : 1;
+              const tabBar = document.querySelector(".hlc-mobile-tabbar")?.getBoundingClientRect();
+              const bounds = guide.getBoundingClientRect();
+              return alpha >= .95 && parseFloat(style.paddingLeft) >= 16
+                && bounds.width >= 250 && bounds.bottom <= (tabBar?.top ?? innerHeight) + 2;
+            });
+            await page.screenshot({ path: path.join(outputDir, "dashboard-guide-mobile.png"), fullPage: true });
+            await page.getByRole("button", { name: "Close instructions" }).click();
+            if (await page.locator(".hlc-route-guide").count()) result.guideLegible = false;
           }
           if (route === "/community-hub") {
             result.communityText = await page.locator(".hlc-community-v2").evaluate((community) => {
@@ -288,7 +301,7 @@ try {
   });
 
   await Promise.all([deepLinkProof, ...viewportProofs]);
-  const failures = proofResults.filter(row => row.navigationFailure || row.overflow || row.blank || row.denied || row.unexpectedRedirect || row.logoFailure || row.compressedNavigation?.length || row.narrowHeading || row.quickActionContrast === false || row.aiTeamNamesFit === false || row.communityText === false || (row.mobileMenu && (row.mobileMenu.signOutCount !== 1 || !row.mobileMenu.viewBeforeSignOut || row.mobileMenu.duplicateChevron || row.mobileMenu.viewButtons.length !== 2 || row.mobileMenu.viewButtons.some(button => button.color === button.background))));
+  const failures = proofResults.filter(row => row.navigationFailure || row.overflow || row.blank || row.denied || row.unexpectedRedirect || row.logoFailure || row.compressedNavigation?.length || row.narrowHeading || row.quickActionContrast === false || row.aiTeamNamesFit === false || row.guideLegible === false || row.communityText === false || (row.mobileMenu && (row.mobileMenu.signOutCount !== 1 || !row.mobileMenu.viewBeforeSignOut || row.mobileMenu.duplicateChevron || row.mobileMenu.viewButtons.length !== 2 || row.mobileMenu.viewButtons.some(button => button.color === button.background))));
   if (failures.length) {
     throw new Error(`Authenticated visual layout failures: ${failures.map(row => `${row.route} ${row.viewport}${row.navigationFailureReason ? ` (${row.navigationFailureReason})` : ""}`).join(", ")}`);
   }
