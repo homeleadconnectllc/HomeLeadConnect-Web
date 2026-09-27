@@ -292,7 +292,7 @@ export function mountStandalonePublicHome(root: HTMLElement) {
     trigger.setAttribute("aria-expanded", "false");
     trigger.setAttribute("aria-label", "Open HomeLead Connect menu");
     document.body.style.overflow = priorOverflow;
-    if (restoreFocus) window.requestAnimationFrame(() => trigger.focus());
+    if (restoreFocus) trigger.focus();
   };
 
   const open = () => {
