@@ -8,6 +8,7 @@ import ConnectivityStatus from "../components/connectivity/ConnectivityStatus";
 import { useAuth } from "../hooks/useAuth";
 import { useAccountAccess } from "../hooks/useAccountAccess";
 import { canAccessWorkspacePath } from "../lib/accessPolicy";
+import { portalFamilyForPath, resolvePortalVisualFamily } from "../lib/portalVisualFamily";
 
 const UniversalAITeamLauncher = lazy(() => import("../components/agents/UniversalAITeamLauncher"));
 const AudioDeviceCenter = lazy(() => import("../components/audio/AudioDeviceCenter"));
@@ -103,6 +104,18 @@ export default function AppLayout() {
   const showFieldDevices = internalTools && location.pathname === "/settings";
   const routePersonaClass = signedInWorkspaceShell ? personaRouteClass(location.pathname) : "";
   const routeClass = stableRouteClass(location.pathname);
+  const visualStorageKey = session ? `hlc-visual-family:${session.user.id}` : null;
+  const savedVisualFamily = visualStorageKey && typeof window !== "undefined" ? window.sessionStorage.getItem(visualStorageKey) : null;
+  const activeVisualFamily = signedInWorkspaceShell && accessResolved
+    ? resolvePortalVisualFamily(location.pathname, access, savedVisualFamily)
+    : null;
+
+  useEffect(() => {
+    const direct = portalFamilyForPath(location.pathname);
+    if (!visualStorageKey || !signedInWorkspaceShell || !accessResolved || !direct) return;
+    const allowed = direct === "resident" ? access.homeowner : direct === "professional" ? access.contractor : direct === "partner" ? access.partner : access.business || access.homeowner || access.contractor;
+    if (allowed) window.sessionStorage.setItem(visualStorageKey, direct);
+  }, [visualStorageKey, signedInWorkspaceShell, accessResolved, access, location.pathname]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -139,9 +152,9 @@ export default function AppLayout() {
   }, [location.key, location.pathname, location.hash]);
 
   return (
-    <div data-hlc-family={routeFamily(location.pathname)} data-hlc-audience={portalAudience ?? (signedInWorkspaceShell ? "workspace" : "public")} className={`${publicFrontDoorSurface ? "hlc-public-shell" : `hlc-app-shell ${signedInWorkspaceShell ? "hlc-signed-in-shell" : "hlc-public-shell"}`} ${routeClass}${internalTools && sidebarCollapsed ? " hlc-sidebar-is-collapsed" : ""}${routePersonaClass ? ` ${routePersonaClass}` : ""}${focusedPublicIntake ? " hlc-focused-public-intake" : ""}${authFrontDoorSurface ? " hlc-auth-front-door-surface" : ""}${publicFrontDoorSurface ? " hlc-public-front-door-surface" : ""}`}>
+    <div data-hlc-family={activeVisualFamily ?? routeFamily(location.pathname)} data-hlc-audience={portalAudience ?? (signedInWorkspaceShell ? "workspace" : "public")} className={`${publicFrontDoorSurface ? "hlc-public-shell" : `hlc-app-shell ${signedInWorkspaceShell ? "hlc-signed-in-shell" : "hlc-public-shell"}`} ${routeClass}${internalTools && sidebarCollapsed ? " hlc-sidebar-is-collapsed" : ""}${routePersonaClass ? ` ${routePersonaClass}` : ""}${focusedPublicIntake ? " hlc-focused-public-intake" : ""}${authFrontDoorSurface ? " hlc-auth-front-door-surface" : ""}${publicFrontDoorSurface ? " hlc-public-front-door-surface" : ""}`}>
       <AnalyticsTracker />
-      {!focusedPublicIntake && !authFrontDoorSurface && !publicFrontDoorSurface && !appEntrySurface && !homepageSurface && <Navbar />}
+      {!focusedPublicIntake && !authFrontDoorSurface && !publicFrontDoorSurface && !appEntrySurface && !homepageSurface && <Navbar family={activeVisualFamily} />}
       {internalTools && desktopShell && (
         <button className="hlc-desktop-sidebar-toggle" type="button" aria-label={sidebarCollapsed ? "Expand workspace sidebar" : "Collapse workspace sidebar"} aria-expanded={!sidebarCollapsed} onClick={() => setSidebarCollapsed((current) => !current)}>
           <span aria-hidden="true">{sidebarCollapsed ? "›" : "‹"}</span>

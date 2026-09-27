@@ -34,6 +34,7 @@ import "./dashboard-context-hero.css";
 // cannot override the owner-approved redesign. Structural and feature behavior stay intact.
 import "./signed-in-professional-system.css";
 import "./connected-app-family-20260923.css";
+import "./centered-presentation-typography.css";
 
 export default function AuthenticatedStyles() {
   return <MobileNavigationDialogAccessibility />;

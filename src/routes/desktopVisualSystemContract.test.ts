@@ -38,7 +38,7 @@ test("desktop shell owns geometry without imposing the old navy/card theme", () 
 
 test("desktop branding uses the signed-in Navbar as the single workspace logo", () => {
   assert.doesNotMatch(appLayout, /hlc-desktop-page-brand/);
-  assert.match(appLayout, /<Navbar\s*\/>/);
+  assert.match(appLayout, /<Navbar family=\{activeVisualFamily\}\s*\/>/);
   assert.match(appLayout, /<Footer\s+showLogo=\{!signedInWorkspaceShell\s*&&\s*!homepageSurface\}\s*\/>/);
   assert.match(desktopShell, /\.hlc-navbar-logo img[\s\S]*display:block!important/);
   assert.doesNotMatch(authenticatedStyles, /desktop-agent-team-rail\.css/);

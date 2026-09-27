@@ -120,6 +120,9 @@
 .hlc-public-page[data-public-page=about] .hlc-public-grid { position:relative; z-index:3; margin-top:-38px; background:linear-gradient(180deg,transparent,#eaf3f9 45%) }
 .hlc-public-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(18px,3vw,36px); padding:clamp(40px,6vw,90px) clamp(8px,3vw,40px); max-width:1250px; margin:auto }
 .hlc-public-card { padding:20px 10px 26px; border-top:2px solid #64c4e6; line-height:1.65 }
+.hlc-public-card:not(.hlc-utility-contact-details),.hlc-board-access-card,.hlc-utility-focus { text-align:center }
+.hlc-public-card:not(.hlc-utility-contact-details) > p,.hlc-utility-focus > p { margin-inline:auto; max-width:72ch }
+.hlc-public-card:not(.hlc-utility-contact-details) :is(.hlc-public-actions,.hlc-utility-actions) { justify-content:center }
 .hlc-public-card h2 { font-size:clamp(22px,2.4vw,32px); line-height:1.18; margin:13px 0 }
 .hlc-public-card p { color:#456073 }
 .hlc-public-card-label { color:#2580b1!important }

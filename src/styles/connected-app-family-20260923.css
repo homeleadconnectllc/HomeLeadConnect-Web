@@ -9,10 +9,6 @@ html body #root .hlc-signed-in-shell{
   --hlc-portal-accent-soft:rgba(48,136,192,.12);
   background:linear-gradient(180deg,#eaf3fa,#f8fbfd)!important;
 }
-html body #root .hlc-signed-in-shell:has(.hlc-portal-workspace.is-resident){--hlc-portal-accent:#16866a;--hlc-portal-accent-soft:rgba(22,134,106,.12)}
-html body #root .hlc-signed-in-shell:has(.hlc-portal-workspace.is-professional){--hlc-portal-accent:#1479b8;--hlc-portal-accent-soft:rgba(20,121,184,.12)}
-html body #root .hlc-signed-in-shell:has(.hlc-portal-workspace.is-partner){--hlc-portal-accent:#a97513;--hlc-portal-accent-soft:rgba(169,117,19,.12)}
-html body #root .hlc-signed-in-shell:has(:is(.hlc-community-v2,.hlc-community-workspace:not(.hlc-ui-roleplay-knowledge-workspace-b35e3b))){--hlc-portal-accent:#8957b2;--hlc-portal-accent-soft:rgba(137,87,178,.12)}
 html body #root .hlc-signed-in-shell .hlc-portal-workspace.is-resident{--hlc-portal-accent:#16866a;--hlc-portal-accent-soft:rgba(22,134,106,.12)}
 html body #root .hlc-signed-in-shell .hlc-portal-workspace.is-professional{--hlc-portal-accent:#1479b8;--hlc-portal-accent-soft:rgba(20,121,184,.12)}
 html body #root .hlc-signed-in-shell .hlc-portal-workspace.is-partner{--hlc-portal-accent:#a97513;--hlc-portal-accent-soft:rgba(169,117,19,.12)}
@@ -77,14 +73,7 @@ html body #root .hlc-signed-in-shell[data-hlc-family="resident"]{
   --hlc-portal-accent:#16866a;--hlc-portal-rgb:22,134,106;
   --hlc-portal-accent-soft:rgba(22,134,106,.13);--hlc-portal-deep:#0d4a3d;
 }
-html body #root .hlc-signed-in-shell:is(
-  .hlc-page-contractor-portal,.hlc-page-contractor-portal-profile,
-  .hlc-page-contractor-portal-services,.hlc-page-contractor-portal-documents,
-  .hlc-page-contractor-portal-resources,.hlc-page-contractor-portal-team,
-  .hlc-page-dashboard,.hlc-page-work,.hlc-page-leads,.hlc-page-estimator,
-  .hlc-page-jobs,.hlc-page-calendar,.hlc-page-follow-ups,.hlc-page-workflow,
-  .hlc-page-automations,.hlc-page-call-center,.hlc-page-manual-communications
-){
+html body #root .hlc-signed-in-shell[data-hlc-family="professional"]{
   --hlc-portal-accent:#1479b8;--hlc-portal-rgb:20,121,184;
   --hlc-portal-accent-soft:rgba(20,121,184,.13);--hlc-portal-deep:#123f65;
 }
@@ -96,6 +85,40 @@ html body #root .hlc-signed-in-shell[data-hlc-family="community"]{
   --hlc-portal-accent:#8957b2;--hlc-portal-rgb:137,87,178;
   --hlc-portal-accent-soft:rgba(137,87,178,.14);--hlc-portal-deep:#4a2c68;
 }
+/* The shell is the family authority. Navigation, route canvas and footer
+   inherit the same tokens, including shared pages outside a portal wrapper. */
+html body #root .hlc-signed-in-shell{
+  --hlc-app-blue:var(--hlc-portal-accent);
+  --hlc-app-blue-soft:var(--hlc-portal-accent-soft);
+}
+html body #root .hlc-signed-in-shell>.hlc-navbar .hlc-nav-group{
+  --hlc-portal-accent:inherit;
+}
+html body #root .hlc-signed-in-shell>.hlc-navbar .hlc-nav-menu a[aria-current="page"],
+html body #root .hlc-signed-in-shell .hlc-mobile-tabbar :is(a,button).is-active{
+  color:var(--hlc-portal-accent)!important;
+  background:var(--hlc-portal-accent-soft)!important;
+  box-shadow:inset 3px 0 var(--hlc-portal-accent)!important;
+}
+html body #root .hlc-signed-in-shell>.hlc-navbar :is(.hlc-nav-group>summary,.hlc-nav-menu a):is(:hover,:focus-visible,[aria-current="page"]){
+  border-color:var(--hlc-portal-accent)!important;
+  text-decoration-color:var(--hlc-portal-accent)!important;
+}
+html body #root .hlc-signed-in-shell>.hlc-public-footer{
+  border-top-color:rgba(var(--hlc-portal-rgb),.3)!important;
+}
+html body #root .hlc-signed-in-shell>.hlc-public-footer :is(strong,small){color:var(--hlc-portal-accent)!important}
+html body #root .hlc-signed-in-shell>.hlc-public-footer a:hover{
+  color:var(--hlc-portal-accent)!important;
+}
+body>.hlc-mobile-command-sheet[data-hlc-family="resident"]{--hlc-portal-accent:#16866a;--hlc-portal-accent-soft:rgba(22,134,106,.13)}
+body>.hlc-mobile-command-sheet[data-hlc-family="professional"]{--hlc-portal-accent:#1479b8;--hlc-portal-accent-soft:rgba(20,121,184,.13)}
+body>.hlc-mobile-command-sheet[data-hlc-family="partner"]{--hlc-portal-accent:#a97513;--hlc-portal-accent-soft:rgba(169,117,19,.14)}
+body>.hlc-mobile-command-sheet[data-hlc-family="community"]{--hlc-portal-accent:#8957b2;--hlc-portal-accent-soft:rgba(137,87,178,.14)}
+body>.hlc-mobile-command-sheet .hlc-mobile-more-title span{color:var(--hlc-portal-accent)!important}
+body>.hlc-mobile-command-sheet>.hlc-drawer-v2-scroll{border-color:var(--hlc-portal-accent-soft)!important}
+body>.hlc-mobile-command-sheet .hlc-mobile-more-quick>a:is(:hover,:focus-visible){border-color:var(--hlc-portal-accent)!important;background:var(--hlc-portal-accent-soft)!important}
+body>.hlc-mobile-command-sheet :is(.hlc-mobile-command-search-trigger,.hlc-mobile-more-quick>a):focus-visible{outline:3px solid var(--hlc-portal-accent)!important}
 
 html body #root .hlc-signed-in-shell>.hlc-navbar{
   background:linear-gradient(155deg,rgba(8,26,45,.98),color-mix(in srgb,var(--hlc-portal-deep) 72%,#0a2039))!important;

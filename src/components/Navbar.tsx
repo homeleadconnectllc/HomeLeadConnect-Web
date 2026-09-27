@@ -8,6 +8,7 @@ import { useAuth } from "../hooks/useAuth";
 import { useAccountAccess } from "../hooks/useAccountAccess";
 import { canAccessWorkspacePath } from "../lib/accessPolicy";
 import { supabase } from "../lib/supabase";
+import type { PortalVisualFamily } from "../lib/portalVisualFamily";
 
 const logo = "/hlc-logo-ui.png";
 const OPEN_HLC_COMMAND_SEARCH = "hlc:open-command-search";
@@ -70,7 +71,7 @@ function mobileRouteIsActive(pathname: string, item: MobileNavItem) {
   return pathMatchesPrefix(pathname, item.route);
 }
 
-export default function Navbar() {
+export default function Navbar({ family = null }: { family?: PortalVisualFamily | null }) {
   const { session, loading } = useAuth();
   const access = useAccountAccess();
   const [mobileOpenAt, setMobileOpenAt] = useState<string | null>(null);
@@ -184,7 +185,7 @@ export default function Navbar() {
   }
 
   const mobileDrawer = mobileOpen && typeof document !== "undefined" ? createPortal(
-    <div id="hlc-mobile-command-menu" className="hlc-drawer-v2 hlc-mobile-command-sheet" role="dialog" aria-modal="true" aria-label="More HomeLead Connect areas">
+    <div id="hlc-mobile-command-menu" data-hlc-family={family ?? undefined} className="hlc-drawer-v2 hlc-mobile-command-sheet" role="dialog" aria-modal="true" aria-label="More HomeLead Connect areas">
       <div className="hlc-drawer-v2-scroll">
         <div className="hlc-mobile-command-sheet-head"><span>HomeLead Connect</span><button className="hlc-drawer-v2-close" type="button" onClick={closeMobileMenu} aria-label="Close HomeLead Connect navigation">Close</button></div>
         {renderMobileMoreMenu()}

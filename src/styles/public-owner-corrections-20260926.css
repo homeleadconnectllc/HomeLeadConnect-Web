@@ -355,27 +355,6 @@ html body #root .hcx-pathway[data-pathway="professionals"] .hcx-final {
     );
 }
 
-/* Professionals footer:
-   replace generic navy with its own cyan-blue tonal transition. */
-html body #root .hlc-page-professionals .hlc-public-footer,
-html body #root .hlc-page-professionals footer.hlc-public-footer.hlc-board-footer,
-html body #root .hcx-pathway[data-pathway="professionals"] ~ .hlc-public-footer {
-  background:
-    radial-gradient(
-      circle at 50% 0%,
-      rgba(40, 183, 245, 0.18) 0%,
-      rgba(40, 183, 245, 0.06) 30%,
-      transparent 48%
-    ),
-    linear-gradient(
-      180deg,
-      #164866 0%,
-      #0b3555 48%,
-      #07263f 100%
-    ) !important;
-  border-top: 1px solid rgba(40, 183, 245, 0.20) !important;
-}
-
 /* Retired duplicate footer logo stays suppressed. */
 html body #root .hlc-public-footer-master-logo {
   display: none !important;
@@ -798,4 +777,33 @@ html body #root .hlc-public-footer.hlc-public-footer-home-authority nav a:active
   box-shadow: none !important;
   padding-bottom: 0 !important;
   background-image: none !important;
+}
+
+/* A single family context paints both shared bookends. Photographs keep their
+   natural color; the audience treatment belongs to the navigation and footer. */
+html body #root [data-hlc-family="resident"] { --hcx-active-deep:#123b34; --hcx-family-link:#a5f1d7; --hcx-family-line:rgba(94,217,171,.32) }
+html body #root [data-hlc-family="professional"] { --hcx-active-deep:#123b58; --hcx-family-link:#a8e3ff; --hcx-family-line:rgba(71,186,238,.32) }
+html body #root [data-hlc-family="partner"] { --hcx-active-deep:#42331b; --hcx-family-link:#ffe2a1; --hcx-family-line:rgba(234,189,91,.34) }
+html body #root [data-hlc-family="community"] { --hcx-active-deep:#352044; --hcx-family-link:#e5c4fb; --hcx-family-line:rgba(194,141,231,.34) }
+html body #root [data-hlc-family]:is([data-hlc-family="resident"],[data-hlc-family="professional"],[data-hlc-family="partner"],[data-hlc-family="community"]) .hlc-board-nav,
+html body #root [data-hlc-family]:is([data-hlc-family="resident"],[data-hlc-family="professional"],[data-hlc-family="partner"],[data-hlc-family="community"]) > .hlc-board-nav {
+  background:linear-gradient(180deg,color-mix(in srgb,var(--hcx-active-deep) 88%,#172d43),var(--hcx-active-deep))!important;
+  border-bottom-color:var(--hcx-family-line)!important;
+}
+html body #root [data-hlc-family]:is([data-hlc-family="resident"],[data-hlc-family="professional"],[data-hlc-family="partner"],[data-hlc-family="community"]) .hlc-public-menu-panel {
+  background:var(--hcx-active-deep)!important;
+  border-right:1px solid var(--hcx-family-line)!important;
+}
+html body #root [data-hlc-family]:is([data-hlc-family="resident"],[data-hlc-family="professional"],[data-hlc-family="partner"],[data-hlc-family="community"]) .hlc-board-nav :is(.hlc-public-desktop-links,.hlc-public-menu-secondary,.hlc-public-menu-account,.hlc-board-actions) a:not([data-menu-tone]) {
+  color:var(--hcx-family-link)!important;
+}
+html body #root [data-hlc-family]:is([data-hlc-family="resident"],[data-hlc-family="professional"],[data-hlc-family="partner"],[data-hlc-family="community"]) .hlc-public-menu-primary a:is(:hover,:focus-visible,[aria-current="page"]) {
+  background:var(--hcx-family-line)!important;
+}
+html body #root [data-hlc-family]:is([data-hlc-family="resident"],[data-hlc-family="professional"],[data-hlc-family="partner"],[data-hlc-family="community"]) > .hlc-public-footer {
+  background:var(--hcx-active-deep)!important;
+  border-top-color:var(--hcx-family-line)!important;
+}
+html body #root [data-hlc-family]:is([data-hlc-family="resident"],[data-hlc-family="professional"],[data-hlc-family="partner"],[data-hlc-family="community"]) > .hlc-public-footer nav a {
+  color:var(--hcx-family-link)!important;
 }

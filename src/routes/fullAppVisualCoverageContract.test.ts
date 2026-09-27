@@ -91,10 +91,10 @@ test("retired reference still documents historical HLC department accents", () =
 
 test("public pathway identity continues into its authenticated destination family", () => {
   assert.match(authenticatedStyles, /connected-app-family-20260923\.css/);
-  for (const routeFamily of ["resident", "partner", "community"]) {
+  for (const routeFamily of ["resident", "professional", "partner", "community"]) {
     assert.match(connectedFamily, new RegExp(`data-hlc-family="${routeFamily}"`));
   }
-  assert.match(connectedFamily, /hlc-page-contractor-portal/);
+  assert.doesNotMatch(connectedFamily, /\.hlc-page-contractor-portal/);
   for (const color of ["#16866a", "#1479b8", "#a97513", "#8957b2"]) {
     assert.match(connectedFamily, new RegExp(color, "i"));
   }
