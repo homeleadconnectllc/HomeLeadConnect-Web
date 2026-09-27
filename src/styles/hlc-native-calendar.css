@@ -87,6 +87,28 @@
 .hlc-native-event-composer textarea { resize: vertical; }
 .hlc-native-event-composer .wide { grid-column: 1 / -1; }
 
+.hlc-native-calendar .hlc-calendar-banner.error button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  margin: 8px 8px 0 0;
+  padding: 8px 12px;
+  border: 1px solid currentColor;
+  border-radius: 9px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.hlc-native-calendar .hlc-calendar-support-reference {
+  display: block;
+  margin-top: 8px;
+  color: #fff;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
 .hlc-calendar-event.native {
   border-left-color: #67b7ff;
   background: linear-gradient(105deg, rgba(15, 65, 112, .72), rgba(8, 39, 73, .62));
